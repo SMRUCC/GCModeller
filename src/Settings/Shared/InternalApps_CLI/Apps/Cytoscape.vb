@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -46,6 +46,8 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Motif.Cluster.Fast.Sites:           
 '  /Motif.Cluster.MAT:                  
 '  /Plot.Cytoscape.Table:               
+'  /renames.kegg.node:                  Update the KEGG compound id and KEGG reaction id as the metabolite
+'                                       common name and enzyme gene name.
 '  /replace:                            
 '  /Tree.Cluster:                       This method is not recommended.
 '  /Tree.Cluster.rFBA:                  
@@ -136,7 +138,12 @@ Public Class Cytoscape : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Cytoscape
           Return New Cytoscape(App:=directory & "/" & Cytoscape.App)
@@ -148,6 +155,7 @@ Public Class Cytoscape : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function AnalysisNetworkProperty([in] As String, Optional colors As String = "", Optional ignores As String = "", Optional tick As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
     Call CLI.Append(" ")
@@ -177,6 +185,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function NodeCluster([in] As String, Optional size As String = "10000,10000", Optional schema As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
     Call CLI.Append(" ")
@@ -206,6 +215,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Assciates([in] As String, nodes As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/associate")
     Call CLI.Append(" ")
@@ -227,6 +237,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SimpleBBH([in] As String, Optional evalue As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/BBH.Simple")
     Call CLI.Append(" ")
@@ -250,6 +261,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BBHTrimIdentities([in] As String, Optional identities As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/bbh.Trim.Indeitites")
     Call CLI.Append(" ")
@@ -274,6 +286,15 @@ End Function
 ''' &gt; Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
 ''' </summary>
 '''
+''' <param name="net">
+''' The blastn mapping that you can creates from the self pairwise blastn alignment of your SSU sequence. Using for create the network graph based on the similarity result between the aligned sequnece.
+''' </param>
+''' <param name="tax">
+''' The blastn mapping that you can creates from the blastn alignment of your SSU sequence against the NCBI nt database.
+''' </param>
+''' <param name="x2taxid">
+''' NCBI taxonomy database that you can download from the NCBI ftp server.
+''' </param>
 Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As String, Optional x2taxid As String = "", Optional theme_color As String = "'Paired:c12'", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional tax_build_in As Boolean = False, Optional skip_exists As Boolean = False, Optional gi2taxid As Boolean = False, Optional parallel As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/BLAST.Metagenome.SSU.Network")
     Call CLI.Append(" ")
@@ -320,6 +341,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GenerateBlastNetwork([in] As String, Optional out As String = "", Optional type As String = "", Optional dict As String = "") As Integer
     Dim CLI As New StringBuilder("/BLAST.Network")
     Call CLI.Append(" ")
@@ -346,6 +368,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MetaBuildBLAST([in] As String, Optional out As String = "", Optional dict As String = "") As Integer
     Dim CLI As New StringBuilder("/BLAST.Network.MetaBuild")
     Call CLI.Append(" ")
@@ -369,6 +392,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNET([in] As String, Optional out As String = "", Optional familyinfo As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET")
     Call CLI.Append(" ")
@@ -395,6 +419,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNETCOGs(cluster As String, COGs As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.COGs")
     Call CLI.Append(" ")
@@ -416,6 +441,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
     Call CLI.Append(" ")
@@ -441,6 +467,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
     Call CLI.Append(" ")
@@ -468,6 +495,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
     Call CLI.Append(" ")
@@ -495,6 +523,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNET_MergeRegulons([in] As String, family As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.Merged_Regulons")
     Call CLI.Append(" ")
@@ -519,6 +548,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mods As String, Optional out As String = "", Optional cuts As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
     Call CLI.Append(" ")
@@ -548,6 +578,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' The [compound_id =&gt; compound_name] information.
+''' </param>
+''' <param name="reactions">
+''' A csv table of reaction brief information, which it could be generated from the ``/Write.Reaction.Table`` command.
+''' </param>
+''' <param name="enzyme">
+''' A protein annotation table which is generated by the ``/protein.annotations`` command in eggHTS tool.
+''' </param>
+''' <param name="extended">
+''' If the compounds can not create a network model by link each other through reaction model, then you could enable
+'''               this argument will makes extension connection for create a compound network model.
+''' </param>
 Public Function CompoundNetwork([in] As String, reactions As String, Optional enzyme As String = "", Optional size As String = "10000,7000", Optional out As String = "", Optional extended As Boolean = False, Optional enzymerelated As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/kegg.compound.network")
     Call CLI.Append(" ")
@@ -581,6 +624,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="brief">
+''' If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.
+''' </param>
 Public Function ModsNET([in] As String, Optional out As String = "", Optional footprints As String = "", Optional cut As String = "", Optional pcc As String = "", Optional pathway As Boolean = False, Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.Mods.NET")
     Call CLI.Append(" ")
@@ -616,6 +662,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.pathwayMap.Network")
     Call CLI.Append(" ")
@@ -640,6 +687,29 @@ End Function
 ''' Create network model of KEGG reference pathway map for cytoscape data visualization.
 ''' </summary>
 '''
+''' <param name="repository">
+''' This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.
+''' </param>
+''' <param name="top_priority">
+''' The map names in the argument value will be forced populate in top priority and ignores of their map coverage value is top or not. 
+'''               Use comma symbol as the map id terms&apos; delimiter.
+''' </param>
+''' <param name="reactions">
+''' The KEGG reference reaction data models.
+''' </param>
+''' <param name="organism">
+''' The organism name or code, if this argument presents in the cli command input, then it means 
+'''               the ``/repository`` parameter data model is the organism specific pathway map data.
+''' </param>
+''' <param name="out">
+''' The network file data output directory that used for cytoscape network visualization.
+''' </param>
+''' <param name="reaction_class">
+''' Apply reaction class filter for reduce network size.
+''' </param>
+''' <param name="coverage_cutoff">
+''' The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.
+''' </param>
 Public Function KEGGReferenceMapModel(repository As String, Optional reactions As String = "", Optional __top_priority As String = "", Optional reaction_class As String = "", Optional organism As String = "", Optional coverage_cutoff As String = "0", Optional out As String = "", Optional category_level2 As Boolean = False, Optional delete_unmapped As Boolean = False, Optional delete_tupleedges As Boolean = False, Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.Model")
     Call CLI.Append(" ")
@@ -688,6 +758,11 @@ End Function
 ''' Render pathway map as image after cytoscape layout progress.
 ''' </summary>
 '''
+''' <param name="compounds">
+''' The kegg compound id to its command names mapping table file. 
+'''               Content in this table file should be ``Cid -&gt; name``, which could be created 
+'''               by using ``/compound.names`` command from ``kegg_tools``.
+''' </param>
 Public Function RenderReferenceMapNetwork(model As String, Optional compounds As String = "", Optional ko As String = "", Optional convexhull As String = "", Optional size As String = "", Optional out As String = "", Optional edge_bends As Boolean = False, Optional style2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.render")
     Call CLI.Append(" ")
@@ -726,6 +801,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildKOLinks([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.link")
     Call CLI.Append(" ")
@@ -746,6 +822,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LinkageKnowledgeNetwork([in] As String, Optional schema As String = "", Optional out As String = "", Optional no_type_prefix As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/linkage.knowledge.network")
     Call CLI.Append(" ")
@@ -773,6 +850,12 @@ End Function
 ''' Converts a generic distance matrix or kmeans clustering result to network model.
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
+''' <param name="generic">
+''' If this argument parameter was presents, then the &quot;/in&quot; input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.
+''' </param>
 Public Function MatrixToNetwork([in] As String, Optional out As String = "", Optional colors As String = "", Optional cutoff As String = "", Optional generic As Boolean = False, Optional cutoff_paired As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Matrix.NET")
     Call CLI.Append(" ")
@@ -805,6 +888,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SimpleModesNET([in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/modNET.Simple")
     Call CLI.Append(" ")
@@ -828,6 +912,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="clusters">
+''' If the expects clusters number is greater than the maps number, then the maps number divid 2 is used.
+''' </param>
 Public Function MotifCluster(query As String, LDM As String, Optional clusters As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Cluster")
     Call CLI.Append(" ")
@@ -852,6 +939,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="maxw">
+''' If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
+'''                    If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.
+''' </param>
 Public Function FastCluster(query As String, Optional ldm As String = "", Optional out As String = "", Optional map As String = "", Optional maxw As String = "", Optional ldm_loads As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Motif.Cluster.Fast")
     Call CLI.Append(" ")
@@ -884,6 +975,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MotifClusterSites([in] As String, Optional out As String = "", Optional ldm As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Cluster.Fast.Sites")
     Call CLI.Append(" ")
@@ -907,6 +999,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ClusterMatrix(query As String, Optional ldm As String = "", Optional clusters As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Cluster.MAT")
     Call CLI.Append(" ")
@@ -933,6 +1026,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildModelNet(model As String, Optional out As String = "", Optional not_trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/net.model")
     Call CLI.Append(" ")
@@ -956,6 +1050,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PathwayNet(model As String, Optional out As String = "", Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/net.pathway")
     Call CLI.Append(" ")
@@ -979,6 +1074,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function net_rFBA([in] As String, fba_out As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Net.rFBA")
     Call CLI.Append(" ")
@@ -1001,6 +1097,7 @@ End Function
 ''' Builds the regulation network between the TF.
 ''' </summary>
 '''
+
 Public Function TFNet([in] As String, Optional out As String = "", Optional cut As String = "") As Integer
     Dim CLI As New StringBuilder("/NetModel.TF_regulates")
     Call CLI.Append(" ")
@@ -1025,6 +1122,7 @@ End Function
 ''' Regulator phenotype relationship cluster from virtual footprints.
 ''' </summary>
 '''
+
 Public Function KEGGModulesPhenotypeRegulates(mods As String, [in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Phenotypes.KEGG")
     Call CLI.Append(" ")
@@ -1049,6 +1147,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PlotCytoscapeTable([in] As String, Optional size As String = "1600,1440", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Plot.Cytoscape.Table")
     Call CLI.Append(" ")
@@ -1072,6 +1171,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ReactionNET(Optional model As String = "", Optional source As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/reaction.NET")
     Call CLI.Append(" ")
@@ -1093,10 +1193,35 @@ End Function
 
 ''' <summary>
 ''' ```bash
+''' /renames.kegg.node /network &lt;tables.csv.directory&gt; /compounds &lt;names.json&gt; /KO &lt;reactionKOMapping.json&gt; [/out &lt;output_renames.directory&gt;]
+''' ```
+''' Update the KEGG compound id and KEGG reaction id as the metabolite common name and enzyme gene name.
+''' </summary>
+'''
+
+Public Function RenamesKEGGNode(network As String, compounds As String, KO As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/renames.kegg.node")
+    Call CLI.Append(" ")
+    Call CLI.Append("/network " & """" & network & """ ")
+    Call CLI.Append("/compounds " & """" & compounds & """ ")
+    Call CLI.Append("/KO " & """" & KO & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
 ''' /replace /in &lt;net.csv&gt; /nodes &lt;nodes.Csv&gt; /out &lt;out.Csv&gt;
 ''' ```
 ''' </summary>
 '''
+
 Public Function replaceName([in] As String, nodes As String, out As String) As Integer
     Dim CLI As New StringBuilder("/replace")
     Call CLI.Append(" ")
@@ -1117,6 +1242,7 @@ End Function
 ''' This method is not recommended.
 ''' </summary>
 '''
+
 Public Function TreeCluster([in] As String, Optional out As String = "", Optional locus_map As String = "") As Integer
     Dim CLI As New StringBuilder("/Tree.Cluster")
     Call CLI.Append(" ")
@@ -1140,6 +1266,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function rFBATreeCluster([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
     Call CLI.Append(" ")
@@ -1160,6 +1287,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function WriteKEGGCompoundsSummary([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Write.Compounds.Table")
     Call CLI.Append(" ")
@@ -1180,6 +1308,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function WriteReactionTable([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Write.Reaction.Table")
     Call CLI.Append(" ")
@@ -1201,6 +1330,7 @@ End Function
 ''' Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
 ''' </summary>
 '''
+
 Public Function DrawingInvoke(network As String, parser As String, Optional size As String = "", Optional out As String = "", Optional style As String = "", Optional style_parser As String = "") As Integer
     Dim CLI As New StringBuilder("-draw")
     Call CLI.Append(" ")
@@ -1231,6 +1361,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SimpleRegulation(footprint As String, Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--graph.regulates")
     Call CLI.Append(" ")
@@ -1251,6 +1382,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[class]">
+''' This parameter can not be co-exists with ``/type`` parameter
+''' </param>
+''' <param name="type">
+''' This parameter can not be co-exists with ``/class`` parameter
+''' </param>
 Public Function ModuleRegulations(model As String, footprints As String, out As String, Optional pathway As Boolean = False, Optional [class] As Boolean = False, Optional type As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--mod.regulations")
     Call CLI.Append(" ")
@@ -1279,6 +1416,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="Fill_pcc">
+''' If the predicted regulation data did&apos;nt contains pcc correlation value, then you can using this parameter to fill default value 0.6 or just left it default as ZERO
+''' </param>
 Public Function TCS([in] As String, regulations As String, out As String, Optional fill_pcc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--TCS")
     Call CLI.Append(" ")

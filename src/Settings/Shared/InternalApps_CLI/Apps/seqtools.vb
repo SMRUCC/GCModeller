@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -184,7 +184,12 @@ Public Class seqtools : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As seqtools
           Return New seqtools(App:=directory & "/" & seqtools.App)
@@ -196,6 +201,7 @@ Public Class seqtools : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function Align2(query As String, subject As String, Optional blosum As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/align.SmithWaterman")
     Call CLI.Append(" ")
@@ -220,6 +226,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="ORF">
+''' If the target fasta file contains multiple sequence, then the CAI table xml will output to a folder or just output to a xml file if only one sequence in thye fasta file.
+''' </param>
 Public Function CAI(ORF As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/CAI")
     Call CLI.Append(" ")
@@ -240,6 +249,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CheckHeaders([in] As String, n As String, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/check.attrs")
     Call CLI.Append(" ")
@@ -261,6 +271,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CutMlAlignment([in] As String, Optional left As String = "", Optional right As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Clustal.Cut")
     Call CLI.Append(" ")
@@ -287,6 +298,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CompareFile(file1 As String, file2 As String) As Integer
     Dim CLI As New StringBuilder("/Compare.By.Locis")
     Call CLI.Append(" ")
@@ -305,6 +317,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Count([in] As String) As Integer
     Dim CLI As New StringBuilder("/Count")
     Call CLI.Append(" ")
@@ -323,6 +336,7 @@ End Function
 ''' Distinct fasta sequence by sequence content.
 ''' </summary>
 '''
+
 Public Function Distinct([in] As String, Optional out As String = "", Optional by_uid As String = "") As Integer
     Dim CLI As New StringBuilder("/Distinct")
     Call CLI.Append(" ")
@@ -347,6 +361,15 @@ End Function
 ''' Convert the sequence data in a excel annotation file into a fasta sequence file.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' Excel csv table file.
+''' </param>
+''' <param name="attrs">
+''' Excel header fields name as the fasta sequence header.
+''' </param>
+''' <param name="seq">
+''' Excel header field name for reading the sequence data.
+''' </param>
 Public Function ToFasta([in] As String, Optional out As String = "", Optional attrs As String = "", Optional seq As String = "") As Integer
     Dim CLI As New StringBuilder("/Excel.2Fasta")
     Call CLI.Append(" ")
@@ -373,6 +396,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SubsetFastaDb([in] As String, db As String, Optional out As String = "", Optional keyword_map_multiple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Fasta.Subset.Large")
     Call CLI.Append(" ")
@@ -397,6 +421,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Genotype([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Genotype")
     Call CLI.Append(" ")
@@ -417,6 +442,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GenotypeStatics([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Genotype.Statics")
     Call CLI.Append(" ")
@@ -437,6 +463,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetSimpleSegments([in] As String, nt As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Get.Locis")
     Call CLI.Append(" ")
@@ -458,6 +485,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GffSites(fna As String, gff As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Gff.Sites")
     Call CLI.Append(" ")
@@ -480,6 +508,7 @@ End Function
 ''' Given a multi-FASTA alignment, output the genome wide average nucleotide identity (gwANI) for Each sample against all other samples. A matrix containing the percentages Is outputted.
 ''' </summary>
 '''
+
 Public Function gwANIEvaluate([in] As String, Optional out As String = "", Optional fast As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/gwANI")
     Call CLI.Append(" ")
@@ -504,6 +533,7 @@ End Function
 ''' Do statistics of the loci density on a specific sequence.
 ''' </summary>
 '''
+
 Public Function RepeatsDensity(locis As String, Optional left As String = "Start", Optional size As String = "", Optional win_size As String = "100", Optional offset As String = "1000", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/loci.Density")
     Call CLI.Append(" ")
@@ -537,6 +567,15 @@ End Function
 ''' * Drawing the sequence logo from the clustal alignment result.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' The file path of the clustal output fasta file.
+''' </param>
+''' <param name="out">
+''' The output sequence logo image file path. default is the same name as the input fasta sequence file.
+''' </param>
+''' <param name="title">
+''' The display title on the sequence logo, default is using the fasta file name.
+''' </param>
 Public Function SequenceLogo([in] As String, Optional out As String = "", Optional title As String = "") As Integer
     Dim CLI As New StringBuilder("/logo")
     Call CLI.Append(" ")
@@ -561,6 +600,7 @@ End Function
 ''' Only search for 1 level folder, dit not search receve.
 ''' </summary>
 '''
+
 Public Function Merge([in] As String, Optional out As String = "", Optional ext As String = "", Optional trim As Boolean = False, Optional unique As Boolean = False, Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Merge")
     Call CLI.Append(" ")
@@ -594,6 +634,7 @@ End Function
 ''' This tools just merge the fasta sequence into one larger file.
 ''' </summary>
 '''
+
 Public Function SimpleMerge([in] As String, Optional exts As String = "", Optional line_break As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Merge.Simple")
     Call CLI.Append(" ")
@@ -620,6 +661,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="mp">
+''' Calculation in the multiple process mode?
+''' </param>
+''' <param name="nt">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function MirrorBatch(nt As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional num_threads As String = "", Optional mp As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirror.Batch")
     Call CLI.Append(" ")
@@ -653,6 +703,15 @@ End Function
 ''' Search mirror loci sites on your sequence.
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
+''' <param name="max_dist">
+''' The max distance of the loci site and its mirror loci site.
+''' </param>
 Public Function FuzzyMirrors([in] As String, Optional cut As String = "0.6", Optional max_dist As String = "6", Optional min As String = "3", Optional max As String = "20", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy")
     Call CLI.Append(" ")
@@ -685,6 +744,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function FuzzyMirrorsBatch([in] As String, Optional out As String = "", Optional cut As String = "", Optional max_dist As String = "", Optional min As String = "", Optional max As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy.Batch")
     Call CLI.Append(" ")
@@ -720,6 +782,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MirrorsVector([in] As String, size As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Vector")
     Call CLI.Append(" ")
@@ -742,6 +805,9 @@ End Function
 ''' This function will convert the mirror data to the simple segment object data
 ''' </summary>
 '''
+''' <param name="trans">
+''' Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.
+''' </param>
 Public Function MirrorContext([in] As String, PTT As String, Optional strand As String = "", Optional out As String = "", Optional dist As String = "", Optional trans As Boolean = False, Optional stranded As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirrors.Context")
     Call CLI.Append(" ")
@@ -776,6 +842,9 @@ End Function
 ''' This function will convert the mirror data to the simple segment object data
 ''' </summary>
 '''
+''' <param name="trans">
+''' Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.
+''' </param>
 Public Function MirrorContextBatch([in] As String, PTT As String, Optional strand As String = "", Optional out As String = "", Optional dist As String = "", Optional num_threads As String = "", Optional trans As Boolean = False, Optional stranded As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirrors.Context.Batch")
     Call CLI.Append(" ")
@@ -812,6 +881,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="fuzzy">
+''' -1 means group sequence by string equals compared, and value of 0-1 means using string fuzzy compare.
+''' </param>
 Public Function MirrorGroups([in] As String, Optional fuzzy As String = "", Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirrors.Group")
     Call CLI.Append(" ")
@@ -838,6 +910,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MirrorGroupsBatch([in] As String, Optional fuzzy As String = "", Optional out As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirrors.Group.Batch")
     Call CLI.Append(" ")
@@ -864,6 +937,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function TrimNtMirrors([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirrors.Nt.Trim")
     Call CLI.Append(" ")
@@ -885,6 +961,7 @@ End Function
 ''' Populate possible motifs from a give nt fasta sequence dataset.
 ''' </summary>
 '''
+
 Public Function FindMotifs([in] As String, Optional min_w As String = "6", Optional max_w As String = "20", Optional n_motifs As String = "25", Optional n_occurs As String = "6", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/motifs")
     Call CLI.Append(" ")
@@ -917,6 +994,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function NWNT(query As String, subject As String) As Integer
     Dim CLI As New StringBuilder("/NeedlemanWunsch.NT")
     Call CLI.Append(" ")
@@ -936,6 +1014,15 @@ End Function
 ''' RunNeedlemanWunsch
 ''' </summary>
 '''
+''' <param name="query">
+
+''' </param>
+''' <param name="subject">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function NW(query As String, subject As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/nw")
     Call CLI.Append(" ")
@@ -957,6 +1044,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="Palindrome">
+''' Only search for Palindrome, not includes the repeats data.
+''' </param>
 Public Function PalindromeBatchTask([in] As String, Optional num_threads As String = "", Optional min As String = "", Optional max As String = "", Optional min_appears As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "", Optional out As String = "", Optional palindrome As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Palindrome.BatchTask")
     Call CLI.Append(" ")
@@ -1001,6 +1091,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FilteringMatches([in] As String, min As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Palindrome.Screen.MaxMatches")
     Call CLI.Append(" ")
@@ -1022,6 +1113,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FilteringMatchesBatch([in] As String, min As String, Optional out As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/Palindrome.Screen.MaxMatches.Batch")
     Call CLI.Append(" ")
@@ -1046,6 +1138,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' This is a single sequence fasta file.
+''' </param>
+''' <param name="Palindrome">
+''' Only search for Palindrome, not includes the repeats data.
+''' </param>
 Public Function PalindromeWorkflow([in] As String, Optional min_appears As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "", Optional out As String = "", Optional batch As Boolean = False, Optional palindrome As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Palindrome.Workflow")
     Call CLI.Append(" ")
@@ -1090,6 +1188,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PromoterPalindrome2Fasta([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Promoter.Palindrome.Fasta")
     Call CLI.Append(" ")
@@ -1110,6 +1209,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="mirror">
+''' Search for the mirror palindrome loci sites.
+''' </param>
 Public Function PromoterRegionPalindrome([in] As String, Optional min As String = "", Optional max As String = "", Optional len As String = "", Optional out As String = "", Optional mirror As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Promoter.Regions.Palindrome")
     Call CLI.Append(" ")
@@ -1142,6 +1244,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PromoterRegionParser_gb(gb As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Promoter.Regions.Parser.gb")
     Call CLI.Append(" ")
@@ -1163,6 +1266,7 @@ End Function
 ''' Create a ruler fasta sequence for DNA sequence distance computing.
 ''' </summary>
 '''
+
 Public Function dnaA_gyrB_rule(genome As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rule.dnaA_gyrB")
     Call CLI.Append(" ")
@@ -1183,6 +1287,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RuleMatrix(genomes As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rule.dnaA_gyrB.Matrix")
     Call CLI.Append(" ")
@@ -1203,6 +1308,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' A single fasta sequence file contains only one sequence that used for external ruler
+''' </param>
 Public Function RulerSlideWindowMatrix([in] As String, genomes As String, Optional winsize As String = "1000", Optional [step] As String = "500", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ruler.dist.calc")
     Call CLI.Append(" ")
@@ -1230,6 +1338,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
 Public Function ScreenRepeats([in] As String, range As String, Optional type As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Screen.sites")
     Call CLI.Append(" ")
@@ -1255,6 +1366,7 @@ End Function
 ''' Search for repeats sequence loci sites.
 ''' </summary>
 '''
+
 Public Function SearchRepeats([in] As String, Optional min As String = "3", Optional max As String = "20", Optional minoccurs As String = "3", Optional out As String = "", Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Search.Repeats")
     Call CLI.Append(" ")
@@ -1288,6 +1400,16 @@ End Function
 ''' Select fasta sequence by local_tag.
 ''' </summary>
 '''
+''' <param name="reverse">
+''' If this option is enable, then all of the sequence that not appeared in the list will be output.
+''' </param>
+''' <param name="field">
+''' If this parameter was specified, then the input locus_tag data will comes from a csv file, 
+'''               this parameter indicates that which column will be used for gets the locus_tag data.
+''' </param>
+''' <param name="fa">
+''' Both a fasta file or a directory that contains the fasta files are valid value.
+''' </param>
 Public Function SelectByLocus([in] As String, fa As String, Optional field As String = "", Optional out As String = "", Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Select.By_Locus")
     Call CLI.Append(" ")
@@ -1316,6 +1438,9 @@ End Function
 ''' Create a distance similarity matrix for the input sequence.
 ''' </summary>
 '''
+''' <param name="simple">
+''' Just use a simple tag for generated data vector or the full fasta sequence title if this argument is not presented in cli input.
+''' </param>
 Public Function Sigma([in] As String, Optional out As String = "", Optional round As String = "", Optional simple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Sigma")
     Call CLI.Append(" ")
@@ -1342,6 +1467,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function ConvertsAuto([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/SimpleSegment.AutoBuild")
     Call CLI.Append(" ")
@@ -1362,6 +1493,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function ConvertMirrors([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/SimpleSegment.Mirrors")
     Call CLI.Append(" ")
@@ -1382,6 +1519,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ConvertMirrorsBatch([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/SimpleSegment.Mirrors.Batch")
     Call CLI.Append(" ")
@@ -1403,6 +1541,12 @@ End Function
 ''' Converts the simple segment object collection as fasta file.
 ''' </summary>
 '''
+''' <param name="[in]">
+
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function Sites2Fasta([in] As String, Optional out As String = "", Optional assemble As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Sites2Fasta")
     Call CLI.Append(" ")
@@ -1426,6 +1570,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' 
+''' </param>
+''' <param name="ref">
+
+''' </param>
+''' <param name="pure">
+
+''' </param>
 Public Function SNP([in] As String, Optional ref As String = "", Optional high As String = "", Optional pure As Boolean = False, Optional monomorphic As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SNP")
     Call CLI.Append(" ")
@@ -1455,6 +1608,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Split([in] As String, Optional n As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Split")
     Call CLI.Append(" ")
@@ -1479,6 +1633,7 @@ End Function
 ''' Search for SSR on a nt sequence.
 ''' </summary>
 '''
+
 Public Function SSRFinder([in] As String, Optional range As String = "2,6", Optional out As String = "", Optional parallel As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SSR")
     Call CLI.Append(" ")
@@ -1505,6 +1660,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SubSet(lstID As String, fa As String) As Integer
     Dim CLI As New StringBuilder("/subset")
     Call CLI.Append(" ")
@@ -1524,6 +1680,7 @@ End Function
 ''' The ongoing time mutation of the genome sequence.
 ''' </summary>
 '''
+
 Public Function TimeDiffs([in] As String, Optional ref As String = "", Optional out As String = "", Optional cumulative As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Time.Mutation")
     Call CLI.Append(" ")
@@ -1550,6 +1707,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function WriteSeeds(out As String, Optional max As String = "", Optional prot As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Write.Seeds")
     Call CLI.Append(" ")
@@ -1574,6 +1732,7 @@ End Function
 ''' Polypeptide sequence 3 letters to 1 lettes sequence.
 ''' </summary>
 '''
+
 Public Function PolypeptideBriefs([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("-321")
     Call CLI.Append(" ")
@@ -1594,6 +1753,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Align(query As String, subject As String, Optional out As String = "", Optional cost As String = "") As Integer
     Dim CLI As New StringBuilder("--align")
     Call CLI.Append(" ")
@@ -1618,6 +1778,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function AlignSelf(query As String, out As String, Optional cost As String = "") As Integer
     Dim CLI As New StringBuilder("--align.Self")
     Call CLI.Append(" ")
@@ -1639,6 +1800,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Complement(i As String, Optional o As String = "") As Integer
     Dim CLI As New StringBuilder("-complement")
     Call CLI.Append(" ")
@@ -1659,6 +1821,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DrawClustalW([in] As String, Optional out As String = "", Optional dot_size As String = "") As Integer
     Dim CLI As New StringBuilder("--Drawing.ClustalW")
     Call CLI.Append(" ")
@@ -1682,6 +1845,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function Hairpinks([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "") As Integer
     Dim CLI As New StringBuilder("--Hairpinks")
     Call CLI.Append(" ")
@@ -1714,6 +1880,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function HairpinksBatch([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--Hairpinks.batch.task")
     Call CLI.Append(" ")
@@ -1749,6 +1916,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BatchSearchImperfectsPalindrome([in] As String, out As String, Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--ImperfectsPalindrome.batch.Task")
     Call CLI.Append(" ")
@@ -1783,6 +1951,9 @@ End Function
 ''' Mirror Palindrome, search from a fasta file.
 ''' </summary>
 '''
+''' <param name="nt">
+''' This fasta file should contains only just one sequence.
+''' </param>
 Public Function SearchMirrotFasta(nt As String, Optional out As String = "", Optional min As String = "", Optional max As String = "") As Integer
     Dim CLI As New StringBuilder("--Mirror.From.Fasta")
     Call CLI.Append(" ")
@@ -1810,6 +1981,9 @@ End Function
 ''' Mirror Palindrome, and this function is for the debugging test
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function SearchMirrotNT(nt As String, out As String, Optional min As String = "", Optional max As String = "") As Integer
     Dim CLI As New StringBuilder("--Mirror.From.NT")
     Call CLI.Append(" ")
@@ -1834,6 +2008,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BatchSearchPalindrome([in] As String, out As String, Optional min As String = "", Optional max As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--Palindrome.batch.Task")
     Call CLI.Append(" ")
@@ -1861,6 +2036,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="nt">
+''' Fasta sequence file, and this file should just contains only one sequence.
+''' </param>
+''' <param name="out">
+
+''' </param>
+''' <param name="min">
+''' The min length of the palindrome mirror part.
+''' </param>
 Public Function SearchPalindromeFasta(nt As String, Optional out As String = "", Optional min As String = "3", Optional max As String = "20") As Integer
     Dim CLI As New StringBuilder("--palindrome.From.Fasta")
     Call CLI.Append(" ")
@@ -1888,6 +2072,9 @@ End Function
 ''' This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function SearchPalindromeNT(nt As String, out As String, Optional min As String = "", Optional max As String = "") As Integer
     Dim CLI As New StringBuilder("--Palindrome.From.NT")
     Call CLI.Append(" ")
@@ -1913,6 +2100,9 @@ End Function
 ''' Gets all partly matched palindrome sites.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' This parameter is a file path of a nt sequence in fasta format, or you can directly input the sequence data from commandline ``std_in``.
+''' </param>
 Public Function ImperfectPalindrome([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "") As Integer
     Dim CLI As New StringBuilder("--Palindrome.Imperfects")
     Call CLI.Append(" ")
@@ -1949,6 +2139,21 @@ End Function
 ''' Parsing the sequence segment from the sequence source using regular expression.
 ''' </summary>
 '''
+''' <param name="i">
+''' The sequence input data source file, it can be a fasta or genbank file.
+''' </param>
+''' <param name="p">
+''' This switch specific the regular expression pattern for search the sequence segment,
+'''               for more detail information about the regular expression please read the user manual.
+''' </param>
+''' <param name="o">
+''' Optional, this switch value specific the output directory for the result data, default is user Desktop folder.
+''' </param>
+''' <param name="f">
+''' Optional, specific the input file format for the sequence reader, default value is FASTA sequence file.
+'''                fsa - The input sequence data file is a FASTA format file;
+'''                gbk - The input sequence data file is a NCBI genbank flat file.
+''' </param>
 Public Function PatternSearchA(i As String, p As String, Optional o As String = "", Optional f As String = "") As Integer
     Dim CLI As New StringBuilder("-pattern_search")
     Call CLI.Append(" ")
@@ -1973,6 +2178,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="out">
+
+''' </param>
 Public Function FilterPerfectPalindrome([in] As String, Optional min As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--PerfectPalindrome.Filtering")
     Call CLI.Append(" ")
@@ -1996,6 +2204,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Reverse(i As String, Optional o As String = "") As Integer
     Dim CLI As New StringBuilder("-reverse")
     Call CLI.Append(" ")
@@ -2017,6 +2226,12 @@ End Function
 ''' Batch search for repeats.
 ''' </summary>
 '''
+''' <param name="aln">
+''' The input fasta file should be the output of the clustal multiple alignment fasta output.
+''' </param>
+''' <param name="out">
+
+''' </param>
 Public Function BatchSearch(aln As String, Optional min As String = "", Optional max As String = "", Optional min_rep As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("Search.Batch")
     Call CLI.Append(" ")
@@ -2046,6 +2261,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetSegment(fasta As String, Optional loci As String = "", Optional length As String = "", Optional right As String = "", Optional __reverse__ As String = "", Optional geneid As String = "", Optional dist As String = "", Optional o As String = "", Optional __line_break As String = "", Optional downstream_ As Boolean = False) As Integer
     Dim CLI As New StringBuilder("-segment")
     Call CLI.Append(" ")
@@ -2090,6 +2306,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="reversed">
+''' If the sequence is on the complement strand, reversed it after complement operation?
+''' </param>
+''' <param name="complement">
+''' If this Boolean switch is set on, then all of the reversed strand segment will be complemenet and reversed.
+''' </param>
+''' <param name="brief_dump">
+''' If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.
+''' </param>
 Public Function GetSegments(regions As String, fasta As String, Optional complement As Boolean = False, Optional reversed As Boolean = False, Optional brief_dump As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--segments")
     Call CLI.Append(" ")
@@ -2117,6 +2342,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ToVector([in] As String, min As String, max As String, out As String, size As String) As Integer
     Dim CLI As New StringBuilder("--ToVector")
     Call CLI.Append(" ")
@@ -2139,6 +2365,16 @@ End Function
 ''' Translates the ORF gene as protein sequence. If any error was output from the console, please using &gt; operator dump the output to a log file for the analysis.
 ''' </summary>
 '''
+''' <param name="orf">
+''' ORF gene nt sequence should be completely complement and reversed as forwards strand if it is complement strand.
+''' </param>
+''' <param name="force">
+''' This force parameter will force the translation program ignore of the stop code and continute sequence translation.
+''' </param>
+''' <param name="transl_table">
+''' Available index value was described at 
+'''     http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
+''' </param>
 Public Function Translates(orf As String, Optional transl_table As String = "", Optional force As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--translates")
     Call CLI.Append(" ")
@@ -2162,6 +2398,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[case]">
+''' Adjust the letter case of your sequence, l for lower case and u for upper case. Default value is upper case.
+''' </param>
+''' <param name="break">
+''' Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.
+''' </param>
 Public Function Trim([in] As String, Optional [case] As String = "", Optional break As String = "", Optional out As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Trim")
     Call CLI.Append(" ")

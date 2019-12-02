@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -66,7 +66,12 @@ Public Class Reflector : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Reflector
           Return New Reflector(App:=directory & "/" & Reflector.App)
@@ -79,6 +84,15 @@ Public Class Reflector : Inherits InteropService
 ''' Generates the SDK document of your mysql database.
 ''' </summary>
 '''
+''' <param name="sql">
+''' The sql content source from a sql file or sql ``std_out`` output
+''' </param>
+''' <param name="out">
+''' The markdown document output to a specific file or output onto the ``std_out`` device.
+''' </param>
+''' <param name="toc">
+''' Add topics of content?
+''' </param>
 Public Function MySQLMarkdown(sql As String, Optional out As String = "", Optional toc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/MySQL.Markdown")
     Call CLI.Append(" ")
@@ -103,6 +117,12 @@ End Function
 ''' Union all of the sql file in the target directory into a one big sql text file.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' 
+''' </param>
+''' <param name="out">
+''' 
+''' </param>
 Public Function [Union]([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
     Call CLI.Append(" ")
@@ -124,6 +144,7 @@ End Function
 ''' Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code.
 ''' </summary>
 '''
+
 Public Function ExportDumpDir(Optional o As String = "", Optional [namespace] As String = "", Optional dir As String = "") As Integer
     Dim CLI As New StringBuilder("--export.dump")
     Call CLI.Append(" ")
@@ -150,6 +171,21 @@ End Function
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>
 '''
+''' <param name="sql">
+''' The file path of the MySQL database schema dump file.
+''' </param>
+''' <param name="o">
+''' The output file path of the generated visual basic source code file from the SQL dump file &quot;/sql&quot;
+''' </param>
+''' <param name="[namespace]">
+''' The namespace value will be insert into the generated source code if this parameter is not null.
+''' </param>
+''' <param name="split">
+''' Split the source code into sevral files and named by table name?
+''' </param>
+''' <param name="auto_increment_disable">
+''' Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.
+''' </param>
 Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--reflects")
     Call CLI.Append(" ")
