@@ -32,7 +32,7 @@ let readData as function(file, tag) {
 
 		if (!is.empty(KO.cluster)) {
 			ORF <- geneSet.intersects(KO.cluster, geneSet);
-			dataset.vector(data, "ORF", paste(ORF, "|"));
+			map$SetValue("ORF", paste(ORF, "|"));
 		}
 	}
 
