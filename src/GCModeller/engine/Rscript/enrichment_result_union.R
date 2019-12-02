@@ -1,3 +1,5 @@
+imports "gseakit.background" from "gseakit.dll";
+
 require(dataframe);
 
 let union_data <- [];
@@ -24,7 +26,7 @@ let readData as function(file, tag) {
 	dataset.vector(data, "Input", dataset.vector(data, "ORF"));
 
 	for(map in data :> projectAs(as.object)) {
-		map.id <- map$ID
+		map.id <- map$ID;
 		KO.cluster <- KO.background[[map.id]];
 
 		if (!is.empty(KO.cluster)) {
