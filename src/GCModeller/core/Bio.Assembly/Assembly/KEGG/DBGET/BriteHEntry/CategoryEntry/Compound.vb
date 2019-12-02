@@ -67,6 +67,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     '''  br08001  Compounds with biological roles
     '''  br08002  Lipids
     '''  br08003  Phytochemical compounds
+    '''  br08021  Glycosides
     '''  br08005  Bioactive peptides
     '''  br08006  Endocrine disrupting compounds
     '''  br08007  Pesticides
@@ -115,6 +116,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         Const cpd_br08010 = "br08010"
 
+        ''' <summary>
+        ''' ``br08021``  Glycosides
+        ''' </summary>
+        Const cpd_br08021 = "br08021"
+
 #End Region
 
         Const CompoundIDPattern$ = "[DCG]\d+"
@@ -144,6 +150,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Lipids() As BriteTerm()
             Return BriteTerm.GetInformation(cpd_br08002, CompoundIDPattern)
+        End Function
+
+        Public Function Glycosides() As BriteTerm()
+            Return BriteTerm.GetInformation(cpd_br08021, CompoundIDPattern)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -196,6 +206,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Yield New NamedValue(Of BriteTerm())("Carcinogens", Carcinogens)
             Yield New NamedValue(Of BriteTerm())("Natural toxins", NaturalToxins)
             Yield New NamedValue(Of BriteTerm())("Target-based classification of compounds", TargetbasedClassificationOfCompounds)
+            Yield New NamedValue(Of BriteTerm())("Glycosides", Glycosides)
         End Function
 
         ''' <summary>
@@ -205,6 +216,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' + ``br08001``  Compounds with biological roles
         ''' + ``br08002``  Lipids
         ''' + ``br08003``  Phytochemical compounds
+        ''' + ``br08021``  Glycosides
         ''' + ``br08005``  Bioactive peptides
         ''' + ``br08006``  Endocrine disrupting compounds
         ''' + ``br08007``  Pesticides
