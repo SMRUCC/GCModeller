@@ -230,7 +230,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to +D
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Natural toxins&lt;/h2&gt;
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Natural Toxins&lt;/h2&gt;
         '''!
         '''A&lt;b&gt;Fungal toxins&lt;/b&gt;
         '''B  Mushroom toxins
@@ -271,14 +271,39 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to +D	Glycoside
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Glycosides&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;O-glycosides&lt;/b&gt;
+        '''B  Phenolic glycosides
+        '''C    C06186  Arbutin
+        '''C    C01451  Salicin
+        '''C    C06188  Salicin 6-phosphate
+        '''C    C06046  Salidroside
+        '''C    C01604  Phlorizin
+        '''C    C10823  Populin
+        '''C    C09973  Tremulacin
+        '''C    C10501  Verbascoside
+        '''B  Anthraquinone glycosides
+        '''C    C10303  Aurantio-obtusin beta-D-glucoside
+        '''C    C10313  Chryso-obtusin glucoside
+        '''C    C10316  Chrysophanol 8-O-be [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08021() As String
+            Get
+                Return ResourceManager.GetString("br08021", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to +E	KEGG Organism
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Organisms&lt;/h2&gt;
         '''!
-        '''A&lt;b&gt;Eukaryotes&lt;/b&gt; (429)
+        '''A&lt;b&gt;Eukaryotes&lt;/b&gt; (536)
         '''B
-        '''B  &lt;b&gt;Animals&lt;/b&gt; (175)
-        '''C    Vertebrates (105)
-        '''D      Mammals (52)
+        '''B  &lt;b&gt;Animals&lt;/b&gt; (252)
+        '''C    Vertebrates (148)
+        '''D      Mammals (68)
         '''E        hsa  Homo sapiens (human)
         '''E        ptr  Pan troglodytes (chimpanzee)
         '''E        pps  Pan paniscus (bonobo)
@@ -392,20 +417,14 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to 
+        '''  Looks up a localized string similar to &lt;!DOCTYPE =html&gt;
         '''&lt;!-- saved from url=(0046)https://www.kegg.jp/kegg/catalog/org_list.html --&gt;
         '''&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
         '''
         '''&lt;title&gt;KEGG Organisms: Complete Genomes&lt;/title&gt;
-        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;./KEGG_Organism_Complete_Genomes_files/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
-        '''&lt;/head&gt;
-        '''
-        '''&lt;body&gt;
-        '''
-        '''&lt;table width=&quot;700&quot;&gt;
-        '''&lt;tbody&gt;&lt;tr&gt;
-        '''  &lt;td width=&quot;180&quot; align=&quot;center&quot; rowspan=&quot;2&quot;&gt;
-        '''    &lt;a href=&quot;https://www.kegg.jp/kegg/&quot;&gt;&lt;img src=&quot;./KEGG_Organism_Complete_Genomes_files/ [rest of string was truncated]&quot;;.
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;./KEGG Organisms_ Complete Genomes_files/kegg2.css&quot; type=&quot;text/css&quot; media=&quot;all&quot;&gt;
+        '''&lt;script type=&quot;text/javascript&quot; src=&quot;./KEGG Organisms_ Complete Genomes_files/jquery-3.1.0.min.js.ä¸‹è½½&quot;&gt;&lt;/script&gt;
+        '''&lt;script type=&quot;text/javascript&quot; src=&quot;./KEGG Organisms_ Com [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property KEGG_Organism_Complete_Genomes() As String
             Get

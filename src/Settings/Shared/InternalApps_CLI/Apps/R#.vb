@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -51,7 +51,12 @@ Public Class R_ : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As R_
           Return New R_(App:=directory & "/" & R_.App)
@@ -63,6 +68,7 @@ Public Class R_ : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function Compile(script As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/compile")
     Call CLI.Append(" ")
@@ -84,6 +90,7 @@ End Function
 ''' Install new packages.
 ''' </summary>
 '''
+
 Public Function Install([module] As String, Optional verbose As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--install.packages")
     Call CLI.Append(" ")

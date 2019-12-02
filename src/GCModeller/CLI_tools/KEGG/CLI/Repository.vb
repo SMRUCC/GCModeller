@@ -42,15 +42,52 @@
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Compound.Brite.Table")>
+    <Usage("/Compound.Brite.Table [/save <table.csv>]")>
+    Public Function CompoundBriteTable(args As CommandLine) As Integer
+        Dim save$ = args("/save") Or $"./CompoundBrite.csv"
+        Dim briteTable As New Dictionary(Of String, EntityObject)
+
+        For Each [class] In CompoundBrite.GetAllCompoundResources
+            For Each compound In [class].Value.Where(Function(kegg_cpd) Not kegg_cpd.kegg_id.StringEmpty)
+                If Not briteTable.ContainsKey(compound.kegg_id) Then
+                    briteTable(compound.kegg_id) = New EntityObject With {
+                        .ID = compound.kegg_id,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"name", compound.entry.Value},
+                            {"brite_class", [class].Name},
+                            {"class", compound.class},
+                            {"category", compound.category},
+                            {"subcategory", compound.subcategory},
+                            {"order", compound.order}
+                        }
+                    }
+                End If
+            Next
+        Next
+
+        Return briteTable.Values _
+            .SaveTo(save) _
+            .CLICode
+    End Function
 
     <ExportAPI("/Maps.Repository.Build")>
     <Usage("/Maps.Repository.Build /imports <directory> [/out <repository.XML>]")>
