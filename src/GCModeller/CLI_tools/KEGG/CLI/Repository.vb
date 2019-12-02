@@ -67,10 +67,10 @@ Partial Module CLI
         Dim briteTable As New Dictionary(Of String, EntityObject)
 
         For Each [class] In CompoundBrite.GetAllCompoundResources
-            For Each compound In [class].Value
-                If Not briteTable.ContainsKey(compound.entry.Key) Then
-                    briteTable(compound.entry.Key) = New EntityObject With {
-                        .ID = compound.entry.Key,
+            For Each compound In [class].Value.Where(Function(kegg_cpd) Not kegg_cpd.kegg_id.StringEmpty)
+                If Not briteTable.ContainsKey(compound.kegg_id) Then
+                    briteTable(compound.kegg_id) = New EntityObject With {
+                        .ID = compound.kegg_id,
                         .Properties = New Dictionary(Of String, String) From {
                             {"name", compound.entry.Value},
                             {"brite_class", [class].Name},
