@@ -18,7 +18,7 @@ namespace Internal {
         */
         public static Dump(): StackTrace {
             var err = new Error().stack.split("\n");
-            var trace = From(err)
+            var trace = $from(err)
                 //   1 是第一行 err 字符串, 
                 // + 1 是跳过当前的这个Dump函数的栈信息
                 .Skip(1 + 1)

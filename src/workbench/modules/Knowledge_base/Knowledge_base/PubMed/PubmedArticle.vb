@@ -1,55 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::abfaf193b09ea2aa38d44f41c230bf8f, Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::fe79ea1b6f5fd8bb87b00579d677ae0c, modules\Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class PubmedArticle
-' 
-'     Properties: MedlineCitation, PubmedData
-' 
-' Class MedlineCitation
-' 
-'     Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
-'                 DateRevised, MedlineJournalInfo, MeshHeadingList, Owner, PMID
-'                 Status
-' 
-' Class MeshHeading
-' 
-'     Properties: DescriptorName, QualifierName
-' 
-' Class PubmedData
-' 
-'     Properties: ArticleIdList, History, PublicationStatus
-' 
-' /********************************************************************************/
+    '     Class PubmedArticle
+    ' 
+    '         Properties: MedlineCitation, PubmedData
+    ' 
+    '     Class KeywordList
+    ' 
+    '         Properties: Keywords, Owner
+    ' 
+    '         Function: GenericEnumerator, GetEnumerator
+    ' 
+    '     Class Keyword
+    ' 
+    '         Properties: Keyword, MajorTopicYN
+    ' 
+    '     Class MedlineCitation
+    ' 
+    '         Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
+    '                     DateRevised, KeywordList, MedlineJournalInfo, MeshHeadingList, Owner
+    '                     PMID, Status
+    ' 
+    '     Class MeshHeading
+    ' 
+    '         Properties: DescriptorName, QualifierName
+    ' 
+    '     Class PubmedData
+    ' 
+    '         Properties: ArticleIdList, History, PublicationStatus
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

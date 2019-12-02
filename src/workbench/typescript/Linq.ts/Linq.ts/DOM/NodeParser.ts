@@ -19,7 +19,7 @@ namespace DOM {
 
         if (tagValue.value.length > 0) {
             // 使用正则表达式进行解析
-            attrs = From(tagValue.value.match(DOM.attrs))
+            attrs = $from(tagValue.value.match(DOM.attrs))
                 .Where(s => s.length > 0)
                 .Select(s => {
                     var attr = Strings.GetTagValue(s, "=");

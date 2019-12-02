@@ -15,7 +15,11 @@ let kegg.compounds    = ?"--kegg_cpd";
 if (is.empty(setName)) {
     stop("No dataset reference name provided!");
 } else {
-    kegg.compounds <- load.list(file = kegg.compounds);
+	if (is.empty(kegg.compounds)) {
+		kegg.compounds <- NULL;
+	} else {
+		kegg.compounds <- load.list(file = kegg.compounds);
+	}
 }
 
 # Create result data matrix and 

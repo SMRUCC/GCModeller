@@ -131,13 +131,13 @@ Public Module Simulator
         Dim massSnapshot = engine.snapshot.mass
         Dim fluxSnapshot = engine.snapshot.flux
 
-        Call massSnapshot.Subset(massIndex.transcriptome).GetJson.SaveTo($"{save}/mass/transcriptome.json")
-        Call massSnapshot.Subset(massIndex.proteome).GetJson.SaveTo($"{save}/mass/proteome.json")
-        Call massSnapshot.Subset(massIndex.metabolome).GetJson.SaveTo($"{save}/mass/metabolome.json")
+        Call massSnapshot.Subset(massIndex.transcriptome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/transcriptome.json")
+        Call massSnapshot.Subset(massIndex.proteome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/proteome.json")
+        Call massSnapshot.Subset(massIndex.metabolome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/metabolome.json")
 
-        Call fluxSnapshot.Subset(fluxIndex.transcriptome).GetJson.SaveTo($"{save}/flux/transcriptome.json")
-        Call fluxSnapshot.Subset(fluxIndex.proteome).GetJson.SaveTo($"{save}/flux/proteome.json")
-        Call fluxSnapshot.Subset(fluxIndex.metabolome).GetJson.SaveTo($"{save}/flux/metabolome.json")
+        Call fluxSnapshot.Subset(fluxIndex.transcriptome, ignoreMissing:=True).GetJson.SaveTo($"{save}/flux/transcriptome.json")
+        Call fluxSnapshot.Subset(fluxIndex.proteome, ignoreMissing:=True).GetJson.SaveTo($"{save}/flux/proteome.json")
+        Call fluxSnapshot.Subset(fluxIndex.metabolome, ignoreMissing:=True).GetJson.SaveTo($"{save}/flux/metabolome.json")
     End Sub
 End Module
 

@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+<HideModuleName>
 Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

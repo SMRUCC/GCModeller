@@ -74,9 +74,16 @@ Namespace Engine.ModelLoader
                                       .Select(Function(map) map.Item2) _
                                       .ToArray
                               End Function)
+            Dim generals = loader.define.GenericCompounds
 
             For Each reaction As Reaction In cell.Phenotype.fluxes
-                Yield fluxByReaction(reaction, KOfunctions)
+                If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
+                    For Each instance In generalFluxExpansion(reaction, KOfunctions)
+                        Yield instance
+                    Next
+                Else
+                    Yield fluxByReaction(reaction, KOfunctions)
+                End If
             Next
         End Function
 
@@ -127,6 +134,10 @@ Namespace Engine.ModelLoader
             metabolismFlux.reverse.inhibition = metabolismFlux.left.DoCall(AddressOf productInhibitionFactor)
 
             Return metabolismFlux
+        End Function
+
+        Private Iterator Function generalFluxExpansion(template As Reaction, KOfunctions As Dictionary(Of String, String())) As IEnumerable(Of Channel)
+            Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
         End Function
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()

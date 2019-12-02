@@ -1,3 +1,5 @@
+# demo script for do DEM analysis
+
 require(dataframe);
 
 imports "gseakit.DEG_sample" from "gseakit.dll";

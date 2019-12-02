@@ -32,7 +32,7 @@ module SvgUtils {
      * 
      * @param c The rgb color component numeric value
     */
-    export function componentToHex(c): string {
+    export function componentToHex(c: number): string {
         var hex = c.toString(16);
         return hex.length == 1 ? "0" + hex : hex;
     }

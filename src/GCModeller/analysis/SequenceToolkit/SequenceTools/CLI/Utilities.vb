@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::5305dc688e7f6ec01dbbfb9377291744, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PolypeptideBriefs
-    '               PromoterRegionParser_gb, Reverse, SequenceLogo
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PolypeptideBriefs
+'               PromoterRegionParser_gb, Reverse, SequenceLogo
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -221,8 +222,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logo.png")
         Dim title As String = args("/title")
         Dim fa As New FastaFile([in])
-        Dim logo As Image = SequencePatterns.SequenceLogo.DrawFrequency(fa, title)
-        Return logo.SaveAs(out, ImageFormats.Png)
+        Dim logo As GraphicsData = SequencePatterns.SequenceLogo.DrawFrequency(fa, title)
+        Return logo.Save(out)
     End Function
 
     <ExportAPI("/motifs")>
@@ -260,7 +261,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
             Call motif _
                 .CreateDrawingModel _
                 .InvokeDrawing(True) _
-                .SaveAs($"{out}/motif_{++i}.png")
+                .Save($"{out}/motif_{++i}.png")
         Next
 
         Call param.GetJson.SaveTo(out & "/args.json")

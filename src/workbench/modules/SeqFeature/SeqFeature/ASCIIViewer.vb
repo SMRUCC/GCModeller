@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::287f8d97b13def2155c609fb16985846, SeqFeature\SeqFeature\ASCIIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::e2feed3370103389946e1147555a061d, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
 
     ' Author:
     ' 
@@ -149,4 +149,3 @@ Public Class Site
         Return $"{Name} @ {Left}"
     End Function
 End Class
-
