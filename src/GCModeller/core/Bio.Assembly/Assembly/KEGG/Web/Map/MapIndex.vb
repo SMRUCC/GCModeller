@@ -207,6 +207,14 @@ Namespace Assembly.KEGG.WebServices
             }
         End Function
 
+        Public Shared Function GetMapsAuto(repository As String) As IEnumerable(Of Map)
+            If repository.DirectoryExists Then
+                Return repository.DoCall(AddressOf ScanMaps)
+            Else
+                Return repository.LoadXml(Of MapRepository)
+            End If
+        End Function
+
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Map) Implements Enumeration(Of Map).GenericEnumerator
             For Each index In Maps
                 Yield index

@@ -9,6 +9,7 @@ let data;
 let readData as function(file, tag) {
 	data <- read.dataframe(file, mode = "character");
 	dataset.vector(data, "Database", tag);
+	dataset.vector(data, "Input", dataset.vector(data, "ORF"));
 	union_data <- union_data << data;
 }
 

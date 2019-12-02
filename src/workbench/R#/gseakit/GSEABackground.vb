@@ -49,10 +49,26 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 <Package("gseakit.background", Category:=APICategories.ResearchTools)>
 Public Module GSEABackground
 
+    ''' <summary>
+    ''' Load GSEA background model from a xml file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("read.background")>
     Public Function ReadBackground(file As String) As Background
         Return file.LoadXml(Of Background)
+    End Function
+
+    ''' <summary>
+    ''' Save GSEA background model as xml file
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="file$"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.background")>
+    Public Function WriteBackground(background As Background, file$) As Boolean
+        Return background.GetXml.SaveTo(file)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -77,6 +93,10 @@ Public Module GSEABackground
                         }
                     End Function) _
             .ToArray
+    End Function
+
+    Public Function CreateKOBackground() As Background
+
     End Function
 End Module
 
