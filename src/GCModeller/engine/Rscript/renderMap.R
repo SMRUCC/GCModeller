@@ -1,5 +1,8 @@
+imports "kegg.repository" from "kegg_kit.dll";
+
 require(dataframe);
 
+let save.dir as string <- ?"--save";
 let enrichment <- [?"--enrichment"] 
 :> read.dataframe(mode = "character") 
 :> projectAs(as.object) 
@@ -15,6 +18,16 @@ if (length(enrichment) == 0) {
 
 let compounds as string = [];
 let input as string;
+let save.png as string;
+
+print("Loading kegg pathway maps for the map render...");
+
+let kegg_map.render = [?"--maps"] 
+:> load.maps.index 
+:> map.local_render 
+:> as.object;
+
+print("[JOD DONE]");
 
 for(map in enrichment) {
 	print(map$key);
@@ -28,4 +41,8 @@ for(map in enrichment) {
 	
 	print(`${length(compounds)} unique compounds in map '${map$key}'.`);
 	print(compounds);
+	
+	save.png <- `${save.dir}/${map$key}.png`;
+	compounds <- nodes.colorAs(compounds, "red");
+	kegg_map.render$Rendering(map$key, compounds) :> save.graphics(save.png);
 }

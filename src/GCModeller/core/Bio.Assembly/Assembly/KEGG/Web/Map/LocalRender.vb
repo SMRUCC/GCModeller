@@ -61,6 +61,9 @@ Namespace Assembly.KEGG.WebServices
     ''' </summary>
     Public Class LocalRender : Implements IEnumerable(Of Map)
 
+        ''' <summary>
+        ''' Index by map id
+        ''' </summary>
         ReadOnly mapTable As Dictionary(Of String, Map)
         ReadOnly digitMapID As Boolean
 
@@ -82,6 +85,11 @@ Namespace Assembly.KEGG.WebServices
                                   Return pathway.Value
                               End Function)
             digitMapID = digitID
+        End Sub
+
+        Sub New(maps As Dictionary(Of String, Map))
+            mapTable = maps
+            digitMapID = False
         End Sub
 
         ''' <summary>
