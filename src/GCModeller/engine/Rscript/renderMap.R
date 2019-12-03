@@ -9,9 +9,23 @@ let enrichment <- [?"--enrichment"]
 if (length(enrichment) == 0) {
 	return;
 } else {
-	print(`We get ${length(enrichment)} enriched pathway maps!`);
+	print(`We get ${length(enrichment)} unique enriched pathway maps!`);
+	cat("\n");
 }
+
+let compounds as string = [];
+let input as string;
 
 for(map in enrichment) {
 	print(map$key);
+	
+	for(a in map) {
+		input <- a$Input :> strsplit( "; " );
+		compounds <- compounds << input;
+	}
+	
+	compounds <- unique(compounds);
+	
+	print(`${length(compounds)} unique compounds in map '${map$key}'.`);
+	print(compounds);
 }
