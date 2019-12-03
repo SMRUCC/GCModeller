@@ -321,7 +321,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     ''' </remarks>
     <ExportAPI("/Dump.sp")>
     <Usage("/Dump.sp [/res <sp.html, default=weburl.html> /out <out.csv>]")>
-    <Description("/Dumping KEGG organism table in csv file format.")>
+    <Description("Dump all of the KEGG organism and write table data in csv file format.")>
     <Argument("/res", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Extensions:="*.txt, *.html",
