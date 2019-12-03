@@ -10,5 +10,8 @@ if (length(enrichment) == 0) {
 	return;
 } else {
 	print(`We get ${length(enrichment)} enriched pathway maps!`);
-	print(enrichment);
+}
+
+for(map in enrichment) {
+	print(map$key);
 }
