@@ -40,7 +40,7 @@ for(map in enrichment) {
 	compounds <- unique(compounds);
 	
 	print(`${length(compounds)} unique compounds in map '${map$key}'.`);
-	print(compounds);
+	# print(compounds);
 	
 	save.png <- `${save.dir}/${map$key}.png`;
 	compounds <- nodes.colorAs(compounds, "red");
