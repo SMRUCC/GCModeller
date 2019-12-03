@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -81,7 +81,12 @@ Public Class Xfam : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Xfam
           Return New Xfam(App:=directory & "/" & Xfam.App)
@@ -93,6 +98,7 @@ Public Class Xfam : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportBlastn([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.Blastn")
     Call CLI.Append(" ")
@@ -113,6 +119,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportBlastns([in] As String, Optional out As String = "", Optional num_threads As String = "", Optional large As Boolean = False, Optional no_parallel As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.Blastn.Batch")
     Call CLI.Append(" ")
@@ -143,6 +150,7 @@ End Function
 ''' Export result from HMM search based domain annotation result.
 ''' </summary>
 '''
+
 Public Function ExportHMMScan([in] As String, Optional evalue As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.hmmscan")
     Call CLI.Append(" ")
@@ -166,6 +174,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportHMMSearch([in] As String, Optional prot As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.hmmsearch")
     Call CLI.Append(" ")
@@ -190,6 +199,15 @@ End Function
 ''' Export pfam annotation result from blastp based sequence alignment analysis.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' The blastp raw output file of alignment in direction protein query vs pfam database.
+''' </param>
+''' <param name="out">
+''' The pfam annotation output.
+''' </param>
+''' <param name="offset">
+''' The max allowed offset value of the length delta between ``length_query`` and ``length_hit``.
+''' </param>
 Public Function ExportUltraLarge([in] As String, Optional out As String = "", Optional evalue As String = "", Optional coverage As String = "", Optional offset As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.Pfam.UltraLarge")
     Call CLI.Append(" ")
@@ -219,6 +237,22 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="out">
+''' The output pfam hits result which is parsed from the pfam_vs_protein blastp result.
+''' </param>
+''' <param name="[in]">
+''' The blastp alignment output of pfamA align with query proteins.
+''' </param>
+''' <param name="alt_direction">
+''' By default, this cli tools processing the blastp alignment result in direction ``protein_vs_pfam``, 
+'''               apply this option argument in cli to switch the processor in direction ``pfam_vs_protein``.
+''' </param>
+''' <param name="evalue">
+''' E-value cutoff of the blastp alignment result.
+''' </param>
+''' <param name="coverage">
+''' The coverage cutoff of the pfam domain sequence. This argument is not the coverage threshold of your query protein.
+''' </param>
 Public Function ExportPfamHits([in] As String, Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional alt_direction As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.PfamHits")
     Call CLI.Append(" ")
@@ -252,6 +286,7 @@ End Function
 ''' Parse and save the pfam sequence fasta database as csv table file. (Debug used only)
 ''' </summary>
 '''
+
 Public Function ParseFastaAsTable([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Fasta2Table")
     Call CLI.Append(" ")
@@ -272,6 +307,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LoadDoc([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Load.cmscan")
     Call CLI.Append(" ")
@@ -292,6 +328,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LoadCMSearch([in] As String, out As String) As Integer
     Dim CLI As New StringBuilder("/Load.cmsearch")
     Call CLI.Append(" ")
@@ -311,6 +348,12 @@ End Function
 ''' Do pfam functional domain annotation based on the pfam hits result.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' The pfam hits result from the blastp query output or hmm search output.
+''' </param>
+''' <param name="out">
+''' The annotation output.
+''' </param>
 Public Function PfamAnnotation([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Pfam.Annotation")
     Call CLI.Append(" ")
@@ -332,6 +375,7 @@ End Function
 ''' Do go annotation based on the pfam mapping to go term.
 ''' </summary>
 '''
+
 Public Function Pfam2Go([in] As String, togo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/pfam2go")
     Call CLI.Append(" ")
@@ -353,6 +397,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="prefix">
+''' Optional for the custom RNA id, is this parameter value is nothing, then the id prefix will be parsed from the PTT file automaticslly.
+''' </param>
 Public Function RfamAnalysis([in] As String, PTT As String, Optional prefix As String = "", Optional out As String = "", Optional offset As String = "", Optional non_directed As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Rfam")
     Call CLI.Append(" ")
@@ -383,6 +430,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="formatdb">
+''' If the /rfam directory parameter is specific and the database is not formatted, then this value should be TRUE for local blast. 
+'''                    If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.
+''' </param>
 Public Function RfamAlignment(query As String, Optional rfam As String = "", Optional out As String = "", Optional num_threads As String = "", Optional ticks As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Align")
     Call CLI.Append(" ")
@@ -412,6 +463,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RfamGenomicsContext([in] As String, PTT As String, Optional dist As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.GenomicsContext")
     Call CLI.Append(" ")
@@ -436,6 +488,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RfamRegulatory(query As String, mast As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Regulatory")
     Call CLI.Append(" ")
@@ -457,6 +510,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RFamRegulons([in] As String, regulons As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Regulons")
     Call CLI.Append(" ")
@@ -478,6 +532,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DumpSeedsDb([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.SeedsDb.Dump")
     Call CLI.Append(" ")
@@ -498,6 +553,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RfamSites(nt As String, sites As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Sites.Seq")
     Call CLI.Append(" ")
@@ -519,6 +575,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function InstallRfam(seed As String) As Integer
     Dim CLI As New StringBuilder("--Install.Rfam")
     Call CLI.Append(" ")

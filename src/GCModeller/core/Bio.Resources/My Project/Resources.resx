@@ -208,4 +208,7 @@
   <data name="ko04812" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Protein families\signaling and cellular processes\ko04812.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="br08021" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Compounds\br08021.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

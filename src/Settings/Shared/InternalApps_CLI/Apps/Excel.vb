@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -78,7 +78,12 @@ Public Class Excel : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Excel
           Return New Excel(App:=directory & "/" & Excel.App)
@@ -91,6 +96,7 @@ Public Class Excel : Inherits InteropService
 ''' Append part of data of table ``b`` to table ``a``
 ''' </summary>
 '''
+
 Public Function Association(a As String, b As String, Optional column_a As String = "", Optional column_b As String = "", Optional out As String = "", Optional ignore_blank_index As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/association")
     Call CLI.Append(" ")
@@ -122,6 +128,18 @@ End Function
 ''' Join of two table by a unique ID.
 ''' </summary>
 '''
+''' <param name="[in]">
+''' The table for append by column, its row ID can be duplicated.
+''' </param>
+''' <param name="append">
+''' The target table that will be append into the table ``a``, the row ID must be unique!
+''' </param>
+''' <param name="grep_ID">
+''' This argument parameter describ how to parse the ID in file ``a.csv``
+''' </param>
+''' <param name="unique">
+''' Make the id of file ``append`` be unique?
+''' </param>
 Public Function cbind([in] As String, append As String, Optional id_a As String = "ID", Optional id_b As String = "ID", Optional grep_id As String = "token <SPACE", Optional out As String = "", Optional unique As Boolean = False, Optional nothing_as_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/cbind")
     Call CLI.Append(" ")
@@ -159,6 +177,9 @@ End Function
 ''' Create an empty Excel xlsx package file on a specific file path
 ''' </summary>
 '''
+''' <param name="Create">
+''' The file path for save this New created Excel xlsx package.
+''' </param>
 Public Function newEmpty(target As String) As Integer
     Dim CLI As New StringBuilder("/Create")
     Call CLI.Append(" ")
@@ -177,6 +198,16 @@ End Function
 ''' Open target excel file And get target table And save into a csv file.
 ''' </summary>
 '''
+''' <param name="open">
+''' File path of the Excel ``*.xlsx`` file for open And read.
+''' </param>
+''' <param name="sheetName">
+''' The worksheet table name for read data And save as csv file. 
+'''               If this argument value is equals to ``*``, then all of the tables in the target xlsx excel file will be extract.
+''' </param>
+''' <param name="out">
+''' The csv output file path or a directory path value when the ``/sheetName`` parameter is value ``*``.
+''' </param>
 Public Function Extract(open As String, Optional sheetname As String = "*", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Extract")
     Call CLI.Append(" ")
@@ -200,6 +231,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FillZero([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/fill.zero")
     Call CLI.Append(" ")
@@ -221,6 +253,7 @@ End Function
 ''' Subset of the input table file by columns, produce a &lt;name,value,description&gt; dataset.
 ''' </summary>
 '''
+
 Public Function NameValues([in] As String, name As String, value As String, Optional describ As String = "Description", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/name.values")
     Call CLI.Append(" ")
@@ -247,6 +280,15 @@ End Function
 ''' Print the csv/xlsx file content onto the console screen or text file in table layout.
 ''' </summary>
 '''
+''' <param name="sheet">
+''' The sheet name of table in xlsx file for display, this option only works when target file format is a xlsx file.
+''' </param>
+''' <param name="fields">
+''' A list of selected field names for display, seperated with comma symbol. By default, is display all of the fields data.
+''' </param>
+''' <param name="[in]">
+''' Standard input pipeline device only works for csv/tsv file. Target table file for display on the console.
+''' </param>
 Public Function Print([in] As String, Optional fields As String = "", Optional sheet As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Print")
     Call CLI.Append(" ")
@@ -274,6 +316,11 @@ End Function
 ''' Write target csv table its content data as a worksheet into the target Excel package.
 ''' </summary>
 '''
+''' <param name="sheetName">
+''' The New sheet table name, if this argument Is Not presented, then the program will 
+'''               using the file basename as the sheet table name. If the sheet table name Is exists in current xlsx file, 
+'''               then the exists table value will be updated, otherwise will add New table.
+''' </param>
 Public Function PushTable(write As String, table As String, Optional sheetname As String = "", Optional saveas As String = "") As Integer
     Dim CLI As New StringBuilder("/push")
     Call CLI.Append(" ")
@@ -299,6 +346,9 @@ End Function
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
 '''
+''' <param name="[in]">
+''' A directory path that contains csv files that will be merge into one file directly.
+''' </param>
 Public Function rbind([in] As String, Optional order_by As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/rbind")
     Call CLI.Append(" ")
@@ -322,6 +372,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function rbindGroup([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/rbind.group")
     Call CLI.Append(" ")
@@ -343,6 +394,9 @@ End Function
 ''' Removes row or column data by given regular expression pattern.
 ''' </summary>
 '''
+''' <param name="by_row">
+''' This argument specific that removes data by row or by column, by default is by column.
+''' </param>
 Public Function Removes([in] As String, pattern As String, Optional out As String = "", Optional by_row As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/removes")
     Call CLI.Append(" ")
@@ -368,6 +422,7 @@ End Function
 ''' Subset of the table file by a given specific column labels
 ''' </summary>
 '''
+
 Public Function SubsetByColumns([in] As String, columns As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/subset")
     Call CLI.Append(" ")
@@ -390,6 +445,7 @@ End Function
 ''' Performing ``a - b`` subtract by row unique id.
 ''' </summary>
 '''
+
 Public Function Subtract(a As String, b As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/subtract")
     Call CLI.Append(" ")
@@ -412,6 +468,9 @@ End Function
 ''' Takes specific rows by a given row id list.
 ''' </summary>
 '''
+''' <param name="reverse">
+''' If this argument is presents in the cli inputs, then all of the rows that not in input list will be output as result.
+''' </param>
 Public Function Takes([in] As String, id As String, Optional out As String = "", Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/takes")
     Call CLI.Append(" ")
@@ -436,6 +495,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Transpose([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/transpose")
     Call CLI.Append(" ")
@@ -456,6 +516,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function [Union]([in] As String, Optional tag_field As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
     Call CLI.Append(" ")
@@ -480,6 +541,7 @@ End Function
 ''' Helper tools for make the ID column value uniques.
 ''' </summary>
 '''
+
 Public Function Unique([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/unique")
     Call CLI.Append(" ")

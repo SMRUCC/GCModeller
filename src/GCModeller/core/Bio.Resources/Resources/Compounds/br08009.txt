@@ -1,5 +1,5 @@
 +D
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Natural toxins</h2>
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Natural Toxins</h2>
 !
 A<b>Fungal toxins</b>
 B  Mushroom toxins

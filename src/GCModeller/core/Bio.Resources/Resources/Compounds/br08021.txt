@@ -1,0 +1,556 @@
++D	Glycoside
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Glycosides</h2>
+!
+A<b>O-glycosides</b>
+B  Phenolic glycosides
+C    C06186  Arbutin
+C    C01451  Salicin
+C    C06188  Salicin 6-phosphate
+C    C06046  Salidroside
+C    C01604  Phlorizin
+C    C10823  Populin
+C    C09973  Tremulacin
+C    C10501  Verbascoside
+B  Anthraquinone glycosides
+C    C10303  Aurantio-obtusin beta-D-glucoside
+C    C10313  Chryso-obtusin glucoside
+C    C10316  Chrysophanol 8-O-beta-D-glucoside
+C    C10345  Emodin 8-glucoside
+C    C10346  Frangulin A
+C    C10349  Frangulin B
+C    C16802  Glucofrangulin A
+C    C16803  Glucofrangulin B
+C    C03503  Glucosyloxyanthraquinone
+C    C04719  1-Hydroxy-2-(beta-D-glucosyloxy)-9,10-anthraquinone
+C    C18684  Landomycin D
+C    C18683  Landomycin H
+C    C18778  8-D-Olivosyl-landomycin
+C    C10381  Obtusifolin 2-glucoside
+C    C10382  Physcion 8-gentiobioside
+C    C10384  Physcion 8-glucoside
+C    C10404  Sennoside A
+C    C13526  Sennoside B
+C    C16797  Sennoside C
+C    C16798  Sennoside D
+C    C22099  Sennoside A calcium salt
+C    C22100  Sennoside B calcium salt
+C    C12411  Urdamycin F
+C    C12414  Urdamycin G
+C    C12408  100-2
+B  Anthocyanin glycosides
+C    Glycosylated cyanidin
+D      C12130  Anemone blue anthocyanin 1
+D      C12131  Anemone blue anthocyanin 2
+D      C12132  Anemone blue anthocyanin 3
+D      C12133  Anemone blue anthocyanin 4
+D      C12129  Anemone purple anthocyanin 1
+D      C06361  Anthocyanidin-3,5-diglucoside
+D      C08604  Chrysanthemin
+D      C04491  Cyanidin-3-rhamnoglucoside chloride
+D      C08620  Cyanidin 3-O-rutinoside
+D      C08647  Cyanidin 3-O-galactoside
+D      C08629  Cyanidin 3,5,3'-tri-O-glucoside
+D      C12095  Cyanidin 3-O-(6-O-p-coumaroyl)glucoside
+D      C12096  Cyanidin 3-O-(6-O-p-coumaroyl)glucoside-5-O-glucoside
+D      C12643  Cyanidin 3-O-(6-O-malonyl-beta-D-glucoside)
+D      C12646  Cyanidin 3-O-rutinoside 5-O-beta-D-glucoside
+D      C16289  Cyanidin 3-O-3'',6''-O-dimalonylglucoside
+D      C16306  Cyanidin 3-O-sophoroside
+D      C16350  Cyanidin 3-O-beta-D-glucoside 5-O-(6-coumaroyl-beta-D-glucoside)
+D      C16373  Cyanidin-3-O-(6''-O-malonyl-2''-O-glucuronyl)glucoside
+D      C16292  Cyanidin-3-(p-coumaroyl)-rutinoside-5-glucoside
+D      C16369  Cyanidin 3-(6-p-caffeoyl)glucoside
+D      C16372  Cyanidin 3-glucoside 5-caffeoylglucoside
+D      C16298  Cyanidin 5-O-glucoside
+D      C08612  Cyanidin 3-O-(6''-glucosyl-2''-xylosylgalactoside)
+D      C08639  Cyanin
+D      C16373  Cyanidin-3-O-(6''-O-malonyl-2''-O-glucuronyl)glucoside
+D      C20493  Cyanidin 5-O-beta-D-glucoside 3-O-beta-D-sambubioside
+D      C08642  Heavenly blue anthocyanin
+D      C16299  Malonylshisonin
+D      C12141  Peonidin 3-O-glucoside
+D      C16293  Peonidin-3-(p-coumaroyl)-rutinoside-5-glucoside
+C    Glycosylated delphinidin
+D      C16354  Albireodelphin
+D      C15550  Anthocyanin 3'-O-beta-D-glucoside
+D      C16312  Delphin
+D      C08640  Delphinidin 3,3',5'-tri-O-glucoside
+D      C20496  Delphinidin 3,7-di-O-beta-D-glucoside
+D      C16313  Delphinidin 3-glucoside 5-caffoyl-glucoside
+D      C12138  Delphinidin 3-O-glucoside
+D      C16367  Delphinidin 3-O-(6-caffeoyl-beta-D-glucoside)
+D      C16290  Delphinidin 3-O-3'',6''-O-dimalonylglucoside
+D      C16301  Delphinidin 3-O-(6''-O-malonyl)-beta-D-glucoside
+D      C16304  Delphinidin 3-O-(6''-O-malonyl)-beta-glucoside-3'-O-beta-glucoside
+D      C16307  Delphinidin 3-O-sophoroside
+D      C16351  Delphinidin 3-O-beta-D-glucoside 5-O-(6-coumaroyl-beta-D-glucoside)
+D      C20494  Delphinidin 5-O-beta-D-glucoside 3-O-beta-D-sambubioside
+D      C16294  Delphinidin-3-(p-coumaroyl)-rutinoside-5-glucoside
+D      C16370  Delphinidin 3-(6-p-coumaroyl)glucoside
+D      C16314  Delphinidin 3,5,3'-triglucoside
+D      C08641  Gentiodelphin
+D      C12140  Malvidin 3-O-glucoside
+D      C16296  Malvidin-3-(p-coumaroyl)-rutinoside-5-glucoside
+D      C08718  Malvin
+D      C08653  Malonylawobanin
+D      C12139  Petunidin 3-O-glucoside
+D      C16295  Petunidin-3-(p-coumaroyl)-rutinoside-5-glucoside
+D      C16302  Ternatin A1
+D      C16303  Ternatin C5
+D      C16315  Tulipanin
+C    Glycosylated pelargonidin
+D      C12641  4'''-Demalonylsalvianin
+D      C08723  Monardaein
+D      C08725  Pelargonin
+D      C12137  Pelargonidin 3-O-glucoside
+D      C12640  Pelargonidin 3-O-(6-caffeoyl-beta-D-glucoside) 5-O-beta-D-glucoside
+D      C12642  Pelargonidin 3-O-(6-O-malonyl-beta-D-glucoside)
+D      C12644  Pelargonidin 3-O-rutinoside
+D      C12645  Pelargonidin 3-O-rutinoside 5-O-beta-D-glucoside
+D      C16368  Pelargonidin 3-(6-p-coumaroyl)glucoside
+D      C16371  Pelargonidin 3-glucoside 5-caffeoylglucoside
+D      C16297  Pelargonidin 3-O-(6-caffeoyl-beta-D-glucoside)
+D      C16288  Pelargonidin 3-O-3'',6''-O-dimalonylglucoside
+D      C16349  Pelargonidin 3-O-beta-D-glucoside 5-O-(6-coumaroyl-beta-D-glucoside)
+D      C16305  Pelargonidin 3-O-sophoroside
+D      C12647  Salvianin
+B  Chalcone glycosides
+C    C08649  Isobutrin
+C    C16978  Isoliquiritin
+C    C16423  Naringin chalcone
+C    C16406  Phlorizin chalcone
+C    C16407  2',4,4',6'-Tetrahydroxychalcone 4'-O-glucoside
+C    C16408  2',3,4,4',6'-Peptahydroxychalcone 4'-O-glucoside
+C    C22067  3'-(beta-D-Glucopyranosyl)-2'-hydroxy-beta-oxodihydrochalcone
+B  Coumarin glycosides
+C    C09206  Cichoriin
+C    C05073  Coumermycin A1
+C    C12480  Coumermycin D
+C    C09264  Esculin
+C    C09266  Fraxin
+C    C11584  4-Methylumbelliferone glucuronide
+C    C12473  Novclobiocin 104
+C    C12472  Novclobiocin 105
+C    C17476  Osthenol-7-O-beta-D-gentiobioside
+C    C09309  Rutarin
+C    C01527  Scopolin
+B  Cyanogenic glycosides
+C    C08324  Acalyphin
+C    C08325  Amygdalin
+C    C08326  Anthemis glycoside A
+C    C08327  Anthemis glycoside B
+C    C08328  Cardiospermin
+C    C01418  Cycasin
+C    C08329  Deidaclin
+C    C05143  Dhurrin
+C    C08331  Gynocardin
+C    C08332  Heterodendrin
+C    C01594  Linamarin
+C    C08333  Linustatin
+C    C08334  Lotaustralin
+C    C08335  Lucumin
+C    C08336  Neolinustatin
+C    C08330  p-Glucosyloxymandelonitrile
+C    C08337  Proacaciberin
+C    C08338  Proacacipetalin
+C    C08339  Proteacin
+C    C00844  Prunasin
+C    C08512  Ranunculin
+C    C08340  Sarmentosin
+C    C01855  Taxiphyllin
+C    C08342  Triglochinin
+C    C01870  Vicianin
+C    C08345  Zierin
+C    C08344  Volkenin
+B  Flavonoid glycosides
+C    Flavones and flavonols
+D      C16911  Afzelin
+D      C04608  Apigenin 7-O-beta-D-glucoside
+D      C04858  Apigenin 7-O-[beta-D-apiosyl-(1->2)-beta-D-glucoside]
+D      C10020  Apigenin 7-(6''-malonylglucoside)
+D      C12627  Apigenin 7-O-neohesperidoside
+D      C10025  Baicalin
+D      C10104  6-Methoxyluteolin 7-rhamnoside
+D      C10039  Diosmin
+D      C03946  Flavonol 3-O-beta-D-glucoside
+D      C15581  Flavonol 3-O-beta-D-glucosyl-(1->2)-beta-D-glucoside
+D      C15582  Flavonol 3-O-beta-D-glucosyl-(1->2)-beta-D-glucosyl-(1->2)-beta-D-glucoside
+D      C04385  Flavonol 3-O-(6-O-malonyl-beta-D-glucoside)
+D      C03502  Flavonol 3-O-D-galactoside
+D      C04193  Flavonol 3-O-D-xylosylgalactoside
+D      C04068  Flavonol 3-O-D-xylosylglucoside
+D      C04069  Flavonol 3-O-D-xylosylglycoside
+D      C04194  Flavonol 3-O-[alpha-L-rhamnosyl-(1->6)-beta-D-glucoside]
+D      C15580  Flavonol 7-O-beta-D-glucoside
+D      C10050  Gossypetin 8-rhamnoside
+D      C10051  Gossypin
+D      C10073  Hyperin
+D      C17555  Icariin
+D      C16981  Kaempferitrin
+D      C12249  Kaempferol 3-O-glucoside
+D      C12626  Kaempferol-3-O-galactoside
+D      C16490  Kaempferol 3-O-beta-D-glucosylgalactoside
+D      C03515  Luteolin 7-O-glucuronide
+D      C03951  Luteolin 7-O-beta-D-glucoside
+D      C04900  Luteolin 7-O-[beta-D-glucuronosyl-(1->2)-beta-D-glucuronide]-4'-O-beta-D-glucuronide
+D      C12632  Luteolin 7-O-[beta-D-glucuronosyl-(1->2)-beta-D-glucuronide]
+D      C10103  Luteolin 7-O-(6''-malonylglucoside)
+D      C05622  Malonylapiin
+D      C17600  Multiflorin B
+D      C17563  Multinoside A
+D      C10108  Myricitrin
+D      C05623  Quercetin 3-O-glucoside
+D      C12638  Quercetin 3-O-(6-O-malonyl-beta-D-glucoside)
+D      C12639  Quercimeritrin
+D      C10175  Quercetin 3-(2G-xylosylrutinoside)
+D      C12667  Quercetin 3-O-beta-D-glucosyl-(1->2)-beta-D-glucoside
+D      C12668  Quercetin 3-O-beta-D-glucosyl-(1->2)-beta-D-glucosyl-(1->2)-beta-D-glucoside
+D      C01750  Quercitrin
+D      C05625  Rutin
+D      C10178  Robinin
+D      C12630  Scolymoside
+D      C17140  Tribuloside
+C    Isoflavones
+D      C05376  Biochanin A-beta-D-glucoside
+D      C12625  Biochanin A 7-O-(6-O-malonyl-beta-D-glucoside)
+D      C10216  Daidzin
+D      C16222  Formononetin 7-O-glucoside-6''-O-malonate
+D      C09126  Genistein 7-O-beta-D-glucoside
+D      C16195  Glycitin
+D      C10465  Iridin
+D      C04074  Isoflavone 7-O-beta-D-glucoside
+D      C16191  Malonyldaidzin
+D      C16192  Malonylgenistin
+D      C16197  Malonylglycitin
+D      C10509  Ononin
+D      C10533  Tectoridin
+C    Flavanones
+D      C09616  Butrin
+D      C09732  Eriocitrin
+D      C15579  Flavanone 7-O-[alpha-L-rhamnosyl-(1->2)-beta-D-glucoside]
+D      C09755  Hesperidin
+D      C16422  Hesperetin 7-O-glucoside
+D      C16989  Liquiritin
+D      C17393  Methyl hesperidin
+D      C09099  Naringenin 7-O-beta-D-glucoside
+D      C09789  Naringin
+D      C09793  Narirutin
+D      C09803  Neoastilbin
+D      C17675  Neocarthamin
+D      C09805  Neoeriocitrin
+D      C09806  Neohesperidin
+D      C09808  Phellamurin
+D      C09828  Pinocembrin 7-rhamnosylglucoside
+D      C17531  Plantagoside
+D      C17056  Plantaginin
+D      C09830  Poncirin
+D      C17391  Sakuranin
+C    Flavans
+D      C09478  Auriculoside
+D      C09617  Catechin 7-O-beta-D-xyloside
+D      C09636  Diffutin
+B  Glycoalkaloid
+C    C09330  Alangiside
+C    C10796  alpha-Chaconine
+C    C16643  Morphine-3-glucuronide
+C    C16578  Morphine-6-glucuronide
+C    C10819  Solamargine
+C    C10820  Solanine
+C    C10824  Solasonine
+C    C10827  Tomatine
+C    C10803  Demissine
+B  Cardiac glycosides
+C    C16749  Acetylgitaloxin
+C    C22189  Acetyldigoxin
+C    C22190  beta-Acetyldigoxin
+C    C22191  Acetyldigitoxin
+C    C08845  Adynerin
+C    C08843  Adonitoxin
+C    C08847  alpha-Antiarin
+C    C08848  Antioside
+C    C08850  Aspecioside
+C    C08851  Bipindoside
+C    C17526  Boivinide A
+C    C08854  Calactin
+C    C08855  Calotropin
+C    C19984  Cerberin
+C    C08857  Cerbertin
+C    C08858  Convallatoxin
+C    C19986  Convalloside
+C    C17524  Coroglaucigenin-3-o-alpha-L-rhamnopyranoside
+C    C17525  Corotoxigenin-3-O-alpha-L-rhamnopyranoside
+C    C08859  Cymarin
+C    C12669  Deslanoside
+C    C08861  Diginatin
+C    C08862  Digitalin
+C    C06955  Digitoxin
+C    C06956  Digoxin
+C    C08863  Divaricoside
+C    C08864  Divostroside
+C    C08865  Eriocarpin
+C    C08866  Gitoxin
+C    C08869  Helveticoside
+C    C08870  Labriformidin
+C    C08871  Labriformin
+C    C13470  Lanatoside C
+C    C08874  Lokundjoside
+C    C17522  Mallogenin-3-o-alpha-L-rhamnopyranoside
+C    C08875  Musaroside
+C    C08876  Neriifolin
+C    C19987  Oleandrin
+C    C01443  Ouabain
+C    C17523  Panogenin-3-o-alpha-L-rhamnopyranoside
+C    C12816  Proscillaridin
+C    C08877  Rhodexin A
+C    C08878   Sarmentoloside
+C    C19988  Strophanthidin
+C    C16820  k-Strophanthin-beta
+C    C08881  k-Strophanthoside
+C    C08882  Thevetin A
+C    C08856  Thevetin B
+C    C08883  Uscharidin
+C    C08884  Vernadigin
+B  Saponins
+C    Steroid
+D      C08912  Sarsasapogenin 3-O-4G-rhamnosylsophoroside
+D      C08921  Aescin
+D      C08888  Avenacoside B
+D      C11346  16alpha,17beta-Estriol 17-(beta-D-glucuronide)
+D      C08889  Capsicoside A
+D      C17544  Chikusetsusaponin Ia
+D      C17553  Condurango glycoside A
+D      C17768  Condurango glycoside A0
+D      C08892  Convallamaroside
+D      C08860  Decoside
+D      C08895  Deltoside
+D      C10803  Demissine
+D      C00765  Digitonin
+D      C08897  Dioscin
+D      C20785  Eleutheroside A
+D      C04859  (20S,22S,25S)-22,25-Epoxyfurost-5-ene-3beta,26-diol 3-O-beta-D-glucoside
+D      C17468  Methylprotodioscin
+D      C17024  Mosesin 4
+D      C08885  Agavoside A
+D      C08904  Officinalisnin I
+D      C17041  Ophiopogonin A
+D      C17038  Ophiopogonin B
+D      C17042  Ophiopogonin D
+D      C08905  Osladin
+D      C16998  Pavoninin 1
+D      C08908  Protogracillin
+D      C17469  Pseudoprotodioscin
+D      C08910  Ruscoside
+D      C08911  Sarsaparilloside
+D      C17536  Sibiricoside A
+D      C17537  Sibiricoside B
+D      C03641  Sterol 3-beta-D-glucoside
+D      C08917  Trigonelloside C
+D      C10796  alpha-Chaconine
+C    Triterpenoid
+D      C08921  Aescin
+D      C08920  Abrusoside A
+D      C08922  Aridanin
+D      C08923  Arvensoside A
+D      C15428  Asiaticoside
+D      C17797  Astragaloside I
+D      C17798  Astragaloside II
+D      C08924  Astragaloside III
+D      C08926  Avenacin A-1
+D      C08930  Azukisaponin III
+D      C08932  Bayogenin 3-O-cellobioside
+D      C08753  Bruceoside A
+D      C08933  Camellidin I
+D      C08934  Camellidin II
+D      C17545  Chikusetsusaponin Ib
+D      C17539  Chikusetsusaponin III
+D      C17540  Chikusetsusaponin IV
+D      C17543  Chikusetsusaponin V
+D      C17804  Clematichinenoside A
+D      C13837  Dehydrosoyasaponin I
+D      C08941  Dianoside A
+D      C02284  Glycyrrhizinate
+D      C08808  Gratiogenin
+D      C08947  Gymnemic acid I
+D      C08949  Gypenoside XXV
+D      C08953  Hederagenin 3-O-arabinoside
+B  Iridoid glycosides
+C    C09765  Agnuside
+C    C17457  Albiflorin
+C    C09767  Amarogentin
+C    C09768  Antirrhinoside
+C    C09769  Asperuloside
+C    C09771  Aucubin
+C    C09773  Catalpol
+C    C09775  Catalposide
+C    C11668  7-Dehydrologanin tetraacetate
+C    C11672  10-Deoxygeniposidic acid
+C    C11664  10-Deoxygeniposide tetraacetate
+C    C11636  7-Deoxyloganate
+C    C11647  Deoxyloganic acid tetraacetate
+C    C11671  Deutzioside
+C    C11667  8-epi-11-Hydroxyiridodial glucoside pentaacetate
+C    C11648  8-Epideoxyloganin
+C    C11649  8-Epideoxyloganic acid
+C    C11650  8-Epideoxyloganin tetraacetate
+C    C11656  8-Epiiridodial glucoside
+C    C11652  8-Epiiridotrial glucoside
+C    C11658  8-Epiiridodial glucoside tetraacetate
+C    C11661  7-Epiloganic acid
+C    C11662  7-Epiloganin tetraacetate
+C    C09779  Gardenoside
+C    C09781  Geniposide
+C    C11673  Geniposidic acid
+C    C09783   Harpagoside
+C    C11659  10-Hydroxyloganin
+C    C11666  11-Hydroxyiridodial glucoside pentaacetate
+C    C11670  Iridodial glucoside
+C    C11653  Iridotrial glucoside
+C    C11657  Iridodial glucoside tetraacetate
+C    C17429  Kanokoside B
+C    C17431  Kanokoside D
+C    C11644  Lamiide
+C    C11645  Lamioside
+C    C17011  Leonuridine
+C    C01512  Loganate
+C    C01433  Loganin
+C    C11663  Loganin pentaacetate
+C    C09784  Ipolamiide
+C    C09788  Monotropein
+C    C12047  Nanchangmycin
+C    C09794  Oleuropein
+C    C09795  Paederoside
+C    C09959  Paeoniflorin
+C    C11640  Patrinoside
+C    C09797  Plumieride
+C    C17450  Rehmaionoside A
+C    C17451  Rehmaionoside B
+C    C17452  Rehmaionoside C
+C    C09798  Scandoside methyl ester
+C    C17634  Schizonepetoside A
+C    C17637  Schizonepetoside D
+C    C17638  Schizonepetoside E
+C    C01957  Secologanate
+C    C01852  Secologanin
+C    C11654  Tarennoside
+C    C17068  Valerosidatum
+C    C09802  Verbenalin
+C    C09802  Verbenalin
+#
+A<b>N-glycosides</b>
+B  C00212  Adenosine
+B  C00008  ADP
+B  C00020  AMP
+B  C00002  ATP
+B  C04302  N-(5-Phospho-D-ribosyl)anthranilate
+B  C22192  Anthelmycin
+B  C01268  5-Amino-6-(5'-phosphoribosylamino)uracil
+B  C11265  8-Azaadenosine
+B  C00055  CMP
+B  C02961  Cytarabine
+B  C00063  CTP
+B  C00239  dCMP
+B  C01304  2,5-Diamino-6-(5-phospho-D-ribosylamino)pyrimidin-4(3H)-one
+B  C05923  2,5-Diaminopyrimidine nucleoside triphosphate
+B  C18910  2,5-Diamino-6-(5-phospho-D-ribitylamino)pyrimidin-4(3H)-one
+B  C15563  2-Amino-5-formylamino-6-(5-phospho-D-ribosylamino)pyrimidin-4(3H)-one
+B  C04640  2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine
+B  C19700  4'-O-Demethylrebeccamycin
+B  C16635  5'-Deoxy-5-fluorocytidine
+B  C04422  N6-Alkylaminopurine-7-beta-D-glucoside
+B  C11104  Hymexazol N-glucoside
+B  C00294  Inosine
+B  C00104  IDP
+B  C00130  IMP
+B  C00081  ITP
+B  C04583  6-Hydroxyl-1,6-dihydropurine ribonucleoside
+B  C16616  6-Mercaptopurine ribonucleoside 5'-diphosphate
+B  C16617  6-Mercaptopurine ribonucleoside triphosphate
+B  C05841  Nicotinate D-ribonucleoside
+B  C15586  N-D-Ribosylpurine
+B  C20463  Purine deoxyribonucleoside
+B  C16745  Spongouridine
+B  C03838  5'-Phosphoribosylglycinamide
+B  C04437  1-(5-Phosphoribosyl)imidazole-4-acetate
+B  C16744  Spongothymidine
+B  C16443  trans-Zeatin-7-beta-D-glucoside
+B  C05513  Urate-3-ribonucleoside
+#
+A<b>S-glycosides</b>
+B  C06836  Auranofin
+B  C06914  Clindamycin
+B  C21594  Clindamycin palmitate
+B  C06812  Lincomycin
+B  C14002  Lincomycin hydrochloride
+B  C02085  Thioglucoside
+B  C17274  Glucobarbarin
+B  C08401  Glucoberteroin
+B  C08412  Glucoiberverin
+B  C05837  Glucobrassicin
+B  C08409  Glucoerucin
+B  C17250  Glucolesquerellin
+B  C08417  Gluconasturtiin
+B  C08418  Glucoputranjivin
+B  C02153  Glucotropaeolin
+B  C01069  Desulfoglucotropeolin
+B  C16517  Indolylmethyl-desulfoglucosinolate
+B  C17244  3-Methylthiopropyl-desulfoglucosinolate
+B  C17248  4-Methylthiobutyl-desulfoglucosinolate
+B  C21650  7-Methylthioheptyl-desulfoglucosinolate
+B  C21746  8-Methylthiooctyl-desulfoglucosinolate
+B  C17254  8-Methylthiooctyl glucosinolate
+B  C17256  2-Methylpropyl glucosinolate
+B  C17240  p-Hydroxybenzyldesulphoglucosinolate
+B  C08422  4-Hydroxyglucobrassicin
+B  C08423  4-Methoxyglucobrassicin
+B  C08424  Neoglucobrassicin
+B  C08425  Progoitrin
+B  C08426  Sinalbin
+B  C08427  Sinigrin
+#
+A<b>C-glycosides</b>
+B  C08994  Aloesin
+B  C10305  Barbaloin
+B  C08996  Biflorin
+B  C11254  Carmine
+B  C10026  Carlinoside
+B  C22193  Dapagliflozin
+B  C22194  Empagliflozin
+B  C10042  Fisetin 8-C-glucoside
+B  C10420  Genistein 8-C-glucoside
+B  C16492  8-C-Glucosylnaringenin
+B  C10067  Irisxanthone
+B  C17778  Isobarbaloin
+B  C16979  Isomangiferin
+B  C01821  Isoorientin
+B  C03870  Isoorientin 2''-O-rhamnoside
+B  C05990  Isoscoparine
+B  C01714  Isovitexin
+B  C04199  Isovitexin 2''-O-beta-D-glucoside
+B  C16491  Isovitexin 2''-O-arabinoside
+B  C12629  Isoswertisin 2''-rhamnoside
+B  C10102  Lucenin-2
+B  C10075  Lancerin
+B  C10077  Mangiferin
+B  C10109  Neocarlinoside
+B  C10110  Neoschaftoside
+B  C10114  Orientin
+B  C10513  Paniculatin
+B  C10524  Puerarin
+B  C17057  Puerarin xyloside
+B  C22195  Pyrazofurin
+B  C08064  Saponarin
+B  C10181  Schaftoside
+B  C22197  Semduramicin
+B  C17834  Spinosin
+B  C10187  Swertiajaponin
+B  C17835  Swertisin
+B  C22196  Tiazofurin
+B  C01460  Vitexin
+B  C04024  Vitexin 2''-O-beta-D-glucoside
+B  C12628  Vitexin 2''-O-beta-L-rhamnoside
+B  C10195  Vicenin-2
+B  C10196  Violanthin
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: October 11, 2019
