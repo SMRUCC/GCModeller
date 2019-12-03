@@ -55,5 +55,10 @@ Public Module CLI
     Public Function eggHTS() As GCModellerApps.eggHTS
         Return GCModellerApps.eggHTS.FromEnvironment(App.HOME)
     End Function
+
+    <ExportAPI("KEGG_tools")>
+    Public Function keggTools() As GCModellerApps.KEGG_tools
+        Return GCModellerApps.KEGG_tools.FromEnvironment(App.HOME)
+    End Function
 End Module
 
