@@ -1,14 +1,41 @@
+imports "gseakit.background" from "gseakit.dll";
+
 require(dataframe);
 
 let union_data <- [];
-let data.dir <- ?"--data";
-let save.csv <- ?"--save" || `${data.dir}/functions.csv`;
+let data.dir   <- ?"--data";
+let save.csv   <- ?"--save" || `${data.dir}/functions.csv`;
 let name as string;
 let data;
+let geneSet as string <- ?"--geneSet" :> readLines;
+let map.id as string;
+let ORF as string;
+let KO.cluster;
+let KO.background <- [?"--KO"] 
+:> read.background 
+:> as.object 
+:> do.call("GetClusterTable")
+:> as.list;
+
+print("KO maps names:");
+print(names(KO.background));
 
 let readData as function(file, tag) {
 	data <- read.dataframe(file, mode = "character");
 	dataset.vector(data, "Database", tag);
+	dataset.vector(data, "Input", dataset.vector(data, "ORF"));
+
+	for(map in data :> projectAs(as.object)) {
+		# map is row in csv file
+		map.id <- map$ID;
+		KO.cluster <- KO.background[[map.id]];
+
+		if (!is.empty(KO.cluster)) {
+			ORF <- geneSet.intersects(KO.cluster, geneSet);
+			map$SetValue("ORF", paste(ORF, "|"));
+		}
+	}
+
 	union_data <- union_data << data;
 }
 
