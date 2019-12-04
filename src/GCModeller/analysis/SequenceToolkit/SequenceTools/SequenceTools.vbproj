@@ -349,6 +349,10 @@
       <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
+      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
+      <Name>Microsoft.VisualBasic.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>

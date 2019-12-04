@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56bc86eea939d67d01d36bab91979c1a, Knowledge_base\Knowledge_base\PubMed\Components\PubDate.vb"
+﻿#Region "Microsoft.VisualBasic::cb066ef0cddb4d6471a16e3bdaaeab71, modules\Knowledge_base\Knowledge_base\PubMed\Components\PubDate.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,13 @@
 
     ' Summaries:
 
-    ' Class PubDate
+    '     Class PubDate
     ' 
-    '     Properties: DateType, Day, Hour, Minute, Month
-    '                 PubStatus, Year
+    '         Properties: DateType, Day, Hour, Minute, Month
+    '                     PubStatus, Year
     ' 
-    '     Function: ToString
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

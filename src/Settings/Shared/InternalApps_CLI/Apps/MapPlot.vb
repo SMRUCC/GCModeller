@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -60,7 +60,12 @@ Public Class MapPlot : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As MapPlot
           Return New MapPlot(App:=directory & "/" & MapPlot.App)
@@ -72,6 +77,7 @@ Public Class MapPlot : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function WriteConfigTemplate(Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Config.Template")
     Call CLI.Append(" ")
@@ -91,6 +97,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DrawMapRegion(gb As String, Optional cog As String = "", Optional size As String = "10240,2048", Optional default_color As String = "brown", Optional gene_draw_height As String = "85", Optional out As String = "", Optional draw_shape_stroke As Boolean = False, Optional disable_level_skip As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/draw.map.region")
     Call CLI.Append(" ")
@@ -129,6 +136,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PlotGC([in] As String, Optional plot As String = "", Optional colors As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Plot.GC")
     Call CLI.Append(" ")
@@ -156,6 +164,9 @@ End Function
 ''' Visualize the blastp result.
 ''' </summary>
 '''
+''' <param name="PTT">
+''' A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.
+''' </param>
 Public Function BBHVisual([in] As String, PTT As String, density As String, Optional limits As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Visual.BBH")
     Call CLI.Append(" ")
@@ -181,6 +192,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function VisualOrthologyProfiles([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/visual.orthology.profiles")
     Call CLI.Append(" ")
@@ -202,6 +214,15 @@ End Function
 ''' Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.
 ''' </summary>
 '''
+''' <param name="genbank">
+''' Provides the target genome coordinates for the blastn map plots.
+''' </param>
+''' <param name="local">
+''' The file for ``/in`` parameter is a local blastn output result file?
+''' </param>
+''' <param name="ORF_catagory">
+''' Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``&lt;TAB&gt;``COG/KOG/GO/KO``
+''' </param>
 Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Optional orf_catagory As String = "", Optional region As String = "", Optional out As String = "", Optional local As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
     Call CLI.Append(" ")
@@ -233,6 +254,9 @@ End Function
 ''' Drawing the chromosomes map from the PTT object as the basically genome information source.
 ''' </summary>
 '''
+''' <param name="COG">
+''' The gene object color definition, you can using this parameter to overrides the cog definition in the PTT file.
+''' </param>
 Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
     Call CLI.Append(" ")
@@ -260,6 +284,7 @@ End Function
 ''' Draw bacterial genome map from genbank annotation dataset.
 ''' </summary>
 '''
+
 Public Function DrawGenbank(gb As String, Optional motifs As String = "", Optional conf As String = "", Optional out As String = "", Optional cog As String = "", Optional hide_mics As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
     Call CLI.Append(" ")

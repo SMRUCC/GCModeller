@@ -78,7 +78,7 @@ Public Module CLI
         Dim uniprot$ = args <= "/uniprot"
         Dim maps$ = args <= "/maps"
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_KO.XML"
-        Dim kegg As IEnumerable(Of Map) = getMapsAuto(maps)
+        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps)
         Dim entries = UniProtXML.EnumerateEntries(uniprot)
         Dim model As Background = GSEA.ImportsUniProt(
             entries,
@@ -97,7 +97,7 @@ Public Module CLI
         Dim size% = args("/size") Or -1
         Dim genomeName$ = args("/genome") Or "Unknown"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.{genomeName.NormalizePathString(True)},size={size}.KOclusters.Xml"
-        Dim kegg As IEnumerable(Of Map) = getMapsAuto(maps)
+        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps)
         Dim define = GSEA.KEGGClusters(kegg)
         Dim model As Background = BBHLibrary.CreateBackground(
             annotations:=[in].LoadCsv(Of BiDirectionalBesthit),
@@ -110,14 +110,6 @@ Public Module CLI
         Return model.GetXml _
             .SaveTo(out) _
             .CLICode
-    End Function
-
-    Private Function getMapsAuto(repository As String) As IEnumerable(Of Map)
-        If repository.DirectoryExists Then
-            Return (ls - l - r - "*.Xml" <= repository).Select(AddressOf LoadXml(Of Map))
-        Else
-            Return repository.LoadXml(Of MapRepository)
-        End If
     End Function
 
     <ExportAPI("/GO.clusters")>

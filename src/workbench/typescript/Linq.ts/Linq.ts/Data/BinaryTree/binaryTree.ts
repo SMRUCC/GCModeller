@@ -32,8 +32,8 @@ namespace algorithm.BTree {
          *                 则只能够针对最基本的数值，逻辑变量进行操作
         */
         constructor(comparer: (a: T, b: T) => number = (a: T, b: T) => {
-            var x: number = DataExtensions.as_numeric(a);
-            var y: number = DataExtensions.as_numeric(b);
+            var x: number = Strings.as_numeric(a);
+            var y: number = Strings.as_numeric(b);
 
             return x - y;
         }) {

@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::811e0a5097b8588cd369649df1cd377f, CLI_tools\MEME\Cli\Regprecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __allRelated, __buildFamily, (+2 Overloads) __compile, __extract, __getEntry
-    '               __getFamily, __isNothing, __mastNoMEME, __upstreamRelated, Build
-    '               BuildFamilyDb, BuildFromMotifSites, CompileMast, CompileMastBuck, CORN
-    '               FoundModules, KEGGFamilyDump, LDMMaxLen, RegulatorsBBh, RegulatorsCompile
-    '               SelectRegulatorsBBH, SiteMappedBack, TCSRegulateModule, TCSRegulations
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __allRelated, __buildFamily, (+2 Overloads) __compile, __extract, __getEntry
+'               __getFamily, __isNothing, __mastNoMEME, __upstreamRelated, Build
+'               BuildFamilyDb, BuildFromMotifSites, CompileMast, CompileMastBuck, CORN
+'               FoundModules, KEGGFamilyDump, LDMMaxLen, RegulatorsBBh, RegulatorsCompile
+'               SelectRegulatorsBBH, SiteMappedBack, TCSRegulateModule, TCSRegulations
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -128,7 +128,7 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim regulog As String = mast.Motifs.name.GetBaseName
+            Dim regulog As String = mast.Motifs.name.BaseName
 
             If source.ContainsKey(regulog) Then
                 regulog = source(regulog)
@@ -160,7 +160,7 @@ Partial Module CLI
         Dim source As String = args.GetValue("/in", GCModeller.FileSystem.GetMotifLDM)
         Dim LDM = (From x As String
                    In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-                   Select x.LoadXml(Of AnnotationModel)(ThrowEx:=False)).ToArray
+                   Select x.LoadXml(Of AnnotationModel)(throwEx:=False)).ToArray
         Dim maxW As Integer = (From x In LDM Select x.Width).Max
         Call $"MaxW in the RegPrecise MAST_LDM is {maxW}bp!".__DEBUG_ECHO
         Return 0
@@ -249,7 +249,7 @@ Partial Module CLI
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
 
         Dim masts = FileIO.FileSystem.GetFiles(args("/source"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .Select(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False))).ToArray
+            .Select(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(throwEx:=False))).ToArray
         masts = (From obj In masts Where Not obj.Value.__isNothing Select obj).ToArray
         Call $"Start compile {masts.Length} mast documents...".__DEBUG_ECHO
         Dim sites As MastSites()  ' 导出扫描得到的位点
@@ -677,11 +677,11 @@ Partial Module CLI
                                     Let brite = pwyBrits(pwy.briteID)
                                     Select brite,
                                         pwy
-                                    Group By brite.Class Into Group).ToArray
+                                    Group By brite.class Into Group).ToArray
                         Select gr.Class,
                             cate = (From pwy In gr.Group
                                     Select pwy
-                                    Group pwy By pwy.brite.Category Into Group).ToArray).ToArray
+                                    Group pwy By pwy.brite.category Into Group).ToArray).ToArray
 
         Call Csv.Add({"Total", MiST2.MajorModules.First.TwoComponent.GetRR.Length})
 

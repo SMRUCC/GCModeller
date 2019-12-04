@@ -1032,7 +1032,7 @@ C    C13938  Cholinephosphorylneogalatriaosylceramide
 B  SP09 Arsenosphingolipids
 B  SP00 Other Sphingolipids
 #
-A<b>ST  Sterol Lipids</b>
+A<b>ST  Sterol lipids</b>
 B  ST01 Sterols
 C    ST0101 Cholesterol and derivatives
 D      C00187  Cholesterol
@@ -1394,7 +1394,7 @@ D      C05463  Taurodeoxycholate
 D      C05465  Taurochenodeoxycholate
 B  ST00 Other Sterol lipids
 #
-A<b>PR  Prenol Lipids</b>
+A<b>PR  Prenol lipids</b>
 B  PR01 Isoprenoids
 C    PR0101 C5 isoprenoids (hemiterpenes)
 D      C00129  Isopentenyl diphosphate

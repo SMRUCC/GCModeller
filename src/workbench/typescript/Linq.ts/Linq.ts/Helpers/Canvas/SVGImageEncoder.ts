@@ -20,7 +20,9 @@
             options.scale = options.scale || 1;
             options.responsive = options.responsive || false;
 
-            inlineImages(el, () => Encoder.doInlineImages(el, options, cb));
+            inlineImages(el, function () {
+                Encoder.doInlineImages(el, options, cb)
+            });
         }
 
         private static doInlineImages(el: SVGSVGElement, options: Options, cb: (html: string | HTMLImageElement, width: number, height: number) => void) {

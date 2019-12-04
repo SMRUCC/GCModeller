@@ -1,9 +1,11 @@
 ﻿/// <reference path="../../../DOM/DOMEnumerator.ts" />
+/// <reference path="./DOMQuery.ts" />
 
 namespace Internal.Handlers {
 
     const events = {
-        onclick: "onclick"
+        onclick: "onclick",
+        onmouseover: "onmouseover"
     }
     const eventFuncNames: string[] = Object.keys(events);
 
@@ -15,7 +17,7 @@ namespace Internal.Handlers {
     /**
      * 这个函数确保给定的id字符串总是以符号``#``开始的
     */
-    export function EnsureNodeId(str: string): string {
+    export function makesureElementIdSelector(str: string): string {
         if (!str) {
             throw "The given node id value is nothing!";
         } else if (str[0] == "#") {
@@ -65,7 +67,7 @@ namespace Internal.Handlers {
             } else if (context instanceof HTMLElement) {
                 nodes = context.querySelectorAll(cssSelector);
             } else {
-                throw `Unsupported context type: ${TypeInfo.getClass(context)}`;
+                throw `Unsupported context type: ${TypeScript.Reflection.getClass(context)}`;
             }
 
             var it = new DOMEnumerator<T>(<any>nodes);
@@ -73,17 +75,15 @@ namespace Internal.Handlers {
             return it;
         }
 
-        doEval(expr: string, type: TypeInfo, args: object): any {
+        doEval(expr: string, type: TypeScript.Reflection.TypeInfo, args: object): any {
             var query: DOM.Query = DOM.Query.parseQuery(expr);
             var argument: Arguments = stringEval.ensureArguments(args);
             // 默认查询的上下文环境为当前的文档
-            var context: Window = argument.context || window;
+            var context: Window | HTMLElement = argument.context || window;
 
             if (query.type == DOM.QueryTypes.id) {
                 // 按照id查询
-                var node: HTMLElement = context
-                    .document
-                    .getElementById(query.expression);
+                var node: HTMLElement = Selector.getElementByIdUnderContext(query.expression, context);
 
                 if (isNullOrUndefined(node)) {
                     if (TypeScript.logging.outputWarning) {
@@ -99,7 +99,7 @@ namespace Internal.Handlers {
                     }
                 }
             } else if (query.type == DOM.QueryTypes.NoQuery) {
-                return stringEval.createNew(expr, argument, context);
+                return stringEval.createNew(expr, argument, <Window>context);
             } else if (!query.singleNode) {
                 return stringEval.select(query.expression, context);
             } else if (query.type == DOM.QueryTypes.QueryMeta) {
@@ -113,9 +113,7 @@ namespace Internal.Handlers {
                 }
 
                 // 只返回第一个满足条件的节点
-                return context
-                    .document
-                    .querySelector(query.expression);
+                return Selector.selectElementsUnderContext(query, context);
             }
         }
 
@@ -163,13 +161,15 @@ namespace Internal.Handlers {
                         node.setAttribute(name, <string>classVals);
                     }
                 } else if (name == "style") {
+                    let stylesheet = attrs[name];
 
-                    if (typeof attrs == "string") {
-                        node.setAttribute(name, attrs);
+                    if (typeof stylesheet == "string") {
+                        // DOM.CSS.Setter.css(node, stylesheet);   
+                        node.setAttribute(name, stylesheet);
                     } else {
                         // node.style是一个只读属性，无法直接赋值
-                        for (var propertyName in attrs) {
-                            node.style[propertyName] = attrs[propertyName];
+                        for (var propertyName in stylesheet) {
+                            node.style[propertyName] = stylesheet[propertyName];
                         }
                     }
                 } else if (name == "visible") {
@@ -179,20 +179,41 @@ namespace Internal.Handlers {
                         node.style.display = "none";
                     }
                 } else {
-                    node.setAttribute(name, <string>attrs[name]);
+                    let attrVal: string = <string>attrs[name];
+
+                    if (name == "src" || name == "href") {
+                        attrVal = Internal.urlSolver(attrVal);
+                    }
+                    node.setAttribute(name, attrVal);
                 }
             }
 
             Arguments.nameFilter(attrs).forEach(name => setAttr(name));
 
-            // 添加事件
-            if (hasKey(attrs, events.onclick)) {
-                let onclick: string | Delegate.Sub = attrs[events.onclick];
+            this.hookEvt(node, events.onclick, attrs);
+            this.hookEvt(node, events.onmouseover, attrs);
+        }
 
-                if (typeof onclick == "string") {
-                    node.setAttribute(events.onclick, onclick);
+        /**
+         * 添加事件
+        */
+        private static hookEvt(node: HTMLElement, evtName: string, attrs: object) {
+            if (hasKey(attrs, evtName)) {
+                let evt: string | Delegate.Sub = attrs[evtName];
+
+                if (typeof evt == "string") {
+                    node.setAttribute(evtName, evt);
                 } else {
-                    node.onclick = onclick;
+                    switch (evtName) {
+                        case events.onclick:
+                            node.onclick = evt;
+                            break;
+                        case events.onmouseover:
+                            node.onmouseover = evt;
+                            break;
+                        default:
+                            TypeScript.logging.log(evtName, TypeScript.ConsoleColors.Yellow);
+                    }
                 }
             }
         }

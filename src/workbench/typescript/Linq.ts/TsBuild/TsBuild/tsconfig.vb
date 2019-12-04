@@ -88,7 +88,7 @@ Public Class tsconfig
 End Class
 
 Public Class compilerOptions
-    Public Property [module] As String
+    Public Property [module] As ModuleTypes
     Public Property target As String
     Public Property [lib] As String()
     Public Property sourceMap As Boolean
@@ -100,3 +100,18 @@ Public Class compilerOptions
     Public Property removeComments As Boolean
     Public Property preserveConstEnums As Boolean
 End Class
+
+''' <summary>
+''' + Only "AMD" and "System" can be used in conjunction with --outFile.
+''' + "ES6" and "ES2015" values may be used when targeting "ES5" or lower.
+''' </summary>
+Public Enum ModuleTypes
+    None
+    CommonJS
+    AMD
+    System
+    UMD
+    ES6
+    ES2015
+    ESNext
+End Enum

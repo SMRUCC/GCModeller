@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7275.29361
+'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/2/2019 4:18:42 PM
 '  // 
 ' 
 ' 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /blastn:                                 Blastn analysis of your DNA sequence on KEGG server for
 '                                           the functional analysis.
 '  /Compile.Model:                          KEGG pathway model compiler
+'  /Compound.Brite.Table:                   
 '  /Compound.Map.Render:                    Render draw of the KEGG pathway map by using a given KEGG
 '                                           compound id list.
 '  /compound.names:                         
@@ -128,7 +129,12 @@ Public Class KEGG_tools : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As KEGG_tools
           Return New KEGG_tools(App:=directory & "/" & KEGG_tools.App)
@@ -141,6 +147,7 @@ Public Class KEGG_tools : Inherits InteropService
 ''' Download 16S rRNA data from KEGG.
 ''' </summary>
 '''
+
 Public Function Download16SRNA(Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/16s_rna")
     Call CLI.Append(" ")
@@ -161,6 +168,7 @@ End Function
 ''' Blastn analysis of your DNA sequence on KEGG server for the functional analysis.
 ''' </summary>
 '''
+
 Public Function Blastn(query As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/blastn")
     Call CLI.Append(" ")
@@ -181,6 +189,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildCompoundsRepository([in] As String, Optional out As String = "", Optional glycan_ignore As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Compounds.Repository")
     Call CLI.Append(" ")
@@ -204,6 +213,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildKORepository(DIR As String, repo As String) As Integer
     Dim CLI As New StringBuilder("/Build.Ko.repository")
     Call CLI.Append(" ")
@@ -223,6 +233,7 @@ End Function
 ''' Package all of the single reaction model file into one data file for make improvements on the data loading.
 ''' </summary>
 '''
+
 Public Function BuildReactionsRepository([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Build.Reactions.Repository")
     Call CLI.Append(" ")
@@ -244,6 +255,7 @@ End Function
 ''' KEGG pathway model compiler
 ''' </summary>
 '''
+
 Public Function Compile(pathway As String, mods As String, sp As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Compile.Model")
     Call CLI.Append(" ")
@@ -262,11 +274,46 @@ End Function
 
 ''' <summary>
 ''' ```bash
+''' /Compound.Brite.Table [/save &lt;table.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function CompoundBriteTable(Optional save As String = "") As Integer
+    Dim CLI As New StringBuilder("/Compound.Brite.Table")
+    Call CLI.Append(" ")
+    If Not save.StringEmpty Then
+            Call CLI.Append("/save " & """" & save & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
 ''' /Compound.Map.Render /list &lt;csv/txt&gt; [/repo &lt;pathwayMap.repository&gt; /scale &lt;default=1&gt; /color &lt;default=red&gt; /out &lt;out.DIR&gt;]
 ''' ```
 ''' Render draw of the KEGG pathway map by using a given KEGG compound id list.
 ''' </summary>
 '''
+''' <param name="list">
+''' A KEGG compound id list that provides the KEGG pathway map rendering source.
+''' </param>
+''' <param name="repo">
+''' A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
+''' </param>
+''' <param name="scale">
+''' The circle radius size of the KEGG compound that rendering on the output pathway map image. By default is no scale.
+''' </param>
+''' <param name="color">
+''' The node color that the KEGG compound rendering on the pathway map.
+''' </param>
+''' <param name="out">
+''' A directory output path that will be using for contains the rendered pathway map image and the summary table file.
+''' </param>
 Public Function CompoundMapRender(list As String, Optional repo As String = "", Optional scale As String = "1", Optional color As String = "red", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Compound.Map.Render")
     Call CLI.Append(" ")
@@ -296,6 +343,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CompoundNames(repo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/compound.names")
     Call CLI.Append(" ")
@@ -316,6 +364,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CutSequence_Upstream([in] As String, PTT As String, org As String, Optional len As String = "", Optional out As String = "", Optional [overrides] As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Cut_sequence.upstream")
     Call CLI.Append(" ")
@@ -340,22 +389,32 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Download.Compounds [/chebi &lt;accessions.tsv&gt; /flat /updates /save &lt;DIR&gt;]
+''' /Download.Compounds [/chebi &lt;accessions.tsv&gt; /reactions &lt;kegg.reactions.repository&gt; /flat /skip.compoundbrite /updates /save &lt;DIR&gt;]
 ''' ```
 ''' Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.
 ''' </summary>
 '''
-Public Function DownloadCompounds(Optional chebi As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional updates As Boolean = False) As Integer
+''' <param name="chebi">
+''' Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
+'''               then you can using this option for downloads the complete compounds data in the KEGG database.
+''' </param>
+Public Function DownloadCompounds(Optional chebi As String = "", Optional reactions As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional skip_compoundbrite As Boolean = False, Optional updates As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Compounds")
     Call CLI.Append(" ")
     If Not chebi.StringEmpty Then
             Call CLI.Append("/chebi " & """" & chebi & """ ")
+    End If
+    If Not reactions.StringEmpty Then
+            Call CLI.Append("/reactions " & """" & reactions & """ ")
     End If
     If Not save.StringEmpty Then
             Call CLI.Append("/save " & """" & save & """ ")
     End If
     If flat Then
         Call CLI.Append("/flat ")
+    End If
+    If skip_compoundbrite Then
+        Call CLI.Append("/skip.compoundbrite ")
     End If
     If updates Then
         Call CLI.Append("/updates ")
@@ -374,6 +433,9 @@ End Function
 ''' Download fasta sequence from KEGG database web api.
 ''' </summary>
 '''
+''' <param name="query">
+''' This file should contains the locus_tag id list for download sequence.
+''' </param>
 Public Function DownloadSequence(query As String, Optional out As String = "", Optional source As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Fasta")
     Call CLI.Append(" ")
@@ -397,6 +459,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadHumanGenes([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.human.genes")
     Call CLI.Append(" ")
@@ -421,6 +484,12 @@ End Function
 ''' Dumping the blank reference KEGG maps database.
 ''' </summary>
 '''
+''' <param name="htext">
+''' The KEGG category term provider
+''' </param>
+''' <param name="out">
+''' A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.
+''' </param>
 Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/download.kegg.maps")
     Call CLI.Append(" ")
@@ -443,6 +512,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadMappedSequence(map As String, Optional out As String = "", Optional nucl As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Mapped.Sequence")
     Call CLI.Append(" ")
@@ -467,6 +537,7 @@ End Function
 ''' Downloads the KEGG gene ortholog annotation data from the web server.
 ''' </summary>
 '''
+
 Public Function DownloadOrthologs(i As String, export As String, Optional sp As String = "", Optional gbk As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Ortholog")
     Call CLI.Append(" ")
@@ -492,6 +563,9 @@ End Function
 ''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
+''' <param name="sp">
+''' The 3 characters kegg organism code, example as: &quot;xcb&quot; is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
+''' </param>
 Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional _set As String = "", Optional kgml As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps")
     Call CLI.Append(" ")
@@ -519,6 +593,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional out As String = "", Optional kgml As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps.Bacteria.All")
     Call CLI.Append(" ")
@@ -544,6 +619,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="sp">
+''' A list of kegg species code. If this parameter is a text file, 
+'''               then each line should be start with the kegg organism code in three or four letters, 
+'''               else if this parameter is a csv table file, then it must in format of kegg organism data model.
+''' </param>
 Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps.Batch")
     Call CLI.Append(" ")
@@ -568,6 +648,9 @@ End Function
 ''' Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.
 ''' </summary>
 '''
+''' <param name="compounds">
+''' If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.
+''' </param>
 Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional save As String = "", Optional _set As String = "", Optional try_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Reaction")
     Call CLI.Append(" ")
@@ -598,6 +681,9 @@ End Function
 ''' /Dumping KEGG organism table in csv file format.
 ''' </summary>
 '''
+''' <param name="res">
+''' By default is fetch table resource from web url: &apos;http://www.kegg.jp/kegg/catalog/org_list.html&apos;.
+''' </param>
 Public Function DumpOrganisms(Optional res As String = "weburl.html", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Dump.sp")
     Call CLI.Append(" ")
@@ -621,6 +707,9 @@ End Function
 ''' Rendering kegg pathway map for enrichment analysis result in local.
 ''' </summary>
 '''
+''' <param name="repo">
+''' A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
+''' </param>
 Public Function EnrichmentMapRender(url As String, Optional repo As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Enrichment.Map.Render")
     Call CLI.Append(" ")
@@ -645,6 +734,7 @@ End Function
 ''' Picks the fasta sequence from the input sequence database by a given species list.
 ''' </summary>
 '''
+
 Public Function GetFastaBySp([in] As String, sp As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Fasta.By.Sp")
     Call CLI.Append(" ")
@@ -666,6 +756,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ProteinMotifs(query As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Get.prot_motif")
     Call CLI.Append(" ")
@@ -686,6 +777,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetsProteinMotifs(query As String, Optional sp As String = "", Optional out As String = "", Optional ptt As Boolean = False, Optional update As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Gets.prot_motif")
     Call CLI.Append(" ")
@@ -715,6 +807,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Glycan2CompoundId(repo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Glycan.compoundId")
     Call CLI.Append(" ")
@@ -736,6 +829,7 @@ End Function
 ''' Imports the KEGG reference pathway map and KEGG orthology data as mysql dumps.
 ''' </summary>
 '''
+
 Public Function ImportsKODatabase(pathways As String, KO As String, Optional save As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.KO")
     Call CLI.Append(" ")
@@ -757,6 +851,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ImportsDb([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.SSDB")
     Call CLI.Append(" ")
@@ -777,6 +872,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function IndexSubMatch(index As String, maps As String, key As String, map As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ko.index.sub.match")
     Call CLI.Append(" ")
@@ -801,6 +897,9 @@ End Function
 ''' Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.
 ''' </summary>
 '''
+''' <param name="out">
+''' If this argument is not presented in the commandline input, then result list will print on the console in tsv format.
+''' </param>
 Public Function TransmembraneKOlist(kgml As String, Optional out As String = "", Optional skip_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KO.list")
     Call CLI.Append(" ")
@@ -825,6 +924,12 @@ End Function
 ''' Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.
 ''' </summary>
 '''
+''' <param name="[imports]">
+''' A directory folder path which contains multiple KEGG reference pathway map xml files.
+''' </param>
+''' <param name="out">
+''' An integral database xml file.
+''' </param>
 Public Function BuildPathwayMapsRepository([imports] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Maps.Repository.Build")
     Call CLI.Append(" ")
@@ -845,6 +950,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.
+''' </param>
 Public Function KEGGOrganismTable(Optional [in] As String = "", Optional out As String = "", Optional bacteria As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Organism.Table")
     Call CLI.Append(" ")
@@ -871,6 +979,7 @@ End Function
 ''' Get a list of gene ids from the given kegg pathway model xml file.
 ''' </summary>
 '''
+
 Public Function PathwayGeneList([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Pathway.geneIDs")
     Call CLI.Append(" ")
@@ -891,6 +1000,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' A directory that created by ``/Download.Pathway.Maps`` command.
+''' </param>
 Public Function CompileGenomePathwayModule([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Pathway.Modules.Build")
     Call CLI.Append(" ")
@@ -915,6 +1027,7 @@ End Function
 ''' Download all of the blank KEGG reference pathway map data. Apply for render KEGG pathway enrichment result or other biological system modelling work.
 ''' </summary>
 '''
+
 Public Function DownloadsAllPathways(Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Pathways.Downloads.All")
     Call CLI.Append(" ")
@@ -934,6 +1047,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function QueryKOAnno([in] As String, Optional out As String = "", Optional evalue As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Query.KO")
     Call CLI.Append(" ")
@@ -960,6 +1074,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ReactionToGeneNames(repo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/reaction.geneNames")
     Call CLI.Append(" ")
@@ -981,6 +1096,9 @@ End Function
 ''' Save the summary information about the specific given kegg organism.
 ''' </summary>
 '''
+''' <param name="code">
+''' The kegg organism brief code.
+''' </param>
 Public Function ShowOrganism(code As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/show.organism")
     Call CLI.Append(" ")
@@ -1001,6 +1119,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Stats([in] As String, locus As String, Optional locus_map As String = "", Optional out As String = "", Optional pathway As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Views.mod_stat")
     Call CLI.Append(" ")
@@ -1029,6 +1148,7 @@ End Function
 ''' Download data from KEGG database to local server.
 ''' </summary>
 '''
+
 Public Function BuildKEGGOrthology(Optional fill_missing As Boolean = False) As Integer
     Dim CLI As New StringBuilder("-Build.KO")
     Call CLI.Append(" ")
@@ -1048,6 +1168,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DumpDb(KEGG_Pathways As String, KEGG_Modules As String, KEGG_Reactions As String, sp As String, out As String) As Integer
     Dim CLI As New StringBuilder("--Dump.Db")
     Call CLI.Append(" ")
@@ -1069,6 +1190,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FunctionAnalysis(i As String) As Integer
     Dim CLI As New StringBuilder("-function.association.analysis")
     Call CLI.Append(" ")
@@ -1086,6 +1208,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetKOAnnotation([in] As String) As Integer
     Dim CLI As New StringBuilder("--Get.KO")
     Call CLI.Append(" ")
@@ -1104,6 +1227,7 @@ End Function
 ''' source and ref should be in KEGG annotation format.
 ''' </summary>
 '''
+
 Public Function GetSource(source As String, ref As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--part.from")
     Call CLI.Append(" ")
@@ -1129,6 +1253,7 @@ End Function
 ''' Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.
 ''' </summary>
 '''
+
 Public Function QueryGenes(keyword As String, o As String) As Integer
     Dim CLI As New StringBuilder("-query")
     Call CLI.Append(" ")
@@ -1147,6 +1272,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function QueryOrthology(keyword As String, o As String) As Integer
     Dim CLI As New StringBuilder("-query.orthology")
     Call CLI.Append(" ")
@@ -1165,6 +1291,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadReferenceMap(id As String, o As String) As Integer
     Dim CLI As New StringBuilder("-query.ref.map")
     Call CLI.Append(" ")
@@ -1183,6 +1310,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadReferenceMapDatabase(o As String) As Integer
     Dim CLI As New StringBuilder("-ref.map.download")
     Call CLI.Append(" ")
@@ -1200,6 +1328,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="i">
+''' This parameter specific the source directory input of the download data.
+''' </param>
 Public Function CreateTABLE(i As String, o As String) As Integer
     Dim CLI As New StringBuilder("-table.create")
     Call CLI.Append(" ")

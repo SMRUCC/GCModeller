@@ -4,12 +4,25 @@
 namespace DOM {
 
     /**
+     * 判断当前的页面是否显示在一个iframe之中
+     * 
+     * https://stackoverflow.com/questions/326069/how-to-identify-if-a-webpage-is-being-loaded-inside-an-iframe-or-directly-into-t
+    */
+    export function inIframe(): boolean {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    /**
      * File download helper
      * 
      * @param name The file save name for download operation
      * @param uri The file object to download
     */
-    export function download(name: string, uri: string): void {
+    export function download(name: string, uri: string | DataURI): void {
         if (navigator.msSaveOrOpenBlob) {
             navigator.msSaveOrOpenBlob(DataExtensions.uriToBlob(uri), name);
         } else {
@@ -17,7 +30,7 @@ namespace DOM {
         }
     }
 
-    function downloadImpl(name: string, uri: string): void {
+    function downloadImpl(name: string, uri: string | DataURI): void {
         var saveLink: HTMLAnchorElement = <any>$ts('<a>');
         var downloadSupported = 'download' in saveLink;
 
@@ -41,12 +54,20 @@ namespace DOM {
                     console.warn('This browser does not support object URLs. Falling back to string URL.');
                 }
 
+                if (typeof uri !== "string") {
+                    uri = DataExtensions.toUri(uri);
+                }
+
                 saveLink.href = uri;
             }
 
             saveLink.click();
             document.body.removeChild(saveLink);
         } else {
+            if (typeof uri !== "string") {
+                uri = DataExtensions.toUri(uri);
+            }
+
             window.open(uri, '_temp', 'menubar=no,toolbar=no,status=no');
         }
     }
@@ -78,7 +99,7 @@ namespace DOM {
         selectName: string = null,
         className: string = null) {
 
-        var options = From(items)
+        var options = $from(items)
             .Select(item => `<option value="${item.value}">${item.key}</option>`)
             .JoinBy("\n");
         var html: string;
@@ -153,7 +174,7 @@ namespace DOM {
         headers: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[] = null,
         attrs: Internal.TypeScriptArgument = null) {
 
-        var id = `${div}-table`;
+        var id = `${Strings.Trim(div, "#")}-table`;
 
         if (attrs) {
             if (!attrs.id) { attrs.id = id; }
@@ -168,19 +189,19 @@ namespace DOM {
      * @param headers ``[propertyName => displayTitle]``
     */
     function headerMaps(headers: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[]): MapTuple<string, string>[] {
-        var type = TypeInfo.typeof(headers);
+        var type = $ts.typeof(headers);
 
-        if (type.IsArrayOf("string")) {
-            return From(<string[]>headers)
+        if (type.isArrayOf("string")) {
+            return $from(<string[]>headers)
                 .Select(h => new MapTuple<string, string>(h, h))
                 .ToArray();
-        } else if (type.IsArrayOf(TypeExtensions.DictionaryMap)) {
+        } else if (type.isArrayOf(TypeExtensions.DictionaryMap)) {
             return <MapTuple<string, string>[]>headers;
-        } else if (type.IsEnumerator && typeof (<IEnumerator<any>>headers).First == "string") {
+        } else if (type.isEnumerator && typeof (<IEnumerator<any>>headers).First == "string") {
             return (<IEnumerator<string>>headers)
                 .Select(h => new MapTuple<string, string>(h, h))
                 .ToArray();
-        } else if (type.IsEnumerator && TypeInfo.getClass((<IEnumerator<any>>headers).First) == TypeExtensions.DictionaryMap) {
+        } else if (type.isEnumerator && TypeScript.Reflection.getClass((<IEnumerator<any>>headers).First) == TypeExtensions.DictionaryMap) {
             return (<IEnumerator<MapTuple<string, string>>>headers).ToArray();
         } else {
             throw `Invalid sequence type: ${type.class}`;

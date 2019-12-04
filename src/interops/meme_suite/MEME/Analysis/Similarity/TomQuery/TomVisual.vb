@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::f59f641c47d34ee962f6118a11aa3e8b, meme_suite\MEME\Analysis\Similarity\TomQuery\TomVisual.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TomVisual
-    ' 
-    '         Function: (+2 Overloads) VisualLevEdit
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TomVisual
+' 
+'         Function: (+2 Overloads) VisualLevEdit
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -73,14 +74,14 @@ Namespace Analysis.Similarity.TOMQuery
                                       edits As DistResult,
                                       Optional alignPrint As Boolean = True) As Image
 
-            Dim logoQuery As Image = SequenceLogoAPI.DrawLogo(query, Margin:=logoMargin, reverse:=True)
-            Dim logoSubject As Image = SequenceLogoAPI.DrawLogo(subject, Margin:=logoMargin)
+            Dim logoQuery As Image = SequenceLogoAPI.DrawLogo(query, Margin:=logoMargin, reverse:=True).AsGDIImage
+            Dim logoSubject As Image = SequenceLogoAPI.DrawLogo(subject, Margin:=logoMargin).AsGDIImage
             Dim gr = New Size(logoSubject.Width + 1500, logoQuery.Width + 2000).CreateGDIDevice
 
-            Call gr.Graphics.DrawImage(logoSubject, New Point(margin + logoQuery.Height + SequenceLogo.WordSize, margin))
+            Call gr.DrawImage(logoSubject, New Point(margin + logoQuery.Height + SequenceLogo.WordSize, margin))
 
             logoQuery = logoQuery.RotateImage(-90)
-            Call gr.Graphics.DrawImage(logoQuery, New Point(margin, margin + logoSubject.Height + SequenceLogo.WordSize))
+            Call gr.DrawImage(logoQuery, New Point(margin, margin + logoSubject.Height + SequenceLogo.WordSize))
 
             If edits Is Nothing Then
                 Return gr.ImageResource

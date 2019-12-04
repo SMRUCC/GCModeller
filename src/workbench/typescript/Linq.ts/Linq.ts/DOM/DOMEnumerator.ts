@@ -9,7 +9,33 @@
 // */
 // createElement<K extends keyof HTMLElementTagNameMap>(tagName: K, options ?: ElementCreationOptions): HTMLElementTagNameMap[K];
 
+/**
+ * A collection of html elements with same tag, name or class
+*/
 class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
+
+    /**
+     * 这个只读属性只返回第一个元素的tagName
+     * 
+     * @summary 这个属性名与html的节点元素对象的tagName属性名称保持一致
+     * 方便进行代码的编写操作
+    */
+    public get tagName(): string {
+        return this.First.tagName;
+    }
+
+    /**
+     * 这个只读属性主要是针对于input输入控件组而言的
+     * 
+     * 在假设控件组都是相同类型的情况下, 这个属性直接返回第一个元素的type值
+    */
+    public get type(): string {
+        if (this.tagName.toLowerCase() == "input") {
+            return (<any>this.First).type;
+        } else {
+            return this.tagName;
+        }
+    }
 
     /**
      * 1. IEnumerator
@@ -24,7 +50,7 @@ class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
      * 这个函数确保所传递进来的集合总是输出一个数组，方便当前的集合对象向其基类型传递数据源
     */
     private static ensureElements<T extends HTMLElement>(elements: T[] | IEnumerator<T> | NodeListOf<T> | HTMLCollection): T[] {
-        var type = TypeInfo.typeof(elements);
+        var type = $ts.typeof(elements);
         var list: T[];
 
         /**

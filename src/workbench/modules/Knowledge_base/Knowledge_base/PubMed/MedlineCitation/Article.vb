@@ -1,98 +1,111 @@
-﻿#Region "Microsoft.VisualBasic::4ac2b6ac754b0e596a47bd9f65b8bc91, Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Article.vb"
+﻿#Region "Microsoft.VisualBasic::600778790ade5f7c87caa2e1d26eed7a, modules\Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Article.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class PMID
-' 
-'     Properties: ID, Version
-' 
-'     Function: ToString
-' 
-' Class Article
-' 
-'     Properties: Abstract, ArticleDate, ArticleTitle, AuthorList, ELocationID
-'                 Journal, Language, Pagination, PublicationTypeList, PubModel
-' 
-'     Function: ToString
-' 
-' Class PublicationTypeList
-' 
-'     Properties: PublicationType
-' 
-' Class AuthorList
-' 
-'     Properties: Authors, CompleteYN
-' 
-' Class Author
-' 
-'     Properties: AffiliationInfo, ForeName, Initials, LastName, ValidYN
-' 
-'     Function: ToString
-' 
-' Class AffiliationInfo
-' 
-'     Properties: Affiliation
-' 
-'     Function: ToString
-' 
-' Class Abstract
-' 
-'     Properties: AbstractText
-' 
-'     Function: ToString
-' 
-' Class ELocationID
-' 
-'     Properties: EIdType, ValidYN, Value
-' 
-'     Function: ToString
-' 
-' Class Pagination
-' 
-'     Properties: MedlinePgn
-' 
-' Class Journal
-' 
-'     Properties: ISOAbbreviation, ISSN, JournalIssue, Title
-' 
-' Class ISSN
-' 
-'     Properties: ID, IssnType
-' 
-' Class JournalIssue
-' 
-'     Properties: CitedMedium, Issue, PubDate, Volume
-' 
-' /********************************************************************************/
+    '     Class PMID
+    ' 
+    '         Properties: ID, Version
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Article
+    ' 
+    '         Properties: Abstract, ArticleDate, ArticleTitle, AuthorList, ELocationID
+    '                     Journal, Language, Pagination, PublicationTypeList, PubModel
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class PublicationTypeList
+    ' 
+    '         Properties: PublicationType
+    ' 
+    '     Class AuthorList
+    ' 
+    '         Properties: Authors, CompleteYN
+    ' 
+    '         Function: GenericEnumerator, GetEnumerator, ToString
+    ' 
+    '     Class Author
+    ' 
+    '         Properties: AffiliationInfo, ForeName, Initials, LastName, ValidYN
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AffiliationInfo
+    ' 
+    '         Properties: Affiliation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AbstractText
+    ' 
+    '         Properties: Label, NlmCategory, Text
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Abstract
+    ' 
+    '         Properties: AbstractText, CopyrightInformation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ELocationID
+    ' 
+    '         Properties: EIdType, ValidYN, Value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Pagination
+    ' 
+    '         Properties: MedlinePgn
+    ' 
+    '     Class Journal
+    ' 
+    '         Properties: ISOAbbreviation, ISSN, JournalIssue, Title
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ISSN
+    ' 
+    '         Properties: ID, IssnType
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class JournalIssue
+    ' 
+    '         Properties: CitedMedium, Issue, PubDate, Volume
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

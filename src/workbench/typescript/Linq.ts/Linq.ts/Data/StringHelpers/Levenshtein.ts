@@ -39,13 +39,17 @@
         d.column(0, Enumerable.Range(0, ns - 1));
         d.row(0, Enumerable.Range(0, nt - 1));
 
-        for (var j: number = 1; j < nt; j++) {
-            for (var i: number = 1; i < ns; i++) {
-                d.M(i, j, Enumerable.Min(
-                    d.M(i - 1, j) + score.delete(src[i - 1]),
-                    d.M(i, j - 1) + score.insert(tar[j - 1]),
-                    d.M(i - 1, j - 1) + score.substitute(src[i - 1], tar[j - 1])
-                ));
+        let del: number;
+        let insert: number;
+        let sub: number;
+
+        for (var j: number = 1; j < ns; j++) {
+            for (var i: number = 1; i < nt; i++) {
+                del = d.M(i - 1, j) + score.delete(src[i - 1]);
+                insert = d.M(i, j - 1) + score.insert(tar[j - 1]);
+                sub = d.M(i - 1, j - 1) + score.substitute(src[i - 1], tar[j - 1]);
+
+                d.M(i, j, Enumerable.Min(del, insert, sub));
             }
         }
 

@@ -1,5 +1,6 @@
 /// <reference path="./Abstract/Enumerator.ts" />
 /// <reference path="../Framework/StackTrace/StackTrace.ts" />
+/// <reference path="../Framework/Reflection/Reflector.ts" />
 
 /**
  * 键值对映射哈希表
@@ -55,7 +56,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
      * 获取这个字典对象之中的所有的键名
     */
     public get Keys(): IEnumerator<string> {
-        return From(Object.keys(this.maps));
+        return $from(Object.keys(this.maps));
     }
 
     /**
@@ -75,7 +76,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
             this.maps = {};
         } else if (Array.isArray(maps)) {
             this.maps = Activator.CreateObject(maps);
-        } else if (TypeInfo.typeof(maps).class == "IEnumerator") {
+        } else if ($ts.typeof(maps).class == "IEnumerator") {
             this.maps = Activator.CreateObject(<IEnumerator<MapTuple<string, V>>>maps);
         } else {
             this.maps = maps;
@@ -98,7 +99,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
      * 将目标对象转换为一个类型约束的映射序列集合
     */
     public static ObjectMaps<V>(maps: object | MapTuple<string, V>[] | IEnumerator<MapTuple<string, V>>): MapTuple<string, V>[] {
-        var type = TypeInfo.typeof(maps);
+        var type = TypeScript.Reflection.$typeof(maps);
 
         if (isNullOrUndefined(maps)) {
             return [];
@@ -109,7 +110,7 @@ class Dictionary<V> extends IEnumerator<MapTuple<string, V>>  {
         } else if (type.class == "IEnumerator") {
             return (<IEnumerator<MapTuple<string, V>>>maps).ToArray();
         } else {
-            return From(Object.keys(maps))
+            return $from(Object.keys(maps))
                 .Select(key => new MapTuple<string, V>(key, maps[key]))
                 .ToArray();
         }
