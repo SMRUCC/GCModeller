@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::b55130b4ea929895b0a91429641fc5dc, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class LocalRender
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
-    '                   IteratesMapNames, (+2 Overloads) Rendering
-    ' 
-    '         Sub: renderCompound, renderGenes
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class LocalRender
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
+'                   IteratesMapNames, (+2 Overloads) Rendering
+' 
+'         Sub: renderCompound, renderGenes
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -61,6 +62,9 @@ Namespace Assembly.KEGG.WebServices
     ''' </summary>
     Public Class LocalRender : Implements IEnumerable(Of Map)
 
+        ''' <summary>
+        ''' Index by map id
+        ''' </summary>
         ReadOnly mapTable As Dictionary(Of String, Map)
         ReadOnly digitMapID As Boolean
 
@@ -82,6 +86,11 @@ Namespace Assembly.KEGG.WebServices
                                   Return pathway.Value
                               End Function)
             digitMapID = digitID
+        End Sub
+
+        Sub New(maps As Dictionary(Of String, Map))
+            mapTable = maps
+            digitMapID = False
         End Sub
 
         ''' <summary>
@@ -158,7 +167,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white", Optional scale$ = "1,1") As Image
             With URLEncoder.URLParser(url)
-                Return Rendering(.Name, .Value, font, textColor, scale)
+                Return Rendering(.name, .value, font, textColor, scale)
             End With
         End Function
 
@@ -181,7 +190,7 @@ Namespace Assembly.KEGG.WebServices
             Dim pen As Brush = textColor.GetBrush
             Dim scaleFactor As SizeF = scale.FloatSizeParser
 
-            Static SimSum As [Default](Of  Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
+            Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
             Using g As Graphics2D = pathway _
                 .GetImage _
@@ -230,13 +239,18 @@ Namespace Assembly.KEGG.WebServices
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
                             Dim titles = x.Names
+
                             Return x.IDVector _
                                 .SeqIterator _
-                                .Select(Function(cpd) New NamedValue(Of Area) With {
-                                    .Name = cpd.value,
-                                    .Value = x,
-                                    .Description = titles(cpd).Value
-                                })
+                                .Select(Function(cpd)
+                                            Dim titleName = titles.ElementAtOrDefault(cpd)
+
+                                            Return New NamedValue(Of Area) With {
+                                                .Name = cpd.value,
+                                                .Value = x,
+                                                .Description = titleName.Value Or cpd.value.AsDefault
+                                            }
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(x) x.Name) _
