@@ -1,4 +1,4 @@
-imports "kegg.repository" from "kegg_kit.dll" 
+imports "kegg.repository" from "kegg_kit.dll"; 
 
 let work.dir as string = !script$dir;
 let save.file as string = `${work.dir}/kegg_prokaryote.csv`;
