@@ -17,9 +17,14 @@ Public Module Repository
     ''' 
     ''' </summary>
     ''' <param name="resource$"></param>
+    ''' <param name="type">
+    ''' 0. all
+    ''' 1. prokaryote
+    ''' 2. eukaryotes
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("fetch.kegg_organism")>
-    Public Function FetchKEGGOrganism(Optional resource$ = "http://www.kegg.jp/kegg/catalog/org_list.html") As Prokaryote()
+    Public Function FetchKEGGOrganism(Optional resource$ = "http://www.kegg.jp/kegg/catalog/org_list.html", Optional type As Integer = 0) As Prokaryote()
         Dim result As KEGGOrganism = EntryAPI.FromResource(resource)
         Dim eukaryotes As List(Of Prokaryote) = result.Eukaryotes _
             .Select(Function(x)
@@ -27,7 +32,15 @@ Public Module Repository
                     End Function) _
             .AsList
 
-        Return result.Prokaryote + eukaryotes
+        If type = 0 Then
+            Return result.Prokaryote + eukaryotes
+        ElseIf type = 1 Then
+            Return result.Prokaryote
+        ElseIf type = 2 Then
+            Return eukaryotes
+        Else
+            Return {}
+        End If
     End Function
 
     <ExportAPI("save.kegg_organism")>
