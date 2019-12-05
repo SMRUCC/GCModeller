@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38281
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:51:30 AM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -209,7 +209,7 @@ Public Class localblast : Inherits InteropService
 ''' Add locus_tag qualifier into the feature slot.
 ''' </summary>
 '''
-''' <param name="add_gene">''' Add gene features?
+''' <param name="add_gene"> Add gene features?
 ''' </param>
 Public Function AddLocusTag(gb As String, prefix As String, Optional out As String = "", Optional add_gene As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/add.locus_tag")
@@ -408,7 +408,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="gi2taxid">''' The 2taxid data source is comes from gi2taxid, by default is acc2taxid.
+''' <param name="gi2taxid"> The 2taxid data source is comes from gi2taxid, by default is acc2taxid.
 ''' </param>
 Public Function BlastnMapsTaxonomy([in] As String, _2taxid As String, Optional tax As String = "", Optional out As String = "", Optional gi2taxid As Boolean = False, Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Blastn.Maps.Taxid")
@@ -441,7 +441,7 @@ End Function
 ''' Using target fasta sequence query against all of the fasta sequence in target direcotry. This function is single thread.
 ''' </summary>
 '''
-''' <param name="thread">''' Is this CLI api running in one of the processor in thread mode for a caller API ``/blastn.Query.All``
+''' <param name="thread"> Is this CLI api running in one of the processor in thread mode for a caller API ``/blastn.Query.All``
 ''' </param>
 Public Function BlastnQuery(query As String, db As String, Optional evalue As String = "", Optional word_size As String = "", Optional out As String = "", Optional thread As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/blastn.Query")
@@ -605,9 +605,9 @@ End Function
 ''' * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.
 ''' </summary>
 '''
-''' <param name="query">''' The protein query fasta file.
+''' <param name="query"> The protein query fasta file.
 ''' </param>
-''' <param name="hit">''' A directory contains the protein sequence fasta files which will be using for bbh search.
+''' <param name="hit"> A directory contains the protein sequence fasta files which will be using for bbh search.
 ''' </param>
 Public Function BlastpBBHQuery(query As String, hit As String, Optional out As String = "", Optional num_threads As String = "", Optional [overrides] As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Blastp.BBH.Query")
@@ -659,7 +659,7 @@ End Function
 ''' COG myva annotation using blastp raw output or exports sbh/bbh table result.
 ''' </summary>
 '''
-''' <param name="simple">''' This flag will change the output file format. 
+''' <param name="simple"> This flag will change the output file format. 
 '''                   If this parameter value is presented, then the tool will outoput a simple tsv file;
 '''                   Otherwise output a csv file with complete COG assign result records.
 ''' </param>
@@ -883,7 +883,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="best">''' Only output the first hit result for each query as best?
+''' <param name="best"> Only output the first hit result for each query as best?
 ''' </param>
 Public Function ExportBlastnMaps([in] As String, Optional out As String = "", Optional best As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.blastnMaps")
@@ -958,11 +958,11 @@ End Function
 ''' Exports large amount of blastn output files and write all data into a specific csv file.
 ''' </summary>
 '''
-''' <param name="best">''' Only export the top best blastn alignment hit?
+''' <param name="best"> Only export the top best blastn alignment hit?
 ''' </param>
-''' <param name="out">''' Blastn alignment maps data.
+''' <param name="out"> Blastn alignment maps data.
 ''' </param>
-''' <param name="[in]">''' The directory path that contains the blastn output data.
+''' <param name="[in]"> The directory path that contains the blastn output data.
 ''' </param>
 Public Function ExportBlastnMapsBatchWrite([in] As String, Optional out As String = "", Optional best As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.blastnMaps.Write")
@@ -988,9 +988,9 @@ End Function
 ''' Export the blastx alignment result into a csv table.
 ''' </summary>
 '''
-''' <param name="top">''' Only output the top first alignment result? Default is not.
+''' <param name="top"> Only output the top first alignment result? Default is not.
 ''' </param>
-''' <param name="[in]">''' The text file content output from the blastx command in NCBI blast+ suite.
+''' <param name="[in]"> The text file content output from the blastx command in NCBI blast+ suite.
 ''' </param>
 Public Function ExportBlastX([in] As String, Optional out As String = "", Optional top As Boolean = False, Optional uncharacterized_exclude As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.BlastX")
@@ -1040,9 +1040,9 @@ End Function
 ''' Export the *.fna, *.faa, *.ptt file from the gbk file.
 ''' </summary>
 '''
-''' <param name="simple">''' Fasta sequence short title, which is just only contains locus_tag
+''' <param name="simple"> Fasta sequence short title, which is just only contains locus_tag
 ''' </param>
-''' <param name="flat">''' If the argument is presented in your commandline input, then all of the files 
+''' <param name="flat"> If the argument is presented in your commandline input, then all of the files 
 '''               will be saved in one directory, otherwise will group by genome locus_tag in seperated folders.
 ''' </param>
 Public Function ExportGenbank(gb As String, Optional out As String = "", Optional flat As Boolean = False, Optional simple As Boolean = False, Optional batch As Boolean = False) As Integer
@@ -1074,7 +1074,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="geneName">''' If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.
+''' <param name="geneName"> If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.
 ''' </param>
 Public Function ExportGenesFasta(gb As String, Optional out As String = "", Optional genename As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.gb.genes")
@@ -1188,9 +1188,9 @@ End Function
 ''' Filter the fasta sequence subset from a larger fasta database by using the regexp for match on the fasta title.
 ''' </summary>
 '''
-''' <param name="key">''' A regexp string term that will be using for title search or file path of a text file contains lines of regexp.
+''' <param name="key"> A regexp string term that will be using for title search or file path of a text file contains lines of regexp.
 ''' </param>
-''' <param name="p">''' Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.
+''' <param name="p"> Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.
 ''' </param>
 Public Function Filter([in] As String, key As String, Optional out As String = "", Optional tokens As Boolean = False, Optional p As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Fasta.Filters")
@@ -1266,7 +1266,7 @@ End Function
 ''' This command required of the blast+ install first.
 ''' </summary>
 '''
-''' <param name="db">''' The fasta database using for COG annotation, which can be download from NCBI ftp: 
+''' <param name="db"> The fasta database using for COG annotation, which can be download from NCBI ftp: 
 '''               &gt; ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz
 ''' </param>
 Public Function InstallCOGDatabase(db As String) As Integer
@@ -1376,13 +1376,13 @@ End Function
 ''' Export the protein sequence And save as fasta format from the uniprot database dump XML.
 ''' </summary>
 '''
-''' <param name="sp">''' The organism scientific name.
+''' <param name="sp"> The organism scientific name.
 ''' </param>
-''' <param name="uniprot">''' The Uniprot protein database in XML file format.
+''' <param name="uniprot"> The Uniprot protein database in XML file format.
 ''' </param>
-''' <param name="exclude">''' Exclude the specific organism by ``/sp`` scientific name instead of only include it?
+''' <param name="exclude"> Exclude the specific organism by ``/sp`` scientific name instead of only include it?
 ''' </param>
-''' <param name="out">''' The saved file path for output protein sequence fasta file. The title format of this command output Is ``uniprot_id fullName``
+''' <param name="out"> The saved file path for output protein sequence fasta file. The title format of this command output Is ``uniprot_id fullName``
 ''' </param>
 Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.EXPORT")
@@ -1411,16 +1411,16 @@ End Function
 ''' Protein COG annotation by using NCBI cog2003-2014.fasta database.
 ''' </summary>
 '''
-''' <param name="db">''' The file path to the database fasta file.
+''' <param name="db"> The file path to the database fasta file.
 '''               If you have config the cog2003-2014 database previously, then this argument can be omitted.
 ''' </param>
-''' <param name="blast_">''' The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.
+''' <param name="blast_"> The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.
 ''' </param>
-''' <param name="all">''' For export the bbh result, export all match or only the top best? default is only top best.
+''' <param name="all"> For export the bbh result, export all match or only the top best? default is only top best.
 ''' </param>
-''' <param name="evalue">''' blastp e-value cutoff.
+''' <param name="evalue"> blastp e-value cutoff.
 ''' </param>
-''' <param name="out">''' The output directory for the work files.
+''' <param name="out"> The output directory for the work files.
 ''' </param>
 Public Function COG2003_2014(query As String, Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional db As String = "", Optional blast_ As String = "", Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/query.cog2003-2014")
@@ -1461,9 +1461,9 @@ End Function
 ''' If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.
 ''' </summary>
 '''
-''' <param name="[in]">''' This input data should have a column named ``taxid`` for the taxonomy information.
+''' <param name="[in]"> This input data should have a column named ``taxid`` for the taxonomy information.
 ''' </param>
-''' <param name="fill_empty">''' If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.
+''' <param name="fill_empty"> If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.
 ''' </param>
 ''' <param name="OTU">
 ''' </param>
@@ -1568,11 +1568,11 @@ End Function
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-''' <param name="trim_KEGG">''' If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.
+''' <param name="trim_KEGG"> If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.
 ''' </param>
-''' <param name="out">''' The sbh result output csv file location.
+''' <param name="out"> The sbh result output csv file location.
 ''' </param>
-''' <param name="[in]">''' The blastp raw result input file path.
+''' <param name="[in]"> The blastp raw result input file path.
 ''' </param>
 Public Function ExportSBHLargeSize([in] As String, Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional top_best As Boolean = False, Optional trim_kegg As Boolean = False, Optional keeps_raw_queryname As Boolean = False, Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SBH.Export.Large")
@@ -1672,11 +1672,11 @@ End Function
 ''' Export bbh result from the sbh pairs.
 ''' </summary>
 '''
-''' <param name="identities">''' Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.
+''' <param name="identities"> Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.
 ''' </param>
-''' <param name="coverage">''' Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.
+''' <param name="coverage"> Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.
 ''' </param>
-''' <param name="trim">''' If this option was enabled, then the queryName and hitname will be trimed by using space and the first token was taken as the name ID.
+''' <param name="trim"> If this option was enabled, then the queryName and hitname will be trimed by using space and the first token was taken as the name ID.
 ''' </param>
 Public Function BBHExport2(qvs As String, svq As String, Optional query_pattern As String = "-", Optional hit_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional trim As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/sbh2bbh")
@@ -1853,13 +1853,13 @@ End Function
 ''' Assign KO number to query from Uniprot reference sequence database alignment result.
 ''' </summary>
 '''
-''' <param name="[in]">''' The sbh result of the alignment: query vs uniprot.KO.
+''' <param name="[in]"> The sbh result of the alignment: query vs uniprot.KO.
 ''' </param>
-''' <param name="bbh">''' If this argument is presents in the cli input, then it means we use the bbh method for assign the KO number to query. 
+''' <param name="bbh"> If this argument is presents in the cli input, then it means we use the bbh method for assign the KO number to query. 
 '''               Both ``/in`` and ``/bbh`` is not top best selection output. The input file for this argument should be the result of ``/SBH.Export.Large``
 '''               command, and ``/keeps_raw.queryName`` option should be enabled for keeps the taxonomy information.
 ''' </param>
-''' <param name="out">''' Use the eggHTS command ``/proteins.KEGG.plot`` for export the final KO number assignment result table.
+''' <param name="out"> Use the eggHTS command ``/proteins.KEGG.plot`` for export the final KO number assignment result table.
 ''' </param>
 Public Function UniProtKOAssign([in] As String, Optional bbh As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.KO.assign")
@@ -1885,13 +1885,13 @@ End Function
 ''' Export all of the protein sequence from the Uniprot database which have KO number been assigned.
 ''' </summary>
 '''
-''' <param name="[in]">''' The Uniprot database which is downloaded from the Uniprot website or ftp site. 
+''' <param name="[in]"> The Uniprot database which is downloaded from the Uniprot website or ftp site. 
 '''               NOTE: this argument could be a file name list for export multiple database file, 
 '''               each file should located in current directory and all of the sequence in given 
 '''               file names will export into one fasta sequence file. 
 '''               File names should be seperated by comma symbol as delimiter.
 ''' </param>
-''' <param name="out">''' The file path of the export protein sequence, title of each sequence consist with these fields: ``KO|uniprot_id fullName|scientificName``
+''' <param name="out"> The file path of the export protein sequence, title of each sequence consist with these fields: ``KO|uniprot_id fullName|scientificName``
 ''' </param>
 Public Function ExportKOFromUniprot([in] As String, Optional linebreak As String = "120", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.KO.faa")
@@ -1917,7 +1917,7 @@ End Function
 ''' 2. Build venn table And bbh data from the blastp result out Or sbh data cache.
 ''' </summary>
 '''
-''' <param name="skip_load">''' If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.
+''' <param name="skip_load"> If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.
 ''' </param>
 Public Function VennBBH([imports] As String, Optional query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional skip_load As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/venn.BBH")
@@ -1955,11 +1955,11 @@ End Function
 ''' Completely paired combos blastp bbh operations for the venn diagram Or network builder.
 ''' </summary>
 '''
-''' <param name="num_threads">''' The number of the parallel blast task in this command, set this argument ZERO for single thread. default value Is -1 which means the number of the blast threads Is determined by system automatically.
+''' <param name="num_threads"> The number of the parallel blast task in this command, set this argument ZERO for single thread. default value Is -1 which means the number of the blast threads Is determined by system automatically.
 ''' </param>
-''' <param name="all">''' If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.
+''' <param name="all"> If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.
 ''' </param>
-''' <param name="query">''' Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.
+''' <param name="query"> Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.
 ''' </param>
 Public Function vennBlastAll(query As String, Optional out As String = "", Optional num_threads As String = "", Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional [overrides] As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/venn.BlastAll")
@@ -2001,7 +2001,7 @@ End Function
 ''' And this batch function is suitable with any scale of the blastp sbh data output.
 ''' </summary>
 '''
-''' <param name="num_threads">''' The number of the sub process thread. -1 value is stands for auto config by the system.
+''' <param name="num_threads"> The number of the sub process thread. -1 value is stands for auto config by the system.
 ''' </param>
 Public Function VennCache([imports] As String, Optional out As String = "", Optional coverage As String = "", Optional identities As String = "", Optional num_threads As String = "", Optional [overrides] As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/venn.cache")
@@ -2088,7 +2088,7 @@ End Function
 ''' Batch export bbh result data from a directory.
 ''' </summary>
 '''
-''' <param name="all">''' If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.
+''' <param name="all"> If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.
 ''' </param>
 Public Function ExportBBH([in] As String, Optional out As String = "", Optional single_query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--bbh.export")

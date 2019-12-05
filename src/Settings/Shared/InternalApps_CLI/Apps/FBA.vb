@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38281
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:51:30 AM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -422,22 +422,22 @@ End Function
 ''' solve a FBA model from a specific (SBML) model file.
 ''' </summary>
 '''
-''' <param name="i">''' 
+''' <param name="i"> 
 ''' </param>
-''' <param name="o">''' The directory for the output result.
+''' <param name="o"> The directory for the output result.
 ''' </param>
-''' <param name="m">''' 
+''' <param name="m"> 
 ''' </param>
-''' <param name="f">''' Optional, Set up the objective function for the fba linear programming problem, its value can be a expression, default or all.
+''' <param name="f"> Optional, Set up the objective function for the fba linear programming problem, its value can be a expression, default or all.
 '''  &lt;expression&gt; - a user specific expression for objective function, it can be a expression or a text file name if the first character is @ in the switch value.
 '''  default - the program generate the objective function using the objective coefficient value which defines in each reaction object;
 '''  all - set up all of the reaction objective coeffecient factor to 1, which means all of the reaction flux will use for objective function generation.
 ''' </param>
-''' <param name="d">''' Optional, the constraint direction of the objective function for the fba linear programming problem, 
+''' <param name="d"> Optional, the constraint direction of the objective function for the fba linear programming problem, 
 ''' if this switch option is not specific by the user then the program will use the direction which was defined in the FBA model file 
 ''' else if use specific this switch value then the user specific value will override the direction value in the FBA model.
 ''' </param>
-''' <param name="knock_out">''' Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file.
+''' <param name="knock_out"> Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file.
 ''' value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.
 ''' </param>
 Public Function Solve(i As String, o As String, d As String, Optional m As String = "", Optional f As String = "", Optional knock_out As String = "") As Integer
@@ -468,13 +468,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="objective">''' A name list of the target reaction names, which this file format should be in one line one ID. 
+''' <param name="objective"> A name list of the target reaction names, which this file format should be in one line one ID. 
 '''               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.
 ''' </param>
-''' <param name="trim">''' Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
+''' <param name="trim"> Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
 '''               virtual cell model? By default is retain these reactions.
 ''' </param>
-''' <param name="mute">''' + If this parameter is a file path, then locus_tag should be one tag per line in the text file;
+''' <param name="mute"> + If this parameter is a file path, then locus_tag should be one tag per line in the text file;
 '''               + And this parameter is also can be a id list, which the id should seperated by comma symbol, format like: ``id1,id2,id3``.
 ''' </param>
 Public Function SolveGCMarkup(model As String, Optional mute As String = "", Optional objective As String = "", Optional out As String = "", Optional trim As Boolean = False) As Integer
@@ -506,7 +506,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="objs">''' This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
+''' <param name="objs"> This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
 '''                    and these genes locus is associated to a enzyme reaction in the FBA model.
 ''' </param>
 Public Function KEGGSolver([in] As String, objs As String, Optional out As String = "") As Integer
@@ -530,7 +530,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="obj_type">''' The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.
+''' <param name="obj_type"> The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.
 ''' </param>
 Public Function AnalysisPhenotype([in] As String, reg As String, obj As String, Optional obj_type As String = "", Optional params As String = "", Optional stat As String = "", Optional sample As String = "", Optional modify As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Solver.rFBA")
@@ -569,7 +569,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="gene">''' The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.
+''' <param name="gene"> The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.
 ''' </param>
 Public Function VisualKEGGPathways(model As String, maps As String, Optional gene As String = "red", Optional plasmid_highlight As String = "blue", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/visual.kegg.pathways")
@@ -599,21 +599,21 @@ End Function
 ''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
 ''' </summary>
 '''
-''' <param name="i">''' The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch &apos;-if&apos;
+''' <param name="i"> The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch &apos;-if&apos;
 ''' </param>
-''' <param name="o">''' The output file path of the compiled model file.
+''' <param name="o"> The output file path of the compiled model file.
 ''' </param>
-''' <param name="[if]">''' Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc.
+''' <param name="[if]"> Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc.
 '''  metacyc - the input compiled data source is a metacyc database;
 ''' sbml - the input compiled data source is a standard sbml language model in level 2.
 ''' </param>
-''' <param name="[of]">''' Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model.
+''' <param name="[of]"> Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model.
 '''  fba - the output compiled model is a standard fba model;
 ''' fba2 - the output compiled model is a advanced version of fba model.
 ''' </param>
-''' <param name="f">''' Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.
+''' <param name="f"> Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.
 ''' </param>
-''' <param name="d">''' Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function.
+''' <param name="d"> Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function.
 '''  max - the constraint direction is maximum;
 '''  min - the constraint direction is minimum.
 ''' </param>

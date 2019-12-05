@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38281
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:51:30 AM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -397,7 +397,7 @@ End Function
 ''' 3 - Generates the regulation footprints.
 ''' </summary>
 '''
-''' <param name="extract">''' Extract the DOOR operon when the regulated gene is the first gene of the operon.
+''' <param name="extract"> Extract the DOOR operon when the regulated gene is the first gene of the operon.
 ''' </param>
 Public Function ToFootprints(footprints As String, coor As String, DOOR As String, maps As String, Optional out As String = "", Optional cuts As String = "", Optional extract As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Footprints")
@@ -617,9 +617,9 @@ End Function
 ''' Batch meme task by using tmod toolbox.
 ''' </summary>
 '''
-''' <param name="[in]">''' A directory path which contains the fasta sequence for the meme motifs analysis.
+''' <param name="[in]"> A directory path which contains the fasta sequence for the meme motifs analysis.
 ''' </param>
-''' <param name="out">''' A directory path which outputs the meme.txt data to that directory.
+''' <param name="out"> A directory path which outputs the meme.txt data to that directory.
 ''' </param>
 Public Function MEMEBatch([in] As String, Optional out As String = "", Optional evalue As String = "", Optional nmotifs As String = "", Optional [mod] As String = "", Optional maxw As String = "") As Integer
     Dim CLI As New StringBuilder("/MEME.Batch")
@@ -703,9 +703,9 @@ End Function
 ''' Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
-''' <param name="loci">''' The motif site info data set, type Is simple segment.
+''' <param name="loci"> The motif site info data set, type Is simple segment.
 ''' </param>
-''' <param name="motifs">''' A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory
+''' <param name="motifs"> A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory
 ''' </param>
 Public Function MotifInfo(loci As String, Optional motifs As String = "", Optional gff As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Info")
@@ -737,9 +737,9 @@ End Function
 ''' [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
-''' <param name="motifs">''' Regulogs.Xml source directory
+''' <param name="motifs"> Regulogs.Xml source directory
 ''' </param>
-''' <param name="num_threads">''' Default Is -1, means auto config of the threads number.
+''' <param name="num_threads"> Default Is -1, means auto config of the threads number.
 ''' </param>
 Public Function MotifInfoBatch([in] As String, gffs As String, Optional motifs As String = "", Optional num_threads As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Info.Batch")
@@ -966,7 +966,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="family">''' Group the source by family? Or output the source in one fasta set
+''' <param name="family"> Group the source by family? Or output the source in one fasta set
 ''' </param>
 Public Function ParserNextIterator([in] As String, PTT As String, Optional out As String = "", Optional offset As String = "", Optional family As Boolean = False, Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Parser.Operon")
@@ -999,11 +999,11 @@ End Function
 ''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
-''' <param name="kegg_pathways">''' DBget fetch result from ``kegg_tools``.
+''' <param name="kegg_pathways"> DBget fetch result from ``kegg_tools``.
 ''' </param>
-''' <param name="src">''' The genome proteins gene coordination data file. It can be download from NCBI web site.
+''' <param name="src"> The genome proteins gene coordination data file. It can be download from NCBI web site.
 ''' </param>
-''' <param name="locus">''' Only works when ``/DOOR`` file was presented.
+''' <param name="locus"> Only works when ``/DOOR`` file was presented.
 ''' </param>
 Public Function PathwayParser(KEGG_Pathways As String, src As String, Optional door As String = "", Optional locus As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway")
@@ -1288,11 +1288,11 @@ End Function
 ''' Doing the regulon reconstruction job in batch mode.
 ''' </summary>
 '''
-''' <param name="bbh">''' A directory which contains the bbh export csv data from the localblast tool.
+''' <param name="bbh"> A directory which contains the bbh export csv data from the localblast tool.
 ''' </param>
-''' <param name="genome">''' The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.
+''' <param name="genome"> The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.
 ''' </param>
-''' <param name="door">''' Door file which is the prediction data of the bacterial operon.
+''' <param name="door"> Door file which is the prediction data of the bacterial operon.
 ''' </param>
 Public Function RegulonReconstructs(bbh As String, genome As String, Optional door As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulon.Reconstructs")
@@ -1405,7 +1405,7 @@ End Function
 ''' [MAST.Xml] -&gt; [SimpleSegment]
 ''' </summary>
 '''
-''' <param name="batch">''' If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.
+''' <param name="batch"> If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.
 ''' </param>
 Public Function SiteMASTScan(mast As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Site.MAST_Scan")
@@ -1606,7 +1606,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="no_HTML">''' If this parameter is true, then only the XML result will be export.
+''' <param name="no_HTML"> If this parameter is true, then only the XML result will be export.
 ''' </param>
 Public Function SWTomQuery(query As String, Optional out As String = "", Optional method As String = "", Optional bits_level As String = "", Optional minw As String = "", Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Query")
@@ -1640,7 +1640,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="no_HTML">''' If this parameter is true, then only the XML result will be export.
+''' <param name="no_HTML"> If this parameter is true, then only the XML result will be export.
 ''' </param>
 Public Function SWTomQueryBatch(query As String, Optional out As String = "", Optional sw_offset As String = "", Optional method As String = "", Optional bits_level As String = "", Optional minw As String = "", Optional sw_threshold As String = "", Optional tom_threshold As String = "", Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Query.Batch")
@@ -1930,7 +1930,7 @@ End Function
 ''' Genome wide step 2
 ''' </summary>
 '''
-''' <param name="DOOR_extract">''' Extract the operon structure genes after assign the operon information.
+''' <param name="DOOR_extract"> Extract the operon structure genes after assign the operon information.
 ''' </param>
 Public Function Build(bbh As String, mast As String, Optional cutoff As String = "", Optional out As String = "", Optional sp As String = "", Optional door As String = "", Optional door_extract As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--build.Regulations")
@@ -2015,7 +2015,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">''' The RegPrecise formated title fasta file.
+''' <param name="[in]"> The RegPrecise formated title fasta file.
 ''' </param>
 Public Function KEGGFamilyDump([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--Dump.KEGG.Family")
@@ -2230,7 +2230,7 @@ End Function
 ''' Genome wide step 1
 ''' </summary>
 '''
-''' <param name="no_meme">''' Specific that the mast site construction will without and meme pwm MAST_LDM model.
+''' <param name="no_meme"> Specific that the mast site construction will without and meme pwm MAST_LDM model.
 ''' </param>
 Public Function CompileMastBuck(source As String, Optional ptt As String = "", Optional atg_dist As String = "", Optional p_value As String = "", Optional mast_ldm As String = "", Optional no_meme As Boolean = False, Optional no_reginfo As Boolean = False, Optional related_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("mast.compile.bulk")
@@ -2271,7 +2271,7 @@ End Function
 ''' Exports the Venn diagram model for the module regulations.
 ''' </summary>
 '''
-''' <param name="[in]">''' The footprints data required of fill out the pathway Class, category and type information before you call this function.
+''' <param name="[in]"> The footprints data required of fill out the pathway Class, category and type information before you call this function.
 '''                    If the fields is blank, then your should specify the /mods parameter.
 ''' </param>
 Public Function ModuleRegulates([in] As String, Optional out As String = "", Optional mods As String = "") As Integer
@@ -2375,7 +2375,7 @@ End Function
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
 '''
-''' <param name="regulons">''' The data source of the /bbh parameter is comes from the regulons bbh data.
+''' <param name="regulons"> The data source of the /bbh parameter is comes from the regulons bbh data.
 ''' </param>
 Public Function RegulatorsBBh(bbh As String, Optional save As String = "", Optional maps As String = "", Optional direct As Boolean = False, Optional regulons As Boolean = False) As Integer
     Dim CLI As New StringBuilder("regulators.bbh")
@@ -2406,7 +2406,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="len">''' If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.
+''' <param name="len"> If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.
 ''' </param>
 Public Function SiteMatch(meme As String, mast As String, out As String, Optional ptt As String = "", Optional len As String = "") As Integer
     Dim CLI As New StringBuilder("--site.Match")

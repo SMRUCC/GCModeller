@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38281
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:51:30 AM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -91,11 +91,11 @@ Public Class gcc : Inherits InteropService
 '''
 ''' <param name="regulations">
 ''' </param>
-''' <param name="[in]">''' The genome annotation data in genbank format, apply for the genome data modelling which target genome is not yet published to public.
+''' <param name="[in]"> The genome annotation data in genbank format, apply for the genome data modelling which target genome is not yet published to public.
 ''' </param>
-''' <param name="maps">''' The KEGG reference pathway data repository, not the data repository for Map render data.
+''' <param name="maps"> The KEGG reference pathway data repository, not the data repository for Map render data.
 ''' </param>
-''' <param name="location_as_locus_tag">''' If the target genome for create the VirtualCell model is not yet publish on NCBI, 
+''' <param name="location_as_locus_tag"> If the target genome for create the VirtualCell model is not yet publish on NCBI, 
 '''               then it have no formal locus_tag id assigned for the genes yet, so you can enable this option 
 '''               for telling the model compiler use the genes&apos; genome coordinate value as its unique locus_tag 
 '''               id value.
@@ -134,9 +134,9 @@ End Function
 ''' Create GCModeller virtual cell data model from KEGG organism pathway data
 ''' </summary>
 '''
-''' <param name="kegg">''' A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.
+''' <param name="kegg"> A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.
 ''' </param>
-''' <param name="[in]">''' A NCBI genbank file that contains the genomics data. If the genome contains multiple replicon like plasmids, 
+''' <param name="[in]"> A NCBI genbank file that contains the genomics data. If the genome contains multiple replicon like plasmids, 
 '''               you can union all of the replicon data into one genbankfile and then using this union file as this input argument.
 ''' </param>
 Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer
@@ -167,7 +167,7 @@ End Function
 ''' Export cellular module network from virtual cell model file for cytoscape visualization.
 ''' </summary>
 '''
-''' <param name="pathway">''' Apply a pathway module filter on the network model, only the gene contains in the given pathway list then will be output to user. 
+''' <param name="pathway"> Apply a pathway module filter on the network model, only the gene contains in the given pathway list then will be output to user. 
 '''               By default is export all. Pathway id should be a KO pathway id list, like ``ko04146,ko02010``, and id was seperated by comma symbol.
 ''' </param>
 Public Function ExportModelGraph(model As String, Optional pathway As String = "none", Optional degree As String = "1", Optional out As String = "", Optional disable_trim As Boolean = False) As Integer
@@ -308,13 +308,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="rulefile">''' a file contains some protein interaction rules
+''' <param name="rulefile"> a file contains some protein interaction rules
 ''' </param>
-''' <param name="db">''' original database for the target compiled model
+''' <param name="db"> original database for the target compiled model
 ''' </param>
-''' <param name="model">''' Target model file for adding some new rules
+''' <param name="model"> Target model file for adding some new rules
 ''' </param>
-''' <param name="grep">''' If null then the system will using the MeatCyc database unique-id parsing method as default.
+''' <param name="grep"> If null then the system will using the MeatCyc database unique-id parsing method as default.
 ''' </param>
 Public Function AddRule(rulefile As String, db As String, model As String, Optional grep As String = "") As Integer
     Dim CLI As New StringBuilder("-add_rule")
@@ -339,9 +339,9 @@ End Function
 ''' compile a metacyc database into a gcml(genetic clock markup language) model file.
 ''' </summary>
 '''
-''' <param name="i">''' 
+''' <param name="i"> 
 ''' </param>
-''' <param name="o">''' 
+''' <param name="o"> 
 ''' </param>
 Public Function CompileMetaCyc(i As String, o As String) As Integer
     Dim CLI As New StringBuilder("compile_metacyc")

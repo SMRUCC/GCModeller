@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38281
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:51:30 AM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -300,15 +300,15 @@ End Function
 ''' Render draw of the KEGG pathway map by using a given KEGG compound id list.
 ''' </summary>
 '''
-''' <param name="list">''' A KEGG compound id list that provides the KEGG pathway map rendering source.
+''' <param name="list"> A KEGG compound id list that provides the KEGG pathway map rendering source.
 ''' </param>
-''' <param name="repo">''' A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
+''' <param name="repo"> A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
 ''' </param>
-''' <param name="scale">''' The circle radius size of the KEGG compound that rendering on the output pathway map image. By default is no scale.
+''' <param name="scale"> The circle radius size of the KEGG compound that rendering on the output pathway map image. By default is no scale.
 ''' </param>
-''' <param name="color">''' The node color that the KEGG compound rendering on the pathway map.
+''' <param name="color"> The node color that the KEGG compound rendering on the pathway map.
 ''' </param>
-''' <param name="out">''' A directory output path that will be using for contains the rendered pathway map image and the summary table file.
+''' <param name="out"> A directory output path that will be using for contains the rendered pathway map image and the summary table file.
 ''' </param>
 Public Function CompoundMapRender(list As String, Optional repo As String = "", Optional scale As String = "1", Optional color As String = "red", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Compound.Map.Render")
@@ -390,7 +390,7 @@ End Function
 ''' Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.
 ''' </summary>
 '''
-''' <param name="chebi">''' Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
+''' <param name="chebi"> Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
 '''               then you can using this option for downloads the complete compounds data in the KEGG database.
 ''' </param>
 Public Function DownloadCompounds(Optional chebi As String = "", Optional reactions As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional skip_compoundbrite As Boolean = False, Optional updates As Boolean = False) As Integer
@@ -428,7 +428,7 @@ End Function
 ''' Download fasta sequence from KEGG database web api.
 ''' </summary>
 '''
-''' <param name="query">''' This file should contains the locus_tag id list for download sequence.
+''' <param name="query"> This file should contains the locus_tag id list for download sequence.
 ''' </param>
 Public Function DownloadSequence(query As String, Optional out As String = "", Optional source As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Fasta")
@@ -478,9 +478,9 @@ End Function
 ''' Dumping the blank reference KEGG maps database.
 ''' </summary>
 '''
-''' <param name="htext">''' The KEGG category term provider
+''' <param name="htext"> The KEGG category term provider
 ''' </param>
-''' <param name="out">''' A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.
+''' <param name="out"> A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.
 ''' </param>
 Public Function HumanKEGGMaps(Optional htext As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/download.kegg.maps")
@@ -555,7 +555,7 @@ End Function
 ''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
-''' <param name="sp">''' The 3 characters kegg organism code, example as: &quot;xcb&quot; is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
+''' <param name="sp"> The 3 characters kegg organism code, example as: &quot;xcb&quot; is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
 ''' </param>
 Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional _set As String = "", Optional kgml As Boolean = False, Optional debug As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps")
@@ -613,7 +613,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="sp">''' A list of kegg species code. If this parameter is a text file, 
+''' <param name="sp"> A list of kegg species code. If this parameter is a text file, 
 '''               then each line should be start with the kegg organism code in three or four letters, 
 '''               else if this parameter is a csv table file, then it must in format of kegg organism data model.
 ''' </param>
@@ -641,7 +641,7 @@ End Function
 ''' Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.
 ''' </summary>
 '''
-''' <param name="compounds">''' If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.
+''' <param name="compounds"> If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.
 ''' </param>
 Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional save As String = "", Optional _set As String = "", Optional try_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Reaction")
@@ -673,7 +673,7 @@ End Function
 ''' Dump all of the KEGG organism and write table data in csv file format.
 ''' </summary>
 '''
-''' <param name="res">''' By default is fetch table resource from web url: &apos;http://www.kegg.jp/kegg/catalog/org_list.html&apos;.
+''' <param name="res"> By default is fetch table resource from web url: &apos;http://www.kegg.jp/kegg/catalog/org_list.html&apos;.
 ''' </param>
 Public Function DumpOrganisms(Optional res As String = "weburl.html", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Dump.sp")
@@ -698,7 +698,7 @@ End Function
 ''' Rendering kegg pathway map for enrichment analysis result in local.
 ''' </summary>
 '''
-''' <param name="repo">''' A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
+''' <param name="repo"> A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
 ''' </param>
 Public Function EnrichmentMapRender(url As String, Optional repo As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Enrichment.Map.Render")
@@ -887,7 +887,7 @@ End Function
 ''' Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.
 ''' </summary>
 '''
-''' <param name="out">''' If this argument is not presented in the commandline input, then result list will print on the console in tsv format.
+''' <param name="out"> If this argument is not presented in the commandline input, then result list will print on the console in tsv format.
 ''' </param>
 Public Function TransmembraneKOlist(kgml As String, Optional out As String = "", Optional skip_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KO.list")
@@ -913,9 +913,9 @@ End Function
 ''' Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.
 ''' </summary>
 '''
-''' <param name="[imports]">''' A directory folder path which contains multiple KEGG reference pathway map xml files.
+''' <param name="[imports]"> A directory folder path which contains multiple KEGG reference pathway map xml files.
 ''' </param>
-''' <param name="out">''' An integral database xml file.
+''' <param name="out"> An integral database xml file.
 ''' </param>
 Public Function BuildPathwayMapsRepository([imports] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Maps.Repository.Build")
@@ -937,7 +937,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">''' If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.
+''' <param name="[in]"> If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.
 ''' </param>
 Public Function KEGGOrganismTable(Optional [in] As String = "", Optional out As String = "", Optional bacteria As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Organism.Table")
@@ -986,7 +986,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">''' A directory that created by ``/Download.Pathway.Maps`` command.
+''' <param name="[in]"> A directory that created by ``/Download.Pathway.Maps`` command.
 ''' </param>
 Public Function CompileGenomePathwayModule([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Pathway.Modules.Build")
@@ -1081,7 +1081,7 @@ End Function
 ''' Save the summary information about the specific given kegg organism.
 ''' </summary>
 '''
-''' <param name="code">''' The kegg organism brief code.
+''' <param name="code"> The kegg organism brief code.
 ''' </param>
 Public Function ShowOrganism(code As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/show.organism")
@@ -1312,7 +1312,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="i">''' This parameter specific the source directory input of the download data.
+''' <param name="i"> This parameter specific the source directory input of the download data.
 ''' </param>
 Public Function CreateTABLE(i As String, o As String) As Integer
     Dim CLI As New StringBuilder("-table.create")

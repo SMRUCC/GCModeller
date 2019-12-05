@@ -222,7 +222,8 @@ Namespace CommandLine.InteropService.SharedORM
                     .Replace("\n", vbCrLf) _
                     .LineTokens _
                     .Select(Function(l) "''' " & l) _
-                    .JoinBy(vbCrLf)
+                    .JoinBy(vbCrLf) _
+                    .Trim("'"c)
                 param = $"''' <param name=""{VisualBasic.normAsVisualBasicName(arg.Name)}"">{comments}
 ''' </param>"
                 out += param
