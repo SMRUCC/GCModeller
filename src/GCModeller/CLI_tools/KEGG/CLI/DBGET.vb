@@ -184,7 +184,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Download.Pathway.Maps")>
-    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR> /@set <progress_bar=disabled>]")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR> /debug /@set <progress_bar=disabled>]")>
     <Description("Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.")>
     <Argument("/sp", False, CLITypes.String,
               PipelineTypes.std_in,
@@ -198,7 +198,9 @@ Partial Module CLI
         Dim isKGML As Boolean = args.IsTrue("/KGML")
         Dim infoJSON$ = $"{EXPORT}/kegg.json"
 
-        Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+        If Not args("/debug") Then
+            Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+        End If
 
         With infoJSON.LoadJSON(Of OrganismInfo)
             Dim assembly$ = .DataSource _
