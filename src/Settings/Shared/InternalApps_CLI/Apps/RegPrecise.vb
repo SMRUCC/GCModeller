@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38281
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:51:30 AM
 '  // 
 ' 
 ' 
@@ -121,8 +121,7 @@ Public Class RegPrecise : Inherits InteropService
 ''' If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.
 ''' </summary>
 '''
-''' <param name="bbh">
-''' The bbh result between the annotated genome And RegPrecise database. 
+''' <param name="bbh">''' The bbh result between the annotated genome And RegPrecise database. 
 '''                    This result was used for generates the operons, and query should be the genes in 
 '''                    the RegPrecise database and the hits is the genes in your annotated genome.
 ''' </param>
@@ -212,14 +211,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="name">
-''' 
+''' <param name="name">''' 
 ''' </param>
 ''' <param name="sites">
-
 ''' </param>
 ''' <param name="regulons">
-
 ''' </param>
 Public Function CORNBatch(sites As String, regulons As String, Optional name As String = "", Optional out As String = "", Optional num_threads As String = "", Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.Batch")
@@ -251,23 +247,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="null_regprecise">
-''' Does the motif log data have the RegPrecise database value? If this parameter is presented that which it means the site data have no RegPrecise data.
+''' <param name="null_regprecise">''' Does the motif log data have the RegPrecise database value? If this parameter is presented that which it means the site data have no RegPrecise data.
 ''' </param>
 ''' <param name="hit">
-
 ''' </param>
 ''' <param name="hit_sites">
-
 ''' </param>
 ''' <param name="sites">
-
 ''' </param>
 ''' <param name="ref">
-
 ''' </param>
 ''' <param name="out">
-
 ''' </param>
 Public Function CORNSingleThread(hit As String, hit_sites As String, sites As String, ref As String, Optional out As String = "", Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.thread")
@@ -339,11 +329,9 @@ End Function
 ''' Download Regprecise database from Web API
 ''' </summary>
 '''
-''' <param name="work">
-''' The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.
+''' <param name="work">''' The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.
 ''' </param>
-''' <param name="save">
-''' The repository saved xml file path.
+''' <param name="save">''' The repository saved xml file path.
 ''' </param>
 Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Regprecise")
@@ -390,8 +378,7 @@ End Function
 ''' Exports all of the fasta sequence of the TF regulator from the download RegPrecsie FASTA database.
 ''' </summary>
 '''
-''' <param name="locus_out">
-''' Does the program saves a copy of the TF locus_tag list at the mean time of the TF fasta sequence export.
+''' <param name="locus_out">''' Does the program saves a copy of the TF locus_tag list at the mean time of the TF fasta sequence export.
 ''' </param>
 Public Function ExportRegulators([imports] As String, Fasta As String, Optional out As String = "", Optional locus_out As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.Regulators")
@@ -710,8 +697,7 @@ End Function
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
 '''
-''' <param name="allow_multiple">
-''' Allow the regulator assign multiple family name? By default is not allow, which means one protein just have one TF family name.
+''' <param name="allow_multiple">''' Allow the regulator assign multiple family name? By default is not allow, which means one protein just have one TF family name.
 ''' </param>
 Public Function RegulatorsBBh(bbh As String, regprecise As String, Optional description As String = "", Optional out As String = "", Optional sbh As Boolean = False, Optional allow_multiple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/regulators.bbh")

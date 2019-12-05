@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38281
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:51:30 AM
 '  // 
 ' 
 ' 
@@ -280,8 +280,7 @@ End Function
 ''' Plots the COGs category statics profiling of the target genome from the COG annotation file.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The COG annotation result.
+''' <param name="[in]">''' The COG annotation result.
 ''' </param>
 Public Function COGCatalogProfilingPlot([in] As String, Optional size As String = "1800,1200", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/COG.profiling.plot")
@@ -307,8 +306,7 @@ End Function
 ''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The GCModeller enrichment analysis output table.
+''' <param name="[in]">''' The GCModeller enrichment analysis output table.
 ''' </param>
 Public Function Converts([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Converts")
@@ -426,29 +424,21 @@ End Function
 ''' Visualize the DEPs&apos; kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The kmeans cluster result from ``/DEP.heatmap`` command.
+''' <param name="[in]">''' The kmeans cluster result from ``/DEP.heatmap`` command.
 ''' </param>
-''' <param name="sampleInfo">
-''' Sample info fot grouping the matrix column data and generates the 3d plot ``&lt;x,y,z&gt;`` coordinations.
+''' <param name="sampleInfo">''' Sample info fot grouping the matrix column data and generates the 3d plot ``&lt;x,y,z&gt;`` coordinations.
 ''' </param>
-''' <param name="cluster_prefix">
-''' The term prefix of the kmeans cluster name when display on the legend title.
+''' <param name="cluster_prefix">''' The term prefix of the kmeans cluster name when display on the legend title.
 ''' </param>
-''' <param name="size">
-''' The output 3D scatter plot image size.
+''' <param name="size">''' The output 3D scatter plot image size.
 ''' </param>
-''' <param name="view_angle">
-''' The view angle of the 3D scatter plot objects, in 3D direction of ``&lt;X&gt;,&lt;Y&gt;,&lt;Z&gt;``
+''' <param name="view_angle">''' The view angle of the 3D scatter plot objects, in 3D direction of ``&lt;X&gt;,&lt;Y&gt;,&lt;Z&gt;``
 ''' </param>
-''' <param name="view_distance">
-''' The view distance from the 3D camera screen to the 3D objects.
+''' <param name="view_distance">''' The view distance from the 3D camera screen to the 3D objects.
 ''' </param>
-''' <param name="out">
-''' The file path of the output plot image.
+''' <param name="out">''' The file path of the output plot image.
 ''' </param>
-''' <param name="display_labels">
-''' If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.
+''' <param name="display_labels">''' If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.
 ''' </param>
 Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional display_labels As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
@@ -495,8 +485,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="sampleinfo">
-''' This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
+''' <param name="sampleinfo">''' This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
 '''                             and the corresponding ``sample_name`` data is the data for plot on the X or Y axis.
 ''' </param>
 Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional pt_size As String = "15", Optional schema As String = "clusters", Optional out As String = "") As Integer
@@ -536,11 +525,9 @@ End Function
 ''' Using for plots the FC histogram when the experiment have no biological replicates.
 ''' </summary>
 '''
-''' <param name="type">
-''' Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is &quot;log2FC&quot;.
+''' <param name="type">''' Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is &quot;log2FC&quot;.
 ''' </param>
-''' <param name="[step]">
-''' The steps for generates the histogram test data.
+''' <param name="[step]">''' The steps for generates the histogram test data.
 ''' </param>
 Public Function logFCHistogram([in] As String, Optional [step] As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.hist")
@@ -581,29 +568,21 @@ End Function
 ''' Volcano plot of the DEPs&apos; analysis result.
 ''' </summary>
 '''
-''' <param name="size">
-''' The canvas size of the output image.
+''' <param name="size">''' The canvas size of the output image.
 ''' </param>
-''' <param name="[in]">
-''' The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``
+''' <param name="[in]">''' The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``
 ''' </param>
-''' <param name="colors">
-''' The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.
+''' <param name="colors">''' The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.
 ''' </param>
-''' <param name="title">
-''' The plot main title.
+''' <param name="title">''' The plot main title.
 ''' </param>
-''' <param name="p_value">
-''' The p.value cutoff threshold, default is 0.05.
+''' <param name="p_value">''' The p.value cutoff threshold, default is 0.05.
 ''' </param>
-''' <param name="level">
-''' The log2FC value cutoff threshold, default is ``log2(1.5)``.
+''' <param name="level">''' The log2FC value cutoff threshold, default is ``log2(1.5)``.
 ''' </param>
-''' <param name="display_count">
-''' Display the protein counts in the legend label? by default is not.
+''' <param name="display_count">''' Display the protein counts in the legend label? by default is not.
 ''' </param>
-''' <param name="label_p">
-''' Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.
+''' <param name="label_p">''' Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.
 ''' </param>
 Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional label_p As String = "-1", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
@@ -702,14 +681,11 @@ End Function
 ''' Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.
 ''' </summary>
 '''
-''' <param name="data">
-''' A directory path which it contains the DEPs matrix csv files from the sample groups&apos;s analysis result.
+''' <param name="data">''' A directory path which it contains the DEPs matrix csv files from the sample groups&apos;s analysis result.
 ''' </param>
-''' <param name="out">
-''' A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.
+''' <param name="out">''' A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.
 ''' </param>
-''' <param name="title">
-''' The main title of the venn plot.
+''' <param name="title">''' The main title of the venn plot.
 ''' </param>
 Public Function VennData(data As String, Optional title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.venn")
@@ -735,53 +711,37 @@ End Function
 ''' Generates the heatmap plot input data. The default label profile is using for the iTraq result.
 ''' </summary>
 '''
-''' <param name="non_DEP_blank">
-''' If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.
+''' <param name="non_DEP_blank">''' If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.
 ''' </param>
-''' <param name="KO_class">
-''' If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.
+''' <param name="KO_class">''' If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.
 ''' </param>
-''' <param name="sampleInfo">
-''' Describ the experimental group information
+''' <param name="sampleInfo">''' Describ the experimental group information
 ''' </param>
-''' <param name="data">
-''' This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.
+''' <param name="data">''' This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.
 ''' </param>
-''' <param name="hide_labels">
-''' Hide the row labels?
+''' <param name="hide_labels">''' Hide the row labels?
 ''' </param>
-''' <param name="cluster_n">
-''' Expects the kmeans cluster result number, default is output 6 kmeans clusters.
+''' <param name="cluster_n">''' Expects the kmeans cluster result number, default is output 6 kmeans clusters.
 ''' </param>
-''' <param name="schema">
-''' The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.
+''' <param name="schema">''' The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.
 ''' </param>
-''' <param name="out">
-''' A directory path where will save the output heatmap plot image and the kmeans cluster details info.
+''' <param name="out">''' A directory path where will save the output heatmap plot image and the kmeans cluster details info.
 ''' </param>
-''' <param name="title">
-''' The main title of this chart plot.
+''' <param name="title">''' The main title of this chart plot.
 ''' </param>
-''' <param name="t_log2">
-''' If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.
+''' <param name="t_log2">''' If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.
 ''' </param>
-''' <param name="tick">
-''' The ticks value of the color legend, by default value -1 means generates ticks automatically.
+''' <param name="tick">''' The ticks value of the color legend, by default value -1 means generates ticks automatically.
 ''' </param>
-''' <param name="no_clrev">
-''' Do not reverse the color sequence.
+''' <param name="no_clrev">''' Do not reverse the color sequence.
 ''' </param>
-''' <param name="size">
-''' The canvas size.
+''' <param name="size">''' The canvas size.
 ''' </param>
-''' <param name="is_matrix">
-''' The input data is a data matrix, can be using for heatmap drawing directly.
+''' <param name="is_matrix">''' The input data is a data matrix, can be using for heatmap drawing directly.
 ''' </param>
-''' <param name="row_labels_geneName">
-''' This option will use the ``geneName``(from the annotation data) as the row display label instead of using uniprotID or geneID. This option required of the ``/annotation`` presented.
+''' <param name="row_labels_geneName">''' This option will use the ``geneName``(from the annotation data) as the row display label instead of using uniprotID or geneID. This option required of the ``/annotation`` presented.
 ''' </param>
-''' <param name="annotation">
-''' The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.
+''' <param name="annotation">''' The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.
 ''' </param>
 Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional labelfree As Boolean = False, Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEPs.heatmap")
@@ -852,14 +812,11 @@ End Function
 ''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
 ''' </summary>
 '''
-''' <param name="log2FC">
-''' The field name that stores the log2FC value of the average FoldChange
+''' <param name="log2FC">''' The field name that stores the log2FC value of the average FoldChange
 ''' </param>
-''' <param name="[in]">
-''' The DEPs&apos; t.test result in csv file format.
+''' <param name="[in]">''' The DEPs&apos; t.test result in csv file format.
 ''' </param>
-''' <param name="out">
-''' The stat count output file path.
+''' <param name="out">''' The stat count output file path.
 ''' </param>
 Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEPs.stat")
@@ -971,11 +928,9 @@ End Function
 ''' Create enrichment analysis background based on the uniprot xml database.
 ''' </summary>
 '''
-''' <param name="mapping">
-''' The id mapping file, each row in format like ``id&lt;TAB&gt;uniprotID``
+''' <param name="mapping">''' The id mapping file, each row in format like ``id&lt;TAB&gt;uniprotID``
 ''' </param>
-''' <param name="[in]">
-''' The uniprotKB XML database which can be download from http://uniprot.org
+''' <param name="[in]">''' The uniprotKB XML database which can be download from http://uniprot.org
 ''' </param>
 Public Function Backgrounds([in] As String, Optional mapping As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/enricher.background")
@@ -1024,15 +979,12 @@ End Function
 ''' Retrive KEGG/GO info for the genes in the enrichment result.
 ''' </summary>
 '''
-''' <param name="ORF">
-''' If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
+''' <param name="ORF">''' If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
 '''               default is using uniprotID in the accessions fields of the uniprot.XML records.
 ''' </param>
-''' <param name="nocut">
-''' Default is using pvalue &lt; 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.
+''' <param name="nocut">''' Default is using pvalue &lt; 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.
 ''' </param>
-''' <param name="[in]">
-''' KOBAS analysis result output.
+''' <param name="[in]">''' KOBAS analysis result output.
 ''' </param>
 Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Enrichments.ORF.info")
@@ -1106,11 +1058,9 @@ End Function
 ''' Reverse the FoldChange value from the source result matrix.
 ''' </summary>
 '''
-''' <param name="log2FC">
-''' This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.
+''' <param name="log2FC">''' This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.
 ''' </param>
-''' <param name="out">
-''' This function will output a FoldChange matrix.
+''' <param name="out">''' This function will output a FoldChange matrix.
 ''' </param>
 Public Function iTraqInvert([in] As String, Optional out As String = "", Optional log2fc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/FoldChange.Matrix.Invert")
@@ -1136,17 +1086,13 @@ End Function
 ''' DEPs&apos; functional enrichment network based on string-db exports, and color by KEGG pathway.
 ''' </summary>
 '''
-''' <param name="map">
-''' A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID&lt;TAB&gt;UniprotID``
+''' <param name="map">''' A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID&lt;TAB&gt;UniprotID``
 ''' </param>
-''' <param name="DEP">
-''' The DEPs t.test output result csv file.
+''' <param name="DEP">''' The DEPs t.test output result csv file.
 ''' </param>
-''' <param name="r_range">
-''' The network node size radius range, input string in format like: ``min,max``
+''' <param name="r_range">''' The network node size radius range, input string in format like: ``min,max``
 ''' </param>
-''' <param name="log2FC">
-''' The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.
+''' <param name="log2FC">''' The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.
 ''' </param>
 Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/func.rich.string")
@@ -1183,8 +1129,7 @@ End Function
 ''' Using this command for generates the gene id list input for the STRING-db search.
 ''' </summary>
 '''
-''' <param name="p_value">
-''' Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.
+''' <param name="p_value">''' Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.
 ''' </param>
 Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As String = "1", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Gene.list.from.KOBAS")
@@ -1210,11 +1155,9 @@ End Function
 ''' Visualize of the subcellular location result from the GO enrichment analysis.
 ''' </summary>
 '''
-''' <param name="_3D">
-''' 3D style pie chart for the plot?
+''' <param name="_3D">''' 3D style pie chart for the plot?
 ''' </param>
-''' <param name="colors">
-''' Color schema name, default using color brewer color schema.
+''' <param name="colors">''' Color schema name, default using color brewer color schema.
 ''' </param>
 Public Function GO_cellularLocationPlot([in] As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
@@ -1245,8 +1188,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -1292,45 +1234,32 @@ End Function
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The KOBAS enrichment analysis output csv file.
+''' <param name="[in]">''' The KOBAS enrichment analysis output csv file.
 ''' </param>
-''' <param name="out">
-''' The file path of the output plot image. If the graphics driver is using svg engine, then this result can be output to the standard output if this parameter is not presented in the CLI input.
+''' <param name="out">''' The file path of the output plot image. If the graphics driver is using svg engine, then this result can be output to the standard output if this parameter is not presented in the CLI input.
 ''' </param>
-''' <param name="r">
-''' The bubble radius expression, when this enrichment plot is in ``/bubble`` mode.
+''' <param name="r">''' The bubble radius expression, when this enrichment plot is in ``/bubble`` mode.
 ''' </param>
-''' <param name="label_right">
-''' Align the label to right if this argument presented.
+''' <param name="label_right">''' Align the label to right if this argument presented.
 ''' </param>
-''' <param name="Corrected">
-''' Using the corrected p.value instead of using the p.value as the term filter for this enrichment plot.
+''' <param name="Corrected">''' Using the corrected p.value instead of using the p.value as the term filter for this enrichment plot.
 ''' </param>
-''' <param name="pvalue">
-''' The p.value threshold for choose the terms that will be plot on the image, default is plot all terms that their enrichment p.value is smaller than 0.05.
+''' <param name="pvalue">''' The p.value threshold for choose the terms that will be plot on the image, default is plot all terms that their enrichment p.value is smaller than 0.05.
 ''' </param>
-''' <param name="size">
-''' The output image size in pixel.
+''' <param name="size">''' The output image size in pixel.
 ''' </param>
-''' <param name="tick">
-''' The axis ticking interval value, using **-1** for generated this value automatically, or any other positive numeric value will setup this interval value manually.
+''' <param name="tick">''' The axis ticking interval value, using **-1** for generated this value automatically, or any other positive numeric value will setup this interval value manually.
 ''' </param>
-''' <param name="GO">
-''' The GO database for category the enrichment term result into their corrisponding Go namespace. If this argument value is not presented in the CLI input, then program will using the GO database file from the GCModeller repository data system.
+''' <param name="GO">''' The GO database for category the enrichment term result into their corrisponding Go namespace. If this argument value is not presented in the CLI input, then program will using the GO database file from the GCModeller repository data system.
 ''' </param>
-''' <param name="bubble">
-''' Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.
+''' <param name="bubble">''' Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.
 ''' </param>
-''' <param name="displays">
-''' If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
+''' <param name="displays">''' If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
 '''               Set this argument value to -1 for display all terms.
 ''' </param>
-''' <param name="gray">
-''' Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.
+''' <param name="gray">''' Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.
 ''' </param>
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -1400,8 +1329,7 @@ End Function
 ''' Cloud plot of the iBAQ DEPs result.
 ''' </summary>
 '''
-''' <param name="tag">
-''' The field name in the ``/in`` matrix that using as the expression value.
+''' <param name="tag">''' The field name in the ``/in`` matrix that using as the expression value.
 ''' </param>
 Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iBAQ.Cloud")
@@ -1454,11 +1382,9 @@ End Function
 ''' Dumping GO obo database as mysql database files.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The Go obo database file.
+''' <param name="[in]">''' The Go obo database file.
 ''' </param>
-''' <param name="out">
-''' The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
+''' <param name="out">''' The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
 ''' </param>
 Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.Go.obo.mysql")
@@ -1481,11 +1407,9 @@ End Function
 ''' Dumping the UniprotKB XML database as mysql database file.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The uniprotKB XML database file.
+''' <param name="[in]">''' The uniprotKB XML database file.
 ''' </param>
-''' <param name="out">
-''' The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
+''' <param name="out">''' The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
 ''' </param>
 Public Function DumpUniprot([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.Uniprot.Xml")
@@ -1538,10 +1462,8 @@ End Function
 ''' </summary>
 '''
 ''' <param name="sampleInfo">
-
 ''' </param>
-''' <param name="designer">
-''' The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``&lt;Controls&gt;,&lt;Experimental&gt;``. 
+''' <param name="designer">''' The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``&lt;Controls&gt;,&lt;Experimental&gt;``. 
 '''               The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.
 ''' </param>
 Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
@@ -1570,11 +1492,9 @@ End Function
 ''' Visualize data QC analysis result.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' A data matrix which is comes from the ``/iTraq.matrix.split`` command.
+''' <param name="[in]">''' A data matrix which is comes from the ``/iTraq.matrix.split`` command.
 ''' </param>
-''' <param name="out">
-''' The file path of the plot result image.
+''' <param name="out">''' The file path of the plot result image.
 ''' </param>
 Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.RSD-P.Density")
@@ -1597,11 +1517,9 @@ End Function
 ''' * Using this CLI tool for processing the tag header of iTraq result at first.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' 
+''' <param name="[in]">''' 
 ''' </param>
-''' <param name="symbols">
-''' Using for replace the mass spectrum expeirment symbol to the user experiment tag.
+''' <param name="symbols">''' Using for replace the mass spectrum expeirment symbol to the user experiment tag.
 ''' </param>
 Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional symbolsheet As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
@@ -1631,11 +1549,9 @@ End Function
 ''' Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.
 ''' </summary>
 '''
-''' <param name="FDR">
-''' do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.
+''' <param name="FDR">''' do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.
 ''' </param>
-''' <param name="skip_significant_test">
-''' If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.
+''' <param name="skip_significant_test">''' If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.
 ''' </param>
 Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/iTraq.t.test")
@@ -1672,8 +1588,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="ref">
-''' 
+''' <param name="ref">''' 
 ''' </param>
 Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Color.Pathway")
@@ -1696,8 +1611,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -1780,14 +1694,11 @@ End Function
 ''' Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.
 ''' </summary>
 '''
-''' <param name="colors">
-''' A string vector that setups the DEPs&apos; color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``
+''' <param name="colors">''' A string vector that setups the DEPs&apos; color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``
 ''' </param>
-''' <param name="DEPs">
-''' Using for rendering color of the KEGG pathway map. The ``/colors`` argument only works when this argument is presented.
+''' <param name="DEPs">''' Using for rendering color of the KEGG pathway map. The ``/colors`` argument only works when this argument is presented.
 ''' </param>
-''' <param name="map">
-''' Maps user custom ID to uniprot ID. A tsv file with format: ``&lt;customID&gt;&lt;TAB&gt;&lt;uniprotID&gt;``
+''' <param name="map">''' Maps user custom ID to uniprot ID. A tsv file with format: ``&lt;customID&gt;&lt;TAB&gt;&lt;uniprotID&gt;``
 ''' </param>
 Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
@@ -1825,8 +1736,7 @@ End Function
 ''' KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.
 ''' </summary>
 '''
-''' <param name="repo">
-''' If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.
+''' <param name="repo">''' If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.
 ''' </param>
 Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As String = "", Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap.Render")
@@ -1867,8 +1777,7 @@ End Function
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
 '''
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -1944,11 +1853,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The KOBAS enrichment result.
+''' <param name="[in]">''' The KOBAS enrichment result.
 ''' </param>
-''' <param name="sample">
-''' The uniprotID -&gt; ORF annotation data. this table file should have a field named &quot;ORF&quot;.
+''' <param name="sample">''' The uniprotID -&gt; ORF annotation data. this table file should have a field named &quot;ORF&quot;.
 ''' </param>
 Public Function KOBASaddORFsource([in] As String, sample As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.add.ORF")
@@ -2419,20 +2326,15 @@ End Function
 ''' &apos;calc. pI&apos; - &apos;MW [kDa]&apos; scatter plot of the protomics raw sample data.
 ''' </summary>
 '''
-''' <param name="field_pi">
-''' The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``
+''' <param name="field_pi">''' The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``
 ''' </param>
-''' <param name="field_mw">
-''' The field name that records the MW value of the protein samples, default is using iTraq result out format: ``MW [kDa]``
+''' <param name="field_mw">''' The field name that records the MW value of the protein samples, default is using iTraq result out format: ``MW [kDa]``
 ''' </param>
-''' <param name="pt_size">
-''' The radius size of the point in this scatter plot.
+''' <param name="pt_size">''' The radius size of the point in this scatter plot.
 ''' </param>
-''' <param name="size">
-''' The plot image its canvas size of this scatter plot.
+''' <param name="size">''' The plot image its canvas size of this scatter plot.
 ''' </param>
-''' <param name="quantile_removes">
-''' All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.
+''' <param name="quantile_removes">''' All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.
 ''' </param>
 Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
     Dim CLI As New StringBuilder("/plot.pimw")
@@ -2482,23 +2384,17 @@ End Function
 ''' Total proteins functional annotation by using uniprot database.
 ''' </summary>
 '''
-''' <param name="list">
-''' Using for the iTraq method result.
+''' <param name="list">''' Using for the iTraq method result.
 ''' </param>
-''' <param name="iTraq">
-''' * Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.
+''' <param name="iTraq">''' * Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.
 ''' </param>
-''' <param name="mapping">
-''' The id mapping table, only works when the argument ``/list`` is presented.
+''' <param name="mapping">''' The id mapping table, only works when the argument ``/list`` is presented.
 ''' </param>
-''' <param name="uniprot">
-''' The Uniprot protein database in XML file format.
+''' <param name="uniprot">''' The Uniprot protein database in XML file format.
 ''' </param>
-''' <param name="accession_ID">
-''' Using the uniprot protein ID from the ``/uniprot`` input as the generated dataset&apos;s ID value, instead of using the numeric sequence as the ID value.
+''' <param name="accession_ID">''' Using the uniprot protein ID from the ``/uniprot`` input as the generated dataset&apos;s ID value, instead of using the numeric sequence as the ID value.
 ''' </param>
-''' <param name="out">
-''' The file path for output protein annotation table where to save.
+''' <param name="out">''' The file path for output protein annotation table where to save.
 ''' </param>
 Public Function SampleAnnotations(uniprot As String, Optional list As String = "", Optional mapping As String = "", Optional out As String = "", Optional accession_id As Boolean = False, Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.annotations")
@@ -2587,32 +2483,23 @@ End Function
 ''' ProteinGroups sample data go profiling plot from the uniprot annotation data.
 ''' </summary>
 '''
-''' <param name="GO">
-''' The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.
+''' <param name="GO">''' The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.
 ''' </param>
-''' <param name="level">
-''' The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.
+''' <param name="level">''' The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.
 ''' </param>
-''' <param name="label_right">
-''' Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.
+''' <param name="label_right">''' Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.
 ''' </param>
-''' <param name="[in]">
-''' Uniprot XML database export result from ``/protein.annotations`` command.
+''' <param name="[in]">''' Uniprot XML database export result from ``/protein.annotations`` command.
 ''' </param>
-''' <param name="tick">
-''' The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.
+''' <param name="tick">''' The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.
 ''' </param>
-''' <param name="size">
-''' The size of the output plot image.
+''' <param name="size">''' The size of the output plot image.
 ''' </param>
-''' <param name="selects">
-''' The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.
+''' <param name="selects">''' The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.
 ''' </param>
-''' <param name="out">
-''' A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.
+''' <param name="out">''' A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.
 ''' </param>
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -2661,21 +2548,16 @@ End Function
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-''' <param name="custom">
-''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+''' <param name="custom">''' Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
 '''               You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&amp;format=htext&amp;filedir= for download the custom KO classification set.
 ''' </param>
-''' <param name="label_right">
-''' Align the label from right.
+''' <param name="label_right">''' Align the label from right.
 ''' </param>
-''' <param name="size">
-''' The canvas size value.
+''' <param name="size">''' The canvas size value.
 ''' </param>
-''' <param name="[in]">
-''' Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.
+''' <param name="[in]">''' Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.
 ''' </param>
-''' <param name="colors">
-''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+''' <param name="colors">''' Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
 '''               
 '''               + &lt;profile name term&gt;: Set1:c6 
 '''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
@@ -2781,8 +2663,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="KOBAS">
-''' The pvalue result in the enrichment term, will be using as the node radius size.
+''' <param name="KOBAS">''' The pvalue result in the enrichment term, will be using as the node radius size.
 ''' </param>
 Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/richfun.KOBAS")
@@ -2822,8 +2703,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="bbh">
-''' The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
+''' <param name="bbh">''' The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
 ''' </param>
 Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMapping As String, sample As String, Optional description As String = "", Optional id As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Sample.Species.Normalization")
@@ -2900,8 +2780,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="bbh">
-''' The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
+''' <param name="bbh">''' The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
 ''' </param>
 Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As String, annotations As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Species.Normalization")
@@ -3102,11 +2981,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The uniRef XML cluster database its file path.
+''' <param name="[in]">''' The uniRef XML cluster database its file path.
 ''' </param>
-''' <param name="org">
-''' The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.
+''' <param name="org">''' The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.
 ''' </param>
 Public Function UniRefMap2Organism([in] As String, Optional org As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniRef.map.organism")
@@ -3131,8 +3008,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The uniRef XML cluster database its file path.
+''' <param name="[in]">''' The uniRef XML cluster database its file path.
 ''' </param>
 Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniRef.UniprotKB")

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38281
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:51:30 AM
 '  // 
 ' 
 ' 
@@ -83,11 +83,9 @@ Public Class httpd : Inherits InteropService
 ''' Tools for http get request the content of a specific url.
 ''' </summary>
 '''
-''' <param name="url">
-''' The resource URL on the web.
+''' <param name="url">''' The resource URL on the web.
 ''' </param>
-''' <param name="out">
-''' The save location of your requested data file.
+''' <param name="out">''' The save location of your requested data file.
 ''' </param>
 Public Function [GET](url As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/GET")
@@ -208,17 +206,13 @@ End Function
 ''' Run start the httpd web server.
 ''' </summary>
 '''
-''' <param name="port">
-''' The server port of this httpd web server to listen.
+''' <param name="port">''' The server port of this httpd web server to listen.
 ''' </param>
-''' <param name="wwwroot">
-''' The website html root directory path.
+''' <param name="wwwroot">''' The website html root directory path.
 ''' </param>
-''' <param name="threads">
-''' The number of threads of this web server its thread pool.
+''' <param name="threads">''' The number of threads of this web server its thread pool.
 ''' </param>
-''' <param name="cache">
-''' Is this server running in file system cache mode? Not recommended for open.
+''' <param name="cache">''' Is this server running in file system cache mode? Not recommended for open.
 ''' </param>
 Public Function Start(Optional port As String = "", Optional wwwroot As String = "", Optional threads As String = "-1", Optional cache As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/start")

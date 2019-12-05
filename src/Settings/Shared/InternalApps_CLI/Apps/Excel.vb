@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38281
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:51:30 AM
 '  // 
 ' 
 ' 
@@ -128,17 +128,13 @@ End Function
 ''' Join of two table by a unique ID.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The table for append by column, its row ID can be duplicated.
+''' <param name="[in]">''' The table for append by column, its row ID can be duplicated.
 ''' </param>
-''' <param name="append">
-''' The target table that will be append into the table ``a``, the row ID must be unique!
+''' <param name="append">''' The target table that will be append into the table ``a``, the row ID must be unique!
 ''' </param>
-''' <param name="grep_ID">
-''' This argument parameter describ how to parse the ID in file ``a.csv``
+''' <param name="grep_ID">''' This argument parameter describ how to parse the ID in file ``a.csv``
 ''' </param>
-''' <param name="unique">
-''' Make the id of file ``append`` be unique?
+''' <param name="unique">''' Make the id of file ``append`` be unique?
 ''' </param>
 Public Function cbind([in] As String, append As String, Optional id_a As String = "ID", Optional id_b As String = "ID", Optional grep_id As String = "token <SPACE", Optional out As String = "", Optional unique As Boolean = False, Optional nothing_as_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/cbind")
@@ -177,8 +173,7 @@ End Function
 ''' Create an empty Excel xlsx package file on a specific file path
 ''' </summary>
 '''
-''' <param name="Create">
-''' The file path for save this New created Excel xlsx package.
+''' <param name="Create">''' The file path for save this New created Excel xlsx package.
 ''' </param>
 Public Function newEmpty(target As String) As Integer
     Dim CLI As New StringBuilder("/Create")
@@ -198,15 +193,12 @@ End Function
 ''' Open target excel file And get target table And save into a csv file.
 ''' </summary>
 '''
-''' <param name="open">
-''' File path of the Excel ``*.xlsx`` file for open And read.
+''' <param name="open">''' File path of the Excel ``*.xlsx`` file for open And read.
 ''' </param>
-''' <param name="sheetName">
-''' The worksheet table name for read data And save as csv file. 
+''' <param name="sheetName">''' The worksheet table name for read data And save as csv file. 
 '''               If this argument value is equals to ``*``, then all of the tables in the target xlsx excel file will be extract.
 ''' </param>
-''' <param name="out">
-''' The csv output file path or a directory path value when the ``/sheetName`` parameter is value ``*``.
+''' <param name="out">''' The csv output file path or a directory path value when the ``/sheetName`` parameter is value ``*``.
 ''' </param>
 Public Function Extract(open As String, Optional sheetname As String = "*", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Extract")
@@ -280,14 +272,11 @@ End Function
 ''' Print the csv/xlsx file content onto the console screen or text file in table layout.
 ''' </summary>
 '''
-''' <param name="sheet">
-''' The sheet name of table in xlsx file for display, this option only works when target file format is a xlsx file.
+''' <param name="sheet">''' The sheet name of table in xlsx file for display, this option only works when target file format is a xlsx file.
 ''' </param>
-''' <param name="fields">
-''' A list of selected field names for display, seperated with comma symbol. By default, is display all of the fields data.
+''' <param name="fields">''' A list of selected field names for display, seperated with comma symbol. By default, is display all of the fields data.
 ''' </param>
-''' <param name="[in]">
-''' Standard input pipeline device only works for csv/tsv file. Target table file for display on the console.
+''' <param name="[in]">''' Standard input pipeline device only works for csv/tsv file. Target table file for display on the console.
 ''' </param>
 Public Function Print([in] As String, Optional fields As String = "", Optional sheet As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Print")
@@ -316,8 +305,7 @@ End Function
 ''' Write target csv table its content data as a worksheet into the target Excel package.
 ''' </summary>
 '''
-''' <param name="sheetName">
-''' The New sheet table name, if this argument Is Not presented, then the program will 
+''' <param name="sheetName">''' The New sheet table name, if this argument Is Not presented, then the program will 
 '''               using the file basename as the sheet table name. If the sheet table name Is exists in current xlsx file, 
 '''               then the exists table value will be updated, otherwise will add New table.
 ''' </param>
@@ -346,8 +334,7 @@ End Function
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
 '''
-''' <param name="[in]">
-''' A directory path that contains csv files that will be merge into one file directly.
+''' <param name="[in]">''' A directory path that contains csv files that will be merge into one file directly.
 ''' </param>
 Public Function rbind([in] As String, Optional order_by As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/rbind")
@@ -394,8 +381,7 @@ End Function
 ''' Removes row or column data by given regular expression pattern.
 ''' </summary>
 '''
-''' <param name="by_row">
-''' This argument specific that removes data by row or by column, by default is by column.
+''' <param name="by_row">''' This argument specific that removes data by row or by column, by default is by column.
 ''' </param>
 Public Function Removes([in] As String, pattern As String, Optional out As String = "", Optional by_row As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/removes")
@@ -468,8 +454,7 @@ End Function
 ''' Takes specific rows by a given row id list.
 ''' </summary>
 '''
-''' <param name="reverse">
-''' If this argument is presents in the cli inputs, then all of the rows that not in input list will be output as result.
+''' <param name="reverse">''' If this argument is presents in the cli inputs, then all of the rows that not in input list will be output as result.
 ''' </param>
 Public Function Takes([in] As String, id As String, Optional out As String = "", Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/takes")

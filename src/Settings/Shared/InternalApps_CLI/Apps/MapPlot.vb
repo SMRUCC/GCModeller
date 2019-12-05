@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38281
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38281, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:51:30 AM
 '  // 
 ' 
 ' 
@@ -164,8 +164,7 @@ End Function
 ''' Visualize the blastp result.
 ''' </summary>
 '''
-''' <param name="PTT">
-''' A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.
+''' <param name="PTT">''' A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.
 ''' </param>
 Public Function BBHVisual([in] As String, PTT As String, density As String, Optional limits As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Visual.BBH")
@@ -214,14 +213,11 @@ End Function
 ''' Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.
 ''' </summary>
 '''
-''' <param name="genbank">
-''' Provides the target genome coordinates for the blastn map plots.
+''' <param name="genbank">''' Provides the target genome coordinates for the blastn map plots.
 ''' </param>
-''' <param name="local">
-''' The file for ``/in`` parameter is a local blastn output result file?
+''' <param name="local">''' The file for ``/in`` parameter is a local blastn output result file?
 ''' </param>
-''' <param name="ORF_catagory">
-''' Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``&lt;TAB&gt;``COG/KOG/GO/KO``
+''' <param name="ORF_catagory">''' Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``&lt;TAB&gt;``COG/KOG/GO/KO``
 ''' </param>
 Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Optional orf_catagory As String = "", Optional region As String = "", Optional out As String = "", Optional local As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
@@ -254,8 +250,7 @@ End Function
 ''' Drawing the chromosomes map from the PTT object as the basically genome information source.
 ''' </summary>
 '''
-''' <param name="COG">
-''' The gene object color definition, you can using this parameter to overrides the cog definition in the PTT file.
+''' <param name="COG">''' The gene object color definition, you can using this parameter to overrides the cog definition in the PTT file.
 ''' </param>
 Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
