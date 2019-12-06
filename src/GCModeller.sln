@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio 15
+VisualStudioVersion = 15.0.27906.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -555,9 +555,9 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SeqFeature", "workbench\mod
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "kegg_kit", "workbench\R#\kegg_kit\kegg_kit.vbproj", "{A6390958-28BA-4C53-B22D-A859353556DA}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.base", "R-sharp\R.base\R.base.vbproj", "{6EC3D3F5-F19D-4899-AF88-161F6238E6E8}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.base", "R-sharp\Library\R.base\R.base.vbproj", "{6EC3D3F5-F19D-4899-AF88-161F6238E6E8}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.graphics", "R-sharp\R.graphics\R.graphics.vbproj", "{C5C3428C-D64C-4E79-B239-77ADC66B1156}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.graphics", "R-sharp\Library\R.graphics\R.graphics.vbproj", "{C5C3428C-D64C-4E79-B239-77ADC66B1156}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
