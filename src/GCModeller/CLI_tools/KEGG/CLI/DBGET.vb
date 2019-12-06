@@ -199,7 +199,9 @@ Partial Module CLI
         Dim infoJSON$ = $"{EXPORT}/kegg.json"
 
         If Not args("/debug") Then
-            Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+            If infoJSON.LoadJSON(Of OrganismInfo)(throwEx:=False) Is Nothing Then
+                Call Apps.KEGG_tools.ShowOrganism(code:=sp, out:=infoJSON)
+            End If
         End If
 
         With infoJSON.LoadJSON(Of OrganismInfo)
