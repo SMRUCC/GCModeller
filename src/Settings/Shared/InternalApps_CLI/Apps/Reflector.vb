@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -84,14 +84,11 @@ Public Class Reflector : Inherits InteropService
 ''' Generates the SDK document of your mysql database.
 ''' </summary>
 '''
-''' <param name="sql">
-''' The sql content source from a sql file or sql ``std_out`` output
+''' <param name="sql"> The sql content source from a sql file or sql ``std_out`` output
 ''' </param>
-''' <param name="out">
-''' The markdown document output to a specific file or output onto the ``std_out`` device.
+''' <param name="out"> The markdown document output to a specific file or output onto the ``std_out`` device.
 ''' </param>
-''' <param name="toc">
-''' Add topics of content?
+''' <param name="toc"> Add topics of content?
 ''' </param>
 Public Function MySQLMarkdown(sql As String, Optional out As String = "", Optional toc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/MySQL.Markdown")
@@ -117,11 +114,9 @@ End Function
 ''' Union all of the sql file in the target directory into a one big sql text file.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' 
+''' <param name="[in]"> 
 ''' </param>
-''' <param name="out">
-''' 
+''' <param name="out"> 
 ''' </param>
 Public Function [Union]([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
@@ -171,20 +166,15 @@ End Function
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>
 '''
-''' <param name="sql">
-''' The file path of the MySQL database schema dump file.
+''' <param name="sql"> The file path of the MySQL database schema dump file.
 ''' </param>
-''' <param name="o">
-''' The output file path of the generated visual basic source code file from the SQL dump file &quot;/sql&quot;
+''' <param name="o"> The output file path of the generated visual basic source code file from the SQL dump file &quot;/sql&quot;
 ''' </param>
-''' <param name="[namespace]">
-''' The namespace value will be insert into the generated source code if this parameter is not null.
+''' <param name="[namespace]"> The namespace value will be insert into the generated source code if this parameter is not null.
 ''' </param>
-''' <param name="split">
-''' Split the source code into sevral files and named by table name?
+''' <param name="split"> Split the source code into sevral files and named by table name?
 ''' </param>
-''' <param name="auto_increment_disable">
-''' Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.
+''' <param name="auto_increment_disable"> Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.
 ''' </param>
 Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--reflects")

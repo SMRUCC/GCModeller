@@ -94,7 +94,12 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <param name="sp"></param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        Public Function Downloads(sp$, Optional EXPORT$ = "./LinkDB-pathways/", Optional cache$ = "./.kegg/pathways/", Optional offline As Boolean = False) As String()
+        Public Function Downloads(sp$,
+                                  Optional EXPORT$ = "./LinkDB-pathways/",
+                                  Optional cache$ = "./.kegg/pathways/",
+                                  Optional offline As Boolean = False,
+                                  Optional ignoresDbKeyNotFound As Boolean = False) As String()
+
             Dim entries As New List(Of ListEntry)
             Dim briteTable As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
             Dim progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", 1, CLS:=True)
@@ -119,8 +124,16 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim imageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.entryId)
                 Dim img As String = EXPORT & $"/maps/{entry.entryId}.png"
                 Dim bCode As String = Regex.Match(entry.entryId, "\d+").Value
-                Dim xml$ = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.entryId}.Xml"
+                Dim xml$
                 Dim data As Pathway = query.Query(Of Pathway)(entry, ".html", hitCache)
+
+                If briteTable.ContainsKey(bCode) Then
+                    xml = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.entryId}.Xml"
+                ElseIf ignoresDbKeyNotFound Then
+                    Continue For
+                Else
+                    Throw New Exception($"Pathway Map class information for '{entry.entryId}' not found! Please consider update GCModeller to latest version...")
+                End If
 
                 If img.FileLength < 1024 Then
                     Call imageUrl.DownloadFile(img)
