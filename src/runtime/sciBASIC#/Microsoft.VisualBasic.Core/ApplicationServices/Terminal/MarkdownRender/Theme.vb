@@ -79,7 +79,7 @@ Namespace ApplicationServices.Terminal
         Public Overrides Function ToString() As String
             Dim text$ = Me.text
 
-            If text.IsPattern("\s+") Then
+            If text.StringEmpty Then
                 text = "<whitespace>"
             Else
                 text = $"""{text}"""

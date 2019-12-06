@@ -113,6 +113,10 @@ Namespace ApplicationServices.Terminal
             Do While Not markdown.EndRead
                 Call WalkChar(++markdown)
             Loop
+
+            If textBuf > 0 Then
+                Call EndSpan(False)
+            End If
         End Sub
 
         Dim boldSpan As Boolean = False
