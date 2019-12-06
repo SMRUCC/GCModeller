@@ -264,6 +264,11 @@ Namespace ApplicationServices.Terminal
         Public Shared Sub Print(markdown As String, Optional theme As MarkdownTheme = Nothing, Optional indent% = 0)
             Call New MarkdownRender(theme Or defaultTheme).DoPrint(markdown, indent)
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DefaultStyleRender() As MarkdownRender
+            Return New MarkdownRender(defaultTheme)
+        End Function
     End Class
 
     Public Class MarkdownTheme
