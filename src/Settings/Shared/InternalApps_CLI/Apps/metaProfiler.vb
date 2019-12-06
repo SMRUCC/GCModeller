@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -202,12 +202,10 @@ End Function
 ''' Export v1.0 biom json file for data visualize in Megan program.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' If the type of this input file is a dataset, then row ID should 
+''' <param name="[in]"> If the type of this input file is a dataset, then row ID should 
 '''               be the taxonomy string, and all of the column should be the OTU abundance data.
 ''' </param>
-''' <param name="dense">
-''' Dense matrxi type in biom json output file?
+''' <param name="dense"> Dense matrxi type in biom json output file?
 ''' </param>
 Public Function ExportToMegan([in] As String, Optional out As String = "", Optional dense As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.Megan.BIOM")
@@ -255,11 +253,9 @@ End Function
 ''' OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.
 ''' </summary>
 '''
-''' <param name="removes_lt">
-''' OTU contains members number less than the percentage value of this argument value(low abundance) will be removes from the result.
+''' <param name="removes_lt"> OTU contains members number less than the percentage value of this argument value(low abundance) will be removes from the result.
 ''' </param>
-''' <param name="min_pct">
-''' The required minium vote percentage of the taxonomy assigned from a OTU reference alignment by using gast method, default is required level 60% agreement.
+''' <param name="min_pct"> The required minium vote percentage of the taxonomy assigned from a OTU reference alignment by using gast method, default is required level 60% agreement.
 ''' </param>
 Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional removes_lt As String = "0.0001", Optional min_pct As String = "0.6", Optional out As String = "", Optional gast_consensus As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/gast.Taxonomy.greengenes")
@@ -373,8 +369,7 @@ End Function
 ''' Export otu table from hmp biom files.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' A directory contains the otu BIOM files which is download by ``/handle.hmp.manifest`` command.
+''' <param name="[in]"> A directory contains the otu BIOM files which is download by ``/handle.hmp.manifest`` command.
 ''' </param>
 Public Function ExportsOTUTable([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/hmp.otu_table")
@@ -470,14 +465,11 @@ End Function
 ''' Create background model for apply pathway enrichment analysis of the Metagenome data.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' This argument should be the uniprot database file, multiple file is supported, which the multiple xml file path can be contract by ``|`` as delimiter.
+''' <param name="[in]"> This argument should be the uniprot database file, multiple file is supported, which the multiple xml file path can be contract by ``|`` as delimiter.
 ''' </param>
-''' <param name="cache">
-''' Debug used only.
+''' <param name="cache"> Debug used only.
 ''' </param>
-''' <param name="all">
-''' If this argument is presented, then all of the genome data will be saved, 
+''' <param name="all"> If this argument is presented, then all of the genome data will be saved, 
 '''               includes all of the genome data that have ZERO coverage.
 ''' </param>
 Public Function BuildUniProtReference([in] As String, Optional out As String = "", Optional cache As Boolean = False, Optional all As Boolean = False) As Integer
@@ -507,8 +499,7 @@ End Function
 ''' Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.
 ''' </summary>
 '''
-''' <param name="uniprot">
-''' A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.
+''' <param name="uniprot"> A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.
 ''' </param>
 Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Membrane_transport As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.metabolic.network")
@@ -534,20 +525,15 @@ End Function
 ''' Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The OTU sample counting result.
+''' <param name="[in]"> The OTU sample counting result.
 ''' </param>
-''' <param name="ref">
-''' The bacteria genome annotation data repository index file.
+''' <param name="ref"> The bacteria genome annotation data repository index file.
 ''' </param>
-''' <param name="just_profiles">
-''' This option will makes this cli command only creates a pathway profile matrix. For enrichment command debug used only.
+''' <param name="just_profiles"> This option will makes this cli command only creates a pathway profile matrix. For enrichment command debug used only.
 ''' </param>
-''' <param name="rank">
-''' The enrichment profile will be statistics at this level
+''' <param name="rank"> The enrichment profile will be statistics at this level
 ''' </param>
-''' <param name="sampleName">
-''' This argument is only works when the input table file is a OTU result data table.
+''' <param name="sampleName"> This argument is only works when the input table file is a OTU result data table.
 ''' </param>
 Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional samplename As String = "NULL", Optional rank As String = "family", Optional p_value As String = "0.05", Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.profile")
@@ -584,12 +570,10 @@ End Function
 ''' Build pathway interaction network based on the microbiome profile result.
 ''' </summary>
 '''
-''' <param name="p_value">
-''' The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
+''' <param name="p_value"> The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
 '''               By default is 0.05. If no cutoff, please set this value to 1.
 ''' </param>
-''' <param name="maps">
-''' The kegg reference map repository database file.
+''' <param name="maps"> The kegg reference map repository database file.
 ''' </param>
 Public Function RunProfile([in] As String, maps As String, Optional rank As String = "family", Optional colors As String = "Set1:c6", Optional tick As String = "", Optional size As String = "", Optional p_value As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
@@ -682,14 +666,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="desc">
-''' 
+''' <param name="desc"> 
 ''' </param>
-''' <param name="asc">
-''' 
+''' <param name="asc"> 
 ''' </param>
-''' <param name="take">
-''' 
+''' <param name="take"> 
 ''' </param>
 Public Function Relative_abundance_barplot([in] As String, Optional group As String = "", Optional take As String = "", Optional size As String = "", Optional column_n As String = "9", Optional interval As String = "", Optional out As String = "", Optional desc As Boolean = False, Optional asc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Relative_abundance.barplot")
@@ -756,11 +737,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' A matrix file that contains the sample data.
+''' <param name="[in]"> A matrix file that contains the sample data.
 ''' </param>
-''' <param name="groups">
-''' Grouping info of the samples.
+''' <param name="groups"> Grouping info of the samples.
 ''' </param>
 Public Function SignificantDifference([in] As String, groups As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/significant.difference")
@@ -823,8 +802,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The metagenome network UniProt reference database that build from ``/Metagenome.UniProt.Ref`` command.
+''' <param name="[in]"> The metagenome network UniProt reference database that build from ``/Metagenome.UniProt.Ref`` command.
 ''' </param>
 Public Function ScreenModels([in] As String, Optional coverage As String = "0.6", Optional terms As String = "1000", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.screen.model")
@@ -852,8 +830,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="[in]">
-''' The input matrix in csv table format for build and visualize as a UPGMA Tree.
+''' <param name="[in]"> The input matrix in csv table format for build and visualize as a UPGMA Tree.
 ''' </param>
 Public Function UPGMATree([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UPGMA.Tree")

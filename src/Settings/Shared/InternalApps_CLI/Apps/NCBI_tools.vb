@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7275.29361
-'  // ASSEMBLY:  Settings, Version=3.3277.7275.29361, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7278.38403
+'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/2/2019 4:18:42 PM
+'  // BUILT:     12/4/2019 8:55:34 AM
 '  // 
 ' 
 ' 
@@ -139,8 +139,7 @@ Public Class NCBI_tools : Inherits InteropService
 ''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
 '''
-''' <param name="accid_grep">
-''' When the fasta title or the text line in the list is not an NCBI accession id, 
+''' <param name="accid_grep"> When the fasta title or the text line in the list is not an NCBI accession id, 
 '''               then you needs this script for accession id grep operation.
 ''' </param>
 Public Function accidMatch([in] As String, acc2taxid As String, Optional accid_grep As String = "-", Optional out As String = "", Optional gb_priority As Boolean = False, Optional append_src As Boolean = False) As Integer
@@ -173,16 +172,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="accession2taxid">
-''' This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.
+''' <param name="accession2taxid"> This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.
 ''' </param>
-''' <param name="append">
-''' If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
+''' <param name="append"> If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
 '''               This file should have a column named ``ID`` correspond to the ``accession_id``, 
 '''               or a column named ``Species`` correspond to the ``species`` from NCBI taxonomy.
 ''' </param>
-''' <param name="summary_tsv">
-''' The output summary table file saved in tsv format.
+''' <param name="summary_tsv"> The output summary table file saved in tsv format.
 ''' </param>
 Public Function AssignFastaTaxonomy([in] As String, accession2taxid As String, taxonomy As String, Optional accid_grep As String = "-", Optional append As String = "", Optional out As String = "", Optional summary_tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/assign.fasta.taxonomy")
@@ -499,7 +495,6 @@ End Function
 ''' </summary>
 '''
 ''' <param name="[in]">
-
 ''' </param>
 Public Function GetMapHitsList([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MapHits.list")
@@ -570,7 +565,6 @@ End Function
 ''' </summary>
 '''
 ''' <param name="list">
-
 ''' </param>
 Public Function NtNameMatches([in] As String, list As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/nt.matches.name")
@@ -712,14 +706,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="expression">
-''' Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.
+''' <param name="expression"> Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.
 ''' </param>
-''' <param name="cut">
-''' This parameter will be disabled when ``/expression`` is presents.
+''' <param name="cut"> This parameter will be disabled when ``/expression`` is presents.
 ''' </param>
 ''' <param name="[in]">
-
 ''' </param>
 Public Function SearchTaxonomy([in] As String, ncbi_taxonomy As String, Optional top As String = "", Optional cut As String = "", Optional out As String = "", Optional expression As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Search.Taxonomy")
