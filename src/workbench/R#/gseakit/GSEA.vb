@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -59,10 +61,37 @@ Module GSEA
         Return enrichment.Converts.ToArray
     End Function
 
+    ''' <summary>
+    ''' Create network graph data for Cytoscape
+    ''' </summary>
+    ''' <param name="go_enrichment"></param>
+    ''' <param name="go"></param>
+    ''' <returns></returns>
+    <ExportAPI("enrichment.go_dag")>
+    Public Function CreateGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As NetworkTables
+        Dim terms As NamedValue(Of Double)() = go_enrichment _
+            .Select(Function(term)
+                        Return New NamedValue(Of Double) With {
+                            .Name = term.term,
+                            .Value = -Math.Log10(term.pvalue)
+                        }
+                    End Function) _
+            .ToArray
+        Dim dag As NetworkGraph = go.CreateGraph(terms:=terms)
+        Dim tables As NetworkTables = dag.DAGasTabular
+
+        Return tables
+    End Function
+
     <ExportAPI("enrichment.draw.go_dag")>
     Public Function DrawGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As GraphicsData
-        Dim terms As String() = go_enrichment _
-            .Select(Function(term) term.term) _
+        Dim terms As NamedValue(Of Double)() = go_enrichment _
+            .Select(Function(term)
+                        Return New NamedValue(Of Double) With {
+                            .Name = term.term,
+                            .Value = -Math.Log10(term.pvalue)
+                        }
+                    End Function) _
             .ToArray
         Dim dag As NetworkGraph = go.CreateGraph(terms:=terms)
         Dim image As GraphicsData = EnrichmentVisualize.DrawGraph(dag)

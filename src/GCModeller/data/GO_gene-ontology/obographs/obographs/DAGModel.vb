@@ -56,6 +56,8 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Public Module DAGModel
 
+    Friend Const value_colors As String = "value_colors"
+
     ''' <summary>
     ''' Create a <see cref="NetworkGraph"/> based on a given go term id list.
     ''' </summary>
@@ -84,11 +86,11 @@ Public Module DAGModel
             value = enrichment.TryGetValue(node.label, [default]:=Double.NaN)
 
             If value.IsNaNImaginary Then
-                node.data.Add("value_color", gray)
+                node.data.Add(value_colors, gray)
             Else
                 index = CInt(valueRange.ScaleMapping(value, indexRange))
                 color = colors(index).ToHtmlColor
-                node.data.Add("value_color", color)
+                node.data.Add(value_colors, color)
             End If
         Next
 
