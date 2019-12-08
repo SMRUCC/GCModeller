@@ -56,7 +56,9 @@ Module GSEA
 
     <ExportAPI("enrichment.draw.go_dag")>
     Public Function DrawGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As GraphicsData
-        Dim terms As String() = go_enrichment.Select(Function(term) term.term).ToArray
+        Dim terms As String() = go_enrichment _
+            .Select(Function(term) term.term) _
+            .ToArray
         Dim dag As NetworkGraph = go.CreateGraph(terms:=terms)
         Dim image As GraphicsData = EnrichmentVisualize.DrawGraph(dag)
 
