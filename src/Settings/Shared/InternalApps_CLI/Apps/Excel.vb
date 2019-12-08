@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -97,7 +97,12 @@ Public Class Excel : Inherits InteropService
 ''' </summary>
 '''
 
-Public Function Association(a As String, b As String, Optional column_a As String = "", Optional column_b As String = "", Optional out As String = "", Optional ignore_blank_index As Boolean = False) As Integer
+Public Function Association(a As String, 
+                               b As String, 
+                               Optional column_a As String = "", 
+                               Optional column_b As String = "", 
+                               Optional out As String = "", 
+                               Optional ignore_blank_index As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/association")
     Call CLI.Append(" ")
     Call CLI.Append("/a " & """" & a & """ ")
@@ -136,7 +141,14 @@ End Function
 ''' </param>
 ''' <param name="unique"> Make the id of file ``append`` be unique?
 ''' </param>
-Public Function cbind([in] As String, append As String, Optional id_a As String = "ID", Optional id_b As String = "ID", Optional grep_id As String = "token <SPACE", Optional out As String = "", Optional unique As Boolean = False, Optional nothing_as_empty As Boolean = False) As Integer
+Public Function cbind([in] As String, 
+                         append As String, 
+                         Optional id_a As String = "ID", 
+                         Optional id_b As String = "ID", 
+                         Optional grep_id As String = "token <SPACE", 
+                         Optional out As String = "", 
+                         Optional unique As Boolean = False, 
+                         Optional nothing_as_empty As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/cbind")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -246,7 +258,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function NameValues([in] As String, name As String, value As String, Optional describ As String = "Description", Optional out As String = "") As Integer
+Public Function NameValues([in] As String, 
+                              name As String, 
+                              value As String, 
+                              Optional describ As String = "Description", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/name.values")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

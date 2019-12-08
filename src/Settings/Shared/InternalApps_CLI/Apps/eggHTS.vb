@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -329,7 +329,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function AddReMapping([in] As String, bbh As String, ID_mappings As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
+Public Function AddReMapping([in] As String, 
+                                bbh As String, 
+                                ID_mappings As String, 
+                                uniprot As String, 
+                                Optional id As String = "", 
+                                Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Data.Add.Mappings")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -440,7 +445,17 @@ End Function
 ''' </param>
 ''' <param name="display_labels"> If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.
 ''' </param>
-Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional display_labels As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
+Public Function DEPHeatmapScatter3D([in] As String, 
+                                       sampleInfo As String, 
+                                       Optional display_labels As String = "-1", 
+                                       Optional cluster_prefix As String = "cluster: #", 
+                                       Optional size As String = "1600,1400", 
+                                       Optional schema As String = "clusters", 
+                                       Optional view_angle As String = "30,60,-56.25", 
+                                       Optional view_distance As String = "2500", 
+                                       Optional arrow_factor As String = "1,2", 
+                                       Optional cluster_title As String = "", 
+                                       Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -488,7 +503,14 @@ End Function
 ''' <param name="sampleinfo"> This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
 '''                             and the corresponding ``sample_name`` data is the data for plot on the X or Y axis.
 ''' </param>
-Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional pt_size As String = "15", Optional schema As String = "clusters", Optional out As String = "") As Integer
+Public Function DEPKmeansScatter2D([in] As String, 
+                                      sampleInfo As String, 
+                                      Optional t_log As String = "-1", 
+                                      Optional cluster_prefix As String = "cluster: #", 
+                                      Optional size As String = "", 
+                                      Optional pt_size As String = "15", 
+                                      Optional schema As String = "clusters", 
+                                      Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -529,7 +551,14 @@ End Function
 ''' </param>
 ''' <param name="[step]"> The steps for generates the histogram test data.
 ''' </param>
-Public Function logFCHistogram([in] As String, Optional [step] As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
+Public Function logFCHistogram([in] As String, 
+                                  Optional [step] As String = "", 
+                                  Optional type As String = "log2fc", 
+                                  Optional legend_title As String = "", 
+                                  Optional x_axis As String = "(min,max),tick=0.25", 
+                                  Optional color As String = "", 
+                                  Optional size As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.hist")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -584,7 +613,15 @@ End Function
 ''' </param>
 ''' <param name="label_p"> Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.
 ''' </param>
-Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional label_p As String = "-1", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
+Public Function logFCVolcano([in] As String, 
+                                Optional title As String = "", 
+                                Optional p_value As String = "0.05", 
+                                Optional level As String = "1.5", 
+                                Optional colors As String = "", 
+                                Optional label_p As String = "-1", 
+                                Optional size As String = "", 
+                                Optional out As String = "", 
+                                Optional display_count As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -648,7 +685,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "", Optional uniprot_flag As String = "", Optional species As String = "", Optional uniprot As String = "", Optional out As String = "") As Integer
+Public Function DEPUniprotIDs2([in] As String, 
+                                  Optional dep_flag As String = "", 
+                                  Optional uniprot_flag As String = "", 
+                                  Optional species As String = "", 
+                                  Optional uniprot As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.uniprot.list2")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -743,7 +785,24 @@ End Function
 ''' </param>
 ''' <param name="annotation"> The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.
 ''' </param>
-Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional labelfree As Boolean = False, Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
+Public Function DEPs_heatmapKmeans(data As String, 
+                                      Optional schema As String = "RdYlGn:c11", 
+                                      Optional annotation As String = "", 
+                                      Optional cluster_n As String = "6", 
+                                      Optional sampleinfo As String = "", 
+                                      Optional title As String = "Heatmap of DEPs log2FC", 
+                                      Optional tick As String = "", 
+                                      Optional size As String = "2000,3000", 
+                                      Optional legend_size As String = "600,100", 
+                                      Optional out As String = "", 
+                                      Optional labelfree As Boolean = False, 
+                                      Optional no_clrev As Boolean = False, 
+                                      Optional ko_class As Boolean = False, 
+                                      Optional row_labels_genename As Boolean = False, 
+                                      Optional hide_labels As Boolean = False, 
+                                      Optional is_matrix As Boolean = False, 
+                                      Optional non_dep_blank As Boolean = False, 
+                                      Optional t_log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEPs.heatmap")
     Call CLI.Append(" ")
     Call CLI.Append("/data " & """" & data & """ ")
@@ -842,7 +901,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = "is.DEP", Optional by_fc As String = "logFC=log2(1.5)", Optional by_p_value As String = "", Optional data As String = "", Optional out As String = "") As Integer
+Public Function TakeDEPsValues([in] As String, 
+                                  Optional boolean_tag As String = "is.DEP", 
+                                  Optional by_fc As String = "logFC=log2(1.5)", 
+                                  Optional by_p_value As String = "", 
+                                  Optional data As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEPs.takes.values")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -900,7 +964,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function edgeRDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function edgeRDesigner([in] As String, 
+                                 designer As String, 
+                                 Optional label As String = "", 
+                                 Optional deli As String = "-", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/edgeR.Designer")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -986,7 +1054,11 @@ End Function
 ''' </param>
 ''' <param name="[in]"> KOBAS analysis result output.
 ''' </param>
-Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
+Public Function RetriveEnrichmentGeneInfo([in] As String, 
+                                             proteins As String, 
+                                             Optional out As String = "", 
+                                             Optional nocut As Boolean = False, 
+                                             Optional orf As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Enrichments.ORF.info")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1094,7 +1166,14 @@ End Function
 ''' </param>
 ''' <param name="log2FC"> The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.
 ''' </param>
-Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
+Public Function FunctionalNetworkEnrichment([in] As String, 
+                                               uniprot As String, 
+                                               DEP As String, 
+                                               Optional map As String = "", 
+                                               Optional r_range As String = "12,30", 
+                                               Optional log2fc As String = "log2FC", 
+                                               Optional layout As String = "", 
+                                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/func.rich.string")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1159,7 +1238,11 @@ End Function
 ''' </param>
 ''' <param name="colors"> Color schema name, default using color brewer color schema.
 ''' </param>
-Public Function GO_cellularLocationPlot([in] As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
+Public Function GO_cellularLocationPlot([in] As String, 
+                                           Optional go As String = "", 
+                                           Optional colors As String = "Paired:c8", 
+                                           Optional out As String = "", 
+                                           Optional _3d As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1195,7 +1278,14 @@ End Function
 '''               + &lt;color name list&gt;: black,green,blue 
 '''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
 ''' </param>
-Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_GOplot([in] As String, 
+                                Optional go As String = "", 
+                                Optional colors As String = "Set1:c6", 
+                                Optional size As String = "1200,1000", 
+                                Optional tick As String = "", 
+                                Optional p_value As String = "", 
+                                Optional out As String = "", 
+                                Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1266,7 +1356,22 @@ End Function
 '''               + &lt;color name list&gt;: black,green,blue 
 '''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
 ''' </param>
-Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional label_maxlen As String = "64", Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional label_color_disable As Boolean = False, Optional gray As Boolean = False) As Integer
+Public Function GO_enrichmentPlot([in] As String, 
+                                     Optional r As String = "log(x,1.5)", 
+                                     Optional displays As String = "10", 
+                                     Optional label_maxlen As String = "64", 
+                                     Optional colors As String = "Set1:c6", 
+                                     Optional pvalue As String = "", 
+                                     Optional size As String = "", 
+                                     Optional tick As String = "", 
+                                     Optional go As String = "", 
+                                     Optional out As String = "", 
+                                     Optional bubble As Boolean = False, 
+                                     Optional corrected As Boolean = False, 
+                                     Optional plantregmap As Boolean = False, 
+                                     Optional label_right As Boolean = False, 
+                                     Optional label_color_disable As Boolean = False, 
+                                     Optional gray As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Go.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1331,7 +1436,11 @@ End Function
 '''
 ''' <param name="tag"> The field name in the ``/in`` matrix that using as the expression value.
 ''' </param>
-Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
+Public Function DEPsCloudPlot([in] As String, 
+                                 annotations As String, 
+                                 DEPs As String, 
+                                 tag As String, 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iBAQ.Cloud")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1432,7 +1541,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function iTraqBridge(A As String, B As String, C As String, Optional symbols_a As String = "", Optional symbols_b As String = "", Optional out As String = "") As Integer
+Public Function iTraqBridge(A As String, 
+                               B As String, 
+                               C As String, 
+                               Optional symbols_a As String = "", 
+                               Optional symbols_b As String = "", 
+                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Bridge.Matrix")
     Call CLI.Append(" ")
     Call CLI.Append("/A " & """" & A & """ ")
@@ -1466,7 +1580,11 @@ End Function
 ''' <param name="designer"> The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``&lt;Controls&gt;,&lt;Experimental&gt;``. 
 '''               The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.
 ''' </param>
-Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
+Public Function iTraqAnalysisMatrixSplit([in] As String, 
+                                            sampleInfo As String, 
+                                            designer As String, 
+                                            Optional out As String = "", 
+                                            Optional allowed_swap As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/iTraq.matrix.split")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1521,7 +1639,11 @@ End Function
 ''' </param>
 ''' <param name="symbols"> Using for replace the mass spectrum expeirment symbol to the user experiment tag.
 ''' </param>
-Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional symbolsheet As String = "", Optional out As String = "") As Integer
+Public Function iTraqSignReplacement([in] As String, 
+                                        symbols As String, 
+                                        Optional sheet_name As String = "", 
+                                        Optional symbolsheet As String = "", 
+                                        Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1553,7 +1675,13 @@ End Function
 ''' </param>
 ''' <param name="skip_significant_test"> If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.
 ''' </param>
-Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
+Public Function iTraqTtest([in] As String, 
+                              Optional level As String = "1.5", 
+                              Optional p_value As String = "0.05", 
+                              Optional fdr As String = "0.05", 
+                              Optional pairinfo As String = "", 
+                              Optional out As String = "", 
+                              Optional skip_significant_test As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/iTraq.t.test")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1618,7 +1746,14 @@ End Function
 '''               + &lt;color name list&gt;: black,green,blue 
 '''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
 ''' </param>
-Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_KEGGplot([in] As String, 
+                                  Optional custom As String = "", 
+                                  Optional colors As String = "Set1:c6", 
+                                  Optional size As String = "1200,1000", 
+                                  Optional p_value As String = "0.05", 
+                                  Optional tick As String = "", 
+                                  Optional out As String = "", 
+                                  Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1657,7 +1792,14 @@ End Function
 ''' </summary>
 '''
 
-Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional tag As String = "log2FC", Optional pvalue As String = "0.05", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_KEGGPathwayMap([in] As String, 
+                                        uniprot As String, 
+                                        Optional deps As String = "", 
+                                        Optional colors As String = "red,blue,green", 
+                                        Optional tag As String = "log2FC", 
+                                        Optional pvalue As String = "0.05", 
+                                        Optional out As String = "", 
+                                        Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID.pathwaymap")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1700,7 +1842,13 @@ End Function
 ''' </param>
 ''' <param name="map"> Maps user custom ID to uniprot ID. A tsv file with format: ``&lt;customID&gt;&lt;TAB&gt;&lt;uniprotID&gt;``
 ''' </param>
-Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+Public Function KEGGEnrichmentPathwayMap([in] As String, 
+                                            Optional deps As String = "", 
+                                            Optional colors As String = "red,blue,green", 
+                                            Optional map As String = "", 
+                                            Optional uniprot As String = "", 
+                                            Optional pvalue As String = "0.05", 
+                                            Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1738,7 +1886,14 @@ End Function
 '''
 ''' <param name="repo"> If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.
 ''' </param>
-Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As String = "", Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+Public Function KEGGEnrichmentPathwayMapLocal([in] As String, 
+                                                 Optional repo As String = "", 
+                                                 Optional deps As String = "", 
+                                                 Optional colors As String = "red,blue,green", 
+                                                 Optional map As String = "", 
+                                                 Optional uniprot As String = "", 
+                                                 Optional pvalue As String = "0.05", 
+                                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap.Render")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1786,7 +1941,14 @@ End Function
 '''               + &lt;scale by value&gt;: scale(color_set_name)
 '''               This will create color profiles based on the result value dataset.
 ''' </param>
-Public Function KEGG_enrichment([in] As String, Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
+Public Function KEGG_enrichment([in] As String, 
+                                   Optional colors As String = "Set1:c6", 
+                                   Optional pvalue As String = "", 
+                                   Optional tick As String = "", 
+                                   Optional size As String = "", 
+                                   Optional out As String = "", 
+                                   Optional gray As Boolean = False, 
+                                   Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1826,7 +1988,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function KOCatalogs([in] As String, ko As String, Optional key As String = "", Optional mapto As String = "", Optional out As String = "") As Integer
+Public Function KOCatalogs([in] As String, 
+                              ko As String, 
+                              Optional key As String = "", 
+                              Optional mapto As String = "", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.Catalogs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1977,7 +2143,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function LabelFreeMatrix([in] As String, Optional sheet As String = "proteinGroups", Optional uniprot As String = "", Optional organism As String = "", Optional out As String = "", Optional intensity As Boolean = False) As Integer
+Public Function LabelFreeMatrix([in] As String, 
+                                   Optional sheet As String = "proteinGroups", 
+                                   Optional uniprot As String = "", 
+                                   Optional organism As String = "", 
+                                   Optional out As String = "", 
+                                   Optional intensity As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/labelFree.matrix")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2033,7 +2204,15 @@ End Function
 ''' </summary>
 '''
 
-Public Function labelFreeTtest([in] As String, sampleInfo As String, control As String, treatment As String, Optional significant As String = "t.test", Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
+Public Function labelFreeTtest([in] As String, 
+                                  sampleInfo As String, 
+                                  control As String, 
+                                  treatment As String, 
+                                  Optional significant As String = "t.test", 
+                                  Optional level As String = "1.5", 
+                                  Optional p_value As String = "0.05", 
+                                  Optional fdr As String = "0.05", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/labelFree.t.test")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2116,7 +2295,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.5,2)", Optional raw As String = "", Optional out As String = "", Optional log2 As Boolean = False) As Integer
+Public Function MergeDEPs([in] As String, 
+                             Optional threshold As String = "log(1.5,2)", 
+                             Optional raw As String = "", 
+                             Optional out As String = "", 
+                             Optional log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Merge.DEPs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2336,7 +2519,17 @@ End Function
 ''' </param>
 ''' <param name="quantile_removes"> All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.
 ''' </param>
-Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
+Public Function pimwScatterPlot([in] As String, 
+                                   Optional field_pi As String = "calc. pI", 
+                                   Optional field_mw As String = "MW [kDa]", 
+                                   Optional legend_fontsize As String = "", 
+                                   Optional legend_size As String = "", 
+                                   Optional quantile_removes As String = "1", 
+                                   Optional out As String = "", 
+                                   Optional size As String = "", 
+                                   Optional color As String = "", 
+                                   Optional ticks_y As String = "", 
+                                   Optional pt_size As String = "") As Integer
     Dim CLI As New StringBuilder("/plot.pimw")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2396,7 +2589,12 @@ End Function
 ''' </param>
 ''' <param name="out"> The file path for output protein annotation table where to save.
 ''' </param>
-Public Function SampleAnnotations(uniprot As String, Optional list As String = "", Optional mapping As String = "", Optional out As String = "", Optional accession_id As Boolean = False, Optional itraq As Boolean = False) As Integer
+Public Function SampleAnnotations(uniprot As String, 
+                                     Optional list As String = "", 
+                                     Optional mapping As String = "", 
+                                     Optional out As String = "", 
+                                     Optional accession_id As Boolean = False, 
+                                     Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.annotations")
     Call CLI.Append(" ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
@@ -2429,7 +2627,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function SampleAnnotations2(p1 As String, p2 As String, uniprot As String, Optional out As String = "", Optional remapping As Boolean = False) As Integer
+Public Function SampleAnnotations2(p1 As String, 
+                                      p2 As String, 
+                                      uniprot As String, 
+                                      Optional out As String = "", 
+                                      Optional remapping As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.annotations.shotgun")
     Call CLI.Append(" ")
     Call CLI.Append("/p1 " & """" & p1 & """ ")
@@ -2455,7 +2657,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function proteinGroupsVenn([in] As String, designer As String, Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+Public Function proteinGroupsVenn([in] As String, 
+                                     designer As String, 
+                                     Optional label As String = "", 
+                                     Optional deli As String = "_", 
+                                     Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/proteinGroups.venn")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2506,7 +2712,15 @@ End Function
 '''               + &lt;color name list&gt;: black,green,blue 
 '''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
 ''' </param>
-Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function ProteinsGoPlot([in] As String, 
+                                  Optional go As String = "", 
+                                  Optional colors As String = "Set1:c6", 
+                                  Optional tick As String = "-1", 
+                                  Optional level As String = "2", 
+                                  Optional selects As String = "", 
+                                  Optional size As String = "", 
+                                  Optional out As String = "", 
+                                  Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.Go.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2564,7 +2778,16 @@ End Function
 '''               + &lt;color name list&gt;: black,green,blue 
 '''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
 ''' </param>
-Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO", Optional geneid_field As String = "nothing", Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional not_human As Boolean = False, Optional label_right As Boolean = False) As Integer
+Public Function proteinsKEGGPlot([in] As String, 
+                                    Optional field As String = "KO", 
+                                    Optional geneid_field As String = "nothing", 
+                                    Optional colors As String = "Set1:c6", 
+                                    Optional custom As String = "", 
+                                    Optional size As String = "", 
+                                    Optional tick As String = "", 
+                                    Optional out As String = "", 
+                                    Optional not_human As Boolean = False, 
+                                    Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.KEGG.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2610,7 +2833,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function RelativeAmount([in] As String, designer As String, Optional uniprot As String = "", Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+Public Function RelativeAmount([in] As String, 
+                                  designer As String, 
+                                  Optional uniprot As String = "", 
+                                  Optional label As String = "", 
+                                  Optional deli As String = "_", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Relative.amount")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2665,7 +2893,16 @@ End Function
 '''
 ''' <param name="KOBAS"> The pvalue result in the enrichment term, will be using as the node radius size.
 ''' </param>
-Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
+Public Function KOBASNetwork([in] As String, 
+                                uniprot As String, 
+                                DEP As String, 
+                                KOBAS As String, 
+                                Optional r_range As String = "5,20", 
+                                Optional fold As String = "", 
+                                Optional logfc As String = "", 
+                                Optional layout As String = "", 
+                                Optional out As String = "", 
+                                Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/richfun.KOBAS")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2705,7 +2942,13 @@ End Function
 '''
 ''' <param name="bbh"> The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
 ''' </param>
-Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMapping As String, sample As String, Optional description As String = "", Optional id As String = "", Optional out As String = "") As Integer
+Public Function NormalizeSpecies_samples(bbh As String, 
+                                            uniprot As String, 
+                                            idMapping As String, 
+                                            sample As String, 
+                                            Optional description As String = "", 
+                                            Optional id As String = "", 
+                                            Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Sample.Species.Normalization")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -2782,7 +3025,11 @@ End Function
 '''
 ''' <param name="bbh"> The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
 ''' </param>
-Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As String, annotations As String, Optional out As String = "") As Integer
+Public Function NormalizeSpecies(bbh As String, 
+                                    uniprot As String, 
+                                    idMapping As String, 
+                                    annotations As String, 
+                                    Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Species.Normalization")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -2807,7 +3054,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function TtestDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function TtestDesigner([in] As String, 
+                                 designer As String, 
+                                 Optional label As String = "", 
+                                 Optional deli As String = "-", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/T.test.Designer.iTraq")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2836,7 +3087,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function TtestDesignerLFQ([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function TtestDesignerLFQ([in] As String, 
+                                    designer As String, 
+                                    Optional label As String = "", 
+                                    Optional deli As String = "-", 
+                                    Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/T.test.Designer.LFQ")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

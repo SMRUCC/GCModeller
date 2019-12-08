@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -310,7 +310,11 @@ End Function
 ''' </param>
 ''' <param name="out"> A directory output path that will be using for contains the rendered pathway map image and the summary table file.
 ''' </param>
-Public Function CompoundMapRender(list As String, Optional repo As String = "", Optional scale As String = "1", Optional color As String = "red", Optional out As String = "") As Integer
+Public Function CompoundMapRender(list As String, 
+                                     Optional repo As String = "", 
+                                     Optional scale As String = "1", 
+                                     Optional color As String = "red", 
+                                     Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Compound.Map.Render")
     Call CLI.Append(" ")
     Call CLI.Append("/list " & """" & list & """ ")
@@ -361,7 +365,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function CutSequence_Upstream([in] As String, PTT As String, org As String, Optional len As String = "", Optional out As String = "", Optional [overrides] As Boolean = False) As Integer
+Public Function CutSequence_Upstream([in] As String, 
+                                        PTT As String, 
+                                        org As String, 
+                                        Optional len As String = "", 
+                                        Optional out As String = "", 
+                                        Optional [overrides] As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Cut_sequence.upstream")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -393,7 +402,12 @@ End Function
 ''' <param name="chebi"> Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
 '''               then you can using this option for downloads the complete compounds data in the KEGG database.
 ''' </param>
-Public Function DownloadCompounds(Optional chebi As String = "", Optional reactions As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional skip_compoundbrite As Boolean = False, Optional updates As Boolean = False) As Integer
+Public Function DownloadCompounds(Optional chebi As String = "", 
+                                     Optional reactions As String = "", 
+                                     Optional save As String = "", 
+                                     Optional flat As Boolean = False, 
+                                     Optional skip_compoundbrite As Boolean = False, 
+                                     Optional updates As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Compounds")
     Call CLI.Append(" ")
     If Not chebi.StringEmpty Then
@@ -557,7 +571,11 @@ End Function
 '''
 ''' <param name="sp"> The 3 characters kegg organism code, example as: &quot;xcb&quot; is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
 ''' </param>
-Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional _set As String = "", Optional kgml As Boolean = False, Optional debug As Boolean = False) As Integer
+Public Function DownloadPathwayMaps(sp As String, 
+                                       Optional out As String = "", 
+                                       Optional _set As String = "", 
+                                       Optional kgml As Boolean = False, 
+                                       Optional debug As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Pathway.Maps")
     Call CLI.Append(" ")
     Call CLI.Append("/sp " & """" & sp & """ ")
@@ -768,7 +786,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function GetsProteinMotifs(query As String, Optional sp As String = "", Optional out As String = "", Optional ptt As Boolean = False, Optional update As Boolean = False) As Integer
+Public Function GetsProteinMotifs(query As String, 
+                                     Optional sp As String = "", 
+                                     Optional out As String = "", 
+                                     Optional ptt As Boolean = False, 
+                                     Optional update As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Gets.prot_motif")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -863,7 +885,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function IndexSubMatch(index As String, maps As String, key As String, map As String, Optional out As String = "") As Integer
+Public Function IndexSubMatch(index As String, 
+                                 maps As String, 
+                                 key As String, 
+                                 map As String, 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ko.index.sub.match")
     Call CLI.Append(" ")
     Call CLI.Append("/index " & """" & index & """ ")
@@ -1104,7 +1130,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function Stats([in] As String, locus As String, Optional locus_map As String = "", Optional out As String = "", Optional pathway As Boolean = False) As Integer
+Public Function Stats([in] As String, 
+                         locus As String, 
+                         Optional locus_map As String = "", 
+                         Optional out As String = "", 
+                         Optional pathway As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Views.mod_stat")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1153,7 +1183,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function DumpDb(KEGG_Pathways As String, KEGG_Modules As String, KEGG_Reactions As String, sp As String, out As String) As Integer
+Public Function DumpDb(KEGG_Pathways As String, 
+                          KEGG_Modules As String, 
+                          KEGG_Reactions As String, 
+                          sp As String, 
+                          out As String) As Integer
     Dim CLI As New StringBuilder("--Dump.Db")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")

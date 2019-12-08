@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -98,7 +98,14 @@ End Function
 ''' </summary>
 '''
 
-Public Function DrawMapRegion(gb As String, Optional cog As String = "", Optional size As String = "10240,2048", Optional default_color As String = "brown", Optional gene_draw_height As String = "85", Optional out As String = "", Optional draw_shape_stroke As Boolean = False, Optional disable_level_skip As Boolean = False) As Integer
+Public Function DrawMapRegion(gb As String, 
+                                 Optional cog As String = "", 
+                                 Optional size As String = "10240,2048", 
+                                 Optional default_color As String = "brown", 
+                                 Optional gene_draw_height As String = "85", 
+                                 Optional out As String = "", 
+                                 Optional draw_shape_stroke As Boolean = False, 
+                                 Optional disable_level_skip As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/draw.map.region")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
@@ -166,7 +173,11 @@ End Function
 '''
 ''' <param name="PTT"> A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.
 ''' </param>
-Public Function BBHVisual([in] As String, PTT As String, density As String, Optional limits As String = "", Optional out As String = "") As Integer
+Public Function BBHVisual([in] As String, 
+                             PTT As String, 
+                             density As String, 
+                             Optional limits As String = "", 
+                             Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Visual.BBH")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -219,7 +230,12 @@ End Function
 ''' </param>
 ''' <param name="ORF_catagory"> Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``&lt;TAB&gt;``COG/KOG/GO/KO``
 ''' </param>
-Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Optional orf_catagory As String = "", Optional region As String = "", Optional out As String = "", Optional local As Boolean = False) As Integer
+Public Function BlastnVisualizeWebResult([in] As String, 
+                                            genbank As String, 
+                                            Optional orf_catagory As String = "", 
+                                            Optional region As String = "", 
+                                            Optional out As String = "", 
+                                            Optional local As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -280,7 +296,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function DrawGenbank(gb As String, Optional motifs As String = "", Optional conf As String = "", Optional out As String = "", Optional cog As String = "", Optional hide_mics As Boolean = False) As Integer
+Public Function DrawGenbank(gb As String, 
+                               Optional motifs As String = "", 
+                               Optional conf As String = "", 
+                               Optional out As String = "", 
+                               Optional cog As String = "", 
+                               Optional hide_mics As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")

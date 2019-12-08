@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -100,7 +100,13 @@ End Function
 ''' </summary>
 '''
 
-Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", Optional top As String = "35", Optional colors As String = "YlGnBu:c8", Optional out As String = "", Optional disable_label_trim As Boolean = False, Optional tiff As Boolean = False) As Integer
+Public Function GOEnrichmentBarPlot([in] As String, 
+                                       Optional go As String = "", 
+                                       Optional top As String = "35", 
+                                       Optional colors As String = "YlGnBu:c8", 
+                                       Optional out As String = "", 
+                                       Optional disable_label_trim As Boolean = False, 
+                                       Optional tiff As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.barplot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -148,7 +154,13 @@ End Function
 ''' </param>
 ''' <param name="hide_progress"> A logical flag argument that controls the console screen display the progress bar or not.
 ''' </param>
-Public Function EnrichmentTest(background As String, geneSet As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+Public Function EnrichmentTest(background As String, 
+                                  geneSet As String, 
+                                  Optional cluster_id As String = "", 
+                                  Optional format As String = "GCModeller", 
+                                  Optional out As String = "", 
+                                  Optional hide_progress As Boolean = False, 
+                                  Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -182,7 +194,14 @@ End Function
 ''' </summary>
 '''
 
-Public Function GSEA_GO(background As String, geneSet As String, go As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+Public Function GSEA_GO(background As String, 
+                           geneSet As String, 
+                           go As String, 
+                           Optional cluster_id As String = "", 
+                           Optional format As String = "GCModeller", 
+                           Optional out As String = "", 
+                           Optional hide_progress As Boolean = False, 
+                           Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA.GO")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -291,7 +310,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function CreateKOClusterFromBBH([in] As String, maps As String, Optional size As String = "-1", Optional genome As String = "", Optional out As String = "") As Integer
+Public Function CreateKOClusterFromBBH([in] As String, 
+                                          maps As String, 
+                                          Optional size As String = "-1", 
+                                          Optional genome As String = "", 
+                                          Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.clusters.By_bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

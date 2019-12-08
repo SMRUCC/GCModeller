@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33691
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33691, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:18:30 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -530,7 +530,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function RepeatsDensity(locis As String, Optional left As String = "Start", Optional size As String = "", Optional win_size As String = "100", Optional offset As String = "1000", Optional out As String = "") As Integer
+Public Function RepeatsDensity(locis As String, 
+                                  Optional left As String = "Start", 
+                                  Optional size As String = "", 
+                                  Optional win_size As String = "100", 
+                                  Optional offset As String = "1000", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/loci.Density")
     Call CLI.Append(" ")
     Call CLI.Append("/locis " & """" & locis & """ ")
@@ -594,7 +599,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function Merge([in] As String, Optional out As String = "", Optional ext As String = "", Optional trim As Boolean = False, Optional unique As Boolean = False, Optional brief As Boolean = False) As Integer
+Public Function Merge([in] As String, 
+                         Optional out As String = "", 
+                         Optional ext As String = "", 
+                         Optional trim As Boolean = False, 
+                         Optional unique As Boolean = False, 
+                         Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Merge")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -660,7 +670,12 @@ End Function
 ''' </param>
 ''' <param name="out">
 ''' </param>
-Public Function MirrorBatch(nt As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional num_threads As String = "", Optional mp As Boolean = False) As Integer
+Public Function MirrorBatch(nt As String, 
+                               Optional out As String = "", 
+                               Optional min As String = "", 
+                               Optional max As String = "", 
+                               Optional num_threads As String = "", 
+                               Optional mp As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirror.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/nt " & """" & nt & """ ")
@@ -699,7 +714,12 @@ End Function
 ''' </param>
 ''' <param name="max_dist"> The max distance of the loci site and its mirror loci site.
 ''' </param>
-Public Function FuzzyMirrors([in] As String, Optional cut As String = "0.6", Optional max_dist As String = "6", Optional min As String = "3", Optional max As String = "20", Optional out As String = "") As Integer
+Public Function FuzzyMirrors([in] As String, 
+                                Optional cut As String = "0.6", 
+                                Optional max_dist As String = "6", 
+                                Optional min As String = "3", 
+                                Optional max As String = "20", 
+                                Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -733,7 +753,13 @@ End Function
 '''
 ''' <param name="out">
 ''' </param>
-Public Function FuzzyMirrorsBatch([in] As String, Optional out As String = "", Optional cut As String = "", Optional max_dist As String = "", Optional min As String = "", Optional max As String = "", Optional num_threads As String = "") As Integer
+Public Function FuzzyMirrorsBatch([in] As String, 
+                                     Optional out As String = "", 
+                                     Optional cut As String = "", 
+                                     Optional max_dist As String = "", 
+                                     Optional min As String = "", 
+                                     Optional max As String = "", 
+                                     Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/Mirror.Fuzzy.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -793,7 +819,13 @@ End Function
 '''
 ''' <param name="trans"> Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.
 ''' </param>
-Public Function MirrorContext([in] As String, PTT As String, Optional strand As String = "", Optional out As String = "", Optional dist As String = "", Optional trans As Boolean = False, Optional stranded As Boolean = False) As Integer
+Public Function MirrorContext([in] As String, 
+                                 PTT As String, 
+                                 Optional strand As String = "", 
+                                 Optional out As String = "", 
+                                 Optional dist As String = "", 
+                                 Optional trans As Boolean = False, 
+                                 Optional stranded As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirrors.Context")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -829,7 +861,14 @@ End Function
 '''
 ''' <param name="trans"> Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.
 ''' </param>
-Public Function MirrorContextBatch([in] As String, PTT As String, Optional strand As String = "", Optional out As String = "", Optional dist As String = "", Optional num_threads As String = "", Optional trans As Boolean = False, Optional stranded As Boolean = False) As Integer
+Public Function MirrorContextBatch([in] As String, 
+                                      PTT As String, 
+                                      Optional strand As String = "", 
+                                      Optional out As String = "", 
+                                      Optional dist As String = "", 
+                                      Optional num_threads As String = "", 
+                                      Optional trans As Boolean = False, 
+                                      Optional stranded As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Mirrors.Context.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -944,7 +983,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function FindMotifs([in] As String, Optional min_w As String = "6", Optional max_w As String = "20", Optional n_motifs As String = "25", Optional n_occurs As String = "6", Optional out As String = "") As Integer
+Public Function FindMotifs([in] As String, 
+                              Optional min_w As String = "6", 
+                              Optional max_w As String = "20", 
+                              Optional n_motifs As String = "25", 
+                              Optional n_occurs As String = "6", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/motifs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1025,7 +1069,16 @@ End Function
 '''
 ''' <param name="Palindrome"> Only search for Palindrome, not includes the repeats data.
 ''' </param>
-Public Function PalindromeBatchTask([in] As String, Optional num_threads As String = "", Optional min As String = "", Optional max As String = "", Optional min_appears As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "", Optional out As String = "", Optional palindrome As Boolean = False) As Integer
+Public Function PalindromeBatchTask([in] As String, 
+                                       Optional num_threads As String = "", 
+                                       Optional min As String = "", 
+                                       Optional max As String = "", 
+                                       Optional min_appears As String = "", 
+                                       Optional cutoff As String = "", 
+                                       Optional max_dist As String = "", 
+                                       Optional partitions As String = "", 
+                                       Optional out As String = "", 
+                                       Optional palindrome As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Palindrome.BatchTask")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1120,7 +1173,16 @@ End Function
 ''' </param>
 ''' <param name="Palindrome"> Only search for Palindrome, not includes the repeats data.
 ''' </param>
-Public Function PalindromeWorkflow([in] As String, Optional min_appears As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "", Optional out As String = "", Optional batch As Boolean = False, Optional palindrome As Boolean = False) As Integer
+Public Function PalindromeWorkflow([in] As String, 
+                                      Optional min_appears As String = "", 
+                                      Optional min As String = "", 
+                                      Optional max As String = "", 
+                                      Optional cutoff As String = "", 
+                                      Optional max_dist As String = "", 
+                                      Optional partitions As String = "", 
+                                      Optional out As String = "", 
+                                      Optional batch As Boolean = False, 
+                                      Optional palindrome As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Palindrome.Workflow")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1187,7 +1249,12 @@ End Function
 '''
 ''' <param name="mirror"> Search for the mirror palindrome loci sites.
 ''' </param>
-Public Function PromoterRegionPalindrome([in] As String, Optional min As String = "", Optional max As String = "", Optional len As String = "", Optional out As String = "", Optional mirror As Boolean = False) As Integer
+Public Function PromoterRegionPalindrome([in] As String, 
+                                            Optional min As String = "", 
+                                            Optional max As String = "", 
+                                            Optional len As String = "", 
+                                            Optional out As String = "", 
+                                            Optional mirror As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Promoter.Regions.Palindrome")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1285,7 +1352,11 @@ End Function
 '''
 ''' <param name="[in]"> A single fasta sequence file contains only one sequence that used for external ruler
 ''' </param>
-Public Function RulerSlideWindowMatrix([in] As String, genomes As String, Optional winsize As String = "1000", Optional [step] As String = "500", Optional out As String = "") As Integer
+Public Function RulerSlideWindowMatrix([in] As String, 
+                                          genomes As String, 
+                                          Optional winsize As String = "1000", 
+                                          Optional [step] As String = "500", 
+                                          Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ruler.dist.calc")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1340,7 +1411,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function SearchRepeats([in] As String, Optional min As String = "3", Optional max As String = "20", Optional minoccurs As String = "3", Optional out As String = "", Optional reverse As Boolean = False) As Integer
+Public Function SearchRepeats([in] As String, 
+                                 Optional min As String = "3", 
+                                 Optional max As String = "20", 
+                                 Optional minoccurs As String = "3", 
+                                 Optional out As String = "", 
+                                 Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Search.Repeats")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1380,7 +1456,11 @@ End Function
 ''' </param>
 ''' <param name="fa"> Both a fasta file or a directory that contains the fasta files are valid value.
 ''' </param>
-Public Function SelectByLocus([in] As String, fa As String, Optional field As String = "", Optional out As String = "", Optional reverse As Boolean = False) As Integer
+Public Function SelectByLocus([in] As String, 
+                                 fa As String, 
+                                 Optional field As String = "", 
+                                 Optional out As String = "", 
+                                 Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Select.By_Locus")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1539,7 +1619,11 @@ End Function
 ''' </param>
 ''' <param name="pure">
 ''' </param>
-Public Function SNP([in] As String, Optional ref As String = "", Optional high As String = "", Optional pure As Boolean = False, Optional monomorphic As Boolean = False) As Integer
+Public Function SNP([in] As String, 
+                       Optional ref As String = "", 
+                       Optional high As String = "", 
+                       Optional pure As Boolean = False, 
+                       Optional monomorphic As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SNP")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1807,7 +1891,12 @@ End Function
 '''
 ''' <param name="out">
 ''' </param>
-Public Function Hairpinks([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "") As Integer
+Public Function Hairpinks([in] As String, 
+                             Optional out As String = "", 
+                             Optional min As String = "", 
+                             Optional max As String = "", 
+                             Optional cutoff As String = "", 
+                             Optional max_dist As String = "") As Integer
     Dim CLI As New StringBuilder("--Hairpinks")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1840,7 +1929,13 @@ End Function
 ''' </summary>
 '''
 
-Public Function HairpinksBatch([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional num_threads As String = "") As Integer
+Public Function HairpinksBatch([in] As String, 
+                                  Optional out As String = "", 
+                                  Optional min As String = "", 
+                                  Optional max As String = "", 
+                                  Optional cutoff As String = "", 
+                                  Optional max_dist As String = "", 
+                                  Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--Hairpinks.batch.task")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1876,7 +1971,13 @@ End Function
 ''' </summary>
 '''
 
-Public Function BatchSearchImperfectsPalindrome([in] As String, out As String, Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional num_threads As String = "") As Integer
+Public Function BatchSearchImperfectsPalindrome([in] As String, 
+                                                   out As String, 
+                                                   Optional min As String = "", 
+                                                   Optional max As String = "", 
+                                                   Optional cutoff As String = "", 
+                                                   Optional max_dist As String = "", 
+                                                   Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--ImperfectsPalindrome.batch.Task")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1966,7 +2067,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function BatchSearchPalindrome([in] As String, out As String, Optional min As String = "", Optional max As String = "", Optional num_threads As String = "") As Integer
+Public Function BatchSearchPalindrome([in] As String, 
+                                         out As String, 
+                                         Optional min As String = "", 
+                                         Optional max As String = "", 
+                                         Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("--Palindrome.batch.Task")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2055,7 +2160,13 @@ End Function
 '''
 ''' <param name="[in]"> This parameter is a file path of a nt sequence in fasta format, or you can directly input the sequence data from commandline ``std_in``.
 ''' </param>
-Public Function ImperfectPalindrome([in] As String, Optional out As String = "", Optional min As String = "", Optional max As String = "", Optional cutoff As String = "", Optional max_dist As String = "", Optional partitions As String = "") As Integer
+Public Function ImperfectPalindrome([in] As String, 
+                                       Optional out As String = "", 
+                                       Optional min As String = "", 
+                                       Optional max As String = "", 
+                                       Optional cutoff As String = "", 
+                                       Optional max_dist As String = "", 
+                                       Optional partitions As String = "") As Integer
     Dim CLI As New StringBuilder("--Palindrome.Imperfects")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2177,7 +2288,11 @@ End Function
 ''' </param>
 ''' <param name="out">
 ''' </param>
-Public Function BatchSearch(aln As String, Optional min As String = "", Optional max As String = "", Optional min_rep As String = "", Optional out As String = "") As Integer
+Public Function BatchSearch(aln As String, 
+                               Optional min As String = "", 
+                               Optional max As String = "", 
+                               Optional min_rep As String = "", 
+                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("Search.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/aln " & """" & aln & """ ")
@@ -2207,7 +2322,16 @@ End Function
 ''' </summary>
 '''
 
-Public Function GetSegment(fasta As String, Optional loci As String = "", Optional length As String = "", Optional right As String = "", Optional __reverse__ As String = "", Optional geneid As String = "", Optional dist As String = "", Optional o As String = "", Optional __line_break As String = "", Optional downstream_ As Boolean = False) As Integer
+Public Function GetSegment(fasta As String, 
+                              Optional loci As String = "", 
+                              Optional length As String = "", 
+                              Optional right As String = "", 
+                              Optional __reverse__ As String = "", 
+                              Optional geneid As String = "", 
+                              Optional dist As String = "", 
+                              Optional o As String = "", 
+                              Optional __line_break As String = "", 
+                              Optional downstream_ As Boolean = False) As Integer
     Dim CLI As New StringBuilder("-segment")
     Call CLI.Append(" ")
     Call CLI.Append("/fasta " & """" & fasta & """ ")
@@ -2257,7 +2381,11 @@ End Function
 ''' </param>
 ''' <param name="brief_dump"> If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.
 ''' </param>
-Public Function GetSegments(regions As String, fasta As String, Optional complement As Boolean = False, Optional reversed As Boolean = False, Optional brief_dump As Boolean = False) As Integer
+Public Function GetSegments(regions As String, 
+                               fasta As String, 
+                               Optional complement As Boolean = False, 
+                               Optional reversed As Boolean = False, 
+                               Optional brief_dump As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--segments")
     Call CLI.Append(" ")
     Call CLI.Append("/regions " & """" & regions & """ ")
@@ -2285,7 +2413,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function ToVector([in] As String, min As String, max As String, out As String, size As String) As Integer
+Public Function ToVector([in] As String, 
+                            min As String, 
+                            max As String, 
+                            out As String, 
+                            size As String) As Integer
     Dim CLI As New StringBuilder("--ToVector")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2341,7 +2473,11 @@ End Function
 ''' </param>
 ''' <param name="break"> Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.
 ''' </param>
-Public Function Trim([in] As String, Optional [case] As String = "", Optional break As String = "", Optional out As String = "", Optional brief As Boolean = False) As Integer
+Public Function Trim([in] As String, 
+                        Optional [case] As String = "", 
+                        Optional break As String = "", 
+                        Optional out As String = "", 
+                        Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Trim")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
