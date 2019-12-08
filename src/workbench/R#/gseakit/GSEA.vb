@@ -11,6 +11,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
@@ -41,13 +42,23 @@ Module GSEA
     End Function
 
     <ExportAPI("write.enrichment")>
-    Public Function SaveEnrichment(enrichment As EnrichmentResult(), file$, Optional format$ = "GCModeller") As Boolean
-        If format = "GCModeller" Then
-            Return enrichment.SaveTo(file)
-        ElseIf format = "KOBAS" Then
-            Return KOBASFormat(enrichment).SaveTo(file)
+    Public Function SaveEnrichment(enrichment As Object, file$, Optional format$ = "GCModeller") As Boolean
+        If enrichment Is Nothing Then
+            Throw New ArgumentNullException(NameOf(enrichment))
+        End If
+
+        If REnv.isVector(Of EnrichmentResult)(enrichment) Then
+            If format = "GCModeller" Then
+                Return DirectCast(enrichment, EnrichmentResult()).SaveTo(file)
+            ElseIf format = "KOBAS" Then
+                Return KOBASFormat(enrichment).SaveTo(file)
+            Else
+                Throw New NotImplementedException(format)
+            End If
+        ElseIf REnv.isVector(Of EnrichmentTerm)(enrichment) Then
+            Return DirectCast(enrichment, EnrichmentTerm()).SaveTo(file)
         Else
-            Throw New NotImplementedException(format)
+            Throw New InvalidProgramException(enrichment.GetType.FullName)
         End If
     End Function
 
