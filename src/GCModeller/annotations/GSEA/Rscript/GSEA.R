@@ -21,9 +21,11 @@ print(background);
 if (is.empty(go)) {
     background
     :> enrichment(geneSet)
+    :> enrichment.FDR
     :> write.enrichment(file = save.csv);
 } else {
     background
     :> enrichment.go(geneSet, go)
+    :> enrichment.FDR
     :> write.enrichment(file = save.csv);
 }
