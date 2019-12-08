@@ -79,6 +79,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property entry As KeyValuePair
 
+        ''' <summary>
+        ''' <see cref="KeyValuePair.Key"/> of property <see cref="entry"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property kegg_id As String
+            Get
+                Return entry.Key
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return entry.ToString
         End Function

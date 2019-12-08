@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -177,7 +177,12 @@ Public Class MEME : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As MEME
           Return New MEME(App:=directory & "/" & MEME.App)
@@ -190,6 +195,7 @@ Public Class MEME : Inherits InteropService
 ''' Select bbh result for the regulators in RegPrecise database from the regulon bbh data.
 ''' </summary>
 '''
+
 Public Function SelectRegulatorsBBH([in] As String, db As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/BBH.Select.Regulators")
     Call CLI.Append(" ")
@@ -211,6 +217,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildFamilyDb(prot As String, pfam As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Build.FamilyDb")
     Call CLI.Append(" ")
@@ -232,6 +239,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BatchCopy([in] As String, Optional out As String = "", Optional file As String = "") As Integer
     Dim CLI As New StringBuilder("/Copys")
     Call CLI.Append(" ")
@@ -255,6 +263,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BatchCopyDIR([in] As String, out As String) As Integer
     Dim CLI As New StringBuilder("/Copys.DIR")
     Call CLI.Append(" ")
@@ -273,6 +282,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CORN([in] As String, mast As String, PTT As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/CORN")
     Call CLI.Append(" ")
@@ -295,7 +305,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportMotifDraw([in] As String, MEME As String, KEGG As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
+
+Public Function ExportMotifDraw([in] As String, 
+                                   MEME As String, 
+                                   KEGG As String, 
+                                   Optional out As String = "", 
+                                   Optional pathway As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/EXPORT.MotifDraws")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -321,6 +336,7 @@ End Function
 ''' Motif iteration step 1
 ''' </summary>
 '''
+
 Public Function ExportTestMotifs([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.MotifSites")
     Call CLI.Append(" ")
@@ -345,6 +361,7 @@ End Function
 ''' This commandline tool have no argument parameters.
 ''' </summary>
 '''
+
 Public Function ExportRegpreciseMotifs() As Integer
     Dim CLI As New StringBuilder("/Export.Regprecise.Motifs")
     Call CLI.Append(" ")
@@ -362,6 +379,7 @@ End Function
 ''' Motif iteration step 2
 ''' </summary>
 '''
+
 Public Function LoadSimilarityHits([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.Similarity.Hits")
     Call CLI.Append(" ")
@@ -383,7 +401,15 @@ End Function
 ''' 3 - Generates the regulation footprints.
 ''' </summary>
 '''
-Public Function ToFootprints(footprints As String, coor As String, DOOR As String, maps As String, Optional out As String = "", Optional cuts As String = "", Optional extract As Boolean = False) As Integer
+''' <param name="extract"> Extract the DOOR operon when the regulated gene is the first gene of the operon.
+''' </param>
+Public Function ToFootprints(footprints As String, 
+                                coor As String, 
+                                DOOR As String, 
+                                maps As String, 
+                                Optional out As String = "", 
+                                Optional cuts As String = "", 
+                                Optional extract As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Footprints")
     Call CLI.Append(" ")
     Call CLI.Append("/footprints " & """" & footprints & """ ")
@@ -413,6 +439,7 @@ End Function
 ''' 2
 ''' </summary>
 '''
+
 Public Function HitContext(footprints As String, PTT As String, Optional out As String = "", Optional regprecise As String = "") As Integer
     Dim CLI As New StringBuilder("/Hits.Context")
     Call CLI.Append(" ")
@@ -437,6 +464,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function CompareMotif(query As String, [sub] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/LDM.Compares")
     Call CLI.Append(" ")
@@ -458,6 +486,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LDMMaxLen(Optional [in] As String = "") As Integer
     Dim CLI As New StringBuilder("/LDM.MaxW")
     Call CLI.Append(" ")
@@ -477,6 +506,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Selectes(trace As String, meme As String, Optional out As String = "", Optional named As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/LDM.Selects")
     Call CLI.Append(" ")
@@ -501,6 +531,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MotifMatch2(meme As String, mast As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MAST.MotifMatches")
     Call CLI.Append(" ")
@@ -523,6 +554,7 @@ End Function
 ''' 1
 ''' </summary>
 '''
+
 Public Function MotifMatch(meme As String, mast As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MAST.MotifMatchs.Family")
     Call CLI.Append(" ")
@@ -544,7 +576,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MastRegulations([in] As String, correlation As String, DOOR As String, Optional out As String = "", Optional cut As String = "") As Integer
+
+Public Function MastRegulations([in] As String, 
+                                   correlation As String, 
+                                   DOOR As String, 
+                                   Optional out As String = "", 
+                                   Optional cut As String = "") As Integer
     Dim CLI As New StringBuilder("/mast.Regulations")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -569,6 +606,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildPWMDb(source As String, Optional out As String = "", Optional evalue As String = "") As Integer
     Dim CLI As New StringBuilder("/MAST_LDM.Build")
     Call CLI.Append(" ")
@@ -593,7 +631,16 @@ End Function
 ''' Batch meme task by using tmod toolbox.
 ''' </summary>
 '''
-Public Function MEMEBatch([in] As String, Optional out As String = "", Optional evalue As String = "", Optional nmotifs As String = "", Optional [mod] As String = "", Optional maxw As String = "") As Integer
+''' <param name="[in]"> A directory path which contains the fasta sequence for the meme motifs analysis.
+''' </param>
+''' <param name="out"> A directory path which outputs the meme.txt data to that directory.
+''' </param>
+Public Function MEMEBatch([in] As String, 
+                             Optional out As String = "", 
+                             Optional evalue As String = "", 
+                             Optional nmotifs As String = "", 
+                             Optional [mod] As String = "", 
+                             Optional maxw As String = "") As Integer
     Dim CLI As New StringBuilder("/MEME.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -625,6 +672,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MEME2LDM([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MEME.LDMs")
     Call CLI.Append(" ")
@@ -645,7 +693,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildRegulons(meme As String, model As String, DOOR As String, maps As String, corrs As String, Optional cut As String = "", Optional out As String = "") As Integer
+
+Public Function BuildRegulons(meme As String, 
+                                 model As String, 
+                                 DOOR As String, 
+                                 maps As String, 
+                                 corrs As String, 
+                                 Optional cut As String = "", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.BuildRegulons")
     Call CLI.Append(" ")
     Call CLI.Append("/meme " & """" & meme & """ ")
@@ -673,7 +728,15 @@ End Function
 ''' Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
-Public Function MotifInfo(loci As String, Optional motifs As String = "", Optional gff As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
+''' <param name="loci"> The motif site info data set, type Is simple segment.
+''' </param>
+''' <param name="motifs"> A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory
+''' </param>
+Public Function MotifInfo(loci As String, 
+                             Optional motifs As String = "", 
+                             Optional gff As String = "", 
+                             Optional atg_dist As String = "", 
+                             Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Info")
     Call CLI.Append(" ")
     Call CLI.Append("/loci " & """" & loci & """ ")
@@ -703,7 +766,16 @@ End Function
 ''' [SimpleSegment] -&gt; [MotifLog]
 ''' </summary>
 '''
-Public Function MotifInfoBatch([in] As String, gffs As String, Optional motifs As String = "", Optional num_threads As String = "", Optional atg_dist As String = "", Optional out As String = "") As Integer
+''' <param name="motifs"> Regulogs.Xml source directory
+''' </param>
+''' <param name="num_threads"> Default Is -1, means auto config of the threads number.
+''' </param>
+Public Function MotifInfoBatch([in] As String, 
+                                  gffs As String, 
+                                  Optional motifs As String = "", 
+                                  Optional num_threads As String = "", 
+                                  Optional atg_dist As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Motif.Info.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -734,6 +806,7 @@ End Function
 ''' Export of the calculation result from the tomtom program.
 ''' </summary>
 '''
+
 Public Function MEMETOM_MotifSimilarity([in] As String, motifs As String, Optional out As String = "", Optional bp_var As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Motif.Similarity")
     Call CLI.Append(" ")
@@ -758,7 +831,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function HitsRegulation(hits As String, source As String, PTT As String, correlates As String, bbh As String, Optional out As String = "") As Integer
+
+Public Function HitsRegulation(hits As String, 
+                                  source As String, 
+                                  PTT As String, 
+                                  correlates As String, 
+                                  bbh As String, 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MotifHits.Regulation")
     Call CLI.Append(" ")
     Call CLI.Append("/hits " & """" & hits & """ ")
@@ -782,6 +861,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MotifSites2Fasta([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MotifSites.Fasta")
     Call CLI.Append(" ")
@@ -802,7 +882,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ParserDEGs(degs As String, PTT As String, door As String, out As String, Optional log_fold As String = "") As Integer
+
+Public Function ParserDEGs(degs As String, 
+                              PTT As String, 
+                              door As String, 
+                              out As String, 
+                              Optional log_fold As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.DEGs")
     Call CLI.Append(" ")
     Call CLI.Append("/degs " & """" & degs & """ ")
@@ -825,6 +910,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ParserLocus(locus As String, PTT As String, DOOR As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Locus")
     Call CLI.Append(" ")
@@ -847,7 +933,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ParserLog2([in] As String, PTT As String, DOOR As String, Optional factor As String = "", Optional out As String = "") As Integer
+
+Public Function ParserLog2([in] As String, 
+                              PTT As String, 
+                              DOOR As String, 
+                              Optional factor As String = "", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Log2")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -872,6 +963,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ParserMAST(sites As String, ptt As String, door As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.MAST")
     Call CLI.Append(" ")
@@ -895,7 +987,12 @@ End Function
 ''' Parsing promoter sequence region for genes in kegg reaction modules
 ''' </summary>
 '''
-Public Function ModuleParser(KEGG_Modules As String, PTT As String, DOOR As String, Optional locus As String = "", Optional out As String = "") As Integer
+
+Public Function ModuleParser(KEGG_Modules As String, 
+                                PTT As String, 
+                                DOOR As String, 
+                                Optional locus As String = "", 
+                                Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Modules")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Modules " & """" & KEGG_Modules & """ ")
@@ -920,7 +1017,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ParserNextIterator([in] As String, PTT As String, Optional out As String = "", Optional offset As String = "", Optional family As Boolean = False, Optional all As Boolean = False) As Integer
+''' <param name="family"> Group the source by family? Or output the source in one fasta set
+''' </param>
+Public Function ParserNextIterator([in] As String, 
+                                      PTT As String, 
+                                      Optional out As String = "", 
+                                      Optional offset As String = "", 
+                                      Optional family As Boolean = False, 
+                                      Optional all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Parser.Operon")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -951,7 +1055,17 @@ End Function
 ''' Parsing promoter sequence region for genes in pathways.
 ''' </summary>
 '''
-Public Function PathwayParser(KEGG_Pathways As String, src As String, Optional door As String = "", Optional locus As String = "", Optional out As String = "") As Integer
+''' <param name="kegg_pathways"> DBget fetch result from ``kegg_tools``.
+''' </param>
+''' <param name="src"> The genome proteins gene coordination data file. It can be download from NCBI web site.
+''' </param>
+''' <param name="locus"> Only works when ``/DOOR`` file was presented.
+''' </param>
+Public Function PathwayParser(KEGG_Pathways As String, 
+                                 src As String, 
+                                 Optional door As String = "", 
+                                 Optional locus As String = "", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway")
     Call CLI.Append(" ")
     Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")
@@ -978,6 +1092,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PathwayParserBatch([in] As String, assembly As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Pathway.Batch")
     Call CLI.Append(" ")
@@ -999,7 +1114,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ParserRegPreciseOperon(operon As String, PTT As String, Optional door As String = "", Optional id As String = "", Optional locus As String = "", Optional out As String = "", Optional corn As Boolean = False) As Integer
+
+Public Function ParserRegPreciseOperon(operon As String, 
+                                          PTT As String, 
+                                          Optional door As String = "", 
+                                          Optional id As String = "", 
+                                          Optional locus As String = "", 
+                                          Optional out As String = "", 
+                                          Optional corn As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Parser.RegPrecise.Operons")
     Call CLI.Append(" ")
     Call CLI.Append("/operon " & """" & operon & """ ")
@@ -1032,6 +1154,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonParser(inDIR As String, out As String, PTT As String, Optional door As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Regulon")
     Call CLI.Append(" ")
@@ -1054,6 +1177,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonParser2(inDIR As String, out As String, gb As String, Optional door As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Regulon.gb")
     Call CLI.Append(" ")
@@ -1076,6 +1200,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonParser3([in] As String, out As String, PTT As String, Optional door As String = "") As Integer
     Dim CLI As New StringBuilder("/Parser.Regulon.Merged")
     Call CLI.Append(" ")
@@ -1098,6 +1223,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulatorMotifs(bbh As String, regprecise As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulator.Motifs")
     Call CLI.Append(" ")
@@ -1119,6 +1245,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function TestRegulatorMotifs(hits As String, motifs As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulator.Motifs.Test")
     Call CLI.Append(" ")
@@ -1141,6 +1268,7 @@ End Function
 ''' Regprecise regulators data source compiler.
 ''' </summary>
 '''
+
 Public Function RegulatorsCompile() As Integer
     Dim CLI As New StringBuilder("/regulators.compile")
     Call CLI.Append(" ")
@@ -1157,6 +1285,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportRegulon([in] As String, ref As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/regulon.export")
     Call CLI.Append(" ")
@@ -1178,6 +1307,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonReconstruct(bbh As String, genome As String, door As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulon.Reconstruct")
     Call CLI.Append(" ")
@@ -1200,6 +1330,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonReconstructs2(bbh As String, genome As String, door As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulon.Reconstruct2")
     Call CLI.Append(" ")
@@ -1223,6 +1354,12 @@ End Function
 ''' Doing the regulon reconstruction job in batch mode.
 ''' </summary>
 '''
+''' <param name="bbh"> A directory which contains the bbh export csv data from the localblast tool.
+''' </param>
+''' <param name="genome"> The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.
+''' </param>
+''' <param name="door"> Door file which is the prediction data of the bacterial operon.
+''' </param>
 Public Function RegulonReconstructs(bbh As String, genome As String, Optional door As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Regulon.Reconstructs")
     Call CLI.Append(" ")
@@ -1247,6 +1384,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RegulonTest([in] As String, reg As String, bbh As String) As Integer
     Dim CLI As New StringBuilder("/Regulon.Test")
     Call CLI.Append(" ")
@@ -1266,6 +1404,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RfamSites(source As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/RfamSites")
     Call CLI.Append(" ")
@@ -1286,6 +1425,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SequenceLogoTask([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/seq.logo")
     Call CLI.Append(" ")
@@ -1307,6 +1447,7 @@ End Function
 ''' Motif iteration step 3
 ''' </summary>
 '''
+
 Public Function UnionSimilarity([in] As String, meme As String, hits As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Similarity.Union")
     Call CLI.Append(" ")
@@ -1330,6 +1471,8 @@ End Function
 ''' [MAST.Xml] -&gt; [SimpleSegment]
 ''' </summary>
 '''
+''' <param name="batch"> If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.
+''' </param>
 Public Function SiteMASTScan(mast As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Site.MAST_Scan")
     Call CLI.Append(" ")
@@ -1354,6 +1497,7 @@ End Function
 ''' [MAST.Xml] -&gt; [SimpleSegment]
 ''' </summary>
 '''
+
 Public Function SiteMASTScanBatch(mast As String, Optional out As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/Site.MAST_Scan")
     Call CLI.Append(" ")
@@ -1377,6 +1521,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SiteRegexScan(meme As String, nt As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Site.RegexScan")
     Call CLI.Append(" ")
@@ -1401,6 +1546,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SiteScan(query As String, subject As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/site.scan")
     Call CLI.Append(" ")
@@ -1423,7 +1569,14 @@ End Function
 ''' Generates the regulation information.
 ''' </summary>
 '''
-Public Function SiteHitsToFootprints(sites As String, bbh As String, meme As String, PTT As String, DOOR As String, Optional out As String = "", Optional queryhash As Boolean = False) As Integer
+
+Public Function SiteHitsToFootprints(sites As String, 
+                                        bbh As String, 
+                                        meme As String, 
+                                        PTT As String, 
+                                        DOOR As String, 
+                                        Optional out As String = "", 
+                                        Optional queryhash As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SiteHits.Footprints")
     Call CLI.Append(" ")
     Call CLI.Append("/sites " & """" & sites & """ ")
@@ -1450,6 +1603,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SWTomCompares(query As String, subject As String, Optional out As String = "", Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Compares")
     Call CLI.Append(" ")
@@ -1474,6 +1628,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SWTomComparesBatch(query As String, subject As String, Optional out As String = "", Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Compares.Batch")
     Call CLI.Append(" ")
@@ -1498,6 +1653,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SWTomLDM(query As String, subject As String, Optional out As String = "", Optional method As String = "") As Integer
     Dim CLI As New StringBuilder("/SWTOM.LDM")
     Call CLI.Append(" ")
@@ -1522,7 +1678,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SWTomQuery(query As String, Optional out As String = "", Optional method As String = "", Optional bits_level As String = "", Optional minw As String = "", Optional no_html As Boolean = False) As Integer
+''' <param name="no_HTML"> If this parameter is true, then only the XML result will be export.
+''' </param>
+Public Function SWTomQuery(query As String, 
+                              Optional out As String = "", 
+                              Optional method As String = "", 
+                              Optional bits_level As String = "", 
+                              Optional minw As String = "", 
+                              Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Query")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1554,7 +1717,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SWTomQueryBatch(query As String, Optional out As String = "", Optional sw_offset As String = "", Optional method As String = "", Optional bits_level As String = "", Optional minw As String = "", Optional sw_threshold As String = "", Optional tom_threshold As String = "", Optional no_html As Boolean = False) As Integer
+''' <param name="no_HTML"> If this parameter is true, then only the XML result will be export.
+''' </param>
+Public Function SWTomQueryBatch(query As String, 
+                                   Optional out As String = "", 
+                                   Optional sw_offset As String = "", 
+                                   Optional method As String = "", 
+                                   Optional bits_level As String = "", 
+                                   Optional minw As String = "", 
+                                   Optional sw_threshold As String = "", 
+                                   Optional tom_threshold As String = "", 
+                                   Optional no_html As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/SWTOM.Query.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1595,7 +1768,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TomQuery(query As String, Optional out As String = "", Optional method As String = "", Optional cost As String = "", Optional threshold As String = "", Optional meme As Boolean = False) As Integer
+
+Public Function TomQuery(query As String, 
+                            Optional out As String = "", 
+                            Optional method As String = "", 
+                            Optional cost As String = "", 
+                            Optional threshold As String = "", 
+                            Optional meme As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Tom.Query")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1627,7 +1806,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TomQueryBatch(query As String, Optional out As String = "", Optional method As String = "", Optional cost As String = "", Optional threshold As String = "") As Integer
+
+Public Function TomQueryBatch(query As String, 
+                                 Optional out As String = "", 
+                                 Optional method As String = "", 
+                                 Optional cost As String = "", 
+                                 Optional threshold As String = "") As Integer
     Dim CLI As New StringBuilder("/Tom.Query.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1656,7 +1840,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TomTOMMethod(query As String, subject As String, Optional out As String = "", Optional method As String = "", Optional cost As String = "", Optional threshold As String = "") As Integer
+
+Public Function TomTOMMethod(query As String, 
+                                subject As String, 
+                                Optional out As String = "", 
+                                Optional method As String = "", 
+                                Optional cost As String = "", 
+                                Optional threshold As String = "") As Integer
     Dim CLI As New StringBuilder("/TomTOM")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1686,7 +1876,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function LDMTomTom(query As String, subject As String, Optional out As String = "", Optional method As String = "", Optional cost As String = "", Optional threshold As String = "") As Integer
+
+Public Function LDMTomTom(query As String, 
+                             subject As String, 
+                             Optional out As String = "", 
+                             Optional method As String = "", 
+                             Optional cost As String = "", 
+                             Optional threshold As String = "") As Integer
     Dim CLI As New StringBuilder("/TomTom.LDM")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1716,6 +1912,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MEMEPlantSimilarity([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/TomTOM.Similarity")
     Call CLI.Append(" ")
@@ -1736,6 +1933,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MEMEPlantSimilarityBatch([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/TOMTOM.Similarity.Batch")
     Call CLI.Append(" ")
@@ -1756,6 +1954,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportTOMSites([in] As String, meme As String, Optional grep As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/TomTom.Sites.Groups")
     Call CLI.Append(" ")
@@ -1780,7 +1979,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Trim([in] As String, locus As String, correlations As String, Optional out As String = "", Optional cut As String = "") As Integer
+
+Public Function Trim([in] As String, 
+                        locus As String, 
+                        correlations As String, 
+                        Optional out As String = "", 
+                        Optional cut As String = "") As Integer
     Dim CLI As New StringBuilder("/Trim.MastSite")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1806,6 +2010,7 @@ End Function
 ''' Trim meme input data set for duplicated sequence and short seqeucne which its min length is smaller than the required min length.
 ''' </summary>
 '''
+
 Public Function TrimInputs([in] As String, Optional out As String = "", Optional minl As String = "", Optional distinct As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Trim.MEME.Dataset")
     Call CLI.Append(" ")
@@ -1833,7 +2038,15 @@ End Function
 ''' Genome wide step 2
 ''' </summary>
 '''
-Public Function Build(bbh As String, mast As String, Optional cutoff As String = "", Optional out As String = "", Optional sp As String = "", Optional door As String = "", Optional door_extract As Boolean = False) As Integer
+''' <param name="DOOR_extract"> Extract the operon structure genes after assign the operon information.
+''' </param>
+Public Function Build(bbh As String, 
+                         mast As String, 
+                         Optional cutoff As String = "", 
+                         Optional out As String = "", 
+                         Optional sp As String = "", 
+                         Optional door As String = "", 
+                         Optional door_extract As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--build.Regulations")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -1866,7 +2079,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildFromMotifSites(bbh As String, motifs As String, Optional cutoff As String = "", Optional sp As String = "", Optional out As String = "") As Integer
+
+Public Function BuildFromMotifSites(bbh As String, 
+                                       motifs As String, 
+                                       Optional cutoff As String = "", 
+                                       Optional sp As String = "", 
+                                       Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--build.Regulations.From.Motifs")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -1893,6 +2111,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function WGCNAModsCExpr(mods As String, genome As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--CExpr.WGCNA")
     Call CLI.Append(" ")
@@ -1914,6 +2133,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]"> The RegPrecise formated title fasta file.
+''' </param>
 Public Function KEGGFamilyDump([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--Dump.KEGG.Family")
     Call CLI.Append(" ")
@@ -1934,6 +2155,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FamilyStatics(sites As String, mods As String) As Integer
     Dim CLI As New StringBuilder("--family.statics")
     Call CLI.Append(" ")
@@ -1952,7 +2174,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetIntergenic(PTT As String, nt As String, Optional o As String = "", Optional len As String = "", Optional strict As Boolean = False) As Integer
+
+Public Function GetIntergenic(PTT As String, 
+                                 nt As String, 
+                                 Optional o As String = "", 
+                                 Optional len As String = "", 
+                                 Optional strict As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--Get.Intergenic")
     Call CLI.Append(" ")
     Call CLI.Append("/PTT " & """" & PTT & """ ")
@@ -1979,6 +2206,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetFasta(bbh As String, id As String, regprecise As String) As Integer
     Dim CLI As New StringBuilder("--GetFasta")
     Call CLI.Append(" ")
@@ -1998,6 +2226,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DiffHits(query As String, subject As String, Optional reverse As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--hits.diff")
     Call CLI.Append(" ")
@@ -2019,6 +2248,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MaxIntersection(query As String, subject As String) As Integer
     Dim CLI As New StringBuilder("--Intersect.Max")
     Call CLI.Append(" ")
@@ -2037,6 +2267,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LogoBatch([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--logo.Batch")
     Call CLI.Append(" ")
@@ -2057,7 +2288,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SiteMappedBack(meme As String, mast As String, ptt As String, Optional out As String = "", Optional offset As String = "", Optional atg_dist As String = "") As Integer
+
+Public Function SiteMappedBack(meme As String, 
+                                  mast As String, 
+                                  ptt As String, 
+                                  Optional out As String = "", 
+                                  Optional offset As String = "", 
+                                  Optional atg_dist As String = "") As Integer
     Dim CLI As New StringBuilder("--mapped-Back")
     Call CLI.Append(" ")
     Call CLI.Append("/meme " & """" & meme & """ ")
@@ -2085,7 +2322,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CompileMast(mast As String, ptt As String, Optional p_value As String = "", Optional mast_ldm As String = "", Optional atg_dist As String = "", Optional no_meme As Boolean = False, Optional no_reginfo As Boolean = False) As Integer
+
+Public Function CompileMast(mast As String, 
+                               ptt As String, 
+                               Optional p_value As String = "", 
+                               Optional mast_ldm As String = "", 
+                               Optional atg_dist As String = "", 
+                               Optional no_meme As Boolean = False, 
+                               Optional no_reginfo As Boolean = False) As Integer
     Dim CLI As New StringBuilder("mast.compile")
     Call CLI.Append(" ")
     Call CLI.Append("/mast " & """" & mast & """ ")
@@ -2119,7 +2363,16 @@ End Function
 ''' Genome wide step 1
 ''' </summary>
 '''
-Public Function CompileMastBuck(source As String, Optional ptt As String = "", Optional atg_dist As String = "", Optional p_value As String = "", Optional mast_ldm As String = "", Optional no_meme As Boolean = False, Optional no_reginfo As Boolean = False, Optional related_all As Boolean = False) As Integer
+''' <param name="no_meme"> Specific that the mast site construction will without and meme pwm MAST_LDM model.
+''' </param>
+Public Function CompileMastBuck(source As String, 
+                                   Optional ptt As String = "", 
+                                   Optional atg_dist As String = "", 
+                                   Optional p_value As String = "", 
+                                   Optional mast_ldm As String = "", 
+                                   Optional no_meme As Boolean = False, 
+                                   Optional no_reginfo As Boolean = False, 
+                                   Optional related_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("mast.compile.bulk")
     Call CLI.Append(" ")
     Call CLI.Append("/source " & """" & source & """ ")
@@ -2158,6 +2411,9 @@ End Function
 ''' Exports the Venn diagram model for the module regulations.
 ''' </summary>
 '''
+''' <param name="[in]"> The footprints data required of fill out the pathway Class, category and type information before you call this function.
+'''                    If the fields is blank, then your should specify the /mods parameter.
+''' </param>
 Public Function ModuleRegulates([in] As String, Optional out As String = "", Optional mods As String = "") As Integer
     Dim CLI As New StringBuilder("--modules.regulates")
     Call CLI.Append(" ")
@@ -2181,6 +2437,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MotifLocites(ptt As String, meme As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("Motif.Locates")
     Call CLI.Append(" ")
@@ -2203,7 +2460,13 @@ End Function
 ''' Scan for the motif site by using fragment similarity.
 ''' </summary>
 '''
-Public Function MotifScan(nt As String, motif As String, Optional delta As String = "", Optional delta2 As String = "", Optional offset As String = "", Optional out As String = "") As Integer
+
+Public Function MotifScan(nt As String, 
+                             motif As String, 
+                             Optional delta As String = "", 
+                             Optional delta2 As String = "", 
+                             Optional offset As String = "", 
+                             Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("MotifScan")
     Call CLI.Append(" ")
     Call CLI.Append("-nt " & """" & nt & """ ")
@@ -2234,6 +2497,7 @@ End Function
 ''' Associates of the pathway regulation information for the predicted virtual footprint information.
 ''' </summary>
 '''
+
 Public Function PathwayRegulations(footprints As String, pathway As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--pathway.regulates")
     Call CLI.Append(" ")
@@ -2256,7 +2520,13 @@ End Function
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
 '''
-Public Function RegulatorsBBh(bbh As String, Optional save As String = "", Optional maps As String = "", Optional direct As Boolean = False, Optional regulons As Boolean = False) As Integer
+''' <param name="regulons"> The data source of the /bbh parameter is comes from the regulons bbh data.
+''' </param>
+Public Function RegulatorsBBh(bbh As String, 
+                                 Optional save As String = "", 
+                                 Optional maps As String = "", 
+                                 Optional direct As Boolean = False, 
+                                 Optional regulons As Boolean = False) As Integer
     Dim CLI As New StringBuilder("regulators.bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -2285,7 +2555,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SiteMatch(meme As String, mast As String, out As String, Optional ptt As String = "", Optional len As String = "") As Integer
+''' <param name="len"> If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.
+''' </param>
+Public Function SiteMatch(meme As String, 
+                             mast As String, 
+                             out As String, 
+                             Optional ptt As String = "", 
+                             Optional len As String = "") As Integer
     Dim CLI As New StringBuilder("--site.Match")
     Call CLI.Append(" ")
     Call CLI.Append("/meme " & """" & meme & """ ")
@@ -2310,6 +2586,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SiteMatches(meme As String, mast As String, out As String, Optional ptt As String = "") As Integer
     Dim CLI As New StringBuilder("--site.Matches")
     Call CLI.Append(" ")
@@ -2333,7 +2610,12 @@ End Function
 ''' Using this function for processing the meme text output from the tmod toolbox.
 ''' </summary>
 '''
-Public Function SiteMatchesText(meme As String, mast As String, out As String, Optional ptt As String = "", Optional fasta As String = "") As Integer
+
+Public Function SiteMatchesText(meme As String, 
+                                   mast As String, 
+                                   out As String, 
+                                   Optional ptt As String = "", 
+                                   Optional fasta As String = "") As Integer
     Dim CLI As New StringBuilder("--site.Matches.text")
     Call CLI.Append(" ")
     Call CLI.Append("/meme " & """" & meme & """ ")
@@ -2359,6 +2641,7 @@ End Function
 ''' Statics of the PCC correlation distribution of the regulation
 ''' </summary>
 '''
+
 Public Function SiteStat([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("--site.stat")
     Call CLI.Append(" ")
@@ -2379,6 +2662,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function TCSRegulateModule(MiST2 As String, footprint As String, Pathways As String) As Integer
     Dim CLI As New StringBuilder("--TCS.Module.Regulations")
     Call CLI.Append(" ")
@@ -2398,6 +2682,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function TCSRegulations(TCS As String, modules As String, regulations As String) As Integer
     Dim CLI As New StringBuilder("--TCS.Regulations")
     Call CLI.Append(" ")
@@ -2418,6 +2703,7 @@ End Function
 ''' Associate the dip information with the Sigma 70 virtual footprints.
 ''' </summary>
 '''
+
 Public Function VirtualFootprintDIP(vf_csv As String, dip_csv As String) As Integer
     Dim CLI As New StringBuilder("VirtualFootprint.DIP")
     Call CLI.Append(" ")

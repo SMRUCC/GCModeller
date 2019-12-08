@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -57,7 +57,12 @@ Public Class kb : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As kb
           Return New kb(App:=directory & "/" & kb.App)
@@ -69,6 +74,7 @@ Public Class kb : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function TranslateField([in] As String, field As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/field.translate")
     Call CLI.Append(" ")
@@ -90,6 +96,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetKBAbstractInformation([in] As String, Optional min_weight As String = "0.05", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/kb.abstract")
     Call CLI.Append(" ")
@@ -113,6 +120,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BingAcademicQuery(term As String, Optional pages As String = "20", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/kb.build.query")
     Call CLI.Append(" ")
@@ -137,6 +145,7 @@ End Function
 ''' Create a kegg organism-compound maps dataset and save in rda file.
 ''' </summary>
 '''
+
 Public Function KEGGCompoundDataSet(repo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.compound.rda")
     Call CLI.Append(" ")
@@ -157,6 +166,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function KEGGMapsBackground([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.maps.background")
     Call CLI.Append(" ")
@@ -177,6 +187,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function BuildPubMedDatabase(term As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/pubmed.kb")
     Call CLI.Append(" ")
@@ -197,6 +208,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Summary([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/summary")
     Call CLI.Append(" ")
@@ -217,6 +229,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function WordTranslation([in] As String, Optional out As String = "", Optional _set As String = "") As Integer
     Dim CLI As New StringBuilder("/word.translation")
     Call CLI.Append(" ")

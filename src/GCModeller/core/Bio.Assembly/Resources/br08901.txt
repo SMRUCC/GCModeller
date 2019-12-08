@@ -160,14 +160,14 @@ C    00331  Clavulanic acid biosynthesis
 C    00521  Streptomycin biosynthesis
 C    00524  Neomycin, kanamycin and gentamicin biosynthesis
 C    00525  Acarbose and validamycin biosynthesis
-C    00231  Puromycin biosynthesis
 C    00401  Novobiocin biosynthesis
 C    00404  Staurosporine biosynthesis
 C    00405  Phenazine biosynthesis
 C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
-C    00998  Biosynthesis of secondary metabolites - other antibiotics
-C    00999  Biosynthesis of secondary metabolites - unclassified
+C    00999  Biosynthesis of various secondary metabolites - part 1
+C    00998  Biosynthesis of various secondary metabolites - part 2
+C    00997  Biosynthesis of various secondary metabolites - part 3
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
 C    00627  Aminobenzoate degradation
@@ -612,5 +612,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: October 2, 2019
+#Last updated: November 21, 2019
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -52,7 +52,12 @@ Public Class vcell : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As vcell
           Return New vcell(App:=directory & "/" & vcell.App)
@@ -65,6 +70,7 @@ Public Class vcell : Inherits InteropService
 ''' Different expression of ``exp vs normal``.
 ''' </summary>
 '''
+
 Public Function DiffExpression(normal As String, exp As String, Optional result As String = "") As Integer
     Dim CLI As New StringBuilder("/diff")
     Call CLI.Append(" ")
@@ -87,7 +93,16 @@ End Function
 ''' Run GCModeller VirtualCell.
 ''' </summary>
 '''
-Public Function Run(model As String, Optional deletes As String = "", Optional iterations As String = "5000", Optional out As String = "", Optional json As Boolean = False) As Integer
+''' <param name="deletes"> The ``locus_tag`` id list that will removes from the genome, 
+'''               use the comma symbol as delimiter. Or a txt file path for the gene id list.
+''' </param>
+''' <param name="csv"> The output data format is csv table files.
+''' </param>
+Public Function Run(model As String, 
+                       Optional deletes As String = "", 
+                       Optional iterations As String = "5000", 
+                       Optional out As String = "", 
+                       Optional json As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/run")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -116,6 +131,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function [Union]([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/union")
     Call CLI.Append(" ")

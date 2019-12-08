@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -57,7 +57,12 @@ Public Class venn : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As venn
           Return New venn(App:=directory & "/" & venn.App)
@@ -70,7 +75,31 @@ Public Class venn : Inherits InteropService
 ''' Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.
 ''' </summary>
 '''
-Public Function VennDiagramA(i As String, Optional t As String = "", Optional o As String = "", Optional s As String = "", Optional rbin As String = "", Optional first_id_skip As Boolean = False) As Integer
+''' <param name="i"> The csv data source file for drawing the venn diagram graph.
+''' </param>
+''' <param name="t"> Optional, the venn diagram title text
+''' </param>
+''' <param name="o"> Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then 
+'''               the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.
+''' </param>
+''' <param name="s"> Optional, the profile settings for the partitions in the venn diagram, each partition profile data is
+'''                in a key value paired like: name,color, and each partition profile pair is seperated by a &apos;;&apos; character.
+'''               If this switch value is not specific by the user then the program will trying to parse the partition name
+'''               from the column values and apply for each partition a randomize color.
+''' </param>
+''' <param name="rbin"> Optional, Set up the r bin path for drawing the venn diagram, if this switch value is not specific by the user then 
+'''               the program just output the venn diagram drawing R script file in a specific location, or if this switch 
+'''               value is specific by the user and is valid for call the R program then will output both venn diagram tiff image file and R script for drawing the output venn diagram.
+'''               This switch value is just for the windows user, when this program was running on a LINUX/UNIX/MAC platform operating 
+'''               system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to
+'''                get the venn diagram directly from this program.
+''' </param>
+Public Function VennDiagramA(i As String, 
+                                Optional t As String = "", 
+                                Optional o As String = "", 
+                                Optional s As String = "", 
+                                Optional rbin As String = "", 
+                                Optional first_id_skip As Boolean = False) As Integer
     Dim CLI As New StringBuilder(".Draw")
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")

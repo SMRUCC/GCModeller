@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -240,7 +240,12 @@ Public Class eggHTS : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As eggHTS
           Return New eggHTS(App:=directory & "/" & eggHTS.App)
@@ -252,6 +257,7 @@ Public Class eggHTS : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function BlastXFillORF([in] As String, blastx As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/blastX.fill.ORF")
     Call CLI.Append(" ")
@@ -274,6 +280,8 @@ End Function
 ''' Plots the COGs category statics profiling of the target genome from the COG annotation file.
 ''' </summary>
 '''
+''' <param name="[in]"> The COG annotation result.
+''' </param>
 Public Function COGCatalogProfilingPlot([in] As String, Optional size As String = "1800,1200", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/COG.profiling.plot")
     Call CLI.Append(" ")
@@ -298,6 +306,8 @@ End Function
 ''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
 ''' </summary>
 '''
+''' <param name="[in]"> The GCModeller enrichment analysis output table.
+''' </param>
 Public Function Converts([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Converts")
     Call CLI.Append(" ")
@@ -318,7 +328,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AddReMapping([in] As String, bbh As String, ID_mappings As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
+
+Public Function AddReMapping([in] As String, 
+                                bbh As String, 
+                                ID_mappings As String, 
+                                uniprot As String, 
+                                Optional id As String = "", 
+                                Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Data.Add.Mappings")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -344,6 +360,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DataAddORF([in] As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Data.Add.ORF")
     Call CLI.Append(" ")
@@ -368,6 +385,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DataAddUniprotIDs([in] As String, data As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Data.Add.uniprotIDs")
     Call CLI.Append(" ")
@@ -389,6 +407,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SplitDAVID([in] As String, Optional out As String = "./") As Integer
     Dim CLI As New StringBuilder("/DAVID.Split")
     Call CLI.Append(" ")
@@ -410,7 +429,33 @@ End Function
 ''' Visualize the DEPs&apos; kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmapScatter3D([in] As String, sampleInfo As String, Optional display_labels As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional arrow_factor As String = "1,2", Optional cluster_title As String = "", Optional out As String = "") As Integer
+''' <param name="[in]"> The kmeans cluster result from ``/DEP.heatmap`` command.
+''' </param>
+''' <param name="sampleInfo"> Sample info fot grouping the matrix column data and generates the 3d plot ``&lt;x,y,z&gt;`` coordinations.
+''' </param>
+''' <param name="cluster_prefix"> The term prefix of the kmeans cluster name when display on the legend title.
+''' </param>
+''' <param name="size"> The output 3D scatter plot image size.
+''' </param>
+''' <param name="view_angle"> The view angle of the 3D scatter plot objects, in 3D direction of ``&lt;X&gt;,&lt;Y&gt;,&lt;Z&gt;``
+''' </param>
+''' <param name="view_distance"> The view distance from the 3D camera screen to the 3D objects.
+''' </param>
+''' <param name="out"> The file path of the output plot image.
+''' </param>
+''' <param name="display_labels"> If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.
+''' </param>
+Public Function DEPHeatmapScatter3D([in] As String, 
+                                       sampleInfo As String, 
+                                       Optional display_labels As String = "-1", 
+                                       Optional cluster_prefix As String = "cluster: #", 
+                                       Optional size As String = "1600,1400", 
+                                       Optional schema As String = "clusters", 
+                                       Optional view_angle As String = "30,60,-56.25", 
+                                       Optional view_distance As String = "2500", 
+                                       Optional arrow_factor As String = "1,2", 
+                                       Optional cluster_title As String = "", 
+                                       Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -455,7 +500,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional pt_size As String = "15", Optional schema As String = "clusters", Optional out As String = "") As Integer
+''' <param name="sampleinfo"> This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
+'''                             and the corresponding ``sample_name`` data is the data for plot on the X or Y axis.
+''' </param>
+Public Function DEPKmeansScatter2D([in] As String, 
+                                      sampleInfo As String, 
+                                      Optional t_log As String = "-1", 
+                                      Optional cluster_prefix As String = "cluster: #", 
+                                      Optional size As String = "", 
+                                      Optional pt_size As String = "15", 
+                                      Optional schema As String = "clusters", 
+                                      Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -492,7 +547,18 @@ End Function
 ''' Using for plots the FC histogram when the experiment have no biological replicates.
 ''' </summary>
 '''
-Public Function logFCHistogram([in] As String, Optional [step] As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
+''' <param name="type"> Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is &quot;log2FC&quot;.
+''' </param>
+''' <param name="[step]"> The steps for generates the histogram test data.
+''' </param>
+Public Function logFCHistogram([in] As String, 
+                                  Optional [step] As String = "", 
+                                  Optional type As String = "log2fc", 
+                                  Optional legend_title As String = "", 
+                                  Optional x_axis As String = "(min,max),tick=0.25", 
+                                  Optional color As String = "", 
+                                  Optional size As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.hist")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -531,7 +597,31 @@ End Function
 ''' Volcano plot of the DEPs&apos; analysis result.
 ''' </summary>
 '''
-Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional label_p As String = "-1", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
+''' <param name="size"> The canvas size of the output image.
+''' </param>
+''' <param name="[in]"> The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``
+''' </param>
+''' <param name="colors"> The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.
+''' </param>
+''' <param name="title"> The plot main title.
+''' </param>
+''' <param name="p_value"> The p.value cutoff threshold, default is 0.05.
+''' </param>
+''' <param name="level"> The log2FC value cutoff threshold, default is ``log2(1.5)``.
+''' </param>
+''' <param name="display_count"> Display the protein counts in the legend label? by default is not.
+''' </param>
+''' <param name="label_p"> Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.
+''' </param>
+Public Function logFCVolcano([in] As String, 
+                                Optional title As String = "", 
+                                Optional p_value As String = "0.05", 
+                                Optional level As String = "1.5", 
+                                Optional colors As String = "", 
+                                Optional label_p As String = "-1", 
+                                Optional size As String = "", 
+                                Optional out As String = "", 
+                                Optional display_count As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -572,6 +662,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DEPUniprotIDlist(DEP As String, sample As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.uniprot.list")
     Call CLI.Append(" ")
@@ -593,7 +684,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "", Optional uniprot_flag As String = "", Optional species As String = "", Optional uniprot As String = "", Optional out As String = "") As Integer
+
+Public Function DEPUniprotIDs2([in] As String, 
+                                  Optional dep_flag As String = "", 
+                                  Optional uniprot_flag As String = "", 
+                                  Optional species As String = "", 
+                                  Optional uniprot As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.uniprot.list2")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -626,6 +723,12 @@ End Function
 ''' Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.
 ''' </summary>
 '''
+''' <param name="data"> A directory path which it contains the DEPs matrix csv files from the sample groups&apos;s analysis result.
+''' </param>
+''' <param name="out"> A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.
+''' </param>
+''' <param name="title"> The main title of the venn plot.
+''' </param>
 Public Function VennData(data As String, Optional title As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEP.venn")
     Call CLI.Append(" ")
@@ -650,7 +753,56 @@ End Function
 ''' Generates the heatmap plot input data. The default label profile is using for the iTraq result.
 ''' </summary>
 '''
-Public Function DEPs_heatmapKmeans(data As String, Optional schema As String = "RdYlGn:c11", Optional annotation As String = "", Optional cluster_n As String = "6", Optional sampleinfo As String = "", Optional title As String = "Heatmap of DEPs log2FC", Optional tick As String = "", Optional size As String = "2000,3000", Optional legend_size As String = "600,100", Optional out As String = "", Optional labelfree As Boolean = False, Optional no_clrev As Boolean = False, Optional ko_class As Boolean = False, Optional row_labels_genename As Boolean = False, Optional hide_labels As Boolean = False, Optional is_matrix As Boolean = False, Optional non_dep_blank As Boolean = False, Optional t_log2 As Boolean = False) As Integer
+''' <param name="non_DEP_blank"> If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.
+''' </param>
+''' <param name="KO_class"> If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.
+''' </param>
+''' <param name="sampleInfo"> Describ the experimental group information
+''' </param>
+''' <param name="data"> This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.
+''' </param>
+''' <param name="hide_labels"> Hide the row labels?
+''' </param>
+''' <param name="cluster_n"> Expects the kmeans cluster result number, default is output 6 kmeans clusters.
+''' </param>
+''' <param name="schema"> The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.
+''' </param>
+''' <param name="out"> A directory path where will save the output heatmap plot image and the kmeans cluster details info.
+''' </param>
+''' <param name="title"> The main title of this chart plot.
+''' </param>
+''' <param name="t_log2"> If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.
+''' </param>
+''' <param name="tick"> The ticks value of the color legend, by default value -1 means generates ticks automatically.
+''' </param>
+''' <param name="no_clrev"> Do not reverse the color sequence.
+''' </param>
+''' <param name="size"> The canvas size.
+''' </param>
+''' <param name="is_matrix"> The input data is a data matrix, can be using for heatmap drawing directly.
+''' </param>
+''' <param name="row_labels_geneName"> This option will use the ``geneName``(from the annotation data) as the row display label instead of using uniprotID or geneID. This option required of the ``/annotation`` presented.
+''' </param>
+''' <param name="annotation"> The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.
+''' </param>
+Public Function DEPs_heatmapKmeans(data As String, 
+                                      Optional schema As String = "RdYlGn:c11", 
+                                      Optional annotation As String = "", 
+                                      Optional cluster_n As String = "6", 
+                                      Optional sampleinfo As String = "", 
+                                      Optional title As String = "Heatmap of DEPs log2FC", 
+                                      Optional tick As String = "", 
+                                      Optional size As String = "2000,3000", 
+                                      Optional legend_size As String = "600,100", 
+                                      Optional out As String = "", 
+                                      Optional labelfree As Boolean = False, 
+                                      Optional no_clrev As Boolean = False, 
+                                      Optional ko_class As Boolean = False, 
+                                      Optional row_labels_genename As Boolean = False, 
+                                      Optional hide_labels As Boolean = False, 
+                                      Optional is_matrix As Boolean = False, 
+                                      Optional non_dep_blank As Boolean = False, 
+                                      Optional t_log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/DEPs.heatmap")
     Call CLI.Append(" ")
     Call CLI.Append("/data " & """" & data & """ ")
@@ -719,6 +871,12 @@ End Function
 ''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
 ''' </summary>
 '''
+''' <param name="log2FC"> The field name that stores the log2FC value of the average FoldChange
+''' </param>
+''' <param name="[in]"> The DEPs&apos; t.test result in csv file format.
+''' </param>
+''' <param name="out"> The stat count output file path.
+''' </param>
 Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEPs.stat")
     Call CLI.Append(" ")
@@ -742,7 +900,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = "is.DEP", Optional by_fc As String = "logFC=log2(1.5)", Optional by_p_value As String = "", Optional data As String = "", Optional out As String = "") As Integer
+
+Public Function TakeDEPsValues([in] As String, 
+                                  Optional boolean_tag As String = "is.DEP", 
+                                  Optional by_fc As String = "logFC=log2(1.5)", 
+                                  Optional by_p_value As String = "", 
+                                  Optional data As String = "", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEPs.takes.values")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -774,6 +938,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DEPsUnion([in] As String, Optional fc As String = "logFC", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DEPs.union")
     Call CLI.Append(" ")
@@ -798,7 +963,12 @@ End Function
 ''' Generates the edgeR inputs table
 ''' </summary>
 '''
-Public Function edgeRDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+
+Public Function edgeRDesigner([in] As String, 
+                                 designer As String, 
+                                 Optional label As String = "", 
+                                 Optional deli As String = "-", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/edgeR.Designer")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -826,6 +996,10 @@ End Function
 ''' Create enrichment analysis background based on the uniprot xml database.
 ''' </summary>
 '''
+''' <param name="mapping"> The id mapping file, each row in format like ``id&lt;TAB&gt;uniprotID``
+''' </param>
+''' <param name="[in]"> The uniprotKB XML database which can be download from http://uniprot.org
+''' </param>
 Public Function Backgrounds([in] As String, Optional mapping As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/enricher.background")
     Call CLI.Append(" ")
@@ -850,6 +1024,7 @@ End Function
 ''' Filter the specific term result from the analysis output by using pattern keyword
 ''' </summary>
 '''
+
 Public Function EnrichmentTermFilter([in] As String, filter As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Enrichment.Term.Filter")
     Call CLI.Append(" ")
@@ -872,7 +1047,18 @@ End Function
 ''' Retrive KEGG/GO info for the genes in the enrichment result.
 ''' </summary>
 '''
-Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
+''' <param name="ORF"> If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
+'''               default is using uniprotID in the accessions fields of the uniprot.XML records.
+''' </param>
+''' <param name="nocut"> Default is using pvalue &lt; 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.
+''' </param>
+''' <param name="[in]"> KOBAS analysis result output.
+''' </param>
+Public Function RetriveEnrichmentGeneInfo([in] As String, 
+                                             proteins As String, 
+                                             Optional out As String = "", 
+                                             Optional nocut As Boolean = False, 
+                                             Optional orf As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Enrichments.ORF.info")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -899,6 +1085,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExocartaHits([in] As String, annotation As String, exocarta As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Exocarta.Hits")
     Call CLI.Append(" ")
@@ -921,6 +1108,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetFastaIDlist([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Fasta.IDlist")
     Call CLI.Append(" ")
@@ -942,6 +1130,10 @@ End Function
 ''' Reverse the FoldChange value from the source result matrix.
 ''' </summary>
 '''
+''' <param name="log2FC"> This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.
+''' </param>
+''' <param name="out"> This function will output a FoldChange matrix.
+''' </param>
 Public Function iTraqInvert([in] As String, Optional out As String = "", Optional log2fc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/FoldChange.Matrix.Invert")
     Call CLI.Append(" ")
@@ -966,7 +1158,22 @@ End Function
 ''' DEPs&apos; functional enrichment network based on string-db exports, and color by KEGG pathway.
 ''' </summary>
 '''
-Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
+''' <param name="map"> A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID&lt;TAB&gt;UniprotID``
+''' </param>
+''' <param name="DEP"> The DEPs t.test output result csv file.
+''' </param>
+''' <param name="r_range"> The network node size radius range, input string in format like: ``min,max``
+''' </param>
+''' <param name="log2FC"> The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.
+''' </param>
+Public Function FunctionalNetworkEnrichment([in] As String, 
+                                               uniprot As String, 
+                                               DEP As String, 
+                                               Optional map As String = "", 
+                                               Optional r_range As String = "12,30", 
+                                               Optional log2fc As String = "log2FC", 
+                                               Optional layout As String = "", 
+                                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/func.rich.string")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1001,6 +1208,8 @@ End Function
 ''' Using this command for generates the gene id list input for the STRING-db search.
 ''' </summary>
 '''
+''' <param name="p_value"> Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.
+''' </param>
 Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As String = "1", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Gene.list.from.KOBAS")
     Call CLI.Append(" ")
@@ -1025,7 +1234,15 @@ End Function
 ''' Visualize of the subcellular location result from the GO enrichment analysis.
 ''' </summary>
 '''
-Public Function GO_cellularLocationPlot([in] As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
+''' <param name="_3D"> 3D style pie chart for the plot?
+''' </param>
+''' <param name="colors"> Color schema name, default using color brewer color schema.
+''' </param>
+Public Function GO_cellularLocationPlot([in] As String, 
+                                           Optional go As String = "", 
+                                           Optional colors As String = "Paired:c8", 
+                                           Optional out As String = "", 
+                                           Optional _3d As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1054,7 +1271,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
+''' </param>
+Public Function DAVID_GOplot([in] As String, 
+                                Optional go As String = "", 
+                                Optional colors As String = "Set1:c6", 
+                                Optional size As String = "1200,1000", 
+                                Optional tick As String = "", 
+                                Optional p_value As String = "", 
+                                Optional out As String = "", 
+                                Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1093,7 +1324,54 @@ End Function
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
 '''
-Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional label_maxlen As String = "64", Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional label_color_disable As Boolean = False, Optional gray As Boolean = False) As Integer
+''' <param name="[in]"> The KOBAS enrichment analysis output csv file.
+''' </param>
+''' <param name="out"> The file path of the output plot image. If the graphics driver is using svg engine, then this result can be output to the standard output if this parameter is not presented in the CLI input.
+''' </param>
+''' <param name="r"> The bubble radius expression, when this enrichment plot is in ``/bubble`` mode.
+''' </param>
+''' <param name="label_right"> Align the label to right if this argument presented.
+''' </param>
+''' <param name="Corrected"> Using the corrected p.value instead of using the p.value as the term filter for this enrichment plot.
+''' </param>
+''' <param name="pvalue"> The p.value threshold for choose the terms that will be plot on the image, default is plot all terms that their enrichment p.value is smaller than 0.05.
+''' </param>
+''' <param name="size"> The output image size in pixel.
+''' </param>
+''' <param name="tick"> The axis ticking interval value, using **-1** for generated this value automatically, or any other positive numeric value will setup this interval value manually.
+''' </param>
+''' <param name="GO"> The GO database for category the enrichment term result into their corrisponding Go namespace. If this argument value is not presented in the CLI input, then program will using the GO database file from the GCModeller repository data system.
+''' </param>
+''' <param name="bubble"> Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.
+''' </param>
+''' <param name="displays"> If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
+'''               Set this argument value to -1 for display all terms.
+''' </param>
+''' <param name="gray"> Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.
+''' </param>
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
+''' </param>
+Public Function GO_enrichmentPlot([in] As String, 
+                                     Optional r As String = "log(x,1.5)", 
+                                     Optional displays As String = "10", 
+                                     Optional label_maxlen As String = "64", 
+                                     Optional colors As String = "Set1:c6", 
+                                     Optional pvalue As String = "", 
+                                     Optional size As String = "", 
+                                     Optional tick As String = "", 
+                                     Optional go As String = "", 
+                                     Optional out As String = "", 
+                                     Optional bubble As Boolean = False, 
+                                     Optional corrected As Boolean = False, 
+                                     Optional plantregmap As Boolean = False, 
+                                     Optional label_right As Boolean = False, 
+                                     Optional label_color_disable As Boolean = False, 
+                                     Optional gray As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Go.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1156,7 +1434,13 @@ End Function
 ''' Cloud plot of the iBAQ DEPs result.
 ''' </summary>
 '''
-Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
+''' <param name="tag"> The field name in the ``/in`` matrix that using as the expression value.
+''' </param>
+Public Function DEPsCloudPlot([in] As String, 
+                                 annotations As String, 
+                                 DEPs As String, 
+                                 tag As String, 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iBAQ.Cloud")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1181,6 +1465,7 @@ End Function
 ''' This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.
 ''' </summary>
 '''
+
 Public Function BBHReplace([in] As String, bbh As String, Optional description As String = "Description", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/ID.Replace.bbh")
     Call CLI.Append(" ")
@@ -1206,6 +1491,10 @@ End Function
 ''' Dumping GO obo database as mysql database files.
 ''' </summary>
 '''
+''' <param name="[in]"> The Go obo database file.
+''' </param>
+''' <param name="out"> The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
+''' </param>
 Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.Go.obo.mysql")
     Call CLI.Append(" ")
@@ -1227,6 +1516,10 @@ End Function
 ''' Dumping the UniprotKB XML database as mysql database file.
 ''' </summary>
 '''
+''' <param name="[in]"> The uniprotKB XML database file.
+''' </param>
+''' <param name="out"> The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.
+''' </param>
 Public Function DumpUniprot([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Imports.Uniprot.Xml")
     Call CLI.Append(" ")
@@ -1247,7 +1540,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function iTraqBridge(A As String, B As String, C As String, Optional symbols_a As String = "", Optional symbols_b As String = "", Optional out As String = "") As Integer
+
+Public Function iTraqBridge(A As String, 
+                               B As String, 
+                               C As String, 
+                               Optional symbols_a As String = "", 
+                               Optional symbols_b As String = "", 
+                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Bridge.Matrix")
     Call CLI.Append(" ")
     Call CLI.Append("/A " & """" & A & """ ")
@@ -1276,7 +1575,16 @@ End Function
 ''' Split the raw matrix into different compare group based on the experimental designer information.
 ''' </summary>
 '''
-Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
+''' <param name="sampleInfo">
+''' </param>
+''' <param name="designer"> The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``&lt;Controls&gt;,&lt;Experimental&gt;``. 
+'''               The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.
+''' </param>
+Public Function iTraqAnalysisMatrixSplit([in] As String, 
+                                            sampleInfo As String, 
+                                            designer As String, 
+                                            Optional out As String = "", 
+                                            Optional allowed_swap As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/iTraq.matrix.split")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1302,6 +1610,10 @@ End Function
 ''' Visualize data QC analysis result.
 ''' </summary>
 '''
+''' <param name="[in]"> A data matrix which is comes from the ``/iTraq.matrix.split`` command.
+''' </param>
+''' <param name="out"> The file path of the plot result image.
+''' </param>
 Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.RSD-P.Density")
     Call CLI.Append(" ")
@@ -1323,7 +1635,15 @@ End Function
 ''' * Using this CLI tool for processing the tag header of iTraq result at first.
 ''' </summary>
 '''
-Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional symbolsheet As String = "", Optional out As String = "") As Integer
+''' <param name="[in]"> 
+''' </param>
+''' <param name="symbols"> Using for replace the mass spectrum expeirment symbol to the user experiment tag.
+''' </param>
+Public Function iTraqSignReplacement([in] As String, 
+                                        symbols As String, 
+                                        Optional sheet_name As String = "", 
+                                        Optional symbolsheet As String = "", 
+                                        Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1351,7 +1671,17 @@ End Function
 ''' Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.
 ''' </summary>
 '''
-Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
+''' <param name="FDR"> do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.
+''' </param>
+''' <param name="skip_significant_test"> If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.
+''' </param>
+Public Function iTraqTtest([in] As String, 
+                              Optional level As String = "1.5", 
+                              Optional p_value As String = "0.05", 
+                              Optional fdr As String = "0.05", 
+                              Optional pairinfo As String = "", 
+                              Optional out As String = "", 
+                              Optional skip_significant_test As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/iTraq.t.test")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1386,6 +1716,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="ref"> 
+''' </param>
 Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Color.Pathway")
     Call CLI.Append(" ")
@@ -1407,7 +1739,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional colors As String = "Set1:c6", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
+''' </param>
+Public Function DAVID_KEGGplot([in] As String, 
+                                  Optional custom As String = "", 
+                                  Optional colors As String = "Set1:c6", 
+                                  Optional size As String = "1200,1000", 
+                                  Optional p_value As String = "0.05", 
+                                  Optional tick As String = "", 
+                                  Optional out As String = "", 
+                                  Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1445,7 +1791,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional tag As String = "log2FC", Optional pvalue As String = "0.05", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+
+Public Function DAVID_KEGGPathwayMap([in] As String, 
+                                        uniprot As String, 
+                                        Optional deps As String = "", 
+                                        Optional colors As String = "red,blue,green", 
+                                        Optional tag As String = "log2FC", 
+                                        Optional pvalue As String = "0.05", 
+                                        Optional out As String = "", 
+                                        Optional tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID.pathwaymap")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1482,7 +1836,19 @@ End Function
 ''' Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.
 ''' </summary>
 '''
-Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+''' <param name="colors"> A string vector that setups the DEPs&apos; color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``
+''' </param>
+''' <param name="DEPs"> Using for rendering color of the KEGG pathway map. The ``/colors`` argument only works when this argument is presented.
+''' </param>
+''' <param name="map"> Maps user custom ID to uniprot ID. A tsv file with format: ``&lt;customID&gt;&lt;TAB&gt;&lt;uniprotID&gt;``
+''' </param>
+Public Function KEGGEnrichmentPathwayMap([in] As String, 
+                                            Optional deps As String = "", 
+                                            Optional colors As String = "red,blue,green", 
+                                            Optional map As String = "", 
+                                            Optional uniprot As String = "", 
+                                            Optional pvalue As String = "0.05", 
+                                            Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1518,7 +1884,16 @@ End Function
 ''' KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.
 ''' </summary>
 '''
-Public Function KEGGEnrichmentPathwayMapLocal([in] As String, Optional repo As String = "", Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+''' <param name="repo"> If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.
+''' </param>
+Public Function KEGGEnrichmentPathwayMapLocal([in] As String, 
+                                                 Optional repo As String = "", 
+                                                 Optional deps As String = "", 
+                                                 Optional colors As String = "red,blue,green", 
+                                                 Optional map As String = "", 
+                                                 Optional uniprot As String = "", 
+                                                 Optional pvalue As String = "0.05", 
+                                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap.Render")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1557,7 +1932,23 @@ End Function
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
 '''
-Public Function KEGG_enrichment([in] As String, Optional colors As String = "Set1:c6", Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html,
+'''               + &lt;scale by value&gt;: scale(color_set_name)
+'''               This will create color profiles based on the result value dataset.
+''' </param>
+Public Function KEGG_enrichment([in] As String, 
+                                   Optional colors As String = "Set1:c6", 
+                                   Optional pvalue As String = "", 
+                                   Optional tick As String = "", 
+                                   Optional size As String = "", 
+                                   Optional out As String = "", 
+                                   Optional gray As Boolean = False, 
+                                   Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1596,7 +1987,12 @@ End Function
 ''' Display the barplot of the KEGG orthology match.
 ''' </summary>
 '''
-Public Function KOCatalogs([in] As String, ko As String, Optional key As String = "", Optional mapto As String = "", Optional out As String = "") As Integer
+
+Public Function KOCatalogs([in] As String, 
+                              ko As String, 
+                              Optional key As String = "", 
+                              Optional mapto As String = "", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.Catalogs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1623,6 +2019,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]"> The KOBAS enrichment result.
+''' </param>
+''' <param name="sample"> The uniprotID -&gt; ORF annotation data. this table file should have a field named &quot;ORF&quot;.
+''' </param>
 Public Function KOBASaddORFsource([in] As String, sample As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.add.ORF")
     Call CLI.Append(" ")
@@ -1644,6 +2044,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SimHeatmap([in] As String, Optional size As String = "", Optional colors As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.Sim.Heatmap")
     Call CLI.Append(" ")
@@ -1670,6 +2071,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function KOBASSimilarity(group1 As String, group2 As String, Optional filename As String = "output_run-Gene Ontology.csv", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.Similarity")
     Call CLI.Append(" ")
@@ -1695,6 +2097,7 @@ End Function
 ''' Split the KOBAS run output result text file as seperated csv file.
 ''' </summary>
 '''
+
 Public Function KOBASSplit([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.split")
     Call CLI.Append(" ")
@@ -1715,6 +2118,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KOBAS.Term.Kmeans")
     Call CLI.Append(" ")
@@ -1738,7 +2142,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function LabelFreeMatrix([in] As String, Optional sheet As String = "proteinGroups", Optional uniprot As String = "", Optional organism As String = "", Optional out As String = "", Optional intensity As Boolean = False) As Integer
+
+Public Function LabelFreeMatrix([in] As String, 
+                                   Optional sheet As String = "proteinGroups", 
+                                   Optional uniprot As String = "", 
+                                   Optional organism As String = "", 
+                                   Optional out As String = "", 
+                                   Optional intensity As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/labelFree.matrix")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1770,6 +2180,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function LabelFreeMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/labelFree.matrix.split")
     Call CLI.Append(" ")
@@ -1792,7 +2203,16 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function labelFreeTtest([in] As String, sampleInfo As String, control As String, treatment As String, Optional significant As String = "t.test", Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
+
+Public Function labelFreeTtest([in] As String, 
+                                  sampleInfo As String, 
+                                  control As String, 
+                                  treatment As String, 
+                                  Optional significant As String = "t.test", 
+                                  Optional level As String = "1.5", 
+                                  Optional p_value As String = "0.05", 
+                                  Optional fdr As String = "0.05", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/labelFree.t.test")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1827,6 +2247,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MatrixClustering([in] As String, Optional cluster_n As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/matrix.clustering")
     Call CLI.Append(" ")
@@ -1850,6 +2271,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MatrixNormalize([in] As String, infer As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Matrix.Normalization")
     Call CLI.Append(" ")
@@ -1872,7 +2294,12 @@ End Function
 ''' Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.
 ''' </summary>
 '''
-Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.5,2)", Optional raw As String = "", Optional out As String = "", Optional log2 As Boolean = False) As Integer
+
+Public Function MergeDEPs([in] As String, 
+                             Optional threshold As String = "log(1.5,2)", 
+                             Optional raw As String = "", 
+                             Optional out As String = "", 
+                             Optional log2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Merge.DEPs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -1901,6 +2328,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MatrixColRenames([in] As String, sampleInfo As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/names")
     Call CLI.Append(" ")
@@ -1922,6 +2350,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PccNetwork([in] As String, Optional cut As String = "0.45", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Network.PCC")
     Call CLI.Append(" ")
@@ -1945,6 +2374,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PairedSampleDesigner(sampleinfo As String, designer As String, tuple As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/paired.sample.designer")
     Call CLI.Append(" ")
@@ -1968,6 +2398,7 @@ End Function
 ''' Export the uniprot ID list from ``Majority Protein IDs`` row and generates a text file for batch search of the uniprot database.
 ''' </summary>
 '''
+
 Public Function MajorityProteinIDs([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Perseus.MajorityProteinIDs")
     Call CLI.Append(" ")
@@ -1988,6 +2419,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PerseusStatics([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Perseus.Stat")
     Call CLI.Append(" ")
@@ -2008,6 +2440,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PerseusTable([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Perseus.Table")
     Call CLI.Append(" ")
@@ -2028,6 +2461,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optional scientifcname As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Perseus.Table.annotations")
     Call CLI.Append(" ")
@@ -2052,6 +2486,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function PfamStringEnrichment([in] As String, pfamstring As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/pfamstring.enrichment")
     Call CLI.Append(" ")
@@ -2074,7 +2509,27 @@ End Function
 ''' &apos;calc. pI&apos; - &apos;MW [kDa]&apos; scatter plot of the protomics raw sample data.
 ''' </summary>
 '''
-Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
+''' <param name="field_pi"> The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``
+''' </param>
+''' <param name="field_mw"> The field name that records the MW value of the protein samples, default is using iTraq result out format: ``MW [kDa]``
+''' </param>
+''' <param name="pt_size"> The radius size of the point in this scatter plot.
+''' </param>
+''' <param name="size"> The plot image its canvas size of this scatter plot.
+''' </param>
+''' <param name="quantile_removes"> All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.
+''' </param>
+Public Function pimwScatterPlot([in] As String, 
+                                   Optional field_pi As String = "calc. pI", 
+                                   Optional field_mw As String = "MW [kDa]", 
+                                   Optional legend_fontsize As String = "", 
+                                   Optional legend_size As String = "", 
+                                   Optional quantile_removes As String = "1", 
+                                   Optional out As String = "", 
+                                   Optional size As String = "", 
+                                   Optional color As String = "", 
+                                   Optional ticks_y As String = "", 
+                                   Optional pt_size As String = "") As Integer
     Dim CLI As New StringBuilder("/plot.pimw")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2122,7 +2577,24 @@ End Function
 ''' Total proteins functional annotation by using uniprot database.
 ''' </summary>
 '''
-Public Function SampleAnnotations(uniprot As String, Optional list As String = "", Optional mapping As String = "", Optional out As String = "", Optional accession_id As Boolean = False, Optional itraq As Boolean = False) As Integer
+''' <param name="list"> Using for the iTraq method result.
+''' </param>
+''' <param name="iTraq"> * Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.
+''' </param>
+''' <param name="mapping"> The id mapping table, only works when the argument ``/list`` is presented.
+''' </param>
+''' <param name="uniprot"> The Uniprot protein database in XML file format.
+''' </param>
+''' <param name="accession_ID"> Using the uniprot protein ID from the ``/uniprot`` input as the generated dataset&apos;s ID value, instead of using the numeric sequence as the ID value.
+''' </param>
+''' <param name="out"> The file path for output protein annotation table where to save.
+''' </param>
+Public Function SampleAnnotations(uniprot As String, 
+                                     Optional list As String = "", 
+                                     Optional mapping As String = "", 
+                                     Optional out As String = "", 
+                                     Optional accession_id As Boolean = False, 
+                                     Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.annotations")
     Call CLI.Append(" ")
     Call CLI.Append("/uniprot " & """" & uniprot & """ ")
@@ -2154,7 +2626,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SampleAnnotations2(p1 As String, p2 As String, uniprot As String, Optional out As String = "", Optional remapping As Boolean = False) As Integer
+
+Public Function SampleAnnotations2(p1 As String, 
+                                      p2 As String, 
+                                      uniprot As String, 
+                                      Optional out As String = "", 
+                                      Optional remapping As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/protein.annotations.shotgun")
     Call CLI.Append(" ")
     Call CLI.Append("/p1 " & """" & p1 & """ ")
@@ -2179,7 +2656,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function proteinGroupsVenn([in] As String, designer As String, Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+
+Public Function proteinGroupsVenn([in] As String, 
+                                     designer As String, 
+                                     Optional label As String = "", 
+                                     Optional deli As String = "_", 
+                                     Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/proteinGroups.venn")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2207,7 +2689,38 @@ End Function
 ''' ProteinGroups sample data go profiling plot from the uniprot annotation data.
 ''' </summary>
 '''
-Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional colors As String = "Set1:c6", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+''' <param name="GO"> The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.
+''' </param>
+''' <param name="level"> The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.
+''' </param>
+''' <param name="label_right"> Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.
+''' </param>
+''' <param name="[in]"> Uniprot XML database export result from ``/protein.annotations`` command.
+''' </param>
+''' <param name="tick"> The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.
+''' </param>
+''' <param name="size"> The size of the output plot image.
+''' </param>
+''' <param name="selects"> The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.
+''' </param>
+''' <param name="out"> A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.
+''' </param>
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
+''' </param>
+Public Function ProteinsGoPlot([in] As String, 
+                                  Optional go As String = "", 
+                                  Optional colors As String = "Set1:c6", 
+                                  Optional tick As String = "-1", 
+                                  Optional level As String = "2", 
+                                  Optional selects As String = "", 
+                                  Optional size As String = "", 
+                                  Optional out As String = "", 
+                                  Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.Go.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2249,7 +2762,32 @@ End Function
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-Public Function proteinsKEGGPlot([in] As String, Optional field As String = "KO", Optional geneid_field As String = "nothing", Optional colors As String = "Set1:c6", Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional not_human As Boolean = False, Optional label_right As Boolean = False) As Integer
+''' <param name="custom"> Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
+'''               You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&amp;format=htext&amp;filedir= for download the custom KO classification set.
+''' </param>
+''' <param name="label_right"> Align the label from right.
+''' </param>
+''' <param name="size"> The canvas size value.
+''' </param>
+''' <param name="[in]"> Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.
+''' </param>
+''' <param name="colors"> Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
+'''               
+'''               + &lt;profile name term&gt;: Set1:c6 
+'''               Full list of the profile names: https://github.com/xieguigang/sciBASIC/blob/master/gr/Colors/colorbrewer/colorbrewer.json
+'''               + &lt;color name list&gt;: black,green,blue 
+'''               Full list of the color names: https://github.com/xieguigang/sciBASIC/blob/master/etc/VB.NET_Colors.html
+''' </param>
+Public Function proteinsKEGGPlot([in] As String, 
+                                    Optional field As String = "KO", 
+                                    Optional geneid_field As String = "nothing", 
+                                    Optional colors As String = "Set1:c6", 
+                                    Optional custom As String = "", 
+                                    Optional size As String = "", 
+                                    Optional tick As String = "", 
+                                    Optional out As String = "", 
+                                    Optional not_human As Boolean = False, 
+                                    Optional label_right As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/proteins.KEGG.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2294,7 +2832,13 @@ End Function
 ''' Statistics of the relative expression value of the total proteins.
 ''' </summary>
 '''
-Public Function RelativeAmount([in] As String, designer As String, Optional uniprot As String = "", Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+
+Public Function RelativeAmount([in] As String, 
+                                  designer As String, 
+                                  Optional uniprot As String = "", 
+                                  Optional label As String = "", 
+                                  Optional deli As String = "_", 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Relative.amount")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2325,6 +2869,7 @@ End Function
 ''' Convert the protein id from other database to UniProtKB.
 ''' </summary>
 '''
+
 Public Function RetrieveIDmapping(list As String, uniprot As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Retrieve.ID.mapping")
     Call CLI.Append(" ")
@@ -2346,7 +2891,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
+''' <param name="KOBAS"> The pvalue result in the enrichment term, will be using as the node radius size.
+''' </param>
+Public Function KOBASNetwork([in] As String, 
+                                uniprot As String, 
+                                DEP As String, 
+                                KOBAS As String, 
+                                Optional r_range As String = "5,20", 
+                                Optional fold As String = "", 
+                                Optional logfc As String = "", 
+                                Optional layout As String = "", 
+                                Optional out As String = "", 
+                                Optional itraq As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/richfun.KOBAS")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2384,7 +2940,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NormalizeSpecies_samples(bbh As String, uniprot As String, idMapping As String, sample As String, Optional description As String = "", Optional id As String = "", Optional out As String = "") As Integer
+''' <param name="bbh"> The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
+''' </param>
+Public Function NormalizeSpecies_samples(bbh As String, 
+                                            uniprot As String, 
+                                            idMapping As String, 
+                                            sample As String, 
+                                            Optional description As String = "", 
+                                            Optional id As String = "", 
+                                            Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Sample.Species.Normalization")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -2414,6 +2978,7 @@ End Function
 ''' Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.
 ''' </summary>
 '''
+
 Public Function GetIDlistFromSampleTable([in] As String, Optional out As String = "", Optional uniprot As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Samples.IDlist")
     Call CLI.Append(" ")
@@ -2437,6 +3002,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function StripShotgunData([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Shotgun.Data.Strip")
     Call CLI.Append(" ")
@@ -2457,7 +3023,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NormalizeSpecies(bbh As String, uniprot As String, idMapping As String, annotations As String, Optional out As String = "") As Integer
+''' <param name="bbh"> The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.
+''' </param>
+Public Function NormalizeSpecies(bbh As String, 
+                                    uniprot As String, 
+                                    idMapping As String, 
+                                    annotations As String, 
+                                    Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Species.Normalization")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -2481,7 +3053,12 @@ End Function
 ''' Generates the iTraq data t.test DEP method inputs table
 ''' </summary>
 '''
-Public Function TtestDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+
+Public Function TtestDesigner([in] As String, 
+                                 designer As String, 
+                                 Optional label As String = "", 
+                                 Optional deli As String = "-", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/T.test.Designer.iTraq")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2509,7 +3086,12 @@ End Function
 ''' Generates the LFQ data t.test DEP method inputs table
 ''' </summary>
 '''
-Public Function TtestDesignerLFQ([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+
+Public Function TtestDesignerLFQ([in] As String, 
+                                    designer As String, 
+                                    Optional label As String = "", 
+                                    Optional deli As String = "-", 
+                                    Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/T.test.Designer.LFQ")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -2536,6 +3118,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Term2Genes([in] As String, Optional term As String = "", Optional id As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Term2genes")
     Call CLI.Append(" ")
@@ -2562,6 +3145,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function UniProtIDMaps([in] As String, dbName As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.ID.Maps")
     Call CLI.Append(" ")
@@ -2583,6 +3167,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function UniProtIDList([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniProt.IDs")
     Call CLI.Append(" ")
@@ -2604,6 +3189,7 @@ End Function
 ''' Retrieve the uniprot annotation data by using ID mapping operations.
 ''' </summary>
 '''
+
 Public Function UniprotMappings([in] As String, Optional type As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Uniprot.Mappings")
     Call CLI.Append(" ")
@@ -2628,6 +3214,7 @@ End Function
 ''' Get uniprot_id to Organism-specific databases id map table.
 ''' </summary>
 '''
+
 Public Function OrganismSpecificDatabases([in] As String, dbName As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Uniprot.organism_id")
     Call CLI.Append(" ")
@@ -2649,6 +3236,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]"> The uniRef XML cluster database its file path.
+''' </param>
+''' <param name="org"> The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.
+''' </param>
 Public Function UniRefMap2Organism([in] As String, Optional org As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniRef.map.organism")
     Call CLI.Append(" ")
@@ -2672,6 +3263,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]"> The uniRef XML cluster database its file path.
+''' </param>
 Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/UniRef.UniprotKB")
     Call CLI.Append(" ")
@@ -2692,6 +3285,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Update2UniprotMappedID([in] As String, mapping As String, Optional out As String = "", Optional source As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/update.uniprot.mapped")
     Call CLI.Append(" ")

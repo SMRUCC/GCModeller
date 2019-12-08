@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -121,7 +121,12 @@ Public Class NCBI_tools : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As NCBI_tools
           Return New NCBI_tools(App:=directory & "/" & NCBI_tools.App)
@@ -134,7 +139,15 @@ Public Class NCBI_tools : Inherits InteropService
 ''' Creates the subset of the ultra-large accession to ncbi taxonomy id database.
 ''' </summary>
 '''
-Public Function accidMatch([in] As String, acc2taxid As String, Optional accid_grep As String = "-", Optional out As String = "", Optional gb_priority As Boolean = False, Optional append_src As Boolean = False) As Integer
+''' <param name="accid_grep"> When the fasta title or the text line in the list is not an NCBI accession id, 
+'''               then you needs this script for accession id grep operation.
+''' </param>
+Public Function accidMatch([in] As String, 
+                              acc2taxid As String, 
+                              Optional accid_grep As String = "-", 
+                              Optional out As String = "", 
+                              Optional gb_priority As Boolean = False, 
+                              Optional append_src As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/accid2taxid.Match")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -164,7 +177,21 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignFastaTaxonomy([in] As String, accession2taxid As String, taxonomy As String, Optional accid_grep As String = "-", Optional append As String = "", Optional out As String = "", Optional summary_tsv As Boolean = False) As Integer
+''' <param name="accession2taxid"> This mapping data file is usually a subset of the accession2taxid file, and comes from the ``/accid2taxid.Match`` command.
+''' </param>
+''' <param name="append"> If this parameter was presented, then additional data will append to the fasta title and the csv summary file. 
+'''               This file should have a column named ``ID`` correspond to the ``accession_id``, 
+'''               or a column named ``Species`` correspond to the ``species`` from NCBI taxonomy.
+''' </param>
+''' <param name="summary_tsv"> The output summary table file saved in tsv format.
+''' </param>
+Public Function AssignFastaTaxonomy([in] As String, 
+                                       accession2taxid As String, 
+                                       taxonomy As String, 
+                                       Optional accid_grep As String = "-", 
+                                       Optional append As String = "", 
+                                       Optional out As String = "", 
+                                       Optional summary_tsv As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/assign.fasta.taxonomy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -195,7 +222,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignTaxonomy([in] As String, gi As String, index As String, tax As String, gi2taxi As String, Optional out As String = "") As Integer
+
+Public Function AssignTaxonomy([in] As String, 
+                                  gi As String, 
+                                  index As String, 
+                                  tax As String, 
+                                  gi2taxi As String, 
+                                  Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Assign.Taxonomy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -219,7 +252,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssignTaxonomyFromRef([in] As String, ref As String, Optional index As String = "", Optional out As String = "", Optional non_biom As Boolean = False) As Integer
+
+Public Function AssignTaxonomyFromRef([in] As String, 
+                                         ref As String, 
+                                         Optional index As String = "", 
+                                         Optional out As String = "", 
+                                         Optional non_biom As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Assign.Taxonomy.From.Ref")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -246,6 +284,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function AssignTaxonomy2([in] As String, index As String, ref As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Assign.Taxonomy.SSU")
     Call CLI.Append(" ")
@@ -268,7 +307,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AssociateTaxonomy([in] As String, tax As String, gi2taxi As String, Optional gi As String = "", Optional out As String = "") As Integer
+
+Public Function AssociateTaxonomy([in] As String, 
+                                     tax As String, 
+                                     gi2taxi As String, 
+                                     Optional gi As String = "", 
+                                     Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Associate.Taxonomy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -293,6 +337,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Associates([in] As String, ls As String, Optional index As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Associates.Brief")
     Call CLI.Append(" ")
@@ -317,6 +362,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Build_gi2taxi([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Build_gi2taxi")
     Call CLI.Append(" ")
@@ -337,6 +383,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ExportGI([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.GI")
     Call CLI.Append(" ")
@@ -358,7 +405,12 @@ End Function
 ''' String similarity match of the fasta title with given terms for search and export by taxonomy.
 ''' </summary>
 '''
-Public Function FilterExports([in] As String, tax As String, gi2taxid As String, words As String, Optional out As String = "") As Integer
+
+Public Function FilterExports([in] As String, 
+                                 tax As String, 
+                                 gi2taxid As String, 
+                                 words As String, 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Filter.Exports")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -381,6 +433,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function UnionGBK([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/gbff.union")
     Call CLI.Append(" ")
@@ -401,6 +454,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function giMatch([in] As String, gi2taxid As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/gi.Match")
     Call CLI.Append(" ")
@@ -422,6 +476,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function giMatchs([in] As String, gi2taxid As String, Optional out As String = "", Optional num_threads As String = "") As Integer
     Dim CLI As New StringBuilder("/gi.Matchs")
     Call CLI.Append(" ")
@@ -446,6 +501,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function gpff2Fasta([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/gpff.fasta")
     Call CLI.Append(" ")
@@ -466,6 +522,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="[in]">
+''' </param>
 Public Function GetMapHitsList([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/MapHits.list")
     Call CLI.Append(" ")
@@ -487,6 +545,7 @@ End Function
 ''' Create subset of the nt database by a given list of Accession ID.
 ''' </summary>
 '''
+
 Public Function NtAccessionMatches([in] As String, list As String, Optional accid As String = "tokens '.' first", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/nt.matches.accession")
     Call CLI.Append(" ")
@@ -511,6 +570,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function NtKeyMatches([in] As String, list As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/nt.matches.key")
     Call CLI.Append(" ")
@@ -532,6 +592,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="list">
+''' </param>
 Public Function NtNameMatches([in] As String, list As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/nt.matches.name")
     Call CLI.Append(" ")
@@ -553,6 +615,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function NtTaxonomy([in] As String, gi2taxi As String, tax As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Nt.Taxonomy")
     Call CLI.Append(" ")
@@ -575,7 +638,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function OTUAssociated([in] As String, maps As String, Optional rawmap As String = "", Optional otu_field As String = "", Optional out As String = "") As Integer
+
+Public Function OTUAssociated([in] As String, 
+                                 maps As String, 
+                                 Optional rawmap As String = "", 
+                                 Optional otu_field As String = "", 
+                                 Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/OTU.associated")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -602,6 +670,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function OTUDiff(ref As String, parts As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/OTU.diff")
     Call CLI.Append(" ")
@@ -623,6 +692,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function OTU_Taxonomy([in] As String, maps As String, tax As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/OTU.Taxonomy")
     Call CLI.Append(" ")
@@ -646,6 +716,7 @@ End Function
 ''' Using ``MapHits`` property
 ''' </summary>
 '''
+
 Public Function OTUTaxonomyReplace([in] As String, maps As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/OTU.Taxonomy.Replace")
     Call CLI.Append(" ")
@@ -667,7 +738,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SearchTaxonomy([in] As String, ncbi_taxonomy As String, Optional top As String = "", Optional cut As String = "", Optional out As String = "", Optional expression As Boolean = False) As Integer
+''' <param name="expression"> Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.
+''' </param>
+''' <param name="cut"> This parameter will be disabled when ``/expression`` is presents.
+''' </param>
+''' <param name="[in]">
+''' </param>
+Public Function SearchTaxonomy([in] As String, 
+                                  ncbi_taxonomy As String, 
+                                  Optional top As String = "", 
+                                  Optional cut As String = "", 
+                                  Optional out As String = "", 
+                                  Optional expression As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Search.Taxonomy")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -698,6 +780,7 @@ End Function
 ''' Split the input fasta file by taxid grouping.
 ''' </summary>
 '''
+
 Public Function SplitByTaxid([in] As String, Optional gi2taxid As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Split.By.Taxid")
     Call CLI.Append(" ")
@@ -721,6 +804,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SplitByTaxidBatch([in] As String, Optional num_threads As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Split.By.Taxid.Batch")
     Call CLI.Append(" ")
@@ -744,7 +828,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TaxonomyTreeData(data As String, field_gi As String, gi2taxid As String, tax As String, Optional out As String = "") As Integer
+
+Public Function TaxonomyTreeData(data As String, 
+                                    field_gi As String, 
+                                    gi2taxid As String, 
+                                    tax As String, 
+                                    Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Taxonomy.Data")
     Call CLI.Append(" ")
     Call CLI.Append("/data " & """" & data & """ ")
@@ -767,6 +856,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function TaxidMapHitViews([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Taxonomy.Maphits.Overview")
     Call CLI.Append(" ")
@@ -788,6 +878,7 @@ End Function
 ''' Output taxonomy query info by a given NCBI taxid list.
 ''' </summary>
 '''
+
 Public Function TaxonomyTree(taxid As String, tax As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Taxonomy.Tree")
     Call CLI.Append(" ")
@@ -809,6 +900,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetWordTokens([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/word.tokens")
     Call CLI.Append(" ")

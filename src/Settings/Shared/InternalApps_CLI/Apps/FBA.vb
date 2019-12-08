@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -71,7 +71,12 @@ Public Class FBA : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As FBA
           Return New FBA(App:=directory & "/" & FBA.App)
@@ -83,7 +88,16 @@ Public Class FBA : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
-Public Function rFBABatch([in] As String, reg As String, obj As String, Optional obj_type As String = "", Optional params As String = "", Optional stat As String = "", Optional sample As String = "", Optional modify As String = "", Optional out As String = "") As Integer
+
+Public Function rFBABatch([in] As String, 
+                             reg As String, 
+                             obj As String, 
+                             Optional obj_type As String = "", 
+                             Optional params As String = "", 
+                             Optional stat As String = "", 
+                             Optional sample As String = "", 
+                             Optional modify As String = "", 
+                             Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Analysis.Phenotype")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -120,6 +134,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SingleGeneDisruptions(model As String, Optional parallel As String = "1", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/disruptions")
     Call CLI.Append(" ")
@@ -143,7 +158,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function FluxCoefficient([in] As String, Optional footprints As String = "", Optional out As String = "", Optional spcc As Boolean = False, Optional kegg As Boolean = False) As Integer
+
+Public Function FluxCoefficient([in] As String, 
+                                   Optional footprints As String = "", 
+                                   Optional out As String = "", 
+                                   Optional spcc As Boolean = False, 
+                                   Optional kegg As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Flux.Coefficient")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -172,6 +192,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function KEGGFilter([in] As String, model As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Flux.KEGG.Filter")
     Call CLI.Append(" ")
@@ -193,7 +214,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function FuncCoefficient(func As String, [in] As String, Optional footprints As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
+
+Public Function FuncCoefficient(func As String, 
+                                   [in] As String, 
+                                   Optional footprints As String = "", 
+                                   Optional out As String = "", 
+                                   Optional spcc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Func.Coefficient")
     Call CLI.Append(" ")
     Call CLI.Append("/func " & """" & func & """ ")
@@ -220,7 +246,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PhenotypeAnalysisBatch(model As String, phenotypes As String, footprints As String, Optional obj_type As String = "", Optional params As String = "", Optional stat As String = "", Optional sample As String = "", Optional modify As String = "", Optional out As String = "", Optional parallel As String = "") As Integer
+
+Public Function PhenotypeAnalysisBatch(model As String, 
+                                          phenotypes As String, 
+                                          footprints As String, 
+                                          Optional obj_type As String = "", 
+                                          Optional params As String = "", 
+                                          Optional stat As String = "", 
+                                          Optional sample As String = "", 
+                                          Optional modify As String = "", 
+                                          Optional out As String = "", 
+                                          Optional parallel As String = "") As Integer
     Dim CLI As New StringBuilder("/gcFBA.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -261,7 +297,12 @@ End Function
 ''' Draw heatmap from the correlations between the genes and the metabolism flux.
 ''' </summary>
 '''
-Public Function Heatmap(x As String, Optional out As String = "", Optional name As String = "", Optional width As String = "", Optional height As String = "") As Integer
+
+Public Function Heatmap(x As String, 
+                           Optional out As String = "", 
+                           Optional name As String = "", 
+                           Optional width As String = "", 
+                           Optional height As String = "") As Integer
     Dim CLI As New StringBuilder("/heatmap")
     Call CLI.Append(" ")
     Call CLI.Append("/x " & """" & x & """ ")
@@ -290,6 +331,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ScaleHeatmap(x As String, Optional factor As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/heatmap.scale")
     Call CLI.Append(" ")
@@ -313,6 +355,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ImportsRxns([in] As String) As Integer
     Dim CLI As New StringBuilder("/Imports")
     Call CLI.Append(" ")
@@ -331,6 +374,7 @@ End Function
 ''' Merges the objective function result as a Matrix. For calculation the coefficient of the genes with the phenotype objective function.
 ''' </summary>
 '''
+
 Public Function ObjMAT([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/phenos.MAT")
     Call CLI.Append(" ")
@@ -352,7 +396,12 @@ End Function
 ''' 2. Coefficient of the genes with the metabolism fluxs from the batch analysis result.
 ''' </summary>
 '''
-Public Function PhenosOUTCoefficient(gene As String, pheno As String, Optional footprints As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
+
+Public Function PhenosOUTCoefficient(gene As String, 
+                                        pheno As String, 
+                                        Optional footprints As String = "", 
+                                        Optional out As String = "", 
+                                        Optional spcc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/phenos.out.Coefficient")
     Call CLI.Append(" ")
     Call CLI.Append("/gene " & """" & gene & """ ")
@@ -380,6 +429,7 @@ End Function
 ''' 1. Merge flux.csv result as a Matrix, for the calculation of the coefficient of the genes with the metabolism flux.
 ''' </summary>
 '''
+
 Public Function PhenoOUT_MAT([in] As String, samples As String, Optional out As String = "", Optional model As String = "") As Integer
     Dim CLI As New StringBuilder("/phenos.out.MAT")
     Call CLI.Append(" ")
@@ -405,7 +455,30 @@ End Function
 ''' solve a FBA model from a specific (SBML) model file.
 ''' </summary>
 '''
-Public Function Solve(i As String, o As String, d As String, Optional m As String = "", Optional f As String = "", Optional knock_out As String = "") As Integer
+''' <param name="i"> 
+''' </param>
+''' <param name="o"> The directory for the output result.
+''' </param>
+''' <param name="m"> 
+''' </param>
+''' <param name="f"> Optional, Set up the objective function for the fba linear programming problem, its value can be a expression, default or all.
+'''  &lt;expression&gt; - a user specific expression for objective function, it can be a expression or a text file name if the first character is @ in the switch value.
+'''  default - the program generate the objective function using the objective coefficient value which defines in each reaction object;
+'''  all - set up all of the reaction objective coeffecient factor to 1, which means all of the reaction flux will use for objective function generation.
+''' </param>
+''' <param name="d"> Optional, the constraint direction of the objective function for the fba linear programming problem, 
+''' if this switch option is not specific by the user then the program will use the direction which was defined in the FBA model file 
+''' else if use specific this switch value then the user specific value will override the direction value in the FBA model.
+''' </param>
+''' <param name="knock_out"> Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file.
+''' value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.
+''' </param>
+Public Function Solve(i As String, 
+                         o As String, 
+                         d As String, 
+                         Optional m As String = "", 
+                         Optional f As String = "", 
+                         Optional knock_out As String = "") As Integer
     Dim CLI As New StringBuilder("/solve")
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")
@@ -433,7 +506,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SolveGCMarkup(model As String, Optional mute As String = "", Optional objective As String = "", Optional out As String = "", Optional trim As Boolean = False) As Integer
+''' <param name="objective"> A name list of the target reaction names, which this file format should be in one line one ID. 
+'''               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.
+''' </param>
+''' <param name="trim"> Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
+'''               virtual cell model? By default is retain these reactions.
+''' </param>
+''' <param name="mute"> + If this parameter is a file path, then locus_tag should be one tag per line in the text file;
+'''               + And this parameter is also can be a id list, which the id should seperated by comma symbol, format like: ``id1,id2,id3``.
+''' </param>
+Public Function SolveGCMarkup(model As String, 
+                                 Optional mute As String = "", 
+                                 Optional objective As String = "", 
+                                 Optional out As String = "", 
+                                 Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/solve.gcmarkup")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -462,6 +548,9 @@ End Function
 ''' ```
 ''' </summary>
 '''
+''' <param name="objs"> This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
+'''                    and these genes locus is associated to a enzyme reaction in the FBA model.
+''' </param>
 Public Function KEGGSolver([in] As String, objs As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Solver.KEGG")
     Call CLI.Append(" ")
@@ -483,7 +572,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AnalysisPhenotype([in] As String, reg As String, obj As String, Optional obj_type As String = "", Optional params As String = "", Optional stat As String = "", Optional sample As String = "", Optional modify As String = "", Optional out As String = "") As Integer
+''' <param name="obj_type"> The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.
+''' </param>
+Public Function AnalysisPhenotype([in] As String, 
+                                     reg As String, 
+                                     obj As String, 
+                                     Optional obj_type As String = "", 
+                                     Optional params As String = "", 
+                                     Optional stat As String = "", 
+                                     Optional sample As String = "", 
+                                     Optional modify As String = "", 
+                                     Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Solver.rFBA")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -520,7 +619,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function VisualKEGGPathways(model As String, maps As String, Optional gene As String = "red", Optional plasmid_highlight As String = "blue", Optional out As String = "") As Integer
+''' <param name="gene"> The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.
+''' </param>
+Public Function VisualKEGGPathways(model As String, 
+                                      maps As String, 
+                                      Optional gene As String = "red", 
+                                      Optional plasmid_highlight As String = "blue", 
+                                      Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/visual.kegg.pathways")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -548,7 +653,30 @@ End Function
 ''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
 ''' </summary>
 '''
-Public Function Compile(i As String, o As String, Optional [if] As String = "", Optional [of] As String = "", Optional f As String = "", Optional d As String = "") As Integer
+''' <param name="i"> The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch &apos;-if&apos;
+''' </param>
+''' <param name="o"> The output file path of the compiled model file.
+''' </param>
+''' <param name="[if]"> Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc.
+'''  metacyc - the input compiled data source is a metacyc database;
+''' sbml - the input compiled data source is a standard sbml language model in level 2.
+''' </param>
+''' <param name="[of]"> Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model.
+'''  fba - the output compiled model is a standard fba model;
+''' fba2 - the output compiled model is a advanced version of fba model.
+''' </param>
+''' <param name="f"> Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.
+''' </param>
+''' <param name="d"> Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function.
+'''  max - the constraint direction is maximum;
+'''  min - the constraint direction is minimum.
+''' </param>
+Public Function Compile(i As String, 
+                           o As String, 
+                           Optional [if] As String = "", 
+                           Optional [of] As String = "", 
+                           Optional f As String = "", 
+                           Optional d As String = "") As Integer
     Dim CLI As New StringBuilder("compile")
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")

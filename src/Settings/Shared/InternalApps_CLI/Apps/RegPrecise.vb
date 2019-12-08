@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -103,7 +103,12 @@ Public Class RegPrecise : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As RegPrecise
           Return New RegPrecise(App:=directory & "/" & RegPrecise.App)
@@ -116,7 +121,16 @@ Public Class RegPrecise : Inherits InteropService
 ''' If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.
 ''' </summary>
 '''
-Public Function OperonBuilder(bbh As String, PTT As String, TF_bbh As String, Optional out As String = "", Optional regprecise As String = "", Optional tfhit_hash As Boolean = False) As Integer
+''' <param name="bbh"> The bbh result between the annotated genome And RegPrecise database. 
+'''                    This result was used for generates the operons, and query should be the genes in 
+'''                    the RegPrecise database and the hits is the genes in your annotated genome.
+''' </param>
+Public Function OperonBuilder(bbh As String, 
+                                 PTT As String, 
+                                 TF_bbh As String, 
+                                 Optional out As String = "", 
+                                 Optional regprecise As String = "", 
+                                 Optional tfhit_hash As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Operons")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -144,7 +158,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function RegulonBatchBuilder(bbh As String, PTT As String, tf_bbh As String, regprecise As String, Optional num_threads As String = "", Optional out As String = "", Optional hits_hash As Boolean = False) As Integer
+
+Public Function RegulonBatchBuilder(bbh As String, 
+                                       PTT As String, 
+                                       tf_bbh As String, 
+                                       regprecise As String, 
+                                       Optional num_threads As String = "", 
+                                       Optional out As String = "", 
+                                       Optional hits_hash As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Regulons.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -177,7 +198,12 @@ End Function
 ''' Collect all linked components. Two operons from two different genomes are called orthologous if they share at least one orthologous gene.
 ''' </summary>
 '''
-Public Function CORN([in] As String, motif_sites As String, sites As String, ref As String, Optional out As String = "") As Integer
+
+Public Function CORN([in] As String, 
+                        motif_sites As String, 
+                        sites As String, 
+                        ref As String, 
+                        Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/CORN")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -200,7 +226,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CORNBatch(sites As String, regulons As String, Optional name As String = "", Optional out As String = "", Optional num_threads As String = "", Optional null_regprecise As Boolean = False) As Integer
+''' <param name="name"> 
+''' </param>
+''' <param name="sites">
+''' </param>
+''' <param name="regulons">
+''' </param>
+Public Function CORNBatch(sites As String, 
+                             regulons As String, 
+                             Optional name As String = "", 
+                             Optional out As String = "", 
+                             Optional num_threads As String = "", 
+                             Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/sites " & """" & sites & """ ")
@@ -230,7 +267,24 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CORNSingleThread(hit As String, hit_sites As String, sites As String, ref As String, Optional out As String = "", Optional null_regprecise As Boolean = False) As Integer
+''' <param name="null_regprecise"> Does the motif log data have the RegPrecise database value? If this parameter is presented that which it means the site data have no RegPrecise data.
+''' </param>
+''' <param name="hit">
+''' </param>
+''' <param name="hit_sites">
+''' </param>
+''' <param name="sites">
+''' </param>
+''' <param name="ref">
+''' </param>
+''' <param name="out">
+''' </param>
+Public Function CORNSingleThread(hit As String, 
+                                    hit_sites As String, 
+                                    sites As String, 
+                                    ref As String, 
+                                    Optional out As String = "", 
+                                    Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.thread")
     Call CLI.Append(" ")
     Call CLI.Append("/hit " & """" & hit & """ ")
@@ -256,6 +310,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MergeDOOR([in] As String, DOOR As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/DOOR.Merge")
     Call CLI.Append(" ")
@@ -277,6 +332,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function DownloadMotifSites([imports] As String, Optional export As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Motifs")
     Call CLI.Append(" ")
@@ -298,6 +354,10 @@ End Function
 ''' Download Regprecise database from Web API
 ''' </summary>
 '''
+''' <param name="work"> The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.
+''' </param>
+''' <param name="save"> The repository saved xml file path.
+''' </param>
 Public Function DownloadRegprecise2(Optional work As String = "", Optional save As String = "") As Integer
     Dim CLI As New StringBuilder("/Download.Regprecise")
     Call CLI.Append(" ")
@@ -321,6 +381,7 @@ End Function
 ''' Export Regprecise motif sites as a single fasta sequence file.
 ''' </summary>
 '''
+
 Public Function ExportRegpreciseMotifSites([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.Regprecise.motifs")
     Call CLI.Append(" ")
@@ -342,6 +403,8 @@ End Function
 ''' Exports all of the fasta sequence of the TF regulator from the download RegPrecsie FASTA database.
 ''' </summary>
 '''
+''' <param name="locus_out"> Does the program saves a copy of the TF locus_tag list at the mean time of the TF fasta sequence export.
+''' </param>
 Public Function ExportRegulators([imports] As String, Fasta As String, Optional out As String = "", Optional locus_out As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.Regulators")
     Call CLI.Append(" ")
@@ -366,6 +429,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FamilyHits(bbh As String, Optional regprecise As String = "", Optional pfamkey As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Family.Hits")
     Call CLI.Append(" ")
@@ -393,6 +457,7 @@ End Function
 ''' Download protein fasta sequence from KEGG database.
 ''' </summary>
 '''
+
 Public Function DownloadFasta(source As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Fasta.Downloads")
     Call CLI.Append(" ")
@@ -413,6 +478,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Fetch(ncbi As String, [imports] As String, out As String) As Integer
     Dim CLI As New StringBuilder("/Fetches")
     Call CLI.Append(" ")
@@ -432,6 +498,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FetchThread(gbk As String, query As String, out As String) As Integer
     Dim CLI As New StringBuilder("/Fetches.Thread")
     Call CLI.Append(" ")
@@ -451,6 +518,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function GetSites([in] As String, sites As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Gets.Sites.Genes")
     Call CLI.Append(" ")
@@ -472,6 +540,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Supports([in] As String, Optional out As String = "", Optional t As Boolean = False, Optional l As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/heap.supports")
     Call CLI.Append(" ")
@@ -498,6 +567,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function InstallRegPreciseMotifs([imports] As String) As Integer
     Dim CLI As New StringBuilder("/install.motifs")
     Call CLI.Append(" ")
@@ -515,6 +585,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Effectors([imports] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Maps.Effector")
     Call CLI.Append(" ")
@@ -535,6 +606,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MergeCORN([in] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Merge.CORN")
     Call CLI.Append(" ")
@@ -555,6 +627,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function MergeDownload(Optional [in] As String = "", Optional out As String = "", Optional offline As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Merge.RegPrecise.Fasta")
     Call CLI.Append(" ")
@@ -580,6 +653,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ProteinMotifsEXPORT([in] As String, PTT As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Prot_Motifs.EXPORT.pfamString")
     Call CLI.Append(" ")
@@ -601,6 +675,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function ProtMotifToPfamString([in] As String, Optional fasta As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Prot_Motifs.PfamString")
     Call CLI.Append(" ")
@@ -625,6 +700,7 @@ End Function
 ''' Download protein domain motifs structures from KEGG ssdb.
 ''' </summary>
 '''
+
 Public Function DownloadProteinMotifs(source As String, Optional kegg_tools As String = "") As Integer
     Dim CLI As New StringBuilder("/ProtMotifs.Downloads")
     Call CLI.Append(" ")
@@ -646,7 +722,14 @@ End Function
 ''' Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 ''' </summary>
 '''
-Public Function RegulatorsBBh(bbh As String, regprecise As String, Optional description As String = "", Optional out As String = "", Optional sbh As Boolean = False, Optional allow_multiple As Boolean = False) As Integer
+''' <param name="allow_multiple"> Allow the regulator assign multiple family name? By default is not allow, which means one protein just have one TF family name.
+''' </param>
+Public Function RegulatorsBBh(bbh As String, 
+                                 regprecise As String, 
+                                 Optional description As String = "", 
+                                 Optional out As String = "", 
+                                 Optional sbh As Boolean = False, 
+                                 Optional allow_multiple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/regulators.bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -676,6 +759,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function FetchRepostiory([imports] As String, genbank As String, Optional out As String = "", Optional full As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Repository.Fetch")
     Call CLI.Append(" ")
@@ -700,6 +784,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RfamRegulates([in] As String, rfam As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Regulates")
     Call CLI.Append(" ")
@@ -721,6 +806,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SelectTFBBH(bbh As String, [imports] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Select.TF.BBH")
     Call CLI.Append(" ")
@@ -742,6 +828,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function SelectTFPfams(pfam_string As String, [imports] As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Select.TF.Pfam-String")
     Call CLI.Append(" ")
@@ -763,6 +850,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function siRNAMaps([in] As String, hits As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/siRNA.Maps")
     Call CLI.Append(" ")
@@ -785,6 +873,7 @@ End Function
 ''' The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn&apos;t know how to set this value, please leave it blank.
 ''' </summary>
 '''
+
 Public Function CompileRegprecise(Optional src As String = "") As Integer
     Dim CLI As New StringBuilder("Regprecise.Compile")
     Call CLI.Append(" ")
@@ -805,6 +894,7 @@ End Function
 ''' Download Regprecise database from REST API
 ''' </summary>
 '''
+
 Public Function DownloadRegprecise(Optional repository_export As String = "", Optional updates As Boolean = False) As Integer
     Dim CLI As New StringBuilder("wGet.Regprecise")
     Call CLI.Append(" ")

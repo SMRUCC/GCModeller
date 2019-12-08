@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -58,7 +58,12 @@ Public Class Profiler : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Profiler
           Return New Profiler(App:=directory & "/" & Profiler.App)
@@ -71,6 +76,8 @@ Public Class Profiler : Inherits InteropService
 ''' Create GO enrichment background model from uniprot database.
 ''' </summary>
 '''
+''' <param name="uniprot"> The uniprot database.
+''' </param>
 Public Function CreateGOClusters(uniprot As String, go As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/GO.clusters")
     Call CLI.Append(" ")
@@ -92,7 +99,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GOEnrichmentBarPlot([in] As String, Optional go As String = "", Optional top As String = "35", Optional colors As String = "YlGnBu:c8", Optional out As String = "", Optional disable_label_trim As Boolean = False, Optional tiff As Boolean = False) As Integer
+
+Public Function GOEnrichmentBarPlot([in] As String, 
+                                       Optional go As String = "", 
+                                       Optional top As String = "35", 
+                                       Optional colors As String = "YlGnBu:c8", 
+                                       Optional out As String = "", 
+                                       Optional disable_label_trim As Boolean = False, 
+                                       Optional tiff As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GO.enrichment.barplot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -128,7 +142,25 @@ End Function
 ''' Do gene set enrichment analysis.
 ''' </summary>
 '''
-Public Function EnrichmentTest(background As String, geneSet As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+''' <param name="background"> A genome background data file which is created by ``/KO.clusters`` or ``/GO.clusters`` tools.
+''' </param>
+''' <param name="cluster_id"> A list of specific cluster id that used for program debug use only.
+''' </param>
+''' <param name="format"> apply this argument to specify the output table format, by default is in GCModeller table format, or you can assign the ``KOBAS`` format value at this parameter.
+''' </param>
+''' <param name="out"> The file path of the result output, the output result table format is affects by the ``/format`` argument.
+''' </param>
+''' <param name="geneSet"> A text file that contains the gene id list that will be apply the GSEA analysis.
+''' </param>
+''' <param name="hide_progress"> A logical flag argument that controls the console screen display the progress bar or not.
+''' </param>
+Public Function EnrichmentTest(background As String, 
+                                  geneSet As String, 
+                                  Optional cluster_id As String = "", 
+                                  Optional format As String = "GCModeller", 
+                                  Optional out As String = "", 
+                                  Optional hide_progress As Boolean = False, 
+                                  Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -161,7 +193,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GSEA_GO(background As String, geneSet As String, go As String, Optional cluster_id As String = "", Optional format As String = "GCModeller", Optional out As String = "", Optional hide_progress As Boolean = False, Optional locus_tag As Boolean = False) As Integer
+
+Public Function GSEA_GO(background As String, 
+                           geneSet As String, 
+                           go As String, 
+                           Optional cluster_id As String = "", 
+                           Optional format As String = "GCModeller", 
+                           Optional out As String = "", 
+                           Optional hide_progress As Boolean = False, 
+                           Optional locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/GSEA.GO")
     Call CLI.Append(" ")
     Call CLI.Append("/background " & """" & background & """ ")
@@ -195,6 +235,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function IDconverts(uniprot As String, geneSet As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/id.converts")
     Call CLI.Append(" ")
@@ -217,6 +258,8 @@ End Function
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, used for LC-MS metabolism data analysis.
 ''' </summary>
 '''
+''' <param name="[in]"> A repository directory that contains the pathway map data and which is generated by ``/Download.Pathway.Maps`` tools in cli app &apos;KEGG_tools&apos;.
+''' </param>
 Public Function MetaboliteBackground([in] As String, Optional ref As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/kegg.metabolites.background")
     Call CLI.Append(" ")
@@ -241,6 +284,10 @@ End Function
 ''' Create KEGG pathway map background for a given genome data.
 ''' </summary>
 '''
+''' <param name="uniprot"> Uniprot database that contains the uniprot_id to KO_id mapping.
+''' </param>
+''' <param name="maps"> This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files. A xml file path of the kegg pathway map database is also accepted!
+''' </param>
 Public Function CreateKOCluster(uniprot As String, maps As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.clusters")
     Call CLI.Append(" ")
@@ -262,7 +309,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CreateKOClusterFromBBH([in] As String, maps As String, Optional size As String = "-1", Optional genome As String = "", Optional out As String = "") As Integer
+
+Public Function CreateKOClusterFromBBH([in] As String, 
+                                          maps As String, 
+                                          Optional size As String = "-1", 
+                                          Optional genome As String = "", 
+                                          Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/KO.clusters.By_bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

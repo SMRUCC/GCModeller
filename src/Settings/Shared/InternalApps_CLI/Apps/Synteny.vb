@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -52,7 +52,12 @@ Public Class Synteny : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As Synteny
           Return New Synteny(App:=directory & "/" & Synteny.App)
@@ -64,6 +69,7 @@ Public Class Synteny : Inherits InteropService
 ''' ```
 ''' </summary>
 '''
+
 Public Function ClusterTree([in] As String, genomes As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/cluster.tree")
     Call CLI.Append(" ")
@@ -85,7 +91,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PlotMapping(mapping As String, query As String, ref As String, Optional ribbon As String = "Spectral:c6", Optional size As String = "6000,4000", Optional auto_reverse As String = "0.9", Optional grep As String = "-", Optional out As String = "") As Integer
+
+Public Function PlotMapping(mapping As String, 
+                               query As String, 
+                               ref As String, 
+                               Optional ribbon As String = "Spectral:c6", 
+                               Optional size As String = "6000,4000", 
+                               Optional auto_reverse As String = "0.9", 
+                               Optional grep As String = "-", 
+                               Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/mapping.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/mapping " & """" & mapping & """ ")
@@ -119,6 +133,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function Test() As Integer
     Dim CLI As New StringBuilder("/test")
     Call CLI.Append(" ")

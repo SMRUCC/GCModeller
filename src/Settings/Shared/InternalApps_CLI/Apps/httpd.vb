@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7271.30051
-'  // ASSEMBLY:  Settings, Version=3.3277.7271.30051, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     11/28/2019 4:41:42 PM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -65,7 +65,12 @@ Public Class httpd : Inherits InteropService
     Sub New(App$)
         MyBase._executableAssembly = App$
     End Sub
-
+        
+''' <summary>
+''' Create an internal CLI pipeline invoker from a given environment path. 
+''' </summary>
+''' <param name="directory">A directory path that contains the target application</param>
+''' <returns></returns>
      <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromEnvironment(directory As String) As httpd
           Return New httpd(App:=directory & "/" & httpd.App)
@@ -78,6 +83,10 @@ Public Class httpd : Inherits InteropService
 ''' Tools for http get request the content of a specific url.
 ''' </summary>
 '''
+''' <param name="url"> The resource URL on the web.
+''' </param>
+''' <param name="out"> The save location of your requested data file.
+''' </param>
 Public Function [GET](url As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/GET")
     Call CLI.Append(" ")
@@ -98,6 +107,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function POST(url As String, Optional __args1 As String = "", Optional args2 As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/POST")
     Call CLI.Append(" ")
@@ -125,6 +135,7 @@ End Function
 ''' Run start the web server with specific Web App.
 ''' </summary>
 '''
+
 Public Function RunApp(dll As String, Optional port As String = "80", Optional wwwroot As String = "") As Integer
     Dim CLI As New StringBuilder("/run")
     Call CLI.Append(" ")
@@ -148,6 +159,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
+
 Public Function RunDll(api As String, Optional ____ As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/run.dll")
     Call CLI.Append(" ")
@@ -169,6 +181,7 @@ End Function
 ''' Start a new websocket server.
 ''' </summary>
 '''
+
 Public Function RunSocket(app As String, Optional hostname As String = "127.0.0.1", Optional port As String = "81") As Integer
     Dim CLI As New StringBuilder("/socket")
     Call CLI.Append(" ")
@@ -193,6 +206,14 @@ End Function
 ''' Run start the httpd web server.
 ''' </summary>
 '''
+''' <param name="port"> The server port of this httpd web server to listen.
+''' </param>
+''' <param name="wwwroot"> The website html root directory path.
+''' </param>
+''' <param name="threads"> The number of threads of this web server its thread pool.
+''' </param>
+''' <param name="cache"> Is this server running in file system cache mode? Not recommended for open.
+''' </param>
 Public Function Start(Optional port As String = "", Optional wwwroot As String = "", Optional threads As String = "-1", Optional cache As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/start")
     Call CLI.Append(" ")
@@ -222,6 +243,7 @@ End Function
 ''' Using Ctrl + C to stop the stress testing.
 ''' </summary>
 '''
+
 Public Function StressTest(url As String, Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Stress.Testing")
     Call CLI.Append(" ")
