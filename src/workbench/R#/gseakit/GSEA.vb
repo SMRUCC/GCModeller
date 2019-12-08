@@ -11,6 +11,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("GSEA", Category:=APICategories.ResearchTools)>
@@ -42,7 +43,7 @@ Module GSEA
     End Function
 
     <ExportAPI("write.enrichment")>
-    Public Function SaveEnrichment(enrichment As Object, file$, Optional format$ = "GCModeller") As Boolean
+    Public Function SaveEnrichment(<RRawVectorArgument> enrichment As Object, file$, Optional format$ = "GCModeller") As Boolean
         If enrichment Is Nothing Then
             Throw New ArgumentNullException(NameOf(enrichment))
         End If
