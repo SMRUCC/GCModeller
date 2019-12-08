@@ -13,6 +13,11 @@ Imports SMRUCC.genomics.Data.GeneOntology.obographs
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
 
+    <ExportAPI("read.enrichment")>
+    Public Function ReadEnrichmentTerms(file As String) As EnrichmentResult()
+        Return file.LoadCsv(Of EnrichmentResult)
+    End Function
+
     <ExportAPI("enrichment")>
     Public Function Enrichment(background As Background, geneSet$()) As EnrichmentResult()
         Return background.Enrichment(geneSet, False).ToArray
