@@ -10,16 +10,19 @@ Public Module EnrichmentVisualize
                               Optional size$ = "3000,4000",
                               Optional bg$ = "white",
                               Optional margin$ = g.DefaultPadding,
-                              Optional doNetworkLayout As Boolean = True) As GraphicsData
+                              Optional networkLayoutIteration% = 100) As GraphicsData
 
-        If doNetworkLayout Then
-            Call dag.doForceLayout(showProgress:=True)
+        If networkLayoutIteration > 0 Then
+            Call Console.Clear()
+            Call dag.doForceLayout(iterations:=networkLayoutIteration, showProgress:=True)
+            Call Console.Clear()
         End If
 
         Return dag.DrawImage(
             canvasSize:=size,
             padding:=margin,
-            background:=bg
+            background:=bg,
+            labelerIterations:=-1
         )
     End Function
 End Module
