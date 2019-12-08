@@ -144,6 +144,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
+      <Name>Microarray</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\GSEA.KnowledgeBase.Extensions.vbproj">
       <Project>{77da02ce-97fc-44e2-9df7-a36cf3f1e741}</Project>
       <Name>GSEA.KnowledgeBase.Extensions</Name>

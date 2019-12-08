@@ -2,6 +2,8 @@
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -32,6 +34,8 @@ Module GSEA
     Public Function SaveEnrichment(enrichment As EnrichmentResult(), file$, Optional format$ = "GCModeller") As Boolean
         If format = "GCModeller" Then
             Return enrichment.SaveTo(file)
+        ElseIf format = "KOBAS" Then
+            Return KOBASFormat(enrichment).SaveTo(file)
         Else
             Throw New NotImplementedException(format)
         End If
@@ -40,6 +44,11 @@ Module GSEA
     <ExportAPI("enrichment.FDR")>
     Public Function FDR(enrichment As EnrichmentResult()) As EnrichmentResult()
         Return enrichment.FDRCorrection
+    End Function
+
+    <ExportAPI("as.KOBAS_terms")>
+    Public Function KOBASFormat(enrichment As EnrichmentResult()) As EnrichmentTerm()
+        Return enrichment.Converts.ToArray
     End Function
 End Module
 
