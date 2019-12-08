@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
@@ -13,8 +14,18 @@ Module GSEA
     End Function
 
     <ExportAPI("enrichment.go")>
-    Public Function GOEnrichment(background As Background, geneSet$(), go As OBO.GO_OBO) As EnrichmentResult()
-        Return background.Enrichment(geneSet, go, False).ToArray
+    Public Function GOEnrichment(background As Background, geneSet$(), go As Object) As EnrichmentResult()
+        If go Is Nothing Then
+            Throw New ArgumentNullException("GO database is missing!")
+        End If
+
+        If go.GetType() Is GetType(GO_OBO) Then
+            Return background.Enrichment(geneSet, DirectCast(go, GO_OBO)).ToArray
+        ElseIf go.GetType Is GetType(DAG.Graph) Then
+            Return background.Enrichment(geneSet, DirectCast(go, DAG.Graph)).ToArray
+        Else
+            Throw New InvalidProgramException(go.GetType.FullName)
+        End If
     End Function
 
     <ExportAPI("write.enrichment")>
@@ -24,6 +35,11 @@ Module GSEA
         Else
             Throw New NotImplementedException(format)
         End If
+    End Function
+
+    <ExportAPI("enrichment.FDR")>
+    Public Function FDR(enrichment As EnrichmentResult()) As EnrichmentResult()
+        Return enrichment.FDRCorrection
     End Function
 End Module
 
