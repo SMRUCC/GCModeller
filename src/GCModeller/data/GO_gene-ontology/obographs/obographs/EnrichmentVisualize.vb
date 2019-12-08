@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Public Module EnrichmentVisualize
 
     Public Function DrawGraph(dag As NetworkGraph,
-                              Optional size$ = "3000,4000",
+                              Optional size$ = "8000,6000",
                               Optional bg$ = "white",
                               Optional margin$ = g.DefaultPadding,
                               Optional networkLayoutIteration% = 100) As GraphicsData
