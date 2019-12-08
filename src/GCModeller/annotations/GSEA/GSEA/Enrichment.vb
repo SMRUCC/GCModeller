@@ -53,6 +53,16 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="list"></param>
+    ''' <param name="go"></param>
+    ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
+    ''' <param name="isLocustag"></param>
+    ''' <param name="showProgress"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
@@ -143,7 +153,7 @@ Public Module Enrichment
     ''' </summary>
     ''' <param name="genome"></param>
     ''' <param name="list">需要进行富集计算分析的目标基因列表</param>
-    ''' <param name="outputAll"></param>
+    ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
     ''' <param name="showProgress"></param>
     ''' <returns></returns>
     <Extension>

@@ -9,12 +9,12 @@ Module GSEA
 
     <ExportAPI("enrichment")>
     Public Function Enrichment(background As Background, geneSet$()) As EnrichmentResult()
-
+        Return background.Enrichment(geneSet, False).ToArray
     End Function
 
     <ExportAPI("enrichment.go")>
     Public Function GOEnrichment(background As Background, geneSet$(), go As OBO.GO_OBO) As EnrichmentResult()
-
+        Return background.Enrichment(geneSet, go, False).ToArray
     End Function
 
     <ExportAPI("write.enrichment")>
