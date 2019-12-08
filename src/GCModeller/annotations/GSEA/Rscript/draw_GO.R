@@ -23,7 +23,7 @@ eggHTS$GO_enrichmentPlot(
     label_maxlen = 72
 );
 
-let bubbles.out = `{dirname(enrichment)}/{basename(enrichment)}.bubbles.png`;
+let bubbles.out = `${dirname(enrichment)}/${basename(enrichment)}.bubbles.png`;
 
 # bubbles
 # /Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r "log(x,1.5)" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /label.maxlen <char_count, default=64> /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]
@@ -38,5 +38,5 @@ eggHTS$GO_enrichmentPlot(
     label_maxlen = 72,
     out = bubbles.out,
     bubble = TRUE,
-    r = "log(x, 1.25)"
+    r = "log(x, 1.125)"
 );
