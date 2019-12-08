@@ -45,9 +45,18 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 <Package("gseakit.background", Category:=APICategories.ResearchTools)>
 Public Module GSEABackground
+
+    Sub New()
+        Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
+    End Sub
+
+    Private Function PrintBackground(x As Object) As String
+        Return DirectCast(x, Background).name
+    End Function
 
     ''' <summary>
     ''' Load GSEA background model from a xml file.

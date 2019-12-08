@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="GSEABackground.vb" />
     <Compile Include="DEGSample.vb" />
+    <Compile Include="GSEA.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -143,6 +144,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
+      <Name>Microarray</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\GSEA.KnowledgeBase.Extensions.vbproj">
       <Project>{77da02ce-97fc-44e2-9df7-a36cf3f1e741}</Project>
       <Name>GSEA.KnowledgeBase.Extensions</Name>
@@ -155,6 +160,14 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
+      <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
+      <Name>GO_OWL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.vbproj">
+      <Project>{109ad379-4dc2-4931-9440-b35c62ae1343}</Project>
+      <Name>obographs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
       <Name>R</Name>
@@ -162,6 +175,22 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
+      <Project>{203BC68F-A0CD-443A-AB62-4AF4110F752F}</Project>
+      <Name>GraphTheory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
+      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
+      <Name>Microsoft.VisualBasic.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
+      <Project>{076315EE-B598-40DC-9280-C71CDF9B6A48}</Project>
+      <Name>Network.GraphTheory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
+      <Project>{78CB32E6-2904-41E7-ACCA-F1E2757BFA8E}</Project>
+      <Name>Network.IO.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
