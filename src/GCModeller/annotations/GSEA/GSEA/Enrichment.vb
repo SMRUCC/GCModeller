@@ -77,6 +77,9 @@ Public Module Enrichment
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
+
+        Call "Create GO DAG graph... please wait for a while...".__DEBUG_ECHO
+
         Dim goClusters As New DAG.Graph(go.AsEnumerable)
 
         If showProgress Then
