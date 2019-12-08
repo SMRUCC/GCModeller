@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -176,7 +176,11 @@ End Function
 ''' </param>
 ''' <param name="auto_increment_disable"> Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.
 ''' </param>
-Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False) As Integer
+Public Function ReflectsConvert(sql As String, 
+                                   Optional o As String = "", 
+                                   Optional [namespace] As String = "", 
+                                   Optional language As String = "visualbasic", 
+                                   Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--reflects")
     Call CLI.Append(" ")
     Call CLI.Append("/sql " & """" & sql & """ ")

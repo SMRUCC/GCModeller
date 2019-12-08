@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -120,7 +120,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function ExportBlastns([in] As String, Optional out As String = "", Optional num_threads As String = "", Optional large As Boolean = False, Optional no_parallel As Boolean = False) As Integer
+Public Function ExportBlastns([in] As String, 
+                                 Optional out As String = "", 
+                                 Optional num_threads As String = "", 
+                                 Optional large As Boolean = False, 
+                                 Optional no_parallel As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.Blastn.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -205,7 +209,11 @@ End Function
 ''' </param>
 ''' <param name="offset"> The max allowed offset value of the length delta between ``length_query`` and ``length_hit``.
 ''' </param>
-Public Function ExportUltraLarge([in] As String, Optional out As String = "", Optional evalue As String = "", Optional coverage As String = "", Optional offset As String = "") As Integer
+Public Function ExportUltraLarge([in] As String, 
+                                    Optional out As String = "", 
+                                    Optional evalue As String = "", 
+                                    Optional coverage As String = "", 
+                                    Optional offset As String = "") As Integer
     Dim CLI As New StringBuilder("/Export.Pfam.UltraLarge")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -245,7 +253,12 @@ End Function
 ''' </param>
 ''' <param name="coverage"> The coverage cutoff of the pfam domain sequence. This argument is not the coverage threshold of your query protein.
 ''' </param>
-Public Function ExportPfamHits([in] As String, Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional alt_direction As Boolean = False) As Integer
+Public Function ExportPfamHits([in] As String, 
+                                  Optional evalue As String = "", 
+                                  Optional coverage As String = "", 
+                                  Optional identities As String = "", 
+                                  Optional out As String = "", 
+                                  Optional alt_direction As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.PfamHits")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -389,7 +402,12 @@ End Function
 '''
 ''' <param name="prefix"> Optional for the custom RNA id, is this parameter value is nothing, then the id prefix will be parsed from the PTT file automaticslly.
 ''' </param>
-Public Function RfamAnalysis([in] As String, PTT As String, Optional prefix As String = "", Optional out As String = "", Optional offset As String = "", Optional non_directed As Boolean = False) As Integer
+Public Function RfamAnalysis([in] As String, 
+                                PTT As String, 
+                                Optional prefix As String = "", 
+                                Optional out As String = "", 
+                                Optional offset As String = "", 
+                                Optional non_directed As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Rfam")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -422,7 +440,11 @@ End Function
 ''' <param name="formatdb"> If the /rfam directory parameter is specific and the database is not formatted, then this value should be TRUE for local blast. 
 '''                    If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.
 ''' </param>
-Public Function RfamAlignment(query As String, Optional rfam As String = "", Optional out As String = "", Optional num_threads As String = "", Optional ticks As String = "") As Integer
+Public Function RfamAlignment(query As String, 
+                                 Optional rfam As String = "", 
+                                 Optional out As String = "", 
+                                 Optional num_threads As String = "", 
+                                 Optional ticks As String = "") As Integer
     Dim CLI As New StringBuilder("/Rfam.Align")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")

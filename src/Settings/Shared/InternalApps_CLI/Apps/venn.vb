@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -94,7 +94,12 @@ Public Class venn : Inherits InteropService
 '''               system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to
 '''                get the venn diagram directly from this program.
 ''' </param>
-Public Function VennDiagramA(i As String, Optional t As String = "", Optional o As String = "", Optional s As String = "", Optional rbin As String = "", Optional first_id_skip As Boolean = False) As Integer
+Public Function VennDiagramA(i As String, 
+                                Optional t As String = "", 
+                                Optional o As String = "", 
+                                Optional s As String = "", 
+                                Optional rbin As String = "", 
+                                Optional first_id_skip As Boolean = False) As Integer
     Dim CLI As New StringBuilder(".Draw")
     Call CLI.Append(" ")
     Call CLI.Append("-i " & """" & i & """ ")

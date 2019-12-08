@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -125,7 +125,12 @@ Public Class RegPrecise : Inherits InteropService
 '''                    This result was used for generates the operons, and query should be the genes in 
 '''                    the RegPrecise database and the hits is the genes in your annotated genome.
 ''' </param>
-Public Function OperonBuilder(bbh As String, PTT As String, TF_bbh As String, Optional out As String = "", Optional regprecise As String = "", Optional tfhit_hash As Boolean = False) As Integer
+Public Function OperonBuilder(bbh As String, 
+                                 PTT As String, 
+                                 TF_bbh As String, 
+                                 Optional out As String = "", 
+                                 Optional regprecise As String = "", 
+                                 Optional tfhit_hash As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Operons")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -154,7 +159,13 @@ End Function
 ''' </summary>
 '''
 
-Public Function RegulonBatchBuilder(bbh As String, PTT As String, tf_bbh As String, regprecise As String, Optional num_threads As String = "", Optional out As String = "", Optional hits_hash As Boolean = False) As Integer
+Public Function RegulonBatchBuilder(bbh As String, 
+                                       PTT As String, 
+                                       tf_bbh As String, 
+                                       regprecise As String, 
+                                       Optional num_threads As String = "", 
+                                       Optional out As String = "", 
+                                       Optional hits_hash As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Regulons.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
@@ -188,7 +199,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function CORN([in] As String, motif_sites As String, sites As String, ref As String, Optional out As String = "") As Integer
+Public Function CORN([in] As String, 
+                        motif_sites As String, 
+                        sites As String, 
+                        ref As String, 
+                        Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/CORN")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -217,7 +232,12 @@ End Function
 ''' </param>
 ''' <param name="regulons">
 ''' </param>
-Public Function CORNBatch(sites As String, regulons As String, Optional name As String = "", Optional out As String = "", Optional num_threads As String = "", Optional null_regprecise As Boolean = False) As Integer
+Public Function CORNBatch(sites As String, 
+                             regulons As String, 
+                             Optional name As String = "", 
+                             Optional out As String = "", 
+                             Optional num_threads As String = "", 
+                             Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.Batch")
     Call CLI.Append(" ")
     Call CLI.Append("/sites " & """" & sites & """ ")
@@ -259,7 +279,12 @@ End Function
 ''' </param>
 ''' <param name="out">
 ''' </param>
-Public Function CORNSingleThread(hit As String, hit_sites As String, sites As String, ref As String, Optional out As String = "", Optional null_regprecise As Boolean = False) As Integer
+Public Function CORNSingleThread(hit As String, 
+                                    hit_sites As String, 
+                                    sites As String, 
+                                    ref As String, 
+                                    Optional out As String = "", 
+                                    Optional null_regprecise As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/CORN.thread")
     Call CLI.Append(" ")
     Call CLI.Append("/hit " & """" & hit & """ ")
@@ -699,7 +724,12 @@ End Function
 '''
 ''' <param name="allow_multiple"> Allow the regulator assign multiple family name? By default is not allow, which means one protein just have one TF family name.
 ''' </param>
-Public Function RegulatorsBBh(bbh As String, regprecise As String, Optional description As String = "", Optional out As String = "", Optional sbh As Boolean = False, Optional allow_multiple As Boolean = False) As Integer
+Public Function RegulatorsBBh(bbh As String, 
+                                 regprecise As String, 
+                                 Optional description As String = "", 
+                                 Optional out As String = "", 
+                                 Optional sbh As Boolean = False, 
+                                 Optional allow_multiple As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/regulators.bbh")
     Call CLI.Append(" ")
     Call CLI.Append("/bbh " & """" & bbh & """ ")
