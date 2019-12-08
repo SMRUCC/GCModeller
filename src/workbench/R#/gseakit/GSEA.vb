@@ -1,11 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Data.GeneOntology.obographs
 
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
@@ -49,6 +52,15 @@ Module GSEA
     <ExportAPI("as.KOBAS_terms")>
     Public Function KOBASFormat(enrichment As EnrichmentResult()) As EnrichmentTerm()
         Return enrichment.Converts.ToArray
+    End Function
+
+    <ExportAPI("enrichment.draw.go_dag")>
+    Public Function DrawGOEnrichmentGraph(go_enrichment As EnrichmentResult(), go As GO_OBO) As GraphicsData
+        Dim terms As String() = go_enrichment.Select(Function(term) term.term).ToArray
+        Dim dag As NetworkGraph = go.CreateGraph(terms:=terms)
+        Dim image As GraphicsData = EnrichmentVisualize.DrawGraph(dag)
+
+        Return image
     End Function
 End Module
 
