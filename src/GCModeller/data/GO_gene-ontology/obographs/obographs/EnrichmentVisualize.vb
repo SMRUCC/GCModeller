@@ -13,7 +13,7 @@ Public Module EnrichmentVisualize
                               Optional doNetworkLayout As Boolean = True) As GraphicsData
 
         If doNetworkLayout Then
-            Call dag.doForceLayout
+            Call dag.doForceLayout(showProgress:=True)
         End If
 
         Return dag.DrawImage(
