@@ -5,7 +5,7 @@ imports "gokit.file" from "gokit.dll";
 let background <- ?"--background" :> read.background;  
 let geneSet as string <- ?"--geneSet";
 let save.csv as string <- ?"--save" || `${dirname(geneSet)}/{basename(geneSet)}.enrichment.csv`;
-let go <- ?"--go" 
+let go <- ?"--go"; 
 
 geneSet <- readLines(geneSet);
 
