@@ -13,6 +13,7 @@ Public Module EnrichmentVisualize
                               Optional networkLayoutIteration% = 100) As GraphicsData
 
         If networkLayoutIteration > 0 Then
+            Call VBDebugger.WaitOutput()
             Call Console.Clear()
             Call dag.doForceLayout(iterations:=networkLayoutIteration, showProgress:=True)
             Call Console.Clear()
