@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -257,7 +257,13 @@ End Function
 ''' </param>
 ''' <param name="min_pct"> The required minium vote percentage of the taxonomy assigned from a OTU reference alignment by using gast method, default is required level 60% agreement.
 ''' </param>
-Public Function gastTaxonomy_greengenes([in] As String, query As String, taxonomy As String, Optional removes_lt As String = "0.0001", Optional min_pct As String = "0.6", Optional out As String = "", Optional gast_consensus As Boolean = False) As Integer
+Public Function gastTaxonomy_greengenes([in] As String, 
+                                           query As String, 
+                                           taxonomy As String, 
+                                           Optional removes_lt As String = "0.0001", 
+                                           Optional min_pct As String = "0.6", 
+                                           Optional out As String = "", 
+                                           Optional gast_consensus As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/gast.Taxonomy.greengenes")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -311,7 +317,14 @@ End Function
 ''' </summary>
 '''
 
-Public Function HeatmapPlot([in] As String, groups As String, Optional schema As String = "YlGnBu:c9", Optional title As String = "", Optional size As String = "", Optional out As String = "", Optional tsv As Boolean = False, Optional group As Boolean = False) As Integer
+Public Function HeatmapPlot([in] As String, 
+                               groups As String, 
+                               Optional schema As String = "YlGnBu:c9", 
+                               Optional title As String = "", 
+                               Optional size As String = "", 
+                               Optional out As String = "", 
+                               Optional tsv As Boolean = False, 
+                               Optional group As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/heatmap.plot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -501,7 +514,11 @@ End Function
 '''
 ''' <param name="uniprot"> A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.
 ''' </param>
-Public Function MetabolicComplementationNetwork(metagenome As String, ref As String, uniprot As String, Membrane_transport As String, Optional out As String = "") As Integer
+Public Function MetabolicComplementationNetwork(metagenome As String, 
+                                                   ref As String, 
+                                                   uniprot As String, 
+                                                   Membrane_transport As String, 
+                                                   Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.metabolic.network")
     Call CLI.Append(" ")
     Call CLI.Append("/metagenome " & """" & metagenome & """ ")
@@ -535,7 +552,14 @@ End Function
 ''' </param>
 ''' <param name="sampleName"> This argument is only works when the input table file is a OTU result data table.
 ''' </param>
-Public Function PathwayProfiles([in] As String, ref As String, maps As String, Optional samplename As String = "NULL", Optional rank As String = "family", Optional p_value As String = "0.05", Optional out As String = "", Optional just_profiles As Boolean = False) As Integer
+Public Function PathwayProfiles([in] As String, 
+                                   ref As String, 
+                                   maps As String, 
+                                   Optional samplename As String = "NULL", 
+                                   Optional rank As String = "family", 
+                                   Optional p_value As String = "0.05", 
+                                   Optional out As String = "", 
+                                   Optional just_profiles As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -575,7 +599,14 @@ End Function
 ''' </param>
 ''' <param name="maps"> The kegg reference map repository database file.
 ''' </param>
-Public Function RunProfile([in] As String, maps As String, Optional rank As String = "family", Optional colors As String = "Set1:c6", Optional tick As String = "", Optional size As String = "", Optional p_value As String = "0.05", Optional out As String = "") As Integer
+Public Function RunProfile([in] As String, 
+                              maps As String, 
+                              Optional rank As String = "family", 
+                              Optional colors As String = "Set1:c6", 
+                              Optional tick As String = "", 
+                              Optional size As String = "", 
+                              Optional p_value As String = "0.05", 
+                              Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/microbiome.pathway.run.profile")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -612,7 +643,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function ClusterOTU(left As String, right As String, silva As String, Optional out As String = "", Optional processors As String = "2", Optional _set As String = "") As Integer
+Public Function ClusterOTU(left As String, 
+                              right As String, 
+                              silva As String, 
+                              Optional out As String = "", 
+                              Optional processors As String = "2", 
+                              Optional _set As String = "") As Integer
     Dim CLI As New StringBuilder("/OTU.cluster")
     Call CLI.Append(" ")
     Call CLI.Append("/left " & """" & left & """ ")
@@ -672,7 +708,15 @@ End Function
 ''' </param>
 ''' <param name="take"> 
 ''' </param>
-Public Function Relative_abundance_barplot([in] As String, Optional group As String = "", Optional take As String = "", Optional size As String = "", Optional column_n As String = "9", Optional interval As String = "", Optional out As String = "", Optional desc As Boolean = False, Optional asc As Boolean = False) As Integer
+Public Function Relative_abundance_barplot([in] As String, 
+                                              Optional group As String = "", 
+                                              Optional take As String = "", 
+                                              Optional size As String = "", 
+                                              Optional column_n As String = "9", 
+                                              Optional interval As String = "", 
+                                              Optional out As String = "", 
+                                              Optional desc As Boolean = False, 
+                                              Optional asc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Relative_abundance.barplot")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")

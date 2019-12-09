@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -100,7 +100,15 @@ Public Class gcc : Inherits InteropService
 '''               for telling the model compiler use the genes&apos; genome coordinate value as its unique locus_tag 
 '''               id value.
 ''' </param>
-Public Function CompileKEGG([in] As String, KO As String, maps As String, compounds As String, reactions As String, Optional glycan_cpd As String = "", Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer
+Public Function CompileKEGG([in] As String, 
+                               KO As String, 
+                               maps As String, 
+                               compounds As String, 
+                               reactions As String, 
+                               Optional glycan_cpd As String = "", 
+                               Optional regulations As String = "", 
+                               Optional out As String = "", 
+                               Optional location_as_locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/compile.KEGG")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -139,7 +147,11 @@ End Function
 ''' <param name="[in]"> A NCBI genbank file that contains the genomics data. If the genome contains multiple replicon like plasmids, 
 '''               you can union all of the replicon data into one genbankfile and then using this union file as this input argument.
 ''' </param>
-Public Function CompileKEGGOrganism([in] As String, kegg As String, Optional regulations As String = "", Optional out As String = "", Optional location_as_locus_tag As Boolean = False) As Integer
+Public Function CompileKEGGOrganism([in] As String, 
+                                       kegg As String, 
+                                       Optional regulations As String = "", 
+                                       Optional out As String = "", 
+                                       Optional location_as_locus_tag As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/compile.organism")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -170,7 +182,11 @@ End Function
 ''' <param name="pathway"> Apply a pathway module filter on the network model, only the gene contains in the given pathway list then will be output to user. 
 '''               By default is export all. Pathway id should be a KO pathway id list, like ``ko04146,ko02010``, and id was seperated by comma symbol.
 ''' </param>
-Public Function ExportModelGraph(model As String, Optional pathway As String = "none", Optional degree As String = "1", Optional out As String = "", Optional disable_trim As Boolean = False) As Integer
+Public Function ExportModelGraph(model As String, 
+                                    Optional pathway As String = "none", 
+                                    Optional degree As String = "1", 
+                                    Optional out As String = "", 
+                                    Optional disable_trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/export.model.graph")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")

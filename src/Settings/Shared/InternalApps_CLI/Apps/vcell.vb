@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -98,7 +98,11 @@ End Function
 ''' </param>
 ''' <param name="csv"> The output data format is csv table files.
 ''' </param>
-Public Function Run(model As String, Optional deletes As String = "", Optional iterations As String = "5000", Optional out As String = "", Optional json As Boolean = False) As Integer
+Public Function Run(model As String, 
+                       Optional deletes As String = "", 
+                       Optional iterations As String = "5000", 
+                       Optional out As String = "", 
+                       Optional json As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/run")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")

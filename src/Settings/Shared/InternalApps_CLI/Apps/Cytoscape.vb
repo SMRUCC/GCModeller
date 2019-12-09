@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7278.38403
-'  // ASSEMBLY:  Settings, Version=3.3277.7278.38403, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7281.33964
+'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/4/2019 8:55:34 AM
+'  // BUILT:     12/7/2019 6:27:36 AM
 '  // 
 ' 
 ' 
@@ -156,7 +156,11 @@ Public Class Cytoscape : Inherits InteropService
 ''' </summary>
 '''
 
-Public Function AnalysisNetworkProperty([in] As String, Optional colors As String = "", Optional ignores As String = "", Optional tick As String = "", Optional out As String = "") As Integer
+Public Function AnalysisNetworkProperty([in] As String, 
+                                           Optional colors As String = "", 
+                                           Optional ignores As String = "", 
+                                           Optional tick As String = "", 
+                                           Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -186,7 +190,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function NodeCluster([in] As String, Optional size As String = "10000,10000", Optional schema As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
+Public Function NodeCluster([in] As String, 
+                               Optional size As String = "10000,10000", 
+                               Optional schema As String = "", 
+                               Optional out As String = "", 
+                               Optional spcc As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -292,7 +300,18 @@ End Function
 ''' </param>
 ''' <param name="x2taxid"> NCBI taxonomy database that you can download from the NCBI ftp server.
 ''' </param>
-Public Function SSU_MetagenomeNetwork(net As String, tax As String, taxonomy As String, Optional x2taxid As String = "", Optional theme_color As String = "'Paired:c12'", Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional tax_build_in As Boolean = False, Optional skip_exists As Boolean = False, Optional gi2taxid As Boolean = False, Optional parallel As Boolean = False) As Integer
+Public Function SSU_MetagenomeNetwork(net As String, 
+                                         tax As String, 
+                                         taxonomy As String, 
+                                         Optional x2taxid As String = "", 
+                                         Optional theme_color As String = "'Paired:c12'", 
+                                         Optional identities As String = "", 
+                                         Optional coverage As String = "", 
+                                         Optional out As String = "", 
+                                         Optional tax_build_in As Boolean = False, 
+                                         Optional skip_exists As Boolean = False, 
+                                         Optional gi2taxid As Boolean = False, 
+                                         Optional parallel As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/BLAST.Metagenome.SSU.Network")
     Call CLI.Append(" ")
     Call CLI.Append("/net " & """" & net & """ ")
@@ -439,7 +458,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNET_DEGs([in] As String, 
+                                     up As String, 
+                                     down As String, 
+                                     Optional out As String = "", 
+                                     Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -465,7 +488,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+Public Function BuildTreeNET_KEGGModules([in] As String, 
+                                            mods As String, 
+                                            Optional out As String = "", 
+                                            Optional brief As Boolean = False, 
+                                            Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -493,7 +520,11 @@ End Function
 ''' </summary>
 '''
 
-Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+Public Function BuildTreeNET_KEGGPathways([in] As String, 
+                                             mods As String, 
+                                             Optional out As String = "", 
+                                             Optional brief As Boolean = False, 
+                                             Optional trim As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -546,7 +577,13 @@ End Function
 ''' </summary>
 '''
 
-Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mods As String, Optional out As String = "", Optional cuts As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNetTF([in] As String, 
+                                  maps As String, 
+                                  map As String, 
+                                  mods As String, 
+                                  Optional out As String = "", 
+                                  Optional cuts As String = "", 
+                                  Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -584,7 +621,13 @@ End Function
 ''' <param name="extended"> If the compounds can not create a network model by link each other through reaction model, then you could enable
 '''               this argument will makes extension connection for create a compound network model.
 ''' </param>
-Public Function CompoundNetwork([in] As String, reactions As String, Optional enzyme As String = "", Optional size As String = "10000,7000", Optional out As String = "", Optional extended As Boolean = False, Optional enzymerelated As Boolean = False) As Integer
+Public Function CompoundNetwork([in] As String, 
+                                   reactions As String, 
+                                   Optional enzyme As String = "", 
+                                   Optional size As String = "10000,7000", 
+                                   Optional out As String = "", 
+                                   Optional extended As Boolean = False, 
+                                   Optional enzymerelated As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/kegg.compound.network")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -619,7 +662,13 @@ End Function
 '''
 ''' <param name="brief"> If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.
 ''' </param>
-Public Function ModsNET([in] As String, Optional out As String = "", Optional footprints As String = "", Optional cut As String = "", Optional pcc As String = "", Optional pathway As Boolean = False, Optional brief As Boolean = False) As Integer
+Public Function ModsNET([in] As String, 
+                           Optional out As String = "", 
+                           Optional footprints As String = "", 
+                           Optional cut As String = "", 
+                           Optional pcc As String = "", 
+                           Optional pathway As Boolean = False, 
+                           Optional brief As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.Mods.NET")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -695,7 +744,17 @@ End Function
 ''' </param>
 ''' <param name="coverage_cutoff"> The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.
 ''' </param>
-Public Function KEGGReferenceMapModel(repository As String, Optional reactions As String = "", Optional __top_priority As String = "", Optional reaction_class As String = "", Optional organism As String = "", Optional coverage_cutoff As String = "0", Optional out As String = "", Optional category_level2 As Boolean = False, Optional delete_unmapped As Boolean = False, Optional delete_tupleedges As Boolean = False, Optional split As Boolean = False) As Integer
+Public Function KEGGReferenceMapModel(repository As String, 
+                                         Optional reactions As String = "", 
+                                         Optional __top_priority As String = "", 
+                                         Optional reaction_class As String = "", 
+                                         Optional organism As String = "", 
+                                         Optional coverage_cutoff As String = "0", 
+                                         Optional out As String = "", 
+                                         Optional category_level2 As Boolean = False, 
+                                         Optional delete_unmapped As Boolean = False, 
+                                         Optional delete_tupleedges As Boolean = False, 
+                                         Optional split As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.Model")
     Call CLI.Append(" ")
     Call CLI.Append("/repository " & """" & repository & """ ")
@@ -747,7 +806,14 @@ End Function
 '''               Content in this table file should be ``Cid -&gt; name``, which could be created 
 '''               by using ``/compound.names`` command from ``kegg_tools``.
 ''' </param>
-Public Function RenderReferenceMapNetwork(model As String, Optional compounds As String = "", Optional ko As String = "", Optional convexhull As String = "", Optional size As String = "", Optional out As String = "", Optional edge_bends As Boolean = False, Optional style2 As Boolean = False) As Integer
+Public Function RenderReferenceMapNetwork(model As String, 
+                                             Optional compounds As String = "", 
+                                             Optional ko As String = "", 
+                                             Optional convexhull As String = "", 
+                                             Optional size As String = "", 
+                                             Optional out As String = "", 
+                                             Optional edge_bends As Boolean = False, 
+                                             Optional style2 As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/KEGG.referenceMap.render")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")
@@ -838,7 +904,12 @@ End Function
 ''' </param>
 ''' <param name="generic"> If this argument parameter was presents, then the &quot;/in&quot; input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.
 ''' </param>
-Public Function MatrixToNetwork([in] As String, Optional out As String = "", Optional colors As String = "", Optional cutoff As String = "", Optional generic As Boolean = False, Optional cutoff_paired As Boolean = False) As Integer
+Public Function MatrixToNetwork([in] As String, 
+                                   Optional out As String = "", 
+                                   Optional colors As String = "", 
+                                   Optional cutoff As String = "", 
+                                   Optional generic As Boolean = False, 
+                                   Optional cutoff_paired As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Matrix.NET")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
@@ -923,7 +994,12 @@ End Function
 ''' <param name="maxw"> If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
 '''                    If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.
 ''' </param>
-Public Function FastCluster(query As String, Optional ldm As String = "", Optional out As String = "", Optional map As String = "", Optional maxw As String = "", Optional ldm_loads As Boolean = False) As Integer
+Public Function FastCluster(query As String, 
+                               Optional ldm As String = "", 
+                               Optional out As String = "", 
+                               Optional map As String = "", 
+                               Optional maxw As String = "", 
+                               Optional ldm_loads As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Motif.Cluster.Fast")
     Call CLI.Append(" ")
     Call CLI.Append("/query " & """" & query & """ ")
@@ -1311,7 +1387,12 @@ End Function
 ''' </summary>
 '''
 
-Public Function DrawingInvoke(network As String, parser As String, Optional size As String = "", Optional out As String = "", Optional style As String = "", Optional style_parser As String = "") As Integer
+Public Function DrawingInvoke(network As String, 
+                                 parser As String, 
+                                 Optional size As String = "", 
+                                 Optional out As String = "", 
+                                 Optional style As String = "", 
+                                 Optional style_parser As String = "") As Integer
     Dim CLI As New StringBuilder("-draw")
     Call CLI.Append(" ")
     Call CLI.Append("/network " & """" & network & """ ")
@@ -1366,7 +1447,12 @@ End Function
 ''' </param>
 ''' <param name="type"> This parameter can not be co-exists with ``/class`` parameter
 ''' </param>
-Public Function ModuleRegulations(model As String, footprints As String, out As String, Optional pathway As Boolean = False, Optional [class] As Boolean = False, Optional type As Boolean = False) As Integer
+Public Function ModuleRegulations(model As String, 
+                                     footprints As String, 
+                                     out As String, 
+                                     Optional pathway As Boolean = False, 
+                                     Optional [class] As Boolean = False, 
+                                     Optional type As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--mod.regulations")
     Call CLI.Append(" ")
     Call CLI.Append("/model " & """" & model & """ ")

@@ -107,6 +107,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <Compile Include="DAGModel.vb" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="EnrichmentVisualize.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -187,6 +189,10 @@
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
       <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
       <Name>Network.IO.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\Visualizer.vbproj">
+      <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>
+      <Name>Visualizer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\gr\physics\physics.vbproj">
       <Project>{3291389c-ea87-4b33-a9a5-65a2d60ba3e2}</Project>
