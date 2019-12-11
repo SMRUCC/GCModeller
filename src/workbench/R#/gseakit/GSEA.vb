@@ -68,9 +68,15 @@ Module GSEA
         Return enrichment.FDRCorrection
     End Function
 
+    ''' <summary>
+    ''' Convert GSEA enrichment result from GCModeller output format to KOBAS output format
+    ''' </summary>
+    ''' <param name="enrichment"></param>
+    ''' <param name="database$"></param>
+    ''' <returns></returns>
     <ExportAPI("as.KOBAS_terms")>
-    Public Function KOBASFormat(enrichment As EnrichmentResult()) As EnrichmentTerm()
-        Return enrichment.Converts.ToArray
+    Public Function KOBASFormat(enrichment As EnrichmentResult(), Optional database$ = "n/a") As EnrichmentTerm()
+        Return enrichment.Converts(database).ToArray
     End Function
 
     ''' <summary>
