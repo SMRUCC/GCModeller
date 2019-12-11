@@ -212,12 +212,14 @@ Namespace ApplicationServices.Terminal
                 style.BackgroundColor = theme.CodeBlock.BackgroundColor
             End If
 
-            spans += New Span With {
-                .style = style,
-                .text = text,
-                .IsEndByNewLine = byNewLine
-            }
-            textBuf *= 0
+            If text.Length > 0 Then
+                spans += New Span With {
+                    .style = style,
+                    .text = text,
+                    .IsEndByNewLine = byNewLine
+                }
+                textBuf *= 0
+            End If
         End Sub
 
         Private Sub WalkChar(c As Char)
@@ -253,6 +255,9 @@ Namespace ApplicationServices.Terminal
                         theme.BlockQuote.SetConfig(Me)
                         textBuf += " "c
                         textBuf += " "c
+                    ElseIf headerSpan AndAlso bufferAllIs("#"c) Then
+                        theme.HeaderSpan.SetConfig(Me)
+                        controlBuf *= 0
                     Else
                         EndSpan(False)
                         textBuf += c
@@ -262,6 +267,8 @@ Namespace ApplicationServices.Terminal
                     If lastNewLine AndAlso (controlBuf = 0 OrElse controlBuf.All(Function(x) x = "#"c)) Then
                         controlBuf += c
                         headerSpan = True
+                    ElseIf headerSpan AndAlso textBuf = 0 Then
+                        controlBuf += c
                     Else
                         textBuf += c
                     End If
@@ -297,9 +304,6 @@ Namespace ApplicationServices.Terminal
 
                         controlBuf *= 0
                         textBuf += c
-                    ElseIf bufferAllIs("#"c) Then
-                        theme.HeaderSpan.SetConfig(Me)
-                        controlBuf *= 0
                     Else
                         textBuf += c
                     End If
