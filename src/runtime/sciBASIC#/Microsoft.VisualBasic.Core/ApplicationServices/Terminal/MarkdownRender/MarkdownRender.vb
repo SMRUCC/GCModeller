@@ -92,7 +92,7 @@ Namespace ApplicationServices.Terminal
             .Url = (ConsoleColor.Blue, ConsoleColor.Black),
             .Bold = (ConsoleColor.Black, ConsoleColor.Yellow),
             .Italy = (ConsoleColor.Yellow, ConsoleColor.DarkGray),
-            .HeaderSpan = (ConsoleColor.Green, ConsoleColor.DarkGray)
+            .HeaderSpan = (ConsoleColor.DarkGreen, ConsoleColor.Yellow)
         }
 
         Dim theme As MarkdownTheme
@@ -198,6 +198,8 @@ Namespace ApplicationServices.Terminal
                 span.Print()
                 isNewLine = span.IsEndByNewLine
             Next
+
+            Call Console.WriteLine()
         End Sub
 
         Private Sub EndSpan(byNewLine As Boolean)
