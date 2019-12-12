@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::5f74f9a67be7d3d0850e869883ca7f37, CLI_tools\NCBI_tools\CLI\Exports.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: FilterExports
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: FilterExports
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -43,9 +43,9 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -83,7 +83,7 @@ Partial Module CLI
                 For Each s As String In wordList
                     If InStr(name, s, CompareMethod.Text) > 0 OrElse
                         ((Not (m = LevenshteinDistance.ComputeDistance(s, name)) Is Nothing) AndAlso
-                        s.Split.Length - m.value.NumMatches < 3) Then
+                        s.Split.Length - m.Value.NumMatches < 3) Then
 
                         Dim path As String = out & "/" & tree & "/" & s & ".fasta"
                         Call fa.GenerateDocument(-1, False).SaveTo(path, Encoding.ASCII, append:=True)
@@ -104,7 +104,7 @@ Partial Module CLI
                             If InStr(s, sp, CompareMethod.Text) > 0 OrElse
                                 InStr(sp, s, CompareMethod.Text) > 0 OrElse
                                 ((Not (m = LevenshteinDistance.ComputeDistance(s, sp)) Is Nothing) AndAlso
-                                s.Split.Length - m.value.NumMatches < 3) Then
+                                s.Split.Length - m.Value.NumMatches < 3) Then
 
                                 Dim path As String = out & "/" & tree & "/" & s & ".fasta"
                                 Call fa.GenerateDocument(-1, False).SaveTo(path, Encoding.ASCII, append:=True)
