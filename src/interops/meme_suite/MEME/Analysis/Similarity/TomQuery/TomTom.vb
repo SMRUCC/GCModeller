@@ -1,72 +1,72 @@
 ﻿#Region "Microsoft.VisualBasic::5139f81520d24a55946fb78e9ca22480, meme_suite\MEME\Analysis\Similarity\TomQuery\TomTom.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TomTOm
-    ' 
-    '         Properties: Motifs
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ED, GetFamilyMotifs, KLD, PCC, SW
-    '         Delegate Function
-    ' 
-    '             Function: (+2 Overloads) Compare, (+2 Overloads) CompareBest, CreateResult, GetMethod, ToChar
-    '         Class __equals
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: BitsEquals, Equals
-    ' 
-    '         Class CompareResult
-    ' 
-    '             Properties: Consensus, Distance, Edits, Gaps, HitMotif
-    '                         HitsLength, QueryLength, QueryMotif, Score, Similarity
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TomTOm
+' 
+'         Properties: Motifs
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ED, GetFamilyMotifs, KLD, PCC, SW
+'         Delegate Function
+' 
+'             Function: (+2 Overloads) Compare, (+2 Overloads) CompareBest, CreateResult, GetMethod, ToChar
+'         Class __equals
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: BitsEquals, Equals
+' 
+'         Class CompareResult
+' 
+'             Properties: Consensus, Distance, Edits, Gaps, HitMotif
+'                         HitsLength, QueryLength, QueryMotif, Score, Similarity
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -328,9 +328,9 @@ comparison function for the construction of familial binding profiles.")>
 
         <ExportAPI("GET.Compare.Method")>
         Public Function GetMethod(method As Value(Of String)) As TomTOm.ColumnCompare
-            If Not _compares.ContainsKey(method = method.value.ToLower) Then
+            If Not _compares.ContainsKey(method = method.Value.ToLower) Then
                 Call $"{NameOf(method)}:={method} is not available, using PCC method as default.".__DEBUG_ECHO
-                method.value = "pcc"
+                method.Value = "pcc"
             End If
 
             Return _compares(method)
@@ -350,13 +350,14 @@ comparison function for the construction of familial binding profiles.")>
                                 method As TomTOm.ColumnCompare,
                                 param As Parameters) As DistResult
             Dim equals As New __equals(method, param.TOMThreshold, param.BitsLevel)
-            Dim lev As DistResult =
-                LevenshteinDistance.ComputeDistance(query.PWM, LDM.PWM, AddressOf equals.Equals, AddressOf ToChar, param.LevCost)
+            Dim lev As DistResult = LevenshteinDistance.ComputeDistance(query.PWM, LDM.PWM, AddressOf equals.Equals, AddressOf ToChar, param.LevCost)
+
             If lev Is Nothing Then
                 Dim rc = LDM.Complement.Uid = "*" & LDM.Uid
                 Dim hit = rc
                 lev = LevenshteinDistance.ComputeDistance(query.PWM, LDM.PWM, AddressOf equals.Equals, AddressOf ToChar, param.LevCost)
             End If
+
             Return lev
         End Function
 

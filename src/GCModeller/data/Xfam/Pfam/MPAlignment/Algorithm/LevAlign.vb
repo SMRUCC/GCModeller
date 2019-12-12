@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::e53d245d4b50f5266a523abdec62b9af, data\Xfam\Pfam\MPAlignment\Algorithm\LevAlign.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class LevAlign
-    ' 
-    '         Properties: Codes, DomainCodes, LengthDelta, Query, QueryPfam
-    '                     StructMatched, Subject, SubjectPfam
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: __asChar, __getReference, __getSubject, __innerInsert, ToRow
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class LevAlign
+' 
+'         Properties: Codes, DomainCodes, LengthDelta, Query, QueryPfam
+'                     StructMatched, Subject, SubjectPfam
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: __asChar, __getReference, __getSubject, __innerInsert, ToRow
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Protocols
@@ -114,8 +115,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <param name="prot_a"></param>
         ''' <param name="prot_b"></param>
         Sub New(prot_a As PfamString.PfamString, prot_b As PfamString.PfamString, equals As DomainEquals)
-            Dim domainA As ProteinModel.DomainObject() = prot_a.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Name).ToArray
-            Dim domainB As ProteinModel.DomainObject() = prot_b.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Name).ToArray
+            Dim domainA As ProteinModel.DomainObject() = prot_a.GetDomainData(False).OrderBy(Function(x) x.Position.left).ThenBy(Function(x) x.Name).ToArray
+            Dim domainB As ProteinModel.DomainObject() = prot_b.GetDomainData(False).OrderBy(Function(x) x.Position.left).ThenBy(Function(x) x.Name).ToArray
 
             ' 首先进行编码工作
             DomainCodes = (From domain In domainA.Join(domainB)
