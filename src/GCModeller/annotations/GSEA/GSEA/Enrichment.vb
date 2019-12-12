@@ -53,10 +53,46 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="list"></param>
+    ''' <param name="go"></param>
+    ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
+    ''' <param name="isLocustag"></param>
+    ''' <param name="showProgress"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Enrichment(genome As Background,
+                               list As IEnumerable(Of String),
+                               go As GO_OBO,
+                               Optional outputAll As Boolean = False,
+                               Optional isLocustag As Boolean = False,
+                               Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
+
+        Call "Create GO DAG graph... please wait for a while...".__DEBUG_ECHO
+
+        With New DAG.Graph(go.AsEnumerable)
+            Return .DoCall(Function(dag)
+                               Return genome.Enrichment(list, dag, outputAll, isLocustag, showProgress)
+                           End Function)
+        End With
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="list"></param>
+    ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
+    ''' <param name="isLocustag"></param>
+    ''' <param name="showProgress"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
-                                        go As GO_OBO,
+                                        goClusters As DAG.Graph,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
@@ -67,7 +103,6 @@ Public Module Enrichment
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
-        Dim goClusters As New DAG.Graph(go.AsEnumerable)
 
         If showProgress Then
             progress = New ProgressBar("Do enrichment...")
@@ -143,7 +178,7 @@ Public Module Enrichment
     ''' </summary>
     ''' <param name="genome"></param>
     ''' <param name="list">需要进行富集计算分析的目标基因列表</param>
-    ''' <param name="outputAll"></param>
+    ''' <param name="outputAll">将会忽略掉所有没有交集的结果</param>
     ''' <param name="showProgress"></param>
     ''' <returns></returns>
     <Extension>

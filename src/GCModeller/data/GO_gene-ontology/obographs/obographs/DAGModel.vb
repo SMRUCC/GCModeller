@@ -1,55 +1,101 @@
 ﻿#Region "Microsoft.VisualBasic::e1cfcc863eb58db8ba49459f79b9dd5f, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DAGModel
-    ' 
-    '     Function: CreateGraph, tryInsertNode
-    ' 
-    '     Sub: addTerm
-    ' 
-    ' /********************************************************************************/
+' Module DAGModel
+' 
+'     Function: CreateGraph, tryInsertNode
+' 
+'     Sub: addTerm
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Public Module DAGModel
+
+    Friend Const value_colors As String = "value_colors"
+
+    ''' <summary>
+    ''' Create a <see cref="NetworkGraph"/> based on a given go term id list.
+    ''' </summary>
+    ''' <param name="go"></param>
+    ''' <param name="terms">
+    ''' A go term <see cref="Term.id"/> collection.
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CreateGraph(go As GO_OBO, terms As IEnumerable(Of NamedValue(Of Double)), Optional colorSet$ = "Spectral:c11") As NetworkGraph
+        Dim enrichment As Dictionary(Of String, Double) = terms _
+            .ToDictionary(Function(term) term.Name,
+                          Function(term)
+                              Return term.Value
+                          End Function)
+        Dim dag As NetworkGraph = go.CreateGraph(enrichment.Keys)
+        Dim colors As Color() = Designer.GetColors(colorSet, 30)
+        Dim valueRange As DoubleRange = enrichment.Values.Range
+        Dim indexRange As DoubleRange = {0#, colors.Length - 1}
+        Dim value As Double
+        Dim color As String
+        Dim index As Integer
+        Dim gray As String = Drawing.Color.Gray.ToHtmlColor
+
+        For Each node As Node In dag.vertex
+            value = enrichment.TryGetValue(node.label, [default]:=Double.NaN)
+
+            If value.IsNaNImaginary Then
+                node.data.Add(value_colors, gray)
+            Else
+                index = CInt(valueRange.ScaleMapping(value, indexRange))
+                color = colors(index).ToHtmlColor
+                node.data.Add(value_colors, color)
+            End If
+        Next
+
+        Return dag
+    End Function
 
     ''' <summary>
     ''' Create a <see cref="NetworkGraph"/> based on a given go term id list.
@@ -68,11 +114,19 @@ Public Module DAGModel
         ' 每一个term都单独构建出一条通往base namespace的途径
         For Each termId As String In terms.SafeQuery
             Call termsTable(termId).addTerm(g, termsTable, relIndex)
+            Call termsTable(termId).ToString.__INFO_ECHO
         Next
 
         Return g
     End Function
 
+    ''' <summary>
+    ''' 所插入的节点中，<see cref="Term.id"/>为节点的唯一标识符
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <param name="g"></param>
+    ''' <param name="termsTable"></param>
+    ''' <param name="relIndex"></param>
     <Extension>
     Private Sub addTerm(term As Term, g As NetworkGraph, termsTable As Dictionary(Of String, Term), relIndex As Index(Of String))
         Dim relations As New OBO.OntologyRelations(term)
