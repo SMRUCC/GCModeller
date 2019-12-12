@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
 
-Namespace ComponentModel
+Namespace Net.Http
 
     ''' <summary>
     ''' <typeparamref name="Context"/>类型参数应该是查询的term的数据类型, 而非返回的查询结果的数据类型

@@ -61,11 +61,12 @@ Public Module GSEA
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function Converts(terms As IEnumerable(Of EnrichmentResult)) As IEnumerable(Of EnrichmentTerm)
-        Return terms.Select(AddressOf Convert)
+    Public Function Converts(terms As IEnumerable(Of EnrichmentResult), Optional database$ = "n/a") As IEnumerable(Of EnrichmentTerm)
+        Return terms.Select(Function(term) term.Convert(database))
     End Function
 
-    Private Function Convert(term As EnrichmentResult) As EnrichmentTerm
+    <Extension>
+    Private Function Convert(term As EnrichmentResult, database$) As EnrichmentTerm
         Return New EnrichmentTerm With {
             .Backgrounds = term.cluster,
             .number = term.enriched.Split("/"c).First,
@@ -73,7 +74,9 @@ Public Module GSEA
             .ORF = term.geneIDs,
             .Pvalue = term.pvalue,
             .Term = term.name.Replace("Reference pathway", "").Trim(" "c, "-"c),
-            .CorrectedPvalue = term.FDR
+            .CorrectedPvalue = term.FDR,
+            .Database = database,
+            .Input = .ORF.JoinBy(", ")
         }
     End Function
 End Module
