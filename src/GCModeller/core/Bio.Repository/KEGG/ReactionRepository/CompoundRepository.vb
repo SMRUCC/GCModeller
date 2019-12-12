@@ -102,6 +102,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
     Public Shared Iterator Function ScanRepository(directory$, Optional ignoreGlycan As Boolean = True) As IEnumerable(Of Compound)
         Dim compound As Compound
+        Dim loaded As New Index(Of String)
 
         If directory.StringEmpty OrElse Not directory.DirectoryExists Then
             Call "Repository config invalid...".Warning
@@ -123,7 +124,10 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
             If compound Is Nothing OrElse compound.entry.StringEmpty Then
                 Continue For
+            ElseIf compound.entry Like loaded Then
+                Continue For
             Else
+                loaded.Add(compound.entry)
                 Yield compound
             End If
         Next
