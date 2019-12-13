@@ -160,7 +160,8 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
         ''' </summary>
         ''' <param name="chebi"></param>
         ''' <returns></returns>
-        <Extension> Public Function GetXrefIDByType(chebi As ChEBIEntity) As Func(Of AccessionTypes, NamedValue(Of String)())
+        <Extension>
+        Public Function GetXrefIDByType(chebi As ChEBIEntity) As Func(Of AccessionTypes, NamedValue(Of String)())
             Dim fromStringType = chebi.GetXrefID
 
             Return Function(type)
