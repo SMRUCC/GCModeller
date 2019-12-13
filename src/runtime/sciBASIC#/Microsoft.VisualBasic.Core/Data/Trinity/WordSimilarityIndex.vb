@@ -90,6 +90,10 @@ Namespace Data.Trinity
         End Function
 
         Public Iterator Function FindMatches(term As String) As IEnumerable(Of T)
+            If table.ContainsKey(term) Then
+                Yield table(term)
+            End If
+
             For Each key As String In bin.FindMatches(term)
                 Yield table(key)
             Next
