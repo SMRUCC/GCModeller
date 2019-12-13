@@ -111,7 +111,8 @@ Public Class CompoundRepository : Inherits XmlDataModel
             Call "Loading compounds data repository...".__DEBUG_ECHO
         End If
 
-        For Each xml As String In ls - l - r - "*.Xml" <= directory
+        ' have some case sensitive problem on Linux platform
+        For Each xml As String In ls - l - r - {"*.Xml", "*.xml"} <= directory
             If xml.BaseName.First = "G"c Then
                 If ignoreGlycan Then
                     Continue For
