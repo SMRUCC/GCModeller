@@ -59,17 +59,23 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
     Public Module DATA
 
         Public Iterator Function ScanEntities(repository As String) As IEnumerable(Of ChEBIEntity)
-            Dim loaded As New Index(Of String)
-            Dim id As String
+            If repository.FileExists Then
+                For Each compound In EntityList.PopulateModels(repository)
+                    Yield compound
+                Next
+            Else
+                Dim loaded As New Index(Of String)
+                Dim id As String
 
-            For Each path As String In (ls - l - r - "*.xml" <= repository)
-                id = path.BaseName
+                For Each path As String In (ls - l - r - "*.xml" <= repository)
+                    id = path.BaseName
 
-                If Not id Like loaded Then
-                    loaded.Add(id)
-                    Yield path.LoadXml(Of ChEBIEntity)
-                End If
-            Next
+                    If Not id Like loaded Then
+                        loaded.Add(id)
+                        Yield path.LoadXml(Of ChEBIEntity)
+                    End If
+                Next
+            End If
         End Function
 
         ''' <summary>
