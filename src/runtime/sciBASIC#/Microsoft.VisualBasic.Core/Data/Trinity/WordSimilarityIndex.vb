@@ -66,6 +66,12 @@ Namespace Data.Trinity
             End Get
         End Property
 
+        Public ReadOnly Property AllValues As IEnumerable(Of T)
+            Get
+                Return table.Values
+            End Get
+        End Property
+
         Sub New(Optional similarity As WordSimilarity = Nothing)
             Static defaultThreshold As [Default](Of WordSimilarity) = New WordSimilarity
             bin = New WordSimilarityIndex(similarity Or defaultThreshold)
