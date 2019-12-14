@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace gwANI
 
-    Module gwANIPrinter
+    Public Module gwANIPrinter
 
         <Extension>
         Public Sub print(dataset As DataSet(), out As TextWriter)

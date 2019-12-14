@@ -1,55 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::b245a2a07def648a89d99a8bdafa2ec5, analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class gwANI
-    ' 
-    '         Properties: length_of_genome, number_of_samples, sequence_names
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
-    '              check_input_file_and_calc_dimensions, Evaluate, fast_calculate_gwani, print_header
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class gwANI
+' 
+'         Properties: length_of_genome, number_of_samples, sequence_names
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
+'              check_input_file_and_calc_dimensions, Evaluate, fast_calculate_gwani, print_header
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Data.csv.IO
 
 '     *  Wellcome Trust Sanger Institute
 '     *  Copyright (C) 2016  Wellcome Trust Sanger Institute
@@ -287,14 +286,13 @@ Namespace gwANI
         ''' 执行入口点
         ''' </summary>
         ''' <param name="multipleSeq"></param>
-        Friend Sub __fast_calculate_gwani(ByRef multipleSeq As FastaFile)
+        Friend Iterator Function __fast_calculate_gwani(multipleSeq As FastaFile) As IEnumerable(Of DataSet)
             Call check_input_file_and_calc_dimensions(multipleSeq)
-            Call print_header()
 
             ' initialise space to store entire genome
             Dim i As Integer
             Dim j As Integer
-            Dim comparison_sequence As Char()() = New Char(number_of_samples())() {}
+            Dim comparison_sequence As Char()() = New Char(number_of_samples)() {}
 
             ' store all sequences in a giant array - eek
             For Each seq As FastaSeq In multipleSeq
@@ -315,25 +313,21 @@ Namespace gwANI
             Next
 
             Dim similarity_percentage As Double()
+            Dim seqRow As DataSet
 
             For i = 0 To number_of_samples - 1
-
-                Call out.Write("{0}", sequence_names(i))
+                seqRow = New DataSet With {
+                    .ID = sequence_names(i)
+                }
 
                 similarity_percentage = New Double(number_of_samples) {}
 
                 Call calc_gwani_between_a_sample_and_everything_afterwards_memory(comparison_sequence, i, similarity_percentage)
 
                 For j = 0 To number_of_samples - 1
-                    If similarity_percentage(j) < 0 Then
-                        out.Write(vbTab & "-")
-                    Else
-                        out.Write(vbTab & "{0:f}", similarity_percentage(j))
-                    End If
+                    Call seqRow.Add(sequence_names(j), similarity_percentage(j))
                 Next
-
-                out.Write(vbLf)
             Next
-        End Sub
+        End Function
     End Class
 End Namespace
