@@ -49,6 +49,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 '     *  Wellcome Trust Sanger Institute
 '     *  Copyright (C) 2016  Wellcome Trust Sanger Institute
@@ -152,19 +153,9 @@ Namespace gwANI
     ''' </remarks>
     Public NotInheritable Class gwANI
 
-        ''' <summary>
-        ''' The result output stream
-        ''' </summary>
-        ReadOnly out As TextWriter
-
-        Public ReadOnly Property length_of_genome As Integer
-        Public ReadOnly Property number_of_samples As Integer
-        Public ReadOnly Property sequence_names As String()
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Friend Sub New(file As TextWriter)
-            out = file Or App.StdOut
-        End Sub
+        Dim length_of_genome As Integer
+        Dim number_of_samples As Integer
+        Dim sequence_names As String()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Sub Evaluate(in$, out$, fast As Boolean)
@@ -172,13 +163,13 @@ Namespace gwANI
         End Sub
 
         Private Sub check_input_file_and_calc_dimensions(ByRef multipleSeq As FastaFile)
-            _number_of_samples = 0
-            _length_of_genome = 0
-            _sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
+            number_of_samples = 0
+            length_of_genome = 0
+            sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
 
             For Each seq As FastaSeq In multipleSeq
                 If number_of_samples = 0 Then
-                    _length_of_genome = seq.Length
+                    length_of_genome = seq.Length
                 ElseIf length_of_genome <> seq.Length Then
                     printf("Alignment contains sequences of unequal length. Expected length is %i but got %i in sequence %s \n\n", length_of_genome, seq.Length, seq.Title)
                     App.Exit(-1)
@@ -190,38 +181,31 @@ Namespace gwANI
 
                 ' First pass of the file get the length of the alignment, number of samples and sample names
                 sequence_names(number_of_samples) = seq.Title
-                _number_of_samples += 1
+                number_of_samples += 1
             Next
         End Sub
 
-        Friend Sub __calculate_and_output_gwani(ByRef multipleSeq As FastaFile)
+        Friend Iterator Function __calculate_and_output_gwani(multipleSeq As FastaFile) As IEnumerable(Of DataSet)
+            Dim id As String
+            Dim seq As DataSet
+            Dim similarity_percentage As Double()
+
             Call check_input_file_and_calc_dimensions(multipleSeq)
-            Call print_header()
 
             For i As Integer = 0 To number_of_samples - 1
-                Dim similarity_percentage As Double() = New Double(number_of_samples) {}
+                similarity_percentage = New Double(number_of_samples) {}
+                id = sequence_names(i)
+                seq = New DataSet With {.ID = id}
 
-                out.Write("{0}", sequence_names(i))
                 calc_gwani_between_a_sample_and_everything_afterwards(multipleSeq, i, similarity_percentage)
 
                 For j As Integer = 0 To number_of_samples - 1
-                    If similarity_percentage(j) < 0 Then
-                        out.Write(vbTab & "-")
-                    Else
-                        out.Write(vbTab & "{0:f}", similarity_percentage(j))
-                    End If
+                    Call seq.Add(sequence_names(j), similarity_percentage(j))
                 Next
-                out.Write(vbLf)
-            Next
-        End Sub
 
-        Private Sub print_header()
-            For i As Integer = 0 To number_of_samples - 1
-                Call out.Write(vbTab & "{0}", sequence_names(i))
+                Yield seq
             Next
-
-            Call out.WriteLine()
-        End Sub
+        End Function
 
         Private Sub calc_gwani_between_a_sample_and_everything_afterwards(ByRef multipleSeq As FastaFile, comparison_index As Integer, similarity_percentage As Double())
             Dim current_index As Integer = 0

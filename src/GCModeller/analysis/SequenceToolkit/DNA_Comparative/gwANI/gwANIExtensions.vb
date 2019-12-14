@@ -42,6 +42,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -61,9 +62,9 @@ Namespace gwANI
 
             Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
                 If fast Then
-                    Call fast_calculate_gwani(multipleSeq, write)
+                    Call fast_calculate_gwani(multipleSeq).print(write)
                 Else
-                    Call calculate_and_output_gwani(multipleSeq, write)
+                    Call calculate_and_output_gwani(multipleSeq).print(write)
                 End If
             End Using
         End Sub
@@ -72,22 +73,18 @@ Namespace gwANI
         ''' 执行入口点
         ''' </summary>
         ''' <param name="multipleSeq"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub calculate_and_output_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__calculate_and_output_gwani(multipleSeq)
-        End Sub
+        Public Function calculate_and_output_gwani(ByRef multipleSeq As FastaFile) As DataSet()
+            Return New gwANI().__calculate_and_output_gwani(multipleSeq).ToArray
+        End Function
 
         ''' <summary>
         ''' 执行入口点
         ''' </summary>
         ''' <param name="multipleSeq"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub fast_calculate_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__fast_calculate_gwani(multipleSeq)
-        End Sub
+        Public Function fast_calculate_gwani(ByRef multipleSeq As FastaFile) As DataSet()
+            Return New gwANI().__fast_calculate_gwani(multipleSeq).toarray
+        End Function
     End Module
 End Namespace
