@@ -173,16 +173,16 @@ Namespace gwANI
             Call gwANIExtensions.Evaluate([in], out, fast)
         End Sub
 
-        Private Sub check_input_file_and_calc_dimensions(ByRef filename As String)
+        Private Sub check_input_file_and_calc_dimensions(ByRef multipleSeq As FastaFile)
             _number_of_samples = 0
             _length_of_genome = 0
             _sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
 
-            For Each seq As FastaSeq In New FastaFile(filename)
+            For Each seq As FastaSeq In multipleSeq
                 If number_of_samples = 0 Then
                     _length_of_genome = seq.Length
                 ElseIf length_of_genome <> seq.Length Then
-                    printf("Alignment %s contains sequences of unequal length. Expected length is %i but got %i in sequence %s \n\n", filename, length_of_genome, seq.Length, seq.Title)
+                    printf("Alignment contains sequences of unequal length. Expected length is %i but got %i in sequence %s \n\n", length_of_genome, seq.Length, seq.Title)
                     App.Exit(-1)
                 End If
 
@@ -199,21 +199,21 @@ Namespace gwANI
         ''' <summary>
         ''' 执行入口点
         ''' </summary>
-        ''' <param name="filename"></param>
+        ''' <param name="multipleSeq"></param>
         ''' <param name="out">默认是打印在终端之上</param>
-        Public Shared Sub calculate_and_output_gwani(ByRef filename As String, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__calculate_and_output_gwani(filename)
+        Public Shared Sub calculate_and_output_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
+            Call New gwANI(out).__calculate_and_output_gwani(multipleSeq)
         End Sub
 
-        Private Sub __calculate_and_output_gwani(ByRef filename As String)
-            Call check_input_file_and_calc_dimensions(filename)
+        Private Sub __calculate_and_output_gwani(ByRef multipleSeq As FastaFile)
+            Call check_input_file_and_calc_dimensions(multipleSeq)
             Call print_header()
 
             For i As Integer = 0 To number_of_samples - 1
                 Dim similarity_percentage As Double() = New Double(number_of_samples) {}
 
                 out.Write("{0}", sequence_names(i))
-                calc_gwani_between_a_sample_and_everything_afterwards(filename, i, similarity_percentage)
+                calc_gwani_between_a_sample_and_everything_afterwards(multipleSeq, i, similarity_percentage)
 
                 For j As Integer = 0 To number_of_samples - 1
                     If similarity_percentage(j) < 0 Then
@@ -234,14 +234,13 @@ Namespace gwANI
             Call out.WriteLine()
         End Sub
 
-        Private Sub calc_gwani_between_a_sample_and_everything_afterwards(ByRef filename As String, comparison_index As Integer, similarity_percentage As Double())
+        Private Sub calc_gwani_between_a_sample_and_everything_afterwards(ByRef multipleSeq As FastaFile, comparison_index As Integer, similarity_percentage As Double())
             Dim current_index As Integer = 0
             Dim bases_in_common As Integer
             Dim length_without_gaps As Integer
             Dim comparison_sequence As String = New String("-"c, length_of_genome + 1)
 
-            For Each seq As FastaSeq In New FastaFile(filename)
-
+            For Each seq As FastaSeq In multipleSeq
                 If current_index < comparison_index Then
                     similarity_percentage(current_index) = -1
                 ElseIf current_index = comparison_index Then
@@ -313,18 +312,20 @@ Namespace gwANI
         ''' <summary>
         ''' 执行入口点
         ''' </summary>
-        ''' <param name="filename"></param>
+        ''' <param name="multipleSeq"></param>
         ''' <param name="out">默认是打印在终端之上</param>
-        Public Shared Sub fast_calculate_gwani(ByRef filename As String, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__fast_calculate_gwani(filename)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Sub fast_calculate_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
+            Call New gwANI(out).__fast_calculate_gwani(multipleSeq)
         End Sub
 
         ''' <summary>
         ''' 执行入口点
         ''' </summary>
-        ''' <param name="filename"></param>
-        Private Sub __fast_calculate_gwani(ByRef filename As String)
-            Call check_input_file_and_calc_dimensions(filename)
+        ''' <param name="multipleSeq"></param>
+        Private Sub __fast_calculate_gwani(ByRef multipleSeq As FastaFile)
+            Call check_input_file_and_calc_dimensions(multipleSeq)
             Call print_header()
 
             ' initialise space to store entire genome
@@ -332,17 +333,18 @@ Namespace gwANI
             Dim j As Integer
             Dim comparison_sequence As Char()() = New Char(number_of_samples())() {}
 
-            ' Store all sequences in a giant array - eek
-
-            For Each seq As FastaSeq In New FastaFile(filename)
+            ' store all sequences in a giant array - eek
+            For Each seq As FastaSeq In multipleSeq
                 comparison_sequence(i) = seq.SequenceData
                 i += 1
             Next
 
             For j = 0 To number_of_samples - 1
                 For i = 0 To length_of_genome - 1
-                    'standardise the input so that case doesnt matter and replace unknowns with single type
+                    ' standardise the input so that case doesnt matter 
+                    ' and replace unknowns with single type
                     comparison_sequence(j)(i) = Char.ToUpper(comparison_sequence(j)(i))
+
                     If IsUnknown(comparison_sequence(j)(i)) <> 0 Then
                         comparison_sequence(j)(i) = "N"c
                     End If

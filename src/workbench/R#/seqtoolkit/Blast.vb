@@ -21,4 +21,10 @@ Module Blast
 
         Return (score, alignments)
     End Function
+
+    <ExportAPI("align.gwANI")>
+    Public Function gwANI(multipleSeq As FastaFile)
+
+    End Function
 End Module
+
