@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::8dfc061b7d97203e3d5dd3baf01f2b26, CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __getEvaluator, GetMapHitsList, OTU_Taxonomy, OTUAssociated, OTUDiff
-    '               OTUTaxonomyReplace, SearchTaxonomy, SplitByTaxid, SplitByTaxidBatch, TaxidMapHitViews
-    '               TaxonomyTree, TaxonomyTreeData
-    '     Class MapHit
-    ' 
-    '         Properties: Name, Taxonomy, TaxonomyName
-    ' 
-    '         Function: SamplesView, ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __getEvaluator, GetMapHitsList, OTU_Taxonomy, OTUAssociated, OTUDiff
+'               OTUTaxonomyReplace, SearchTaxonomy, SplitByTaxid, SplitByTaxidBatch, TaxidMapHitViews
+'               TaxonomyTree, TaxonomyTreeData
+'     Class MapHit
+' 
+'         Properties: Name, Taxonomy, TaxonomyName
+' 
+'         Function: SamplesView, ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.TagData
@@ -67,7 +68,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
@@ -296,23 +296,23 @@ Partial Module CLI
             For Each OTU$ In x.MapHits
                 Dim find As New OTUData(OTUData(OTU))
                 For Each k In x.Data
-                    find.Data(k.Key) = k.Value
+                    find.data(k.Key) = k.Value
                 Next
                 If rawMaps.ContainsKey(OTU$) Then
                     Dim rawData = rawMaps(OTU$)
 
                     For Each k In rawData.Value
-                        find.Data(k.Key) = k.Value
+                        find.data(k.Key) = k.Value
                     Next
 
                     If rawData.Value.ContainsKey("Reference") Then
                         Dim ref = rawData.Value("Reference")
                         Dim gi = Regex.Match(ref, "gi\|\d+").Value
-                        find.Data("gi") = gi
+                        find.data("gi") = gi
                     End If
                 End If
 
-                find.Data(NameOf(Track)) = Track
+                find.data(NameOf(Track)) = Track
                 output += find
             Next
         Next
@@ -338,10 +338,10 @@ Partial Module CLI
                 Dim find As New OTUData(OTUData(OTU))
 
                 For Each k In x.Data
-                    find.Data(k.Key) = k.Value
+                    find.data(k.Key) = k.Value
                 Next
-                find.Data("Taxonomy") = taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True).BuildBIOM()
-                find.Data(NameOf(Track)) = Track
+                find.data("Taxonomy") = taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True).BuildBIOM()
+                find.data(NameOf(Track)) = Track
 
                 output += find
             Next
@@ -363,7 +363,7 @@ Partial Module CLI
         For Each x In mapsData
             For Each tag$ In x.MapHits
                 If hash.ContainsKey(tag) Then
-                    hash(tag).Data(NameOf(MapHit.Taxonomy)) = x.Taxonomy
+                    hash(tag).data(NameOf(MapHit.Taxonomy)) = x.Taxonomy
                 End If
             Next
         Next
@@ -440,7 +440,7 @@ Partial Module CLI
             output += New IntegerTagged(Of String) With {
                 .Tag = x.Value%,
                 .TagStr = x.Name,
-                .value = tree
+                .Value = tree
             }
         Next
 

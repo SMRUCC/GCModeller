@@ -102,6 +102,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
     Public Shared Iterator Function ScanRepository(directory$, Optional ignoreGlycan As Boolean = True) As IEnumerable(Of Compound)
         Dim compound As Compound
+        Dim loaded As New Index(Of String)
 
         If directory.StringEmpty OrElse Not directory.DirectoryExists Then
             Call "Repository config invalid...".Warning
@@ -110,7 +111,8 @@ Public Class CompoundRepository : Inherits XmlDataModel
             Call "Loading compounds data repository...".__DEBUG_ECHO
         End If
 
-        For Each xml As String In ls - l - r - "*.Xml" <= directory
+        ' have some case sensitive problem on Linux platform
+        For Each xml As String In ls - l - r - {"*.Xml", "*.xml"} <= directory
             If xml.BaseName.First = "G"c Then
                 If ignoreGlycan Then
                     Continue For
@@ -123,7 +125,10 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
             If compound Is Nothing OrElse compound.entry.StringEmpty Then
                 Continue For
+            ElseIf compound.entry Like loaded Then
+                Continue For
             Else
+                loaded.Add(compound.entry)
                 Yield compound
             End If
         Next

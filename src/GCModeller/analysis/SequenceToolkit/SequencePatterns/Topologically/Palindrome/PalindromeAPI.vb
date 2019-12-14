@@ -45,14 +45,13 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports Microsoft.VisualBasic.Text.Search
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -170,7 +169,7 @@ Namespace Topologically
             Dim palin As String = PalindromeLoci.GetPalindrome(segment.Segment)  ' 当前片段所计算出来的完全匹配的回文位点
             Dim start As Integer = segment.Index + segment.Array.Length + maxDist * 0.95
             Dim parPiece As String = Mid(inFasta.SequenceData, start, max + 5)  ' 实际的位点
-            Dim dist = LevenshteinDistance.ComputeDistance(palin, parPiece)
+            Dim dist = DynamicProgramming.Levenshtein.ComputeDistance(palin, parPiece)
 
             If dist Is Nothing Then Return Nothing
 
