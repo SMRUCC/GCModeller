@@ -112,7 +112,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.")>
-    <Usage("/Download.Compounds [/chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /skip.compoundbrite /updates /save <DIR>]")>
+    <Usage("/Download.Compounds [/list <idlist.txt> /chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /skip.compoundbrite /updates /save <DIR>]")>
     <Argument("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
@@ -139,6 +139,7 @@ Partial Module CLI
         End If
 
         Dim repo$ = args <= "/reactions"
+        Dim list As String = args <= "/list"
 
         If repo.DirectoryExists Then
             Dim reactions As Reaction() = ReactionRepository.ScanModel(repo).metabolicNetwork
@@ -149,6 +150,16 @@ Partial Module CLI
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+
+            Call CompoundBrite.DownloadOthers(
+                EXPORT:=save,
+                compoundIds:=compoundsId,
+                structInfo:=True
+            )
+        End If
+
+        If list.FileExists Then
+            Dim compoundsId As String() = list.ReadAllLines
 
             Call CompoundBrite.DownloadOthers(
                 EXPORT:=save,
