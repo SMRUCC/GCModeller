@@ -152,13 +152,6 @@ Namespace gwANI
     ''' </remarks>
     Public NotInheritable Class gwANI
 
-        Private Sub New(file As TextWriter)
-            out = file
-            If out Is Nothing Then
-                out = Console.Out
-            End If
-        End Sub
-
         ''' <summary>
         ''' The result output stream
         ''' </summary>
@@ -167,6 +160,11 @@ Namespace gwANI
         Public ReadOnly Property length_of_genome As Integer
         Public ReadOnly Property number_of_samples As Integer
         Public ReadOnly Property sequence_names As String()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Friend Sub New(file As TextWriter)
+            out = file Or App.StdOut
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Sub Evaluate(in$, out$, fast As Boolean)
@@ -187,25 +185,16 @@ Namespace gwANI
                 End If
 
                 ' The sample name is initially set to a large number but make sure this can be increased dynamically
-
                 If number_of_samples >= DefineConstants.DEFAULT_NUM_SAMPLES Then
                 End If
 
+                ' First pass of the file get the length of the alignment, number of samples and sample names
                 sequence_names(number_of_samples) = seq.Title
                 _number_of_samples += 1
-            Next    ' First pass of the file get the length of the alignment, number of samples and sample names
+            Next
         End Sub
 
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="multipleSeq"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        Public Shared Sub calculate_and_output_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__calculate_and_output_gwani(multipleSeq)
-        End Sub
-
-        Private Sub __calculate_and_output_gwani(ByRef multipleSeq As FastaFile)
+        Friend Sub __calculate_and_output_gwani(ByRef multipleSeq As FastaFile)
             Call check_input_file_and_calc_dimensions(multipleSeq)
             Call print_header()
 
@@ -227,10 +216,10 @@ Namespace gwANI
         End Sub
 
         Private Sub print_header()
-            Dim i As Integer
-            For i = 0 To number_of_samples - 1
+            For i As Integer = 0 To number_of_samples - 1
                 Call out.Write(vbTab & "{0}", sequence_names(i))
             Next
+
             Call out.WriteLine()
         End Sub
 
@@ -305,6 +294,7 @@ Namespace gwANI
                         similarity_percentage(current_index) = 0
                     End If
                 End If
+
                 current_index += 1
             Next
         End Sub
@@ -313,18 +303,7 @@ Namespace gwANI
         ''' 执行入口点
         ''' </summary>
         ''' <param name="multipleSeq"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Sub fast_calculate_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__fast_calculate_gwani(multipleSeq)
-        End Sub
-
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="multipleSeq"></param>
-        Private Sub __fast_calculate_gwani(ByRef multipleSeq As FastaFile)
+        Friend Sub __fast_calculate_gwani(ByRef multipleSeq As FastaFile)
             Call check_input_file_and_calc_dimensions(multipleSeq)
             Call print_header()
 
@@ -351,11 +330,13 @@ Namespace gwANI
                 Next
             Next
 
+            Dim similarity_percentage As Double()
+
             For i = 0 To number_of_samples - 1
 
-                out.Write("{0}", sequence_names(i))
+                Call out.Write("{0}", sequence_names(i))
 
-                Dim similarity_percentage As Double() = New Double(number_of_samples) {}
+                similarity_percentage = New Double(number_of_samples) {}
 
                 Call calc_gwani_between_a_sample_and_everything_afterwards_memory(comparison_sequence, i, similarity_percentage)
 
@@ -366,6 +347,7 @@ Namespace gwANI
                         out.Write(vbTab & "{0:f}", similarity_percentage(j))
                     End If
                 Next
+
                 out.Write(vbLf)
             Next
         End Sub

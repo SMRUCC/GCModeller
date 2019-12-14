@@ -41,12 +41,13 @@
 #End Region
 
 Imports System.IO
-Imports System.Text
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace gwANI
 
+    <HideModuleName>
     Public Module gwANIExtensions
 
         ''' <summary>
@@ -60,11 +61,33 @@ Namespace gwANI
 
             Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
                 If fast Then
-                    Call gwANI.fast_calculate_gwani(multipleSeq, write)
+                    Call fast_calculate_gwani(multipleSeq, write)
                 Else
-                    Call gwANI.calculate_and_output_gwani(multipleSeq, write)
+                    Call calculate_and_output_gwani(multipleSeq, write)
                 End If
             End Using
+        End Sub
+
+        ''' <summary>
+        ''' 执行入口点
+        ''' </summary>
+        ''' <param name="multipleSeq"></param>
+        ''' <param name="out">默认是打印在终端之上</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub calculate_and_output_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
+            Call New gwANI(out).__calculate_and_output_gwani(multipleSeq)
+        End Sub
+
+        ''' <summary>
+        ''' 执行入口点
+        ''' </summary>
+        ''' <param name="multipleSeq"></param>
+        ''' <param name="out">默认是打印在终端之上</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub fast_calculate_gwani(ByRef multipleSeq As FastaFile, Optional out As TextWriter = Nothing)
+            Call New gwANI(out).__fast_calculate_gwani(multipleSeq)
         End Sub
     End Module
 End Namespace
