@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::b245a2a07def648a89d99a8bdafa2ec5, analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class gwANI
-    ' 
-    '         Properties: length_of_genome, number_of_samples, sequence_names
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
-    '              check_input_file_and_calc_dimensions, Evaluate, fast_calculate_gwani, print_header
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class gwANI
+' 
+'         Properties: length_of_genome, number_of_samples, sequence_names
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
+'              check_input_file_and_calc_dimensions, Evaluate, fast_calculate_gwani, print_header
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -152,96 +152,67 @@ Namespace gwANI
     ''' </remarks>
     Public NotInheritable Class gwANI
 
-        Private Sub New(file As TextWriter)
-            out = file
-            If out Is Nothing Then
-                out = Console.Out
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' The result output stream
-        ''' </summary>
-        ReadOnly out As TextWriter
-
-        Public ReadOnly Property length_of_genome As Integer
-        Public ReadOnly Property number_of_samples As Integer
-        Public ReadOnly Property sequence_names As String()
+        Dim length_of_genome As Integer
+        Dim number_of_samples As Integer
+        Dim sequence_names As String()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Sub Evaluate(in$, out$, fast As Boolean)
             Call gwANIExtensions.Evaluate([in], out, fast)
         End Sub
 
-        Private Sub check_input_file_and_calc_dimensions(ByRef filename As String)
-            _number_of_samples = 0
-            _length_of_genome = 0
-            _sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
+        Private Sub check_input_file_and_calc_dimensions(ByRef multipleSeq As FastaFile)
+            number_of_samples = 0
+            length_of_genome = 0
+            sequence_names = New String(DefineConstants.DEFAULT_NUM_SAMPLES - 1) {}
 
-            For Each seq As FastaSeq In New FastaFile(filename)
+            For Each seq As FastaSeq In multipleSeq
                 If number_of_samples = 0 Then
-                    _length_of_genome = seq.Length
+                    length_of_genome = seq.Length
                 ElseIf length_of_genome <> seq.Length Then
-                    printf("Alignment %s contains sequences of unequal length. Expected length is %i but got %i in sequence %s \n\n", filename, length_of_genome, seq.Length, seq.Title)
+                    printf("Alignment contains sequences of unequal length. Expected length is %i but got %i in sequence %s \n\n", length_of_genome, seq.Length, seq.Title)
                     App.Exit(-1)
                 End If
 
                 ' The sample name is initially set to a large number but make sure this can be increased dynamically
-
                 If number_of_samples >= DefineConstants.DEFAULT_NUM_SAMPLES Then
                 End If
 
+                ' First pass of the file get the length of the alignment, number of samples and sample names
                 sequence_names(number_of_samples) = seq.Title
-                _number_of_samples += 1
-            Next    ' First pass of the file get the length of the alignment, number of samples and sample names
+                number_of_samples += 1
+            Next
         End Sub
 
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="filename"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        Public Shared Sub calculate_and_output_gwani(ByRef filename As String, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__calculate_and_output_gwani(filename)
-        End Sub
+        Friend Iterator Function __calculate_and_output_gwani(multipleSeq As FastaFile) As IEnumerable(Of DataSet)
+            Dim id As String
+            Dim seq As DataSet
+            Dim similarity_percentage As Double()
 
-        Private Sub __calculate_and_output_gwani(ByRef filename As String)
-            Call check_input_file_and_calc_dimensions(filename)
-            Call print_header()
+            Call check_input_file_and_calc_dimensions(multipleSeq)
 
             For i As Integer = 0 To number_of_samples - 1
-                Dim similarity_percentage As Double() = New Double(number_of_samples) {}
+                similarity_percentage = New Double(number_of_samples) {}
+                id = sequence_names(i)
+                seq = New DataSet With {.ID = id}
 
-                out.Write("{0}", sequence_names(i))
-                calc_gwani_between_a_sample_and_everything_afterwards(filename, i, similarity_percentage)
+                calc_gwani_between_a_sample_and_everything_afterwards(multipleSeq, i, similarity_percentage)
 
                 For j As Integer = 0 To number_of_samples - 1
-                    If similarity_percentage(j) < 0 Then
-                        out.Write(vbTab & "-")
-                    Else
-                        out.Write(vbTab & "{0:f}", similarity_percentage(j))
-                    End If
+                    Call seq.Add(sequence_names(j), similarity_percentage(j))
                 Next
-                out.Write(vbLf)
-            Next
-        End Sub
 
-        Private Sub print_header()
-            Dim i As Integer
-            For i = 0 To number_of_samples - 1
-                Call out.Write(vbTab & "{0}", sequence_names(i))
+                Yield seq
             Next
-            Call out.WriteLine()
-        End Sub
+        End Function
 
-        Private Sub calc_gwani_between_a_sample_and_everything_afterwards(ByRef filename As String, comparison_index As Integer, similarity_percentage As Double())
+        Private Sub calc_gwani_between_a_sample_and_everything_afterwards(ByRef multipleSeq As FastaFile, comparison_index As Integer, similarity_percentage As Double())
             Dim current_index As Integer = 0
             Dim bases_in_common As Integer
             Dim length_without_gaps As Integer
             Dim comparison_sequence As String = New String("-"c, length_of_genome + 1)
 
-            For Each seq As FastaSeq In New FastaFile(filename)
-
+            For Each seq As FastaSeq In multipleSeq
                 If current_index < comparison_index Then
                     similarity_percentage(current_index) = -1
                 ElseIf current_index = comparison_index Then
@@ -306,6 +277,7 @@ Namespace gwANI
                         similarity_percentage(current_index) = 0
                     End If
                 End If
+
                 current_index += 1
             Next
         End Sub
@@ -313,59 +285,49 @@ Namespace gwANI
         ''' <summary>
         ''' 执行入口点
         ''' </summary>
-        ''' <param name="filename"></param>
-        ''' <param name="out">默认是打印在终端之上</param>
-        Public Shared Sub fast_calculate_gwani(ByRef filename As String, Optional out As TextWriter = Nothing)
-            Call New gwANI(out).__fast_calculate_gwani(filename)
-        End Sub
-
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="filename"></param>
-        Private Sub __fast_calculate_gwani(ByRef filename As String)
-            Call check_input_file_and_calc_dimensions(filename)
-            Call print_header()
+        ''' <param name="multipleSeq"></param>
+        Friend Iterator Function __fast_calculate_gwani(multipleSeq As FastaFile) As IEnumerable(Of DataSet)
+            Call check_input_file_and_calc_dimensions(multipleSeq)
 
             ' initialise space to store entire genome
             Dim i As Integer
             Dim j As Integer
-            Dim comparison_sequence As Char()() = New Char(number_of_samples())() {}
+            Dim comparison_sequence As Char()() = New Char(number_of_samples)() {}
 
-            ' Store all sequences in a giant array - eek
-
-            For Each seq As FastaSeq In New FastaFile(filename)
+            ' store all sequences in a giant array - eek
+            For Each seq As FastaSeq In multipleSeq
                 comparison_sequence(i) = seq.SequenceData
                 i += 1
             Next
 
             For j = 0 To number_of_samples - 1
                 For i = 0 To length_of_genome - 1
-                    'standardise the input so that case doesnt matter and replace unknowns with single type
+                    ' standardise the input so that case doesnt matter 
+                    ' and replace unknowns with single type
                     comparison_sequence(j)(i) = Char.ToUpper(comparison_sequence(j)(i))
+
                     If IsUnknown(comparison_sequence(j)(i)) <> 0 Then
                         comparison_sequence(j)(i) = "N"c
                     End If
                 Next
             Next
 
+            Dim similarity_percentage As Double()
+            Dim seqRow As DataSet
+
             For i = 0 To number_of_samples - 1
+                seqRow = New DataSet With {
+                    .ID = sequence_names(i)
+                }
 
-                out.Write("{0}", sequence_names(i))
-
-                Dim similarity_percentage As Double() = New Double(number_of_samples) {}
+                similarity_percentage = New Double(number_of_samples) {}
 
                 Call calc_gwani_between_a_sample_and_everything_afterwards_memory(comparison_sequence, i, similarity_percentage)
 
                 For j = 0 To number_of_samples - 1
-                    If similarity_percentage(j) < 0 Then
-                        out.Write(vbTab & "-")
-                    Else
-                        out.Write(vbTab & "{0:f}", similarity_percentage(j))
-                    End If
+                    Call seqRow.Add(sequence_names(j), similarity_percentage(j))
                 Next
-                out.Write(vbLf)
             Next
-        End Sub
+        End Function
     End Class
 End Namespace
