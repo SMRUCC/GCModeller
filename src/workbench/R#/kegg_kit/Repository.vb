@@ -5,9 +5,15 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Data
 
 <Package("kegg.repository")>
 Public Module Repository
+
+    <ExportAPI("load.reactions")>
+    Public Function LoadReactionRepo(repository As String) As ReactionRepository
+        Return ReactionRepository.LoadAuto(repository)
+    End Function
 
     <ExportAPI("load.maps.index")>
     Public Function LoadMapIndex(repository As String) As Dictionary(Of String, Map)

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7281.33964
-'  // ASSEMBLY:  Settings, Version=3.3277.7281.33964, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7290.24332
+'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/7/2019 6:27:36 AM
+'  // BUILT:     12/17/2019 1:31:04 PM
 '  // 
 ' 
 ' 
@@ -28,6 +28,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' All of the command that available in this program has been list below:
 ' 
 '  /16S_rRNA:                               Download 16S rRNA data from KEGG.
+'  /all.enzymes:                            
 '  /blastn:                                 Blastn analysis of your DNA sequence on KEGG server for
 '                                           the functional analysis.
 '  /Compile.Model:                          KEGG pathway model compiler
@@ -152,6 +153,27 @@ Public Class KEGG_tools : Inherits InteropService
 Public Function Download16SRNA(Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/16s_rna")
     Call CLI.Append(" ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /all.enzymes /code &lt;kegg_organism_code&gt; [/out &lt;enzymes.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function GetAllEnzymes(code As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/all.enzymes")
+    Call CLI.Append(" ")
+    Call CLI.Append("/code " & """" & code & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
     End If
@@ -394,7 +416,7 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Download.Compounds [/chebi &lt;accessions.tsv&gt; /reactions &lt;kegg.reactions.repository&gt; /flat /skip.compoundbrite /updates /save &lt;DIR&gt;]
+''' /Download.Compounds [/list &lt;idlist.txt&gt; /chebi &lt;accessions.tsv&gt; /reactions &lt;kegg.reactions.repository&gt; /flat /skip.compoundbrite /updates /save &lt;DIR&gt;]
 ''' ```
 ''' Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.
 ''' </summary>
@@ -402,7 +424,8 @@ End Function
 ''' <param name="chebi"> Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
 '''               then you can using this option for downloads the complete compounds data in the KEGG database.
 ''' </param>
-Public Function DownloadCompounds(Optional chebi As String = "", 
+Public Function DownloadCompounds(Optional list As String = "", 
+                                     Optional chebi As String = "", 
                                      Optional reactions As String = "", 
                                      Optional save As String = "", 
                                      Optional flat As Boolean = False, 
@@ -410,6 +433,9 @@ Public Function DownloadCompounds(Optional chebi As String = "",
                                      Optional updates As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Compounds")
     Call CLI.Append(" ")
+    If Not list.StringEmpty Then
+            Call CLI.Append("/list " & """" & list & """ ")
+    End If
     If Not chebi.StringEmpty Then
             Call CLI.Append("/chebi " & """" & chebi & """ ")
     End If
@@ -716,7 +742,9 @@ End Function
 ''' Rendering kegg pathway map for enrichment analysis result in local.
 ''' </summary>
 '''
-''' <param name="repo"> A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.
+''' <param name="repo"> A directory path that contains the KEGG reference pathway map XML model. 
+'''               If this argument value is not presented in the commandline, then the default installed 
+'''               GCModeller KEGG compound repository will be used.
 ''' </param>
 Public Function EnrichmentMapRender(url As String, Optional repo As String = "", Optional out As String = "") As Integer
     Dim CLI As New StringBuilder("/Enrichment.Map.Render")
