@@ -78,7 +78,7 @@ Partial Module CLI
             .ShowOrganism(code:=[in], out:=orgInfoJson)
 
         orgInfo = orgInfoJson.LoadJSON(Of OrganismInfo)
-        enzymes = LinkDB.Enzyme.DoGetEnzymeList(orgInfo.Sequence)
+        enzymes = LinkDB.Enzyme.DoGetKEGGGenes(orgInfo.TID)
 
         Return enzymes.SaveTo(out).CLICode
     End Function
