@@ -1,99 +1,78 @@
 ﻿#Region "Microsoft.VisualBasic::768e07f72c21ae623f03883c4f311196, core\Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Synonym
-    ' 
-    '         Properties: [alias], accessionID
-    ' 
-    '         Function: GenericEnumerator, GetEnumerator, ToString
-    ' 
-    '     Class SecondaryIDSolver
-    ' 
-    '         Properties: ALL
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: Add
-    '         Delegate Function
-    ' 
-    ' 
-    '         Delegate Function
-    ' 
-    '             Function: Create
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Synonym
+' 
+'         Properties: [alias], accessionID
+' 
+'         Function: GenericEnumerator, GetEnumerator, ToString
+' 
+'     Class SecondaryIDSolver
+' 
+'         Properties: ALL
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
+'         Sub: Add
+'         Delegate Function
+' 
+' 
+'         Delegate Function
+' 
+'             Function: Create
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Xml.Serialization
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DBLinkBuilder
 
-    <XmlType("synonym")>
-    Public Class Synonym : Implements Enumeration(Of String)
-
-        <XmlAttribute> Public Property accessionID As String
-        <XmlElement> Public Property [alias] As String()
-
-        Public Overrides Function ToString() As String
-            Return accessionID
-        End Function
-
-        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
-            Yield accessionID
-
-            For Each id As String In [alias]
-                Yield id
-            Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of String).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
-    End Class
-
     ''' <summary>
-    ''' 例如chebi和hmdb数据库，都存在有次级编号和主编号，
-    ''' 虽然这些编号不一样，但是他们都是同一个对象，则这个模块就是专门解决这种映射问题的
+    ''' This module ensure that all of the id is main id, not secondary id.
+    ''' 
+    ''' (例如chebi和hmdb数据库，都存在有次级编号和主编号，
+    ''' 虽然这些编号不一样，但是他们都是同一个对象，则这个模块就是专门解决这种映射问题的)
     ''' </summary>
     Public Class SecondaryIDSolver
 
@@ -134,14 +113,18 @@ Namespace ComponentModel.DBLinkBuilder
         Default Public ReadOnly Property SolveIDMapping(id As String) As String
             Get
                 With id.ToLower
-                    If mainID.IndexOf(.ByRef) > -1 Then
+                    If .DoCall(Function(i) mainID.IndexOf(i)) > -1 Then
                         ' 这个id是主编号，直接返回原来的值
                         Return id
                     End If
-                    If secondaryIDs.ContainsKey(.ByRef) Then
+
+                    If .DoCall(AddressOf secondaryIDs.ContainsKey) Then
                         Return secondaryIDs(.ByRef)
                     Else
-                        Return Nothing  ' 在数据库之中没有记录，确认一下是否是数据出错了？
+                        ' 在数据库之中没有记录，确认一下是否是数据出错了？
+                        ' when the element have no secondary id
+                        ' then the map value will be none?
+                        Return Nothing
                     End If
                 End With
             End Get
@@ -181,22 +164,35 @@ Namespace ComponentModel.DBLinkBuilder
 
         Public Shared Function Create(Of T)(source As IEnumerable(Of T), mainID As GetKey(Of T), secondaryID As GetAllKeys(Of T)) As SecondaryIDSolver
             Dim mainIDs As New List(Of String)
-            Dim secondaryIDs As New Dictionary(Of String, String)  ' 2nd -> main
+            ' 2nd -> main
+            Dim secondaryIDs As New Dictionary(Of String, String)
+            Dim accession$
+            Dim list2nd$()
 
-            For Each x As T In source
-                Dim accession$ = mainID(x).ToLower
-                Dim list2nd$() = secondaryID(x)
+            For Each element As T In source
+                accession = mainID(element)
+                list2nd = secondaryID(element)
 
-                mainIDs.Add(accession)
-                list2nd.DoEach(Sub(id)
-                                   Call secondaryIDs.Add(id.ToLower, accession)
-                               End Sub)
+                Call mainIDs.Add(accession.ToLower)
+                ' for ensure that there is always a value comes
+                ' from the secondary id index
+                Call secondaryIDs.Add(accession.ToLower, accession)
+                ' if the list2ND is empty, then
+                ' secondaryIDs index will not insert current element new data
+                ' solve this problem by add main id at the code above
+                Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
             Next
 
             Return New SecondaryIDSolver With {
                 .mainID = mainIDs.Indexing,
                 .secondaryIDs = secondaryIDs
             }
+        End Function
+
+        <DebuggerStepThrough>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromMaps(maps As Dictionary(Of String, String())) As SecondaryIDSolver
+            Return Create(maps, Function(x) x.Key, Function(x) x.Value)
         End Function
     End Class
 End Namespace

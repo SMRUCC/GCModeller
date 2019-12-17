@@ -211,12 +211,17 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return ssdb.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("-query",
-               Usage:="-query -keyword <keyword> -o <out_dir>",
-               Info:="Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.")>
-    Public Function QueryGenes(argvs As CommandLine) As Integer
-        Dim Out As String = argvs("-o")
-        Dim Keyword As String = argvs("-keyword")
+    ''' <summary>
+    ''' Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("-query")>
+    <Usage("-query -keyword <keyword> -o <out_dir>")>
+    <Description("Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.")>
+    Public Function QueryGenes(args As CommandLine) As Integer
+        Dim Out As String = args("-o")
+        Dim Keyword As String = args("-keyword")
         Dim ChunkBuffer As List(Of WebServices.QueryEntry) = New List(Of WebServices.QueryEntry)
 
         For i As Integer = 1 To 100
@@ -462,9 +467,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/16S_rRNA",
-               Info:="Download 16S rRNA data from KEGG.",
-               Usage:="/16s_rna [/out <outDIR>]")>
+    <ExportAPI("/16S_rRNA")>
+    <Description("Download 16S rRNA data from KEGG.")>
+    <Usage("/16s_rna [/out <outDIR>]")>
     Public Function Download16SRNA(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
         Dim fasta As FastaFile = Download16S_rRNA(outDIR)
@@ -478,8 +483,8 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Fasta.By.Sp",
-               Usage:="/Fasta.By.Sp /in <KEGG.fasta> /sp <sp.list> [/out <out.fasta>]")>
+    <ExportAPI("/Fasta.By.Sp")>
+    <Usage("/Fasta.By.Sp /in <KEGG.fasta> /sp <sp.list> [/out <out.fasta>]")>
     <Description("Picks the fasta sequence from the input sequence database by a given species list.")>
     Public Function GetFastaBySp(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -534,7 +539,8 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return 0
     End Function
 
-    <ExportAPI("/Download.Fasta", Usage:="/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
+    <ExportAPI("/Download.Fasta")>
+    <Usage("/Download.Fasta /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
     <Description("Download fasta sequence from KEGG database web api.")>
     <Argument("/query", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(QuerySource)},

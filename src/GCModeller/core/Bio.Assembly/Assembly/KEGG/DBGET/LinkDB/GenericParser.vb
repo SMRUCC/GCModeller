@@ -56,6 +56,8 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
         Const regexpLine$ = "<a href="".+?"">.+?</a>.+?$"
 
+        Public Const LinkDbCache$ = "./.kegg/linkdb/"
+
         Public Sub New(<CallerMemberName>
                        Optional cache As String = Nothing,
                        Optional interval As Integer = -1,
@@ -71,7 +73,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                    )
         End Sub
 
-        Public Shared Function LinkDbEntries(url$, Optional cache$ = "./.kegg/linkdb/", Optional offline As Boolean = False) As NamedValue()
+        Public Shared Function LinkDbEntries(url$, Optional cache$ = LinkDbCache, Optional offline As Boolean = False) As NamedValue()
             Static handlers As New Dictionary(Of String, GenericParser)
 
             Dim query As GenericParser = handlers.ComputeIfAbsent(

@@ -39,6 +39,6 @@
 
 #End Region
 
-Public Class KEGGOrganism
+'Public Class KEGGOrganism
 
-End Class
+'End Class
