@@ -122,6 +122,8 @@ Namespace ComponentModel.DBLinkBuilder
                         Return secondaryIDs(.ByRef)
                     Else
                         ' 在数据库之中没有记录，确认一下是否是数据出错了？
+                        ' when the element have no secondary id
+                        ' then the map value will be none?
                         Return Nothing
                     End If
                 End With
@@ -172,6 +174,12 @@ Namespace ComponentModel.DBLinkBuilder
                 list2nd = secondaryID(element)
 
                 Call mainIDs.Add(accession.ToLower)
+                ' for ensure that there is always a value comes
+                ' from the secondary id index
+                Call secondaryIDs.Add(accession.ToLower, accession)
+                ' if the list2ND is empty, then
+                ' secondaryIDs index will not insert current element new data
+                ' solve this problem by add main id at the code above
                 Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
             Next
 
