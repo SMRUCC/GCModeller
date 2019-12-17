@@ -79,7 +79,7 @@ Partial Module CLI
             .ShowOrganism(code:=[in], out:=orgInfoJson)
 
         orgInfo = orgInfoJson.LoadJSON(Of OrganismInfo)
-        enzymes = LinkDB.Enzyme.DoGetKEGGGenes(orgInfo.TID)
+        enzymes = LinkDB.Enzyme.DoGetKEGGGenes(orgInfo.TID, out.ParentPath & "/" & LinkDB.GenericParser.LinkDbCache)
         KO = enzymes _
             .Select(Function(g) g.text.Split.First) _
             .Where(Function(id) id.IsPattern("K\d+")) _

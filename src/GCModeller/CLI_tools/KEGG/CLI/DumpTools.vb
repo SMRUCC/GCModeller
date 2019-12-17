@@ -344,7 +344,10 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function ShowOrganism(args As CommandLine) As Integer
         Dim code$ = args <= "/code"
         Dim out$ = args("/out") Or $"./{code}.json"
-        Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(code)
+        Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(
+            code:=code,
+            cache:=$"{out.ParentPath}/.kegg/show_organism/"
+        )
 
         Return organism _
             .GetJson(indent:=True) _

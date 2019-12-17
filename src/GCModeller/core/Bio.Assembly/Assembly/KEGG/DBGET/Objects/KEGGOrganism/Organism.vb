@@ -85,7 +85,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             Return $"({code}) {FullName}"
         End Function
 
-        Public Shared Function ShowOrganism(code As String, Optional cache$ = "./kegg/show_organism") As OrganismInfo
+        Public Shared Function ShowOrganism(code As String, Optional cache$ = "./.kegg/show_organism") As OrganismInfo
             Static handlers As New Dictionary(Of String, ShowOrganism)
 
             Return handlers _
