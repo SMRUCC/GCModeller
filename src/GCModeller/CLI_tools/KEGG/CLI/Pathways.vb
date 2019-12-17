@@ -72,6 +72,7 @@ Partial Module CLI
         Dim orgInfoJson As String = $"{out.ParentPath}/{[in]}.json"
         Dim orgInfo As OrganismInfo
         Dim enzymes As NamedValue()
+        Dim KO$()
 
         Call GCModellerApps.KEGG_tools _
             .FromEnvironment(App.HOME) _
@@ -79,6 +80,12 @@ Partial Module CLI
 
         orgInfo = orgInfoJson.LoadJSON(Of OrganismInfo)
         enzymes = LinkDB.Enzyme.DoGetKEGGGenes(orgInfo.TID)
+        KO = enzymes _
+            .Select(Function(g) g.text.Split.First) _
+            .Where(Function(id) id.IsPattern("K\d+")) _
+            .Distinct _
+            .ToArray
+        KO.FlushAllLines($"{out.ParentPath}/KO.txt")
 
         Return enzymes.SaveTo(out).CLICode
     End Function
