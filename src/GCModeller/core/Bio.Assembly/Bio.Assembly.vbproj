@@ -714,6 +714,7 @@
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\Synonym.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
