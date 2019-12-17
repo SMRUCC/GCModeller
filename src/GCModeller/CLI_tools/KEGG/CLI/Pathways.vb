@@ -53,6 +53,20 @@ Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' Get all enzymes in a given genome
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/all.enzymes")>
+    <Usage("/all.enzymes /code <kegg_organism_code> [/out <enzymes.csv>]")>
+    Public Function GetAllEnzymes(args As CommandLine) As Integer
+        Dim in$ = args <= "/code"
+        Dim out$ = args("/out") Or $"./{[in]}_enzymes.csv"
+
+    End Function
+
     <ExportAPI("/Compile.Model", Info:="KEGG pathway model compiler",
                Usage:="/Compile.Model /pathway <pathwayDIR> /mods <modulesDIR> /sp <sp_code> [/out <out.Xml>]")>
     Public Function Compile(args As CommandLine) As Integer
@@ -82,7 +96,10 @@ Partial Module CLI
     <ExportAPI("/Enrichment.Map.Render")>
     <Usage("/Enrichment.Map.Render /url <url> [/repo <pathwayMap.repository> /out <out.png>]")>
     <Description("Rendering kegg pathway map for enrichment analysis result in local.")>
-    <Argument("/repo", True, CLITypes.File, Description:="A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.")>
+    <Argument("/repo", True, CLITypes.File,
+              Description:="A directory path that contains the KEGG reference pathway map XML model. 
+              If this argument value is not presented in the commandline, then the default installed 
+              GCModeller KEGG compound repository will be used.")>
     Public Function EnrichmentMapRender(args As CommandLine) As Integer
         Dim url$ = args <= "/url"
         Dim repo$ = args("/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/")
