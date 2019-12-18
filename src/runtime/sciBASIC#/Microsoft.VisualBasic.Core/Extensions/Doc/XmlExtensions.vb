@@ -297,7 +297,9 @@ Public Module XmlExtensions
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function LoadFromXml(Of T)(xml$, Optional throwEx As Boolean = True) As T
+    <DebuggerStepThrough>
+    <Extension>
+    Public Function LoadFromXml(Of T)(xml$, Optional throwEx As Boolean = True) As T
         Return LoadFromXml(xml, GetType(T), throwEx)
     End Function
 
@@ -310,7 +312,9 @@ Public Module XmlExtensions
     ''' (在进行Xml反序列化的时候是否抛出错误，默认抛出错误，否则返回一个空对象)</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function LoadFromXml(xml$, schema As Type, Optional throwEx As Boolean = True) As Object
+    ''' 
+    <Extension>
+    Public Function LoadFromXml(xml$, schema As Type, Optional throwEx As Boolean = True) As Object
         If xml.StringEmpty Then
             If throwEx Then
                 Throw New XmlException("Empty xml content!")
@@ -341,7 +345,8 @@ Public Module XmlExtensions
     End Function
 
     <ExportAPI("Xml.CreateObject")>
-    <Extension> Public Function CreateObjectFromXml(Xml As StringBuilder, typeInfo As Type) As Object
+    <Extension>
+    Public Function CreateObjectFromXml(Xml As StringBuilder, typeInfo As Type) As Object
         Dim doc As String = Xml.ToString
 
         Using Stream As New StringReader(doc)

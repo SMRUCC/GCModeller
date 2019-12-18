@@ -229,9 +229,14 @@ Namespace Text.Xml.Linq
             Dim handle As New DeserializeHandler(Of T)(xmlNode) With {
                 .ReplaceXmlns = replaceXmlns
             }
+            Dim element As T
 
             For Each xml As String In nodes
-                Yield handle.LoadXml(xml)
+                element = handle.LoadXml(xml)
+
+                ' populate a new element from the 
+                ' node Text
+                Yield element
             Next
         End Function
 
