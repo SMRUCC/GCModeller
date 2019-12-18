@@ -98,6 +98,12 @@ Namespace Text.Xml.Linq
             Return xml.Replace($"xmlns=""{ReplaceXmlns}""", "")
         End Function
 
+        ''' <summary>
+        ''' This method have bugs when deal with the xml when it have 
+        ''' multiple xml namespace value
+        ''' </summary>
+        ''' <param name="xml"></param>
+        ''' <returns></returns>
         Public Function LoadXml(xml As String) As T
             Call sb.Clear()
             Call sb.AppendLine("<?xml version=""1.0"" encoding=""utf-16""?>")
