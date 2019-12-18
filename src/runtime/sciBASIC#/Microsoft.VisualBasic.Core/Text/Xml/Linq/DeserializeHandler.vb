@@ -110,7 +110,7 @@ Namespace Text.Xml.Linq
             xml = sb.ToString
 
             ' 对调整好的Xml文档执行反序列化操作
-            Return xml.LoadFromXml(Of T)
+            Return xml.LoadFromXml(Of T)(doNamespaceIgnorant:=True)
         End Function
 
         Public Overrides Function ToString() As String

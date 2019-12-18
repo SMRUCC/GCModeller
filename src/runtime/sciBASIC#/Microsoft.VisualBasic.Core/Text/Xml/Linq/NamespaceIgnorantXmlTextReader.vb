@@ -18,5 +18,9 @@ Namespace Text.Xml.Linq
         Public Sub New(stream As Stream)
             Call MyBase.New(stream)
         End Sub
+
+        Public Sub New(text As TextReader)
+            Call MyBase.New(text)
+        End Sub
     End Class
 End Namespace
