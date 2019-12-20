@@ -212,7 +212,7 @@ Namespace Serialization.JSON
                 Dim settings As New DataContractJsonSerializerSettings With {
                     .UseSimpleDictionaryFormat = simpleDict,
                     .SerializeReadOnlyTypes = True,
-                    .KnownTypes = knownTypes.ToArray
+                    .KnownTypes = knownTypes.SafeQuery.ToArray
                 }
                 Dim ser As New DataContractJsonSerializer(type, settings)
                 Dim de As Func(Of Object) = Function() ser.ReadObject(MS)
