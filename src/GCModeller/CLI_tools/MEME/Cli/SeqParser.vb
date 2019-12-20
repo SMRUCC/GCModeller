@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Linq.JoinExtensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
@@ -80,8 +81,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Parser.RegPrecise.Operons",
-               Usage:="/Parser.RegPrecise.Operons /operon <operons.Csv> /PTT <PTT_DIR> [/corn /DOOR <genome.opr> /id <null> /locus <union/initx/locus, default:=union> /out <outDIR>]")>
+    <ExportAPI("/Parser.RegPrecise.Operons")>
+    <Usage("/Parser.RegPrecise.Operons /operon <operons.Csv> /PTT <PTT_DIR> [/corn /DOOR <genome.opr> /id <null> /locus <union/initx/locus, default:=union> /out <outDIR>]")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserRegPreciseOperon(args As CommandLine) As Integer
         Dim [in] As String = args - "/operon"
@@ -182,8 +183,8 @@ Partial Module CLI
         End If
     End Function
 
-    <ExportAPI("/Parser.Operon",
-               Usage:="/Parser.Operon /in <footprint.csv> /PTT <PTTDIR> [/out <outDIR> /family /offset <50> /all]")>
+    <ExportAPI("/Parser.Operon")>
+    <Usage("/Parser.Operon /in <footprint.csv> /PTT <PTTDIR> [/out <outDIR> /family /offset <50> /all]")>
     <Argument("/family", True,
                    Description:="Group the source by family? Or output the source in one fasta set")>
     <Group(CLIGrouping.MEMESeqParser)>
@@ -255,8 +256,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Parser.MAST",
-               Usage:="/Parser.MAST /sites <mastsites.csv> /ptt <genome-context.pttDIR> /door <genome.opr> [/out <outDIR>]")>
+    <ExportAPI("/Parser.MAST")>
+    <Usage("/Parser.MAST /sites <mastsites.csv> /ptt <genome-context.pttDIR> /door <genome.opr> [/out <outDIR>]")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserMAST(args As CommandLine) As Integer
         Dim PTT As String = args("/ptt")
