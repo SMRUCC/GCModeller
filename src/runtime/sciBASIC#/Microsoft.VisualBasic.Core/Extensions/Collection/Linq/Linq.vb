@@ -273,6 +273,7 @@ Namespace Linq
                     Yield x
                 Next
             End If
+
             If Not b Is Nothing Then
                 For Each x As T In b
                     Yield x
@@ -288,7 +289,9 @@ Namespace Linq
                 Next
             End If
 
-            Yield b
+            If Not b Is Nothing Then
+                Yield b
+            End If
         End Function
 
         ''' <summary>
