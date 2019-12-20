@@ -118,6 +118,12 @@ Public Class var : Implements IDisposable
         name = RDotNetGC.Allocate
     End Sub
 
+    ''' <summary>
+    ''' When this variable object narrowing convert to <see cref="String"/> type, 
+    ''' then the ctype function will returns the <see cref="name"/> property 
+    ''' value.
+    ''' </summary>
+    ''' <param name="expr">A value expression for initialize current R variable</param>
     Sub New(expr As String)
         Call Me.New
         Me.expr = expr
