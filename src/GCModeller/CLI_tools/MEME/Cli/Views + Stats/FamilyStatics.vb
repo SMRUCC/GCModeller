@@ -44,8 +44,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
-Imports RDotNET.Extensions.VisualBasic
+Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports RDotNet.Extensions.VisualBasic
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 
