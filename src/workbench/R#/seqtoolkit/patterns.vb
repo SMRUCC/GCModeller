@@ -19,7 +19,7 @@ Module patterns
             Return "n/a"
         ElseIf obj.GetType Is GetType(PalindromeLoci) Then
             With DirectCast(obj, PalindromeLoci)
-                Return $"""{ .Start} { .Loci} | { .MirrorSite} { .PalEnd}"""
+                Return $"""{ .Start} { .Loci}|{ .MirrorSite} { .PalEnd}"""
             End With
         Else
             Throw New NotImplementedException(obj.GetType.FullName)
