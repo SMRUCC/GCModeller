@@ -99,6 +99,7 @@ Public Module RSystem
             ex = New Exception(UnableRunAutomatically, ex)
             Call ex.PrintException
             Call App.LogException(ex)
+            Call NativeLibrary.NativeUtility.SetEnvironmentVariablesLog.SaveTo("./R_inits.log")
         End Try
     End Sub
 
