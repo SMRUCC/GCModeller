@@ -151,6 +151,10 @@
       <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.GCModeller\RDotNET.Extensions.GCModeller.vbproj">
+      <Project>{45E1BC98-0D46-46BB-89A8-92E11EBE8798}</Project>
+      <Name>RDotNET.Extensions.GCModeller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>

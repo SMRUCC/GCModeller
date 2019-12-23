@@ -10,6 +10,11 @@ Imports SMRUCC.genomics.Data
 <Package("kegg.repository")>
 Public Module Repository
 
+    <ExportAPI("load.compounds")>
+    Public Function LoadCompoundRepo(repository As String) As CompoundRepository
+        Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
+    End Function
+
     <ExportAPI("load.reactions")>
     Public Function LoadReactionRepo(repository As String) As ReactionRepository
         Return ReactionRepository.LoadAuto(repository)
