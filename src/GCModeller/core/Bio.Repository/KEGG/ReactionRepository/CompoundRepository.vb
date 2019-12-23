@@ -76,6 +76,21 @@ Public Class CompoundRepository : Inherits XmlDataModel
 
     Dim compoundTable As Dictionary(Of String, CompoundIndex)
 
+    ''' <summary>
+    ''' Get kegg compounds common names
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetNames() As Dictionary(Of String, String)
+        Return compoundTable _
+            .ToDictionary(Function(c) c.Key,
+                          Function(c)
+                              Return c.Value _
+                                 .Entity _
+                                 .commonNames _
+                                 .FirstOrDefault
+                          End Function)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, CompoundIndex).Exists
         Return compoundTable.ContainsKey(key)

@@ -83,6 +83,31 @@ Public Class OrganismCompounds
         }
     End Function
 
+    Public Shared Function LoadData(repo As String, compoundNames As Dictionary(Of String, String)) As OrganismCompounds
+        Dim info = $"{repo}/kegg.json".LoadJSON(Of OrganismInfo)
+        Dim compoundID As String() = $"{repo}/kegg_compounds.txt".ReadAllLines
+        Dim compounds = compoundID _
+            .Distinct _
+            .Select(Function(cid)
+                        Dim name$
+
+                        If compoundNames.ContainsKey(cid) Then
+                            name = compoundNames(cid)
+                        Else
+                            name = "n/a"
+                        End If
+
+                        Return New NamedValue(cid, name)
+                    End Function) _
+            .ToArray
+
+        Return New OrganismCompounds With {
+            .code = info.code,
+            .name = info.FullName,
+            .compounds = compounds
+        }
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function WriteRda(dataset As OrganismCompounds, rdafile$) As Boolean
         Return rda.save(dataset, rdafile, name:="KEGG")
