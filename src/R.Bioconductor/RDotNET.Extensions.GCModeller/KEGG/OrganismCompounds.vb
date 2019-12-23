@@ -68,7 +68,7 @@ Public Class OrganismCompounds
     End Function
 
     Public Shared Function LoadData(repo As String) As OrganismCompounds
-        Dim info = $"{repo}/kegg.json".LoadJSON(Of OrganismInfo)
+        Dim info = repo.DoCall(AddressOf getIndexJson).LoadJSON(Of OrganismInfo)
         Dim maps = ls - l - r - "*.Xml" <= repo
         Dim compounds As NamedValue() = maps _
             .Select(Function(path) path.LoadXml(Of Pathway)) _
@@ -87,8 +87,16 @@ Public Class OrganismCompounds
         }
     End Function
 
+    Private Shared Function getIndexJson(repo As String) As String
+        If $"{repo}/kegg.json".FileExists Then
+            Return $"{repo}/kegg.json"
+        Else
+            Return $"{repo}/{repo.BaseName}.json"
+        End If
+    End Function
+
     Public Shared Function LoadData(repo As String, compoundNames As Dictionary(Of String, String)) As OrganismCompounds
-        Dim info = $"{repo}/kegg.json".LoadJSON(Of OrganismInfo)
+        Dim info = repo.DoCall(AddressOf getIndexJson).LoadJSON(Of OrganismInfo)
         Dim compoundID As String() = $"{repo}/kegg_compounds.txt".ReadAllLines
         Dim compounds = compoundID _
             .Distinct _
