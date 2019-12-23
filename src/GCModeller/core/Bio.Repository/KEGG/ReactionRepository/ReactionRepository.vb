@@ -275,6 +275,8 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Dim list As New Dictionary(Of String, Reaction)
         Dim busy As New SwayBar
 
+        Call $"Loading kegg reaction repository: {directory}...".__DEBUG_ECHO(waitOutput:=True)
+
         For Each Xml As String In ls - l - r - "*.Xml" <= directory
             With Reaction.LoadXml(handle:=Xml)
                 If Not list.ContainsKey(.ID) Then
