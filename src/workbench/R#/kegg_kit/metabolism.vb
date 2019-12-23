@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNET.Extensions.GCModeller
 Imports SMRUCC.genomics.Data
 
 ''' <summary>
@@ -24,5 +25,14 @@ Module metabolism
             .IteratesALL _
             .Distinct _
             .ToArray
+    End Function
+
+    <ExportAPI("compound.origins")>
+    Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
+        If compoundNames Is Nothing Then
+            Return OrganismCompounds.LoadData(repo)
+        Else
+            Return OrganismCompounds.LoadData(repo, compoundNames)
+        End If
     End Function
 End Module
