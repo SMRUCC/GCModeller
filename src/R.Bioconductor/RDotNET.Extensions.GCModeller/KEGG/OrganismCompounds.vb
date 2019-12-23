@@ -63,6 +63,10 @@ Public Class OrganismCompounds
         Return name
     End Function
 
+    Public Function Save(rda As String) As Boolean
+        Return WriteRda(Me, rdafile:=rda)
+    End Function
+
     Public Shared Function LoadData(repo As String) As OrganismCompounds
         Dim info = $"{repo}/kegg.json".LoadJSON(Of OrganismInfo)
         Dim maps = ls - l - r - "*.Xml" <= repo
