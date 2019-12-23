@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::a7f57470c69ede2cd599975c23eebf89, RDotNET.Extensions.VisualBasic\Extensions\Serialization\SaveRda.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module SaveRda
-    ' 
-    '         Function: Push, PushComplexObject, PushList, save
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module SaveRda
+' 
+'         Function: Push, PushComplexObject, PushList, save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -69,8 +70,8 @@ Namespace Serialization
         ''' <param name="file">The rda file path.</param>
         ''' <param name="name">The dataset name, a R variable name. By default is named as ``.save``, an hidden object in R environment.</param>
         ''' <returns></returns>
-        Public Function save(obj As Object, file$, Optional name$ = ".save") As Boolean
-            Dim var$ = SaveRda.Push(obj)
+        Public Function save(obj As Object, file$, Optional name$ = ".save", Optional encoding As Encoding = Nothing) As Boolean
+            Dim var$ = SaveRda.Push(obj, encoding Or Encoding.ASCII.AsDefault)
 
             SyncLock R
                 With R
@@ -87,7 +88,7 @@ Namespace Serialization
         ''' </summary>
         ''' <param name="obj"></param>
         ''' <returns></returns>
-        Public Function Push(obj As Object) As String
+        Public Function Push(obj As Object, encoding As Encoding) As String
             Dim type As Type = obj?.GetType
 
             If type Is Nothing Then
@@ -99,13 +100,13 @@ Namespace Serialization
                 WriteMemoryInternal.WritePrimitive(var, obj)
                 Return var
             ElseIf type.ImplementInterface(GetType(IEnumerable)) Then
-                Return PushList(DirectCast(obj, IEnumerable))
+                Return PushList(DirectCast(obj, IEnumerable), encoding)
             Else
-                Return PushComplexObject(obj)
+                Return PushComplexObject(obj, encoding)
             End If
         End Function
 
-        Public Function PushList(list As IEnumerable) As String
+        Public Function PushList(list As IEnumerable, encoding As Encoding) As String
             Dim type As Type = CObj(list).GetType
             Dim base As Type = type.GetTypeElement(False)
             Dim var$ = RDotNetGC.Allocate
@@ -136,7 +137,7 @@ Namespace Serialization
 
                         SyncLock R
                             With R
-                                .call = $"{var}[[{Rstring(key)}]] <- {PushComplexObject(x)};"
+                                .call = $"{var}[[{Rstring(key)}]] <- {PushComplexObject(x, encoding)};"
                             End With
                         End SyncLock
                     Next
@@ -147,7 +148,7 @@ Namespace Serialization
 
                         SyncLock R
                             With R
-                                .call = $"{var}[[{key}]] <- {PushComplexObject(x)};"
+                                .call = $"{var}[[{key}]] <- {PushComplexObject(x, encoding)};"
                             End With
                         End SyncLock
                     Next
@@ -156,7 +157,14 @@ Namespace Serialization
             Else
                 ' write as dataframe
                 With App.GetAppSysTempFile(, App.PID)
-                    Call list.SaveTable(.ByRef, type:=base)
+                    Call .DoCall(Sub(file)
+                                     Call list.SaveTable(
+                                        path:=file,
+                                        type:=base,
+                                        encoding:=encoding
+                                     )
+                                 End Sub)
+
                     Return utils.read.csv(.ByRef)
                 End With
             End If
@@ -170,7 +178,7 @@ Namespace Serialization
         ''' <param name="obj">这个类型为单个的class或者structure类型</param>
         ''' <param name="filters">可以通过这个参数来屏蔽不希望写入R内存的属性</param>
         ''' <returns></returns>
-        Public Function PushComplexObject(obj As Object, Optional filters As String() = Nothing) As String
+        Public Function PushComplexObject(obj As Object, encoding As Encoding, Optional filters As String() = Nothing) As String
             If obj Is Nothing Then
                 With RDotNetGC.Allocate
                     Call WriteMemoryInternal.WriteNothing(.ByRef)
@@ -193,7 +201,7 @@ Namespace Serialization
                     End If
 
                     For Each [property] As PropertyInfo In schema.Values
-                        tmpname = SaveRda.Push([property].GetValue(obj))
+                        tmpname = SaveRda.Push([property].GetValue(obj), encoding)
                         ref = Rstring([property].Name)
 
                         .call = $"{var}[[{ref}]] <- {tmpname}"
