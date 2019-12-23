@@ -161,7 +161,8 @@ Namespace Serialization
                                      Call list.SaveTable(
                                         path:=file,
                                         type:=base,
-                                        encoding:=encoding
+                                        encoding:=encoding,
+                                        silent:=True
                                      )
                                  End Sub)
 
