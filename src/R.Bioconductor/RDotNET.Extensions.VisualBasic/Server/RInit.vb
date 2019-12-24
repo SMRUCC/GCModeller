@@ -75,7 +75,6 @@ Module RInit
     ''' <returns></returns>
     Private Function searchAuto() As String
         Dim directories$() = ProgramPathSearchTool.SearchDirectory("R").ToArray
-        Dim R$ = Nothing
         Dim files$()
 
         If directories.IsNullOrEmpty Then
@@ -121,6 +120,10 @@ Module RInit
                 .ToArray
 
             oldPath = pathEnvir.JoinBy(Path.PathSeparator)
+        End If
+
+        If VBDebugger.debugMode Then
+            Call $"R_HOME={rPath}".__DEBUG_ECHO
         End If
 
         Dim newPath = String.Format("{0}{1}{2}", rPath, Path.PathSeparator, oldPath)

@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Linq.JoinExtensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -344,7 +345,10 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function ShowOrganism(args As CommandLine) As Integer
         Dim code$ = args <= "/code"
         Dim out$ = args("/out") Or $"./{code}.json"
-        Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(code)
+        Dim organism As OrganismInfo = OrganismInfo.ShowOrganism(
+            code:=code,
+            cache:=$"{out.ParentPath}/.kegg/show_organism/"
+        )
 
         Return organism _
             .GetJson(indent:=True) _
