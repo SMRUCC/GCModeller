@@ -1,299 +1,335 @@
 ﻿ID,class,count
-Metabolic pathways,Metabolism,306
-Biosynthesis of secondary metabolites,Metabolism,122
-Microbial metabolism in diverse environments,Metabolism,97
-Biosynthesis of plant secondary metabolites,Metabolism,61
-Biosynthesis of antibiotics,Metabolism,58
-Biosynthesis of amino acids,Metabolism,42
-Biosynthesis of phenylpropanoids,Metabolism,30
-Tyrosine metabolism,Metabolism,26
-Carbon metabolism,Metabolism,25
-Purine metabolism,Metabolism,25
-"Glycine, serine and threonine metabolism",Metabolism,23
-Degradation of aromatic compounds,Metabolism,22
-Biosynthesis of plant hormones,Metabolism,21
-2-Oxocarboxylic acid metabolism,Metabolism,20
-Cysteine and methionine metabolism,Metabolism,20
-Arginine and proline metabolism,Metabolism,20
-Pyrimidine metabolism,Metabolism,19
-Tryptophan metabolism,Metabolism,19
-Biosynthesis of alkaloids derived from shikimate pathway,Metabolism,19
-"Biosynthesis of alkaloids derived from ornithine, lysine and nicotinic acid",Metabolism,19
-Phenylalanine metabolism,Metabolism,18
-Biosynthesis of alkaloids derived from histidine and purine,Metabolism,17
+Metabolic pathways,Metabolism,939
+Biosynthesis of secondary metabolites,Metabolism,416
+Biosynthesis of antibiotics,Metabolism,316
+Microbial metabolism in diverse environments,Metabolism,249
+Biosynthesis of plant secondary metabolites,Metabolism,96
+Biosynthesis of amino acids,Metabolism,86
+Biosynthesis of alkaloids derived from shikimate pathway,Metabolism,78
+Biosynthesis of phenylpropanoids,Metabolism,69
+Isoquinoline alkaloid biosynthesis,Metabolism,62
+Carbon metabolism,Metabolism,59
+Arginine and proline metabolism,Metabolism,58
+Degradation of aromatic compounds,Metabolism,54
+2-Oxocarboxylic acid metabolism,Metabolism,51
+Anthocyanin biosynthesis,Metabolism,51
+Flavonoid biosynthesis,Metabolism,49
+Tyrosine metabolism,Metabolism,42
+Biosynthesis of plant hormones,Metabolism,42
+Arachidonic acid metabolism,Metabolism,41
+Phenylalanine metabolism,Metabolism,40
+Tryptophan metabolism,Metabolism,39
+Phenylpropanoid biosynthesis,Metabolism,39
+Biosynthesis of terpenoids and steroids,Metabolism,38
+"Biosynthesis of alkaloids derived from ornithine, lysine and nicotinic acid",Metabolism,38
+Cysteine and methionine metabolism,Metabolism,37
+Lysine degradation,Metabolism,35
+Glyoxylate and dicarboxylate metabolism,Metabolism,34
+Purine metabolism,Metabolism,34
+Methane metabolism,Metabolism,33
+Biosynthesis of various secondary metabolites - part 2,Metabolism,33
+Aminobenzoate degradation,Metabolism,33
+Steroid hormone biosynthesis,Metabolism,32
+Pyrimidine metabolism,Metabolism,32
+Biosynthesis of type II polyketide products,Metabolism,32
+"Neomycin, kanamycin and gentamicin biosynthesis",Metabolism,32
+Carbon fixation pathways in prokaryotes,Metabolism,31
+Ubiquinone and other terpenoid-quinone biosynthesis,Metabolism,30
+Steroid biosynthesis,Metabolism,29
+"Glycine, serine and threonine metabolism",Metabolism,29
+Porphyrin and chlorophyll metabolism,Metabolism,29
+Biosynthesis of alkaloids derived from histidine and purine,Metabolism,28
+Polyketide sugar unit biosynthesis,Metabolism,27
+Flavone and flavonol biosynthesis,Metabolism,27
+Amino sugar and nucleotide sugar metabolism,Metabolism,26
+Butanoate metabolism,Metabolism,25
+Lysine biosynthesis,Metabolism,25
+Nicotinate and nicotinamide metabolism,Metabolism,25
+"Tropane, piperidine and pyridine alkaloid biosynthesis",Metabolism,25
+Fatty acid degradation,Metabolism,24
+Isoflavonoid biosynthesis,Metabolism,24
+Propanoate metabolism,Metabolism,23
+"Valine, leucine and isoleucine degradation",Metabolism,23
+Benzoate degradation,Metabolism,23
+"Alanine, aspartate and glutamate metabolism",Metabolism,22
+beta-Alanine metabolism,Metabolism,22
+Biosynthesis of alkaloids derived from terpenoid and polyketide,Metabolism,22
+Fatty acid metabolism,Metabolism,21
+Biosynthesis of various secondary metabolites - part 1,Metabolism,21
+C5-Branched dibasic acid metabolism,Metabolism,20
+"Valine, leucine and isoleucine biosynthesis",Metabolism,20
+Histidine metabolism,Metabolism,20
+"Phenylalanine, tyrosine and tryptophan biosynthesis",Metabolism,20
+Monoterpenoid biosynthesis,Metabolism,20
+Glutathione metabolism,Metabolism,19
+Folate biosynthesis,Metabolism,19
+Fructose and mannose metabolism,Metabolism,18
+Fatty acid elongation,Metabolism,18
+Insect hormone biosynthesis,Metabolism,18
+"Stilbenoid, diarylheptanoid and gingerol biosynthesis",Metabolism,18
+Aflatoxin biosynthesis,Metabolism,18
+Pantothenate and CoA biosynthesis,Metabolism,16
+"Biosynthesis of 12-, 14- and 16-membered macrolides",Metabolism,16
 Galactose metabolism,Metabolism,15
-Methane metabolism,Metabolism,15
-beta-Alanine metabolism,Metabolism,15
-Flavonoid biosynthesis,Metabolism,15
-Steroid hormone biosynthesis,Metabolism,14
-Butanoate metabolism,Metabolism,13
-Biosynthesis of unsaturated fatty acids,Metabolism,13
-"Alanine, aspartate and glutamate metabolism",Metabolism,13
-Glutathione metabolism,Metabolism,13
-Nicotinate and nicotinamide metabolism,Metabolism,13
+Pyruvate metabolism,Metabolism,15
+Limonene and pinene degradation,Metabolism,15
+Glucosinolate biosynthesis,Metabolism,15
+Monobactam biosynthesis,Metabolism,15
+Pentose phosphate pathway,Metabolism,14
+Inositol phosphate metabolism,Metabolism,14
+Arginine biosynthesis,Metabolism,14
+Cyanoamino acid metabolism,Metabolism,14
+Carotenoid biosynthesis,Metabolism,14
+Citrate cycle (TCA cycle),Metabolism,13
+Ascorbate and aldarate metabolism,Metabolism,13
+alpha-Linolenic acid metabolism,Metabolism,13
+Thiamine metabolism,Metabolism,13
+Sesquiterpenoid and triterpenoid biosynthesis,Metabolism,13
+Carbapenem biosynthesis,Metabolism,13
+Xylene degradation,Metabolism,13
+Caprolactam degradation,Metabolism,13
 Pentose and glucuronate interconversions,Metabolism,12
-Glyoxylate and dicarboxylate metabolism,Metabolism,12
-Aminobenzoate degradation,Metabolism,12
-"Phenylalanine, tyrosine and tryptophan biosynthesis",Metabolism,11
-"Tropane, piperidine and pyridine alkaloid biosynthesis",Metabolism,11
-Pentose phosphate pathway,Metabolism,10
-Fructose and mannose metabolism,Metabolism,10
-Lysine degradation,Metabolism,10
-Cyanoamino acid metabolism,Metabolism,10
-Isoflavonoid biosynthesis,Metabolism,10
-Ascorbate and aldarate metabolism,Metabolism,9
-Sulfur metabolism,Metabolism,9
-Primary bile acid biosynthesis,Metabolism,9
-Histidine metabolism,Metabolism,9
-Taurine and hypotaurine metabolism,Metabolism,9
-Pantothenate and CoA biosynthesis,Metabolism,9
-Ubiquinone and other terpenoid-quinone biosynthesis,Metabolism,9
-Phenylpropanoid biosynthesis,Metabolism,9
-Flavone and flavonol biosynthesis,Metabolism,9
-Glucosinolate biosynthesis,Metabolism,9
-Monobactam biosynthesis,Metabolism,9
-Biosynthesis of various secondary metabolites - part 1,Metabolism,9
-Propanoate metabolism,Metabolism,8
-Carbon fixation pathways in prokaryotes,Metabolism,8
-Secondary bile acid biosynthesis,Metabolism,8
-Arginine biosynthesis,Metabolism,8
-Porphyrin and chlorophyll metabolism,Metabolism,8
-Benzoate degradation,Metabolism,8
-Biosynthesis of terpenoids and steroids,Metabolism,8
-Biosynthesis of alkaloids derived from terpenoid and polyketide,Metabolism,8
-Amino sugar and nucleotide sugar metabolism,Metabolism,7
-Pyruvate metabolism,Metabolism,7
-Fatty acid biosynthesis,Metabolism,7
-Steroid biosynthesis,Metabolism,7
-"Valine, leucine and isoleucine biosynthesis",Metabolism,7
-Caffeine metabolism,Metabolism,7
-Biosynthesis of various secondary metabolites - part 2,Metabolism,7
-Styrene degradation,Metabolism,7
-Glycolysis / Gluconeogenesis,Metabolism,6
-Citrate cycle (TCA cycle),Metabolism,6
-Carbon fixation in photosynthetic organisms,Metabolism,6
-"Valine, leucine and isoleucine degradation",Metabolism,6
-Lysine biosynthesis,Metabolism,6
-Phosphonate and phosphinate metabolism,Metabolism,6
-Thiamine metabolism,Metabolism,6
-Zeatin biosynthesis,Metabolism,6
-Toluene degradation,Metabolism,6
-Starch and sucrose metabolism,Metabolism,5
-C5-Branched dibasic acid metabolism,Metabolism,5
-Folate biosynthesis,Metabolism,5
-Isoquinoline alkaloid biosynthesis,Metabolism,5
-Dioxin degradation,Metabolism,5
-Oxidative phosphorylation,Metabolism,4
-Glycerolipid metabolism,Metabolism,4
-Glycerophospholipid metabolism,Metabolism,4
-Linoleic acid metabolism,Metabolism,4
-Riboflavin metabolism,Metabolism,4
-Vitamin B6 metabolism,Metabolism,4
+Zeatin biosynthesis,Metabolism,12
+Biosynthesis of vancomycin group antibiotics,Metabolism,12
+Caffeine metabolism,Metabolism,12
+Novobiocin biosynthesis,Metabolism,12
+Phenazine biosynthesis,Metabolism,12
+Drug metabolism - other enzymes,Metabolism,12
+Linoleic acid metabolism,Metabolism,11
+Taurine and hypotaurine metabolism,Metabolism,11
+Riboflavin metabolism,Metabolism,11
+Terpenoid backbone biosynthesis,Metabolism,11
+Diterpenoid biosynthesis,Metabolism,11
+Biosynthesis of enediyne antibiotics,Metabolism,11
+Indole alkaloid biosynthesis,Metabolism,11
+Streptomycin biosynthesis,Metabolism,11
+Styrene degradation,Metabolism,11
+Glycolysis / Gluconeogenesis,Metabolism,10
+Carbon fixation in photosynthetic organisms,Metabolism,10
+Sulfur metabolism,Metabolism,10
+Biosynthesis of unsaturated fatty acids,Metabolism,10
+Phosphonate and phosphinate metabolism,Metabolism,10
+D-Arginine and D-ornithine metabolism,Metabolism,10
+Vitamin B6 metabolism,Metabolism,10
+Glycerophospholipid metabolism,Metabolism,9
+One carbon pool by folate,Metabolism,9
+Retinol metabolism,Metabolism,9
+Tetracycline biosynthesis,Metabolism,9
+Betalain biosynthesis,Metabolism,9
+Staurosporine biosynthesis,Metabolism,9
+Drug metabolism - cytochrome P450,Metabolism,9
+Oxidative phosphorylation,Metabolism,8
+"Cutin, suberine and wax biosynthesis",Metabolism,8
+Primary bile acid biosynthesis,Metabolism,8
+Sphingolipid metabolism,Metabolism,8
+Geraniol degradation,Metabolism,8
+Biosynthesis of ansamycins,Metabolism,8
+Penicillin and cephalosporin biosynthesis,Metabolism,8
+Toluene degradation,Metabolism,8
+Naphthalene degradation,Metabolism,8
+Polycyclic aromatic hydrocarbon degradation,Metabolism,8
+Starch and sucrose metabolism,Metabolism,7
+Secondary bile acid biosynthesis,Metabolism,7
+Dioxin degradation,Metabolism,7
+D-Glutamine and D-glutamate metabolism,Metabolism,6
+Biotin metabolism,Metabolism,6
+Metabolism of xenobiotics by cytochrome P450,Metabolism,6
+Fatty acid biosynthesis,Metabolism,5
+Synthesis and degradation of ketone bodies,Metabolism,5
+Selenocompound metabolism,Metabolism,5
+Benzoxazinoid biosynthesis,Metabolism,5
+Bisphenol degradation,Metabolism,5
+Photosynthesis,Metabolism,4
+D-Alanine metabolism,Metabolism,4
+Peptidoglycan biosynthesis,Metabolism,4
+Biosynthesis of type II polyketide backbone,Metabolism,4
+Biosynthesis of siderophore group nonribosomal peptides,Metabolism,4
+Indole diterpene alkaloid biosynthesis,Metabolism,4
+Acarbose and validamycin biosynthesis,Metabolism,4
 Chlorocyclohexane and chlorobenzene degradation,Metabolism,4
-Naphthalene degradation,Metabolism,4
-Polycyclic aromatic hydrocarbon degradation,Metabolism,4
-Steroid degradation,Metabolism,4
-Inositol phosphate metabolism,Metabolism,3
-Fatty acid degradation,Metabolism,3
-Sphingolipid metabolism,Metabolism,3
-Arachidonic acid metabolism,Metabolism,3
-D-Glutamine and D-glutamate metabolism,Metabolism,3
-D-Alanine metabolism,Metabolism,3
-Biotin metabolism,Metabolism,3
-Retinol metabolism,Metabolism,3
-Biosynthesis of vancomycin group antibiotics,Metabolism,3
-Indole alkaloid biosynthesis,Metabolism,3
-Penicillin and cephalosporin biosynthesis,Metabolism,3
-Carbapenem biosynthesis,Metabolism,3
-Novobiocin biosynthesis,Metabolism,3
-Bisphenol degradation,Metabolism,3
-Fatty acid metabolism,Metabolism,2
-Photosynthesis,Metabolism,2
-Nitrogen metabolism,Metabolism,2
-"Cutin, suberine and wax biosynthesis",Metabolism,2
-alpha-Linolenic acid metabolism,Metabolism,2
-D-Arginine and D-ornithine metabolism,Metabolism,2
-One carbon pool by folate,Metabolism,2
-Monoterpenoid biosynthesis,Metabolism,2
-Insect hormone biosynthesis,Metabolism,2
-Betalain biosynthesis,Metabolism,2
-Streptomycin biosynthesis,Metabolism,2
-"Neomycin, kanamycin and gentamicin biosynthesis",Metabolism,2
-Staurosporine biosynthesis,Metabolism,2
-Prodigiosin biosynthesis,Metabolism,2
-Metabolism of xenobiotics by cytochrome P450,Metabolism,2
-Fatty acid elongation,Metabolism,1
-Synthesis and degradation of ketone bodies,Metabolism,1
-Selenocompound metabolism,Metabolism,1
-Peptidoglycan biosynthesis,Metabolism,1
-Terpenoid backbone biosynthesis,Metabolism,1
-Sesquiterpenoid and triterpenoid biosynthesis,Metabolism,1
-Diterpenoid biosynthesis,Metabolism,1
-Carotenoid biosynthesis,Metabolism,1
-Limonene and pinene degradation,Metabolism,1
-Biosynthesis of enediyne antibiotics,Metabolism,1
-Biosynthesis of siderophore group nonribosomal peptides,Metabolism,1
-Anthocyanin biosynthesis,Metabolism,1
-Acridone alkaloid biosynthesis,Metabolism,1
-Benzoxazinoid biosynthesis,Metabolism,1
-Clavulanic acid biosynthesis,Metabolism,1
-Phenazine biosynthesis,Metabolism,1
-Aflatoxin biosynthesis,Metabolism,1
-Fluorobenzoate degradation,Metabolism,1
-Chloroalkane and chloroalkene degradation,Metabolism,1
-Xylene degradation,Metabolism,1
-Ethylbenzene degradation,Metabolism,1
-Furfural degradation,Metabolism,1
-Drug metabolism - other enzymes,Metabolism,1
-Aminoacyl-tRNA biosynthesis,Genetic Information Processing,22
-Sulfur relay system,Genetic Information Processing,4
+Furfural degradation,Metabolism,4
+Nitrogen metabolism,Metabolism,3
+Glycerolipid metabolism,Metabolism,3
+Prodigiosin biosynthesis,Metabolism,3
+Fluorobenzoate degradation,Metabolism,3
+Nitrotoluene degradation,Metabolism,3
+Ethylbenzene degradation,Metabolism,3
+Steroid degradation,Metabolism,3
+Brassinosteroid biosynthesis,Metabolism,2
+Acridone alkaloid biosynthesis,Metabolism,2
+Clavulanic acid biosynthesis,Metabolism,2
+Chloroalkane and chloroalkene degradation,Metabolism,2
+Ether lipid metabolism,Metabolism,1
+N-Glycan biosynthesis,Metabolism,1
+Lipopolysaccharide biosynthesis,Metabolism,1
+Type I polyketide structures,Metabolism,1
+Atrazine degradation,Metabolism,1
+Aminoacyl-tRNA biosynthesis,Genetic Information Processing,23
+Sulfur relay system,Genetic Information Processing,6
 RNA transport,Genetic Information Processing,1
-ABC transporters,Environmental Information Processing,51
-Neuroactive ligand-receptor interaction,Environmental Information Processing,18
-Phosphotransferase system (PTS),Environmental Information Processing,15
-Two-component system,Environmental Information Processing,10
-cAMP signaling pathway,Environmental Information Processing,8
-AMPK signaling pathway,Environmental Information Processing,7
-HIF-1 signaling pathway,Environmental Information Processing,6
-Sphingolipid signaling pathway,Environmental Information Processing,4
-cGMP-PKG signaling pathway,Environmental Information Processing,4
-FoxO signaling pathway,Environmental Information Processing,3
-Phospholipase D signaling pathway,Environmental Information Processing,3
+ABC transporters,Environmental Information Processing,64
+Neuroactive ligand-receptor interaction,Environmental Information Processing,34
+Phosphotransferase system (PTS),Environmental Information Processing,21
+Two-component system,Environmental Information Processing,16
+AMPK signaling pathway,Environmental Information Processing,14
+cAMP signaling pathway,Environmental Information Processing,13
+Plant hormone signal transduction,Environmental Information Processing,7
+Sphingolipid signaling pathway,Environmental Information Processing,6
+HIF-1 signaling pathway,Environmental Information Processing,5
+Calcium signaling pathway,Environmental Information Processing,5
+cGMP-PKG signaling pathway,Environmental Information Processing,5
+FoxO signaling pathway,Environmental Information Processing,4
+Phospholipase D signaling pathway,Environmental Information Processing,4
+mTOR signaling pathway,Environmental Information Processing,3
 Ras signaling pathway,Environmental Information Processing,2
 Rap1 signaling pathway,Environmental Information Processing,2
-Calcium signaling pathway,Environmental Information Processing,2
-mTOR signaling pathway,Environmental Information Processing,2
-Plant hormone signal transduction,Environmental Information Processing,2
-Bacterial secretion system,Environmental Information Processing,1
+Apelin signaling pathway,Environmental Information Processing,2
 MAPK signaling pathway,Environmental Information Processing,1
 Hedgehog signaling pathway,Environmental Information Processing,1
-Apelin signaling pathway,Environmental Information Processing,1
+VEGF signaling pathway,Environmental Information Processing,1
 Phosphatidylinositol signaling system,Environmental Information Processing,1
-Ferroptosis,Cellular Processes,8
-Gap junction,Cellular Processes,4
-Quorum sensing,Cellular Processes,4
+PI3K-Akt signaling pathway,Environmental Information Processing,1
+Ferroptosis,Cellular Processes,12
+Quorum sensing,Cellular Processes,8
+Gap junction,Cellular Processes,6
+Biofilm formation - Vibrio cholerae,Cellular Processes,4
+Bacterial chemotaxis,Cellular Processes,4
 Lysosome,Cellular Processes,3
-Biofilm formation - Vibrio cholerae,Cellular Processes,3
-Bacterial chemotaxis,Cellular Processes,3
+Biofilm formation - Pseudomonas aeruginosa,Cellular Processes,3
+Cell cycle - yeast,Cellular Processes,2
 Meiosis - yeast,Cellular Processes,2
+Oocyte meiosis,Cellular Processes,2
 Necroptosis,Cellular Processes,2
-Biofilm formation - Pseudomonas aeruginosa,Cellular Processes,2
 Biofilm formation - Escherichia coli,Cellular Processes,2
 Endocytosis,Cellular Processes,1
 Autophagy - animal,Cellular Processes,1
-Cell cycle - yeast,Cellular Processes,1
-Oocyte meiosis,Cellular Processes,1
-Protein digestion and absorption,Organismal Systems,31
-Bile secretion,Organismal Systems,25
-Mineral absorption,Organismal Systems,15
-Taste transduction,Organismal Systems,14
-Vitamin digestion and absorption,Organismal Systems,12
-Glucagon signaling pathway,Organismal Systems,9
-Thermogenesis,Organismal Systems,9
-Regulation of lipolysis in adipocytes,Organismal Systems,8
-Ovarian steroidogenesis,Organismal Systems,8
-Renin secretion,Organismal Systems,7
-Serotonergic synapse,Organismal Systems,7
-Aldosterone synthesis and secretion,Organismal Systems,6
-Carbohydrate digestion and absorption,Organismal Systems,6
+Apoptosis,Cellular Processes,1
+Apoptosis - fly,Cellular Processes,1
+Regulation of actin cytoskeleton,Cellular Processes,1
+Bile secretion,Organismal Systems,35
+Protein digestion and absorption,Organismal Systems,29
+Serotonergic synapse,Organismal Systems,25
+Vitamin digestion and absorption,Organismal Systems,22
+Taste transduction,Organismal Systems,19
+Mineral absorption,Organismal Systems,18
+Glucagon signaling pathway,Organismal Systems,16
+Ovarian steroidogenesis,Organismal Systems,16
+Aldosterone synthesis and secretion,Organismal Systems,14
+Inflammatory mediator regulation of TRP channels,Organismal Systems,14
+Thermogenesis,Organismal Systems,11
+Regulation of lipolysis in adipocytes,Organismal Systems,9
+Cortisol synthesis and secretion,Organismal Systems,9
+Vascular smooth muscle contraction,Organismal Systems,9
+Renin secretion,Organismal Systems,8
+Retrograde endocannabinoid signaling,Organismal Systems,8
+Synaptic vesicle cycle,Organismal Systems,8
+Platelet activation,Organismal Systems,7
+Prolactin signaling pathway,Organismal Systems,7
+Oxytocin signaling pathway,Organismal Systems,7
+Thyroid hormone synthesis,Organismal Systems,7
+Proximal tubule bicarbonate reclamation,Organismal Systems,7
 GABAergic synapse,Organismal Systems,6
-Retrograde endocannabinoid signaling,Organismal Systems,6
-Inflammatory mediator regulation of TRP channels,Organismal Systems,6
-Platelet activation,Organismal Systems,5
-Prolactin signaling pathway,Organismal Systems,5
-Thyroid hormone synthesis,Organismal Systems,5
-Cortisol synthesis and secretion,Organismal Systems,5
-Vascular smooth muscle contraction,Organismal Systems,5
-Dopaminergic synapse,Organismal Systems,5
-Synaptic vesicle cycle,Organismal Systems,5
-Insulin secretion,Organismal Systems,4
-Oxytocin signaling pathway,Organismal Systems,4
+Dopaminergic synapse,Organismal Systems,6
+Fc epsilon RI signaling pathway,Organismal Systems,5
+Insulin secretion,Organismal Systems,5
+PPAR signaling pathway,Organismal Systems,5
+Salivary secretion,Organismal Systems,5
+Carbohydrate digestion and absorption,Organismal Systems,5
+Cholinergic synapse,Organismal Systems,5
+Axon regeneration,Organismal Systems,5
+Longevity regulating pathway,Organismal Systems,5
+Longevity regulating pathway - worm,Organismal Systems,5
+"Parathyroid hormone synthesis, secretion and action",Organismal Systems,4
+Pancreatic secretion,Organismal Systems,4
 Cholesterol metabolism,Organismal Systems,4
-Aldosterone-regulated sodium reabsorption,Organismal Systems,4
-Proximal tubule bicarbonate reclamation,Organismal Systems,4
+Olfactory transduction,Organismal Systems,4
 Circadian entrainment,Organismal Systems,4
-GnRH secretion,Organismal Systems,3
-Estrogen signaling pathway,Organismal Systems,3
-Thyroid hormone signaling pathway,Organismal Systems,3
 Adrenergic signaling in cardiomyocytes,Organismal Systems,3
-Salivary secretion,Organismal Systems,3
+Gastric acid secretion,Organismal Systems,3
 Glutamatergic synapse,Organismal Systems,3
 Long-term depression,Organismal Systems,3
-Olfactory transduction,Organismal Systems,3
-Axon regeneration,Organismal Systems,3
+Phototransduction,Organismal Systems,3
+C-type lectin receptor signaling pathway,Organismal Systems,2
+Fc gamma R-mediated phagocytosis,Organismal Systems,2
+Intestinal immune network for IgA production,Organismal Systems,2
 Insulin signaling pathway,Organismal Systems,2
+Adipocytokine signaling pathway,Organismal Systems,2
 GnRH signaling pathway,Organismal Systems,2
+Estrogen signaling pathway,Organismal Systems,2
+Progesterone-mediated oocyte maturation,Organismal Systems,2
+Thyroid hormone signaling pathway,Organismal Systems,2
 Melanogenesis,Organismal Systems,2
+Fat digestion and absorption,Organismal Systems,2
+Aldosterone-regulated sodium reabsorption,Organismal Systems,2
 Endocrine and other factor-regulated calcium reabsorption,Organismal Systems,2
 Long-term potentiation,Organismal Systems,2
-Phototransduction,Organismal Systems,2
 Phototransduction - fly,Organismal Systems,2
-Longevity regulating pathway - worm,Organismal Systems,2
 NOD-like receptor signaling pathway,Organismal Systems,1
-C-type lectin receptor signaling pathway,Organismal Systems,1
 Th17 cell differentiation,Organismal Systems,1
-Fc epsilon RI signaling pathway,Organismal Systems,1
-Fc gamma R-mediated phagocytosis,Organismal Systems,1
 Leukocyte transendothelial migration,Organismal Systems,1
-Intestinal immune network for IgA production,Organismal Systems,1
 Chemokine signaling pathway,Organismal Systems,1
-PPAR signaling pathway,Organismal Systems,1
-Progesterone-mediated oocyte maturation,Organismal Systems,1
+GnRH secretion,Organismal Systems,1
 Relaxin signaling pathway,Organismal Systems,1
 "Growth hormone synthesis, secretion and action",Organismal Systems,1
-"Parathyroid hormone synthesis, secretion and action",Organismal Systems,1
-Renin-angiotensin system,Organismal Systems,1
-Gastric acid secretion,Organismal Systems,1
-Pancreatic secretion,Organismal Systems,1
-Fat digestion and absorption,Organismal Systems,1
 Vasopressin-regulated water reabsorption,Organismal Systems,1
-Cholinergic synapse,Organismal Systems,1
-Longevity regulating pathway,Organismal Systems,1
 Longevity regulating pathway - multiple species,Organismal Systems,1
 Circadian rhythm,Organismal Systems,1
-Central carbon metabolism in cancer,Human Diseases,26
+Central carbon metabolism in cancer,Human Diseases,32
+Antifolate resistance,Human Diseases,12
 Pathways in cancer,Human Diseases,10
-Prostate cancer,Human Diseases,6
-Parkinson disease,Human Diseases,6
+Insulin resistance,Human Diseases,10
+Vancomycin resistance,Human Diseases,10
+Parkinson disease,Human Diseases,9
+Cushing syndrome,Human Diseases,9
 Alcoholism,Human Diseases,6
-Vancomycin resistance,Human Diseases,6
+Choline metabolism in cancer,Human Diseases,5
 Cocaine addiction,Human Diseases,5
 Amphetamine addiction,Human Diseases,5
-Cushing syndrome,Human Diseases,5
-Antifolate resistance,Human Diseases,5
-Morphine addiction,Human Diseases,3
-Nicotine addiction,Human Diseases,3
-Type II diabetes mellitus,Human Diseases,3
-Insulin resistance,Human Diseases,3
-Pertussis,Human Diseases,3
-Amoebiasis,Human Diseases,3
-Endocrine resistance,Human Diseases,3
+Morphine addiction,Human Diseases,5
+Chemical carcinogenesis,Human Diseases,4
+Nicotine addiction,Human Diseases,4
+Amoebiasis,Human Diseases,4
+African trypanosomiasis,Human Diseases,4
+Prostate cancer,Human Diseases,3
+Asthma,Human Diseases,3
+Gastric cancer,Human Diseases,2
+Renal cell carcinoma,Human Diseases,2
+Small cell lung cancer,Human Diseases,2
+Non-small cell lung cancer,Human Diseases,2
+Rheumatoid arthritis,Human Diseases,2
 Amyotrophic lateral sclerosis (ALS),Human Diseases,2
-Prion diseases,Human Diseases,2
+Type II diabetes mellitus,Human Diseases,2
+Pertussis,Human Diseases,2
+Tuberculosis,Human Diseases,2
+Human papillomavirus infection,Human Diseases,2
+Leishmaniasis,Human Diseases,2
 Chagas disease (American trypanosomiasis),Human Diseases,2
-African trypanosomiasis,Human Diseases,2
 Cationic antimicrobial peptide (CAMP) resistance,Human Diseases,2
-Chemical carcinogenesis,Human Diseases,1
 Hepatocellular carcinoma,Human Diseases,1
-Gastric cancer,Human Diseases,1
 Basal cell carcinoma,Human Diseases,1
-Renal cell carcinoma,Human Diseases,1
 Breast cancer,Human Diseases,1
-Small cell lung cancer,Human Diseases,1
-Non-small cell lung cancer,Human Diseases,1
-Rheumatoid arthritis,Human Diseases,1
 Autoimmune thyroid disease,Human Diseases,1
 Huntington disease,Human Diseases,1
-Hypertrophic cardiomyopathy (HCM),Human Diseases,1
+Prion diseases,Human Diseases,1
 Dilated cardiomyopathy (DCM),Human Diseases,1
 Non-alcoholic fatty liver disease (NAFLD),Human Diseases,1
 AGE-RAGE signaling pathway in diabetic complications,Human Diseases,1
 Vibrio cholerae infection,Human Diseases,1
 Salmonella infection,Human Diseases,1
+Staphylococcus aureus infection,Human Diseases,1
 Human T-cell leukemia virus 1 infection,Human Diseases,1
-Human papillomavirus infection,Human Diseases,1
-Leishmaniasis,Human Diseases,1
-Glucocorticoid and mineralocorticoid receptor agonists/antagonists,Drug Development,3
-"Progesterone, androgen and estrogen receptor agonists/antagonists",Drug Development,2
-Eicosanoids,Drug Development,2
+Human cytomegalovirus infection,Human Diseases,1
+Endocrine resistance,Human Diseases,1
+Eicosanoids,Drug Development,5
+"Progesterone, androgen and estrogen receptor agonists/antagonists",Drug Development,3
+Glucocorticoid and mineralocorticoid receptor agonists/antagonists,Drug Development,2
+Catecholamine transferase inhibitors,Drug Development,2
 Benzoic acid family,Drug Development,2
+Naphthalene family,Drug Development,2
+Cephalosporins - parenteral agents,Drug Development,1
+Cephalosporins - oral agents,Drug Development,1
+Anticonvulsants,Drug Development,1
+Histamine H2/H3 receptor agonists/antagonists,Drug Development,1
+Serotonin receptor agonists/antagonists,Drug Development,1
+HMG-CoA reductase inhibitors,Drug Development,1
+Prostaglandins,Drug Development,1
