@@ -574,10 +574,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E}"
 	ProjectSection(SolutionItems) = preProject
 		workbench\R#\demo\gwANI.R = workbench\R#\demo\gwANI.R
-		workbench\R#\demo\kegg_organism.R = workbench\R#\demo\kegg_organism.R
-		workbench\R#\demo\organism_compound_origins.R = workbench\R#\demo\organism_compound_origins.R
 		workbench\R#\demo\palindromes.R = workbench\R#\demo\palindromes.R
 		workbench\R#\demo\sequenceLogo.R = workbench\R#\demo\sequenceLogo.R
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kegg", "kegg", "{D9414D2D-E332-4B52-A501-BA188FECDC0D}"
+	ProjectSection(SolutionItems) = preProject
+		workbench\R#\demo\kegg\compound_profiles.R = workbench\R#\demo\kegg\compound_profiles.R
+		workbench\R#\demo\kegg\kegg_organism.R = workbench\R#\demo\kegg\kegg_organism.R
+		workbench\R#\demo\kegg\organism_compound_origins.R = workbench\R#\demo\kegg\organism_compound_origins.R
 	EndProjectSection
 EndProject
 Global
@@ -25010,6 +25015,7 @@ Global
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6} = {40AE79F4-5609-4AD4-8D57-7835E980BA59}
 		{2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
+		{D9414D2D-E332-4B52-A501-BA188FECDC0D} = {2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
