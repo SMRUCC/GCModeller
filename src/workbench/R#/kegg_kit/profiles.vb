@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
@@ -37,8 +38,10 @@ Module profiles
     End Function
 
     <ExportAPI("kegg.category_profiles")>
-    Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Double)) As EntityObject()
-        Return profiles.KEGGCategoryProfiles _
+    Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Integer)) As EntityObject()
+        Return profiles _
+            .AsNumeric _
+            .KEGGCategoryProfiles _
             .Select(Function(category)
                         Return category.Value _
                             .Select(Function(term)

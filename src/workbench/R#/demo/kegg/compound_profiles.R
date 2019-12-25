@@ -7,3 +7,7 @@ let kegg_compounds as string = readLines("D:\web\pos.txt");
 let profiles = maps :> compounds.pathway.profiles(kegg_compounds);
 
 profiles :> save.list(file = "./profiles.json");
+profiles 
+:> kegg.category_profiles
+:> write.csv(file = "./profiles.csv")
+;
