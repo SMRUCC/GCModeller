@@ -3,8 +3,8 @@ imports "visualkit.plots" from "visualkit.dll";
 ["D:\GCModeller\src\workbench\R#\demo\kegg\profiles.json"] 
 :> read.list(mode="numeric")
 :> kegg.category_profiles.plot(
-	size = "2200,2400", 
-	displays = 9,
+	size = "2200,2100", 
+	displays = 8,
 	title = "KEGG Compound Pathway Profiling",
 	axisTitle = "Number Of KEGG Compounds",
 	tick = 50,

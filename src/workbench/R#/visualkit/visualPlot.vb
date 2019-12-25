@@ -22,17 +22,11 @@ Module visualPlot
                                              Optional colors$ = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00",
                                              Optional displays% = 10) As GraphicsData
 
-        Dim brite As Dictionary(Of String, Pathway()) = Pathway.LoadDictionary _
-            .GroupBy(Function(p) p.Value.class) _
-            .ToDictionary(Function(p) p.Key,
-                          Function(p)
-                              Return p.Values
-                          End Function)
-        Dim profile As Dictionary(Of String, NamedValue(Of Double)()) = brite _
+        Dim profile As Dictionary(Of String, NamedValue(Of Double)()) = profiles _
+            .KEGGCategoryProfiles _
             .ToDictionary(Function(p) p.Key,
                           Function(group)
                               Return group.Value _
-                                 .doProfiles(profiles) _
                                  .OrderByDescending(Function(t) t.Value) _
                                  .Take(displays) _
                                  .ToArray
@@ -48,19 +42,5 @@ Module visualPlot
         )
     End Function
 
-    <Extension>
-    Private Function doProfiles(group As Pathway(), profiles As Dictionary(Of String, Double)) As NamedValue(Of Double)()
-        Return group _
-           .Where(Function(p)
-                      Return profiles.ContainsKey(p.EntryId) AndAlso profiles(p.EntryId) > 0
-                  End Function) _
-           .Select(Function(p As Pathway)
-                       Return New NamedValue(Of Double) With {
-                           .Name = p.entry.text,
-                           .Value = profiles(p.EntryId),
-                           .Description = p.entry.text
-                       }
-                   End Function) _
-           .ToArray
-    End Function
+
 End Module
