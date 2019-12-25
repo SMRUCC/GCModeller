@@ -28,10 +28,10 @@ Public Module Repository
     End Function
 
     <ExportAPI("load.pathways")>
-    Public Function LoadPathways(repository As String) As Pathway()
+    Public Function LoadPathways(repository As String) As PathwayMap()
         Dim maps = ls - l - r - "*.Xml" <= repository
-        Dim pathwayMaps As Pathway() = maps _
-            .Select(AddressOf LoadXml(Of Pathway)) _
+        Dim pathwayMaps As PathwayMap() = maps _
+            .Select(AddressOf LoadXml(Of PathwayMap)) _
             .ToArray
 
         Return pathwayMaps

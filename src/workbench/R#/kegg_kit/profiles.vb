@@ -8,14 +8,14 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Module profiles
 
     <ExportAPI("compounds.pathway.index")>
-    Public Function CompoundPathwayIndex(pathways As Pathway()) As Dictionary(Of String, Index(Of String))
+    Public Function CompoundPathwayIndex(pathways As PathwayMap()) As Dictionary(Of String, Index(Of String))
         Return pathways _
             .GroupBy(Function(p) p.briteID) _
             .ToDictionary(Function(p)
                               Return p.Key
                           End Function,
                           Function(p)
-                              Return p.First.compound _
+                              Return p.First.KEGGCompound _
                                   .SafeQuery _
                                   .Keys _
                                   .Indexing
