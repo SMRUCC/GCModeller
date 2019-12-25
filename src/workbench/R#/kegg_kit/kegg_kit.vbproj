@@ -78,11 +78,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>kegg_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="metabolism.vb" />
+    <Compile Include="profiles.vb" />
     <Compile Include="Repository.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -151,6 +154,14 @@
       <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationTools\DataVisualizationTools.vbproj">
+      <Project>{7a5b87b9-4475-4b34-ab8b-30f0b068c1b7}</Project>
+      <Name>DataVisualizationTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.GCModeller\RDotNET.Extensions.GCModeller.vbproj">
       <Project>{45E1BC98-0D46-46BB-89A8-92E11EBE8798}</Project>
       <Name>RDotNET.Extensions.GCModeller</Name>
@@ -158,6 +169,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\DataVisualization.vbproj">
+      <Project>{3a114030-d9fd-4913-8e85-a78c032e9000}</Project>
+      <Name>DataVisualization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>

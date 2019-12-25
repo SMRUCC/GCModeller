@@ -571,6 +571,20 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "visualkit", "workbench\R#\v
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Rscript", "R-sharp\Rscript\Rscript.vbproj", "{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E}"
+	ProjectSection(SolutionItems) = preProject
+		workbench\R#\demo\gwANI.R = workbench\R#\demo\gwANI.R
+		workbench\R#\demo\palindromes.R = workbench\R#\demo\palindromes.R
+		workbench\R#\demo\sequenceLogo.R = workbench\R#\demo\sequenceLogo.R
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kegg", "kegg", "{D9414D2D-E332-4B52-A501-BA188FECDC0D}"
+	ProjectSection(SolutionItems) = preProject
+		workbench\R#\demo\kegg\compound_profiles.R = workbench\R#\demo\kegg\compound_profiles.R
+		workbench\R#\demo\kegg\kegg_organism.R = workbench\R#\demo\kegg\kegg_organism.R
+		workbench\R#\demo\kegg\organism_compound_origins.R = workbench\R#\demo\kegg\organism_compound_origins.R
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -24545,8 +24559,8 @@ Global
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.docs|x86.Build.0 = Debug|Any CPU
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
@@ -24653,8 +24667,8 @@ Global
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.docs|x86.Build.0 = Debug|Any CPU
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
@@ -25000,6 +25014,8 @@ Global
 		{71ECFA16-4452-425F-95A6-4B5F654A0570} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
 		{B7443B2B-50E1-4A0E-A3D0-E36F803A76AD} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
 		{5FA10D0C-7EFB-40B4-BB1C-6EFCE819ABF6} = {40AE79F4-5609-4AD4-8D57-7835E980BA59}
+		{2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
+		{D9414D2D-E332-4B52-A501-BA188FECDC0D} = {2F71F4C6-AC3E-4A8F-826F-F422DB31CB4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
