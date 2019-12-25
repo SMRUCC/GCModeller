@@ -197,13 +197,13 @@ Namespace Layouts.Orthogonal
                 ' 目的是减少相交的边连接
                 If gain < 0 Then
                     Exit For
-                    ' End If
-
-                    ' totalAfter = workspace.totalEdgeLength
-                    ' gain = totalAfter - totalLenBefore
-
-                    ' If gain < 0 Then
-                    ' Exit For
+                    'End If
+                    '
+                    'totalAfter = workspace.totalEdgeLength
+                    'gain = totalAfter - totalLenBefore
+                    '
+                    'If gain > 0 Then
+                    'Exit For
                 Else
                     ' restore
                     Call workspace.grid.SwapNode(origin.index, nearby.index)
