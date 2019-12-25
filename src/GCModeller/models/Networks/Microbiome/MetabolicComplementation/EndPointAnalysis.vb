@@ -59,7 +59,7 @@ Public Module EndPointAnalysis
         Dim nodes As New List(Of Node)
 
         For Each compound As CompoundSpecieReference In compounds
-            With graph.GetNode(compound.ID)
+            With graph.GetElementByID(compound.ID)
                 If .IsNothing Then
                     nodes += graph.CreateNode(compound.ID)
                 Else

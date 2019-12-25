@@ -154,8 +154,8 @@ Public Module DAGModel
             End If
 
             relLink = New Edge With {
-                .U = g.GetNode(term.id),
-                .V = g.GetNode(rel.parent.Name),
+                .U = g.GetElementByID(term.id),
+                .V = g.GetElementByID(rel.parent.Name),
                 .isDirected = True,
                 .weight = rel.type,
                 .data = New EdgeData With {
