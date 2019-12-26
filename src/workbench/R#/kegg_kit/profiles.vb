@@ -25,6 +25,12 @@ Module profiles
                           End Function)
     End Function
 
+    ''' <summary>
+    ''' Do statistics of the KEGG pathway profiles based on the given kegg id
+    ''' </summary>
+    ''' <param name="pathways">The pathway compound reference index data</param>
+    ''' <param name="compounds">The kegg compound id</param>
+    ''' <returns></returns>
     <ExportAPI("compounds.pathway.profiles")>
     Public Function CompoundPathwayProfiles(pathways As Dictionary(Of String, Index(Of String)), compounds As String()) As Dictionary(Of String, Integer)
         Return pathways _
