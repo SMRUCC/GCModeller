@@ -154,6 +154,10 @@
       <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
+      <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
+      <Name>R</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
