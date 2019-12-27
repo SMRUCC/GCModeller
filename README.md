@@ -124,7 +124,7 @@ imports "bioseq.fasta" from "seqtoolkit.dll";
 # get input data from commandline arguments and
 # fix for the optional arguments default value
 # by apply or default syntax for non-logical values
-let seq.fasta as string = ?"--seq";
+let seq.fasta as string = ?"--seq"   || stop("No sequence input data for draw sequence logo!");
 let logo.png as string  = ?"--save"  || `${seq.fasta}.logo.png`;
 let title as string     = ?"--title" || basename(seq.fasta);
 
