@@ -45,6 +45,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Language
 
 Namespace Dijkstra
@@ -72,12 +73,21 @@ Namespace Dijkstra
 
             If undirected Then
                 links = g + g _
-                    .Select(Function(e) e.Reverse) _
+                    .Select(Function(e As VertexEdge)
+                                Return e.Reverse
+                            End Function) _
                     .AsList
             Else
                 links = g.ToArray
             End If
         End Sub
+
+        Private Sub New()
+        End Sub
+
+        Public Shared Function FromNetwork(Of TNode As {New, Network.Node}, TEdge As {New, Network.Edge(Of TNode)})(g As NetworkGraph(Of TNode, TEdge), Optional undirected As Boolean = False) As DijkstraRouter
+
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetLocation(label$) As Vertex
@@ -146,6 +156,7 @@ Namespace Dijkstra
             Return shortestPaths
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CalculateMinCost(startPos As Vertex, endPos As Vertex) As Route
             Return CalculateMinCost(startPos)(endPos)
         End Function
