@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::ea686cb898d70c4996d5baaf3317fad9, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DATA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DATA
-    ' 
-    '         Properties: AccessionTypeNames
-    ' 
-    '         Function: BuildEntitysFromTsv, (+2 Overloads) GetXrefID, GetXrefIDByType, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel
-    '                   ScanLoad, SystematicName
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DATA
+' 
+'         Properties: AccessionTypeNames
+' 
+'         Function: BuildEntitysFromTsv, (+2 Overloads) GetXrefID, GetXrefIDByType, LoadNameOfDatabaseFromTsv, RegistryNumbersSearchModel
+'                   ScanLoad, SystematicName
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -57,6 +58,26 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
     ''' </summary>
     Public Module DATA
 
+        Public Iterator Function ScanEntities(repository As String) As IEnumerable(Of ChEBIEntity)
+            If repository.FileExists Then
+                For Each compound In EntityList.PopulateModels(repository)
+                    Yield compound
+                Next
+            Else
+                Dim loaded As New Index(Of String)
+                Dim id As String
+
+                For Each path As String In (ls - l - r - "*.xml" <= repository)
+                    id = path.BaseName
+
+                    If Not id Like loaded Then
+                        loaded.Add(id)
+                        Yield path.LoadXml(Of ChEBIEntity)
+                    End If
+                Next
+            End If
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -65,9 +86,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
         Public Function ScanLoad(repository As String) As Dictionary(Of Long, ChEBIEntity)
             Dim list As New Dictionary(Of Long, ChEBIEntity)
 
-            For Each path As String In (ls - l - r - "*.xml" <= repository)
-                Dim compound = path.LoadXml(Of ChEBIEntity)
-
+            For Each compound As ChEBIEntity In ScanEntities(repository)
                 For Each ID As String In compound.IDlist
                     Dim int_id = CLng(Val(ID.Split(":"c).Last))
 
@@ -141,7 +160,8 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
         ''' </summary>
         ''' <param name="chebi"></param>
         ''' <returns></returns>
-        <Extension> Public Function GetXrefIDByType(chebi As ChEBIEntity) As Func(Of AccessionTypes, NamedValue(Of String)())
+        <Extension>
+        Public Function GetXrefIDByType(chebi As ChEBIEntity) As Func(Of AccessionTypes, NamedValue(Of String)())
             Dim fromStringType = chebi.GetXrefID
 
             Return Function(type)

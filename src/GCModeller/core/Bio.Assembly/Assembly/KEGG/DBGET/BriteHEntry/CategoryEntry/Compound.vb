@@ -246,7 +246,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Select(AddressOf BaseName) _
                 .Indexing
             Dim saveDIR = EXPORT & "/OtherUnknowns/"
-            Dim query As New DbGetWebQuery($"{saveDIR}/.cache")
+            Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
             Dim details$
 
             Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)

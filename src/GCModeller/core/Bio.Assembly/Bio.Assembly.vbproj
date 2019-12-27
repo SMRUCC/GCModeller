@@ -451,6 +451,73 @@
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\BioDeep_database\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\BioDeep_database\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\BioDeep_database\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Biostack\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Biostack\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Biostack\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -536,9 +603,12 @@
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTerm.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb" />
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Relationship.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
@@ -680,8 +750,7 @@
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
-    <Compile Include="ComponentModel\Web\WebQueryModule.vb" />
-    <Compile Include="ComponentModel\Web\WebQuery.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\Synonym.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />

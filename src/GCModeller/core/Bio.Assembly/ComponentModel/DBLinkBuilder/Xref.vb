@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Namespace ComponentModel.DBLinkBuilder
 
     <AttributeUsage(AttributeTargets.Property)>
-    Public Class Xref : Inherits Attribute
+    Public Class XrefAttribute : Inherits Attribute
         Implements INamedValue
 
         Public Property Name As String Implements IKeyedEntity(Of String).Key
@@ -65,16 +65,16 @@ Namespace ComponentModel.DBLinkBuilder
                 .Schema(PropertyAccess.ReadWrite, PublicProperty, True) _
                 .Values _
                 .Where(Function([property])
-                           Return Not [property].GetCustomAttribute(Of Xref) Is Nothing
+                           Return Not [property].GetCustomAttribute(Of XrefAttribute) Is Nothing
                        End Function) _
                 .ToArray
         End Function
 
         Public Shared Function CreateDictionary(Of T)() As Func(Of T, Dictionary(Of String, String))
-            Dim properties As PropertyInfo() = Xref.GetProperties(GetType(T))
+            Dim properties As PropertyInfo() = XrefAttribute.GetProperties(GetType(T))
             Dim reader As Dictionary(Of String, PropertyInfo) = properties _
                 .ToDictionary(Function(name)
-                                  Dim xref As Xref = name.GetCustomAttribute(Of Xref)
+                                  Dim xref As XrefAttribute = name.GetCustomAttribute(Of XrefAttribute)
 
                                   If xref.Name.StringEmpty Then
                                       Return name.Name
@@ -82,6 +82,7 @@ Namespace ComponentModel.DBLinkBuilder
                                       Return xref.Name
                                   End If
                               End Function)
+
             Return Function(x)
                        Return reader _
                            .ToDictionary(Function(key) key.Key,

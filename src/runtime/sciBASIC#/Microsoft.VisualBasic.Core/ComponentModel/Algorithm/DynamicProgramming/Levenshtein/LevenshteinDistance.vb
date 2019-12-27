@@ -46,8 +46,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Protocols
@@ -55,7 +53,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports stdNum = System.Math
 
-Namespace Text.Levenshtein
+Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
     ''' <summary>
     ''' Levenshtein Edit Distance Algorithm for measure string distance
@@ -174,15 +172,10 @@ Vladimir I",
             Dim sHyp As String = New String(hypotheses.Select(Function(x) asChar(x)).ToArray)
             Dim sRef As String = New String(reference.Select(Function(x) asChar(x)).ToArray)
             Dim result As New DistResult With {
-                .Hypotheses = sHyp,
-                .Reference = sRef
+                .hypotheses = sHyp,
+                .reference = sRef
             }
             Return computeRouteImpl(sHyp, result, i, j, distTable)
-        End Function
-
-        <ExportAPI("ToHTML", Info:="View distance evolve route of the Levenshtein Edit Distance calculation.")>
-        Public Function GetVisulization(res As DistResult) As String
-            Return res.HTMLVisualize
         End Function
 
         <ExportAPI("Write.Xml.DistResult")>
@@ -199,7 +192,7 @@ Vladimir I",
         ''' <param name="hypotheses"></param>
         ''' <param name="cost"></param>
         ''' <returns></returns>
-        <ExportAPI("ComputeDistance", Info:="Implement the Levenshtein Edit Distance algorithm.")>
+        <ExportAPI("ComputeDistance")>
         Public Function ComputeDistance(reference As Integer(), hypotheses As String, Optional cost As Double = 0.7) As DistResult
             If hypotheses Is Nothing Then hypotheses = ""
             If reference Is Nothing Then reference = New Integer() {}
@@ -210,8 +203,8 @@ Vladimir I",
             Dim i As Integer = reference.Length
             Dim j As Integer = hypotheses.Length
             Dim result As New DistResult With {
-                .Hypotheses = hypotheses,
-                .Reference = Nothing
+                .hypotheses = hypotheses,
+                .reference = Nothing
             }
             Return computeRouteImpl(hypotheses, result, i, j, distTable)
         End Function
@@ -233,7 +226,9 @@ Vladimir I",
                         Select ch = ChrW(index),
                             obj = distinct(index - a)) _
                             .ToDictionary(Function(x) x.obj,
-                                          Function(x) x.ch)
+                                          Function(x)
+                                              Return x.ch
+                                          End Function)
             Dim ref As String = New String(query.Select(Function(x) dict(x)).ToArray)
             Dim sbj As String = New String(subject.Select(Function(x) dict(x)).ToArray)
 
@@ -278,9 +273,11 @@ Vladimir I",
 
                     result.DistTable = distTable _
                         .ToVectorList _
-                        .Select(Function(vec) New Streams.Array.Double With {
-                            .Values = vec
-                        }) _
+                        .Select(Function(vec)
+                                    Return New Streams.Array.Double With {
+                                        .Values = vec
+                                    }
+                                End Function) _
                         .ToArray
                     result.DistEdits = New String(evolveRoute)
                     result.Path = css.ToArray
@@ -349,7 +346,7 @@ Vladimir I",
         ''' <param name="hypotheses"></param>
         ''' <param name="cost"></param>
         ''' <returns></returns>
-        <ExportAPI("ComputeDistance", Info:="Implement the Levenshtein Edit Distance algorithm.")>
+        <ExportAPI("ComputeDistance")>
         Public Function ComputeDistance(reference$, hypotheses$, Optional cost# = 0.7) As DistResult
 
             If hypotheses Is Nothing Then hypotheses = ""
@@ -361,8 +358,8 @@ Vladimir I",
             Dim i As Integer = reference.Length
             Dim j As Integer = hypotheses.Length
             Dim result As New DistResult With {
-                .Hypotheses = hypotheses,
-                .Reference = reference
+                .hypotheses = hypotheses,
+                .reference = reference
             }
 
             Return computeRouteImpl(hypotheses, result, i, j, distTable)

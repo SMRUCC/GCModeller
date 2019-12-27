@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Linq.JoinExtensions
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 
 Namespace R.Graph

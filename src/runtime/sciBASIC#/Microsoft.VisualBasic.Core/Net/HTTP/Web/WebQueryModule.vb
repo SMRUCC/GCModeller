@@ -43,7 +43,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace ComponentModel
+Namespace Net.Http
 
     Public MustInherit Class WebQueryModule(Of Context) : Inherits WebQuery(Of Context)
 

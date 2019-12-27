@@ -107,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fasta.vb" />
+    <Compile Include="Blast.vb" />
+    <Compile Include="patterns.vb" />
     <Compile Include="sequenceLogo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -144,9 +146,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
+      <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
+      <Name>DNA_Comparative</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MSA\MSA.vbproj">
       <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
       <Name>MSA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vbproj">
+      <Project>{7d48b4ef-34d4-488c-8fc4-2cbc0b92bd9c}</Project>
+      <Name>NeedlemanWunsch</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.vbproj">
       <Project>{1AE6B8DA-1A79-4DC7-A291-A8AE75CE07BA}</Project>
@@ -156,6 +166,10 @@
       <Project>{ABDCE82B-700E-4F70-A2F1-86B8054D0C8E}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vbproj">
+      <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
+      <Name>SmithWaterman</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -163,6 +177,14 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>47_dotnet_ms-vb_data.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
+      <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
+      <Name>DynamicProgramming</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
