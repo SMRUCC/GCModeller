@@ -71,11 +71,11 @@ Namespace Analysis
         ''' <summary>
         ''' 这个函数计算网络的节点的degree，然后将degree数据写入节点的同时，通过字典返回给用户
         ''' </summary>
-        ''' <param name="net"></param>
+        ''' <param name="g"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ComputeNodeDegrees(ByRef net As NetworkGraph) As Dictionary(Of String, Integer)
-            Dim connectNodes = net _
+        Public Function ComputeNodeDegrees(ByRef g As NetworkGraph) As Dictionary(Of String, Integer)
+            Dim connectNodes = g _
                 .graphEdges _
                 .Select(Function(link) {link.U.label, link.V.label}) _
                 .IteratesALL _
@@ -86,8 +86,8 @@ Namespace Analysis
                               End Function)
             Dim d%
 
-            With net.graphEdges.ComputeDegreeData
-                For Each node In net.vertex
+            With g.graphEdges.ComputeDegreeData
+                For Each node In g.vertex
 
                     If Not connectNodes.ContainsKey(node.label) Then
                         ' 这个节点是孤立的节点，度为零
