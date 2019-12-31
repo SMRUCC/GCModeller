@@ -364,9 +364,10 @@ Namespace ApplicationServices
 #End Region
 
         ''' <summary>
-        ''' 将当前目录下的所有的.NET程序都进行安装
+        ''' Install all of the .NET program in the current directory.
+        ''' 
+        ''' (将当前目录下的所有的.NET程序都进行安装)
         ''' </summary>
-        <ExportAPI("--install", Info:="Install all of the .NET program in the current directory.")>
         Public Function Install(Optional PATH$ = "./", Optional installExe As Boolean = False) As String()
             Dim files As IEnumerable(Of String)
 

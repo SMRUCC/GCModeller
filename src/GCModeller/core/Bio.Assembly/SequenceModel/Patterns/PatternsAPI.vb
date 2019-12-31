@@ -127,11 +127,9 @@ Namespace SequenceModel.Patterns
         ''' </summary>
         ''' <returns></returns>
         ''' <param name="index">参考序列在所输入的fasta序列之中的位置，默认使用第一条序列作为参考序列</param>
-        <ExportAPI("NT.Variations",
-                   Info:="The conservation percentage (%) Is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from 0 to 100% for each site along the chromosome of a specific index genome.")>
         Public Function NTVariations(<Parameter("Fasta",
                                                 "The fasta object parameter should be the output of mega multiple alignment result. All of the sequence in this parameter should be in the same length.")>
-                                     Fasta As FASTA.FastaFile,
+                                     Fasta As FastaFile,
                                      <Parameter("Index",
                                                 "The index of the reference genome in the fasta object parameter, default value is ZERO (The first sequence as the reference.)")>
                                      Optional index As Integer = Scan0,
@@ -140,8 +138,16 @@ Namespace SequenceModel.Patterns
             Return ref.NTVariations(Fasta, cutoff)
         End Function
 
-        <ExportAPI("NT.Variations",
-                   Info:="The conservation percentage (%) Is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from 0 to 100% for each site along the chromosome of a specific index genome.")>
+        ''' <summary>
+        ''' The conservation percentage (%) Is defined as the number of 
+        ''' genomes with the same letter on amultiple sequence alignment 
+        ''' normalized to range from 0 to 100% for each site along the 
+        ''' chromosome of a specific index genome.
+        ''' </summary>
+        ''' <param name="ref"></param>
+        ''' <param name="Fasta"></param>
+        ''' <param name="cutoff"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function NTVariations(ref As FastaSeq,
                                      <Parameter("Fasta",
