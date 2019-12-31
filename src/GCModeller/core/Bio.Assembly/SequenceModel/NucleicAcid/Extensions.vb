@@ -80,7 +80,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Distance.Levenshtein", Info:="Compute Levenshtein distance  Michael Gilleland, Merriam Park Software.(http://www.merriampark.com/ld.htm)")>
         Public Function LevenshteinDistance(s As String, t As String) As Integer
             Dim d As Integer()()  ' matrix
             Dim n As Integer = s.Length ' length of s
@@ -163,23 +162,10 @@ Namespace SequenceModel.NucleotideModels
         ''' cause an out of memory condition when calculating the LD over two very large strings.
         ''' </remarks>
         ''' 
-        <ExportAPI("Distance.Levenshtein2", Info:="The difference between this impl. and the previous is that, rather
-than creating and retaining a matrix of size s.length()+1 by t.length()+1,
-we maintain two single-dimensional arrays of length s.length()+1.  The first, d,
-is the 'current working' distance array that maintains the newest distance cost
-counts as we iterate through the characters of String s.  Each time we increment
-the index of String t we are comparing, d is copied to p, the second int[].  Doing so
-allows us to retain the previous cost counts as required by the algorithm (taking
-the minimum of the cost count to the left, up one, and diagonally up and to the left
-of the current cost count being calculated).  (Note that the arrays aren't really
-copied anymore, just switched...this is clearly much better than cloning an array
-or doing a System.arraycopy() each time  through the outer loop.)
-
-Effectively, the difference between the two implementations is this one does not
-cause an out of memory condition when calculating the LD over two very large strings.")>
         Public Function LevenshteinDistance2(s As String, t As String) As Integer
-
-            If String.IsNullOrEmpty(s) OrElse String.IsNullOrEmpty(t) Then Throw New System.ArgumentException("Strings must not be null")
+            If String.IsNullOrEmpty(s) OrElse String.IsNullOrEmpty(t) Then
+                Throw New ArgumentException("Strings must not be null")
+            End If
 
             Dim n As Integer = s.Length   ' length of s
             Dim m As Integer = t.Length   ' length of t
