@@ -2,7 +2,9 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
@@ -23,6 +25,16 @@ Public Module Repository
     <ExportAPI("load.maps.index")>
     Public Function LoadMapIndex(repository As String) As Dictionary(Of String, Map)
         Return MapRepository.GetMapsAuto(repository).ToDictionary(Function(map) map.id)
+    End Function
+
+    <ExportAPI("load.pathways")>
+    Public Function LoadPathways(repository As String) As PathwayMap()
+        Dim maps = ls - l - r - "*.Xml" <= repository
+        Dim pathwayMaps As PathwayMap() = maps _
+            .Select(AddressOf LoadXml(Of PathwayMap)) _
+            .ToArray
+
+        Return pathwayMaps
     End Function
 
     <ExportAPI("map.local_render")>

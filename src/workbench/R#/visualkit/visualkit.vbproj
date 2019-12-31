@@ -78,11 +78,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>visualkit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="chromosome_map.vb" />
+    <Compile Include="visualPlot.vb" />
     <Compile Include="synteny_visual.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -141,6 +144,28 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
+      <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
+      <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
+      <Name>R</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
+      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
+      <Name>Microsoft.VisualBasic.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+      <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -104,8 +104,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' <param name="Name"></param>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("KEGG.spCode",
-                   Info:="Convert the species genome full name into the KEGG 3 letters briefly code.")>
         Public Function GetKEGGSpeciesCode(Name As String) As Organism
             Dim LQuery = LinqAPI.Exec(Of (org As Organism, dist As DistResult)) _
  _
@@ -143,7 +141,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' Load KEGG organism list from the internal resource.
         ''' </summary>
         ''' <returns></returns>
-        <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
             Dim res As New ResourcesSatellite(GetType(EntryAPI).Assembly)
             Dim html As String = res.GetString("KEGG_Organism_Complete_Genomes")
@@ -268,7 +265,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' </param>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("list.Get", Info:="Gets the latest KEGG organism list from query the KEGG database.")>
         Public Function FromResource(Optional url$ = WEB_URL) As KEGGOrganism
             Return htmlParserInternal(html:=url.GET)
         End Function

@@ -101,8 +101,8 @@ Namespace CytoscapeGraphView
             For Each xgmmlEdge As XGMMLedge In graph.edges
                 Dim s = index.GetNode(xgmmlEdge.source)
                 Dim t = index.GetNode(xgmmlEdge.target)
-                Dim u As Node = g.GetNode(s.label)
-                Dim v As Node = g.GetNode(t.label)
+                Dim u As Node = g.GetElementByID(s.label)
+                Dim v As Node = g.GetElementByID(t.label)
 
                 Dim sx = s.graphics.x
                 Dim sy = s.graphics.y

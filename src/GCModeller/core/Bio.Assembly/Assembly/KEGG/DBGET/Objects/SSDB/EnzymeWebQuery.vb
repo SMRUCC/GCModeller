@@ -69,7 +69,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         End Function
 
         Public Shared Function ParsePage(html$, schema As Type) As Object
-
+            Throw New NotImplementedException
         End Function
     End Class
 End Namespace
