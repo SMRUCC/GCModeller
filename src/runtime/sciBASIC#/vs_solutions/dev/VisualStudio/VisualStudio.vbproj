@@ -166,6 +166,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Ngen\Ngen.vb" />
+    <Compile Include="Ngen\Registry.vb" />
     <Compile Include="sln\Global.vb" />
     <Compile Include="sln\Parser.vb" />
     <Compile Include="sln\Solution.vb" />
