@@ -168,6 +168,11 @@
     </Compile>
     <Compile Include="Ngen\Ngen.vb" />
     <Compile Include="Ngen\Registry.vb" />
+    <Compile Include="Signature\CodeSign.vb" />
+    <Compile Include="Signature\LicenseInfo.vb" />
+    <Compile Include="Signature\LicenseMgr.vb" />
+    <Compile Include="Signature\SupportedLanguages.vb" />
+    <Compile Include="Signature\VBCodeSignature.vb" />
     <Compile Include="sln\Global.vb" />
     <Compile Include="sln\Parser.vb" />
     <Compile Include="sln\Solution.vb" />

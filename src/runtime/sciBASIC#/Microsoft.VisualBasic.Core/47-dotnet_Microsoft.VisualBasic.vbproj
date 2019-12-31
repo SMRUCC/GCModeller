@@ -1127,10 +1127,6 @@
     <Compile Include="ApplicationServices\Tools\Zip\Options.vb" />
     <Compile Include="ApplicationServices\VBDev\AssemblyInfo.vb" />
     <Compile Include="ApplicationServices\VBDev\NamespaceDoc.vb" />
-    <Compile Include="ApplicationServices\VBDev\Signature\CodeSign.vb" />
-    <Compile Include="ApplicationServices\VBDev\Signature\SupportedLanguages.vb" />
-    <Compile Include="ApplicationServices\VBDev\Signature\VBCodeSignature.vb" />
-    <Compile Include="ApplicationServices\VBDev\Signature\LicenseInfo.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Extensions\APIExtensions2.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Extensions\VBSpecific.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Serialization\NamespaceDoc.vb" />
@@ -1543,7 +1539,6 @@
     <Compile Include="Extensions\WebServices\WebResult.vb" />
     <Compile Include="Text\Parser\FormattedParser.vb" />
     <Compile Include="Net\Tcp\IPTools\AddressEnumerator.vb" />
-    <Compile Include="ApplicationServices\VBDev\Signature\LicenseMgr.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\Project.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\ProjectMember.vb" />
     <Compile Include="ApplicationServices\VBDev\XmlDoc\ProjectNamespace.vb" />
