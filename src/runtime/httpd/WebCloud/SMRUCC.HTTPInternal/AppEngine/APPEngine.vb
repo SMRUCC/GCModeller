@@ -188,7 +188,7 @@ Namespace AppEngine
             End If
 
             Dim Methods As MethodInfo() = type.GetMethods(BindingFlags.Public Or BindingFlags.Instance)
-            Dim API_DEFINE As Type = ExportAPIAttribute.Type
+            Dim API_DEFINE As Type = GetType(ExportAPIAttribute)
             Dim listAPI = From entryPoint As MethodInfo
                           In Methods
                           Let attrs As Object() =
@@ -214,7 +214,7 @@ Namespace AppEngine
                 Let httpMethod As APIMethod = DirectCast(attr, APIMethod)  ' 假若程序是在这里出错的话，则说明有API函数没有进行GET、POST的json类型申明，找到该函数补全即可
                 Let invoke = New APIInvoker(entryPoint) With {
                     .Name = api.Name.ToLower,
-                    .Help = api.PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(entryPoint)}</div>"
+                    .Help = New ExportApiInformation(api).PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(entryPoint)}</div>"
                 }
                 Select invoke
                 Order By Len(invoke.Name) Descending

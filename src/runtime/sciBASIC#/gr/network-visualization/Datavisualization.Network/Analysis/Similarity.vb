@@ -8,6 +8,34 @@ Namespace Analysis
 
     Public Module Similarity
 
+        Public Function GraphSimilarity(x As NetworkGraph, y As NetworkGraph, Optional cutoff# = 0.85) As Double
+            ' JaccardIndex (intersects / union) -> highly similar / (dis-similar + highly similar)
+            Dim similar%
+            Dim top#
+            Dim cos#
+
+            For Each a As Node In x.vertex
+                top = -99999
+
+                For Each b As Node In y.vertex
+                    cos = Similarity.NodeSimilarity(a, b)
+
+                    If cos > top Then
+                        top = cos
+                    End If
+                Next
+
+                If top >= cutoff Then
+                    similar += 1
+                End If
+            Next
+
+            Dim union As Integer = (similar + (x.vertex.Count - similar) + (y.vertex.Count - similar))
+            Dim jaccardIndex As Double = similar / union
+
+            Return jaccardIndex
+        End Function
+
         ''' <summary>
         ''' Compare node similarity between two network graph
         ''' </summary>
@@ -36,6 +64,11 @@ Namespace Analysis
 
         <Extension>
         Public Function AllNodeTypes(v As Node) As IEnumerable(Of String)
+            If v.adjacencies Is Nothing Then
+                ' 孤立节点
+                Return {}
+            End If
+
             Return v.adjacencies _
                 .EnumerateAllEdges _
                 .Select(Function(e)
@@ -44,7 +77,8 @@ Namespace Analysis
                             Else
                                 Return e.U.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
                             End If
-                        End Function)
+                        End Function) _
+                .Select(AddressOf Scripting.ToString)
         End Function
 
     End Module
