@@ -195,7 +195,6 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <ExportAPI("Protein.Export", Info:="Export protein sequence with full annotation.")>
         <Extension> Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File) As FastaFile
             Dim LQuery = From feature As gbffFeature
                          In gbk.Features
@@ -225,7 +224,6 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Protein.Export_Short", Info:="Short fasta title.")>
         <Extension> Public Function ExportProteins_Short(gb As NCBI.GenBank.GBFF.File,
                                                          <Parameter("locusId.Only")>
                                                          Optional OnlyLocusTag As Boolean = False) As FastaFile

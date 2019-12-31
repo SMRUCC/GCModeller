@@ -277,14 +277,16 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Public Const GenbankMultipleRecordDelimiter$ = "//"
 
         ''' <summary>
-        ''' 假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
-        ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况
+        ''' Using this function to load the ncbi genbank database file if the database file 
+        ''' contains more than one genome.
+        ''' 
+        ''' (假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
+        ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况)
         ''' </summary>
         ''' <param name="filePath">The file path of the genbank database file, this gb file may contains sevral gb sections</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Load.DbList", Info:="Using this function to load the ncbi genbank database file if the database file contains more than one genome.")>
         Public Shared Iterator Function LoadDatabase(filePath As String) As IEnumerable(Of File)
             Dim data As String = FileIO.FileSystem.ReadAllText(filePath)
             Dim parts$() = r.Split(data, GenbankMultipleRecordDelimiterRegexp, RegexOptions.Multiline)
