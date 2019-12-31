@@ -14,6 +14,13 @@ Namespace Analysis
             Dim top#
             Dim cos#
 
+            If x.size.vertex > y.size.vertex Then
+                Dim tmp = x
+
+                x = y
+                y = tmp
+            End If
+
             For Each a As Node In x.vertex
                 top = -99999
 
