@@ -248,7 +248,7 @@ Public Module Bubble
                             .title = serial.title
                         }
 
-                    Call g.DrawLegends(topLeft, legends,,, legendBorder)
+                    Call g.DrawLegends(topLeft, legends,,, shapeBorder:=legendBorder)
                 End If
             End Sub
 

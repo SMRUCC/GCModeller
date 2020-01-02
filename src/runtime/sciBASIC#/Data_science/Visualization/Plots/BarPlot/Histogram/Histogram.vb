@@ -292,15 +292,14 @@ Namespace BarPlot.Histogram
                         End If
 
                         Call g.DrawLegends(
-                            legendPos,
-                            groups.Samples _
-                                .Select(Function(h) h.legend),
-                            ,,
-                            legendBorder)
+                            topLeft:=legendPos,
+                            legends:=groups.Samples.Select(Function(h) h.legend),
+                            regionBorder:=legendBorder
+                        )
                     End If
                 End Sub
 
-            Return GraphicsPlots(size.SizeParser, margin, bg$, plotInternal)
+            Return g.GraphicsPlots(size.SizeParser, margin, bg$, plotInternal)
         End Function
 
         ''' <summary>

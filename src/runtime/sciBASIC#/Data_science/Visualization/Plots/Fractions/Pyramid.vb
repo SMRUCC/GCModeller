@@ -133,7 +133,7 @@ Namespace Fractions
                     }
                 Next
 
-                Call g.DrawLegends(New Point(left, top), legends, ,, legendBorder)
+                Call g.DrawLegends(New Point(left, top), legends, ,, shapeBorder:=legendBorder)
             End Sub
 
             Return GraphicsPlots(size, margin, bg, plotInternal)

@@ -360,8 +360,9 @@ Public Module Scatter
 
                         Call g.DrawLegends(
                             legendPosition, legends, legendSize,,
-                            legendBorder,
-                            legendRegionBorder)
+                            shapeBorder:=legendBorder,
+                            regionBorder:=legendRegionBorder
+                        )
                     End If
                 Next
 

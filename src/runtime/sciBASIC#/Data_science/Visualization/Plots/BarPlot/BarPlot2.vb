@@ -150,7 +150,7 @@ Namespace BarPlot
                             legendPos = New Point(CInt(size.Width * 0.8), margin.Top)
                         End If
 
-                        Call g.DrawLegends(legendPos, legends,,, legendBorder)
+                        Call g.DrawLegends(legendPos, legends,,, shapeBorder:=legendBorder)
                     End If
                 End Sub
 

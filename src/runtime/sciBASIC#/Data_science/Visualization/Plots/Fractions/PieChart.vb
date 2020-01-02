@@ -237,7 +237,13 @@ Namespace Fractions
                             }
                         Next
 
-                        Call g.DrawLegends(New Point(left, top), legends, legendUnitSize, d, legendBorder)
+                        Call g.DrawLegends(
+                            topLeft:=New Point(left, top),
+                            legends:=legends,
+                            gSize:=legendUnitSize,
+                            d:=d,
+                            shapeBorder:=legendBorder
+                        )
                     End If
                 End Sub
 
