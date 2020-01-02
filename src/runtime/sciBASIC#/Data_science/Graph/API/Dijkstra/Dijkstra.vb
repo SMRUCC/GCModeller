@@ -46,7 +46,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Dijkstra
 
@@ -64,19 +64,19 @@ Namespace Dijkstra
         ''' <returns></returns>
         Public ReadOnly Property links As VertexEdge()
         Public ReadOnly Property points As Vertex()
+        Public ReadOnly Property undirectedGraph As Boolean = False
 
         ''' <summary>
         ''' Create a new Dijkstra shortest path router model
         ''' </summary>
         Sub New(g As Graph, Optional undirected As Boolean = False)
-            points = g.vertex
+            points = g.vertex.ToArray
 
             If undirected Then
                 links = g + g _
-                    .Select(Function(e As VertexEdge)
-                                Return e.Reverse
-                            End Function) _
+                    .Select(Function(link) link.Reverse) _
                     .AsList
+                undirectedGraph = True
             Else
                 links = g.ToArray
             End If
@@ -86,9 +86,40 @@ Namespace Dijkstra
         End Sub
 
         Public Shared Function FromNetwork(Of TNode As {New, Network.Node}, TEdge As {New, Network.Edge(Of TNode)})(g As NetworkGraph(Of TNode, TEdge), Optional undirected As Boolean = False) As DijkstraRouter
+            Dim router As New DijkstraRouter
 
+            router._points = g.vertex _
+                .Select(Function(n)
+                            Return DirectCast(n, Vertex)
+                        End Function) _
+                .ToArray
+            router._links = g.graphEdges _
+                .Select(AddressOf CreateLink(Of TNode, TEdge)) _
+                .ToArray
+
+            If undirected Then
+                router._links = router.links + router.links _
+                    .Select(Function(link) link.Reverse) _
+                    .AsList
+            End If
+
+            Return router
         End Function
 
+        Private Shared Function CreateLink(Of TNode As {New, Network.Node}, TEdge As {New, Network.Edge(Of TNode)})(link As TEdge) As VertexEdge
+            Return New VertexEdge With {
+                .U = link.U,
+                .V = link.V,
+                .weight = link.weight,
+                .ID = link.ID
+            }
+        End Function
+
+        ''' <summary>
+        ''' Get graph node element by label id
+        ''' </summary>
+        ''' <param name="label$"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetLocation(label$) As Vertex
             Return points.Where(Function(x) x.label = label).FirstOrDefault
@@ -105,6 +136,7 @@ Namespace Dijkstra
             Dim shortestPaths As New Dictionary(Of Vertex, Route)()
             ' Initialise a new empty handled locations list
             Dim handledLocations As New HashList(Of Vertex)(points.Length)
+            Dim cost#
 
             ' Initialise the new routes. the constructor will set the route weight to in.max
             For Each location As Vertex In _points
@@ -123,7 +155,9 @@ Namespace Dijkstra
                 ' Search for the nearest location that isn't handled
                 For Each location As Vertex In shortestLocations
                     If Not handledLocations.Contains(location) Then
-                        ' If the cost equals int.max, there are no more possible connections to the remaining locations
+                        ' If the cost equals int.max, there are no more 
+                        ' possible connections to the remaining 
+                        ' locations
                         If shortestPaths(location).Cost = Integer.MaxValue Then
                             Return shortestPaths
                         End If
@@ -133,11 +167,15 @@ Namespace Dijkstra
                     End If
                 Next
 
-                ' Select all connections where the startposition is the location to Process
-                Dim selectedConnections = From c As VertexEdge In _links Where c.U Is locationToProcess Select c
-                Dim cost#
+                ' Select all connections where the startposition 
+                ' Is the location to Process
+                Dim selectedConnections = From c As VertexEdge
+                                          In _links
+                                          Where c.U Is locationToProcess
+                                          Select c
 
-                ' Iterate through all connections and search for a connection which is shorter
+                ' Iterate through all connections and search 
+                ' For a connection which is shorter
                 For Each conn As VertexEdge In selectedConnections
                     cost = conn.weight + shortestPaths(conn.U).Cost
 
@@ -152,7 +190,8 @@ Namespace Dijkstra
                 handledLocations.Add(locationToProcess)
             End While
 
-            shortestPaths.Remove(startPos)
+            Call shortestPaths.Remove(startPos)
+
             Return shortestPaths
         End Function
 
@@ -161,19 +200,14 @@ Namespace Dijkstra
             Return CalculateMinCost(startPos)(endPos)
         End Function
 
-        Public Function CalculateMinCost(startVertex$) As Dictionary(Of Vertex, Route)
-            Dim startPos = LinqAPI.DefaultFirst(Of Vertex) _
- _
-                () <= From node As Vertex
-                      In _points
-                      Where node.label = startVertex
-                      Select node
+        Public Function CalculateMinCost(startVertex As String) As Dictionary(Of Vertex, Route)
+            For Each node As Vertex In points
+                If node.label = startVertex Then
+                    Return node.DoCall(AddressOf CalculateMinCost)
+                End If
+            Next
 
-            If startPos Is Nothing Then
-                Return Nothing
-            Else
-                Return CalculateMinCost(startPos)
-            End If
+            Return Nothing
         End Function
     End Class
 End Namespace
