@@ -61,6 +61,33 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module RegressionPlot
 
+    ''' <summary>
+    ''' Plot of the linear regression result
+    ''' </summary>
+    ''' <typeparam name="Result"></typeparam>
+    ''' <param name="fit"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="margin$"></param>
+    ''' <param name="xLabel$"></param>
+    ''' <param name="yLabel$"></param>
+    ''' <param name="pointSize!"></param>
+    ''' <param name="title$"></param>
+    ''' <param name="titleFontCss$"></param>
+    ''' <param name="pointBrushStyle$"></param>
+    ''' <param name="errorFitPointStyle$"></param>
+    ''' <param name="predictPointStyle$"></param>
+    ''' <param name="regressionLineStyle$"></param>
+    ''' <param name="predictPointStroke$"></param>
+    ''' <param name="labelAnchorLineStroke$"></param>
+    ''' <param name="predictedX"></param>
+    ''' <param name="showLegend"></param>
+    ''' <param name="legendLabelFontCSS$"></param>
+    ''' <param name="pointLabelFontCSS$"></param>
+    ''' <param name="xAxisTickFormat$"></param>
+    ''' <param name="yAxisTickFormat$"></param>
+    ''' <param name="showErrorBand"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Plot(Of Result As IFitted)(fit As Result,
                          Optional size$ = "2100,1600",
@@ -86,7 +113,10 @@ Public Module RegressionPlot
                          Optional showErrorBand As Boolean = True) As GraphicsData
 
         Dim xTicks#() = fit.X.Range.CreateAxisTicks(decimalDigits:=xAxisTickFormat.Match("\d+"))
-        Dim yTicks#() = fit.Y.Range.CreateAxisTicks(decimalDigits:=yAxisTickFormat.Match("\d+"))
+        Dim yTicks#() = (fit.Y.AsList + fit.Yfit.AsEnumerable) _
+            .Range _
+            .CreateAxisTicks(decimalDigits:=yAxisTickFormat.Match("\d+"))
+
         Dim pointBrush As Brush = pointBrushStyle.GetBrush
         Dim regressionPen As Pen = Stroke.TryParse(regressionLineStyle).GDIObject
         Dim predictedPointBorder As Pen = Stroke.TryParse(predictPointStroke).GDIObject
