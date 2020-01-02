@@ -306,7 +306,7 @@ Namespace Graphic.Legend
                                legends As IEnumerable(Of Legend),
                                Optional gSize$ = "120,45",
                                Optional d% = 10,
-                               Optional border As Stroke = Nothing,
+                               Optional shapeBorder As Stroke = Nothing,
                                Optional regionBorder As Stroke = Nothing,
                                Optional roundRectRegion As Boolean = True,
                                Optional radius% = 5,
@@ -320,7 +320,7 @@ Namespace Graphic.Legend
 
             For Each l As Legend In legendList
                 n += 1
-                size = g.DrawLegend(topLeft, graphicSize, l, border, radius, titleBrush)
+                size = g.DrawLegend(topLeft, graphicSize, l, shapeBorder, radius, titleBrush)
                 topLeft = New Point With {
                     .X = topLeft.X,
                     .Y = size.Height + d + topLeft.Y

@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Bootstrapping
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
@@ -124,7 +125,6 @@ Public Module RegressionPlot
         Dim predictedPointBorder As Pen = Stroke.TryParse(predictPointStroke).GDIObject
         Dim predictedBrush As Brush = predictPointStyle.GetBrush
         Dim errorFitPointBrush As Brush = errorFitPointStyle.GetBrush
-        Dim legendLabelFont As Font = CSSFont.TryParse(legendLabelFontCSS)
         Dim pointLabelFont As Font = CSSFont.TryParse(pointLabelFontCSS)
         Dim labelAnchorPen As Pen = Stroke.TryParse(labelAnchorLineStroke).GDIObject
         Dim plotInternal =
@@ -249,7 +249,7 @@ Public Module RegressionPlot
                 End If
 
                 If showLegend Then
-                    Call g.printLegend(fit, rect, legendLabelFont)
+                    Call g.printLegend(fit, rect, legendLabelFontCSS)
                 End If
 
                 If Not title.StringEmpty Then
@@ -331,7 +331,8 @@ Public Module RegressionPlot
     End Sub
 
     <Extension>
-    Private Sub printLegend(g As IGraphics, fit As IFitted, rect As RectangleF, legendLabelFont As Font)
+    Private Sub printLegend(g As IGraphics, fit As IFitted, rect As RectangleF, legendLabelFontCSS$)
+        Dim legendLabelFont As Font = CSSFont.TryParse(legendLabelFontCSS)
         Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2", html:=True)
         Dim R2$ = "R<sup>2</sup> = " & fit.CorrelationCoefficient.ToString("F4")
         Dim pt As New PointF With {
@@ -347,5 +348,16 @@ Public Module RegressionPlot
         }
 
         Call g.DrawHtmlString(R2, legendLabelFont, Color.Black, pt)
+
+        Dim top = rect.Top + rect.Height / 3
+        Dim left = rect.Right
+        Dim legends As Legend() = {
+            New Legend With {.color = "blue", .fontstyle = legendLabelFontCSS, .style = LegendStyles.Circle, .title = "Predicts"},
+            New Legend With {.color = "red", .fontstyle = legendLabelFontCSS, .style = LegendStyles.Circle, .title = "Standard Reference"},
+            New Legend With {.color = "black", .fontstyle = legendLabelFontCSS, .style = LegendStyles.SolidLine, .title = "Linear"}
+        }
+        Dim border As Stroke = Stroke.ScatterLineStroke
+
+        Call g.DrawLegends(New Point(left, top), legends, regionBorder:=border)
     End Sub
 End Module
