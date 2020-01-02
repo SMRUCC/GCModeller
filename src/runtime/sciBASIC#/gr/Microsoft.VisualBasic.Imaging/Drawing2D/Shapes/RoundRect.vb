@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b51e549edb08b91e65f7cb62bbb97f8, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\RoundRect.vb"
+﻿#Region "Microsoft.VisualBasic::14ad716e38ee4b457fef04a0f10690e4, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\RoundRect.vb"
 
     ' Author:
     ' 
