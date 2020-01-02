@@ -255,7 +255,7 @@ Namespace Graphic.Legend
                                    l As Legend,
                                    Optional border As Stroke = Nothing,
                                    Optional radius% = 5,
-                                   Optional titleBrush As Brush = Nothing) As SizeF
+                                   Optional titleBrush As Brush = Nothing, Optional lineWidth! = -1) As SizeF
 
             Dim font As Font = l.GetFont
             Dim fSize As SizeF = g.MeasureString(l.title, font)
@@ -265,14 +265,18 @@ Namespace Graphic.Legend
             }
             Dim color As Brush = l.color.GetBrush
 
-            Static blackTitle As [Default](Of  Brush) = Brushes.Black
+            Static blackTitle As [Default](Of Brush) = Brushes.Black
+
+            If lineWidth <= 0 Then
+                lineWidth = font.Size / 2
+            End If
 
             Call g.DrawLegendShape(
                 pos, canvas, l.style, color,
                 border:=border,
                 radius:=radius,
                 labelPos:=labelPosition,
-                lineWidth:=font.Size
+                lineWidth:=lineWidth
             )
             Call g.DrawString(
                 l.title,

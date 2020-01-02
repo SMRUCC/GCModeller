@@ -349,15 +349,22 @@ Public Module RegressionPlot
 
         Call g.DrawHtmlString(R2, legendLabelFont, Color.Black, pt)
 
-        Dim top = rect.Top + rect.Height / 3
-        Dim left = rect.Right
         Dim legends As Legend() = {
             New Legend With {.color = "blue", .fontstyle = legendLabelFontCSS, .style = LegendStyles.Circle, .title = "Predicts"},
             New Legend With {.color = "red", .fontstyle = legendLabelFontCSS, .style = LegendStyles.Circle, .title = "Standard Reference"},
             New Legend With {.color = "black", .fontstyle = legendLabelFontCSS, .style = LegendStyles.SolidLine, .title = "Linear"}
         }
         Dim border As Stroke = Stroke.ScatterLineStroke
+        Dim maxLabelSize! = legends _
+            .Select(Function(l) l.title) _
+            .MaxLengthString _
+            .DoCall(Function(str)
+                        Return g.MeasureString(str, legendLabelFont)
+                    End Function) _
+            .Width
+        Dim top = rect.Top + rect.Height / 3
+        Dim left = rect.Right - 10 - maxLabelSize
 
-        Call g.DrawLegends(New Point(left, top), legends, regionBorder:=border)
+        Call g.DrawLegends(New Point(left, top), legends, gSize:="64,18", regionBorder:=border)
     End Sub
 End Module
