@@ -318,7 +318,6 @@ Namespace Graphic.Legend
                                Optional titleBrush As Brush = Nothing)
 
             Dim ZERO As Point = topLeft
-            Dim n As Integer
             Dim size As SizeF
             Dim legendList As Legend() = legends.ToArray
             Dim graphicSize As SizeF = gSize.FloatSizeParser
@@ -330,7 +329,7 @@ Namespace Graphic.Legend
                 With graphicSize
 
                     Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
-                    Dim height! = (Math.Max(.Height, maxTitleSize.Height) + d + 1) * n
+                    Dim height! = (Math.Max(.Height, maxTitleSize.Height) + d + 1) * legendList.Length
                     Dim background As Brush = Nothing
 
                     If Not fillBg.StringEmpty Then
@@ -358,7 +357,6 @@ Namespace Graphic.Legend
             End If
 
             For Each l As Legend In legendList
-                n += 1
                 size = g.DrawLegend(topLeft, graphicSize, l, shapeBorder, radius, titleBrush)
                 topLeft = New Point With {
                     .X = topLeft.X,

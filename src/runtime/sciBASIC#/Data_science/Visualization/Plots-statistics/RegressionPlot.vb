@@ -366,6 +366,12 @@ Public Module RegressionPlot
         Dim top = rect.Top + rect.Height / 2
         Dim left = rect.Right - 1.125 * maxLabelSize
 
-        Call g.DrawLegends(New Point(left, top), legends, gSize:="64,18", regionBorder:=border)
+        Call g.DrawLegends(
+            topLeft:=New Point(left, top),
+            legends:=legends,
+            gSize:="64,18",
+            fillBg:="white",
+            regionBorder:=border
+        )
     End Sub
 End Module
