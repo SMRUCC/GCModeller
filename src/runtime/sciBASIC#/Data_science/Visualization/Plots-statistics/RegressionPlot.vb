@@ -238,72 +238,18 @@ Public Module RegressionPlot
                 End If
 
                 If Not predictedX Is Nothing Then
-                    Dim labels As New List(Of Label)
-                    Dim anchors As New List(Of PointF)
-                    Dim labelSize As SizeF
-
-                    For Each ptX As NamedValue(Of Double) In predictedX
-                        Dim pt As New PointF With {
-                            .X = ptX.Value,
-                            .Y = fit(.X)
-                        }
-
-                        pt = scaler.Translate(pt)
-                        labelSize = g.MeasureString(ptX.Name, pointLabelFont)
-                        anchors += pt
-
-                        g.DrawCircle(
-                            centra:=pt,
-                            r:=pointSize,
-                            color:=predictedBrush
-                        )
-                        g.DrawCircle(
-                            centra:=pt,
-                            r:=pointSize,
-                            color:=predictedPointBorder,
-                            fill:=False
-                        )
-
-                        labels += New Label With {
-                            .height = labelSize.Height,
-                            .width = labelSize.Width,
-                            .text = ptX.Name,
-                            .X = pt.X,
-                            .Y = pt.Y
-                        }
-                    Next
-
-                    Call d3js.labeler _
-                        .Labels(labels) _
-                        .Anchors(labels.GetLabelAnchors(pointSize)) _
-                        .Width(rect.Width) _
-                        .Height(rect.Height) _
-                        .Start(showProgress:=False, nsweeps:=500)
-
-                    For Each label As SeqValue(Of Label) In labels.SeqIterator
-                        With label.value
-                            Call g.DrawLine(labelAnchorPen, .ByRef, anchors(label))
-                            Call g.DrawString(.text, pointLabelFont, Brushes.Black, .ByRef)
-                        End With
-                    Next
+                    Call g.printXPredicted(
+                        fit, scaler,
+                        predictedX, predictedBrush, predictedPointBorder,
+                        pointSize,
+                        pointLabelFont,
+                        rect,
+                        labelAnchorPen
+                    )
                 End If
 
                 If showLegend Then
-                    Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2", html:=True)
-                    Dim R2$ = "R<sup>2</sup> = " & fit.CorrelationCoefficient.ToString("F4")
-                    Dim pt As New PointF With {
-                        .X = rect.Left + g.MeasureString("00", legendLabelFont).Width,
-                        .Y = rect.Top + 20
-                    }
-
-                    Call g.DrawHtmlString(eq, legendLabelFont, Color.Black, pt)
-
-                    pt = New PointF With {
-                        .X = pt.X,
-                        .Y = pt.Y + legendLabelFont.Height + 5
-                    }
-
-                    Call g.DrawHtmlString(R2, legendLabelFont, Color.Black, pt)
+                    Call g.printLegend(fit, rect, legendLabelFont)
                 End If
 
                 If Not title.StringEmpty Then
@@ -323,4 +269,83 @@ Public Module RegressionPlot
             plotInternal
         )
     End Function
+
+    <Extension>
+    Private Sub printXPredicted(g As IGraphics, fit As IFitted, scaler As DataScaler,
+                                predictedX As IEnumerable(Of NamedValue(Of Double)),
+                                predictedBrush As Brush,
+                                predictedPointBorder As Pen,
+                                pointSize!,
+                                pointLabelFont As Font,
+                                rect As RectangleF,
+                                labelAnchorPen As Pen)
+
+        Dim labels As New List(Of Label)
+        Dim anchors As New List(Of PointF)
+        Dim labelSize As SizeF
+
+        For Each ptX As NamedValue(Of Double) In predictedX
+            Dim pt As New PointF With {
+                .X = ptX.Value,
+                .Y = fit(.X)
+            }
+
+            pt = scaler.Translate(pt)
+            labelSize = g.MeasureString(ptX.Name, pointLabelFont)
+            anchors += pt
+
+            g.DrawCircle(
+                centra:=pt,
+                r:=pointSize,
+                color:=predictedBrush
+            )
+            g.DrawCircle(
+                centra:=pt,
+                r:=pointSize,
+                color:=predictedPointBorder,
+                fill:=False
+            )
+
+            labels += New Label With {
+                .height = labelSize.Height,
+                .width = labelSize.Width,
+                .text = ptX.Name,
+                .X = pt.X,
+                .Y = pt.Y
+            }
+        Next
+
+        Call d3js.labeler _
+            .Labels(labels) _
+            .Anchors(labels.GetLabelAnchors(pointSize)) _
+            .Width(rect.Width) _
+            .Height(rect.Height) _
+            .Start(showProgress:=False, nsweeps:=500)
+
+        For Each label As SeqValue(Of Label) In labels.SeqIterator
+            With label.value
+                Call g.DrawLine(labelAnchorPen, .ByRef, anchors(label))
+                Call g.DrawString(.text, pointLabelFont, Brushes.Black, .ByRef)
+            End With
+        Next
+    End Sub
+
+    <Extension>
+    Private Sub printLegend(g As IGraphics, fit As IFitted, rect As RectangleF, legendLabelFont As Font)
+        Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2", html:=True)
+        Dim R2$ = "R<sup>2</sup> = " & fit.CorrelationCoefficient.ToString("F4")
+        Dim pt As New PointF With {
+            .X = rect.Left + g.MeasureString("00", legendLabelFont).Width,
+            .Y = rect.Top + 20
+        }
+
+        Call g.DrawHtmlString(eq, legendLabelFont, Color.Black, pt)
+
+        pt = New PointF With {
+            .X = pt.X,
+            .Y = pt.Y + legendLabelFont.Height + 5
+        }
+
+        Call g.DrawHtmlString(R2, legendLabelFont, Color.Black, pt)
+    End Sub
 End Module
