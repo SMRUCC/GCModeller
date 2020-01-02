@@ -55,8 +55,8 @@ Imports SMRUCC.genomics.SequenceModel
 
 Partial Module CLI
 
-    <ExportAPI("/TomTom.Sites.Groups",
-               Usage:="/TomTom.Sites.Groups /in <similarity.csv> /meme <meme.DIR> [/grep <regex> /out <out.DIR>]")>
+    <ExportAPI("/TomTom.Sites.Groups")>
+    <Usage("/TomTom.Sites.Groups /in <similarity.csv> /meme <meme.DIR> [/grep <regex> /out <out.DIR>]")>
     Public Function ExportTOMSites(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim memeDIR As String = args("/meme")

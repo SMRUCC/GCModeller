@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::2c9a8066a79c179fdefd97d77e4877b6, Shared\Settings.Configuration\Session\Session.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Session
-    ' 
-    ' 
-    '     Module Session
-    ' 
-    '         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
-    '                     SettingsFile, SHA256Provider, TEMP, Templates
-    ' 
-    '         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
-    '                   InstallPython, List, Mothur, MothurHome, SetValue
-    '                   TryGetShoalShellBin
-    ' 
-    '         Sub: Finallize, Save, saveProfile
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Session
+' 
+' 
+'     Module Session
+' 
+'         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
+'                     SettingsFile, SHA256Provider, TEMP, Templates
+' 
+'         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
+'                   InstallPython, List, Mothur, MothurHome, SetValue
+'                   TryGetShoalShellBin
+' 
+'         Sub: Finallize, Save, saveProfile
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -195,7 +195,6 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Init()", Info:="Initialize this application session.")>
         Public Function Initialize() As Settings.File
             Call FileIO.FileSystem.CreateDirectory(SettingsDIR)
             Call FileIO.FileSystem.CreateDirectory(_LogDir)
@@ -236,6 +235,8 @@ Namespace Settings
             'Else
             '    Return SettingsFile.Mothur
             'End If
+
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>
@@ -243,7 +244,7 @@ Namespace Settings
         ''' </summary>
         ''' <returns></returns>
         Public Function MothurHome() As String
-
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>
@@ -279,8 +280,12 @@ Namespace Settings
             Return App
         End Function
 
-        <ExportAPI("Install.Java", Info:="Just specific the java.exe installed location to running some external Java program in the GCModeller. 
-The path value of the java program usually is in the location like: ""C:\Program Files\Java\jre<version>\bin\java.exe""")>
+        ''' <summary>
+        ''' Just specific the java.exe installed location to running some external Java program in the GCModeller. 
+        ''' The path value Of the java program usually Is In the location Like: ""C:\Program Files\Java\jre&lt;version>\bin\java.exe""
+        ''' </summary>
+        ''' <param name="java"></param>
+        ''' <returns></returns>
         Public Function InstallJavaBin(<Parameter("Java.exe", "The exe path of the java program.")> java As String) As String
             If java.FileExists Then
 
@@ -323,7 +328,6 @@ The path value of the java program usually is in the location like: ""C:\Program
         ''' </summary>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Finallize", Info:="Close the application session and save the settings file.")>
         Public Sub Finallize()
             Call ProfileData.Save(Nothing)
         End Sub
@@ -334,7 +338,10 @@ The path value of the java program usually is in the location like: ""C:\Program
         End Function
 
 #If Not DISABLE_BUG_UNKNOWN Then
-        <ExportAPI("List.Settings", Info:="Listing all of the settings data to the user console.")>
+        ''' <summary>
+        ''' Listing all of the settings data to the user console.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function List() As Dictionary(Of String, String)
             Dim ChunkBuffer As BindMapping() = ProfileData.AllItems
             Dim data As Dictionary(Of String, String) = New Dictionary(Of String, String)
@@ -347,7 +354,12 @@ The path value of the java program usually is in the location like: ""C:\Program
         End Function
 #End If
 
-        <ExportAPI("Set.Settings", Info:="Writes the settings data into the GCModeller profile sessions.")>
+        ''' <summary>
+        ''' Writes the settings data into the GCModeller profile sessions.
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function SetValue(name As String, value As String) As Boolean
             Return ProfileData.Set(name, value)
         End Function
