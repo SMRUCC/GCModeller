@@ -107,7 +107,8 @@ Public Module RegressionPlot
                          Optional labelAnchorLineStroke$ = Stroke.StrongHighlightStroke,
                          Optional predictedX As IEnumerable(Of NamedValue(Of Double)) = Nothing,
                          Optional showLegend As Boolean = True,
-                         Optional legendLabelFontCSS$ = CSSFont.Win10NormalLarge,
+                         Optional linearDetailsFontCSS$ = CSSFont.Win10NormalLarge,
+                         Optional legendLabelFontCSS$ = CSSFont.Win10NormalLarger,
                          Optional pointLabelFontCSS$ = CSSFont.Win7LittleLarge,
                          Optional xAxisTickFormat$ = "F2",
                          Optional yAxisTickFormat$ = "F2",
@@ -249,7 +250,7 @@ Public Module RegressionPlot
                 End If
 
                 If showLegend Then
-                    Call g.printLegend(fit, rect, legendLabelFontCSS)
+                    Call g.printLegend(fit, rect, linearDetailsFontCSS, legendLabelFontCSS)
                 End If
 
                 If Not title.StringEmpty Then
@@ -331,8 +332,8 @@ Public Module RegressionPlot
     End Sub
 
     <Extension>
-    Private Sub printLegend(g As IGraphics, fit As IFitted, rect As RectangleF, legendLabelFontCSS$)
-        Dim legendLabelFont As Font = CSSFont.TryParse(legendLabelFontCSS)
+    Private Sub printLegend(g As IGraphics, fit As IFitted, rect As RectangleF, linearDetailsFontCSS$, legendLabelFontCSS$)
+        Dim legendLabelFont As Font = CSSFont.TryParse(linearDetailsFontCSS)
         Dim eq$ = "f<sub>(x)</sub> = " & fit.Polynomial.ToString("G2", html:=True)
         Dim R2$ = "R<sup>2</sup> = " & fit.CorrelationCoefficient.ToString("F4")
         Dim pt As New PointF With {
@@ -362,8 +363,8 @@ Public Module RegressionPlot
                         Return g.MeasureString(str, legendLabelFont)
                     End Function) _
             .Width
-        Dim top = rect.Top + rect.Height / 3
-        Dim left = rect.Right - 10 - maxLabelSize
+        Dim top = rect.Top + rect.Height / 2
+        Dim left = rect.Right - 1.125 * maxLabelSize
 
         Call g.DrawLegends(New Point(left, top), legends, gSize:="64,18", regionBorder:=border)
     End Sub

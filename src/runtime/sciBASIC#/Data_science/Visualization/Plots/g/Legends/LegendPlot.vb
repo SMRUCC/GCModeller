@@ -309,6 +309,7 @@ Namespace Graphic.Legend
                                topLeft As Point,
                                legends As IEnumerable(Of Legend),
                                Optional gSize$ = "120,45",
+                               Optional fillBg$ = Nothing,
                                Optional d% = 10,
                                Optional shapeBorder As Stroke = Nothing,
                                Optional regionBorder As Stroke = Nothing,
@@ -322,6 +323,40 @@ Namespace Graphic.Legend
             Dim legendList As Legend() = legends.ToArray
             Dim graphicSize As SizeF = gSize.FloatSizeParser
 
+            If Not regionBorder Is Nothing Then
+                Dim maxTitleSize As SizeF = legendList.MaxLegendSize(g)
+                Dim rect As Rectangle
+
+                With graphicSize
+
+                    Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
+                    Dim height! = (Math.Max(.Height, maxTitleSize.Height) + d + 1) * n
+                    Dim background As Brush = Nothing
+
+                    If Not fillBg.StringEmpty Then
+                        background = fillBg.GetBrush
+                    End If
+
+                    size = New SizeF(width, height)
+                    ZERO = New Point(ZERO.X - d, ZERO.Y - d * 1.2)
+
+                    If roundRectRegion Then
+                        Call RoundRect.Draw(g, ZERO, size, 15, background, regionBorder)
+                    Else
+                        rect = New Rectangle(ZERO, size.ToSize)
+
+                        If Not background Is Nothing Then
+                            Call g.FillRectangle(background, rect)
+                        End If
+
+                        Call g.DrawRectangle(
+                            pen:=regionBorder.GDIObject,
+                            rect:=rect
+                        )
+                    End If
+                End With
+            End If
+
             For Each l As Legend In legendList
                 n += 1
                 size = g.DrawLegend(topLeft, graphicSize, l, shapeBorder, radius, titleBrush)
@@ -330,27 +365,6 @@ Namespace Graphic.Legend
                     .Y = size.Height + d + topLeft.Y
                 }
             Next
-
-            If Not regionBorder Is Nothing Then
-                Dim maxTitleSize As SizeF = legendList.MaxLegendSize(g)
-
-                With graphicSize
-
-                    Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
-                    Dim height! = (Math.Max(.Height, maxTitleSize.Height) + d + 1) * n
-
-                    size = New SizeF(width, height)
-                    ZERO = New Point(ZERO.X - d, ZERO.Y - d * 1.2)
-
-                    If roundRectRegion Then
-                        Call RoundRect.Draw(g, ZERO, size, 15,, regionBorder)
-                    Else
-                        g.DrawRectangle(
-                            regionBorder.GDIObject,
-                            New Rectangle(ZERO, size.ToSize))
-                    End If
-                End With
-            End If
         End Sub
 
         ''' <summary>
