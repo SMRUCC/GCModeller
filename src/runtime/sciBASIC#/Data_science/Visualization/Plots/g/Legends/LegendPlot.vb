@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace Graphic.Legend
 
@@ -116,7 +116,7 @@ Namespace Graphic.Legend
             Select Case style
 
                 Case LegendStyles.Circle
-                    Dim r As Single = sys.Min(gSize.Height, gSize.Width) / 2
+                    Dim r As Single = stdNum.Min(gSize.Height, gSize.Width) / 2
                     Dim c As New Point With {
                         .X = pos.X + gSize.Height,
                         .Y = pos.Y + gSize.Height / 2
@@ -142,7 +142,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Diamond
 
-                    Dim d As Integer = sys.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
@@ -152,7 +152,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Hexagon
 
-                    Dim d As Integer = sys.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
@@ -191,7 +191,7 @@ Namespace Graphic.Legend
                         color, border)
 
                 Case LegendStyles.Square
-                    Dim r As Single = sys.Min(gSize.Height, gSize.Width)
+                    Dim r As Single = stdNum.Min(gSize.Height, gSize.Width)
                     Dim location As New Point With {
                         .X = pos.X + gSize.Width - r,
                         .Y = pos.Y + gSize.Height - r
@@ -215,7 +215,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Triangle
 
-                    Dim d As Integer = sys.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
