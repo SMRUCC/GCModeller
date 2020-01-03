@@ -395,7 +395,8 @@ Public Module Extensions
     Public Function AsDataSource(Of T As Class)(dataSet As File_csv,
                                                 Optional strict As Boolean = False,
                                                 Optional skipEmpty As Boolean = True,
-                                                Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of T)
+                                                Optional maps As Dictionary(Of String, String) = Nothing,
+                                                Optional silent As Boolean = False) As IEnumerable(Of T)
         Dim sheet As File_csv
 
         If skipEmpty Then
@@ -410,7 +411,7 @@ Public Module Extensions
 
         Return IO.DataFrame _
             .CreateObject(file:=sheet) _
-            .AsDataSource(Of T)(strict, maps)
+            .AsDataSource(Of T)(strict, maps, silent:=silent)
     End Function
 
     ''' <summary>
