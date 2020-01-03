@@ -423,13 +423,14 @@ Public Module Extensions
     ''' <remarks></remarks>
     <Extension> Public Function AsDataSource(Of T As Class)(df As DataFrame,
                                                             Optional explicit As Boolean = False,
-                                                            Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of T)
+                                                            Optional maps As Dictionary(Of String, String) = Nothing,
+                                                            Optional silent As Boolean = False) As IEnumerable(Of T)
         With df
             If Not maps Is Nothing Then
                 Call .ChangeMapping(maps)
             End If
 
-            Return Reflector.Convert(Of T)(.ByRef, explicit)
+            Return Reflector.Convert(Of T)(.ByRef, explicit, silent:=silent)
         End With
     End Function
 
@@ -442,9 +443,14 @@ Public Module Extensions
     ''' <param name="explicit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function AsDataSource(Of T As Class)(importsFile$, Optional delimiter$ = ",", Optional explicit As Boolean = True) As T()
+    <Extension> Public Function AsDataSource(Of T As Class)(importsFile$,
+                                                            Optional delimiter$ = ",",
+                                                            Optional explicit As Boolean = True,
+                                                            Optional silent As Boolean = False) As T()
+
         Dim df As DataFrame = IO.DataFrame.CreateObject([Imports](importsFile, delimiter))
-        Dim data As T() = Reflector.Convert(Of T)(df, explicit).ToArray
+        Dim data As T() = Reflector.Convert(Of T)(df, explicit, silent:=silent).ToArray
+
         Return data
     End Function
 

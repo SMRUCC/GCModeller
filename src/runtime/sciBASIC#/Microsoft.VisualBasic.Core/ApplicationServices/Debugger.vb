@@ -222,12 +222,14 @@ Public Module VBDebugger
         Return Nothing
     End Function
 
-    <Extension> Public Sub __INFO_ECHO(msg$)
+    <Extension> Public Sub __INFO_ECHO(msg$, Optional silent As Boolean = False)
         If Not Mute AndAlso m_level < DebuggerLevels.Warning Then
             Dim head As String = $"INFOM {Now.ToString}"
             Dim str As String = " " & msg
 
-            Call My.Log4VB.Print(head, str, ConsoleColor.White, MSG_TYPES.INF)
+            If Not silent Then
+                Call My.Log4VB.Print(head, str, ConsoleColor.White, MSG_TYPES.INF)
+            End If
 
 #If DEBUG Then
             Call Debug.WriteLine($"[{head}]{str}")
