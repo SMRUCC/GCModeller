@@ -162,7 +162,7 @@ Namespace StorageProvider.Reflection
         ''' <remarks>在这里查找所有具有写属性的属性对象即可</remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Convert(Of TClass As Class)(df As DataFrame, Optional strict As Boolean = True, Optional metaBlank As String = "") As IEnumerable(Of TClass)
+        Public Function Convert(Of TClass As Class)(df As DataFrame, Optional strict As Boolean = True, Optional metaBlank$ = "") As IEnumerable(Of TClass)
             Return df.LoadDataToObject(GetType(TClass), strict, metaBlank).As(Of TClass)
         End Function
 
