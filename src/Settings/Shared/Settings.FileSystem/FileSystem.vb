@@ -221,8 +221,6 @@ Namespace GCModeller.FileSystem
         ''' </summary>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("RepositoryRoot",
-                   Info:="The root directory for stores the GCModeller database such as fasta sequence for annotation.")>
         Public Function GetRepositoryRoot() As String
             Return Settings.Session.SettingsFile.RepositoryRoot
         End Function
@@ -266,11 +264,12 @@ Namespace GCModeller.FileSystem
         End Function
 
         ''' <summary>
+        ''' Do you configured the repository root directory path parameter in the settings file?
+        ''' 
         ''' 配置文件之中是否包含有GCModeller数据库的位置的路径参数
         ''' </summary>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("Config?", Info:="Do you configured the repository root directory path parameter in the settings file?")>
         Public Function IsRepositoryNullOrEmpty() As Boolean
             Return String.IsNullOrEmpty(RepositoryRoot)
         End Function
