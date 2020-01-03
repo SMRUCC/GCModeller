@@ -662,17 +662,17 @@ Public Module Extensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <param name="explicit">默认导出所有的可用属性</param>
+    ''' <param name="strict">默认导出所有的可用属性</param>
     ''' <param name="metaBlank">对于字典对象之中，空缺下来的域键名的值使用什么来替代？默认使用空白字符串</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function ToCsvDoc(Of T)(source As IEnumerable(Of T),
-                                               Optional explicit As Boolean = False,
+                                               Optional strict As Boolean = False,
                                                Optional maps As Dictionary(Of String, String) = Nothing,
                                                Optional metaBlank$ = "",
                                                Optional reorderKeys% = 0) As File
         Return Reflector.Save(
-            source, explicit,
+            source, strict,
             maps:=maps,
             metaBlank:=metaBlank,
             reorderKeys:=reorderKeys
