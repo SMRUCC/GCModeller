@@ -55,7 +55,7 @@ Imports System.Windows.Media.Imaging
 Namespace Driver
 
     ''' <summary>
-    ''' 
+    ''' # Exif
     ''' </summary>
     ''' <remarks>
     ''' https://github.com/mwijnands/JpegMetadata
@@ -89,7 +89,7 @@ Namespace Driver
         ''' <param name="filePath"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' Png�ļ�֮��Ϊʲô�����԰�����exifԪ���ݣ�
+        ''' Png is not working for this exif tag data writer
         ''' </remarks>
         Private Function ReadMetadata(filePath As String) As JpegMetadata
             Using jpegStream = New FileStream(filePath, FileMode.Open, FileAccess.Read)
