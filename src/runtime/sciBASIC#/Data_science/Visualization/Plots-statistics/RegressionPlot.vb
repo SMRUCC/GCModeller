@@ -365,8 +365,8 @@ Public Module RegressionPlot
                         Return g.MeasureString(str, legendLabelFont)
                     End Function) _
             .Width
-        Dim top = rect.Top + rect.Height / 2
-        Dim left = rect.Right - 1.125 * maxLabelSize
+        Dim top = rect.Top + rect.Height / 1.5
+        Dim left = rect.Right - 1.25 * maxLabelSize
 
         Call g.DrawLegends(
             topLeft:=New Point(left, top),
