@@ -153,12 +153,12 @@ Namespace Web
             Return Load(DefaultFile)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return Me.GetJson.SaveTo(Path, encoding)
+        Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return Me.GetJson.SaveTo(path, encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Me.Save(Path, encoding.CodePage)
+        Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+            Return Me.Save(path, encoding.CodePage)
         End Function
     End Class
 End Namespace
