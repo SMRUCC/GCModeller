@@ -104,8 +104,8 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="seq"></param>
         ''' <returns></returns>
-        <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
-        <Extension> Public Function GC_Content(seq As IEnumerable(Of DNA)) As Double
+        <Extension>
+        Public Function GC_Content(seq As IEnumerable(Of DNA)) As Double
             Dim array As DNA() = seq.ToArray
             Dim n% = array _
                 .Where(Function(nn) nn = DNA.dGMP OrElse nn = DNA.dCMP) _
@@ -159,7 +159,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GCContent(Sequence As IPolymerSequenceModel) As Double
@@ -172,7 +171,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="NT">序列数据大小写不敏感</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
         Public Function GCContent(NT As String) As Double
             Return (Count(NT, "G"c, "g"c) + Count(NT, "C"c, "c"c)) / Len(NT)
         End Function
@@ -183,7 +181,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Tm", Info:="The melting temperature of P1 is Tm(P1), which is a reference temperature for a primer to perform annealing and known as the Wallace formula")>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Tm(<Parameter("Primer", "Short DNA sequence which its length is less than 35nt.")> Primer As String) As Double
             Return (Count(Primer, "C"c, "c"c) + Count(Primer, "G"c, "g"c)) * 4 + (Count(Primer, "A"c, "a"c) + Count(Primer, "T"c, "t"c)) * 2
@@ -210,7 +207,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="Steps"></param>
         ''' <param name="Circular"></param>
         ''' <returns></returns>
-        <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GCContent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"G", "C"})
@@ -308,7 +304,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns>返回的矩阵是每一个核苷酸碱基上面的GC偏移量</returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
         <Extension>
         Public Function GCSkew(sequence As IPolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
             Dim sequenceData As String = sequence.SequenceData.ToUpper

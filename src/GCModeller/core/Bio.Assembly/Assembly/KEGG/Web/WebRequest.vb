@@ -155,7 +155,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
         Public Function FetchSeq(<Parameter("sp.Id", "KEGG species id.")> specieId As String,
                                  <Parameter("locusId", "NCBI gene locus tag.")> accessionId As String) As FastaSeq
             Static prot As New FetchSequence(isNucl:=False, cache:="./.kegg/dbget/fetchSeq/prot/")
@@ -170,7 +169,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
         Public Function FetchNt(specieId As String, accessionId As String) As FASTA.FastaSeq
             Static nucl As New FetchSequence(isNucl:=True, cache:="./.kegg/dbget/fetchSeq/nucl/")
             Return nucl.Query(Of FastaSeq)(New QueryEntry With {.locusID = accessionId, .speciesID = specieId})
@@ -183,7 +181,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Nt.Fetch", Info:="Fetch the nucleotide sequence fasta data from the kegg database.")>
         Public Function FetchNt(entry As QueryEntry) As FastaSeq
             Return FetchNt(entry.speciesID, entry.locusID)
         End Function
@@ -195,7 +192,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Fasta.Fetch", Info:="Download a protein sequence data from the KEGG database.")>
         Public Function FetchSeq(entry As QueryEntry) As FastaSeq
             If entry Is Nothing Then
                 Return Nothing
@@ -212,25 +208,23 @@ Namespace Assembly.KEGG.WebServices
         Public Const QUERY_RESULT_LINK2 As String = ">[^<^>]+<"
 
         ''' <summary>
-        ''' Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}
+        ''' Get an entry list from a keyword throught the KEGG database web request.``{(speciesId:AccessionId), entry_description}``
         ''' </summary>
         ''' <param name="keyword"></param>
         ''' <returns>如果没有任何结果则返回一个空列表</returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Query", Info:="Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}")>
         Public Function HandleQuery(keyword As String) As QueryEntry()
             Return HandleQuery(keyword, 1)
         End Function
 
         ''' <summary>
-        ''' Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}
+        ''' Get an entry list from a keyword throught the KEGG database web request.``{(speciesId:AccessionId), entry_description}``
         ''' </summary>
         ''' <param name="keyword"></param>
         ''' <returns>如果没有任何结果则返回一个空列表</returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Query", Info:="Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}")>
         Public Function HandleQuery(keyword As String, page As Integer) As QueryEntry()
             Return String.Format(KEGG_DBGET_WWW_QUERY & page, keyword) _
                 .GET _
@@ -264,14 +258,13 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Batch query protein sequence fasta data from the KEGG server.
         ''' </summary>
         ''' <param name="keyword"></param>
         ''' <param name="limit">大批量的数据查询会不会被KEGG封IP？，可以使用本参数来控制数据的返回量</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Query.Batch", Info:="Batch query protein sequence fasta data from the KEGG server.")>
         Public Function BatchQuery(keyword$, Optional limit As Integer = 30) As FastaFile
             Dim list As QueryEntry() = HandleQuery(keyword)
 
@@ -295,7 +288,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Fasta.Download", Info:="Download fasta sequence data from KEGG database, this function will automatically handles the species brief code.")>
         Public Function DownloadSequence(id As String) As FASTA.FastaSeq
             Dim entry As QueryEntry = GetQueryEntry(id)
             Dim fa = WebRequest.FetchSeq(entry)
