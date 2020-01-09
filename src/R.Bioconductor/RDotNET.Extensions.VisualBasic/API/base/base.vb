@@ -1,56 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::3d23c8db15f4f4086e137f7fec521fb3, RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module base
-    ' 
-    '         Properties: colnames, dimnames, length, names, rownames
-    ' 
-    '         Function: argumentExpression, (+5 Overloads) c, cbind, (+2 Overloads) dataframe, exists
-    '                   (+2 Overloads) lapply, library, (+4 Overloads) list, load, log2
-    '                   ls, (+2 Overloads) matrix, order, parameterValueAssign, rbind
-    '                   rep, require, save, solve, sum
-    '                   summary, vector, warning
-    ' 
-    '         Sub: __setNames, gc, rm, save, source
-    '              suppressWarnings
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module base
+' 
+'         Properties: colnames, dimnames, length, names, rownames
+' 
+'         Function: argumentExpression, (+5 Overloads) c, cbind, (+2 Overloads) dataframe, exists
+'                   (+2 Overloads) lapply, library, (+4 Overloads) list, load, log2
+'                   ls, (+2 Overloads) matrix, order, parameterValueAssign, rbind
+'                   rep, require, save, solve, sum
+'                   summary, vector, warning
+' 
+'         Sub: __setNames, gc, rm, save, source
+'              suppressWarnings
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
@@ -867,6 +868,23 @@ Namespace API
         End Function
 
         ''' <summary>
+        ''' Combine Values into a Vector or List
+        ''' 
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <param name="list">objects to be concatenated.</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' The output type is determined from the highest type of the components in the hierarchy NULL &lt; raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list &lt; expression. Pairlists are treated as lists, but non-vector components (such names and calls) are treated as one-element lists which cannot be unlisted even if recursive = TRUE.
+        ''' c Is sometimes used for its side effect of removing attributes except names, for example to turn an array into a vector. as.vector Is a more intuitive way to do this, but also drops names. Note too that methods other than the default are Not required to do this (And they will almost certainly preserve a class attribute).
+        ''' This Is a primitive function.
+        ''' </remarks>
+        Public Function c(ParamArray list As Boolean()) As String
+            Return c(list.Select(Function(b) b.ToString.ToUpper), recursive:=False)
+        End Function
+
+        ''' <summary>
         ''' Execute a ``c()`` vector api and returns a tmp variable name.
         ''' (默认为生成字符串数组，这个函数是针对于R字符串而言的，
         ''' <paramref name="list"/>参数之中的字符串的值都会被转义为字符串)
@@ -900,10 +918,27 @@ Namespace API
         ''' <returns></returns>
         Public Function list(ParamArray args As ArgumentReference()) As String
             Dim var$ = RDotNetGC.Allocate
+            Dim Rscript$
 
             SyncLock R
                 With R
-                    .call = $"{var} <- list({args.argumentExpression});"
+                    Rscript = $"{var} <- list({args.argumentExpression});"
+                    .call = Rscript
+
+                    ' 20200109 fix for bug of var not found
+                    ' unsure....
+                    If Not base.exists(var) Then
+                        Call Console.WriteLine(Rscript)
+
+                        .call = $"{var} <- list();"
+
+                        For Each slot In args.Select(AddressOf parameterValueAssign)
+                            .call = $"{var}[['{slot.Name}']] <- {slot.Value};"
+                        Next
+
+                        ' debug
+                        .call = $"str({var});"
+                    End If
                 End With
             End SyncLock
 
@@ -927,19 +962,24 @@ Namespace API
         <Extension>
         Private Function argumentExpression(args As ArgumentReference()) As String
             Dim assigns$() = args _
-                .Select(Function(f) f.parameterValueAssign) _
+                .Select(Function(f)
+                            Dim exp = f.parameterValueAssign
+                            Dim script = $"{exp.Name} = {exp.Value}"
+
+                            Return script
+                        End Function) _
                 .ToArray
 
             Return assigns.JoinBy(", ")
         End Function
 
         <Extension>
-        Private Function parameterValueAssign(f As ArgumentReference) As String
+        Private Function parameterValueAssign(f As ArgumentReference) As NamedValue(Of String)
             If Not f.Value Is Nothing AndAlso f Like GetType(var) Then
-                Return $"{f.Name} = {DirectCast(f.Value, var).name}"
+                Return New NamedValue(Of String) With {.Name = f.Name, .Value = DirectCast(f.Value, var).name}
             Else
                 If f.Value Is Nothing Then
-                    Return $"{f.Name} = NULL"
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = "NULL"}
                 ElseIf f Like GetType(String) OrElse f Like GetType(Char) Then
                     ' 2019-03-19
                     ' 有些时候会因为二进制文件读取的原因导致字符串结尾出现0字节的字符
@@ -948,14 +988,18 @@ Namespace API
                     Dim str As String = CStr(f.Value).Trim(ASCII.NUL)
 
                     If Not str.StringEmpty AndAlso base.exists(str) Then
-                        Return $"{f.Name} = {str}"
+                        Return New NamedValue(Of String) With {.Name = f.Name, .Value = str}
                     Else
-                        Return $"{f.Name} = {Rstring(str)}"
+                        Return New NamedValue(Of String) With {.Name = f.Name, .Value = Rstring(str)}
                     End If
                 ElseIf f Like GetType(IEnumerable(Of String)) Then
-                    Return $"{f.Name} = {base.c(f.Value, stringVector:=True)}"
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(f.Value, stringVector:=True)}
+                ElseIf f Like GetType(Boolean) Then
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = f.Value.ToString.ToUpper}
+                ElseIf f Like GetType(IEnumerable(Of Boolean)) Then
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Boolean)).ToArray)}
                 Else
-                    Return $"{f.Name} = {f.Value}"
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = Scripting.ToString(f.Value, "NULL")}
                 End If
             End If
         End Function
