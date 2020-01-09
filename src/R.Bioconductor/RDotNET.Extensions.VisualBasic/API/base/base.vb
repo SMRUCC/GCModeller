@@ -919,7 +919,7 @@ Namespace API
 
             SyncLock R
                 With R
-                    Rscript = $"{var} <- list({args.argumentExpression});"
+                    Rscript = $"{var} <- list({args.ArgumentExpression.JoinBy("," & vbCrLf)});"
                     .call = Rscript
 
                     ' 20200109 fix for bug of var not found
@@ -929,7 +929,7 @@ Namespace API
 
                         .call = $"{var} <- list();"
 
-                        For Each slot In args.Select(AddressOf parameterValueAssign)
+                        For Each slot In args.Select(AddressOf ParameterValueAssign)
                             .call = $"{var}[['{slot.Name}']] <- {slot.Value};"
                         Next
 
@@ -1165,7 +1165,7 @@ Namespace API
 
             SyncLock R
                 With R
-                    .call = $"{var} <- data.frame({columns.argumentExpression});"
+                    .call = $"{var} <- data.frame({columns.ArgumentExpression.JoinBy(", " & vbCrLf)});"
                 End With
             End SyncLock
 

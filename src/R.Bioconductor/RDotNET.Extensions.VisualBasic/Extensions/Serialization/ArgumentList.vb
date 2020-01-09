@@ -9,21 +9,19 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Public Module ArgumentList
 
     <Extension>
-    Private Function argumentExpression(args As ArgumentReference()) As String
-        Dim assigns$() = args _
+    Public Function ArgumentExpression(args As ArgumentReference()) As String()
+        Return args _
             .Select(Function(f)
-                        Dim exp = f.parameterValueAssign
+                        Dim exp = f.ParameterValueAssign
                         Dim script = $"{exp.Name} = {exp.Value}"
 
                         Return script
                     End Function) _
             .ToArray
-
-        Return assigns.JoinBy(", ")
     End Function
 
     <Extension>
-    Private Function parameterValueAssign(f As ArgumentReference) As NamedValue(Of String)
+    Public Function ParameterValueAssign(f As ArgumentReference) As NamedValue(Of String)
         If Not f.Value Is Nothing AndAlso f Like GetType(var) Then
             ' do variable value assign at here
             Return New NamedValue(Of String) With {
