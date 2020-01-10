@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66623f7f82ec39e227251eeb4e5ed981, Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::b30b42a5bae982fb8601c9c548f901f4, Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -613,6 +613,11 @@ B21,B22,B23,...
         ''' <remarks>当目标保存路径不存在的时候，会自动创建文件夹</remarks>
         Public Function Save(path$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return StreamIO.SaveDataFrame(Me, path, Encoding)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Save(path$, encoding As Encodings, Optional tsv As Boolean = False, Optional silent As Boolean = True) As Boolean
+            Return StreamIO.SaveDataFrame(Me, path, encoding.CodePage, tsv:=tsv, silent:=silent)
         End Function
 
         ''' <summary>

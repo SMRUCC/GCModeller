@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1c14c20f2acf914567e924bd797f5b1, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\LicenseMgr.vb"
+﻿#Region "Microsoft.VisualBasic::fdffbe3f5a9b5ef21aeb6960771243db, vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Namespace ApplicationServices.Development
+Namespace CodeSign
 
     ''' <summary>
     ''' Source code license manager

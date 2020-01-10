@@ -128,7 +128,6 @@ Software",
         ''' </summary>
         ''' <param name="struct">操纵子里面的某一个结构基因成员的基因编号</param>
         ''' <returns></returns>
-        <ExportAPI("Get.OprFirst", Info:="Gets the first gene in the operon of the struct gene that inputs from the parameter.")>
         Public Function GetOprFirst(struct As String, DOOR As DOOR) As OperonGene
             Dim gene As OperonGene = DOOR.GetGene(struct)
             If gene Is Nothing Then

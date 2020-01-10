@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd2889b664c11a2f7e649fa774042171, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\CodeSign.vb"
+﻿#Region "Microsoft.VisualBasic::5175ede6df88eea5d9b841451b84c4a3, vs_solutions\dev\VisualStudio\CodeSign\CodeSign.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Module CodeSign
+    '     Module CodeSignHelpers
     ' 
     '         Function: ParseHeaderRegion, SignCode
     ' 
@@ -43,12 +43,14 @@
 Imports Microsoft.VisualBasic.SecurityString
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace ApplicationServices.Development
+Namespace CodeSign
 
     ''' <summary>
     ''' 使用AES加密进行代码的签名操作
     ''' </summary>
-    Public Module CodeSign
+    ''' 
+    <HideModuleName>
+    Public Module CodeSignHelpers
 
         Const PhpHeaderRegion$ = "#region ""PHP\\Foundation[:]{2}.*"".+?#endregion"
         Const TypeScriptHeaderRegion$ = "//#region ""Microsoft.TypeScript[:]{2}.*"".+?//#endregion"

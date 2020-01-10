@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b37f25638311a163beee708b6f8bb00, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\VBCodeSignature.vb"
+﻿#Region "Microsoft.VisualBasic::4e7994be166a8d6b42e7ba851f6da4e1, vs_solutions\dev\VisualStudio\CodeSign\VBCodeSignature.vb"
 
     ' Author:
     ' 
@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 Imports VBCodePatterns = Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage.Patterns
 
-Namespace ApplicationServices.Development
+Namespace CodeSign
 
     ''' <summary>
     ''' 在这个模块之中对VB的代码文件进行大纲摘要的提取操作

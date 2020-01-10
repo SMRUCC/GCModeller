@@ -82,44 +82,44 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' ``br08001``  Compounds with biological roles
         ''' </summary>
-        Const cpd_br08001 = "br08001"
+        Public Const cpd_br08001 = "br08001"
         ''' <summary>
         ''' ``br08002``  Lipids
         ''' </summary>
-        Const cpd_br08002 = "br08002"
+        Public Const cpd_br08002 = "br08002"
         ''' <summary>
         ''' ``br08003``  Phytochemical compounds
         ''' </summary>
-        Const cpd_br08003 = "br08003"
+        Public Const cpd_br08003 = "br08003"
         ''' <summary>
         ''' ``br08005``  Bioactive peptides
         ''' </summary>
-        Const cpd_br08005 = "br08005"
+        Public Const cpd_br08005 = "br08005"
         ''' <summary>
         ''' ``br08006``  Endocrine disrupting compounds
         ''' </summary>
-        Const cpd_br08006 = "br08006"
+        Public Const cpd_br08006 = "br08006"
         ''' <summary>
         ''' ``br08007``  Pesticides
         ''' </summary>
-        Const cpd_br08007 = "br08007"
+        Public Const cpd_br08007 = "br08007"
         ''' <summary>
         ''' ``br08008``  Carcinogens
         ''' </summary>
-        Const cpd_br08008 = "br08008"
+        Public Const cpd_br08008 = "br08008"
         ''' <summary>
         ''' ``br08009``  Natural toxins
         ''' </summary>
-        Const cpd_br08009 = "br08009"
+        Public Const cpd_br08009 = "br08009"
         ''' <summary>
         ''' ``br08010``  Target-based classification of compounds
         ''' </summary>
-        Const cpd_br08010 = "br08010"
+        Public Const cpd_br08010 = "br08010"
 
         ''' <summary>
         ''' ``br08021``  Glycosides
         ''' </summary>
-        Const cpd_br08021 = "br08021"
+        Public Const cpd_br08021 = "br08021"
 
 #End Region
 

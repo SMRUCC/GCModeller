@@ -111,7 +111,6 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <param name="Trim"></param>
         ''' <param name="rawTitle"></param>
         ''' <returns></returns>
-        <ExportAPI("Merge", Info:="Merge the fasta sequence file from a file list.")>
         <Extension>
         Public Function Merge(list As IEnumerable(Of String), Trim As Boolean, rawTitle As Boolean) As FastaFile
             Dim mergeFa As FastaSeq() =
@@ -158,7 +157,6 @@ Namespace SequenceModel.FASTA.Reflection
         ''' <param name="inDIR"></param>
         ''' <param name="trim"></param>
         ''' <returns></returns>
-        <ExportAPI("Merge", Info:="Merge the fasta sequence file from a directory.")>
         Public Function Merge(inDIR As String, trim As Boolean, rawTitle As Boolean) As FastaFile
             Dim files As IEnumerable(Of String) = ls - l - wildcards("*.fa", "*.fsa", "*.fas", "*.fasta") <= inDIR
             Return files.Merge(trim, rawTitle)
@@ -305,10 +303,11 @@ REDO:           seq = Mid(seq, i)
         End Function
 
         Friend Class SchemaCache
+
             Public Property TitleFormat As String
             Public Property attributes As KeyValuePair(Of FastaAttributeItem, System.Reflection.PropertyInfo)()
 
-            Sub New(TypeInfo As System.Type)
+            Sub New(TypeInfo As Type)
                 TitleFormat = GetTitleFormat(TypeInfo)
                 attributes = (From propertyInfo As System.Reflection.PropertyInfo
                               In TypeInfo.GetProperties()

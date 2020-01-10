@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75df366d8b90f0d13c341dd01c9cfe3f, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
+﻿#Region "Microsoft.VisualBasic::302d765fc6e5da820c41bb2dfc7a095c, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
 
     ' Author:
     ' 
@@ -116,6 +116,11 @@ Namespace Graph
         End Sub
 
         Public Property data As NodeData Implements IGraphValueContainer(Of NodeData).data
+
+        ''' <summary>
+        ''' Get all of the edge collection that connect to current node object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property adjacencies As AdjacencySet(Of Edge)
         Public Property pinned As Boolean
 

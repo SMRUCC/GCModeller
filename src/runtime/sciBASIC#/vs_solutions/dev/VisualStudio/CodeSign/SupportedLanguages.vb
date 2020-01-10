@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa192dc8778c6bcd4976992fe2af7087, Microsoft.VisualBasic.Core\ApplicationServices\VBDev\Signature\SupportedLanguages.vb"
+﻿#Region "Microsoft.VisualBasic::93d88af6bac835144a873d526b6d5e38, vs_solutions\dev\VisualStudio\CodeSign\SupportedLanguages.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@
 
 #End Region
 
-Namespace ApplicationServices.Development
+Namespace CodeSign
 
     Public Enum Languages
         VisualBasic

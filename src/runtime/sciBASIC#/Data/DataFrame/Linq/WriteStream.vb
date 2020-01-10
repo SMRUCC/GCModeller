@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebfe6127ba2455c9f12d1bb442c6f4d8, Data\DataFrame\Linq\WriteStream.vb"
+﻿#Region "Microsoft.VisualBasic::2140219d0d415d538d6d348897e7225c, Data\DataFrame\Linq\WriteStream.vb"
 
     ' Author:
     ' 
@@ -229,7 +229,7 @@ Namespace IO.Linq
         End Sub
 
         ''' <summary>
-        ''' 这个是配合<see cref="DataStream.ForEachBlock(Of T)(Action(Of T()), Integer)"/>方法使用的
+        ''' 这个是配合<see cref="DataStream.ForEachBlock"/>方法使用的
         ''' </summary>
         ''' <typeparam name="Tsrc"></typeparam>
         ''' <param name="[ctype]"></param>
@@ -242,7 +242,7 @@ Namespace IO.Linq
         End Function
 
         ''' <summary>
-        ''' 这个是配合<see cref="DataStream.ForEach(Of T)(Action(Of T))"/>方法使用的
+        ''' 这个是配合<see cref="DataStream.ForEach"/>方法使用的
         ''' </summary>
         ''' <typeparam name="Tsrc"></typeparam>
         ''' <param name="_ctype"></param>

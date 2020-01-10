@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76e06fefc868df8b28813e9bd9e20224, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
+﻿#Region "Microsoft.VisualBasic::5c930a6c8fe1ca8a11c2fcacd92e9813, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
 
     ' Author:
     ' 
@@ -44,32 +44,17 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
+Imports GraphNetwork = Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports names = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NamesOf
 
 Namespace Analysis
 
     Public Module Statistics
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ComputeDegreeData(Of T As IInteraction)(edges As IEnumerable(Of T)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
-            Dim [in] As New Dictionary(Of String, Integer)
-            Dim out As New Dictionary(Of String, Integer)
-            Dim count = Sub(node$, ByRef table As Dictionary(Of String, Integer))
-                            If table.ContainsKey(node) Then
-                                table(node) += 1
-                            Else
-                                table.Add(node, 1)
-                            End If
-                        End Sub
-            Dim countIn = Sub(node$) Call count(node, [in])
-            Dim countOut = Sub(node$) Call count(node, out)
-
-            For Each edge As T In edges
-                Call countIn(edge.target)
-                Call countOut(edge.source)
-            Next
-
-            Return ([in], out)
+            Return GraphNetwork.ComputeDegreeData(edges, Function(l) l.source, Function(l) l.target)
         End Function
 
         <Extension>
@@ -86,13 +71,13 @@ Namespace Analysis
         ''' <summary>
         ''' 这个函数计算网络的节点的degree，然后将degree数据写入节点的同时，通过字典返回给用户
         ''' </summary>
-        ''' <param name="net"></param>
+        ''' <param name="g"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ComputeNodeDegrees(ByRef net As NetworkGraph) As Dictionary(Of String, Integer)
-            Dim connectNodes = net _
+        Public Function ComputeNodeDegrees(ByRef g As NetworkGraph) As Dictionary(Of String, Integer)
+            Dim connectNodes = g _
                 .graphEdges _
-                .Select(Function(link) {link.U.Label, link.V.Label}) _
+                .Select(Function(link) {link.U.label, link.V.label}) _
                 .IteratesALL _
                 .GroupBy(Function(id) id) _
                 .ToDictionary(Function(ID) ID.Key,
@@ -101,25 +86,25 @@ Namespace Analysis
                               End Function)
             Dim d%
 
-            With net.graphEdges.ComputeDegreeData
-                For Each node In net.vertex
+            With g.graphEdges.ComputeDegreeData
+                For Each node In g.vertex
 
-                    If Not connectNodes.ContainsKey(node.Label) Then
+                    If Not connectNodes.ContainsKey(node.label) Then
                         ' 这个节点是孤立的节点，度为零
                         node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, 0)
                         node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
                         node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
 
                     Else
-                        d = connectNodes(node.Label)
+                        d = connectNodes(node.label)
                         node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, d)
 
-                        If .in.ContainsKey(node.Label) Then
-                            d = .in(node.Label)
+                        If .in.ContainsKey(node.label) Then
+                            d = .in(node.label)
                             node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
                         End If
-                        If .out.ContainsKey(node.Label) Then
-                            d = .out(node.Label)
+                        If .out.ContainsKey(node.label) Then
+                            d = .out(node.label)
                             node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
                         End If
                     End If

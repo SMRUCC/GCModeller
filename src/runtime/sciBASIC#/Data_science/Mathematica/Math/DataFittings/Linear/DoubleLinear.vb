@@ -1,4 +1,45 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::64c5e2663de76bc7e9a1c0f59839b95e, Data_science\Mathematica\Math\DataFittings\Linear\DoubleLinear.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module DoubleLinear
+    ' 
+    '     Function: AutoPointDeletion, GetInputPoints
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -13,6 +54,20 @@ Public Module DoubleLinear
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="points"></param>
+    ''' <param name="weighted"></param>
+    ''' <param name="max">
+    ''' Max number of the reference points that delete automatically by 
+    ''' the linear modelling program.
+    ''' 
+    ''' + negative value means auto
+    ''' + zero means no deletion
+    ''' + positive means the max allowed point numbers for auto deletion by the program
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Public Function AutoPointDeletion(points As IEnumerable(Of PointF),
                                       Optional weighted As Boolean = False,
@@ -20,17 +75,19 @@ Public Module DoubleLinear
 
         Dim pointVec As PointF() = points.ToArray
 
-        If max <= 0 Then
+        If max < 0 Then
+            ' auto
             max = pointVec.Length / 2 - 1
         End If
         If max <= 0 Then
-            ' can not delete any more points
+            ' 1. user specific no deletions
+            ' 2. or can not delete any more points
             Return pointVec.LinearRegression(weighted)
         End If
 
         ' evaluate R2 for each point removes
-        Dim ref As Vector = pointVec.X
-        Dim measure As Vector = pointVec.Y
+        Dim measure As Vector = pointVec.X
+        Dim ref As Vector = pointVec.Y
         Dim R2 As Double = -9999
         Dim bestfit As IFitted
         Dim model As IFitted
@@ -83,3 +140,4 @@ Public Module DoubleLinear
         Return bestfit
     End Function
 End Module
+
