@@ -11,19 +11,18 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Module britekit
 
     <ExportAPI("brite.as.table")>
-    Public Function BriteTable(htext As htext) As EntityObject()
-        Return htext.GetEntryDictionary _
-            .Values _
+    Public Function BriteTable(htext As htext, Optional entryIDPattern$ = "[a-z]+\d+") As EntityObject()
+        Return htext.Deflate(entryIDPattern) _
             .Select(Function(term)
                         Return New EntityObject With {
-                            .ID = term.entryID,
+                            .ID = term.kegg_id,
                             .Properties = New Dictionary(Of String, String) From {
-                                {NameOf(term.CategoryLevel), term.CategoryLevel},
-                                {"numberOfSubCategoryChilds", term.categoryItems.SafeQuery.Count},
-                                {NameOf(term.classLabel), term.classLabel},
-                                {NameOf(term.level), term.level},
                                 {NameOf(term.class), term.class},
-                                {NameOf(term.description), term.description}
+                                {NameOf(term.category), term.category},
+                                {NameOf(term.subcategory), term.subcategory},
+                                {NameOf(term.order), term.order},
+                                {NameOf(term.entry), term.entry.Key},
+                                {"name", term.entry.Value}
                             }
                         }
                     End Function) _

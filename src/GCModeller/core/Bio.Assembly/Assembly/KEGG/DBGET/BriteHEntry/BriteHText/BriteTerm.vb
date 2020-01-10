@@ -120,7 +120,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
 
             Dim htext = BriteHTextParser.Load(resource)
-            Dim terms = TreeParser.Deflate(htext, entryIDPattern).ToArray
+            Dim terms = BriteTreeDeflater.Deflate(htext, entryIDPattern).ToArray
 
             Return terms
         End Function

@@ -630,7 +630,7 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ProteinFamily.vb" />
