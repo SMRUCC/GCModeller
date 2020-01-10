@@ -76,12 +76,12 @@ Namespace API
         <ExportAPI("assign")>
         Public Function assign(x$, value$,
                                Optional pos% = -1,
-                               Optional envir$ = "as.environment(pos)",
+                               Optional envir$ = "as.environment({$pos})",
                                Optional [inherits] As Boolean = False,
                                Optional immediate As Boolean = True) As String
             SyncLock R
                 With R
-                    .call = $"assign({x.Rstring}, {value}, pos = {pos}, envir = {envir},
+                    .call = $"assign({x.Rstring}, {value}, pos = {pos}, envir = {envir.Replace("{$pos}", pos)},
        inherits = {[inherits].λ}, immediate = {immediate.λ});"
                 End With
             End SyncLock
