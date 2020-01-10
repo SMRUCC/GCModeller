@@ -50,10 +50,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
@@ -67,7 +69,25 @@ Namespace API
     ''' 
     ''' For a complete list of functions, use ``library(help = "base")``.
     ''' </summary>
+    ''' 
+    <Package("R.base")>
     Public Module base
+
+        <ExportAPI("assign")>
+        Public Function assign(x$, value$,
+                               Optional pos% = -1,
+                               Optional envir$ = "as.environment(pos)",
+                               Optional [inherits] As Boolean = False,
+                               Optional immediate As Boolean = True) As String
+            SyncLock R
+                With R
+                    .call = $"assign({x.Rstring}, {value}, pos = {pos}, envir = {envir},
+       inherits = {[inherits].λ}, immediate = {immediate.λ});"
+                End With
+            End SyncLock
+
+            Return x
+        End Function
 
         Public Function log2(vector As IEnumerable(Of Double)) As String
             Dim var$ = RDotNetGC.Allocate
@@ -685,6 +705,8 @@ Namespace API
         ''' effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed 
         ''' under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
         ''' </remarks>
+        ''' 
+        <ExportAPI("save")>
         Public Sub save(objects As String(),
                         file$,
                         Optional ascii As Boolean = False,
