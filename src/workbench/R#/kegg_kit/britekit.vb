@@ -42,6 +42,8 @@ Module britekit
             Select Case file.ToLower
                 Case NameOf(htext.br08201) : Return htext.br08201
                 Case NameOf(htext.br08204) : Return htext.br08204
+                Case CompoundBrite.cpd_br08001 : Return CompoundBrite.CompoundsWithBiologicalRoles
+
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select
