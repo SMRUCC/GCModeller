@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="metabolism.vb" />
+    <Compile Include="britekit.vb" />
     <Compile Include="profiles.vb" />
     <Compile Include="Repository.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
