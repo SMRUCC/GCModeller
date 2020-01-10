@@ -26,6 +26,8 @@ Module britekit
                             }
                         }
                     End Function) _
+            .GroupBy(Function(term) term.ID) _
+            .Select(Function(terms) terms.First) _
             .ToArray
     End Function
 
