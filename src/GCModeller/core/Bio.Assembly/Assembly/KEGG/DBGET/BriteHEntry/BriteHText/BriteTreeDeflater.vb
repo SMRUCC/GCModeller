@@ -47,9 +47,15 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
-    Module TreeParser
+    Public Module BriteTreeDeflater
 
         Const NA$ = "N/A"
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Deflate(htext As htext, entryIDPattern$) As IEnumerable(Of BriteTerm)
+            Return htext.Hierarchical.deflateInternal(entryIDPattern).IteratesALL
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
