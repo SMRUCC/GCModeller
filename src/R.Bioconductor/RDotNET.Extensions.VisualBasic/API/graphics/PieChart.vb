@@ -50,14 +50,20 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.Graphics
 
 Namespace API.Graphics
 
-    <Package("PieChart",
+    <Package("R.PieChart",
                   Description:="Pie charts are not recommended in the R documentation, and their features are somewhat limited. 
                   The authors recommend bar or dot plots over pie charts because people are able to judge length more accurately than volume. 
                   Pie charts are created with the function pie(x, labels=) where x is a non-negative numeric vector indicating the area of each slice and labels= notes a character vector of names for the slices.",
                   Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://statmethods.net/graphs/pie.html")>
     Public Module PieChart
 
-        <ExportAPI("Pie", Info:="Draw a simple pie chart.")>
+        ''' <summary>
+        ''' Draw a simple pie chart.
+        ''' </summary>
+        ''' <param name="slices"></param>
+        ''' <param name="Title"></param>
+        ''' <param name="SaveTo"></param>
+        ''' <returns></returns>
         Public Function PieSimple(slices As IEnumerable(Of NamedValue(Of Double)),
                               Optional Title As String = "",
                               <Parameter("Path.Save")> Optional SaveTo As String = "./pie.png") As Boolean
