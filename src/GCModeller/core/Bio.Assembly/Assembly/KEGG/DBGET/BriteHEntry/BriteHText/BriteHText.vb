@@ -153,6 +153,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return parent
         End Function
 
+        Public Function GetLevelList() As Dictionary(Of String, String)
+            Dim parents As New List(Of BriteHText) From {Me}
+
+            Do While Not parent.parent Is Nothing
+                parents += parent.parent
+                parent = parent.parent
+            Loop
+
+            Return parents _
+                .ToDictionary(Function(level) level.degree.ToString,
+                              Function(level)
+                                  Return level.classLabel
+                              End Function)
+        End Function
+
         ''' <summary>
         ''' 查找不到会返回空值
         ''' </summary>
