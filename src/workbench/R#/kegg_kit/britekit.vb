@@ -7,9 +7,18 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.Rsharp.Runtime
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' Toolkit for process the kegg brite text file
+''' </summary>
 <Package("kegg.brite")>
 Module britekit
 
+    ''' <summary>
+    ''' Convert the kegg brite htext tree to plant table
+    ''' </summary>
+    ''' <param name="htext"></param>
+    ''' <param name="entryIDPattern$"></param>
+    ''' <returns></returns>
     <ExportAPI("brite.as.table")>
     Public Function BriteTable(htext As htext, Optional entryIDPattern$ = "[a-z]+\d+") As EntityObject()
         Return htext.Deflate(entryIDPattern) _
@@ -62,5 +71,16 @@ Module britekit
         Else
             Return htext.StreamParser(res:=file)
         End If
+    End Function
+
+    ''' <summary>
+    ''' Do parse of the kegg brite json file.
+    ''' </summary>
+    ''' <param name="file$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("brite.parseJSON")>
+    Public Function ParseBriteJson(file$, Optional env As Environment = Nothing) As Object
+
     End Function
 End Module
