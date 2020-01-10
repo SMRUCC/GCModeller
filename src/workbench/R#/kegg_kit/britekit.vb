@@ -42,8 +42,18 @@ Module britekit
             Select Case file.ToLower
                 Case NameOf(htext.br08201) : Return htext.br08201
                 Case NameOf(htext.br08204) : Return htext.br08204
-                Case CompoundBrite.cpd_br08001 : Return CompoundBrite.CompoundsWithBiologicalRoles
+                Case CompoundBrite.cpd_br08001,
+                     CompoundBrite.cpd_br08002,
+                     CompoundBrite.cpd_br08003,
+                     CompoundBrite.cpd_br08005,
+                     CompoundBrite.cpd_br08006,
+                     CompoundBrite.cpd_br08007,
+                     CompoundBrite.cpd_br08008,
+                     CompoundBrite.cpd_br08009,
+                     CompoundBrite.cpd_br08010,
+                     CompoundBrite.cpd_br08021
 
+                    Return htext.GetInternalResource(file)
                 Case Else
                     Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select

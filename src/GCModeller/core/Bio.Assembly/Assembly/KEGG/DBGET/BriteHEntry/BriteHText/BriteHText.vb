@@ -244,35 +244,6 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return r.Replace(strValue, "(\\|/|:|\*|\?|""|<|>|\|)", "_")
         End Function
 
-        Private Shared Function getResourceCache() As ResourcesSatellite
-            Static satellite As New ResourcesSatellite(GetType(LICENSE))
-            Return satellite
-        End Function
-
-        Public Shared Function GetInternalResource(resourceName As String) As BriteHText
-            Dim resource$ = Nothing
-
-            If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
-                resource = getResourceCache.GetString(resourceName)
-            ElseIf resourceName.IsURLPattern Then
-                With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
-                    If Not .StringEmpty Then
-                        resource = getResourceCache.GetString(.Replace(".keg", ""))
-                    End If
-                End With
-
-                If resource.StringEmpty Then
-                    resource = resourceName.GET
-                End If
-            ElseIf resourceName.FileExists Then
-                resource = resourceName.ReadAllText
-            Else
-                Throw New NotImplementedException(resourceName)
-            End If
-
-            Return BriteHTextParser.Load(resource)
-        End Function
-
         ''' <summary>
         ''' 
         ''' </summary>

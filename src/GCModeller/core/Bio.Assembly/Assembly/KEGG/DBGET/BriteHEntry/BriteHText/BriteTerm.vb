@@ -92,8 +92,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Friend Shared Function GetInformation(resourceName$, entryIDPattern$) As BriteTerm()
-            Dim htext As BriteHText = BriteHText.GetInternalResource(resourceName)
-            Dim terms = BriteTreeDeflater.Deflate(htext, entryIDPattern).ToArray
+            Dim htext As htext = htext.GetInternalResource(resourceName)
+            Dim terms As BriteTerm() = BriteTreeDeflater _
+                .Deflate(htext.Hierarchical, entryIDPattern) _
+                .ToArray
 
             Return terms
         End Function
