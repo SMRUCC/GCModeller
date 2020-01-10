@@ -38,7 +38,7 @@ Module britekit
     ''' <returns></returns>
     <ExportAPI("brite.parse")>
     Public Function ParseBriteTree(file$, Optional env As Environment = Nothing) As Object
-        If file.IsPattern("[a-z]\d+", RegexICSng) Then
+        If file.IsPattern("[a-z]+\d+", RegexICSng) Then
             Select Case file.ToLower
                 Case NameOf(htext.br08201) : Return htext.br08201
                 Case NameOf(htext.br08204) : Return htext.br08204
