@@ -44,9 +44,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -175,6 +179,35 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08204() As htext
             Return StreamParser(My.Resources.br08204)
+        End Function
+
+        Private Shared Function getResourceCache() As ResourcesSatellite
+            Static satellite As New ResourcesSatellite(GetType(LICENSE))
+            Return satellite
+        End Function
+
+        Public Shared Function GetInternalResource(resourceName As String) As htext
+            Dim resource$ = Nothing
+
+            If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
+                resource = getResourceCache.GetString(resourceName)
+            ElseIf resourceName.IsURLPattern Then
+                With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
+                    If Not .StringEmpty Then
+                        resource = getResourceCache.GetString(.Replace(".keg", ""))
+                    End If
+                End With
+
+                If resource.StringEmpty Then
+                    resource = resourceName.GET
+                End If
+            ElseIf resourceName.FileExists Then
+                resource = resourceName.ReadAllText
+            Else
+                Throw New NotImplementedException(resourceName)
+            End If
+
+            Return htext.StreamParser(resource)
         End Function
     End Class
 End Namespace
