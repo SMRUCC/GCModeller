@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.WebCloud.HTTPInternal.Attributes
 
 Module routerTest
@@ -13,6 +14,11 @@ Module routerTest
 
     <RunApp(AppRouter.text)>
     Public Function text() As Boolean
+
+    End Function
+
+    <ExportAPI("/images/test.vbs")>
+    Public Function imageThumb() As Boolean
 
     End Function
 End Module
