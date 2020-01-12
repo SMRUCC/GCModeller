@@ -268,10 +268,6 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj">
-      <Project>{eea01916-0334-4293-b284-c8b0d9d3ef63}</Project>
-      <Name>alglibnet2</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.App\Cytoscape.App.vbproj">
       <Project>{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}</Project>
       <Name>Cytoscape.App</Name>
