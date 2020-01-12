@@ -530,6 +530,7 @@
     <Compile Include="AppEngine\API\Abstract.vb" />
     <Compile Include="AppEngine\API\Extensions.vb" />
     <Compile Include="AppEngine\JsonResponse.vb" />
+    <Compile Include="AppEngine\Router\Attributes.vb" />
     <Compile Include="Core\HttpSocket.vb" />
     <Compile Include="Core\FileSystem\InternalUpdates.vb" />
     <Compile Include="Core\HttpRequest\HttpRequest.vb" />
