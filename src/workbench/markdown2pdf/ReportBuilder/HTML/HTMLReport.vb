@@ -83,7 +83,7 @@ Namespace HTML
             Get
                 Return templates _
                     .Values _
-                    .Select(Function(handler) handler.Path) _
+                    .Select(Function(handler) handler.path) _
                     .ToArray
             End Get
         End Property
@@ -95,7 +95,7 @@ Namespace HTML
         Default Public WriteOnly Property assign(name As String) As String
             Set(value As String)
                 For Each template In templates.Values
-                    template.Builder(name) = value
+                    template.builder(name) = value
                 Next
             End Set
         End Property
@@ -119,7 +119,7 @@ Namespace HTML
         ''' <returns></returns>
         Public Function Replace(find$, value$) As HTMLReport
             For Each template In templates.Values
-                Call template.Builder.Replace(find, value)
+                Call template.builder.Replace(find, value)
             Next
 
             Return Me

@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
+<HideModuleName>
 Public Module Extensions
 
     ''' <summary>

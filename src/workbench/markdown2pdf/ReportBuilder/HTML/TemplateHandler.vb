@@ -63,18 +63,18 @@ Namespace HTML
         ''' 模板文件的文件全路径
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Path As String
+        Public ReadOnly Property path As String
         ''' <summary>
         ''' 模板文本字符串的缓存
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Builder As ScriptBuilder
+        Public ReadOnly Property builder As ScriptBuilder
 
         Sub New(file As String)
             ' 可能在将报告写入硬盘文件之前，文件系统的上下文已经变了
             ' 所以需要在这里获取得到全路径
-            Path = file.GetFullPath
-            Builder = New ScriptBuilder(Path.ReadAllText)
+            path = file.GetFullPath
+            builder = New ScriptBuilder(path.ReadAllText)
 
             Call HtmlInterpolate()
         End Sub
@@ -87,12 +87,12 @@ Namespace HTML
         ''' </summary>
         Private Sub HtmlInterpolate()
             ' 模板的插值格式为${relpath}
-            Dim relpath = r.Matches(Builder.ToString, InterpolateRef, RegexICSng).ToArray
-            Dim dir As String = Path.ParentPath
+            Dim relpath = r.Matches(builder.ToString, InterpolateRef, RegexICSng).ToArray
+            Dim dir As String = path.ParentPath
 
             For Each refpath As String In relpath
                 With refpath.GetStackValue("{", "}")
-                    Call Builder.Replace(refpath, $"{dir}/{ .ByRef}".ReadAllText)
+                    Call builder.Replace(refpath, $"{dir}/{ .ByRef}".ReadAllText)
                 End With
             Next
         End Sub
@@ -102,11 +102,11 @@ Namespace HTML
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Flush()
-            Call Builder.Save(Path, TextEncodings.UTF8WithoutBOM)
+            Call builder.Save(path, TextEncodings.UTF8WithoutBOM)
         End Sub
 
         Public Overrides Function ToString() As String
-            Return Path
+            Return path
         End Function
     End Class
 End Namespace
