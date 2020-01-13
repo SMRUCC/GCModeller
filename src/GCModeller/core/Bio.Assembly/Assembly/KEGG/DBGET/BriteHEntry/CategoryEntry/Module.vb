@@ -112,7 +112,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                           Order By ls.Length Descending).ToArray
             Dim dict As Dictionary(Of String, [Module]) =
                 orders.ToDictionary(Function(x) x.Key,
-                                    Function(x) x.ls.First)
+                                    Function(x)
+                                        Return x.ls.First
+                                    End Function)
             Return dict
         End Function
 
