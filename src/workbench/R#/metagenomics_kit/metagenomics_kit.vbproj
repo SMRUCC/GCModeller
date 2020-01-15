@@ -155,6 +155,10 @@
       <Project>{98B68C31-EA5A-4B07-A748-3A009FABFA39}</Project>
       <Name>Microbiome</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
+      <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
+      <Name>R</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
