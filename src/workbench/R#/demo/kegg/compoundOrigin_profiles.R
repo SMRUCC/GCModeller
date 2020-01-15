@@ -1,6 +1,7 @@
 imports ["taxonomy_kit", "metagenomics_kit"] from "metagenomics_kit.dll";
 
-let dirs as string <- list.dirs("S:\biodeepdb\kegg\test", fullNames = TRUE, recursive = FALSE);
+# "S:\biodeepdb\kegg\test"
+let dirs as string <- list.dirs("S:\biodeepdb\kegg\enzymes", fullNames = TRUE, recursive = FALSE);
 let taxonomy.tree <- Ncbi.taxonomy_tree("S:\synthetic_biology\taxdmp");
 # let test_org as string = "S:\biodeepdb\kegg\enzymes\xcb";
 # let empty <- taxonomy.tree :> compounds.origin.profile(test_org);
