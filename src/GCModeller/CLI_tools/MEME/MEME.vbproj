@@ -318,7 +318,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\modules\ReportBuilder\ReportBuilder.vbproj">
+    <ProjectReference Include="..\..\..\workbench\markdown2pdf\ReportBuilder\ReportBuilder.vbproj">
       <Project>{eeb2bb03-20b0-4381-8a9e-e2210eb568a5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
