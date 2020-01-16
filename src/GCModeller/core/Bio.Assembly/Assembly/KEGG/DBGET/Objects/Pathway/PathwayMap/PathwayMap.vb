@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::578148c35754c270062f0f40bc253bf9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class PathwayMap
-    ' 
-    '         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
-    '                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
-    '                     name
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetMapImage, GetPathwayGenes
-    '                   mapParserInternal, SolveEntries
-    ' 
-    '         Sub: SetMapImage
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class PathwayMap
+' 
+'         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
+'                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
+'                     name
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetMapImage, GetPathwayGenes
+'                   mapParserInternal, SolveEntries
+' 
+'         Sub: SetMapImage
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -125,6 +126,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetPathwayGenes() As String()
             Return KEGGOrthology.EntityList
+        End Function
+
+        Public Function GetCompounds(Optional includesGlycan As Boolean = True) As Index(Of String)
+            Dim cids As New List(Of String)(KEGGCompound.SafeQuery.Select(Function(c) c.name))
+
+            If includesGlycan Then
+                cids.AddRange(KEGGGlycan.SafeQuery.Select(Function(c) c.name))
+            End If
+
+            Return cids.Distinct.Indexing
         End Function
 
         Public Function GetMapImage() As Bitmap
