@@ -98,18 +98,18 @@ Namespace Analysis
         ''' <param name="b"></param>
         ''' <returns></returns>
         Public Function NodeSimilarity(a As Node, b As Node) As Double
-            Dim atypes As Dictionary(Of String, Integer) = a.nodeGroupCounts
-            Dim btypes As Dictionary(Of String, Integer) = b.nodeGroupCounts
-            Dim allGroups As Index(Of String) = atypes.Keys.AsList + btypes.Keys
-            Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf atypes.TryGetValue))
-            Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf btypes.TryGetValue))
-            Dim cos As Double = Math.SSM(av, bv)
-
             ' consider the node itself
-            ' if the two node is not in same datatype, then returns a lower cos value
+            ' if the two node is not in same datatype, then returns not similar
             If Scripting.ToString(a.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)) <> Scripting.ToString(b.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)) Then
-                Return cos / 2
+                Return 0
             Else
+                Dim atypes As Dictionary(Of String, Integer) = a.nodeGroupCounts
+                Dim btypes As Dictionary(Of String, Integer) = b.nodeGroupCounts
+                Dim allGroups As Index(Of String) = atypes.Keys.AsList + btypes.Keys
+                Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf atypes.TryGetValue))
+                Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf btypes.TryGetValue))
+                Dim cos As Double = Math.SSM(av, bv)
+
                 Return cos
             End If
         End Function
