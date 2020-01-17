@@ -158,6 +158,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Call DownloadKCF(entry, App.CurrentProcessTemp).SaveTo(save, Encodings.ASCII.CodePage)
         End Sub
 
+        ''' <summary>
+        ''' This function returns the KCF content data if download progress success
+        ''' </summary>
+        ''' <param name="cpdID">The KEGG compound id</param>
+        ''' <param name="saveDIR">Directory path for save the KCF file data</param>
+        ''' <returns></returns>
         Public Shared Function DownloadKCF(cpdID$, Optional saveDIR$ = "./") As String
             Dim url$ = "http://www.kegg.jp/dbget-bin/www_bget?-f+k+compound+" & cpdID
             Dim save$ = saveDIR & "/" & cpdID & ".txt"
