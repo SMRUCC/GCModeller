@@ -50,7 +50,7 @@ Namespace Analysis
 
     Public Module Similarity
 
-        Public Function GraphSimilarity(x As NetworkGraph, y As NetworkGraph, Optional cutoff# = 0.85) As Double
+        Public Function GraphSimilarity(x As NetworkGraph, y As NetworkGraph, Optional cutoff# = 0.85, Optional topologyCos As Boolean = False) As Double
             ' JaccardIndex (intersects / union) -> highly similar / (dis-similar + highly similar)
             Dim similar%
             Dim top#
@@ -73,7 +73,7 @@ Namespace Analysis
                 top = -99999
 
                 For Each b As Node In y.vertex
-                    cos = Similarity.NodeSimilarity(a, b)
+                    cos = Similarity.NodeSimilarity(a, b, topologyCos)
 
                     If cos > top Then
                         top = cos
