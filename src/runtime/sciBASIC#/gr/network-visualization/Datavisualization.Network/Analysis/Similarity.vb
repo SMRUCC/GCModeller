@@ -97,7 +97,7 @@ Namespace Analysis
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         ''' <returns></returns>
-        Public Function NodeSimilarity(a As Node, b As Node) As Double
+        Public Function NodeSimilarity(a As Node, b As Node, Optional topologyCos As Boolean = True) As Double
             ' consider the node itself
             ' if the two node is not in same datatype, then returns not similar
             If Scripting.ToString(a.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)) <> Scripting.ToString(b.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)) Then
@@ -110,8 +110,23 @@ Namespace Analysis
                 Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf btypes.TryGetValue))
                 Dim cos As Double = Math.SSM(av, bv)
 
-                Return cos
+                If topologyCos Then
+                    Return cos * Similarity.TopologyCos(a, b)
+                Else
+                    Return cos
+                End If
             End If
+        End Function
+
+        Public Function TopologyCos(a As Node, b As Node) As Double
+            Dim aDist = a.nodeGroupDistance
+            Dim bDist = b.nodeGroupDistance
+            Dim allGroups As Index(Of String) = aDist.Keys.AsList + bDist.Keys
+            Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf aDist.TryGetValue))
+            Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf bDist.TryGetValue))
+            Dim cos As Double = Math.SSM(av, bv)
+
+            Return cos
         End Function
 
         <Extension>
@@ -121,6 +136,43 @@ Namespace Analysis
                               Function(group)
                                   Return group.Count
                               End Function)
+        End Function
+
+        <Extension>
+        Private Function nodeGroupDistance(v As Node) As Dictionary(Of String, Double)
+            Return (From type As (String, Double) In v.AllNodeDistance Group By type.Item1 Into Group) _
+                 .ToDictionary(Function(group) group.Item1,
+                               Function(group)
+                                   Return group.Group.Average(Function(n) n.Item2)
+                               End Function)
+        End Function
+
+        <Extension>
+        Public Function AllNodeDistance(v As Node) As IEnumerable(Of (String, Double))
+            If v.adjacencies Is Nothing Then
+                ' 孤立节点
+                Return {}
+            End If
+
+            Dim a = v.data.initialPostion
+
+            Return v.adjacencies _
+                .EnumerateAllEdges _
+                .Select(Function(e)
+                            Dim partner As Node
+
+                            If e.U Is v Then
+                                partner = e.V
+                            Else
+                                partner = e.U
+                            End If
+
+                            Dim type$ = partner.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+                            Dim b = partner.data.initialPostion
+                            Dim dist = (a.x - b.x) ^ 2 + (a.y - b.y) ^ 2 + (a.z - b.z) ^ 2
+
+                            Return (If(type, "n/a"), dist)
+                        End Function)
         End Function
 
         <Extension>
