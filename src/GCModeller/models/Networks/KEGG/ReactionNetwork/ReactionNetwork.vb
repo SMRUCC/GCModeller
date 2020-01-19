@@ -58,33 +58,37 @@ Namespace ReactionNetwork
     ''' 这个模块是针对一组给定的特定的代谢物编号列表
     ''' 生成对应的小分子代谢物互做网络图
     ''' </summary>
-    Public Module ReactionNetworkBuilder
+    Public Class ReactionNetworkBuilder
+
+        Public Shared ReadOnly commonIgnores As Index(Of String) = My.Resources _
+            .CommonIgnores _
+            .LineTokens _
+            .Distinct _
+            .ToArray
+
+        Dim blue As New SolidBrush(Color.CornflowerBlue)
+        Dim gray As New SolidBrush(Color.LightGray)
 
         ''' <summary>
-        ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
+        ''' 从输入的数据之中构建出网络的节点列表
+        ''' </summary>
+        Dim nodes As CompoundNodeTable
+        ' {KEGG_compound --> reaction ID()}
+        Dim cpdGroups As Dictionary(Of String, String())
+        Dim networkBase As Dictionary(Of String, ReactionTable)
+        Dim edges As New Dictionary(Of String, Edge)
+        Dim g As New NetworkGraph
+        Dim reactionIDlist As New List(Of String)
+
+        ''' <summary>
+        ''' 
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        ''' <param name="delimiter$"></param>
-        ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
-        ''' <param name="enzymeInfo">
-        ''' ``{KO => protein names}``
-        ''' </param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
-                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                   Optional extended As Boolean = False,
-                                   Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
-                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
-
-            Dim blue As New SolidBrush(Color.CornflowerBlue)
-            Dim gray As New SolidBrush(Color.LightGray)
-            Dim edges As New Dictionary(Of String, Edge)
-            Dim g As New NetworkGraph
+        Sub New(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)))
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
-            Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
+            networkBase = br08901 _
                 .GroupBy(Function(r) r.entry) _
                 .ToDictionary(Function(r) r.Key,
                               Function(group)
@@ -92,7 +96,7 @@ Namespace ReactionNetwork
                               End Function)
 
             ' {KEGG_compound --> reaction ID()}
-            Dim cpdGroups As Dictionary(Of String, String()) = networkBase.Values _
+            cpdGroups = networkBase.Values _
                 .Select(Function(x)
                             Return x.substrates _
                                 .JoinIterates(x.products) _
@@ -107,30 +111,49 @@ Namespace ReactionNetwork
                                       .Distinct _
                                       .ToArray
                               End Function)
+
+            nodes = New CompoundNodeTable(compounds, cpdGroups, color:=blue)
+        End Sub
+
+        Private Sub addNewEdge(edge As Edge)
+            Dim ledge As IInteraction = edge
+
+            If (Not nodes.containsKey(ledge.source)) OrElse (Not nodes.containsKey(ledge.target)) Then
+                Throw New InvalidExpressionException(edge.ToString)
+            End If
+            If ledge.source Like commonIgnores OrElse ledge.target Like commonIgnores Then
+                ' 跳过水
+                Return
+            End If
+
+            With edge.GetNullDirectedGuid(True)
+                If Not .DoCall(AddressOf edges.ContainsKey) Then
+                    Call edges.Add(.ByRef, edge)
+                    Call g.AddEdge(edge)
+                End If
+            End With
+        End Sub
+
+        ''' <summary>
+        ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
+        ''' </summary>
+        ''' <param name="delimiter$"></param>
+        ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
+        ''' <param name="enzymeInfo">
+        ''' ``{KO => protein names}``
+        ''' </param>
+        ''' <returns></returns>
+        Public Function BuildModel(Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                   Optional extended As Boolean = False,
+                                   Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
+                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
+
             Dim commons As Value(Of String()) = {}
-
-            ' 从输入的数据之中构建出网络的节点列表
-            Dim nodes As New CompoundNodeTable(compounds, cpdGroups, color:=blue)
-            Dim addNewEdge = Sub(edge As Edge)
-                                 Dim ledge As IInteraction = edge
-
-                                 If (Not nodes.containsKey(ledge.source)) OrElse (Not nodes.containsKey(ledge.target)) Then
-                                     Throw New InvalidExpressionException(edge.ToString)
-                                 End If
-                                 If ledge.source Like commonIgnores OrElse ledge.target Like commonIgnores Then
-                                     ' 跳过水
-                                     Return
-                                 End If
-
-                                 With edge.GetNullDirectedGuid(True)
-                                     If Not .DoCall(AddressOf edges.ContainsKey) Then
-                                         Call edges.Add(.ByRef, edge)
-                                         Call g.AddEdge(edge)
-                                     End If
-                                 End With
-                             End Sub
             Dim extendes As New List(Of Node)
-            Dim reactionIDlist As New List(Of String)
+
+            g = New NetworkGraph
+            edges = New Dictionary(Of String, Edge)
+            reactionIDlist = New List(Of String)
 
             Call nodes.values.DoEach(AddressOf g.AddNode)
 
@@ -182,7 +205,7 @@ Namespace ReactionNetwork
                             If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
                                 Continue For
                             Else
-                                extendes += cpdGroups.doNetworkExtension(a, b, gray, edges, nodes, reactionIDlist)
+                                extendes += cpdGroups.doNetworkExtension(a, b, gray, AddressOf addNewEdge, nodes, reactionIDlist)
                             End If
 
                         End If
@@ -190,12 +213,16 @@ Namespace ReactionNetwork
                 Next
             Next
 
-            extendes = extendes _
-                .GroupBy(Function(n) n.label) _
-                .Select(Function(x) x.First) _
-                .AsList
+            Return doNetworkExpansion(extendes, enzymeInfo, enzymeRelated)
+        End Function
 
-            For Each x In extendes
+        Private Function doNetworkExpansion(extends As List(Of Node), enzymeInfo As Dictionary(Of String, String()), enzymeRelated As Boolean) As NetworkGraph
+            extends = extends _
+               .GroupBy(Function(n) n.label) _
+               .Select(Function(x) x.First) _
+               .AsList
+
+            For Each x In extends
                 If Not nodes.containsKey(x.label) Then
                     nodes += x
                 End If
@@ -208,19 +235,34 @@ Namespace ReactionNetwork
 
             Call reactionIDlist _
                 .Distinct _
-                .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
+                .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, AddressOf addNewEdge, enzymeRelated)
 
             Return g
         End Function
+    End Class
 
+    <HideModuleName>
+    Public Module Extensions
 
+        ''' <summary>
+        ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
+        ''' </summary>
+        ''' <param name="br08901">代谢反应数据</param>
+        ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
+        ''' <param name="delimiter$"></param>
+        ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
+        ''' <param name="enzymeInfo">
+        ''' ``{KO => protein names}``
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
+                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                   Optional extended As Boolean = False,
+                                   Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
+                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
 
-        Public ReadOnly commonIgnores As Index(Of String) = My.Resources _
-            .CommonIgnores _
-            .LineTokens _
-            .Distinct _
-            .ToArray
-
-
+            Return New ReactionNetworkBuilder(br08901, compounds).BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+        End Function
     End Module
 End Namespace

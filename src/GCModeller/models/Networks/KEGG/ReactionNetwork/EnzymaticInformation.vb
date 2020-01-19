@@ -1,10 +1,6 @@
-﻿Imports System.Drawing
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -32,10 +28,10 @@ Namespace ReactionNetwork
         End Function
 
         <Extension>
-        Private Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
+        Friend Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
                                            enzymeInfo As Dictionary(Of String, String()),
                                            networkBase As Dictionary(Of String, ReactionTable),
-                                           nodes As Dictionary(Of Node),
+                                           nodes As CompoundNodeTable,
                                            addNewEdge As Action(Of Edge),
                                            enzymeRelated As Boolean)
 
@@ -56,8 +52,8 @@ Namespace ReactionNetwork
             For Each reaction As ReactionTable In reactions _
                 .Where(Function(rn)
                            If enzymeRelated Then
-                               Return rn.substrates.Any(AddressOf nodes.ContainsKey) OrElse
-                                      rn.products.Any(AddressOf nodes.ContainsKey)
+                               Return rn.substrates.Any(AddressOf nodes.containsKey) OrElse
+                                      rn.products.Any(AddressOf nodes.containsKey)
                            Else
                                Return True
                            End If
@@ -71,7 +67,7 @@ Namespace ReactionNetwork
                     usedEnzymies += enzymies
                 End If
 
-                If Not nodes.ContainsKey(reaction.entry) Then
+                If Not nodes.containsKey(reaction.entry) Then
                     nodes.Add(New Node With {
                         .ID = reaction.entry,
                         .NodeType = "reaction",
@@ -83,7 +79,7 @@ Namespace ReactionNetwork
                 End If
 
                 For Each enzyme As String In enzymies
-                    If Not nodes.ContainsKey(enzyme) Then
+                    If Not nodes.containsKey(enzyme) Then
                         nodes.Add(New Node With {
                             .ID = enzyme,
                             .NodeType = "enzyme",
@@ -115,7 +111,7 @@ Namespace ReactionNetwork
                        .Value = 1
                     }
 
-                    If Not nodes.ContainsKey(compound) Then
+                    If Not nodes.containsKey(compound) Then
                         ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
                     Else
                         Call addNewEdge(edge)
@@ -130,7 +126,7 @@ Namespace ReactionNetwork
                        .Value = 1
                     }
 
-                    If Not nodes.ContainsKey(compound) Then
+                    If Not nodes.containsKey(compound) Then
                         ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
                     Else
                         Call addNewEdge(edge)
