@@ -49,90 +49,93 @@ Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
-''' <summary>
-''' A simplify data model of KEGG reaction object.
-''' 
-''' 对一个代谢反应过程的描述
-''' </summary>
-Public Class ReactionTable
+Namespace ReactionNetwork
 
     ''' <summary>
-    ''' 反应编号
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property entry As String
-    Public Property name As String
-    Public Property definition As String
-
-    ''' <summary>
-    ''' 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property EC As String()
-    ''' <summary>
-    ''' 和<see cref="EC"/>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property KO As String()
-
-    ''' <summary>
-    ''' 底物列表
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property substrates As String()
-    ''' <summary>
-    ''' 产物列表
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property products As String()
-
-    Public Overrides Function ToString() As String
-        Return name
-    End Function
-
-    ''' <summary>
+    ''' A simplify data model of KEGG reaction object.
     ''' 
+    ''' 对一个代谢反应过程的描述
     ''' </summary>
-    ''' <param name="br08201">
-    ''' <see cref="Reaction"/>
-    ''' </param>
-    ''' <returns></returns>
-    Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
-        Dim proc As New SwayBar
-        Dim model As ReactionTable = Nothing
+    Public Class ReactionTable
 
-        For Each file As String In (ls - l - r - "*.XML" <= br08201)
-            Try
-                model = Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
-                ' populate data from xml load result
-                ' if success
-                Yield model
-            Catch ex As Exception
-                Call file.PrintException
-                Call App.LogException(ex)
-            Finally
-                Call proc.Step(model?.name)
-            End Try
-        Next
-    End Function
+        ''' <summary>
+        ''' 反应编号
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property entry As String
+        Public Property name As String
+        Public Property definition As String
 
-    Private Shared Function creates(xml As Reaction) As ReactionTable
-        Dim eq As DefaultTypes.Equation = xml.ReactionModel
-        Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
-        Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
+        ''' <summary>
+        ''' 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property EC As String()
+        ''' <summary>
+        ''' 和<see cref="EC"/>几乎是一个意思,只不过通过这个属性值可以更加的容易与相应的基因进行关联
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property KO As String()
 
-        Return New ReactionTable With {
-            .definition = xml.Definition,
-            .EC = xml.Enzyme,
-            .entry = xml.ID,
-            .name = rxnName,
-            .products = eq.Products _
-                .Select(Function(cp) cp.ID) _
-                .ToArray,
-            .substrates = eq.Reactants _
-                .Select(Function(cp) cp.ID) _
-                .ToArray,
-            .KO = KOlist
-        }
-    End Function
-End Class
+        ''' <summary>
+        ''' 底物列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property substrates As String()
+        ''' <summary>
+        ''' 产物列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property products As String()
+
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="br08201">
+        ''' <see cref="Reaction"/>
+        ''' </param>
+        ''' <returns></returns>
+        Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
+            Dim proc As New SwayBar
+            Dim model As ReactionTable = Nothing
+
+            For Each file As String In (ls - l - r - "*.XML" <= br08201)
+                Try
+                    model = Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
+                    ' populate data from xml load result
+                    ' if success
+                    Yield model
+                Catch ex As Exception
+                    Call file.PrintException
+                    Call App.LogException(ex)
+                Finally
+                    Call proc.Step(model?.name)
+                End Try
+            Next
+        End Function
+
+        Private Shared Function creates(xml As Reaction) As ReactionTable
+            Dim eq As DefaultTypes.Equation = xml.ReactionModel
+            Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
+            Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
+
+            Return New ReactionTable With {
+                .definition = xml.Definition,
+                .EC = xml.Enzyme,
+                .entry = xml.ID,
+                .name = rxnName,
+                .products = eq.Products _
+                    .Select(Function(cp) cp.ID) _
+                    .ToArray,
+                .substrates = eq.Reactants _
+                    .Select(Function(cp) cp.ID) _
+                    .ToArray,
+                .KO = KOlist
+            }
+        End Function
+    End Class
+End Namespace
