@@ -41,13 +41,10 @@ Namespace ReactionNetwork
         End Function
 
         Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush) As Node
-            Dim type$
+            Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
-                type = cpdGroups(cpd.Name) _
-                .JoinBy(Delimiter)
-            Else
-                type = "KEGG Compound"
+                type = cpdGroups(cpd.Name).JoinBy("|")
             End If
 
             Return New Node With {
@@ -57,8 +54,9 @@ Namespace ReactionNetwork
                     .origID = cpd.Value,
                     .color = color,
                     .Properties = New Dictionary(Of String, String) From {
-                        {"name", cpd.Value},
-                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, type}
+                        {"common_name", cpd.Value},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
+                        {"related", type}
                     }
                 }
             }

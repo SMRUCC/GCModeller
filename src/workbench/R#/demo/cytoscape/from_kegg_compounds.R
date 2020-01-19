@@ -10,6 +10,6 @@ let exports as string = ?"--save"    || `${dirname(id.list)}/${basename(id.list)
 br08201
 :> reactions.table()
 :> compounds.network( readLines(id.list) )
-:> save.network(file = exports, properties = ["name"])
+:> save.network(file = exports, properties = ["common_name", "related"])
 ;
 
