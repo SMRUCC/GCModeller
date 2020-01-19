@@ -51,7 +51,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Namespace ReactionNetwork
 
@@ -60,77 +59,6 @@ Namespace ReactionNetwork
     ''' 生成对应的小分子代谢物互做网络图
     ''' </summary>
     Public Module ReactionNetworkBuilder
-
-        <Extension>
-        Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = FunctionalNetwork.Delimiter)
-            ' 生成了 compound => maps 的包含关系
-            Dim compoundIndex As Dictionary(Of String, String()) = maps _
-            .Select(Function(pathway)
-                        Return pathway.shapes _
-                            .Select(Function(a) a.IDVector) _
-                            .IteratesALL _
-                            .Where(Function(id) id.IsPattern("C\d+")) _
-                            .Select(Function(id) (id, pathway))
-                    End Function) _
-            .IteratesALL _
-            .GroupBy(Function(link) link.Item1) _
-            .ToDictionary(Function(compound) compound.Key,
-                          Function(mapList)
-                              Return mapList _
-                                  .Select(Function(l) l.Item2) _
-                                  .Select(Function(map) $"[{map.id}] {map.Name}") _
-                                  .ToArray
-                          End Function)
-
-            For Each node As Node In net.vertex
-                If compoundIndex.ContainsKey(node.ID) Then
-                    node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = compoundIndex(node.ID).JoinBy(delimiter)
-                Else
-                    node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound"
-                End If
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' 将代谢物网络之中的reaction编号转换为pathway的名称
-        ''' </summary>
-        ''' <param name="net"></param>
-        ''' <param name="ko0001"></param>
-        <Extension>
-        Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = FunctionalNetwork.Delimiter)
-            ' 生成了reaction => pathway的对应关系
-            Dim index = ko0001 _
-            .Where(Function(ko) Not ko.reactions.IsNullOrEmpty) _
-            .Select(Function(ko) ko.reactions.Select(Function(rn) (rn, ko))) _
-            .IteratesALL _
-            .GroupBy(Function(id) id.Item1) _
-            .ToDictionary(Function(id) id.Key,
-                          Function(rn)
-                              Return rn.Select(Function(x) x.Item2).ToArray
-                          End Function)
-
-            For Each node As Node In net.vertex
-                Dim [class] As New List(Of String)
-                Dim rn$() = Strings.Split(node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), delimiter)
-
-                For Each id In rn
-                    If index.ContainsKey(id) Then
-                        [class] += index(id) _
-                        .Select(Function(ko) ko.pathways.Select(Function(x) x.text)) _
-                        .IteratesALL _
-                        .Distinct
-                    End If
-                Next
-
-                [class] = [class].Distinct.AsList
-
-                If [class].IsNullOrEmpty Then
-                    node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound"
-                Else
-                    node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = [class].JoinBy(delimiter)
-                End If
-            Next
-        End Sub
 
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
@@ -144,12 +72,11 @@ Namespace ReactionNetwork
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable),
-                               compounds As IEnumerable(Of NamedValue(Of String)),
-                               Optional delimiter$ = FunctionalNetwork.Delimiter,
-                               Optional extended As Boolean = False,
-                               Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
-                               Optional enzymeRelated As Boolean = True) As NetworkGraph
+        Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
+                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                   Optional extended As Boolean = False,
+                                   Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
+                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
 
             Dim blue As New SolidBrush(Color.CornflowerBlue)
             Dim gray As New SolidBrush(Color.LightGray)
@@ -158,28 +85,28 @@ Namespace ReactionNetwork
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
             Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
-            .GroupBy(Function(r) r.entry) _
-            .ToDictionary(Function(r) r.Key,
-                          Function(g)
-                              Return g.First
-                          End Function)
+                .GroupBy(Function(r) r.entry) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(group)
+                                  Return group.First
+                              End Function)
 
             ' {KEGG_compound --> reaction ID()}
             Dim cpdGroups As Dictionary(Of String, String()) = networkBase.Values _
-            .Select(Function(x)
-                        Return x.substrates _
-                            .JoinIterates(x.products) _
-                            .Select(Function(id) (id, x))
-                    End Function) _
-            .IteratesALL _
-            .GroupBy(Function(x) x.Item1) _
-            .ToDictionary(Function(x) x.Key,
-                          Function(reactions)
-                              Return reactions _
-                                  .Select(Function(x) x.Item2.entry) _
-                                  .Distinct _
-                                  .ToArray
-                          End Function)
+                .Select(Function(x)
+                            Return x.substrates _
+                                .JoinIterates(x.products) _
+                                .Select(Function(id) (id, x))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(x) x.Item1) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(reactions)
+                                  Return reactions _
+                                      .Select(Function(x) x.Item2.entry) _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
             Dim commons As Value(Of String()) = {}
 
             ' 从输入的数据之中构建出网络的节点列表
@@ -220,10 +147,10 @@ Namespace ReactionNetwork
                 End If
 
                 For Each b As Node In nodes.values _
-                .Where(Function(x)
-                           Return x.ID <> a.ID AndAlso Not x.label Like commonIgnores
-                       End Function) _
-                .ToArray
+                    .Where(Function(x)
+                               Return x.ID <> a.ID AndAlso Not x.label Like commonIgnores
+                           End Function) _
+                    .ToArray
 
                     Dim rB = cpdGroups.TryGetValue(b.label)
 
@@ -234,15 +161,15 @@ Namespace ReactionNetwork
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                         Dim edge As New Edge With {
-                        .U = a,
-                        .V = b,
-                        .data = New EdgeData With {
-                            .weight = commons.Value.Length,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, commons.Value.JoinBy("|")}
+                            .U = a,
+                            .V = b,
+                            .data = New EdgeData With {
+                                .weight = commons.Value.Length,
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, commons.Value.JoinBy("|")}
+                                }
                             }
                         }
-                    }
 
                         Call reactionIDlist.AddRange(commons.Value)
                         Call addNewEdge(edge)
@@ -264,9 +191,9 @@ Namespace ReactionNetwork
             Next
 
             extendes = extendes _
-            .GroupBy(Function(n) n.label) _
-            .Select(Function(x) x.First) _
-            .AsList
+                .GroupBy(Function(n) n.label) _
+                .Select(Function(x) x.First) _
+                .AsList
 
             For Each x In extendes
                 If Not nodes.containsKey(x.label) Then
@@ -280,8 +207,8 @@ Namespace ReactionNetwork
             End If
 
             Call reactionIDlist _
-            .Distinct _
-            .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
+                .Distinct _
+                .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
 
             Return g
         End Function
@@ -292,13 +219,13 @@ Namespace ReactionNetwork
 
             If Not reaction.KO.IsNullOrEmpty Then
                 list += enzymeInfo.Takes(reaction.KO) _
-                .IteratesALL _
-                .Where(Function(s) Not s.StringEmpty)
+                    .IteratesALL _
+                    .Where(Function(s) Not s.StringEmpty)
             End If
             If Not reaction.EC.IsNullOrEmpty Then
                 list += enzymeInfo.Takes(reaction.EC) _
-                .IteratesALL _
-                .Where(Function(s) Not s.StringEmpty)
+                    .IteratesALL _
+                    .Where(Function(s) Not s.StringEmpty)
             End If
 
             Return list.Distinct.ToArray
@@ -306,11 +233,11 @@ Namespace ReactionNetwork
 
         <Extension>
         Private Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
-                                       enzymeInfo As Dictionary(Of String, String()),
-                                       networkBase As Dictionary(Of String, ReactionTable),
-                                       nodes As Dictionary(Of Node),
-                                       addNewEdge As Action(Of Edge),
-                                       enzymeRelated As Boolean)
+                                           enzymeInfo As Dictionary(Of String, String()),
+                                           networkBase As Dictionary(Of String, ReactionTable),
+                                           nodes As Dictionary(Of Node),
+                                           addNewEdge As Action(Of Edge),
+                                           enzymeRelated As Boolean)
 
             Dim reactions As ReactionTable()
             Dim usedEnzymies As New List(Of String)
@@ -319,22 +246,22 @@ Namespace ReactionNetwork
                 Return
             Else
                 reactions = reactionID _
-                .Select(Function(id) networkBase(id)) _
-                .Where(Function(r)
-                           Return Not r.KO.IsNullOrEmpty OrElse Not r.EC.IsNullOrEmpty
-                       End Function) _
-                .ToArray
+                    .Select(Function(id) networkBase(id)) _
+                    .Where(Function(r)
+                               Return Not r.KO.IsNullOrEmpty OrElse Not r.EC.IsNullOrEmpty
+                           End Function) _
+                    .ToArray
             End If
 
             For Each reaction As ReactionTable In reactions _
-            .Where(Function(rn)
-                       If enzymeRelated Then
-                           Return rn.substrates.Any(AddressOf nodes.ContainsKey) OrElse
-                                  rn.products.Any(AddressOf nodes.ContainsKey)
-                       Else
-                           Return True
-                       End If
-                   End Function)
+                .Where(Function(rn)
+                           If enzymeRelated Then
+                               Return rn.substrates.Any(AddressOf nodes.ContainsKey) OrElse
+                                      rn.products.Any(AddressOf nodes.ContainsKey)
+                           Else
+                               Return True
+                           End If
+                       End Function)
 
                 Dim enzymies = reaction.populateEnzymies(enzymeInfo)
 
@@ -346,33 +273,33 @@ Namespace ReactionNetwork
 
                 If Not nodes.ContainsKey(reaction.entry) Then
                     nodes.Add(New Node With {
-                    .ID = reaction.entry,
-                    .NodeType = "reaction",
-                    .Properties = New Dictionary(Of String, String) From {
-                         {"name", reaction.name},
-                         {"color", "yellow"}
-                    }
-                })
+                        .ID = reaction.entry,
+                        .NodeType = "reaction",
+                        .Properties = New Dictionary(Of String, String) From {
+                             {"name", reaction.name},
+                             {"color", "yellow"}
+                        }
+                    })
                 End If
 
                 For Each enzyme As String In enzymies
                     If Not nodes.ContainsKey(enzyme) Then
                         nodes.Add(New Node With {
-                        .ID = enzyme,
-                        .NodeType = "enzyme",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"name", enzyme},
-                            {"color", "red"}
-                        }
-                    })
+                            .ID = enzyme,
+                            .NodeType = "enzyme",
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"name", enzyme},
+                                {"color", "red"}
+                            }
+                        })
                     End If
 
                     Dim edge As New NetworkEdge With {
-                   .fromNode = enzyme,
-                   .toNode = reaction.entry,
-                   .Interaction = "catalyst",
-                   .Value = 1
-                }
+                       .fromNode = enzyme,
+                       .toNode = reaction.entry,
+                       .Interaction = "catalyst",
+                       .Value = 1
+                    }
 
                     Call addNewEdge(edge)
                 Next
@@ -382,11 +309,11 @@ Namespace ReactionNetwork
                 ' 只添加边链接
                 For Each compound In reaction.products
                     Dim edge As New NetworkEdge With {
-                   .fromNode = reaction.entry,
-                   .toNode = compound,
-                   .Interaction = "reaction",
-                   .Value = 1
-                }
+                       .fromNode = reaction.entry,
+                       .toNode = compound,
+                       .Interaction = "reaction",
+                       .Value = 1
+                    }
 
                     If Not nodes.ContainsKey(compound) Then
                         ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
@@ -397,11 +324,11 @@ Namespace ReactionNetwork
 
                 For Each compound In reaction.substrates
                     Dim edge As New NetworkEdge With {
-                   .toNode = reaction.entry,
-                   .fromNode = compound,
-                   .Interaction = "reaction",
-                   .Value = 1
-                }
+                       .toNode = reaction.entry,
+                       .fromNode = compound,
+                       .Interaction = "reaction",
+                       .Value = 1
+                    }
 
                     If Not nodes.ContainsKey(compound) Then
                         ' nodes.Add(New Node With {.ID = compound, .NodeType = "KEGG Compound", .Properties = New Dictionary(Of String, String) From {{"name", compound}, {"color", gray}, {"is_extended", True}}})
@@ -426,11 +353,22 @@ Namespace ReactionNetwork
         End Sub
 
         Public ReadOnly commonIgnores As Index(Of String) = My.Resources _
-        .CommonIgnores _
-        .LineTokens _
-        .Distinct _
-        .ToArray
+            .CommonIgnores _
+            .LineTokens _
+            .Distinct _
+            .ToArray
 
+        ''' <summary>
+        ''' Extends network by using other compounds as intermediary
+        ''' </summary>
+        ''' <param name="cpdGroups"></param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <param name="gray"></param>
+        ''' <param name="addEdge"></param>
+        ''' <param name="nodes"></param>
+        ''' <param name="reactionIDlist"></param>
+        ''' <returns></returns>
         <Extension>
         Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
                                                  a As Node, b As Node,
@@ -453,18 +391,18 @@ Namespace ReactionNetwork
                     ' 这是一个间接的拓展链接，将其加入到边列表之中
                     ' X也添加进入拓展节点列表之中
                     Yield New Node With {
-                    .label = x.Key,
-                    .data = New NodeData With {
-                        .color = gray,
                         .label = x.Key,
-                        .origID = x.Key,
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"name", x.Key},
-                            {"is_extended", True},
-                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, list.JoinBy(Delimiter)}
+                        .data = New NodeData With {
+                            .color = gray,
+                            .label = x.Key,
+                            .origID = x.Key,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"name", x.Key},
+                                {"is_extended", True},
+                                {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, list.JoinBy(Delimiter)}
+                            }
                         }
                     }
-                }
 
                     Dim populate = Iterator Function()
                                        Yield (a.label, indexA)
@@ -474,15 +412,15 @@ Namespace ReactionNetwork
                     For Each n As (ID$, list As Index(Of String)) In populate()
                         Dim interactions As String() = n.list.Objects.Intersect(list).ToArray
                         Dim edge As New Edge With {
-                        .U = nodes(n.ID),
-                        .V = nodes(x.Key),
-                        .data = New EdgeData With {
-                            .length = interactions.Length,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, interactions.JoinBy("|")}
+                            .U = nodes(n.ID),
+                            .V = nodes(x.Key),
+                            .data = New EdgeData With {
+                                .length = interactions.Length,
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, interactions.JoinBy("|")}
+                                }
                             }
                         }
-                    }
 
                         Call addEdge(edge)
                         Call reactionIDlist.AddRange(interactions)
