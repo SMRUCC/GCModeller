@@ -155,8 +155,6 @@ Namespace ReactionNetwork
             edges = New Dictionary(Of String, Edge)
             reactionIDlist = New List(Of String)
 
-            Call nodes.values.DoEach(AddressOf g.AddNode)
-
             If extended Then
                 Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
             End If

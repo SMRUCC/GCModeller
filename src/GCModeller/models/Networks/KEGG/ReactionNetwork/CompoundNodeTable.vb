@@ -30,6 +30,9 @@ Namespace ReactionNetwork
                             Return createCompoundNode(cpd, cpdGroups, color)
                         End Function) _
                 .ToDictionary
+            nodes _
+                .Values _
+                .DoEach(AddressOf g.AddNode)
         End Sub
 
         Public Function containsKey(nodeLabelId As String) As Boolean
