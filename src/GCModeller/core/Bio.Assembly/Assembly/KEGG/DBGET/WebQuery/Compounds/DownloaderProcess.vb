@@ -136,7 +136,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                         If KCF.FileExists Then
                             compound.KCF = KCF.ReadAllText
                         Else
-                            compound.DownloadKCF(.ByRef)
+                            DownloadKCF(compound, .ByRef)
                             compound.KCF = .ReadAllText
 
                             ' make a local copy
@@ -152,7 +152,9 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                         If gif.FileExists Then
                             base64 = New DataURI(gif).ToString
                         Else
-                            compound.DownloadStructureImage(.ByRef)
+                            Call .DoCall(Sub(file)
+                                             DownloadStructureImage(compound, file)
+                                         End Sub)
                             base64 = New DataURI(.ByRef).ToString
 
                             ' make a local copy

@@ -251,6 +251,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MetabolicComplementation\CompoundOrigins.vb" />
     <Compile Include="Enzyme.vb" />
     <Compile Include="Membrane_transport\Membrane_transport.vb" />
     <Compile Include="MetabolicComplementation\MetabolicEndPoints.vb" />

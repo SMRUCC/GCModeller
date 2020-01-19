@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.fileformatkit.My.MySettings
+        Friend ReadOnly Property Settings() As Global.metagenomics_kit.My.MySettings
             Get
-                Return Global.fileformatkit.My.MySettings.Default
+                Return Global.metagenomics_kit.My.MySettings.Default
             End Get
         End Property
     End Module

@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("fileformatkit")>
+<Assembly: AssemblyTitle("metagenomics_kit")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("fileformatkit")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyProduct("metagenomics_kit")>
+<Assembly: AssemblyCopyright("Copyright ©  2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("0ef21a79-4c0b-42c7-a042-e1e207626f0d")>
+<Assembly: Guid("02cc1e16-d65a-4287-bfab-4bb7500623cd")>
 
 ' Version information for an assembly consists of the following four values:
 '
