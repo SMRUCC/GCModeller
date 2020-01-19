@@ -241,6 +241,7 @@
     <Compile Include="PathwayMaps\Styles\BlockStyle.vb" />
     <Compile Include="PathwayMaps\Styles\RenderStyle.vb" />
     <Compile Include="PathwayMaps\Styles\PlainStyle.vb" />
+    <Compile Include="ReactionNetwork\NetworkExpansion.vb" />
     <Compile Include="ReactionNetwork\Styles.vb" />
     <Compile Include="ReactionNetwork\NamespaceDoc.vb" />
     <Compile Include="ReactionNetwork\ReactionNetwork.vb" />
