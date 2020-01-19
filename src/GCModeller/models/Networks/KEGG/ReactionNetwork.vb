@@ -218,8 +218,8 @@ Public Module ReactionNetwork
                                  Return
                              End If
 
-                             With ledge.GetNullDirectedGuid(True)
-                                 If Not edges.ContainsKey(.ByRef) Then
+                             With edge.GetNullDirectedGuid(True)
+                                 If Not .DoCall(AddressOf edges.ContainsKey) Then
                                      Call edges.Add(.ByRef, edge)
                                  End If
                              End With
@@ -253,7 +253,7 @@ Public Module ReactionNetwork
 
                 ' a 和 b 是直接相连的
                 If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
-                    Dim edge As New NetworkEdge With {
+                    Dim edge As New Edge With {
                         .fromNode = a.ID,
                         .toNode = b.ID,
                         .Value = commons.Value.Length,
