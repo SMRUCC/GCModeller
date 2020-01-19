@@ -112,7 +112,7 @@ Namespace ReactionNetwork
                                       .ToArray
                               End Function)
 
-            nodes = New CompoundNodeTable(compounds, cpdGroups, color:=blue)
+            nodes = New CompoundNodeTable(compounds, cpdGroups, g, color:=blue)
         End Sub
 
         Private Sub addNewEdge(edge As Edge)
@@ -151,7 +151,6 @@ Namespace ReactionNetwork
             Dim commons As Value(Of String()) = {}
             Dim extendes As New List(Of Node)
 
-            g = New NetworkGraph
             edges = New Dictionary(Of String, Edge)
             reactionIDlist = New List(Of String)
 

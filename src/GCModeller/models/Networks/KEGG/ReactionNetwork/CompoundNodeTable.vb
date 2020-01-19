@@ -23,16 +23,17 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), color As Brush)
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), g As NetworkGraph, color As Brush)
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ReactionNetworkBuilder.commonIgnores) _
                 .Select(Function(cpd As NamedValue(Of String))
                             Return createCompoundNode(cpd, cpdGroups, color)
                         End Function) _
                 .ToDictionary
-            nodes _
-                .Values _
+            nodes.Values _
                 .DoEach(AddressOf g.AddNode)
+
+            Me.g = g
         End Sub
 
         Public Function containsKey(nodeLabelId As String) As Boolean
