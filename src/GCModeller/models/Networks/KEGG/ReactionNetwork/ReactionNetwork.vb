@@ -152,6 +152,7 @@ Public Module ReactionNetwork
         Dim blue As New SolidBrush(Color.CornflowerBlue)
         Dim gray As New SolidBrush(Color.LightGray)
         Dim edges As New Dictionary(Of String, Edge)
+        Dim g As New NetworkGraph
         ' 构建网络的基础数据
         ' 是依据KEGG代谢反应信息来定义的
         Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
@@ -180,37 +181,11 @@ Public Module ReactionNetwork
         Dim commons As Value(Of String()) = {}
 
         ' 从输入的数据之中构建出网络的节点列表
-        Dim nodes As Dictionary(Of Node) = compounds _
-            .Where(Function(cpd) Not cpd.Name Like commonIgnores) _
-            .Select(Function(cpd As NamedValue(Of String))
-                        Dim type$
-
-                        If cpdGroups.ContainsKey(cpd.Name) Then
-                            type = cpdGroups(cpd.Name) _
-                                .JoinBy(delimiter)
-                        Else
-                            type = "KEGG Compound"
-                        End If
-
-                        Return New Node With {
-                            .label = cpd.Name,
-                            .data = New NodeData With {
-                                .label = cpd.Name,
-                                .origID = cpd.Value,
-                                .color = blue,
-                                .Properties = New Dictionary(Of String, String) From {
-                                    {"name", cpd.Value},
-                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, type}
-                                }
-                            }
-                        }
-                    End Function) _
-            .ToDictionary
-
+        Dim nodes As New CompoundNodeTable(compounds, cpdGroups, color:=blue)
         Dim addNewEdge = Sub(edge As Edge)
                              Dim ledge As IInteraction = edge
 
-                             If (Not nodes.ContainsKey(ledge.source)) OrElse (Not nodes.ContainsKey(ledge.target)) Then
+                             If (Not nodes.containsKey(ledge.source)) OrElse (Not nodes.containsKey(ledge.target)) Then
                                  Throw New InvalidExpressionException(edge.ToString)
                              End If
                              If ledge.source Like commonIgnores OrElse ledge.target Like commonIgnores Then
@@ -221,31 +196,34 @@ Public Module ReactionNetwork
                              With edge.GetNullDirectedGuid(True)
                                  If Not .DoCall(AddressOf edges.ContainsKey) Then
                                      Call edges.Add(.ByRef, edge)
+                                     Call g.AddEdge(edge)
                                  End If
                              End With
                          End Sub
         Dim extendes As New List(Of Node)
         Dim reactionIDlist As New List(Of String)
 
+        Call nodes.values.DoEach(AddressOf g.AddNode)
+
         If extended Then
             Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
         End If
 
         ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-        For Each a As Node In nodes.Values.Where(Function(n) Not n.ID Like commonIgnores).ToArray
-            Dim reactionA = cpdGroups.TryGetValue(a.ID)
+        For Each a As Node In nodes.values.Where(Function(n) Not n.label Like commonIgnores).ToArray
+            Dim reactionA = cpdGroups.TryGetValue(a.label)
 
             If reactionA.IsNullOrEmpty Then
                 Continue For
             End If
 
-            For Each b As Node In nodes.Values _
+            For Each b As Node In nodes.values _
                 .Where(Function(x)
-                           Return x.ID <> a.ID AndAlso Not x.ID Like commonIgnores
+                           Return x.ID <> a.ID AndAlso Not x.label Like commonIgnores
                        End Function) _
                 .ToArray
 
-                Dim rB = cpdGroups.TryGetValue(b.ID)
+                Dim rB = cpdGroups.TryGetValue(b.label)
 
                 If rB.IsNullOrEmpty Then
                     Continue For
@@ -254,10 +232,14 @@ Public Module ReactionNetwork
                 ' a 和 b 是直接相连的
                 If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                     Dim edge As New Edge With {
-                        .fromNode = a.ID,
-                        .toNode = b.ID,
-                        .Value = commons.Value.Length,
-                        .Interaction = commons.Value.JoinBy("|")
+                        .U = a,
+                        .V = b,
+                        .data = New EdgeData With {
+                            .weight = commons.Value.Length,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, commons.Value.JoinBy("|")}
+                            }
+                        }
                     }
 
                     Call reactionIDlist.AddRange(commons.Value)
@@ -268,10 +250,10 @@ Public Module ReactionNetwork
                     ' 对所有的节点进行遍历，找出同时链接a和b的节点
                     If extended Then
 
-                        If Not cpdGroups.ContainsKey(a.ID) OrElse Not cpdGroups.ContainsKey(b.ID) Then
+                        If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
                             Continue For
                         Else
-                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges, reactionIDlist)
+                            extendes += cpdGroups.doNetworkExtension(a, b, gray, edges, nodes, reactionIDlist)
                         End If
 
                     End If
@@ -280,12 +262,12 @@ Public Module ReactionNetwork
         Next
 
         extendes = extendes _
-            .GroupBy(Function(n) n.ID) _
+            .GroupBy(Function(n) n.label) _
             .Select(Function(x) x.First) _
             .AsList
 
         For Each x In extendes
-            If Not nodes.ContainsKey(x.ID) Then
+            If Not nodes.containsKey(x.label) Then
                 nodes += x
             End If
         Next
@@ -299,7 +281,7 @@ Public Module ReactionNetwork
             .Distinct _
             .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, addNewEdge, enzymeRelated)
 
-        Return New NetworkTables(nodes.Values, edges.Values)
+        Return g
     End Function
 
     <Extension>
@@ -325,7 +307,7 @@ Public Module ReactionNetwork
                                        enzymeInfo As Dictionary(Of String, String()),
                                        networkBase As Dictionary(Of String, ReactionTable),
                                        nodes As Dictionary(Of Node),
-                                       addNewEdge As Action(Of NetworkEdge),
+                                       addNewEdge As Action(Of Edge),
                                        enzymeRelated As Boolean)
 
         Dim reactions As ReactionTable()
@@ -450,53 +432,58 @@ Public Module ReactionNetwork
     <Extension>
     Private Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
                                                  a As Node, b As Node,
-                                                 gray$,
-                                                 edges As Dictionary(Of String, NetworkEdge),
+                                                 gray As SolidBrush,
+                                                 addEdge As Action(Of Edge),
+                                                 nodes As CompoundNodeTable,
                                                  reactionIDlist As List(Of String)) As IEnumerable(Of Node)
-        Dim indexA = cpdGroups(a.ID).Indexing
-        Dim indexB = cpdGroups(b.ID).Indexing
+        Dim indexA = cpdGroups(a.label).Indexing
+        Dim indexB = cpdGroups(b.label).Indexing
 
         For Each x In cpdGroups.Where(Function(compound)
                                           ' C00001 是水,很多代谢过程都存在的
                                           ' 在这里就没有必要添加进来了
                                           Return Not compound.Key Like commonIgnores
                                       End Function)
-            Dim list = x.Value
+            Dim list As String() = x.Value
 
             If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
 
                 ' 这是一个间接的拓展链接，将其加入到边列表之中
                 ' X也添加进入拓展节点列表之中
                 Yield New Node With {
-                    .ID = x.Key,
-                    .NodeType = list.JoinBy(Delimiter),
-                    .Properties = New Dictionary(Of String, String) From {
-                        {"name", x.Key},
-                        {"color", gray},
-                        {"is_extended", True}
+                    .label = x.Key,
+                    .data = New NodeData With {
+                        .color = gray,
+                        .label = x.Key,
+                        .origID = x.Key,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"name", x.Key},
+                            {"is_extended", True},
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, list.JoinBy(Delimiter)}
+                        }
                     }
                 }
 
                 Dim populate = Iterator Function()
-                                   Yield (a.ID, indexA)
-                                   Yield (b.ID, indexB)
+                                   Yield (a.label, indexA)
+                                   Yield (b.label, indexB)
                                End Function
 
                 For Each n As (ID$, list As Index(Of String)) In populate()
-                    Dim edge As New NetworkEdge With {
-                        .fromNode = n.ID,
-                        .toNode = x.Key,
-                        .Interaction = n.list.Objects.Intersect(list).JoinBy("|"),
-                        .Value = - .interaction.Split("|"c).Length
+                    Dim interactions As String() = n.list.Objects.Intersect(list).ToArray
+                    Dim edge As New Edge With {
+                        .U = nodes(n.ID),
+                        .V = nodes(x.Key),
+                        .data = New EdgeData With {
+                            .length = interactions.Length,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, interactions.JoinBy("|")}
+                            }
+                        }
                     }
 
-                    With edge.GetNullDirectedGuid(True)
-                        If Not edges.ContainsKey(.ByRef) Then
-                            Call edges.Add(.ByRef, edge)
-                        End If
-                    End With
-
-                    Call reactionIDlist.AddRange(edge.interaction.Split("|"c))
+                    Call addEdge(edge)
+                    Call reactionIDlist.AddRange(interactions)
                 Next
             End If
         Next
