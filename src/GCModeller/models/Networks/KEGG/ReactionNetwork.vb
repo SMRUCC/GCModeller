@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::e4f13a08a537ec8568a1c628afc54496, models\Networks\KEGG\ReactionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ReactionNetwork
-    ' 
-    '     Function: BuildModel, doNetworkExtension, populateEnzymies
-    ' 
-    '     Sub: AssignNodeClassFromPathwayMaps, AssignNodeClassFromReactionLinks, doAppendReactionEnzyme
-    ' 
-    ' /********************************************************************************/
+' Module ReactionNetwork
+' 
+'     Function: BuildModel, doNetworkExtension, populateEnzymies
+' 
+'     Sub: AssignNodeClassFromPathwayMaps, AssignNodeClassFromReactionLinks, doAppendReactionEnzyme
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,7 +45,9 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -58,7 +60,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Public Module ReactionNetwork
 
     <Extension>
-    Public Sub AssignNodeClassFromPathwayMaps(net As NetworkTables, maps As Map(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+    Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = FunctionalNetwork.Delimiter)
         ' 生成了 compound => maps 的包含关系
         Dim compoundIndex As Dictionary(Of String, String()) = maps _
             .Select(Function(pathway)
@@ -74,15 +76,15 @@ Public Module ReactionNetwork
                           Function(mapList)
                               Return mapList _
                                   .Select(Function(l) l.Item2) _
-                                  .Select(Function(map) $"[{map.ID}] {map.Name}") _
+                                  .Select(Function(map) $"[{map.id}] {map.Name}") _
                                   .ToArray
                           End Function)
 
-        For Each node As Node In net.nodes
+        For Each node As Node In net.vertex
             If compoundIndex.ContainsKey(node.ID) Then
-                node.NodeType = compoundIndex(node.ID).JoinBy(delimiter)
+                node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = compoundIndex(node.ID).JoinBy(delimiter)
             Else
-                node.NodeType = "KEGG Compound"
+                node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound"
             End If
         Next
     End Sub
@@ -93,7 +95,7 @@ Public Module ReactionNetwork
     ''' <param name="net"></param>
     ''' <param name="ko0001"></param>
     <Extension>
-    Public Sub AssignNodeClassFromReactionLinks(net As NetworkTables, ko0001 As KOLinks(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+    Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = FunctionalNetwork.Delimiter)
         ' 生成了reaction => pathway的对应关系
         Dim index = ko0001 _
             .Where(Function(ko) Not ko.reactions.IsNullOrEmpty) _
@@ -105,9 +107,9 @@ Public Module ReactionNetwork
                               Return rn.Select(Function(x) x.Item2).ToArray
                           End Function)
 
-        For Each node As Node In net.nodes
+        For Each node As Node In net.vertex
             Dim [class] As New List(Of String)
-            Dim rn$() = Strings.Split(node.NodeType, delimiter)
+            Dim rn$() = Strings.Split(node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), delimiter)
 
             For Each id In rn
                 If index.ContainsKey(id) Then
@@ -121,9 +123,9 @@ Public Module ReactionNetwork
             [class] = [class].Distinct.AsList
 
             If [class].IsNullOrEmpty Then
-                node.NodeType = "KEGG Compound"
+                node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound"
             Else
-                node.NodeType = [class].JoinBy(delimiter)
+                node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = [class].JoinBy(delimiter)
             End If
         Next
     End Sub
@@ -145,11 +147,11 @@ Public Module ReactionNetwork
                                Optional delimiter$ = FunctionalNetwork.Delimiter,
                                Optional extended As Boolean = False,
                                Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
-                               Optional enzymeRelated As Boolean = True) As NetworkTables
+                               Optional enzymeRelated As Boolean = True) As NetworkGraph
 
-        Dim blue As String = Color.CornflowerBlue.RGBExpression
-        Dim gray As String = Color.LightGray.RGBExpression
-        Dim edges As New Dictionary(Of String, NetworkEdge)
+        Dim blue As New SolidBrush(Color.CornflowerBlue)
+        Dim gray As New SolidBrush(Color.LightGray)
+        Dim edges As New Dictionary(Of String, Edge)
         ' 构建网络的基础数据
         ' 是依据KEGG代谢反应信息来定义的
         Dim networkBase As Dictionary(Of String, ReactionTable) = br08901 _
@@ -191,26 +193,32 @@ Public Module ReactionNetwork
                         End If
 
                         Return New Node With {
-                            .ID = cpd.Name,
-                            .NodeType = type,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"name", cpd.Value},
-                                {"color", blue}
+                            .label = cpd.Name,
+                            .data = New NodeData With {
+                                .label = cpd.Name,
+                                .origID = cpd.Value,
+                                .color = blue,
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {"name", cpd.Value},
+                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, type}
+                                }
                             }
                         }
                     End Function) _
             .ToDictionary
 
-        Dim addNewEdge = Sub(edge As NetworkEdge)
-                             If (Not nodes.ContainsKey(edge.fromNode)) OrElse (Not nodes.ContainsKey(edge.toNode)) Then
+        Dim addNewEdge = Sub(edge As Edge)
+                             Dim ledge As IInteraction = edge
+
+                             If (Not nodes.ContainsKey(ledge.source)) OrElse (Not nodes.ContainsKey(ledge.target)) Then
                                  Throw New InvalidExpressionException(edge.ToString)
                              End If
-                             If edge.fromNode Like commonIgnores OrElse edge.toNode Like commonIgnores Then
+                             If ledge.source Like commonIgnores OrElse ledge.target Like commonIgnores Then
                                  ' 跳过水
                                  Return
                              End If
 
-                             With edge.GetNullDirectedGuid(True)
+                             With ledge.GetNullDirectedGuid(True)
                                  If Not edges.ContainsKey(.ByRef) Then
                                      Call edges.Add(.ByRef, edge)
                                  End If
@@ -248,8 +256,8 @@ Public Module ReactionNetwork
                     Dim edge As New NetworkEdge With {
                         .fromNode = a.ID,
                         .toNode = b.ID,
-                        .value = commons.Value.Length,
-                        .interaction = commons.Value.JoinBy("|")
+                        .Value = commons.Value.Length,
+                        .Interaction = commons.Value.JoinBy("|")
                     }
 
                     Call reactionIDlist.AddRange(commons.Value)
@@ -378,8 +386,8 @@ Public Module ReactionNetwork
                 Dim edge As New NetworkEdge With {
                    .fromNode = enzyme,
                    .toNode = reaction.entry,
-                   .interaction = "catalyst",
-                   .value = 1
+                   .Interaction = "catalyst",
+                   .Value = 1
                 }
 
                 Call addNewEdge(edge)
@@ -392,8 +400,8 @@ Public Module ReactionNetwork
                 Dim edge As New NetworkEdge With {
                    .fromNode = reaction.entry,
                    .toNode = compound,
-                   .interaction = "reaction",
-                   .value = 1
+                   .Interaction = "reaction",
+                   .Value = 1
                 }
 
                 If Not nodes.ContainsKey(compound) Then
@@ -407,8 +415,8 @@ Public Module ReactionNetwork
                 Dim edge As New NetworkEdge With {
                    .toNode = reaction.entry,
                    .fromNode = compound,
-                   .interaction = "reaction",
-                   .value = 1
+                   .Interaction = "reaction",
+                   .Value = 1
                 }
 
                 If Not nodes.ContainsKey(compound) Then
@@ -478,8 +486,8 @@ Public Module ReactionNetwork
                     Dim edge As New NetworkEdge With {
                         .fromNode = n.ID,
                         .toNode = x.Key,
-                        .interaction = n.list.Objects.Intersect(list).JoinBy("|"),
-                        .value = - .interaction.Split("|"c).Length
+                        .Interaction = n.list.Objects.Intersect(list).JoinBy("|"),
+                        .Value = - .interaction.Split("|"c).Length
                     }
 
                     With edge.GetNullDirectedGuid(True)

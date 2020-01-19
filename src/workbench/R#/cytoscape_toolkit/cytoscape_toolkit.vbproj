@@ -64,6 +64,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="kegg.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -101,13 +102,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
       <Project>{9C7DD64A-E4C0-4011-8994-C842702C6ED4}</Project>
       <Name>Cytoscape</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
+      <Project>{203BC68F-A0CD-443A-AB62-4AF4110F752F}</Project>
+      <Name>GraphTheory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315EE-B598-40DC-9280-C71CDF9B6A48}</Project>
       <Name>Network.GraphTheory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
+      <Project>{78CB32E6-2904-41E7-ACCA-F1E2757BFA8E}</Project>
+      <Name>Network.IO.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
