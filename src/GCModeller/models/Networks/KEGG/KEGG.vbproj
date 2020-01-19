@@ -229,6 +229,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReactionNetwork\CompoundNodeTable.vb" />
     <Compile Include="KEGGMap\PathwayNetwork.vb" />
     <Compile Include="KEGGMap\PathwayMapRender.vb" />
     <Compile Include="KOLinks.vb" />
@@ -240,8 +241,12 @@
     <Compile Include="PathwayMaps\Styles\BlockStyle.vb" />
     <Compile Include="PathwayMaps\Styles\RenderStyle.vb" />
     <Compile Include="PathwayMaps\Styles\PlainStyle.vb" />
-    <Compile Include="ReactionNetwork.vb" />
-    <Compile Include="ReactionTable.vb" />
+    <Compile Include="ReactionNetwork\EnzymaticInformation.vb" />
+    <Compile Include="ReactionNetwork\NetworkExpansion.vb" />
+    <Compile Include="ReactionNetwork\Styles.vb" />
+    <Compile Include="ReactionNetwork\NamespaceDoc.vb" />
+    <Compile Include="ReactionNetwork\ReactionNetwork.vb" />
+    <Compile Include="ReactionNetwork\ReactionTable.vb" />
     <Compile Include="KEGGMap\PathwayMapNetwork.vb" />
     <Compile Include="FunctionalNetwork.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

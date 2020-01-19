@@ -60,6 +60,13 @@ Namespace Assembly.KEGG
     <HideModuleName>
     Public Module Extensions
 
+        ''' <summary>
+        ''' + C compound
+        ''' + D drug
+        ''' + G glycan
+        ''' </summary>
+        Public Const KEGGCompoundIDPatterns$ = "[CDG]\d{5}"
+
         <Extension>
         Public Function Glycan2CompoundId(compounds As IEnumerable(Of bGetObject.Compound)) As Dictionary(Of String, String())
             Return compounds _

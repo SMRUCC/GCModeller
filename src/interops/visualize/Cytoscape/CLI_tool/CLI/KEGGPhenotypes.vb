@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -58,6 +59,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
@@ -162,7 +164,7 @@ Partial Module CLI
                 extended:=args("/extended"),
                 enzymeInfo:=enzyme,
                 enzymeRelated:=args("/enzymeRelated")
-            ).AnalysisDegrees
+            ).Tabular({"name", "is_extended"}).AnalysisDegrees
 
         Call graph.VisualizeKEGG(size:=size).SaveAs($"{out}/network.png")
         Call graph.Save(out)
