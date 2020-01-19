@@ -47,6 +47,8 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
 
@@ -77,6 +79,12 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property KO As String()
+        ''' <summary>
+        ''' Each element in this array of name string is corresponding 
+        ''' to the <see cref="KO"/> property.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property geneNames As String()
 
         ''' <summary>
         ''' 底物列表
@@ -103,10 +111,16 @@ Namespace ReactionNetwork
         Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
             Dim proc As New SwayBar
             Dim model As ReactionTable = Nothing
+            Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
 
             For Each file As String In (ls - l - r - "*.XML" <= br08201)
                 Try
-                    model = Reaction.LoadXml(handle:=file).DoCall(AddressOf creates)
+                    model = Reaction _
+                        .LoadXml(handle:=file) _
+                        .DoCall(Function(r)
+                                    Return creates(r, KOnames)
+                                End Function)
+
                     ' populate data from xml load result
                     ' if success
                     Yield model
@@ -120,13 +134,25 @@ Namespace ReactionNetwork
         End Function
 
         Public Shared Function Load(repo As ReactionRepository) As IEnumerable(Of ReactionTable)
-            Return repo.metabolicNetwork.Select(AddressOf creates)
+            Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
+            Dim table = repo.metabolicNetwork.Select(Function(r) creates(r, KOnames))
+
+            Return table
         End Function
 
-        Private Shared Function creates(xml As Reaction) As ReactionTable
+        Private Shared Function creates(xml As Reaction, KOnames As Dictionary(Of String, BriteHText)) As ReactionTable
             Dim eq As DefaultTypes.Equation = xml.ReactionModel
             Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
             Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
+            Dim geneNames = KOlist.Select(Function(id) KOnames(id).description.Split(";"c).First).ToArray
+
+            If geneNames.IsNullOrEmpty Then
+                If xml.Enzyme.IsNullOrEmpty Then
+                    geneNames = {xml.ID}
+                Else
+                    geneNames = {$"{xml.ID} [{xml.Enzyme.JoinBy(", ")}]"}
+                End If
+            End If
 
             Return New ReactionTable With {
                 .definition = xml.Definition,
@@ -139,7 +165,8 @@ Namespace ReactionNetwork
                 .substrates = eq.Reactants _
                     .Select(Function(cp) cp.ID) _
                     .ToArray,
-                .KO = KOlist
+                .KO = KOlist,
+                .geneNames = geneNames
             }
         End Function
     End Class
