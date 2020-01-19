@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::095c735bf8786c3d6387701e35aed2bd, models\Networks\KEGG\ReactionTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class ReactionTable
-    ' 
-    '     Properties: definition, EC, entry, KO, name
-    '                 products, substrates
-    ' 
-    '     Function: creates, Load, ToString
-    ' 
-    ' /********************************************************************************/
+' Class ReactionTable
+' 
+'     Properties: definition, EC, entry, KO, name
+'                 products, substrates
+' 
+'     Function: creates, Load, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Data
 
 Namespace ReactionNetwork
 
@@ -92,10 +93,6 @@ Namespace ReactionNetwork
             Return name
         End Function
 
-        Protected Sub New()
-
-        End Sub
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -120,6 +117,10 @@ Namespace ReactionNetwork
                     Call proc.Step(model?.name)
                 End Try
             Next
+        End Function
+
+        Public Shared Function Load(repo As ReactionRepository) As IEnumerable(Of ReactionTable)
+            Return repo.metabolicNetwork.Select(AddressOf creates)
         End Function
 
         Private Shared Function creates(xml As Reaction) As ReactionTable

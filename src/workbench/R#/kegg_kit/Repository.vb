@@ -8,6 +8,9 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
+Imports SMRUCC.Rsharp.Runtime
+Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kegg.repository")>
 Public Module Repository
@@ -35,6 +38,19 @@ Public Module Repository
             .ToArray
 
         Return pathwayMaps
+    End Function
+
+    <ExportAPI("reactions.table")>
+    Public Function TableOfReactions(repo As Object, Optional env As Environment = Nothing) As Object
+        If repo Is Nothing Then
+            Return Nothing
+        ElseIf repo.GetType Is GetType(String) Then
+            Return ReactionTable.Load(CStr(repo)).ToArray
+        ElseIf repo.GetType Is GetType(ReactionRepository) Then
+            Return ReactionTable.Load(DirectCast(repo, ReactionRepository)).ToArray
+        Else
+            Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
+        End If
     End Function
 
     <ExportAPI("map.local_render")>
