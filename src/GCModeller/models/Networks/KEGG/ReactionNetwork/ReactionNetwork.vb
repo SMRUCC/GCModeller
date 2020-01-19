@@ -262,7 +262,10 @@ Namespace ReactionNetwork
                                    Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
                                    Optional enzymeRelated As Boolean = True) As NetworkGraph
 
-            Return New ReactionNetworkBuilder(br08901, compounds).BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+            Dim builderSession As New ReactionNetworkBuilder(br08901, compounds)
+            Dim g = builderSession.BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+
+            Return g
         End Function
     End Module
 End Namespace
