@@ -92,6 +92,10 @@ Namespace ReactionNetwork
             Return name
         End Function
 
+        Protected Sub New()
+
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
