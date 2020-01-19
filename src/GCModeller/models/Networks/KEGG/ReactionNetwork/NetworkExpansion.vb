@@ -37,7 +37,7 @@ Namespace ReactionNetwork
             For Each x In cpdGroups.Where(Function(compound)
                                               ' C00001 是水,很多代谢过程都存在的
                                               ' 在这里就没有必要添加进来了
-                                              Return Not compound.Key Like commonIgnores
+                                              Return Not compound.Key Like ReactionNetworkBuilder.commonIgnores
                                           End Function)
                 Dim list As String() = x.Value
 

@@ -1,5 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -68,33 +70,45 @@ Namespace ReactionNetwork
                 End If
 
                 If Not nodes.containsKey(reaction.entry) Then
-                    nodes.Add(New Node With {
-                        .ID = reaction.entry,
-                        .NodeType = "reaction",
-                        .Properties = New Dictionary(Of String, String) From {
-                             {"name", reaction.name},
-                             {"color", "yellow"}
+                    Call New Node With {
+                        .label = reaction.entry,
+                        .data = New NodeData With {
+                            .color = Brushes.Yellow,
+                            .label = reaction.entry,
+                            .origID = reaction.entry,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
+                                {"name", reaction.name}
+                            }
                         }
-                    })
+                    }.DoCall(AddressOf nodes.add)
                 End If
 
                 For Each enzyme As String In enzymies
                     If Not nodes.containsKey(enzyme) Then
-                        nodes.Add(New Node With {
-                            .ID = enzyme,
-                            .NodeType = "enzyme",
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"name", enzyme},
-                                {"color", "red"}
+                        Call New Node With {
+                            .label = enzyme,
+                            .data = New NodeData With {
+                                .label = enzyme,
+                                .origID = enzyme,
+                                .color = Brushes.Red,
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "enzyme"},
+                                    {"name", enzyme}
+                                }
                             }
-                        })
+                        }.DoCall(AddressOf nodes.add)
                     End If
 
-                    Dim edge As New NetworkEdge With {
-                       .fromNode = enzyme,
-                       .toNode = reaction.entry,
-                       .Interaction = "catalyst",
-                       .Value = 1
+                    Dim edge As New Edge With {
+                       .U = nodes(enzyme),
+                       .V = nodes(reaction.entry),
+                       .data = New EdgeData With {
+                           .weight = 1,
+                           .Properties = New Dictionary(Of String, String) From {
+                               {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "catalyst"}
+                           }
+                       }
                     }
 
                     Call addNewEdge(edge)
@@ -104,11 +118,16 @@ Namespace ReactionNetwork
                 ' 不添加新的代谢物节点
                 ' 只添加边链接
                 For Each compound In reaction.products
-                    Dim edge As New NetworkEdge With {
-                       .fromNode = reaction.entry,
-                       .toNode = compound,
-                       .Interaction = "reaction",
-                       .Value = 1
+                    Dim edge As New Edge With {
+                       .U = nodes(reaction.entry),
+                       .V = nodes(compound),
+                       .data = New EdgeData With {
+                        .length = 1,
+                        .weight = 1,
+                        .Properties = New Dictionary(Of String, String) From {
+                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                            }
+                        }
                     }
 
                     If Not nodes.containsKey(compound) Then
@@ -119,11 +138,16 @@ Namespace ReactionNetwork
                 Next
 
                 For Each compound In reaction.substrates
-                    Dim edge As New NetworkEdge With {
-                       .toNode = reaction.entry,
-                       .fromNode = compound,
-                       .Interaction = "reaction",
-                       .Value = 1
+                    Dim edge As New Edge With {
+                       .U = nodes(reaction.entry),
+                       .V = nodes(compound),
+                       .data = New EdgeData With {
+                          .length = 1,
+                          .weight = 1,
+                          .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                            }
+                        }
                     }
 
                     If Not nodes.containsKey(compound) Then

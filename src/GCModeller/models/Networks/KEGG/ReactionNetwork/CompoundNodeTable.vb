@@ -9,6 +9,7 @@ Namespace ReactionNetwork
     Public Class CompoundNodeTable
 
         ReadOnly nodes As Dictionary(Of Node)
+        ReadOnly g As NetworkGraph
 
         Public ReadOnly Property values As IEnumerable(Of Node)
             Get
@@ -24,7 +25,7 @@ Namespace ReactionNetwork
 
         Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), color As Brush)
             nodes = compounds _
-                .Where(Function(cpd) Not cpd.Name Like commonIgnores) _
+                .Where(Function(cpd) Not cpd.Name Like ReactionNetworkBuilder.commonIgnores) _
                 .Select(Function(cpd As NamedValue(Of String))
                             Return createCompoundNode(cpd, cpdGroups, color)
                         End Function) _
@@ -59,9 +60,9 @@ Namespace ReactionNetwork
             }
         End Function
 
-        Public Shared Operator +(table As CompoundNodeTable, compoundNode As Node) As CompoundNodeTable
-            Call table.nodes.Add(compoundNode)
-            Return table
-        End Operator
+        Public Sub add(compoundNode As Node)
+            Call nodes.Add(compoundNode)
+            Call g.AddNode(compoundNode)
+        End Sub
     End Class
 End Namespace

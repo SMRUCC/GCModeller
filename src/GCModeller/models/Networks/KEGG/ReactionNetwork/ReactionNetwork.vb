@@ -224,7 +224,7 @@ Namespace ReactionNetwork
 
             For Each x In extends
                 If Not nodes.containsKey(x.label) Then
-                    nodes += x
+                    nodes.add(x)
                 End If
             Next
 
