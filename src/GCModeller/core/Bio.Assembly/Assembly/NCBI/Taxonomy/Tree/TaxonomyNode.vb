@@ -44,7 +44,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI.Taxonomy
@@ -98,7 +97,9 @@ Namespace Assembly.NCBI.Taxonomy
                     Select x
                     Group x By x.rank Into Group) _
                          .ToDictionary(Function(x) x.rank,
-                                       Function(x) x.Group.First.name)
+                                       Function(x)
+                                           Return x.Group.First.name
+                                       End Function)
         End Function
     End Class
 End Namespace

@@ -55,7 +55,6 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -139,34 +138,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Function GetDBLinkManager() As DBLinks
             Return _DBLinks
-        End Function
-
-        ''' <summary>
-        ''' 下载代谢物的结构图
-        ''' </summary>
-        ''' <param name="save">所下载的结构图的保存文件路径</param>
-        Public Sub DownloadStructureImage(save As String)
-            Dim Url As String = $"http://www.kegg.jp/Fig/compound/{entry}.gif"
-            Call Url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{entry}")
-        End Sub
-
-        ''' <summary>
-        ''' 下载KCF格式的小分子化合物的结构数据
-        ''' </summary>
-        ''' <param name="save$"></param>
-        Public Sub DownloadKCF(save$)
-            Call DownloadKCF(entry, App.CurrentProcessTemp).SaveTo(save, Encodings.ASCII.CodePage)
-        End Sub
-
-        Public Shared Function DownloadKCF(cpdID$, Optional saveDIR$ = "./") As String
-            Dim url$ = "http://www.kegg.jp/dbget-bin/www_bget?-f+k+compound+" & cpdID
-            Dim save$ = saveDIR & "/" & cpdID & ".txt"
-
-            If url.DownloadFile(save, refer:=$"http://www.kegg.jp/dbget-bin/www_bget?cpd:{cpdID}") Then
-                Return save.ReadAllText
-            Else
-                Return Nothing
-            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
