@@ -56,3 +56,23 @@ C11457,R06780 == R06786,1,#6495ED,C11457,C11457
 C16308,KEGG Compound,1,#6495ED,C16308,C16308
 C16356,R07945 == R07977,1,#6495ED,C16356,C16356
 C18218,R09448 == R09451 == R09460 == R09106,1,#6495ED,C18218,C18218
+R00552,reaction,1,,,arcA
+R00557,reaction,1,,,"NOS1, NOS2, NOS3, NOA1"
+R00578,reaction,1,,,"asnB, ASNS"
+R00695,reaction,1,,,R00695 [2.6.1.70]
+R01325,reaction,1,,,"ACO, acnA, acnB"
+R01375,reaction,1,,,R01375 [2.6.1.64]
+R01884,reaction,1,,,E3.5.2.10
+R01926,reaction,1,,,SPHK
+R01954,reaction,1,,,"argG, ASS1"
+R02243,reaction,1,,,IRG1
+R02513,reaction,1,,,R02513 [3.5.3.18]
+R02821,reaction,1,,,BHMT
+R03994,reaction,1,,,R03994 [2.3.1.145]
+R06521,reaction,1,,,"PLPP1_2_3, SGPP1, SGPP2"
+R07971,reaction,1,,,R07971 [1.13.12]
+R07972,reaction,1,,,R07972 [1.13.12]
+R10106,reaction,1,,,R10106
+R10246,reaction,1,,,thiH
+R11711,reaction,1,,,nos
+R12353,reaction,1,,,sfnaD
