@@ -112,7 +112,7 @@ Namespace ReactionNetwork
                                       .ToArray
                               End Function)
 
-            nodes = New CompoundNodeTable(compounds, cpdGroups, color:=blue)
+            nodes = New CompoundNodeTable(compounds, cpdGroups, g, color:=blue)
         End Sub
 
         Private Sub addNewEdge(edge As Edge)
@@ -134,6 +134,53 @@ Namespace ReactionNetwork
             End With
         End Sub
 
+        Friend Sub createEdges(commons As String(), a As Node, b As Node)
+            ' each enzyme is an edge
+            For Each rid As String In commons
+                Dim geneNames = networkBase(rid)
+                Dim rNode As Node
+
+                If Not nodes.containsKey(rid) Then
+                    rNode = New Node With {
+                        .label = rid,
+                        .data = New NodeData With {
+                            .label = geneNames.geneNames.JoinBy(", "),
+                            .origID = rid,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
+                            }
+                        }
+                    }
+
+                    Call nodes.add(rNode)
+                Else
+                    rNode = nodes(rid)
+                End If
+
+                Call New Edge With {
+                    .U = a,
+                    .V = rNode,
+                    .data = New EdgeData With {
+                        .weight = geneNames.geneNames.Length,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
+                        }
+                    }
+                }.DoCall(AddressOf addNewEdge)
+
+                Call New Edge With {
+                    .U = rNode,
+                    .V = b,
+                    .data = New EdgeData With {
+                        .weight = geneNames.geneNames.Length,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
+                        }
+                    }
+                }.DoCall(AddressOf addNewEdge)
+            Next
+        End Sub
+
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
         ''' </summary>
@@ -151,11 +198,8 @@ Namespace ReactionNetwork
             Dim commons As Value(Of String()) = {}
             Dim extendes As New List(Of Node)
 
-            g = New NetworkGraph
             edges = New Dictionary(Of String, Edge)
             reactionIDlist = New List(Of String)
-
-            Call nodes.values.DoEach(AddressOf g.AddNode)
 
             If extended Then
                 Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
@@ -183,19 +227,8 @@ Namespace ReactionNetwork
 
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
-                        Dim edge As New Edge With {
-                            .U = a,
-                            .V = b,
-                            .data = New EdgeData With {
-                                .weight = commons.Value.Length,
-                                .Properties = New Dictionary(Of String, String) From {
-                                    {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, commons.Value.JoinBy("|")}
-                                }
-                            }
-                        }
-
                         Call reactionIDlist.AddRange(commons.Value)
-                        Call addNewEdge(edge)
+                        Call createEdges(commons, a, b)
                     Else
 
                         ' 这两个节点之间可能存在一个空位，
@@ -262,7 +295,10 @@ Namespace ReactionNetwork
                                    Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
                                    Optional enzymeRelated As Boolean = True) As NetworkGraph
 
-            Return New ReactionNetworkBuilder(br08901, compounds).BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+            Dim builderSession As New ReactionNetworkBuilder(br08901, compounds)
+            Dim g = builderSession.BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+
+            Return g
         End Function
     End Module
 End Namespace
