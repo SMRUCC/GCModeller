@@ -13,6 +13,9 @@ if (lcase((file.info(id.list))[["Extension"]]) == ".json") {
 	id.list <- readLines(id.list);
 }
 
+print(`Using ${length(id.list)} kegg compounds for create reaction network!`);
+print(id.list);
+
 br08201
 :> reactions.table()
 :> compounds.network( id.list )
