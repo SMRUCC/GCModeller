@@ -54,13 +54,21 @@ Namespace Scripting.Runtime
         ''' <summary>
         ''' 2070 = SpecialName
         ''' </summary>
-        Const NarrowingOperator As BindingFlags = BindingFlags.Public Or BindingFlags.Static Or 2070
+        Const operatorType As BindingFlags = BindingFlags.Public Or BindingFlags.Static Or 2070
+
+        ''' <summary>
+        ''' x -> out
+        ''' </summary>
         Const op_Explicit$ = NameOf(op_Explicit)
+        ''' <summary>
+        ''' in -> x
+        ''' </summary>
+        Const op_Implicit$ = NameOf(op_Implicit)
 
         Public Delegate Function IImplictCTypeOperator(Of TIn, TOut)(obj As TIn) As TOut
 
         Public Function GetNarrowingOperator(Of TIn, TOut)() As IImplictCTypeOperator(Of TIn, TOut)
-            Dim op As MethodInfo = CType(GetType(TIn), TypeInfo).GetOperatorMethod(GetType(TOut))
+            Dim op As MethodInfo = CType(GetType(TIn), TypeInfo).GetOperatorMethod(GetType(TOut), op_Explicit)
 
             If op Is Nothing Then
                 Return Nothing
@@ -71,7 +79,7 @@ Namespace Scripting.Runtime
         End Function
 
         Public Function GetWideningOperator(Of TIn, TOut)() As IImplictCTypeOperator(Of TIn, TOut)
-            Dim op As MethodInfo = CType(GetType(TOut), TypeInfo).GetOperatorMethod(GetType(TIn))
+            Dim op As MethodInfo = CType(GetType(TOut), TypeInfo).GetOperatorMethod(GetType(TIn), op_Implicit)
 
             If op Is Nothing Then
                 Return Nothing
@@ -92,16 +100,16 @@ Namespace Scripting.Runtime
         ''' <returns>函数找不到会返回Nothing</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function GetOperatorMethod(obj As TypeInfo, out As Type) As MethodInfo
-            Return obj.DeclaredMethods _
-                      .Where(Function(m) m.Name = op_Explicit AndAlso m.ReturnType Is out) _
+        Private Function GetOperatorMethod(obj As TypeInfo, out As Type, name$) As MethodInfo
+            Return obj.GetMethods(operatorType) _
+                      .Where(Function(m) m.Name = name AndAlso m.ReturnType Is out) _
                       .FirstOrDefault
         End Function
 
         <Extension>
         Public Function GetNarrowingOperator(Of T)(type As Type) As IImplictCTypeOperator(Of Object, T)
             ' 函数找不到会返回Nothing
-            Dim op As MethodInfo = CType(type, TypeInfo).GetOperatorMethod(GetType(T))
+            Dim op As MethodInfo = CType(type, TypeInfo).GetOperatorMethod(GetType(T), op_Explicit)
 
             If op Is Nothing Then
                 Return Nothing
@@ -114,7 +122,7 @@ Namespace Scripting.Runtime
         <Extension>
         Public Function GetWideningOperator(Of T)(type As Type) As IImplictCTypeOperator(Of T, Object)
             ' 函数找不到会返回Nothing
-            Dim op As MethodInfo = CType(GetType(T), TypeInfo).GetOperatorMethod(type)
+            Dim op As MethodInfo = CType(type, TypeInfo).GetOperatorMethod(type, op_Implicit)
 
             If op Is Nothing Then
                 Return Nothing
