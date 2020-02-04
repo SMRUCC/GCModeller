@@ -7,7 +7,7 @@
         Public ReadOnly Property method As HTTPInternal.AppEngine.APIMethods.APIMethod
 
         Sub New(app As Integer)
-            url = app.Description
+            ' url = app.Description
         End Sub
     End Class
 End Namespace

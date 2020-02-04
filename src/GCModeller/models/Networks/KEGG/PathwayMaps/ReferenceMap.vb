@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Namespace PathwayMaps
 

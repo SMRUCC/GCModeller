@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("fileformatkit")>
+<Assembly: AssemblyTitle("cytoscape_toolkit")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("fileformatkit")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyProduct("cytoscape_toolkit")>
+<Assembly: AssemblyCopyright("Copyright ©  2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("0ef21a79-4c0b-42c7-a042-e1e207626f0d")>
+<Assembly: Guid("3669fe50-3ade-4f50-b4a1-da35a6bf4627")>
 
 ' Version information for an assembly consists of the following four values:
 '
