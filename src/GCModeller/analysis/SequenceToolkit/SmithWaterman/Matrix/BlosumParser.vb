@@ -90,7 +90,7 @@ Public Module BlosumParser
                       .Value = score
                   }
 
-        Return New Blosum(matrix.Keys) With {
+        Return New Blosum(matrix.Keys.ToArray) With {
             .matrix = matrix _
                 .Select(Function(r) r.Value) _
                 .ToArray
