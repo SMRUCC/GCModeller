@@ -8,7 +8,9 @@ print(words);
 
 # calc score and create seeds
 let seed as function(w) {
-
+   let len = nchar(w);
+   let a <- [];
+   
 }
 
 let res as list <- lapply(words, w -> seed(w));
