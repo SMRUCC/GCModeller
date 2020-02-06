@@ -42,7 +42,15 @@ let seed as function(w) {
 	
    }
    
-   a;
+   let neighbors <- sapply(a, x -> x$neighbor);
+   let scores <- sapply(a, x -> x$score);
+   let details <- sapply(a, x -> x$detail);
+   
+   data.frame(
+	neighbor = neighbors, 
+	score = scores, 
+	details = detail
+   );
 }
 
 let res as list <- lapply(words, w -> seed(w));
