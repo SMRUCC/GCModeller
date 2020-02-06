@@ -31,26 +31,21 @@ let seed as function(w) {
 		detail <- detail << v;
 	}
 	
-	if (score > min.score) {
+	if (score >= min.score) {
 		detail <- paste(detail, "+");
 		a[[neighbor]] <- list(
 			neighbor = neighbor,
 			score = score,
 			detail = detail
 		);
-	}
-	
+	}	
    }
-   
-   let neighbors <- sapply(a, x -> x$neighbor);
-   let scores <- sapply(a, x -> x$score);
-   let details <- sapply(a, x -> x$detail);
    
    data.frame(
     word = w,
-	neighbor = neighbors, 
-	score = scores, 
-	detail = details
+	neighbor = sapply(a, x -> x$neighbor), 
+	score = sapply(a, x -> x$score), 
+	detail = sapply(a, x -> x$detail)
    );
 }
 
