@@ -49,7 +49,7 @@ let seed as function(w) {
    data.frame(
 	neighbor = neighbors, 
 	score = scores, 
-	details = detail
+	detail = details
    );
 }
 
