@@ -55,6 +55,8 @@ Public Class DNAMatrix : Inherits Blosum
     ' *  0   0   0   0  0
 
     Sub New()
+        Call MyBase.New({"A", "G", "C", "T", "*"})
+
         matrix = {
             {+1, -1, -1, -1, 0},
             {-1, +1, -1, -1, 0},

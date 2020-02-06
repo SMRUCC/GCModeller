@@ -76,7 +76,11 @@ Public Class Blosum
     ''' <returns></returns>
     Public Property matrix As Integer()()
 
-    Public Property keys As String()
+    Public ReadOnly Property keys As String()
+        Get
+            Return index.Objects
+        End Get
+    End Property
 
     '''<summary>
     ''' Default Blosum-62 substitution matrix from inner resource
@@ -99,58 +103,20 @@ Public Class Blosum
     End Function
 
     Sub New(base As String())
-        keys = base
         index = base
     End Sub
 
     ReadOnly index As Index(Of String)
 
-    Protected Function getIndex(a As Char) As Integer
+    Protected Overridable Function getIndex(a As Char) As Integer
         ' check for upper and lowercase characters
-        Select Case Char.ToUpper(a)
-            Case "A"c
-                Return 0
-            Case "R"c
-                Return 1
-            Case "N"c
-                Return 2
-            Case "D"c
-                Return 3
-            Case "C"c
-                Return 4
-            Case "Q"c
-                Return 5
-            Case "E"c
-                Return 6
-            Case "G"c
-                Return 7
-            Case "H"c
-                Return 8
-            Case "I"c
-                Return 9
-            Case "L"c
-                Return 10
-            Case "K"c
-                Return 11
-            Case "M"c
-                Return 12
-            Case "F"c
-                Return 13
-            Case "P"c
-                Return 14
-            Case "S"c
-                Return 15
-            Case "T"c
-                Return 16
-            Case "W"c
-                Return 17
-            Case "Y"c
-                Return 18
-            Case "V"c
-                Return 19
-            Case Else
-                Throw New Exception($"Invalid amino acid character!  --> ""{a}""")
-        End Select
+        Dim i As Integer = index.IndexOf(Char.ToUpper(a))
+
+        If i = -1 Then
+            Throw New Exception($"Invalid amino acid character!  --> ""{a}""")
+        Else
+            Return i
+        End If
     End Function
 
     Private Function getDistance(i%, j%) As Integer
