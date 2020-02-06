@@ -17,8 +17,12 @@ Module Blast
     ''' <param name="file">The blosum text data or text file path.</param>
     ''' <returns></returns>
     <ExportAPI("blosum")>
-    Public Function ParseBlosumMatrix(file As String) As Blosum
-        Return BlosumParser.LoadFromStream(file.SolveStream)
+    Public Function ParseBlosumMatrix(Optional file$ = "Blosum-62") As Blosum
+        If file = "Blosum-62" AndAlso Not file.FileExists Then
+            Return Blosum.FromInnerBlosum62
+        Else
+            Return BlosumParser.LoadFromStream(file.SolveStream)
+        End If
     End Function
 
     <ExportAPI("align.smith_waterman")>

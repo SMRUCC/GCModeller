@@ -3,7 +3,7 @@
 require(bioseq.patterns);
 require(bioseq.blast);
 
-let blosum    as string =  ?"--blosum"    || stop("No matrix data provides");
+let blosum    as string =  ?"--blosum"    || "Blosum-62";
 let min.score as double =  ?"--min-score" || 3.0;
 let words     as string = (?"--words"     || stop("No words as seeds...")) :> strsplit(delimiter = ",");
 
