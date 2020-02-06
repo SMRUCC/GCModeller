@@ -13,6 +13,16 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 <Package("bioseq.blast")>
 Module Blast
 
+    ''' <summary>
+    ''' Parse blosum from the given file data
+    ''' </summary>
+    ''' <param name="file">The blosum text data or text file path.</param>
+    ''' <returns></returns>
+    <ExportAPI("blosum")>
+    Public Function ParseBlosumMatrix(file As String) As Blosum
+        Return BlosumParser.LoadFromStream(file.SolveStream)
+    End Function
+
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
         Return SmithWaterman.Align(query, ref, blosum)

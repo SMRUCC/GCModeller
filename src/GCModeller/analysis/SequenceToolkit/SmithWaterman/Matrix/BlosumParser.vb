@@ -74,14 +74,14 @@ Public Module BlosumParser
             () <= From line As String
                   In tokens.Skip(i)
                   Where Not String.IsNullOrWhiteSpace(line)
-                  Select __toVector(line)
+                  Select scoreVector(line)
 
         Return New Blosum() With {
             .Matrix = matrix
         }
     End Function
 
-    Private Function __toVector(line As String) As Integer()
+    Private Function scoreVector(line As String) As Integer()
         Dim array%() = LinqAPI.Exec(Of Integer) _
  _
             () <= From x As String
