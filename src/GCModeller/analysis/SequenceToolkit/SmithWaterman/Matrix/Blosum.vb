@@ -119,7 +119,13 @@ Public Class Blosum
         End If
     End Function
 
-    Private Function getDistance(i%, j%) As Integer
+    ''' <summary>
+    ''' Get distance by given two index of matrix
+    ''' </summary>
+    ''' <param name="i%"></param>
+    ''' <param name="j%"></param>
+    ''' <returns></returns>
+    Private Function distanceByIndex(i%, j%) As Integer
         If i < 0 OrElse i > matrix(0).Length Then
             Throw New Exception("Invalid amino acid character at string1, position " & i)
         End If
@@ -140,6 +146,6 @@ Public Class Blosum
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetDistance(a1 As Char, a2 As Char) As Integer
         ' toUpper
-        Return getDistance(getIndex(a1), getIndex(a2))
+        Return distanceByIndex(getIndex(a1), getIndex(a2))
     End Function
 End Class

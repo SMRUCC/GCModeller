@@ -1,22 +1,27 @@
 # https://github.com/yanlinlin82/blast-seed/blob/master/blast-seed.pl
 
 require(bioseq.patterns);
-require(bioseq.blast);
 
-let blosum    as string =  ?"--blosum"    || "Blosum-62";
 let min.score as double =  ?"--min-score" || 3.0;
 let words     as string = (?"--words"     || stop("No words as seeds...")) :> strsplit(delimiter = ",");
+let blosum              = bioseq.blast::blosum(?"--blosum"    || "Blosum-62") :> as.object;
 
 print(words);
+print(blosum);
 
-blosum <- bioseq.blast::blosum(blosum) :> as.object;
+let blosum.base <- blosum$keys[!(blosum$keys in ['B', 'Z', 'X', '*'])];
+
+print(blosum.base);
 
 # calc score and create seeds
 let seed as function(w) {
    let len = nchar(w);
    let a = list();
+   let preload.seeds <- seeds(len, blosum.base);
    
-   for(neighbor in seeds(len, blosum$keys)) {
+   print(`have ${length(preload.seeds)} for word: '${w}'`);
+   
+   for(neighbor in preload.seeds) {
 	let score = 0;
 	let detail = [];
 	
