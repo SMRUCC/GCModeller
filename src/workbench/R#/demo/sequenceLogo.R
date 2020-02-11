@@ -23,5 +23,6 @@ let title as string     = ?"--title" || basename(seq.fasta);
 seq.fasta
 :> read.fasta
 :> MSA.of
+:> fasta
 :> plot.seqLogo(title)
 :> save.graphics( file = logo.png );
