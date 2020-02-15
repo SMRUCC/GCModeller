@@ -53,16 +53,16 @@ AAGTCCGAG
 GATGTGCAG
 CCGTCTAGCAGT
 CCTGCTGCAG
-CCTGTAGGAACAG".lTokens
-        Dim matrix = "D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\MSA\Matrix.txt".ReadAllLines.Select(Function(l) l.Replace(" "c, "").ToArray).ToArray
-        Dim msa = seq.MultipleAlignment(New ScoreMatrix With {.Matrix = matrix})
+CCTGTAGGAACAG".LineTokens
+
+        Dim msa = seq.MultipleAlignment()
 
         Call msa.ToFasta.Save("./msa.txt")
         Call Console.WriteLine(msa)
 
         Console.WriteLine(vbCrLf)
 
-        msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment(New ScoreMatrix With {.Matrix = matrix})
+        msa = FastaFile.LoadNucleotideData("D:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Xanthomonadales_MetR___Xanthomonadales.fasta").MultipleAlignment()
 
         Call msa.Print(15)
 
@@ -210,7 +210,7 @@ CCGACGCACCGCA
 CCGACGCACCGCA
 CCGACGCACCGCA
 CCGACGCACCGCA
-CCGACGCACCGCA".lTokens
+CCGACGCACCGCA".LineTokens
         Dim msa = seq.MultipleAlignment(ScoreMatrix.DefaultMatrix)
 
         Call msa.ToFasta.Save("./msa.txt")

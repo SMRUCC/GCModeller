@@ -47,13 +47,13 @@ Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function MultipleAlignment(input As IEnumerable(Of FastaSeq), matrix As ScoreMatrix) As MSAOutput
+    Public Function MultipleAlignment(input As IEnumerable(Of FastaSeq), Optional matrix As ScoreMatrix = Nothing) As MSAOutput
         Return New CenterStar(input).Compute(matrix)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function MultipleAlignment(input As IEnumerable(Of String), matrix As ScoreMatrix) As MSAOutput
+    Public Function MultipleAlignment(input As IEnumerable(Of String), Optional matrix As ScoreMatrix = Nothing) As MSAOutput
         Return New CenterStar(input).Compute(matrix)
     End Function
 End Module
