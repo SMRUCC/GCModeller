@@ -42,16 +42,23 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 
 Namespace Configurations
 
     Public Module Extensions
+
+        ''' <summary>
+        ''' <see cref="yes"/>, <see cref="no"/>
+        ''' </summary>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CircosOption(b As Boolean) As String
+            Return If(b, yes, no)
+        End Function
 
         ''' <summary>
         ''' Generates the docuemtn text data for write circos file.
@@ -62,7 +69,6 @@ Namespace Configurations
         ''' <param name="IndentLevel"></param>
         ''' <param name="inserts"></param>
         ''' <returns></returns>
-        <ExportAPI("GenerateDoc", Info:="Generates the docuemtn text data for write circos file.")>
         <Extension>
         Public Function GenerateCircosDocumentElement(Of T As CircosDocument)(data As T, tag$, indentLevel%, inserts As IEnumerable(Of ICircosDocNode), directory$) As String
             Dim IndentBlanks As String = New String(" "c, indentLevel + 2)
