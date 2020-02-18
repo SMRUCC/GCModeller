@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Imaging.SVG.CSS
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
@@ -60,7 +61,7 @@ Namespace SVG
     ''' <summary>
     ''' 使用<see cref="g"/>图层的方式构建出一个完整的SVG模型
     ''' </summary>
-    Public Class SVGDataLayers
+    Public Class SVGDataLayers : Implements Enumeration(Of g)
 
         Protected layers As New HashList(Of g)
 
@@ -71,6 +72,8 @@ Namespace SVG
         ''' <see cref="Filter.id"/>为字典的键名
         ''' </summary>
         Protected Friend filters As Dictionary(Of String, Filter)
+
+        Public ReadOnly Property styles As New List(Of String)
 
         ''' <summary>
         ''' Generates the <see cref="CSSLayer"/> index order value.
@@ -96,6 +99,7 @@ Namespace SVG
         Public Sub Clear()
             layers *= 0
             zlayer = 0
+            _styles *= 0
             _GetLastLayer = Nothing
         End Sub
 
@@ -249,10 +253,13 @@ Namespace SVG
                 .desc = desc,
                 .title = title
             }
+            Dim css As New XmlMeta.CSS With {
+                .style = styles.JoinBy(vbCrLf & vbCrLf)
+            }
 
             If Not bg.StringEmpty Then
                 SVG.styleCSS = New XmlMeta.CSS With {
-                   .style = "svg{ background-color: " & bg & "; }"
+                   .style = "svg{ fill: " & bg & "; stroke: black;}" & css.style
                 }
             End If
 
@@ -281,5 +288,15 @@ Namespace SVG
                 ._GetLastLayer = data.GetLastLayer
             }
         End Operator
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of g) Implements Enumeration(Of g).GenericEnumerator
+            For Each layer As g In layers
+                Yield layer
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of g).GetEnumerator
+            Yield GenericEnumerator()
+        End Function
     End Class
 End Namespace
