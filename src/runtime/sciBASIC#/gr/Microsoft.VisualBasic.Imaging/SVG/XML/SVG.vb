@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::0f246f086dbffcf343515b1900325466, gr\Microsoft.VisualBasic.Imaging\SVG\XML\SVG.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SVGXml
-    ' 
-    '         Properties: circles, defs, desc, enable_background, height
-    '                     images, Layers, lines, overflow, path
-    '                     polygon, polyline, rect, space, styleCSS
-    '                     texts, title, transform, version, viewBox
-    '                     width, WriterComment
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: AddLayer, GetSVGXml, (+2 Overloads) SaveAsXml, Size, TryLoad
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SVGXml
+' 
+'         Properties: circles, defs, desc, enable_background, height
+'                     images, Layers, lines, overflow, path
+'                     polygon, polyline, rect, space, styleCSS
+'                     texts, title, transform, version, viewBox
+'                     width, WriterComment
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: AddLayer, GetSVGXml, (+2 Overloads) SaveAsXml, Size, TryLoad
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging.SVG.CSS
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.Text
 Imports htmlNode = Microsoft.VisualBasic.MIME.Markup.HTML.XmlMeta.Node
@@ -93,7 +94,12 @@ Namespace SVG.XML
         <XmlAttribute> Public Property width As String
         <XmlAttribute> Public Property height As String
         <XmlAttribute> Public Property version As String
+        ''' <summary>
+        ''' [offsetX offset Y width height]
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property viewBox As String()
+        <XmlAttribute> Public Property preserveAspectRatio As String = "xMaxYMax"
         <XmlAttribute> Public Property overflow As String
 
         <XmlAttribute("enable-background")>
@@ -138,7 +144,7 @@ Namespace SVG.XML
         Public Property WriterComment As XmlComment
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return XmlComment.CreateComment
+                Return (Me.GetType.DoCall(AddressOf XmlDataModel.GetTypeReferenceComment) & vbCrLf & vbCrLf & XmlComment).CreateComment
             End Get
             Set
             End Set
@@ -179,6 +185,7 @@ Namespace SVG.XML
         Public Function Size(sz As Size) As SVGXml
             width = sz.Width & "px"
             height = sz.Height & "px"
+            viewBox = {0, 0, sz.Width, sz.Height}
             Return Me
         End Function
 
