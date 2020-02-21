@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb2cc772f6e0763e5c4370f869759569, Data_science\Mathematica\Math\ODE\ODEsSolver\GenericODEs.vb"
+﻿#Region "Microsoft.VisualBasic::6a716c355f3c64c36861a20f445ee3f2, WebCloud\SMRUCC.HTTPInternal\Core\Content.vb"
 
     ' Author:
     ' 
@@ -31,56 +31,46 @@
 
     ' Summaries:
 
-    ' Delegate Sub
+    '     Structure Content
     ' 
+    '         Properties: attachment, Length, Type
     ' 
-    ' Class GenericODEs
+    '         Function: ToString
     ' 
-    '     Properties: df
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Function: y0
-    ' 
-    '     Sub: func
-    ' 
+    '         Sub: WriteHeader
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports System.IO
+Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Delegate Sub [Function](dx As Double, ByRef dy As Vector)
+Namespace Core
 
-Public Class GenericODEs : Inherits ODEs
+    Public Structure Content
 
-    ''' <summary>
-    ''' df(dx As <see cref="Double"/>, ByRef dy As <see cref="Vector"/>)
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property df As [Function]
+        Public Property Length As Integer
 
-    Sub New(ParamArray vars As var())
-        Me.vars = vars
+        ''' <summary>
+        ''' 不需要在这里写入http头部
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Type As String
+        Public Property attachment As String
 
-        For Each x As SeqValue(Of var) In vars.SeqIterator
-            x.value.Index = x.i
-        Next
-    End Sub
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
-    Sub New(vars As var(), df As [Function])
-        Call Me.New(vars)
-        Me.df = df
-    End Sub
-
-    Protected Overrides Sub func(dx As Double, ByRef dy As Vector)
-        Call _df(dx, dy)
-    End Sub
-
-    Protected Overrides Function y0() As var()
-        Return vars
-    End Function
-End Class
+        Public Sub WriteHeader(outputStream As StreamWriter)
+            If Length > 0 Then
+                Call outputStream.WriteLine("Content-Length: " & Length)
+            End If
+            If Not String.IsNullOrEmpty(attachment) Then
+                Call outputStream.WriteLine($"Content-Disposition: attachment;filename=""{attachment}""")
+            End If
+        End Sub
+    End Structure
+End Namespace

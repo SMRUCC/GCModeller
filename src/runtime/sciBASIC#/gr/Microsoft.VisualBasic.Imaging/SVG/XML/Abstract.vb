@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::4871c8ae970e9ffd9ecef3a6f579c9a3, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Abstract.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class node
-    ' 
-    '         Properties: attributes, fill, filter, stroke, XmlComment
-    '                     zIndex
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: Assign
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class node
+' 
+'         Properties: attributes, fill, filter, stroke, XmlComment
+'                     zIndex
+' 
+'         Function: ToString
+' 
+'         Sub: Assign
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,6 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports htmlNode = Microsoft.VisualBasic.MIME.Markup.HTML.XmlMeta.Node
 
 Namespace SVG.XML
@@ -84,8 +83,12 @@ Namespace SVG.XML
 
         ''' <summary>
         ''' 对当前的文档节点/图层信息的注释
+        ''' 
+        ''' 1. 空值的时候表示使用默认注释信息
+        ''' 2. 空字符串或者空格表示没有注释信息
+        ''' 3. 其他字符串的时候则使用给定的字符串做注释
         ''' </summary>
-        Public XmlCommentValue$
+        <XmlIgnore> Public XmlCommentValue$
 
         ''' <summary>
         ''' Read Only
@@ -94,7 +97,13 @@ Namespace SVG.XML
         <XmlAnyElement("gComment")> Public Property XmlComment As XmlComment
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return XmlCommentValue.CreateComment()
+                If XmlCommentValue Is Nothing Then
+                    Return XmlCommentValue.CreateComment()
+                ElseIf XmlCommentValue.StringEmpty Then
+                    Return Nothing
+                Else
+                    Return New XmlDocument().CreateComment(XmlCommentValue)
+                End If
             End Get
             Set
             End Set
@@ -106,7 +115,7 @@ Namespace SVG.XML
         End Sub
 
         Public Overrides Function ToString() As String
-            Return MyClass.GetJson
+            Return $"id={id}; # {XmlCommentValue}"
         End Function
     End Class
 End Namespace

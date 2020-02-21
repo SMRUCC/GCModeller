@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DDD14055-A9B5-4D55-87AE-DDEBB82804DA}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Circos_CLITools.Module1</StartupObject>
+    <StartupObject>Circos_CLITools.Program</StartupObject>
     <RootNamespace>Circos_CLITools</RootNamespace>
     <AssemblyName>Circos</AssemblyName>
     <FileAlignment>512</FileAlignment>

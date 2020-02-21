@@ -100,8 +100,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <CLI> Public Module CLI
 
-    <ExportAPI("/Build_gi2taxi",
-               Usage:="/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>
+    <ExportAPI("/Build_gi2taxi")>
+    <Usage("/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>
     <Group(CLIGrouping.GITools)>
     Public Function Build_gi2taxi(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -109,7 +109,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return Taxonomy.Archive([in], out)
     End Function
 
-    <ExportAPI("/Export.GI", Usage:="/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
+    <ExportAPI("/Export.GI")>
+    <Usage("/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
     <Group(CLIGrouping.GITools)>
     Public Function ExportGI(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
@@ -135,8 +136,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return 0
     End Function
 
-    <ExportAPI("/Associate.Taxonomy",
-           Usage:="/Associate.Taxonomy /in <in.DIR> /tax <ncbi_taxonomy:names,nodes> /gi2taxi <gi2taxi.bin> [/gi <nt.gi.csv> /out <out.DIR>]")>
+    <ExportAPI("/Associate.Taxonomy")>
+    <Usage("/Associate.Taxonomy /in <in.DIR> /tax <ncbi_taxonomy:names,nodes> /gi2taxi <gi2taxi.bin> [/gi <nt.gi.csv> /out <out.DIR>]")>
     <Group(CLIGrouping.GITools)>
     Public Function AssociateTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -183,8 +184,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return 0
     End Function
 
-    <ExportAPI("/Nt.Taxonomy",
-               Usage:="/Nt.Taxonomy /in <nt.fasta> /gi2taxi <gi2taxi.bin> /tax <ncbi_taxonomy:names,nodes> [/out <out.fasta>]")>
+    <ExportAPI("/Nt.Taxonomy")>
+    <Usage("/Nt.Taxonomy /in <nt.fasta> /gi2taxi <gi2taxi.bin> /tax <ncbi_taxonomy:names,nodes> [/out <out.fasta>]")>
     <Group(CLIGrouping.GITools)>
     Public Function NtTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -252,8 +253,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End Using
     End Function
 
-    <ExportAPI("/Assign.Taxonomy",
-               Usage:="/Assign.Taxonomy /in <in.DIR> /gi <regexp> /index <fieldName> /tax <NCBI nodes/names.dmp> /gi2taxi <gi2taxi.txt/bin> [/out <out.DIR>]")>
+    <ExportAPI("/Assign.Taxonomy")>
+    <Usage("/Assign.Taxonomy /in <in.DIR> /gi <regexp> /index <fieldName> /tax <NCBI nodes/names.dmp> /gi2taxi <gi2taxi.txt/bin> [/out <out.DIR>]")>
     <Group(CLIGrouping.GITools)>
     Public Function AssignTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullDIRPath("/in")
@@ -299,8 +300,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return 0
     End Function
 
-    <ExportAPI("/Assign.Taxonomy.SSU",
-               Usage:="/Assign.Taxonomy.SSU /in <in.DIR> /index <fieldName> /ref <SSU-ref.fasta> [/out <out.DIR>]")>
+    <ExportAPI("/Assign.Taxonomy.SSU")>
+    <Usage("/Assign.Taxonomy.SSU /in <in.DIR> /index <fieldName> /ref <SSU-ref.fasta> [/out <out.DIR>]")>
     Public Function AssignTaxonomy2(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullDIRPath("/in")
         Dim index As String = args("/index")
@@ -358,7 +359,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Assign.Taxonomy.From.Ref", Usage:="/Assign.Taxonomy.From.Ref /in <in.DIR> /ref <nt.taxonomy.fasta> [/index <Name> /non-BIOM /out <out.DIR>]")>
+    <ExportAPI("/Assign.Taxonomy.From.Ref")>
+    <Usage("/Assign.Taxonomy.From.Ref /in <in.DIR> /ref <nt.taxonomy.fasta> [/index <Name> /non-BIOM /out <out.DIR>]")>
     Public Function AssignTaxonomyFromRef(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim ref As String = args("/ref")
@@ -388,8 +390,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Return 0
     End Function
 
-    <ExportAPI("/Associates.Brief",
-               Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
+    <ExportAPI("/Associates.Brief")>
+    <Usage("/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
     Public Function Associates(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim lsWords$() = (args <= "/ls") _
@@ -521,8 +523,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ' 因为gi2taxid或者accession2taxid这两个库都非常大，不可以一次性的加载到内存之中
     ' 所以一般首先会需要这些函数进行部分的subset以减小数据集合的大小
 
-    <ExportAPI("/gi.Match",
-               Usage:="/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
+    <ExportAPI("/gi.Match")>
+    <Usage("/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
     <Group(CLIGrouping.GITools)>
     Public Function giMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -644,8 +646,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/gi.Matchs",
-              Usage:="/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
+    <ExportAPI("/gi.Matchs")>
+    <Usage("/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.GITools)>
     Public Function giMatchs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
