@@ -299,6 +299,7 @@
   <ItemGroup>
     <None Include="README.md" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="v1.5.vb" />
     <Compile Include="v1.0\matrix.vb" />
     <Compile Include="v1.0\namesOf.vb" />
     <Compile Include="v1.0\components.vb" />

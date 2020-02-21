@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.GCModeller
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Data
 
 ''' <summary>
@@ -34,5 +35,19 @@ Module metabolism
         Else
             Return OrganismCompounds.LoadData(repo, compoundNames)
         End If
+    End Function
+
+    ''' <summary>
+    ''' Removes invalid kegg compound id
+    ''' </summary>
+    ''' <param name="identified"></param>
+    ''' <returns></returns>
+    <ExportAPI("filter.invalid_keggIds")>
+    Public Function filterInvalidCompoundIds(identified As String()) As String()
+        Return identified _
+            .Where(Function(id)
+                       Return id.IsPattern(KEGGCompoundIDPatterns)
+                   End Function) _
+            .ToArray
     End Function
 End Module

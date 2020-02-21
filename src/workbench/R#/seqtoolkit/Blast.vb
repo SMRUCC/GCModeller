@@ -1,6 +1,4 @@
-﻿
-Imports System.IO
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
@@ -12,6 +10,20 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Package("bioseq.blast")>
 Module Blast
+
+    ''' <summary>
+    ''' Parse blosum from the given file data
+    ''' </summary>
+    ''' <param name="file">The blosum text data or text file path.</param>
+    ''' <returns></returns>
+    <ExportAPI("blosum")>
+    Public Function ParseBlosumMatrix(Optional file$ = "Blosum-62") As Blosum
+        If file = "Blosum-62" AndAlso Not file.FileExists Then
+            Return Blosum.FromInnerBlosum62
+        Else
+            Return BlosumParser.LoadFromStream(file.SolveStream)
+        End If
+    End Function
 
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman

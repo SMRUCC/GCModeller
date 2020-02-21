@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::c94a702ce89117e5ac9fb25793321523, analysis\SequenceToolkit\MSA\CenterStar.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class CenterStar
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
-    ' 
-    '     Sub: findStarIndex, multipleAlignmentImpl
-    ' 
-    ' /********************************************************************************/
+' Class CenterStar
+' 
+'     Constructor: (+2 Overloads) Sub New
+' 
+'     Function: calculateEditDistance, calculateMinimum, calculateTotalCost, Compute
+' 
+'     Sub: findStarIndex, multipleAlignmentImpl
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,7 +71,7 @@ Public Class CenterStar
     Dim globalAlign$() = New String(2) {}
     Dim multipleAlign$()
     Dim sequence$()
-    Dim totalScore% = 0
+    Dim totalScore# = 0
     Dim names$()
 
     Sub New(input As IEnumerable(Of FastaSeq))
@@ -105,11 +105,11 @@ Public Class CenterStar
 #If Not DEBUG Then
             Try
 #End If
-                findStarIndex()
-                centerString = sequence(starIndex)
-                multipleAlign = New String(n - 1) {}
-                multipleAlignmentImpl()
-                totalCost = calculateTotalCost((matrix Or ScoreMatrix.DefaultMatrix).Matrix, n)
+            findStarIndex()
+            centerString = sequence(starIndex)
+            multipleAlign = New String(n - 1) {}
+            multipleAlignmentImpl()
+            totalCost = calculateTotalCost(matrix Or ScoreMatrix.DefaultMatrix, n)
 #If Not DEBUG Then
             Catch ex As Exception
                 Throw New Exception(sequence.JoinBy(vbCrLf), ex)
@@ -129,18 +129,17 @@ Public Class CenterStar
     ''' </summary>
     ''' <returns></returns>
     ''' 
-    Private Function calculateTotalCost(matrix As Char()(), n%) As Double
+    Private Function calculateTotalCost(matrix As ScoreMatrix, n%) As Double
         Dim length = multipleAlign(0).Length
 
         For i As Integer = 0 To n - 1
             For j As Integer = 0 To n - 1
                 If (j > i) Then
                     For k As Integer = 0 To length - 1
-                        For c As Integer = 0 To 24 - 1
-                            If (multipleAlign(i)(k) = matrix(c)(0) AndAlso multipleAlign(j)(k) = matrix(c)(1)) Then
-                                totalScore += Val(matrix(c)(2))
-                            End If
-                        Next
+                        Dim ic As Char = multipleAlign(i)(k)
+                        Dim jc As Char = multipleAlign(j)(k)
+
+                        totalScore += matrix.getScore(ic, jc)
                     Next
                 End If
             Next
@@ -254,7 +253,6 @@ Public Class CenterStar
     Public Function calculateEditDistance(seq1$, seq2$) As Integer
         Dim l1 = seq1.Length
         Dim l2 = seq2.Length
-        Dim match = 0
 
         If (seq1 = seq2) Then
             Return 0
@@ -263,6 +261,7 @@ Public Class CenterStar
         Dim i, j, k As Integer
         Dim score()() = MAT(Of Integer)(l1 + 1, l2 + 1)
         Dim trace()() = MAT(Of Integer)(l1 + 1, l2 + 1)
+        Dim match = 0
 
         score(0)(0) = 0
         trace(0)(0) = 0

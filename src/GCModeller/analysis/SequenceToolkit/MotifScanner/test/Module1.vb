@@ -49,9 +49,11 @@ Module Module1
 
     Sub Main()
 
+        Call msaTest2()
+
         Call seeding()
         Call scanerTest()
-        '  Call msaTest2()
+
 
         Call loadTest()
     End Sub
@@ -59,16 +61,18 @@ Module Module1
     Sub msaTest2()
         Dim seqs$ = "ATGAAT-
 ATGAAT-
+ATGAATA
+ATCGAATT
 ATGAAT-
-ATGAAT-
-ATGAAT-
-ATGAAT-
-ATGAAT-
+ATGAGGT-
+ATGACT-
 ATGAAT-
 ATGAAT-"
 
-        Dim c As New CenterStar(seqs.lTokens)
+        Dim c As New CenterStar(seqs.LineTokens)
         Dim r = c.Compute
+
+        Pause()
     End Sub
 
     Sub seeding()

@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 ''' <summary>
@@ -29,5 +30,10 @@ Module patterns
     <ExportAPI("palindrome.mirror")>
     Public Function FindMirrorPalindromes(sequence$, seed$) As PalindromeLoci()
         Return Palindrome.FindMirrorPalindromes(seed, sequence)
+    End Function
+
+    <ExportAPI("seeds")>
+    Public Function GetSeeds(size As Integer, base As String()) As String()
+        Return Seeds.InitializeSeeds(base.Select(Function(s) CChar(s)).ToArray, size)
     End Function
 End Module

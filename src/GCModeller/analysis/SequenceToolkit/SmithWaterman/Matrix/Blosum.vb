@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::414cc046c720fd2b2213b1109671a28b, analysis\SequenceToolkit\SmithWaterman\Matrix\Blosum.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Blosum
-    ' 
-    '     Properties: Matrix
-    ' 
-    '     Function: FromInnerBlosum62, getDistance, GetDistance, getIndex
-    ' 
-    ' /********************************************************************************/
+' Class Blosum
+' 
+'     Properties: Matrix
+' 
+'     Function: FromInnerBlosum62, getDistance, GetDistance, getIndex
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' Blosum-62 substitution matrix
@@ -70,12 +71,20 @@ Imports System.Runtime.CompilerServices
 Public Class Blosum
 
     ''' <summary>
-    ''' Default Blosum-62 substitution matrix from inner resource
+    ''' The Blosum substitution matrix
     ''' </summary>
     ''' <returns></returns>
-    Public Property Matrix As Integer()()
+    Public Property matrix As Integer()()
+
+    Public ReadOnly Property keys As String()
+        Get
+            Return index.Objects
+        End Get
+    End Property
 
     '''<summary>
+    ''' Default Blosum-62 substitution matrix from inner resource
+    '''
     '''  Looks up a localized string similar to #  Matrix made by matblas from blosum62.iij
     '''#  * column uses minimum score
     '''#  BLOSUM Clustered Scoring Matrix in 1/2 Bit Units
@@ -93,66 +102,38 @@ Public Class Blosum
         End SyncLock
     End Function
 
-    ' quick and dirty equivalent of typesafe enum pattern, can also use HashMap
-    ' or even better, EnumMap in Java 5. 
-    ' This code is for Java 1.4.2, so we will stick to the simple implementation
+    Sub New(base As String())
+        index = base
+    End Sub
+
+    ReadOnly index As Index(Of String)
+
     Protected Overridable Function getIndex(a As Char) As Integer
         ' check for upper and lowercase characters
-        Select Case Char.ToUpper(a)
-            Case "A"c
-                Return 0
-            Case "R"c
-                Return 1
-            Case "N"c
-                Return 2
-            Case "D"c
-                Return 3
-            Case "C"c
-                Return 4
-            Case "Q"c
-                Return 5
-            Case "E"c
-                Return 6
-            Case "G"c
-                Return 7
-            Case "H"c
-                Return 8
-            Case "I"c
-                Return 9
-            Case "L"c
-                Return 10
-            Case "K"c
-                Return 11
-            Case "M"c
-                Return 12
-            Case "F"c
-                Return 13
-            Case "P"c
-                Return 14
-            Case "S"c
-                Return 15
-            Case "T"c
-                Return 16
-            Case "W"c
-                Return 17
-            Case "Y"c
-                Return 18
-            Case "V"c
-                Return 19
-            Case Else
-                Throw New Exception($"Invalid amino acid character!  --> ""{a}""")
-        End Select
+        Dim i As Integer = index.IndexOf(Char.ToUpper(a))
+
+        If i = -1 Then
+            Throw New Exception($"Invalid amino acid character!  --> ""{a}""")
+        Else
+            Return i
+        End If
     End Function
 
-    Private Function getDistance(i%, j%) As Integer
-        If i < 0 OrElse i > Matrix(0).Length Then
+    ''' <summary>
+    ''' Get distance by given two index of matrix
+    ''' </summary>
+    ''' <param name="i%"></param>
+    ''' <param name="j%"></param>
+    ''' <returns></returns>
+    Private Function distanceByIndex(i%, j%) As Integer
+        If i < 0 OrElse i > matrix(0).Length Then
             Throw New Exception("Invalid amino acid character at string1, position " & i)
         End If
-        If j < 0 OrElse j > Matrix(0).Length Then
+        If j < 0 OrElse j > matrix(0).Length Then
             Throw New Exception("Invalid amino acid character at string2, position " & j)
         End If
 
-        Return Matrix(i)(j)
+        Return matrix(i)(j)
     End Function
 
     ''' <summary>
@@ -165,6 +146,6 @@ Public Class Blosum
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetDistance(a1 As Char, a2 As Char) As Integer
         ' toUpper
-        Return getDistance(getIndex(a1), getIndex(a2))
+        Return distanceByIndex(getIndex(a1), getIndex(a2))
     End Function
 End Class

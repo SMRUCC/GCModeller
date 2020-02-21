@@ -7,4 +7,11 @@ let save as string = ?"--save" || `${dirname(input)}/${basename(input)}.gwANI.cs
 [?"--fasta"]
 :> read.fasta
 :> align.gwANI
-:> write.csv(file = save);
+:> write.csv(file = save)
+;
+
+[?"--fasta"]
+:> read.fasta
+:> MSA.of
+:> print
+;
