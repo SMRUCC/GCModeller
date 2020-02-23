@@ -93,7 +93,9 @@ Public Module FoldChangeMatrix
                 .ID = data(i).ID,
                 .Properties = normalized _
                     .ToDictionary(Function(sample) sample.Key,
-                                  Function(sample) sample.Value(index))
+                                  Function(sample)
+                                      Return sample.Value(index)
+                                  End Function)
             }
         Next
     End Function
