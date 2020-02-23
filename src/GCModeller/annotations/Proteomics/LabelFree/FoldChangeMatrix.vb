@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::26023211b47ae60f945bf57a39419157, annotations\Proteomics\LabelFree\FoldChangeMatrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module FoldChangeMatrix
-    ' 
-    '     Function: (+2 Overloads) iTraqMatrix, iTraqMatrixNormalized, (+2 Overloads) TotalSumNormalize
-    ' 
-    ' /********************************************************************************/
+' Module FoldChangeMatrix
+' 
+'     Function: (+2 Overloads) iTraqMatrix, iTraqMatrixNormalized, (+2 Overloads) TotalSumNormalize
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
@@ -54,13 +55,20 @@ Public Module FoldChangeMatrix
     ''' <summary>
     ''' 总峰归一化
     ''' </summary>
-    ''' <param name="sample#"></param>
+    ''' <param name="sample">The LFQ or iBAQ sample data vector</param>
+    ''' <param name="byMedianQuantile">
+    ''' 是否采用中位数进行归一化，默认为总峰归一化
+    ''' </param>
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function TotalSumNormalize(sample As Vector) As Double()
-        Return sample / sample.Sum
+    Public Function TotalSumNormalize(sample As Vector, Optional byMedianQuantile As Boolean = False) As Double()
+        If byMedianQuantile Then
+            Return sample / sample.Quartile.Q2
+        Else
+            Return sample / sample.Sum
+        End If
     End Function
 
     ''' <summary>
@@ -69,13 +77,17 @@ Public Module FoldChangeMatrix
     ''' <param name="rawMatrix"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function TotalSumNormalize(rawMatrix As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+    Public Iterator Function TotalSumNormalize(rawMatrix As IEnumerable(Of DataSet),
+                                               Optional byMedianQuantile As Boolean = False,
+                                               Optional samples As String() = Nothing) As IEnumerable(Of DataSet)
+
         Dim data As DataSet() = rawMatrix.ToArray
-        Dim samples = data.PropertyNames
-        Dim normalized = samples _
+        Dim normalized = (samples Or data.PropertyNames.AsDefault) _
             .ToDictionary(Function(name) name,
                           Function(name)
-                              Return TotalSumNormalize(data.Vector(name))
+                              Return data.Vector(name) _
+                                  .AsVector _
+                                  .TotalSumNormalize(byMedianQuantile)
                           End Function)
         Dim index%
 
@@ -86,7 +98,9 @@ Public Module FoldChangeMatrix
                 .ID = data(i).ID,
                 .Properties = normalized _
                     .ToDictionary(Function(sample) sample.Key,
-                                  Function(sample) sample.Value(index))
+                                  Function(sample)
+                                      Return sample.Value(index)
+                                  End Function)
             }
         Next
     End Function
@@ -154,8 +168,8 @@ Public Module FoldChangeMatrix
 
         With rawMatrix.ToArray
             For Each designer As AnalysisDesigner In analysisDesigners
-                Dim controls$() = groups(designer.Controls)
-                Dim treatment$() = groups(designer.Treatment)
+                Dim controls$() = groups(designer.controls)
+                Dim treatment$() = groups(designer.treatment)
                 Dim matrix As DataSet()
 
                 If normalize Then
@@ -167,9 +181,9 @@ Public Module FoldChangeMatrix
                 End If
 
                 Yield New NamedCollection(Of DataSet) With {
-                    .Name = designer.Title,
-                    .Value = matrix,
-                    .Description = designer.ToString
+                    .name = designer.title,
+                    .value = matrix,
+                    .description = designer.ToString
                 }
             Next
         End With
