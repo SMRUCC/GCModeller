@@ -101,6 +101,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return String.Format("[{0}]{1}   {2}", [class], category, entry.ToString)
         End Function
 
+        Public Shared Function GetGlobalAndOverviewMaps() As NamedValue()
+            Dim brite As Pathway() = LoadFromResource()
+            Dim globals As Pathway() = brite _
+                .Where(Function(b)
+                           Return b.class = "Metabolism" AndAlso b.category = "Global and overview maps"
+                       End Function) _
+                .ToArray
+
+            Return globals _
+                .Select(Function(b) b.entry) _
+                .ToArray
+        End Function
+
         ''' <summary>
         ''' 从程序的自身的资源文件之中加载数据
         ''' </summary>

@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::e4e1466a991c83017b36a993abac46fc, httpd\Program\DebuggerToolkit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: [GET], POST, StressTest
-    '     Structure __test
-    ' 
-    '         Function: Run
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: [GET], POST, StressTest
+'     Structure __test
+' 
+'         Function: Run
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
-    <ExportAPI("/GET",
-           Info:="Tools for http get request the content of a specific url.",
-           Usage:="/GET /url <url, /std_in> [/out <file/std_out>]")>
+    <ExportAPI("/GET")>
+    <Description("Tools for http get request the content of a specific url.")>
+    <Usage("/GET /url <url, /std_in> [/out <file/std_out>]")>
     <Argument("/url", False, CLITypes.File, PipelineTypes.std_in,
           AcceptTypes:={GetType(String)},
           Description:="The resource URL on the web.")>
@@ -102,9 +102,9 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Stress.Testing",
-               Info:="Using Ctrl + C to stop the stress testing.",
-               Usage:="/Stress.Testing /url <target_url> [/out <out.txt>]")>
+    <ExportAPI("/Stress.Testing")>
+    <Description("Using Ctrl + C to stop the stress testing.")>
+    <Usage("/Stress.Testing /url <target_url> [/out <out.txt>]")>
     Public Function StressTest(args As CommandLine) As Integer
         Dim url$ = args <= "/url"
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/" & url.NormalizePathString & ".txt")

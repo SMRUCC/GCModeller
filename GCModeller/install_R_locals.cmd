@@ -13,6 +13,7 @@ R# install.packages('%lib%/R.graph.dll');
 R# install.packages('%lib%/R.graphics.dll');
 R# install.packages('%lib%/R.plot.dll');
 R# install.packages('%lib%/R.web.dll');
+R# install.packages('%lib%/R.math.dll');
 
 REM finally, view of the summary information about the installed
 REM libraries.

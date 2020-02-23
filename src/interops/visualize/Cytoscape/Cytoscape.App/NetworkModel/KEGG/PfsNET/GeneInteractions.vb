@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::8c73f075eff3e479172c47b164810825, visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GeneInteractions
-    ' 
-    '         Function: __exportPathwayGraph, __getRxnRels, __kModNetwork, CreateNetworkObject, (+3 Overloads) ExportPathwayGraph
-    '                   ExportPathwayGraphFile, Generate, PfsNETNetwork, PfsNETNetwork_assemble_keggpathways
-    '         Class Enzyme
-    ' 
-    '             Properties: EC
-    ' 
-    '         Class Interaction
-    ' 
-    '             Properties: Modules, Pathways, Reactions
-    ' 
-    '         Class PfsNETNode
-    ' 
-    '             Properties: Important
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GeneInteractions
+' 
+'         Function: __exportPathwayGraph, __getRxnRels, __kModNetwork, CreateNetworkObject, (+3 Overloads) ExportPathwayGraph
+'                   ExportPathwayGraphFile, Generate, PfsNETNetwork, PfsNETNetwork_assemble_keggpathways
+'         Class Enzyme
+' 
+'             Properties: EC
+' 
+'         Class Interaction
+' 
+'             Properties: Modules, Pathways, Reactions
+' 
+'         Class PfsNETNode
+' 
+'             Properties: Important
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -91,9 +92,9 @@ Namespace NetworkModel.PfsNET
             Dim rels As NetworkEdge() = (From rId As ReactionMaps In rxnMaps
                                          Let reactions As NetworkEdge() = rId.Reactions.Select(
                                              Function(sId) New NetworkEdge With {
-                                             .FromNode = locus,
-                                             .ToNode = sId,
-                                             .Interaction = "EnzymeRelated"
+                                             .fromNode = locus,
+                                             .toNode = sId,
+                                             .interaction = "EnzymeRelated"
                                          }).ToArray
                                          Select reactions).ToVector
             Return rels
@@ -114,14 +115,14 @@ Namespace NetworkModel.PfsNET
             Dim nodes As FileStream.Node() = (From gene As NetworkEdge
                                               In rxnGeneRels
                                               Let gNode = New FileStream.Node With {
-                                                  .ID = gene.FromNode,
+                                                  .ID = gene.fromNode,
                                                   .NodeType = "Gene"
                                               }
                                               Select gNode).ToArray
             Dim rxnNodes = (From gene As NetworkEdge
                             In rxnGeneRels
                             Let rNode = New FileStream.Node With {
-                                .ID = gene.ToNode,
+                                .ID = gene.toNode,
                                 .NodeType = "MetabolismFlux"
                             }
                             Select rNode).ToArray
@@ -135,13 +136,13 @@ Namespace NetworkModel.PfsNET
                            Let flux As NetworkEdge() = (From r As bGetObject.Reaction
                                                         In nextRxn
                                                         Select New NetworkEdge With {
-                                                            .FromNode = rxn.ID,
-                                                            .ToNode = r.ID,
-                                                            .Interaction = "Flux"}).ToArray
+                                                            .fromNode = rxn.ID,
+                                                            .toNode = r.ID,
+                                                            .interaction = "Flux"}).ToArray
                            Select flux).ToVector
             Return New ______NETWORK__ With {
-                .Nodes = nodes,
-                .Edges = rxnGeneRels.Join(rxnRels).ToArray
+                .nodes = nodes,
+                .edges = rxnGeneRels.Join(rxnRels).ToArray
             }
         End Function
 
@@ -210,14 +211,14 @@ Namespace NetworkModel.PfsNET
             Dim Pathways = (From item In FromPathway.Pathways Let value = item.Pathways Select value).ToArray.ToVector
 
             For Each Line As KeyValuePair(Of String, ______NETWORK__) In ChunkBuffer
-                Call Nodes.AddRange((From item In Line.Value.Nodes Select New Enzyme With {
+                Call Nodes.AddRange((From item In Line.Value.nodes Select New Enzyme With {
                                                                        .ID = item.ID,
                                                                        .NodeType = item.NodeType,
                                                                        .EC = If(ECMappings.ContainsKey(item.ID), ECMappings(item.ID).ECMaps.Select(Function(x) x.EC), Nothing)}))
-                Call Edges.AddRange((From item In Line.Value.Edges Select New Interaction With {
-                                                                       .FromNode = item.FromNode,
-                                                                       .ToNode = item.ToNode,
-                                                                       .Interaction = item.Interaction,
+                Call Edges.AddRange((From item In Line.Value.edges Select New Interaction With {
+                                                                       .fromNode = item.fromNode,
+                                                                       .toNode = item.toNode,
+                                                                       .interaction = item.interaction,
                                                                        .Modules = {Line.Key}}).ToArray)
             Next
 
@@ -234,18 +235,18 @@ Namespace NetworkModel.PfsNET
                      Let instance = edge_collection.First
                      Let modules = (From node In edge_collection Select node.item.Modules).ToVector.Distinct.ToArray
                      Let pathwaycollection = (From pathway In Pathways Where Not (From mid As String In modules Where pathway.IsContainsModule(mid) Select 1).ToArray.IsNullOrEmpty Select pathway.EntryId).ToArray
-                     Let coeffectReactions = {(From nn In ECMappings(instance.item.FromNode).reactions Select nn.ID).ToArray, (From nn In ECMappings(instance.item.ToNode).reactions Select nn.ID).ToArray}.Intersection
+                     Let coeffectReactions = {(From nn In ECMappings(instance.item.fromNode).reactions Select nn.ID).ToArray, (From nn In ECMappings(instance.item.toNode).reactions Select nn.ID).ToArray}.Intersection
                      Select New Interaction With {
-                         .FromNode = instance.item.FromNode,
-                         .ToNode = instance.item.ToNode,
+                         .fromNode = instance.item.fromNode,
+                         .toNode = instance.item.toNode,
                          .Pathways = pathwaycollection,
                          .Modules = modules,
-                         .Interaction = instance.item.Interaction,
+                         .interaction = instance.item.interaction,
                          .Reactions = coeffectReactions}).AsList
 
             Dim Network As __KEGG_NETWORK_ = New __KEGG_NETWORK_ With {
-                .Edges = Edges.ToArray,
-                .Nodes = Nodes.ToArray
+                .edges = Edges.ToArray,
+                .nodes = Nodes.ToArray
             }
             Return Network
         End Function
@@ -299,18 +300,18 @@ Namespace NetworkModel.PfsNET
                                                 Select (From r As ReactionMaps
                                                         In ezMap.ECMaps
                                                         Select r.Reactions.Select(Function(x) New NetworkEdge With {
-                                                            .FromNode = ezMap.locusId,
-                                                            .ToNode = x,
-                                                            .Interaction = "EnzymeRelated"}))).Unlist.ToVector
+                                                            .fromNode = ezMap.locusId,
+                                                            .toNode = x,
+                                                            .interaction = "EnzymeRelated"}))).Unlist.ToVector
             Dim rxnRels As NetworkEdge() = (From rxn As bGetObject.Reaction
                                             In FromPathway.Metabolome.AsParallel
                                             Let NextRxn = (From r In FromPathway.Metabolome Where rxn.IsConnectWith(r) Select r).ToArray
                                             Select (From r As bGetObject.Reaction
                                                     In NextRxn
                                                     Select New NetworkEdge With {
-                                                        .FromNode = rxn.ID,
-                                                        .ToNode = r.ID,
-                                                        .Interaction = "Flux"}).ToArray).ToArray.ToVector
+                                                        .fromNode = rxn.ID,
+                                                        .toNode = r.ID,
+                                                        .interaction = "Flux"}).ToArray).ToArray.ToVector
 
             Dim List As Dictionary(Of String, ______NETWORK__) =
                 (From kNod As bGetObject.Module In FromPathway.Modules.AsParallel
@@ -322,7 +323,7 @@ Namespace NetworkModel.PfsNET
         End Function
 
         Private Function __kModNetwork([mod] As bGetObject.Module, rxnGeneRels As NetworkEdge(), rxnRels As NetworkEdge(), trim As Boolean) As KeyValuePair(Of String, ______NETWORK__)
-            If [mod].PathwayGenes.IsNullOrEmpty OrElse [mod].Reaction.IsNullOrEmpty Then
+            If [mod].pathwayGenes.IsNullOrEmpty OrElse [mod].reaction.IsNullOrEmpty Then
                 Call $"""{[mod].EntryId}"" is not a network!".__DEBUG_ECHO
                 Return Nothing
             End If
@@ -337,26 +338,26 @@ Namespace NetworkModel.PfsNET
                              .NodeType = "Gene"}).ToArray '创建酶分子的节点
 
             Dim bufSource = (From item In rxnRels
-                             Where Array.IndexOf(ReactionList, item.FromNode) > -1 OrElse Array.IndexOf(ReactionList, item.ToNode) > -1
+                             Where Array.IndexOf(ReactionList, item.fromNode) > -1 OrElse Array.IndexOf(ReactionList, item.toNode) > -1
                              Let [from] = (From n As NetworkEdge
                                            In rxnGeneRels
-                                           Where Array.IndexOf(GeneIdList, n.FromNode) > -1 AndAlso String.Equals(item.FromNode, n.ToNode)
-                                           Select n.FromNode
+                                           Where Array.IndexOf(GeneIdList, n.fromNode) > -1 AndAlso String.Equals(item.fromNode, n.toNode)
+                                           Select n.fromNode
                                            Distinct
-                                           Order By FromNode Ascending).ToArray
+                                           Order By fromNode Ascending).ToArray
                              Let [to] = (From n As NetworkEdge
                                          In rxnGeneRels
-                                         Where Array.IndexOf(GeneIdList, n.FromNode) > -1 AndAlso String.Equals(item.ToNode, n.ToNode)
-                                         Select n.FromNode
+                                         Where Array.IndexOf(GeneIdList, n.fromNode) > -1 AndAlso String.Equals(item.toNode, n.toNode)
+                                         Select n.fromNode
                                          Distinct
-                                         Order By FromNode Ascending).ToArray
+                                         Order By fromNode Ascending).ToArray
                              Select [from], [to]).ToArray
             Dim Edges = (From item In bufSource
                          Where Not (item.from.IsNullOrEmpty OrElse item.to.IsNullOrEmpty)
                          Select Generate(item.from, item.to)).ToArray.ToVector
             Dim net As ______NETWORK__ = New ______NETWORK__ With {
-                .Nodes = Nodes,
-                .Edges = Edges
+                .nodes = Nodes,
+                .edges = Edges
             }
             If trim Then
                 Call net.RemoveDuplicated()
@@ -373,17 +374,17 @@ Namespace NetworkModel.PfsNET
                 Call ListDDD.AddRange((From id As String In from
                                        Select (From id2 As String In from
                                                Select New NetworkEdge With {
-                                                   .FromNode = id,
-                                                   .ToNode = id2,
-                                                   .Interaction = "Coeffect"}).ToArray).ToArray.ToVector)
+                                                   .fromNode = id,
+                                                   .toNode = id2,
+                                                   .interaction = "Coeffect"}).ToArray).ToArray.ToVector)
             End If
             If [to].Length > 1 Then
                 Call ListDDD.AddRange((From id As String In [to]
                                        Select (From id2 As String In [to]
                                                Select New NetworkEdge With {
-                                                   .FromNode = id,
-                                                   .ToNode = id2,
-                                                   .Interaction = "Coeffect"}).ToArray).ToArray.ToVector)
+                                                   .fromNode = id,
+                                                   .toNode = id2,
+                                                   .interaction = "Coeffect"}).ToArray).ToArray.ToVector)
             End If
 
             Call ListDDD.AddRange((From id As String
@@ -391,9 +392,9 @@ Namespace NetworkModel.PfsNET
                                    Select (From id2 As String
                                            In [to]
                                            Select New NetworkEdge With {
-                                               .FromNode = id,
-                                               .ToNode = id2,
-                                               .Interaction = "Flux"}).ToArray).ToVector)
+                                               .fromNode = id,
+                                               .toNode = id2,
+                                               .interaction = "Flux"}).ToArray).ToVector)
 
             Return ListDDD.ToArray
         End Function
@@ -453,16 +454,16 @@ Namespace NetworkModel.PfsNET
             For Each pathway In FromPathway.Pathways
                 For Each obj In pathway.Pathways
 
-                    If obj.Modules.IsNullOrEmpty Then
+                    If obj.modules.IsNullOrEmpty Then
                         Call $"pathway ""{obj.EntryId}"" is not a valid visualization source!".__DEBUG_ECHO
                         Continue For
                     End If
 
-                    Dim modIdlist = (From item In obj.Modules Select item.name).ToArray
+                    Dim modIdlist = (From item In obj.modules Select item.name).ToArray
                     Dim modules = (From item In net Where Array.IndexOf(modIdlist, item.Key) > -1 Select item).ToArray
                     Dim network As New ______NETWORK__ With {
-                        .Edges = (From item In modules Select item.Value.Value.Edges).ToVector,
-                        .Nodes = (From item In modules Select item.Value.Value.Nodes).ToVector
+                        .edges = (From item In modules Select item.Value.Value.edges).ToVector,
+                        .nodes = (From item In modules Select item.Value.Value.nodes).ToVector
                     }
 
                     Call network.RemoveDuplicated()
@@ -476,7 +477,7 @@ Namespace NetworkModel.PfsNET
 
                     Call network.Save(String.Format("{0}/{1}/", ExportDIR, obj.EntryId), Encodings.UTF8.CodePage)
 
-                    Dim NodeTable = (From item In network.Nodes Select item.CopyTo(Of PfsNETNode)()).ToArray
+                    Dim NodeTable = (From item In network.nodes Select item.CopyTo(Of PfsNETNode)()).ToArray
 
                     For Each Node In NodeTable
                         Node.Important = (From item As SubNetTable

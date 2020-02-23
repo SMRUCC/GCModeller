@@ -55,13 +55,16 @@ Public Class DNAMatrix : Inherits Blosum
     ' *  0   0   0   0  0
 
     Sub New()
-        Matrix = {
+        Call MyBase.New({"A", "G", "C", "T", "*"})
+
+        matrix = {
             {+1, -1, -1, -1, 0},
             {-1, +1, -1, -1, 0},
             {-1, -1, +1, -1, 0},
             {-1, -1, -1, +1, 0},
             {+0, +0, +0, +0, 0}
-        }.ToVectorList
+        }.ToVectorList _
+         .ToArray
     End Sub
 
     Protected Overrides Function getIndex(a As Char) As Integer

@@ -7,12 +7,33 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.Rsharp.Runtime
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' Toolkit for process the kegg brite text file
+''' </summary>
 <Package("kegg.brite")>
 Module britekit
 
+    ''' <summary>
+    ''' Convert the kegg brite htext tree to plant table
+    ''' </summary>
+    ''' <param name="htext"></param>
+    ''' <param name="entryIDPattern$"></param>
+    ''' <returns></returns>
     <ExportAPI("brite.as.table")>
-    Public Function BriteTable(htext As htext, Optional entryIDPattern$ = "[a-z]+\d+") As EntityObject()
-        Return htext.Deflate(entryIDPattern) _
+    Public Function BriteTable(htext As Object, Optional entryIDPattern$ = "[a-z]+\d+", Optional env As Environment = Nothing) As Object
+        Dim terms As IEnumerable(Of BriteTerm)
+
+        If htext Is Nothing Then
+            Return REnv.debug.stop("htext object is nothing!", env)
+        ElseIf htext.GetType Is GetType(htext) Then
+            terms = DirectCast(htext, htext).Deflate(entryIDPattern)
+        ElseIf htext.GetType Is GetType(htextJSON) Then
+            terms = DirectCast(htext, htextJSON).DeflateTerms
+        Else
+            Return REnv.debug.stop(New NotSupportedException(htext.GetType.FullName), env)
+        End If
+
+        Return terms _
             .Select(Function(term)
                         Return New EntityObject With {
                             .ID = term.kegg_id,
@@ -27,7 +48,9 @@ Module britekit
                         }
                     End Function) _
             .GroupBy(Function(term) term.ID) _
-            .Select(Function(terms) terms.First) _
+            .Select(Function(termGroup)
+                        Return termGroup.First
+                    End Function) _
             .ToArray
     End Function
 
@@ -62,5 +85,16 @@ Module britekit
         Else
             Return htext.StreamParser(res:=file)
         End If
+    End Function
+
+    ''' <summary>
+    ''' Do parse of the kegg brite json file.
+    ''' </summary>
+    ''' <param name="file$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("brite.parseJSON")>
+    Public Function ParseBriteJson(file$, Optional env As Environment = Nothing) As Object
+        Return htextJSON.parseJSON(file)
     End Function
 End Module

@@ -259,6 +259,9 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Surveillance-of-infectious-diseases|x86' ">
     <OutputPath>./bin</OutputPath>
@@ -1157,6 +1160,7 @@
     <Compile Include="Extensions\Reflection\ValueReader.vb" />
     <Compile Include="Extensions\Reflection\EnumHelpers.vb" />
     <Compile Include="Extensions\StringHelpers\StringFormats.vb" />
+    <Compile Include="Language\Linq\Rapply.vb" />
     <Compile Include="My\Framework\FrameworkConfig.vb" />
     <Compile Include="My\Framework\DoConfiguration.vb" />
     <Compile Include="My\Framework\NamespaceDoc.vb" />
@@ -1389,7 +1393,7 @@
     <Compile Include="Net\DomainName.vb" />
     <Compile Include="Scripting\Expressions\Aggregate.vb" />
     <Compile Include="Scripting\Runtime\CType\Abstract.vb" />
-    <Compile Include="Scripting\Runtime\CType\Narrowing.vb" />
+    <Compile Include="Scripting\Runtime\CType\ImplictCType.vb" />
     <Compile Include="Scripting\VisualBasic\Extensions.vb" />
     <Compile Include="Scripting\VisualBasic\KeywordProcessor.vb" />
     <Compile Include="Serialization\Abstract.vb" />

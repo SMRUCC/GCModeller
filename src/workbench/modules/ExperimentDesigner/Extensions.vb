@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
+<HideModuleName>
 Public Module Extensions
 
     ''' <summary>
@@ -71,36 +72,33 @@ Public Module Extensions
                                                    analysisDesign As IEnumerable(Of AnalysisDesigner),
                                                    sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of SampleTuple))
 
-        With sampleInfo.DataAnalysisDesign(analysisDesign)
+        For Each group In sampleInfo.DataAnalysisDesign(analysisDesign).IterateNameCollections
 
-            For Each group In .ByRef.IterateNameCollections
+            ' 将成对比较的标签选出来
+            Dim designer = group _
+                .value _
+                .Where(Function(ad As AnalysisDesigner)
+                           For Each tuple As SampleTuple In sampleTuple
+                               If ad.EqualsToTuple(tuple) Then
+                                   Return True
+                               End If
+                           Next
 
-                ' 将成对比较的标签选出来
-                Dim designer = group _
-                    .Value _
-                    .Where(Function(ad As AnalysisDesigner)
-                               For Each tuple As SampleTuple In sampleTuple
-                                   If ad.EqualsToTuple(tuple) Then
-                                       Return True
-                                   End If
-                               Next
+                           Return False
+                       End Function) _
+                .Select(Function(ad)
+                            Return New SampleTuple With {
+                                .sample1 = ad.controls,
+                                .sample2 = ad.treatment
+                            }
+                        End Function) _
+                .ToArray
 
-                               Return False
-                           End Function) _
-                    .Select(Function(ad)
-                                Return New SampleTuple With {
-                                    .Sample1 = ad.Controls,
-                                    .Sample2 = ad.Treatment
-                                }
-                            End Function) _
-                    .ToArray
-
-                Yield New NamedCollection(Of SampleTuple) With {
-                    .Name = group.Name,
-                    .Value = designer
-                }
-            Next
-        End With
+            Yield New NamedCollection(Of SampleTuple) With {
+                .name = group.name,
+                .value = designer
+            }
+        Next
     End Function
 
     <Extension>
@@ -191,7 +189,9 @@ Public Module Extensions
     Public Function SampleGroupInfo(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String)
         Return sampleInfo.ToDictionary(
             Function(sample) sample.ID,
-            Function(sample) sample.sample_group)
+            Function(sample)
+                Return sample.sample_group
+            End Function)
     End Function
 
     ''' <summary>
@@ -211,7 +211,9 @@ Public Module Extensions
                 .Distinct _
                 .ToArray
             Dim groupColors = groups.ToDictionary(Function(label) label,
-                                                  Function() colorList.Next)
+                                                  Function()
+                                                      Return colorList.Next
+                                                  End Function)
 
             Return .ToDictionary(Function(sample) sample.sample_name,
                                  Function(sample)
@@ -253,7 +255,9 @@ Public Module Extensions
         Dim sampleGroups = sampleInfo _
             .GroupBy(Function(label) label.sample_group) _
             .ToDictionary(Function(x) x.Key,
-                          Function(g) g.ToArray)
+                          Function(g)
+                              Return g.ToArray
+                          End Function)
         Dim translation = sampleInfo.ToDictionary(Function(sample) sample.sample_name)
         Dim designs = analysis.ToDictionary(
             Function(name) name.ToString,

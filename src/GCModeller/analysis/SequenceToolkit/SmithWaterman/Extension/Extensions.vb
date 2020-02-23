@@ -56,7 +56,7 @@ Public Module Coverage
         Dim points As New List(Of Integer)
 
         For Each x In regions
-            Call points.Add(CInt(x.Y - x.X).Sequence(offset:=x.X))
+            Call points.Add(CInt(x.Y - x.X).Sequence(offset:=CInt(x.X)))
         Next
 
         Dim array = (From x As Integer In points Select x Distinct).ToArray
@@ -64,14 +64,22 @@ Public Module Coverage
     End Function
 
     <Extension> Public Function QueryLength(source As IEnumerable(Of HSP)) As Integer
-        Dim nlst As Coordinate() =
-            source.Select(Function(x) New Coordinate With {.X = x.FromA, .Y = x.ToA})
+        Dim nlst As Coordinate() = source _
+            .Select(Function(x)
+                        Return New Coordinate With {.X = x.FromA, .Y = x.ToA}
+                    End Function) _
+            .ToArray
+
         Return Length(nlst)
     End Function
 
     <Extension> Public Function SubjectLength(source As IEnumerable(Of HSP)) As Integer
-        Dim nlst As Coordinate() =
-            source.Select(Function(x) New Coordinate With {.X = x.FromB, .Y = x.ToB})
+        Dim nlst As Coordinate() = source _
+            .Select(Function(x)
+                        Return New Coordinate With {.X = x.FromB, .Y = x.ToB}
+                    End Function) _
+            .ToArray
+
         Return Length(nlst)
     End Function
 End Module
