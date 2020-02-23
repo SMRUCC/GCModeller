@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -76,13 +77,17 @@ Public Module FoldChangeMatrix
     ''' <param name="rawMatrix"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function TotalSumNormalize(rawMatrix As IEnumerable(Of DataSet)) As IEnumerable(Of DataSet)
+    Public Iterator Function TotalSumNormalize(rawMatrix As IEnumerable(Of DataSet),
+                                               Optional byMedianQuantile As Boolean = False,
+                                               Optional samples As String() = Nothing) As IEnumerable(Of DataSet)
+
         Dim data As DataSet() = rawMatrix.ToArray
-        Dim samples = data.PropertyNames
-        Dim normalized = samples _
+        Dim normalized = (samples Or data.PropertyNames.AsDefault) _
             .ToDictionary(Function(name) name,
                           Function(name)
-                              Return TotalSumNormalize(data.Vector(name))
+                              Return data.Vector(name) _
+                                  .AsVector _
+                                  .TotalSumNormalize(byMedianQuantile)
                           End Function)
         Dim index%
 
