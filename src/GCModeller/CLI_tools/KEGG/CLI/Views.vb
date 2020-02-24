@@ -92,7 +92,8 @@ Partial Module CLI
         End If
     End Function
 
-    <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
+    <ExportAPI("/Cut_sequence.upstream")>
+    <Usage("/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
     Public Function CutSequence_Upstream(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim PTT$ = args("/PTT")
@@ -112,7 +113,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Views.mod_stat", Usage:="/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
+    <ExportAPI("/Views.mod_stat")>
+    <Usage("/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
     Public Function Stats(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim locus As String = args("/locus")
@@ -136,7 +138,8 @@ Partial Module CLI
         Return LQuery > out
     End Function
 
-    <ExportAPI("/Get.prot_motif", Usage:="/Get.prot_motif /query <sp:locus> [/out out.json]")>
+    <ExportAPI("/Get.prot_motif")>
+    <Usage("/Get.prot_motif /query <sp:locus> [/out out.json]")>
     Public Function ProteinMotifs(args As CommandLine) As Integer
         Dim query As String = args - "/query"
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/{query.NormalizePathString}.json")
@@ -144,8 +147,8 @@ Partial Module CLI
         Return prot.GetJson.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Gets.prot_motif",
-               Usage:="/Gets.prot_motif /query <query.txt/genome.PTT> [/PTT /sp <kegg-sp> /out <out.json> /update]")>
+    <ExportAPI("/Gets.prot_motif")>
+    <Usage("/Gets.prot_motif /query <query.txt/genome.PTT> [/PTT /sp <kegg-sp> /out <out.json> /update]")>
     Public Function GetsProteinMotifs(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & ".prot_motifs.json")
