@@ -65,7 +65,15 @@ Public Module FoldChangeMatrix
     <Extension>
     Public Function TotalSumNormalize(sample As Vector, Optional byMedianQuantile As Boolean = False) As Double()
         If byMedianQuantile Then
-            Return sample / sample.Quartile.Q2
+            ' 20200224
+            ' if not impute fir missing value, then
+            ' if the most of the protein sample value is ZERO
+            ' the median number will be zero
+            ' sample / median will become Inf
+            Dim quantile As QuantileEstimationGK = sample.GKQuantile
+            Dim median As Double = quantile.Query(0.5)
+
+            Return sample / median
         Else
             Return sample / sample.Sum
         End If
@@ -164,7 +172,9 @@ Public Module FoldChangeMatrix
         Dim groups = sampleInfo _
             .GroupBy(Function(s) s.sample_group) _
             .ToDictionary(Function(g) g.Key,
-                          Function(g) g.Select(Function(s) s.sample_name).ToArray)
+                          Function(g)
+                              Return g.Select(Function(s) s.sample_name).ToArray
+                          End Function)
 
         With rawMatrix.ToArray
             For Each designer As AnalysisDesigner In analysisDesigners
