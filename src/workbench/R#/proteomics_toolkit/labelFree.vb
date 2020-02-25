@@ -17,11 +17,12 @@ Module labelFree
 
     <ExportAPI("sample.normalize.correlation")>
     Public Function normalizationCorrelation(data As DataSet(), Optional samples As String() = Nothing) As DataSet()
-        Dim totalSum = data.TotalSumNormalize(byMedianQuantile:=False, samples:=samples).ToDictionary(Function(r) r.ID)
-        Dim medianNor = data.TotalSumNormalize(byMedianQuantile:=True, samples:=samples).ToDictionary(Function(r) r.ID)
+        Dim totalSum = data.TotalSumNormalize(byMedianQuantile:=False, samples:=samples)
+        Dim medianNor = data.TotalSumNormalize(byMedianQuantile:=True, samples:=samples)
         Dim rownames As String() = totalSum.Keys.ToArray
         Dim sampleNames As String() = totalSum.PropertyNames
         Dim groups = sampleNames.GuessPossibleGroups.ToArray
+        Dim groupsSum = totalSum
         Dim cor As Dictionary(Of String, (pcc#, pvalue1#, pvalue2#)) = sampleNames _
             .ToDictionary(Function(name) name,
                           Function(name)

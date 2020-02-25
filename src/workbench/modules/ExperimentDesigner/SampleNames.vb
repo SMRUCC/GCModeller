@@ -43,10 +43,38 @@ Public Module SampleNames
         ' iBAQ-AAA-2
         ' iBAQ-BBB-1
         ' iBAQ-BBB-25
-        Dim largeGroups = nameMatrix.GroupBy(Function(cs) cs.Take(colIndex).CharString).ToArray
+        Dim largeGroups = nameMatrix.GroupBy(Function(cs) cs.Take(colIndex + 1).CharString).ToArray
 
         For Each group In largeGroups
+            Dim j As Integer
 
+            nameMatrix = group.ToArray
+            maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
+
+            For i As Integer = colIndex To maxLen - 1
+                j = i
+                col = nameMatrix _
+                    .Select(Function(name) name.ElementAtOrNull(j)) _
+                    .ToArray
+
+                If col.Distinct.Count > 1 Then
+                    Exit For
+                End If
+            Next
+
+            Dim groupName As String = nameMatrix _
+                .Select(Function(cs) cs.Take(j).CharString) _
+                .First _
+                .Trim(" "c, "-"c, "_"c, "~"c, "+"c)
+
+            Yield New NamedCollection(Of String) With {
+                .name = groupName,
+                .value = nameMatrix _
+                    .Select(Function(name)
+                                Return name.CharString
+                            End Function) _
+                    .ToArray
+            }
         Next
     End Function
 End Module
