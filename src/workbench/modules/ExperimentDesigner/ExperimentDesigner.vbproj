@@ -197,6 +197,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SampleNames.vb" />
     <Compile Include="Templates\AnalysisDesigner.vb" />
     <Compile Include="Templates\SampleTuple.vb" />
     <Compile Include="Templates\Time_series.vb" />
