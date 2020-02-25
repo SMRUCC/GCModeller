@@ -60,24 +60,15 @@ Module labelFree
                               Return (corVal, pvalue1, pvalue2)
                           End Function)
         Dim output As New List(Of DataSet)
-        Dim aggregate As New DataSet With {.ID = "*Aggregate"}
-        Dim vector As Double()
+        Dim aggregate As DataSet
         Dim rawMatrix = data.ToDictionary(Function(r) r.ID)
 
         sampleNames = groups.Keys
-
-        For Each sample As String In sampleNames
-            vector = data.Vector(sample)
-            aggregate.Add($"{sample}.sum", vector.Sum)
-            aggregate.Add($"{sample}.median", vector.Quartile.Q2)
-        Next
-
-        output.Add(aggregate)
         aggregate = New DataSet With {.ID = "*Correlation"}
 
         For Each sample As String In sampleNames
             aggregate.Add($"{sample}.sum", cor(sample).pcc)
-            aggregate.Add($"{sample}.median", 0.0)
+            aggregate.Add($"{sample}.median", cor(sample).pcc)
         Next
 
         output.Add(aggregate)
@@ -86,7 +77,7 @@ Module labelFree
 
         For Each sample As String In sampleNames
             aggregate.Add($"{sample}.sum", cor(sample).pvalue1)
-            aggregate.Add($"{sample}.median", 0.0)
+            aggregate.Add($"{sample}.median", cor(sample).pvalue1)
         Next
 
         output.Add(aggregate)
@@ -95,7 +86,7 @@ Module labelFree
 
         For Each sample As String In sampleNames
             aggregate.Add($"{sample}.sum", cor(sample).pvalue2)
-            aggregate.Add($"{sample}.median", 0.0)
+            aggregate.Add($"{sample}.median", cor(sample).pvalue2)
         Next
 
         output.Add(aggregate)
