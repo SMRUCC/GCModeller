@@ -64,6 +64,8 @@ Module labelFree
         Dim vector As Double()
         Dim rawMatrix = data.ToDictionary(Function(r) r.ID)
 
+        sampleNames = groups.Keys
+
         For Each sample As String In sampleNames
             vector = data.Vector(sample)
             aggregate.Add($"{sample}.sum", vector.Sum)
