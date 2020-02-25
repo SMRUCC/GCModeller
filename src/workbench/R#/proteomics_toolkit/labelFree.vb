@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.FoldChangeMatrix
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 <Package("proteomics.labelfree")>
 Module labelFree
@@ -20,6 +21,7 @@ Module labelFree
         Dim medianNor = data.TotalSumNormalize(byMedianQuantile:=True, samples:=samples).ToDictionary(Function(r) r.ID)
         Dim rownames As String() = totalSum.Keys.ToArray
         Dim sampleNames As String() = totalSum.PropertyNames
+        Dim groups = sampleNames.GuessPossibleGroups.ToArray
         Dim cor As Dictionary(Of String, (pcc#, pvalue1#, pvalue2#)) = sampleNames _
             .ToDictionary(Function(name) name,
                           Function(name)

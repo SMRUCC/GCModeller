@@ -13,6 +13,40 @@ Public Module SampleNames
     ''' <returns></returns>
     <Extension>
     Public Iterator Function GuessPossibleGroups(allSampleNames As IEnumerable(Of String)) As IEnumerable(Of NamedCollection(Of String))
+        Dim nameMatrix As Char()() = allSampleNames.Select(Function(name) name.ToArray).ToArray
+        Dim maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
+        Dim col As Char()
+        Dim colIndex As Integer
 
+        For i As Integer = 0 To maxLen - 1
+            colIndex = i
+            col = nameMatrix _
+                .Select(Function(name)
+                            Return name.ElementAtOrNull(colIndex)
+                        End Function) _
+                .ToArray
+
+            '      colIndex
+            '      |
+            ' iBAQ-AA-1
+            ' iBAQ-BB-2
+            If col.Distinct.Count > 1 Then
+                ' group label at here
+                Exit For
+            End If
+        Next
+
+        ' continute for extends group labels
+        '          colIndex
+        '          |
+        ' iBAQ-AAA-1
+        ' iBAQ-AAA-2
+        ' iBAQ-BBB-1
+        ' iBAQ-BBB-25
+        Dim largeGroups = nameMatrix.GroupBy(Function(cs) cs.Take(colIndex).CharString).ToArray
+
+        For Each group In largeGroups
+
+        Next
     End Function
 End Module
