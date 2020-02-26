@@ -228,26 +228,5 @@ Namespace BarPlot.Histogram
                     .y = n
                 }
         End Sub
-
-        ''' <summary>
-        ''' Tag值为直方图的高，value值为直方图的平均值连线
-        ''' </summary>
-        ''' <param name="hist"></param>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Sub New(hist As IEnumerable(Of DataBinBox(Of Double)), step!)
-            data = hist _
-                .Select(Function(range)
-                            Dim data As Double() = range.Raw
-
-                            Return New HistogramData With {
-                                .x1 = data.Min,
-                                .x2 = .x1 + step!,
-                                .y = data.Length,
-                                .pointY = data.Average
-                            }
-                        End Function) _
-                .ToArray
-        End Sub
     End Structure
 End Namespace
