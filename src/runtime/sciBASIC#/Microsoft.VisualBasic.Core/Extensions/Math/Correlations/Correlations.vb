@@ -343,6 +343,10 @@ Namespace Math.Correlations
             Dim pcc As Double = GetPearson(x, y)
             Dim n As Integer = x.Length
 
+            If pcc > 1 Then
+                pcc = 1
+            End If
+
             ' fisher's z trasnformation
             z = 0.5 * stdNum.Log((1.0 + pcc + TINY) / (1.0 - pcc + TINY))
 
@@ -430,7 +434,7 @@ Namespace Math.Correlations
                 sxy += xt * yt
             Next
 
-            Return sxy / (Sqrt(sxx * syy) + TINY)
+            Return sxy / (stdNum.Sqrt(sxx * syy) + TINY)
         End Function
 
         ''' <summary>
