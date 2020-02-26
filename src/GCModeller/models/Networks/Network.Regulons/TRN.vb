@@ -52,6 +52,8 @@ Public Module TRN
                         End Function) _
                 .ToArray
 
+            Call gene.ID.__INFO_ECHO
+
             Yield links
         Next
     End Function
