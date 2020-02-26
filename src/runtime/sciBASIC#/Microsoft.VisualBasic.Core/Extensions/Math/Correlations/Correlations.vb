@@ -338,7 +338,7 @@ Namespace Math.Correlations
         ''' checked by Excel
         ''' </remarks>
         <ExportAPI("Pearson")>
-        Public Function GetPearson(x#(), y#(), Optional ByRef prob# = 0, Optional ByRef prob2# = 0, Optional ByRef z# = 0) As Double
+        Public Function GetPearson(x#(), y#(), Optional ByRef prob# = 0, Optional ByRef prob2# = 0, Optional ByRef z# = 0, Optional throwMaxIterError As Boolean = True) As Double
             Dim t#, df#
             Dim pcc As Double = GetPearson(x, y)
             Dim n As Integer = x.Length
@@ -350,7 +350,7 @@ Namespace Math.Correlations
             df = n - 2
             t = pcc * stdNum.Sqrt(df / ((1.0 - pcc + TINY) * (1.0 + pcc + TINY)))
 
-            prob = Beta.betai(0.5 * df, 0.5, df / (df + t * t))
+            prob = Beta.betai(0.5 * df, 0.5, df / (df + t * t), throwMaxIterError)
             ' for a large n
             prob2 = Beta.erfcc(Abs(z * stdNum.Sqrt(n - 1.0)) / 1.4142136)
 
