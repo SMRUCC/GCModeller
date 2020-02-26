@@ -3,11 +3,13 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.FoldChangeMatrix
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("proteomics.labelfree")>
 Module labelFree
@@ -30,6 +32,22 @@ Module labelFree
                                                           End Function)
                                      }
                                  End Function)
+    End Function
+
+    <ExportAPI("guess.sample_groups")>
+    Public Function guessSampleGroups(sample_names As Array) As list
+        Return REnv.asVector(Of String)(sample_names) _
+            .AsObjectEnumerator(Of String) _
+            .GuessPossibleGroups _
+            .ToDictionary(Function(group) group.name,
+                          Function(group)
+                              Return CObj(group.ToArray)
+                          End Function) _
+            .DoCall(Function(list)
+                        Return New list With {
+                            .slots = list
+                        }
+                    End Function)
     End Function
 
     <ExportAPI("sample.normalize.correlation")>
