@@ -138,7 +138,8 @@ Partial Module CLI
         Return row
     End Function
 
-    <ExportAPI("/MAT.evalue", Usage:="/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
+    <ExportAPI("/MAT.evalue")>
+    <Usage("/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
     Public Function EvalueMatrix(args As CommandLine) As Integer
         Dim sbh As List(Of BestHit) = args("/in").LoadCsv(Of BestHit)
         Dim out As String = args("/out") Or (args("/in").TrimSuffix & ".Evalue.Csv")
@@ -338,7 +339,8 @@ Partial Module CLI
         Return tophits.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("--Export.SBH", Usage:="--Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]")>
+    <ExportAPI("--Export.SBH")>
+    <Usage("--Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]")>
     Public Function ExportSBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim query As String = args("/prefix")
@@ -362,7 +364,8 @@ Partial Module CLI
         Return LQuery.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("--Export.Overviews", Usage:="--Export.Overviews /blast <blastout.txt> [/out <overview.csv>]")>
+    <ExportAPI("--Export.Overviews")>
+    <Usage("--Export.Overviews /blast <blastout.txt> [/out <overview.csv>]")>
     Public Function ExportOverviews(args As CommandLine) As Integer
         Dim inFile As String = args("/blast")
         Dim fileInfo = FileIO.FileSystem.GetFileInfo(inFile)
