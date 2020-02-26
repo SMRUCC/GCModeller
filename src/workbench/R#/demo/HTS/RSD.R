@@ -6,6 +6,7 @@ require(dataframe);
 let raw = ["\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups.csv"] 
 :> read.dataframe(mode = "numeric")
 ;
+
 let sample.names = raw
 :> dataset.colnames
 :> guess.sample_groups
@@ -24,9 +25,9 @@ let samples.RSD = lapply(sample.names, function(group) {
 	RSD.vector;
 });
 
-str(samples.RSD);
+# str(samples.RSD);
 
 data.frame(samples.RSD)
-:> write.csv(file = "./test.csv")
+:> write.csv(file = "\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups.RSD.csv")
 ;
 
