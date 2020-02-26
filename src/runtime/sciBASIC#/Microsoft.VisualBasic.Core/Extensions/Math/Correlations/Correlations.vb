@@ -330,7 +330,7 @@ Namespace Math.Correlations
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
-        ''' <param name="prob"></param>
+        ''' <param name="prob">p-value in R ``cor.test`` function.</param>
         ''' <param name="prob2"></param>
         ''' <param name="z">fisher's z trasnformation</param>
         ''' <returns></returns>
