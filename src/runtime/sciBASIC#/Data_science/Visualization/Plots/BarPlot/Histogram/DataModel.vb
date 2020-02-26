@@ -66,7 +66,6 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BarPlot.Histogram
@@ -158,10 +157,13 @@ Namespace BarPlot.Histogram
         Sub New(data As IEnumerable(Of HistProfile))
             Samples = data
             Serials = data _
-                .Select(Function(x) New NamedValue(Of Color) With {
-                    .Name = x.legend.title,
-                    .Value = x.legend.color.ToColor
-                })
+                .Select(Function(x)
+                            Return New NamedValue(Of Color) With {
+                                .Name = x.legend.title,
+                                .Value = x.legend.color.ToColor
+                            }
+                        End Function) _
+                .ToArray
         End Sub
     End Class
 
@@ -191,7 +193,9 @@ Namespace BarPlot.Histogram
                 .width = width,
                 .lineType = type,
                 .PointSize = ptSize,
-                .pts = data.Select(Function(x) x.LinePoint)
+                .pts = data _
+                    .Select(Function(x) x.LinePoint) _
+                    .ToArray
             }
         End Function
 
