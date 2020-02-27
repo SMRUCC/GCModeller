@@ -85,34 +85,34 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 <GroupingDefine(CLIGrouping.PalindromeTools, Description:=CLIGrouping.PalindromeToolsDescription)>
 <CLI> Public Module Utilities
 
-    <ExportAPI("-321",
-               Info:="Polypeptide sequence 3 letters to 1 lettes sequence.",
-               Usage:="-321 /in <sequence.txt> [/out <out.fasta>]")>
-    Public Function PolypeptideBriefs(args As CommandLine) As Integer
-        Dim [In] As String = args.GetString("/in")
-        Dim Sequence As String = FileIO.FileSystem.ReadAllText([In]).Replace(vbCr, "").Replace(vbLf, "")
-        Dim AA As New List(Of String)
-        For i As Integer = 0 To Sequence.Length - 3 Step 3
-            Call AA.Add(Mid(Sequence, i + 1, 3))
-        Next
-        Dim LQuery = New String((From a As String In AA Select Polypeptides.Abbreviate(a.ToUpper).First).ToArray)
-        Dim MW As Double = CalcMW_Polypeptide(LQuery)
-        Dim Fasta As New FastaSeq With {.SequenceData = LQuery, .Headers = {$"MW={MW}"}}
-        Dim out As String = args("/out")
-        If String.IsNullOrEmpty(out) Then
-            out = [In] & ".fasta"
-        End If
-        Call Fasta.SaveAsOneLine(out)
-        Return 0
-    End Function
+    '<ExportAPI("-321",
+    '           Info:="Polypeptide sequence 3 letters to 1 lettes sequence.",
+    '           Usage:="-321 /in <sequence.txt> [/out <out.fasta>]")>
+    'Public Function PolypeptideBriefs(args As CommandLine) As Integer
+    '    Dim [In] As String = args.GetString("/in")
+    '    Dim Sequence As String = FileIO.FileSystem.ReadAllText([In]).Replace(vbCr, "").Replace(vbLf, "")
+    '    Dim AA As New List(Of String)
+    '    For i As Integer = 0 To Sequence.Length - 3 Step 3
+    '        Call AA.Add(Mid(Sequence, i + 1, 3))
+    '    Next
+    '    Dim LQuery = New String((From a As String In AA Select Polypeptides.Abbreviate(a.ToUpper).First).ToArray)
+    '    Dim MW As Double = CalcMW_Polypeptide(LQuery)
+    '    Dim Fasta As New FastaSeq With {.SequenceData = LQuery, .Headers = {$"MW={MW}"}}
+    '    Dim out As String = args("/out")
+    '    If String.IsNullOrEmpty(out) Then
+    '        out = [In] & ".fasta"
+    '    End If
+    '    Call Fasta.SaveAsOneLine(out)
+    '    Return 0
+    'End Function
 
     ''' <summary>
     ''' 进行核酸fasta序列的互补
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("-complement",
-               Usage:="-complement -i <input_fasta> [-o <output_fasta>]")>
+    <ExportAPI("-complement")>
+    <Usage("-complement -i <input_fasta> [-o <output_fasta>]")>
     Public Function Complement(args As CommandLine) As Integer
         Dim InputFasta As String = args("-i")
 
@@ -133,8 +133,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("-reverse",
-               Usage:="-reverse -i <input_fasta> [-o <output_fasta>]")>
+    <ExportAPI("-reverse")>
+    <Usage("-reverse -i <input_fasta> [-o <output_fasta>]")>
     Public Function Reverse(args As CommandLine) As Integer
         Dim InputFasta As String = args("-i")
 
@@ -154,9 +154,10 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     ''' <param name="argvs"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("-pattern_search", Info:="Parsing the sequence segment from the sequence source using regular expression.",
-        Usage:="-pattern_search -i <file_name> -p <regex_pattern> [-o <output_directory> -f <format:fsa/gbk>]",
-        Example:="-pattern_search -i ~/xcc8004.txt -p TTA{3}N{1,2} -f fsa")>
+    <ExportAPI("-pattern_search")>
+    <Description("Parsing the sequence segment from the sequence source using regular expression.")>
+    <Usage("-pattern_search -i <file_name> -p <regex_pattern> [-o <output_directory> -f <format:fsa/gbk>]")>
+    <Example("-pattern_search -i ~/xcc8004.txt -p TTA{3}N{1,2} -f fsa")>
     <Argument("-i",
         Description:="The sequence input data source file, it can be a fasta or genbank file.")>
     <Argument("-p",
@@ -211,9 +212,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/logo",
-               Info:="* Drawing the sequence logo from the clustal alignment result.",
-               Usage:="/logo /in <clustal.fasta> [/out <out.png> /title """"]")>
+    <ExportAPI("/logo")>
+    <Description("* Drawing the sequence logo from the clustal alignment result.")>
+    <Usage("/logo /in <clustal.fasta> [/out <out.png> /title """"]")>
     <Argument("/in", False, Description:="The file path of the clustal output fasta file.", AcceptTypes:={GetType(FastaFile)})>
     <Argument("/out", True, Description:="The output sequence logo image file path. default is the same name as the input fasta sequence file.")>
     <Argument("/title", True, Description:="The display title on the sequence logo, default is using the fasta file name.")>
@@ -269,8 +270,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Return 0
     End Function
 
-    <ExportAPI("--Drawing.ClustalW",
-           Usage:="--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
+    <ExportAPI("--Drawing.ClustalW")>
+    <Usage("--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
     Public Function DrawClustalW(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
@@ -288,8 +289,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     ''' <remarks>
     ''' 2017-2-9 经过KEGG测试，sequence cut功能没有问题
     ''' </remarks>
-    <ExportAPI("/Promoter.Regions.Parser.gb",
-               Usage:="/Promoter.Regions.Parser.gb /gb <genbank.gb> [/out <out.DIR>]")>
+    <ExportAPI("/Promoter.Regions.Parser.gb")>
+    <Usage("/Promoter.Regions.Parser.gb /gb <genbank.gb> [/out <out.DIR>]")>
     Public Function PromoterRegionParser_gb(args As CommandLine) As Integer
         Dim gb As String = args <= "/gb"
         Dim gbff As GBFF.File = NCBI.GenBank.GBFF.File.Load(gb)

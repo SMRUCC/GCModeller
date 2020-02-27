@@ -41,16 +41,19 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
+''' <summary>
+''' 对位点进行类似于正则表达式的模式匹配
+''' </summary>
 Public Class PatternScanner : Inherits IScanner
 
     Sub New(nt As IPolymerSequenceModel)
