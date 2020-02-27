@@ -32,3 +32,20 @@ data.frame(samples.RSD)
 :> write.csv(file = "\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups.RSD.csv")
 ;
 
+raw <- raw :> sample.normalize();
+
+samples.RSD = lapply(sample.names, function(group) {
+	let RSD.vector = raw 
+	  :> dataset.project(group) 
+	  :> lapply(function(protein) {
+	       protein :> cells :> RSD;
+	  }, names = protein -> as.object(protein)$ID);
+	
+	RSD.vector;
+});
+
+# str(samples.RSD);
+
+data.frame(samples.RSD)
+:> write.csv(file = "\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups.RSD_norm.csv")
+;
