@@ -103,7 +103,7 @@ Module Fasta
                 Case GetType(FastaFile)
                     Return DirectCast(a, FastaFile)
                 Case Else
-                    Throw New NotImplementedException(type.FullName)
+                    Return Nothing
             End Select
         End If
     End Function
