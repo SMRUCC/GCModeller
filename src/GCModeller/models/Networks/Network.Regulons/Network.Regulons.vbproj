@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.vb" />
+    <Compile Include="TRN.vb" />
     <Compile Include="MotifCluster.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
