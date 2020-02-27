@@ -1,0 +1,171 @@
+﻿{
+  "pvalue": 1.0757213697587531E-06,
+  "region": [{
+      "frequency": {
+        "A": 0.33734939759036142,
+        "T": 0,
+        "G": 0.6506024096385542,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.54819277108433739,
+        "T": 0.1144578313253012,
+        "G": 0,
+        "C": 0.03614457831325301
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.90963855421686746,
+        "T": 0.024096385542168676,
+        "G": 0.042168674698795178,
+        "C": 0
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.030120481927710843,
+        "T": 0.12650602409638553,
+        "G": 0,
+        "C": 0.83132530120481929
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.3493975903614458,
+        "T": 0.012048192771084338,
+        "G": 0.61445783132530118,
+        "C": 0.012048192771084338
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0.030120481927710843,
+        "T": 0.31927710843373491,
+        "G": 0,
+        "C": 0.018072289156626505
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0.21084337349397592,
+        "T": 0.67469879518072284,
+        "G": 0.012048192771084338,
+        "C": 0
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0.36746987951807231,
+        "T": 0.57831325301204817,
+        "G": 0.012048192771084338,
+        "C": 0.030120481927710843
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0.054216867469879519,
+        "T": 0.012048192771084338,
+        "G": 0.13253012048192772,
+        "C": 0
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.15662650602409639,
+        "G": 0.21084337349397592,
+        "C": 0.56024096385542166
+      },
+      "index": 9
+    },{
+      "frequency": {
+        "A": 0.048192771084337352,
+        "T": 0.30722891566265059,
+        "G": 0.060240963855421686,
+        "C": 0.072289156626506021
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0.042168674698795178,
+        "T": 0,
+        "G": 0.463855421686747,
+        "C": 0
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0.018072289156626505,
+        "T": 0.48192771084337349,
+        "G": 0.006024096385542169,
+        "C": 0.006024096385542169
+      },
+      "index": 12
+    },{
+      "frequency": {
+        "A": 0.012048192771084338,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 13
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.006024096385542169,
+        "G": 0,
+        "C": 0.006024096385542169
+      },
+      "index": 14
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0.006024096385542169,
+        "C": 0
+      },
+      "index": 15
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.012048192771084338,
+        "G": 0,
+        "C": 0
+      },
+      "index": 16
+    },{
+      "frequency": {
+        "A": 0.006024096385542169,
+        "T": 0.006024096385542169,
+        "G": 0,
+        "C": 0
+      },
+      "index": 17
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.006024096385542169,
+        "G": 0.006024096385542169,
+        "C": 0
+      },
+      "index": 18
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.006024096385542169,
+        "G": 0.006024096385542169,
+        "C": 0
+      },
+      "index": 19
+    }],
+  "score": 842,
+  "length": 20,
+  "seeds": {
+    "MSA": ["ATATG-TT-C--G-------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","A-ACGTTTGTA---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","AAGCG-AA-C-AA-------","GAACA-AA-C-GT-------","A-GCG-AA-C-AA-------","A-ACGTTTGTA---------","GAACA-AA-C-GT-------","GAACAT-TAGT---------","GAACAT-TAGT---------","A-AAG-AA-C-AT-------","-----A-----ACAT-TAGT","A-AAG-AA-C-AT-------","GT-TC-TT--A---------","GAACAT-TAGT---------","GAACAT-TAGT---------","GAACAT-TAGT---------","GAACAT-TAGT---------","A-AAG-AA-C-AT-------","GT-TC-TT--A---------","GAACAT-TAGT---------","GAACAT-TAGT---------","GAACAT-TAGT---------","A-ATGTTT-GT---------","A-ATGTTTGTT---------","A-ATGTTT-GT---------","A-ATGTTTGTT---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","A-GCG-AA-C-AA-------","GAACGTTT-GT---------","A-ACGTTTGTT---------","A-ACGTTTGTT---------","A-ACGTTTGTT---------","GAACGTTT-GT---------","A-ACGTTTGTT---------","A-ACGTTT-GT---------","GTTTG--T--T---------","GAACGTTT-GT---------","A-ACGTTTGTT---------","A-ACGTTT-GT---------","GAACGTTT-GT---------","A-ACGTTTGTT---------","GAACGTTT-GT---------","A-ACGTTTGTT---------","A-ACGTTT-GT---------","GTACG-TT-TG---------","GTACG-TT-TG---------","GTACG-TT-TG---------","GTTTG--T--T---------","GTTTG--T--T---------","GTACG-TT-TG---------","GTACG-TT-TG---------","GTTTG--T--T---------","GTACG-TT-TG---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","A-ACGAACGTA---------","GAACG-TA-C-GT-------","GTACG-TT-TG---------","A-ACGAACGTA---------","GAACG-TA-C-GT-------","-----C-----GTACGTTTG","GAACG-TA-C-GT-------","GTACG-TT-TG---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","A-ATGTTT-GT---------","A-ATGTTT-GT---------","A-ATGTTT-GT---------","A-ATGTTT-GT---------","GTATG-TT-TG---------","GTATG-TT-TG---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GTACG--T--T---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","A-ACGAACGTA---------","GAACG-TA-C-GT-------","A-ACGAACGTA---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GTACG--T--T---------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","GAACG-TA-C-GT-------","A-ACGTTT-GC---------","GAACA-AA-C-GT-------","A-ACGTTT-GC---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","A-ACGTTTGCT---------","GAACA-AA-C-GT-------","ACGTT-TG-CT---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","A-ACGTTTGCT---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","ACGTT-TG-CT---------","GAACA-AA-C-GT-------","ACAAACGTT-T---------","A-ACGTTT-GC---------","A-ACGTTTGCT---------","A-ACGTTT-GC---------","A-ACGTTT-GC---------","A-ACGTTTGCT---------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","GAACA-AA-C-GT-------","A-ACGTTT-GC---------","A-ACGTTT-GC---------","A-ACGTTT-GC---------","ACAAACGTT-T---------","A-ACGTTT-GC---------","A-ACGTTT-GC---------","A-ACGTTTGCT---------","A-ACGTTT-GC---------","GAACA-AA-C-GT-------","A-ACGTTT-GC---------","GAACA-AA-C-GT-------","A-ACGTTTGCT---------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","A-ACATTCGTT---------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","GAACA-TT-C-GT-------","ACGTG-TT-CT---------","ACGTG-TT-CT---------"],
+    "cost": 12086268,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+  }
+}

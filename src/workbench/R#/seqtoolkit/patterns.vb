@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
 ''' <summary>
@@ -41,7 +42,12 @@ Module patterns
     End Function
 
     <ExportAPI("find_motifs")>
-    Public Function GetMotifs(fasta As FastaSeq(), Optional minw% = 6, Optional maxw% = 20, Optional nmotifs% = 25, Optional noccurs% = 6) As Motif()
+    Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
+                              Optional minw% = 6,
+                              Optional maxw% = 20,
+                              Optional nmotifs% = 25,
+                              Optional noccurs% = 6) As Motif()
+
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
             .minW = minw,
@@ -49,7 +55,7 @@ Module patterns
             .ScanMinW = 6,
             .ScanCutoff = 0.8
         }
-        Dim motifs As Motif() = fasta _
+        Dim motifs As Motif() = GetFastaSeq(fasta) _
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param

@@ -1,0 +1,75 @@
+﻿{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 0.07575757575757576,
+        "T": 0.59090909090909094,
+        "G": 0,
+        "C": 0.13636363636363635
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.15151515151515152,
+        "T": 0.07575757575757576,
+        "G": 0.75757575757575757,
+        "C": 0
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.16666666666666666,
+        "T": 0.72727272727272729,
+        "G": 0.07575757575757576,
+        "C": 0.030303030303030304
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.18181818181818182,
+        "T": 0.72727272727272729,
+        "G": 0.015151515151515152,
+        "C": 0.07575757575757576
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.015151515151515152,
+        "T": 0.21212121212121213,
+        "G": 0.07575757575757576,
+        "C": 0.696969696969697
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0.22727272727272727,
+        "T": 0.045454545454545456,
+        "G": 0.65151515151515149,
+        "C": 0.07575757575757576
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0.13636363636363635,
+        "T": 0.40909090909090912,
+        "G": 0,
+        "C": 0.10606060606060606
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0.37878787878787878,
+        "T": 0.46969696969696972,
+        "G": 0.060606060606060608,
+        "C": 0.090909090909090912
+      },
+      "index": 7
+    }],
+  "score": 3775,
+  "length": 8,
+  "seeds": {
+    "MSA": ["-GTTTG-T","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTCGTT","TGTTTGTT","TGTTTGTT","TGTTTGTT","TGTTTGTT","CGAACA-A","CGAACA-A","CGAACA-A","TGTTCG-A","TGTTCG-A","TGTTCG-A","TGTTCGAT","TGTTCGAT","TGTTCGAT","-TGTTC-T","AATAGAAC","-TGTTC-G","TGTTCGTA","-ATGTT-C","-TGTTC-G","TGTTCGTA","TGTTCGCA","TGTTCGCA","TGTTCGCA","TGTTCGCA","AATCGAAC","CGAACA-A","AATCGAAC","AATCGAAC","CGAACA-A","-AACAA-A","CGAACA-A","AATCGAAC","CGAACA-A","-AATCGAA","CGAACA-A","CGAACA-A","TGTTCGTT","TGTTCGTT","TGTTCG-T","-ACATT-T","--TTTGTT","-TGTTC-G","TGTTCGTA","TGTTCGTA","-TGTTC-G","TGTTCGTA","TGTTCGTA","-GTTCGTA","TGTTCGCT","TGTTCGCT","TGTTCGCT","-ACATT-T"],
+    "cost": 43856,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+  }
+}

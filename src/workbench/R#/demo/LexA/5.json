@@ -1,0 +1,91 @@
+﻿{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 0.19230769230769232,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0.019230769230769232,
+        "T": 0,
+        "G": 0,
+        "C": 0.019230769230769232
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.51923076923076927,
+        "G": 0.019230769230769232,
+        "C": 0.19230769230769232
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.038461538461538464,
+        "T": 0,
+        "G": 0.94230769230769229,
+        "C": 0
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.17307692307692307,
+        "T": 0.82692307692307687,
+        "G": 0,
+        "C": 0
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0.17307692307692307,
+        "T": 0.82692307692307687,
+        "G": 0,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0.019230769230769232,
+        "T": 0.28846153846153844,
+        "G": 0.019230769230769232,
+        "C": 0.67307692307692313
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.019230769230769232,
+        "G": 0.84615384615384615,
+        "C": 0
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0.17307692307692307,
+        "T": 0.42307692307692307,
+        "G": 0,
+        "C": 0.17307692307692307
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0.42307692307692307,
+        "T": 0.55769230769230771,
+        "G": 0,
+        "C": 0.019230769230769232
+      },
+      "index": 9
+    }],
+  "score": 4076,
+  "length": 10,
+  "seeds": {
+    "MSA": ["--TGTTCGTA","--CGAAC-AA","--CGAAC-AA","--CGAAC-AA","AACATTAGTT","A-TGTTCGTA","A-TGTTCGTA","---GTTTG-T","--TGTTTGTT","---GTTTG-T","---GTTTG-T","--TGTTTGTT","--CGAAC-AA","--TGTTCGCA","A-TGTTCGCA","ACGAAAGTAT","--TGTTCGCA","A-TGTTCGCA","--TGTTCGCA","A-TGTTCGCA","--TGTTCGCA","---GTTCGCA","A-TGTTCGCA","---GTTCGTA","---GTTCGTA","--CGAAC-AA","--CGAAC-AA","--TGTTCGTT","--TGTTCGTT","--TGTTCGTT","---GTTTG-T","--TGTTCGTT","--TGTTCGTT","--TGTTCGTT","--TGTTCGTT","---GTTTG-T","--TGTTCGTT","--TGTTCGTT","--TGTTCGTT","--TGTTCGTT","A-CGTTTGTT","A-CGTTTGTT","---GTTTG-T","--TGTTCGTT","---GTTTG-T","---GTTTG-T","--T-AACGAA","---GTTTG-T","---GTTTG-T","---GTTTG-T","--CGAAC-AA","--TGTTCG-C"],
+    "cost": 233212,
+    "names": ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+  }
+}
