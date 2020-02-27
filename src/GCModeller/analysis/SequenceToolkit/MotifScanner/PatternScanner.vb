@@ -41,15 +41,16 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class PatternScanner : Inherits IScanner
 
@@ -64,27 +65,29 @@ Public Class PatternScanner : Inherits IScanner
             .ToArray
     End Function
 
-    ReadOnly __rand As Random = New Random
-
     Public Overloads Function Equals(pattern As String, residue As String) As Integer
         Dim r As Char = residue.FirstOrDefault(ASCII.NUL)
 
         If pattern.Length = 1 Then
             Dim p As Char = pattern.FirstOrDefault(ASCII.NUL)
+
             If p = "."c OrElse p = "N"c Then
                 Return 10
             End If
+
             If Char.IsUpper(p) Then
                 If p = r Then
                     Return 10
                 Else
                     Return -10
                 End If
-            Else  ' 小写的，有一定的概率是别的字符
+            Else
+                ' 小写的，有一定的概率是别的字符
                 If p = Char.ToLower(r) Then
                     Return 5
                 Else
-                    If __rand.NextDouble < 0.75 Then  '  例如a大多数情况下是A
+                    '  例如a大多数情况下是A
+                    If randf.seeds.NextDouble < 0.75 Then
                         Return -5
                     Else
                         Return 5
