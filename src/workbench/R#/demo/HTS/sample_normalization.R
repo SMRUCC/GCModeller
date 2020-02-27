@@ -16,6 +16,7 @@ let cor <- lapply(dataset.colnames(raw), function(col) {
 });
 
 norm :> write.csv(file = "\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups_norm.csv");
+raw :> write.csv(file = "\\192.168.1.239\linux\project\HT201702152001苏大附一国风\原始数据\proteinGroups_impute_raw.csv");
 
 str(cor);
 
