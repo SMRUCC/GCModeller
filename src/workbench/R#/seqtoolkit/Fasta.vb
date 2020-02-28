@@ -91,6 +91,23 @@ Module Fasta
         End Select
     End Function
 
+    Public Function GetFastaSeq(a As Object) As IEnumerable(Of FastaSeq)
+        If a Is Nothing Then
+            Return {}
+        Else
+            Dim type As Type = a.GetType
+
+            Select Case type
+                Case GetType(FastaSeq)
+                    Return {DirectCast(a, FastaSeq)}
+                Case GetType(FastaFile)
+                    Return DirectCast(a, FastaFile)
+                Case Else
+                    Return Nothing
+            End Select
+        End If
+    End Function
+
     ''' <summary>
     ''' Read a single fasta sequence file
     ''' </summary>

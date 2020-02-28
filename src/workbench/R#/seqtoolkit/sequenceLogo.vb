@@ -42,8 +42,12 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("bioseq.sequenceLogo")>
 Module sequenceLogo
@@ -55,8 +59,26 @@ Module sequenceLogo
     ''' <param name="title"></param>
     ''' <returns></returns>
     <ExportAPI("plot.seqLogo")>
-    Public Function DrawLogo(MSA As FastaFile, Optional title$ = "") As GraphicsData
-        Return DrawingDevice.DrawFrequency(MSA, title)
+    <RApiReturn(GetType(GraphicsData))>
+    Public Function DrawLogo(<RRawVectorArgument> MSA As Object, Optional title$ = "", Optional env As Environment = Nothing) As Object
+        If MSA Is Nothing Then
+            Return REnv.debug.stop("MSA is nothing!", env)
+        End If
+
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA)
+
+        If data Is Nothing Then
+            Dim type As Type = MSA.GetType
+
+            Select Case type
+                Case GetType(Motif)
+                    data = DirectCast(MSA, Motif).seeds.ToFasta
+                Case Else
+                    Return REnv.debug.stop(New InvalidProgramException, env)
+            End Select
+        End If
+
+        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
     End Function
 End Module
 

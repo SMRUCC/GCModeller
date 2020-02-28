@@ -150,6 +150,10 @@
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
+      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
+      <Name>MotifScanner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MSA\MSA.vbproj">
       <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
       <Name>MSA</Name>
@@ -161,6 +165,10 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.vbproj">
       <Project>{1AE6B8DA-1A79-4DC7-A291-A8AE75CE07BA}</Project>
       <Name>SequenceLogo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
+      <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
+      <Name>SequencePatterns.Abstract</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
       <Project>{ABDCE82B-700E-4F70-A2F1-86B8054D0C8E}</Project>
