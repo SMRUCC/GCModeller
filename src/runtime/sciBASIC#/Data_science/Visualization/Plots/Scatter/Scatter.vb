@@ -199,7 +199,9 @@ Public Module Scatter
                          Optional tickFontStyle$ = CSSFont.Win7VeryLarge,
                          Optional labelFontStyle$ = CSSFont.Win7VeryVeryLargeNormal,
                          Optional title$ = Nothing,
-                         Optional titleFontCSS$ = CSSFont.Win7VeryVeryLarge) As GraphicsData
+                         Optional titleFontCSS$ = CSSFont.Win7VeryVeryLarge,
+                         Optional xlayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom,
+                         Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left) As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
@@ -244,7 +246,9 @@ Public Module Scatter
                         xlabel:=Xlabel, ylabel:=Ylabel,
                         htmlLabel:=htmlLabel,
                         tickFontStyle:=tickFontStyle,
-                        labelFont:=labelFontStyle
+                        labelFont:=labelFontStyle,
+                        xlayout:=xlayout,
+                        ylayout:=ylayout
                     )
                 End If
 

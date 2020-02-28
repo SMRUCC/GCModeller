@@ -3,6 +3,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -65,7 +66,15 @@ Public Module OmicsScatter2D
                 .ToArray
         }
 
-        Return Scatter.Plot({serial}, drawLine:=False, Xlabel:=xlab, Ylabel:=ylab)
+        Return Scatter.Plot(
+            c:={serial},
+            drawLine:=False,
+            Xlabel:=xlab,
+            Ylabel:=ylab,
+            absoluteScaling:=False,
+            xlayout:=XAxisLayoutStyles.ZERO,
+            ylayout:=YAxisLayoutStyles.ZERO
+        )
     End Function
 
     ''' <summary>

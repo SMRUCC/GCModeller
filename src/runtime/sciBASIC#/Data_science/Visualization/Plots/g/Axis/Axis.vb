@@ -174,7 +174,7 @@ Namespace Graphic.Axis
 
             Call g.FillRectangle(gridFill.GetBrush, rect)
 
-            If Not scaler.AxisTicks.X.IsNullorEmpty Then
+            If showGrid AndAlso Not scaler.AxisTicks.X.IsNullOrEmpty Then
                 For Each tick In scaler.AxisTicks.X
                     Dim x = scaler.X(tick) + offset.X
                     Dim top As New Point(x, rect.Top)
@@ -185,7 +185,7 @@ Namespace Graphic.Axis
                 Next
             End If
 
-            If Not scaler.AxisTicks.Y.IsNullorEmpty Then
+            If showGrid AndAlso Not scaler.AxisTicks.Y.IsNullOrEmpty Then
                 For Each tick In scaler.AxisTicks.Y
                     Dim y = scaler.TranslateY(tick) + offset.Y
                     Dim left As New Point(rect.Left, y)
