@@ -30,11 +30,11 @@ Namespace ReactionNetwork
 
         <Extension>
         Friend Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
-                                           enzymeInfo As Dictionary(Of String, String()),
-                                           networkBase As Dictionary(Of String, ReactionTable),
-                                           nodes As CompoundNodeTable,
-                                           addNewEdge As Action(Of Edge),
-                                           enzymeRelated As Boolean)
+                                          enzymeInfo As Dictionary(Of String, String()),
+                                          networkBase As Dictionary(Of String, ReactionTable),
+                                          nodes As CompoundNodeTable,
+                                          addNewEdge As Action(Of Edge),
+                                          enzymeRelated As Boolean)
 
             Dim reactions As ReactionTable()
             Dim usedEnzymies As New List(Of String)
