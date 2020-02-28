@@ -131,13 +131,13 @@ Module Fasta
     ''' <param name="seqs"></param>
     ''' <returns></returns>
     <ExportAPI("MSA.of")>
-    Public Function MSA(seqs As FastaFile) As MSAOutput
-        Return seqs.MultipleAlignment(ScoreMatrix.DefaultMatrix)
+    Public Function MSA(<RRawVectorArgument> seqs As Object) As MSAOutput
+        Return GetFastaSeq(seqs).MultipleAlignment(ScoreMatrix.DefaultMatrix)
     End Function
 
     <ExportAPI("fasta")>
     <RApiReturn(GetType(FastaFile))>
-    Public Function Tofasta(x As Object, Optional env As Environment = Nothing) As Object
+    Public Function Tofasta(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
         If x Is Nothing Then
             Return Nothing
         ElseIf x.GetType Is GetType(MSAOutput) Then

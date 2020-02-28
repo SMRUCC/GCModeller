@@ -13,7 +13,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kegg.repository")>
-Public Module Repository
+Public Module kegg_repository
 
     <ExportAPI("load.compounds")>
     Public Function LoadCompoundRepo(repository As String) As CompoundRepository
