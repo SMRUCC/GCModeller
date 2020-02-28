@@ -1,61 +1,28 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.Analysis.Microarray
 
 Public Module TRN
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="expression"></param>
+    ''' <param name="cutoff">An absolute value for the correlation cutoff.</param>
+    ''' <returns></returns>
     <Extension>
     Public Function CorrelationNetwork(expression As IEnumerable(Of DataSet), Optional cutoff As Double = 0.65) As IEnumerable(Of Connection)
-        Dim matrix = expression.ToArray
+        Dim matrix As DataSet() = expression.ToArray
         Dim samples As String() = matrix.PropertyNames
 
-        cutoff = Math.Abs(cutoff)
-
         Return matrix _
-            .correlationImpl(samples, cutoff) _
+            .Select(Function(gene)
+                        Return gene.CorrelationImpl(matrix, samples, isSelfComparison:=True, skipIndirect:=False, cutoff:=cutoff)
+                    End Function) _
             .IteratesALL _
             .Where(Function(cnn)
                        Return Math.Abs(cnn.cor) >= cutoff
                    End Function)
-    End Function
-
-    <Extension>
-    Private Iterator Function correlationImpl(matrix As DataSet(), sampleNames As String(), cutoff As Double) As IEnumerable(Of Connection())
-        Dim fpkm As Double()
-        Dim links As Connection()
-
-        For Each gene As DataSet In matrix
-            fpkm = gene(sampleNames)
-            links = matrix _
-                .Where(Function(g) g.ID <> gene.ID) _
-                .AsParallel _
-                .Select(Function(g)
-                            Dim fpkm2 As Double() = g(sampleNames)
-                            Dim cor As Double = GetPearson(fpkm, fpkm2)
-
-                            If Math.Abs(cor) >= cutoff Then
-                                Return New Connection With {
-                                    .cor = cor,
-                                    .gene1 = gene.ID,
-                                    .gene2 = g.ID,
-                                    .is_directly = True
-                                }
-                            Else
-                                Return New Connection With {
-                                    .cor = Spearman(fpkm, fpkm2),
-                                    .gene1 = gene.ID,
-                                    .gene2 = g.ID,
-                                    .is_directly = False
-                                }
-                            End If
-                        End Function) _
-                .ToArray
-
-            Call gene.ID.__INFO_ECHO
-
-            Yield links
-        Next
     End Function
 End Module
