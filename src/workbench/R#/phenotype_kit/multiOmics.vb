@@ -11,12 +11,23 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module multiOmics
 
     <ExportAPI("omics.2D_scatter")>
-    Public Function omics2DScatterPlot(x As Object, y As Object, Optional xlab$ = "X", Optional ylab$ = "Y", Optional env As Environment = Nothing) As Object
+    Public Function omics2DScatterPlot(x As Object, y As Object,
+                                       Optional xlab$ = "X",
+                                       Optional ylab$ = "Y",
+                                       Optional ptSize! = 10,
+                                       Optional env As Environment = Nothing) As Object
+
         If x Is Nothing OrElse y Is Nothing Then
             Return REnv.Internal.debug.stop("data can not be null!", env)
         End If
 
-        Return OmicsScatter2D.Plot(getData(x, xlab), getData(y, ylab), xlab, ylab)
+        Return OmicsScatter2D.Plot(
+            omicsX:=getData(x, xlab),
+            omicsY:=getData(y, ylab),
+            xlab:=xlab,
+            ylab:=ylab,
+            pointSize:=ptSize
+        )
     End Function
 
     Private Function getData(x As Object, ByRef label$) As NamedValue(Of Double)()

@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -40,11 +41,24 @@ Public Module OmicsScatter2D
                        End If
                    End Function) _
             .Select(Function(geneId)
+                        Dim xi# = dataX.TryGetValue(geneId)
+                        Dim yi# = dataY.TryGetValue(geneId)
+                        Dim color As Color
+
+                        If Math.Abs(xi) >= 1 AndAlso Math.Abs(yi) >= 1 Then
+                            color = Color.Red
+                        ElseIf Math.Abs(xi) >= 1 OrElse Math.Abs(yi) >= 1 Then
+                            color = Color.Green
+                        Else
+                            color = Color.Gray
+                        End If
+
                         Return New PointData With {
                             .pt = New PointF With {
-                                .X = dataX.TryGetValue(geneId),
-                                .Y = dataY.TryGetValue(geneId)
-                            }
+                                .X = xi,
+                                .Y = yi
+                            },
+                            .color = color.ToHtmlColor
                         }
                     End Function) _
             .ToArray
@@ -72,8 +86,8 @@ Public Module OmicsScatter2D
             Xlabel:=xlab,
             Ylabel:=ylab,
             absoluteScaling:=False,
-            xlayout:=XAxisLayoutStyles.ZERO,
-            ylayout:=YAxisLayoutStyles.ZERO
+            xlayout:=XAxisLayoutStyles.Bottom,
+            ylayout:=YAxisLayoutStyles.Right
         )
     End Function
 

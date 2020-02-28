@@ -311,17 +311,28 @@ Namespace Graphic.Axis
             Dim maxYTickSize!
 
             If Not yTicks.IsNullOrEmpty Then
+                Dim p As PointF
+
                 For Each tick As Double In yTicks
                     Dim y! = scaler.TranslateY(tick) + offset.Y
                     Dim axisY As New PointF(ZERO.X, y)
 
                     If showAxisLine Then
-                        Call g.DrawLine(pen, axisY, New PointF(ZERO.X - delta, y))
+                        If layout = YAxisLayoutStyles.Right Then
+                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X + delta, y))
+                        Else
+                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X - delta, y))
+                        End If
                     End If
 
                     Dim labelText = (tick).ToString(tickFormat)
                     Dim sz As SizeF = g.MeasureString(labelText, tickFont)
-                    Dim p As New Point(ZERO.X - delta - sz.Width, y - sz.Height / 2)
+
+                    If layout = YAxisLayoutStyles.Right Then
+                        p = New PointF(ZERO.X + delta, y - sz.Height / 2)
+                    Else
+                        p = New PointF(ZERO.X - delta - sz.Width, y - sz.Height / 2)
+                    End If
 
                     If sz.Width > maxYTickSize Then
                         maxYTickSize = sz.Width
