@@ -77,7 +77,8 @@ Public Module OmicsScatter2D
                             Return New Annotation With {
                                 .Legend = LegendStyles.Triangle,
                                 .Text = geneId.Value,
-                                .X = dataX.TryGetValue(geneId.Name)
+                                .X = dataX.TryGetValue(geneId.Name),
+                                .Y = dataY.TryGetValue(geneId.Name)
                             }
                         End Function) _
                 .ToArray
