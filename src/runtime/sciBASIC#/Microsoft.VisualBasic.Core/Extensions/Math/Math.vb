@@ -2028,12 +2028,12 @@ Namespace Math
         <Extension>
         Public Function RSD(data As IEnumerable(Of Double)) As Double
             Dim vec As Double() = data.ToArray
-            Dim sd As Double = data.SD
+            Dim sd As Double = vec.SD
 
             If sd = 0.0 Then
                 Return 0
             Else
-                Return sd / data.Average
+                Return sd / vec.Average
             End If
         End Function
 
