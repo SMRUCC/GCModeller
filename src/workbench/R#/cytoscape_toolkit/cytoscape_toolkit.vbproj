@@ -144,6 +144,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
+      <Name>Microarray</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
       <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
       <Name>KEGG</Name>

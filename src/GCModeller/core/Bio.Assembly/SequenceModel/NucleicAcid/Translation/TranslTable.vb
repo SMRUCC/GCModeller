@@ -122,7 +122,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="Table">资源文件里面的字典数据或者读取自外部文件的数据</param>
         Sub New(Table As String)
-            Dim transl_table = __parseTable(Table.LineTokens, _TranslTable)
+            Dim transl_table = doParseTable(Table.LineTokens, _TranslTable)
             Call __initProfiles(transl_table)
         End Sub
 
@@ -145,7 +145,7 @@ Namespace SequenceModel.NucleotideModels.Translation
                                              Function(codon) codon.Value)
         End Sub
 
-        Private Shared Function __parseTable(Tokens As String(), ByRef transl_table As Integer) As Dictionary(Of Codon, AminoAcid)
+        Private Shared Function doParseTable(Tokens As String(), ByRef transl_table As Integer) As Dictionary(Of Codon, AminoAcid)
             Dim index As String = Tokens(Scan0)
             Tokens = (From token As String
                       In Tokens.Skip(1)
@@ -180,7 +180,8 @@ Namespace SequenceModel.NucleotideModels.Translation
                     Call source.RemoveRange(0, 3)
 
                     If source.Count > 0 Then
-                        If String.Equals(source(Scan0), "i") Then ' 起始密码子
+                        ' 起始密码子
+                        If String.Equals(source(Scan0), "i") Then
                             Call list.Add("i")
                             Call source.RemoveAt(Scan0)
                         End If
@@ -215,24 +216,24 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
         ''' </summary>
-        ''' <param name="NucleicAcid"></param>
+        ''' <param name="nucleicAcid"></param>
         ''' <param name="force">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(NucleicAcid As String, force As Boolean) As String
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
+        Public Function Translate(nucleicAcid As String, force As Boolean) As String
+            Dim sb As New StringBuilder(1024)
 
-            NucleicAcid = __checkDirection(NucleicAcid)
+            nucleicAcid = doCheckNtDirection(nucleicAcid)
 
-            For i As Integer = 1 To Len(NucleicAcid) Step 3
-                Dim Tokens As Char() = Mid(NucleicAcid, i, 3)
+            For i As Integer = 1 To Len(nucleicAcid) Step 3
+                Dim Tokens As Char() = Mid(nucleicAcid, i, 3)
 
                 If Tokens.Length = 3 Then
                     Dim hash As Integer = Translation.TranslTable.Find(Tokens(0), Tokens(1), Tokens(2))
 
                     If IsStopCoden(hash) Then
                         If force Then
-                            Call sBuilder.Append(ForceStopCoden)
+                            Call sb.Append(ForceStopCoden)
                         Else
                             Exit For
                         End If
@@ -240,12 +241,12 @@ Namespace SequenceModel.NucleotideModels.Translation
                         Dim aa As AminoAcid = CodenTable(hash)
                         Dim ch As Char = Polypeptides.Polypeptide.ToChar(aa)
 
-                        Call sBuilder.Append(ch)
+                        Call sb.Append(ch)
                     End If
                 End If
             Next
 
-            Dim prot As String = sBuilder.ToString
+            Dim prot As String = sb.ToString
 
             If force Then
                 Return __trimForce(prot)
@@ -282,7 +283,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             End If
         End Function
 
-        Private Function __checkDirection(sequence As String) As String
+        ''' <summary>
+        ''' Check nt sequence direction by start and stop codon
+        ''' </summary>
+        ''' <param name="sequence"></param>
+        ''' <returns></returns>
+        Private Function doCheckNtDirection(sequence As String) As String
             Dim First As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
@@ -357,8 +363,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return _tables(index)
         End Function
 
-        Protected Shared ReadOnly _tables As Dictionary(Of Integer, TranslTable) =
-            New Dictionary(Of Integer, TranslTable) From {
+        Protected Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
  _
             {1, New TranslTable(My.Resources.transl_table_1)},
             {2, New TranslTable(My.Resources.transl_table_2)},
@@ -398,9 +403,9 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Public Shared Function CreateFrom(hashTable As String) As TranslTable
-            Dim transl_table As Integer, hashTokens As String() = hashTable.LineTokens
-            Dim dict As Dictionary(Of Codon, AminoAcid) =
-                __parseTable(hashTokens, transl_table)
+            Dim transl_table As Integer
+            Dim hashTokens As String() = hashTable.LineTokens
+            Dim dict As Dictionary(Of Codon, AminoAcid) = doParseTable(hashTokens, transl_table)
             Dim table As TranslTable = New TranslTable(transl_table, dict)
             Return table
         End Function
