@@ -201,7 +201,9 @@ Public Module Scatter
                          Optional title$ = Nothing,
                          Optional titleFontCSS$ = CSSFont.Win7VeryVeryLarge,
                          Optional xlayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom,
-                         Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left) As GraphicsData
+                         Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
+                         Optional gridFill$ = "rgb(245,245,245)",
+                         Optional gridColor$ = "white") As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
@@ -248,7 +250,9 @@ Public Module Scatter
                         tickFontStyle:=tickFontStyle,
                         labelFont:=labelFontStyle,
                         xlayout:=xlayout,
-                        ylayout:=ylayout
+                        ylayout:=ylayout,
+                        gridColor:=gridColor,
+                        gridFill:=gridFill
                     )
                 End If
 

@@ -14,6 +14,8 @@ Module multiOmics
     Public Function omics2DScatterPlot(x As Object, y As Object,
                                        Optional xlab$ = "X",
                                        Optional ylab$ = "Y",
+                                       Optional size As Object = "3000,3000",
+                                       Optional padding As Object = "padding: 200px 250px 200px 100px;",
                                        Optional ptSize! = 10,
                                        Optional env As Environment = Nothing) As Object
 
@@ -26,7 +28,9 @@ Module multiOmics
             omicsY:=getData(y, ylab),
             xlab:=xlab,
             ylab:=ylab,
-            pointSize:=ptSize
+            pointSize:=ptSize,
+            size:=InteropArgumentHelper.getSize(size, "3000,3000"),
+            padding:=InteropArgumentHelper.getPadding(padding, "padding: 200px 250px 200px 100px;")
         )
     End Function
 

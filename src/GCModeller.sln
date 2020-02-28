@@ -591,6 +591,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "proteomics_toolkit", "workb
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "phenotype_kit", "workbench\R#\phenotype_kit\phenotype_kit.vbproj", "{FD9C0995-46AB-4704-B34A-D35A482FD028}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "R_graphic.interop", "R-sharp\Library\R_graphic.interop\R_graphic.interop.shproj", "{53AF2B13-CCD5-4F73-94D5-612191E785A9}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -613,6 +615,7 @@ Global
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{53af2b13-ccd5-4f73-94d5-612191e785a9}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{56c6b3f0-2991-429b-baeb-86830df4ea94}*SharedItemsImports = 4
@@ -703,6 +706,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f680a759-33bf-451b-a1a6-05bad5d67bba}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f680a759-33bf-451b-a1a6-05bad5d67bba}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{fd9c0995-46ab-4704-b34a-d35a482fd028}*SharedItemsImports = 4
 		runtime\mysqli\mysqliHelper\mysqliHelper.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
@@ -26705,6 +26709,7 @@ Global
 		{DE1C8D67-3E8E-436A-A88D-A39A050342E2} = {7893D66B-D37E-47BA-9555-601A67C76ED5}
 		{D338A99B-7875-4778-99E3-20E6A2C8955C} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
 		{FD9C0995-46AB-4704-B34A-D35A482FD028} = {4308FAE2-8F4F-43BD-874E-50E1802339F0}
+		{53AF2B13-CCD5-4F73-94D5-612191E785A9} = {7893D66B-D37E-47BA-9555-601A67C76ED5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}

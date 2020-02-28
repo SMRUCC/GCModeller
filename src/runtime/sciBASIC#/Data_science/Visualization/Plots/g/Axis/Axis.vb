@@ -114,6 +114,7 @@ Namespace Graphic.Axis
                             Optional labelFont$ = CSSFont.Win7Large,
                             Optional axisStroke$ = Stroke.AxisStroke,
                             Optional gridFill$ = "rgb(245,245,245)",
+                            Optional gridColor$ = "white",
                             Optional htmlLabel As Boolean = True,
                             Optional XtickFormat$ = "F2",
                             Optional YtickFormat$ = "F2",
@@ -130,7 +131,8 @@ Namespace Graphic.Axis
                     axisStroke:=axisStroke, gridFill:=gridFill, htmlLabel:=htmlLabel,
                     XtickFormat:=XtickFormat,
                     YtickFormat:=YtickFormat,
-                    tickFontStyle:=tickFontStyle
+                    tickFontStyle:=tickFontStyle,
+                    gridColor:=gridColor
                 )
             End With
         End Sub

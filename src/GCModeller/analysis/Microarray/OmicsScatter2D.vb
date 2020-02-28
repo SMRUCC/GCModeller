@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -25,6 +26,8 @@ Public Module OmicsScatter2D
     ''' <param name="ylab"></param>
     ''' <returns></returns>
     Public Function Plot(omicsX As IEnumerable(Of NamedValue(Of Double)), omicsY As IEnumerable(Of NamedValue(Of Double)), xlab$, ylab$,
+                         Optional size$ = "3000,3000",
+                         Optional padding$ = g.DefaultPadding,
                          Optional labels As IEnumerable(Of NamedValue(Of String)) = Nothing,
                          Optional ignoresUnpaired As Boolean = True,
                          Optional pointSize! = 5) As GraphicsData
@@ -87,7 +90,11 @@ Public Module OmicsScatter2D
             Ylabel:=ylab,
             absoluteScaling:=False,
             xlayout:=XAxisLayoutStyles.Bottom,
-            ylayout:=YAxisLayoutStyles.Right
+            ylayout:=YAxisLayoutStyles.Right,
+            gridFill:="white",
+            gridColor:=Color.LightGray.ToHtmlColor,
+            size:=size,
+            padding:=padding
         )
     End Function
 
