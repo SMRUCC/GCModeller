@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -123,6 +124,40 @@ Module Fasta
     <ExportAPI("read.fasta")>
     Public Function readFasta(file As String) As FastaFile
         Return FastaFile.Read(file)
+    End Function
+
+    ''' <summary>
+    ''' Do translation of the nt sequence to protein sequence
+    ''' </summary>
+    ''' <param name="nt"></param>
+    ''' <returns></returns>
+    <ExportAPI("translate")>
+    Public Function Translates(nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim translTable As TranslTable = TranslTable.GetTable(table)
+
+        If nt Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf nt Is FastaSeq Then
+            Return New FastaSeq With {
+                .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
+                .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
+            }
+        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaFile() Then
+            Dim prot As New FastaFile
+            Dim fa As FastaSeq
+
+            For Each ntSeq As FastaSeq In DirectCast(nt, IEnumerable(Of FastaSeq))
+                fa = New FastaSeq With {
+                    .Headers = ntSeq.Headers.ToArray,
+                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                }
+                prot.Add(fa)
+            Next
+
+            Return prot
+        Else
+            Return REnv.debug.stop(New InvalidCastException, env)
+        End If
     End Function
 
     ''' <summary>
