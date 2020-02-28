@@ -272,6 +272,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
+      <Name>Microarray</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
       <Name>VirtualFootprint</Name>

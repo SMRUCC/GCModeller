@@ -3,6 +3,7 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 
@@ -64,4 +65,25 @@ Public Module OmicsScatter2D
 
         Return Scatter.Plot({serial}, drawLine:=False, Xlabel:=xlab, Ylabel:=ylab)
     End Function
+
+    Public Iterator Function Correlation(omicsX As IEnumerable(Of DataSet), omicsY As IEnumerable(Of DataSet), Optional cutoff As Double = 0.65) As IEnumerable(Of Connection)
+        Dim dataY As DataSet() = omicsY.ToArray
+
+        For Each dataX As DataSet In omicsX
+
+        Next
+    End Function
+
+    Private Iterator Function CorrelationImpl() As IEnumerable
+
+    End Function
 End Module
+
+Public Class Connection
+
+    Public Property gene1 As String
+    Public Property gene2 As String
+    Public Property is_directly As Boolean
+    Public Property cor As Double
+
+End Class

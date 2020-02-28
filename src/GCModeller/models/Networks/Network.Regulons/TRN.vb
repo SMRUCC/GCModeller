@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.Analysis.Microarray
 
 Public Module TRN
 
@@ -58,12 +59,3 @@ Public Module TRN
         Next
     End Function
 End Module
-
-Public Class Connection
-
-    Public Property gene1 As String
-    Public Property gene2 As String
-    Public Property is_directly As Boolean
-    Public Property cor As Double
-
-End Class
