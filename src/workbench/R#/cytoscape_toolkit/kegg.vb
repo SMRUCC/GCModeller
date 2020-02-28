@@ -10,8 +10,14 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 <Package("cytoscape.kegg", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module kegg
 
+    ''' <summary>
+    ''' Create kegg metabolism network based on the given metabolite compound data.
+    ''' </summary>
+    ''' <param name="reactions">The kegg ``br08201`` reaction database.</param>
+    ''' <param name="compounds">Kegg compound id list</param>
+    ''' <returns></returns>
     <ExportAPI("compounds.network")>
-    Public Function compoundNetwork(reactions As ReactionTable(), compounds$()) As NetworkGraph
+    Public Function compoundNetwork(reactions As ReactionTable(), compounds$(), Optional enzymes As Dictionary(Of String, String()) = Nothing) As NetworkGraph
         Return reactions.BuildModel(compounds.Select(Function(cpd) New NamedValue(Of String)(cpd, cpd)))
     End Function
 End Module
