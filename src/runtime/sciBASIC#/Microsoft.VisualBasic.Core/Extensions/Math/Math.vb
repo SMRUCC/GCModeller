@@ -2025,6 +2025,9 @@ Namespace Math
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' RSD is also an alias of ``CV%``
+        ''' </remarks>
         <Extension>
         Public Function RSD(data As IEnumerable(Of Double)) As Double
             Dim vec As Double() = data.ToArray
