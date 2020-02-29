@@ -8,7 +8,8 @@ setwd(!script$dir);
 
 let proteins            = read.csv("geneList.csv");
 let compounds as string = readLines("compounds.txt");
-let br08201 as string   = ["D:\biodeep\biodeepdb_v3\KEGG\br08201"];
+# let br08201 as string   = ["D:\biodeep\biodeepdb_v3\KEGG\br08201"];
+let br08201 as string = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08201";
 let exports as string   = "network/";
 
 print("We have kegg compounds list:");
