@@ -51,6 +51,14 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Public Module ProbabilityScanner
 
+    ''' <summary>
+    ''' 基于PWM的概率匹配
+    ''' </summary>
+    ''' <param name="prob">PWM</param>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <param name="minW%"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ScanSites(prob As IEnumerable(Of Residue), target As FastaSeq, Optional cutoff# = 0.6, Optional minW% = 6) As SimpleSegment()
         Dim core As New GSW(Of Residue)(prob.ToArray, target.ToResidues, AddressOf Compare, AddressOf Residue.Max)

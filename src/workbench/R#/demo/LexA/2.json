@@ -1,0 +1,67 @@
+﻿{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 1,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0,
+        "C": 1
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 1,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.9,
+        "G": 0,
+        "C": 0
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.1,
+        "G": 0.9,
+        "C": 0
+      },
+      "index": 6
+    }],
+  "score": 4565,
+  "length": 7,
+  "seeds": {
+    "MSA": ["ACA-TTT","ACATTTG","ACATTTG","ACATTTG","ACATTTG","ACATTTG","ACATTTG","ACATTTG","ACATTTG","ACATTTG"],
+    "cost": 27,
+    "names": ["","","","","","","","","",""]
+  }
+}
