@@ -3,8 +3,11 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -23,6 +26,8 @@ Public Module OmicsScatter2D
     ''' <param name="ylab"></param>
     ''' <returns></returns>
     Public Function Plot(omicsX As IEnumerable(Of NamedValue(Of Double)), omicsY As IEnumerable(Of NamedValue(Of Double)), xlab$, ylab$,
+                         Optional size$ = "3000,3000",
+                         Optional padding$ = g.DefaultPadding,
                          Optional labels As IEnumerable(Of NamedValue(Of String)) = Nothing,
                          Optional ignoresUnpaired As Boolean = True,
                          Optional pointSize! = 5) As GraphicsData
@@ -39,11 +44,24 @@ Public Module OmicsScatter2D
                        End If
                    End Function) _
             .Select(Function(geneId)
+                        Dim xi# = dataX.TryGetValue(geneId)
+                        Dim yi# = dataY.TryGetValue(geneId)
+                        Dim color As Color
+
+                        If Math.Abs(xi) >= 1 AndAlso Math.Abs(yi) >= 1 Then
+                            color = Color.Red
+                        ElseIf Math.Abs(xi) >= 1 OrElse Math.Abs(yi) >= 1 Then
+                            color = Color.Green
+                        Else
+                            color = Color.Gray
+                        End If
+
                         Return New PointData With {
                             .pt = New PointF With {
-                                .X = dataX.TryGetValue(geneId),
-                                .Y = dataY.TryGetValue(geneId)
-                            }
+                                .X = xi,
+                                .Y = yi
+                            },
+                            .color = color.ToHtmlColor
                         }
                     End Function) _
             .ToArray
@@ -59,13 +77,26 @@ Public Module OmicsScatter2D
                             Return New Annotation With {
                                 .Legend = LegendStyles.Triangle,
                                 .Text = geneId.Value,
-                                .X = dataX.TryGetValue(geneId.Name)
+                                .X = dataX.TryGetValue(geneId.Name),
+                                .Y = dataY.TryGetValue(geneId.Name)
                             }
                         End Function) _
                 .ToArray
         }
 
-        Return Scatter.Plot({serial}, drawLine:=False, Xlabel:=xlab, Ylabel:=ylab)
+        Return Scatter.Plot(
+            c:={serial},
+            drawLine:=False,
+            Xlabel:=xlab,
+            Ylabel:=ylab,
+            absoluteScaling:=False,
+            xlayout:=XAxisLayoutStyles.Bottom,
+            ylayout:=YAxisLayoutStyles.Right,
+            gridFill:="white",
+            gridColor:=Color.LightGray.ToHtmlColor,
+            size:=size,
+            padding:=padding
+        )
     End Function
 
     ''' <summary>

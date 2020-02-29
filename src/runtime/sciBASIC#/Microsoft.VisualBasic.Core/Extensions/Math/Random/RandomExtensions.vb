@@ -95,6 +95,10 @@ Namespace Math
             Return Math.Abs(CInt(Math.Log10(Rnd() * Now.ToBinary + 1) + 1) * (100 + 10000 * Rnd()))
         End Function
 
+        Public Sub SetSeed(seed As Integer)
+            _seeds = New Random(seed)
+        End Sub
+
         ''' <summary>
         ''' 返回<paramref name="min"/>到<paramref name="max"/>区间之内的一个和实数
         ''' </summary>
@@ -177,7 +181,10 @@ Namespace Math
         End Function
 
         ''' <summary>
-        ''' Generates normally distributed numbers. Each operation makes two Gaussians for the price of one, and apparently they can be cached or something for better performance, but who cares.
+        ''' Generates normally distributed numbers. Each operation 
+        ''' makes two Gaussians for the price of one, and apparently 
+        ''' they can be cached or something for better performance, 
+        ''' but who cares.
         ''' </summary>
         ''' <param name="r"></param>
         ''' <param name = "mu">Mean of the distribution</param>
