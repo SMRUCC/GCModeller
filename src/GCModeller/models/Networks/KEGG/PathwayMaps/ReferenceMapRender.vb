@@ -169,9 +169,9 @@ Namespace PathwayMaps
         End Function
 
         <Extension>
-        Private Function getCategoryColors(graph As NetworkGraph,
-                                           convexHull As Index(Of String),
-                                           rewriteGroupCategoryColors As String) As (allCategory As String(), categoryColors As String())
+        Public Function getCategoryColors(graph As NetworkGraph,
+                                          convexHull As Index(Of String),
+                                          rewriteGroupCategoryColors As String) As (allCategory As String(), categoryColors As String())
 
             Dim allCategories$() = graph.vertex _
                 .Select(Function(n)
