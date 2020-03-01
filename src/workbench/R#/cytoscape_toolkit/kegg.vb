@@ -18,7 +18,9 @@ Module kegg
     ''' <param name="compounds">Kegg compound id list</param>
     ''' <returns></returns>
     <ExportAPI("compounds.network")>
-    Public Function compoundNetwork(reactions As ReactionTable(), compounds$(), Optional enzymes As Dictionary(Of String, String()) = Nothing) As NetworkGraph
+    Public Function compoundNetwork(reactions As ReactionTable(), compounds$(),
+                                    Optional enzymes As Dictionary(Of String, String()) = Nothing,
+                                    Optional filterByEnzymes As Boolean = False) As NetworkGraph
         Return compounds _
             .Select(Function(cpd)
                         Return New NamedValue(Of String)(cpd, cpd)
@@ -26,7 +28,8 @@ Module kegg
             .DoCall(Function(list)
                         Return reactions.BuildModel(
                             compounds:=list,
-                            enzymeInfo:=enzymes
+                            enzymes:=enzymes,
+                            filterByEnzymes:=filterByEnzymes
                         )
                     End Function)
     End Function
