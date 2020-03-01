@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -103,8 +103,23 @@ Module Fasta
                     Return {DirectCast(a, FastaSeq)}
                 Case GetType(FastaFile)
                     Return DirectCast(a, FastaFile)
+                Case GetType(FastaSeq())
+                    Return a
                 Case Else
-                    Return Nothing
+                    If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
+                        Dim populator As IEnumerable(Of FastaSeq) =
+                            Iterator Function() As IEnumerable(Of FastaSeq)
+                                Dim vec As Array = DirectCast(a, Array)
+
+                                For i As Integer = 0 To vec.Length - 1
+                                    Yield DirectCast(vec.GetValue(i), FastaSeq)
+                                Next
+                            End Function()
+
+                        Return populator
+                    Else
+                        Return Nothing
+                    End If
             End Select
         End If
     End Function
@@ -161,7 +176,24 @@ Module Fasta
 
             Return prot
         Else
-            Return REnv.debug.stop(New InvalidCastException(nt.GetType.FullName), env)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt)
+
+            If collection Is Nothing Then
+                Return REnv.Internal.debug.stop(New NotImplementedException(nt.GetType.FullName), env)
+            Else
+                Dim prot As New FastaFile
+                Dim fa As FastaSeq
+
+                For Each ntSeq As FastaSeq In collection
+                    fa = New FastaSeq With {
+                    .Headers = ntSeq.Headers.ToArray,
+                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                }
+                    prot.Add(fa)
+                Next
+
+                Return prot
+            End If
         End If
     End Function
 
@@ -183,7 +215,13 @@ Module Fasta
         ElseIf x.GetType Is GetType(MSAOutput) Then
             Return DirectCast(x, MSAOutput).ToFasta
         Else
-            Return REnv.debug.stop(New NotImplementedException, env)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
+
+            If collection Is Nothing Then
+                Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+            Else
+                Return New FastaFile(collection)
+            End If
         End If
     End Function
 End Module
