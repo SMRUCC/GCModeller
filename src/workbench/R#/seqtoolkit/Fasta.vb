@@ -137,7 +137,7 @@ Module Fasta
     ''' <param name="nt"></param>
     ''' <returns></returns>
     <ExportAPI("translate")>
-    Public Function Translates(nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
+    Public Function Translates(<RRawVectorArgument> nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim translTable As TranslTable = TranslTable.GetTable(table)
 
         If nt Is Nothing Then
@@ -147,7 +147,7 @@ Module Fasta
                 .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
                 .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
             }
-        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is Fastaseq() Then
+        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaSeq() Then
             Dim prot As New FastaFile
             Dim fa As FastaSeq
 
@@ -161,7 +161,7 @@ Module Fasta
 
             Return prot
         Else
-            Return REnv.debug.stop(New InvalidCastException, env)
+            Return REnv.debug.stop(New InvalidCastException(nt.GetType.FullName), env)
         End If
     End Function
 
