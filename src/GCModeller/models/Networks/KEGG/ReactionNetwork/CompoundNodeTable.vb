@@ -62,9 +62,11 @@ Namespace ReactionNetwork
             }
         End Function
 
-        Public Sub add(compoundNode As Node)
+        Public Function add(compoundNode As Node) As Node
             Call nodes.Add(compoundNode)
             Call g.AddNode(compoundNode)
-        End Sub
+
+            Return compoundNode
+        End Function
     End Class
 End Namespace

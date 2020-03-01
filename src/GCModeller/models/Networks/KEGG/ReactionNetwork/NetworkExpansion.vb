@@ -77,6 +77,25 @@ Namespace ReactionNetwork
                             }
                         }
 
+                        If edge.U Is Nothing Then
+                            edge.U = New Node With {
+                                .label = n.ID,
+                                .data = New NodeData With {
+                                    .label = n.ID,
+                                    .origID = n.ID
+                                }
+                            }.DoCall(AddressOf nodes.add)
+                        End If
+                        If edge.V Is Nothing Then
+                            edge.V = New Node With {
+                                .label = x.Key,
+                                .data = New NodeData With {
+                                    .label = x.Key,
+                                    .origID = x.Key
+                                }
+                            }.DoCall(AddressOf nodes.add)
+                        End If
+
                         Call addEdge(edge)
                         Call reactionIDlist.AddRange(interactions)
                     Next

@@ -100,7 +100,9 @@ Namespace ReactionNetwork
                 .Select(Function(x)
                             Return x.substrates _
                                 .JoinIterates(x.products) _
-                                .Select(Function(id) (id, x))
+                                .Select(Function(id)
+                                            Return (id, x)
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(x) x.Item1) _
