@@ -126,6 +126,11 @@ Module Fasta
         Return FastaFile.Read(file)
     End Function
 
+    <ExportAPI("write.fasta")>
+    Public Function writeFasta(seq As Object, file$, Optional lineBreak% = -1, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
+    End Function
+
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
@@ -142,7 +147,7 @@ Module Fasta
                 .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
                 .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
             }
-        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaFile() Then
+        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is Fastaseq() Then
             Dim prot As New FastaFile
             Dim fa As FastaSeq
 
