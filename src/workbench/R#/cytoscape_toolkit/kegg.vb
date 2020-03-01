@@ -20,7 +20,8 @@ Module kegg
     <ExportAPI("compounds.network")>
     Public Function compoundNetwork(reactions As ReactionTable(), compounds$(),
                                     Optional enzymes As Dictionary(Of String, String()) = Nothing,
-                                    Optional filterByEnzymes As Boolean = False) As NetworkGraph
+                                    Optional filterByEnzymes As Boolean = False,
+                                    Optional extended As Boolean = False) As NetworkGraph
         Return compounds _
             .Select(Function(cpd)
                         Return New NamedValue(Of String)(cpd, cpd)
@@ -29,7 +30,8 @@ Module kegg
                         Return reactions.BuildModel(
                             compounds:=list,
                             enzymes:=enzymes,
-                            filterByEnzymes:=filterByEnzymes
+                            filterByEnzymes:=filterByEnzymes,
+                            extended:=extended
                         )
                     End Function)
     End Function

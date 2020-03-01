@@ -33,6 +33,6 @@ str(enzymeList);
 
 br08201
 :> reactions.table()
-:> compounds.network( compounds , enzymes = enzymeList)
+:> compounds.network( compounds , enzymes = enzymeList, filterByEnzymes = TRUE, extended = TRUE)
 :> save.network(file = exports, properties = ["common_name", "related"])
 ;
