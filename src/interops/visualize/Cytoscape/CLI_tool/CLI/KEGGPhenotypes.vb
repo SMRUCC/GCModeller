@@ -162,8 +162,8 @@ Partial Module CLI
             .BuildModel(
                 compounds:=kegg_compounds,
                 extended:=args("/extended"),
-                enzymeInfo:=enzyme,
-                enzymeRelated:=args("/enzymeRelated")
+                enzymes:=enzyme,
+                enzymaticRelated:=args("/enzymeRelated")
             ).Tabular({"name", "is_extended"}).AnalysisDegrees
 
         Call graph.VisualizeKEGG(size:=size).SaveAs($"{out}/network.png")
