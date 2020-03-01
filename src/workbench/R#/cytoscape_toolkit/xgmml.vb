@@ -19,7 +19,7 @@ Module xgmmlToolkit
 
     <ExportAPI("xgmml.graph")>
     Public Function createGraph(xgmml As XGMMLgraph, <RRawVectorArgument(GetType(String))> Optional propertyNames As Object = "label|class|group.category|group.category.color") As NetworkGraph
-        Return xgmml.ToNetworkGraph(propertyNames)
+        Return xgmml.ToNetworkGraph(DirectCast(propertyNames, String()))
     End Function
 
     <ExportAPI("xgmml.render")>
