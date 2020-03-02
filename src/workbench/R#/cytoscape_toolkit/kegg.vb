@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
@@ -17,7 +18,21 @@ Module kegg
     ''' <param name="compounds">Kegg compound id list</param>
     ''' <returns></returns>
     <ExportAPI("compounds.network")>
-    Public Function compoundNetwork(reactions As ReactionTable(), compounds$(), Optional enzymes As Dictionary(Of String, String()) = Nothing) As NetworkGraph
-        Return reactions.BuildModel(compounds.Select(Function(cpd) New NamedValue(Of String)(cpd, cpd)))
+    Public Function compoundNetwork(reactions As ReactionTable(), compounds$(),
+                                    Optional enzymes As Dictionary(Of String, String()) = Nothing,
+                                    Optional filterByEnzymes As Boolean = False,
+                                    Optional extended As Boolean = False) As NetworkGraph
+        Return compounds _
+            .Select(Function(cpd)
+                        Return New NamedValue(Of String)(cpd, cpd)
+                    End Function) _
+            .DoCall(Function(list)
+                        Return reactions.BuildModel(
+                            compounds:=list,
+                            enzymes:=enzymes,
+                            filterByEnzymes:=filterByEnzymes,
+                            extended:=extended
+                        )
+                    End Function)
     End Function
 End Module

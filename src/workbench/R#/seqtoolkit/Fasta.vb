@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -103,8 +103,23 @@ Module Fasta
                     Return {DirectCast(a, FastaSeq)}
                 Case GetType(FastaFile)
                     Return DirectCast(a, FastaFile)
+                Case GetType(FastaSeq())
+                    Return a
                 Case Else
-                    Return Nothing
+                    If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
+                        Dim populator As IEnumerable(Of FastaSeq) =
+                            Iterator Function() As IEnumerable(Of FastaSeq)
+                                Dim vec As Array = DirectCast(a, Array)
+
+                                For i As Integer = 0 To vec.Length - 1
+                                    Yield DirectCast(vec.GetValue(i), FastaSeq)
+                                Next
+                            End Function()
+
+                        Return populator
+                    Else
+                        Return Nothing
+                    End If
             End Select
         End If
     End Function
@@ -126,13 +141,18 @@ Module Fasta
         Return FastaFile.Read(file)
     End Function
 
+    <ExportAPI("write.fasta")>
+    Public Function writeFasta(seq As Object, file$, Optional lineBreak% = -1, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
+    End Function
+
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
     ''' <param name="nt"></param>
     ''' <returns></returns>
     <ExportAPI("translate")>
-    Public Function Translates(nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
+    Public Function Translates(<RRawVectorArgument> nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim translTable As TranslTable = TranslTable.GetTable(table)
 
         If nt Is Nothing Then
@@ -142,7 +162,7 @@ Module Fasta
                 .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
                 .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
             }
-        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaFile() Then
+        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaSeq() Then
             Dim prot As New FastaFile
             Dim fa As FastaSeq
 
@@ -156,7 +176,24 @@ Module Fasta
 
             Return prot
         Else
-            Return REnv.debug.stop(New InvalidCastException, env)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt)
+
+            If collection Is Nothing Then
+                Return REnv.Internal.debug.stop(New NotImplementedException(nt.GetType.FullName), env)
+            Else
+                Dim prot As New FastaFile
+                Dim fa As FastaSeq
+
+                For Each ntSeq As FastaSeq In collection
+                    fa = New FastaSeq With {
+                    .Headers = ntSeq.Headers.ToArray,
+                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                }
+                    prot.Add(fa)
+                Next
+
+                Return prot
+            End If
         End If
     End Function
 
@@ -178,7 +215,13 @@ Module Fasta
         ElseIf x.GetType Is GetType(MSAOutput) Then
             Return DirectCast(x, MSAOutput).ToFasta
         Else
-            Return REnv.debug.stop(New NotImplementedException, env)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
+
+            If collection Is Nothing Then
+                Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+            Else
+                Return New FastaFile(collection)
+            End If
         End If
     End Function
 End Module
