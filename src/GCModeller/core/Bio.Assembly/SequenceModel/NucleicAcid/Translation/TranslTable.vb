@@ -50,14 +50,13 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptide
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -123,80 +122,13 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="Table">资源文件里面的字典数据或者读取自外部文件的数据</param>
         Sub New(Table As String)
             Dim transl_table = doParseTable(Table.LineTokens, _TranslTable)
-            Call __initProfiles(transl_table)
+            Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
 
-        Sub New(index As Integer, transl_table As Dictionary(Of Codon, AminoAcid))
+        Friend Sub New(index As Integer, transl_table As Dictionary(Of Codon, AminoAcid))
             TranslTable = index
-            Call __initProfiles(transl_table)
+            Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
-
-        ''' <summary>
-        ''' 生成起始密码子和终止密码子
-        ''' </summary>
-        Private Sub __initProfiles(transl_table As Dictionary(Of Codon, AminoAcid))
-            _StopCodons = (From codon In transl_table Where codon.Key.IsStopCodon Select codon.Key.TranslHash).ToArray
-            _InitCodons = (From codon In transl_table Where codon.Key.IsInitCodon Select codon.Key.TranslHash).ToArray
-            _CodenTable = (From codon As KeyValuePair(Of Codon, AminoAcid)
-                           In transl_table
-                           Where Not codon.Key.IsStopCodon
-                           Select codon) _
-                               .ToDictionary(Function(codon) codon.Key.TranslHash,
-                                             Function(codon) codon.Value)
-        End Sub
-
-        Private Shared Function doParseTable(Tokens As String(), ByRef transl_table As Integer) As Dictionary(Of Codon, AminoAcid)
-            Dim index As String = Tokens(Scan0)
-            Tokens = (From token As String
-                      In Tokens.Skip(1)
-                      Let ss As String = Trim(token)
-                      Where Not String.IsNullOrEmpty(ss)
-                      Select ss).ToArray
-            Dim dict As Dictionary(Of Codon, AminoAcid) = __parseHash(Tokens)
-            transl_table = Scripting.CTypeDynamic(Of Integer)(index.Split("="c).Last)
-
-            Return dict
-        End Function
-
-        Private Shared Function __parseHash(tokens As String()) As Dictionary(Of Codon, AminoAcid)
-            Dim MAT = tokens.Select(Function(token As String) Regex.Split(token, "\s+")).ToArray
-            Dim Codons = MAT.Select(Function(line) __split(line)).Unlist
-            Dim LQuery = (From Token As String() In Codons Select code = New Codon(Token), AA = Token(1).First).ToArray
-            Dim hash = LQuery.ToDictionary(Function(obj) obj.code, Function(obj) SequenceModel.Polypeptides.ToEnums(obj.AA))
-            Return hash
-        End Function
-
-        Private Shared Function __split(line As String()) As String()()
-            Dim withInits As Boolean = line.Length = 13
-
-            If withInits Then
-
-                Dim source As New List(Of String)(line)
-                Dim Tokens As New List(Of String())
-                Dim list As New List(Of String)
-
-                Do While source.Count > 0
-                    Call list.Add(source.Take(3).ToArray)
-                    Call source.RemoveRange(0, 3)
-
-                    If source.Count > 0 Then
-                        ' 起始密码子
-                        If String.Equals(source(Scan0), "i") Then
-                            Call list.Add("i")
-                            Call source.RemoveAt(Scan0)
-                        End If
-                    End If
-
-                    Call Tokens.Add(list.ToArray)
-                    Call list.Clear()
-                Loop
-
-                Return Tokens.ToArray
-            Else
-                Dim Tokens = line.Split(3)
-                Return Tokens
-            End If
-        End Function
 
         ''' <summary>
         ''' 判断某一个密码子是否为终止密码子
@@ -292,29 +224,37 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim First As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
-            If IsInitCoden(First) Then  ' 正常的序列
+            If IsInitCoden(First) Then
+                ' 正常的序列
                 Return sequence
             End If
 
             Dim lastAsInit As String = New String(last.Reverse.ToArray)
-            If IsInitCoden(lastAsInit) Then  ' 方向可能颠倒了
+
+            If IsInitCoden(lastAsInit) Then
+                ' 方向可能颠倒了
                 Call $"This sequence is possibly in reverse direction...".__DEBUG_ECHO
                 Return New String(sequence.Reverse.ToArray)
             End If
 
             First = NucleicAcid.Complement(First)
-            If IsInitCoden(First) Then  ' 互补的序列
+
+            If IsInitCoden(First) Then
+                ' 互补的序列
                 Call $"This sequence is possibly in complement strand...".__DEBUG_ECHO
                 Return NucleicAcid.Complement(sequence)
             End If
 
             lastAsInit = NucleicAcid.Complement(lastAsInit)
-            If IsInitCoden(lastAsInit) Then  ' 方向可能颠倒了
+
+            If IsInitCoden(lastAsInit) Then
+                ' 方向可能颠倒了
                 Call $"This sequence is possibly in reverse&complement strand...".__DEBUG_ECHO
                 Return New String(NucleicAcid.Complement(sequence).Reverse.ToArray)
             End If
 
-            Return sequence ' 实在判断不出来了，只能够硬着头皮翻译下去了 
+            ' 实在判断不出来了，只能够硬着头皮翻译下去了 
+            Return sequence
         End Function
 
         Private Function __trimForce(prot As String) As String
@@ -347,9 +287,12 @@ Namespace SequenceModel.NucleotideModels.Translation
                                               .Z = Codon.Items(2)
                                           }
                                           Select aac
+            ' 由于使用无参数的构造函数构造出来的密码子对象是
+            ' 没有启动和终止的信息的， 所以使用当前的翻译表
+            ' 的终止密码表来判断
             AA = (From codon As Codon
                   In AA
-                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1 ' 由于使用无参数的构造函数构造出来的密码子对象是没有启动和终止的信息的，所以使用当前的翻译表的终止密码表来判断
+                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1
                   Select codon).ToArray
             Return AA
         End Function
