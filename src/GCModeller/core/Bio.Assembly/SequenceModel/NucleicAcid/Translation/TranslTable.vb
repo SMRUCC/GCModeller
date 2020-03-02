@@ -119,9 +119,9 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Table">资源文件里面的字典数据或者读取自外部文件的数据</param>
-        Sub New(Table As String)
-            Dim transl_table = doParseTable(Table.LineTokens, _TranslTable)
+        ''' <param name="tableText">资源文件里面的字典数据或者读取自外部文件的数据</param>
+        Sub New(tableText As String)
+            Dim transl_table = doParseTable(tableText.LineTokens, _TranslTable)
             Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
 
