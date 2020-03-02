@@ -145,14 +145,15 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         Public Function Translate(nucleicAcid As String, force As Boolean) As String
             Dim sb As New StringBuilder(1024)
+            Dim tokens As Char()
 
             nucleicAcid = doCheckNtDirection(nucleicAcid)
 
             For i As Integer = 1 To Len(nucleicAcid) Step 3
-                Dim Tokens As Char() = Mid(nucleicAcid, i, 3)
+                tokens = Mid(nucleicAcid, i, 3)
 
-                If Tokens.Length = 3 Then
-                    Dim hash As Integer = Translation.TranslTable.Find(Tokens(0), Tokens(1), Tokens(2))
+                If tokens.Length = 3 Then
+                    Dim hash As Integer = Translation.TranslTable.GetHashCode(tokens(0), tokens(1), tokens(2))
 
                     If IsStopCoden(hash) Then
                         If force Then
@@ -185,7 +186,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsStopCodon(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.Find(coden(0), coden(1), coden(2))
+                Dim hash As Integer = Translation.TranslTable.GetHashCode(coden(0), coden(1), coden(2))
                 Return IsStopCoden(hash)
             Else
                 Return False
@@ -199,7 +200,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsInitCoden(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.Find(coden(0), coden(1), coden(2))
+                Dim hash As Integer = Translation.TranslTable.GetHashCode(coden(0), coden(1), coden(2))
                 Return Array.IndexOf(InitCodons, hash) > -1
             Else
                 Return False
@@ -319,7 +320,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             {25, ParseTable(My.Resources.transl_table_25)}
         }
 
-        Public Shared Function Find(r1 As Char, r2 As Char, r3 As Char) As Integer
+        Public Overloads Shared Function GetHashCode(r1 As Char, r2 As Char, r3 As Char) As Integer
             Return Codon.CalTranslHash(
                 X:=NucleotideConvert(r1),
                 Y:=NucleotideConvert(r2),

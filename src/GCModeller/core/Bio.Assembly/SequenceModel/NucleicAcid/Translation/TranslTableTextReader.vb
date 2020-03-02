@@ -15,7 +15,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 生成起始密码子和终止密码子
         ''' </summary>
-        Friend Sub doInitProfiles(transl_table As Dictionary(Of Codon, AminoAcid), ByRef StopCodons As Integer(), ByRef InitCodons As Integer(), CodenTable As IReadOnlyDictionary(Of Integer, AminoAcid))
+        Friend Sub doInitProfiles(transl_table As Dictionary(Of Codon, AminoAcid), ByRef StopCodons As Integer(), ByRef InitCodons As Integer(), ByRef CodenTable As IReadOnlyDictionary(Of Integer, AminoAcid))
             StopCodons = (From codon In transl_table Where codon.Key.IsStopCodon Select codon.Key.TranslHash).ToArray
             InitCodons = (From codon In transl_table Where codon.Key.IsInitCodon Select codon.Key.TranslHash).ToArray
             CodenTable = (From codon As KeyValuePair(Of Codon, AminoAcid)
