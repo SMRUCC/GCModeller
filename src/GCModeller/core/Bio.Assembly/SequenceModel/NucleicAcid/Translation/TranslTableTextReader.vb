@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -27,6 +28,7 @@ Namespace SequenceModel.NucleotideModels.Translation
                                              End Function)
         End Sub
 
+        <Extension>
         Friend Function doParseTable(Tokens As String(), ByRef transl_table As Integer) As Dictionary(Of Codon, AminoAcid)
             Dim index As String = Tokens(Scan0)
             Tokens = (From token As String

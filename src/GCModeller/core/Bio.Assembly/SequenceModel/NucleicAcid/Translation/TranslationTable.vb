@@ -82,7 +82,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' UAG 3*1000+0*100+1 -> 3001
         ''' UGA 3*1000+1*100+0 -> 3100
         ''' </remarks>
-        Public ReadOnly Property CodenTable As TranslTable = Translation.TranslTable.CreateFrom(My.Resources.transl_table_1)
+        Public ReadOnly Property CodenTable As TranslTable = Translation.TranslTable.ParseTable(My.Resources.transl_table_1)
 
 #Region "终止密码子的哈希值枚举"
         Public Const UAA As Integer = DNA.dTMP * 1000 + DNA.dAMP * 100 + DNA.dAMP * 10000

@@ -111,21 +111,12 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' transl_table=<see cref="Transltable"/>
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property TranslTable As Integer
+        Public ReadOnly Property TranslTable As GeneticCodes
 
         Public ReadOnly Property InitCodons As Integer()
         Public ReadOnly Property StopCodons As Integer()
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="tableText">资源文件里面的字典数据或者读取自外部文件的数据</param>
-        Sub New(tableText As String)
-            Dim transl_table = doParseTable(tableText.LineTokens, _TranslTable)
-            Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
-        End Sub
-
-        Friend Sub New(index As Integer, transl_table As Dictionary(Of Codon, AminoAcid))
+        Friend Sub New(index As GeneticCodes, transl_table As Dictionary(Of Codon, AminoAcid))
             TranslTable = index
             Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
@@ -308,34 +299,37 @@ Namespace SequenceModel.NucleotideModels.Translation
 
         Protected Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
  _
-            {1, New TranslTable(My.Resources.transl_table_1)},
-            {2, New TranslTable(My.Resources.transl_table_2)},
-            {3, New TranslTable(My.Resources.transl_table_3)},
-            {4, New TranslTable(My.Resources.transl_table_4)},
-            {5, New TranslTable(My.Resources.transl_table_5)},
-            {6, New TranslTable(My.Resources.transl_table_6)},
-            {9, New TranslTable(My.Resources.transl_table_9)},
-            {10, New TranslTable(My.Resources.transl_table_10)},
-            {11, New TranslTable(My.Resources.transl_table_11)},
-            {12, New TranslTable(My.Resources.transl_table_12)},
-            {13, New TranslTable(My.Resources.transl_table_13)},
-            {14, New TranslTable(My.Resources.transl_table_14)},
-            {16, New TranslTable(My.Resources.transl_table_16)},
-            {21, New TranslTable(My.Resources.transl_table_21)},
-            {22, New TranslTable(My.Resources.transl_table_22)},
-            {23, New TranslTable(My.Resources.transl_table_23)},
-            {24, New TranslTable(My.Resources.transl_table_24)},
-            {25, New TranslTable(My.Resources.transl_table_25)}
+            {1, ParseTable(My.Resources.transl_table_1)},
+            {2, ParseTable(My.Resources.transl_table_2)},
+            {3, ParseTable(My.Resources.transl_table_3)},
+            {4, ParseTable(My.Resources.transl_table_4)},
+            {5, ParseTable(My.Resources.transl_table_5)},
+            {6, ParseTable(My.Resources.transl_table_6)},
+            {9, ParseTable(My.Resources.transl_table_9)},
+            {10, ParseTable(My.Resources.transl_table_10)},
+            {11, ParseTable(My.Resources.transl_table_11)},
+            {12, ParseTable(My.Resources.transl_table_12)},
+            {13, ParseTable(My.Resources.transl_table_13)},
+            {14, ParseTable(My.Resources.transl_table_14)},
+            {16, ParseTable(My.Resources.transl_table_16)},
+            {21, ParseTable(My.Resources.transl_table_21)},
+            {22, ParseTable(My.Resources.transl_table_22)},
+            {23, ParseTable(My.Resources.transl_table_23)},
+            {24, ParseTable(My.Resources.transl_table_24)},
+            {25, ParseTable(My.Resources.transl_table_25)}
         }
 
         Public Shared Function Find(r1 As Char, r2 As Char, r3 As Char) As Integer
-            Return Codon.CalTranslHash(NucleotideConvert(r1),
-                                       NucleotideConvert(r2),
-                                       NucleotideConvert(r3))
+            Return Codon.CalTranslHash(
+                X:=NucleotideConvert(r1),
+                Y:=NucleotideConvert(r2),
+                Z:=NucleotideConvert(r3)
+            )
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of Integer, AminoAcid)) _
             Implements IEnumerable(Of KeyValuePair(Of Integer, AminoAcid)).GetEnumerator
+
             For Each codon In Me.CodenTable
                 Yield codon
             Next
@@ -345,11 +339,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Yield GetEnumerator()
         End Function
 
-        Public Shared Function CreateFrom(hashTable As String) As TranslTable
-            Dim transl_table As Integer
+        Public Shared Function ParseTable(hashTable As String) As TranslTable
+            Dim transl_table As GeneticCodes
             Dim hashTokens As String() = hashTable.LineTokens
-            Dim dict As Dictionary(Of Codon, AminoAcid) = doParseTable(hashTokens, transl_table)
-            Dim table As TranslTable = New TranslTable(transl_table, dict)
+            Dim codes As Dictionary(Of Codon, AminoAcid) = doParseTable(hashTokens, transl_table)
+            Dim table As New TranslTable(transl_table, codes)
+
             Return table
         End Function
 
