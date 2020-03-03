@@ -229,5 +229,11 @@ Module Fasta
             End If
         End If
     End Function
+
+    <ExportAPI("Assemble.of")>
+    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray
+
+    End Function
 End Module
 
