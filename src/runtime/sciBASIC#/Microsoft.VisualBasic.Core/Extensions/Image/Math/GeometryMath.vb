@@ -86,9 +86,13 @@ Namespace Imaging.Math2D
             Dim ab = x1 * x2 + y1 * y2 + z1 * z2
             Dim a = stdNum.Sqrt(x1 ^ 2 + y1 ^ 2 + z1 ^ 2)
             Dim b = stdNum.Sqrt(x2 ^ 2 + y2 ^ 2 + z2 ^ 2)
-            Dim cos = ab / (a * b)
 
-            Return cos
+            If ab = 0R Then
+                Return 0
+            Else
+                Dim cos = ab / (a * b)
+                Return cos
+            End If
         End Function
 
         Public Function angleBetween2Lines(line1 As Point2D(), line2 As Point2D()) As Double
