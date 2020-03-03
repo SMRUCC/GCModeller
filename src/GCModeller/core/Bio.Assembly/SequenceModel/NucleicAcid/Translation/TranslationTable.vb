@@ -45,6 +45,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -82,6 +83,36 @@ Namespace SequenceModel.NucleotideModels.Translation
 #End Region
 
         ''' <summary>
+        ''' 自动尝试使用不同的密码表进行序列的翻译
+        ''' 取最长的翻译结果
+        ''' </summary>
+        ''' <param name="nt"></param>
+        ''' <returns></returns>
+        Public Function Translate(nt As IPolymerSequenceModel) As FastaSeq
+            Dim maxSeq As New FastaSeq With {.SequenceData = ""}
+            Dim prot As String
+            Dim operations As String()
+
+            For Each table As TranslTable In TranslTable._tables.Values
+                operations = Nothing
+                prot = table.Translate(
+                    nucleicAcid:=nt.SequenceData,
+                    force:=False,
+                    operations:=operations
+                )
+
+                If prot.Length > maxSeq.Length Then
+                    maxSeq = New FastaSeq With {
+                        .Headers = {table.ToString}.Join(operations).ToArray,
+                        .SequenceData = prot
+                    }
+                End If
+            Next
+
+            Return maxSeq
+        End Function
+
+        ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
         ''' </summary>
         ''' <param name="NucleicAcid"></param>
@@ -96,7 +127,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
         <ExportAPI("Translate")>
         <Extension>
-        Public Function Translate(nt As NucleicAcid, Optional code As GeneticCodes = GeneticCodes.StandardCode, Optional force As Boolean = False) As String
+        Public Function Translate(nt As NucleicAcid, code As GeneticCodes, Optional force As Boolean = False) As String
             Return TranslTable.GetTable(code).Translate(nt, force)
         End Function
 

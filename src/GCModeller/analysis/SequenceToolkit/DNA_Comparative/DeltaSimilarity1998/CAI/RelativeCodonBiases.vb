@@ -125,7 +125,7 @@ Namespace DeltaSimilarity1998.CAI
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function W(Codon As Codon) As Double
-            Dim AA As Char = TranslationTable.Translate(Codon)
+            Dim AA As Char = TranslationTable.Translate(Codon, translCode)
             Dim Profile As CodonFrequency = Me.CodonFrequencyStatics(AA)
             Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key = Codon.CodonValue Select aac).First.Value
             Dim max As Double = Profile.MaxBias.bias
@@ -165,11 +165,15 @@ Namespace DeltaSimilarity1998.CAI
                 .AminoAcid = aminoAcid,
                 .BiasFrequencyProfile = CodonsForAA _
                     .Select(Function(c) Me.ORF.CodonSignature(c)) _
-                    .ToDictionary(Function(c) c.Codon),
+                    .ToDictionary(Function(c)
+                                      Return c.Codon
+                                  End Function),
                 .BiasFrequency =
                     .BiasFrequencyProfile _
                     .ToDictionary(Function(k) k.Key,
-                                  Function(bias) bias.Value.EuclideanNormalization)
+                                  Function(bias)
+                                      Return bias.Value.EuclideanNormalization
+                                  End Function)
             }
 
             With cfrq
@@ -179,11 +183,15 @@ Namespace DeltaSimilarity1998.CAI
                 .BiasFrequency =
                     .BiasFrequency _
                     .ToDictionary(Function(c) c.Key,
-                                  Function(bias) bias.Value / sum)
+                                  Function(bias)
+                                      Return bias.Value / sum
+                                  End Function)
                 .MaxBias =
                     .BiasFrequency _
                     .OrderByDescending(Function(c) c.Value) _
-                    .Select(Function(o) (o.Key, o.Value)) _
+                    .Select(Function(o)
+                                Return (o.Key, o.Value)
+                            End Function) _
                     .First
             End With
 

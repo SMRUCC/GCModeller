@@ -148,9 +148,9 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="force">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(nucleicAcid As String, force As Boolean) As String
+        Public Function Translate(nucleicAcid As String, force As Boolean, Optional ByRef operations As String() = Nothing) As String
             Dim sb As New StringBuilder(1024)
-            Dim buffer As Char()() = doCheckNtDirection(nucleicAcid, Nothing).Split(3)
+            Dim buffer As Char()() = DoCheckNtDirection(nucleicAcid, operations).Split(3)
             Dim coden = CodenTable
 
             For Each tokens As Char() In buffer
@@ -212,7 +212,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="sequence"></param>
         ''' <returns></returns>
-        Private Function doCheckNtDirection(sequence As String, ByRef operations As String()) As String
+        Public Function DoCheckNtDirection(sequence As String, ByRef operations As String()) As String
             Dim first As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
@@ -312,7 +312,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return _tables(index)
         End Function
 
-        Protected Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
+        Protected Friend Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
  _
             {1, ParseTable(My.Resources.transl_table_1)},
             {2, ParseTable(My.Resources.transl_table_2)},
