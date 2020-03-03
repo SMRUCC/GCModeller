@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::4e9b28e639dc0b3bd0143cd5bc685652, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TranslTable
-    ' 
-    '         Properties: CodenTable, InitCodons, StopCodons, TranslTable
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
-    '                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
-    '                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
-    '                   (+2 Overloads) Translate
-    ' 
-    '         Sub: __initProfiles
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TranslTable
+' 
+'         Properties: CodenTable, InitCodons, StopCodons, TranslTable
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
+'                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
+'                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
+'                   (+2 Overloads) Translate
+' 
+'         Sub: __initProfiles
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptide
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -101,7 +101,7 @@ Namespace SequenceModel.NucleotideModels.Translation
     ''' 
     ''' > http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
     ''' </summary>
-    Public Class TranslTable : Implements Generic.IEnumerable(Of KeyValuePair(Of Integer, AminoAcid))
+    Public Class TranslTable : Implements IEnumerable(Of KeyValuePair(Of Integer, AminoAcid))
 
         ''' <summary>
         ''' 遗传密码子表（哈希表）
@@ -112,91 +112,17 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' transl_table=<see cref="Transltable"/>
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property TranslTable As Integer
+        Public ReadOnly Property TranslTable As GeneticCodes
 
         Public ReadOnly Property InitCodons As Integer()
         Public ReadOnly Property StopCodons As Integer()
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="Table">资源文件里面的字典数据或者读取自外部文件的数据</param>
-        Sub New(Table As String)
-            Dim transl_table = doParseTable(Table.LineTokens, _TranslTable)
-            Call __initProfiles(transl_table)
-        End Sub
-
-        Sub New(index As Integer, transl_table As Dictionary(Of Codon, AminoAcid))
+        Friend Sub New(index As GeneticCodes, transl_table As Dictionary(Of Codon, AminoAcid))
             TranslTable = index
-            Call __initProfiles(transl_table)
+
+            ' config codon data
+            Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
-
-        ''' <summary>
-        ''' 生成起始密码子和终止密码子
-        ''' </summary>
-        Private Sub __initProfiles(transl_table As Dictionary(Of Codon, AminoAcid))
-            _StopCodons = (From codon In transl_table Where codon.Key.IsStopCodon Select codon.Key.TranslHash).ToArray
-            _InitCodons = (From codon In transl_table Where codon.Key.IsInitCodon Select codon.Key.TranslHash).ToArray
-            _CodenTable = (From codon As KeyValuePair(Of Codon, AminoAcid)
-                           In transl_table
-                           Where Not codon.Key.IsStopCodon
-                           Select codon) _
-                               .ToDictionary(Function(codon) codon.Key.TranslHash,
-                                             Function(codon) codon.Value)
-        End Sub
-
-        Private Shared Function doParseTable(Tokens As String(), ByRef transl_table As Integer) As Dictionary(Of Codon, AminoAcid)
-            Dim index As String = Tokens(Scan0)
-            Tokens = (From token As String
-                      In Tokens.Skip(1)
-                      Let ss As String = Trim(token)
-                      Where Not String.IsNullOrEmpty(ss)
-                      Select ss).ToArray
-            Dim dict As Dictionary(Of Codon, AminoAcid) = __parseHash(Tokens)
-            transl_table = Scripting.CTypeDynamic(Of Integer)(index.Split("="c).Last)
-
-            Return dict
-        End Function
-
-        Private Shared Function __parseHash(tokens As String()) As Dictionary(Of Codon, AminoAcid)
-            Dim MAT = tokens.Select(Function(token As String) Regex.Split(token, "\s+")).ToArray
-            Dim Codons = MAT.Select(Function(line) __split(line)).Unlist
-            Dim LQuery = (From Token As String() In Codons Select code = New Codon(Token), AA = Token(1).First).ToArray
-            Dim hash = LQuery.ToDictionary(Function(obj) obj.code, Function(obj) SequenceModel.Polypeptides.ToEnums(obj.AA))
-            Return hash
-        End Function
-
-        Private Shared Function __split(line As String()) As String()()
-            Dim withInits As Boolean = line.Length = 13
-
-            If withInits Then
-
-                Dim source As New List(Of String)(line)
-                Dim Tokens As New List(Of String())
-                Dim list As New List(Of String)
-
-                Do While source.Count > 0
-                    Call list.Add(source.Take(3).ToArray)
-                    Call source.RemoveRange(0, 3)
-
-                    If source.Count > 0 Then
-                        ' 起始密码子
-                        If String.Equals(source(Scan0), "i") Then
-                            Call list.Add("i")
-                            Call source.RemoveAt(Scan0)
-                        End If
-                    End If
-
-                    Call Tokens.Add(list.ToArray)
-                    Call list.Clear()
-                Loop
-
-                Return Tokens.ToArray
-            Else
-                Dim Tokens = line.Split(3)
-                Return Tokens
-            End If
-        End Function
 
         ''' <summary>
         ''' 判断某一个密码子是否为终止密码子
@@ -208,10 +134,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
 
-        Public Function IsStopCoden(Coden As NucleotideModels.Translation.Codon) As Boolean
+        Public Function IsStopCoden(Coden As Codon) As Boolean
             Dim hash As Integer = Coden.TranslHash
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
+
+        Const ForceStopCoden As Char = "*"c
 
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
@@ -220,16 +148,14 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="force">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(nucleicAcid As String, force As Boolean) As String
+        Public Function Translate(nucleicAcid As String, force As Boolean, Optional ByRef operations As String() = Nothing) As String
             Dim sb As New StringBuilder(1024)
+            Dim buffer As Char()() = DoCheckNtDirection(nucleicAcid, operations).Split(3)
+            Dim coden = CodenTable
 
-            nucleicAcid = doCheckNtDirection(nucleicAcid)
-
-            For i As Integer = 1 To Len(nucleicAcid) Step 3
-                Dim Tokens As Char() = Mid(nucleicAcid, i, 3)
-
-                If Tokens.Length = 3 Then
-                    Dim hash As Integer = Translation.TranslTable.Find(Tokens(0), Tokens(1), Tokens(2))
+            For Each tokens As Char() In buffer
+                If tokens.Length = 3 Then
+                    Dim hash As Integer = GetHashCode(tokens(0), tokens(1), tokens(2))
 
                     If IsStopCoden(hash) Then
                         If force Then
@@ -238,8 +164,8 @@ Namespace SequenceModel.NucleotideModels.Translation
                             Exit For
                         End If
                     Else
-                        Dim aa As AminoAcid = CodenTable(hash)
-                        Dim ch As Char = Polypeptides.Polypeptide.ToChar(aa)
+                        Dim aa As AminoAcid = coden(hash)
+                        Dim ch As Char = Polypeptide.ToChar(aa)
 
                         Call sb.Append(ch)
                     End If
@@ -249,7 +175,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim prot As String = sb.ToString
 
             If force Then
-                Return __trimForce(prot)
+                Return doTrimOfForce(prot)
             Else
                 Return prot
             End If
@@ -262,8 +188,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsStopCodon(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.Find(coden(0), coden(1), coden(2))
-                Return IsStopCoden(hash)
+                Return IsStopCoden(GetHashCode(coden(0), coden(1), coden(2)))
             Else
                 Return False
             End If
@@ -276,8 +201,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsInitCoden(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.Find(coden(0), coden(1), coden(2))
-                Return Array.IndexOf(InitCodons, hash) > -1
+                Return Array.IndexOf(InitCodons, GetHashCode(coden(0), coden(1), coden(2))) > -1
             Else
                 Return False
             End If
@@ -288,43 +212,60 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="sequence"></param>
         ''' <returns></returns>
-        Private Function doCheckNtDirection(sequence As String) As String
-            Dim First As String = Mid(sequence, 1, 3)
+        Public Function DoCheckNtDirection(sequence As String, ByRef operations As String()) As String
+            Dim first As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
-            If IsInitCoden(First) Then  ' 正常的序列
+            If IsInitCoden(first) Then
+                ' 正常的序列
                 Return sequence
             End If
 
             Dim lastAsInit As String = New String(last.Reverse.ToArray)
-            If IsInitCoden(lastAsInit) Then  ' 方向可能颠倒了
-                Call $"This sequence is possibly in reverse direction...".__DEBUG_ECHO
+
+            If IsInitCoden(lastAsInit) Then
+                ' 方向可能颠倒了
+                operations = {"reverse"}
                 Return New String(sequence.Reverse.ToArray)
             End If
 
-            First = NucleicAcid.Complement(First)
-            If IsInitCoden(First) Then  ' 互补的序列
-                Call $"This sequence is possibly in complement strand...".__DEBUG_ECHO
+            first = NucleicAcid.Complement(first)
+
+            If IsInitCoden(first) Then
+                ' 互补的序列
+                operations = {"complement"}
                 Return NucleicAcid.Complement(sequence)
             End If
 
             lastAsInit = NucleicAcid.Complement(lastAsInit)
-            If IsInitCoden(lastAsInit) Then  ' 方向可能颠倒了
-                Call $"This sequence is possibly in reverse&complement strand...".__DEBUG_ECHO
+
+            If IsInitCoden(lastAsInit) Then
+                ' 方向可能颠倒了
+                operations = {"reverse", "complement"}
                 Return New String(NucleicAcid.Complement(sequence).Reverse.ToArray)
             End If
 
-            Return sequence ' 实在判断不出来了，只能够硬着头皮翻译下去了 
+            ' 实在判断不出来了，只能够硬着头皮翻译下去了 
+            operations = {"invalid"}
+            Return sequence
         End Function
 
-        Private Function __trimForce(prot As String) As String
+        ''' <summary>
+        ''' 将尾巴的终止密码子字符进行删除
+        ''' </summary>
+        ''' <param name="prot"></param>
+        ''' <returns></returns>
+        Private Function doTrimOfForce(prot As String) As String
             If prot.Last = ForceStopCoden Then
-                prot = Mid(prot, 1, Len(prot) - 1)
+                prot = prot.Trim(ForceStopCoden)
             End If
+
             Return prot
         End Function
 
-        Const ForceStopCoden As Char = "-"c
+        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean) As String
+            Return Translate(nt.SequenceData, force)
+        End Function
 
         Public Function Translate(SequenceData As NucleicAcid, force As Boolean) As String
             Return Translate(SequenceData.SequenceData, force)
@@ -333,25 +274,31 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 没有终止密码子，非翻译用途的
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="nt"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
-            Dim Codons = SequenceData.ToArray.CreateSlideWindows(3, offset:=3)
-            Dim AA As Codon() =
-                LinqAPI.Exec(Of Codon) <= From Codon As SlideWindow(Of DNA)
-                                          In Codons
-                                          Let aac As Codon = New Codon With {
-                                              .X = Codon.Items(0),
-                                              .Y = Codon.Items(1),
-                                              .Z = Codon.Items(2)
-                                          }
-                                          Select aac
-            AA = (From codon As Codon
-                  In AA
-                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1 ' 由于使用无参数的构造函数构造出来的密码子对象是没有启动和终止的信息的，所以使用当前的翻译表的终止密码表来判断
+        Public Function ToCodonCollection(nt As NucleicAcid) As Codon()
+            Dim codons = nt.ToArray.CreateSlideWindows(3, offset:=3)
+            Dim aa As Codon() = LinqAPI.Exec(Of Codon) _
+ _
+                () <= From Codon As SlideWindow(Of DNA)
+                      In codons
+                      Let aac As Codon = New Codon With {
+                         .X = Codon.Items(0),
+                         .Y = Codon.Items(1),
+                         .Z = Codon.Items(2)
+                      }
+                      Select aac
+
+            ' 由于使用无参数的构造函数构造出来的密码子对象是
+            ' 没有启动和终止的信息的， 所以使用当前的翻译表
+            ' 的终止密码表来判断
+            aa = (From codon As Codon
+                  In aa
+                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1
                   Select codon).ToArray
-            Return AA
+
+            Return aa
         End Function
 
         ''' <summary>
@@ -359,40 +306,46 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="index"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetTable(index As Integer) As TranslTable
-            Return _tables(index)
+            Return _tables.TryGetValue(index)
         End Function
 
-        Protected Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
+        Protected Friend Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
  _
-            {1, New TranslTable(My.Resources.transl_table_1)},
-            {2, New TranslTable(My.Resources.transl_table_2)},
-            {3, New TranslTable(My.Resources.transl_table_3)},
-            {4, New TranslTable(My.Resources.transl_table_4)},
-            {5, New TranslTable(My.Resources.transl_table_5)},
-            {6, New TranslTable(My.Resources.transl_table_6)},
-            {9, New TranslTable(My.Resources.transl_table_9)},
-            {10, New TranslTable(My.Resources.transl_table_10)},
-            {11, New TranslTable(My.Resources.transl_table_11)},
-            {12, New TranslTable(My.Resources.transl_table_12)},
-            {13, New TranslTable(My.Resources.transl_table_13)},
-            {14, New TranslTable(My.Resources.transl_table_14)},
-            {16, New TranslTable(My.Resources.transl_table_16)},
-            {21, New TranslTable(My.Resources.transl_table_21)},
-            {22, New TranslTable(My.Resources.transl_table_22)},
-            {23, New TranslTable(My.Resources.transl_table_23)},
-            {24, New TranslTable(My.Resources.transl_table_24)},
-            {25, New TranslTable(My.Resources.transl_table_25)}
+            {1, ParseTable(My.Resources.transl_table_1)},
+            {2, ParseTable(My.Resources.transl_table_2)},
+            {3, ParseTable(My.Resources.transl_table_3)},
+            {4, ParseTable(My.Resources.transl_table_4)},
+            {5, ParseTable(My.Resources.transl_table_5)},
+            {6, ParseTable(My.Resources.transl_table_6)},
+            {9, ParseTable(My.Resources.transl_table_9)},
+            {10, ParseTable(My.Resources.transl_table_10)},
+            {11, ParseTable(My.Resources.transl_table_11)},
+            {12, ParseTable(My.Resources.transl_table_12)},
+            {13, ParseTable(My.Resources.transl_table_13)},
+            {14, ParseTable(My.Resources.transl_table_14)},
+            {16, ParseTable(My.Resources.transl_table_16)},
+            {21, ParseTable(My.Resources.transl_table_21)},
+            {22, ParseTable(My.Resources.transl_table_22)},
+            {23, ParseTable(My.Resources.transl_table_23)},
+            {24, ParseTable(My.Resources.transl_table_24)},
+            {25, ParseTable(My.Resources.transl_table_25)}
         }
 
-        Public Shared Function Find(r1 As Char, r2 As Char, r3 As Char) As Integer
-            Return Codon.CalTranslHash(NucleotideConvert(r1),
-                                       NucleotideConvert(r2),
-                                       NucleotideConvert(r3))
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Function GetHashCode(r1 As Char, r2 As Char, r3 As Char) As Integer
+            Return Codon.CalTranslHash(
+                X:=NucleotideConvert(r1),
+                Y:=NucleotideConvert(r2),
+                Z:=NucleotideConvert(r3)
+            )
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of Integer, AminoAcid)) _
             Implements IEnumerable(Of KeyValuePair(Of Integer, AminoAcid)).GetEnumerator
+
             For Each codon In Me.CodenTable
                 Yield codon
             Next
@@ -402,11 +355,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Yield GetEnumerator()
         End Function
 
-        Public Shared Function CreateFrom(hashTable As String) As TranslTable
-            Dim transl_table As Integer
+        Public Shared Function ParseTable(hashTable As String) As TranslTable
+            Dim transl_table As GeneticCodes
             Dim hashTokens As String() = hashTable.LineTokens
-            Dim dict As Dictionary(Of Codon, AminoAcid) = doParseTable(hashTokens, transl_table)
-            Dim table As TranslTable = New TranslTable(transl_table, dict)
+            Dim codes As Dictionary(Of Codon, AminoAcid) = doParseTable(hashTokens, transl_table)
+            Dim table As New TranslTable(transl_table, codes)
+
             Return table
         End Function
 

@@ -1,53 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::0ef35444bcad0df153f34da0cc0e1f72, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslationTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TranslationTable
-    ' 
-    '         Properties: CodenTable
-    ' 
-    '         Function: (+2 Overloads) IsStopCoden, ToCodonCollection, (+3 Overloads) Translate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TranslationTable
+' 
+'         Properties: CodenTable
+' 
+'         Function: (+2 Overloads) IsStopCoden, ToCodonCollection, (+3 Overloads) Translate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptide
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
-Imports System.Text
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -65,32 +63,6 @@ Namespace SequenceModel.NucleotideModels.Translation
 #Region "Translation Coden Table"
 
         ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <remarks>
-        ''' 第一个碱基*1000+第二个碱基*100+第三个碱基
-        ''' 
-        ''' Public Enum Ribonucleotides
-        '''    AMP = 0
-        '''    GMP = 1
-        '''    CMP = 2
-        '''    UMP = 3
-        ''' End Enum
-        ''' 
-        ''' 终止密码子
-        ''' UAA 3*1000+0*100+0 -> 3000
-        ''' UAG 3*1000+0*100+1 -> 3001
-        ''' UGA 3*1000+1*100+0 -> 3100
-        ''' </remarks>
-        Public ReadOnly Property CodenTable As TranslTable = Translation.TranslTable.CreateFrom(My.Resources.transl_table_1)
-
-#Region "终止密码子的哈希值枚举"
-        Public Const UAA As Integer = DNA.dTMP * 1000 + DNA.dAMP * 100 + DNA.dAMP * 10000
-        Public Const UAG As Integer = DNA.dTMP * 1000 + DNA.dAMP * 100 + DNA.dGMP * 10000
-        Public Const UGA As Integer = DNA.dTMP * 1000 + DNA.dGMP * 100 + DNA.dAMP * 10000
-#End Region
-
-        ''' <summary>
         ''' 判断某一个密码子是否为终止密码子
         ''' </summary>
         ''' <param name="hash">该密码子的哈希值</param>
@@ -98,16 +70,47 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Is.StopCoden")>
-        <Extension> Public Function IsStopCoden(hash As Integer) As Boolean
-            Return hash = UAA OrElse hash = UAG OrElse hash = UGA
+        <Extension>
+        Public Function IsStopCoden(hash As Integer, code As GeneticCodes) As Boolean
+            Return Array.IndexOf(TranslTable.GetTable(code).StopCodons, hash) > -1
         End Function
 
         <ExportAPI("Is.StopCoden")>
-        <Extension> Public Function IsStopCoden(Coden As NucleotideModels.Translation.Codon) As Boolean
-            Dim hash As Integer = Coden.TranslHash
-            Return hash = UAA OrElse hash = UAG OrElse hash = UGA
+        <Extension>
+        Public Function IsStopCoden(coden As Codon, code As GeneticCodes) As Boolean
+            Return Array.IndexOf(TranslTable.GetTable(code).StopCodons, coden.TranslHash) > -1
         End Function
 #End Region
+
+        ''' <summary>
+        ''' 自动尝试使用不同的密码表进行序列的翻译
+        ''' 取最长的翻译结果
+        ''' </summary>
+        ''' <param name="nt"></param>
+        ''' <returns></returns>
+        Public Function Translate(nt As IPolymerSequenceModel) As FastaSeq
+            Dim maxSeq As New FastaSeq With {.SequenceData = ""}
+            Dim prot As String
+            Dim operations As String()
+
+            For Each table As TranslTable In TranslTable._tables.Values
+                operations = Nothing
+                prot = table.Translate(
+                    nucleicAcid:=nt.SequenceData,
+                    force:=False,
+                    operations:=operations
+                )
+
+                If prot.Length > maxSeq.Length Then
+                    maxSeq = New FastaSeq With {
+                        .Headers = {table.ToString}.Join(operations).ToArray,
+                        .SequenceData = prot
+                    }
+                End If
+            Next
+
+            Return maxSeq
+        End Function
 
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
@@ -117,31 +120,35 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(NucleicAcid As String, Optional force As Boolean = False) As String
-            Return CodenTable.Translate(NucleicAcid, force)
+        <Extension>
+        Public Function Translate(NucleicAcid As String, Optional code As GeneticCodes = GeneticCodes.StandardCode, Optional force As Boolean = False) As String
+            Return TranslTable.GetTable(code).Translate(NucleicAcid, force)
         End Function
 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(SequenceData As NucleicAcid, Optional force As Boolean = False) As String
-            Return CodenTable.Translate(SequenceData, force)
+        <Extension>
+        Public Function Translate(nt As NucleicAcid, code As GeneticCodes, Optional force As Boolean = False) As String
+            Return TranslTable.GetTable(code).Translate(nt, force)
         End Function
 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(codon As Codon) As Char
-            Dim AAValue = CodenTable.CodenTable(codon.TranslHash)
+        <Extension>
+        Public Function Translate(codon As Codon, code As GeneticCodes) As Char
+            Dim AAValue = TranslTable.GetTable(code).CodenTable(codon.TranslHash)
             Return Polypeptides.Polypeptide.ToChar(AAValue)
         End Function
 
         ''' <summary>
         ''' 没有终止密码子
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="nt"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("To.CodonList")>
-        <Extension> Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
-            Return CodenTable.ToCodonCollection(SequenceData)
+        <Extension>
+        Public Function ToCodonCollection(nt As NucleicAcid, code As GeneticCodes) As Codon()
+            Return TranslTable.GetTable(code).ToCodonCollection(nt)
         End Function
     End Module
 End Namespace
