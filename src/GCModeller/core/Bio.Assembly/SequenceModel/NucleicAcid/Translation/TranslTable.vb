@@ -139,6 +139,8 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
 
+        Const ForceStopCoden As Char = "*"c
+
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
         ''' </summary>
@@ -148,15 +150,12 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         Public Function Translate(nucleicAcid As String, force As Boolean) As String
             Dim sb As New StringBuilder(1024)
-            Dim tokens As Char()
+            Dim buffer As Char()() = doCheckNtDirection(nucleicAcid, Nothing).Split(3)
+            Dim coden = CodenTable
 
-            nucleicAcid = doCheckNtDirection(nucleicAcid)
-
-            For i As Integer = 1 To Len(nucleicAcid) Step 3
-                tokens = Mid(nucleicAcid, i, 3)
-
+            For Each tokens As Char() In buffer
                 If tokens.Length = 3 Then
-                    Dim hash As Integer = Translation.TranslTable.GetHashCode(tokens(0), tokens(1), tokens(2))
+                    Dim hash As Integer = GetHashCode(tokens(0), tokens(1), tokens(2))
 
                     If IsStopCoden(hash) Then
                         If force Then
@@ -165,8 +164,8 @@ Namespace SequenceModel.NucleotideModels.Translation
                             Exit For
                         End If
                     Else
-                        Dim aa As AminoAcid = CodenTable(hash)
-                        Dim ch As Char = Polypeptides.Polypeptide.ToChar(aa)
+                        Dim aa As AminoAcid = coden(hash)
+                        Dim ch As Char = Polypeptide.ToChar(aa)
 
                         Call sb.Append(ch)
                     End If
@@ -213,11 +212,11 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="sequence"></param>
         ''' <returns></returns>
-        Private Function doCheckNtDirection(sequence As String) As String
-            Dim First As String = Mid(sequence, 1, 3)
+        Private Function doCheckNtDirection(sequence As String, ByRef operations As String()) As String
+            Dim first As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
-            If IsInitCoden(First) Then
+            If IsInitCoden(first) Then
                 ' 正常的序列
                 Return sequence
             End If
@@ -226,15 +225,15 @@ Namespace SequenceModel.NucleotideModels.Translation
 
             If IsInitCoden(lastAsInit) Then
                 ' 方向可能颠倒了
-                Call $"This sequence is possibly in reverse direction...".__DEBUG_ECHO
+                operations = {"reverse"}
                 Return New String(sequence.Reverse.ToArray)
             End If
 
-            First = NucleicAcid.Complement(First)
+            first = NucleicAcid.Complement(first)
 
-            If IsInitCoden(First) Then
+            If IsInitCoden(first) Then
                 ' 互补的序列
-                Call $"This sequence is possibly in complement strand...".__DEBUG_ECHO
+                operations = {"complement"}
                 Return NucleicAcid.Complement(sequence)
             End If
 
@@ -242,23 +241,27 @@ Namespace SequenceModel.NucleotideModels.Translation
 
             If IsInitCoden(lastAsInit) Then
                 ' 方向可能颠倒了
-                Call $"This sequence is possibly in reverse&complement strand...".__DEBUG_ECHO
+                operations = {"reverse", "complement"}
                 Return New String(NucleicAcid.Complement(sequence).Reverse.ToArray)
             End If
 
             ' 实在判断不出来了，只能够硬着头皮翻译下去了 
+            operations = {"invalid"}
             Return sequence
         End Function
 
+        ''' <summary>
+        ''' 将尾巴的终止密码子字符进行删除
+        ''' </summary>
+        ''' <param name="prot"></param>
+        ''' <returns></returns>
         Private Function doTrimOfForce(prot As String) As String
             If prot.Last = ForceStopCoden Then
-                prot = Mid(prot, 1, Len(prot) - 1)
+                prot = prot.Trim(ForceStopCoden)
             End If
 
             Return prot
         End Function
-
-        Const ForceStopCoden As Char = "-"c
 
         Public Function Translate(nt As IPolymerSequenceModel, force As Boolean) As String
             Return Translate(nt.SequenceData, force)
