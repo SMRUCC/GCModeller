@@ -309,7 +309,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetTable(index As Integer) As TranslTable
-            Return _tables(index)
+            Return _tables.TryGetValue(index)
         End Function
 
         Protected Friend Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {

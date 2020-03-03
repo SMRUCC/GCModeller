@@ -175,23 +175,16 @@ Module Fasta
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            Return New FastaSeq With {
-                .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
-            }
-        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaSeq() Then
-            Dim prot As New FastaFile
-            Dim fa As FastaSeq
-
-            For Each ntSeq As FastaSeq In DirectCast(nt, IEnumerable(Of FastaSeq))
-                fa = New FastaSeq With {
-                    .Headers = ntSeq.Headers.ToArray,
-                    .SequenceData = translTable.Translate(ntSeq, forceStop)
+            If code = GeneticCodes.Auto Then
+                Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
+                prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
+                Return prot
+            Else
+                Return New FastaSeq With {
+                    .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
+                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
                 }
-                prot.Add(fa)
-            Next
-
-            Return prot
+            End If
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt)
 
@@ -202,10 +195,16 @@ Module Fasta
                 Dim fa As FastaSeq
 
                 For Each ntSeq As FastaSeq In collection
-                    fa = New FastaSeq With {
-                    .Headers = ntSeq.Headers.ToArray,
-                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
-                }
+                    If code = GeneticCodes.Auto Then
+                        fa = TranslationTable.Translate(ntSeq)
+                        fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
+                    Else
+                        fa = New FastaSeq With {
+                            .Headers = ntSeq.Headers.ToArray,
+                            .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                        }
+                    End If
+
                     prot.Add(fa)
                 Next
 
