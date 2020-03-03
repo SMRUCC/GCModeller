@@ -5,6 +5,8 @@
     ''' </summary>
     Public Enum GeneticCodes As Integer
 
+        Auto = 0
+
         ''' <summary>
         ''' 1. The Standard Code
         ''' </summary>

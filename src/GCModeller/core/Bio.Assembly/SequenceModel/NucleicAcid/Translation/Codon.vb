@@ -139,11 +139,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         Public ReadOnly Property IsInitCodon As Boolean
 
         Public Overrides Function ToString() As String
-            If IsStopCoden Then
-                Return $"[STOP_CODON] {Me.CodonValue}"
-            Else
-                Return $"[{TranslationTable.CodenTable(Me.TranslHash).ToString}] {Me.CodonValue}"
-            End If
+            Return X.Description & Y.Description & Z.Description
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean

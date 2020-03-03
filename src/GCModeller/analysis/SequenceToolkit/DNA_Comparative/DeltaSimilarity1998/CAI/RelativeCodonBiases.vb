@@ -60,9 +60,11 @@ Namespace DeltaSimilarity1998.CAI
     ''' 
     ''' This specifies a reference set of genes, almost invariably, H, chosen from among “highly expressed genes.”
     ''' 
-    ''' Defining W(xyz) = f(xyz)/max(xyz[a])*f(xyz,H) as the ratio of the frequency of the codon (xyz) to the 
-    ''' maximal codon frequency in H for the same amino acid a ,the CAI of a gene of length L is taken as PI(Wi)^(1/L) (the log average), 
-    ''' where i refers to the ith codon of the gene and w is calculated as above. 
+    ''' Defining ``W(xyz) = f(xyz)/max(xyz[a])*f(xyz,H)`` as the ratio of 
+    ''' the frequency of the codon (xyz) to the maximal codon frequency 
+    ''' in H for the same amino acid a ,the CAI of a gene of length L is 
+    ''' taken as PI(Wi)^(1/L) (the log average), where i refers to the ith 
+    ''' codon of the gene and w is calculated as above. 
     ''' 
     ''' H 集合是所选择的高表达量的参考基因
     ''' </summary>
@@ -71,6 +73,7 @@ Namespace DeltaSimilarity1998.CAI
 
         ReadOnly ORF As NucleicAcid
         ReadOnly _codonHash As Codon() = Codon.CreateHashTable
+        ReadOnly translCode As GeneticCodes
 
         ''' <summary>
         ''' <see cref="CodonFrequency.AminoAcid"/>就是这个字典的键名key
@@ -82,17 +85,21 @@ Namespace DeltaSimilarity1998.CAI
         ''' ORF的核酸序列之中构建出密码子偏好属性
         ''' </summary>
         ''' <param name="nt">ATG -> TGA这一段之间的ORF的核酸序列</param>
-        Sub New(nt As FastaSeq)
+        Sub New(nt As FastaSeq, Optional code As GeneticCodes = GeneticCodes.StandardCode)
             ORF = New NucleicAcid(nt)
-            CodonFrequencyStatics =
-                ToChar _
-                .Select(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
-                .ToDictionary(Function(fr) fr.AminoAcid)
+            CodonFrequencyStatics = ToChar _
+                .Select(Function(aa)
+                            Return staticsOfMaxFrequencyCodon(aa.Value, code)
+                        End Function) _
+                .ToDictionary(Function(fr)
+                                  Return fr.AminoAcid
+                              End Function)
+            translCode = code
         End Sub
 
         Public Function CAI() As Double
             Try
-                Dim Codens = ToCodonCollection(ORF)
+                Dim Codens = ToCodonCollection(ORF, translCode)
                 Dim PIValue = (From code As Codon In Codens Select Me.W(code)).ProductALL
                 Return PIValue ^ (1 / Codens.Length)
             Catch ex As Exception
@@ -132,25 +139,27 @@ Namespace DeltaSimilarity1998.CAI
         ''' <param name="aminoAcid">可能会有集中密码来编码相同的一个氨基酸</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __staticsOfMaxFrequencyCodon(aminoAcid As Char) As CodonFrequency
+        Private Function staticsOfMaxFrequencyCodon(aminoAcid As Char, code As GeneticCodes) As CodonFrequency
             Dim aa As AminoAcid = Polypeptides.ToEnums(aminoAcid)
+            ' 得到蛋白质翻译编码的哈希值
             Dim hashAA = LinqAPI.Exec(Of SeqValue(Of AminoAcid)) <=
  _
                 From tl
-                In CodenTable
+                In TranslTable.GetTable(code)
                 Where tl.Value = aa
                 Select New SeqValue(Of AminoAcid) With {
                     .i = tl.Key,
                     .value = tl.Value
-                } ' 得到蛋白质翻译编码的哈希值
+                }
 
             Dim hashValues%() = hashAA.Indices
+            ' 从密码子之中查询哈希值
             Dim CodonsForAA = LinqAPI.Exec(Of Codon) <=
                 From c As Codon
                 In Me._codonHash
                 Where Array.IndexOf(hashValues, c.TranslHash) > -1
                 Select c
-                Distinct      ' 从密码子之中查询哈希值
+                Distinct
 
             Dim cfrq As New CodonFrequency With {
                 .AminoAcid = aminoAcid,

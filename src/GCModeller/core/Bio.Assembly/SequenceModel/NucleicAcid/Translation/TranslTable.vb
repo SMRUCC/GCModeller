@@ -134,7 +134,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
 
-        Public Function IsStopCoden(Coden As NucleotideModels.Translation.Codon) As Boolean
+        Public Function IsStopCoden(Coden As Codon) As Boolean
             Dim hash As Integer = Coden.TranslHash
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
