@@ -5,5 +5,6 @@ setwd(!script$dir);
 ["LexA.fasta"]
 :> read.fasta
 :> Assemble.of
+:> toString
 :> cat
 ;
