@@ -1,0 +1,9 @@
+imports "bioseq.fasta" from "seqtoolkit.dll";
+
+setwd(!script$dir);
+
+["LexA.fasta"]
+:> read.fasta
+:> Assemble.of
+:> cat
+;

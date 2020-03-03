@@ -43,6 +43,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -63,7 +64,18 @@ Module Fasta
     Sub New()
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
+        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
+
+    Private Function viewAssembles(asm As AssembleResult) As String
+        Dim sb As New StringBuilder
+
+        Using text As New StringWriter(sb)
+            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
+        End Using
+
+        Return sb.ToString
+    End Function
 
     Private Function viewMSA(msa As MSAOutput) As String
         Dim sb As New StringBuilder
@@ -233,7 +245,25 @@ Module Fasta
     <ExportAPI("Assemble.of")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray
+        Dim data As String() = readSeqs _
+            .Select(Function(fa) fa.SequenceData) _
+            .ToArray
+        Dim result = data.ShortestCommonSuperString
 
+        Return New AssembleResult(result)
     End Function
 End Module
+
+Public Class AssembleResult
+
+    Friend alignments As String()
+
+    Sub New(result As String())
+        alignments = result
+    End Sub
+
+    Public Function GetAssembledSequence() As String
+        Return alignments(Scan0)
+    End Function
+End Class
 
