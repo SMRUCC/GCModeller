@@ -19,7 +19,42 @@ Namespace Analysis.SimilarityImpl
         Public Function TopologyCos(a As Node, b As Node) As Double
             ' enumerate all connected node adjacencies
             ' evaluate angle for each pair
+            Dim aTopo = a.nodeClassTopology
+            Dim bTopo = b.nodeClassTopology
+            Dim allGroups As Index(Of String) = aTopo.Keys.AsList + bTopo.Keys
+            Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf aTopo.TryGetValue))
+            Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf bTopo.TryGetValue))
+            Dim cos As Double = Math.SSM(av, bv)
 
+            Return cos
+        End Function
+
+        <Extension>
+        Private Function nodeClassTopology(v As Node) As Dictionary(Of String, Double)
+            Return (From type In v.allNodeTopology Group By type.Item1 Into Group) _
+                .ToDictionary(Function(group) group.Item1,
+                              Function(group)
+                                  Return group.Group.Average(Function(n) n.Item2)
+                              End Function)
+        End Function
+
+        <Extension>
+        Private Iterator Function allNodeTopology(v As Node) As IEnumerable(Of (String, Double))
+            Dim adjacencies As Node() = v.EnumerateAdjacencies.ToArray
+            Dim key$
+            Dim cos$
+            Dim a, b As AbstractVector
+
+            For Each x As Node In adjacencies
+                For Each y As Node In adjacencies
+                    a = x.data.initialPostion
+                    b = y.data.initialPostion
+                    key = $"{If(x.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), "n/a")}-{If(x.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE), "n/a")}"
+                    cos = Imaging.Math2D.angleBetween2Lines(a.x, a.y, a.z, b.x, b.y, b.z)
+
+                    Yield (key, cos)
+                Next
+            Next
         End Function
 
         Public Function VertexDistanceCos(a As Node, b As Node) As Double
