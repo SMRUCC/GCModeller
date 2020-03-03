@@ -166,16 +166,16 @@ Module Fasta
     <ExportAPI("translate")>
     Public Function Translates(<RRawVectorArgument>
                                nt As Object,
-                               Optional code As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
+                               Optional table As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
                                Optional forceStop As Boolean = True,
                                Optional env As Environment = Nothing) As Object
 
-        Dim translTable As TranslTable = TranslTable.GetTable(code)
+        Dim translTable As TranslTable = TranslTable.GetTable(index:=table)
 
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            If code = GeneticCodes.Auto Then
+            If table = GeneticCodes.Auto Then
                 Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
                 prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
                 Return prot
@@ -195,7 +195,7 @@ Module Fasta
                 Dim fa As FastaSeq
 
                 For Each ntSeq As FastaSeq In collection
-                    If code = GeneticCodes.Auto Then
+                    If table = GeneticCodes.Auto Then
                         fa = TranslationTable.Translate(ntSeq)
                         fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
                     Else
