@@ -177,7 +177,7 @@ Module Fasta
         ElseIf TypeOf nt Is FastaSeq Then
             Return New FastaSeq With {
                 .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
+                .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
             }
         ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaSeq() Then
             Dim prot As New FastaFile
@@ -186,7 +186,7 @@ Module Fasta
             For Each ntSeq As FastaSeq In DirectCast(nt, IEnumerable(Of FastaSeq))
                 fa = New FastaSeq With {
                     .Headers = ntSeq.Headers.ToArray,
-                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                    .SequenceData = translTable.Translate(ntSeq, forceStop)
                 }
                 prot.Add(fa)
             Next

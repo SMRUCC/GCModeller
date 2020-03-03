@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::4e9b28e639dc0b3bd0143cd5bc685652, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TranslTable
-    ' 
-    '         Properties: CodenTable, InitCodons, StopCodons, TranslTable
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
-    '                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
-    '                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
-    '                   (+2 Overloads) Translate
-    ' 
-    '         Sub: __initProfiles
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TranslTable
+' 
+'         Properties: CodenTable, InitCodons, StopCodons, TranslTable
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __checkDirection, __parseHash, __parseTable, __split, __trimForce
+'                   CreateFrom, Find, GetEnumerator, GetTable, IEnumerable_GetEnumerator
+'                   IsInitCoden, (+2 Overloads) IsStopCoden, IsStopCodon, ToCodonCollection, ToString
+'                   (+2 Overloads) Translate
+' 
+'         Sub: __initProfiles
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
@@ -100,7 +101,7 @@ Namespace SequenceModel.NucleotideModels.Translation
     ''' 
     ''' > http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
     ''' </summary>
-    Public Class TranslTable : Implements Generic.IEnumerable(Of KeyValuePair(Of Integer, AminoAcid))
+    Public Class TranslTable : Implements IEnumerable(Of KeyValuePair(Of Integer, AminoAcid))
 
         ''' <summary>
         ''' 遗传密码子表（哈希表）
@@ -118,6 +119,8 @@ Namespace SequenceModel.NucleotideModels.Translation
 
         Friend Sub New(index As GeneticCodes, transl_table As Dictionary(Of Codon, AminoAcid))
             TranslTable = index
+
+            ' config codon data
             Call doInitProfiles(transl_table, _StopCodons, _InitCodons, _CodenTable)
         End Sub
 
@@ -173,7 +176,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim prot As String = sb.ToString
 
             If force Then
-                Return __trimForce(prot)
+                Return doTrimOfForce(prot)
             Else
                 Return prot
             End If
@@ -186,8 +189,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsStopCodon(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.GetHashCode(coden(0), coden(1), coden(2))
-                Return IsStopCoden(hash)
+                Return IsStopCoden(GetHashCode(coden(0), coden(1), coden(2)))
             Else
                 Return False
             End If
@@ -200,8 +202,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Function IsInitCoden(coden As String) As Boolean
             If coden.Length = 3 Then
-                Dim hash As Integer = Translation.TranslTable.GetHashCode(coden(0), coden(1), coden(2))
-                Return Array.IndexOf(InitCodons, hash) > -1
+                Return Array.IndexOf(InitCodons, GetHashCode(coden(0), coden(1), coden(2))) > -1
             Else
                 Return False
             End If
@@ -249,14 +250,19 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return sequence
         End Function
 
-        Private Function __trimForce(prot As String) As String
+        Private Function doTrimOfForce(prot As String) As String
             If prot.Last = ForceStopCoden Then
                 prot = Mid(prot, 1, Len(prot) - 1)
             End If
+
             Return prot
         End Function
 
         Const ForceStopCoden As Char = "-"c
+
+        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean) As String
+            Return Translate(nt.SequenceData, force)
+        End Function
 
         Public Function Translate(SequenceData As NucleicAcid, force As Boolean) As String
             Return Translate(SequenceData.SequenceData, force)
@@ -265,28 +271,31 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 没有终止密码子，非翻译用途的
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="nt"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
-            Dim Codons = SequenceData.ToArray.CreateSlideWindows(3, offset:=3)
-            Dim AA As Codon() =
-                LinqAPI.Exec(Of Codon) <= From Codon As SlideWindow(Of DNA)
-                                          In Codons
-                                          Let aac As Codon = New Codon With {
-                                              .X = Codon.Items(0),
-                                              .Y = Codon.Items(1),
-                                              .Z = Codon.Items(2)
-                                          }
-                                          Select aac
+        Public Function ToCodonCollection(nt As NucleicAcid) As Codon()
+            Dim codons = nt.ToArray.CreateSlideWindows(3, offset:=3)
+            Dim aa As Codon() = LinqAPI.Exec(Of Codon) _
+ _
+                () <= From Codon As SlideWindow(Of DNA)
+                      In codons
+                      Let aac As Codon = New Codon With {
+                         .X = Codon.Items(0),
+                         .Y = Codon.Items(1),
+                         .Z = Codon.Items(2)
+                      }
+                      Select aac
+
             ' 由于使用无参数的构造函数构造出来的密码子对象是
             ' 没有启动和终止的信息的， 所以使用当前的翻译表
             ' 的终止密码表来判断
-            AA = (From codon As Codon
-                  In AA
+            aa = (From codon As Codon
+                  In aa
                   Where Array.IndexOf(StopCodons, codon.TranslHash) = -1
                   Select codon).ToArray
-            Return AA
+
+            Return aa
         End Function
 
         ''' <summary>
@@ -294,6 +303,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' </summary>
         ''' <param name="index"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetTable(index As Integer) As TranslTable
             Return _tables(index)
         End Function
@@ -320,6 +331,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             {25, ParseTable(My.Resources.transl_table_25)}
         }
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function GetHashCode(r1 As Char, r2 As Char, r3 As Char) As Integer
             Return Codon.CalTranslHash(
                 X:=NucleotideConvert(r1),

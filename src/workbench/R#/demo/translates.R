@@ -9,5 +9,5 @@ genes
 :> as.vector
 :> which(fa -> !(as.object(fa)$Title like rnaId))
 :> translate(table = 11, forceStop = FALSE)
-:> write.fasta(file = prots)
+:> write.fasta(file = prots, lineBreak = 60)
 ;
