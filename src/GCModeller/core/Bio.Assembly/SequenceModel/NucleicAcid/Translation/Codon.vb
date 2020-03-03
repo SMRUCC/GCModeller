@@ -147,9 +147,10 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
-            If obj.GetType = GetType(Codon) Then
-                Dim cd = DirectCast(obj, Codon)
-                Return cd.X = X AndAlso cd.Y = Y AndAlso cd.Z = Z
+            If obj.GetType Is GetType(Codon) Then
+                With DirectCast(obj, Codon)
+                    Return .X = X AndAlso .Y = Y AndAlso .Z = Z
+                End With
             Else
                 Return False
             End If
@@ -165,19 +166,19 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Shared Function CreateHashTable() As Codon()
             Dim NNCols As DNA() = {DNA.dAMP, DNA.dCMP, DNA.dGMP, DNA.dTMP}
-            Dim Combos = Combination.CreateCombos(NNCols, NNCols)
-            Dim TripleCombos = Combination.CreateCombos(Combos, NNCols)
-            Dim Codens() = LinqAPI.Exec(Of Codon) _
+            Dim combos = Combination.CreateCombos(NNCols, NNCols)
+            Dim tripleCombos = Combination.CreateCombos(combos, NNCols)
+            Dim codens() = LinqAPI.Exec(Of Codon) _
  _
                 () <= From coden As (a As (DNA, DNA), b As DNA)
-                      In TripleCombos
+                      In tripleCombos
                       Select New Codon With {
                           .X = coden.Item1.Item1,
                           .Y = coden.Item1.Item2,
                           .Z = coden.Item2
                       }
 
-            Return Codens
+            Return codens
         End Function
     End Class
 End Namespace

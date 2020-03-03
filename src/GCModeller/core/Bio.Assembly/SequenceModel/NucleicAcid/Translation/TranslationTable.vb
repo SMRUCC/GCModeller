@@ -82,7 +82,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' UAG 3*1000+0*100+1 -> 3001
         ''' UGA 3*1000+1*100+0 -> 3100
         ''' </remarks>
-        Public ReadOnly Property CodenTable As TranslTable = Translation.TranslTable.ParseTable(My.Resources.transl_table_1)
+        Public ReadOnly Property CodenTable As TranslTable = TranslTable.ParseTable(My.Resources.transl_table_1)
 
 #Region "终止密码子的哈希值枚举"
         Public Const UAA As Integer = DNA.dTMP * 1000 + DNA.dAMP * 100 + DNA.dAMP * 10000
@@ -98,12 +98,14 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Is.StopCoden")>
-        <Extension> Public Function IsStopCoden(hash As Integer) As Boolean
+        <Extension>
+        Public Function IsStopCoden(hash As Integer) As Boolean
             Return hash = UAA OrElse hash = UAG OrElse hash = UGA
         End Function
 
         <ExportAPI("Is.StopCoden")>
-        <Extension> Public Function IsStopCoden(Coden As NucleotideModels.Translation.Codon) As Boolean
+        <Extension>
+        Public Function IsStopCoden(Coden As Codon) As Boolean
             Dim hash As Integer = Coden.TranslHash
             Return hash = UAA OrElse hash = UAG OrElse hash = UGA
         End Function
@@ -117,17 +119,20 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(NucleicAcid As String, Optional force As Boolean = False) As String
+        <Extension>
+        Public Function Translate(NucleicAcid As String, Optional force As Boolean = False) As String
             Return CodenTable.Translate(NucleicAcid, force)
         End Function
 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(SequenceData As NucleicAcid, Optional force As Boolean = False) As String
+        <Extension>
+        Public Function Translate(SequenceData As NucleicAcid, Optional force As Boolean = False) As String
             Return CodenTable.Translate(SequenceData, force)
         End Function
 
         <ExportAPI("Translate")>
-        <Extension> Public Function Translate(codon As Codon) As Char
+        <Extension>
+        Public Function Translate(codon As Codon) As Char
             Dim AAValue = CodenTable.CodenTable(codon.TranslHash)
             Return Polypeptides.Polypeptide.ToChar(AAValue)
         End Function
@@ -140,7 +145,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("To.CodonList")>
-        <Extension> Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
+        <Extension>
+        Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
             Return CodenTable.ToCodonCollection(SequenceData)
         End Function
     End Module
