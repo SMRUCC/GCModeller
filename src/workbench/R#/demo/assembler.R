@@ -6,5 +6,5 @@ setwd(!script$dir);
 :> read.fasta
 :> Assemble.of
 :> toString
-:> cat
+:> cat(file = "assemble.txt")
 ;
