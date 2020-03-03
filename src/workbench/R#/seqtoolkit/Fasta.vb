@@ -152,8 +152,13 @@ Module Fasta
     ''' <param name="nt"></param>
     ''' <returns></returns>
     <ExportAPI("translate")>
-    Public Function Translates(<RRawVectorArgument> nt As Object, Optional table% = 1, Optional forceStop As Boolean = True, Optional env As Environment = Nothing) As Object
-        Dim translTable As TranslTable = TranslTable.GetTable(table)
+    Public Function Translates(<RRawVectorArgument>
+                               nt As Object,
+                               Optional code As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
+                               Optional forceStop As Boolean = True,
+                               Optional env As Environment = Nothing) As Object
+
+        Dim translTable As TranslTable = TranslTable.GetTable(code)
 
         If nt Is Nothing Then
             Return Nothing
