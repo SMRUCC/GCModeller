@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace Analysis
@@ -118,9 +119,15 @@ Namespace Analysis
             End If
         End Function
 
+        ''' <summary>
+        ''' Calculate topology similarity
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Function TopologyCos(a As Node, b As Node) As Double
-            Dim aDist = a.nodeGroupDistance
-            Dim bDist = b.nodeGroupDistance
+            Dim aDist As Dictionary(Of String, Double) = a.nodeGroupDistance
+            Dim bDist As Dictionary(Of String, Double) = b.nodeGroupDistance
             Dim allGroups As Index(Of String) = aDist.Keys.AsList + bDist.Keys
             Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf aDist.TryGetValue))
             Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf bDist.TryGetValue))
@@ -154,25 +161,30 @@ Namespace Analysis
                 Return {}
             End If
 
-            Dim a = v.data.initialPostion
+            Dim a As AbstractVector = v.data.initialPostion
 
             Return v.adjacencies _
                 .EnumerateAllEdges _
                 .Select(Function(e)
-                            Dim partner As Node
-
-                            If e.U Is v Then
-                                partner = e.V
-                            Else
-                                partner = e.U
-                            End If
-
-                            Dim type$ = partner.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
-                            Dim b = partner.data.initialPostion
-                            Dim dist = (a.x - b.x) ^ 2 + (a.y - b.y) ^ 2 + (a.z - b.z) ^ 2
-
-                            Return (If(type, "n/a"), dist)
+                            Return v.calcVertexDistance(a, e)
                         End Function)
+        End Function
+
+        <Extension>
+        Private Function calcVertexDistance(v As Node, a As AbstractVector, e As Edge) As (String, Double)
+            Dim partner As Node
+
+            If e.U Is v Then
+                partner = e.V
+            Else
+                partner = e.U
+            End If
+
+            Dim type$ = partner.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+            Dim b As AbstractVector = partner.data.initialPostion
+            Dim dist = (a.x - b.x) ^ 2 + (a.y - b.y) ^ 2 + (a.z - b.z) ^ 2
+
+            Return (If(type, "n/a"), dist)
         End Function
 
         <Extension>
