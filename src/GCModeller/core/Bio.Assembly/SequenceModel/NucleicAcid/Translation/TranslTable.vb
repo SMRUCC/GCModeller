@@ -138,7 +138,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return Array.IndexOf(StopCodons, coden.TranslHashCode) > -1
         End Function
 
-        Const ForceStopCoden As Char = "*"c
+        Public Const SymbolStopCoden As Char = "*"c
 
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
@@ -166,7 +166,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
                     If IsStopCoden(hash) Then
                         If bypassStop Then
-                            Call sb.Append(ForceStopCoden)
+                            Call sb.Append(SymbolStopCoden)
                         Else
                             Exit For
                         End If
@@ -221,8 +221,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="prot"></param>
         ''' <returns></returns>
         Private Function doTrimOfForce(prot As String) As String
-            If prot.Last = ForceStopCoden Then
-                prot = prot.Trim(ForceStopCoden)
+            If prot.Last = SymbolStopCoden Then
+                prot = prot.Trim(SymbolStopCoden)
             End If
 
             Return prot

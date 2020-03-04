@@ -42,8 +42,10 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -208,7 +210,7 @@ Module Fasta
             Else
                 Dim prot As New FastaFile
                 Dim fa As FastaSeq
-                Dim checkValid As Integer
+                Dim checkInvalids As New List(Of String)
 
                 For Each ntSeq As FastaSeq In collection
                     If table = GeneticCodes.Auto Then
@@ -226,11 +228,20 @@ Module Fasta
                     End If
 
                     If bypassStop Then
-
+                        If fa.SequenceData.Any(Function(c) c = TranslTable.SymbolStopCoden) Then
+                            checkInvalids += fa.Title
+                        End If
                     End If
 
                     prot.Add(fa)
                 Next
+
+                If bypassStop AndAlso checkInvalids > 0 Then
+                    Call env.AddMessage({
+                        $"There are {checkInvalids.Count} gene sequence is invalids under current genetic code.",
+                        $"genetic_code: {table.Description}"
+                    }.Join(checkInvalids.Select(Function(seq) $"invalid: {seq}")).ToArray, MSG_TYPES.WRN)
+                End If
 
                 Return prot
             End If
