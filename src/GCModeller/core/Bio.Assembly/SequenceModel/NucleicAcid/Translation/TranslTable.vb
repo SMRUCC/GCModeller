@@ -135,7 +135,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Public Function IsStopCoden(Coden As Codon) As Boolean
-            Dim hash As Integer = Coden.TranslHash
+            Dim hash As Integer = Coden.TranslHashCode
             Return Array.IndexOf(StopCodons, hash) > -1
         End Function
 
@@ -295,7 +295,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             ' 的终止密码表来判断
             aa = (From codon As Codon
                   In aa
-                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1
+                  Where Array.IndexOf(StopCodons, codon.TranslHashCode) = -1
                   Select codon).ToArray
 
             Return aa
@@ -336,7 +336,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function GetHashCode(r1 As Char, r2 As Char, r3 As Char) As Integer
-            Return Codon.CalTranslHash(
+            Return Codon.GetHashCode(
                 X:=NucleotideConvert(r1),
                 Y:=NucleotideConvert(r2),
                 Z:=NucleotideConvert(r3)

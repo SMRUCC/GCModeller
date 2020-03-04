@@ -78,7 +78,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         <ExportAPI("Is.StopCoden")>
         <Extension>
         Public Function IsStopCoden(coden As Codon, code As GeneticCodes) As Boolean
-            Return Array.IndexOf(TranslTable.GetTable(code).StopCodons, coden.TranslHash) > -1
+            Return Array.IndexOf(TranslTable.GetTable(code).StopCodons, coden.TranslHashCode) > -1
         End Function
 #End Region
 
@@ -134,7 +134,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         <ExportAPI("Translate")>
         <Extension>
         Public Function Translate(codon As Codon, code As GeneticCodes) As Char
-            Dim AAValue = TranslTable.GetTable(code).CodenTable(codon.TranslHash)
+            Dim AAValue = TranslTable.GetTable(code).CodenTable(codon.TranslHashCode)
             Return Polypeptides.Polypeptide.ToChar(AAValue)
         End Function
 
