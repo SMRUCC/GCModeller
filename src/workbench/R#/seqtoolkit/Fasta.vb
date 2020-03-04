@@ -43,6 +43,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -63,7 +64,18 @@ Module Fasta
     Sub New()
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
+        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
+
+    Private Function viewAssembles(asm As AssembleResult) As String
+        Dim sb As New StringBuilder
+
+        Using text As New StringWriter(sb)
+            Call asm.alignments.TableView(asm.GetAssembledSequence, text)
+        End Using
+
+        Return sb.ToString
+    End Function
 
     Private Function viewMSA(msa As MSAOutput) As String
         Dim sb As New StringBuilder
@@ -154,32 +166,25 @@ Module Fasta
     <ExportAPI("translate")>
     Public Function Translates(<RRawVectorArgument>
                                nt As Object,
-                               Optional code As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
+                               Optional table As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
                                Optional forceStop As Boolean = True,
                                Optional env As Environment = Nothing) As Object
 
-        Dim translTable As TranslTable = TranslTable.GetTable(code)
+        Dim translTable As TranslTable = TranslTable.GetTable(index:=table)
 
         If nt Is Nothing Then
             Return Nothing
         ElseIf TypeOf nt Is FastaSeq Then
-            Return New FastaSeq With {
-                .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq).SequenceData, forceStop)
-            }
-        ElseIf TypeOf nt Is FastaFile OrElse TypeOf nt Is FastaSeq() Then
-            Dim prot As New FastaFile
-            Dim fa As FastaSeq
-
-            For Each ntSeq As FastaSeq In DirectCast(nt, IEnumerable(Of FastaSeq))
-                fa = New FastaSeq With {
-                    .Headers = ntSeq.Headers.ToArray,
-                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+            If table = GeneticCodes.Auto Then
+                Dim prot = TranslationTable.Translate(DirectCast(nt, FastaSeq))
+                prot.Headers = DirectCast(nt, FastaSeq).Headers.Join(prot.Headers).ToArray
+                Return prot
+            Else
+                Return New FastaSeq With {
+                    .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
+                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
                 }
-                prot.Add(fa)
-            Next
-
-            Return prot
+            End If
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt)
 
@@ -190,10 +195,16 @@ Module Fasta
                 Dim fa As FastaSeq
 
                 For Each ntSeq As FastaSeq In collection
-                    fa = New FastaSeq With {
-                    .Headers = ntSeq.Headers.ToArray,
-                    .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
-                }
+                    If table = GeneticCodes.Auto Then
+                        fa = TranslationTable.Translate(ntSeq)
+                        fa.Headers = ntSeq.Headers.Join(fa.Headers).ToArray
+                    Else
+                        fa = New FastaSeq With {
+                            .Headers = ntSeq.Headers.ToArray,
+                            .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                        }
+                    End If
+
                     prot.Add(fa)
                 Next
 
@@ -229,5 +240,29 @@ Module Fasta
             End If
         End If
     End Function
+
+    <ExportAPI("Assemble.of")>
+    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray
+        Dim data As String() = readSeqs _
+            .Select(Function(fa) fa.SequenceData) _
+            .ToArray
+        Dim result = data.ShortestCommonSuperString
+
+        Return New AssembleResult(result)
+    End Function
 End Module
+
+Public Class AssembleResult
+
+    Friend alignments As String()
+
+    Sub New(result As String())
+        alignments = result
+    End Sub
+
+    Public Function GetAssembledSequence() As String
+        Return alignments(Scan0)
+    End Function
+End Class
 
