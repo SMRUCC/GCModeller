@@ -327,7 +327,7 @@ Public Module RegressionPlot
             }
         Next
 
-        Call d3js.labeler(maxMove:=10, maxAngle:=0.6, w_len:=0.5, w_inter:=5, w_lab2:=30, w_lab_anc:=30, w_orient:=5) _
+        Call d3js.labeler(maxMove:=100, maxAngle:=0.6, w_len:=0.5, w_inter:=5, w_lab2:=30, w_lab_anc:=30, w_orient:=5) _
             .Labels(labels) _
             .Anchors(labels.GetLabelAnchors(pointSize)) _
             .Width(rect.Width) _
@@ -336,7 +336,7 @@ Public Module RegressionPlot
 
         For Each label As SeqValue(Of Label) In labels.SeqIterator
             With label.value
-                Call g.DrawLine(labelAnchorPen, .ByRef, anchors(label))
+                Call g.DrawLine(labelAnchorPen, .GetTextAnchor(anchors(label)), anchors(label))
                 Call g.DrawString(.text, pointLabelFont, Brushes.Black, .ByRef)
             End With
         Next
