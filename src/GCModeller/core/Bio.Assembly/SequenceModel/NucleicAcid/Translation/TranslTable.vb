@@ -147,10 +147,18 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="force">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(nucleicAcid As String, force As Boolean, Optional ByRef operations As String() = Nothing) As String
+        Public Function Translate(nucleicAcid As String, force As Boolean, Optional checkNt As Boolean = True, Optional ByRef operations As String() = Nothing) As String
             Dim sb As New StringBuilder(1024)
-            Dim buffer As Char()() = NtHelper.DoCheckNtDirection(Me, nucleicAcid, operations).Split(3)
+            Dim buffer As Char()()
             Dim coden = CodenTable
+
+            If checkNt Then
+                nucleicAcid = NtHelper.DoCheckNtDirection(Me, nucleicAcid.ToUpper, operations)
+            Else
+                nucleicAcid = nucleicAcid.ToUpper
+            End If
+
+            buffer = nucleicAcid.Split(3)
 
             For Each tokens As Char() In buffer
                 If tokens.Length = 3 Then
@@ -194,6 +202,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         ''' <summary>
+        ''' Case insensitive.
         ''' 三个字母所表示的三联体密码子
         ''' </summary>
         ''' <param name="coden"></param>
@@ -219,12 +228,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return prot
         End Function
 
-        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean) As String
-            Return Translate(nt.SequenceData, force)
+        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(nt.SequenceData, force, checkNt)
         End Function
 
-        Public Function Translate(SequenceData As NucleicAcid, force As Boolean) As String
-            Return Translate(SequenceData.SequenceData, force)
+        Public Function Translate(SequenceData As NucleicAcid, force As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(SequenceData.SequenceData, force, checkNt)
         End Function
 
         ''' <summary>

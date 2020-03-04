@@ -15,12 +15,17 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim first As String = Mid(sequence, 1, 3)
             Dim last As String = Mid(sequence, Len(sequence) - 3)
 
+            If sequence.Length Mod 3 <> 0 Then
+                ' is not an ORF sequence?
+
+            End If
+
             If translTable.IsInitCoden(first) Then
                 ' 正常的序列
                 Return sequence
             End If
 
-            Dim lastAsInit As String = New String(last.Reverse.ToArray)
+            Dim lastAsInit As String = last.Reverse.CharString
 
             If translTable.IsInitCoden(lastAsInit) Then
                 ' 方向可能颠倒了
@@ -41,7 +46,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             If translTable.IsInitCoden(lastAsInit) Then
                 ' 方向可能颠倒了
                 operations = {"reverse", "complement"}
-                Return New String(NucleicAcid.Complement(sequence).Reverse.ToArray)
+                Return NucleicAcid.Complement(sequence).Reverse.CharString
             End If
 
             ' 实在判断不出来了，只能够硬着头皮翻译下去了 
