@@ -895,6 +895,7 @@
     <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Assembly.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\NtHelper.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Translation\GeneticCodes.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Translation\TranslTableTextReader.vb" />
     <Compile Include="SequenceModel\TypeExtensions.vb" />

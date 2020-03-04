@@ -127,16 +127,15 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 判断某一个密码子是否为终止密码子
         ''' </summary>
-        ''' <param name="hash">该密码子的哈希值</param>
+        ''' <param name="hashCode">该密码子的哈希值</param>
         ''' <returns>这个密码子是否为一个终止密码</returns>
         ''' <remarks></remarks>
-        Public Function IsStopCoden(hash As Integer) As Boolean
-            Return Array.IndexOf(StopCodons, hash) > -1
+        Public Function IsStopCoden(hashCode As Integer) As Boolean
+            Return Array.IndexOf(StopCodons, hashCode) > -1
         End Function
 
-        Public Function IsStopCoden(Coden As Codon) As Boolean
-            Dim hash As Integer = Coden.TranslHash
-            Return Array.IndexOf(StopCodons, hash) > -1
+        Public Function IsStopCoden(coden As Codon) As Boolean
+            Return Array.IndexOf(StopCodons, coden.TranslHashCode) > -1
         End Function
 
         Const ForceStopCoden As Char = "*"c
@@ -148,10 +147,18 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="force">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(nucleicAcid As String, force As Boolean, Optional ByRef operations As String() = Nothing) As String
+        Public Function Translate(nucleicAcid As String, force As Boolean, Optional checkNt As Boolean = True, Optional ByRef operations As String() = Nothing) As String
             Dim sb As New StringBuilder(1024)
-            Dim buffer As Char()() = DoCheckNtDirection(nucleicAcid, operations).Split(3)
+            Dim buffer As Char()()
             Dim coden = CodenTable
+
+            If checkNt Then
+                nucleicAcid = NtHelper.DoCheckNtDirection(Me, nucleicAcid.ToUpper, operations)
+            Else
+                nucleicAcid = nucleicAcid.ToUpper
+            End If
+
+            buffer = nucleicAcid.Split(3)
 
             For Each tokens As Char() In buffer
                 If tokens.Length = 3 Then
@@ -195,6 +202,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         ''' <summary>
+        ''' Case insensitive.
         ''' 三个字母所表示的三联体密码子
         ''' </summary>
         ''' <param name="coden"></param>
@@ -205,49 +213,6 @@ Namespace SequenceModel.NucleotideModels.Translation
             Else
                 Return False
             End If
-        End Function
-
-        ''' <summary>
-        ''' Check nt sequence direction by start and stop codon
-        ''' </summary>
-        ''' <param name="sequence"></param>
-        ''' <returns></returns>
-        Public Function DoCheckNtDirection(sequence As String, ByRef operations As String()) As String
-            Dim first As String = Mid(sequence, 1, 3)
-            Dim last As String = Mid(sequence, Len(sequence) - 3)
-
-            If IsInitCoden(first) Then
-                ' 正常的序列
-                Return sequence
-            End If
-
-            Dim lastAsInit As String = New String(last.Reverse.ToArray)
-
-            If IsInitCoden(lastAsInit) Then
-                ' 方向可能颠倒了
-                operations = {"reverse"}
-                Return New String(sequence.Reverse.ToArray)
-            End If
-
-            first = NucleicAcid.Complement(first)
-
-            If IsInitCoden(first) Then
-                ' 互补的序列
-                operations = {"complement"}
-                Return NucleicAcid.Complement(sequence)
-            End If
-
-            lastAsInit = NucleicAcid.Complement(lastAsInit)
-
-            If IsInitCoden(lastAsInit) Then
-                ' 方向可能颠倒了
-                operations = {"reverse", "complement"}
-                Return New String(NucleicAcid.Complement(sequence).Reverse.ToArray)
-            End If
-
-            ' 实在判断不出来了，只能够硬着头皮翻译下去了 
-            operations = {"invalid"}
-            Return sequence
         End Function
 
         ''' <summary>
@@ -263,12 +228,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return prot
         End Function
 
-        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean) As String
-            Return Translate(nt.SequenceData, force)
+        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(nt.SequenceData, force, checkNt)
         End Function
 
-        Public Function Translate(SequenceData As NucleicAcid, force As Boolean) As String
-            Return Translate(SequenceData.SequenceData, force)
+        Public Function Translate(SequenceData As NucleicAcid, force As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(SequenceData.SequenceData, force, checkNt)
         End Function
 
         ''' <summary>
@@ -295,7 +260,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             ' 的终止密码表来判断
             aa = (From codon As Codon
                   In aa
-                  Where Array.IndexOf(StopCodons, codon.TranslHash) = -1
+                  Where Array.IndexOf(StopCodons, codon.TranslHashCode) = -1
                   Select codon).ToArray
 
             Return aa
@@ -308,7 +273,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetTable(index As Integer) As TranslTable
+        Public Shared Function GetTable(index As GeneticCodes) As TranslTable
             Return _tables.TryGetValue(index)
         End Function
 
@@ -336,7 +301,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function GetHashCode(r1 As Char, r2 As Char, r3 As Char) As Integer
-            Return Codon.CalTranslHash(
+            Return Codon.GetHashCode(
                 X:=NucleotideConvert(r1),
                 Y:=NucleotideConvert(r2),
                 Z:=NucleotideConvert(r3)
@@ -355,6 +320,11 @@ Namespace SequenceModel.NucleotideModels.Translation
             Yield GetEnumerator()
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="hashTable">the text data of the translTable</param>
+        ''' <returns></returns>
         Public Shared Function ParseTable(hashTable As String) As TranslTable
             Dim transl_table As GeneticCodes
             Dim hashTokens As String() = hashTable.LineTokens

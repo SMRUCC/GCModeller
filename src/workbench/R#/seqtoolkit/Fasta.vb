@@ -182,6 +182,7 @@ Module Fasta
                                nt As Object,
                                Optional table As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
                                Optional forceStop As Boolean = True,
+                               Optional checkNt As Boolean = True,
                                Optional env As Environment = Nothing) As Object
 
         Dim translTable As TranslTable = TranslTable.GetTable(index:=table)
@@ -196,7 +197,7 @@ Module Fasta
             Else
                 Return New FastaSeq With {
                     .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
+                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop, checkNt)
                 }
             End If
         Else
@@ -215,7 +216,11 @@ Module Fasta
                     Else
                         fa = New FastaSeq With {
                             .Headers = ntSeq.Headers.ToArray,
-                            .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                            .SequenceData = translTable.Translate(
+                                nucleicAcid:=ntSeq.SequenceData,
+                                force:=forceStop,
+                                checkNt:=checkNt
+                            )
                         }
                     End If
 

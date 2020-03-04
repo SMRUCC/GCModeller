@@ -157,7 +157,7 @@ Namespace DeltaSimilarity1998.CAI
             Dim CodonsForAA = LinqAPI.Exec(Of Codon) <=
                 From c As Codon
                 In Me._codonHash
-                Where Array.IndexOf(hashValues, c.TranslHash) > -1
+                Where Array.IndexOf(hashValues, c.TranslHashCode) > -1
                 Select c
                 Distinct
 
