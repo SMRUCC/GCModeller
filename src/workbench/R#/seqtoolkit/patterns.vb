@@ -30,6 +30,12 @@ Module patterns
         End If
     End Function
 
+    ''' <summary>
+    ''' Search mirror palindrome sites for a given seed sequence
+    ''' </summary>
+    ''' <param name="sequence"></param>
+    ''' <param name="seed"></param>
+    ''' <returns></returns>
     <ExportAPI("palindrome.mirror")>
     Public Function FindMirrorPalindromes(sequence$, seed$) As PalindromeLoci()
         Return Palindrome.FindMirrorPalindromes(seed, sequence)

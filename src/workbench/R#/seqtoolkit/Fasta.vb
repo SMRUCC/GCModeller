@@ -58,7 +58,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' Fasta sequence toolkit
 ''' </summary>
 ''' 
-<Package("bioseq.fasta")>
+<Package("bioseq.fasta", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module Fasta
 
     Sub New()
@@ -153,6 +153,16 @@ Module Fasta
         Return FastaFile.Read(file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="file"></param>
+    ''' <param name="lineBreak">
+    ''' The sequence length in one line, negative value or ZERo means no line break.
+    ''' </param>
+    ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
+    ''' <returns></returns>
     <ExportAPI("write.fasta")>
     Public Function writeFasta(seq As Object, file$, Optional lineBreak% = -1, Optional encoding As Encodings = Encodings.ASCII) As Boolean
         Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
@@ -161,7 +171,11 @@ Module Fasta
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
-    ''' <param name="nt"></param>
+    ''' <param name="nt">The given fasta collection</param>
+    ''' <param name="table">The genetic code for translation table.</param>
+    ''' <param name="forceStop">
+    ''' Try ignores of the stop codon.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("translate")>
     Public Function Translates(<RRawVectorArgument>
@@ -223,6 +237,12 @@ Module Fasta
         Return GetFastaSeq(seqs).MultipleAlignment(ScoreMatrix.DefaultMatrix)
     End Function
 
+    ''' <summary>
+    ''' Create a fasta sequence collection object from any given sequence collection.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("fasta")>
     <RApiReturn(GetType(FastaFile))>
     Public Function Tofasta(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -241,6 +261,12 @@ Module Fasta
         End If
     End Function
 
+    ''' <summary>
+    ''' Do short reads assembling
+    ''' </summary>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("Assemble.of")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray
