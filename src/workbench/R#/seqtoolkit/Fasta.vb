@@ -173,7 +173,7 @@ Module Fasta
     ''' </summary>
     ''' <param name="nt">The given fasta collection</param>
     ''' <param name="table">The genetic code for translation table.</param>
-    ''' <param name="forceStop">
+    ''' <param name="bypassStop">
     ''' Try ignores of the stop codon.
     ''' </param>
     ''' <returns></returns>
@@ -181,7 +181,7 @@ Module Fasta
     Public Function Translates(<RRawVectorArgument>
                                nt As Object,
                                Optional table As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
-                               Optional forceStop As Boolean = True,
+                               Optional bypassStop As Boolean = True,
                                Optional checkNt As Boolean = True,
                                Optional env As Environment = Nothing) As Object
 
@@ -197,7 +197,7 @@ Module Fasta
             Else
                 Return New FastaSeq With {
                     .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop, checkNt)
+                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), bypassStop, checkNt)
                 }
             End If
         Else
@@ -208,6 +208,7 @@ Module Fasta
             Else
                 Dim prot As New FastaFile
                 Dim fa As FastaSeq
+                Dim checkValid As Integer
 
                 For Each ntSeq As FastaSeq In collection
                     If table = GeneticCodes.Auto Then
@@ -218,10 +219,14 @@ Module Fasta
                             .Headers = ntSeq.Headers.ToArray,
                             .SequenceData = translTable.Translate(
                                 nucleicAcid:=ntSeq.SequenceData,
-                                force:=forceStop,
+                                bypassStop:=bypassStop,
                                 checkNt:=checkNt
                             )
                         }
+                    End If
+
+                    If bypassStop Then
+
                     End If
 
                     prot.Add(fa)

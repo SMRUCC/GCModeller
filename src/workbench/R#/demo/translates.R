@@ -8,6 +8,6 @@ genes
 :> read.fasta
 :> as.vector
 :> which(fa -> !(as.object(fa)$Title like rnaId))
-:> translate(table = "Auto", forceStop = FALSE)
+:> translate(table = "BacterialArchaealAndPlantPlastidCode", checkNt = FALSE, forceStop = TRUE)
 :> write.fasta(file = prots, lineBreak = 60)
 ;

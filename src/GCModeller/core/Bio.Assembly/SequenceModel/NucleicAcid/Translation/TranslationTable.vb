@@ -97,7 +97,7 @@ Namespace SequenceModel.NucleotideModels.Translation
                 operations = Nothing
                 prot = table.Translate(
                     nucleicAcid:=nt.SequenceData,
-                    force:=False,
+                    bypassStop:=False,
                     operations:=operations
                 )
 
