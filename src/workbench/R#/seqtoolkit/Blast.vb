@@ -8,6 +8,9 @@ Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+''' <summary>
+''' Blast search tools
+''' </summary>
 <Package("bioseq.blast")>
 Module Blast
 
@@ -25,11 +28,24 @@ Module Blast
         End If
     End Function
 
+    ''' <summary>
+    ''' Do sequence pairwise alignment
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="ref"></param>
+    ''' <param name="blosum"></param>
+    ''' <returns></returns>
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
         Return SmithWaterman.Align(query, ref, blosum)
     End Function
 
+    ''' <summary>
+    ''' Do sequence global pairwise alignment
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="ref"></param>
+    ''' <returns></returns>
     <ExportAPI("align.needleman_wunsch")>
     Public Function RunGlobalNeedlemanWunsch(query As FastaSeq, ref As FastaSeq) As FactorValue(Of Double, GlobalAlign(Of Char)())
         Dim score As Double = 0

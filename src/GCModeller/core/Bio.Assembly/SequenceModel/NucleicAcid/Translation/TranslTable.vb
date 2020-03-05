@@ -138,16 +138,16 @@ Namespace SequenceModel.NucleotideModels.Translation
             Return Array.IndexOf(StopCodons, coden.TranslHashCode) > -1
         End Function
 
-        Const ForceStopCoden As Char = "*"c
+        Public Const SymbolStopCoden As Char = "*"c
 
         ''' <summary>
         ''' 将一条核酸链翻译为蛋白质序列
         ''' </summary>
         ''' <param name="nucleicAcid"></param>
-        ''' <param name="force">强制程序跳过终止密码子</param>
+        ''' <param name="bypassStop">强制程序跳过终止密码子</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Translate(nucleicAcid As String, force As Boolean, Optional checkNt As Boolean = True, Optional ByRef operations As String() = Nothing) As String
+        Public Function Translate(nucleicAcid As String, bypassStop As Boolean, Optional checkNt As Boolean = True, Optional ByRef operations As String() = Nothing) As String
             Dim sb As New StringBuilder(1024)
             Dim buffer As Char()()
             Dim coden = CodenTable
@@ -165,8 +165,8 @@ Namespace SequenceModel.NucleotideModels.Translation
                     Dim hash As Integer = GetHashCode(tokens(0), tokens(1), tokens(2))
 
                     If IsStopCoden(hash) Then
-                        If force Then
-                            Call sb.Append(ForceStopCoden)
+                        If bypassStop Then
+                            Call sb.Append(SymbolStopCoden)
                         Else
                             Exit For
                         End If
@@ -181,7 +181,7 @@ Namespace SequenceModel.NucleotideModels.Translation
 
             Dim prot As String = sb.ToString
 
-            If force Then
+            If bypassStop Then
                 Return doTrimOfForce(prot)
             Else
                 Return prot
@@ -221,19 +221,19 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="prot"></param>
         ''' <returns></returns>
         Private Function doTrimOfForce(prot As String) As String
-            If prot.Last = ForceStopCoden Then
-                prot = prot.Trim(ForceStopCoden)
+            If prot.Last = SymbolStopCoden Then
+                prot = prot.Trim(SymbolStopCoden)
             End If
 
             Return prot
         End Function
 
-        Public Function Translate(nt As IPolymerSequenceModel, force As Boolean, Optional checkNt As Boolean = True) As String
-            Return Translate(nt.SequenceData, force, checkNt)
+        Public Function Translate(nt As IPolymerSequenceModel, bypassStop As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(nt.SequenceData, bypassStop, checkNt)
         End Function
 
-        Public Function Translate(SequenceData As NucleicAcid, force As Boolean, Optional checkNt As Boolean = True) As String
-            Return Translate(SequenceData.SequenceData, force, checkNt)
+        Public Function Translate(SequenceData As NucleicAcid, bypassStop As Boolean, Optional checkNt As Boolean = True) As String
+            Return Translate(SequenceData.SequenceData, bypassStop, checkNt)
         End Function
 
         ''' <summary>
