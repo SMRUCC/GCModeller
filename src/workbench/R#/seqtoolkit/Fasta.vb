@@ -42,8 +42,10 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
@@ -58,7 +60,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' Fasta sequence toolkit
 ''' </summary>
 ''' 
-<Package("bioseq.fasta")>
+<Package("bioseq.fasta", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module Fasta
 
     Sub New()
@@ -153,6 +155,16 @@ Module Fasta
         Return FastaFile.Read(file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="file"></param>
+    ''' <param name="lineBreak">
+    ''' The sequence length in one line, negative value or ZERo means no line break.
+    ''' </param>
+    ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
+    ''' <returns></returns>
     <ExportAPI("write.fasta")>
     Public Function writeFasta(seq As Object, file$, Optional lineBreak% = -1, Optional encoding As Encodings = Encodings.ASCII) As Boolean
         Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
@@ -161,13 +173,18 @@ Module Fasta
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
-    ''' <param name="nt"></param>
+    ''' <param name="nt">The given fasta collection</param>
+    ''' <param name="table">The genetic code for translation table.</param>
+    ''' <param name="bypassStop">
+    ''' Try ignores of the stop codon.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("translate")>
     Public Function Translates(<RRawVectorArgument>
                                nt As Object,
                                Optional table As GeneticCodes = GeneticCodes.BacterialArchaealAndPlantPlastidCode,
-                               Optional forceStop As Boolean = True,
+                               Optional bypassStop As Boolean = True,
+                               Optional checkNt As Boolean = True,
                                Optional env As Environment = Nothing) As Object
 
         Dim translTable As TranslTable = TranslTable.GetTable(index:=table)
@@ -182,7 +199,7 @@ Module Fasta
             Else
                 Return New FastaSeq With {
                     .Headers = DirectCast(nt, FastaSeq).Headers.ToArray,
-                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), forceStop)
+                    .SequenceData = translTable.Translate(DirectCast(nt, FastaSeq), bypassStop, checkNt)
                 }
             End If
         Else
@@ -193,6 +210,7 @@ Module Fasta
             Else
                 Dim prot As New FastaFile
                 Dim fa As FastaSeq
+                Dim checkInvalids As New List(Of String)
 
                 For Each ntSeq As FastaSeq In collection
                     If table = GeneticCodes.Auto Then
@@ -201,12 +219,29 @@ Module Fasta
                     Else
                         fa = New FastaSeq With {
                             .Headers = ntSeq.Headers.ToArray,
-                            .SequenceData = translTable.Translate(ntSeq.SequenceData, forceStop)
+                            .SequenceData = translTable.Translate(
+                                nucleicAcid:=ntSeq.SequenceData,
+                                bypassStop:=bypassStop,
+                                checkNt:=checkNt
+                            )
                         }
+                    End If
+
+                    If bypassStop Then
+                        If fa.SequenceData.Any(Function(c) c = TranslTable.SymbolStopCoden) Then
+                            checkInvalids += fa.Title
+                        End If
                     End If
 
                     prot.Add(fa)
                 Next
+
+                If bypassStop AndAlso checkInvalids > 0 Then
+                    Call env.AddMessage({
+                        $"There are {checkInvalids.Count} gene sequence is invalids under current genetic code.",
+                        $"genetic_code: {table.Description}"
+                    }.Join(checkInvalids.Select(Function(seq) $"invalid: {seq}")).ToArray, MSG_TYPES.WRN)
+                End If
 
                 Return prot
             End If
@@ -223,6 +258,12 @@ Module Fasta
         Return GetFastaSeq(seqs).MultipleAlignment(ScoreMatrix.DefaultMatrix)
     End Function
 
+    ''' <summary>
+    ''' Create a fasta sequence collection object from any given sequence collection.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("fasta")>
     <RApiReturn(GetType(FastaFile))>
     Public Function Tofasta(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -241,6 +282,12 @@ Module Fasta
         End If
     End Function
 
+    ''' <summary>
+    ''' Do short reads assembling
+    ''' </summary>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("Assemble.of")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray

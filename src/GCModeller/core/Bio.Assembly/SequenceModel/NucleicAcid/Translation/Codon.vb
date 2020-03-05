@@ -73,12 +73,35 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         <XmlAttribute> Public Property Z As DNA
 
-        ''' <param name="X">密码子中的第一个碱基</param>
-        ''' <param name="Y">密码子中的第二个碱基</param>
-        ''' <param name="Z">密码子中的第三个碱基</param>
-        Public Shared Function CalTranslHash(X As DNA, Y As DNA, Z As DNA) As Integer
-            Return X * 1000 + Y * 100 + Z * 10000
-        End Function
+        ''' <summary>
+        ''' 第一个碱基*1000+第二个碱基*100+第三个碱基
+        ''' </summary>
+        ''' <returns>哈希值</returns>
+        ''' <remarks></remarks>
+        Public ReadOnly Property TranslHashCode As Integer
+            Get
+                Return GetHashCode(X, Y, Z)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 返回三联体密码子的核酸片段，以三联体密码子字符串的形式显示当前的这个密码子内的内容
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property CodonValue As String
+            Get
+                Return NucleicAcid.ToString({X, Y, Z})
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 是否为终止密码子
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public ReadOnly Property IsStopCodon As Boolean
+        Public ReadOnly Property IsInitCodon As Boolean
 
         ''' <summary>
         ''' 非翻译用途的
@@ -108,35 +131,12 @@ Namespace SequenceModel.NucleotideModels.Translation
             Z = codon(2)
         End Sub
 
-        ''' <summary>
-        ''' 第一个碱基*1000+第二个碱基*100+第三个碱基
-        ''' </summary>
-        ''' <returns>哈希值</returns>
-        ''' <remarks></remarks>
-        Public ReadOnly Property TranslHash As Integer
-            Get
-                Return CalTranslHash(X, Y, Z)
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' 返回三联体密码子的核酸片段，以三联体密码子字符串的形式显示当前的这个密码子内的内容
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property CodonValue As String
-            Get
-                Return NucleicAcid.ToString({X, Y, Z})
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' 是否为终止密码子
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public ReadOnly Property IsStopCodon As Boolean
-        Public ReadOnly Property IsInitCodon As Boolean
+        ''' <param name="X">密码子中的第一个碱基</param>
+        ''' <param name="Y">密码子中的第二个碱基</param>
+        ''' <param name="Z">密码子中的第三个碱基</param>
+        Public Overloads Shared Function GetHashCode(X As DNA, Y As DNA, Z As DNA) As Integer
+            Return X * 1000 + Y * 100 + Z * 10000
+        End Function
 
         Public Overrides Function ToString() As String
             Return X.Description & Y.Description & Z.Description
@@ -153,7 +153,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Public Overloads Shared Narrowing Operator CType(obj As Codon) As Integer
-            Return obj.TranslHash
+            Return obj.TranslHashCode
         End Operator
 
         ''' <summary>

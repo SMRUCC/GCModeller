@@ -64,7 +64,7 @@ Partial Module Utilities
         Dim Table = TranslTable.GetTable(TranslTbl)
         Dim Force As Boolean = args.GetBoolean("/force")
         Dim Codes = Codon.CreateHashTable
-        Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHash) Select code.CodonValue).ToArray
+        Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHashCode) Select code.CodonValue).ToArray
         Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).__DEBUG_ECHO
         Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force))
         Dim PROFasta = CType(PRO, FastaFile)
