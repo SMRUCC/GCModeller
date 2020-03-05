@@ -98,7 +98,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery
             Dim failures As New List(Of String)
 
             Using progressbar As New ProgressBar("Download reaction class numbers...", 1, True)
-                Dim progress As New ProgressProvider(numbers.Length)
+                Dim progress As New ProgressProvider(progressbar, numbers.Length)
                 Dim save$
                 Dim rcnumber As ReactionClass
 

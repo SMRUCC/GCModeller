@@ -161,7 +161,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim failures As New List(Of String)
 
             Using progress As New ProgressBar("Download KEGG Reactions...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(sources.Length)
+                Dim tick As New ProgressProvider(progress, sources.Length)
                 Dim ETA$
                 Dim doTick = Sub()
                                  ETA$ = tick _

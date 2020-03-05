@@ -141,7 +141,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim failures As New List(Of String)
 
             Using progress As New ProgressBar("Download genes of human genome...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(list.Length)
+                Dim tick As New ProgressProvider(progress, list.Length)
                 Dim path As New Value(Of String)
                 Dim ETA$
 

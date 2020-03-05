@@ -129,11 +129,12 @@ Namespace Assembly.KEGG.WebServices
             Dim entries As PathwayEntry() = loadEntryAuto(briefFile)
             Dim web As New MapQuery(briefFile, $"{EXPORT}/.cache/")
             Dim failures As New List(Of String)
-            Dim tick As New ProgressProvider(entries.Length)
             Dim msg$
             Dim getId = MapQuery.getID(briefFile)
 
             Using progress As New ProgressBar("Downloads KEGG pathway map data...", 1, CLS:=True)
+                Dim tick As New ProgressProvider(progress, entries.Length)
+
                 For Each entry As PathwayEntry In entries
                     Dim id$ = getId(entry)
                     Dim save$ = $"{EXPORT}/{entry.GetPathCategory}/{id}.XML"
@@ -193,7 +194,7 @@ Namespace Assembly.KEGG.WebServices
             Dim refer$
 
             Using progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways KGML network data....", 1, CLS:=True)
-                Dim tick As New ProgressProvider(all.Length)
+                Dim tick As New ProgressProvider(progress, all.Length)
 
                 For Each entry As ListEntry In all
                     Try

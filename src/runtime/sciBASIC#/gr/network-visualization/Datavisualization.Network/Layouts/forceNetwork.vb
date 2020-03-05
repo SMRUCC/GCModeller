@@ -97,7 +97,7 @@ Namespace Layouts
             Dim progress As ProgressBar = Nothing
 
             If showProgress Then
-                Dim ticking As New ProgressProvider(iterations)
+                Dim ticking As ProgressProvider
                 Dim ETA$
                 Dim details$
                 Dim args$ = New ForceDirectedArgs With {
@@ -108,6 +108,7 @@ Namespace Layouts
                 }.GetJson
 
                 progress = New ProgressBar("Do Force Directed Layout...", 1, CLS:=clearScreen)
+                ticking = New ProgressProvider(progress, iterations)
                 tick = Sub(i%)
                            ETA = "ETA=" & ticking _
                                .ETA(progress.ElapsedMilliseconds) _

@@ -476,7 +476,7 @@ Namespace Algebra.LinearProgramming
             If showProgress Then
                 progress = New ProgressBar("Run LPP Solution Iterations...")
 
-                With New ProgressProvider(PIVOT_ITERATION_LIMIT)
+                With New ProgressProvider(progress, PIVOT_ITERATION_LIMIT)
                     Dim ETA$, msg$
 
                     tick = Sub()

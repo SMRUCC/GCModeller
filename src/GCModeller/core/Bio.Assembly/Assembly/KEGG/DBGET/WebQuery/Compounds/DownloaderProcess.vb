@@ -90,7 +90,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 .ToArray
 
             Using progress As New ProgressBar("Downloads " & key, 1, CLS:=True)
-                Dim tick As New ProgressProvider(keys.Length)
+                Dim tick As New ProgressProvider(progress, keys.Length)
                 Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
 
                 For Each entry As BriteTerm In keys

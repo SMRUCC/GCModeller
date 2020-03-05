@@ -250,7 +250,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim details$
 
             Using progress As New ProgressBar($"Downloads others, {success.Count} success was indexed!", 1, CLS:=True)
-                Dim tick As New ProgressProvider(compoundIds.Length)
+                Dim tick As New ProgressProvider(progress, compoundIds.Length)
 
                 For Each id As String In compoundIds
                     If Not id Like success Then

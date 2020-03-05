@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <Extension>
         Public Sub DownloadAllReactions(EXPORT$, Optional cache$ = "./.reactions/")
             Using progress As New ProgressBar("Download all KEGG reactions...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(MaxReactionCount)
+                Dim tick As New ProgressProvider(progress, MaxReactionCount)
                 Dim ETA$
                 Dim doTick = Sub(cpdName As String)
                                  ETA$ = tick _
@@ -163,7 +163,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim compoundArray = compounds.ToArray
 
             Using progress As New ProgressBar("Download compounds related KEGG reactions...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(compoundArray.Length)
+                Dim tick As New ProgressProvider(progress, compoundArray.Length)
                 Dim ETA$
                 Dim doTick = Sub(cpdName As String)
                                  ETA$ = tick _

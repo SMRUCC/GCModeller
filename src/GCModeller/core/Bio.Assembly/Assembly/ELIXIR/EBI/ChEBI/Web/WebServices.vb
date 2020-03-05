@@ -108,7 +108,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
         <Extension>
         Public Iterator Function BatchQuery(chebiIDlist$(), localCache$, Optional sleepInterval% = 2000) As IEnumerable(Of ChEBIEntity)
             Using progress As New ProgressBar("Downloading ChEBI data...")
-                Dim tick As New ProgressProvider(chebiIDlist.Length)
+                Dim tick As New ProgressProvider(progress, chebiIDlist.Length)
                 Dim ETA$
                 Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
 
