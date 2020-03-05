@@ -63,7 +63,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim failures As New List(Of String)
 
             Using progress As New ProgressBar("Download KEGG disease data...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(all.Length)
+                Dim tick As New ProgressProvider(progress, all.Length)
                 Dim path As New Value(Of String)
                 Dim disease As Disease
 
@@ -80,9 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         End Try
                     End If
 
-                    Dim ETA$ = tick _
-                        .ETA(progress.ElapsedMilliseconds) _
-                        .FormatTime
+                    Dim ETA$ = tick.ETA().FormatTime
 
                     Call progress.SetProgress(
                         tick.StepProgress(),
