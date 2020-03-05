@@ -113,7 +113,10 @@ Namespace FileStream.Generic
         Sub New()
             __nodes = New Dictionary(Of T_Node)
             __edges = New List(Of T_Edge)
-            _meta = New MetaData
+            _meta = New MetaData With {
+                .create_time = Now.ToString,
+                .creators = {Environment.UserName}
+            }
         End Sub
 
         Dim __nodes As Dictionary(Of T_Node)
