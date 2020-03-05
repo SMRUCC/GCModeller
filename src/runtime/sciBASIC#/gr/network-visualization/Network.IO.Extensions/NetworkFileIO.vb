@@ -65,7 +65,7 @@ Public Module NetworkFileIO
         With output Or App.CurrentDirectory.AsDefault
             Call network.nodes.SaveTo($"{ .ByRef}/nodes.csv", False, encoding Or UTF8)
             Call network.edges.SaveTo($"{ .ByRef}/network-edges.csv", False, encoding Or UTF8)
-            Call network.meta.GetJson(indent:=True).SaveTo($"{ .ByRef}/meta.json", Encodings.UTF8)
+            Call network.meta.GetJson(indent:=True).SaveTo($"{ .ByRef}/meta.json", UTF8)
         End With
 
         Return True
