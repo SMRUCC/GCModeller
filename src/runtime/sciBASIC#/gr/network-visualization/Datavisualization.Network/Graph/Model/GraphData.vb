@@ -216,7 +216,6 @@ Namespace Graph
         Sub New(copy As EdgeData)
             Me.label = copy.label
             Me.length = copy.length
-            Me.weight = copy.weight
             Me.Properties = New Dictionary(Of String, String)(copy.Properties)
         End Sub
 
