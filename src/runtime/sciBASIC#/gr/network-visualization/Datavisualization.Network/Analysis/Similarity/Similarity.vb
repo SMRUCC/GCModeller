@@ -51,7 +51,7 @@ Namespace Analysis
 
         Public Function GraphSimilarity(x As NetworkGraph, y As NetworkGraph,
                                         Optional cutoff# = 0.85,
-                                        Optional classUnidenticalScore As Func(Of String, String, Double) = Nothing,
+                                        Optional classEquivalent As Func(Of String, String, Double) = Nothing,
                                         Optional topologyCos As Boolean = False) As Double
 
             ' JaccardIndex (intersects / union) -> highly similar / (dis-similar + highly similar)
@@ -59,8 +59,8 @@ Namespace Analysis
             Dim top#
             Dim cos#
 
-            If classUnidenticalScore Is Nothing Then
-                classUnidenticalScore = Function(a, b) If(a <> b, 0, 1)
+            If classEquivalent Is Nothing Then
+                classEquivalent = Function(a, b) If(a <> b, 0, 1)
             End If
 
             ' 20191231
@@ -80,7 +80,7 @@ Namespace Analysis
                 top = -99999
 
                 For Each b As Node In y.vertex
-                    cos = Similarity.NodeSimilarity(a, b, classUnidenticalScore, topologyCos)
+                    cos = Similarity.NodeSimilarity(a, b, classEquivalent, topologyCos)
 
                     If cos > top Then
                         top = cos
@@ -104,12 +104,12 @@ Namespace Analysis
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         ''' <returns></returns>
-        Public Function NodeSimilarity(a As Node, b As Node, classUnidenticalScore As Func(Of String, String, Double), Optional topologyCos As Boolean = True) As Double
+        Public Function NodeSimilarity(a As Node, b As Node, classEquivalent As Func(Of String, String, Double), Optional topologyCos As Boolean = True) As Double
             ' consider the node itself
             ' if the two node is not in same datatype, then returns not similar
             Dim class1 As String = Scripting.ToString(a.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE))
             Dim class2 As String = Scripting.ToString(b.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE))
-            Dim score As Double = classUnidenticalScore(class1, class2)
+            Dim score As Double = classEquivalent(class1, class2)
 
             If score = 0.0 Then
                 Return 0
