@@ -152,7 +152,7 @@ Namespace Assembly.KEGG.WebServices
                         Call ex.PrintException
                         Call App.LogException(ex)
                     Finally
-                        msg = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                        msg = tick.ETA().FormatTime
                         msg = entry.EntryId & "  " & msg
 
                         progress.SetProgress(tick.StepProgress, msg)
@@ -199,7 +199,7 @@ Namespace Assembly.KEGG.WebServices
                 For Each entry As ListEntry In all
                     Try
                         url = KGML.pathway.ResourceURL(entry.entryId)
-                        msg = entry.description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                        msg = entry.description & " " & tick.ETA().FormatTime
                         bCode = r.Match(entry.entryId, "\d+").Value
                         path = $"{EXPORT}/{briteTable(bCode).GetPathCategory}/{entry.entryId}.Xml"
                         refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.entryId}"

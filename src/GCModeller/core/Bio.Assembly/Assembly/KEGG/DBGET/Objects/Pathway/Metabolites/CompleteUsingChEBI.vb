@@ -110,7 +110,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Call cpd.SaveAsXml(path)
                     End If
 EXIT_LOOP:
-                    ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    ETA = tick.ETA().FormatTime
                     Call progress.SetProgress(
                         tick.StepProgress,
                         details:=ETA)

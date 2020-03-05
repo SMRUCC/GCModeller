@@ -117,9 +117,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
                         Yield part
                     Next
 
-                    ETA = $"ETA=" & tick _
-                        .ETA(progress.ElapsedMilliseconds) _
-                        .FormatTime
+                    ETA = $"ETA=" & tick.ETA().FormatTime
 
                     progress.SetProgress(tick.StepProgress, ETA)
                 Next

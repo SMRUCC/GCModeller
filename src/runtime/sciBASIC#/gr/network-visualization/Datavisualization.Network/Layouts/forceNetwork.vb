@@ -110,9 +110,7 @@ Namespace Layouts
                 progress = New ProgressBar("Do Force Directed Layout...", 1, CLS:=clearScreen)
                 ticking = New ProgressProvider(progress, iterations)
                 tick = Sub(i%)
-                           ETA = "ETA=" & ticking _
-                               .ETA(progress.ElapsedMilliseconds) _
-                               .FormatTime
+                           ETA = "ETA=" & ticking.ETA().FormatTime
                            details = args & $" ({i}/{iterations}) " & ETA
                            progress.SetProgress(ticking.StepProgress, details)
                        End Sub

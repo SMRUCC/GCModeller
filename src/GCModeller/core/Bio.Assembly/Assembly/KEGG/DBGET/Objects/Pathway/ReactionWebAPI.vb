@@ -115,9 +115,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Dim tick As New ProgressProvider(progress, MaxReactionCount)
                 Dim ETA$
                 Dim doTick = Sub(cpdName As String)
-                                 ETA$ = tick _
-                                    .ETA(progress.ElapsedMilliseconds) _
-                                    .FormatTime
+                                 ETA$ = tick.ETA().FormatTime
+
                                  Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
                              End Sub
                 Dim count As Integer = 0
@@ -166,9 +165,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Dim tick As New ProgressProvider(progress, compoundArray.Length)
                 Dim ETA$
                 Dim doTick = Sub(cpdName As String)
-                                 ETA$ = tick _
-                                    .ETA(progress.ElapsedMilliseconds) _
-                                    .FormatTime
+                                 ETA$ = tick.ETA().FormatTime
+
                                  Call progress.SetProgress(tick.StepProgress, $"{cpdName}, ETA=" & ETA)
                              End Sub
 

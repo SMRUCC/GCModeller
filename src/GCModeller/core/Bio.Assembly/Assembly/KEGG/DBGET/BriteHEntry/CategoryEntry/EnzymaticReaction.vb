@@ -164,9 +164,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 Dim tick As New ProgressProvider(progress, sources.Length)
                 Dim ETA$
                 Dim doTick = Sub()
-                                 ETA$ = tick _
-                                    .ETA(progress.ElapsedMilliseconds) _
-                                    .FormatTime
+                                 ETA$ = tick.ETA().FormatTime
                                  Call progress.SetProgress(tick.StepProgress, "ETA=" & ETA)
                              End Sub
 

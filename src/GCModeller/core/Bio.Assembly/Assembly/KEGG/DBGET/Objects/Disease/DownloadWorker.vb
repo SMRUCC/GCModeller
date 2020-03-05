@@ -80,9 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         End Try
                     End If
 
-                    Dim ETA$ = tick _
-                        .ETA(progress.ElapsedMilliseconds) _
-                        .FormatTime
+                    Dim ETA$ = tick.ETA().FormatTime
 
                     Call progress.SetProgress(
                         tick.StepProgress(),

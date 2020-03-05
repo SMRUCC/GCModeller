@@ -481,7 +481,7 @@ Namespace Algebra.LinearProgramming
 
                     tick = Sub()
                                limiter += 1
-                               ETA = .ETA(progress.ElapsedMilliseconds).FormatTime
+                               ETA = .ETA().FormatTime
                                msg = $"Iteration {limiter}/{PIVOT_ITERATION_LIMIT}, ETA={ETA}"
                                progress.SetProgress(.StepProgress, msg)
                            End Sub

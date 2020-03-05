@@ -97,7 +97,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                     Dim entryId As String = entry.entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized, [class]:=key)
                     Dim xmlFile$ = $"{saveDIR}/{entryId}.xml"
-                    Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    Dim ETA$ = $"ETA={tick.ETA().FormatTime}"
                     Dim category As New NamedValue(Of BriteTerm)(key, entry)
 
                     Call query.Download(entryId, xmlFile, structInfo, category)

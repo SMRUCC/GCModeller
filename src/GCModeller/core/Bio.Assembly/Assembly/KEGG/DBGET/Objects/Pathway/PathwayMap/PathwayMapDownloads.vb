@@ -144,7 +144,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Call Thread.Sleep(10000)
                     End If
 EXIT_LOOP:
-                    Dim ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    Dim ETA = tick.ETA().FormatTime
                     Call progress.SetProgress(tick.StepProgress, "ETA " & ETA)
                 Next
             End Using

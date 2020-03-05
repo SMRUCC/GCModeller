@@ -257,7 +257,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                         Call query.Download(id, $"{saveDIR}/{id.Last}/{id}.xml", structInfo, Nothing)
                     End If
 
-                    details = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    details = $"ETA={tick.ETA().FormatTime}"
                     details = id & "   " & details
 
                     progress.SetProgress(tick.StepProgress, details)
