@@ -76,7 +76,7 @@ Partial Module CLI
             Dim i As Integer = 1
             Dim path As String = __path(EXPORT, motif)
 
-            Do While fa.NumberOfFasta < 6
+            Do While fa.Count < 6
                 Dim copy = sites.Select(Function(x) New FastaSeq({__title(x.Headers.First, i)}, x.SequenceData))
                 Call fa.AddRange(copy)
                 i += 1
