@@ -238,7 +238,7 @@ Public Module MetabolicComplementation
 
             For Each genome As Node In graph.vertex
                 genome.link(graph)
-                msg$ = $"ETA={ticks.ETA(progress.ElapsedMilliseconds).FormatTime}  // {genome.data.label}"
+                msg$ = $"ETA={ticks.ETA().FormatTime}  // {genome.data.label}"
                 progress.SetProgress(ticks.StepProgress, msg)
             Next
         End Using

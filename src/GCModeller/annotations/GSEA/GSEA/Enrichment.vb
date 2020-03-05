@@ -202,7 +202,7 @@ Public Module Enrichment
             progress = New ProgressBar("Do enrichment...")
             tick = New ProgressProvider(progress, genome.clusters.Length)
             doProgress = Sub(id)
-                             ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
+                             ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
                              progress.SetProgress(tick.StepProgress, ETA)
                          End Sub
         Else

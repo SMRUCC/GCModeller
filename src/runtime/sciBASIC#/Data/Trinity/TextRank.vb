@@ -201,7 +201,7 @@ Public Module TextRank
                     End If
                 Next
 
-                ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                ETA = tick.ETA().FormatTime
                 msg = list(x) & " " & ETA
 
                 Call progress.SetProgress(tick.StepProgress, details:=msg)

@@ -401,9 +401,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                     Call App.LogException(ex)
                 End Try
 
-                Call progress.SetProgress(
-                    tick.StepProgress(),
-                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
+                Call progress.SetProgress(tick.StepProgress(), "ETA " & tick.ETA().FormatTime)
             Next
         End Using
 

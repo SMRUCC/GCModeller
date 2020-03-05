@@ -134,7 +134,7 @@ Public Module SSRSearch
                         Dim ETA$
                         Dim msg$
                         Dim work = Sub(unit$)
-                                       ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                                       ETA = tick.ETA().FormatTime
                                        msg = $"{unit}...  ETA: {ETA}"
 
                                        Call progress.SetProgress(tick.StepProgress, msg)
@@ -210,7 +210,7 @@ Public Module SSRSearch
                            seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
                        Next
 
-                       ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                       ETA = tick.ETA().FormatTime
                        msg = $"{a}...  ETA: {ETA}"
 
                        Call progress.SetProgress(tick.StepProgress, msg)

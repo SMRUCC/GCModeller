@@ -169,7 +169,7 @@ Namespace Engine
                         Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
                     End If
 
-                    Call ($"iteration: {i + 1}; ETA: {progress.ETA(process.ElapsedMilliseconds).FormatTime}") _
+                    Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
                         .DoCall(Sub(msg)
                                     Call process.SetProgress(progress.StepProgress, msg)
                                 End Sub)

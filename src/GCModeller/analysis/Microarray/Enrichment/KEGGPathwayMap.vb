@@ -114,7 +114,7 @@ Public Module KEGGPathwayMap
                     failures += term.ID
                 End If
 
-                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
                 progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using
@@ -156,7 +156,7 @@ Public Module KEGGPathwayMap
                     failures += term.ID
                 End If
 
-                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
                 progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using

@@ -136,7 +136,7 @@ Namespace Regprecise
 
                 For i As Integer = 0 To list.Length - 1
                     genomes += doDownload(list(i), EXPORT, skip:=skip)
-                    ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    ETA = tick.ETA().FormatTime
                     message = $"{genomes(i).genome.name}  ETA: {ETA}"
                     progress.SetProgress(tick.StepProgress, message)
 
