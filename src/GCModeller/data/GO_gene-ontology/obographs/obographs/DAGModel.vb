@@ -159,7 +159,6 @@ Public Module DAGModel
                 .isDirected = True,
                 .weight = rel.type,
                 .data = New EdgeData With {
-                    .weight = rel.type,
                     .label = relLabel,
                     .Properties = New Dictionary(Of String, String) From {
                         {"relationship", rel.type.Description},

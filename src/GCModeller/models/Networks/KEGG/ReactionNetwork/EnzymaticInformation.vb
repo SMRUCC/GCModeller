@@ -103,11 +103,11 @@ Namespace ReactionNetwork
                        .U = nodes(enzyme),
                        .V = nodes(reaction.entry),
                        .data = New EdgeData With {
-                           .weight = 1,
                            .Properties = New Dictionary(Of String, String) From {
                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "catalyst"}
                            }
-                       }
+                       },
+                       .weight = 1
                     }
 
                     Call addNewEdge(edge)
@@ -120,13 +120,13 @@ Namespace ReactionNetwork
                     Dim edge As New Edge With {
                        .U = nodes(reaction.entry),
                        .V = nodes(compound),
+                       .weight = 1,
                        .data = New EdgeData With {
-                        .length = 1,
-                        .weight = 1,
-                        .Properties = New Dictionary(Of String, String) From {
-                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
-                            }
-                        }
+                           .length = 1,
+                           .Properties = New Dictionary(Of String, String) From {
+                               {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                           }
+                       }
                     }
 
                     If Not nodes.containsKey(compound) Then
@@ -140,9 +140,9 @@ Namespace ReactionNetwork
                     Dim edge As New Edge With {
                        .U = nodes(reaction.entry),
                        .V = nodes(compound),
+                       .weight = 1,
                        .data = New EdgeData With {
                           .length = 1,
-                          .weight = 1,
                           .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
                             }

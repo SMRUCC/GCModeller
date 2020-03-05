@@ -129,7 +129,7 @@ Namespace Regprecise
             Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
 
             Using progress As New ProgressBar("Download regprecise database...")
-                Dim tick As New ProgressProvider(total:=list.Length)
+                Dim tick As New ProgressProvider(progress, total:=list.Length)
                 Dim ETA$
                 Dim message$
                 Dim skip As Boolean = False

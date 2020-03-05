@@ -153,7 +153,7 @@ Namespace Engine
             End If
 
             Using process As New ProgressBar("Running simulator...")
-                Dim progress As New ProgressProvider(iterations)
+                Dim progress As New ProgressProvider(process, iterations)
                 Dim flux As Dictionary(Of String, Double)
 
                 For i As Integer = 0 To iterations

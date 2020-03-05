@@ -163,22 +163,22 @@ Namespace ReactionNetwork
                     .U = a,
                     .V = rNode,
                     .data = New EdgeData With {
-                        .weight = geneNames.geneNames.Length,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
-                    }
+                    },
+                    .weight = geneNames.geneNames.Length
                 }.DoCall(AddressOf addNewEdge)
 
                 Call New Edge With {
                     .U = rNode,
                     .V = b,
                     .data = New EdgeData With {
-                        .weight = geneNames.geneNames.Length,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
-                    }
+                    },
+                    .weight = geneNames.geneNames.Length
                 }.DoCall(AddressOf addNewEdge)
             Next
         End Sub

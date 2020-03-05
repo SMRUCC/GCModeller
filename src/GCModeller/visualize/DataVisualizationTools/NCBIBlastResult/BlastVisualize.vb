@@ -757,7 +757,7 @@ CONTINUTE:
                 Dim IDannos As New Dictionary(Of Integer, String)
 
                 Using proc As New ProgressBar("Drawing alignment hit regions...", 1, CLS:=True)
-                    Dim pp As New ProgressProvider(spList.Length)
+                    Dim pp As New ProgressProvider(proc, spList.Length)
                     Dim p_ID As Integer = 1
 
                     For Each hit In spList

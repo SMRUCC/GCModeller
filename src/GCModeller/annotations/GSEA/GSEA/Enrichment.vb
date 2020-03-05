@@ -99,15 +99,17 @@ Public Module Enrichment
 
         Dim doProgress As Action(Of String)
         Dim progress As ProgressBar = Nothing
-        Dim tick As New ProgressProvider(genome.clusters.Length)
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
 
         If showProgress Then
+            Dim tick As ProgressProvider
+
             progress = New ProgressBar("Do enrichment...")
+            tick = New ProgressProvider(progress, genome.clusters.Length)
             doProgress = Sub(id)
-                             ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
+                             ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
                              progress.SetProgress(tick.StepProgress, ETA)
                          End Sub
         Else
@@ -190,13 +192,15 @@ Public Module Enrichment
 
         Dim doProgress As Action(Of String)
         Dim progress As ProgressBar = Nothing
-        Dim tick As New ProgressProvider(genome.clusters.Length)
         Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
 
         If showProgress Then
+            Dim tick As ProgressProvider
+
             progress = New ProgressBar("Do enrichment...")
+            tick = New ProgressProvider(progress, genome.clusters.Length)
             doProgress = Sub(id)
                              ETA = $"{id}.... ETA: {tick.ETA(progress.ElapsedMilliseconds)}"
                              progress.SetProgress(tick.StepProgress, ETA)
