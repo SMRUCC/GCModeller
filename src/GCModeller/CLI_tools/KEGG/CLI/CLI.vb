@@ -381,7 +381,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
             .ToArray
 
         Using progress As New ProgressBar("Download KO database...", 1, CLS:=True)
-            Dim tick As New ProgressProvider(entries.Length)
+            Dim tick As New ProgressProvider(progress, entries.Length)
 
             WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
 

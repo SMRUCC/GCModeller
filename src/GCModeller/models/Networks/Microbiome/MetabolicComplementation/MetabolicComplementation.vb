@@ -233,7 +233,7 @@ Public Module MetabolicComplementation
 
     <Extension> Private Sub linkNodes(graph As NetworkGraph)
         Using progress As New ProgressBar("Link networks...", 1, CLS:=True)
-            Dim ticks As New ProgressProvider(graph.vertex.Count)
+            Dim ticks As New ProgressProvider(progress, graph.vertex.Count)
             Dim msg$
 
             For Each genome As Node In graph.vertex

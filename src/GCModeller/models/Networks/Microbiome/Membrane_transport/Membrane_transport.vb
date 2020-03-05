@@ -186,8 +186,7 @@ Public Module Membrane_transport
                                   .Properties = New Dictionary(Of String, String) From {
                                       {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, direction},
                                       {"reaction", ecNumber}
-                                  },
-                                  .weight = supports
+                                  }
                               },
                               .weight = supports
                           }

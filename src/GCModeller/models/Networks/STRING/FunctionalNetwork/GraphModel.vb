@@ -72,9 +72,8 @@ Public Module GraphModel
             gEdges += New Edge With {
                 .U = gNodes(edge.node1),
                 .V = gNodes(edge.node2),
-                .Data = New EdgeData With {
-                    .weight = edge.combined_score
-                }
+                .data = New EdgeData,
+                .weight = edge.combined_score
             }
         Next
 
