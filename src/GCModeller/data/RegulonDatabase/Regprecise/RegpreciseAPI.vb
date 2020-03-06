@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::a27e46fda70e4a8e799268e9f683930e, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RegpreciseAPI
-    ' 
-    '         Function: __exportMotif, __exportMotifs, __getFastaCollection, __getTfFamilies, __matches
-    '                   (+2 Overloads) Compile, Distinct, Download, DownloadRegulatorSequence, Export
-    '                   ExportBySpecies, ExportMotifs, FamilyStatics, FamilyStatics2, GenerateDatabase
-    '                   GenerateFastaData, InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml
-    '                   ReGenerate, RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
-    ' 
-    '         Sub: __mergeAction
-    '         Interface IRegulatorMatched
-    ' 
-    '             Properties: Address, Family, locusId
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RegpreciseAPI
+' 
+'         Function: __exportMotif, __exportMotifs, __getFastaCollection, __getTfFamilies, __matches
+'                   (+2 Overloads) Compile, Distinct, Download, DownloadRegulatorSequence, Export
+'                   ExportBySpecies, ExportMotifs, FamilyStatics, FamilyStatics2, GenerateDatabase
+'                   GenerateFastaData, InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml
+'                   ReGenerate, RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
+' 
+'         Sub: __mergeAction
+'         Interface IRegulatorMatched
+' 
+'             Properties: Address, Family, locusId
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,10 +57,12 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
@@ -275,7 +277,7 @@ Rodionov, D. A.", Volume:=14)>
         <ExportAPI("Regprecise.ExportMotifs.By.Species")>
         Public Function ExportBySpecies(Regprecise As TranscriptionFactors,
                                         <Parameter("DIR.Export")> ExportDir As String) As Boolean
-            Dim TFFamilies As String() = __getTfFamilies(Regprecise)
+            Dim TFFamilies As String() = GetTfFamilies(Regprecise)
             Dim TFSitesFasta = __getFastaCollection(Regprecise)
             Dim LQuery = (From Family As String
                           In TFFamilies.AsParallel
@@ -385,64 +387,42 @@ Rodionov, D. A.", Volume:=14)>
             Return ChunkBuffer.ToArray
         End Function
 
-        <ExportAPI("Export.Regprecise.MotifsSequence")>
-        Public Function ExportMotifs(Regprecise As TranscriptionFactors) As FASTA.FastaFile
-            Return Regprecise.Export_TFBSInfo
-        End Function
-
         ''' <summary>
-        ''' 
+        ''' Export regulatory site from given database by family
         ''' </summary>
         ''' <param name="Regprecise"></param>
-        ''' <param name="outDIR"></param>
         ''' <returns></returns>
-        <ExportAPI("Regprecise.ExportMotifs")>
-        Public Function Export(Regprecise As TranscriptionFactors, outDIR As String) As Boolean
-            Dim TFFamilies = __getTfFamilies(Regprecise)
-            Dim ChunkBuffer As Dictionary(Of String, FASTA.FastaFile) = New Dictionary(Of String, FASTA.FastaFile)
+        Public Function ExportByFamily(Regprecise As TranscriptionFactors) As Dictionary(Of String, FastaFile)
+            Dim TFFamilies = GetTfFamilies(Regprecise)
+            Dim buffer As Dictionary(Of String, FastaFile) = TFFamilies _
+                .ToDictionary(Function(name) name,
+                              Function()
+                                  Return New FastaFile
+                              End Function)
 
-            For Each TFFamily As String In TFFamilies
-                Call ChunkBuffer.Add(TFFamily, New FASTA.FastaFile)
-            Next
-
-            For Each BacterialGenome In Regprecise.genomes
-                For Each Regulon In BacterialGenome.regulome.regulators
-                    If Regulon.type = Types.RNA Then
+            For Each genome As BacteriaRegulome In Regprecise.genomes
+                For Each regulon As Regulator In genome.regulome.regulators
+                    If regulon.type = Types.RNA Then
                         Continue For
                     End If
 
-                    Dim FastaFile = ChunkBuffer(Regulon.family)
-                    Call FastaFile.AddRange(Regulon.ExportMotifs)
+                    Call buffer(regulon.family).AddRange(regulon.ExportMotifs)
                 Next
             Next
 
-            For Each item In ChunkBuffer
-                Dim FastaFile = item.Value
-                For i As Integer = 0 To FastaFile.Count - 1
-                    Dim FastaObject = FastaFile(i)
-                    Dim attrs = FastaObject.Headers.AsList
-                    attrs(0) = String.Format("lcl_{0} ", i) & attrs.First
-                    FastaObject.Headers = attrs.ToArray
-                Next
-                Call FastaFile.Save(String.Format("{0}/{1}.fasta", outDIR, item.Key))
-            Next
-
-            Return True
+            Return buffer
         End Function
 
-        Private Function __getTfFamilies(Regprecise As TranscriptionFactors) As String()
-            Dim Chunkbuffer As List(Of String) = New List(Of String)
-
-            For Each BacterialGenome As BacteriaRegulome In Regprecise.genomes
-                Call Chunkbuffer.AddRange((From regulator As Regulator
-                                           In BacterialGenome.regulome.regulators
-                                           Where regulator.type = Types.TF
-                                           Select regulator.family).ToArray)
-            Next
-
-            Return (From strValue As String
-                    In Chunkbuffer
-                    Select strValue Distinct).ToArray
+        <Extension>
+        Public Function GetTfFamilies(RegPrecise As TranscriptionFactors) As String()
+            Return RegPrecise.genomes _
+                .Select(Function(genome) genome.regulome.regulators) _
+                .IteratesALL _
+                .Where(Function(reg) reg.type = Types.TF) _
+                .Select(Function(reg) reg.family) _
+                .Distinct _
+                .OrderBy(Function(name) name) _
+                .ToArray
         End Function
 
         ''' <summary>
