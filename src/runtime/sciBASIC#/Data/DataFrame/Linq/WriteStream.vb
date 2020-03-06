@@ -225,6 +225,9 @@ Namespace IO.Linq
             Return Flush(DirectCast(any, T))
         End Function
 
+        ''' <summary>
+        ''' The base stream flush method is called automatically at dispose process
+        ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Flush()
             Call _fileIO.Flush()

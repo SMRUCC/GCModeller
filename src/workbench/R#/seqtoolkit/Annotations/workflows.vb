@@ -56,7 +56,7 @@ Module workflows
     End Function
 
     <ExportAPI("blasthit.bbh")>
-    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline
+    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive, Optional env As Environment = Nothing) As pipeline
         If forward Is Nothing Then
             Return REnv.Internal.debug.stop("No forward alignment data!", env)
         ElseIf reverse Is Nothing Then
@@ -145,4 +145,10 @@ End Module
 Public Enum TableTypes
     SBH
     BBH
+End Enum
+
+Public Enum BBHAlgorithm
+    Naive
+    BHR
+    TaxonomySupports
 End Enum
