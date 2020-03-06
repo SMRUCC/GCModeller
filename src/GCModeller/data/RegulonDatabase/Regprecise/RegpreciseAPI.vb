@@ -392,6 +392,8 @@ Rodionov, D. A.", Volume:=14)>
         ''' </summary>
         ''' <param name="Regprecise"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function ExportByFamily(Regprecise As TranscriptionFactors) As Dictionary(Of String, FastaFile)
             Dim TFFamilies = GetTfFamilies(Regprecise)
             Dim buffer As Dictionary(Of String, FastaFile) = TFFamilies _
