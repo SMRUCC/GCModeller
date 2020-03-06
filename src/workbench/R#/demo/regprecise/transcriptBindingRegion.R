@@ -12,7 +12,7 @@ let region.fasta = allocate(length(geneId));
 
 for(i in 1:length(geneId)) {
 	region.fasta[i] <- nt :> cut_seq.linear(loci = region[i]);
-	as.object(region.fasta[i])$Headers = geneId;
+	as.object(region.fasta[i])$Headers = geneId[i];
 }
 
-region.fasta :> write.fasta(file = "K:\20200226\TRN\genomics\nt.fasta");
+region.fasta :> write.fasta(file = "K:\20200226\TRN\genomics\nt.fasta", lineBreak = 60);

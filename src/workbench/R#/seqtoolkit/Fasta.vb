@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -117,33 +118,35 @@ Module Fasta
     Public Function GetFastaSeq(a As Object) As IEnumerable(Of FastaSeq)
         If a Is Nothing Then
             Return {}
-        Else
-            Dim type As Type = a.GetType
-
-            Select Case type
-                Case GetType(FastaSeq)
-                    Return {DirectCast(a, FastaSeq)}
-                Case GetType(FastaFile)
-                    Return DirectCast(a, FastaFile)
-                Case GetType(FastaSeq())
-                    Return a
-                Case Else
-                    If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
-                        Dim populator As IEnumerable(Of FastaSeq) =
-                            Iterator Function() As IEnumerable(Of FastaSeq)
-                                Dim vec As Array = DirectCast(a, Array)
-
-                                For i As Integer = 0 To vec.Length - 1
-                                    Yield DirectCast(vec.GetValue(i), FastaSeq)
-                                Next
-                            End Function()
-
-                        Return populator
-                    Else
-                        Return Nothing
-                    End If
-            End Select
+        ElseIf TypeOf a Is vector Then
+            a = DirectCast(a, vector).data
         End If
+
+        Dim type As Type = a.GetType
+
+        Select Case type
+            Case GetType(FastaSeq)
+                Return {DirectCast(a, FastaSeq)}
+            Case GetType(FastaFile)
+                Return DirectCast(a, FastaFile)
+            Case GetType(FastaSeq())
+                Return a
+            Case Else
+                If type.IsArray AndAlso REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
+                    Dim populator As IEnumerable(Of FastaSeq) =
+                        Iterator Function() As IEnumerable(Of FastaSeq)
+                            Dim vec As Array = DirectCast(a, Array)
+
+                            For i As Integer = 0 To vec.Length - 1
+                                Yield DirectCast(vec.GetValue(i), FastaSeq)
+                            Next
+                        End Function()
+
+                    Return populator
+                Else
+                    Return Nothing
+                End If
+        End Select
     End Function
 
     ''' <summary>
@@ -174,7 +177,10 @@ Module Fasta
     ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
     ''' <returns></returns>
     <ExportAPI("write.fasta")>
-    Public Function writeFasta(seq As Object, file$, Optional lineBreak% = -1, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+    Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
+                               Optional lineBreak% = -1,
+                               Optional encoding As Encodings = Encodings.ASCII) As Boolean
+
         Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
     End Function
 
@@ -322,7 +328,9 @@ Module Fasta
     End Function
 
     <ExportAPI("cut_seq.linear")>
-    Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object, loci As Object, Optional env As Environment = Nothing) As Object
+    Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
+                                      <RRawVectorArgument> loci As Object,
+                                      Optional env As Environment = Nothing) As Object
         If seq Is Nothing Then
             Return Nothing
         ElseIf loci Is Nothing Then

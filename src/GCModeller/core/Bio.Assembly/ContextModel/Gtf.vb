@@ -29,7 +29,7 @@ Namespace ContextModel
                 .Select(AddressOf GetTagValue) _
                 .ToDictionary(Function(t) t.Name,
                               Function(t)
-                                  Return t.Value
+                                  Return t.Value.Trim(""""c, " "c)
                               End Function)
             Dim geneId As String = info!gene_id
 

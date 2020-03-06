@@ -19,11 +19,15 @@ Module genomics
     Public Function getUpstream(<RRawVectorArgument> context As GeneBrief(), Optional length% = 200) As NucleotideLocation()
         Return context _
             .Select(Function(gene)
-                        If gene.Location.Strand = Strands.Forward Then
-                            Return gene.Location - length
+                        Dim loci As NucleotideLocation = gene.Location
+
+                        If loci.Strand = Strands.Forward Then
+                            loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward)
                         Else
-                            Return gene.Location + length
+                            loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse)
                         End If
+
+                        Return loci
                     End Function) _
             .ToArray
     End Function
