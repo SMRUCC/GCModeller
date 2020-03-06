@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F0522DC-94EF-47B9-9F12-BAE1D20D8AB8}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GCModeller_cli</RootNamespace>
+    <RootNamespace>GCModeller</RootNamespace>
     <AssemblyName>GCModeller_cli</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
@@ -105,11 +105,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="settings.vb" />
     <Compile Include="CLI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -148,5 +150,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
