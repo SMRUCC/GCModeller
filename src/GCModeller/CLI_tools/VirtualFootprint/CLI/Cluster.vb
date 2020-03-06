@@ -128,7 +128,7 @@ Partial Module CLI
     ''' <param name="seq"></param>
     ''' <returns></returns>
     Private Iterator Function alloacte(seq As FastaFile, clone? As Boolean) As IEnumerable(Of KeyValuePair(Of FastaSeq, FastaFile))
-        Dim prog As New EventProc(seq.NumberOfFasta, "Allocate Memory")
+        Dim prog As New EventProc(seq.Count, "Allocate Memory")
 
         For Each x As FastaSeq In seq
             If clone Then

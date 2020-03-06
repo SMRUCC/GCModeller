@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
@@ -65,6 +66,7 @@ Module Fasta
 
     Sub New()
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
+        Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
         Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf viewAssembles)
     End Sub
@@ -94,13 +96,18 @@ Module Fasta
             Return "NULL"
         End If
 
-        Select Case seq
+        Select Case seq.GetType
             Case GetType(FastaSeq)
                 With DirectCast(seq, FastaSeq)
                     Return "> " & .Title & ASCII.LF & .SequenceData
                 End With
             Case GetType(FastaFile)
-                Return DirectCast(seq, FastaFile).Select(Function(fa) "> " & fa.Title).JoinBy(vbCrLf)
+                With DirectCast(seq, FastaFile)
+                    Return $"Fasta collection contains { .Count} fasta sequence:" & vbCrLf & vbCrLf &
+                        .Take(10) _
+                        .Select(Function(fa) "> " & fa.Title) _
+                        .JoinBy(vbCrLf) & vbCrLf & "..."
+                End With
             Case Else
                 Throw New NotImplementedException
         End Select
@@ -297,6 +304,41 @@ Module Fasta
         Dim result = data.ShortestCommonSuperString
 
         Return New AssembleResult(result)
+    End Function
+
+    <ExportAPI("cut_seq.linear")>
+    Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object, left%, length%, Optional env As Environment = Nothing) As Object
+        If seq Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf seq Is FastaSeq Then
+            Dim fa = DirectCast(seq, FastaSeq)
+            Dim sequence = fa.CutSequenceLinear(left, left + length)
+
+            Return New FastaSeq With {
+                .Headers = fa.Headers.ToArray,
+                .SequenceData = sequence.SequenceData
+            }
+        Else
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(NT)
+
+            If collection Is Nothing Then
+                Return REnv.Internal.debug.stop(New NotImplementedException(NT.GetType.FullName), env)
+            Else
+                collection = collection _
+                    .Select(Function(fa)
+                                Dim sequence = fa.CutSequenceLinear(left, left + length)
+                                Dim fragment As New FastaSeq With {
+                                    .Headers = fa.Headers.ToArray,
+                                    .SequenceData = sequence.SequenceData
+                                }
+
+                                Return fragment
+                            End Function) _
+                    .ToArray
+
+                Return New FastaFile(collection)
+            End If
+        End If
     End Function
 End Module
 
