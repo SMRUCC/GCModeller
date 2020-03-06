@@ -138,7 +138,7 @@ Namespace Regprecise
                 () <= From fa As Regtransbase.WebServices.MotifFasta
                       In regulatorySites
                       Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
-                      Let t As String = $"[gene={fa.locus_tag}:{fa.position}] [family={family}] [regulog={regulog.name}]"
+                      Let t As String = $"{fa.locus_tag}:{fa.position} [family={family}] [regulog={regulog.name}]"
                       Let attrs = New String() {t}
                       Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(fa)
                       Select New FASTA.FastaSeq With {
