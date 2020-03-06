@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise
@@ -199,6 +200,17 @@ Partial Module CLI
         End If
 
         Return ResultSet.SaveTo(args("/out")).CLICode
+    End Function
+
+    <ExportAPI("/model.save")>
+    <Description("/model.save /model <meme.txt> [/out <model.xml>]")>
+    Public Function SaveModel(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.xml"
+        Dim motifs As Motif() = DocumentFormat.MEME.Text.Load([in])
+        Dim models As SequenceMotif() = motifs.CreateMotifModels.ToArray
+
+        Return models.GetXml.SaveTo(out).CLICode
     End Function
 
     '''' <summary>

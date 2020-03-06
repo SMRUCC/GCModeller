@@ -322,6 +322,10 @@
       <Project>{eeb2bb03-20b0-4381-8a9e-e2210eb568a5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
+      <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
+      <Name>MotifScanner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
       <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
       <Name>SequencePatterns.Abstract</Name>

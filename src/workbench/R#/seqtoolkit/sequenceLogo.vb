@@ -71,8 +71,8 @@ Module sequenceLogo
             Dim type As Type = MSA.GetType
 
             Select Case type
-                Case GetType(Motif)
-                    data = DirectCast(MSA, Motif).seeds.ToFasta
+                Case GetType(SequenceMotif)
+                    data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
                 Case Else
                     Return REnv.debug.stop(New InvalidProgramException, env)
             End Select

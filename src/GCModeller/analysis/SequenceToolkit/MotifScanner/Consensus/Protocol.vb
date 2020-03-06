@@ -69,7 +69,7 @@ Public Module Protocol
     <Extension>
     Public Iterator Function PopulateMotifs(inputs As IEnumerable(Of FastaSeq),
                                             Optional leastN% = 5,
-                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+                                            Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
 
         Dim regions As FastaSeq() = inputs.ToArray
 
@@ -109,7 +109,7 @@ Public Module Protocol
                             Return New FastaSeq With {.SequenceData = seq, .Headers = {""}}
                         End Function) _
                 .MultipleAlignment(Nothing)
-            Dim motif As Motif = MSA.PWM(members:=regions, param:=param)
+            Dim motif As SequenceMotif = MSA.PWM(members:=regions, param:=param)
 
             If motif.score > 0 Then
                 Yield motif
@@ -124,7 +124,7 @@ Public Module Protocol
     ''' <param name="members"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As Motif
+    Private Function PWM(alignment As MSAOutput, members As FastaSeq(), param As PopulatorParameter) As SequenceMotif
         Dim residues As New List(Of Probability.Residue)
         Dim nt = {"A"c, "T"c, "G"c, "C"c}
         Dim MSA = alignment.MSA
@@ -163,7 +163,7 @@ Public Module Protocol
             .AsVector
         Dim pvalue# = t.Test(scores, Vector.Zero(Dim:=scores.Length), Hypothesis.TwoSided).Pvalue
 
-        Return New Motif With {
+        Return New SequenceMotif With {
             .region = residues,
             .pvalue = pvalue,
             .score = scores.Sum,

@@ -51,7 +51,7 @@ Module patterns
                               Optional minw% = 6,
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
-                              Optional noccurs% = 6) As Motif()
+                              Optional noccurs% = 6) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
@@ -60,7 +60,7 @@ Module patterns
             .ScanMinW = 6,
             .ScanCutoff = 0.8
         }
-        Dim motifs As Motif() = GetFastaSeq(fasta) _
+        Dim motifs As SequenceMotif() = GetFastaSeq(fasta) _
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param

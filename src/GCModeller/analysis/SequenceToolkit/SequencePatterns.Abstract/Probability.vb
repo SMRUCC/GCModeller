@@ -52,6 +52,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
+''' <summary>
+''' The PWM model
+''' </summary>
 Public Class Probability
 
     Public Property region As Residue()
