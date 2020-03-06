@@ -197,6 +197,10 @@ Namespace Distributions
         <Extension>
         Public Function TabulateMode(data As IEnumerable(Of Double)) As Double
             With data.ToArray
+                If .Length = 0 Then
+                    Return 0
+                End If
+
                 Dim hist = .Hist([step]:=New DoubleRange(.Min, .Max).Length / 5).ToArray
                 Dim maxN = Which.Max(hist.Select(Function(bin) bin.Count))
                 Dim resample As Double()
