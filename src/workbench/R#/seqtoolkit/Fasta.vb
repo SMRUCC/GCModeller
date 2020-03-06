@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
@@ -307,12 +308,35 @@ Module Fasta
     End Function
 
     <ExportAPI("cut_seq.linear")>
-    Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object, left%, length%, Optional env As Environment = Nothing) As Object
+    Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object, loci As Object, Optional env As Environment = Nothing) As Object
         If seq Is Nothing Then
             Return Nothing
-        ElseIf TypeOf seq Is FastaSeq Then
+        ElseIf loci Is Nothing Then
+            Return REnv.Internal.debug.stop("Location information can not be null!", env)
+        End If
+
+        Dim left, right As Integer
+
+        If TypeOf loci Is Location Then
+            With DirectCast(loci, Location)
+                left = .Min
+                right = .Max
+            End With
+        ElseIf TypeOf loci Is NucleotideLocation Then
+            With DirectCast(loci, NucleotideLocation)
+                left = .Min
+                right = .Max
+            End With
+        Else
+            With REnv.asVector(Of Long)(loci)
+                left = .GetValue(0)
+                right = .GetValue(1)
+            End With
+        End If
+
+        If TypeOf seq Is FastaSeq Then
             Dim fa = DirectCast(seq, FastaSeq)
-            Dim sequence = fa.CutSequenceLinear(left, left + length)
+            Dim sequence = fa.CutSequenceLinear(left, right)
 
             Return New FastaSeq With {
                 .Headers = fa.Headers.ToArray,
@@ -326,7 +350,7 @@ Module Fasta
             Else
                 collection = collection _
                     .Select(Function(fa)
-                                Dim sequence = fa.CutSequenceLinear(left, left + length)
+                                Dim sequence = fa.CutSequenceLinear(left, right)
                                 Dim fragment As New FastaSeq With {
                                     .Headers = fa.Headers.ToArray,
                                     .SequenceData = sequence.SequenceData

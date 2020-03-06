@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::7df4821f63f800f6ac414a3ba4507919, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class NucleotideLocation
-    ' 
-    '         Properties: Ends, IsValid, Start, Strand, Tag
-    ' 
-    '         Constructor: (+12 Overloads) Sub New
-    '         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship
-    '                   (+2 Overloads) GetUpStreamLoci, LociIsContact, MoveFrame, Normalization, Parse
-    '                   ToString
-    '         Operators: -, +
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class NucleotideLocation
+' 
+'         Properties: Ends, IsValid, Start, Strand, Tag
+' 
+'         Constructor: (+12 Overloads) Sub New
+'         Function: Copy, (+3 Overloads) CreateObject, Equals, GetDownStream, GetRelationship
+'                   (+2 Overloads) GetUpStreamLoci, LociIsContact, MoveFrame, Normalization, Parse
+'                   ToString
+'         Operators: -, +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -90,9 +90,9 @@ Namespace ComponentModel.Loci
         Public Overridable ReadOnly Property Start As Integer
             Get
                 If Strand = Strands.Forward Then
-                    Return MyBase.Left
+                    Return MyBase.left
                 Else
-                    Return MyBase.Right  '因为在位置对象之中，左右位置自动更正为左小右大的情况
+                    Return MyBase.right  '因为在位置对象之中，左右位置自动更正为左小右大的情况
                 End If
             End Get
         End Property
@@ -108,9 +108,9 @@ Namespace ComponentModel.Loci
         Public Overridable ReadOnly Property Ends As Integer
             Get
                 If Strand = Strands.Forward Then
-                    Return MyBase.Right
+                    Return MyBase.right
                 Else
-                    Return MyBase.Left
+                    Return MyBase.left
                 End If
             End Get
         End Property
@@ -125,15 +125,15 @@ Namespace ComponentModel.Loci
 
             If Strand = Strands.Forward Then
                 ' 正向链，则是上游在前面
-                Return Left - Distance
+                Return left - Distance
             Else
                 ' 反向链，则是上游在后面
-                Return Right + Distance
+                Return right + Distance
             End If
         End Function
 
         Public Overloads Function Copy() As NucleotideLocation
-            Return New NucleotideLocation(Left, Right, Strand)
+            Return New NucleotideLocation(left, right, Strand)
         End Function
 
         ''' <summary>
@@ -148,13 +148,13 @@ Namespace ComponentModel.Loci
         End Function
 
         Public Function GetDownStream(Distance As Integer) As NucleotideLocation
-            Dim loci As Integer = If(Me.Strand = Strands.Forward, Right + Distance, Left - Distance)
+            Dim loci As Integer = If(Me.Strand = Strands.Forward, right + Distance, left - Distance)
             Return New NucleotideLocation(Me.Ends + 1, loci, Strand)
         End Function
 
         Public Function MoveFrame(Offset As Integer) As NucleotideLocation
-            Right += Offset
-            Left += Offset
+            right += Offset
+            left += Offset
             Return Me
         End Function
 
@@ -169,20 +169,20 @@ Namespace ComponentModel.Loci
         Sub New(loci As Location, strand As Strands)
             Call loci.Normalization()
 
-            MyBase.Left = loci.Left
-            MyBase.Right = loci.Right
+            MyBase.left = loci.left
+            MyBase.right = loci.right
             Me.Strand = strand
         End Sub
 
         Sub New(loci As ILocationComponent, Optional strand As Strands = Strands.Forward)
-            MyBase.Left = loci.left
-            MyBase.Right = loci.right
+            MyBase.left = loci.left
+            MyBase.right = loci.right
             Me.Strand = strand
         End Sub
 
         Public Sub New(Copy As NucleotideLocation)
-            MyBase.Left = Copy.Left
-            MyBase.Right = Copy.Right
+            MyBase.left = Copy.left
+            MyBase.right = Copy.right
             Me.Strand = Copy.Strand
         End Sub
 
@@ -208,8 +208,8 @@ Namespace ComponentModel.Loci
         ''' <param name="LociEnds"></param>
         ''' <param name="Strand">会自动通过<see cref="GetStrand(String)"/>函数来进行数据类型的转换的</param>
         Sub New(LociStart As Long, LociEnds As Long, Strand As String)
-            MyBase.Left = LociStart
-            MyBase.Right = LociEnds
+            MyBase.left = LociStart
+            MyBase.right = LociEnds
             Me.Strand = GetStrand(Strand)
         End Sub
 
@@ -225,8 +225,8 @@ Namespace ComponentModel.Loci
         End Sub
 
         Public Sub New(LociStart As Long, LociEnds As Long, Strand As Strands)
-            MyBase.Left = LociStart
-            MyBase.Right = LociEnds
+            MyBase.left = LociStart
+            MyBase.right = LociEnds
             Me.Strand = Strand
         End Sub
 
@@ -238,8 +238,8 @@ Namespace ComponentModel.Loci
         ''' <param name="ComplementStrand">这个片段是否位于DNA上面的互补链或者是否为反向序列</param>
         ''' <remarks></remarks>
         Public Sub New(_start As Integer, _ends As Integer, ComplementStrand As Boolean)
-            MyBase.Left = _start
-            MyBase.Right = _ends
+            MyBase.left = _start
+            MyBase.right = _ends
             Me.Strand = If(ComplementStrand, Strands.Reverse, Strands.Forward)
         End Sub
 
@@ -249,8 +249,8 @@ Namespace ComponentModel.Loci
         ''' <param name="start"></param>
         ''' <param name="Ends"></param>
         Public Sub New(start As Integer, Ends As Integer)
-            MyBase.Left = start
-            MyBase.Right = Ends
+            MyBase.left = start
+            MyBase.right = Ends
             If start < Ends Then
                 Me.Strand = Strands.Forward '默认为正向链
             Else
@@ -266,8 +266,8 @@ Namespace ComponentModel.Loci
         ''' <param name="ComplementStrand">这个片段是否位于DNA上面的互补链或者是否为反向序列</param>
         ''' <remarks></remarks>
         Public Sub New(_start As Long, _ends As Long, ComplementStrand As Boolean)
-            MyBase.Left = _start
-            MyBase.Right = _ends
+            MyBase.left = _start
+            MyBase.right = _ends
             Me.Strand = If(ComplementStrand, Strands.Reverse, Strands.Forward)
         End Sub
 
@@ -358,7 +358,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"{Left} ==> {Right} #{Strand.ToString}"
+            Return $"{left} ==> {right} #{Strand.ToString}"
         End Function
 
         ''' <summary>
@@ -368,7 +368,7 @@ Namespace ComponentModel.Loci
         Public ReadOnly Property IsValid As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Not (Left = 0 OrElse Right = 0)
+                Return Not (left = 0 OrElse right = 0)
             End Get
         End Property
 
@@ -384,12 +384,12 @@ Namespace ComponentModel.Loci
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator +(loci As NucleotideLocation, offset%) As NucleotideLocation
-            Return New NucleotideLocation(loci.Left + offset, loci.Right + offset, loci.Strand)
+            Return New NucleotideLocation(loci.left + offset, loci.right + offset, loci.Strand)
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator -(loci As NucleotideLocation, offset%) As NucleotideLocation
-            Return loci + -offset
+            Return New NucleotideLocation(loci.left - offset, loci.right - offset, loci.Strand)
         End Operator
     End Class
 End Namespace
