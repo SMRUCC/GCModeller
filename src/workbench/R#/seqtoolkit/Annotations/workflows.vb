@@ -9,7 +9,6 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
-Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -20,14 +19,38 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module workflows
 
     <ExportAPI("blasthit.sbh")>
-    Public Function ExportSBHHits(query As pipeline, Optional idetities As Double = 0.3, Optional coverage As Double = 0.5, Optional env As Environment = Nothing) As pipeline
+    Public Function ExportSBHHits(query As pipeline,
+                                  Optional idetities As Double = 0.3,
+                                  Optional coverage As Double = 0.5,
+                                  Optional topBest As Boolean = False,
+                                  Optional keepsRawName As Boolean = False,
+                                  Optional env As Environment = Nothing) As pipeline
+
         If query Is Nothing Then
             Return Nothing
         ElseIf Not query.elementType.raw Is GetType(Query) Then
             Return REnv.Internal.debug.stop($"Invalid pipeline data type: {query.elementType.ToString}", env)
         End If
 
+        Dim hitsPopulator As Func(Of IEnumerable(Of BestHit()))
 
+        If topBest Then
+            hitsPopulator = Iterator Function() As IEnumerable(Of BestHit())
+                                For Each q As Query In query.populates(Of Query)
+                                    Yield {
+                                        v228.SBHLines(q, coverage, idetities, keepsRawQueryName:=keepsRawName)(Scan0)
+                                    }
+                                Next
+                            End Function
+        Else
+            hitsPopulator = Iterator Function() As IEnumerable(Of BestHit())
+                                For Each q As Query In query.populates(Of Query)
+                                    Yield v228.SBHLines(q, coverage, idetities, keepsRawQueryName:=keepsRawName)
+                                Next
+                            End Function
+        End If
+
+        Return New pipeline(hitsPopulator(), GetType(Query))
     End Function
 
     <ExportAPI("grep.names")>
