@@ -115,7 +115,11 @@ Rodionov, D. A.", Volume:=14)>
             Return genomes.ToArray.GetXml.SaveTo(SaveTo)
         End Function
 
-        <ExportAPI("Wget.Regprecise", Info:="Download the whole regprecise database for each bacteria genome.")>
+        ''' <summary>
+        ''' Download the whole regprecise database for each bacteria genome.
+        ''' </summary>
+        ''' <param name="outDIR"></param>
+        ''' <returns></returns>
         Public Function Download(<Parameter("Export.DIR", "Directory for save the temp data.")> Optional outDIR As String = "") As TranscriptionFactors
             If String.IsNullOrEmpty(outDIR) Then
                 outDIR = My.Computer.FileSystem.SpecialDirectories.Temp
@@ -171,7 +175,6 @@ Rodionov, D. A.", Volume:=14)>
         ''' <param name="Regprecise"></param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        <ExportAPI("Wget.Regprecise.Regulators", Info:="Download regprecise regulator protein sequence from kegg database.")>
         Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, Optional EXPORT As String = "") As FASTA.FastaFile
             If String.IsNullOrEmpty(EXPORT) Then
                 EXPORT = My.Computer.FileSystem.SpecialDirectories.Temp
@@ -485,8 +488,8 @@ Rodionov, D. A.", Volume:=14)>
                 Next
             Next
 
-            Dim f1 As Boolean = Regprecise.Export_TFBSInfo.Save(String.Format("{0}/Regprecise_TFBS.fasta", Export), encoding:=System.Text.Encoding.ASCII)
-            Dim f2 As Boolean = FileData.Save(String.Format("{0}/Regprecise_Regulators.fasta", Export), encoding:=System.Text.Encoding.ASCII)
+            Dim f1 As Boolean = Regprecise.Export_TFBSInfo.Save(String.Format("{0}/Regprecise_TFBS.fasta", Export), encoding:=Encoding.ASCII)
+            Dim f2 As Boolean = FileData.Save(String.Format("{0}/Regprecise_Regulators.fasta", Export), encoding:=Encoding.ASCII)
 
             Return f1 And f2
         End Function

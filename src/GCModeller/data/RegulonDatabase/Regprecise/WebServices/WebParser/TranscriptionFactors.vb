@@ -88,29 +88,31 @@ Namespace Regprecise
                                       Bacteria As String,
                                       RegulatorSites As FASTA.FastaFile,
                                       RegulatorId As String) As Boolean
-            Dim BacteriaGenome As BacteriaRegulome = GetBacteriaGenomeProfile(Bacteria)
 
-            If BacteriaGenome Is Nothing Then '不存在这条记录，则插入新的记录
-                Dim Regulog = New Regulome With {
+            Dim genome As BacteriaRegulome = GetBacteriaGenomeProfile(Bacteria)
+
+            ' 不存在这条记录，则插入新的记录
+            If genome Is Nothing Then
+                Dim regulog As New Regulome With {
                     .regulators = {CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)}
                 }
-                BacteriaGenome = New BacteriaRegulome With {
+                genome = New BacteriaRegulome With {
                     .genome = New JSON.genome With {
                         .name = Bacteria
                     }
                 }
-                BacteriaGenome.regulome = Regulog
-                genomes.Add(BacteriaGenome)
+                genome.regulome = regulog
+                genomes.Add(genome)
 
                 Return True
             End If
 
-            Dim Regulator = (From tf As Regulator In BacteriaGenome.regulome.regulators
+            Dim Regulator = (From tf As Regulator In genome.regulome.regulators
                              Where String.Equals(tf.locus_tag.name, RegulatorId, StringComparison.OrdinalIgnoreCase)
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
-                BacteriaGenome.regulome.regulators = Regulator.Join(BacteriaGenome.regulome.regulators).ToArray
+                genome.regulome.regulators = Regulator.Join(genome.regulome.regulators).ToArray
             Else
                 Dim RegulatorySites = (From FastaObject As FastaReaders.Site
                                        In FastaReaders.Site.CreateObject(RegulatorSites)
@@ -199,11 +201,12 @@ Namespace Regprecise
             Return New FASTA.FastaFile(LQuery)
         End Function
 
-        Public Function ListAllRegulators() As Regulator()
-            Dim LQuery = (From BacteriaGenome As BacteriaRegulome
-                          In Me.genomes.AsParallel
-                          Select BacteriaGenome.regulome.regulators).ToArray
-            Return LQuery.ToVector
+        Public Iterator Function ListAllRegulators() As IEnumerable(Of Regulator)
+            For Each genome As BacteriaRegulome In genomes
+                For Each regulator In genome.regulome.regulators
+                    Yield regulator
+                Next
+            Next
         End Function
 
         ''' <summary>
@@ -212,14 +215,12 @@ Namespace Regprecise
         ''' <param name="Type"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function FilteRegulators(type As Types) As Regulator()
-            Dim LQuery = (From genome As BacteriaRegulome
-                          In Me.genomes.AsParallel
-                          Select genome.regulome.regulators).ToArray
-            Return (From reg As Regulator
-                    In LQuery.IteratesALL.AsParallel
-                    Where reg.type = type
-                    Select reg).ToArray
+        Public Iterator Function FilteRegulators(type As Types) As IEnumerable(Of Regulator)
+            For Each reg As Regulator In ListAllRegulators()
+                If reg.type = type Then
+                    Yield reg
+                End If
+            Next
         End Function
 
         ''' <summary>
@@ -238,7 +239,9 @@ Namespace Regprecise
                           Select x
                           Group x By x.uid Into Group) _
                                .ToDictionary(Function(x) x.uid,
-                                             Function(x) x.Group.Select(Function(s) s.LocusId).ToArray)
+                                             Function(x)
+                                                 Return x.Group.Select(Function(s) s.LocusId).ToArray
+                                             End Function)
             Return Groups
         End Function
 
