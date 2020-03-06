@@ -406,9 +406,18 @@ Rodionov, D. A.", Volume:=14)>
                 For Each regulon As Regulator In genome.regulome.regulators
                     If regulon.type = Types.RNA Then
                         Continue For
-                    End If
+                    ElseIf regulon.family.StringEmpty Then
+                        Dim sites = regulon.ExportMotifs
+                        Dim family = sites.First.Title.Matches("\[.+?\]").Last.GetStackValue("[", "]").GetTagValue("=").Name
 
-                    Call buffer(regulon.family).AddRange(regulon.ExportMotifs)
+                        If Not buffer.ContainsKey(family) Then
+                            buffer.Add(family, New FastaFile)
+                        End If
+
+                        Call buffer(family).AddRange(sites)
+                    Else
+                        Call buffer(regulon.family).AddRange(regulon.ExportMotifs)
+                    End If
                 Next
             Next
 
@@ -420,8 +429,8 @@ Rodionov, D. A.", Volume:=14)>
             Return RegPrecise.genomes _
                 .Select(Function(genome) genome.regulome.regulators) _
                 .IteratesALL _
-                .Where(Function(reg) reg.type = Types.TF) _
-                .Select(Function(reg) reg.family) _
+                .Where(Function(reg) reg.type = Types.TF AndAlso Not reg.family.StringEmpty) _
+                .Select(Function(reg) reg.family.Split("/"c, "\"c).First) _
                 .Distinct _
                 .OrderBy(Function(name) name) _
                 .ToArray
