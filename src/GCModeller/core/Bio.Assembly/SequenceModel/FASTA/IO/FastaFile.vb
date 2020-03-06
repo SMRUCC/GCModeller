@@ -554,7 +554,14 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Call _innerList.CopyTo(array, arrayIndex)
         End Sub
 
-        Public ReadOnly Property NumberOfFasta As Integer Implements ICollection(Of FastaSeq).Count
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' Count和Item属性可以兼容``R#``脚本的索引语法
+        ''' </remarks>
+        Public ReadOnly Property Count As Integer Implements ICollection(Of FastaSeq).Count
             Get
                 Return _innerList.Count
             End Get

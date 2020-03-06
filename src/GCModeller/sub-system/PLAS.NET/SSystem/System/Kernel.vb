@@ -138,7 +138,7 @@ Namespace Kernel
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
             Dim proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-            Dim prog As New ProgressProvider(_innerDataModel.FinalTime * (1 / Precision))
+            Dim prog As New ProgressProvider(proc, _innerDataModel.FinalTime * (1 / Precision))
 
             _break = False
 

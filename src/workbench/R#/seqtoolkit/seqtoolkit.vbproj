@@ -108,8 +108,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\terms.vb" />
+    <Compile Include="Annotations\workflows.vb" />
     <Compile Include="Fasta.vb" />
     <Compile Include="Blast.vb" />
+    <Compile Include="Annotations\genomics.vb" />
     <Compile Include="patterns.vb" />
     <Compile Include="sequenceLogo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -183,6 +186,10 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>

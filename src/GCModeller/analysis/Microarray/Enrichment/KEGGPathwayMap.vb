@@ -89,7 +89,7 @@ Public Module KEGGPathwayMap
         translateKO = translateKO Or noTranslate
 
         Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(all.Length)
+            Dim tick As New ProgressProvider(progress, all.Length)
             Dim ETA$
 
             For Each term As IKEGGTerm In all
@@ -114,7 +114,7 @@ Public Module KEGGPathwayMap
                     failures += term.ID
                 End If
 
-                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
                 progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using
@@ -142,7 +142,7 @@ Public Module KEGGPathwayMap
         End If
 
         Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(all.Length)
+            Dim tick As New ProgressProvider(progress, all.Length)
             Dim ETA$
 
             For Each term As IKEGGTerm In all
@@ -156,7 +156,7 @@ Public Module KEGGPathwayMap
                     failures += term.ID
                 End If
 
-                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
                 progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using

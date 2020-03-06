@@ -130,11 +130,11 @@ Public Module SSRSearch
                                     End Sub)
                 Else
                     Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...", 1, CLS:=True)
-                        Dim tick As New ProgressProvider(repeatUnit.Count)
+                        Dim tick As New ProgressProvider(progress, repeatUnit.Count)
                         Dim ETA$
                         Dim msg$
                         Dim work = Sub(unit$)
-                                       ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                                       ETA = tick.ETA().FormatTime
                                        msg = $"{unit}...  ETA: {ETA}"
 
                                        Call progress.SetProgress(tick.StepProgress, msg)
@@ -199,7 +199,7 @@ Public Module SSRSearch
         Dim SearchInternal =
            Sub(strand$)
                Using progress As New ProgressBar($"Search for Compound SSR on {strand} strand...", 1, CLS:=True)
-                   Dim tick As New ProgressProvider(repeatUnit.Count)
+                   Dim tick As New ProgressProvider(progress, repeatUnit.Count)
                    Dim ETA$
                    Dim msg$
 
@@ -210,7 +210,7 @@ Public Module SSRSearch
                            seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
                        Next
 
-                       ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                       ETA = tick.ETA().FormatTime
                        msg = $"{a}...  ETA: {ETA}"
 
                        Call progress.SetProgress(tick.StepProgress, msg)
@@ -248,7 +248,7 @@ Public Structure SSR
     Public Property RepeatUnit As String
 
     Public Function ToFasta() As FastaSeq
-
+        Throw New NotImplementedException
     End Function
 
     Public Overrides Function ToString() As String

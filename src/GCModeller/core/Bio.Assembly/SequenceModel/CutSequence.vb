@@ -68,6 +68,13 @@ Namespace SequenceModel
 
 #Region "Implementation"
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="seq$"></param>
+        ''' <param name="left">下标是从1开始的</param>
+        ''' <param name="right%"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function CutSequenceLinear(ByRef seq$, left%, right%) As String
             Dim l As Integer = (right - left) + 1
@@ -79,6 +86,7 @@ Namespace SequenceModel
             ElseIf start + l >= seq.Length Then
                 cut = seq.Substring(start)
             Else
+                ' 计算是从1开始的，不是从零开始的
                 cut = seq.Substring(left - 1, l)
             End If
 
@@ -89,6 +97,9 @@ Namespace SequenceModel
         ''' 核酸分子和蛋白质分子都适用
         ''' </summary>
         ''' <param name="seq"></param>
+        ''' <param name="left">
+        ''' 下标是从1开始的
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, left%, right%, Optional tag$ = Nothing) As SimpleSegment

@@ -45,11 +45,11 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Structure MSAOutput
+Public Class MSAOutput
 
-    Dim names$()
-    Dim MSA$()
-    Dim cost#
+    Public Property names As String()
+    Public Property MSA As String()
+    Public Property cost As Double
 
     Public Overrides Function ToString() As String
         With New MemoryStream
@@ -101,4 +101,4 @@ Public Structure MSAOutput
 
         out.Flush()
     End Sub
-End Structure
+End Class

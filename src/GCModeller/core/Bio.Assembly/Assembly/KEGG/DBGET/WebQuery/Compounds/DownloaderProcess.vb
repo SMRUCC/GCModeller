@@ -90,14 +90,14 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                 .ToArray
 
             Using progress As New ProgressBar("Downloads " & key, 1, CLS:=True)
-                Dim tick As New ProgressProvider(keys.Length)
+                Dim tick As New ProgressProvider(progress, keys.Length)
                 Dim query As New DbGetWebQuery($"{EXPORT}/.cache")
 
                 For Each entry As BriteTerm In keys
                     Dim entryId As String = entry.entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, directoryOrganized, [class]:=key)
                     Dim xmlFile$ = $"{saveDIR}/{entryId}.xml"
-                    Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    Dim ETA$ = $"ETA={tick.ETA().FormatTime}"
                     Dim category As New NamedValue(Of BriteTerm)(key, entry)
 
                     Call query.Download(entryId, xmlFile, structInfo, category)

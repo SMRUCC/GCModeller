@@ -87,7 +87,7 @@ Public Module NCBILocalBlast
                   Where Not String.IsNullOrEmpty(entry)
                   Select r.Replace(entry, "Query\s*=\s*", "").Trim
 
-        If queries.Length <> query.NumberOfFasta Then
+        If queries.Length <> query.Count Then
             Return False
         End If
 

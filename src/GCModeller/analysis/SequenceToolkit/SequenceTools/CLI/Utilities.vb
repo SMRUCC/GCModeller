@@ -241,7 +241,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         }
         Dim leastN% = args("/n.occurs") Or 6
         Dim nmotifs% = args("/n.motifs") Or 25
-        Dim motifs As Motif() = FastaFile.LoadNucleotideData([in]) _
+        Dim motifs As SequenceMotif() = FastaFile.LoadNucleotideData([in]) _
             .PopulateMotifs(
                 leastN:=leastN,
                 param:=param
@@ -258,7 +258,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
         Dim i As i32 = 0
 
-        For Each motif As Motif In motifs
+        For Each motif As SequenceMotif In motifs
             Call motif _
                 .CreateDrawingModel _
                 .InvokeDrawing(True) _

@@ -184,7 +184,7 @@ Partial Module Utilities
         Dim orf$ = args <= "/ORF"
         Dim fasta As New FastaFile(orf)
 
-        If fasta.NumberOfFasta = 1 Then
+        If fasta.Count = 1 Then
             Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex.XML")
             Dim prot As FastaSeq = fasta.First
             Dim table As New CodonAdaptationIndex(New RelativeCodonBiases(prot))

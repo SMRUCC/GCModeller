@@ -59,7 +59,7 @@ Namespace Motif.Patterns
     Public Class PatternExpression
         Implements INamedValue
 
-        Public Property RangeExpr As Token(Of Tokens)()
+        Public Property RangeExpr As PatternToken()
 
         Public Property Motif As Residue()
             Get

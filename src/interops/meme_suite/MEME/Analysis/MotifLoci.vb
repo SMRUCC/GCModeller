@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::89ea76b8be5e990b1a3f25fb679ba25b, meme_suite\MEME\Analysis\MotifLoci.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module MotifLoci
-    ' 
-    '         Function: __forwards, __getGene, __located, __reversed, GetTraningSet
-    '                   LoadMastSiteXml, (+2 Overloads) Located
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module MotifLoci
+' 
+'         Function: __forwards, __getGene, __located, __reversed, GetTraningSet
+'                   LoadMastSiteXml, (+2 Overloads) Located
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,9 @@ Imports SMRUCC.genomics.SequenceModel
 
 Imports Strands = SMRUCC.genomics.ComponentModel.Loci.Strands
 Imports NucleotideLocation = SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Probability
 
 Namespace Analysis
 
@@ -66,12 +69,12 @@ Namespace Analysis
     Public Module MotifLoci
 
         ''' <summary>
-        ''' 请注意，这个函数仅仅适用于从ATG往上游开始数的位置
+        ''' This function is only works on the situation of the sequence was parsing from the upstream of the gene's ATG site.
+        ''' (请注意，这个函数仅仅适用于从ATG往上游开始数的位置)
         ''' </summary>
         ''' <param name="PTT"></param>
         ''' <param name="Motifs"></param>
         ''' <returns></returns>
-        <ExportAPI("Locates", Info:="This function is only works on the situation of the sequence was parsing from the upstream of the gene's ATG site.")>
         Public Function Located(PTT As PTT,
                                <Parameter("Please make sure the object id in this motif list is the gene synonym.")>
                                 Motifs As IEnumerable(Of Motif),
@@ -90,8 +93,8 @@ Namespace Analysis
                                                      In motif.site_locis
                                                      Let motifSite = DocumentFormat.MEME.Text.CopyObject(motif.motif, site.site)
                                                      Select setValue _
-                                                         .InvokeSetValue(motifSite, NameOf(motifSite.gStart), site.loci.Left) _
-                                                         .InvokeSet(NameOf(motifSite.gStop), site.loci.Right) _
+                                                         .InvokeSetValue(motifSite, NameOf(motifSite.gStart), site.loci.left) _
+                                                         .InvokeSet(NameOf(motifSite.gStop), site.loci.right) _
                                                          .InvokeSet(NameOf(motifSite.Strand), site.loci.Strand.ToString).obj
             Return sites.ToArray
         End Function
@@ -170,7 +173,7 @@ TRAINING SET<br />
                 Dim Tokens As String() = LinqAPI.Exec(Of String) <=
  _
                     From s As String
-                    In str.value.Split
+                    In str.Value.Split
                     Where Not String.IsNullOrEmpty(s)
                     Select s
 
@@ -189,6 +192,40 @@ TRAINING SET<br />
         Public Function LoadMastSiteXml(Xml As String) As DocumentFormat.XmlOutput.MAST.MAST
             Dim doc As DocumentFormat.XmlOutput.MAST.MAST = Xml.LoadXml(Of DocumentFormat.XmlOutput.MAST.MAST)
             Return doc
+        End Function
+
+        <Extension>
+        Public Iterator Function CreateMotifModels(motifs As IEnumerable(Of Motif)) As IEnumerable(Of SequenceMotif)
+            Dim MSA_seed As MSAOutput
+            Dim PWM As Residue()
+
+            For Each data As Motif In motifs
+                MSA_seed = New MSAOutput With {
+                    .cost = data.Sites.Length,
+                    .MSA = data.Sites.Select(Function(s) s.Site).ToArray,
+                    .names = data.Sites.Select(Function(l) l.Name).ToArray
+                }
+                PWM = data.PspMatrix _
+                    .Select(Function(b, i)
+                                Return New Residue With {
+                                    .index = i + 1,
+                                    .frequency = New Dictionary(Of Char, Double) From {
+                                        {"A"c, b.A},
+                                        {"T"c, b.T},
+                                        {"G"c, b.G},
+                                        {"C"c, b.C}
+                                    }
+                                }
+                            End Function) _
+                    .ToArray
+
+                Yield New SequenceMotif With {
+                    .length = data.Width,
+                    .pvalue = data.Evalue,
+                    .seeds = MSA_seed,
+                    .region = PWM
+                }
+            Next
         End Function
 
     End Module

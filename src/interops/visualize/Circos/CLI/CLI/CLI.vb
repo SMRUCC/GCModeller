@@ -98,7 +98,7 @@ Public Module CLI
         Dim steps As Integer = args.GetValue("/step", 25)
         Dim lst As FastaFile = FastaFile.Read(inFasta)
 
-        If lst.NumberOfFasta = 1 Then
+        If lst.Count = 1 Then
             Return propertyVector(AddressOf NucleicAcidStaticsProperty.ATPercent, lst.First, out, winSize, steps)
         End If
 
@@ -128,7 +128,7 @@ Public Module CLI
         Dim steps As Integer = args.GetValue("/step", 25)
         Dim out As String = args.GetValue("/out", inFasta.FilePath.TrimSuffix & ".GCSkew.txt")
 
-        If inFasta.NumberOfFasta = 1 Then
+        If inFasta.Count = 1 Then
             Return propertyVector(AddressOf NucleicAcidStaticsProperty.GCSkew, inFasta.First, out, winSize, steps)
         End If
 
