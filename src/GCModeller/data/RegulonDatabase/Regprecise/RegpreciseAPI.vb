@@ -416,7 +416,7 @@ Rodionov, D. A.", Volume:=14)>
 
                         Call buffer(family).AddRange(sites)
                     Else
-                        Call buffer(regulon.family).AddRange(regulon.ExportMotifs)
+                        Call buffer(regulon.family.Split("/"c, "\"c).First).AddRange(regulon.ExportMotifs)
                     End If
                 Next
             Next
