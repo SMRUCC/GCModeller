@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -203,14 +204,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/model.save")>
-    <Description("/model.save /model <meme.txt> [/out <model.xml>]")>
+    <Description("/model.save /model <meme.txt> [/out <model.json>]")>
     Public Function SaveModel(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
-        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.xml"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.json"
         Dim motifs As Motif() = DocumentFormat.MEME.Text.Load([in])
         Dim models As SequenceMotif() = motifs.CreateMotifModels.ToArray
 
-        Return models.GetXml.SaveTo(out).CLICode
+        Return models.GetJson.SaveTo(out).CLICode
     End Function
 
     '''' <summary>
