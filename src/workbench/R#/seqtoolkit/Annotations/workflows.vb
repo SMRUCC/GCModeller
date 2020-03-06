@@ -1,4 +1,5 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
@@ -19,6 +20,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module workflows
 
     <ExportAPI("blasthit.sbh")>
+    <Extension>
     Public Function ExportSBHHits(query As pipeline,
                                   Optional idetities As Double = 0.3,
                                   Optional coverage As Double = 0.5,
@@ -51,6 +53,32 @@ Module workflows
         End If
 
         Return New pipeline(hitsPopulator(), GetType(Query))
+    End Function
+
+    <ExportAPI("blasthit.bbh")>
+    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline
+        If forward Is Nothing Then
+            Return REnv.Internal.debug.stop("No forward alignment data!", env)
+        ElseIf reverse Is Nothing Then
+            Return REnv.Internal.debug.stop("No reversed alignment data!", env)
+        End If
+
+        If forward.elementType Is GetType(Query) Then
+            forward = forward.ExportSBHHits(env:=env)
+            env.AddMessage($"Best hit result from raw query in forward direction with default parameters.", MSG_TYPES.WRN)
+        End If
+        If reverse.elementType Is GetType(Query) Then
+            reverse = reverse.ExportSBHHits(env:=env)
+            env.AddMessage($"Best hit result from raw query in reverse direction with default parameters.", MSG_TYPES.WRN)
+        End If
+
+        If Not forward.elementType Is GetType(BestHit) Then
+            Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in forward direction for create bbh result!", env)
+        ElseIf Not reverse.elementType Is GetType(BestHit) Then
+            Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in reverse direction for create bbh result!", env)
+        End If
+
+        Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit), reverse.populates(Of BestHit)))
     End Function
 
     <ExportAPI("grep.names")>
