@@ -272,7 +272,7 @@ Module Fasta
     ''' <param name="x"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("fasta")>
+    <ExportAPI("as.fasta")>
     <RApiReturn(GetType(FastaFile))>
     Public Function Tofasta(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
         If x Is Nothing Then
@@ -288,6 +288,20 @@ Module Fasta
                 Return New FastaFile(collection)
             End If
         End If
+    End Function
+
+    ''' <summary>
+    ''' Create a new fasta sequence objects
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="attrs"></param>
+    ''' <returns></returns>
+    <ExportAPI("fasta")>
+    Public Function fasta(seq$, attrs As String()) As Object
+        Return New FastaSeq With {
+            .Headers = attrs,
+            .SequenceData = seq
+        }
     End Function
 
     ''' <summary>
