@@ -199,6 +199,11 @@ Namespace Distributions
             With data.ToArray
                 If .Length = 0 Then
                     Return 0
+                ElseIf .All(AddressOf IsNaNImaginary) Then
+                    Return Double.NaN
+                ElseIf .Min = .Max Then
+                    ' all equals to each other, no needs for calculation
+                    Return .Max
                 End If
 
                 Dim hist = .Hist([step]:=New DoubleRange(.Min, .Max).Length / 5).ToArray
