@@ -46,12 +46,14 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
@@ -285,6 +287,12 @@ Module Fasta
             Return Nothing
         ElseIf x.GetType Is GetType(MSAOutput) Then
             Return DirectCast(x, MSAOutput).ToFasta
+        ElseIf x.GetType Is GetType(SimpleSegment()) Then
+            Return DirectCast(x, SimpleSegment()) _
+                .Select(Function(sg) sg.SimpleFasta) _
+                .DoCall(Function(seqs)
+                            Return New FastaFile(seqs)
+                        End Function)
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
 
