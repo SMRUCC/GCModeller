@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -75,7 +76,7 @@ Module workflows
                             End Function
         End If
 
-        Return New pipeline(hitsPopulator(), GetType(Query))
+        Return New pipeline(hitsPopulator().IteratesALL, GetType(BestHit))
     End Function
 
     <ExportAPI("blasthit.bbh")>
