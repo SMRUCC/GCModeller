@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -49,8 +50,39 @@ Module patterns
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
-    Public Function matchSites(motif As SequenceMotif, target As FastaSeq, Optional cutoff# = 0.6, Optional minW# = 6) As SimpleSegment()
-        Return motif.region.ScanSites(target, cutoff, minW)
+    <RApiReturn(GetType(SimpleSegment()))>
+    Public Function matchSites(motif As SequenceMotif,
+                               <RRawVectorArgument>
+                               target As Object,
+                               Optional cutoff# = 0.6,
+                               Optional minW# = 6,
+                               Optional env As Environment = Nothing) As Object
+
+        If target Is Nothing Then
+            Return Internal.debug.stop("sequence target can not be nothing!", env)
+        ElseIf TypeOf target Is FastaSeq Then
+            Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW)
+        ElseIf TypeOf target Is FastaFile Then
+            Return DirectCast(target, FastaFile) _
+                .Select(Function(seq)
+                            Return motif.region.ScanSites(seq, cutoff, minW)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        Else
+            Dim seqs = GetFastaSeq(target)
+
+            If seqs Is Nothing Then
+                Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
+            Else
+                Return seqs _
+                    .Select(Function(seq)
+                                Return motif.region.ScanSites(seq, cutoff, minW)
+                            End Function) _
+                    .IteratesALL _
+                    .ToArray
+            End If
+        End If
     End Function
 
     ''' <summary>
