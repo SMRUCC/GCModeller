@@ -77,7 +77,7 @@ Namespace ComponentModel.Loci
         ''' 用户对这个位点的自定义标注信息
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Tag As String
+        <XmlAttribute> Public Property tag As String
 
         ''' <summary>
         ''' <see cref="NucleotideLocation"/>: 实际的物理上面的位置，与核酸链的方向相关，
@@ -118,17 +118,17 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' 获取当前的这个核酸片段位点的上游的指定距离的位点的位置
         ''' </summary>
-        ''' <param name="Distance"></param>
+        ''' <param name="distance"></param>
         ''' <returns></returns>
-        Public Function GetUpStreamLoci(Distance As UInteger) As Integer
+        Public Function GetUpStreamLoci(distance As UInteger) As Integer
             Call Me.Normalization()
 
             If Strand = Strands.Forward Then
                 ' 正向链，则是上游在前面
-                Return left - Distance
+                Return left - distance
             Else
                 ' 反向链，则是上游在后面
-                Return right + Distance
+                Return right + distance
             End If
         End Function
 

@@ -22,9 +22,13 @@ Module genomics
                         Dim loci As NucleotideLocation = gene.Location
 
                         If loci.Strand = Strands.Forward Then
-                            loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward)
+                            loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
+                                .tag = loci.ToString & $"|offset=-{length}"
+                            }
                         Else
-                            loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse)
+                            loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
+                                .tag = loci.ToString & $"|offset=+{length}"
+                            }
                         End If
 
                         Return loci

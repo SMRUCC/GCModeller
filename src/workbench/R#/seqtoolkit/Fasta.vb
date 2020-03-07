@@ -346,30 +346,34 @@ Module Fasta
         End If
 
         Dim left, right As Integer
+        Dim getAttrs As Func(Of FastaSeq, String())
 
         If TypeOf loci Is Location Then
             With DirectCast(loci, Location)
                 left = .Min
                 right = .Max
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}
             End With
         ElseIf TypeOf loci Is NucleotideLocation Then
             With DirectCast(loci, NucleotideLocation)
                 left = .Min
                 right = .Max
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tag}
             End With
         Else
             With REnv.asVector(Of Long)(loci)
                 left = .GetValue(0)
                 right = .GetValue(1)
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}
             End With
         End If
 
         If TypeOf seq Is FastaSeq Then
-            Dim fa = DirectCast(seq, FastaSeq)
+            Dim fa As FastaSeq = DirectCast(seq, FastaSeq)
             Dim sequence = fa.CutSequenceLinear(left, right)
 
             Return New FastaSeq With {
-                .Headers = fa.Headers.ToArray,
+                .Headers = getAttrs(fa),
                 .SequenceData = sequence.SequenceData
             }
         Else
@@ -382,7 +386,7 @@ Module Fasta
                     .Select(Function(fa)
                                 Dim sequence = fa.CutSequenceLinear(left, right)
                                 Dim fragment As New FastaSeq With {
-                                    .Headers = fa.Headers.ToArray,
+                                    .Headers = getAttrs(fa),
                                     .SequenceData = sequence.SequenceData
                                 }
 
