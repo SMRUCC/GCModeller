@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -18,6 +19,28 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("annotation.workflow", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module workflows
+
+    ''' <summary>
+    ''' Open the blast output text file for parse data result.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="type">``nucl`` or ``prot``</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.blast")>
+    Public Function openBlastReader(file As String, Optional type As String = "nucl", Optional fastMode As Boolean = True, Optional env As Environment = Nothing) As pipeline
+        If Not file.FileExists(True) Then
+            Return REnv.Internal.debug.stop($"invalid data source: '{file.ToFileURL}'!", env)
+        End If
+
+        If LCase(type) = "nucl" Then
+            Return Internal.debug.stop(New NotImplementedException, env)
+        ElseIf LCase(type) = "prot" Then
+            Return pipeline.CreateFromPopulator(BlastpOutputReader.RunParser(file, fast:=fastMode))
+        Else
+            Return Internal.debug.stop($"invalid program type: {type}!", env)
+        End If
+    End Function
 
     <ExportAPI("blasthit.sbh")>
     <Extension>
@@ -126,6 +149,14 @@ Module workflows
         Return New pipeline(queryPopulator(), GetType(Query))
     End Function
 
+    ''' <summary>
+    ''' Open result table stream writer
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="type"></param>
+    ''' <param name="encoding"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("open.stream")>
     Public Function openWriter(file As String,
                                Optional type As TableTypes = TableTypes.SBH,
@@ -136,6 +167,8 @@ Module workflows
                 Return New WriteStream(Of BestHit)(file, encoding:=encoding)
             Case TableTypes.BBH
                 Return New WriteStream(Of BiDirectionalBesthit)(file, encoding:=encoding)
+            Case TableTypes.Mapping
+                Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding)
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
         End Select
@@ -145,6 +178,10 @@ End Module
 Public Enum TableTypes
     SBH
     BBH
+    ''' <summary>
+    ''' blastn mapping of the short reads
+    ''' </summary>
+    Mapping
 End Enum
 
 Public Enum BBHAlgorithm
