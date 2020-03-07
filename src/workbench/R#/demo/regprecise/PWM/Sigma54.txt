@@ -1,0 +1,2376 @@
+﻿********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 3.5.4 (Release date: 3.5.4)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= K:\20200226\TRN\motifs\Sigma54.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+DESPIG_02462:-51         1.0000     19  DVU0571:-124             1.0000     19  
+DESPIG_00690:-54         1.0000     19  DVU0913:-72              1.0000     19  
+DESPIG_00156:-59         1.0000     19  DVU2272:-232             1.0000     19  
+DESPIG_02269:-49         1.0000     19  DVU1880:-68              1.0000     19  
+DESPIG_02193:-68         1.0000     19  DVUA203:-62              1.0000     19  
+DESPIG_02142:-99         1.0000     19  DVU2820:-58              1.0000     19  
+DESPIG_02788:-110        1.0000     19  DVU0624:-196             1.0000     19  
+DESPIG_01831:-119        1.0000     19  DVU0150:-180             1.0000     19  
+DESPIG_02990:-105        1.0000     19  DVU0617:-60              1.0000     19  
+DESPIG_02585:-57         1.0000     19  DVUA0032:-76             1.0000     19  
+Desal_3185:-65           1.0000     19  DVUA0015:-326            1.0000     19  
+Desal_3506:-81           1.0000     19  DVU1536:-90              1.0000     19  
+Desal_3525:-57           1.0000     19  DVU0805:-59              1.0000     19  
+Desal_1016:-147          1.0000     19  DVU1276:-70              1.0000     19  
+Desal_1015:-104          1.0000     19  DVU1805:-69              1.0000     19  
+Desal_0577:-221          1.0000     19  DVU3339.1:-61            1.0000     19  
+Desal_2595:-107          1.0000     19  DVU0123:-54              1.0000     19  
+Desal_2601:-77           1.0000     19  DVU2232:-51              1.0000     19  
+Desal_2594:-180          1.0000     19  DVU0320:-55              1.0000     19  
+Desal_0581:-97           1.0000     19  DVU0320:-296             1.0000     19  
+Desal_3007:-43           1.0000     19  DVU0750:-201             1.0000     19  
+Desal_3006:-115          1.0000     19  DVUA0143:-29             1.0000     19  
+Desal_2793:-380          1.0000     19  DVU2652:-100             1.0000     19  
+Desal_2938:-115          1.0000     19  DVU3384:-82              1.0000     19  
+Desal_1156:-96           1.0000     19  DVUA0089:-51             1.0000     19  
+Desal_1153:-50           1.0000     19  DvMF_2405:-338           1.0000     19  
+Desal_0284:-92           1.0000     19  DvMF_0213:-90            1.0000     19  
+DvMF_2406:-119           1.0000     19  Desal_3524:-300          1.0000     19  
+DvMF_1764:-205           1.0000     19  DvMF_2419:-63            1.0000     19  
+Desal_2290:-102          1.0000     19  DvMF_2014:-177           1.0000     19  
+DvMF_2411:-59            1.0000     19  Desal_3438:-145          1.0000     19  
+DvMF_1840:-253           1.0000     19  DvMF_1396:-237           1.0000     19  
+Desal_2827:-81           1.0000     19  DvMF_2524:-148           1.0000     19  
+DvMF_1856:-71            1.0000     19  Desal_2614:-59           1.0000     19  
+DvMF_0248:-44            1.0000     19  DvMF_1693:-95            1.0000     19  
+Desal_1249:-67           1.0000     19  DvMF_2612:-117           1.0000     19  
+DvMF_0621:-252           1.0000     19  Desal_1243:-38           1.0000     19  
+DvMF_0866:-98            1.0000     19  DvMF_2148:-244           1.0000     19  
+Desal_0681:-67           1.0000     19  DvMF_1860:-368           1.0000     19  
+DvMF_1799:-60            1.0000     19  Desal_0680:-67           1.0000     19  
+DvMF_1590:-201           1.0000     19  DvMF_1800:-272           1.0000     19  
+Desal_2604:-43           1.0000     19  DvMF_1808:-128           1.0000     19  
+DvMF_1800:-251           1.0000     19  Desal_3004:-69           1.0000     19  
+DvMF_2284:-106           1.0000     19  DvMF_1800:-230           1.0000     19  
+Desal_0181:-54           1.0000     19  DvMF_1393:-93            1.0000     19  
+DvMF_1363:-85            1.0000     19  Desal_2513:-57           1.0000     19  
+DvMF_0321:-98            1.0000     19  DvMF_2106:-53            1.0000     19  
+Desal_0622:-30           1.0000     19  DvMF_2747:-79            1.0000     19  
+DvMF_0386:-69            1.0000     19  Desal_2592:-41           1.0000     19  
+DvMF_2283:-211           1.0000     19  DvMF_2420:-56            1.0000     19  
+Desal_1008:-71           1.0000     19  DvMF_2283:-158           1.0000     19  
+DvMF_2435:-38            1.0000     19  Desal_1014:-87           1.0000     19  
+DvMF_1934:-119           1.0000     19  DvMF_1984:-111           1.0000     19  
+Desal_0448:-58           1.0000     19  DvMF_1932:-183           1.0000     19  
+DvMF_2333:-57            1.0000     19  Desal_3066:-65           1.0000     19  
+DvMF_0691:-61            1.0000     19  DvMF_2154:-120           1.0000     19  
+Desal_0829:-80           1.0000     19  DvMF_3071:-74            1.0000     19  
+DvMF_2613:-110           1.0000     19  Desal_0361:-20           1.0000     19  
+DvMF_1546:-75            1.0000     19  DvMF_1509:-29            1.0000     19  
+Desal_0416:-87           1.0000     19  DvMF_2067:-67            1.0000     19  
+DvMF_0574:-68            1.0000     19  Desal_2196:-88           1.0000     19  
+DvMF_2603:-272           1.0000     19  DvMF_1325:-146           1.0000     19  
+Desal_3303:-111          1.0000     19  DvMF_2912:-73            1.0000     19  
+DvMF_1491:-146           1.0000     19  Desal_0447:-69           1.0000     19  
+DvMF_2906:-127           1.0000     19  DvMF_2341:-197           1.0000     19  
+Desal_3549:-184          1.0000     19  DvMF_1446:-38            1.0000     19  
+DvMF_0693:-77            1.0000     19  Desal_3028:-67           1.0000     19  
+DvMF_3011:-400           1.0000     19  DvMF_2578:-132           1.0000     19  
+Desal_1157:-100          1.0000     19  DvMF_0244:-54            1.0000     19  
+DvMF_0177:-183           1.0000     19  Desal_1330:-51           1.0000     19  
+DvMF_0905:-38            1.0000     19  DvMF_1024:-237           1.0000     19  
+Desal_3528:-102          1.0000     19  DvMF_2517:-58            1.0000     19  
+DvMF_2842:-63            1.0000     19  Desal_2983:-73           1.0000     19  
+DvMF_2518:-89            1.0000     19  DvMF_0825:-135           1.0000     19  
+Desal_2461:-77           1.0000     19  DvMF_2521:-220           1.0000     19  
+DvMF_0509:-128           1.0000     19  Desal_3705:-69           1.0000     19  
+DvMF_2521:-150           1.0000     19  DvMF_1812:-59            1.0000     19  
+Desal_3710:-67           1.0000     19  DvMF_2016:-29            1.0000     19  
+DvMF_0828:-48            1.0000     19  Desal_2292:-59           1.0000     19  
+DvMF_2785:-63            1.0000     19  Desal_0518:-29           1.0000     19  
+DvMF_1255:-53            1.0000     19  DVU3232:-199             1.0000     19  
+DvMF_1121:-124           1.0000     19  DVUA0036:29              1.0000     19  
+DvMF_2528:-29            1.0000     19  DVU1418:-46              1.0000     19  
+DvMF_2147:-139           1.0000     19  DVU0047:-186             1.0000     19  
+DvMF_3023:-152           1.0000     19  DVU2277:-90              1.0000     19  
+LI0746:-62               1.0000     19  DVU0682:-200             1.0000     19  
+LI0568:-44               1.0000     19  DVU2957:-65              1.0000     19  
+LI0567:-82               1.0000     19  DVU3004:-77              1.0000     19  
+LI0348:-77               1.0000     19  DVU3342:-113             1.0000     19  
+LI0860:-68               1.0000     19  DVU1152:-258             1.0000     19  
+LI0856:-108              1.0000     19  DVU3003:-220             1.0000     19  
+LI1060:-73               1.0000     19  DVU1445:-43              1.0000     19  
+LI0700:-80               1.0000     19  DVU1444:-82              1.0000     19  
+LI0507:-62               1.0000     19  DVUA0016:26              1.0000     19  
+LI0211:-61               1.0000     19  DVU3025:-153             1.0000     19  
+LI0627:-40               1.0000     19  DVU1962:-317             1.0000     19  
+LI0887:-53               1.0000     19  DVU1258:-100             1.0000     19  
+LI0740:-147              1.0000     19  DVU0307:-59              1.0000     19  
+LI0277:-57               1.0000     19  DVU0316:-91              1.0000     19  
+LI1017:-60               1.0000     19  DVU2405:-99              1.0000     19  
+LI1156:-151              1.0000     19  DVU3302:-56              1.0000     19  
+LI1157:-193              1.0000     19  DVU0318:-115             1.0000     19  
+LI0899:-60               1.0000     19  DVU2280:-132             1.0000     19  
+LI0570:-56               1.0000     19  DVU2822:-91              1.0000     19  
+DVU3387:-92              1.0000     19  DVU0410:-70              1.0000     19  
+DVU2451:-211             1.0000     19  DVU0542:-71              1.0000     19  
+DVU0863:-71              1.0000     19  DVU0858:-79              1.0000     19  
+DVU2917:-196             1.0000     19  DVU2917:-40              1.0000     19  
+DVU0036:-60              1.0000     19  DVU2090:-96              1.0000     19  
+DORF39640:-78            1.0000     19  DVU2896:-13              1.0000     19  
+DVU2357:-430             1.0000     19  DVU1441:-54              1.0000     19  
+DVU1032:-52              1.0000     19  DVUA0106:-257            1.0000     19  
+DVU2392:-74              1.0000     19  DVU4010:-106             1.0000     19  
+DVU3234:-29              1.0000     19  DVU0512:-68              1.0000     19  
+DVU0910:-128             1.0000     19  DVU3020:-56              1.0000     19  
+DVU2105:-60              1.0000     19  DVU2107:-51              1.0000     19  
+DVU1231:-81              1.0000     19  DVU3143:-68              1.0000     19  
+Dde_3226:-49             1.0000     19  DVU3382:-247             1.0000     19  
+Dde_3225:-74             1.0000     19  DVU1164:-110             1.0000     19  
+Dde_1940:-79             1.0000     19  DVUA0030:-68             1.0000     19  
+Dde_0876:-116            1.0000     19  DVU2988:-46              1.0000     19  
+Dde_1553:-84             1.0000     19  DVU2133:-73              1.0000     19  
+Dde_2357:-82             1.0000     19  DVU0943:-73              1.0000     19  
+Dde_1654:-87             1.0000     19  DVU1854:34               1.0000     19  
+Dde_2960:-101            1.0000     19  DVU0139:-79              1.0000     19  
+Dde_1786:8               1.0000     19  DVU0132:-232             1.0000     19  
+Dde_0111:-78             1.0000     19  Dde_2705:-112            1.0000     19  
+Dde_0404:-52             1.0000     19  Dde_2510:-72             1.0000     19  
+Dde_2509:-76             1.0000     19  Dde_2507:-73             1.0000     19  
+Dde_1017:-58             1.0000     19  Dde_1834:-70             1.0000     19  
+Dde_0288:-308            1.0000     19  Dde_1532:-55             1.0000     19  
+Dde_2819:-59             1.0000     19  Dde_3211:-88             1.0000     19  
+Ddes_0750:-76            1.0000     19  Ddes_0811:47             1.0000     19  
+Ddes_2002:-84            1.0000     19  Ddes_0327:-96            1.0000     19  
+Ddes_1259:-43            1.0000     19  Ddes_1260:-98            1.0000     19  
+Dret_2390:-78            1.0000     19  Ddes_0185:-134           1.0000     19  
+Dret_0589:-92            1.0000     19  Ddes_2091:-76            1.0000     19  
+Dret_0569:-290           1.0000     19  Ddes_1576:-59            1.0000     19  
+Dret_0569:-130           1.0000     19  Ddes_1573:-79            1.0000     19  
+Dret_0653:-159           1.0000     19  Ddes_0698:-119           1.0000     19  
+Dret_0199:-95            1.0000     19  Ddes_0698:-63            1.0000     19  
+Dret_2267:-53            1.0000     19  Ddes_2374:-198           1.0000     19  
+Dret_2081:-40            1.0000     19  Ddes_1436:-123           1.0000     19  
+Dret_0578:-51            1.0000     19  Ddes_0220:-190           1.0000     19  
+Dret_0446:-67            1.0000     19  Ddes_1437:-228           1.0000     19  
+Dret_0113:-70            1.0000     19  Ddes_0311:-61            1.0000     19  
+Dret_0167:-228           1.0000     19  Ddes_0313:-75            1.0000     19  
+Dret_0164:-82            1.0000     19  Ddes_1147:-126           1.0000     19  
+Dret_1039:-90            1.0000     19  Ddes_0596:-177           1.0000     19  
+Dret_1220:-147           1.0000     19  Ddes_0596:-148           1.0000     19  
+Dret_1485:-210           1.0000     19  Ddes_0596:-54            1.0000     19  
+Dbac_2711:-81            1.0000     19  Ddes_0530:-82            1.0000     19  
+Dbac_0116:-45            1.0000     19  Ddes_2282:-243           1.0000     19  
+Dbac_2264:-101           1.0000     19  Ddes_0763:-59            1.0000     19  
+Dbac_2224:-311           1.0000     19  Ddes_2004:-57            1.0000     19  
+Dbac_0370:-62            1.0000     19  Ddes_0373:-141           1.0000     19  
+Dbac_2404:-106           1.0000     19  Ddes_0378:-71            1.0000     19  
+Ddes_0332:-79            1.0000     19  Dbac_3471:-144           1.0000     19  
+Ddes_0193:-29            1.0000     19  Dbac_3470:-95            1.0000     19  
+Ddes_0391:-101           1.0000     19  Dbac_2434:-44            1.0000     19  
+Ddes_1836:-78            1.0000     19  Dbac_2433:-85            1.0000     19  
+Ddes_0331:-175           1.0000     19  Dbac_0833:-57            1.0000     19  
+Ddes_1867:-118           1.0000     19  Dbac_0547:-44            1.0000     19  
+Ddes_0695:-76            1.0000     19  Dbac_1614:-84            1.0000     19  
+Ddes_0186:-27            1.0000     19  Dbac_1014:-63            1.0000     19  
+Ddes_1230:-120           1.0000     19  Dbac_2249:-29            1.0000     19  
+Ddes_2345:-151           1.0000     19  Dbac_3026:-91            1.0000     19  
+Ddes_2346:-62            1.0000     19  Dbac_0848:-149           1.0000     19  
+Ddes_2342:-63            1.0000     19  Dbac_2146:-113           1.0000     19  
+Dbac_2155:-282           1.0000     19  Dbac_3326:-88            1.0000     19  
+Dbac_2669:-55            1.0000     19  Dbac_3025:-73            1.0000     19  
+Dbac_1587:-156           1.0000     19  Dbac_1588:-109           1.0000     19  
+Dbac_2588:-49            1.0000     19  Dbac_1772:-70            1.0000     19  
+Dbac_1496:-89            1.0000     19  Dbac_2789:-29            1.0000     19  
+Dbac_2430:-53            1.0000     19  Dbac_2386:-64            1.0000     19  
+Dbac_0245:-46            1.0000     19  Dbac_2476:-47            1.0000     19  
+Dbac_2410:-46            1.0000     19  Dbac_3473:-30            1.0000     19  
+Dbac_2301:-43            1.0000     19  Dbac_0448:-96            1.0000     19  
+Dbac_3049:-56            1.0000     19  Dbac_1044:-91            1.0000     19  
+Dbac_1728:-53            1.0000     19  Dbac_1016:-112           1.0000     19  
+Dbac_1225:-61            1.0000     19  Dbac_2656:-84            1.0000     19  
+Dbac_0313:-85            1.0000     19  Dbac_3071:-67            1.0000     19  
+Ddes_0154:-244           1.0000     19  Ddes_2343:-81            1.0000     19  
+Ddes_1559:-66            1.0000     19  Ddes_0082:-191           1.0000     19  
+Ddes_1642:-115           1.0000     19  Ddes_2079:-173           1.0000     19  
+Ddes_0767:-110           1.0000     19  Ddes_1028:-58            1.0000     19  
+DMR_40340:-139           1.0000     19  DMR_40120:-132           1.0000     19  
+DMR_31520:-71            1.0000     19  DMR_23880:-156           1.0000     19  
+DMR_24580:-117           1.0000     19  DMR_13730:-43            1.0000     19  
+DMR_16470:-180           1.0000     19  DMR_11080:-29            1.0000     19  
+DMR_20070:-84            1.0000     19  DMR_45020:-82            1.0000     19  
+DMR_42100:-58            1.0000     19  DMR_05720:-209           1.0000     19  
+DMR_34260:-179           1.0000     19  DMR_25590:-78            1.0000     19  
+DMR_33160:-52            1.0000     19  DMR_03980:-71            1.0000     19  
+DMR_39260:-52            1.0000     19  DMR_25570:-89            1.0000     19  
+DMR_11290:-42            1.0000     19  DMR_31570:-46            1.0000     19  
+DMR_22570:-60            1.0000     19  DMR_23860:-29            1.0000     19  
+DMR_33620:-104           1.0000     19  DMR_19620:-114           1.0000     19  
+DMR_05510:-54            1.0000     19  DMR_38330:-60            1.0000     19  
+DMR_43550:-13            1.0000     19  DMR_45640:-76            1.0000     19  
+DMR_20560:-60            1.0000     19  DMR_17520:-62            1.0000     19  
+DMR_33860:-246           1.0000     19  Dbac_0834:-81            1.0000     19  
+DMR_45010:-138           1.0000     19  Dbac_2976:-40            1.0000     19  
+DMR_42220:-78            1.0000     19  Dbac_0691:-67            1.0000     19  
+DMR_16170:50             1.0000     19  Dbac_3048:-45            1.0000     19  
+DMR_06700:-259           1.0000     19  Dbac_2235:-63            1.0000     19  
+DMR_10270:-161           1.0000     19  Dbac_2231:-65            1.0000     19  
+DMR_06380:-79            1.0000     19  Dbac_2944:-62            1.0000     19  
+DMR_37280:-101           1.0000     19  Dbac_1721:-62            1.0000     19  
+DMR_45210:-101           1.0000     19  Dbac_2385:-64            1.0000     19  
+DMR_05460:-13            1.0000     19  Dbac_0594:-29            1.0000     19  
+DMR_06420:-79            1.0000     19  Dbac_1753:-84            1.0000     19  
+DMR_06400:-78            1.0000     19  Dbac_2145:-84            1.0000     19  
+DMR_06410:-79            1.0000     19  Dbac_2236:-115           1.0000     19  
+DMR_06390:-78            1.0000     19  Dde_0191:-227            1.0000     19  
+DMR_13760:-70            1.0000     19  Dde_0357:-141            1.0000     19  
+DESPIG_01518:8           1.0000     19  Dde_1684:-54             1.0000     19  
+DESPIG_02393:-112        1.0000     19  Dde_0318:18              1.0000     19  
+DESPIG_02787:-128        1.0000     19  Dde_0323:-187            1.0000     19  
+DESPIG_02139:-147        1.0000     19  Dde_0438:-80             1.0000     19  
+DESPIG_02849:-80         1.0000     19  Dde_0438:-73             1.0000     19  
+DESPIG_00642:-127        1.0000     19  Dde_0380:-145            1.0000     19  
+DESPIG_01879:-43         1.0000     19  Dde_3153:-164            1.0000     19  
+DESPIG_00689:-73         1.0000     19  Dde_0645:-48             1.0000     19  
+Dde_0816:-98             1.0000     19  Dde_0420:-45             1.0000     19  
+Dde_1712:-87             1.0000     19  Dde_1713:-44             1.0000     19  
+Dde_2287:-243            1.0000     19  Dde_3237:-163            1.0000     19  
+Dde_0298:-86             1.0000     19  Dde_0356:-75             1.0000     19  
+Dde_0102:-96             1.0000     19  Dde_1258:-159            1.0000     19  
+Dde_3523:-98             1.0000     19  Dde_1275:-187            1.0000     19  
+Dde_1275:-84             1.0000     19  Dde_1278:-54             1.0000     19  
+Dde_0828:-94             1.0000     19  Dde_0818:-64             1.0000     19  
+Dde_0696:-71             1.0000     19  Dde_0108:-57             1.0000     19  
+Dde_1120:-70             1.0000     19  Dde_2573:-132            1.0000     19  
+Dde_2573:-65             1.0000     19  Dde_2986:-41             1.0000     19  
+Dde_1501:-136            1.0000     19  Dde_1400:-212            1.0000     19  
+Dde_1709:-53             1.0000     19  Dde_1455:-54             1.0000     19  
+Dde_3230:-95             1.0000     19  Dde_3197:-49             1.0000     19  
+Dde_3591:-85             1.0000     19  Dde_3159:-66             1.0000     19  
+Dde_2708:-136            1.0000     19  Dde_0378:-30             1.0000     19  
+Dde_0564:-83             1.0000     19  Dde_2311:-75             1.0000     19  
+Dde_3492:-71             1.0000     19  Dde_0657:-83             1.0000     19  
+Dde_0110:-208            1.0000     19  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme K:\20200226\TRN\motifs\Sigma54.fasta -dna -mod zoops -evt 10 -nmotifs 6 -maxsize 1000000000 -maxw 30 
+
+model:  mod=         zoops    nmotifs=         6    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           19    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=      485    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            9215    N=             485
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.157 C 0.255 G 0.259 T 0.329 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.157 C 0.255 G 0.259 T 0.329 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   18   sites = 485   llr = 4926   E-value = 3.8e-1898
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  21::18:222211:::32
+pos.-specific     C  31::826132341::911
+probability       G  1:aa:::631111:a::1
+matrix            T  48::1:3114447a:165
+
+         bits    2.7                   
+                 2.4                   
+                 2.1                   
+                 1.9   **          *   
+Information      1.6   ** *        *   
+content          1.3   ** *       ***  
+(14.7 bits)      1.1   ****       ***  
+                 0.8  *****       ***  
+                 0.5  *******    ***** 
+                 0.3  *******    ******
+                 0.0 ------------------
+
+Multilevel           TTGGCACGCTTCTTGCTT
+consensus            C     TAGCCT    AA
+sequence             A        A        
+                                       
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                   Site     
+-------------             ----- ---------            ------------------
+DVU2357:-430                  2  3.26e-08          C TTGGCACACCCCTTGCTT           
+Ddes_1437:-228                2  5.40e-08          T CTGGCACGCATCCTGCAA           
+DESPIG_00690:-54              2  6.88e-08          C ATGGCACGCTTTATGCTT           
+Dde_0191:-227                 2  1.09e-07          G TTGGCACGGCAGTTGCTA           
+Ddes_2374:-198                2  1.09e-07          T TTGGCACGCACATTGCTC           
+DvMF_2785:-63                 2  1.09e-07          C ATGGCACGGCCCTTGCTG           
+DESPIG_02585:-57              2  1.09e-07          A TTGGCACGGACTTTGCTG           
+DvMF_0693:-77                 2  1.34e-07          A TTGGCACAGCGCTTGCTT           
+DvMF_0866:-98                 2  1.34e-07          G ATGGCACGCTCCTTGCCT           
+DESPIG_01831:-119             2  1.34e-07          A CTGGCACGCCCCTTGCTC           
+DMR_06410:-79                 2  1.64e-07          T TTGGCACGCCCCCTGCTT           
+DMR_06400:-78                 2  1.64e-07          T TTGGCACGCCCCCTGCTT           
+DMR_06380:-79                 2  1.64e-07          T TTGGCACGCCCCCTGCTT           
+Dde_1501:-136                 2  1.99e-07          T CTGGCACGATTTATGCTT           
+Dde_0298:-86                  2  1.99e-07          T CTGGCACGGTCCATGCTT           
+DESPIG_02849:-80              2  1.99e-07          A ATGGCACAGGCATTGCTA           
+DMR_38330:-60                 2  1.99e-07          T CTGGCACGCTCCCTGCTT           
+DVU0132:-232                  2  1.99e-07          T ATGGCACACCCGTTGCTT           
+DVU1854:34                    2  1.99e-07          T TAGGCACGCATATTGCTT           
+DESPIG_02990:-105             2  1.99e-07          A TTGGCACGGGTGTTGCTT           
+Dde_2287:-243                 2  2.40e-07          A ATGGCACGCTTGATGCTA           
+DESPIG_02139:-147             2  2.40e-07          T ATGGCACGCTTGTTGCTG           
+DMR_06420:-79                 2  2.40e-07          C TTGGCACGGCCTATGCTT           
+Dde_0111:-78                  2  2.40e-07          T ATGGCACGCCTGTTGCTC           
+DvMF_2283:-158                2  2.40e-07          A ATGGCACGCATAGTGCTA           
+DVU1805:-69                   2  2.40e-07          A ATGGCCCGCATATTGCTT           
+DVU0150:-180                  2  2.40e-07          T TTGGCACGGCCATTGCTC           
+Dde_0356:-75                  2  2.88e-07          C ATGGAACACACCTTGCTT           
+DESPIG_00642:-127             2  2.88e-07          T ATGGCACAGGGCTTGCTT           
+Dde_0438:-73                  2  2.88e-07          C GTGGCATGCAACTTGCTT           
+DMR_37280:-101                2  2.88e-07          C ATGGCACGGATGCTGCTT           
+Ddes_2091:-76                 2  2.88e-07          T CTGGCACGCTCTCTGCAT           
+Dret_2390:-78                 2  2.88e-07          T TTGGCACGCCCAATGCAT           
+DvMF_0828:-48                 2  2.88e-07          C ATGGCATGCTTCCTGCTT           
+Desal_3066:-65                2  2.88e-07          T TTGGCACAGTCCATGCTT           
+DvMF_1984:-111                2  2.88e-07          T TTGGCACAACCGTTGCTA           
+Desal_2938:-115               2  2.88e-07          T TAGGCACGCCCCTTGCTT           
+Dde_2986:-41                  2  3.44e-07          A ACGGCACGATTATTGCTT           
+Dde_1258:-159                 2  3.44e-07          A CTGGCACGGCATATGCTT           
+Dbac_2944:-62                 2  3.44e-07          C CTGGCACGGCCCTTGCCT           
+Dbac_0448:-96                 2  3.44e-07          C ATGGCACCGCATTTGCTT           
+Ddes_0391:-101                2  3.44e-07          T TTGGCCCGCACTTTGCAT           
+Ddes_0313:-75                 2  3.44e-07          A ATGGCATACAGTTTGCTT           
+Dret_0446:-67                 2  3.44e-07          A TCGGCACGGACATTGCTA           
+DVU2917:-40                   2  3.44e-07          T CTGGCACATCTTTTGCTT           
+DvMF_1446:-38                 2  3.44e-07          T TTGGCACGGTTCATGCTC           
+Desal_1156:-96                2  3.44e-07          A ATGGAACACCTTTTGCTA           
+Desal_2793:-380               2  3.44e-07          T TTGGCATACCCATTGCTA           
+Dbac_2231:-65                 2  4.10e-07          A TTGGCATGGACCATGCTT           
+Ddes_0767:-110                2  4.10e-07          A TTGGCACGACCTTTGCCT           
+Ddes_1642:-115                2  4.10e-07          A ATGGCATGGCGATTGCTA           
+Dde_3211:-88                  2  4.10e-07          G CTGGCACGCACGTTGCAC           
+DVU0410:-70                   2  4.10e-07          G TTGGCCCGGAATTTGCTT           
+DVU3003:-220                  2  4.10e-07          G TTGGCACGGATAGTGCTT           
+DvMF_0244:-54                 2  4.10e-07          G TTGGCACCAACATTGCTT           
+Desal_0447:-69                2  4.10e-07          T TTGGCACACCACTTGCCT           
+Desal_0681:-67                2  4.10e-07          T TTGGCACGGGCCATGCTT           
+DVU1880:-68                   2  4.10e-07          A TTGGCATGATTCATGCTT           
+Dde_0357:-141                 2  4.86e-07          G GTGGCACGGTTCCTGCTT           
+DMR_45210:-101                2  4.86e-07          G TTGGCACGGCTGCTGCAA           
+DMR_34260:-179                2  4.86e-07          A TTGGCACACTCTTTGCCT           
+Ddes_1230:-120                2  4.86e-07          T CTGGCATCCATCTTGCTT           
+DVU1231:-81                   2  4.86e-07          G TTGGCACGCGACTTGCCT           
+DVU0307:-59                   2  4.86e-07          T CTGGCACGGCTCGTGCTT           
+LI0887:-53                    2  4.86e-07          C TTGGCAAGCTTTTTGCTT           
+DvMF_2341:-197                2  4.86e-07          T TTGGCATGCGGCTTGCTA           
+DvMF_1808:-128                2  4.86e-07          G CTGGCACGGCTCGTGCTT           
+Desal_1243:-38                2  4.86e-07          T ACGGCACAAATATTGCTT           
+DVU3384:-82                   2  4.86e-07          T TTGGCACGCTCCATGCTC           
+DESPIG_02142:-99              2  4.86e-07          T TTGGCACAGCCTATGCTT           
+Dbac_2711:-81                 2  5.76e-07          A TTGGCACGGCGTCTGCTA           
+Dde_1940:-79                  2  5.76e-07          T CTGGCATCCATTTTGCTA           
+DVU3004:-77                   2  5.76e-07          G CTGGCCCGCTTATTGCTT           
+DvMF_2016:-29                 2  5.76e-07          C ATGGCCCGCATCTTGCTG           
+DvMF_0386:-69                 2  5.76e-07          G CTGGCACCGATCTTGCTC           
+DvMF_1363:-85                 2  5.76e-07          T TTGGCACGCCTCTTGATT           
+Desal_3524:-300               2  5.76e-07          A TTGGCACCCTGTTTGCTA           
+DESPIG_02788:-110             2  5.76e-07          T TTGGCACGCGGGTTGCTA           
+DMR_06390:-78                 2  6.81e-07          T TTGGCATGCCCCCTGCTT           
+Dbac_2235:-63                 2  6.81e-07          T TTGGCACGGTCGATGCAT           
+Dbac_1728:-53                 2  6.81e-07          G CTGGCACGCATCCTGCCT           
+Dde_2819:-59                  2  6.81e-07          T TTGGCACACCTGTTGCTG           
+Dde_2509:-76                  2  6.81e-07          C ATGGAACGCTGTTTGCTT           
+Dde_0876:-116                 2  6.81e-07          T CTGGCACGCTTCTTGTTA           
+DVU0542:-71                   2  6.81e-07          C GTGGCATGCAGCTTGCTT           
+LI0348:-77                    2  6.81e-07          C TTGGCATGGCTTCTGCTT           
+DvMF_1799:-60                 2  6.81e-07          G CTGGCACGGTTGCTGCTT           
+DvMF_1764:-205                2  6.81e-07          G ATGGCACGAAACTTGTTA           
+DESPIG_02193:-68              2  6.81e-07          T CTGGCACGGTTCCTGCTG           
+Dbac_2145:-84                 2  8.02e-07          T ATGGCATGCCATCTGCTT           
+Dbac_3048:-45                 2  8.02e-07          T ATGGCACCGTCCTTGCTC           
+DMR_16170:50                  2  8.02e-07          T TTGGCACGGCGTTTGCCT           
+DMR_42220:-78                 2  8.02e-07          G CCGGCACACCCCTTGCTT           
+DMR_31570:-46                 2  8.02e-07          G CTGGCCCGCATGTTGCAA           
+Ddes_1147:-126                2  8.02e-07          C TTGGCACAGATAGTGCTT           
+Desal_2292:-59                2  8.02e-07          C ATGGCACCAATTATGCTT           
+DvMF_0905:-38                 2  8.02e-07          C ATGGCAGGGTTCTTGCTT           
+Desal_2513:-57                2  8.02e-07          C AAGGCACGGCTGTTGCTT           
+DVUA0089:-51                  2  8.02e-07          T ATGGAATGCAATTTGCTT           
+Dde_3159:-66                  2  9.40e-07          G CTGGCCCGCATGTTGCAT           
+Dde_1400:-212                 2  9.40e-07          C TTGGCATGCATTGTGCTT           
+Dde_0323:-187                 2  9.40e-07          G TTGGCACGTTCCTTGCCT           
+DMR_20560:-60                 2  9.40e-07          A CTGGCATGACTCTTGCCT           
+Dbac_2155:-282                2  9.40e-07          T TTGGAATGCTCCTTGCTT           
+DVU0036:-60                   2  9.40e-07          T GTGGCACGCTATCTGCTT           
+DVU1962:-317                  2  9.40e-07          T TTGGCCTGCCTCTTGCTT           
+LI0567:-82                    2  9.40e-07          C TTGGCACATAACATGCAT           
+DVU2957:-65                   2  9.40e-07          G CTGGCACGGAACTTGTTA           
+Desal_0622:-30                2  9.40e-07          C ATGGCACGGACTATGCCT           
+Desal_2290:-102               2  9.40e-07          T ACGGCACGCCTCCTGCTT           
+Desal_1153:-50                2  9.40e-07          A ATGGCCCACCATTTGCTT           
+DVU0571:-124                  2  9.40e-07          G TTGGCAAGGCCTTTGCTA           
+DMR_13760:-70                 2  1.10e-06          T TTGGAACGCCTCCTGCTT           
+Dbac_1588:-109                2  1.10e-06          G ATGGCATGCATTCTGCTC           
+Ddes_2004:-57                 2  1.10e-06          T TCGGCACGCTTTCTGCAA           
+DVU3020:-56                   2  1.10e-06          C ATGGCATGTGCCTTGCTT           
+DvMF_2147:-139                2  1.10e-06          C TTGGCACGCCGGTTGCTC           
+Desal_1330:-51                2  1.10e-06          T TTGGCACCCCTTATGCTT           
+Desal_1008:-71                2  1.10e-06          T TTGGCCTGCACTTTGCAA           
+Desal_3004:-69                2  1.10e-06          T TTGGCACACGCTCTGCTT           
+Desal_0680:-67                2  1.10e-06          T TTGGCACAGCACGTGCTT           
+DVU1536:-90                   2  1.10e-06          A CTGGCCCGGATGTTGCTT           
+DVUA0032:-76                  2  1.10e-06          G TTGGAACAGTCATTGCTT           
+Dde_0102:-96                  2  1.28e-06          G TTGGCACCGACTCTGCAA           
+Dbac_2146:-113                2  1.28e-06          C TTGGAACGCTCTTTGCTC           
+Ddes_2342:-63                 2  1.28e-06          T TTGGCACGACTACTGCAG           
+Dbac_1014:-63                 2  1.28e-06          T CTGGCACGGCACTTGATA           
+Ddes_0695:-76                 2  1.28e-06          T TTGGCAAGACCTTTGCAT           
+Ddes_0373:-141                2  1.28e-06          T CTGGCACAGTGTCTGCAA           
+Dret_0578:-51                 2  1.28e-06          G CTGGCATAATTTATGCTA           
+Ddes_1576:-59                 2  1.28e-06          T TTGGAACAAATGTTGCTT           
+Desal_3528:-102               2  1.28e-06          T CTGGCACAGCCCGTGCTA           
+DvMF_2578:-132                2  1.28e-06          C TTGGCACGCCGCATGCTC           
+Desal_0181:-54                2  1.28e-06          T TTGGCAAGGTCATTGCAT           
+DMR_45010:-138                2  1.48e-06          C TTGGCATGAGGATTGCTT           
+DMR_25570:-89                 2  1.48e-06          C TTGGCAGGCTCTTTGCTA           
+Dbac_2476:-47                 2  1.48e-06          C TTGGCAGGGACTTTGCTT           
+Dbac_2264:-101                2  1.48e-06          G CTGGCATGGTCTTTGCCT           
+DvMF_1121:-124                2  1.48e-06          A ATGGCACGGGCTGTGCTT           
+DvMF_0825:-135                2  1.48e-06          G CTGGCACGACTCCTGCCT           
+DvMF_3011:-400                2  1.48e-06          T CTGGCACGGGTTGTGCTT           
+Desal_3549:-184               2  1.48e-06          T TTGGCCCGCTTATTGCTC           
+DESPIG_02269:-49              2  1.48e-06          A ATGGCATGTTTTTTGCTG           
+Dde_1709:-53                  2  1.71e-06          T TTGGCACCACCTTTGCTC           
+Ddes_0154:-244                2  1.71e-06          T TTGGAACAATGTTTGCTA           
+Ddes_2282:-243                2  1.71e-06          A ATGGCATGATTCCTGCTG           
+Ddes_2002:-84                 2  1.71e-06          C GAGGCACGGAAATTGCTT           
+DVU1258:-100                  2  1.71e-06          A TTGGCCCGCTCTTTGCTC           
+LI0860:-68                    2  1.71e-06          T ATGGCATATGTTTTGCTT           
+Desal_0361:-20                2  1.71e-06          T ATGGCATGTCTTATGCTA           
+DVUA0143:-29                  2  1.71e-06          C GAGGCACGGCTATTGCTT           
+Dde_0564:-83                  2  1.97e-06          A CCGGCACGGATACTGCAT           
+DMR_45640:-76                 2  1.97e-06          C CTGGCAAGGGACTTGCTA           
+DMR_24580:-117                2  1.97e-06          G TTGGCATCCATTTTGCTG           
+Dbac_2669:-55                 2  1.97e-06          C ATGGCACGCGCCTTGTTT           
+Ddes_1436:-123                2  1.97e-06          T GTGGCATGCCCCATGCAA           
+Ddes_1573:-79                 2  1.97e-06          T TAGGCATGAATGTTGCTA           
+Dde_2507:-73                  2  1.97e-06          A CAGGCACGGCGATTGCTT           
+Dde_2357:-82                  2  1.97e-06          C TTGGCACGGTGGTTGCCT           
+DvMF_2284:-106                2  1.97e-06          G CTGGAACACCTCTTGCTG           
+Desal_0284:-92                2  1.97e-06          T TTGGCACACGTCTTGCCC           
+DVUA203:-62                   2  1.97e-06          C ATGGCATACTTGCTGCTA           
+Dde_1455:-54                  2  2.26e-06          G TTGGCAGACTTATTGCTA           
+DMR_25590:-78                 2  2.26e-06          T TTGGCACGGTTGTTGTAA           
+Ddes_1028:-58                 2  2.26e-06          T TTGGCACATGGATTGCAA           
+Dbac_3026:-91                 2  2.26e-06          T CTGGAATGGTCATTGCAA           
+Ddes_0193:-29                 2  2.26e-06          T TTGGCAACCATTTTGCAA           
+Dret_1039:-90                 2  2.26e-06          T ATGGCATGGATATTGAAT           
+Dret_0164:-82                 2  2.26e-06          A TCGGAACGGATATTGCTT           
+Dret_0199:-95                 2  2.26e-06          T TTGGCCCGATATTTGCTC           
+LI0700:-80                    2  2.26e-06          T TTGGCATGTGCATTGCTT           
+DvMF_0177:-183                2  2.26e-06          C TTGGCGCGGAATTTGCTT           
+DvMF_2154:-120                2  2.26e-06          G TTGGCAAGGCGTTTGCTT           
+Desal_3438:-145               2  2.26e-06          T TTGGCACAATGCGTGCTT           
+Desal_1015:-104               2  2.26e-06          A TTGGCAAGAAACTTGCTG           
+DMR_33860:-246                2  2.60e-06          C TTGGCAGGCTTCTTGCTC           
+DVU0943:-73                   2  2.60e-06          T CTGGCACGCTTCTTGTTC           
+Dde_1553:-84                  2  2.60e-06          T CTGGCAAGGTGTTTGCTT           
+DVU2896:-13                   2  2.60e-06          C ATTGCACGGTTCTTGCTT           
+DVU2822:-91                   2  2.60e-06          T TTGGCACGTTCCCTGCTC           
+LI0856:-108                   2  2.60e-06          A TAGGCATGCAGATTGCAT           
+DvMF_2747:-79                 2  2.60e-06          C TTGGCACGCGGGTTGCTG           
+DVU2652:-100                  2  2.60e-06          A ATGGCACAGTGTATGCTC           
+DVU0750:-201                  2  2.60e-06          A ATGGCACTGCTCTTGCTG           
+Desal_2595:-107               2  2.60e-06          G ATGGTACGCTTCTTGCCT           
+Dbac_0834:-81                 2  2.98e-06          T TTGGCACGCCCGTTGCCC           
+DMR_33620:-104                2  2.98e-06          T TTGGCACGTTCCCTGCTG           
+DMR_42100:-58                 2  2.98e-06          A CTGGCCCGTGTCTTGCAA           
+DMR_31520:-71                 2  2.98e-06          A CTGGCCCGCAATTTGCCT           
+Dbac_1772:-70                 2  2.98e-06          G CTGGCCCGAAATCTGCTA           
+Dbac_1587:-156                2  2.98e-06          A TTGGCACAGAGAATGCTC           
+Dbac_0547:-44                 2  2.98e-06          T CTGGCATGGGATCTGCTT           
+Dbac_3471:-144                2  2.98e-06          C CTGGCACGCGCCTTGTAT           
+Dret_0113:-70                 2  2.98e-06          A TTGGCCCCATCCTTGCTA           
+Dde_2510:-72                  2  2.98e-06          T TTGGAACCGCTATTGCTT           
+Dde_2705:-112                 2  2.98e-06          T CTGGCCTGATCTTTGCTT           
+DVU2451:-211                  2  2.98e-06          C TTGGCCCGGTAATTGCTG           
+Desal_2196:-88                2  2.98e-06          T GTGGCACAGCGTTTGCTC           
+Desal_0416:-87                2  2.98e-06          T CTGGCCCGCCTTTTGCCT           
+DvMF_0321:-98                 2  2.98e-06          T TTGGCCCCGTCCTTGCTT           
+Desal_1249:-67                2  2.98e-06          T TTGGCATCCTGATTGCAT           
+Desal_2827:-81                2  2.98e-06          G TTGGCATGACTCTTGTAT           
+Dde_2311:-75                  2  3.40e-06          T CTGGCCTGCTGCTTGCTT           
+Dde_0380:-145                 2  3.40e-06          G CTGGCACGGGCCTTGTAT           
+Dbac_1721:-62                 2  3.40e-06          C TTGGCAACAAACTTGCTA           
+Ddes_0698:-63                 2  3.40e-06          C TTGGCCCGCTGTTTGCAC           
+Dde_2960:-101                 2  3.40e-06          C ATTGCACGCCTTTTGCAT           
+DVU3232:-199                  2  3.40e-06          G CTGGCACGGGCCTTGTAT           
+Desal_1157:-100               2  3.40e-06          T TTGGCACGGGGTGTGCAT           
+DvMF_2106:-53                 2  3.40e-06          T CTGGCACGGCGCTTGTTT           
+DVU0320:-55                   2  3.40e-06          G CTTGCACGCTTCTTGCTT           
+Dde_3230:-95                  2  3.88e-06          A ATGGCAGAACCTTTGCAT           
+Dde_3237:-163                 2  3.88e-06          C ATGGCATACTTTTTGTTT           
+DMR_33160:-52                 2  3.88e-06          T TTGGCCCCGCCTTTGCAA           
+Dbac_2301:-43                 2  3.88e-06          G GCGGCACGGCTCATGCTT           
+Ddes_0311:-61                 2  3.88e-06          C TTGGCACTGTACTTGCTG           
+Dret_2081:-40                 2  3.88e-06          C GTGGAATGATTTTTGCTT           
+DVU3025:-153                  2  3.88e-06          A TTGGCACATTTCTTGTTA           
+DvMF_0509:-128                2  3.88e-06          C ATGGACCAATTCTTGCTT           
+DvMF_2912:-73                 2  3.88e-06          T CTGGCACCAGCCTTGCAG           
+Desal_0448:-58                2  3.88e-06          T TTGGCATCAATAATGCTT           
+DvMF_1393:-93                 2  3.88e-06          T TCGGCCCGGTATTTGCTA           
+Desal_2604:-43                2  3.88e-06          G ATGGCATATTATTTGCTG           
+DvMF_1856:-71                 2  3.88e-06          C TCGGCAAGGCTCTTGCAT           
+DVU0123:-54                   2  3.88e-06          C ATGGCACTCCATTTGCTC           
+Dde_1275:-84                  2  4.41e-06          T TTGGCACATTACCTGCTC           
+DMR_17520:-62                 2  4.41e-06          T CTGGCACGCTCCTTGTAG           
+DMR_23880:-156                2  4.41e-06          C TTGGCACAGGCCTTGTAT           
+Dbac_0313:-85                 2  4.41e-06          G TTGGCATGTGCGTTGCTT           
+Dbac_1225:-61                 2  4.41e-06          A CTGGCATGATCTCTGCTC           
+Ddes_0331:-175                2  4.41e-06          T CTGGCACGGGCTTTGTAT           
+Dret_2267:-53                 2  4.41e-06          T TTGGCACCTCTCTTGCCT           
+DVU3302:-56                   2  4.41e-06          C TTGGCACGGGGCTTGTTA           
+Desal_3705:-69                2  4.41e-06          A CTGGCACGATTTTGGCTT           
+Desal_2461:-77                2  4.41e-06          A TTGGCATTACCCTTGCTT           
+DvMF_2067:-67                 2  4.41e-06          G CTGGCATTCCCCTTGCTT           
+Desal_2594:-180               2  4.41e-06          T TTGGCACAGGCCTTGTAT           
+Dde_0318:18                   2  5.00e-06          A AAGGCACGGCTTCTGCTG           
+Dbac_1753:-84                 2  5.00e-06          C CCGGCATATATTTTGCTA           
+DMR_05720:-209                2  5.00e-06          C CTGGCATCGTCCCTGCTA           
+Ddes_2343:-81                 2  5.00e-06          G TTGGCATACTTATTGATT           
+Dbac_0848:-149                2  5.00e-06          T ATGGCACTAAATCTGCTT           
+Ddes_2345:-151                2  5.00e-06          G TTGGCCTGCCTATTGCAC           
+Dde_1654:-87                  2  5.00e-06          G GTGGCATGCTTTATGCTC           
+LI0740:-147                   2  5.00e-06          C TTGGTATAACTTTTGCTA           
+DVU0682:-200                  2  5.00e-06          G GTGGCCCGATTTTTGCTC           
+Desal_0518:-29                2  5.00e-06          G CTGGCACTTACTTTGCTT           
+DvMF_2906:-127                2  5.00e-06          T ACGGCACCATTCTTGCTG           
+DvMF_1860:-368                2  5.00e-06          A CTGGCACACTTCTTGTTG           
+DVUA0015:-326                 2  5.00e-06          C ATGGCACATCCCTTGCCC           
+Dde_2573:-65                  2  5.66e-06          C ACGGCACTCAATTTGCAT           
+DMR_22570:-60                 2  5.66e-06          G TTGGCATGACAATTGATA           
+DMR_11290:-42                 2  5.66e-06          T TCGGCACGGTTCCTGCCT           
+DMR_39260:-52                 2  5.66e-06          T CTGGCAGGTTTTTTGCTT           
+DMR_03980:-71                 2  5.66e-06          G TTGGCATCCGCCTTGCTC           
+DMR_45020:-82                 2  5.66e-06          G CTGGAACGCTTTTTGCCC           
+DMR_11080:-29                 2  5.66e-06          T CTGGACCGGTATTTGCTT           
+Dbac_1044:-91                 2  5.66e-06          A GTGGCACAAAACTTGTTT           
+DVU0139:-79                   2  5.66e-06          A ATGGTACGCTGTTTGCTC           
+DVU0910:-128                  2  5.66e-06          A CTGGCCCCTATCTTGCAA           
+DVU0858:-79                   2  5.66e-06          T CCGGCATCGTTCTTGCTT           
+LI1157:-193                   2  5.66e-06          T TTGGCATAGTCTCTGCAG           
+DVU0316:-91                   2  5.66e-06          C GTGGAACCCTTTTTGCTT           
+DvMF_1255:-53                 2  5.66e-06          T CTGGCATCACTCTTGCCT           
+Desal_3303:-111               2  5.66e-06          T TTGGCATGCGGATTGCCT           
+DvMF_2283:-211                2  5.66e-06          C GTGGCACATGGTTTGCTA           
+DVU0624:-196                  2  5.66e-06          T TCGGCACGCCTTTTGTAA           
+DVU2133:-73                   2  6.40e-06          C ATTGCACGCTTCTTGCTC           
+DVU2090:-96                   2  6.40e-06          C AAGGTACACACCTTGCTT           
+DvMF_0574:-68                 2  6.40e-06          G CTGGCATGGGCGATGCAT           
+DvMF_2613:-110                2  6.40e-06          A CTGGCACGGGGTTTGCCC           
+DvMF_1590:-201                2  6.40e-06          A GTGGACCGCTTCTTGCTT           
+DvMF_0248:-44                 2  6.40e-06          T TTGGAACGGTCCTTGTAA           
+Desal_3006:-115               2  6.40e-06          T TTGGCCCGGGAAATGCAA           
+Desal_3007:-43                2  6.40e-06          T TTGGCACGCCTCGTGAAT           
+Desal_0581:-97                2  6.40e-06          T TTGGCACCCAAATTGAAT           
+Dbac_0691:-67                 2  7.22e-06          G CTGGCATGAATGTTGATT           
+Dbac_2410:-46                 2  7.22e-06          A CTGGCCTGGTATTTGCTC           
+Dbac_2789:-29                 2  7.22e-06          T CTGGCATGAAGTTTGATA           
+Ddes_0530:-82                 2  7.22e-06          A GTTGCACGCATTTTGCAA           
+Ddes_0596:-177                2  7.22e-06          T TTGGCACGTTTCTGGCAT           
+Dret_0569:-130                2  7.22e-06          T ATGGCGTGGTATTTGCAT           
+DVU3143:-68                   2  7.22e-06          T CAGGCACAGTTCCTGCTC           
+DvMF_3071:-74                 2  7.22e-06          G ATGGCACGGACTTTTCAT           
+DvMF_2420:-56                 2  7.22e-06          T TTGGCATCCTTGCTGCAA           
+DvMF_2014:-177                2  7.22e-06          G CTGGCACAGGCTTTGTAT           
+Dde_0828:-94                  2  8.14e-06          T GTGGCACGGTTTTGGCTA           
+Dde_3523:-98                  2  8.14e-06          T TTGGCCCGTTCCTTGCCT           
+Dde_1713:-44                  2  8.14e-06          T CTGGAACGCCTTTTGTAT           
+Ddes_2079:-173                2  8.14e-06          A ATGGCAGCAAATTTGCAT           
+Dbac_2386:-64                 2  8.14e-06          T CTGGCACCAGGTTTGCTC           
+Dbac_3025:-73                 2  8.14e-06          G GTGGCATCAAAGTTGCTA           
+Dbac_0833:-57                 2  8.14e-06          C GTGGCATCGACCATGCAA           
+Dbac_3470:-95                 2  8.14e-06          C CTGGCCCGTTTTTTGCCA           
+Ddes_0763:-59                 2  8.14e-06          C TTGGCAGCATTTTTGCAT           
+Dde_0404:-52                  2  8.14e-06          A GTGGCACCACCTTTGCCA           
+DVU1441:-54                   2  8.14e-06          A TTGGCATCGTGTTTGCTG           
+DORF39640:-78                 2  8.14e-06          T TTGGCATGAGGGTTGCTC           
+DVU2280:-132                  2  8.14e-06          G CTGGTACGCTTGTTGCTG           
+Desal_2983:-73                2  8.14e-06          G TAGGCAGGAATATTGCAA           
+DvMF_1840:-253                2  8.14e-06          G CTTGCACACTACTTGCAT           
+DVU0320:-296                  2  8.14e-06          A ATGGCCCGCGTCTTGCCC           
+DVU0913:-72                   2  8.14e-06          A ACGGCCCGTTCCTTGCTA           
+Dde_1120:-70                  2  9.15e-06          C ATGGCATTTTCCTTGCAT           
+Dde_3153:-164                 2  9.15e-06          G CTGGCAGGAAAATTGCTG           
+DMR_05460:-13                 2  9.15e-06          G TCGGCACAAGGGTTGCAA           
+DMR_40120:-132                2  9.15e-06          A AAGGCACAATCCTTGATA           
+Dbac_2588:-49                 2  9.15e-06          A ATGGCACAATTCTTTCAT           
+Ddes_0220:-190                2  9.15e-06          T CTGGAACACTTCTTGTAT           
+Ddes_1260:-98                 2  9.15e-06          G TTGGAACAGCCTGTGCAT           
+Ddes_0327:-96                 2  9.15e-06          C TTGGCCCCTAATTTGCAT           
+DVU2988:-46                   2  9.15e-06          C CCGGCACGCTTCGTGCTG           
+Dde_3226:-49                  2  9.15e-06          T CTGGCATAGAAGGTGCTT           
+DVU2105:-60                   2  9.15e-06          C GTGGAACGGAACGTGCTT           
+DVU2405:-99                   2  9.15e-06          T TTGGCCCCTTCCTTGCTT           
+LI1017:-60                    2  9.15e-06          A ATGGCTCACCTCTTGCAA           
+DvMF_3023:-152                2  9.15e-06          A ATGGCCTGAATGATGCTT           
+DVU0047:-186                  2  9.15e-06          G CTGGAACATTTTCTGCAA           
+DvMF_2521:-220                2  9.15e-06          A CTGGCACGGTGTTGGCAA           
+DESPIG_00156:-59              2  9.15e-06          C ATGGTACGTTTTATGCTT           
+Dde_1712:-87                  2  1.03e-05          T TTGGCCCAGGAAATGCAA           
+DMR_16470:-180                2  1.03e-05          A TTGGCCCAGCATGTGCAA           
+Ddes_1559:-66                 2  1.03e-05          T ATGGACCATATTTTGCAT           
+Dret_1485:-210                2  1.03e-05          T TTGGCAAAGTTTGTGCAT           
+Dret_0167:-228                2  1.03e-05          T CAGGCATATAAATTGCTT           
+DVU3234:-29                   2  1.03e-05          C GTGGCCCGTATTTTGCTC           
+DVU1445:-43                   2  1.03e-05          A TTGGAACACTCCTTGTAT           
+Desal_1016:-147               2  1.03e-05          G CTGGCCCAGGCCCTGCTT           
+Dde_0818:-64                  2  1.15e-05          A CTGGCATGAAATTGGCAA           
+Dbac_2236:-115                2  1.15e-05          G CTGGTACGTTCGTTGCTA           
+DMR_23860:-29                 2  1.15e-05          C TTGGTCCAGCTTTTGCTA           
+Ddes_0378:-71                 2  1.15e-05          T CTGGCATCAATCTTGAAT           
+Ddes_0596:-148                2  1.15e-05          A ATGGCACACACTGTGCCG           
+Dde_0657:-83                  2  1.28e-05          A CCGGCACGGTTTGTGCTG           
+Dbac_1016:-112                2  1.28e-05          T CAGGCAGGGTATTTGCTA           
+Ddes_2346:-62                 2  1.28e-05          T CTGGCATCATTAGTGCAA           
+Ddes_1259:-43                 2  1.28e-05          T TTGGAACACTCTTTGTAT           
+DVU0318:-115                  2  1.28e-05          T TGGGCATGGCGCTTGCTT           
+Desal_1014:-87                2  1.28e-05          G ACGGTATGCAATTTGCTT           
+DVU3339.1:-61                 2  1.28e-05          A GTGGCACGTCAAATGCTC           
+Desal_3185:-65                2  1.28e-05          T CAGGCATAATTACTGCAT           
+Dbac_2976:-40                 2  1.43e-05          G TTGGCATGAATCTGGCTC           
+DMR_43550:-13                 2  1.43e-05          C CTGGCATGGCCTGTGCCT           
+DMR_20070:-84                 2  1.43e-05          G ATGGCACACGACTTGCGA           
+Dbac_2656:-84                 2  1.43e-05          T GTGGCAGGTCTTTTGCTT           
+Dbac_3049:-56                 2  1.43e-05          T TTGGCACTGCCTGTGCTT           
+Dde_0288:-308                 2  1.43e-05          T ACGGCACGGCCGCTGCTC           
+LI0211:-61                    2  1.43e-05          T TTGGCACTTTATTTGCTG           
+LI0507:-62                    2  1.43e-05          T AAGGCCTAAAATTTGCAT           
+DvMF_1812:-59                 2  1.43e-05          T TTTGCACGTCACTTGCAT           
+DvMF_1546:-75                 2  1.43e-05          C ATGGTCCGTTTCTTGCTT           
+Desal_3506:-81                2  1.43e-05          T CTGGCATAACGAGTGCTT           
+DVU2107:-51                   2  1.60e-05          C ACGGCATCATTCCTGCTT           
+LI1156:-151                   2  1.60e-05          A TTGGTATACTCTTTGCTG           
+DvMF_2517:-58                 2  1.60e-05          T GTGGCCCATGCCTTGCAA           
+Desal_0829:-80                2  1.60e-05          G TAGGTACGGATTCTGCTT           
+DVU0617:-60                   2  1.60e-05          T CTGGCCCGTTTCCTGCTC           
+DVU2272:-232                  2  1.60e-05          C GTGGCATGGCTTGTGCAG           
+DESPIG_02462:-51              2  1.60e-05          T TTGGCCTTGTTCTTGCAT           
+Dde_1275:-187                 2  1.78e-05          A TTGGAACACGCCTTGCCG           
+Dde_0816:-98                  2  1.78e-05          C ACGGCATCATGATTGCAT           
+Dbac_2434:-44                 2  1.78e-05          T TTGGCCCGCCTTTTGATC           
+DVU4010:-106                  2  1.78e-05          A GTGGCACGCCTTTCGCTA           
+DVUA0016:26                   2  1.78e-05          C TTGGCATCGGGTCTGCAA           
+DvMF_1932:-183                2  1.78e-05          G ACGGCATGTCGGTTGCAA           
+DVU2820:-58                   2  1.78e-05          C TGGGCATGGTTCTTGCCT           
+Dde_3492:-71                  2  1.98e-05          T TTGGCCCTCCTTTTGCTC           
+Dde_2708:-136                 2  1.98e-05          A ATGGCATTTATTATGCAT           
+Dde_0696:-71                  2  1.98e-05          A CAGGCACACCCCGTGCAC           
+Dde_1278:-54                  2  1.98e-05          C AAGGCACGCTTTTTGCGA           
+DESPIG_00689:-73              2  1.98e-05          T GTGGCATGATTCTGGCAT           
+Dde_0438:-80                  2  1.98e-05          C CCGGCACGTGGCATGCAA           
+Ddes_0332:-79                 2  1.98e-05          C CGGGTACGCTTCTTGCTA           
+DVU1164:-110                  2  1.98e-05          T TTGGCACACTTGTCGCTA           
+DVU1444:-82                   2  1.98e-05          T ATGGCGCGGGAAATGCAA           
+Desal_0577:-221               2  1.98e-05          C TCGGCATCGGCATTGCAT           
+Dde_0645:-48                  2  2.20e-05          T TTGGCACCGGTGTTGTAA           
+Dbac_0245:-46                 2  2.20e-05          C TTGGTATCTATCTTGCTT           
+Dde_1532:-55                  2  2.20e-05          T CCGGCCTGTATTTTGCTT           
+DVUA0030:-68                  2  2.20e-05          T ATGGAGTGCTACTTGCAA           
+LI0277:-57                    2  2.20e-05          T TAGGCATAGTTTTTGATT           
+DvMF_1491:-146                2  2.20e-05          A ACGGCACGGGTCTTGAAG           
+DvMF_0621:-252                2  2.20e-05          C CCGGCGTGCTTCTTGCAA           
+DvMF_2612:-117                2  2.20e-05          G TTGGCATCGGCGATGCAT           
+Desal_2614:-59                2  2.20e-05          G TTGGTACGTTTGCTGCAA           
+DVU2232:-51                   2  2.20e-05          A ATGGAGCGTTTCTTGCTT           
+Desal_3525:-57                2  2.20e-05          A AAGGCACTCCCTTTGCAG           
+DMR_13730:-43                 2  2.44e-05          T TTGGAACGGGTCTTGAAG           
+LI0570:-56                    2  2.44e-05          A TTGGTATATCCATTGCAT           
+LI0568:-44                    2  2.44e-05          T TTGGAACACTCCTTGTAC           
+DVU2277:-90                   2  2.44e-05          G CAGGCATGACCCTTGCCG           
+DvMF_2603:-272                2  2.44e-05          G TTGGTCCGCGTCTTGCTC           
+Ddes_0185:-134                2  2.70e-05          A GTTGCATGATTTTTGCAA           
+DVU1032:-52                   2  2.70e-05          G GTGGCGTGCTTCTTGCTC           
+LI1060:-73                    2  2.70e-05          T TAGGAATATTTTTTGCAT           
+DVU1152:-258                  2  2.70e-05          G GCGGTATGCAACTTGCAA           
+DvMF_2518:-89                 2  2.70e-05          T CCGGCATCCGGTTTGCAA           
+DESPIG_02787:-128             2  2.98e-05          G CTTGCATGTTTTTTGCAA           
+Dbac_0594:-29                 2  2.98e-05          T GCGGCATCCTTGTTGCTT           
+Dbac_2385:-64                 2  2.98e-05          C AAGGCCCGCAAACTGCTC           
+Ddes_0082:-191                2  2.98e-05          A CTGGTACGTTTCTTGAAA           
+Dbac_1496:-89                 2  2.98e-05          T GTGGCATCTGAATTGCTT           
+Dbac_3326:-88                 2  2.98e-05          T CTGGCCTCATTCTTGCCT           
+Ddes_0596:-54                 2  2.98e-05          G TTGGCAAGGTGAATGCCA           
+Dret_0589:-92                 2  2.98e-05          G ACGGAACGGTATTTGCCC           
+DVUA0036:29                   2  2.98e-05          T GTGGCACGGTATTGGCTC           
+DvMF_2406:-119                2  2.98e-05          G GCGGCACGCTTGTTGTAA           
+DvMF_2405:-338                2  2.98e-05          T GCGGCATGAACCATGCAG           
+Dde_0108:-57                  2  3.29e-05          A TCGGCACTATGGTTGCTA           
+DMR_05510:-54                 2  3.29e-05          C CGGGCATCGTCCTTGCAT           
+Dde_1786:8                    2  3.29e-05          A ATGGCATTGCCGCTGCTT           
+Dde_3225:-74                  2  3.29e-05          G CTGGCCTGTATGTTGCCA           
+DvMF_2528:-29                 2  3.29e-05          G GCGGAACCATCCTTGCAA           
+DvMF_0691:-61                 2  3.29e-05          G CTGGCATGGTATTGGCTC           
+DvMF_1800:-230                2  3.29e-05          G CTGGCCTGGCGGTTGCTG           
+DvMF_1800:-251                2  3.29e-05          G CTGGCCTGGCGGTTGCAG           
+DvMF_1800:-272                2  3.29e-05          G CTGGCCTGGCGGTTGCTG           
+Dde_1684:-54                  2  3.63e-05          T TTGGCACGTGTTTTTCAT           
+Dbac_2430:-53                 2  3.63e-05          A ATGGCATTCTGTGTGCAA           
+Dbac_1614:-84                 2  3.63e-05          C ATGGACCCATTCCTGCAT           
+Ddes_1836:-78                 2  3.63e-05          A ATGGCCTTTTTCTTGCAT           
+Dret_0569:-290                2  3.63e-05          A TTGGAGCACTTTTTGCTC           
+Dde_1017:-58                  2  3.63e-05          T TTGGTACGCCTTTTGTAG           
+DVU0512:-68                   2  3.63e-05          C GTGGTCTGCATATTGCAA           
+DvMF_1396:-237                2  3.63e-05          C TTGGCGTTCATCTTGCAT           
+DvMF_0213:-90                 2  3.63e-05          G TTGGCACGAGGTTTTCAT           
+DVU0805:-59                   2  3.63e-05          G ATGGTATGATATTTGATA           
+Dde_0378:-30                  2  4.00e-05          G ATGGTCTGTTTTTTGCTT           
+Dbac_3473:-30                 2  4.00e-05          T CTGGTCCGCGTTTTGCTG           
+DVU3382:-247                  2  4.00e-05          G TTGGTGCAGTCCTTGCTT           
+DVUA0106:-257                 2  4.00e-05          T CTGGCCCGCTTTTCGCAA           
+LI0746:-62                    2  4.00e-05          T TTGGTATAAAAGCTGCAT           
+DVU1418:-46                   2  4.00e-05          T TCGGCACAGTTCTTTCAT           
+DvMF_1325:-146                2  4.00e-05          C GCTGCACGCTTTTTGCTA           
+DvMF_1693:-95                 2  4.00e-05          C CGGGCATGCTTCCTGCTC           
+Dde_0420:-45                  2  4.40e-05          T GTGGCCGGCATTTTGCAC           
+DMR_10270:-161                2  4.40e-05          T TAGGTATGTAAATTGCTA           
+DMR_19620:-114                2  4.40e-05          T TTGGAACGGGGGATGCAG           
+DVU0863:-71                   2  4.84e-05          C GTGGCATCTGGATTGCAT           
+Desal_3710:-67                2  4.84e-05          A GTGGCCCTTTTTTTGCAA           
+DvMF_1509:-29                 2  4.84e-05          T ATGGCGCGGAAAGTGCTG           
+Desal_2601:-77                2  4.84e-05          G CTGGCGCACCTATTGCCC           
+DvMF_2148:-244                2  5.31e-05          G CTGGTGCGCTTGTTGCTT           
+Dde_3197:-49                  2  5.82e-05          G TCGGCATCATTCCTGCCT           
+Dbac_2249:-29                 2  5.82e-05          T TGTGCACGCTTTTTGCTA           
+DVU3342:-113                  2  5.82e-05          A ATGGAGCATTAATTGCTA           
+Dbac_0116:-45                 2  6.37e-05          A TGGGTACCAATCTTGCTT           
+Dde_1834:-70                  2  6.37e-05          C ACGGCGCAAAGGTTGCAT           
+DVU2917:-196                  2  6.37e-05          G ACGGCAAGCCGCCTGCTG           
+Dbac_3071:-67                 2  6.97e-05          T GTGGTAAGCTTTTTGCCA           
+DESPIG_01879:-43              2  7.62e-05          C CTGGTCTATCTTTTGCAA           
+Dbac_2404:-106                2  7.62e-05          A CTGGTCGGGATTTTGCAA           
+DMR_06700:-259                2  8.32e-05          T TGGGCACGGGTCTTGAAG           
+Ddes_0186:-27                 2  8.32e-05          A TTTGCAAAAATCATGCAA           
+DVU3387:-92                   2  8.32e-05          G CAGGTGCGGTTCTTGCTA           
+Desal_3028:-67                2  9.07e-05          A TTGGCACGAATAGAGCTT           
+DVU1276:-70                   2  9.07e-05          G GCGGCATCCACCTTGCCC           
+Ddes_0811:47                  2  9.88e-05          T ATGGCAAAGCTCCTGTTG           
+LI0627:-40                    2  1.07e-04          T TTGGATCGTTTATTGCAT           
+Dde_0110:-208                 2  1.17e-04          T CTGGTGCGTTGCTTGCAT           
+DvMF_1934:-119                2  1.17e-04          G CAGGCTCATATTTTGCTA           
+DvMF_2435:-38                 2  1.17e-04          C GTGGCGCGCGCCCTGCCT           
+DvMF_2411:-59                 2  1.17e-04          A CCGGCCCGCCCCCTGCCG           
+Dbac_2224:-311                2  1.27e-04          C CGGGCATTGAACTTGCTC           
+DvMF_2842:-63                 2  1.27e-04          T GCGGTACGACTTTTGATA           
+DMR_40340:-139                2  1.38e-04          T TAGGATCGATTTTTGCAA           
+Dret_1220:-147                2  1.38e-04          T TTGGTTTGCTTTTTGCTT           
+DvMF_1024:-237                2  1.38e-04          T CCGGCGCATTCCATGCAT           
+DvMF_2524:-148                2  1.38e-04          C CTGGCCCTGGCCCTGCTG           
+Dde_2573:-132                 2  1.49e-04          C ATGGCCCTTCTTTTGCCG           
+DVU2392:-74                   2  1.62e-04          C AAGGCGTGTTCCTTGCCA           
+DvMF_2419:-63                 2  1.75e-04          C ATGGCGTGATTCTCGCAT           
+DESPIG_02393:-112             2  2.04e-04          T TCGGAGCAGGTCTTGCTG           
+Ddes_0750:-76                 2  2.04e-04          T GCGGCCCGGCGCGTGCTG           
+Dbac_2433:-85                 2  2.21e-04          T CTGGTCCGGGATGTGCAC           
+Dde_3591:-85                  2  2.38e-04          C GTGGCGCGCTGCTTGACT           
+LI0899:-60                    2  2.56e-04          A ATAGTATGAATATTGCAT           
+Ddes_1867:-118                2  3.68e-04          G CAGGGACGCTTTTTGTAT           
+Ddes_0698:-119                2  5.55e-04          C GTGGCATGGTGGCTGCGC           
+DESPIG_01518:8                2  5.92e-04          T GCGGCCGGCATGCTGCTG           
+DvMF_2521:-150                2  6.32e-04          T GCGGAATGCTTGTTTCTT           
+Desal_2592:-41                2  8.67e-04          A TGGGTCCTGATTTTGCAG           
+Dbac_0370:-62                 2  9.21e-04          A TTGGGCAGGCGGTTGCTT           
+Dret_0653:-159                2  9.21e-04          T AGGGCTCAGGTGTTGCCT           
+DvMF_2333:-57                 2  9.21e-04          G GCGGCATCATGTCTGTTC           
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+DVU2357:-430                      3.3e-08  1_[1]
+Ddes_1437:-228                    5.4e-08  1_[1]
+DESPIG_00690:-54                  6.9e-08  1_[1]
+Dde_0191:-227                     1.1e-07  1_[1]
+Ddes_2374:-198                    1.1e-07  1_[1]
+DvMF_2785:-63                     1.1e-07  1_[1]
+DESPIG_02585:-57                  1.1e-07  1_[1]
+DvMF_0693:-77                     1.3e-07  1_[1]
+DvMF_0866:-98                     1.3e-07  1_[1]
+DESPIG_01831:-119                 1.3e-07  1_[1]
+DMR_06410:-79                     1.6e-07  1_[1]
+DMR_06400:-78                     1.6e-07  1_[1]
+DMR_06380:-79                     1.6e-07  1_[1]
+Dde_1501:-136                       2e-07  1_[1]
+Dde_0298:-86                        2e-07  1_[1]
+DESPIG_02849:-80                    2e-07  1_[1]
+DMR_38330:-60                       2e-07  1_[1]
+DVU0132:-232                        2e-07  1_[1]
+DVU1854:34                          2e-07  1_[1]
+DESPIG_02990:-105                   2e-07  1_[1]
+Dde_2287:-243                     2.4e-07  1_[1]
+DESPIG_02139:-147                 2.4e-07  1_[1]
+DMR_06420:-79                     2.4e-07  1_[1]
+Dde_0111:-78                      2.4e-07  1_[1]
+DvMF_2283:-158                    2.4e-07  1_[1]
+DVU1805:-69                       2.4e-07  1_[1]
+DVU0150:-180                      2.4e-07  1_[1]
+Dde_0356:-75                      2.9e-07  1_[1]
+DESPIG_00642:-127                 2.9e-07  1_[1]
+Dde_0438:-73                      2.9e-07  1_[1]
+DMR_37280:-101                    2.9e-07  1_[1]
+Ddes_2091:-76                     2.9e-07  1_[1]
+Dret_2390:-78                     2.9e-07  1_[1]
+DvMF_0828:-48                     2.9e-07  1_[1]
+Desal_3066:-65                    2.9e-07  1_[1]
+DvMF_1984:-111                    2.9e-07  1_[1]
+Desal_2938:-115                   2.9e-07  1_[1]
+Dde_2986:-41                      3.4e-07  1_[1]
+Dde_1258:-159                     3.4e-07  1_[1]
+Dbac_2944:-62                     3.4e-07  1_[1]
+Dbac_0448:-96                     3.4e-07  1_[1]
+Ddes_0391:-101                    3.4e-07  1_[1]
+Ddes_0313:-75                     3.4e-07  1_[1]
+Dret_0446:-67                     3.4e-07  1_[1]
+DVU2917:-40                       3.4e-07  1_[1]
+DvMF_1446:-38                     3.4e-07  1_[1]
+Desal_1156:-96                    3.4e-07  1_[1]
+Desal_2793:-380                   3.4e-07  1_[1]
+Dbac_2231:-65                     4.1e-07  1_[1]
+Ddes_0767:-110                    4.1e-07  1_[1]
+Ddes_1642:-115                    4.1e-07  1_[1]
+Dde_3211:-88                      4.1e-07  1_[1]
+DVU0410:-70                       4.1e-07  1_[1]
+DVU3003:-220                      4.1e-07  1_[1]
+DvMF_0244:-54                     4.1e-07  1_[1]
+Desal_0447:-69                    4.1e-07  1_[1]
+Desal_0681:-67                    4.1e-07  1_[1]
+DVU1880:-68                       4.1e-07  1_[1]
+Dde_0357:-141                     4.9e-07  1_[1]
+DMR_45210:-101                    4.9e-07  1_[1]
+DMR_34260:-179                    4.9e-07  1_[1]
+Ddes_1230:-120                    4.9e-07  1_[1]
+DVU1231:-81                       4.9e-07  1_[1]
+DVU0307:-59                       4.9e-07  1_[1]
+LI0887:-53                        4.9e-07  1_[1]
+DvMF_2341:-197                    4.9e-07  1_[1]
+DvMF_1808:-128                    4.9e-07  1_[1]
+Desal_1243:-38                    4.9e-07  1_[1]
+DVU3384:-82                       4.9e-07  1_[1]
+DESPIG_02142:-99                  4.9e-07  1_[1]
+Dbac_2711:-81                     5.8e-07  1_[1]
+Dde_1940:-79                      5.8e-07  1_[1]
+DVU3004:-77                       5.8e-07  1_[1]
+DvMF_2016:-29                     5.8e-07  1_[1]
+DvMF_0386:-69                     5.8e-07  1_[1]
+DvMF_1363:-85                     5.8e-07  1_[1]
+Desal_3524:-300                   5.8e-07  1_[1]
+DESPIG_02788:-110                 5.8e-07  1_[1]
+DMR_06390:-78                     6.8e-07  1_[1]
+Dbac_2235:-63                     6.8e-07  1_[1]
+Dbac_1728:-53                     6.8e-07  1_[1]
+Dde_2819:-59                      6.8e-07  1_[1]
+Dde_2509:-76                      6.8e-07  1_[1]
+Dde_0876:-116                     6.8e-07  1_[1]
+DVU0542:-71                       6.8e-07  1_[1]
+LI0348:-77                        6.8e-07  1_[1]
+DvMF_1799:-60                     6.8e-07  1_[1]
+DvMF_1764:-205                    6.8e-07  1_[1]
+DESPIG_02193:-68                  6.8e-07  1_[1]
+Dbac_2145:-84                       8e-07  1_[1]
+Dbac_3048:-45                       8e-07  1_[1]
+DMR_16170:50                        8e-07  1_[1]
+DMR_42220:-78                       8e-07  1_[1]
+DMR_31570:-46                       8e-07  1_[1]
+Ddes_1147:-126                      8e-07  1_[1]
+Desal_2292:-59                      8e-07  1_[1]
+DvMF_0905:-38                       8e-07  1_[1]
+Desal_2513:-57                      8e-07  1_[1]
+DVUA0089:-51                        8e-07  1_[1]
+Dde_3159:-66                      9.4e-07  1_[1]
+Dde_1400:-212                     9.4e-07  1_[1]
+Dde_0323:-187                     9.4e-07  1_[1]
+DMR_20560:-60                     9.4e-07  1_[1]
+Dbac_2155:-282                    9.4e-07  1_[1]
+DVU0036:-60                       9.4e-07  1_[1]
+DVU1962:-317                      9.4e-07  1_[1]
+LI0567:-82                        9.4e-07  1_[1]
+DVU2957:-65                       9.4e-07  1_[1]
+Desal_0622:-30                    9.4e-07  1_[1]
+Desal_2290:-102                   9.4e-07  1_[1]
+Desal_1153:-50                    9.4e-07  1_[1]
+DVU0571:-124                      9.4e-07  1_[1]
+DMR_13760:-70                     1.1e-06  1_[1]
+Dbac_1588:-109                    1.1e-06  1_[1]
+Ddes_2004:-57                     1.1e-06  1_[1]
+DVU3020:-56                       1.1e-06  1_[1]
+DvMF_2147:-139                    1.1e-06  1_[1]
+Desal_1330:-51                    1.1e-06  1_[1]
+Desal_1008:-71                    1.1e-06  1_[1]
+Desal_3004:-69                    1.1e-06  1_[1]
+Desal_0680:-67                    1.1e-06  1_[1]
+DVU1536:-90                       1.1e-06  1_[1]
+DVUA0032:-76                      1.1e-06  1_[1]
+Dde_0102:-96                      1.3e-06  1_[1]
+Dbac_2146:-113                    1.3e-06  1_[1]
+Ddes_2342:-63                     1.3e-06  1_[1]
+Dbac_1014:-63                     1.3e-06  1_[1]
+Ddes_0695:-76                     1.3e-06  1_[1]
+Ddes_0373:-141                    1.3e-06  1_[1]
+Dret_0578:-51                     1.3e-06  1_[1]
+Ddes_1576:-59                     1.3e-06  1_[1]
+Desal_3528:-102                   1.3e-06  1_[1]
+DvMF_2578:-132                    1.3e-06  1_[1]
+Desal_0181:-54                    1.3e-06  1_[1]
+DMR_45010:-138                    1.5e-06  1_[1]
+DMR_25570:-89                     1.5e-06  1_[1]
+Dbac_2476:-47                     1.5e-06  1_[1]
+Dbac_2264:-101                    1.5e-06  1_[1]
+DvMF_1121:-124                    1.5e-06  1_[1]
+DvMF_0825:-135                    1.5e-06  1_[1]
+DvMF_3011:-400                    1.5e-06  1_[1]
+Desal_3549:-184                   1.5e-06  1_[1]
+DESPIG_02269:-49                  1.5e-06  1_[1]
+Dde_1709:-53                      1.7e-06  1_[1]
+Ddes_0154:-244                    1.7e-06  1_[1]
+Ddes_2282:-243                    1.7e-06  1_[1]
+Ddes_2002:-84                     1.7e-06  1_[1]
+DVU1258:-100                      1.7e-06  1_[1]
+LI0860:-68                        1.7e-06  1_[1]
+Desal_0361:-20                    1.7e-06  1_[1]
+DVUA0143:-29                      1.7e-06  1_[1]
+Dde_0564:-83                        2e-06  1_[1]
+DMR_45640:-76                       2e-06  1_[1]
+DMR_24580:-117                      2e-06  1_[1]
+Dbac_2669:-55                       2e-06  1_[1]
+Ddes_1436:-123                      2e-06  1_[1]
+Ddes_1573:-79                       2e-06  1_[1]
+Dde_2507:-73                        2e-06  1_[1]
+Dde_2357:-82                        2e-06  1_[1]
+DvMF_2284:-106                      2e-06  1_[1]
+Desal_0284:-92                      2e-06  1_[1]
+DVUA203:-62                         2e-06  1_[1]
+Dde_1455:-54                      2.3e-06  1_[1]
+DMR_25590:-78                     2.3e-06  1_[1]
+Ddes_1028:-58                     2.3e-06  1_[1]
+Dbac_3026:-91                     2.3e-06  1_[1]
+Ddes_0193:-29                     2.3e-06  1_[1]
+Dret_1039:-90                     2.3e-06  1_[1]
+Dret_0164:-82                     2.3e-06  1_[1]
+Dret_0199:-95                     2.3e-06  1_[1]
+LI0700:-80                        2.3e-06  1_[1]
+DvMF_0177:-183                    2.3e-06  1_[1]
+DvMF_2154:-120                    2.3e-06  1_[1]
+Desal_3438:-145                   2.3e-06  1_[1]
+Desal_1015:-104                   2.3e-06  1_[1]
+DMR_33860:-246                    2.6e-06  1_[1]
+DVU0943:-73                       2.6e-06  1_[1]
+Dde_1553:-84                      2.6e-06  1_[1]
+DVU2896:-13                       2.6e-06  1_[1]
+DVU2822:-91                       2.6e-06  1_[1]
+LI0856:-108                       2.6e-06  1_[1]
+DvMF_2747:-79                     2.6e-06  1_[1]
+DVU2652:-100                      2.6e-06  1_[1]
+DVU0750:-201                      2.6e-06  1_[1]
+Desal_2595:-107                   2.6e-06  1_[1]
+Dbac_0834:-81                       3e-06  1_[1]
+DMR_33620:-104                      3e-06  1_[1]
+DMR_42100:-58                       3e-06  1_[1]
+DMR_31520:-71                       3e-06  1_[1]
+Dbac_1772:-70                       3e-06  1_[1]
+Dbac_1587:-156                      3e-06  1_[1]
+Dbac_0547:-44                       3e-06  1_[1]
+Dbac_3471:-144                      3e-06  1_[1]
+Dret_0113:-70                       3e-06  1_[1]
+Dde_2510:-72                        3e-06  1_[1]
+Dde_2705:-112                       3e-06  1_[1]
+DVU2451:-211                        3e-06  1_[1]
+Desal_2196:-88                      3e-06  1_[1]
+Desal_0416:-87                      3e-06  1_[1]
+DvMF_0321:-98                       3e-06  1_[1]
+Desal_1249:-67                      3e-06  1_[1]
+Desal_2827:-81                      3e-06  1_[1]
+Dde_2311:-75                      3.4e-06  1_[1]
+Dde_0380:-145                     3.4e-06  1_[1]
+Dbac_1721:-62                     3.4e-06  1_[1]
+Ddes_0698:-63                     3.4e-06  1_[1]
+Dde_2960:-101                     3.4e-06  1_[1]
+DVU3232:-199                      3.4e-06  1_[1]
+Desal_1157:-100                   3.4e-06  1_[1]
+DvMF_2106:-53                     3.4e-06  1_[1]
+DVU0320:-55                       3.4e-06  1_[1]
+Dde_3230:-95                      3.9e-06  1_[1]
+Dde_3237:-163                     3.9e-06  1_[1]
+DMR_33160:-52                     3.9e-06  1_[1]
+Dbac_2301:-43                     3.9e-06  1_[1]
+Ddes_0311:-61                     3.9e-06  1_[1]
+Dret_2081:-40                     3.9e-06  1_[1]
+DVU3025:-153                      3.9e-06  1_[1]
+DvMF_0509:-128                    3.9e-06  1_[1]
+DvMF_2912:-73                     3.9e-06  1_[1]
+Desal_0448:-58                    3.9e-06  1_[1]
+DvMF_1393:-93                     3.9e-06  1_[1]
+Desal_2604:-43                    3.9e-06  1_[1]
+DvMF_1856:-71                     3.9e-06  1_[1]
+DVU0123:-54                       3.9e-06  1_[1]
+Dde_1275:-84                      4.4e-06  1_[1]
+DMR_17520:-62                     4.4e-06  1_[1]
+DMR_23880:-156                    4.4e-06  1_[1]
+Dbac_0313:-85                     4.4e-06  1_[1]
+Dbac_1225:-61                     4.4e-06  1_[1]
+Ddes_0331:-175                    4.4e-06  1_[1]
+Dret_2267:-53                     4.4e-06  1_[1]
+DVU3302:-56                       4.4e-06  1_[1]
+Desal_3705:-69                    4.4e-06  1_[1]
+Desal_2461:-77                    4.4e-06  1_[1]
+DvMF_2067:-67                     4.4e-06  1_[1]
+Desal_2594:-180                   4.4e-06  1_[1]
+Dde_0318:18                         5e-06  1_[1]
+Dbac_1753:-84                       5e-06  1_[1]
+DMR_05720:-209                      5e-06  1_[1]
+Ddes_2343:-81                       5e-06  1_[1]
+Dbac_0848:-149                      5e-06  1_[1]
+Ddes_2345:-151                      5e-06  1_[1]
+Dde_1654:-87                        5e-06  1_[1]
+LI0740:-147                         5e-06  1_[1]
+DVU0682:-200                        5e-06  1_[1]
+Desal_0518:-29                      5e-06  1_[1]
+DvMF_2906:-127                      5e-06  1_[1]
+DvMF_1860:-368                      5e-06  1_[1]
+DVUA0015:-326                       5e-06  1_[1]
+Dde_2573:-65                      5.7e-06  1_[1]
+DMR_22570:-60                     5.7e-06  1_[1]
+DMR_11290:-42                     5.7e-06  1_[1]
+DMR_39260:-52                     5.7e-06  1_[1]
+DMR_03980:-71                     5.7e-06  1_[1]
+DMR_45020:-82                     5.7e-06  1_[1]
+DMR_11080:-29                     5.7e-06  1_[1]
+Dbac_1044:-91                     5.7e-06  1_[1]
+DVU0139:-79                       5.7e-06  1_[1]
+DVU0910:-128                      5.7e-06  1_[1]
+DVU0858:-79                       5.7e-06  1_[1]
+LI1157:-193                       5.7e-06  1_[1]
+DVU0316:-91                       5.7e-06  1_[1]
+DvMF_1255:-53                     5.7e-06  1_[1]
+Desal_3303:-111                   5.7e-06  1_[1]
+DvMF_2283:-211                    5.7e-06  1_[1]
+DVU0624:-196                      5.7e-06  1_[1]
+DVU2133:-73                       6.4e-06  1_[1]
+DVU2090:-96                       6.4e-06  1_[1]
+DvMF_0574:-68                     6.4e-06  1_[1]
+DvMF_2613:-110                    6.4e-06  1_[1]
+DvMF_1590:-201                    6.4e-06  1_[1]
+DvMF_0248:-44                     6.4e-06  1_[1]
+Desal_3006:-115                   6.4e-06  1_[1]
+Desal_3007:-43                    6.4e-06  1_[1]
+Desal_0581:-97                    6.4e-06  1_[1]
+Dbac_0691:-67                     7.2e-06  1_[1]
+Dbac_2410:-46                     7.2e-06  1_[1]
+Dbac_2789:-29                     7.2e-06  1_[1]
+Ddes_0530:-82                     7.2e-06  1_[1]
+Ddes_0596:-177                    7.2e-06  1_[1]
+Dret_0569:-130                    7.2e-06  1_[1]
+DVU3143:-68                       7.2e-06  1_[1]
+DvMF_3071:-74                     7.2e-06  1_[1]
+DvMF_2420:-56                     7.2e-06  1_[1]
+DvMF_2014:-177                    7.2e-06  1_[1]
+Dde_0828:-94                      8.1e-06  1_[1]
+Dde_3523:-98                      8.1e-06  1_[1]
+Dde_1713:-44                      8.1e-06  1_[1]
+Ddes_2079:-173                    8.1e-06  1_[1]
+Dbac_2386:-64                     8.1e-06  1_[1]
+Dbac_3025:-73                     8.1e-06  1_[1]
+Dbac_0833:-57                     8.1e-06  1_[1]
+Dbac_3470:-95                     8.1e-06  1_[1]
+Ddes_0763:-59                     8.1e-06  1_[1]
+Dde_0404:-52                      8.1e-06  1_[1]
+DVU1441:-54                       8.1e-06  1_[1]
+DORF39640:-78                     8.1e-06  1_[1]
+DVU2280:-132                      8.1e-06  1_[1]
+Desal_2983:-73                    8.1e-06  1_[1]
+DvMF_1840:-253                    8.1e-06  1_[1]
+DVU0320:-296                      8.1e-06  1_[1]
+DVU0913:-72                       8.1e-06  1_[1]
+Dde_1120:-70                      9.1e-06  1_[1]
+Dde_3153:-164                     9.1e-06  1_[1]
+DMR_05460:-13                     9.1e-06  1_[1]
+DMR_40120:-132                    9.1e-06  1_[1]
+Dbac_2588:-49                     9.1e-06  1_[1]
+Ddes_0220:-190                    9.1e-06  1_[1]
+Ddes_1260:-98                     9.1e-06  1_[1]
+Ddes_0327:-96                     9.1e-06  1_[1]
+DVU2988:-46                       9.1e-06  1_[1]
+Dde_3226:-49                      9.1e-06  1_[1]
+DVU2105:-60                       9.1e-06  1_[1]
+DVU2405:-99                       9.1e-06  1_[1]
+LI1017:-60                        9.1e-06  1_[1]
+DvMF_3023:-152                    9.1e-06  1_[1]
+DVU0047:-186                      9.1e-06  1_[1]
+DvMF_2521:-220                    9.1e-06  1_[1]
+DESPIG_00156:-59                  9.1e-06  1_[1]
+Dde_1712:-87                        1e-05  1_[1]
+DMR_16470:-180                      1e-05  1_[1]
+Ddes_1559:-66                       1e-05  1_[1]
+Dret_1485:-210                      1e-05  1_[1]
+Dret_0167:-228                      1e-05  1_[1]
+DVU3234:-29                         1e-05  1_[1]
+DVU1445:-43                         1e-05  1_[1]
+Desal_1016:-147                     1e-05  1_[1]
+Dde_0818:-64                      1.1e-05  1_[1]
+Dbac_2236:-115                    1.1e-05  1_[1]
+DMR_23860:-29                     1.1e-05  1_[1]
+Ddes_0378:-71                     1.1e-05  1_[1]
+Ddes_0596:-148                    1.1e-05  1_[1]
+Dde_0657:-83                      1.3e-05  1_[1]
+Dbac_1016:-112                    1.3e-05  1_[1]
+Ddes_2346:-62                     1.3e-05  1_[1]
+Ddes_1259:-43                     1.3e-05  1_[1]
+DVU0318:-115                      1.3e-05  1_[1]
+Desal_1014:-87                    1.3e-05  1_[1]
+DVU3339.1:-61                     1.3e-05  1_[1]
+Desal_3185:-65                    1.3e-05  1_[1]
+Dbac_2976:-40                     1.4e-05  1_[1]
+DMR_43550:-13                     1.4e-05  1_[1]
+DMR_20070:-84                     1.4e-05  1_[1]
+Dbac_2656:-84                     1.4e-05  1_[1]
+Dbac_3049:-56                     1.4e-05  1_[1]
+Dde_0288:-308                     1.4e-05  1_[1]
+LI0211:-61                        1.4e-05  1_[1]
+LI0507:-62                        1.4e-05  1_[1]
+DvMF_1812:-59                     1.4e-05  1_[1]
+DvMF_1546:-75                     1.4e-05  1_[1]
+Desal_3506:-81                    1.4e-05  1_[1]
+DVU2107:-51                       1.6e-05  1_[1]
+LI1156:-151                       1.6e-05  1_[1]
+DvMF_2517:-58                     1.6e-05  1_[1]
+Desal_0829:-80                    1.6e-05  1_[1]
+DVU0617:-60                       1.6e-05  1_[1]
+DVU2272:-232                      1.6e-05  1_[1]
+DESPIG_02462:-51                  1.6e-05  1_[1]
+Dde_1275:-187                     1.8e-05  1_[1]
+Dde_0816:-98                      1.8e-05  1_[1]
+Dbac_2434:-44                     1.8e-05  1_[1]
+DVU4010:-106                      1.8e-05  1_[1]
+DVUA0016:26                       1.8e-05  1_[1]
+DvMF_1932:-183                    1.8e-05  1_[1]
+DVU2820:-58                       1.8e-05  1_[1]
+Dde_3492:-71                        2e-05  1_[1]
+Dde_2708:-136                       2e-05  1_[1]
+Dde_0696:-71                        2e-05  1_[1]
+Dde_1278:-54                        2e-05  1_[1]
+DESPIG_00689:-73                    2e-05  1_[1]
+Dde_0438:-80                        2e-05  1_[1]
+Ddes_0332:-79                       2e-05  1_[1]
+DVU1164:-110                        2e-05  1_[1]
+DVU1444:-82                         2e-05  1_[1]
+Desal_0577:-221                     2e-05  1_[1]
+Dde_0645:-48                      2.2e-05  1_[1]
+Dbac_0245:-46                     2.2e-05  1_[1]
+Dde_1532:-55                      2.2e-05  1_[1]
+DVUA0030:-68                      2.2e-05  1_[1]
+LI0277:-57                        2.2e-05  1_[1]
+DvMF_1491:-146                    2.2e-05  1_[1]
+DvMF_0621:-252                    2.2e-05  1_[1]
+DvMF_2612:-117                    2.2e-05  1_[1]
+Desal_2614:-59                    2.2e-05  1_[1]
+DVU2232:-51                       2.2e-05  1_[1]
+Desal_3525:-57                    2.2e-05  1_[1]
+DMR_13730:-43                     2.4e-05  1_[1]
+LI0570:-56                        2.4e-05  1_[1]
+LI0568:-44                        2.4e-05  1_[1]
+DVU2277:-90                       2.4e-05  1_[1]
+DvMF_2603:-272                    2.4e-05  1_[1]
+Ddes_0185:-134                    2.7e-05  1_[1]
+DVU1032:-52                       2.7e-05  1_[1]
+LI1060:-73                        2.7e-05  1_[1]
+DVU1152:-258                      2.7e-05  1_[1]
+DvMF_2518:-89                     2.7e-05  1_[1]
+DESPIG_02787:-128                   3e-05  1_[1]
+Dbac_0594:-29                       3e-05  1_[1]
+Dbac_2385:-64                       3e-05  1_[1]
+Ddes_0082:-191                      3e-05  1_[1]
+Dbac_1496:-89                       3e-05  1_[1]
+Dbac_3326:-88                       3e-05  1_[1]
+Ddes_0596:-54                       3e-05  1_[1]
+Dret_0589:-92                       3e-05  1_[1]
+DVUA0036:29                         3e-05  1_[1]
+DvMF_2406:-119                      3e-05  1_[1]
+DvMF_2405:-338                      3e-05  1_[1]
+Dde_0108:-57                      3.3e-05  1_[1]
+DMR_05510:-54                     3.3e-05  1_[1]
+Dde_1786:8                        3.3e-05  1_[1]
+Dde_3225:-74                      3.3e-05  1_[1]
+DvMF_2528:-29                     3.3e-05  1_[1]
+DvMF_0691:-61                     3.3e-05  1_[1]
+DvMF_1800:-230                    3.3e-05  1_[1]
+DvMF_1800:-251                    3.3e-05  1_[1]
+DvMF_1800:-272                    3.3e-05  1_[1]
+Dde_1684:-54                      3.6e-05  1_[1]
+Dbac_2430:-53                     3.6e-05  1_[1]
+Dbac_1614:-84                     3.6e-05  1_[1]
+Ddes_1836:-78                     3.6e-05  1_[1]
+Dret_0569:-290                    3.6e-05  1_[1]
+Dde_1017:-58                      3.6e-05  1_[1]
+DVU0512:-68                       3.6e-05  1_[1]
+DvMF_1396:-237                    3.6e-05  1_[1]
+DvMF_0213:-90                     3.6e-05  1_[1]
+DVU0805:-59                       3.6e-05  1_[1]
+Dde_0378:-30                        4e-05  1_[1]
+Dbac_3473:-30                       4e-05  1_[1]
+DVU3382:-247                        4e-05  1_[1]
+DVUA0106:-257                       4e-05  1_[1]
+LI0746:-62                          4e-05  1_[1]
+DVU1418:-46                         4e-05  1_[1]
+DvMF_1325:-146                      4e-05  1_[1]
+DvMF_1693:-95                       4e-05  1_[1]
+Dde_0420:-45                      4.4e-05  1_[1]
+DMR_10270:-161                    4.4e-05  1_[1]
+DMR_19620:-114                    4.4e-05  1_[1]
+DVU0863:-71                       4.8e-05  1_[1]
+Desal_3710:-67                    4.8e-05  1_[1]
+DvMF_1509:-29                     4.8e-05  1_[1]
+Desal_2601:-77                    4.8e-05  1_[1]
+DvMF_2148:-244                    5.3e-05  1_[1]
+Dde_3197:-49                      5.8e-05  1_[1]
+Dbac_2249:-29                     5.8e-05  1_[1]
+DVU3342:-113                      5.8e-05  1_[1]
+Dbac_0116:-45                     6.4e-05  1_[1]
+Dde_1834:-70                      6.4e-05  1_[1]
+DVU2917:-196                      6.4e-05  1_[1]
+Dbac_3071:-67                       7e-05  1_[1]
+DESPIG_01879:-43                  7.6e-05  1_[1]
+Dbac_2404:-106                    7.6e-05  1_[1]
+DMR_06700:-259                    8.3e-05  1_[1]
+Ddes_0186:-27                     8.3e-05  1_[1]
+DVU3387:-92                       8.3e-05  1_[1]
+Desal_3028:-67                    9.1e-05  1_[1]
+DVU1276:-70                       9.1e-05  1_[1]
+Ddes_0811:47                      9.9e-05  1_[1]
+LI0627:-40                        0.00011  1_[1]
+Dde_0110:-208                     0.00012  1_[1]
+DvMF_1934:-119                    0.00012  1_[1]
+DvMF_2435:-38                     0.00012  1_[1]
+DvMF_2411:-59                     0.00012  1_[1]
+Dbac_2224:-311                    0.00013  1_[1]
+DvMF_2842:-63                     0.00013  1_[1]
+DMR_40340:-139                    0.00014  1_[1]
+Dret_1220:-147                    0.00014  1_[1]
+DvMF_1024:-237                    0.00014  1_[1]
+DvMF_2524:-148                    0.00014  1_[1]
+Dde_2573:-132                     0.00015  1_[1]
+DVU2392:-74                       0.00016  1_[1]
+DvMF_2419:-63                     0.00018  1_[1]
+DESPIG_02393:-112                  0.0002  1_[1]
+Ddes_0750:-76                      0.0002  1_[1]
+Dbac_2433:-85                     0.00022  1_[1]
+Dde_3591:-85                      0.00024  1_[1]
+LI0899:-60                        0.00026  1_[1]
+Ddes_1867:-118                    0.00037  1_[1]
+Ddes_0698:-119                    0.00055  1_[1]
+DESPIG_01518:8                    0.00059  1_[1]
+DvMF_2521:-150                    0.00063  1_[1]
+Desal_2592:-41                    0.00087  1_[1]
+Dbac_0370:-62                     0.00092  1_[1]
+Dret_0653:-159                    0.00092  1_[1]
+DvMF_2333:-57                     0.00092  1_[1]
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=18 seqs=485
+DVU2357:-430             (    2) TTGGCACACCCCTTGCTT  1 
+Ddes_1437:-228           (    2) CTGGCACGCATCCTGCAA  1 
+DESPIG_00690:-54         (    2) ATGGCACGCTTTATGCTT  1 
+Dde_0191:-227            (    2) TTGGCACGGCAGTTGCTA  1 
+Ddes_2374:-198           (    2) TTGGCACGCACATTGCTC  1 
+DvMF_2785:-63            (    2) ATGGCACGGCCCTTGCTG  1 
+DESPIG_02585:-57         (    2) TTGGCACGGACTTTGCTG  1 
+DvMF_0693:-77            (    2) TTGGCACAGCGCTTGCTT  1 
+DvMF_0866:-98            (    2) ATGGCACGCTCCTTGCCT  1 
+DESPIG_01831:-119        (    2) CTGGCACGCCCCTTGCTC  1 
+DMR_06410:-79            (    2) TTGGCACGCCCCCTGCTT  1 
+DMR_06400:-78            (    2) TTGGCACGCCCCCTGCTT  1 
+DMR_06380:-79            (    2) TTGGCACGCCCCCTGCTT  1 
+Dde_1501:-136            (    2) CTGGCACGATTTATGCTT  1 
+Dde_0298:-86             (    2) CTGGCACGGTCCATGCTT  1 
+DESPIG_02849:-80         (    2) ATGGCACAGGCATTGCTA  1 
+DMR_38330:-60            (    2) CTGGCACGCTCCCTGCTT  1 
+DVU0132:-232             (    2) ATGGCACACCCGTTGCTT  1 
+DVU1854:34               (    2) TAGGCACGCATATTGCTT  1 
+DESPIG_02990:-105        (    2) TTGGCACGGGTGTTGCTT  1 
+Dde_2287:-243            (    2) ATGGCACGCTTGATGCTA  1 
+DESPIG_02139:-147        (    2) ATGGCACGCTTGTTGCTG  1 
+DMR_06420:-79            (    2) TTGGCACGGCCTATGCTT  1 
+Dde_0111:-78             (    2) ATGGCACGCCTGTTGCTC  1 
+DvMF_2283:-158           (    2) ATGGCACGCATAGTGCTA  1 
+DVU1805:-69              (    2) ATGGCCCGCATATTGCTT  1 
+DVU0150:-180             (    2) TTGGCACGGCCATTGCTC  1 
+Dde_0356:-75             (    2) ATGGAACACACCTTGCTT  1 
+DESPIG_00642:-127        (    2) ATGGCACAGGGCTTGCTT  1 
+Dde_0438:-73             (    2) GTGGCATGCAACTTGCTT  1 
+DMR_37280:-101           (    2) ATGGCACGGATGCTGCTT  1 
+Ddes_2091:-76            (    2) CTGGCACGCTCTCTGCAT  1 
+Dret_2390:-78            (    2) TTGGCACGCCCAATGCAT  1 
+DvMF_0828:-48            (    2) ATGGCATGCTTCCTGCTT  1 
+Desal_3066:-65           (    2) TTGGCACAGTCCATGCTT  1 
+DvMF_1984:-111           (    2) TTGGCACAACCGTTGCTA  1 
+Desal_2938:-115          (    2) TAGGCACGCCCCTTGCTT  1 
+Dde_2986:-41             (    2) ACGGCACGATTATTGCTT  1 
+Dde_1258:-159            (    2) CTGGCACGGCATATGCTT  1 
+Dbac_2944:-62            (    2) CTGGCACGGCCCTTGCCT  1 
+Dbac_0448:-96            (    2) ATGGCACCGCATTTGCTT  1 
+Ddes_0391:-101           (    2) TTGGCCCGCACTTTGCAT  1 
+Ddes_0313:-75            (    2) ATGGCATACAGTTTGCTT  1 
+Dret_0446:-67            (    2) TCGGCACGGACATTGCTA  1 
+DVU2917:-40              (    2) CTGGCACATCTTTTGCTT  1 
+DvMF_1446:-38            (    2) TTGGCACGGTTCATGCTC  1 
+Desal_1156:-96           (    2) ATGGAACACCTTTTGCTA  1 
+Desal_2793:-380          (    2) TTGGCATACCCATTGCTA  1 
+Dbac_2231:-65            (    2) TTGGCATGGACCATGCTT  1 
+Ddes_0767:-110           (    2) TTGGCACGACCTTTGCCT  1 
+Ddes_1642:-115           (    2) ATGGCATGGCGATTGCTA  1 
+Dde_3211:-88             (    2) CTGGCACGCACGTTGCAC  1 
+DVU0410:-70              (    2) TTGGCCCGGAATTTGCTT  1 
+DVU3003:-220             (    2) TTGGCACGGATAGTGCTT  1 
+DvMF_0244:-54            (    2) TTGGCACCAACATTGCTT  1 
+Desal_0447:-69           (    2) TTGGCACACCACTTGCCT  1 
+Desal_0681:-67           (    2) TTGGCACGGGCCATGCTT  1 
+DVU1880:-68              (    2) TTGGCATGATTCATGCTT  1 
+Dde_0357:-141            (    2) GTGGCACGGTTCCTGCTT  1 
+DMR_45210:-101           (    2) TTGGCACGGCTGCTGCAA  1 
+DMR_34260:-179           (    2) TTGGCACACTCTTTGCCT  1 
+Ddes_1230:-120           (    2) CTGGCATCCATCTTGCTT  1 
+DVU1231:-81              (    2) TTGGCACGCGACTTGCCT  1 
+DVU0307:-59              (    2) CTGGCACGGCTCGTGCTT  1 
+LI0887:-53               (    2) TTGGCAAGCTTTTTGCTT  1 
+DvMF_2341:-197           (    2) TTGGCATGCGGCTTGCTA  1 
+DvMF_1808:-128           (    2) CTGGCACGGCTCGTGCTT  1 
+Desal_1243:-38           (    2) ACGGCACAAATATTGCTT  1 
+DVU3384:-82              (    2) TTGGCACGCTCCATGCTC  1 
+DESPIG_02142:-99         (    2) TTGGCACAGCCTATGCTT  1 
+Dbac_2711:-81            (    2) TTGGCACGGCGTCTGCTA  1 
+Dde_1940:-79             (    2) CTGGCATCCATTTTGCTA  1 
+DVU3004:-77              (    2) CTGGCCCGCTTATTGCTT  1 
+DvMF_2016:-29            (    2) ATGGCCCGCATCTTGCTG  1 
+DvMF_0386:-69            (    2) CTGGCACCGATCTTGCTC  1 
+DvMF_1363:-85            (    2) TTGGCACGCCTCTTGATT  1 
+Desal_3524:-300          (    2) TTGGCACCCTGTTTGCTA  1 
+DESPIG_02788:-110        (    2) TTGGCACGCGGGTTGCTA  1 
+DMR_06390:-78            (    2) TTGGCATGCCCCCTGCTT  1 
+Dbac_2235:-63            (    2) TTGGCACGGTCGATGCAT  1 
+Dbac_1728:-53            (    2) CTGGCACGCATCCTGCCT  1 
+Dde_2819:-59             (    2) TTGGCACACCTGTTGCTG  1 
+Dde_2509:-76             (    2) ATGGAACGCTGTTTGCTT  1 
+Dde_0876:-116            (    2) CTGGCACGCTTCTTGTTA  1 
+DVU0542:-71              (    2) GTGGCATGCAGCTTGCTT  1 
+LI0348:-77               (    2) TTGGCATGGCTTCTGCTT  1 
+DvMF_1799:-60            (    2) CTGGCACGGTTGCTGCTT  1 
+DvMF_1764:-205           (    2) ATGGCACGAAACTTGTTA  1 
+DESPIG_02193:-68         (    2) CTGGCACGGTTCCTGCTG  1 
+Dbac_2145:-84            (    2) ATGGCATGCCATCTGCTT  1 
+Dbac_3048:-45            (    2) ATGGCACCGTCCTTGCTC  1 
+DMR_16170:50             (    2) TTGGCACGGCGTTTGCCT  1 
+DMR_42220:-78            (    2) CCGGCACACCCCTTGCTT  1 
+DMR_31570:-46            (    2) CTGGCCCGCATGTTGCAA  1 
+Ddes_1147:-126           (    2) TTGGCACAGATAGTGCTT  1 
+Desal_2292:-59           (    2) ATGGCACCAATTATGCTT  1 
+DvMF_0905:-38            (    2) ATGGCAGGGTTCTTGCTT  1 
+Desal_2513:-57           (    2) AAGGCACGGCTGTTGCTT  1 
+DVUA0089:-51             (    2) ATGGAATGCAATTTGCTT  1 
+Dde_3159:-66             (    2) CTGGCCCGCATGTTGCAT  1 
+Dde_1400:-212            (    2) TTGGCATGCATTGTGCTT  1 
+Dde_0323:-187            (    2) TTGGCACGTTCCTTGCCT  1 
+DMR_20560:-60            (    2) CTGGCATGACTCTTGCCT  1 
+Dbac_2155:-282           (    2) TTGGAATGCTCCTTGCTT  1 
+DVU0036:-60              (    2) GTGGCACGCTATCTGCTT  1 
+DVU1962:-317             (    2) TTGGCCTGCCTCTTGCTT  1 
+LI0567:-82               (    2) TTGGCACATAACATGCAT  1 
+DVU2957:-65              (    2) CTGGCACGGAACTTGTTA  1 
+Desal_0622:-30           (    2) ATGGCACGGACTATGCCT  1 
+Desal_2290:-102          (    2) ACGGCACGCCTCCTGCTT  1 
+Desal_1153:-50           (    2) ATGGCCCACCATTTGCTT  1 
+DVU0571:-124             (    2) TTGGCAAGGCCTTTGCTA  1 
+DMR_13760:-70            (    2) TTGGAACGCCTCCTGCTT  1 
+Dbac_1588:-109           (    2) ATGGCATGCATTCTGCTC  1 
+Ddes_2004:-57            (    2) TCGGCACGCTTTCTGCAA  1 
+DVU3020:-56              (    2) ATGGCATGTGCCTTGCTT  1 
+DvMF_2147:-139           (    2) TTGGCACGCCGGTTGCTC  1 
+Desal_1330:-51           (    2) TTGGCACCCCTTATGCTT  1 
+Desal_1008:-71           (    2) TTGGCCTGCACTTTGCAA  1 
+Desal_3004:-69           (    2) TTGGCACACGCTCTGCTT  1 
+Desal_0680:-67           (    2) TTGGCACAGCACGTGCTT  1 
+DVU1536:-90              (    2) CTGGCCCGGATGTTGCTT  1 
+DVUA0032:-76             (    2) TTGGAACAGTCATTGCTT  1 
+Dde_0102:-96             (    2) TTGGCACCGACTCTGCAA  1 
+Dbac_2146:-113           (    2) TTGGAACGCTCTTTGCTC  1 
+Ddes_2342:-63            (    2) TTGGCACGACTACTGCAG  1 
+Dbac_1014:-63            (    2) CTGGCACGGCACTTGATA  1 
+Ddes_0695:-76            (    2) TTGGCAAGACCTTTGCAT  1 
+Ddes_0373:-141           (    2) CTGGCACAGTGTCTGCAA  1 
+Dret_0578:-51            (    2) CTGGCATAATTTATGCTA  1 
+Ddes_1576:-59            (    2) TTGGAACAAATGTTGCTT  1 
+Desal_3528:-102          (    2) CTGGCACAGCCCGTGCTA  1 
+DvMF_2578:-132           (    2) TTGGCACGCCGCATGCTC  1 
+Desal_0181:-54           (    2) TTGGCAAGGTCATTGCAT  1 
+DMR_45010:-138           (    2) TTGGCATGAGGATTGCTT  1 
+DMR_25570:-89            (    2) TTGGCAGGCTCTTTGCTA  1 
+Dbac_2476:-47            (    2) TTGGCAGGGACTTTGCTT  1 
+Dbac_2264:-101           (    2) CTGGCATGGTCTTTGCCT  1 
+DvMF_1121:-124           (    2) ATGGCACGGGCTGTGCTT  1 
+DvMF_0825:-135           (    2) CTGGCACGACTCCTGCCT  1 
+DvMF_3011:-400           (    2) CTGGCACGGGTTGTGCTT  1 
+Desal_3549:-184          (    2) TTGGCCCGCTTATTGCTC  1 
+DESPIG_02269:-49         (    2) ATGGCATGTTTTTTGCTG  1 
+Dde_1709:-53             (    2) TTGGCACCACCTTTGCTC  1 
+Ddes_0154:-244           (    2) TTGGAACAATGTTTGCTA  1 
+Ddes_2282:-243           (    2) ATGGCATGATTCCTGCTG  1 
+Ddes_2002:-84            (    2) GAGGCACGGAAATTGCTT  1 
+DVU1258:-100             (    2) TTGGCCCGCTCTTTGCTC  1 
+LI0860:-68               (    2) ATGGCATATGTTTTGCTT  1 
+Desal_0361:-20           (    2) ATGGCATGTCTTATGCTA  1 
+DVUA0143:-29             (    2) GAGGCACGGCTATTGCTT  1 
+Dde_0564:-83             (    2) CCGGCACGGATACTGCAT  1 
+DMR_45640:-76            (    2) CTGGCAAGGGACTTGCTA  1 
+DMR_24580:-117           (    2) TTGGCATCCATTTTGCTG  1 
+Dbac_2669:-55            (    2) ATGGCACGCGCCTTGTTT  1 
+Ddes_1436:-123           (    2) GTGGCATGCCCCATGCAA  1 
+Ddes_1573:-79            (    2) TAGGCATGAATGTTGCTA  1 
+Dde_2507:-73             (    2) CAGGCACGGCGATTGCTT  1 
+Dde_2357:-82             (    2) TTGGCACGGTGGTTGCCT  1 
+DvMF_2284:-106           (    2) CTGGAACACCTCTTGCTG  1 
+Desal_0284:-92           (    2) TTGGCACACGTCTTGCCC  1 
+DVUA203:-62              (    2) ATGGCATACTTGCTGCTA  1 
+Dde_1455:-54             (    2) TTGGCAGACTTATTGCTA  1 
+DMR_25590:-78            (    2) TTGGCACGGTTGTTGTAA  1 
+Ddes_1028:-58            (    2) TTGGCACATGGATTGCAA  1 
+Dbac_3026:-91            (    2) CTGGAATGGTCATTGCAA  1 
+Ddes_0193:-29            (    2) TTGGCAACCATTTTGCAA  1 
+Dret_1039:-90            (    2) ATGGCATGGATATTGAAT  1 
+Dret_0164:-82            (    2) TCGGAACGGATATTGCTT  1 
+Dret_0199:-95            (    2) TTGGCCCGATATTTGCTC  1 
+LI0700:-80               (    2) TTGGCATGTGCATTGCTT  1 
+DvMF_0177:-183           (    2) TTGGCGCGGAATTTGCTT  1 
+DvMF_2154:-120           (    2) TTGGCAAGGCGTTTGCTT  1 
+Desal_3438:-145          (    2) TTGGCACAATGCGTGCTT  1 
+Desal_1015:-104          (    2) TTGGCAAGAAACTTGCTG  1 
+DMR_33860:-246           (    2) TTGGCAGGCTTCTTGCTC  1 
+DVU0943:-73              (    2) CTGGCACGCTTCTTGTTC  1 
+Dde_1553:-84             (    2) CTGGCAAGGTGTTTGCTT  1 
+DVU2896:-13              (    2) ATTGCACGGTTCTTGCTT  1 
+DVU2822:-91              (    2) TTGGCACGTTCCCTGCTC  1 
+LI0856:-108              (    2) TAGGCATGCAGATTGCAT  1 
+DvMF_2747:-79            (    2) TTGGCACGCGGGTTGCTG  1 
+DVU2652:-100             (    2) ATGGCACAGTGTATGCTC  1 
+DVU0750:-201             (    2) ATGGCACTGCTCTTGCTG  1 
+Desal_2595:-107          (    2) ATGGTACGCTTCTTGCCT  1 
+Dbac_0834:-81            (    2) TTGGCACGCCCGTTGCCC  1 
+DMR_33620:-104           (    2) TTGGCACGTTCCCTGCTG  1 
+DMR_42100:-58            (    2) CTGGCCCGTGTCTTGCAA  1 
+DMR_31520:-71            (    2) CTGGCCCGCAATTTGCCT  1 
+Dbac_1772:-70            (    2) CTGGCCCGAAATCTGCTA  1 
+Dbac_1587:-156           (    2) TTGGCACAGAGAATGCTC  1 
+Dbac_0547:-44            (    2) CTGGCATGGGATCTGCTT  1 
+Dbac_3471:-144           (    2) CTGGCACGCGCCTTGTAT  1 
+Dret_0113:-70            (    2) TTGGCCCCATCCTTGCTA  1 
+Dde_2510:-72             (    2) TTGGAACCGCTATTGCTT  1 
+Dde_2705:-112            (    2) CTGGCCTGATCTTTGCTT  1 
+DVU2451:-211             (    2) TTGGCCCGGTAATTGCTG  1 
+Desal_2196:-88           (    2) GTGGCACAGCGTTTGCTC  1 
+Desal_0416:-87           (    2) CTGGCCCGCCTTTTGCCT  1 
+DvMF_0321:-98            (    2) TTGGCCCCGTCCTTGCTT  1 
+Desal_1249:-67           (    2) TTGGCATCCTGATTGCAT  1 
+Desal_2827:-81           (    2) TTGGCATGACTCTTGTAT  1 
+Dde_2311:-75             (    2) CTGGCCTGCTGCTTGCTT  1 
+Dde_0380:-145            (    2) CTGGCACGGGCCTTGTAT  1 
+Dbac_1721:-62            (    2) TTGGCAACAAACTTGCTA  1 
+Ddes_0698:-63            (    2) TTGGCCCGCTGTTTGCAC  1 
+Dde_2960:-101            (    2) ATTGCACGCCTTTTGCAT  1 
+DVU3232:-199             (    2) CTGGCACGGGCCTTGTAT  1 
+Desal_1157:-100          (    2) TTGGCACGGGGTGTGCAT  1 
+DvMF_2106:-53            (    2) CTGGCACGGCGCTTGTTT  1 
+DVU0320:-55              (    2) CTTGCACGCTTCTTGCTT  1 
+Dde_3230:-95             (    2) ATGGCAGAACCTTTGCAT  1 
+Dde_3237:-163            (    2) ATGGCATACTTTTTGTTT  1 
+DMR_33160:-52            (    2) TTGGCCCCGCCTTTGCAA  1 
+Dbac_2301:-43            (    2) GCGGCACGGCTCATGCTT  1 
+Ddes_0311:-61            (    2) TTGGCACTGTACTTGCTG  1 
+Dret_2081:-40            (    2) GTGGAATGATTTTTGCTT  1 
+DVU3025:-153             (    2) TTGGCACATTTCTTGTTA  1 
+DvMF_0509:-128           (    2) ATGGACCAATTCTTGCTT  1 
+DvMF_2912:-73            (    2) CTGGCACCAGCCTTGCAG  1 
+Desal_0448:-58           (    2) TTGGCATCAATAATGCTT  1 
+DvMF_1393:-93            (    2) TCGGCCCGGTATTTGCTA  1 
+Desal_2604:-43           (    2) ATGGCATATTATTTGCTG  1 
+DvMF_1856:-71            (    2) TCGGCAAGGCTCTTGCAT  1 
+DVU0123:-54              (    2) ATGGCACTCCATTTGCTC  1 
+Dde_1275:-84             (    2) TTGGCACATTACCTGCTC  1 
+DMR_17520:-62            (    2) CTGGCACGCTCCTTGTAG  1 
+DMR_23880:-156           (    2) TTGGCACAGGCCTTGTAT  1 
+Dbac_0313:-85            (    2) TTGGCATGTGCGTTGCTT  1 
+Dbac_1225:-61            (    2) CTGGCATGATCTCTGCTC  1 
+Ddes_0331:-175           (    2) CTGGCACGGGCTTTGTAT  1 
+Dret_2267:-53            (    2) TTGGCACCTCTCTTGCCT  1 
+DVU3302:-56              (    2) TTGGCACGGGGCTTGTTA  1 
+Desal_3705:-69           (    2) CTGGCACGATTTTGGCTT  1 
+Desal_2461:-77           (    2) TTGGCATTACCCTTGCTT  1 
+DvMF_2067:-67            (    2) CTGGCATTCCCCTTGCTT  1 
+Desal_2594:-180          (    2) TTGGCACAGGCCTTGTAT  1 
+Dde_0318:18              (    2) AAGGCACGGCTTCTGCTG  1 
+Dbac_1753:-84            (    2) CCGGCATATATTTTGCTA  1 
+DMR_05720:-209           (    2) CTGGCATCGTCCCTGCTA  1 
+Ddes_2343:-81            (    2) TTGGCATACTTATTGATT  1 
+Dbac_0848:-149           (    2) ATGGCACTAAATCTGCTT  1 
+Ddes_2345:-151           (    2) TTGGCCTGCCTATTGCAC  1 
+Dde_1654:-87             (    2) GTGGCATGCTTTATGCTC  1 
+LI0740:-147              (    2) TTGGTATAACTTTTGCTA  1 
+DVU0682:-200             (    2) GTGGCCCGATTTTTGCTC  1 
+Desal_0518:-29           (    2) CTGGCACTTACTTTGCTT  1 
+DvMF_2906:-127           (    2) ACGGCACCATTCTTGCTG  1 
+DvMF_1860:-368           (    2) CTGGCACACTTCTTGTTG  1 
+DVUA0015:-326            (    2) ATGGCACATCCCTTGCCC  1 
+Dde_2573:-65             (    2) ACGGCACTCAATTTGCAT  1 
+DMR_22570:-60            (    2) TTGGCATGACAATTGATA  1 
+DMR_11290:-42            (    2) TCGGCACGGTTCCTGCCT  1 
+DMR_39260:-52            (    2) CTGGCAGGTTTTTTGCTT  1 
+DMR_03980:-71            (    2) TTGGCATCCGCCTTGCTC  1 
+DMR_45020:-82            (    2) CTGGAACGCTTTTTGCCC  1 
+DMR_11080:-29            (    2) CTGGACCGGTATTTGCTT  1 
+Dbac_1044:-91            (    2) GTGGCACAAAACTTGTTT  1 
+DVU0139:-79              (    2) ATGGTACGCTGTTTGCTC  1 
+DVU0910:-128             (    2) CTGGCCCCTATCTTGCAA  1 
+DVU0858:-79              (    2) CCGGCATCGTTCTTGCTT  1 
+LI1157:-193              (    2) TTGGCATAGTCTCTGCAG  1 
+DVU0316:-91              (    2) GTGGAACCCTTTTTGCTT  1 
+DvMF_1255:-53            (    2) CTGGCATCACTCTTGCCT  1 
+Desal_3303:-111          (    2) TTGGCATGCGGATTGCCT  1 
+DvMF_2283:-211           (    2) GTGGCACATGGTTTGCTA  1 
+DVU0624:-196             (    2) TCGGCACGCCTTTTGTAA  1 
+DVU2133:-73              (    2) ATTGCACGCTTCTTGCTC  1 
+DVU2090:-96              (    2) AAGGTACACACCTTGCTT  1 
+DvMF_0574:-68            (    2) CTGGCATGGGCGATGCAT  1 
+DvMF_2613:-110           (    2) CTGGCACGGGGTTTGCCC  1 
+DvMF_1590:-201           (    2) GTGGACCGCTTCTTGCTT  1 
+DvMF_0248:-44            (    2) TTGGAACGGTCCTTGTAA  1 
+Desal_3006:-115          (    2) TTGGCCCGGGAAATGCAA  1 
+Desal_3007:-43           (    2) TTGGCACGCCTCGTGAAT  1 
+Desal_0581:-97           (    2) TTGGCACCCAAATTGAAT  1 
+Dbac_0691:-67            (    2) CTGGCATGAATGTTGATT  1 
+Dbac_2410:-46            (    2) CTGGCCTGGTATTTGCTC  1 
+Dbac_2789:-29            (    2) CTGGCATGAAGTTTGATA  1 
+Ddes_0530:-82            (    2) GTTGCACGCATTTTGCAA  1 
+Ddes_0596:-177           (    2) TTGGCACGTTTCTGGCAT  1 
+Dret_0569:-130           (    2) ATGGCGTGGTATTTGCAT  1 
+DVU3143:-68              (    2) CAGGCACAGTTCCTGCTC  1 
+DvMF_3071:-74            (    2) ATGGCACGGACTTTTCAT  1 
+DvMF_2420:-56            (    2) TTGGCATCCTTGCTGCAA  1 
+DvMF_2014:-177           (    2) CTGGCACAGGCTTTGTAT  1 
+Dde_0828:-94             (    2) GTGGCACGGTTTTGGCTA  1 
+Dde_3523:-98             (    2) TTGGCCCGTTCCTTGCCT  1 
+Dde_1713:-44             (    2) CTGGAACGCCTTTTGTAT  1 
+Ddes_2079:-173           (    2) ATGGCAGCAAATTTGCAT  1 
+Dbac_2386:-64            (    2) CTGGCACCAGGTTTGCTC  1 
+Dbac_3025:-73            (    2) GTGGCATCAAAGTTGCTA  1 
+Dbac_0833:-57            (    2) GTGGCATCGACCATGCAA  1 
+Dbac_3470:-95            (    2) CTGGCCCGTTTTTTGCCA  1 
+Ddes_0763:-59            (    2) TTGGCAGCATTTTTGCAT  1 
+Dde_0404:-52             (    2) GTGGCACCACCTTTGCCA  1 
+DVU1441:-54              (    2) TTGGCATCGTGTTTGCTG  1 
+DORF39640:-78            (    2) TTGGCATGAGGGTTGCTC  1 
+DVU2280:-132             (    2) CTGGTACGCTTGTTGCTG  1 
+Desal_2983:-73           (    2) TAGGCAGGAATATTGCAA  1 
+DvMF_1840:-253           (    2) CTTGCACACTACTTGCAT  1 
+DVU0320:-296             (    2) ATGGCCCGCGTCTTGCCC  1 
+DVU0913:-72              (    2) ACGGCCCGTTCCTTGCTA  1 
+Dde_1120:-70             (    2) ATGGCATTTTCCTTGCAT  1 
+Dde_3153:-164            (    2) CTGGCAGGAAAATTGCTG  1 
+DMR_05460:-13            (    2) TCGGCACAAGGGTTGCAA  1 
+DMR_40120:-132           (    2) AAGGCACAATCCTTGATA  1 
+Dbac_2588:-49            (    2) ATGGCACAATTCTTTCAT  1 
+Ddes_0220:-190           (    2) CTGGAACACTTCTTGTAT  1 
+Ddes_1260:-98            (    2) TTGGAACAGCCTGTGCAT  1 
+Ddes_0327:-96            (    2) TTGGCCCCTAATTTGCAT  1 
+DVU2988:-46              (    2) CCGGCACGCTTCGTGCTG  1 
+Dde_3226:-49             (    2) CTGGCATAGAAGGTGCTT  1 
+DVU2105:-60              (    2) GTGGAACGGAACGTGCTT  1 
+DVU2405:-99              (    2) TTGGCCCCTTCCTTGCTT  1 
+LI1017:-60               (    2) ATGGCTCACCTCTTGCAA  1 
+DvMF_3023:-152           (    2) ATGGCCTGAATGATGCTT  1 
+DVU0047:-186             (    2) CTGGAACATTTTCTGCAA  1 
+DvMF_2521:-220           (    2) CTGGCACGGTGTTGGCAA  1 
+DESPIG_00156:-59         (    2) ATGGTACGTTTTATGCTT  1 
+Dde_1712:-87             (    2) TTGGCCCAGGAAATGCAA  1 
+DMR_16470:-180           (    2) TTGGCCCAGCATGTGCAA  1 
+Ddes_1559:-66            (    2) ATGGACCATATTTTGCAT  1 
+Dret_1485:-210           (    2) TTGGCAAAGTTTGTGCAT  1 
+Dret_0167:-228           (    2) CAGGCATATAAATTGCTT  1 
+DVU3234:-29              (    2) GTGGCCCGTATTTTGCTC  1 
+DVU1445:-43              (    2) TTGGAACACTCCTTGTAT  1 
+Desal_1016:-147          (    2) CTGGCCCAGGCCCTGCTT  1 
+Dde_0818:-64             (    2) CTGGCATGAAATTGGCAA  1 
+Dbac_2236:-115           (    2) CTGGTACGTTCGTTGCTA  1 
+DMR_23860:-29            (    2) TTGGTCCAGCTTTTGCTA  1 
+Ddes_0378:-71            (    2) CTGGCATCAATCTTGAAT  1 
+Ddes_0596:-148           (    2) ATGGCACACACTGTGCCG  1 
+Dde_0657:-83             (    2) CCGGCACGGTTTGTGCTG  1 
+Dbac_1016:-112           (    2) CAGGCAGGGTATTTGCTA  1 
+Ddes_2346:-62            (    2) CTGGCATCATTAGTGCAA  1 
+Ddes_1259:-43            (    2) TTGGAACACTCTTTGTAT  1 
+DVU0318:-115             (    2) TGGGCATGGCGCTTGCTT  1 
+Desal_1014:-87           (    2) ACGGTATGCAATTTGCTT  1 
+DVU3339.1:-61            (    2) GTGGCACGTCAAATGCTC  1 
+Desal_3185:-65           (    2) CAGGCATAATTACTGCAT  1 
+Dbac_2976:-40            (    2) TTGGCATGAATCTGGCTC  1 
+DMR_43550:-13            (    2) CTGGCATGGCCTGTGCCT  1 
+DMR_20070:-84            (    2) ATGGCACACGACTTGCGA  1 
+Dbac_2656:-84            (    2) GTGGCAGGTCTTTTGCTT  1 
+Dbac_3049:-56            (    2) TTGGCACTGCCTGTGCTT  1 
+Dde_0288:-308            (    2) ACGGCACGGCCGCTGCTC  1 
+LI0211:-61               (    2) TTGGCACTTTATTTGCTG  1 
+LI0507:-62               (    2) AAGGCCTAAAATTTGCAT  1 
+DvMF_1812:-59            (    2) TTTGCACGTCACTTGCAT  1 
+DvMF_1546:-75            (    2) ATGGTCCGTTTCTTGCTT  1 
+Desal_3506:-81           (    2) CTGGCATAACGAGTGCTT  1 
+DVU2107:-51              (    2) ACGGCATCATTCCTGCTT  1 
+LI1156:-151              (    2) TTGGTATACTCTTTGCTG  1 
+DvMF_2517:-58            (    2) GTGGCCCATGCCTTGCAA  1 
+Desal_0829:-80           (    2) TAGGTACGGATTCTGCTT  1 
+DVU0617:-60              (    2) CTGGCCCGTTTCCTGCTC  1 
+DVU2272:-232             (    2) GTGGCATGGCTTGTGCAG  1 
+DESPIG_02462:-51         (    2) TTGGCCTTGTTCTTGCAT  1 
+Dde_1275:-187            (    2) TTGGAACACGCCTTGCCG  1 
+Dde_0816:-98             (    2) ACGGCATCATGATTGCAT  1 
+Dbac_2434:-44            (    2) TTGGCCCGCCTTTTGATC  1 
+DVU4010:-106             (    2) GTGGCACGCCTTTCGCTA  1 
+DVUA0016:26              (    2) TTGGCATCGGGTCTGCAA  1 
+DvMF_1932:-183           (    2) ACGGCATGTCGGTTGCAA  1 
+DVU2820:-58              (    2) TGGGCATGGTTCTTGCCT  1 
+Dde_3492:-71             (    2) TTGGCCCTCCTTTTGCTC  1 
+Dde_2708:-136            (    2) ATGGCATTTATTATGCAT  1 
+Dde_0696:-71             (    2) CAGGCACACCCCGTGCAC  1 
+Dde_1278:-54             (    2) AAGGCACGCTTTTTGCGA  1 
+DESPIG_00689:-73         (    2) GTGGCATGATTCTGGCAT  1 
+Dde_0438:-80             (    2) CCGGCACGTGGCATGCAA  1 
+Ddes_0332:-79            (    2) CGGGTACGCTTCTTGCTA  1 
+DVU1164:-110             (    2) TTGGCACACTTGTCGCTA  1 
+DVU1444:-82              (    2) ATGGCGCGGGAAATGCAA  1 
+Desal_0577:-221          (    2) TCGGCATCGGCATTGCAT  1 
+Dde_0645:-48             (    2) TTGGCACCGGTGTTGTAA  1 
+Dbac_0245:-46            (    2) TTGGTATCTATCTTGCTT  1 
+Dde_1532:-55             (    2) CCGGCCTGTATTTTGCTT  1 
+DVUA0030:-68             (    2) ATGGAGTGCTACTTGCAA  1 
+LI0277:-57               (    2) TAGGCATAGTTTTTGATT  1 
+DvMF_1491:-146           (    2) ACGGCACGGGTCTTGAAG  1 
+DvMF_0621:-252           (    2) CCGGCGTGCTTCTTGCAA  1 
+DvMF_2612:-117           (    2) TTGGCATCGGCGATGCAT  1 
+Desal_2614:-59           (    2) TTGGTACGTTTGCTGCAA  1 
+DVU2232:-51              (    2) ATGGAGCGTTTCTTGCTT  1 
+Desal_3525:-57           (    2) AAGGCACTCCCTTTGCAG  1 
+DMR_13730:-43            (    2) TTGGAACGGGTCTTGAAG  1 
+LI0570:-56               (    2) TTGGTATATCCATTGCAT  1 
+LI0568:-44               (    2) TTGGAACACTCCTTGTAC  1 
+DVU2277:-90              (    2) CAGGCATGACCCTTGCCG  1 
+DvMF_2603:-272           (    2) TTGGTCCGCGTCTTGCTC  1 
+Ddes_0185:-134           (    2) GTTGCATGATTTTTGCAA  1 
+DVU1032:-52              (    2) GTGGCGTGCTTCTTGCTC  1 
+LI1060:-73               (    2) TAGGAATATTTTTTGCAT  1 
+DVU1152:-258             (    2) GCGGTATGCAACTTGCAA  1 
+DvMF_2518:-89            (    2) CCGGCATCCGGTTTGCAA  1 
+DESPIG_02787:-128        (    2) CTTGCATGTTTTTTGCAA  1 
+Dbac_0594:-29            (    2) GCGGCATCCTTGTTGCTT  1 
+Dbac_2385:-64            (    2) AAGGCCCGCAAACTGCTC  1 
+Ddes_0082:-191           (    2) CTGGTACGTTTCTTGAAA  1 
+Dbac_1496:-89            (    2) GTGGCATCTGAATTGCTT  1 
+Dbac_3326:-88            (    2) CTGGCCTCATTCTTGCCT  1 
+Ddes_0596:-54            (    2) TTGGCAAGGTGAATGCCA  1 
+Dret_0589:-92            (    2) ACGGAACGGTATTTGCCC  1 
+DVUA0036:29              (    2) GTGGCACGGTATTGGCTC  1 
+DvMF_2406:-119           (    2) GCGGCACGCTTGTTGTAA  1 
+DvMF_2405:-338           (    2) GCGGCATGAACCATGCAG  1 
+Dde_0108:-57             (    2) TCGGCACTATGGTTGCTA  1 
+DMR_05510:-54            (    2) CGGGCATCGTCCTTGCAT  1 
+Dde_1786:8               (    2) ATGGCATTGCCGCTGCTT  1 
+Dde_3225:-74             (    2) CTGGCCTGTATGTTGCCA  1 
+DvMF_2528:-29            (    2) GCGGAACCATCCTTGCAA  1 
+DvMF_0691:-61            (    2) CTGGCATGGTATTGGCTC  1 
+DvMF_1800:-230           (    2) CTGGCCTGGCGGTTGCTG  1 
+DvMF_1800:-251           (    2) CTGGCCTGGCGGTTGCAG  1 
+DvMF_1800:-272           (    2) CTGGCCTGGCGGTTGCTG  1 
+Dde_1684:-54             (    2) TTGGCACGTGTTTTTCAT  1 
+Dbac_2430:-53            (    2) ATGGCATTCTGTGTGCAA  1 
+Dbac_1614:-84            (    2) ATGGACCCATTCCTGCAT  1 
+Ddes_1836:-78            (    2) ATGGCCTTTTTCTTGCAT  1 
+Dret_0569:-290           (    2) TTGGAGCACTTTTTGCTC  1 
+Dde_1017:-58             (    2) TTGGTACGCCTTTTGTAG  1 
+DVU0512:-68              (    2) GTGGTCTGCATATTGCAA  1 
+DvMF_1396:-237           (    2) TTGGCGTTCATCTTGCAT  1 
+DvMF_0213:-90            (    2) TTGGCACGAGGTTTTCAT  1 
+DVU0805:-59              (    2) ATGGTATGATATTTGATA  1 
+Dde_0378:-30             (    2) ATGGTCTGTTTTTTGCTT  1 
+Dbac_3473:-30            (    2) CTGGTCCGCGTTTTGCTG  1 
+DVU3382:-247             (    2) TTGGTGCAGTCCTTGCTT  1 
+DVUA0106:-257            (    2) CTGGCCCGCTTTTCGCAA  1 
+LI0746:-62               (    2) TTGGTATAAAAGCTGCAT  1 
+DVU1418:-46              (    2) TCGGCACAGTTCTTTCAT  1 
+DvMF_1325:-146           (    2) GCTGCACGCTTTTTGCTA  1 
+DvMF_1693:-95            (    2) CGGGCATGCTTCCTGCTC  1 
+Dde_0420:-45             (    2) GTGGCCGGCATTTTGCAC  1 
+DMR_10270:-161           (    2) TAGGTATGTAAATTGCTA  1 
+DMR_19620:-114           (    2) TTGGAACGGGGGATGCAG  1 
+DVU0863:-71              (    2) GTGGCATCTGGATTGCAT  1 
+Desal_3710:-67           (    2) GTGGCCCTTTTTTTGCAA  1 
+DvMF_1509:-29            (    2) ATGGCGCGGAAAGTGCTG  1 
+Desal_2601:-77           (    2) CTGGCGCACCTATTGCCC  1 
+DvMF_2148:-244           (    2) CTGGTGCGCTTGTTGCTT  1 
+Dde_3197:-49             (    2) TCGGCATCATTCCTGCCT  1 
+Dbac_2249:-29            (    2) TGTGCACGCTTTTTGCTA  1 
+DVU3342:-113             (    2) ATGGAGCATTAATTGCTA  1 
+Dbac_0116:-45            (    2) TGGGTACCAATCTTGCTT  1 
+Dde_1834:-70             (    2) ACGGCGCAAAGGTTGCAT  1 
+DVU2917:-196             (    2) ACGGCAAGCCGCCTGCTG  1 
+Dbac_3071:-67            (    2) GTGGTAAGCTTTTTGCCA  1 
+DESPIG_01879:-43         (    2) CTGGTCTATCTTTTGCAA  1 
+Dbac_2404:-106           (    2) CTGGTCGGGATTTTGCAA  1 
+DMR_06700:-259           (    2) TGGGCACGGGTCTTGAAG  1 
+Ddes_0186:-27            (    2) TTTGCAAAAATCATGCAA  1 
+DVU3387:-92              (    2) CAGGTGCGGTTCTTGCTA  1 
+Desal_3028:-67           (    2) TTGGCACGAATAGAGCTT  1 
+DVU1276:-70              (    2) GCGGCATCCACCTTGCCC  1 
+Ddes_0811:47             (    2) ATGGCAAAGCTCCTGTTG  1 
+LI0627:-40               (    2) TTGGATCGTTTATTGCAT  1 
+Dde_0110:-208            (    2) CTGGTGCGTTGCTTGCAT  1 
+DvMF_1934:-119           (    2) CAGGCTCATATTTTGCTA  1 
+DvMF_2435:-38            (    2) GTGGCGCGCGCCCTGCCT  1 
+DvMF_2411:-59            (    2) CCGGCCCGCCCCCTGCCG  1 
+Dbac_2224:-311           (    2) CGGGCATTGAACTTGCTC  1 
+DvMF_2842:-63            (    2) GCGGTACGACTTTTGATA  1 
+DMR_40340:-139           (    2) TAGGATCGATTTTTGCAA  1 
+Dret_1220:-147           (    2) TTGGTTTGCTTTTTGCTT  1 
+DvMF_1024:-237           (    2) CCGGCGCATTCCATGCAT  1 
+DvMF_2524:-148           (    2) CTGGCCCTGGCCCTGCTG  1 
+Dde_2573:-132            (    2) ATGGCCCTTCTTTTGCCG  1 
+DVU2392:-74              (    2) AAGGCGTGTTCCTTGCCA  1 
+DvMF_2419:-63            (    2) ATGGCGTGATTCTCGCAT  1 
+DESPIG_02393:-112        (    2) TCGGAGCAGGTCTTGCTG  1 
+Ddes_0750:-76            (    2) GCGGCCCGGCGCGTGCTG  1 
+Dbac_2433:-85            (    2) CTGGTCCGGGATGTGCAC  1 
+Dde_3591:-85             (    2) GTGGCGCGCTGCTTGACT  1 
+LI0899:-60               (    2) ATAGTATGAATATTGCAT  1 
+Ddes_1867:-118           (    2) CAGGGACGCTTTTTGTAT  1 
+Ddes_0698:-119           (    2) GTGGCATGGTGGCTGCGC  1 
+DESPIG_01518:8           (    2) GCGGCCGGCATGCTGCTG  1 
+DvMF_2521:-150           (    2) GCGGAATGCTTGTTTCTT  1 
+Desal_2592:-41           (    2) TGGGTCCTGATTTTGCAG  1 
+Dbac_0370:-62            (    2) TTGGGCAGGCGGTTGCTT  1 
+Dret_0653:-159           (    2) AGGGCTCAGGTGTTGCCT  1 
+DvMF_2333:-57            (    2) GCGGCATCATGTCTGTTC  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 18 n= 970 bayes= 3.14368 E= 3.8e-1898 
+    48      7   -125     30 
+  -130   -122   -351    129 
+  -625  -1557    191   -373 
+ -1557  -1557    195  -1557 
+   -76    169   -597   -203 
+   231    -63   -245   -473 
+  -208    132   -297    -16 
+    45   -102    123   -267 
+    19     45     34   -119 
+    53     -4    -87     22 
+    -6      4    -91     45 
+   -18     58   -107     12 
+   -79    -91   -197    110 
+  -625   -495   -380    156 
+ -1557  -1557    193   -473 
+  -193    180  -1557   -223 
+    95   -134   -539     84 
+    67    -89   -117     60 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 18 nsites= 485 E= 3.8e-1898 
+ 0.218557  0.268041  0.109278  0.404124 
+ 0.063918  0.109278  0.022680  0.804124 
+ 0.002062  0.000000  0.973196  0.024742 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.092784  0.822680  0.004124  0.080412 
+ 0.775258  0.164948  0.047423  0.012371 
+ 0.037113  0.635052  0.032990  0.294845 
+ 0.214433  0.125773  0.608247  0.051546 
+ 0.179381  0.348454  0.327835  0.144330 
+ 0.226804  0.247423  0.142268  0.383505 
+ 0.150515  0.261856  0.138144  0.449485 
+ 0.138144  0.381443  0.123711  0.356701 
+ 0.090722  0.136082  0.065979  0.707216 
+ 0.002062  0.008247  0.018557  0.971134 
+ 0.000000  0.000000  0.987629  0.012371 
+ 0.041237  0.888660  0.000000  0.070103 
+ 0.303093  0.101031  0.006186  0.589691 
+ 0.249485  0.138144  0.115464  0.496907 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+[TCA]TGGCA[CT][GA][CG][TCA][TC][CT]TTGC[TA][TA]
+--------------------------------------------------------------------------------
+
+
+
+
+Time 25.11 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+DESPIG_02462:-51                 3.20e-05  1_[1(1.60e-05)]
+DVU0571:-124                     1.88e-06  1_[1(9.40e-07)]
+DESPIG_00690:-54                 1.38e-07  1_[1(6.88e-08)]
+DVU0913:-72                      1.63e-05  1_[1(8.14e-06)]
+DESPIG_00156:-59                 1.83e-05  1_[1(9.15e-06)]
+DVU2272:-232                     3.20e-05  1_[1(1.60e-05)]
+DESPIG_02269:-49                 2.96e-06  1_[1(1.48e-06)]
+DVU1880:-68                      8.19e-07  1_[1(4.10e-07)]
+DESPIG_02193:-68                 1.36e-06  1_[1(6.81e-07)]
+DVUA203:-62                      3.93e-06  1_[1(1.97e-06)]
+DESPIG_02142:-99                 9.73e-07  1_[1(4.86e-07)]
+DVU2820:-58                      3.56e-05  1_[1(1.78e-05)]
+DESPIG_02788:-110                1.15e-06  1_[1(5.76e-07)]
+DVU0624:-196                     1.13e-05  1_[1(5.66e-06)]
+DESPIG_01831:-119                2.69e-07  1_[1(1.34e-07)]
+DVU0150:-180                     4.79e-07  1_[1(2.40e-07)]
+DESPIG_02990:-105                3.97e-07  1_[1(1.99e-07)]
+DVU0617:-60                      3.20e-05  1_[1(1.60e-05)]
+DESPIG_02585:-57                 2.18e-07  1_[1(1.09e-07)]
+DVUA0032:-76                     2.20e-06  1_[1(1.10e-06)]
+Desal_3185:-65                   2.57e-05  1_[1(1.28e-05)]
+DVUA0015:-326                    1.00e-05  1_[1(5.00e-06)]
+Desal_3506:-81                   2.87e-05  1_[1(1.43e-05)]
+DVU1536:-90                      2.20e-06  1_[1(1.10e-06)]
+Desal_3525:-57                   4.40e-05  1_[1(2.20e-05)]
+DVU0805:-59                      7.26e-05  1_[1(3.63e-05)]
+Desal_1016:-147                  2.05e-05  1_[1(1.03e-05)]
+DVU1276:-70                      1.81e-04  1_[1(9.07e-05)]
+Desal_1015:-104                  4.53e-06  1_[1(2.26e-06)]
+DVU1805:-69                      4.79e-07  1_[1(2.40e-07)]
+Desal_0577:-221                  3.96e-05  1_[1(1.98e-05)]
+DVU3339.1:-61                    2.57e-05  1_[1(1.28e-05)]
+Desal_2595:-107                  5.20e-06  1_[1(2.60e-06)]
+DVU0123:-54                      7.76e-06  1_[1(3.88e-06)]
+Desal_2601:-77                   9.67e-05  1_[1(4.84e-05)]
+DVU2232:-51                      4.40e-05  1_[1(2.20e-05)]
+Desal_2594:-180                  8.82e-06  1_[1(4.41e-06)]
+DVU0320:-55                      6.80e-06  1_[1(3.40e-06)]
+Desal_0581:-97                   1.28e-05  1_[1(6.40e-06)]
+DVU0320:-296                     1.63e-05  1_[1(8.14e-06)]
+Desal_3007:-43                   1.28e-05  1_[1(6.40e-06)]
+DVU0750:-201                     5.20e-06  1_[1(2.60e-06)]
+Desal_3006:-115                  1.28e-05  1_[1(6.40e-06)]
+DVUA0143:-29                     3.42e-06  1_[1(1.71e-06)]
+Desal_2793:-380                  6.89e-07  1_[1(3.44e-07)]
+DVU2652:-100                     5.20e-06  1_[1(2.60e-06)]
+Desal_2938:-115                  5.76e-07  1_[1(2.88e-07)]
+DVU3384:-82                      9.73e-07  1_[1(4.86e-07)]
+Desal_1156:-96                   6.89e-07  1_[1(3.44e-07)]
+DVUA0089:-51                     1.60e-06  1_[1(8.02e-07)]
+Desal_1153:-50                   1.88e-06  1_[1(9.40e-07)]
+DvMF_2405:-338                   5.97e-05  1_[1(2.98e-05)]
+Desal_0284:-92                   3.93e-06  1_[1(1.97e-06)]
+DvMF_0213:-90                    7.26e-05  1_[1(3.63e-05)]
+DvMF_2406:-119                   5.97e-05  1_[1(2.98e-05)]
+Desal_3524:-300                  1.15e-06  1_[1(5.76e-07)]
+DvMF_1764:-205                   1.36e-06  1_[1(6.81e-07)]
+DvMF_2419:-63                    3.50e-04  19
+Desal_2290:-102                  1.88e-06  1_[1(9.40e-07)]
+DvMF_2014:-177                   1.44e-05  1_[1(7.22e-06)]
+DvMF_2411:-59                    2.34e-04  19
+Desal_3438:-145                  4.53e-06  1_[1(2.26e-06)]
+DvMF_1840:-253                   1.63e-05  1_[1(8.14e-06)]
+DvMF_1396:-237                   7.26e-05  1_[1(3.63e-05)]
+Desal_2827:-81                   5.95e-06  1_[1(2.98e-06)]
+DvMF_2524:-148                   2.75e-04  19
+DvMF_1856:-71                    7.76e-06  1_[1(3.88e-06)]
+Desal_2614:-59                   4.40e-05  1_[1(2.20e-05)]
+DvMF_0248:-44                    1.28e-05  1_[1(6.40e-06)]
+DvMF_1693:-95                    8.00e-05  1_[1(4.00e-05)]
+Desal_1249:-67                   5.95e-06  1_[1(2.98e-06)]
+DvMF_2612:-117                   4.40e-05  1_[1(2.20e-05)]
+DvMF_0621:-252                   4.40e-05  1_[1(2.20e-05)]
+Desal_1243:-38                   9.73e-07  1_[1(4.86e-07)]
+DvMF_0866:-98                    2.69e-07  1_[1(1.34e-07)]
+DvMF_2148:-244                   1.06e-04  1_[1(5.31e-05)]
+Desal_0681:-67                   8.19e-07  1_[1(4.10e-07)]
+DvMF_1860:-368                   1.00e-05  1_[1(5.00e-06)]
+DvMF_1799:-60                    1.36e-06  1_[1(6.81e-07)]
+Desal_0680:-67                   2.20e-06  1_[1(1.10e-06)]
+DvMF_1590:-201                   1.28e-05  1_[1(6.40e-06)]
+DvMF_1800:-272                   6.59e-05  1_[1(3.29e-05)]
+Desal_2604:-43                   7.76e-06  1_[1(3.88e-06)]
+DvMF_1808:-128                   9.73e-07  1_[1(4.86e-07)]
+DvMF_1800:-251                   6.59e-05  1_[1(3.29e-05)]
+Desal_3004:-69                   2.20e-06  1_[1(1.10e-06)]
+DvMF_2284:-106                   3.93e-06  1_[1(1.97e-06)]
+DvMF_1800:-230                   6.59e-05  1_[1(3.29e-05)]
+Desal_0181:-54                   2.56e-06  1_[1(1.28e-06)]
+DvMF_1393:-93                    7.76e-06  1_[1(3.88e-06)]
+DvMF_1363:-85                    1.15e-06  1_[1(5.76e-07)]
+Desal_2513:-57                   1.60e-06  1_[1(8.02e-07)]
+DvMF_0321:-98                    5.95e-06  1_[1(2.98e-06)]
+DvMF_2106:-53                    6.80e-06  1_[1(3.40e-06)]
+Desal_0622:-30                   1.88e-06  1_[1(9.40e-07)]
+DvMF_2747:-79                    5.20e-06  1_[1(2.60e-06)]
+DvMF_0386:-69                    1.15e-06  1_[1(5.76e-07)]
+Desal_2592:-41                   1.73e-03  19
+DvMF_2283:-211                   1.13e-05  1_[1(5.66e-06)]
+DvMF_2420:-56                    1.44e-05  1_[1(7.22e-06)]
+Desal_1008:-71                   2.20e-06  1_[1(1.10e-06)]
+DvMF_2283:-158                   4.79e-07  1_[1(2.40e-07)]
+DvMF_2435:-38                    2.34e-04  19
+Desal_1014:-87                   2.57e-05  1_[1(1.28e-05)]
+DvMF_1934:-119                   2.34e-04  19
+DvMF_1984:-111                   5.76e-07  1_[1(2.88e-07)]
+Desal_0448:-58                   7.76e-06  1_[1(3.88e-06)]
+DvMF_1932:-183                   3.56e-05  1_[1(1.78e-05)]
+DvMF_2333:-57                    1.84e-03  19
+Desal_3066:-65                   5.76e-07  1_[1(2.88e-07)]
+DvMF_0691:-61                    6.59e-05  1_[1(3.29e-05)]
+DvMF_2154:-120                   4.53e-06  1_[1(2.26e-06)]
+Desal_0829:-80                   3.20e-05  1_[1(1.60e-05)]
+DvMF_3071:-74                    1.44e-05  1_[1(7.22e-06)]
+DvMF_2613:-110                   1.28e-05  1_[1(6.40e-06)]
+Desal_0361:-20                   3.42e-06  1_[1(1.71e-06)]
+DvMF_1546:-75                    2.87e-05  1_[1(1.43e-05)]
+DvMF_1509:-29                    9.67e-05  1_[1(4.84e-05)]
+Desal_0416:-87                   5.95e-06  1_[1(2.98e-06)]
+DvMF_2067:-67                    8.82e-06  1_[1(4.41e-06)]
+DvMF_0574:-68                    1.28e-05  1_[1(6.40e-06)]
+Desal_2196:-88                   5.95e-06  1_[1(2.98e-06)]
+DvMF_2603:-272                   4.88e-05  1_[1(2.44e-05)]
+DvMF_1325:-146                   8.00e-05  1_[1(4.00e-05)]
+Desal_3303:-111                  1.13e-05  1_[1(5.66e-06)]
+DvMF_2912:-73                    7.76e-06  1_[1(3.88e-06)]
+DvMF_1491:-146                   4.40e-05  1_[1(2.20e-05)]
+Desal_0447:-69                   8.19e-07  1_[1(4.10e-07)]
+DvMF_2906:-127                   1.00e-05  1_[1(5.00e-06)]
+DvMF_2341:-197                   9.73e-07  1_[1(4.86e-07)]
+Desal_3549:-184                  2.96e-06  1_[1(1.48e-06)]
+DvMF_1446:-38                    6.89e-07  1_[1(3.44e-07)]
+DvMF_0693:-77                    2.69e-07  1_[1(1.34e-07)]
+Desal_3028:-67                   1.81e-04  1_[1(9.07e-05)]
+DvMF_3011:-400                   2.96e-06  1_[1(1.48e-06)]
+DvMF_2578:-132                   2.56e-06  1_[1(1.28e-06)]
+Desal_1157:-100                  6.80e-06  1_[1(3.40e-06)]
+DvMF_0244:-54                    8.19e-07  1_[1(4.10e-07)]
+DvMF_0177:-183                   4.53e-06  1_[1(2.26e-06)]
+Desal_1330:-51                   2.20e-06  1_[1(1.10e-06)]
+DvMF_0905:-38                    1.60e-06  1_[1(8.02e-07)]
+DvMF_1024:-237                   2.75e-04  19
+Desal_3528:-102                  2.56e-06  1_[1(1.28e-06)]
+DvMF_2517:-58                    3.20e-05  1_[1(1.60e-05)]
+DvMF_2842:-63                    2.54e-04  19
+Desal_2983:-73                   1.63e-05  1_[1(8.14e-06)]
+DvMF_2518:-89                    5.40e-05  1_[1(2.70e-05)]
+DvMF_0825:-135                   2.96e-06  1_[1(1.48e-06)]
+Desal_2461:-77                   8.82e-06  1_[1(4.41e-06)]
+DvMF_2521:-220                   1.83e-05  1_[1(9.15e-06)]
+DvMF_0509:-128                   7.76e-06  1_[1(3.88e-06)]
+Desal_3705:-69                   8.82e-06  1_[1(4.41e-06)]
+DvMF_2521:-150                   1.26e-03  19
+DvMF_1812:-59                    2.87e-05  1_[1(1.43e-05)]
+Desal_3710:-67                   9.67e-05  1_[1(4.84e-05)]
+DvMF_2016:-29                    1.15e-06  1_[1(5.76e-07)]
+DvMF_0828:-48                    5.76e-07  1_[1(2.88e-07)]
+Desal_2292:-59                   1.60e-06  1_[1(8.02e-07)]
+DvMF_2785:-63                    2.18e-07  1_[1(1.09e-07)]
+Desal_0518:-29                   1.00e-05  1_[1(5.00e-06)]
+DvMF_1255:-53                    1.13e-05  1_[1(5.66e-06)]
+DVU3232:-199                     6.80e-06  1_[1(3.40e-06)]
+DvMF_1121:-124                   2.96e-06  1_[1(1.48e-06)]
+DVUA0036:29                      5.97e-05  1_[1(2.98e-05)]
+DvMF_2528:-29                    6.59e-05  1_[1(3.29e-05)]
+DVU1418:-46                      8.00e-05  1_[1(4.00e-05)]
+DvMF_2147:-139                   2.20e-06  1_[1(1.10e-06)]
+DVU0047:-186                     1.83e-05  1_[1(9.15e-06)]
+DvMF_3023:-152                   1.83e-05  1_[1(9.15e-06)]
+DVU2277:-90                      4.88e-05  1_[1(2.44e-05)]
+LI0746:-62                       8.00e-05  1_[1(4.00e-05)]
+DVU0682:-200                     1.00e-05  1_[1(5.00e-06)]
+LI0568:-44                       4.88e-05  1_[1(2.44e-05)]
+DVU2957:-65                      1.88e-06  1_[1(9.40e-07)]
+LI0567:-82                       1.88e-06  1_[1(9.40e-07)]
+DVU3004:-77                      1.15e-06  1_[1(5.76e-07)]
+LI0348:-77                       1.36e-06  1_[1(6.81e-07)]
+DVU3342:-113                     1.16e-04  1_[1(5.82e-05)]
+LI0860:-68                       3.42e-06  1_[1(1.71e-06)]
+DVU1152:-258                     5.40e-05  1_[1(2.70e-05)]
+LI0856:-108                      5.20e-06  1_[1(2.60e-06)]
+DVU3003:-220                     8.19e-07  1_[1(4.10e-07)]
+LI1060:-73                       5.40e-05  1_[1(2.70e-05)]
+DVU1445:-43                      2.05e-05  1_[1(1.03e-05)]
+LI0700:-80                       4.53e-06  1_[1(2.26e-06)]
+DVU1444:-82                      3.96e-05  1_[1(1.98e-05)]
+LI0507:-62                       2.87e-05  1_[1(1.43e-05)]
+DVUA0016:26                      3.56e-05  1_[1(1.78e-05)]
+LI0211:-61                       2.87e-05  1_[1(1.43e-05)]
+DVU3025:-153                     7.76e-06  1_[1(3.88e-06)]
+LI0627:-40                       2.15e-04  19
+DVU1962:-317                     1.88e-06  1_[1(9.40e-07)]
+LI0887:-53                       9.73e-07  1_[1(4.86e-07)]
+DVU1258:-100                     3.42e-06  1_[1(1.71e-06)]
+LI0740:-147                      1.00e-05  1_[1(5.00e-06)]
+DVU0307:-59                      9.73e-07  1_[1(4.86e-07)]
+LI0277:-57                       4.40e-05  1_[1(2.20e-05)]
+DVU0316:-91                      1.13e-05  1_[1(5.66e-06)]
+LI1017:-60                       1.83e-05  1_[1(9.15e-06)]
+DVU2405:-99                      1.83e-05  1_[1(9.15e-06)]
+LI1156:-151                      3.20e-05  1_[1(1.60e-05)]
+DVU3302:-56                      8.82e-06  1_[1(4.41e-06)]
+LI1157:-193                      1.13e-05  1_[1(5.66e-06)]
+DVU0318:-115                     2.57e-05  1_[1(1.28e-05)]
+LI0899:-60                       5.13e-04  19
+DVU2280:-132                     1.63e-05  1_[1(8.14e-06)]
+LI0570:-56                       4.88e-05  1_[1(2.44e-05)]
+DVU2822:-91                      5.20e-06  1_[1(2.60e-06)]
+DVU3387:-92                      1.66e-04  1_[1(8.32e-05)]
+DVU0410:-70                      8.19e-07  1_[1(4.10e-07)]
+DVU2451:-211                     5.95e-06  1_[1(2.98e-06)]
+DVU0542:-71                      1.36e-06  1_[1(6.81e-07)]
+DVU0863:-71                      9.67e-05  1_[1(4.84e-05)]
+DVU0858:-79                      1.13e-05  1_[1(5.66e-06)]
+DVU2917:-196                     1.27e-04  1_[1(6.37e-05)]
+DVU2917:-40                      6.89e-07  1_[1(3.44e-07)]
+DVU0036:-60                      1.88e-06  1_[1(9.40e-07)]
+DVU2090:-96                      1.28e-05  1_[1(6.40e-06)]
+DORF39640:-78                    1.63e-05  1_[1(8.14e-06)]
+DVU2896:-13                      5.20e-06  1_[1(2.60e-06)]
+DVU2357:-430                     6.53e-08  1_[1(3.26e-08)]
+DVU1441:-54                      1.63e-05  1_[1(8.14e-06)]
+DVU1032:-52                      5.40e-05  1_[1(2.70e-05)]
+DVUA0106:-257                    8.00e-05  1_[1(4.00e-05)]
+DVU2392:-74                      3.23e-04  19
+DVU4010:-106                     3.56e-05  1_[1(1.78e-05)]
+DVU3234:-29                      2.05e-05  1_[1(1.03e-05)]
+DVU0512:-68                      7.26e-05  1_[1(3.63e-05)]
+DVU0910:-128                     1.13e-05  1_[1(5.66e-06)]
+DVU3020:-56                      2.20e-06  1_[1(1.10e-06)]
+DVU2105:-60                      1.83e-05  1_[1(9.15e-06)]
+DVU2107:-51                      3.20e-05  1_[1(1.60e-05)]
+DVU1231:-81                      9.73e-07  1_[1(4.86e-07)]
+DVU3143:-68                      1.44e-05  1_[1(7.22e-06)]
+Dde_3226:-49                     1.83e-05  1_[1(9.15e-06)]
+DVU3382:-247                     8.00e-05  1_[1(4.00e-05)]
+Dde_3225:-74                     6.59e-05  1_[1(3.29e-05)]
+DVU1164:-110                     3.96e-05  1_[1(1.98e-05)]
+Dde_1940:-79                     1.15e-06  1_[1(5.76e-07)]
+DVUA0030:-68                     4.40e-05  1_[1(2.20e-05)]
+Dde_0876:-116                    1.36e-06  1_[1(6.81e-07)]
+DVU2988:-46                      1.83e-05  1_[1(9.15e-06)]
+Dde_1553:-84                     5.20e-06  1_[1(2.60e-06)]
+DVU2133:-73                      1.28e-05  1_[1(6.40e-06)]
+Dde_2357:-82                     3.93e-06  1_[1(1.97e-06)]
+DVU0943:-73                      5.20e-06  1_[1(2.60e-06)]
+Dde_1654:-87                     1.00e-05  1_[1(5.00e-06)]
+DVU1854:34                       3.97e-07  1_[1(1.99e-07)]
+Dde_2960:-101                    6.80e-06  1_[1(3.40e-06)]
+DVU0139:-79                      1.13e-05  1_[1(5.66e-06)]
+Dde_1786:8                       6.59e-05  1_[1(3.29e-05)]
+DVU0132:-232                     3.97e-07  1_[1(1.99e-07)]
+Dde_0111:-78                     4.79e-07  1_[1(2.40e-07)]
+Dde_2705:-112                    5.95e-06  1_[1(2.98e-06)]
+Dde_0404:-52                     1.63e-05  1_[1(8.14e-06)]
+Dde_2510:-72                     5.95e-06  1_[1(2.98e-06)]
+Dde_2509:-76                     1.36e-06  1_[1(6.81e-07)]
+Dde_2507:-73                     3.93e-06  1_[1(1.97e-06)]
+Dde_1017:-58                     7.26e-05  1_[1(3.63e-05)]
+Dde_1834:-70                     1.27e-04  1_[1(6.37e-05)]
+Dde_0288:-308                    2.87e-05  1_[1(1.43e-05)]
+Dde_1532:-55                     4.40e-05  1_[1(2.20e-05)]
+Dde_2819:-59                     1.36e-06  1_[1(6.81e-07)]
+Dde_3211:-88                     8.19e-07  1_[1(4.10e-07)]
+Ddes_0750:-76                    4.09e-04  19
+Ddes_0811:47                     1.98e-04  1_[1(9.88e-05)]
+Ddes_2002:-84                    3.42e-06  1_[1(1.71e-06)]
+Ddes_0327:-96                    1.83e-05  1_[1(9.15e-06)]
+Ddes_1259:-43                    2.57e-05  1_[1(1.28e-05)]
+Ddes_1260:-98                    1.83e-05  1_[1(9.15e-06)]
+Dret_2390:-78                    5.76e-07  1_[1(2.88e-07)]
+Ddes_0185:-134                   5.40e-05  1_[1(2.70e-05)]
+Dret_0589:-92                    5.97e-05  1_[1(2.98e-05)]
+Ddes_2091:-76                    5.76e-07  1_[1(2.88e-07)]
+Dret_0569:-290                   7.26e-05  1_[1(3.63e-05)]
+Ddes_1576:-59                    2.56e-06  1_[1(1.28e-06)]
+Dret_0569:-130                   1.44e-05  1_[1(7.22e-06)]
+Ddes_1573:-79                    3.93e-06  1_[1(1.97e-06)]
+Dret_0653:-159                   1.84e-03  19
+Ddes_0698:-119                   1.11e-03  19
+Dret_0199:-95                    4.53e-06  1_[1(2.26e-06)]
+Ddes_0698:-63                    6.80e-06  1_[1(3.40e-06)]
+Dret_2267:-53                    8.82e-06  1_[1(4.41e-06)]
+Ddes_2374:-198                   2.18e-07  1_[1(1.09e-07)]
+Dret_2081:-40                    7.76e-06  1_[1(3.88e-06)]
+Ddes_1436:-123                   3.93e-06  1_[1(1.97e-06)]
+Dret_0578:-51                    2.56e-06  1_[1(1.28e-06)]
+Ddes_0220:-190                   1.83e-05  1_[1(9.15e-06)]
+Dret_0446:-67                    6.89e-07  1_[1(3.44e-07)]
+Ddes_1437:-228                   1.08e-07  1_[1(5.40e-08)]
+Dret_0113:-70                    5.95e-06  1_[1(2.98e-06)]
+Ddes_0311:-61                    7.76e-06  1_[1(3.88e-06)]
+Dret_0167:-228                   2.05e-05  1_[1(1.03e-05)]
+Ddes_0313:-75                    6.89e-07  1_[1(3.44e-07)]
+Dret_0164:-82                    4.53e-06  1_[1(2.26e-06)]
+Ddes_1147:-126                   1.60e-06  1_[1(8.02e-07)]
+Dret_1039:-90                    4.53e-06  1_[1(2.26e-06)]
+Ddes_0596:-177                   1.44e-05  1_[1(7.22e-06)]
+Dret_1220:-147                   2.75e-04  19
+Ddes_0596:-148                   2.30e-05  1_[1(1.15e-05)]
+Dret_1485:-210                   2.05e-05  1_[1(1.03e-05)]
+Ddes_0596:-54                    5.97e-05  1_[1(2.98e-05)]
+Dbac_2711:-81                    1.15e-06  1_[1(5.76e-07)]
+Ddes_0530:-82                    1.44e-05  1_[1(7.22e-06)]
+Dbac_0116:-45                    1.27e-04  1_[1(6.37e-05)]
+Ddes_2282:-243                   3.42e-06  1_[1(1.71e-06)]
+Dbac_2264:-101                   2.96e-06  1_[1(1.48e-06)]
+Ddes_0763:-59                    1.63e-05  1_[1(8.14e-06)]
+Dbac_2224:-311                   2.54e-04  19
+Ddes_2004:-57                    2.20e-06  1_[1(1.10e-06)]
+Dbac_0370:-62                    1.84e-03  19
+Ddes_0373:-141                   2.56e-06  1_[1(1.28e-06)]
+Dbac_2404:-106                   1.52e-04  1_[1(7.62e-05)]
+Ddes_0378:-71                    2.30e-05  1_[1(1.15e-05)]
+Ddes_0332:-79                    3.96e-05  1_[1(1.98e-05)]
+Dbac_3471:-144                   5.95e-06  1_[1(2.98e-06)]
+Ddes_0193:-29                    4.53e-06  1_[1(2.26e-06)]
+Dbac_3470:-95                    1.63e-05  1_[1(8.14e-06)]
+Ddes_0391:-101                   6.89e-07  1_[1(3.44e-07)]
+Dbac_2434:-44                    3.56e-05  1_[1(1.78e-05)]
+Ddes_1836:-78                    7.26e-05  1_[1(3.63e-05)]
+Dbac_2433:-85                    4.41e-04  19
+Ddes_0331:-175                   8.82e-06  1_[1(4.41e-06)]
+Dbac_0833:-57                    1.63e-05  1_[1(8.14e-06)]
+Ddes_1867:-118                   7.36e-04  19
+Dbac_0547:-44                    5.95e-06  1_[1(2.98e-06)]
+Ddes_0695:-76                    2.56e-06  1_[1(1.28e-06)]
+Dbac_1614:-84                    7.26e-05  1_[1(3.63e-05)]
+Ddes_0186:-27                    1.66e-04  1_[1(8.32e-05)]
+Dbac_1014:-63                    2.56e-06  1_[1(1.28e-06)]
+Ddes_1230:-120                   9.73e-07  1_[1(4.86e-07)]
+Dbac_2249:-29                    1.16e-04  1_[1(5.82e-05)]
+Ddes_2345:-151                   1.00e-05  1_[1(5.00e-06)]
+Dbac_3026:-91                    4.53e-06  1_[1(2.26e-06)]
+Ddes_2346:-62                    2.57e-05  1_[1(1.28e-05)]
+Dbac_0848:-149                   1.00e-05  1_[1(5.00e-06)]
+Ddes_2342:-63                    2.56e-06  1_[1(1.28e-06)]
+Dbac_2146:-113                   2.56e-06  1_[1(1.28e-06)]
+Dbac_2155:-282                   1.88e-06  1_[1(9.40e-07)]
+Dbac_3326:-88                    5.97e-05  1_[1(2.98e-05)]
+Dbac_2669:-55                    3.93e-06  1_[1(1.97e-06)]
+Dbac_3025:-73                    1.63e-05  1_[1(8.14e-06)]
+Dbac_1587:-156                   5.95e-06  1_[1(2.98e-06)]
+Dbac_1588:-109                   2.20e-06  1_[1(1.10e-06)]
+Dbac_2588:-49                    1.83e-05  1_[1(9.15e-06)]
+Dbac_1772:-70                    5.95e-06  1_[1(2.98e-06)]
+Dbac_1496:-89                    5.97e-05  1_[1(2.98e-05)]
+Dbac_2789:-29                    1.44e-05  1_[1(7.22e-06)]
+Dbac_2430:-53                    7.26e-05  1_[1(3.63e-05)]
+Dbac_2386:-64                    1.63e-05  1_[1(8.14e-06)]
+Dbac_0245:-46                    4.40e-05  1_[1(2.20e-05)]
+Dbac_2476:-47                    2.96e-06  1_[1(1.48e-06)]
+Dbac_2410:-46                    1.44e-05  1_[1(7.22e-06)]
+Dbac_3473:-30                    8.00e-05  1_[1(4.00e-05)]
+Dbac_2301:-43                    7.76e-06  1_[1(3.88e-06)]
+Dbac_0448:-96                    6.89e-07  1_[1(3.44e-07)]
+Dbac_3049:-56                    2.87e-05  1_[1(1.43e-05)]
+Dbac_1044:-91                    1.13e-05  1_[1(5.66e-06)]
+Dbac_1728:-53                    1.36e-06  1_[1(6.81e-07)]
+Dbac_1016:-112                   2.57e-05  1_[1(1.28e-05)]
+Dbac_1225:-61                    8.82e-06  1_[1(4.41e-06)]
+Dbac_2656:-84                    2.87e-05  1_[1(1.43e-05)]
+Dbac_0313:-85                    8.82e-06  1_[1(4.41e-06)]
+Dbac_3071:-67                    1.39e-04  1_[1(6.97e-05)]
+Ddes_0154:-244                   3.42e-06  1_[1(1.71e-06)]
+Ddes_2343:-81                    1.00e-05  1_[1(5.00e-06)]
+Ddes_1559:-66                    2.05e-05  1_[1(1.03e-05)]
+Ddes_0082:-191                   5.97e-05  1_[1(2.98e-05)]
+Ddes_1642:-115                   8.19e-07  1_[1(4.10e-07)]
+Ddes_2079:-173                   1.63e-05  1_[1(8.14e-06)]
+Ddes_0767:-110                   8.19e-07  1_[1(4.10e-07)]
+Ddes_1028:-58                    4.53e-06  1_[1(2.26e-06)]
+DMR_40340:-139                   2.75e-04  19
+DMR_40120:-132                   1.83e-05  1_[1(9.15e-06)]
+DMR_31520:-71                    5.95e-06  1_[1(2.98e-06)]
+DMR_23880:-156                   8.82e-06  1_[1(4.41e-06)]
+DMR_24580:-117                   3.93e-06  1_[1(1.97e-06)]
+DMR_13730:-43                    4.88e-05  1_[1(2.44e-05)]
+DMR_16470:-180                   2.05e-05  1_[1(1.03e-05)]
+DMR_11080:-29                    1.13e-05  1_[1(5.66e-06)]
+DMR_20070:-84                    2.87e-05  1_[1(1.43e-05)]
+DMR_45020:-82                    1.13e-05  1_[1(5.66e-06)]
+DMR_42100:-58                    5.95e-06  1_[1(2.98e-06)]
+DMR_05720:-209                   1.00e-05  1_[1(5.00e-06)]
+DMR_34260:-179                   9.73e-07  1_[1(4.86e-07)]
+DMR_25590:-78                    4.53e-06  1_[1(2.26e-06)]
+DMR_33160:-52                    7.76e-06  1_[1(3.88e-06)]
+DMR_03980:-71                    1.13e-05  1_[1(5.66e-06)]
+DMR_39260:-52                    1.13e-05  1_[1(5.66e-06)]
+DMR_25570:-89                    2.96e-06  1_[1(1.48e-06)]
+DMR_11290:-42                    1.13e-05  1_[1(5.66e-06)]
+DMR_31570:-46                    1.60e-06  1_[1(8.02e-07)]
+DMR_22570:-60                    1.13e-05  1_[1(5.66e-06)]
+DMR_23860:-29                    2.30e-05  1_[1(1.15e-05)]
+DMR_33620:-104                   5.95e-06  1_[1(2.98e-06)]
+DMR_19620:-114                   8.80e-05  1_[1(4.40e-05)]
+DMR_05510:-54                    6.59e-05  1_[1(3.29e-05)]
+DMR_38330:-60                    3.97e-07  1_[1(1.99e-07)]
+DMR_43550:-13                    2.87e-05  1_[1(1.43e-05)]
+DMR_45640:-76                    3.93e-06  1_[1(1.97e-06)]
+DMR_20560:-60                    1.88e-06  1_[1(9.40e-07)]
+DMR_17520:-62                    8.82e-06  1_[1(4.41e-06)]
+DMR_33860:-246                   5.20e-06  1_[1(2.60e-06)]
+Dbac_0834:-81                    5.95e-06  1_[1(2.98e-06)]
+DMR_45010:-138                   2.96e-06  1_[1(1.48e-06)]
+Dbac_2976:-40                    2.87e-05  1_[1(1.43e-05)]
+DMR_42220:-78                    1.60e-06  1_[1(8.02e-07)]
+Dbac_0691:-67                    1.44e-05  1_[1(7.22e-06)]
+DMR_16170:50                     1.60e-06  1_[1(8.02e-07)]
+Dbac_3048:-45                    1.60e-06  1_[1(8.02e-07)]
+DMR_06700:-259                   1.66e-04  1_[1(8.32e-05)]
+Dbac_2235:-63                    1.36e-06  1_[1(6.81e-07)]
+DMR_10270:-161                   8.80e-05  1_[1(4.40e-05)]
+Dbac_2231:-65                    8.19e-07  1_[1(4.10e-07)]
+DMR_06380:-79                    3.28e-07  1_[1(1.64e-07)]
+Dbac_2944:-62                    6.89e-07  1_[1(3.44e-07)]
+DMR_37280:-101                   5.76e-07  1_[1(2.88e-07)]
+Dbac_1721:-62                    6.80e-06  1_[1(3.40e-06)]
+DMR_45210:-101                   9.73e-07  1_[1(4.86e-07)]
+Dbac_2385:-64                    5.97e-05  1_[1(2.98e-05)]
+DMR_05460:-13                    1.83e-05  1_[1(9.15e-06)]
+Dbac_0594:-29                    5.97e-05  1_[1(2.98e-05)]
+DMR_06420:-79                    4.79e-07  1_[1(2.40e-07)]
+Dbac_1753:-84                    1.00e-05  1_[1(5.00e-06)]
+DMR_06400:-78                    3.28e-07  1_[1(1.64e-07)]
+Dbac_2145:-84                    1.60e-06  1_[1(8.02e-07)]
+DMR_06410:-79                    3.28e-07  1_[1(1.64e-07)]
+Dbac_2236:-115                   2.30e-05  1_[1(1.15e-05)]
+DMR_06390:-78                    1.36e-06  1_[1(6.81e-07)]
+Dde_0191:-227                    2.18e-07  1_[1(1.09e-07)]
+DMR_13760:-70                    2.20e-06  1_[1(1.10e-06)]
+Dde_0357:-141                    9.73e-07  1_[1(4.86e-07)]
+DESPIG_01518:8                   1.18e-03  19
+Dde_1684:-54                     7.26e-05  1_[1(3.63e-05)]
+DESPIG_02393:-112                4.09e-04  19
+Dde_0318:18                      1.00e-05  1_[1(5.00e-06)]
+DESPIG_02787:-128                5.97e-05  1_[1(2.98e-05)]
+Dde_0323:-187                    1.88e-06  1_[1(9.40e-07)]
+DESPIG_02139:-147                4.79e-07  1_[1(2.40e-07)]
+Dde_0438:-80                     3.96e-05  1_[1(1.98e-05)]
+DESPIG_02849:-80                 3.97e-07  1_[1(1.99e-07)]
+Dde_0438:-73                     5.76e-07  1_[1(2.88e-07)]
+DESPIG_00642:-127                5.76e-07  1_[1(2.88e-07)]
+Dde_0380:-145                    6.80e-06  1_[1(3.40e-06)]
+DESPIG_01879:-43                 1.52e-04  1_[1(7.62e-05)]
+Dde_3153:-164                    1.83e-05  1_[1(9.15e-06)]
+DESPIG_00689:-73                 3.96e-05  1_[1(1.98e-05)]
+Dde_0645:-48                     4.40e-05  1_[1(2.20e-05)]
+Dde_0816:-98                     3.56e-05  1_[1(1.78e-05)]
+Dde_0420:-45                     8.80e-05  1_[1(4.40e-05)]
+Dde_1712:-87                     2.05e-05  1_[1(1.03e-05)]
+Dde_1713:-44                     1.63e-05  1_[1(8.14e-06)]
+Dde_2287:-243                    4.79e-07  1_[1(2.40e-07)]
+Dde_3237:-163                    7.76e-06  1_[1(3.88e-06)]
+Dde_0298:-86                     3.97e-07  1_[1(1.99e-07)]
+Dde_0356:-75                     5.76e-07  1_[1(2.88e-07)]
+Dde_0102:-96                     2.56e-06  1_[1(1.28e-06)]
+Dde_1258:-159                    6.89e-07  1_[1(3.44e-07)]
+Dde_3523:-98                     1.63e-05  1_[1(8.14e-06)]
+Dde_1275:-187                    3.56e-05  1_[1(1.78e-05)]
+Dde_1275:-84                     8.82e-06  1_[1(4.41e-06)]
+Dde_1278:-54                     3.96e-05  1_[1(1.98e-05)]
+Dde_0828:-94                     1.63e-05  1_[1(8.14e-06)]
+Dde_0818:-64                     2.30e-05  1_[1(1.15e-05)]
+Dde_0696:-71                     3.96e-05  1_[1(1.98e-05)]
+Dde_0108:-57                     6.59e-05  1_[1(3.29e-05)]
+Dde_1120:-70                     1.83e-05  1_[1(9.15e-06)]
+Dde_2573:-132                    2.99e-04  19
+Dde_2573:-65                     1.13e-05  1_[1(5.66e-06)]
+Dde_2986:-41                     6.89e-07  1_[1(3.44e-07)]
+Dde_1501:-136                    3.97e-07  1_[1(1.99e-07)]
+Dde_1400:-212                    1.88e-06  1_[1(9.40e-07)]
+Dde_1709:-53                     3.42e-06  1_[1(1.71e-06)]
+Dde_1455:-54                     4.53e-06  1_[1(2.26e-06)]
+Dde_3230:-95                     7.76e-06  1_[1(3.88e-06)]
+Dde_3197:-49                     1.16e-04  1_[1(5.82e-05)]
+Dde_3591:-85                     4.76e-04  19
+Dde_3159:-66                     1.88e-06  1_[1(9.40e-07)]
+Dde_2708:-136                    3.96e-05  1_[1(1.98e-05)]
+Dde_0378:-30                     8.00e-05  1_[1(4.00e-05)]
+Dde_0564:-83                     3.93e-06  1_[1(1.97e-06)]
+Dde_2311:-75                     6.80e-06  1_[1(3.40e-06)]
+Dde_3492:-71                     3.96e-05  1_[1(1.98e-05)]
+Dde_0657:-83                     2.57e-05  1_[1(1.28e-05)]
+Dde_0110:-208                    2.34e-04  19
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because couldn't find any more starting points for EM.
+********************************************************************************
+********************************************************************************

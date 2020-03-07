@@ -1,0 +1,2308 @@
+﻿********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 3.5.4 (Release date: 3.5.4)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= K:\20200226\TRN\motifs\DtxR.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+STM1834:-308             1.0000     22  CKO_01156:-373           1.0000     22  
+STM1834:-351             1.0000     22  CKO_01156:-416           1.0000     22  
+Spro_1916:-70            1.0000     22  Cbac1_010100022172:-140  1.0000     22  
+Spro_1915:-181           1.0000     22  Cbac1_010100004977:-80   1.0000     22  
+SA0589:-42               1.0000     20  Cbac1_010100015165:-216  1.0000     22  
+SA0956:-67               1.0000     20  Cbac1_010100015165:-65   1.0000     22  
+STACA0001_0395:-42       1.0000     20  Cbac1_010100005502:-105  1.0000     22  
+STACA0001_2258:-66       1.0000     20  Cbac1_010100027059:-54   1.0000     22  
+Sca_0731:-76             1.0000     20  Cbac1_010100004917:-161  1.0000     22  
+Sca_0275:-141            1.0000     20  Cbac1_010100028374:-70   1.0000     22  
+SE0407:-42               1.0000     20  Cbac1_010100028374:-54   1.0000     22  
+SE0803:-51               1.0000     20  Cbac1_010100025382:-105  1.0000     22  
+SE0803:-29               1.0000     20  CAP0063:-78              1.0000     22  
+SH1847:-65               1.0000     20  Cbei_4069:-133           1.0000     22  
+SH0143:-40               1.0000     20  Cbei_4070:-109           1.0000     22  
+SSP1685:-73              1.0000     20  CLOBOL_01420:-91         1.0000     22  
+SSP2086:-40              1.0000     20  CLOBOL_05596:-140        1.0000     22  
+Smlt2837:-110            1.0000     20  CLOBOL_00284:-193        1.0000     22  
+Smlt2838:-27             1.0000     20  CLOBOL_05595:-210        1.0000     22  
+SAG0745:-85              1.0000     22  CLOBOL_05595:-104        1.0000     22  
+SAG1533:-59              1.0000     22  CLOBOL_05594:-51         1.0000     22  
+SAG1534:-151             1.0000     22  CLOBOL_05594:-31         1.0000     22  
+SAG1534:-129             1.0000     22  CLOBOL_00283:-81         1.0000     22  
+SAG1518:-56              1.0000     22  CLOBOL_00460:-107        1.0000     22  
+SAG1518:-34              1.0000     22  CLONEX_03805:-37         1.0000     18  
+SDEG_0487:-116           1.0000     22  CLONEX_00483:-50         1.0000     18  
+SDEG_1473:-54            1.0000     22  CLONEX_01968:-139        1.0000     22  
+SDEG_0488:-51            1.0000     22  CLONEX_01967:-65         1.0000     22  
+Sez_1469:-51             1.0000     22  CLONEX_01965:-58         1.0000     22  
+Sez_1456:-79             1.0000     22  CLONEX_01942:-32         1.0000     22  
+Sez_1470:-116            1.0000     22  CLONEX_02589:-63         1.0000     22  
+GALLO_2047:-53           1.0000     22  NT01CX_2309:-164         1.0000     22  
+GALLO_0590:-78           1.0000     22  NT01CX_2308:-65          1.0000     22  
+SGO_1800:-60             1.0000     22  CLOSCI_02591:-95         1.0000     18  
+smi_0705:-194            1.0000     22  CLOSCI_00935:-50         1.0000     18  
+smi_1232:-164            1.0000     22  CLOSCI_00926:-161        1.0000     22  
+smi_0636:-62             1.0000     22  CLOSCI_00925:-101        1.0000     22  
+SMU.182:-57              1.0000     22  CLOSCI_00924:-71         1.0000     22  
+SP_1648:-62              1.0000     22  CLOSCI_00921:-171        1.0000     22  
+SP_0641:-194             1.0000     22  CLOSCI_00929:-65         1.0000     22  
+SPy1434:-86              1.0000     22  CORAM0001_1990:-17       1.0000     19  
+SPy1434:-53              1.0000     22  CORAM0001_0900:-74       1.0000     19  
+SPy0450:-116             1.0000     22  CORAM0001_1958:-85       1.0000     19  
+SPy0453:-51              1.0000     22  CORAM0001_1805:-165      1.0000     19  
+SSA_0262:-29             1.0000     22  CORAM0001_0629:-105      1.0000     19  
+SSU05_0309:-135          1.0000     22  CORAM0001_0848:-81       1.0000     19  
+SSU05_1982:-32           1.0000     22  CORAM0001_0780:-150      1.0000     19  
+SSU05_0309:-103          1.0000     22  CORAM0001_1939:-92       1.0000     19  
+SUB0473:-32              1.0000     22  CORAM0001_1939:-117      1.0000     19  
+SUB0473:-50              1.0000     22  CORAM0001_0534:-153      1.0000     20  
+SUBp03:-117              1.0000     22  cauri_0076:-121          1.0000     19  
+SUB1266:-54              1.0000     22  cauri_0257:-129          1.0000     19  
+SUB0826:-83              1.0000     22  cauri_2325:-19           1.0000     19  
+XAC2036:-49              1.0000     20  cauri_0360:-78           1.0000     19  
+XAC2037:-113             1.0000     20  cauri_0716:-54           1.0000     19  
+XCC2171:-50              1.0000     20  cauri_0725:-126          1.0000     19  
+XCC2170:-113             1.0000     20  cauri_0725:-39           1.0000     19  
+XF1015:9                 1.0000     20  cauri_2060:-81           1.0000     19  
+XF1013:-193              1.0000     20  cauri_1726:-50           1.0000     19  
+Mjls_5425:-218           1.0000     20  Rv3848:-217              1.0000     20  
+Mvan_3371:-61            1.0000     20  Mvan_4708:-293           1.0000     20  
+nfa24340:-35             1.0000     22  OB0431:-38               1.0000     22  
+OB0431:-123              1.0000     22  Pjdr2_4868:-109          1.0000     22  
+RSal33209_1376:-52       1.0000     16  NGR_b14390:-141          1.0000     20  
+NGR_b14390:-61           1.0000     20  NGR_b14380:-153          1.0000     20  
+NGR_b14380:-73           1.0000     20  RB2654_12814:-98         1.0000     22  
+RB2654_22338:-77         1.0000     22  RER_59770:-55            1.0000     22  
+RER_51720:-74            1.0000     22  RER_01640:-191           1.0000     22  
+ROP_70570:-52            1.0000     22  ROP_51290:-78            1.0000     22  
+ROP_38900:-189           1.0000     22  RHA1_ro07271:-60         1.0000     22  
+RHA1_ro05067:-77         1.0000     22  RHA1_ro04009:-189        1.0000     22  
+ROSINTL182_04350:-71     1.0000     22  ROSINTL182_04347:-121    1.0000     22  
+ROSINTL182_04597:-89     1.0000     22  ROSINTL182_04597:-24     1.0000     22  
+ROSINTL182_04596:-133    1.0000     22  ROSINTL182_03016:-55     1.0000     22  
+Rcas_4373:-123           1.0000     20  Rcas_0821:-98            1.0000     20  
+Rcas_3171:-159           1.0000     20  Rcas_1724:-55            1.0000     20  
+Rcas_3322:-9             1.0000     20  RoseRS_4469:-141         1.0000     20  
+RoseRS_2294:-157         1.0000     20  RoseRS_3564:-109         1.0000     20  
+RoseRS_3070:-42          1.0000     20  RoseRS_4512:-85          1.0000     20  
+RoseRS_3986:-29          1.0000     20  ISM_17630:-70            1.0000     22  
+ISM_17635:-278           1.0000     22  ROS217_03050:-77         1.0000     22  
+RUMGNA_03680:-102        1.0000     22  RUMGNA_03679:-85         1.0000     22  
+RUMGNA_03652:-54         1.0000     22  RUMGNA_03923:-123        1.0000     22  
+RUMGNA_02766:-93         1.0000     22  RUMGNA_02766:-36         1.0000     22  
+RUMGNA_02768:-130        1.0000     22  RUMGNA_02771:-135        1.0000     22  
+RUMLAC_02635:-139        1.0000     22  RUMLAC_01079:-132        1.0000     22  
+RUMLAC_01088:-77         1.0000     22  RUMLAC_01886:-107        1.0000     22  
+STM0835:-128             1.0000     22  STM2408:-34              1.0000     22  
+STM2861:-57              1.0000     22  ckrop_0468:-130          1.0000     19  
+ckrop_1572:-177          1.0000     20  ckrop_1571:-143          1.0000     20  
+ckrop_3000:-72           1.0000     20  cur_0912:-17             1.0000     19  
+cur_1667:-54             1.0000     19  cur_1667:-74             1.0000     19  
+cur_0331:-74             1.0000     19  cur_1555:-160            1.0000     19  
+cur_1524:-79             1.0000     19  cur_0330:-49             1.0000     19  
+cur_0910:-16             1.0000     19  cur_1149:-115            1.0000     19  
+cur_0337:-76             1.0000     19  cur_0328:-69             1.0000     19  
+cur_0325:-102            1.0000     19  cur_0910:-61             1.0000     19  
+cur_0526:-56             1.0000     20  DORFOR_03080:-53         1.0000     18  
+DORFOR_03080:-55         1.0000     22  DORLON_00209:-60         1.0000     18  
+DORLON_00345:-156        1.0000     22  DORLON_00346:-120        1.0000     22  
+DORLON_00403:-48         1.0000     22  DORLON_00359:-108        1.0000     22  
+DORLON_00359:-88         1.0000     22  Ent638_2926:-34          1.0000     22  
+Ent638_1111:-75          1.0000     22  Ent638_1111:-56          1.0000     22  
+Ent638_1304:-128         1.0000     22  Ent638_2390:-313         1.0000     22  
+Ent638_2390:-356         1.0000     22  EF2074:-88               1.0000     22  
+EF2074:-33               1.0000     22  EF0575:-78               1.0000     22  
+EF1057:-90               1.0000     22  EF1901:-57               1.0000     22  
+EfaeDRAFT_2039:-33       1.0000     22  EAM_1275:-137            1.0000     22  
+EAM_2087:-54             1.0000     22  EAM_2087:-73             1.0000     22  
+EAM_2378:-133            1.0000     22  EAM_3371:-168            1.0000     22  
+b0817:-129               1.0000     22  b2392:-34                1.0000     22  
+b1821:-383               1.0000     22  b1821:-423               1.0000     22  
+b0812:-67                1.0000     22  EUBELI_00572:-29         1.0000     22  
+EUBELI_00574:-89         1.0000     22  EUBELI_00569:-112        1.0000     22  
+EUBELI_01395:-176        1.0000     22  EUBELI_01395:-55         1.0000     22  
+EUBREC_2328:-180         1.0000     22  EUBREC_1581:-130         1.0000     22  
+EUBREC_1581:-90          1.0000     22  EUBREC_1583:-59          1.0000     22  
+EUBREC_1233:-53          1.0000     22  EUBREC_2823:-112         1.0000     22  
+cauri_1726:-70           1.0000     19  APA01_40860:-157         1.0000     20  
+cauri_0507:-67           1.0000     19  APA01_40860:-64          1.0000     20  
+cauri_0724:-106          1.0000     19  APA01_40840:-141         1.0000     20  
+cauri_2324:-71           1.0000     19  APA01_40840:-48          1.0000     20  
+cauri_0788:-46           1.0000     19  Aflv_1289:-92            1.0000     22  
+cauri_0741:-83           1.0000     19  AAur_3272:-7             1.0000     16  
+cauri_0741:-33           1.0000     19  AAur_pTC20050:-59        1.0000     16  
+cauri_0724:-19           1.0000     19  AAur_pTC10168:-61        1.0000     16  
+cauri_0335:-76           1.0000     20  Achl_3070:-61            1.0000     16  
+cauri_0334:-51           1.0000     20  Arth_3280:-7             1.0000     16  
+DIP0540:-267             1.0000     19  Arth_3280:15             1.0000     16  
+DIP0222:-51              1.0000     19  Arth_4418:-46            1.0000     16  
+DIP0625:-171             1.0000     19  AZL_b04530:16            1.0000     20  
+DIP0629:-67              1.0000     19  AZL_b04520:-114          1.0000     20  
+DIP0629:-47              1.0000     19  RBAM_004660:-65          1.0000     22  
+DIP1669:-80              1.0000     19  BC1803:-129              1.0000     22  
+DIP1519:-19              1.0000     19  BC0709:-61               1.0000     22  
+DIP1296:-173             1.0000     19  ABC3961:-99              1.0000     22  
+DIP1866:-56              1.0000     19  BH1389:-180              1.0000     22  
+DIP0370:-129             1.0000     19  BH0516:-54               1.0000     22  
+DIP1062:-24              1.0000     19  BLi00526:-62             1.0000     22  
+DIP0922:-95              1.0000     19  BPUM_0413:-63            1.0000     22  
+DIP0415:-30              1.0000     19  BPUM_3011:-119           1.0000     22  
+DIP0762:-31              1.0000     19  BSU04360:-60             1.0000     22  
+DIP0108:-48              1.0000     19  BSU30770:-131            1.0000     22  
+DIP0108:-73              1.0000     19  BACPEC_02631:-135        1.0000     22  
+DIP1510:-214             1.0000     19  BACPEC_02635:-72         1.0000     22  
+DIP1520:-86              1.0000     19  BACPEC_02120:-44         1.0000     22  
+DIP1061:-47              1.0000     19  Bcav_1388:2              1.0000     16  
+DIP0894:-25              1.0000     19  BLAHAN_00185:-67         1.0000     22  
+DIP2356:-68              1.0000     19  BLAHAN_00186:-38         1.0000     22  
+DIP2161:-239             1.0000     19  BLAHAN_03143:-99         1.0000     22  
+DIP0582:-26              1.0000     19  BLAHAN_03143:-38         1.0000     22  
+DIP0523:-142             1.0000     19  Bfae_31330:-30           1.0000     16  
+DIP2303:-81              1.0000     19  Bfae_31330:-53           1.0000     16  
+DIP0124:-74              1.0000     19  BBta_1556:-92            1.0000     20  
+DIP2114:-155             1.0000     19  BBta_1555:-127           1.0000     20  
+DIP0586:-20              1.0000     19  BlinB01000963:-16        1.0000     16  
+DIP0523:-65              1.0000     19  BRYFOR_00504:-229        1.0000     22  
+DIP0615:-91              1.0000     20  BRYFOR_00504:-209        1.0000     22  
+DIP1923:-81              1.0000     20  BRYFOR_03558:-82         1.0000     22  
+CE0687:-57               1.0000     19  BRYFOR_01110:-166        1.0000     22  
+CE2420:-56               1.0000     19  BRYFOR_01110:-99         1.0000     22  
+CE0386:-130              1.0000     19  BRYFOR_03081:-100        1.0000     22  
+CE1346:-42               1.0000     19  BRYFOR_00595:-52         1.0000     22  
+CE0125:-49               1.0000     19  Cagg_3308:-57            1.0000     20  
+CE0881:-80               1.0000     19  Cagg_2416:-83            1.0000     20  
+CE0881:-40               1.0000     19  Cagg_3553:-38            1.0000     20  
+CE0466:-73               1.0000     19  Cagg_1154:-74            1.0000     20  
+CE1009:-42               1.0000     19  Chy400_2616:-57          1.0000     20  
+CE1917:-221              1.0000     19  Chy400_0349:-55          1.0000     20  
+CE1566:-34               1.0000     20  Chy400_0344:-158         1.0000     20  
+cg3118:-178              1.0000     19  Chy400_4135:-136         1.0000     20  
+cg0771:-59               1.0000     19  Chy400_0685:-92          1.0000     20  
+cg1418:-49               1.0000     19  Chy400_0210:-40          1.0000     20  
+cg1765:-146              1.0000     19  CKO_00404:-16            1.0000     22  
+cg2782:-56               1.0000     19  CKO_04090:-42            1.0000     22  
+cg0445:-130              1.0000     19  CKO_00940:-88            1.0000     22  
+cg3404:-18               1.0000     19  CKO_02301:-129           1.0000     22  
+GK0583:-53               1.0000     22  Gdia_1353:-179           1.0000     20  
+Gdia_1352:16             1.0000     20  GOX2068:-140             1.0000     20  
+GOX2068:-49              1.0000     20  GOX2067:-28              1.0000     20  
+GOX2067:-119             1.0000     20  Haur_4030:-51            1.0000     20  
+Jden_0297:-45            1.0000     16  KPN_02743:-35            1.0000     22  
+KPN_03078:-76            1.0000     22  KPN_03078:-57            1.0000     22  
+KPN_00845:-163           1.0000     22  KPN_02337:-449           1.0000     22  
+KPN_02337:-406           1.0000     22  KRH_01300:-45            1.0000     16  
+LVIS_0331:-213           1.0000     20  LVIS_0225:-19            1.0000     20  
+LSEI_2423:-32            1.0000     20  LSEI_2413:-71            1.0000     20  
+LAF_1828:-91             1.0000     20  lp_1095:-82              1.0000     20  
+lp_2992:-98              1.0000     20  LAR_1743:-89             1.0000     20  
+LGG_02411:-72            1.0000     20  LGG_02421:-31            1.0000     20  
+LSA0180:-34              1.0000     20  LSA1699:-77              1.0000     20  
+LSA0246:7                1.0000     20  LSL_0904:-87             1.0000     20  
+LACR_1369:-31            1.0000     22  L84767:-31               1.0000     22  
+L150744:-87              1.0000     22  Lxx20950:-62             1.0000     16  
+lin1463:-51              1.0000     22  lin1963:-68              1.0000     22  
+lmo1424:-51              1.0000     22  lmo1849:-68              1.0000     22  
+lse_1343:-51             1.0000     22  lse_1829:-69             1.0000     22  
+lwe1441:-51              1.0000     22  lwe1868:-68              1.0000     22  
+MCCL_0368:-52            1.0000     20  MCCL_0095:-52            1.0000     20  
+mlr2501:-195             1.0000     20  mll2499:-55              1.0000     20  
+Meso_4423:-46            1.0000     20  Meso_4423:-109           1.0000     20  
+Meso_4422:-73            1.0000     20  Meso_4422:-136           1.0000     20  
+MAB_1031c:-53            1.0000     20  MAV_1044:-52             1.0000     20  
+Mflv_3168:-35            1.0000     20  Mflv_1822:-54            1.0000     20  
+MMAR_4584:-54            1.0000     20  MMAR_5398:-216           1.0000     20  
+MSMEG_5589:-53           1.0000     20  MSMEG_5329:-311          1.0000     20  
+Mjls_4747:-51            1.0000     20  cg1642:-58               1.0000     19  
+cg1405:-52               1.0000     19  cg1120:-51               1.0000     19  
+cg0470:-51               1.0000     19  cg0470:-100              1.0000     19  
+cg0527:-30               1.0000     19  cg2311:-18               1.0000     19  
+cg2796:-37               1.0000     19  cg3119:-223              1.0000     19  
+cg0922:-49               1.0000     19  cg0466:-160              1.0000     19  
+cg2445:-139              1.0000     19  cg2234:-23               1.0000     19  
+cg0160:-1                1.0000     19  cg0405:-47               1.0000     19  
+cg0748:-44               1.0000     19  cg0955:-219              1.0000     19  
+cg0924:-83               1.0000     19  cg0924:-123              1.0000     19  
+cg3156:-116              1.0000     19  cg1070:-37               1.0000     19  
+cg2224:-112              1.0000     19  cg3327:-60               1.0000     19  
+cg1930:-109              1.0000     19  cg3082:-273              1.0000     19  
+cg3394:-56               1.0000     19  cg3327:-80               1.0000     19  
+cg0591:-110              1.0000     19  cg1088:-101              1.0000     19  
+cg1996:-218              1.0000     19  cg3247:-106              1.0000     19  
+cg0926:-192              1.0000     19  cg1623:-34               1.0000     20  
+jk0315:-112              1.0000     19  jk0315:-92               1.0000     19  
+jk0985:-124              1.0000     19  jk1777:-29               1.0000     19  
+jk1809:-131              1.0000     19  jk1812:-54               1.0000     19  
+jk1778:-49               1.0000     19  jk0561:-93               1.0000     19  
+jk0561:-72               1.0000     19  jk1983:-47               1.0000     19  
+jk1815:-44               1.0000     19  jk1780:-69               1.0000     19  
+jk1296:-53               1.0000     19  jk1783:-105              1.0000     19  
+jk0434:-46               1.0000     19  jk1887:-86               1.0000     19  
+jk1887:-51               1.0000     19  jk1486:-57               1.0000     20  
+jk1486:-18               1.0000     20  jk1485:-86               1.0000     20  
+jk0226:-123              1.0000     20  jk0226:-100              1.0000     20  
+ckrop_1798:-126          1.0000     19  ckrop_1813:-129          1.0000     19  
+ckrop_0465:-23           1.0000     19  ckrop_1822:-57           1.0000     19  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme K:\20200226\TRN\motifs\DtxR.fasta -dna -mod zoops -evt 10 -nmotifs 6 -maxsize 1000000000 -maxw 30 
+
+model:  mod=         zoops    nmotifs=         6    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           22    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=      472    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            9629    N=             472
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.350 C 0.155 G 0.167 T 0.328 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.350 C 0.155 G 0.167 T 0.328 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   15   sites = 471   llr = 2889   E-value = 1.2e-800
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  22182123552:187
+pos.-specific     C  1::1:4411158:::
+probability       G  51::8411123:1::
+matrix            T  2781:1362212812
+
+         bits    2.7                
+                 2.4                
+                 2.2                
+                 1.9                
+Information      1.6                
+content          1.3     *      *   
+(8.8 bits)       1.1     *      *   
+                 0.8   * *      *** 
+                 0.5 ******    *****
+                 0.3 ********  *****
+                 0.0 ---------------
+
+Multilevel           GTTAGCCTAACCTAA
+consensus            T    GTATGG   T
+sequence                   A        
+                                    
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                 Site    
+-------------             ----- ---------            ---------------
+cur_1524:-79                  5  1.44e-09       TTGT GTTAGCCTAACCTAA           
+cauri_2060:-81                5  7.59e-09       GTAT GTTAGCCTTACCTAA           
+CORAM0001_1958:-85            5  1.13e-08       TTGT GTTAGGCTTACCTAA           
+cg3404:-18                    5  3.51e-08       TTGC GTTAGGATAGCCTAA           
+cauri_2324:-71                5  7.92e-08       AAAA GGTAGCCTAACCTAA           
+cauri_0741:-33                5  1.08e-07       TGTG GTTAGCCACACCTAA           
+BRYFOR_01110:-166             4  1.19e-07        ACA GTTAGCATAAGCTAA CTTA      
+EfaeDRAFT_2039:-33            4  1.73e-07        AAA GTTAGGTAAACCTAA AAAG      
+cg0160:-1                     5  2.41e-07       AATG GTTAGGCTAACCTTA           
+jk1812:-54                    5  3.40e-07       TGAT GGTAGCCTTACCTAA           
+ISM_17630:-70                 4  3.40e-07        AAA GTTAGCTTCGGCTAA TAAT      
+cauri_0716:-54                5  3.40e-07       TGAT GGTAGCCTTACCTAA           
+NT01CX_2308:-65               4  4.04e-07        AAA GTTAGACTAAGCTAA TTTT      
+CE0386:-130                   5  4.64e-07       CGAG GTGAGGCTAGCCTAA           
+Mjls_4747:-51                 3  5.92e-07         GT TTTCGGCTAACCTAA CTT       
+MSMEG_5589:-53                3  5.92e-07         GA TTTCGGCTAACCTAA CTT       
+RHA1_ro05067:-77              4  5.92e-07        AAA GTTCGCCATACCTAA ATCT      
+Cbac1_010100027059:-54        4  5.92e-07        TAG GTTAGCTTAAACTAA CTGA      
+LSA0180:-34                   3  6.46e-07         AA GTTAGGTATACCTAA AAG       
+Lxx20950:-62                  1  7.07e-07          . GTTAGTCTCACCTAA C         
+SSP2086:-40                   3  7.07e-07         AA ATTAGGTTAGCCTAA AAA       
+Sca_0275:-141                 3  7.07e-07         AA ATTAGGTTAGCCTAA AAA       
+STACA0001_0395:-42            3  7.07e-07         AA ATTAGGTTAGCCTAA ACT       
+SA0589:-42                    3  7.07e-07         TA ATTAGGTTAGCCTAA ACT       
+CLOBOL_05594:-51              4  7.61e-07        ATA GTTAGCGAAAGCTAA TGAA      
+SH0143:-40                    3  8.29e-07         AA ATTAGGTTAACCTAA ACT       
+SE0407:-42                    3  8.29e-07         AA ATTAGGTTAACCTAA ACT       
+cg1405:-52                    5  1.02e-06       TTTT GTTAGGCTTGCCTAG           
+cg0445:-130                   5  1.02e-06       TAAA GTAAGGCTATCCTAA           
+Cagg_3553:-38                 3  1.19e-06         AT TTTAGGTTAGGCTAA AAT       
+ROSINTL182_04597:-24          4  1.19e-06        GGA GTTAGGATAAACTAA CTAT      
+cauri_1726:-50                5  1.19e-06       CAAG GTAAGCCTAACCTAT           
+DIP0222:-51                   5  1.29e-06       TTAG GATAGCTTTACCTAA           
+cg0466:-160                   5  1.50e-06       TTAA GTTAGCATAGCCTTA           
+MCCL_0095:-52                 3  1.50e-06         AG TTTAGGTTTGCCTAA AAT       
+Rcas_3171:-159                3  1.50e-06         AT GTTAGAGTAACCTAA CAC       
+LGG_02411:-72                 3  1.60e-06         AA GTTAGGGAGACCTAA AAG       
+LSEI_2413:-71                 3  1.60e-06         AA GTTAGGGAGACCTAA AAG       
+cur_1667:-54                  5  1.87e-06       CGAG GTTAACCTAACCTAT           
+ckrop_1798:-126               5  2.14e-06       CACT GTAAGGCTTAGCTAA           
+cg2224:-112                   5  2.14e-06       GTGT GTGAGGCAAGCCTAA           
+CE1917:-221                   5  2.14e-06       GTGG GTGAGGCAAGCCTAA           
+DIP0586:-20                   5  2.14e-06       TTAG GGTAGCTTCGCCTAA           
+EUBELI_00574:-89              4  2.14e-06        CAG GTTAGCATAATCTAA TTAA      
+DORFOR_03080:-55              4  2.14e-06        GTG GTTAGATTAAGCTAA CCCA      
+DORFOR_03080:-53              2  2.14e-06          G GTTAGATTAAGCTAA CC        
+DIP0540:-267                  5  2.29e-06       CTAG GTTAGGGGTGCCTAA           
+SSP1685:-73                   3  2.29e-06         TT TTTAGGTTGACCTAA TAA       
+SE0803:-51                    3  2.29e-06         TT TTTAGGTTGACCTAA TAT       
+Sca_0731:-76                  3  2.29e-06         TT TTTAGGTTGACCTAA CTT       
+STACA0001_2258:-66            3  2.29e-06         TT TTTAGGTTGACCTAA CTT       
+SA0956:-67                    3  2.29e-06         AA TTTAGGTTGACCTAA ACA       
+ROSINTL182_04347:-121         4  2.64e-06        GGC GTTAGCAAATGCTAA CAAA      
+ISM_17635:-278                4  3.27e-06        ATT ATTAGCCGAAGCTAA CTTT      
+cg3247:-106                   5  3.50e-06       ATGA GTAAGGCTAGACTAA           
+cg1120:-51                    5  3.50e-06       TGAG GTTAGCGTAACCTAC           
+LSA1699:-77                   3  3.50e-06         AA GTTAGGGCATCCTAA AAT       
+SH1847:-65                    3  3.50e-06         TT ATTAGGTTGACCTAA AAA       
+Cagg_2416:-83                 3  3.75e-06         AC GTTAGCATATACTAA CCC       
+BRYFOR_03558:-82              4  3.75e-06        AAT GTTAGCATATACTAA CTTC      
+DORLON_00346:-120             4  3.75e-06        AAC GTTAGCATATACTAA CTAT      
+CORAM0001_1805:-165           5  3.75e-06       TAAG GATAGGCTAACCTAG           
+BLAHAN_00186:-38              4  4.01e-06        TGA GTTAGCATGAACTAA TTGA      
+Cbei_4070:-109                4  4.01e-06        TAA TTTAGACTAGGCTAA GAAA      
+jk1780:-69                    5  4.28e-06       ATAG GTTAGCCTACCCTTT           
+jk1809:-131                   5  4.28e-06       TCTG GTTAGCCTAACCTGT           
+cur_0328:-69                  5  4.28e-06       ATAG GTTAGCCTACCCTTT           
+RUMLAC_01079:-132             4  4.28e-06        CAC GTTAGCGTATACTAA CTAA      
+EF0575:-78                    4  4.59e-06        AAA TTTAGGCTTGACTAA AATA      
+RUMGNA_02766:-36              4  4.59e-06        ATA GTTAGCGAAAACTAA CTTG      
+Chy400_0210:-40               3  4.89e-06         GA TTTAGGTAAGGCTAA AAT       
+BRYFOR_01110:-99              4  4.89e-06        TAG GTTAGGAAAAACTAA CTTA      
+ROS217_03050:-77              4  4.89e-06        AAA GTTAGACATGGCTAA TTTA      
+RB2654_22338:-77              4  4.89e-06        AAA GTTAGACATGGCTAA CTTA      
+b1821:-423                    4  5.22e-06        GAA TTTAGCCAAAGCTAT GTTT      
+Haur_4030:-51                 3  5.96e-06         CT TTTAGGTATGCCTAA ATA       
+CORAM0001_0629:-105           5  6.35e-06       TAAG GTAAGGCGTGCCTAA           
+CLONEX_00483:-50              2  6.35e-06          G GTTAGTTTTAGCTAA CC        
+DIP2114:-155                  5  6.80e-06       AAAG GTAAGCCATAGCTAA           
+DIP0108:-73                   5  6.80e-06       TTTT CTTTGCCTAGCCTAA           
+RER_51720:-74                 4  6.80e-06        AAA GTTCGGCTCCCCGAA CTCT      
+Cbei_4069:-133                4  6.80e-06        TTT CTTAGCCTAGTCTAA ATTA      
+ckrop_0465:-23                5  7.23e-06       AACG CCTAGGCTAACCTAA           
+cg3327:-80                    5  7.23e-06       TCAG GATAGGACAACCTAA           
+MCCL_0368:-52                 3  7.23e-06         TT TTTAGGTTGCCCTAA AGA       
+EUBELI_00569:-112             4  8.20e-06        ATA GTTAGTTAAAGCTAA CTGA      
+DORLON_00403:-48              4  8.20e-06        TTA GTTAGATAAAGCTAA CTAA      
+cur_1555:-160                 5  8.20e-06       TATG GTTAGGCTAGCCTTG           
+AAur_pTC10168:-61             1  8.71e-06          . TTTCGGCACGCCTAA A         
+RoseRS_4512:-85               3  8.71e-06         AT TTTAGGAATGCCTAA ATT       
+Rcas_3322:-9                  3  8.71e-06         GT TTTAGGAATGCCTAA ATA       
+Rcas_0821:-98                 3  9.29e-06         TT ATTAGCATATGCTAA CAT       
+cauri_0076:-121               5  9.29e-06       TTGG GTTAGGTAAACCTAC           
+ROSINTL182_03016:-55          4  9.88e-06        ATA GTTAGACAAAACTAA CAAT      
+cg1070:-37                    5  1.05e-05       ATAG GTTATCCAAGCCTAA           
+EF2074:-33                    4  1.05e-05        ATT TTAAGGCAAACCTAA AAAA      
+EUBREC_2823:-112              4  1.12e-05        TTA GTTAGATTAAACTAA CTGT      
+DORLON_00345:-156             4  1.12e-05        ATA GTTAGTATATGCTAA CGTT      
+RoseRS_4469:-141              3  1.12e-05         TT ATTAGGATATGCTAA CCA       
+cauri_0360:-78                5  1.12e-05       AGAG GCTAGGCTAGCCTCA           
+EF1901:-57                    4  1.19e-05        ATT TTTAGGTGTGCCTAA AAGT      
+Ent638_1111:-56               4  1.19e-05        TAA GATAGCACAGGCTAA TTTT      
+cg0771:-59                    5  1.27e-05       GTCG GGCAGCCTAACCTAA           
+RUMGNA_03923:-123             4  1.27e-05        AAG GTTAGCGATAACTAA CTGA      
+CLOSCI_00921:-171             4  1.27e-05        ACA GTTAGCATTGACTAT CTGA      
+EF1057:-90                    4  1.35e-05        TAT TTTAGGTGTACCTAA AATA      
+jk0561:-72                    5  1.43e-05       ACTG GCAAGGCTAAGCTAA           
+Arth_4418:-46                 1  1.43e-05          . GTTCGTTAAGCCTAA C         
+RoseRS_3986:-29               3  1.43e-05         GT TTTAGGTCTACCTAA ATT       
+cg3118:-178                   5  1.52e-05       CACG GTGAACCTAACCTAA           
+EF2074:-88                    4  1.52e-05        GTA TTTAGGTGCGCCTAA AAAT      
+jk1983:-47                    5  1.61e-05       GAAG GTGTGGCTAACCTAA           
+RHA1_ro07271:-60              4  1.61e-05        TGG TTTCGGCAAGCCGAA CATT      
+NT01CX_2309:-164              4  1.61e-05        AAA ATTAGCTTAGTCTAA CTTT      
+jk1777:-29                    5  1.71e-05       ATAG GTAAACCTAAGCTAA           
+lp_2992:-98                   3  1.71e-05         TT TGTAGGCATACCTAA AAA       
+cur_0331:-74                  5  1.71e-05       ATAG GTAAACCTAAGCTAA           
+RER_01640:-191                4  1.71e-05        TAA GTTCGGTTAACCAAA CTTT      
+CORAM0001_0780:-150           5  1.93e-05       ATAG GCAAGGCAAGCCTAA           
+jk1778:-49                    5  2.04e-05       TTAG CTTAGGTTTACCTAT           
+cur_0330:-49                  5  2.04e-05       TTAG CTTAGGTTTACCTAT           
+LGG_02421:-31                 3  2.17e-05         GA ATTAGGTCACCCTAA AAT       
+LSEI_2423:-32                 3  2.17e-05         GA ATTAGGTCACCCTAA AAA       
+CE1346:-42                    5  2.17e-05       AGAG TGTAGGCTTACCTAT           
+CLONEX_02589:-63              4  2.17e-05        CTG GTTAGTTTAATCTAA CAAA      
+cg0955:-219                   5  2.30e-05       TTAC GTGAGCGTAGCCGAA           
+MMAR_4584:-54                 3  2.30e-05         TG TTTCGGCTAGCCTCA CTT       
+RER_59770:-55                 4  2.30e-05        ATT GTTCGGCTATACGAA CTTG      
+cauri_0725:-126               5  2.30e-05       GTAG GTAAGGTTAGCCTTA           
+Cbac1_010100015165:-216       4  2.30e-05        ATA GTTAGCGTAAACTTA CTGA      
+CE0881:-80                    5  2.43e-05       AAAG GTTTGGCTAAGTTAA           
+DIP0108:-48                   5  2.43e-05       TATA GTAAGCCTTGCCTCA           
+CLOBOL_05595:-104             4  2.43e-05        AAA GATAGCATACACTAA ACAT      
+Achl_3070:-61                 1  2.58e-05          . TTTCGGTATGCCTAA A         
+AAur_pTC20050:-59             1  2.58e-05          . TTTCGGTATGCCTAA C         
+AAur_3272:-7                  1  2.58e-05          . TTTCGGTATGCCTAA C         
+cg3327:-60                    5  2.73e-05       ATAA ATAAGCTTAGGCTAA           
+Mflv_1822:-54                 3  2.73e-05         GG TTTCGTCTGGCCTAA CTT       
+DIP0370:-129                  5  2.73e-05       TTAG GTCAGGGTACCCTAA           
+LAF_1828:-91                  3  3.06e-05         TT TTTATGCTAACCTAA CAA       
+KRH_01300:-45                 1  3.06e-05          . GTTCGGTACACCGAA C         
+DORLON_00359:-88              4  3.06e-05        ATA GTTAGAATAATCTAA CTAT      
+Cbac1_010100005502:-105       4  3.06e-05        ATA GTTAGTCAATACTAA CCAT      
+cg0748:-44                    5  3.24e-05       ATAG GATAGGTTAACCTGA           
+Meso_4422:-136                3  3.24e-05         AT TATAGCCTCGGCTAT GGA       
+BLAHAN_03143:-38              4  3.24e-05        TAA GTTAGATAAGACTAA TCAA      
+DIP1520:-86                   5  3.42e-05       ATAG GTTAGGTTAACCTTG           
+Ent638_1111:-75               4  3.42e-05        AAA TATAGCCTATGCTAT ATAA      
+RoseRS_2294:-157              3  3.42e-05         AT GTTAGAGTAATCTAA CAA       
+ROSINTL182_04597:-89          4  3.42e-05        AAA GTTAGTGTAATCTAA CTAT      
+Chy400_4135:-136              3  3.62e-05         TA ATTAGCATACACTAA CTA       
+BRYFOR_03081:-100             4  3.62e-05        AAA GTTAGTTAAAACTAA CTAA      
+BLAHAN_03143:-99              4  3.62e-05        GTA GTTAGTTAAAACTAA TCAA      
+Arth_3280:-7                  1  3.62e-05          . ATTCGGTATGCCTAA A         
+CLONEX_01965:-58              4  3.62e-05        ATG GTTAGTTAAAACTAA TAAA      
+jk0561:-93                    5  3.83e-05       TATA GTTAGCCTACCCTCG           
+lp_1095:-82                   3  4.04e-05         AA GTTAACTGCACCTAA CAA       
+Chy400_0344:-158              3  4.04e-05         TT ATTAGCATATACTAA CCT       
+NGR_b14390:-61                3  4.04e-05         AA AATAGCCTTAGCTAT ATT       
+Cbac1_010100015165:-65        4  4.04e-05        ATG GTTAGTCAAAACTAT TTCA      
+EUBREC_2328:-180              4  4.27e-05        ATA GTTAGTATACACTAA CGCG      
+MAB_1031c:-53                 3  4.51e-05         AG TTTCGGCTACTCTAA CTT       
+RUMLAC_01088:-77              4  4.51e-05        TGA GTTAGAAAAGACTAA CTAA      
+cg1642:-58                    5  4.77e-05       TTAG GTTAGGCAAGCCATA           
+RUMGNA_03679:-85              4  4.77e-05        AAT GTTAGAATATACTAA CTAA      
+ROSINTL182_04350:-71          4  4.77e-05        AAC GTTAGAATATACTAA CCAA      
+CLOSCI_00924:-71              4  4.77e-05        TAC GTTAGTATATACTAA TTAA      
+cg0924:-123                   5  5.31e-05       AAAG GTTTGGCTTGGTTAA           
+EUBREC_1581:-90               4  5.31e-05        CAC GTTAGAGTATACTAA CACC      
+CLONEX_01967:-65              4  5.31e-05        AAC GTTAGAGTATACTAA CCAT      
+jk0434:-46                    5  5.92e-05       TTAG GTAAGCCTTACCTTT           
+Jden_0297:-45                 1  5.92e-05          . GTTCGGACTGCCGAA C         
+cauri_0788:-46                5  5.92e-05       TTAG GTAAGCCTTACCTTT           
+CLOSCI_00929:-65              4  5.92e-05        ATA GTTAGTCGCAACTAA TAAT      
+cg2311:-18                    5  6.24e-05       TCAA GTAAGGTTTACCTTA           
+CLOSCI_00935:-50              2  6.24e-05          G GTTAGTTATTGCTAA TC        
+cg0591:-110                   5  6.59e-05       TTAG TAAAGGCTCACCTAA           
+DIP0922:-95                   5  6.94e-05       TAAC CTTAGGCTTGCCTTT           
+nfa24340:-35                  4  6.94e-05        AAA GTTAGGGCGTCCGAA AATT      
+CLOBOL_00284:-193             4  7.32e-05        AAA GTTATGGTATCCTAA CTGC      
+DIP0415:-30                   5  7.71e-05       TTAG CTTAACCTTGCCTAT           
+DIP1519:-19                   5  7.71e-05       TAAG GTTTGGTTTACCTTA           
+b1821:-383                    4  7.71e-05        AGA CATAGCTTAGGCTAT ATTA      
+CLONEX_01968:-139             4  7.71e-05        ATG GTTAGTATACTCTAA CGTT      
+ckrop_1822:-57                5  8.12e-05       TACG GTTAGCCTACCTTTT           
+cg1930:-109                   5  8.12e-05       TTAG GTAAAGCTTGCCTAT           
+cg2445:-139                   5  8.55e-05       GTAG GTGTGGGTAACCTAA           
+Mflv_3168:-35                 3  8.55e-05         AG TTTCGGCGACCCGAA ATC       
+BACPEC_02120:-44              4  8.55e-05        AAG GTTAGTTATAACTAA CTAA      
+RUMGNA_03680:-102             4  8.55e-05        TTA GTTAGTATATTCTAA CATT      
+RoseRS_3564:-109              3  8.55e-05         TT ATTAGACTATACTAA CCA       
+Rcas_4373:-123                3  8.55e-05         TT ATTAGACTATACTAA CTT       
+CLOSCI_02591:-95              2  8.55e-05          G GTTAGTTATAACTAA CC        
+MAV_1044:-52                  3  9.00e-05         AT GTTCGACTACCCTCA CTT       
+DIP0625:-171                  5  9.00e-05       TTAG GTAAGTGTAGCCTAT           
+EUBELI_01395:-55              4  9.00e-05        AAA GTTAGAAGAAACTAA CTTA      
+cur_1149:-115                 5  9.00e-05       TAAG GTTAGCCTTAGTAAA           
+Cbac1_010100028374:-54        4  9.00e-05        ACA GTTAGTAAAATCTAA CTAT      
+KPN_02337:-406                4  9.48e-05        TAT TATAGCCACGGCTAT ATTT      
+cauri_2325:-19                5  9.48e-05       TTAG GTTAGGCTACCTTTT           
+CKO_00940:-88                 4  9.98e-05        AAA TATAGCCTGTGCTAT GTTG      
+DIP1061:-47                   5  9.98e-05       GTTG GACAGGTTACCCTAA           
+EAM_2087:-73                  4  9.98e-05        GGA TATAGCCTGTGCTAT ATGT      
+RUMLAC_01886:-107             4  9.98e-05        ATG GTTAGTTAATACTAA CTAT      
+XF1015:9                      3  9.98e-05         GG TATAGCCAATGCTAT AAG       
+cur_1667:-74                  5  1.05e-04       CTAG GTTATGCTAACCTCA           
+RUMGNA_03652:-54              4  1.05e-04        AAG GTTAGTTACAACTAA CAAA      
+NGR_b14380:-153               3  1.05e-04         AA TATAGCTAAGGCTAT TTT       
+cauri_0725:-39                5  1.05e-04       GTTG GTTAGGCTATCTTTT           
+CLOBOL_00283:-81              4  1.05e-04        GCA GTTAGGATACCATAA CTTT      
+Cbac1_010100004977:-80        4  1.05e-04        GCA GTTAGGATACCATAA CTTT      
+STM1834:-308                  4  1.05e-04        TAA TATAGCTAAGGCTAT ATTT      
+cg0405:-47                    5  1.10e-04       TAAG GATAACCTTGCCTTA           
+LSL_0904:-87                  3  1.10e-04         AG TTAAGGTAGACCTAA AAA       
+Chy400_0685:-92               3  1.10e-04         TT ATTAGAGTATGCTAA CCG       
+Cagg_1154:-74                 3  1.10e-04         AA TTTAGGGAATACTAA AAA       
+ROP_51290:-78                 4  1.10e-04        AAA GTTCGTGGTACCTAA ATCT      
+ROP_70570:-52                 4  1.10e-04        TGG TTTCGGTGAACCGAA CATT      
+cg0924:-83                    5  1.16e-04       TTTA GGTAACCTAACCTCA           
+DIP1669:-80                   5  1.16e-04       TGAG GGGAACCTAACCTAA           
+XF1013:-193                   3  1.16e-04         CT TATAGCATTGGCTAT ACC       
+CLONEX_01942:-32              4  1.16e-04        TAA GTTAGAAATAACTAA CTCA      
+Cbac1_010100004917:-161       4  1.16e-04        TTA GTTAGTAATAACTAA CTTT      
+jk1887:-86                    5  1.22e-04       TTAA GCAAGGCTTGACTAA           
+Meso_4423:-46                 3  1.22e-04         TC CATAGCCGAGGCTAT AAT       
+cg3394:-56                    5  1.28e-04       TTAA GGTAAGTTCAGCTAA           
+CE0125:-49                    5  1.28e-04       GGAG CTTAGGCTAACCTTG           
+cauri_0724:-106               5  1.28e-04       AAAA GATAGCCTAACCAAC           
+CAP0063:-78                   4  1.28e-04        AAA TTTAGTTTAATCTAA CTTT      
+BRYFOR_00595:-52              4  1.35e-04        GGA GTTAGAAAATACTAA CCCC      
+BLAHAN_00185:-67              4  1.35e-04        AAA ATTAGTATAAACTAA CTTT      
+BACPEC_02635:-72              4  1.35e-04        GTA ATTAGAATAAACTAA CAAT      
+RUMGNA_02766:-93              4  1.35e-04        ATG ATTAGAATAAACTAA TAAA      
+CKO_01156:-416                4  1.35e-04        AGA TATAGCCTGAACTAT GTTT      
+STM1834:-351                  4  1.35e-04        AGA TATAGCCTCAACTAT GTTT      
+CLONEX_03805:-37              2  1.42e-04          G GTTAGTTTTTTCTAA CT        
+jk1783:-105                   5  1.49e-04       TTAG GTTATGCTAAGTTAA           
+cur_0325:-102                 5  1.49e-04       TTAG GTTATGCTAAGTTAA           
+jk0315:-112                   5  1.56e-04       TAAG TCGAGCCTTACCTAA           
+Mvan_4708:-293                3  1.56e-04         GT TTTGGGGTAGCCGAA CTC       
+CE1009:-42                    5  1.73e-04       TTTT GTTAGGCATCCCTTG           
+CE0881:-40                    5  1.73e-04       TTTA GGTACCCTAACCTCA           
+EAM_3371:-168                 4  1.73e-04        AAG TATAGCCGATGCTAT AATC      
+RoseRS_3070:-42               3  1.73e-04         GA TTTAGGCAAGACAAA ATT       
+CORAM0001_1990:-17            5  1.73e-04       TTAG GCTAGCCTGCCCTTT           
+jk1887:-51                    5  1.81e-04       TAAG GTTCGGCTAACTGTA           
+cg0470:-51                    5  1.81e-04       TTAG GTTAAGCTAATCTAG           
+DIP0629:-47                   5  1.81e-04       TAAG GTACGCCTTGCCTTT           
+cg0527:-30                    5  1.90e-04       TTAG GCTTGCCATACCTAT           
+cur_0337:-76                  5  1.90e-04       TTTG ATTAGGCTTACCTTG           
+cg1088:-101                   5  1.99e-04       TTAA GTCAGTGTTACCTAA           
+Ent638_2390:-313              4  1.99e-04        ATA TATAGCCATCGCTAT ATTC      
+RSal33209_1376:-52            1  1.99e-04          . TTTCGTTATGCCTAA A         
+cg0470:-100                   5  2.09e-04       TAAG GTTACCCTACCCTCT           
+CKO_01156:-373                4  2.09e-04        AAA CATAGCTAAGGCTAT ATTC      
+RHA1_ro04009:-189             4  2.19e-04        TTT TTTCGGGTGCCCGAA CTTT      
+ROP_38900:-189                4  2.19e-04        TTT TTTCGGGTGCCCGAA CTTT      
+LAR_1743:-89                  3  2.30e-04         TT TTTATGTTACCCTAA CAA       
+CE0687:-57                    5  2.30e-04       GTTG GACACCCTAACCTAA           
+KPN_02337:-449                4  2.41e-04        AAA TATAGCCAGCGCTAT ATTA      
+DIP1062:-24                   5  2.41e-04       TGAA ATTAGGGTAACCTGT           
+Ent638_2390:-356              4  2.41e-04        AAT TATAGCAGAGGCTAT ATTT      
+Rcas_1724:-55                 3  2.41e-04         AT TTTAGGATTTCCAAA ATT       
+cg2796:-37                    5  2.53e-04       GAAG GCAAGCCAAACTTAA           
+KPN_00845:-163                4  2.53e-04        AGA TATAGCACAGGCTAT ATTT      
+CKO_02301:-129                4  2.53e-04        AGA TATAGCACAGGCTAT ATTA      
+b0817:-129                    4  2.53e-04        AGA TATAGCACAGGCTAT ATTA      
+EAM_1275:-137                 4  2.53e-04        AGA TATAGCACAGGCTAT ATCG      
+Ent638_1304:-128              4  2.53e-04        AGA TATAGCACAGGCTAT ATTG      
+STM0835:-128                  4  2.53e-04        AGA TATAGCACAGGCTAT GTTT      
+ckrop_1813:-129               5  2.65e-04       TTAG GCTAGCCATACTGAA           
+MSMEG_5329:-311               3  2.65e-04         AG TATCGGTTACCCGAA CAT       
+CLOBOL_05596:-140             4  2.65e-04        ATG TTTAGTGTATGCTAT CTTT      
+KPN_02743:-35                 4  2.77e-04        AAA CATAGCAAAGGCTAT ATTT      
+CKO_04090:-42                 4  2.77e-04        TAA CATAGCAAAGGCTAT ATTC      
+CKO_00404:-16                 4  2.77e-04        AAA CATAGCAAAGGCTAT GTTT      
+b2392:-34                     4  2.77e-04        AAA CATAGCAAAGGCTAT GTTT      
+Ent638_2926:-34               4  2.77e-04        AAA CATAGCAAAGGCTAT ATCT      
+STM2861:-57                   4  2.77e-04        TAA CATAGCAAAGGCTAT ATTC      
+STM2408:-34                   4  2.77e-04        AAA CATAGCAAAGGCTAT GTTT      
+jk0315:-92                    5  3.19e-04       TAAG GTAACACTATCCTAA           
+SAG1534:-129                  4  3.19e-04        TAA ATTAAGTTAACTTAA TTTT      
+SAG1533:-59                   4  3.19e-04        AAA ATTAAGTTAACTTAA TTTA      
+BBta_1556:-92                 3  3.34e-04         AA TGTAGCAGAAGCTAT ATC       
+cauri_0724:-19                5  3.34e-04       TAAG GCTAACCTTACCTAC           
+cauri_0507:-67                5  3.34e-04       TTTA CTAAGGGTACCCTAT           
+EUBELI_00572:-29              4  3.34e-04        ACC ATTAGAATATACTAA CCGA      
+CLOBOL_00460:-107             4  3.34e-04        ATT ATTAGTGTACACTAA TTTA      
+cg0922:-49                    5  3.65e-04       TAAG GTTTGCCTAATCTTT           
+Chy400_0349:-55               3  3.65e-04         TT ATTAGTGTATACTAA TAA       
+Bfae_31330:-53                1  3.65e-04          . GTTCGGTGCAACGAA C         
+DORLON_00209:-60              2  3.65e-04          G GTTAGAACACTCTAA CC        
+Cbac1_010100022172:-140       4  3.65e-04        ATG GTTAGTTATTTCTAA CTTC      
+Meso_4423:-109                3  3.82e-04         AT TATAGCAAATGCTAT TTC       
+KPN_03078:-76                 4  3.82e-04        ATA AATAGCTTGTGCTAT ATAA      
+DIP2303:-81                   5  3.82e-04       TAAG GATAGGCCACCCCAA           
+cg3119:-223                   5  4.18e-04       TTAG GTTAGGTTCACCGTG           
+Meso_4422:-73                 3  4.18e-04         GA AATAGCATTTGCTAT AAT       
+Cbac1_010100025382:-105       4  4.37e-04        TGA GTAAGTGTACACTAA ATAA      
+DIP0523:-65                   5  4.57e-04       GAAG ATAAGGCTTACCTTT           
+DIP1866:-56                   5  4.57e-04       TTAT GCTGGGCTATCTTAA           
+jk1296:-53                    5  4.78e-04       GCAA GGTAGGTTTACCTTG           
+DIP2161:-239                  5  4.78e-04       TTAG GGTAGGCTAATCCAA           
+cauri_0741:-83                5  4.78e-04       GAAG GTAAGCCTTACTTGA           
+CORAM0001_1939:-92            5  4.99e-04       GCAG GTAATGATTACCTAA           
+SUB0473:-50                   4  5.22e-04        ATA ATTAACCATACTTAA TTAA      
+Sez_1456:-79                  4  5.22e-04        TAA ATTAACCATACTTAA TTTT      
+Cagg_3308:-57                 3  5.45e-04         AA ATTAGTATATTCTAA CTT       
+Bcav_1388:2                   1  5.45e-04          . GTTCGGTGGCCCAAA C         
+GALLO_2047:-53                4  5.45e-04        AAA ATTAAGCATGCTTAA TTTT      
+KPN_03078:-57                 4  5.69e-04        TAA CATAGCAATGGCTAT AAAC      
+DIP2356:-68                   5  5.69e-04       ATTA CTAATGCTAACCTAA           
+CORAM0001_1939:-117           5  5.69e-04       ATAG GGAATCCTAAGCTAA           
+Chy400_2616:-57               3  5.95e-04         AA ATTAGAGTATTCTAA TAG       
+SAG1518:-56                   4  5.95e-04        CTA ATTAAGTTTGCTTAA AAAA      
+jk1815:-44                    5  6.21e-04       CAAG TGAAGGCTTACCTTA           
+BRYFOR_00504:-209             4  6.21e-04        AAC GTTAGAGACTTCTAA CTGT      
+Mjls_5425:-218                3  6.21e-04         GA ATACGGCTGTCCGAA AAC       
+Smlt2838:-27                  3  6.48e-04         AC TATAGCAGGAGCTAT ATT       
+DIP0894:-25                   5  6.76e-04       CTAG GATTGCCTACACTTA           
+SSA_0262:-29                  4  6.76e-04        AAA ATTAACTTGACTTAA TTTT      
+SPy0453:-51                   4  6.76e-04        ATA ATTAACTAAACTTAA TTAA      
+SP_1648:-62                   4  6.76e-04        AAA ATTAACTTGACTTAA TTTT      
+SMU.182:-57                   4  6.76e-04        AAA ATTAACTTGACTTAA TTTT      
+smi_0636:-62                  4  6.76e-04        AAA ATTAACTTGACTTAA CTTT      
+SGO_1800:-60                  4  6.76e-04        AAA ATTAACTTGACTTAA TTTT      
+SAG1518:-34                   4  6.76e-04        ATA ATTAACTAAACTTAA AAGA      
+CE0466:-73                    5  7.06e-04       ATAG CTTAGGCTTACCTGC           
+CLOBOL_01420:-91              4  7.06e-04        CAG ATTAGCACTTTCTAA CTCT      
+Spro_1915:-181                4  7.06e-04        CAA TGTAGCATCGGCTAC ACTT      
+EUBREC_1581:-130              4  7.36e-04        AAA GTAAGAAAAATCTAA AAAA      
+LVIS_0331:-213                3  7.68e-04         AT TTTTGGTAAGCCAAA AAT       
+EAM_2378:-133                 4  7.68e-04        AAG TATAGCAATTGCTAT ATTT      
+EAM_2087:-54                  4  7.68e-04        TGT TATAGCAATTGCTAT TTAG      
+BACPEC_02631:-135             4  8.01e-04        ATG ATTAAATTATGCTAA ACAA      
+b0812:-67                     4  8.01e-04        ACA CATAGCCGGTGCTAT ACTT      
+cg2782:-56                    5  8.35e-04       TTAT GCTGCGCTAACCTAT           
+Spro_1916:-70                 4  8.35e-04        AAG TGTAGCCGATGCTAC ATTG      
+ckrop_0468:-130               5  8.70e-04       TAAG CTAGGGCTAAGCTAT           
+NGR_b14390:-141               3  9.07e-04         AA TATAGCAAGTGCTAT AAT       
+Rv3848:-217                   3  9.07e-04         AA ATACGGGTGGCCGAA CTT       
+XCC2170:-113                  3  9.07e-04         GA TATAGCAAGTGCTAT GCT       
+Arth_3280:15                  1  9.86e-04          . TTTCGGTGCGCCAAA G         
+Mvan_3371:-61                 3  9.86e-04         GT TTTCGGTCACCCAAA CTT       
+LSA0246:7                     3  1.03e-03         AA GTTAAGGGACCCAAA AAG       
+SDEG_0488:-51                 4  1.03e-03        ATA TTTAACTATACTTAA TTAA      
+BBta_1555:-127                3  1.07e-03         GA TATAGCTTCTGCTAC ATT       
+SPy0450:-116                  4  1.11e-03        TTA ATTAAGTTTAGTTAA TTAT      
+CLOSCI_00926:-161             4  1.11e-03        GTA GTTAGTATATTCTCA TCAT      
+Smlt2837:-110                 3  1.16e-03         AA TATAGCTCCTGCTAT AGT       
+EUBREC_1233:-53               8  1.21e-03    CTTGTAA GTAAACTTTAACTAT           
+XAC2037:-113                  3  1.21e-03         GA TATAGCAGTTGCTAT GCT       
+DIP0762:-31                   5  1.26e-03       TAAG GTATGCCTTAGTTAT           
+NGR_b14380:-73                3  1.26e-03         AT TATAGCACTTGCTAT ATT       
+smi_0705:-194                 4  1.26e-03        AAA ATTAACCAGCCTTAA TTTT      
+cg0926:-192                   5  1.31e-03       TTAG GTTAGGCTCTAATAT           
+cauri_1726:-70                5  1.31e-03       TTAG GCCAGAATTACCTAA           
+CORAM0001_0900:-74            5  1.31e-03       ATAG GCAAGGCCTGGCTTA           
+Sez_1469:-51                  4  1.31e-03        ATA ATTAACTATACTTAA TTAA      
+jk0985:-124                   4  1.36e-03        TTA GGCAGGGTTACCTTA G         
+cauri_0257:-129               5  1.36e-03       TAAG GTGATCCTTGCCTTA           
+cg3082:-273                   5  1.47e-03       TTCT GTGAGGTTAACTTTT           
+SUB0826:-83                   4  1.47e-03        ATT ATTAAGTATACTTAA TAAT      
+XAC2036:-49                   3  1.59e-03         AG CATAGCAACTGCTAT ATC       
+BH0516:-54                    3  1.72e-03         TG TTTTGCCTTGGGGAA ACTTT     
+OB0431:-38                    5  1.72e-03       AAAG TTTACCTAAGGCAAA ATT       
+jk0226:-100                   3  1.79e-03         AA GTTCGGGTCATTGAA CTT       
+EUBREC_1583:-59               4  1.86e-03        TAG GTTAGTAAATACAAA CTAT      
+BRYFOR_00504:-229             4  1.93e-03        AAA AATAGCGTATACTAG TAAA      
+MMAR_5398:-216                3  2.09e-03         GG ATACGGCCGCCCGAA CTT       
+XCC2171:-50                   3  2.17e-03         AG CATAGCACTTGCTAT ATC       
+SUBp03:-117                   4  2.25e-03        TTA ATTAAGTATGGTTAA TTAT      
+DIP1510:-214                  5  2.34e-03       AAAG GCAAGCCTAAGTAAA           
+DIP1296:-173                  5  2.34e-03       TTAG GGTGGGCTAACCTGC           
+SP_0641:-194                  4  2.42e-03        TAA ATTAACTAATGTTAA TTTT      
+Sez_1470:-116                 4  2.42e-03        TTA ATTAAGTATAGTTAA TTAT      
+SDEG_0487:-116                4  2.42e-03        TTA ATTAAGTATAGTTAA ATAT      
+RUMLAC_02635:-139             4  2.71e-03        AAT TATAACATAATCTAT CAAT      
+smi_1232:-164                 4  2.71e-03        AAA ATTAACCAATATTAA TAAT      
+cur_0910:-61                  5  2.92e-03       TTAG GCTTGCCTATCTTCA           
+cur_0912:-17                  5  3.02e-03       AAAG GAAAGGTTAGCTTTT           
+Bfae_31330:-30                1  3.14e-03          . GTGCGGGACAACGAA G         
+DIP0629:-67                   5  3.25e-03       AAAG TTAAAGCAAACCTTT           
+CLOSCI_00925:-101             4  3.25e-03        ATG ATGAGAATATACTAA CTAC      
+LVIS_0225:-19                 3  3.49e-03         AA GGAAGGGAGTCTTAA AAT       
+SSU05_1982:-32                4  3.49e-03        TAA ATTAATTAAACTTAA AAAA      
+SE0803:-29                    3  3.62e-03         TA TTTAGGTTAATATAT TCT       
+cg3156:-116                   5  4.03e-03       TAAG GCAAGCCTAAATTAG           
+BlinB01000963:-16             1  4.03e-03          . CGAAGGTAAGCCTCA G         
+SUB1266:-54                   4  4.17e-03        ATA ATTAAGATGAATTAA ATTG      
+SPy1434:-53                   4  4.17e-03        ATA ATTAATATATCTTAA AGAT      
+SDEG_1473:-54                 4  4.17e-03        ATA ATTAATATATCTTAA AGAT      
+cg2234:-23                    5  4.32e-03       TTAG GCAAGGCTACCTTTT           
+cg1418:-49                    5  4.63e-03       TTAG GTAAGGTTTGCATAC           
+CLOBOL_05595:-210             4  4.79e-03        GAT GTTAGAAAAATATAA CTAA      
+RUMGNA_02768:-130             4  4.96e-03        ATA AGTAGAATCTTCTAA AACA      
+SAG0745:-85                   4  5.13e-03        ATT ATTAAGTAGCGTTAA TTTT      
+mlr2501:-195                  3  5.31e-03         TT TATAGCACGGGCTCT GAT       
+ROSINTL182_04596:-133         4  5.31e-03        TAC AAAAGCATATTCTAT CATT      
+BSU04360:-60                  3  5.68e-03         TA ATTTGCCTTAAGGAA ACTCT     
+BSU30770:-131                 3  5.87e-03         AA TTTTGCATGAGGGAA ACTTT     
+cg1996:-218                   5  6.07e-03       TTAG GATTCTCTCAACTAA           
+DORLON_00359:-108             4  6.28e-03        AAA GATATGATATGCTGA CGAT      
+mll2499:-55                   3  6.71e-03         AT CAGAGCCCGTGCTAT AAA       
+DIP0124:-74                   5  6.71e-03       TTAG GGAACTCTTGCCTTA           
+BPUM_3011:-119                4  7.65e-03        AAA GTTTCCCTAAGGAAA CAAA      
+RB2654_12814:-98              4  7.65e-03        GGA GTTAAAAGATGCTGA CTCG      
+SAG1534:-151                  4  7.65e-03        AAA ATTAATATAAGTTAT GTAT      
+CE2420:-56                    5  8.69e-03       TTAT GGTGCGCTAACCTTG           
+cur_0910:-16                  5  9.56e-03       TTAG GGCAAGCTAACCTTG           
+BC0709:-61                    4  9.86e-03        AAA GTTTACCTTAGGAAA CTTT      
+RUMGNA_02771:-135             4  1.02e-02        AAC GATAAAGTGTACTAT CTTA      
+BH1389:-180                   4  1.12e-02        AAA GTTTACTTAGGGAAA CTTT      
+Cbac1_010100028374:-70        4  1.22e-02        TTC GTTATAATACACTAC AGTT      
+BC1803:-129                   3  1.38e-02         TA ATTTGCATTAAGGAA ACTTT     
+SSU05_0309:-103               4  1.51e-02        ATA ATTAACTTAGTTAAA TGAT      
+DIP0582:-26                   5  1.55e-02       TTAG GGTTGTGTTACCTTG           
+DIP0523:-142                  5  1.65e-02       ATAG GCTGACCTAACTTTT           
+SUB0473:-32                   8  1.75e-02    TTAATTA TATAATATAAATTAA           
+cg1765:-146                   1  1.90e-02          . TTAGGGTTCGCTTAG TTTT      
+lwe1441:-51                   4  1.96e-02        AAT GTTTCCCGTAGTAAA CTTT      
+lse_1343:-51                  4  1.96e-02        AAT GTTTCCCGTAGTAAA CTTT      
+lmo1424:-51                   4  1.96e-02        AAT GTTTCCCGTAGTAAA CTTT      
+lin1463:-51                   4  1.96e-02        AAT GTTTCCCGTAGTAAA CTTT      
+Gdia_1353:-179                3  2.51e-02         AA TATGCAATAAGCTAT ATG       
+SPy1434:-86                   4  2.51e-02        CTA AATTACTTGACTTAT TTAT      
+GALLO_0590:-78                4  2.58e-02        TTA ATTAAATACGCTTTA TTTT      
+RBAM_004660:-65               3  2.65e-02         TA ATTTGCATCTAGGAA ACTTT     
+GK0583:-53                    5  2.87e-02       AAAG TTTCCTTAATGCAAA ATA       
+Aflv_1289:-92                 3  3.11e-02         TA TGTTGCATTGAGGAA ACTTT     
+lwe1868:-68                   4  3.19e-02        AAA GTTGCTCTAAGGAAA CATT      
+lse_1829:-69                  4  3.19e-02        AAA GTTGCTCTAAGGAAA CATT      
+lmo1849:-68                   4  3.19e-02        AAA GTTGCTCTAAGGAAA CATT      
+DIP0615:-91                   3  3.19e-02         AA ATTCAATACGCTGAA CAG       
+EUBELI_01395:-176             8  3.19e-02    AATTTAT GTGTATACAAACTAA           
+BLi00526:-62                  3  3.36e-02         AA ATTTGCACTAAGGAA ACTTT     
+GOX2068:-49                   5  3.63e-02       TTTA TTCCGCCGTGAATAA T         
+BPUM_0413:-63                 3  3.72e-02         AA AATTGCATCAAGGAA ACATT     
+lin1963:-68                   3  3.82e-02         AA AGTTGCATTAAGGAA ACATT     
+AZL_b04530:16                 1  3.82e-02          . AGTATGCAAGGCGCT ATACT     
+Pjdr2_4868:-109               3  3.91e-02         AA TGTTGCATCAGAGAA ACATT     
+ABC3961:-99                   3  4.11e-02         AA AGTTGCATTAGAGAA ACTTT     
+APA01_40860:-157              3  4.11e-02         AA TATGCAATATGCTAT ATT       
+AZL_b04520:-114               5  4.22e-02       AGTA TAGCGCCTTGCATAC T         
+jk1486:-57                    3  4.32e-02         TT GTTCAATACATTGAA CAT       
+GOX2067:-119                  1  4.32e-02          . ATTATTCACGGCGGA ATAAA     
+cur_0526:-56                  3  4.32e-02         AA GTTCAATACATTGAA CTT       
+OB0431:-123                   5  4.76e-02       AAAG TTTCCTTAGTGCAAA AAA       
+SSU05_0309:-135               4  5.00e-02        ATA AATAACTTGACTTTC TTTT      
+jk1485:-86                    3  5.12e-02         AT GTTCAATGTATTGAA CAA       
+cg1623:-34                    3  5.36e-02         CT GTTCAATGCGTTGAA CAT       
+CORAM0001_0534:-153           3  5.36e-02         AA GTTCAATGGGTTGAA AAT       
+CLOBOL_05594:-31              4  5.36e-02        AAA ATAAGAAAAATATAA CAAG      
+DIP1923:-81                   3  5.62e-02         AA GTTCAATGCATTGAA CTT       
+cauri_0335:-76                3  5.62e-02         AT GTTCAATGGATTGAA CTT       
+cauri_0334:-51                3  5.75e-02         AA GTTCAATCCATTGAA CAT       
+CORAM0001_0848:-81            5  6.03e-02       TTAG GCATGCCTAAGAGTA           
+LACR_1369:-31                 8  6.17e-02    ATAATTA AATGGAGAAAAGTAA           
+CE1566:-34                    3  6.90e-02         AT GTTCATGCCATTGAA CAT       
+ckrop_3000:-72                3  6.90e-02         AA GTTCAAGCCATTGAA TAA       
+Gdia_1352:16                  3  7.21e-02         CA TATAGCTTATTGCAT ATT       
+GOX2067:-28                   3  7.37e-02         AA TATAGCATGTTGAAT ATT       
+GOX2068:-140                  3  7.37e-02         AA TATTCAACATGCTAT ATT       
+APA01_40840:-48               3  8.22e-02         AA TATAGCATATTGCAT ATT       
+L150744:-87                   4  8.39e-02        CAA AATATATTGATTTAA TTTT      
+L84767:-31                    8  9.32e-02    ATAATTA AATCAAGAAAAGTAA           
+jk1486:-18                    3  1.10e-01         AG GTTTATTACCTTGAA AAT       
+ckrop_1571:-143               3  1.19e-01         AA GTTCAATGCAATGTA TTT       
+APA01_40860:-64               1  1.71e-01          . TTTATTCTTTATGGA ATATT     
+jk0226:-123                   3  1.83e-01         AA GTTCAATACATTGTT GTT       
+ckrop_1572:-177               2  1.96e-01          A AATACATTGCATTGA ACTT      
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+cur_1524:-79                      1.4e-09  4_[1]
+cauri_2060:-81                    7.6e-09  4_[1]
+CORAM0001_1958:-85                1.1e-08  4_[1]
+cg3404:-18                        3.5e-08  4_[1]
+cauri_2324:-71                    7.9e-08  4_[1]
+cauri_0741:-33                    1.1e-07  4_[1]
+BRYFOR_01110:-166                 1.2e-07  3_[1]_4
+EfaeDRAFT_2039:-33                1.7e-07  3_[1]_4
+cg0160:-1                         2.4e-07  4_[1]
+jk1812:-54                        3.4e-07  4_[1]
+ISM_17630:-70                     3.4e-07  3_[1]_4
+cauri_0716:-54                    3.4e-07  4_[1]
+NT01CX_2308:-65                     4e-07  3_[1]_4
+CE0386:-130                       4.6e-07  4_[1]
+Mjls_4747:-51                     5.9e-07  2_[1]_3
+MSMEG_5589:-53                    5.9e-07  2_[1]_3
+RHA1_ro05067:-77                  5.9e-07  3_[1]_4
+Cbac1_010100027059:-54            5.9e-07  3_[1]_4
+LSA0180:-34                       6.5e-07  2_[1]_3
+Lxx20950:-62                      7.1e-07  [1]_1
+SSP2086:-40                       7.1e-07  2_[1]_3
+Sca_0275:-141                     7.1e-07  2_[1]_3
+STACA0001_0395:-42                7.1e-07  2_[1]_3
+SA0589:-42                        7.1e-07  2_[1]_3
+CLOBOL_05594:-51                  7.6e-07  3_[1]_4
+SH0143:-40                        8.3e-07  2_[1]_3
+SE0407:-42                        8.3e-07  2_[1]_3
+cg1405:-52                          1e-06  4_[1]
+cg0445:-130                         1e-06  4_[1]
+Cagg_3553:-38                     1.2e-06  2_[1]_3
+ROSINTL182_04597:-24              1.2e-06  3_[1]_4
+cauri_1726:-50                    1.2e-06  4_[1]
+DIP0222:-51                       1.3e-06  4_[1]
+cg0466:-160                       1.5e-06  4_[1]
+MCCL_0095:-52                     1.5e-06  2_[1]_3
+Rcas_3171:-159                    1.5e-06  2_[1]_3
+LGG_02411:-72                     1.6e-06  2_[1]_3
+LSEI_2413:-71                     1.6e-06  2_[1]_3
+cur_1667:-54                      1.9e-06  4_[1]
+ckrop_1798:-126                   2.1e-06  4_[1]
+cg2224:-112                       2.1e-06  4_[1]
+CE1917:-221                       2.1e-06  4_[1]
+DIP0586:-20                       2.1e-06  4_[1]
+EUBELI_00574:-89                  2.1e-06  3_[1]_4
+DORFOR_03080:-55                  2.1e-06  3_[1]_4
+DORFOR_03080:-53                  2.1e-06  1_[1]_2
+DIP0540:-267                      2.3e-06  4_[1]
+SSP1685:-73                       2.3e-06  2_[1]_3
+SE0803:-51                        2.3e-06  2_[1]_3
+Sca_0731:-76                      2.3e-06  2_[1]_3
+STACA0001_2258:-66                2.3e-06  2_[1]_3
+SA0956:-67                        2.3e-06  2_[1]_3
+ROSINTL182_04347:-121             2.6e-06  3_[1]_4
+ISM_17635:-278                    3.3e-06  3_[1]_4
+cg3247:-106                       3.5e-06  4_[1]
+cg1120:-51                        3.5e-06  4_[1]
+LSA1699:-77                       3.5e-06  2_[1]_3
+SH1847:-65                        3.5e-06  2_[1]_3
+Cagg_2416:-83                     3.7e-06  2_[1]_3
+BRYFOR_03558:-82                  3.7e-06  3_[1]_4
+DORLON_00346:-120                 3.7e-06  3_[1]_4
+CORAM0001_1805:-165               3.7e-06  4_[1]
+BLAHAN_00186:-38                    4e-06  3_[1]_4
+Cbei_4070:-109                      4e-06  3_[1]_4
+jk1780:-69                        4.3e-06  4_[1]
+jk1809:-131                       4.3e-06  4_[1]
+cur_0328:-69                      4.3e-06  4_[1]
+RUMLAC_01079:-132                 4.3e-06  3_[1]_4
+EF0575:-78                        4.6e-06  3_[1]_4
+RUMGNA_02766:-36                  4.6e-06  3_[1]_4
+Chy400_0210:-40                   4.9e-06  2_[1]_3
+BRYFOR_01110:-99                  4.9e-06  3_[1]_4
+ROS217_03050:-77                  4.9e-06  3_[1]_4
+RB2654_22338:-77                  4.9e-06  3_[1]_4
+b1821:-423                        5.2e-06  3_[1]_4
+Haur_4030:-51                       6e-06  2_[1]_3
+CORAM0001_0629:-105               6.4e-06  4_[1]
+CLONEX_00483:-50                  6.4e-06  1_[1]_2
+DIP2114:-155                      6.8e-06  4_[1]
+DIP0108:-73                       6.8e-06  4_[1]
+RER_51720:-74                     6.8e-06  3_[1]_4
+Cbei_4069:-133                    6.8e-06  3_[1]_4
+ckrop_0465:-23                    7.2e-06  4_[1]
+cg3327:-80                        7.2e-06  4_[1]
+MCCL_0368:-52                     7.2e-06  2_[1]_3
+EUBELI_00569:-112                 8.2e-06  3_[1]_4
+DORLON_00403:-48                  8.2e-06  3_[1]_4
+cur_1555:-160                     8.2e-06  4_[1]
+AAur_pTC10168:-61                 8.7e-06  [1]_1
+RoseRS_4512:-85                   8.7e-06  2_[1]_3
+Rcas_3322:-9                      8.7e-06  2_[1]_3
+Rcas_0821:-98                     9.3e-06  2_[1]_3
+cauri_0076:-121                   9.3e-06  4_[1]
+ROSINTL182_03016:-55              9.9e-06  3_[1]_4
+cg1070:-37                        1.1e-05  4_[1]
+EF2074:-33                        1.1e-05  3_[1]_4
+EUBREC_2823:-112                  1.1e-05  3_[1]_4
+DORLON_00345:-156                 1.1e-05  3_[1]_4
+RoseRS_4469:-141                  1.1e-05  2_[1]_3
+cauri_0360:-78                    1.1e-05  4_[1]
+EF1901:-57                        1.2e-05  3_[1]_4
+Ent638_1111:-56                   1.2e-05  3_[1]_4
+cg0771:-59                        1.3e-05  4_[1]
+RUMGNA_03923:-123                 1.3e-05  3_[1]_4
+CLOSCI_00921:-171                 1.3e-05  3_[1]_4
+EF1057:-90                        1.3e-05  3_[1]_4
+jk0561:-72                        1.4e-05  4_[1]
+Arth_4418:-46                     1.4e-05  [1]_1
+RoseRS_3986:-29                   1.4e-05  2_[1]_3
+cg3118:-178                       1.5e-05  4_[1]
+EF2074:-88                        1.5e-05  3_[1]_4
+jk1983:-47                        1.6e-05  4_[1]
+RHA1_ro07271:-60                  1.6e-05  3_[1]_4
+NT01CX_2309:-164                  1.6e-05  3_[1]_4
+jk1777:-29                        1.7e-05  4_[1]
+lp_2992:-98                       1.7e-05  2_[1]_3
+cur_0331:-74                      1.7e-05  4_[1]
+RER_01640:-191                    1.7e-05  3_[1]_4
+CORAM0001_0780:-150               1.9e-05  4_[1]
+jk1778:-49                          2e-05  4_[1]
+cur_0330:-49                        2e-05  4_[1]
+LGG_02421:-31                     2.2e-05  2_[1]_3
+LSEI_2423:-32                     2.2e-05  2_[1]_3
+CE1346:-42                        2.2e-05  4_[1]
+CLONEX_02589:-63                  2.2e-05  3_[1]_4
+cg0955:-219                       2.3e-05  4_[1]
+MMAR_4584:-54                     2.3e-05  2_[1]_3
+RER_59770:-55                     2.3e-05  3_[1]_4
+cauri_0725:-126                   2.3e-05  4_[1]
+Cbac1_010100015165:-216           2.3e-05  3_[1]_4
+CE0881:-80                        2.4e-05  4_[1]
+DIP0108:-48                       2.4e-05  4_[1]
+CLOBOL_05595:-104                 2.4e-05  3_[1]_4
+Achl_3070:-61                     2.6e-05  [1]_1
+AAur_pTC20050:-59                 2.6e-05  [1]_1
+AAur_3272:-7                      2.6e-05  [1]_1
+cg3327:-60                        2.7e-05  4_[1]
+Mflv_1822:-54                     2.7e-05  2_[1]_3
+DIP0370:-129                      2.7e-05  4_[1]
+LAF_1828:-91                      3.1e-05  2_[1]_3
+KRH_01300:-45                     3.1e-05  [1]_1
+DORLON_00359:-88                  3.1e-05  3_[1]_4
+Cbac1_010100005502:-105           3.1e-05  3_[1]_4
+cg0748:-44                        3.2e-05  4_[1]
+Meso_4422:-136                    3.2e-05  2_[1]_3
+BLAHAN_03143:-38                  3.2e-05  3_[1]_4
+DIP1520:-86                       3.4e-05  4_[1]
+Ent638_1111:-75                   3.4e-05  3_[1]_4
+RoseRS_2294:-157                  3.4e-05  2_[1]_3
+ROSINTL182_04597:-89              3.4e-05  3_[1]_4
+Chy400_4135:-136                  3.6e-05  2_[1]_3
+BRYFOR_03081:-100                 3.6e-05  3_[1]_4
+BLAHAN_03143:-99                  3.6e-05  3_[1]_4
+Arth_3280:-7                      3.6e-05  [1]_1
+CLONEX_01965:-58                  3.6e-05  3_[1]_4
+jk0561:-93                        3.8e-05  4_[1]
+lp_1095:-82                         4e-05  2_[1]_3
+Chy400_0344:-158                    4e-05  2_[1]_3
+NGR_b14390:-61                      4e-05  2_[1]_3
+Cbac1_010100015165:-65              4e-05  3_[1]_4
+EUBREC_2328:-180                  4.3e-05  3_[1]_4
+MAB_1031c:-53                     4.5e-05  2_[1]_3
+RUMLAC_01088:-77                  4.5e-05  3_[1]_4
+cg1642:-58                        4.8e-05  4_[1]
+RUMGNA_03679:-85                  4.8e-05  3_[1]_4
+ROSINTL182_04350:-71              4.8e-05  3_[1]_4
+CLOSCI_00924:-71                  4.8e-05  3_[1]_4
+cg0924:-123                       5.3e-05  4_[1]
+EUBREC_1581:-90                   5.3e-05  3_[1]_4
+CLONEX_01967:-65                  5.3e-05  3_[1]_4
+jk0434:-46                        5.9e-05  4_[1]
+Jden_0297:-45                     5.9e-05  [1]_1
+cauri_0788:-46                    5.9e-05  4_[1]
+CLOSCI_00929:-65                  5.9e-05  3_[1]_4
+cg2311:-18                        6.2e-05  4_[1]
+CLOSCI_00935:-50                  6.2e-05  1_[1]_2
+cg0591:-110                       6.6e-05  4_[1]
+DIP0922:-95                       6.9e-05  4_[1]
+nfa24340:-35                      6.9e-05  3_[1]_4
+CLOBOL_00284:-193                 7.3e-05  3_[1]_4
+DIP0415:-30                       7.7e-05  4_[1]
+DIP1519:-19                       7.7e-05  4_[1]
+b1821:-383                        7.7e-05  3_[1]_4
+CLONEX_01968:-139                 7.7e-05  3_[1]_4
+ckrop_1822:-57                    8.1e-05  4_[1]
+cg1930:-109                       8.1e-05  4_[1]
+cg2445:-139                       8.5e-05  4_[1]
+Mflv_3168:-35                     8.5e-05  2_[1]_3
+BACPEC_02120:-44                  8.5e-05  3_[1]_4
+RUMGNA_03680:-102                 8.5e-05  3_[1]_4
+RoseRS_3564:-109                  8.5e-05  2_[1]_3
+Rcas_4373:-123                    8.5e-05  2_[1]_3
+CLOSCI_02591:-95                  8.5e-05  1_[1]_2
+MAV_1044:-52                        9e-05  2_[1]_3
+DIP0625:-171                        9e-05  4_[1]
+EUBELI_01395:-55                    9e-05  3_[1]_4
+cur_1149:-115                       9e-05  4_[1]
+Cbac1_010100028374:-54              9e-05  3_[1]_4
+KPN_02337:-406                    9.5e-05  3_[1]_4
+cauri_2325:-19                    9.5e-05  4_[1]
+CKO_00940:-88                      0.0001  3_[1]_4
+DIP1061:-47                        0.0001  4_[1]
+EAM_2087:-73                       0.0001  3_[1]_4
+RUMLAC_01886:-107                  0.0001  3_[1]_4
+XF1015:9                           0.0001  2_[1]_3
+cur_1667:-74                       0.0001  4_[1]
+RUMGNA_03652:-54                   0.0001  3_[1]_4
+NGR_b14380:-153                    0.0001  2_[1]_3
+cauri_0725:-39                     0.0001  4_[1]
+CLOBOL_00283:-81                   0.0001  3_[1]_4
+Cbac1_010100004977:-80             0.0001  3_[1]_4
+STM1834:-308                       0.0001  3_[1]_4
+cg0405:-47                        0.00011  4_[1]
+LSL_0904:-87                      0.00011  2_[1]_3
+Chy400_0685:-92                   0.00011  2_[1]_3
+Cagg_1154:-74                     0.00011  2_[1]_3
+ROP_51290:-78                     0.00011  3_[1]_4
+ROP_70570:-52                     0.00011  3_[1]_4
+cg0924:-83                        0.00012  4_[1]
+DIP1669:-80                       0.00012  4_[1]
+XF1013:-193                       0.00012  2_[1]_3
+CLONEX_01942:-32                  0.00012  3_[1]_4
+Cbac1_010100004917:-161           0.00012  3_[1]_4
+jk1887:-86                        0.00012  4_[1]
+Meso_4423:-46                     0.00012  2_[1]_3
+cg3394:-56                        0.00013  4_[1]
+CE0125:-49                        0.00013  4_[1]
+cauri_0724:-106                   0.00013  4_[1]
+CAP0063:-78                       0.00013  3_[1]_4
+BRYFOR_00595:-52                  0.00014  3_[1]_4
+BLAHAN_00185:-67                  0.00014  3_[1]_4
+BACPEC_02635:-72                  0.00014  3_[1]_4
+RUMGNA_02766:-93                  0.00014  3_[1]_4
+CKO_01156:-416                    0.00014  3_[1]_4
+STM1834:-351                      0.00014  3_[1]_4
+CLONEX_03805:-37                  0.00014  1_[1]_2
+jk1783:-105                       0.00015  4_[1]
+cur_0325:-102                     0.00015  4_[1]
+jk0315:-112                       0.00016  4_[1]
+Mvan_4708:-293                    0.00016  2_[1]_3
+CE1009:-42                        0.00017  4_[1]
+CE0881:-40                        0.00017  4_[1]
+EAM_3371:-168                     0.00017  3_[1]_4
+RoseRS_3070:-42                   0.00017  2_[1]_3
+CORAM0001_1990:-17                0.00017  4_[1]
+jk1887:-51                        0.00018  4_[1]
+cg0470:-51                        0.00018  4_[1]
+DIP0629:-47                       0.00018  4_[1]
+cg0527:-30                        0.00019  4_[1]
+cur_0337:-76                      0.00019  4_[1]
+cg1088:-101                        0.0002  4_[1]
+Ent638_2390:-313                   0.0002  3_[1]_4
+RSal33209_1376:-52                 0.0002  [1]_1
+cg0470:-100                       0.00021  4_[1]
+CKO_01156:-373                    0.00021  3_[1]_4
+RHA1_ro04009:-189                 0.00022  3_[1]_4
+ROP_38900:-189                    0.00022  3_[1]_4
+LAR_1743:-89                      0.00023  2_[1]_3
+CE0687:-57                        0.00023  4_[1]
+KPN_02337:-449                    0.00024  3_[1]_4
+DIP1062:-24                       0.00024  4_[1]
+Ent638_2390:-356                  0.00024  3_[1]_4
+Rcas_1724:-55                     0.00024  2_[1]_3
+cg2796:-37                        0.00025  4_[1]
+KPN_00845:-163                    0.00025  3_[1]_4
+CKO_02301:-129                    0.00025  3_[1]_4
+b0817:-129                        0.00025  3_[1]_4
+EAM_1275:-137                     0.00025  3_[1]_4
+Ent638_1304:-128                  0.00025  3_[1]_4
+STM0835:-128                      0.00025  3_[1]_4
+ckrop_1813:-129                   0.00026  4_[1]
+MSMEG_5329:-311                   0.00026  2_[1]_3
+CLOBOL_05596:-140                 0.00026  3_[1]_4
+KPN_02743:-35                     0.00028  3_[1]_4
+CKO_04090:-42                     0.00028  3_[1]_4
+CKO_00404:-16                     0.00028  3_[1]_4
+b2392:-34                         0.00028  3_[1]_4
+Ent638_2926:-34                   0.00028  3_[1]_4
+STM2861:-57                       0.00028  3_[1]_4
+STM2408:-34                       0.00028  3_[1]_4
+jk0315:-92                        0.00032  4_[1]
+SAG1534:-129                      0.00032  3_[1]_4
+SAG1533:-59                       0.00032  3_[1]_4
+BBta_1556:-92                     0.00033  2_[1]_3
+cauri_0724:-19                    0.00033  4_[1]
+cauri_0507:-67                    0.00033  4_[1]
+EUBELI_00572:-29                  0.00033  3_[1]_4
+CLOBOL_00460:-107                 0.00033  3_[1]_4
+cg0922:-49                        0.00037  4_[1]
+Chy400_0349:-55                   0.00037  2_[1]_3
+Bfae_31330:-53                    0.00037  [1]_1
+DORLON_00209:-60                  0.00037  1_[1]_2
+Cbac1_010100022172:-140           0.00037  3_[1]_4
+Meso_4423:-109                    0.00038  2_[1]_3
+KPN_03078:-76                     0.00038  3_[1]_4
+DIP2303:-81                       0.00038  4_[1]
+cg3119:-223                       0.00042  4_[1]
+Meso_4422:-73                     0.00042  2_[1]_3
+Cbac1_010100025382:-105           0.00044  3_[1]_4
+DIP0523:-65                       0.00046  4_[1]
+DIP1866:-56                       0.00046  4_[1]
+jk1296:-53                        0.00048  4_[1]
+DIP2161:-239                      0.00048  4_[1]
+cauri_0741:-83                    0.00048  4_[1]
+CORAM0001_1939:-92                 0.0005  4_[1]
+SUB0473:-50                       0.00052  3_[1]_4
+Sez_1456:-79                      0.00052  3_[1]_4
+Cagg_3308:-57                     0.00054  2_[1]_3
+Bcav_1388:2                       0.00054  [1]_1
+GALLO_2047:-53                    0.00054  3_[1]_4
+KPN_03078:-57                     0.00057  3_[1]_4
+DIP2356:-68                       0.00057  4_[1]
+CORAM0001_1939:-117               0.00057  4_[1]
+Chy400_2616:-57                   0.00059  2_[1]_3
+SAG1518:-56                       0.00059  3_[1]_4
+jk1815:-44                        0.00062  4_[1]
+BRYFOR_00504:-209                 0.00062  3_[1]_4
+Mjls_5425:-218                    0.00062  2_[1]_3
+Smlt2838:-27                      0.00065  2_[1]_3
+DIP0894:-25                       0.00068  4_[1]
+SSA_0262:-29                      0.00068  3_[1]_4
+SPy0453:-51                       0.00068  3_[1]_4
+SP_1648:-62                       0.00068  3_[1]_4
+SMU.182:-57                       0.00068  3_[1]_4
+smi_0636:-62                      0.00068  3_[1]_4
+SGO_1800:-60                      0.00068  3_[1]_4
+SAG1518:-34                       0.00068  3_[1]_4
+CE0466:-73                        0.00071  4_[1]
+CLOBOL_01420:-91                  0.00071  3_[1]_4
+Spro_1915:-181                    0.00071  3_[1]_4
+EUBREC_1581:-130                  0.00074  3_[1]_4
+LVIS_0331:-213                    0.00077  2_[1]_3
+EAM_2378:-133                     0.00077  3_[1]_4
+EAM_2087:-54                      0.00077  3_[1]_4
+BACPEC_02631:-135                  0.0008  3_[1]_4
+b0812:-67                          0.0008  3_[1]_4
+cg2782:-56                        0.00084  4_[1]
+Spro_1916:-70                     0.00084  3_[1]_4
+ckrop_0468:-130                   0.00087  4_[1]
+NGR_b14390:-141                   0.00091  2_[1]_3
+Rv3848:-217                       0.00091  2_[1]_3
+XCC2170:-113                      0.00091  2_[1]_3
+Arth_3280:15                      0.00099  [1]_1
+Mvan_3371:-61                     0.00099  2_[1]_3
+LSA0246:7                           0.001  2_[1]_3
+SDEG_0488:-51                       0.001  3_[1]_4
+BBta_1555:-127                     0.0011  2_[1]_3
+SPy0450:-116                       0.0011  3_[1]_4
+CLOSCI_00926:-161                  0.0011  3_[1]_4
+Smlt2837:-110                      0.0012  2_[1]_3
+EUBREC_1233:-53                    0.0012  7_[1]
+XAC2037:-113                       0.0012  2_[1]_3
+DIP0762:-31                        0.0013  4_[1]
+NGR_b14380:-73                     0.0013  2_[1]_3
+smi_0705:-194                      0.0013  3_[1]_4
+cg0926:-192                        0.0013  4_[1]
+cauri_1726:-70                     0.0013  4_[1]
+CORAM0001_0900:-74                 0.0013  4_[1]
+Sez_1469:-51                       0.0013  3_[1]_4
+jk0985:-124                        0.0014  3_[1]_1
+cauri_0257:-129                    0.0014  4_[1]
+cg3082:-273                        0.0015  4_[1]
+SUB0826:-83                        0.0015  3_[1]_4
+XAC2036:-49                        0.0016  2_[1]_3
+BH0516:-54                         0.0017  2_[1]_5
+OB0431:-38                         0.0017  4_[1]_3
+jk0226:-100                        0.0018  2_[1]_3
+EUBREC_1583:-59                    0.0019  3_[1]_4
+BRYFOR_00504:-229                  0.0019  3_[1]_4
+MMAR_5398:-216                     0.0021  2_[1]_3
+XCC2171:-50                        0.0022  2_[1]_3
+SUBp03:-117                        0.0023  3_[1]_4
+DIP1510:-214                       0.0023  4_[1]
+DIP1296:-173                       0.0023  4_[1]
+SP_0641:-194                       0.0024  3_[1]_4
+Sez_1470:-116                      0.0024  3_[1]_4
+SDEG_0487:-116                     0.0024  3_[1]_4
+RUMLAC_02635:-139                  0.0027  3_[1]_4
+smi_1232:-164                      0.0027  3_[1]_4
+cur_0910:-61                       0.0029  4_[1]
+cur_0912:-17                        0.003  4_[1]
+Bfae_31330:-30                     0.0031  [1]_1
+DIP0629:-67                        0.0033  4_[1]
+CLOSCI_00925:-101                  0.0033  3_[1]_4
+LVIS_0225:-19                      0.0035  2_[1]_3
+SSU05_1982:-32                     0.0035  3_[1]_4
+SE0803:-29                         0.0036  2_[1]_3
+cg3156:-116                         0.004  4_[1]
+BlinB01000963:-16                   0.004  [1]_1
+SUB1266:-54                        0.0042  3_[1]_4
+SPy1434:-53                        0.0042  3_[1]_4
+SDEG_1473:-54                      0.0042  3_[1]_4
+cg2234:-23                         0.0043  4_[1]
+cg1418:-49                         0.0046  4_[1]
+CLOBOL_05595:-210                  0.0048  3_[1]_4
+RUMGNA_02768:-130                   0.005  3_[1]_4
+SAG0745:-85                        0.0051  3_[1]_4
+mlr2501:-195                       0.0053  2_[1]_3
+ROSINTL182_04596:-133              0.0053  3_[1]_4
+BSU04360:-60                       0.0057  2_[1]_5
+BSU30770:-131                      0.0059  2_[1]_5
+cg1996:-218                        0.0061  4_[1]
+DORLON_00359:-108                  0.0063  3_[1]_4
+mll2499:-55                        0.0067  2_[1]_3
+DIP0124:-74                        0.0067  4_[1]
+BPUM_3011:-119                     0.0076  3_[1]_4
+RB2654_12814:-98                   0.0076  3_[1]_4
+SAG1534:-151                       0.0076  3_[1]_4
+CE2420:-56                         0.0087  4_[1]
+cur_0910:-16                       0.0096  4_[1]
+BC0709:-61                         0.0099  3_[1]_4
+RUMGNA_02771:-135                    0.01  3_[1]_4
+BH1389:-180                         0.011  3_[1]_4
+Cbac1_010100028374:-70              0.012  3_[1]_4
+BC1803:-129                         0.014  2_[1]_5
+SSU05_0309:-103                     0.015  3_[1]_4
+DIP0582:-26                         0.016  4_[1]
+DIP0523:-142                        0.016  4_[1]
+SUB0473:-32                         0.017  7_[1]
+cg1765:-146                         0.019  [1]_4
+lwe1441:-51                          0.02  3_[1]_4
+lse_1343:-51                         0.02  3_[1]_4
+lmo1424:-51                          0.02  3_[1]_4
+lin1463:-51                          0.02  3_[1]_4
+Gdia_1353:-179                      0.025  2_[1]_3
+SPy1434:-86                         0.025  3_[1]_4
+GALLO_0590:-78                      0.026  3_[1]_4
+RBAM_004660:-65                     0.026  2_[1]_5
+GK0583:-53                          0.029  4_[1]_3
+Aflv_1289:-92                       0.031  2_[1]_5
+lwe1868:-68                         0.032  3_[1]_4
+lse_1829:-69                        0.032  3_[1]_4
+lmo1849:-68                         0.032  3_[1]_4
+DIP0615:-91                         0.032  2_[1]_3
+EUBELI_01395:-176                   0.032  7_[1]
+BLi00526:-62                        0.034  2_[1]_5
+GOX2068:-49                         0.036  4_[1]_1
+BPUM_0413:-63                       0.037  2_[1]_5
+lin1963:-68                         0.038  2_[1]_5
+AZL_b04530:16                       0.038  [1]_5
+Pjdr2_4868:-109                     0.039  2_[1]_5
+ABC3961:-99                         0.041  2_[1]_5
+APA01_40860:-157                    0.041  2_[1]_3
+AZL_b04520:-114                     0.042  4_[1]_1
+jk1486:-57                          0.043  2_[1]_3
+GOX2067:-119                        0.043  [1]_5
+cur_0526:-56                        0.043  2_[1]_3
+OB0431:-123                         0.048  4_[1]_3
+SSU05_0309:-135                      0.05  3_[1]_4
+jk1485:-86                          0.051  2_[1]_3
+cg1623:-34                          0.054  2_[1]_3
+CORAM0001_0534:-153                 0.054  2_[1]_3
+CLOBOL_05594:-31                    0.054  3_[1]_4
+DIP1923:-81                         0.056  2_[1]_3
+cauri_0335:-76                      0.056  2_[1]_3
+cauri_0334:-51                      0.058  2_[1]_3
+CORAM0001_0848:-81                   0.06  4_[1]
+LACR_1369:-31                       0.062  7_[1]
+CE1566:-34                          0.069  2_[1]_3
+ckrop_3000:-72                      0.069  2_[1]_3
+Gdia_1352:16                        0.072  2_[1]_3
+GOX2067:-28                         0.074  2_[1]_3
+GOX2068:-140                        0.074  2_[1]_3
+APA01_40840:-48                     0.082  2_[1]_3
+L150744:-87                         0.084  3_[1]_4
+L84767:-31                          0.093  7_[1]
+jk1486:-18                           0.11  2_[1]_3
+ckrop_1571:-143                      0.12  2_[1]_3
+APA01_40860:-64                      0.17  [1]_5
+jk0226:-123                          0.18  2_[1]_3
+ckrop_1572:-177                       0.2  1_[1]_4
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=15 seqs=471
+cur_1524:-79             (    5) GTTAGCCTAACCTAA  1 
+cauri_2060:-81           (    5) GTTAGCCTTACCTAA  1 
+CORAM0001_1958:-85       (    5) GTTAGGCTTACCTAA  1 
+cg3404:-18               (    5) GTTAGGATAGCCTAA  1 
+cauri_2324:-71           (    5) GGTAGCCTAACCTAA  1 
+cauri_0741:-33           (    5) GTTAGCCACACCTAA  1 
+BRYFOR_01110:-166        (    4) GTTAGCATAAGCTAA  1 
+EfaeDRAFT_2039:-33       (    4) GTTAGGTAAACCTAA  1 
+cg0160:-1                (    5) GTTAGGCTAACCTTA  1 
+jk1812:-54               (    5) GGTAGCCTTACCTAA  1 
+ISM_17630:-70            (    4) GTTAGCTTCGGCTAA  1 
+cauri_0716:-54           (    5) GGTAGCCTTACCTAA  1 
+NT01CX_2308:-65          (    4) GTTAGACTAAGCTAA  1 
+CE0386:-130              (    5) GTGAGGCTAGCCTAA  1 
+Mjls_4747:-51            (    3) TTTCGGCTAACCTAA  1 
+MSMEG_5589:-53           (    3) TTTCGGCTAACCTAA  1 
+RHA1_ro05067:-77         (    4) GTTCGCCATACCTAA  1 
+Cbac1_010100027059:-54   (    4) GTTAGCTTAAACTAA  1 
+LSA0180:-34              (    3) GTTAGGTATACCTAA  1 
+Lxx20950:-62             (    1) GTTAGTCTCACCTAA  1 
+SSP2086:-40              (    3) ATTAGGTTAGCCTAA  1 
+Sca_0275:-141            (    3) ATTAGGTTAGCCTAA  1 
+STACA0001_0395:-42       (    3) ATTAGGTTAGCCTAA  1 
+SA0589:-42               (    3) ATTAGGTTAGCCTAA  1 
+CLOBOL_05594:-51         (    4) GTTAGCGAAAGCTAA  1 
+SH0143:-40               (    3) ATTAGGTTAACCTAA  1 
+SE0407:-42               (    3) ATTAGGTTAACCTAA  1 
+cg1405:-52               (    5) GTTAGGCTTGCCTAG  1 
+cg0445:-130              (    5) GTAAGGCTATCCTAA  1 
+Cagg_3553:-38            (    3) TTTAGGTTAGGCTAA  1 
+ROSINTL182_04597:-24     (    4) GTTAGGATAAACTAA  1 
+cauri_1726:-50           (    5) GTAAGCCTAACCTAT  1 
+DIP0222:-51              (    5) GATAGCTTTACCTAA  1 
+cg0466:-160              (    5) GTTAGCATAGCCTTA  1 
+MCCL_0095:-52            (    3) TTTAGGTTTGCCTAA  1 
+Rcas_3171:-159           (    3) GTTAGAGTAACCTAA  1 
+LGG_02411:-72            (    3) GTTAGGGAGACCTAA  1 
+LSEI_2413:-71            (    3) GTTAGGGAGACCTAA  1 
+cur_1667:-54             (    5) GTTAACCTAACCTAT  1 
+ckrop_1798:-126          (    5) GTAAGGCTTAGCTAA  1 
+cg2224:-112              (    5) GTGAGGCAAGCCTAA  1 
+CE1917:-221              (    5) GTGAGGCAAGCCTAA  1 
+DIP0586:-20              (    5) GGTAGCTTCGCCTAA  1 
+EUBELI_00574:-89         (    4) GTTAGCATAATCTAA  1 
+DORFOR_03080:-55         (    4) GTTAGATTAAGCTAA  1 
+DORFOR_03080:-53         (    2) GTTAGATTAAGCTAA  1 
+DIP0540:-267             (    5) GTTAGGGGTGCCTAA  1 
+SSP1685:-73              (    3) TTTAGGTTGACCTAA  1 
+SE0803:-51               (    3) TTTAGGTTGACCTAA  1 
+Sca_0731:-76             (    3) TTTAGGTTGACCTAA  1 
+STACA0001_2258:-66       (    3) TTTAGGTTGACCTAA  1 
+SA0956:-67               (    3) TTTAGGTTGACCTAA  1 
+ROSINTL182_04347:-121    (    4) GTTAGCAAATGCTAA  1 
+ISM_17635:-278           (    4) ATTAGCCGAAGCTAA  1 
+cg3247:-106              (    5) GTAAGGCTAGACTAA  1 
+cg1120:-51               (    5) GTTAGCGTAACCTAC  1 
+LSA1699:-77              (    3) GTTAGGGCATCCTAA  1 
+SH1847:-65               (    3) ATTAGGTTGACCTAA  1 
+Cagg_2416:-83            (    3) GTTAGCATATACTAA  1 
+BRYFOR_03558:-82         (    4) GTTAGCATATACTAA  1 
+DORLON_00346:-120        (    4) GTTAGCATATACTAA  1 
+CORAM0001_1805:-165      (    5) GATAGGCTAACCTAG  1 
+BLAHAN_00186:-38         (    4) GTTAGCATGAACTAA  1 
+Cbei_4070:-109           (    4) TTTAGACTAGGCTAA  1 
+jk1780:-69               (    5) GTTAGCCTACCCTTT  1 
+jk1809:-131              (    5) GTTAGCCTAACCTGT  1 
+cur_0328:-69             (    5) GTTAGCCTACCCTTT  1 
+RUMLAC_01079:-132        (    4) GTTAGCGTATACTAA  1 
+EF0575:-78               (    4) TTTAGGCTTGACTAA  1 
+RUMGNA_02766:-36         (    4) GTTAGCGAAAACTAA  1 
+Chy400_0210:-40          (    3) TTTAGGTAAGGCTAA  1 
+BRYFOR_01110:-99         (    4) GTTAGGAAAAACTAA  1 
+ROS217_03050:-77         (    4) GTTAGACATGGCTAA  1 
+RB2654_22338:-77         (    4) GTTAGACATGGCTAA  1 
+b1821:-423               (    4) TTTAGCCAAAGCTAT  1 
+Haur_4030:-51            (    3) TTTAGGTATGCCTAA  1 
+CORAM0001_0629:-105      (    5) GTAAGGCGTGCCTAA  1 
+CLONEX_00483:-50         (    2) GTTAGTTTTAGCTAA  1 
+DIP2114:-155             (    5) GTAAGCCATAGCTAA  1 
+DIP0108:-73              (    5) CTTTGCCTAGCCTAA  1 
+RER_51720:-74            (    4) GTTCGGCTCCCCGAA  1 
+Cbei_4069:-133           (    4) CTTAGCCTAGTCTAA  1 
+ckrop_0465:-23           (    5) CCTAGGCTAACCTAA  1 
+cg3327:-80               (    5) GATAGGACAACCTAA  1 
+MCCL_0368:-52            (    3) TTTAGGTTGCCCTAA  1 
+EUBELI_00569:-112        (    4) GTTAGTTAAAGCTAA  1 
+DORLON_00403:-48         (    4) GTTAGATAAAGCTAA  1 
+cur_1555:-160            (    5) GTTAGGCTAGCCTTG  1 
+AAur_pTC10168:-61        (    1) TTTCGGCACGCCTAA  1 
+RoseRS_4512:-85          (    3) TTTAGGAATGCCTAA  1 
+Rcas_3322:-9             (    3) TTTAGGAATGCCTAA  1 
+Rcas_0821:-98            (    3) ATTAGCATATGCTAA  1 
+cauri_0076:-121          (    5) GTTAGGTAAACCTAC  1 
+ROSINTL182_03016:-55     (    4) GTTAGACAAAACTAA  1 
+cg1070:-37               (    5) GTTATCCAAGCCTAA  1 
+EF2074:-33               (    4) TTAAGGCAAACCTAA  1 
+EUBREC_2823:-112         (    4) GTTAGATTAAACTAA  1 
+DORLON_00345:-156        (    4) GTTAGTATATGCTAA  1 
+RoseRS_4469:-141         (    3) ATTAGGATATGCTAA  1 
+cauri_0360:-78           (    5) GCTAGGCTAGCCTCA  1 
+EF1901:-57               (    4) TTTAGGTGTGCCTAA  1 
+Ent638_1111:-56          (    4) GATAGCACAGGCTAA  1 
+cg0771:-59               (    5) GGCAGCCTAACCTAA  1 
+RUMGNA_03923:-123        (    4) GTTAGCGATAACTAA  1 
+CLOSCI_00921:-171        (    4) GTTAGCATTGACTAT  1 
+EF1057:-90               (    4) TTTAGGTGTACCTAA  1 
+jk0561:-72               (    5) GCAAGGCTAAGCTAA  1 
+Arth_4418:-46            (    1) GTTCGTTAAGCCTAA  1 
+RoseRS_3986:-29          (    3) TTTAGGTCTACCTAA  1 
+cg3118:-178              (    5) GTGAACCTAACCTAA  1 
+EF2074:-88               (    4) TTTAGGTGCGCCTAA  1 
+jk1983:-47               (    5) GTGTGGCTAACCTAA  1 
+RHA1_ro07271:-60         (    4) TTTCGGCAAGCCGAA  1 
+NT01CX_2309:-164         (    4) ATTAGCTTAGTCTAA  1 
+jk1777:-29               (    5) GTAAACCTAAGCTAA  1 
+lp_2992:-98              (    3) TGTAGGCATACCTAA  1 
+cur_0331:-74             (    5) GTAAACCTAAGCTAA  1 
+RER_01640:-191           (    4) GTTCGGTTAACCAAA  1 
+CORAM0001_0780:-150      (    5) GCAAGGCAAGCCTAA  1 
+jk1778:-49               (    5) CTTAGGTTTACCTAT  1 
+cur_0330:-49             (    5) CTTAGGTTTACCTAT  1 
+LGG_02421:-31            (    3) ATTAGGTCACCCTAA  1 
+LSEI_2423:-32            (    3) ATTAGGTCACCCTAA  1 
+CE1346:-42               (    5) TGTAGGCTTACCTAT  1 
+CLONEX_02589:-63         (    4) GTTAGTTTAATCTAA  1 
+cg0955:-219              (    5) GTGAGCGTAGCCGAA  1 
+MMAR_4584:-54            (    3) TTTCGGCTAGCCTCA  1 
+RER_59770:-55            (    4) GTTCGGCTATACGAA  1 
+cauri_0725:-126          (    5) GTAAGGTTAGCCTTA  1 
+Cbac1_010100015165:-216  (    4) GTTAGCGTAAACTTA  1 
+CE0881:-80               (    5) GTTTGGCTAAGTTAA  1 
+DIP0108:-48              (    5) GTAAGCCTTGCCTCA  1 
+CLOBOL_05595:-104        (    4) GATAGCATACACTAA  1 
+Achl_3070:-61            (    1) TTTCGGTATGCCTAA  1 
+AAur_pTC20050:-59        (    1) TTTCGGTATGCCTAA  1 
+AAur_3272:-7             (    1) TTTCGGTATGCCTAA  1 
+cg3327:-60               (    5) ATAAGCTTAGGCTAA  1 
+Mflv_1822:-54            (    3) TTTCGTCTGGCCTAA  1 
+DIP0370:-129             (    5) GTCAGGGTACCCTAA  1 
+LAF_1828:-91             (    3) TTTATGCTAACCTAA  1 
+KRH_01300:-45            (    1) GTTCGGTACACCGAA  1 
+DORLON_00359:-88         (    4) GTTAGAATAATCTAA  1 
+Cbac1_010100005502:-105  (    4) GTTAGTCAATACTAA  1 
+cg0748:-44               (    5) GATAGGTTAACCTGA  1 
+Meso_4422:-136           (    3) TATAGCCTCGGCTAT  1 
+BLAHAN_03143:-38         (    4) GTTAGATAAGACTAA  1 
+DIP1520:-86              (    5) GTTAGGTTAACCTTG  1 
+Ent638_1111:-75          (    4) TATAGCCTATGCTAT  1 
+RoseRS_2294:-157         (    3) GTTAGAGTAATCTAA  1 
+ROSINTL182_04597:-89     (    4) GTTAGTGTAATCTAA  1 
+Chy400_4135:-136         (    3) ATTAGCATACACTAA  1 
+BRYFOR_03081:-100        (    4) GTTAGTTAAAACTAA  1 
+BLAHAN_03143:-99         (    4) GTTAGTTAAAACTAA  1 
+Arth_3280:-7             (    1) ATTCGGTATGCCTAA  1 
+CLONEX_01965:-58         (    4) GTTAGTTAAAACTAA  1 
+jk0561:-93               (    5) GTTAGCCTACCCTCG  1 
+lp_1095:-82              (    3) GTTAACTGCACCTAA  1 
+Chy400_0344:-158         (    3) ATTAGCATATACTAA  1 
+NGR_b14390:-61           (    3) AATAGCCTTAGCTAT  1 
+Cbac1_010100015165:-65   (    4) GTTAGTCAAAACTAT  1 
+EUBREC_2328:-180         (    4) GTTAGTATACACTAA  1 
+MAB_1031c:-53            (    3) TTTCGGCTACTCTAA  1 
+RUMLAC_01088:-77         (    4) GTTAGAAAAGACTAA  1 
+cg1642:-58               (    5) GTTAGGCAAGCCATA  1 
+RUMGNA_03679:-85         (    4) GTTAGAATATACTAA  1 
+ROSINTL182_04350:-71     (    4) GTTAGAATATACTAA  1 
+CLOSCI_00924:-71         (    4) GTTAGTATATACTAA  1 
+cg0924:-123              (    5) GTTTGGCTTGGTTAA  1 
+EUBREC_1581:-90          (    4) GTTAGAGTATACTAA  1 
+CLONEX_01967:-65         (    4) GTTAGAGTATACTAA  1 
+jk0434:-46               (    5) GTAAGCCTTACCTTT  1 
+Jden_0297:-45            (    1) GTTCGGACTGCCGAA  1 
+cauri_0788:-46           (    5) GTAAGCCTTACCTTT  1 
+CLOSCI_00929:-65         (    4) GTTAGTCGCAACTAA  1 
+cg2311:-18               (    5) GTAAGGTTTACCTTA  1 
+CLOSCI_00935:-50         (    2) GTTAGTTATTGCTAA  1 
+cg0591:-110              (    5) TAAAGGCTCACCTAA  1 
+DIP0922:-95              (    5) CTTAGGCTTGCCTTT  1 
+nfa24340:-35             (    4) GTTAGGGCGTCCGAA  1 
+CLOBOL_00284:-193        (    4) GTTATGGTATCCTAA  1 
+DIP0415:-30              (    5) CTTAACCTTGCCTAT  1 
+DIP1519:-19              (    5) GTTTGGTTTACCTTA  1 
+b1821:-383               (    4) CATAGCTTAGGCTAT  1 
+CLONEX_01968:-139        (    4) GTTAGTATACTCTAA  1 
+ckrop_1822:-57           (    5) GTTAGCCTACCTTTT  1 
+cg1930:-109              (    5) GTAAAGCTTGCCTAT  1 
+cg2445:-139              (    5) GTGTGGGTAACCTAA  1 
+Mflv_3168:-35            (    3) TTTCGGCGACCCGAA  1 
+BACPEC_02120:-44         (    4) GTTAGTTATAACTAA  1 
+RUMGNA_03680:-102        (    4) GTTAGTATATTCTAA  1 
+RoseRS_3564:-109         (    3) ATTAGACTATACTAA  1 
+Rcas_4373:-123           (    3) ATTAGACTATACTAA  1 
+CLOSCI_02591:-95         (    2) GTTAGTTATAACTAA  1 
+MAV_1044:-52             (    3) GTTCGACTACCCTCA  1 
+DIP0625:-171             (    5) GTAAGTGTAGCCTAT  1 
+EUBELI_01395:-55         (    4) GTTAGAAGAAACTAA  1 
+cur_1149:-115            (    5) GTTAGCCTTAGTAAA  1 
+Cbac1_010100028374:-54   (    4) GTTAGTAAAATCTAA  1 
+KPN_02337:-406           (    4) TATAGCCACGGCTAT  1 
+cauri_2325:-19           (    5) GTTAGGCTACCTTTT  1 
+CKO_00940:-88            (    4) TATAGCCTGTGCTAT  1 
+DIP1061:-47              (    5) GACAGGTTACCCTAA  1 
+EAM_2087:-73             (    4) TATAGCCTGTGCTAT  1 
+RUMLAC_01886:-107        (    4) GTTAGTTAATACTAA  1 
+XF1015:9                 (    3) TATAGCCAATGCTAT  1 
+cur_1667:-74             (    5) GTTATGCTAACCTCA  1 
+RUMGNA_03652:-54         (    4) GTTAGTTACAACTAA  1 
+NGR_b14380:-153          (    3) TATAGCTAAGGCTAT  1 
+cauri_0725:-39           (    5) GTTAGGCTATCTTTT  1 
+CLOBOL_00283:-81         (    4) GTTAGGATACCATAA  1 
+Cbac1_010100004977:-80   (    4) GTTAGGATACCATAA  1 
+STM1834:-308             (    4) TATAGCTAAGGCTAT  1 
+cg0405:-47               (    5) GATAACCTTGCCTTA  1 
+LSL_0904:-87             (    3) TTAAGGTAGACCTAA  1 
+Chy400_0685:-92          (    3) ATTAGAGTATGCTAA  1 
+Cagg_1154:-74            (    3) TTTAGGGAATACTAA  1 
+ROP_51290:-78            (    4) GTTCGTGGTACCTAA  1 
+ROP_70570:-52            (    4) TTTCGGTGAACCGAA  1 
+cg0924:-83               (    5) GGTAACCTAACCTCA  1 
+DIP1669:-80              (    5) GGGAACCTAACCTAA  1 
+XF1013:-193              (    3) TATAGCATTGGCTAT  1 
+CLONEX_01942:-32         (    4) GTTAGAAATAACTAA  1 
+Cbac1_010100004917:-161  (    4) GTTAGTAATAACTAA  1 
+jk1887:-86               (    5) GCAAGGCTTGACTAA  1 
+Meso_4423:-46            (    3) CATAGCCGAGGCTAT  1 
+cg3394:-56               (    5) GGTAAGTTCAGCTAA  1 
+CE0125:-49               (    5) CTTAGGCTAACCTTG  1 
+cauri_0724:-106          (    5) GATAGCCTAACCAAC  1 
+CAP0063:-78              (    4) TTTAGTTTAATCTAA  1 
+BRYFOR_00595:-52         (    4) GTTAGAAAATACTAA  1 
+BLAHAN_00185:-67         (    4) ATTAGTATAAACTAA  1 
+BACPEC_02635:-72         (    4) ATTAGAATAAACTAA  1 
+RUMGNA_02766:-93         (    4) ATTAGAATAAACTAA  1 
+CKO_01156:-416           (    4) TATAGCCTGAACTAT  1 
+STM1834:-351             (    4) TATAGCCTCAACTAT  1 
+CLONEX_03805:-37         (    2) GTTAGTTTTTTCTAA  1 
+jk1783:-105              (    5) GTTATGCTAAGTTAA  1 
+cur_0325:-102            (    5) GTTATGCTAAGTTAA  1 
+jk0315:-112              (    5) TCGAGCCTTACCTAA  1 
+Mvan_4708:-293           (    3) TTTGGGGTAGCCGAA  1 
+CE1009:-42               (    5) GTTAGGCATCCCTTG  1 
+CE0881:-40               (    5) GGTACCCTAACCTCA  1 
+EAM_3371:-168            (    4) TATAGCCGATGCTAT  1 
+RoseRS_3070:-42          (    3) TTTAGGCAAGACAAA  1 
+CORAM0001_1990:-17       (    5) GCTAGCCTGCCCTTT  1 
+jk1887:-51               (    5) GTTCGGCTAACTGTA  1 
+cg0470:-51               (    5) GTTAAGCTAATCTAG  1 
+DIP0629:-47              (    5) GTACGCCTTGCCTTT  1 
+cg0527:-30               (    5) GCTTGCCATACCTAT  1 
+cur_0337:-76             (    5) ATTAGGCTTACCTTG  1 
+cg1088:-101              (    5) GTCAGTGTTACCTAA  1 
+Ent638_2390:-313         (    4) TATAGCCATCGCTAT  1 
+RSal33209_1376:-52       (    1) TTTCGTTATGCCTAA  1 
+cg0470:-100              (    5) GTTACCCTACCCTCT  1 
+CKO_01156:-373           (    4) CATAGCTAAGGCTAT  1 
+RHA1_ro04009:-189        (    4) TTTCGGGTGCCCGAA  1 
+ROP_38900:-189           (    4) TTTCGGGTGCCCGAA  1 
+LAR_1743:-89             (    3) TTTATGTTACCCTAA  1 
+CE0687:-57               (    5) GACACCCTAACCTAA  1 
+KPN_02337:-449           (    4) TATAGCCAGCGCTAT  1 
+DIP1062:-24              (    5) ATTAGGGTAACCTGT  1 
+Ent638_2390:-356         (    4) TATAGCAGAGGCTAT  1 
+Rcas_1724:-55            (    3) TTTAGGATTTCCAAA  1 
+cg2796:-37               (    5) GCAAGCCAAACTTAA  1 
+KPN_00845:-163           (    4) TATAGCACAGGCTAT  1 
+CKO_02301:-129           (    4) TATAGCACAGGCTAT  1 
+b0817:-129               (    4) TATAGCACAGGCTAT  1 
+EAM_1275:-137            (    4) TATAGCACAGGCTAT  1 
+Ent638_1304:-128         (    4) TATAGCACAGGCTAT  1 
+STM0835:-128             (    4) TATAGCACAGGCTAT  1 
+ckrop_1813:-129          (    5) GCTAGCCATACTGAA  1 
+MSMEG_5329:-311          (    3) TATCGGTTACCCGAA  1 
+CLOBOL_05596:-140        (    4) TTTAGTGTATGCTAT  1 
+KPN_02743:-35            (    4) CATAGCAAAGGCTAT  1 
+CKO_04090:-42            (    4) CATAGCAAAGGCTAT  1 
+CKO_00404:-16            (    4) CATAGCAAAGGCTAT  1 
+b2392:-34                (    4) CATAGCAAAGGCTAT  1 
+Ent638_2926:-34          (    4) CATAGCAAAGGCTAT  1 
+STM2861:-57              (    4) CATAGCAAAGGCTAT  1 
+STM2408:-34              (    4) CATAGCAAAGGCTAT  1 
+jk0315:-92               (    5) GTAACACTATCCTAA  1 
+SAG1534:-129             (    4) ATTAAGTTAACTTAA  1 
+SAG1533:-59              (    4) ATTAAGTTAACTTAA  1 
+BBta_1556:-92            (    3) TGTAGCAGAAGCTAT  1 
+cauri_0724:-19           (    5) GCTAACCTTACCTAC  1 
+cauri_0507:-67           (    5) CTAAGGGTACCCTAT  1 
+EUBELI_00572:-29         (    4) ATTAGAATATACTAA  1 
+CLOBOL_00460:-107        (    4) ATTAGTGTACACTAA  1 
+cg0922:-49               (    5) GTTTGCCTAATCTTT  1 
+Chy400_0349:-55          (    3) ATTAGTGTATACTAA  1 
+Bfae_31330:-53           (    1) GTTCGGTGCAACGAA  1 
+DORLON_00209:-60         (    2) GTTAGAACACTCTAA  1 
+Cbac1_010100022172:-140  (    4) GTTAGTTATTTCTAA  1 
+Meso_4423:-109           (    3) TATAGCAAATGCTAT  1 
+KPN_03078:-76            (    4) AATAGCTTGTGCTAT  1 
+DIP2303:-81              (    5) GATAGGCCACCCCAA  1 
+cg3119:-223              (    5) GTTAGGTTCACCGTG  1 
+Meso_4422:-73            (    3) AATAGCATTTGCTAT  1 
+Cbac1_010100025382:-105  (    4) GTAAGTGTACACTAA  1 
+DIP0523:-65              (    5) ATAAGGCTTACCTTT  1 
+DIP1866:-56              (    5) GCTGGGCTATCTTAA  1 
+jk1296:-53               (    5) GGTAGGTTTACCTTG  1 
+DIP2161:-239             (    5) GGTAGGCTAATCCAA  1 
+cauri_0741:-83           (    5) GTAAGCCTTACTTGA  1 
+CORAM0001_1939:-92       (    5) GTAATGATTACCTAA  1 
+SUB0473:-50              (    4) ATTAACCATACTTAA  1 
+Sez_1456:-79             (    4) ATTAACCATACTTAA  1 
+Cagg_3308:-57            (    3) ATTAGTATATTCTAA  1 
+Bcav_1388:2              (    1) GTTCGGTGGCCCAAA  1 
+GALLO_2047:-53           (    4) ATTAAGCATGCTTAA  1 
+KPN_03078:-57            (    4) CATAGCAATGGCTAT  1 
+DIP2356:-68              (    5) CTAATGCTAACCTAA  1 
+CORAM0001_1939:-117      (    5) GGAATCCTAAGCTAA  1 
+Chy400_2616:-57          (    3) ATTAGAGTATTCTAA  1 
+SAG1518:-56              (    4) ATTAAGTTTGCTTAA  1 
+jk1815:-44               (    5) TGAAGGCTTACCTTA  1 
+BRYFOR_00504:-209        (    4) GTTAGAGACTTCTAA  1 
+Mjls_5425:-218           (    3) ATACGGCTGTCCGAA  1 
+Smlt2838:-27             (    3) TATAGCAGGAGCTAT  1 
+DIP0894:-25              (    5) GATTGCCTACACTTA  1 
+SSA_0262:-29             (    4) ATTAACTTGACTTAA  1 
+SPy0453:-51              (    4) ATTAACTAAACTTAA  1 
+SP_1648:-62              (    4) ATTAACTTGACTTAA  1 
+SMU.182:-57              (    4) ATTAACTTGACTTAA  1 
+smi_0636:-62             (    4) ATTAACTTGACTTAA  1 
+SGO_1800:-60             (    4) ATTAACTTGACTTAA  1 
+SAG1518:-34              (    4) ATTAACTAAACTTAA  1 
+CE0466:-73               (    5) CTTAGGCTTACCTGC  1 
+CLOBOL_01420:-91         (    4) ATTAGCACTTTCTAA  1 
+Spro_1915:-181           (    4) TGTAGCATCGGCTAC  1 
+EUBREC_1581:-130         (    4) GTAAGAAAAATCTAA  1 
+LVIS_0331:-213           (    3) TTTTGGTAAGCCAAA  1 
+EAM_2378:-133            (    4) TATAGCAATTGCTAT  1 
+EAM_2087:-54             (    4) TATAGCAATTGCTAT  1 
+BACPEC_02631:-135        (    4) ATTAAATTATGCTAA  1 
+b0812:-67                (    4) CATAGCCGGTGCTAT  1 
+cg2782:-56               (    5) GCTGCGCTAACCTAT  1 
+Spro_1916:-70            (    4) TGTAGCCGATGCTAC  1 
+ckrop_0468:-130          (    5) CTAGGGCTAAGCTAT  1 
+NGR_b14390:-141          (    3) TATAGCAAGTGCTAT  1 
+Rv3848:-217              (    3) ATACGGGTGGCCGAA  1 
+XCC2170:-113             (    3) TATAGCAAGTGCTAT  1 
+Arth_3280:15             (    1) TTTCGGTGCGCCAAA  1 
+Mvan_3371:-61            (    3) TTTCGGTCACCCAAA  1 
+LSA0246:7                (    3) GTTAAGGGACCCAAA  1 
+SDEG_0488:-51            (    4) TTTAACTATACTTAA  1 
+BBta_1555:-127           (    3) TATAGCTTCTGCTAC  1 
+SPy0450:-116             (    4) ATTAAGTTTAGTTAA  1 
+CLOSCI_00926:-161        (    4) GTTAGTATATTCTCA  1 
+Smlt2837:-110            (    3) TATAGCTCCTGCTAT  1 
+EUBREC_1233:-53          (    8) GTAAACTTTAACTAT  1 
+XAC2037:-113             (    3) TATAGCAGTTGCTAT  1 
+DIP0762:-31              (    5) GTATGCCTTAGTTAT  1 
+NGR_b14380:-73           (    3) TATAGCACTTGCTAT  1 
+smi_0705:-194            (    4) ATTAACCAGCCTTAA  1 
+cg0926:-192              (    5) GTTAGGCTCTAATAT  1 
+cauri_1726:-70           (    5) GCCAGAATTACCTAA  1 
+CORAM0001_0900:-74       (    5) GCAAGGCCTGGCTTA  1 
+Sez_1469:-51             (    4) ATTAACTATACTTAA  1 
+jk0985:-124              (    4) GGCAGGGTTACCTTA  1 
+cauri_0257:-129          (    5) GTGATCCTTGCCTTA  1 
+cg3082:-273              (    5) GTGAGGTTAACTTTT  1 
+SUB0826:-83              (    4) ATTAAGTATACTTAA  1 
+XAC2036:-49              (    3) CATAGCAACTGCTAT  1 
+BH0516:-54               (    3) TTTTGCCTTGGGGAA  1 
+OB0431:-38               (    5) TTTACCTAAGGCAAA  1 
+jk0226:-100              (    3) GTTCGGGTCATTGAA  1 
+EUBREC_1583:-59          (    4) GTTAGTAAATACAAA  1 
+BRYFOR_00504:-229        (    4) AATAGCGTATACTAG  1 
+MMAR_5398:-216           (    3) ATACGGCCGCCCGAA  1 
+XCC2171:-50              (    3) CATAGCACTTGCTAT  1 
+SUBp03:-117              (    4) ATTAAGTATGGTTAA  1 
+DIP1510:-214             (    5) GCAAGCCTAAGTAAA  1 
+DIP1296:-173             (    5) GGTGGGCTAACCTGC  1 
+SP_0641:-194             (    4) ATTAACTAATGTTAA  1 
+Sez_1470:-116            (    4) ATTAAGTATAGTTAA  1 
+SDEG_0487:-116           (    4) ATTAAGTATAGTTAA  1 
+RUMLAC_02635:-139        (    4) TATAACATAATCTAT  1 
+smi_1232:-164            (    4) ATTAACCAATATTAA  1 
+cur_0910:-61             (    5) GCTTGCCTATCTTCA  1 
+cur_0912:-17             (    5) GAAAGGTTAGCTTTT  1 
+Bfae_31330:-30           (    1) GTGCGGGACAACGAA  1 
+DIP0629:-67              (    5) TTAAAGCAAACCTTT  1 
+CLOSCI_00925:-101        (    4) ATGAGAATATACTAA  1 
+LVIS_0225:-19            (    3) GGAAGGGAGTCTTAA  1 
+SSU05_1982:-32           (    4) ATTAATTAAACTTAA  1 
+SE0803:-29               (    3) TTTAGGTTAATATAT  1 
+cg3156:-116              (    5) GCAAGCCTAAATTAG  1 
+BlinB01000963:-16        (    1) CGAAGGTAAGCCTCA  1 
+SUB1266:-54              (    4) ATTAAGATGAATTAA  1 
+SPy1434:-53              (    4) ATTAATATATCTTAA  1 
+SDEG_1473:-54            (    4) ATTAATATATCTTAA  1 
+cg2234:-23               (    5) GCAAGGCTACCTTTT  1 
+cg1418:-49               (    5) GTAAGGTTTGCATAC  1 
+CLOBOL_05595:-210        (    4) GTTAGAAAAATATAA  1 
+RUMGNA_02768:-130        (    4) AGTAGAATCTTCTAA  1 
+SAG0745:-85              (    4) ATTAAGTAGCGTTAA  1 
+mlr2501:-195             (    3) TATAGCACGGGCTCT  1 
+ROSINTL182_04596:-133    (    4) AAAAGCATATTCTAT  1 
+BSU04360:-60             (    3) ATTTGCCTTAAGGAA  1 
+BSU30770:-131            (    3) TTTTGCATGAGGGAA  1 
+cg1996:-218              (    5) GATTCTCTCAACTAA  1 
+DORLON_00359:-108        (    4) GATATGATATGCTGA  1 
+mll2499:-55              (    3) CAGAGCCCGTGCTAT  1 
+DIP0124:-74              (    5) GGAACTCTTGCCTTA  1 
+BPUM_3011:-119           (    4) GTTTCCCTAAGGAAA  1 
+RB2654_12814:-98         (    4) GTTAAAAGATGCTGA  1 
+SAG1534:-151             (    4) ATTAATATAAGTTAT  1 
+CE2420:-56               (    5) GGTGCGCTAACCTTG  1 
+cur_0910:-16             (    5) GGCAAGCTAACCTTG  1 
+BC0709:-61               (    4) GTTTACCTTAGGAAA  1 
+RUMGNA_02771:-135        (    4) GATAAAGTGTACTAT  1 
+BH1389:-180              (    4) GTTTACTTAGGGAAA  1 
+Cbac1_010100028374:-70   (    4) GTTATAATACACTAC  1 
+BC1803:-129              (    3) ATTTGCATTAAGGAA  1 
+SSU05_0309:-103          (    4) ATTAACTTAGTTAAA  1 
+DIP0582:-26              (    5) GGTTGTGTTACCTTG  1 
+DIP0523:-142             (    5) GCTGACCTAACTTTT  1 
+SUB0473:-32              (    8) TATAATATAAATTAA  1 
+cg1765:-146              (    1) TTAGGGTTCGCTTAG  1 
+lwe1441:-51              (    4) GTTTCCCGTAGTAAA  1 
+lse_1343:-51             (    4) GTTTCCCGTAGTAAA  1 
+lmo1424:-51              (    4) GTTTCCCGTAGTAAA  1 
+lin1463:-51              (    4) GTTTCCCGTAGTAAA  1 
+Gdia_1353:-179           (    3) TATGCAATAAGCTAT  1 
+SPy1434:-86              (    4) AATTACTTGACTTAT  1 
+GALLO_0590:-78           (    4) ATTAAATACGCTTTA  1 
+RBAM_004660:-65          (    3) ATTTGCATCTAGGAA  1 
+GK0583:-53               (    5) TTTCCTTAATGCAAA  1 
+Aflv_1289:-92            (    3) TGTTGCATTGAGGAA  1 
+lwe1868:-68              (    4) GTTGCTCTAAGGAAA  1 
+lse_1829:-69             (    4) GTTGCTCTAAGGAAA  1 
+lmo1849:-68              (    4) GTTGCTCTAAGGAAA  1 
+DIP0615:-91              (    3) ATTCAATACGCTGAA  1 
+EUBELI_01395:-176        (    8) GTGTATACAAACTAA  1 
+BLi00526:-62             (    3) ATTTGCACTAAGGAA  1 
+GOX2068:-49              (    5) TTCCGCCGTGAATAA  1 
+BPUM_0413:-63            (    3) AATTGCATCAAGGAA  1 
+lin1963:-68              (    3) AGTTGCATTAAGGAA  1 
+AZL_b04530:16            (    1) AGTATGCAAGGCGCT  1 
+Pjdr2_4868:-109          (    3) TGTTGCATCAGAGAA  1 
+ABC3961:-99              (    3) AGTTGCATTAGAGAA  1 
+APA01_40860:-157         (    3) TATGCAATATGCTAT  1 
+AZL_b04520:-114          (    5) TAGCGCCTTGCATAC  1 
+jk1486:-57               (    3) GTTCAATACATTGAA  1 
+GOX2067:-119             (    1) ATTATTCACGGCGGA  1 
+cur_0526:-56             (    3) GTTCAATACATTGAA  1 
+OB0431:-123              (    5) TTTCCTTAGTGCAAA  1 
+SSU05_0309:-135          (    4) AATAACTTGACTTTC  1 
+jk1485:-86               (    3) GTTCAATGTATTGAA  1 
+cg1623:-34               (    3) GTTCAATGCGTTGAA  1 
+CORAM0001_0534:-153      (    3) GTTCAATGGGTTGAA  1 
+CLOBOL_05594:-31         (    4) ATAAGAAAAATATAA  1 
+DIP1923:-81              (    3) GTTCAATGCATTGAA  1 
+cauri_0335:-76           (    3) GTTCAATGGATTGAA  1 
+cauri_0334:-51           (    3) GTTCAATCCATTGAA  1 
+CORAM0001_0848:-81       (    5) GCATGCCTAAGAGTA  1 
+LACR_1369:-31            (    8) AATGGAGAAAAGTAA  1 
+CE1566:-34               (    3) GTTCATGCCATTGAA  1 
+ckrop_3000:-72           (    3) GTTCAAGCCATTGAA  1 
+Gdia_1352:16             (    3) TATAGCTTATTGCAT  1 
+GOX2067:-28              (    3) TATAGCATGTTGAAT  1 
+GOX2068:-140             (    3) TATTCAACATGCTAT  1 
+APA01_40840:-48          (    3) TATAGCATATTGCAT  1 
+L150744:-87              (    4) AATATATTGATTTAA  1 
+L84767:-31               (    8) AATCAAGAAAAGTAA  1 
+jk1486:-18               (    3) GTTTATTACCTTGAA  1 
+ckrop_1571:-143          (    3) GTTCAATGCAATGTA  1 
+APA01_40860:-64          (    1) TTTATTCTTTATGGA  1 
+jk0226:-123              (    3) GTTCAATACATTGTT  1 
+ckrop_1572:-177          (    2) AATACATTGCATTGA  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 15 n= 3021 bayes= 2.4338 E= 1.2e-800 
+   -87   -138    163    -49 
+   -94   -180   -130    110 
+  -161   -302   -230    134 
+   115    -41   -249   -206 
+  -116   -167    218   -318 
+  -141    131    111   -141 
+   -58    125    -68    -16 
+   -42   -123   -113     86 
+    65    -67    -65    -40 
+    43    -70     55    -80 
+   -96    155     67   -169 
+  -378    230   -198    -97 
+  -256   -419    -63    133 
+   127   -238   -284   -172 
+   104   -249   -221    -58 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 15 nsites= 471 E= 1.2e-800 
+ 0.191083  0.059448  0.515924  0.233546 
+ 0.182590  0.044586  0.067941  0.704883 
+ 0.114650  0.019108  0.033970  0.832272 
+ 0.774947  0.116773  0.029724  0.078556 
+ 0.157113  0.048832  0.757962  0.036093 
+ 0.131635  0.384289  0.360934  0.123142 
+ 0.233546  0.369427  0.104034  0.292994 
+ 0.261146  0.065817  0.076433  0.596603 
+ 0.547771  0.097665  0.106157  0.248408 
+ 0.471338  0.095541  0.244161  0.188960 
+ 0.180467  0.452229  0.265393  0.101911 
+ 0.025478  0.764331  0.042463  0.167728 
+ 0.059448  0.008493  0.108280  0.823779 
+ 0.847134  0.029724  0.023355  0.099788 
+ 0.717622  0.027601  0.036093  0.218684 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+[GT]TTAG[CG][CTA][TA][AT][AG][CG]CTA[AT]
+--------------------------------------------------------------------------------
+
+
+
+
+Time 28.58 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+STM1834:-308                     8.40e-04  22
+CKO_01156:-373                   1.67e-03  22
+STM1834:-351                     1.08e-03  22
+CKO_01156:-416                   1.08e-03  22
+Spro_1916:-70                    6.66e-03  22
+Cbac1_010100022172:-140          2.92e-03  22
+Spro_1915:-181                   5.63e-03  22
+Cbac1_010100004977:-80           8.40e-04  22
+SA0589:-42                       4.24e-06  2_[1(7.07e-07)]_3
+Cbac1_010100015165:-216          1.84e-04  3_[1(2.30e-05)]_4
+SA0956:-67                       1.37e-05  2_[1(2.29e-06)]_3
+Cbac1_010100015165:-65           3.24e-04  3_[1(4.04e-05)]_4
+STACA0001_0395:-42               4.24e-06  2_[1(7.07e-07)]_3
+Cbac1_010100005502:-105          2.45e-04  3_[1(3.06e-05)]_4
+STACA0001_2258:-66               1.37e-05  2_[1(2.29e-06)]_3
+Cbac1_010100027059:-54           4.73e-06  3_[1(5.92e-07)]_4
+Sca_0731:-76                     1.37e-05  2_[1(2.29e-06)]_3
+Cbac1_010100004917:-161          9.29e-04  22
+Sca_0275:-141                    4.24e-06  2_[1(7.07e-07)]_3
+Cbac1_010100028374:-70           9.38e-02  22
+SE0407:-42                       4.98e-06  2_[1(8.29e-07)]_3
+Cbac1_010100028374:-54           7.20e-04  3_[1(9.00e-05)]_4
+SE0803:-51                       1.37e-05  2_[1(2.29e-06)]_3
+Cbac1_010100025382:-105          3.49e-03  22
+SE0803:-29                       2.15e-02  20
+CAP0063:-78                      1.03e-03  22
+SH1847:-65                       2.10e-05  2_[1(3.50e-06)]_3
+Cbei_4069:-133                   5.44e-05  3_[1(6.80e-06)]_4
+SH0143:-40                       4.98e-06  2_[1(8.29e-07)]_3
+Cbei_4070:-109                   3.21e-05  3_[1(4.01e-06)]_4
+SSP1685:-73                      1.37e-05  2_[1(2.29e-06)]_3
+CLOBOL_01420:-91                 5.63e-03  22
+SSP2086:-40                      4.24e-06  2_[1(7.07e-07)]_3
+CLOBOL_05596:-140                2.12e-03  22
+Smlt2837:-110                    6.94e-03  20
+CLOBOL_00284:-193                5.85e-04  3_[1(7.32e-05)]_4
+Smlt2838:-27                     3.88e-03  20
+CLOBOL_05595:-210                3.77e-02  22
+SAG0745:-85                      4.03e-02  22
+CLOBOL_05595:-104                1.95e-04  3_[1(2.43e-05)]_4
+SAG1533:-59                      2.55e-03  22
+CLOBOL_05594:-51                 6.09e-06  3_[1(7.61e-07)]_4
+SAG1534:-151                     5.95e-02  22
+CLOBOL_05594:-31                 3.57e-01  22
+SAG1534:-129                     2.55e-03  22
+CLOBOL_00283:-81                 8.40e-04  22
+SAG1518:-56                      4.75e-03  22
+CLOBOL_00460:-107                2.66e-03  22
+SAG1518:-34                      5.40e-03  22
+CLONEX_03805:-37                 5.67e-04  18
+SDEG_0487:-116                   1.92e-02  22
+CLONEX_00483:-50                 2.54e-05  1_[1(6.35e-06)]_2
+SDEG_1473:-54                    3.29e-02  22
+CLONEX_01968:-139                6.17e-04  3_[1(7.71e-05)]_4
+SDEG_0488:-51                    8.19e-03  22
+CLONEX_01967:-65                 4.25e-04  3_[1(5.31e-05)]_4
+Sez_1469:-51                     1.04e-02  22
+CLONEX_01965:-58                 2.90e-04  3_[1(3.62e-05)]_4
+Sez_1456:-79                     4.17e-03  22
+CLONEX_01942:-32                 9.29e-04  22
+Sez_1470:-116                    1.92e-02  22
+CLONEX_02589:-63                 1.73e-04  3_[1(2.17e-05)]_4
+GALLO_2047:-53                   4.35e-03  22
+NT01CX_2309:-164                 1.29e-04  3_[1(1.61e-05)]_4
+GALLO_0590:-78                   1.89e-01  22
+NT01CX_2308:-65                  3.23e-06  3_[1(4.04e-07)]_4
+SGO_1800:-60                     5.40e-03  22
+CLOSCI_02591:-95                 3.42e-04  1_[1(8.55e-05)]_2
+smi_0705:-194                    1.00e-02  22
+CLOSCI_00935:-50                 2.50e-04  1_[1(6.24e-05)]_2
+smi_1232:-164                    2.15e-02  22
+CLOSCI_00926:-161                8.88e-03  22
+smi_0636:-62                     5.40e-03  22
+CLOSCI_00925:-101                2.57e-02  22
+SMU.182:-57                      5.40e-03  22
+CLOSCI_00924:-71                 3.82e-04  3_[1(4.77e-05)]_4
+SP_1648:-62                      5.40e-03  22
+CLOSCI_00921:-171                1.01e-04  3_[1(1.27e-05)]_4
+SP_0641:-194                     1.92e-02  22
+CLOSCI_00929:-65                 4.74e-04  3_[1(5.92e-05)]_4
+SPy1434:-86                      1.84e-01  22
+CORAM0001_1990:-17               8.63e-04  19
+SPy1434:-53                      3.29e-02  22
+CORAM0001_0900:-74               6.53e-03  19
+SPy0450:-116                     8.88e-03  22
+CORAM0001_1958:-85               5.66e-08  4_[1(1.13e-08)]
+SPy0453:-51                      5.40e-03  22
+CORAM0001_1805:-165              1.87e-05  4_[1(3.75e-06)]
+SSA_0262:-29                     5.40e-03  22
+CORAM0001_0629:-105              3.18e-05  4_[1(6.35e-06)]
+SSU05_0309:-135                  3.36e-01  22
+CORAM0001_0848:-81               2.67e-01  19
+SSU05_1982:-32                   2.76e-02  22
+CORAM0001_0780:-150              9.63e-05  4_[1(1.93e-05)]
+SSU05_0309:-103                  1.15e-01  22
+CORAM0001_1939:-92               2.49e-03  19
+SUB0473:-32                      1.31e-01  22
+CORAM0001_1939:-117              2.84e-03  19
+SUB0473:-50                      4.17e-03  22
+CORAM0001_0534:-153              2.82e-01  20
+SUBp03:-117                      1.79e-02  22
+cauri_0076:-121                  4.65e-05  4_[1(9.29e-06)]
+SUB1266:-54                      3.29e-02  22
+cauri_0257:-129                  6.79e-03  19
+SUB0826:-83                      1.17e-02  22
+cauri_2325:-19                   4.74e-04  4_[1(9.48e-05)]
+XAC2036:-49                      9.52e-03  20
+cauri_0360:-78                   5.60e-05  4_[1(1.12e-05)]
+XAC2037:-113                     7.22e-03  20
+cauri_0716:-54                   1.70e-06  4_[1(3.40e-07)]
+XCC2171:-50                      1.29e-02  20
+cauri_0725:-126                  1.15e-04  4_[1(2.30e-05)]
+XCC2170:-113                     5.43e-03  20
+cauri_0725:-39                   5.25e-04  19
+XF1015:9                         5.99e-04  2_[1(9.98e-05)]_3
+cauri_2060:-81                   3.79e-08  4_[1(7.59e-09)]
+XF1013:-193                      6.97e-04  20
+cauri_1726:-50                   5.96e-06  4_[1(1.19e-06)]
+Mjls_5425:-218                   3.72e-03  20
+Rv3848:-217                      5.43e-03  20
+Mvan_3371:-61                    5.90e-03  20
+Mvan_4708:-293                   9.39e-04  20
+nfa24340:-35                     5.55e-04  3_[1(6.94e-05)]_4
+OB0431:-38                       1.37e-02  22
+OB0431:-123                      3.23e-01  22
+Pjdr2_4868:-109                  2.73e-01  22
+RSal33209_1376:-52               3.99e-04  16
+NGR_b14390:-141                  5.43e-03  20
+NGR_b14390:-61                   2.43e-04  2_[1(4.04e-05)]_3
+NGR_b14380:-153                  6.30e-04  20
+NGR_b14380:-73                   7.52e-03  20
+RB2654_12814:-98                 5.95e-02  22
+RB2654_22338:-77                 3.91e-05  3_[1(4.89e-06)]_4
+RER_59770:-55                    1.84e-04  3_[1(2.30e-05)]_4
+RER_51720:-74                    5.44e-05  3_[1(6.80e-06)]_4
+RER_01640:-191                   1.37e-04  3_[1(1.71e-05)]_4
+ROP_70570:-52                    8.83e-04  22
+ROP_51290:-78                    8.83e-04  22
+ROP_38900:-189                   1.75e-03  22
+RHA1_ro07271:-60                 1.29e-04  3_[1(1.61e-05)]_4
+RHA1_ro05067:-77                 4.73e-06  3_[1(5.92e-07)]_4
+RHA1_ro04009:-189                1.75e-03  22
+ROSINTL182_04350:-71             3.82e-04  3_[1(4.77e-05)]_4
+ROSINTL182_04347:-121            2.12e-05  3_[1(2.64e-06)]_4
+ROSINTL182_04597:-89             2.74e-04  3_[1(3.42e-05)]_4
+ROSINTL182_04597:-24             9.54e-06  3_[1(1.19e-06)]_4
+ROSINTL182_04596:-133            4.17e-02  22
+ROSINTL182_03016:-55             7.90e-05  3_[1(9.88e-06)]_4
+Rcas_4373:-123                   5.13e-04  2_[1(8.55e-05)]_3
+Rcas_0821:-98                    5.57e-05  2_[1(9.29e-06)]_3
+Rcas_3171:-159                   9.00e-06  2_[1(1.50e-06)]_3
+Rcas_1724:-55                    1.45e-03  20
+Rcas_3322:-9                     5.23e-05  2_[1(8.71e-06)]_3
+RoseRS_4469:-141                 6.73e-05  2_[1(1.12e-05)]_3
+RoseRS_2294:-157                 2.05e-04  2_[1(3.42e-05)]_3
+RoseRS_3564:-109                 5.13e-04  2_[1(8.55e-05)]_3
+RoseRS_3070:-42                  1.03e-03  20
+RoseRS_4512:-85                  5.23e-05  2_[1(8.71e-06)]_3
+RoseRS_3986:-29                  8.55e-05  2_[1(1.43e-05)]_3
+ISM_17630:-70                    2.72e-06  3_[1(3.40e-07)]_4
+ISM_17635:-278                   2.62e-05  3_[1(3.27e-06)]_4
+ROS217_03050:-77                 3.91e-05  3_[1(4.89e-06)]_4
+RUMGNA_03680:-102                6.84e-04  3_[1(8.55e-05)]_4
+RUMGNA_03679:-85                 3.82e-04  3_[1(4.77e-05)]_4
+RUMGNA_03652:-54                 8.40e-04  22
+RUMGNA_03923:-123                1.01e-04  3_[1(1.27e-05)]_4
+RUMGNA_02766:-93                 1.08e-03  22
+RUMGNA_02766:-36                 3.67e-05  3_[1(4.59e-06)]_4
+RUMGNA_02768:-130                3.90e-02  22
+RUMGNA_02771:-135                7.86e-02  22
+RUMLAC_02635:-139                2.15e-02  22
+RUMLAC_01079:-132                3.42e-05  3_[1(4.28e-06)]_4
+RUMLAC_01088:-77                 3.61e-04  3_[1(4.51e-05)]_4
+RUMLAC_01886:-107                7.99e-04  3_[1(9.98e-05)]_4
+STM0835:-128                     2.02e-03  22
+STM2408:-34                      2.22e-03  22
+STM2861:-57                      2.22e-03  22
+ckrop_0468:-130                  4.34e-03  19
+ckrop_1572:-177                  7.29e-01  20
+ckrop_1571:-143                  5.31e-01  20
+ckrop_3000:-72                   3.49e-01  20
+cur_0912:-17                     1.50e-02  19
+cur_1667:-54                     9.33e-06  4_[1(1.87e-06)]
+cur_1667:-74                     5.25e-04  19
+cur_0331:-74                     8.55e-05  4_[1(1.71e-05)]
+cur_1555:-160                    4.10e-05  4_[1(8.20e-06)]
+cur_1524:-79                     7.22e-09  4_[1(1.44e-09)]
+cur_0330:-49                     1.02e-04  4_[1(2.04e-05)]
+cur_0910:-16                     4.69e-02  19
+cur_1149:-115                    4.50e-04  4_[1(9.00e-05)]
+cur_0337:-76                     9.51e-04  19
+cur_0328:-69                     2.14e-05  4_[1(4.28e-06)]
+cur_0325:-102                    7.45e-04  19
+cur_0910:-61                     1.45e-02  19
+cur_0526:-56                     2.33e-01  20
+DORFOR_03080:-53                 8.54e-06  1_[1(2.14e-06)]_2
+DORFOR_03080:-55                 1.71e-05  3_[1(2.14e-06)]_4
+DORLON_00209:-60                 1.46e-03  18
+DORLON_00345:-156                8.97e-05  3_[1(1.12e-05)]_4
+DORLON_00346:-120                3.00e-05  3_[1(3.75e-06)]_4
+DORLON_00403:-48                 6.56e-05  3_[1(8.20e-06)]_4
+DORLON_00359:-108                4.91e-02  22
+DORLON_00359:-88                 2.45e-04  3_[1(3.06e-05)]_4
+Ent638_2926:-34                  2.22e-03  22
+Ent638_1111:-75                  2.74e-04  3_[1(3.42e-05)]_4
+Ent638_1111:-56                  9.55e-05  3_[1(1.19e-05)]_4
+Ent638_1304:-128                 2.02e-03  22
+Ent638_2390:-313                 1.59e-03  22
+Ent638_2390:-356                 1.93e-03  22
+EF2074:-88                       1.21e-04  3_[1(1.52e-05)]_4
+EF2074:-33                       8.43e-05  3_[1(1.05e-05)]_4
+EF0575:-78                       3.67e-05  3_[1(4.59e-06)]_4
+EF1057:-90                       1.08e-04  3_[1(1.35e-05)]_4
+EF1901:-57                       9.55e-05  3_[1(1.19e-05)]_4
+EfaeDRAFT_2039:-33               1.38e-06  3_[1(1.73e-07)]_4
+EAM_1275:-137                    2.02e-03  22
+EAM_2087:-54                     6.13e-03  22
+EAM_2087:-73                     7.99e-04  3_[1(9.98e-05)]_4
+EAM_2378:-133                    6.13e-03  22
+EAM_3371:-168                    1.38e-03  22
+b0817:-129                       2.02e-03  22
+b2392:-34                        2.22e-03  22
+b1821:-383                       6.17e-04  3_[1(7.71e-05)]_4
+b1821:-423                       4.18e-05  3_[1(5.22e-06)]_4
+b0812:-67                        6.39e-03  22
+EUBELI_00572:-29                 2.66e-03  22
+EUBELI_00574:-89                 1.71e-05  3_[1(2.14e-06)]_4
+EUBELI_00569:-112                6.56e-05  3_[1(8.20e-06)]_4
+EUBELI_01395:-176                2.28e-01  22
+EUBELI_01395:-55                 7.20e-04  3_[1(9.00e-05)]_4
+EUBREC_2328:-180                 3.42e-04  3_[1(4.27e-05)]_4
+EUBREC_1581:-130                 5.87e-03  22
+EUBREC_1581:-90                  4.25e-04  3_[1(5.31e-05)]_4
+EUBREC_1583:-59                  1.48e-02  22
+EUBREC_1233:-53                  9.62e-03  22
+EUBREC_2823:-112                 8.97e-05  3_[1(1.12e-05)]_4
+cauri_1726:-70                   6.53e-03  19
+APA01_40860:-157                 2.23e-01  20
+cauri_0507:-67                   1.67e-03  19
+APA01_40860:-64                  6.75e-01  20
+cauri_0724:-106                  6.42e-04  19
+APA01_40840:-141                 7.73e-01  20
+cauri_2324:-71                   3.96e-07  4_[1(7.92e-08)]
+APA01_40840:-48                  4.02e-01  20
+cauri_0788:-46                   2.96e-04  4_[1(5.92e-05)]
+Aflv_1289:-92                    2.23e-01  22
+cauri_0741:-83                   2.39e-03  19
+AAur_3272:-7                     5.15e-05  [1(2.58e-05)]_1
+cauri_0741:-33                   5.41e-07  4_[1(1.08e-07)]
+AAur_pTC20050:-59                5.15e-05  [1(2.58e-05)]_1
+cauri_0724:-19                   1.67e-03  19
+AAur_pTC10168:-61                1.74e-05  [1(8.71e-06)]_1
+cauri_0335:-76                   2.93e-01  20
+Achl_3070:-61                    5.15e-05  [1(2.58e-05)]_1
+cauri_0334:-51                   2.99e-01  20
+Arth_3280:-7                     7.24e-05  [1(3.62e-05)]_1
+DIP0540:-267                     1.14e-05  4_[1(2.29e-06)]
+Arth_3280:15                     1.97e-03  16
+DIP0222:-51                      6.45e-06  4_[1(1.29e-06)]
+Arth_4418:-46                    2.85e-05  [1(1.43e-05)]_1
+DIP0625:-171                     4.50e-04  4_[1(9.00e-05)]
+AZL_b04530:16                    2.08e-01  20
+DIP0629:-67                      1.62e-02  19
+AZL_b04520:-114                  2.28e-01  20
+DIP0629:-47                      9.06e-04  19
+RBAM_004660:-65                  1.93e-01  22
+DIP1669:-80                      5.81e-04  19
+BC1803:-129                      1.05e-01  22
+DIP1519:-19                      3.85e-04  4_[1(7.71e-05)]
+BC0709:-61                       7.62e-02  22
+DIP1296:-173                     1.16e-02  19
+ABC3961:-99                      2.85e-01  22
+DIP1866:-56                      2.28e-03  19
+BH1389:-180                      8.59e-02  22
+DIP0370:-129                     1.36e-04  4_[1(2.73e-05)]
+BH0516:-54                       1.37e-02  22
+DIP1062:-24                      1.20e-03  19
+BLi00526:-62                     2.39e-01  22
+DIP0922:-95                      3.47e-04  4_[1(6.94e-05)]
+BPUM_0413:-63                    2.62e-01  22
+DIP0415:-30                      3.85e-04  4_[1(7.71e-05)]
+BPUM_3011:-119                   5.95e-02  22
+DIP0762:-31                      6.27e-03  19
+BSU04360:-60                     4.45e-02  22
+DIP0108:-48                      1.22e-04  4_[1(2.43e-05)]
+BSU30770:-131                    4.60e-02  22
+DIP0108:-73                      3.40e-05  4_[1(6.80e-06)]
+BACPEC_02631:-135                6.39e-03  22
+DIP1510:-214                     1.16e-02  19
+BACPEC_02635:-72                 1.08e-03  22
+DIP1520:-86                      1.71e-04  4_[1(3.42e-05)]
+BACPEC_02120:-44                 6.84e-04  3_[1(8.55e-05)]_4
+DIP1061:-47                      4.99e-04  4_[1(9.98e-05)]
+Bcav_1388:2                      1.09e-03  16
+DIP0894:-25                      3.38e-03  19
+BLAHAN_00185:-67                 1.08e-03  22
+DIP2356:-68                      2.84e-03  19
+BLAHAN_00186:-38                 3.21e-05  3_[1(4.01e-06)]_4
+DIP2161:-239                     2.39e-03  19
+BLAHAN_03143:-99                 2.90e-04  3_[1(3.62e-05)]_4
+DIP0582:-26                      7.53e-02  19
+BLAHAN_03143:-38                 2.59e-04  3_[1(3.24e-05)]_4
+DIP0523:-142                     7.97e-02  19
+Bfae_31330:-30                   6.26e-03  16
+DIP2303:-81                      1.91e-03  19
+Bfae_31330:-53                   7.31e-04  16
+DIP0124:-74                      3.31e-02  19
+BBta_1556:-92                    2.00e-03  20
+DIP2114:-155                     3.40e-05  4_[1(6.80e-06)]
+BBta_1555:-127                   6.40e-03  20
+DIP0586:-20                      1.07e-05  4_[1(2.14e-06)]
+BlinB01000963:-16                8.03e-03  16
+DIP0523:-65                      2.28e-03  19
+BRYFOR_00504:-229                1.54e-02  22
+DIP0615:-91                      1.77e-01  20
+BRYFOR_00504:-209                4.96e-03  22
+DIP1923:-81                      2.93e-01  20
+BRYFOR_03558:-82                 3.00e-05  3_[1(3.75e-06)]_4
+CE0687:-57                       1.15e-03  19
+BRYFOR_01110:-166                9.56e-07  3_[1(1.19e-07)]_4
+CE2420:-56                       4.27e-02  19
+BRYFOR_01110:-99                 3.91e-05  3_[1(4.89e-06)]_4
+CE0386:-130                      2.32e-06  4_[1(4.64e-07)]
+BRYFOR_03081:-100                2.90e-04  3_[1(3.62e-05)]_4
+CE1346:-42                       1.08e-04  4_[1(2.17e-05)]
+BRYFOR_00595:-52                 1.08e-03  22
+CE0125:-49                       6.42e-04  19
+Cagg_3308:-57                    3.27e-03  20
+CE0881:-80                       1.22e-04  4_[1(2.43e-05)]
+Cagg_2416:-83                    2.25e-05  2_[1(3.75e-06)]_3
+CE0881:-40                       8.63e-04  19
+Cagg_3553:-38                    7.16e-06  2_[1(1.19e-06)]_3
+CE0466:-73                       3.52e-03  19
+Cagg_1154:-74                    6.63e-04  20
+CE1009:-42                       8.63e-04  19
+Chy400_2616:-57                  3.56e-03  20
+CE1917:-221                      1.07e-05  4_[1(2.14e-06)]
+Chy400_0349:-55                  2.19e-03  20
+CE1566:-34                       3.49e-01  20
+Chy400_0344:-158                 2.43e-04  2_[1(4.04e-05)]_3
+cg3118:-178                      7.58e-05  4_[1(1.52e-05)]
+Chy400_4135:-136                 2.17e-04  2_[1(3.62e-05)]_3
+cg0771:-59                       6.33e-05  4_[1(1.27e-05)]
+Chy400_0685:-92                  6.63e-04  20
+cg1418:-49                       2.29e-02  19
+Chy400_0210:-40                  2.93e-05  2_[1(4.89e-06)]_3
+cg1765:-146                      9.15e-02  19
+CKO_00404:-16                    2.22e-03  22
+cg2782:-56                       4.17e-03  19
+CKO_04090:-42                    2.22e-03  22
+cg0445:-130                      5.12e-06  4_[1(1.02e-06)]
+CKO_00940:-88                    7.99e-04  3_[1(9.98e-05)]_4
+cg3404:-18                       1.76e-07  4_[1(3.51e-08)]
+CKO_02301:-129                   2.02e-03  22
+GK0583:-53                       2.08e-01  22
+Gdia_1353:-179                   1.41e-01  20
+Gdia_1352:16                     3.62e-01  20
+GOX2068:-140                     3.68e-01  20
+GOX2068:-49                      1.99e-01  20
+GOX2067:-28                      3.68e-01  20
+GOX2067:-119                     2.33e-01  20
+Haur_4030:-51                    3.58e-05  2_[1(5.96e-06)]_3
+Jden_0297:-45                    1.18e-04  [1(5.92e-05)]_1
+KPN_02743:-35                    2.22e-03  22
+KPN_03078:-76                    3.05e-03  22
+KPN_03078:-57                    4.55e-03  22
+KPN_00845:-163                   2.02e-03  22
+KPN_02337:-449                   1.93e-03  22
+KPN_02337:-406                   7.58e-04  3_[1(9.48e-05)]_4
+KRH_01300:-45                    6.11e-05  [1(3.06e-05)]_1
+LVIS_0331:-213                   4.60e-03  20
+LVIS_0225:-19                    2.08e-02  20
+LSEI_2423:-32                    1.30e-04  2_[1(2.17e-05)]_3
+LSEI_2413:-71                    9.63e-06  2_[1(1.60e-06)]_3
+LAF_1828:-91                     1.83e-04  2_[1(3.06e-05)]_3
+lp_1095:-82                      2.43e-04  2_[1(4.04e-05)]_3
+lp_2992:-98                      1.03e-04  2_[1(1.71e-05)]_3
+LAR_1743:-89                     1.38e-03  20
+LGG_02411:-72                    9.63e-06  2_[1(1.60e-06)]_3
+LGG_02421:-31                    1.30e-04  2_[1(2.17e-05)]_3
+LSA0180:-34                      3.88e-06  2_[1(6.46e-07)]_3
+LSA1699:-77                      2.10e-05  2_[1(3.50e-06)]_3
+LSA0246:7                        6.15e-03  20
+LSL_0904:-87                     6.63e-04  20
+LACR_1369:-31                    3.99e-01  22
+L84767:-31                       5.43e-01  22
+L150744:-87                      5.04e-01  22
+Lxx20950:-62                     1.41e-06  [1(7.07e-07)]_1
+lin1463:-51                      1.46e-01  22
+lin1963:-68                      2.67e-01  22
+lmo1424:-51                      1.46e-01  22
+lmo1849:-68                      2.28e-01  22
+lse_1343:-51                     1.46e-01  22
+lse_1829:-69                     2.28e-01  22
+lwe1441:-51                      1.46e-01  22
+lwe1868:-68                      2.28e-01  22
+MCCL_0368:-52                    4.34e-05  2_[1(7.23e-06)]_3
+MCCL_0095:-52                    9.00e-06  2_[1(1.50e-06)]_3
+mlr2501:-195                     3.14e-02  20
+mll2499:-55                      3.96e-02  20
+Meso_4423:-46                    7.33e-04  20
+Meso_4423:-109                   2.29e-03  20
+Meso_4422:-73                    2.51e-03  20
+Meso_4422:-136                   1.94e-04  2_[1(3.24e-05)]_3
+MAB_1031c:-53                    2.71e-04  2_[1(4.51e-05)]_3
+MAV_1044:-52                     5.40e-04  2_[1(9.00e-05)]_3
+Mflv_3168:-35                    5.13e-04  2_[1(8.55e-05)]_3
+Mflv_1822:-54                    1.64e-04  2_[1(2.73e-05)]_3
+MMAR_4584:-54                    1.38e-04  2_[1(2.30e-05)]_3
+MMAR_5398:-216                   1.25e-02  20
+MSMEG_5589:-53                   3.55e-06  2_[1(5.92e-07)]_3
+MSMEG_5329:-311                  1.59e-03  20
+Mjls_4747:-51                    3.55e-06  2_[1(5.92e-07)]_3
+cg1642:-58                       2.39e-04  4_[1(4.77e-05)]
+cg1405:-52                       5.12e-06  4_[1(1.02e-06)]
+cg1120:-51                       1.75e-05  4_[1(3.50e-06)]
+cg0470:-51                       9.06e-04  19
+cg0470:-100                      1.04e-03  19
+cg0527:-30                       9.51e-04  19
+cg2311:-18                       3.12e-04  4_[1(6.24e-05)]
+cg2796:-37                       1.26e-03  19
+cg3119:-223                      2.09e-03  19
+cg0922:-49                       1.82e-03  19
+cg0466:-160                      7.50e-06  4_[1(1.50e-06)]
+cg2445:-139                      4.27e-04  4_[1(8.55e-05)]
+cg2234:-23                       2.14e-02  19
+cg0160:-1                        1.21e-06  4_[1(2.41e-07)]
+cg0405:-47                       5.52e-04  19
+cg0748:-44                       1.62e-04  4_[1(3.24e-05)]
+cg0955:-219                      1.15e-04  4_[1(2.30e-05)]
+cg0924:-83                       5.81e-04  19
+cg0924:-123                      2.66e-04  4_[1(5.31e-05)]
+cg3156:-116                      2.00e-02  19
+cg1070:-37                       5.27e-05  4_[1(1.05e-05)]
+cg2224:-112                      1.07e-05  4_[1(2.14e-06)]
+cg3327:-60                       1.36e-04  4_[1(2.73e-05)]
+cg1930:-109                      4.06e-04  4_[1(8.12e-05)]
+cg3082:-273                      7.34e-03  19
+cg3394:-56                       6.42e-04  19
+cg3327:-80                       3.62e-05  4_[1(7.23e-06)]
+cg0591:-110                      3.29e-04  4_[1(6.59e-05)]
+cg1088:-101                      9.97e-04  19
+cg1996:-218                      3.00e-02  19
+cg3247:-106                      1.75e-05  4_[1(3.50e-06)]
+cg0926:-192                      6.53e-03  19
+cg1623:-34                       2.82e-01  20
+jk0315:-112                      7.82e-04  19
+jk0315:-92                       1.59e-03  19
+jk0985:-124                      6.79e-03  19
+jk1777:-29                       8.55e-05  4_[1(1.71e-05)]
+jk1809:-131                      2.14e-05  4_[1(4.28e-06)]
+jk1812:-54                       1.70e-06  4_[1(3.40e-07)]
+jk1778:-49                       1.02e-04  4_[1(2.04e-05)]
+jk0561:-93                       1.91e-04  4_[1(3.83e-05)]
+jk0561:-72                       7.13e-05  4_[1(1.43e-05)]
+jk1983:-47                       8.05e-05  4_[1(1.61e-05)]
+jk1815:-44                       3.10e-03  19
+jk1780:-69                       2.14e-05  4_[1(4.28e-06)]
+jk1296:-53                       2.39e-03  19
+jk1783:-105                      7.45e-04  19
+jk0434:-46                       2.96e-04  4_[1(5.92e-05)]
+jk1887:-86                       6.10e-04  19
+jk1887:-51                       9.06e-04  19
+jk1486:-57                       2.33e-01  20
+jk1486:-18                       5.02e-01  20
+jk1485:-86                       2.70e-01  20
+jk0226:-123                      7.03e-01  20
+jk0226:-100                      1.07e-02  20
+ckrop_1798:-126                  1.07e-05  4_[1(2.14e-06)]
+ckrop_1813:-129                  1.32e-03  19
+ckrop_0465:-23                   3.62e-05  4_[1(7.23e-06)]
+ckrop_1822:-57                   4.06e-04  4_[1(8.12e-05)]
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because motif E-value > 1.00e+01.
+********************************************************************************
+********************************************************************************
