@@ -149,6 +149,34 @@ Module workflows
         Return New pipeline(queryPopulator(), GetType(Query))
     End Function
 
+    <ExportAPI("stream.flush")>
+    Public Function flush(stream As Object, data As pipeline, Optional env As Environment = Nothing) As Object
+        If stream Is Nothing Then
+            Return Internal.debug.stop("No output stream device!", env)
+        ElseIf data Is Nothing Then
+            Return Internal.debug.stop("No content data provided!", env)
+        ElseIf data.elementType.raw Is GetType(BestHit) AndAlso Not TypeOf stream Is WriteStream(Of BestHit) Then
+            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+        ElseIf data.elementType.raw Is GetType(BiDirectionalBesthit) AndAlso Not TypeOf stream Is WriteStream(Of BiDirectionalBesthit) Then
+            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+        ElseIf data.elementType.raw Is GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
+            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+        End If
+
+        Select Case data.elementType.raw
+            Case GetType(BestHit)
+                With DirectCast(stream, WriteStream(Of BestHit))
+                    For Each hit As BestHit In data.populates(Of BestHit)
+                        Call .Flush(hit)
+                    Next
+                End With
+            Case Else
+                Return Internal.debug.stop(New NotImplementedException, env)
+        End Select
+
+        Return True
+    End Function
+
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>
