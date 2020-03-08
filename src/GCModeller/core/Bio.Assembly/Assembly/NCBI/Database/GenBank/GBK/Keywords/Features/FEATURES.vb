@@ -164,6 +164,14 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Call _innerList.Add(feature)
         End Sub
 
+        Public Sub Delete(featureKey As String, locus_tag$)
+            _innerList = _innerList _
+                .Where(Function(feature)
+                           Return Not (feature.KeyName = featureKey AndAlso feature.Query(FeatureQualifiers.locus_tag) = locus_tag)
+                       End Function) _
+                .AsList
+        End Sub
+
         Public Sub SetSourceFeature(source As Feature)
             Me.source = source
         End Sub

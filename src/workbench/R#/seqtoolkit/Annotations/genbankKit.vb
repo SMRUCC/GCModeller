@@ -172,6 +172,8 @@ Module genbankKit
                 RNAfeature.SetValue(FeatureQualifiers.product, product)
                 RNAfeature.SetValue(FeatureQualifiers.locus_tag, geneId)
 
+                Call gb.Features.Delete(type, geneId)
+                Call gb.Features.Delete("CDS", geneId)
                 Call gb.Features.Add(RNAfeature)
             End If
         Next

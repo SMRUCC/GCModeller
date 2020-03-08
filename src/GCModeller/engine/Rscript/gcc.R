@@ -1,6 +1,6 @@
 imports "vcellkit.compiler" from "vcellkit.dll";
 imports "TRN.builder" from "phenotype_kit.dll";
-imports ["annotation.genomics", "annotation.workflow"] from "seqtoolkit.dll";
+imports ["annotation.genomics", "annotation.workflow", "annotation.genbank_kit"] from "seqtoolkit.dll";
 
 let kegg.repo <- kegg(
 	compounds  = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\KEGG_cpd", 
