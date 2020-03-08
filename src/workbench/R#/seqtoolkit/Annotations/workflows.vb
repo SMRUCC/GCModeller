@@ -179,7 +179,7 @@ Module workflows
     End Function
 
     <ExportAPI("besthit.filter")>
-    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional env As Environment = Nothing) As pipeline
+    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
         ElseIf Not besthits.elementType Is GetType(BestHit) Then
@@ -188,7 +188,11 @@ Module workflows
 
         Dim filter As Func(Of BestHit, Boolean) =
             Function(hit)
-                Return hit.evalue <= evalue
+                If delNohits AndAlso hit.HitName = "HITS_NOT_FOUND" Then
+                    Return False
+                Else
+                    Return hit.evalue <= evalue
+                End If
             End Function
 
         Return besthits _

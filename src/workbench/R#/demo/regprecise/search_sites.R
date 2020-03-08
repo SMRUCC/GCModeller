@@ -13,7 +13,7 @@ for(family.json in list.files("PWM", pattern = "*.json")) {
 			motif  = motif, 
 			target = read.fasta("K:\20200226\TRN\genomics\nt.fasta"), 
 			cutoff = 0.85,
-			identities = 0.75
+			identities = 0.8
 		);
 	}
 	
