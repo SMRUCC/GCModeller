@@ -117,7 +117,7 @@ Partial Module CLI
         Dim skipRNA As Boolean = args("/skip.RNA")
         Dim context As New GenomeContext(Of GeneBrief)(gb.GbffToPTT(ORF:=skipRNA), name:=gb.Source.SpeciesName)
         Dim nt As FastaSeq = gb.Origin.ToFasta
-        Dim isPlasmid As Boolean = gb.IsPlasmidSource
+        Dim isPlasmid As Boolean = gb.isPlasmid
         Dim replicon$
 
         If (args("/replicon") Or "accession").TextEquals("accession") Then

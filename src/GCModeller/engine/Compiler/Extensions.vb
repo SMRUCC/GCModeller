@@ -76,7 +76,7 @@ Public Module Extensions
                 .RNAs = model _
                     .getRNAs(.genomeName) _
                     .ToArray,
-                .isPlasmid = genome.Value.IsPlasmidSource
+                .isPlasmid = genome.Value.isPlasmid
             }
         Next
     End Function

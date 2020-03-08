@@ -75,7 +75,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 If _innerList.IsNullOrEmpty Then
                     _innerList = New List(Of Feature)(value)
                 Else
-                    _innerList(Scan0) = value
+                    _innerList.Insert(Scan0, value)
                 End If
             End Set
         End Property
@@ -164,9 +164,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Call _innerList.Add(feature)
         End Sub
 
+        Public Sub SetSourceFeature(source As Feature)
+            Me.source = source
+        End Sub
+
         Friend Sub LinkEntry()
-            For Each Feature In Me._innerList
-                Feature.gb = Me.gb
+            For Each feature As Feature In Me._innerList
+                feature.gb = Me.gb
             Next
         End Sub
 

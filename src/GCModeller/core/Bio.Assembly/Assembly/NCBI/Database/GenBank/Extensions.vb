@@ -128,7 +128,8 @@ Namespace Assembly.NCBI.GenBank
                     .Molecular = "unknown",
                     .Type = "nucl",
                     .UpdateTime = Now.ToString
-                }
+                },
+                .Definition = New DEFINITION With {.Value = table.Title}
             }
             Dim loci As NucleotideLocation
 

@@ -12,6 +12,8 @@ Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
+Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module genomics
@@ -81,6 +83,15 @@ Module genomics
             .Headers = nt.Headers,
             .SequenceData = nt.SequenceData
         }
+        gb.Features.SetSourceFeature(New gbffFeature With {
+            .KeyName = "source",
+            .Location = New featureLocation With {
+                .Complement = False,
+                .Locations = {
+                    New RegionSegment With {.Left = 1, .Right = nt.Length}
+                }
+            }
+        })
 
         Return gb
     End Function

@@ -86,7 +86,7 @@ Public Module Workflow
     <Extension>
     Friend Function getTaxonomy(replicons As Dictionary(Of String, GBFF.File)) As Taxonomy
         Return replicons.Values _
-           .First(Function(gb) Not gb.IsPlasmidSource) _
+           .First(Function(gb) Not gb.isPlasmid) _
            .Source _
            .GetTaxonomy
     End Function
