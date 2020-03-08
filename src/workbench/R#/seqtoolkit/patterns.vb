@@ -70,6 +70,7 @@ Module patterns
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
                 Return seqs _
+                    .AsParallel _
                     .Select(Function(seq)
                                 Dim locis = motif.region.ScanSites(seq, cutoff, minW, identities)
 
