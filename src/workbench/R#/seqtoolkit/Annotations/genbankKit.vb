@@ -7,8 +7,10 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
@@ -124,5 +126,54 @@ Module genbankKit
         Next
 
         Return gb
+    End Function
+
+    <ExportAPI("add.RNA.gene")>
+    Public Function addRNAGene(gb As GBFF.File, <RRawVectorArgument> RNA As Object, Optional env As Environment = Nothing) As Object
+        If RNA Is Nothing Then
+            Return gb
+        End If
+
+        Dim rnaMaps As Dictionary(Of String, BlastnMapping)
+        Dim geneId As String
+        Dim mapHit As BlastnMapping
+        Dim type, product As String
+        Dim RNAfeature As gbffFeature
+
+        If TypeOf RNA Is BlastnMapping() Then
+            rnaMaps = DirectCast(RNA, BlastnMapping()) _
+                .GroupBy(Function(map) map.Reference) _
+                .ToDictionary(Function(map) map.Key,
+                              Function(map)
+                                  Return map.First
+                              End Function)
+        ElseIf TypeOf RNA Is pipeline AndAlso DirectCast(RNA, pipeline).elementType Like GetType(BlastnMapping) Then
+            rnaMaps = DirectCast(RNA, pipeline) _
+                .populates(Of BlastnMapping) _
+                .GroupBy(Function(map) map.Reference) _
+                .ToDictionary(Function(map) map.Key,
+                              Function(map)
+                                  Return map.First
+                              End Function)
+        Else
+            Return Internal.debug.stop($"invalid data source type: '{RNA.GetType.FullName}'!", env)
+        End If
+
+        For Each feature In gb.Features.Where(Function(a) a.KeyName = "gene")
+            geneId = feature.Query(FeatureQualifiers.locus_tag)
+
+            If rnaMaps.ContainsKey(geneId) Then
+                mapHit = rnaMaps(geneId)
+                type = mapHit.ReadQuery.GetTagValue.Value
+                product = type.GetTagValue("|").Value
+                type = type.Split("|"c).First
+
+                RNAfeature = New gbffFeature With {.KeyName = type, .Location = feature.Location}
+                RNAfeature.SetValue(FeatureQualifiers.product, product)
+                RNAfeature.SetValue(FeatureQualifiers.locus_tag, geneId)
+
+                Call gb.Features.Add(RNAfeature)
+            End If
+        Next
     End Function
 End Module
