@@ -63,6 +63,15 @@ Namespace Assembly.NCBI.GenBank
     Public Module Extensions
 
         <Extension>
+        Public Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
+            Return GBFF.File _
+           .LoadDatabase(filePath:=genome) _
+           .ToDictionary(Function(gb)
+                             Return gb.Locus.AccessionID
+                         End Function)
+        End Function
+
+        <Extension>
         Public Function GPFF2Feature(gb As GBFF.File, gff As Dictionary(Of String, GFF.Feature)) As GeneBrief
             Dim prot As gbffFeature = gb.Features.ListFeatures("Protein").FirstOrDefault
             If prot Is Nothing Then
