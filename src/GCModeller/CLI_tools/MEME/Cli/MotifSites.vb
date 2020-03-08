@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
@@ -271,12 +272,10 @@ Partial Module CLI
             .GroupBy(Function(a) a.locus_tag) _
             .Select(Function(geneId)
                         Dim list = geneId.Select(Function(hit) hit.family).Distinct.ToArray
-                        Return New EntityObject With {
+                        Return New FootprintSite With {
                             .ID = geneId.Key,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"nfamily", list.Length},
-                                {"list", list.JoinBy(", ")}
-                            }
+                            .gene = geneId.Key,
+                            .src = list
                         }
                     End Function) _
             .ToArray

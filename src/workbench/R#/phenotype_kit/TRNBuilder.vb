@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 <Package("TRN.builder")>
@@ -23,5 +24,10 @@ Module TRNBuilder
             .DoCall(Function(data)
                         Return New list With {.slots = data}
                     End Function)
+    End Function
+
+    <ExportAPI("regulation.footprint")>
+    Public Function RegulationFootprint(regulators As BestHit(), motifLocis As FootprintSite(), regprecise As TranscriptionFactors) As RegulationFootprint()
+
     End Function
 End Module
