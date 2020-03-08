@@ -18,8 +18,8 @@ Module genbankKit
 
     <ExportAPI("read.genbank")>
     Public Function readGenbank(file As String,
-                              Optional repliconTable As Boolean = False,
-                              Optional env As Environment = Nothing) As Object
+                                Optional repliconTable As Boolean = False,
+                                Optional env As Environment = Nothing) As Object
 
         If Not file.FileExists(True) Then
             Return Internal.debug.stop($"invalid file resource: '{file}'!", env)
@@ -57,12 +57,8 @@ Module genbankKit
     End Function
 
     <ExportAPI("add.origin.fasta")>
-    Public Function addNtOrigin(gb As GBFF.File, nt As FastaSeq) As GBFF.File
-        gb.Origin = New ORIGIN With {
-            .Headers = nt.Headers,
-            .SequenceData = nt.SequenceData
-        }
-        gb.Features.SetSourceFeature(New gbffFeature With {
+    Public Function addNtOrigin(gb As GBFF.File, nt As FastaSeq, Optional mol_type$ = "genomic DNA") As GBFF.File
+        Dim source As New gbffFeature With {
             .KeyName = "source",
             .Location = New featureLocation With {
                 .Complement = False,
@@ -70,9 +66,36 @@ Module genbankKit
                     New RegionSegment With {.Left = 1, .Right = nt.Length}
                 }
             }
-        })
+        }
+
+        gb.Origin = New ORIGIN With {
+            .Headers = nt.Headers,
+            .SequenceData = nt.SequenceData
+        }
+        gb.Features.SetSourceFeature(source)
+
+        source.SetValue(FeatureQualifiers.mol_type, mol_type)
+        source.SetValue(FeatureQualifiers.organism, nt.Title)
 
         Return gb
+    End Function
+
+    <ExportAPI("getRNA.fasta")>
+    Public Function getRNASeq(gb As GBFF.File) As FastaFile
+        Dim rnaGenes = gb.Features.Where(Function(region) InStr(region.KeyName, "RNA") > 0).ToArray
+        Dim fasta As FastaSeq() = rnaGenes _
+            .Select(Function(rna)
+                        Dim attrs = {rna.Query(FeatureQualifiers.locus_tag) & " " & rna.KeyName & "|" & rna.Query(FeatureQualifiers.product)}
+                        Dim fa As New FastaSeq With {
+                            .Headers = attrs,
+                            .SequenceData = rna.SequenceData
+                        }
+
+                        Return fa
+                    End Function) _
+            .ToArray
+
+        Return New FastaFile(fasta)
     End Function
 
     <ExportAPI("add.protein.fasta")>
