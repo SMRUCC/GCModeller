@@ -297,6 +297,21 @@ Module Fasta
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
 
             If collection Is Nothing Then
+                If x.GetType.IsArray Then
+                    If DirectCast(x, Array).AsObjectEnumerator.All(Function(a) TypeOf a Is SimpleSegment) Then
+                        Return DirectCast(x, Array) _
+                            .AsObjectEnumerator(Of SimpleSegment) _
+                            .Select(Function(sg) sg.SimpleFasta) _
+                            .DoCall(Function(seqs)
+                                        Return New FastaFile(seqs)
+                                    End Function)
+                    ElseIf DirectCast(x, Array).AsObjectEnumerator.All(Function(a) TypeOf a Is FastaSeq) Then
+                        Return DirectCast(x, Array) _
+                            .AsObjectEnumerator(Of FastaSeq) _
+                            .DoCall(Function(seqs) New FastaFile(seqs))
+                    End If
+                End If
+
                 Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
             Else
                 Return New FastaFile(collection)

@@ -72,7 +72,7 @@ Module patterns
                     .Select(Function(seq)
                                 Dim locis = motif.region.ScanSites(seq, cutoff, minW)
 
-                                For Each site In locis
+                                For Each site As SimpleSegment In locis
                                     site.ID = seq.Title.Split.First
                                 Next
 
