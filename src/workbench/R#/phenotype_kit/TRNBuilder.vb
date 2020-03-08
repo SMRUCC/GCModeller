@@ -80,8 +80,63 @@ Module TRNBuilder
             Return Internal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)
         End If
 
-        Return Iterator Function() As IEnumerable(Of RegulationFootprint)
+        Dim regulatorTable As New Dictionary(Of String, List(Of (genome As BacteriaRegulome, Regulator)))
+        Dim family$
+        Dim regulatorMapTable As Dictionary(Of String, BestHit()) = regulatorMaps _
+            .GroupBy(Function(map)
+                         Return map.HitName.Split(":"c).Last
+                     End Function) _
+            .ToDictionary(Function(hit) hit.Key,
+                          Function(group)
+                              Return group.ToArray
+                          End Function)
 
+        For Each genome As BacteriaRegulome In regprecise.AsEnumerable
+            For Each regulon As Regulator In genome.regulome _
+                .AsEnumerable _
+                .Where(Function(reg)
+                           Return reg.type = Types.TF
+                       End Function)
+
+                family = regulon.family _
+                    .Split("/"c, "\"c) _
+                    .First
+
+                If Not regulatorTable.ContainsKey(family) Then
+                    regulatorTable.Add(family, New List(Of (genome As BacteriaRegulome, Regulator)))
+                End If
+
+                regulatorTable(family).Add((genome, regulon))
+            Next
+        Next
+
+        Return Iterator Function() As IEnumerable(Of RegulationFootprint)
+                   Dim regulatorList As List(Of (BacteriaRegulome, Regulator))
+                   Dim regulation As RegulationFootprint
+
+                   For Each gene As FootprintSite In motifLocis
+                       For Each familyName As String In gene.src
+                           regulatorList = regulatorTable(familyName)
+
+                           For Each regulator As (genome As BacteriaRegulome, reg As Regulator) In regulatorList.Where(Function(reg) regulatorMapTable.ContainsKey(reg.Item2.LocusId))
+                               For Each hit As BestHit In regulatorMapTable(regulator.reg.LocusId)
+                                   regulation = New RegulationFootprint With {
+                                       .family = familyName,
+                                       .effector = regulator.reg.effector,
+                                       .regulator = hit.QueryName,
+                                       .biological_process = regulator.reg.biological_process.JoinBy(", "),
+                                       .mode = regulator.reg.regulationMode,
+                                       .regprecise = regulator.reg.regulog.name,
+                                       .regulog = regulator.reg.regulog.name,
+                                       .regulated = gene.gene,
+                                       .species = regulator.genome.genome.name
+                                   }
+
+                                   Yield regulation
+                               Next
+                           Next
+                       Next
+                   Next
                End Function() _
  _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
