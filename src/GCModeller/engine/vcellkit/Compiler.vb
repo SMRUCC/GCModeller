@@ -134,7 +134,7 @@ Module Compiler
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
                              regulations As RegulationFootprint(),
-                             lociAsLocus_tag As Boolean) As VirtualCell
+                             Optional lociAsLocus_tag As Boolean = False) As VirtualCell
         Return model.ToMarkup(genomes, KEGG, regulations, lociAsLocus_tag)
     End Function
 End Module

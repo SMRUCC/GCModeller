@@ -23,6 +23,11 @@ Module TRNBuilder
         Return file.LoadCsv(Of FootprintSite)
     End Function
 
+    <ExportAPI("read.regulations")>
+    Public Function readRegulations(file As String) As RegulationFootprint()
+        Return file.LoadCsv(Of RegulationFootprint)
+    End Function
+
     <ExportAPI("write.regulations")>
     Public Function writeRegulationFootprints(regulationFootprints As Object, file$, Optional env As Environment = Nothing) As Object
         If regulationFootprints Is Nothing Then
