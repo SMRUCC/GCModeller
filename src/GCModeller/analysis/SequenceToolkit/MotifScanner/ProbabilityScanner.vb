@@ -54,13 +54,13 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
 
     Sub New(query As Residue(), subject As Residue())
-        Call MyBase.New(defaultScoreMatrix, Nothing, Function(x) x.ToString)
+        Call MyBase.New(defaultScoreMatrix, New Residue With {.frequency = New Dictionary(Of Char, Double)}, Function(x) x.ToString)
 
         Me.Sequence1 = query
         Me.Sequence2 = subject
     End Sub
 
-    Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Residue)
+    Public Shared Function defaultScoreMatrix() As ScoreMatrix(Of Residue)
         Return New ScoreMatrix(Of Residue)(Function(a, b)
                                                Dim maxA = Residue.Max(a)
                                                Dim maxB = Residue.Max(b)
@@ -105,31 +105,36 @@ Public Module ProbabilityScanner
         Dim PWM = prob.ToArray
         Dim subject As Residue() = target.ToResidues
         Dim core As New GSW(Of Residue)(PWM, subject, AddressOf Compare, AddressOf Residue.Max)
-        Dim result = core.GetMatches(cutoff * core.MaxScore) _
-            .Select(Function(match)
-                        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
-                        Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
-                        Dim pairwise As New MotifNeedlemanWunsch(q, s)
-
-                        pairwise.Compute()
-
-                        Return (match, pairwise:=pairwise.PopulateAlignments.ToArray)
-                    End Function) _
-            .ToArray
-
+        Dim result = core.GetMatches(cutoff * core.MaxScore).ToArray
+        Dim pairwiseMatrix = MotifNeedlemanWunsch.defaultScoreMatrix
         Dim out = result _
-            .OrderByDescending(Function(m) m.match.score) _
+            .OrderByDescending(Function(m) m.score) _
             .Where(Function(m)
-                       Return (m.match.toB - m.match.fromB) >= minW AndAlso m.pairwise.Any(Function(gl) gl.PossibleSimilarity >= identities)
+                       Return (m.toB - m.fromB) >= minW AndAlso m.pairwiseIdentities(PWM, subject, pairwiseMatrix, identities)
                    End Function) _
             .Select(Function(m)
-                        Dim frag = target.CutSequenceLinear(m.match.RefLoci)
-                        frag.ID = m.match.score
+                        Dim frag = target.CutSequenceLinear(m.RefLoci)
+                        frag.ID = m.score
                         Return frag
                     End Function) _
             .ToArray
 
         Return out
+    End Function
+
+    <Extension>
+    Private Function pairwiseIdentities(match As Match, PWM As Residue(), subject As Residue(), pairwiseMatrix As ScoreMatrix(Of Residue), identities#) As Boolean
+        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
+        Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
+        Dim pairwise As New MotifNeedlemanWunsch(q, s)
+
+        pairwise.Compute()
+
+        Return pairwise _
+            .PopulateAlignments _
+            .Any(Function(gl)
+                     Return gl.Identities(pairwiseMatrix) >= identities
+                 End Function)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
