@@ -175,5 +175,7 @@ Module genbankKit
                 Call gb.Features.Add(RNAfeature)
             End If
         Next
+
+        Return gb
     End Function
 End Module
