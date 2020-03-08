@@ -121,8 +121,8 @@ Public Class PatternScanner : Inherits IScanner
                   In out.HSP
                   Select New SimpleSegment With {
                       .SequenceData = x.Subject,
-                      .Start = x.FromB,
-                      .Ends = x.ToB
+                      .Start = x.fromB,
+                      .Ends = x.toB
                   }
     End Function
 

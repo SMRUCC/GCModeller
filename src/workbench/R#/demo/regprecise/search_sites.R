@@ -7,9 +7,13 @@ print("Processing:");
 for(family.json in list.files("PWM", pattern = "*.json")) {
 	let sites = [];
 	
-	for(motif in family.json :> read.motifs) {
+	for(motif in family.json :> read.motifs :> which(m -> as.numeric(as.object(m)$pvalue) <= 0.05)) {
 		print(as.object(motif)$patternString());
-		sites <- sites << motif.find_sites(motif, target = read.fasta("K:\20200226\TRN\genomics\nt.fasta"))
+		sites <- sites << motif.find_sites(
+			motif  = motif, 
+			target = read.fasta("K:\20200226\TRN\genomics\nt.fasta"), 
+			cutoff = 0.995
+		)
 		;
 	}
 	

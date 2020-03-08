@@ -5,7 +5,7 @@ let genes = ["K:\20200226\IGV_data\genome.gtf"]
 :> genome.genes
 ;
 
-let region = genes :> upstream(length = 250);
+let region = genes :> upstream(length = 150);
 let geneId = genes :> sapply(gene -> as.object(gene)$Synonym);
 let nt = ["K:\20200226\IGV_data\genome.fasta"] :> read.seq;
 let region.fasta = allocate(length(geneId));

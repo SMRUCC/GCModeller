@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::de3e74514c1c45631a06cf3d9ea70bf9, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ProbabilityScanner
-    ' 
-    '     Function: Compare, RefLoci, ScanSites, ToResidues
-    ' 
-    ' /********************************************************************************/
+' Module ProbabilityScanner
+' 
+'     Function: Compare, RefLoci, ScanSites, ToResidues
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -60,15 +61,33 @@ Public Module ProbabilityScanner
     ''' <param name="minW%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanSites(prob As IEnumerable(Of Residue), target As FastaSeq, Optional cutoff# = 0.6, Optional minW% = 6) As SimpleSegment()
-        Dim core As New GSW(Of Residue)(prob.ToArray, target.ToResidues, AddressOf Compare, AddressOf Residue.Max)
-        Dim result = core.GetMatches(cutoff * core.MaxScore)
+    Public Function ScanSites(prob As IEnumerable(Of Residue), target As FastaSeq,
+                              Optional cutoff# = 0.6,
+                              Optional minW% = 6,
+                              Optional identities As Double = 0.5) As SimpleSegment()
+
+        Dim PWM = prob.ToArray
+        Dim core As New GSW(Of Residue)(PWM, target.ToResidues, AddressOf Compare, AddressOf Residue.Max)
+        Dim result = core.GetMatches(cutoff * core.MaxScore) _
+            .Select(Function(match)
+                        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).Select(Function(r) r.ToString).JoinBy("").ToUpper
+                        Dim s = target.SequenceData.Skip(match.fromB).Take(match.toB - match.fromA).JoinBy("").ToUpper
+                        Dim pairwise As New NeedlemanWunsch(q, s)
+
+                        pairwise.Compute()
+
+                        Return (match, pairwise:=pairwise.PopulateAlignments.ToArray)
+                    End Function) _
+            .ToArray
+
         Dim out = result _
-            .OrderByDescending(Function(m) m.Score) _
-            .Where(Function(m) (m.ToB - m.FromB) >= minW) _
+            .OrderByDescending(Function(m) m.match.score) _
+            .Where(Function(m)
+                       Return (m.match.toB - m.match.fromB) >= minW AndAlso m.pairwise.Any(Function(gl) gl.PossibleSimilarity >= identities)
+                   End Function) _
             .Select(Function(m)
-                        Dim frag = target.CutSequenceLinear(m.RefLoci)
-                        frag.ID = m.Score
+                        Dim frag = target.CutSequenceLinear(m.match.RefLoci)
+                        frag.ID = m.match.score
                         Return frag
                     End Function) _
             .ToArray
@@ -79,7 +98,7 @@ Public Module ProbabilityScanner
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function RefLoci(m As Match) As Location
-        Return New Location(m.FromB, m.ToB)
+        Return New Location(m.fromB, m.toB)
     End Function
 
     Private Function Compare(prob As Residue, base As Residue) As Double

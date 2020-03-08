@@ -172,8 +172,8 @@ Namespace Analysis.Similarity.TOMQuery
                                                    subject As MotifScans.AnnotationModel,
                                                    method As TomTOm.ColumnCompare,
                                                    param As Parameters) As SW_HSP
-            Dim queryp As MotifScans.AnnotationModel = __parts(query, hsp.FromA, hsp.ToA)
-            Dim subjectp As MotifScans.AnnotationModel = __parts(subject, hsp.FromB, hsp.ToB)
+            Dim queryp As MotifScans.AnnotationModel = __parts(query, hsp.fromA, hsp.toA)
+            Dim subjectp As MotifScans.AnnotationModel = __parts(subject, hsp.fromB, hsp.toB)
             Dim out As DistResult = TomTOm.Compare(
                 queryp,
                 subjectp,
@@ -188,11 +188,11 @@ Namespace Analysis.Similarity.TOMQuery
                 .Query = queryp,
                 .Subject = subjectp,
                 .Alignment = out,
-                .ToS = hsp.ToB,
-                .FromQ = hsp.FromA,
-                .FromS = hsp.FromB,
-                .Score = hsp.Score,
-                .ToQ = hsp.ToA
+                .ToS = hsp.toB,
+                .FromQ = hsp.fromA,
+                .FromS = hsp.fromB,
+                .Score = hsp.score,
+                .ToQ = hsp.toA
             }
             Return align
         End Function

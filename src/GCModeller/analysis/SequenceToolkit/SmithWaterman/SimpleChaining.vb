@@ -57,7 +57,7 @@ Public Module SimpleChaining
     Private Structure ComparatorHelper : Implements IComparer(Of Match)
 
         Public Function Compare(x As Match, y As Match) As Integer Implements IComparer(Of Match).Compare
-            Return x.FromA - y.FromA
+            Return x.fromA - y.fromA
         End Function
     End Structure
 
@@ -106,7 +106,7 @@ Public Module SimpleChaining
                 Dim mc As Match = matches(j)
                 Dim i_j As Integer = i * (i - 1) \ 2 + j
                 If mc.isChainable(mr) Then
-                    adjMatrix(i_j) = mc.Score
+                    adjMatrix(i_j) = mc.score
                     'update score matrix
                     sMatrix(i_j) = adjMatrix(i_j) + sMax(j)
                     'update sMax if necessary
@@ -122,7 +122,7 @@ Public Module SimpleChaining
         Dim max As Double = 0
         Dim maxIndex As Integer = 0
         For i As Integer = 0 To size - 1
-            sMax(i) += DirectCast(matches(i), Match).Score
+            sMax(i) += DirectCast(matches(i), Match).score
             If sMax(i) > max Then
                 max = sMax(i)
                 maxIndex = i
@@ -133,7 +133,7 @@ Public Module SimpleChaining
             printLowerMatrix(adjMatrix, size)
             Console.Write("sink" & vbTab)
             For i As Integer = 0 To size - 1
-                Console.Write(DirectCast(matches(i), Match).Score & vbTab)
+                Console.Write(DirectCast(matches(i), Match).score & vbTab)
             Next
             Console.WriteLine()
             Console.WriteLine("The score matrix is:")

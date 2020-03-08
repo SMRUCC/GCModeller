@@ -353,6 +353,7 @@ Module Fasta
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,
+                                      Optional doNtAutoReverse As Boolean = False,
                                       Optional env As Environment = Nothing) As Object
         If seq Is Nothing Then
             Return Nothing
@@ -362,6 +363,7 @@ Module Fasta
 
         Dim left, right As Integer
         Dim getAttrs As Func(Of FastaSeq, String())
+        Dim reverse As Boolean = False
 
         If TypeOf loci Is Location Then
             With DirectCast(loci, Location)
@@ -374,6 +376,10 @@ Module Fasta
                 left = .Min
                 right = .Max
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tag}
+
+                If doNtAutoReverse AndAlso .Strand = Strands.Reverse Then
+                    reverse = True
+                End If
             End With
         Else
             With REnv.asVector(Of Long)(loci)
@@ -385,7 +391,11 @@ Module Fasta
 
         If TypeOf seq Is FastaSeq Then
             Dim fa As FastaSeq = DirectCast(seq, FastaSeq)
-            Dim sequence = fa.CutSequenceLinear(left, right)
+            Dim sequence As SimpleSegment = fa.CutSequenceLinear(left, right)
+
+            If reverse Then
+                sequence.SequenceData = sequence.SequenceData.Reverse.CharString
+            End If
 
             Return New FastaSeq With {
                 .Headers = getAttrs(fa),
@@ -404,6 +414,10 @@ Module Fasta
                                     .Headers = getAttrs(fa),
                                     .SequenceData = sequence.SequenceData
                                 }
+
+                                If reverse Then
+                                    fragment.SequenceData = fragment.SequenceData.Reverse.CharString
+                                End If
 
                                 Return fragment
                             End Function) _

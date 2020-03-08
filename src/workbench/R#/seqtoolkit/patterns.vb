@@ -56,12 +56,13 @@ Module patterns
                                target As Object,
                                Optional cutoff# = 0.6,
                                Optional minW# = 6,
+                               Optional identities As Double = 0.5,
                                Optional env As Environment = Nothing) As Object
 
         If target Is Nothing Then
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
-            Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW)
+            Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities)
         Else
             Dim seqs = GetFastaSeq(target)
 
@@ -70,7 +71,7 @@ Module patterns
             Else
                 Return seqs _
                     .Select(Function(seq)
-                                Dim locis = motif.region.ScanSites(seq, cutoff, minW)
+                                Dim locis = motif.region.ScanSites(seq, cutoff, minW, identities)
 
                                 For Each site As SimpleSegment In locis
                                     site.ID = seq.Title.Split.First
