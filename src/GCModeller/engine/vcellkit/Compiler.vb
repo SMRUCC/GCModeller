@@ -113,6 +113,13 @@ Module Compiler
                               Function(protein)
                                   Return protein.term
                               End Function)
+        ElseIf TypeOf data Is pipeline AndAlso DirectCast(data, pipeline).elementType Like GetType(BiDirectionalBesthit) Then
+            Return DirectCast(data, pipeline) _
+                .populates(Of BiDirectionalBesthit) _
+                .ToDictionary(Function(protein) protein.QueryName,
+                              Function(protein)
+                                  Return protein.term
+                              End Function)
         End If
 
         Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
