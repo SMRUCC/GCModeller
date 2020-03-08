@@ -9,7 +9,7 @@ for(family.json in list.files("PWM", pattern = "*.json")) {
 	:> read.motifs
 	:> motif.find_sites(target = read.fasta("K:\20200226\TRN\genomics\nt.fasta"))
 	:> as.fasta
-	:> write.fasta(`K:\20200226\TRN\genomics\search\TFBS\${basename(family.json)}.fasta`)
+	:> write.fasta(file = `K:\20200226\TRN\genomics\search\TFBS/${basename(family.json)}.fasta`)
 	;
 	
 	print(basename(family.json));

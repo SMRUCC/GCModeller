@@ -62,13 +62,6 @@ Module patterns
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
             Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW)
-        ElseIf TypeOf target Is FastaFile Then
-            Return DirectCast(target, FastaFile) _
-                .Select(Function(seq)
-                            Return motif.region.ScanSites(seq, cutoff, minW)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
         Else
             Dim seqs = GetFastaSeq(target)
 
@@ -77,7 +70,13 @@ Module patterns
             Else
                 Return seqs _
                     .Select(Function(seq)
-                                Return motif.region.ScanSites(seq, cutoff, minW)
+                                Dim locis = motif.region.ScanSites(seq, cutoff, minW)
+
+                                For Each site In locis
+                                    site.ID = seq.Title.Split.First
+                                Next
+
+                                Return locis
                             End Function) _
                     .IteratesALL _
                     .ToArray

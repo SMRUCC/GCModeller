@@ -82,20 +82,26 @@ Public Module ProbabilityScanner
         Return New Location(m.FromB, m.ToB)
     End Function
 
-    Private Function Compare(prob As Residue, base As Residue) As Integer
+    Private Function Compare(prob As Residue, base As Residue) As Double
         For Each b As Char In nt
+            ' 如果当前的碱基是b的时候
             If base.frequency(b) = 1.0R Then
+                ' 则比较的得分就是当前的碱基b在motif模型中
+                ' 对应的出现频率的高低
+                ' 很明显，出现的频率越高，得分越高
                 Return prob.frequency(b) * 10
             End If
         Next
 
+        ' 当前的序列位点为N任意碱基的时候
+        ' 则取最大的出现频率的得分
         With prob.frequency.ToArray
             Return .ByRef(Which.Min(.Values)) _
                    .Value * 10
         End With
     End Function
 
-    ReadOnly nt = {"A"c, "T"c, "G"c, "C"c}
+    ReadOnly nt As Char() = {"A"c, "T"c, "G"c, "C"c}
 
     <Extension>
     Public Function ToResidues(seq As FastaSeq) As Residue()
