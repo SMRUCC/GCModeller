@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 
@@ -8,13 +7,13 @@ Namespace ContextModel
 
     Public Module Gtf
 
-        Public Function ParseFile(file As String) As PTT
+        Public Function ParseFile(file As String) As GeneBrief()
             Dim geneLines As String() = file.SolveStream.LineTokens
             Dim genes As GeneBrief() = geneLines _
                 .Select(Function(l) l.Split(ASCII.TAB).doParseOfGeneInfo) _
                 .ToArray
 
-            Return New PTT(genes)
+            Return genes
         End Function
 
         <Extension>

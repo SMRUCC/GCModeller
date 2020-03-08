@@ -108,6 +108,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\genbankKit.vb" />
     <Compile Include="Annotations\terms.vb" />
     <Compile Include="Annotations\workflows.vb" />
     <Compile Include="Fasta.vb" />

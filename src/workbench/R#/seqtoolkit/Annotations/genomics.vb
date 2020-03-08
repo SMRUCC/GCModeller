@@ -1,8 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -14,39 +11,22 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Module genomics
 
     <ExportAPI("read.gtf")>
-    Public Function readGtf(file As String) As PTT
+    Public Function readGtf(file As String) As GeneBrief()
         Return Gtf.ParseFile(file)
     End Function
 
-    <ExportAPI("read.genbank")>
-    Public Function readGenbank(file As String,
-                                Optional repliconTable As Boolean = False,
-                                Optional env As Environment = Nothing) As Object
-
-        If Not file.FileExists(True) Then
-            Return Internal.debug.stop($"invalid file resource: '{file}'!", env)
-        End If
-
-        If repliconTable Then
-            Return GenBank.loadRepliconTable(file)
-        Else
-            Return GBFF.File.Load(file)
-        End If
-    End Function
-
-    <ExportAPI("as.genbank")>
-    <RApiReturn(GetType(GBFF.File))>
-    Public Function asGenbank(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
-        If x Is Nothing Then
-            env.AddMessage("The genome information data object is nothing!", MSG_TYPES.WRN)
-            Return Nothing
-        End If
-
-        If TypeOf x Is PTT Then
-            Return DirectCast(x, PTT).CreateGenbankObject
-        Else
-            Return Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
-        End If
+    <ExportAPI("as.tabular")>
+    Public Function asTable(genes As GeneBrief(), Optional title$ = "n/a", Optional size% = 0, Optional format$ = "PTT", Optional env As Environment = Nothing) As Object
+        Select Case UCase(format)
+            Case "PTT"
+                Return New PTT(genes, title, size)
+            Case "GFF"
+                Return Internal.debug.stop(New NotImplementedException, env)
+            Case "GTF"
+                Return Internal.debug.stop(New NotImplementedException, env)
+            Case Else
+                Return Internal.debug.stop($"unsupported table format: '{format}'!", env)
+        End Select
     End Function
 
     <ExportAPI("upstream")>

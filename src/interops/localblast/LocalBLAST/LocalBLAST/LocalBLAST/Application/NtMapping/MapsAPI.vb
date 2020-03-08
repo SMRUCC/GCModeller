@@ -228,6 +228,7 @@ Namespace LocalBLAST.Application.NtMapping
         <Extension>
         Public Function Export(lstQuery As IEnumerable(Of Query), Optional parallel As Boolean = True) As BlastnMapping()
             Dim LQuery As BlastnMapping() = lstQuery _
+                .Populate(parallel:=parallel) _
                 .Select(AddressOf MapsAPI.CreateObject) _
                 .ToVector
             Return LQuery

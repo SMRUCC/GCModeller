@@ -62,12 +62,16 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Module Compiler
 
     <ExportAPI("kegg")>
-    Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String)) As RepositoryArguments
+    Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String())) As RepositoryArguments
         Return New RepositoryArguments With {
             .KEGGCompounds = compounds,
             .KEGGPathway = maps,
             .KEGGReactions = reactions,
-            .Glycan2Cpd = glycan2Cpd
+            .Glycan2Cpd = glycan2Cpd _
+                .ToDictionary(Function(t) t.Key,
+                              Function(t)
+                                  Return t.Value(Scan0)
+                              End Function)
         }
     End Function
 
@@ -109,6 +113,13 @@ Module Compiler
                               Function(protein)
                                   Return protein.term
                               End Function)
+        ElseIf TypeOf data Is pipeline AndAlso DirectCast(data, pipeline).elementType Like GetType(BiDirectionalBesthit) Then
+            Return DirectCast(data, pipeline) _
+                .populates(Of BiDirectionalBesthit) _
+                .ToDictionary(Function(protein) protein.QueryName,
+                              Function(protein)
+                                  Return protein.term
+                              End Function)
         End If
 
         Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
@@ -134,7 +145,7 @@ Module Compiler
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
                              regulations As RegulationFootprint(),
-                             lociAsLocus_tag As Boolean) As VirtualCell
+                             Optional lociAsLocus_tag As Boolean = False) As VirtualCell
         Return model.ToMarkup(genomes, KEGG, regulations, lociAsLocus_tag)
     End Function
 End Module

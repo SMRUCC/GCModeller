@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -35,12 +36,25 @@ Module workflows
         End If
 
         If LCase(type) = "nucl" Then
-            Return Internal.debug.stop(New NotImplementedException, env)
+            Return BlastPlus.TryParseUltraLarge(file).Queries.DoCall(AddressOf pipeline.CreateFromPopulator)
         ElseIf LCase(type) = "prot" Then
             Return pipeline.CreateFromPopulator(BlastpOutputReader.RunParser(file, fast:=fastMode))
         Else
             Return Internal.debug.stop($"invalid program type: {type}!", env)
         End If
+    End Function
+
+    <ExportAPI("blastn.maphit")>
+    Public Function parseBlastnMaps(query As pipeline, Optional env As Environment = Nothing) As pipeline
+        If query Is Nothing Then
+            Return Nothing
+        ElseIf Not query.elementType Like GetType(Query) Then
+            Return REnv.Internal.debug.stop($"invalid pipeline data type: {query.elementType.ToString}", env)
+        End If
+
+        Return query.populates(Of Query) _
+            .Export(parallel:=False) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
     <ExportAPI("blasthit.sbh")>
@@ -55,7 +69,7 @@ Module workflows
         If query Is Nothing Then
             Return Nothing
         ElseIf Not query.elementType.raw Is GetType(Query) Then
-            Return REnv.Internal.debug.stop($"Invalid pipeline data type: {query.elementType.ToString}", env)
+            Return REnv.Internal.debug.stop($"invalid pipeline data type: {query.elementType.ToString}", env)
         End If
 
         Dim hitsPopulator As Func(Of IEnumerable(Of BestHit()))
@@ -166,23 +180,25 @@ Module workflows
 
         Select Case data.elementType.raw
             Case GetType(BestHit)
-                With DirectCast(stream, WriteStream(Of BestHit))
-                    For Each hit As BestHit In data.populates(Of BestHit)
-                        Call .Flush(hit)
-                    Next
-                End With
+                Call writeStreamHelper(Of BestHit)(stream, data)
             Case GetType(BiDirectionalBesthit)
-                With DirectCast(stream, WriteStream(Of BiDirectionalBesthit))
-                    For Each hit As BiDirectionalBesthit In data.populates(Of BiDirectionalBesthit)
-                        Call .Flush(hit)
-                    Next
-                End With
+                Call writeStreamHelper(Of BiDirectionalBesthit)(stream, data)
+            Case GetType(BlastnMapping)
+                Call writeStreamHelper(Of BlastnMapping)(stream, data)
             Case Else
                 Return Internal.debug.stop(New NotImplementedException, env)
         End Select
 
         Return True
     End Function
+
+    Private Sub writeStreamHelper(Of T As Class)(stream As Object, data As pipeline)
+        With DirectCast(stream, WriteStream(Of T))
+            For Each hit As T In data.populates(Of T)
+                Call .Flush(hit)
+            Next
+        End With
+    End Sub
 
     <ExportAPI("besthit.filter")>
     Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
@@ -247,7 +263,7 @@ Module workflows
                        .AsLinq(Of BlastnMapping) _
                        .DoCall(AddressOf pipeline.CreateFromPopulator)
                 Else
-                    Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding)
+                    Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding, metaKeys:={})
                 End If
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
