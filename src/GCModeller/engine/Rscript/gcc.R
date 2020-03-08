@@ -9,7 +9,7 @@ let kegg.repo <- kegg(
 	glycan2Cpd = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\KEGG_cpd.glycan.compoundIds.json" :> read.list(ofVector = TRUE) 
 );
 let maps = "K:\20200226\X101SC19112292-Z01-J001-B1-16_TR_result\X101SC19112292-Z01-J001-B1-16_results\0.SuppFiles\KO.csv"
-:> open.stream(type = "BBH", isRead = TRUE)
+:> open.stream(type = "BBH", ioRead = TRUE)
 :> geneKO.maps
 ;
 
