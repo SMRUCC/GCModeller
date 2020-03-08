@@ -56,6 +56,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
+Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 
 Namespace Assembly.NCBI.GenBank
 
@@ -106,6 +107,51 @@ Namespace Assembly.NCBI.GenBank
             }
 
             Return gene
+        End Function
+
+        <Extension>
+        Public Function CreateGenbankObject(table As PTT) As GBFF.File
+            Dim feature, CDS As gbffFeature
+            Dim gb As New GBFF.File With {
+                .Features = New FEATURES
+            }
+            Dim loci As NucleotideLocation
+
+            For Each gene As GeneBrief In table.GeneObjects
+                loci = gene.Location
+                feature = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "gene",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+                CDS = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "CDS",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+
+                Call feature.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call feature.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+
+                Call CDS.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call CDS.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+                Call CDS.SetValue(FeatureQualifiers.product, gene.Product)
+
+                Call gb.Features.Add(feature)
+                Call gb.Features.Add(CDS)
+            Next
+
+            Return gb
         End Function
 
         ''' <summary>

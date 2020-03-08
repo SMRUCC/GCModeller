@@ -159,6 +159,14 @@
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
+      <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
+      <Name>RegulonDatabase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Compiler\Compiler.vbproj">
       <Project>{a2a0f8c4-f84f-4a3a-958c-076ea4c70b5f}</Project>
       <Name>Compiler</Name>

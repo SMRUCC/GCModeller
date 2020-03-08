@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -30,6 +31,21 @@ Module genomics
             Return GenBank.loadRepliconTable(file)
         Else
             Return GBFF.File.Load(file)
+        End If
+    End Function
+
+    <ExportAPI("as.genbank")>
+    <RApiReturn(GetType(GBFF.File))>
+    Public Function asGenbank(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        If x Is Nothing Then
+            env.AddMessage("The genome information data object is nothing!", MSG_TYPES.WRN)
+            Return Nothing
+        End If
+
+        If TypeOf x Is PTT Then
+            Return DirectCast(x, PTT).CreateGenbankObject
+        Else
+            Return Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
         End If
     End Function
 
