@@ -297,6 +297,21 @@ Module Fasta
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
 
             If collection Is Nothing Then
+                If x.GetType.IsArray Then
+                    If DirectCast(x, Array).AsObjectEnumerator.All(Function(a) TypeOf a Is SimpleSegment) Then
+                        Return DirectCast(x, Array) _
+                            .AsObjectEnumerator(Of SimpleSegment) _
+                            .Select(Function(sg) sg.SimpleFasta) _
+                            .DoCall(Function(seqs)
+                                        Return New FastaFile(seqs)
+                                    End Function)
+                    ElseIf DirectCast(x, Array).AsObjectEnumerator.All(Function(a) TypeOf a Is FastaSeq) Then
+                        Return DirectCast(x, Array) _
+                            .AsObjectEnumerator(Of FastaSeq) _
+                            .DoCall(Function(seqs) New FastaFile(seqs))
+                    End If
+                End If
+
                 Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
             Else
                 Return New FastaFile(collection)
@@ -338,6 +353,7 @@ Module Fasta
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,
+                                      Optional doNtAutoReverse As Boolean = False,
                                       Optional env As Environment = Nothing) As Object
         If seq Is Nothing Then
             Return Nothing
@@ -346,30 +362,43 @@ Module Fasta
         End If
 
         Dim left, right As Integer
+        Dim getAttrs As Func(Of FastaSeq, String())
+        Dim reverse As Boolean = False
 
         If TypeOf loci Is Location Then
             With DirectCast(loci, Location)
                 left = .Min
                 right = .Max
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}
             End With
         ElseIf TypeOf loci Is NucleotideLocation Then
             With DirectCast(loci, NucleotideLocation)
                 left = .Min
                 right = .Max
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tag}
+
+                If doNtAutoReverse AndAlso .Strand = Strands.Reverse Then
+                    reverse = True
+                End If
             End With
         Else
             With REnv.asVector(Of Long)(loci)
                 left = .GetValue(0)
                 right = .GetValue(1)
+                getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}
             End With
         End If
 
         If TypeOf seq Is FastaSeq Then
-            Dim fa = DirectCast(seq, FastaSeq)
-            Dim sequence = fa.CutSequenceLinear(left, right)
+            Dim fa As FastaSeq = DirectCast(seq, FastaSeq)
+            Dim sequence As SimpleSegment = fa.CutSequenceLinear(left, right)
+
+            If reverse Then
+                sequence.SequenceData = sequence.SequenceData.Reverse.CharString
+            End If
 
             Return New FastaSeq With {
-                .Headers = fa.Headers.ToArray,
+                .Headers = getAttrs(fa),
                 .SequenceData = sequence.SequenceData
             }
         Else
@@ -382,9 +411,13 @@ Module Fasta
                     .Select(Function(fa)
                                 Dim sequence = fa.CutSequenceLinear(left, right)
                                 Dim fragment As New FastaSeq With {
-                                    .Headers = fa.Headers.ToArray,
+                                    .Headers = getAttrs(fa),
                                     .SequenceData = sequence.SequenceData
                                 }
+
+                                If reverse Then
+                                    fragment.SequenceData = fragment.SequenceData.Reverse.CharString
+                                End If
 
                                 Return fragment
                             End Function) _

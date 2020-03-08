@@ -66,7 +66,7 @@ Public Module Coverage
     <Extension> Public Function QueryLength(source As IEnumerable(Of HSP)) As Integer
         Dim nlst As Coordinate() = source _
             .Select(Function(x)
-                        Return New Coordinate With {.X = x.FromA, .Y = x.ToA}
+                        Return New Coordinate With {.X = x.fromA, .Y = x.toA}
                     End Function) _
             .ToArray
 
@@ -76,7 +76,7 @@ Public Module Coverage
     <Extension> Public Function SubjectLength(source As IEnumerable(Of HSP)) As Integer
         Dim nlst As Coordinate() = source _
             .Select(Function(x)
-                        Return New Coordinate With {.X = x.FromB, .Y = x.ToB}
+                        Return New Coordinate With {.X = x.fromB, .Y = x.toB}
                     End Function) _
             .ToArray
 

@@ -63,9 +63,13 @@ Public Class Probability
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
+        Return patternString() & $" @ {score}, pvalue={pvalue.ToString("G4")}"
+    End Function
+
+    Public Function patternString() As String
         Return region _
-            .Select(Function(r) r.ToString) _
-            .JoinBy("") & $" @ {score}, pvalue={pvalue.ToString("G4")}"
+           .Select(Function(r) r.ToString) _
+           .JoinBy("")
     End Function
 
     Public Structure Residue
@@ -73,9 +77,41 @@ Public Class Probability
         Public Property frequency As Dictionary(Of Char, Double)
         Public Property index As Integer
 
+        Default Public ReadOnly Property getFrequency(base As Char) As Double
+            Get
+                Return _frequency(base)
+            End Get
+        End Property
+
+        Public ReadOnly Property isEmpty As Boolean
+            Get
+                If frequency.IsNullOrEmpty Then
+                    Return True
+                ElseIf frequency.Values.All(Function(p) p = 0.0) Then
+                    Return True
+                Else
+                    Return False
+                End If
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return Max(Me)
+            Dim max As Double = -99999
+            Dim maxChar As Char
+
+            For Each b In frequency
+                If b.Value > max Then
+                    max = b.Value
+                    maxChar = b.Key
+                End If
+            Next
+
+            If max >= 0.5 Then
+                Return Char.ToUpper(maxChar)
+            Else
+                Return Char.ToLower(maxChar)
+            End If
         End Function
 
         Public Shared Function Max(r As Residue) As Char

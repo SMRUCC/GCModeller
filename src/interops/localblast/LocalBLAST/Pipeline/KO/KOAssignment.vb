@@ -83,7 +83,7 @@ Namespace Pipeline
         ''' <param name="drf">Besthits in direction forward</param>
         ''' <param name="drr">Besthits in direction reverse</param>
         ''' <returns></returns>
-        Public Iterator Function KOassignmentBBH(drf As BestHit(), drr As BestHit()) As IEnumerable(Of BiDirectionalBesthit)
+        Public Iterator Function KOassignmentBBH(drf As IEnumerable(Of BestHit), drr As IEnumerable(Of BestHit)) As IEnumerable(Of BiDirectionalBesthit)
             Dim drfBesthits = drf.pickDrfBesthit.ToDictionary(Function(q) q.Name)
             Dim bbh As New List(Of (forward As BestHit, reverse As BestHit))
             Dim KO1, KO2 As String
@@ -129,7 +129,7 @@ Namespace Pipeline
                 ' and then get the top score hits
                 Dim topScoreAlignment = topSupportsKO _
                     .OrderByDescending(Function(b)
-                                           Return Math.Min(b.forward.Score, b.reverse.Score)
+                                           Return Math.Min(b.forward.score, b.reverse.score)
                                        End Function) _
                     .First
 
@@ -143,7 +143,7 @@ Namespace Pipeline
                     .forward = topScoreAlignment.forward.identities,
                     .reverse = topScoreAlignment.reverse.identities,
                     .length = topScoreAlignment.forward.query_length,
-                    .positive = (topScoreAlignment.forward.Positive + topScoreAlignment.reverse.Positive) / 2
+                    .positive = (topScoreAlignment.forward.positive + topScoreAlignment.reverse.positive) / 2
                 }
             Next
         End Function

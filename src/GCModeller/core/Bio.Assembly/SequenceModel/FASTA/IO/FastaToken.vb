@@ -162,6 +162,12 @@ AAGCGAACAAATGTTCTATA"
                 Return Me.ToString
             End Get
         End Property
+
+        Public ReadOnly Property locus_tag As String
+            Get
+                Return Headers(Scan0).Trim.Split.First
+            End Get
+        End Property
 #End Region
 
 #Region "Header Attributes Operations"

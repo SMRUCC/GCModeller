@@ -1,0 +1,501 @@
+﻿********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 3.5.4 (Release date: 3.5.4)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= K:\20200226\TRN\motifs\NadQ.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+GbCGDNIH1_0640:-33       1.0000     21  OA2633_14311:-54         1.0000     21  
+APA01_20500:-42          1.0000     21  HNE_2577:-2              1.0000     21  
+PHZ_c1931:-46            1.0000     21  Atu4098:-2               1.0000     21  
+HNE_0692:-182            1.0000     21  PHZ_c0252:-28            1.0000     21  
+AZL_d02880:-21           1.0000     21  Magn03003324:-91         1.0000     21  
+PHZ_c2607:-98            1.0000     21  bll2542:-117             1.0000     21  
+Magn03003324:-32         1.0000     21  PHZ_c2607:-33            1.0000     21  
+bll2542:-42              1.0000     21  Caul_4308:-32            1.0000     21  
+mll5835:-32              1.0000     21  Psyc_0633:-186           1.0000     21  
+BBta_4757:-111           1.0000     21  CC2912:-2                1.0000     21  
+CtesDRAFT_2977:-91       1.0000     21  mll9104:-58              1.0000     21  
+Psyc_0632:-107           1.0000     21  BBta_4757:-84            1.0000     21  
+CC3619:-39               1.0000     21  CtesDRAFT_2977:-11       1.0000     21  
+mll9104:-32              1.0000     21  Psyc_0634:-83            1.0000     21  
+CC3430:-73               1.0000     21  Cseg_0251:-41            1.0000     21  
+CtesDRAFT_2575:-52       1.0000     21  CC2912:-85               1.0000     21  
+Cseg_3422:-32            1.0000     21  Daci_1541:-11            1.0000     21  
+Cseg_4105:-33            1.0000     21  Daci_2150:-67            1.0000     21  
+Cseg_3422:-103           1.0000     21  Daci_1541:-81            1.0000     21  
+Caul_4914:-40            1.0000     21  Gdia_1429:-42            1.0000     21  
+Caul_4717:-39            1.0000     21  GbCGDNIH1_0640:-85       1.0000     21  
+Caul_4308:-117           1.0000     21  mll5835:-58              1.0000     21  
+Meso_2557:-60            1.0000     21  Meso_2557:-34            1.0000     21  
+NMB0395:-132             1.0000     21  NMB0394:-90              1.0000     21  
+Nwi_2424:-46             1.0000     21  OA2633_07784:-51         1.0000     21  
+OA2633_14311:-119        1.0000     21  RPA1055:-186             1.0000     21  
+PsycPRwf_1963:-337       1.0000     21  RPA1055:-48              1.0000     21  
+PsycPRwf_1964:-105       1.0000     21  RC1_2989:-107            1.0000     21  
+PsycPRwf_1962:-148       1.0000     21  RC1_2989:-80             1.0000     21  
+RHE_PE00441:-68          1.0000     21  Rru_A1434:-78            1.0000     21  
+RHE_PE00441:-34          1.0000     21  SMc02601:-58             1.0000     21  
+pRL110617:-34            1.0000     21  Xaut_1183:-52            1.0000     21  
+pRL110617:-68            1.0000     21  Xaut_1183:-24            1.0000     21  
+NGR_c08490:-54           1.0000     21  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme K:\20200226\TRN\motifs\NadQ.fasta -dna -mod zoops -evt 10 -nmotifs 6 -maxsize 1000000000 -maxw 30 
+
+model:  mod=         zoops    nmotifs=         6    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           21    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=       67    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            1407    N=              67
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.368 C 0.167 G 0.144 T 0.321 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.368 C 0.167 G 0.144 T 0.321 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   21   sites =  67   llr = 1119   E-value = 1.0e-429
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  439:3:::93521:a::a198
+pos.-specific     C  :::::9:a:21111::7::::
+probability       G  :::17::::211:8:9:::::
+matrix            T  6719::a::2357:::2:912
+
+         bits    2.8                      
+                 2.5        *             
+                 2.2      * *       *     
+                 2.0      * *       *     
+Information      1.7      ***     * *     
+content          1.4    *****     *** *   
+(24.1 bits)      1.1   ******     ******* 
+                 0.8  ********    ******* 
+                 0.6 *********   *********
+                 0.3 *********  **********
+                 0.0 ---------------------
+
+Multilevel           TTATGCTCAAATTGAGCATAA
+consensus            AA  A    TTA    T   T
+sequence                      C           
+                              G           
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                    Site       
+-------------             ----- ---------            ---------------------
+SMc02601:-58                  1  6.42e-13          . TTATGCTCAGATTGAGCATAA           
+NGR_c08490:-54                1  7.89e-12          . TTATGCTCATATTGAGCATAA           
+Psyc_0633:-186                1  1.55e-11          . TTATGCTCATTTTGAGCATAA           
+Psyc_0632:-107                1  4.29e-11          . TTATGCTCAAAATGAGCATAA           
+Caul_4308:-32                 1  8.79e-11          . AAATGCTCAGTTTGAGCATAA           
+RHE_PE00441:-34               1  1.21e-10          . ATATGCTCAAATCGAGCATAA           
+Cseg_3422:-32                 1  1.21e-10          . AAATGCTCACTTTGAGCATAA           
+CC2912:-2                     1  1.21e-10          . AAATGCTCACTTTGAGCATAA           
+Cseg_3422:-103                1  1.40e-10          . TTATGCTCAGTTTCAGCATAA           
+CC3619:-39                    1  1.40e-10          . TTATGCTCAGTTTCAGCATAA           
+Cseg_4105:-33                 1  1.94e-10          . TTATGCTCACTTTCAGCATAA           
+CC2912:-85                    1  1.94e-10          . TTATGCTCACTTTCAGCATAA           
+bll2542:-42                   1  1.94e-10          . ATATACTCACATTGAGCATAA           
+PHZ_c2607:-33                 1  2.28e-10          . TAATGCTCACTATGAGCATAA           
+PsycPRwf_1963:-337            1  3.50e-10          . TTATGCTCATTTTGAGTATAA           
+NMB0395:-132                  1  4.63e-10          . TTATGCTCAACTTGAGTATAA           
+Rru_A1434:-78                 1  6.03e-10          . ATTTGCTCACTTTGAGCATAA           
+RC1_2989:-80                  1  6.03e-10          . AAATGCTCAAATCGAGCATAA           
+PsycPRwf_1964:-105            1  6.03e-10          . TTATACTCAAAATGAGCATAA           
+NMB0394:-90                   1  6.03e-10          . TTATACTCAAGTTGAGCATAA           
+HNE_0692:-182                 1  6.95e-10          . TTATACTCAAATCGAGCATAA           
+OA2633_14311:-54              1  6.95e-10          . AAATGCTCATATCGAGCATAA           
+pRL110617:-34                 1  1.03e-09          . ATATGCTCAAACAGAGCATAA           
+PsycPRwf_1962:-148            1  1.33e-09          . TTATGCTCATAATGAGCATTA           
+APA01_20500:-42               1  1.33e-09          . ATATACTCAAATTGAGCATAT           
+GbCGDNIH1_0640:-33            1  1.33e-09          . ATATGCTCAAAAAGAGCATAA           
+Magn03003324:-91              1  1.50e-09          . TTATGCTCAGTCTCAGCATAT           
+Meso_2557:-34                 1  2.43e-09          . ATATGCTCAATCGGAGCATAA           
+Caul_4914:-40                 1  2.72e-09          . TTATGCTCATTTTTAGCATAA           
+Daci_2150:-67                 1  2.72e-09          . TAATACTCAAATTGAGCATAT           
+Gdia_1429:-42                 1  3.05e-09          . TTATACTCACAGTGAGTATAA           
+CtesDRAFT_2977:-91            1  3.05e-09          . TAATGCTCAGATTTAGCATAA           
+RPA1055:-48                   1  3.43e-09          . ATATGCTCAAACTGAGTATAT           
+CtesDRAFT_2575:-52            1  3.43e-09          . TAATACTCAGATTGAGTATAA           
+GbCGDNIH1_0640:-85            1  3.85e-09          . TTATGCTCATTTACAGCATAA           
+Magn03003324:-32              1  4.79e-09          . CAATGCTCATTTTGAGCATAA           
+Caul_4308:-117                1  5.35e-09          . TTTTGCTCAATTTCAGCATAA           
+Caul_4717:-39                 1  5.99e-09          . TAAGGCTCACTCTGAGCATAT           
+PHZ_c1931:-46                 1  5.99e-09          . ATATGCTCAAAGTGAGCATTT           
+OA2633_07784:-51              1  7.41e-09          . AAATACTCATCCTGAGCATAA           
+bll2542:-117                  1  8.21e-09          . ATTTACTCAGATTGAGCATAT           
+BBta_4757:-84                 1  9.12e-09          . TTATGCTCACGGAGAGTATAA           
+Xaut_1183:-52                 1  1.12e-08          . TTATGCTCAGTATAAGCATAT           
+Daci_1541:-11                 1  1.37e-08          . ATATACTCAAAATGAGCATTA           
+Atu4098:-2                    1  1.37e-08          . ATATGCTCACAATGAGAATAT           
+Xaut_1183:-24                 1  2.23e-08          . ATATGCTCAAACTGAGTATAG           
+Psyc_0634:-83                 1  2.70e-08          . TTATGCTCATTTTGAGTTTAA           
+pRL110617:-68                 1  2.96e-08          . ATATGCTCACGGTGAGAATAT           
+Meso_2557:-60                 1  3.56e-08          . TTATGCTCAGCGCAAGCATAT           
+CtesDRAFT_2977:-11            1  3.90e-08          . AAATACTCAAAATGAGCATTA           
+RPA1055:-186                  1  4.27e-08          . TTATGCTCTGAATGAGGATAA           
+BBta_4757:-111                1  4.27e-08          . TTATGCTCAGGATAAGTATAA           
+Nwi_2424:-46                  1  4.66e-08          . TTATACTCAATATCAGTATAA           
+RHE_PE00441:-68               1  5.10e-08          . ATATGCTCATAGCGAGAATAT           
+Daci_1541:-81                 1  5.57e-08          . TTATGCTCGTATCTAGCATAA           
+OA2633_14311:-119             1  8.55e-08          . TTAGGCTCATGTAGAGCAAAA           
+Cseg_0251:-41                 1  8.55e-08          . TAAGCCTCAACCTGAGCATAA           
+CC3430:-73                    1  8.55e-08          . TAAGCCTCAACCTGAGCATAA           
+PHZ_c2607:-98                 1  9.29e-08          . TTTTGCTCCGATTGAGCAAAA           
+HNE_2577:-2                   1  1.64e-07          . AAATGCTCATCATGAGCAATA           
+RC1_2989:-107                 1  2.07e-07          . TTTTACTCTGCGCGAGCATAA           
+PHZ_c0252:-28                 1  2.24e-07          . AAGTGCTCACCTTGAGCAAAT           
+AZL_d02880:-21                1  1.27e-06          . ATATACTCTTATAGAGCACAT           
+mll5835:-32                   1  3.14e-06          . TTATAATCAGATGGACTATAA           
+mll9104:-58                   1  3.92e-06          . TTATAGTCACAAAGATTATAA           
+mll5835:-58                   1  4.38e-06          . TTATAGTCACAACGATTATAT           
+mll9104:-32                   1  1.21e-05          . TTATAATCGTATAGACTATAA           
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+SMc02601:-58                      6.4e-13  [1]
+NGR_c08490:-54                    7.9e-12  [1]
+Psyc_0633:-186                    1.5e-11  [1]
+Psyc_0632:-107                    4.3e-11  [1]
+Caul_4308:-32                     8.8e-11  [1]
+RHE_PE00441:-34                   1.2e-10  [1]
+Cseg_3422:-32                     1.2e-10  [1]
+CC2912:-2                         1.2e-10  [1]
+Cseg_3422:-103                    1.4e-10  [1]
+CC3619:-39                        1.4e-10  [1]
+Cseg_4105:-33                     1.9e-10  [1]
+CC2912:-85                        1.9e-10  [1]
+bll2542:-42                       1.9e-10  [1]
+PHZ_c2607:-33                     2.3e-10  [1]
+PsycPRwf_1963:-337                3.5e-10  [1]
+NMB0395:-132                      4.6e-10  [1]
+Rru_A1434:-78                       6e-10  [1]
+RC1_2989:-80                        6e-10  [1]
+PsycPRwf_1964:-105                  6e-10  [1]
+NMB0394:-90                         6e-10  [1]
+HNE_0692:-182                       7e-10  [1]
+OA2633_14311:-54                    7e-10  [1]
+pRL110617:-34                       1e-09  [1]
+PsycPRwf_1962:-148                1.3e-09  [1]
+APA01_20500:-42                   1.3e-09  [1]
+GbCGDNIH1_0640:-33                1.3e-09  [1]
+Magn03003324:-91                  1.5e-09  [1]
+Meso_2557:-34                     2.4e-09  [1]
+Caul_4914:-40                     2.7e-09  [1]
+Daci_2150:-67                     2.7e-09  [1]
+Gdia_1429:-42                     3.1e-09  [1]
+CtesDRAFT_2977:-91                3.1e-09  [1]
+RPA1055:-48                       3.4e-09  [1]
+CtesDRAFT_2575:-52                3.4e-09  [1]
+GbCGDNIH1_0640:-85                3.9e-09  [1]
+Magn03003324:-32                  4.8e-09  [1]
+Caul_4308:-117                    5.3e-09  [1]
+Caul_4717:-39                       6e-09  [1]
+PHZ_c1931:-46                       6e-09  [1]
+OA2633_07784:-51                  7.4e-09  [1]
+bll2542:-117                      8.2e-09  [1]
+BBta_4757:-84                     9.1e-09  [1]
+Xaut_1183:-52                     1.1e-08  [1]
+Daci_1541:-11                     1.4e-08  [1]
+Atu4098:-2                        1.4e-08  [1]
+Xaut_1183:-24                     2.2e-08  [1]
+Psyc_0634:-83                     2.7e-08  [1]
+pRL110617:-68                       3e-08  [1]
+Meso_2557:-60                     3.6e-08  [1]
+CtesDRAFT_2977:-11                3.9e-08  [1]
+RPA1055:-186                      4.3e-08  [1]
+BBta_4757:-111                    4.3e-08  [1]
+Nwi_2424:-46                      4.7e-08  [1]
+RHE_PE00441:-68                   5.1e-08  [1]
+Daci_1541:-81                     5.6e-08  [1]
+OA2633_14311:-119                 8.5e-08  [1]
+Cseg_0251:-41                     8.5e-08  [1]
+CC3430:-73                        8.5e-08  [1]
+PHZ_c2607:-98                     9.3e-08  [1]
+HNE_2577:-2                       1.6e-07  [1]
+RC1_2989:-107                     2.1e-07  [1]
+PHZ_c0252:-28                     2.2e-07  [1]
+AZL_d02880:-21                    1.3e-06  [1]
+mll5835:-32                       3.1e-06  [1]
+mll9104:-58                       3.9e-06  [1]
+mll5835:-58                       4.4e-06  [1]
+mll9104:-32                       1.2e-05  [1]
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=21 seqs=67
+SMc02601:-58             (    1) TTATGCTCAGATTGAGCATAA  1 
+NGR_c08490:-54           (    1) TTATGCTCATATTGAGCATAA  1 
+Psyc_0633:-186           (    1) TTATGCTCATTTTGAGCATAA  1 
+Psyc_0632:-107           (    1) TTATGCTCAAAATGAGCATAA  1 
+Caul_4308:-32            (    1) AAATGCTCAGTTTGAGCATAA  1 
+RHE_PE00441:-34          (    1) ATATGCTCAAATCGAGCATAA  1 
+Cseg_3422:-32            (    1) AAATGCTCACTTTGAGCATAA  1 
+CC2912:-2                (    1) AAATGCTCACTTTGAGCATAA  1 
+Cseg_3422:-103           (    1) TTATGCTCAGTTTCAGCATAA  1 
+CC3619:-39               (    1) TTATGCTCAGTTTCAGCATAA  1 
+Cseg_4105:-33            (    1) TTATGCTCACTTTCAGCATAA  1 
+CC2912:-85               (    1) TTATGCTCACTTTCAGCATAA  1 
+bll2542:-42              (    1) ATATACTCACATTGAGCATAA  1 
+PHZ_c2607:-33            (    1) TAATGCTCACTATGAGCATAA  1 
+PsycPRwf_1963:-337       (    1) TTATGCTCATTTTGAGTATAA  1 
+NMB0395:-132             (    1) TTATGCTCAACTTGAGTATAA  1 
+Rru_A1434:-78            (    1) ATTTGCTCACTTTGAGCATAA  1 
+RC1_2989:-80             (    1) AAATGCTCAAATCGAGCATAA  1 
+PsycPRwf_1964:-105       (    1) TTATACTCAAAATGAGCATAA  1 
+NMB0394:-90              (    1) TTATACTCAAGTTGAGCATAA  1 
+HNE_0692:-182            (    1) TTATACTCAAATCGAGCATAA  1 
+OA2633_14311:-54         (    1) AAATGCTCATATCGAGCATAA  1 
+pRL110617:-34            (    1) ATATGCTCAAACAGAGCATAA  1 
+PsycPRwf_1962:-148       (    1) TTATGCTCATAATGAGCATTA  1 
+APA01_20500:-42          (    1) ATATACTCAAATTGAGCATAT  1 
+GbCGDNIH1_0640:-33       (    1) ATATGCTCAAAAAGAGCATAA  1 
+Magn03003324:-91         (    1) TTATGCTCAGTCTCAGCATAT  1 
+Meso_2557:-34            (    1) ATATGCTCAATCGGAGCATAA  1 
+Caul_4914:-40            (    1) TTATGCTCATTTTTAGCATAA  1 
+Daci_2150:-67            (    1) TAATACTCAAATTGAGCATAT  1 
+Gdia_1429:-42            (    1) TTATACTCACAGTGAGTATAA  1 
+CtesDRAFT_2977:-91       (    1) TAATGCTCAGATTTAGCATAA  1 
+RPA1055:-48              (    1) ATATGCTCAAACTGAGTATAT  1 
+CtesDRAFT_2575:-52       (    1) TAATACTCAGATTGAGTATAA  1 
+GbCGDNIH1_0640:-85       (    1) TTATGCTCATTTACAGCATAA  1 
+Magn03003324:-32         (    1) CAATGCTCATTTTGAGCATAA  1 
+Caul_4308:-117           (    1) TTTTGCTCAATTTCAGCATAA  1 
+Caul_4717:-39            (    1) TAAGGCTCACTCTGAGCATAT  1 
+PHZ_c1931:-46            (    1) ATATGCTCAAAGTGAGCATTT  1 
+OA2633_07784:-51         (    1) AAATACTCATCCTGAGCATAA  1 
+bll2542:-117             (    1) ATTTACTCAGATTGAGCATAT  1 
+BBta_4757:-84            (    1) TTATGCTCACGGAGAGTATAA  1 
+Xaut_1183:-52            (    1) TTATGCTCAGTATAAGCATAT  1 
+Daci_1541:-11            (    1) ATATACTCAAAATGAGCATTA  1 
+Atu4098:-2               (    1) ATATGCTCACAATGAGAATAT  1 
+Xaut_1183:-24            (    1) ATATGCTCAAACTGAGTATAG  1 
+Psyc_0634:-83            (    1) TTATGCTCATTTTGAGTTTAA  1 
+pRL110617:-68            (    1) ATATGCTCACGGTGAGAATAT  1 
+Meso_2557:-60            (    1) TTATGCTCAGCGCAAGCATAT  1 
+CtesDRAFT_2977:-11       (    1) AAATACTCAAAATGAGCATTA  1 
+RPA1055:-186             (    1) TTATGCTCTGAATGAGGATAA  1 
+BBta_4757:-111           (    1) TTATGCTCAGGATAAGTATAA  1 
+Nwi_2424:-46             (    1) TTATACTCAATATCAGTATAA  1 
+RHE_PE00441:-68          (    1) ATATGCTCATAGCGAGAATAT  1 
+Daci_1541:-81            (    1) TTATGCTCGTATCTAGCATAA  1 
+OA2633_14311:-119        (    1) TTAGGCTCATGTAGAGCAAAA  1 
+Cseg_0251:-41            (    1) TAAGCCTCAACCTGAGCATAA  1 
+CC3430:-73               (    1) TAAGCCTCAACCTGAGCATAA  1 
+PHZ_c2607:-98            (    1) TTTTGCTCCGATTGAGCAAAA  1 
+HNE_2577:-2              (    1) AAATGCTCATCATGAGCAATA  1 
+RC1_2989:-107            (    1) TTTTACTCTGCGCGAGCATAA  1 
+PHZ_c0252:-28            (    1) AAGTGCTCACCTTGAGCAAAT  1 
+AZL_d02880:-21           (    1) ATATACTCTTATAGAGCACAT  1 
+mll5835:-32              (    1) TTATAATCAGATGGACTATAA  1 
+mll9104:-58              (    1) TTATAGTCACAAAGATTATAA  1 
+mll5835:-58              (    1) TTATAGTCACAACGATTATAT  1 
+mll9104:-32              (    1) TTATAATCGTATAGACTATAA  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 21 n= 67 bayes= 1.79355 E= 1.0e-429 
+     2   -348  -1271     93 
+   -54  -1271  -1271    122 
+   131  -1271   -327   -210 
+ -1271  -1271   -127    155 
+   -38   -249    225  -1271 
+  -362    249   -227  -1271 
+ -1271  -1271  -1271    164 
+ -1271    258  -1271  -1271 
+   131   -348   -227   -284 
+   -23     42     64    -43 
+    42    -49    -95     -3 
+   -72    -32    -46     74 
+  -162    -32   -227    116 
+  -304    -49    246   -284 
+   144  -1271  -1271  -1271 
+ -1271   -249    271   -342 
+  -304    213   -327    -62 
+   142  -1271  -1271   -442 
+  -262   -348  -1271    153 
+   133  -1271  -1271   -210 
+   105  -1271   -327    -52 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 21 nsites= 67 E= 1.0e-429 
+ 0.373134  0.014925  0.000000  0.611940 
+ 0.253731  0.000000  0.000000  0.746269 
+ 0.910448  0.000000  0.014925  0.074627 
+ 0.000000  0.000000  0.059701  0.940299 
+ 0.283582  0.029851  0.686567  0.000000 
+ 0.029851  0.940299  0.029851  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.910448  0.014925  0.029851  0.044776 
+ 0.313433  0.223881  0.223881  0.238806 
+ 0.492537  0.119403  0.074627  0.313433 
+ 0.223881  0.134328  0.104478  0.537313 
+ 0.119403  0.134328  0.029851  0.716418 
+ 0.044776  0.119403  0.791045  0.044776 
+ 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.029851  0.940299  0.029851 
+ 0.044776  0.731343  0.014925  0.208955 
+ 0.985075  0.000000  0.000000  0.014925 
+ 0.059701  0.014925  0.000000  0.925373 
+ 0.925373  0.000000  0.000000  0.074627 
+ 0.761194  0.000000  0.014925  0.223881 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+[TA][TA]AT[GA]CTCA[ATCGC][AT][TA]TGAG[CT]ATA[AT]
+--------------------------------------------------------------------------------
+
+
+
+
+Time  0.36 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+GbCGDNIH1_0640:-33               1.33e-09  [1(1.33e-09)]
+OA2633_14311:-54                 6.95e-10  [1(6.95e-10)]
+APA01_20500:-42                  1.33e-09  [1(1.33e-09)]
+HNE_2577:-2                      1.64e-07  [1(1.64e-07)]
+PHZ_c1931:-46                    5.99e-09  [1(5.99e-09)]
+Atu4098:-2                       1.37e-08  [1(1.37e-08)]
+HNE_0692:-182                    6.95e-10  [1(6.95e-10)]
+PHZ_c0252:-28                    2.24e-07  [1(2.24e-07)]
+AZL_d02880:-21                   1.27e-06  [1(1.27e-06)]
+Magn03003324:-91                 1.50e-09  [1(1.50e-09)]
+PHZ_c2607:-98                    9.29e-08  [1(9.29e-08)]
+bll2542:-117                     8.21e-09  [1(8.21e-09)]
+Magn03003324:-32                 4.79e-09  [1(4.79e-09)]
+PHZ_c2607:-33                    2.28e-10  [1(2.28e-10)]
+bll2542:-42                      1.94e-10  [1(1.94e-10)]
+Caul_4308:-32                    8.79e-11  [1(8.79e-11)]
+mll5835:-32                      3.14e-06  [1(3.14e-06)]
+Psyc_0633:-186                   1.55e-11  [1(1.55e-11)]
+BBta_4757:-111                   4.27e-08  [1(4.27e-08)]
+CC2912:-2                        1.21e-10  [1(1.21e-10)]
+CtesDRAFT_2977:-91               3.05e-09  [1(3.05e-09)]
+mll9104:-58                      3.92e-06  [1(3.92e-06)]
+Psyc_0632:-107                   4.29e-11  [1(4.29e-11)]
+BBta_4757:-84                    9.12e-09  [1(9.12e-09)]
+CC3619:-39                       1.40e-10  [1(1.40e-10)]
+CtesDRAFT_2977:-11               3.90e-08  [1(3.90e-08)]
+mll9104:-32                      1.21e-05  [1(1.21e-05)]
+Psyc_0634:-83                    2.70e-08  [1(2.70e-08)]
+CC3430:-73                       8.55e-08  [1(8.55e-08)]
+Cseg_0251:-41                    8.55e-08  [1(8.55e-08)]
+CtesDRAFT_2575:-52               3.43e-09  [1(3.43e-09)]
+CC2912:-85                       1.94e-10  [1(1.94e-10)]
+Cseg_3422:-32                    1.21e-10  [1(1.21e-10)]
+Daci_1541:-11                    1.37e-08  [1(1.37e-08)]
+Cseg_4105:-33                    1.94e-10  [1(1.94e-10)]
+Daci_2150:-67                    2.72e-09  [1(2.72e-09)]
+Cseg_3422:-103                   1.40e-10  [1(1.40e-10)]
+Daci_1541:-81                    5.57e-08  [1(5.57e-08)]
+Caul_4914:-40                    2.72e-09  [1(2.72e-09)]
+Gdia_1429:-42                    3.05e-09  [1(3.05e-09)]
+Caul_4717:-39                    5.99e-09  [1(5.99e-09)]
+GbCGDNIH1_0640:-85               3.85e-09  [1(3.85e-09)]
+Caul_4308:-117                   5.35e-09  [1(5.35e-09)]
+mll5835:-58                      4.38e-06  [1(4.38e-06)]
+Meso_2557:-60                    3.56e-08  [1(3.56e-08)]
+Meso_2557:-34                    2.43e-09  [1(2.43e-09)]
+NMB0395:-132                     4.63e-10  [1(4.63e-10)]
+NMB0394:-90                      6.03e-10  [1(6.03e-10)]
+Nwi_2424:-46                     4.66e-08  [1(4.66e-08)]
+OA2633_07784:-51                 7.41e-09  [1(7.41e-09)]
+OA2633_14311:-119                8.55e-08  [1(8.55e-08)]
+RPA1055:-186                     4.27e-08  [1(4.27e-08)]
+PsycPRwf_1963:-337               3.50e-10  [1(3.50e-10)]
+RPA1055:-48                      3.43e-09  [1(3.43e-09)]
+PsycPRwf_1964:-105               6.03e-10  [1(6.03e-10)]
+RC1_2989:-107                    2.07e-07  [1(2.07e-07)]
+PsycPRwf_1962:-148               1.33e-09  [1(1.33e-09)]
+RC1_2989:-80                     6.03e-10  [1(6.03e-10)]
+RHE_PE00441:-68                  5.10e-08  [1(5.10e-08)]
+Rru_A1434:-78                    6.03e-10  [1(6.03e-10)]
+RHE_PE00441:-34                  1.21e-10  [1(1.21e-10)]
+SMc02601:-58                     6.42e-13  [1(6.42e-13)]
+pRL110617:-34                    1.03e-09  [1(1.03e-09)]
+Xaut_1183:-52                    1.12e-08  [1(1.12e-08)]
+pRL110617:-68                    2.96e-08  [1(2.96e-08)]
+Xaut_1183:-24                    2.23e-08  [1(2.23e-08)]
+NGR_c08490:-54                   7.89e-12  [1(7.89e-12)]
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because couldn't find any more starting points for EM.
+********************************************************************************
+********************************************************************************

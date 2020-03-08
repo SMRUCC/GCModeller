@@ -49,10 +49,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 
@@ -116,12 +118,14 @@ Contact: xhwei65@nudt.edu.cn; jliu@stat.harvard.edu",
 Public Module TMod
 
     ''' <summary>
-    ''' 释放内部的资源文件然后返回工作会话的路径
+    ''' Initialize the tmod tools resource, this function will 
+    ''' release the tmod program files into the GCModeller 
+    ''' cache directory.
+    ''' (释放内部的资源文件然后返回工作会话的路径)
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("_init()", Info:="Initialize the tmod tools resource, this function will release the tmod program files into the GCModeller cache directory.")>
     Public Function InitializeSession() As String
         Dim DIR As String = Settings.DataCache & "/TmoD/"
 
@@ -167,7 +171,8 @@ Public Module TMod
     End Property
 
     ''' <summary>
-    ''' Batch execute the meme program for a collection of fasta file, the source is the directory location of the collection of fasta sequence file.
+    ''' Batch execute the meme program for a collection of fasta file, the source is the 
+    ''' directory location of the collection of fasta sequence file.
     ''' </summary>
     ''' <param name="inDIR">Fasta序列的存放文件</param>
     ''' <param name="outDIR"></param>
@@ -181,8 +186,6 @@ Public Module TMod
     ''' 直接用set命令：set path=%path%; 
     ''' 退出批处理后，环境变量恢复原来模样;
     ''' </remarks>
-    <ExportAPI("Meme.Invoke_Batch",
-               Info:="Batch execute the meme program for a collection of fasta file, the source is the directory location of the collection of fasta sequence file.")>
     Public Function BatchMEMEScanning(<Parameter("DIR.in")> inDIR As String,
                                       <Parameter("DIR.out")> outDIR As String,
                                       Optional evt As Double = 10,
@@ -195,20 +198,23 @@ Public Module TMod
 
         Dim Resources As Dictionary(Of String, String) = inDIR.LoadSourceEntryList({"*.txt", "*.fasta", "*.fsa", "*.fa"})
 
+        Call GetType(TMod).Assembly.FromAssembly.AppSummary("Tmod: toolbox of motif discovery", Nothing, App.StdOut)
         Call __checkURL(inDIR, outDIR, Resources)
 
         Dim envir = New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("MEME_DIRECTORY", Settings.DataCache & "/TmoD/")}
-        Dim LQuery = (From entry As KeyValuePair(Of String, String)
-                      In Resources.AsParallel
-                      Let out As String = String.Format("{0}/{1}.txt", outDIR, entry.Key)
-                      Let cmdl As String = $"""{entry.Value}"" {type} -mod {mode} -evt {evt} -nmotifs {num_motifs} -maxsize 1000000000 -maxw {maxw}"
-                      Let systemShell As CommandLine.IORedirectFile =
-                          New CommandLine.IORedirectFile(MEME, cmdl, environment:=envir)
-                      Let Exec As Integer = systemShell.Run
-                      Let stdOUT As String = systemShell.StandardOutput
-                      Select out,
-                          outSave = stdOUT.SaveTo(out)).ToArray
-        Return LQuery.Select(Function(x) x.out).ToArray
+        Dim LQuery = Function(entry As KeyValuePair(Of String, String))
+                         Dim out As String = String.Format("{0}/{1}.txt", outDIR, entry.Key)
+                         Dim cmdl As String = $"""{entry.Value}"" {type} -mod {mode} -evt {evt} -nmotifs {num_motifs} -maxsize 1000000000 -maxw {maxw}"
+                         Dim systemShell As New IORedirectFile(MEME, cmdl, environment:=envir)
+                         Dim Exec As Integer = systemShell.Run
+                         Dim stdOUT As String = systemShell.StandardOutput
+
+                         Call stdOUT.SaveTo(out)
+
+                         Return out
+                     End Function
+
+        Return BatchTasks.BatchTask(Resources, LQuery, numThreads:=CPUCoreNumbers)
     End Function
 
     ''' <summary>
@@ -237,8 +243,15 @@ Public Module TMod
         Return New FASTA.FastaFile(data.Take(n))
     End Function
 
-    <ExportAPI("Fasta.SubSamples",
-               Info:="The parameter n is the sequence object counts in each fasta file and the counts parameter is the total split file output counts.")>
+    ''' <summary>
+    ''' The parameter n is the sequence object counts in each fasta file 
+    ''' and the counts parameter is the total split file output counts.
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="n"></param>
+    ''' <param name="Counts"></param>
+    ''' <param name="EXPORT"></param>
+    ''' <returns></returns>
     Public Function FastaSubSamples(source As FASTA.FastaFile,
                                     <Parameter("n", "The Numbers of fasta sequence in a sub-sampled fasta file.")>
                                     Optional n As Integer = 500,
@@ -247,7 +260,7 @@ Public Module TMod
         Dim LQuery = (From i As Integer In Counts.Sequence.AsParallel
                       Select i,
                           fasta = source.__subSample(n)).ToArray
-        Dim ID As String = basename(source.FilePath)
+        Dim ID As String = BaseName(source.FilePath)
         Dim ASCII As System.Text.Encoding = System.Text.Encoding.ASCII
 
         If String.IsNullOrEmpty(EXPORT) Then
@@ -309,13 +322,14 @@ Public Module TMod
     End Function
 
     ''' <summary>
-    ''' Select the fasta sequence from a fasta collection file which the fasta sequence its title contains a keyword in the <paramref name="lstLocus"></paramref>
+    ''' Select the fasta sequence from a fasta collection file which 
+    ''' the fasta sequence its title contains a keyword in the 
+    ''' <paramref name="lstLocus"></paramref>
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="lstLocus"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("Site.Select", Info:="Select the fasta sequence from a fasta collection file which the fasta sequence its title contains a keyword in the idlist")>
     Public Function MotifSelect(source As FASTA.FastaFile,
                                 <Parameter("id.list", "Using these keywords to search in the fasta collection.")>
                                 lstLocus As IEnumerable(Of String)) As FASTA.FastaFile
@@ -327,7 +341,15 @@ Public Module TMod
         Return New FASTA.FastaFile(LQuery)
     End Function
 
-    <ExportAPI("Fasta.SubSamples", Info:="The parameter n is the sequence object counts in each fasta file and the counts parameter is the total split file output counts.")>
+    ''' <summary>
+    ''' The parameter n is the sequence object counts in each fasta file 
+    ''' and the counts parameter is the total split file output counts.
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="n"></param>
+    ''' <param name="Counts"></param>
+    ''' <param name="Export"></param>
+    ''' <returns></returns>
     Public Function FastaSubSamples(
                                    <Parameter("Path.Fasta", "The fasta sequence file path.")> source As String,
                                    Optional n As Integer = 500,
