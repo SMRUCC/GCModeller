@@ -143,6 +143,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>

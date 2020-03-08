@@ -39,13 +39,75 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.GCModeller.Compiler
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' The GCModeller virtual cell model creator
 ''' </summary>
 <Package("vcellkit.compiler")>
 Module Compiler
+
+    <ExportAPI("kegg")>
+    Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String)) As RepositoryArguments
+        Return New RepositoryArguments With {
+            .KEGGCompounds = compounds,
+            .KEGGPathway = maps,
+            .KEGGReactions = reactions,
+            .Glycan2Cpd = glycan2Cpd
+        }
+    End Function
+
+    <ExportAPI("geneKO.maps")>
+    <RApiReturn(GetType(list))>
+    Public Function load_geneKOMapping(<RRawVectorArgument> data As Object,
+                                       Optional KOcol$ = "KO",
+                                       Optional geneIDcol$ = "ID",
+                                       Optional env As Environment = Nothing) As Object
+        If data Is Nothing Then
+            Return Internal.debug.stop("No gene_id to KO mapping data provided!", env)
+        End If
+
+        If TypeOf data Is Rdataframe Then
+            If Not DirectCast(data, Rdataframe).columns.ContainsKey(geneIDcol) Then
+                Return Internal.debug.stop($"No geneId column data which is named: '{geneIDcol}'!", env)
+            ElseIf Not DirectCast(data, Rdataframe).columns.ContainsKey(KOcol) Then
+                Return Internal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
+            End If
+
+            Dim geneID As String() = asVector(Of String)(DirectCast(data, Rdataframe).GetColumnVector(geneIDcol))
+            Dim KO As String() = asVector(Of String)(DirectCast(data, Rdataframe).GetColumnVector(KOcol))
+
+            Return geneID _
+                .SeqIterator _
+                .ToDictionary(Function(id) id.value,
+                              Function(i)
+                                  Return KO(i)
+                              End Function)
+        ElseIf TypeOf data Is EntityObject() Then
+            Return DirectCast(data, EntityObject()) _
+                .ToDictionary(Function(protein) protein.ID,
+                              Function(protein)
+                                  Return protein(KOcol)
+                              End Function)
+        ElseIf TypeOf data Is BiDirectionalBesthit() Then
+            Return DirectCast(data, BiDirectionalBesthit()) _
+                .ToDictionary(Function(protein) protein.QueryName,
+                              Function(protein)
+                                  Return protein.term
+                              End Function)
+        End If
+
+        Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
+    End Function
 
 End Module
 
