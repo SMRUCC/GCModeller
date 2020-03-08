@@ -182,7 +182,7 @@ Module workflows
     Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
-        ElseIf Not besthits.elementType Is GetType(BestHit) Then
+        ElseIf Not besthits.elementType.raw Is GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"could not handle the stream data: {besthits.elementType.fullName}", env)
         End If
 

@@ -15,9 +15,9 @@ Module terms
             Return Internal.debug.stop("forward data stream is nothing!", env)
         ElseIf reverse Is Nothing Then
             Return Internal.debug.stop("reverse data stream is nothing!", env)
-        ElseIf Not forward.elementType Is GetType(BestHit) Then
+        ElseIf Not forward.elementType.raw Is GetType(BestHit) Then
             Return Internal.debug.stop($"forward is invalid data stream type: {forward.elementType.fullName}!", env)
-        ElseIf Not reverse.elementType Is GetType(BestHit) Then
+        ElseIf Not reverse.elementType.raw Is GetType(BestHit) Then
             Return Internal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
         End If
 
