@@ -171,6 +171,12 @@ Module workflows
                         Call .Flush(hit)
                     Next
                 End With
+            Case GetType(BiDirectionalBesthit)
+                With DirectCast(stream, WriteStream(Of BiDirectionalBesthit))
+                    For Each hit As BiDirectionalBesthit In data.populates(Of BiDirectionalBesthit)
+                        Call .Flush(hit)
+                    Next
+                End With
             Case Else
                 Return Internal.debug.stop(New NotImplementedException, env)
         End Select
