@@ -62,12 +62,16 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Module Compiler
 
     <ExportAPI("kegg")>
-    Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String)) As RepositoryArguments
+    Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String())) As RepositoryArguments
         Return New RepositoryArguments With {
             .KEGGCompounds = compounds,
             .KEGGPathway = maps,
             .KEGGReactions = reactions,
-            .Glycan2Cpd = glycan2Cpd
+            .Glycan2Cpd = glycan2Cpd _
+                .ToDictionary(Function(t) t.Key,
+                              Function(t)
+                                  Return t.Value(Scan0)
+                              End Function)
         }
     End Function
 
