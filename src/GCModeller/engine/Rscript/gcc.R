@@ -15,10 +15,7 @@ let maps = "K:\20200226\X101SC19112292-Z01-J001-B1-16_TR_result\X101SC19112292-Z
 
 let regulations = read.regulations("K:\20200226\TRN\genomics\search\regulations.csv");
 
-let genome <- list(genome = ["K:\20200226\IGV_data\genome.gtf"]
-	:> read.gtf
-	:> as.genbank
-);
+let genome <- list(genome = read.genbank());
 
 genome
 :> assembling.genome(maps)
