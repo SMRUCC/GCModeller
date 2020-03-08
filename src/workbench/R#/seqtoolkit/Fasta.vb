@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -293,6 +294,20 @@ Module Fasta
                 .DoCall(Function(seqs)
                             Return New FastaFile(seqs)
                         End Function)
+        ElseIf x.GetType Is GetType(SequenceMotif) Then
+            Dim motif As SequenceMotif = DirectCast(x, SequenceMotif)
+            Dim fasta As FastaFile = motif.seeds.names _
+                .Select(Function(name, i)
+                            Return New FastaSeq With {
+                                .Headers = {name},
+                                .SequenceData = motif.seeds.MSA(i)
+                            }
+                        End Function) _
+                .DoCall(Function(seqs)
+                            Return New FastaFile(seqs)
+                        End Function)
+
+            Return fasta
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
 
