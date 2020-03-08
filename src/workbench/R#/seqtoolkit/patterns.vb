@@ -56,7 +56,7 @@ Module patterns
                                target As Object,
                                Optional cutoff# = 0.6,
                                Optional minW# = 6,
-                               Optional identities As Double = 0.5,
+                               Optional identities As Double = 0.85,
                                Optional env As Environment = Nothing) As Object
 
         If target Is Nothing Then
