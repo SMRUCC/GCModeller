@@ -178,6 +178,25 @@ Module workflows
         Return True
     End Function
 
+    <ExportAPI("besthit.filter")>
+    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional env As Environment = Nothing) As pipeline
+        If besthits Is Nothing Then
+            Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
+        ElseIf Not besthits.elementType Is GetType(BestHit) Then
+            Return REnv.Internal.debug.stop($"could not handle the stream data: {besthits.elementType.fullName}", env)
+        End If
+
+        Dim filter As Func(Of BestHit, Boolean) =
+            Function(hit)
+                Return hit.evalue <= evalue
+            End Function
+
+        Return besthits _
+            .populates(Of BestHit) _
+            .Where(filter) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>
@@ -190,14 +209,36 @@ Module workflows
     Public Function openWriter(file As String,
                                Optional type As TableTypes = TableTypes.SBH,
                                Optional encoding As Encodings = Encodings.ASCII,
+                               Optional ioRead As Boolean = False,
                                Optional env As Environment = Nothing) As Object
         Select Case type
             Case TableTypes.SBH
-                Return New WriteStream(Of BestHit)(file, encoding:=encoding)
+                If ioRead Then
+                    Return file _
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of BestHit) _
+                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                Else
+                    Return New WriteStream(Of BestHit)(file, encoding:=encoding)
+                End If
             Case TableTypes.BBH
-                Return New WriteStream(Of BiDirectionalBesthit)(file, encoding:=encoding)
+                If ioRead Then
+                    Return file _
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of BiDirectionalBesthit) _
+                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                Else
+                    Return New WriteStream(Of BiDirectionalBesthit)(file, encoding:=encoding)
+                End If
             Case TableTypes.Mapping
-                Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding)
+                If ioRead Then
+                    Return file _
+                       .OpenHandle(encoding.CodePage) _
+                       .AsLinq(Of BlastnMapping) _
+                       .DoCall(AddressOf pipeline.CreateFromPopulator)
+                Else
+                    Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding)
+                End If
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
         End Select
