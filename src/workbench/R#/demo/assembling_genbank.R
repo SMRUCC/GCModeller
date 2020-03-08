@@ -1,4 +1,4 @@
-imports ["annotation.genomics", "bioseq.fasta"] from "seqtoolkit.dll";
+imports ["annotation.genomics", "annotation.genbank_kit", "bioseq.fasta"] from "seqtoolkit.dll";
 
 let genome.nt = read.seq("K:\20200226\IGV_data\genome.fasta") :> as.object;
 let sRNA = $"sRNA\d+";
