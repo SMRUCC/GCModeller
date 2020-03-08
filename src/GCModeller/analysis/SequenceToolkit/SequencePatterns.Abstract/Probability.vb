@@ -77,6 +77,24 @@ Public Class Probability
         Public Property frequency As Dictionary(Of Char, Double)
         Public Property index As Integer
 
+        Default Public ReadOnly Property getFrequency(base As Char) As Double
+            Get
+                Return _frequency(base)
+            End Get
+        End Property
+
+        Public ReadOnly Property isEmpty As Boolean
+            Get
+                If frequency.IsNullOrEmpty Then
+                    Return True
+                ElseIf frequency.Values.All(Function(p) p = 0.0) Then
+                    Return True
+                Else
+                    Return False
+                End If
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Dim max As Double = -99999

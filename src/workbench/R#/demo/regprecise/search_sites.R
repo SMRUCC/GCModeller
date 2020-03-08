@@ -12,7 +12,7 @@ for(family.json in list.files("PWM", pattern = "*.json")) {
 		sites <- sites << motif.find_sites(
 			motif  = motif, 
 			target = read.fasta("K:\20200226\TRN\genomics\nt.fasta"), 
-			cutoff = 0.995
+			cutoff = 0.9
 		)
 		;
 	}

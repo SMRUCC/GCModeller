@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -49,6 +50,41 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+
+Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
+
+    Sub New(query As Residue(), subject As Residue())
+        Call MyBase.New(defaultScoreMatrix, Nothing, Function(x) x.ToString)
+
+        Me.Sequence1 = query
+        Me.Sequence2 = subject
+    End Sub
+
+    Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Residue)
+        Return New ScoreMatrix(Of Residue)(Function(a, b)
+                                               Dim maxA = Residue.Max(a)
+                                               Dim maxB = Residue.Max(b)
+
+                                               If a.isEmpty OrElse b.isEmpty Then
+                                                   Return False
+                                               End If
+
+                                               If maxA = maxB Then
+                                                   Return True
+                                               Else
+                                                   ' A是motif模型，所以不一致的时候以A为准
+                                                   Dim freqB = b(maxA)
+
+                                                   If freqB < 0.3 Then
+                                                       Return False
+                                                   Else
+                                                       Return True
+                                                   End If
+                                               End If
+                                           End Function) With {.MatchScore = 10}
+    End Function
+End Class
+
 
 Public Module ProbabilityScanner
 
@@ -67,12 +103,13 @@ Public Module ProbabilityScanner
                               Optional identities As Double = 0.5) As SimpleSegment()
 
         Dim PWM = prob.ToArray
-        Dim core As New GSW(Of Residue)(PWM, target.ToResidues, AddressOf Compare, AddressOf Residue.Max)
+        Dim subject As Residue() = target.ToResidues
+        Dim core As New GSW(Of Residue)(PWM, subject, AddressOf Compare, AddressOf Residue.Max)
         Dim result = core.GetMatches(cutoff * core.MaxScore) _
             .Select(Function(match)
-                        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).Select(Function(r) r.ToString).JoinBy("").ToUpper
-                        Dim s = target.SequenceData.Skip(match.fromB).Take(match.toB - match.fromA).JoinBy("").ToUpper
-                        Dim pairwise As New NeedlemanWunsch(q, s)
+                        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
+                        Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
+                        Dim pairwise As New MotifNeedlemanWunsch(q, s)
 
                         pairwise.Compute()
 
