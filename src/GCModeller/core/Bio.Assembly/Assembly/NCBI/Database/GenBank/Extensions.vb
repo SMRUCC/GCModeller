@@ -56,11 +56,21 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
+Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 
 Namespace Assembly.NCBI.GenBank
 
     <Package("NCBI.Genbank.Extensions", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module Extensions
+
+        <Extension>
+        Public Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
+            Return GBFF.File _
+           .LoadDatabase(filePath:=genome) _
+           .ToDictionary(Function(gb)
+                             Return gb.Locus.AccessionID
+                         End Function)
+        End Function
 
         <Extension>
         Public Function GPFF2Feature(gb As GBFF.File, gff As Dictionary(Of String, GFF.Feature)) As GeneBrief
@@ -97,6 +107,51 @@ Namespace Assembly.NCBI.GenBank
             }
 
             Return gene
+        End Function
+
+        <Extension>
+        Public Function CreateGenbankObject(table As PTT) As GBFF.File
+            Dim feature, CDS As gbffFeature
+            Dim gb As New GBFF.File With {
+                .Features = New FEATURES
+            }
+            Dim loci As NucleotideLocation
+
+            For Each gene As GeneBrief In table.GeneObjects
+                loci = gene.Location
+                feature = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "gene",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+                CDS = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "CDS",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+
+                Call feature.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call feature.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+
+                Call CDS.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call CDS.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+                Call CDS.SetValue(FeatureQualifiers.product, gene.Product)
+
+                Call gb.Features.Add(feature)
+                Call gb.Features.Add(CDS)
+            Next
+
+            Return gb
         End Function
 
         ''' <summary>
