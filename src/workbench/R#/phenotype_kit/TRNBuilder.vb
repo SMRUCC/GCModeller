@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Linq
@@ -113,13 +114,27 @@ Module TRNBuilder
         Return Iterator Function() As IEnumerable(Of RegulationFootprint)
                    Dim regulatorList As List(Of (BacteriaRegulome, Regulator))
                    Dim regulation As RegulationFootprint
+                   Dim edgeKeyIndex As New Index(Of String)
+                   Dim edgeKey$
 
                    For Each gene As FootprintSite In motifLocis
                        For Each familyName As String In gene.src
                            regulatorList = regulatorTable(familyName)
 
-                           For Each regulator As (genome As BacteriaRegulome, reg As Regulator) In regulatorList.Where(Function(reg) regulatorMapTable.ContainsKey(reg.Item2.LocusId))
+                           For Each regulator As (genome As BacteriaRegulome, reg As Regulator) In regulatorList _
+                               .Where(Function(reg)
+                                          Return regulatorMapTable.ContainsKey(reg.Item2.LocusId)
+                                      End Function)
+
                                For Each hit As BestHit In regulatorMapTable(regulator.reg.LocusId)
+                                   edgeKey = $"{hit.QueryName}->{gene.gene}"
+
+                                   If edgeKey Like edgeKeyIndex Then
+                                       Continue For
+                                   Else
+                                       edgeKeyIndex.Add(edgeKey)
+                                   End If
+
                                    regulation = New RegulationFootprint With {
                                        .family = familyName,
                                        .effector = regulator.reg.effector,
@@ -129,7 +144,8 @@ Module TRNBuilder
                                        .regprecise = regulator.reg.regulog.name,
                                        .regulog = regulator.reg.regulog.name,
                                        .regulated = gene.gene,
-                                       .species = regulator.genome.genome.name
+                                       .species = regulator.genome.genome.name,
+                                       .identities = hit.identities
                                    }
 
                                    Yield regulation
