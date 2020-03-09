@@ -11,7 +11,7 @@ let headers = sprintf("%s [VF=%s EG=%s]|%s", geneId, VF, EG, desc);
 
 print(headers);
 
-sapply(1:length(seq), i -> fasta(seq[i], headers[i]))
+sapply(1:length(seq), i -> fasta(seq[i], geneId[i]))
 :> as.fasta
 :> write.fasta(file = "K:\20200226\TRN\1025.fasta")
 ;
