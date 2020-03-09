@@ -290,6 +290,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\interops\meme_suite\TmoD\TmoD.vbproj">
+      <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
+      <Name>TmoD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
       <Project>{7E6DF33F-FEB0-447F-B656-A51ACD00E888}</Project>
       <Name>DataTools</Name>
@@ -321,6 +325,10 @@
     <ProjectReference Include="..\..\..\workbench\markdown2pdf\ReportBuilder\ReportBuilder.vbproj">
       <Project>{eeb2bb03-20b0-4381-8a9e-e2210eb568a5}</Project>
       <Name>ReportBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
+      <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
+      <Name>MotifScanner</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
       <Project>{49219B69-7958-4BDB-B72B-9B72D7902A28}</Project>
@@ -365,10 +373,6 @@
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\interops\meme_suite\TmoD\TmoD.vbproj">
-      <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
-      <Name>TmoD</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
       <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>

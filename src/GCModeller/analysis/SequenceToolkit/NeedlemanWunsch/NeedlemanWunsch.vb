@@ -45,13 +45,13 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Public Class NeedlemanWunsch : Inherits NeedlemanWunsch(Of Char)
 
     Sub New(query As String, subject As String)
-        Call MyBase.New(AddressOf defaultCharEquals, "-"c, Function(x) x)
+        Call MyBase.New(defaultScoreMatrix, "-"c, Function(x) x)
 
         Me.Sequence1 = query.ToCharArray
         Me.Sequence2 = subject.ToCharArray
     End Sub
 
-    Private Shared Function defaultCharEquals(a As Char, b As Char) As Boolean
-        Return a = b
+    Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Char)
+        Return New ScoreMatrix(Of Char)(Function(a, b) a = b)
     End Function
 End Class

@@ -108,12 +108,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\genbankKit.vb" />
     <Compile Include="Annotations\terms.vb" />
     <Compile Include="Annotations\workflows.vb" />
     <Compile Include="Fasta.vb" />
     <Compile Include="Blast.vb" />
+    <Compile Include="Annotations\genomics.vb" />
     <Compile Include="patterns.vb" />
-    <Compile Include="sequenceLogo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

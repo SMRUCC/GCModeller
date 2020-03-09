@@ -70,7 +70,12 @@ Namespace Motif
 
         Public MustOverride Function Scan(pattern As String) As SimpleSegment()
 
-        <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
+        ''' <summary>
+        ''' Found out all of the loci site on the target sequence.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="loci"></param>
+        ''' <returns></returns>
         Public Shared Function FindLocation(seq As IPolymerSequenceModel, loci As String) As Integer()
             Return FindLocation(seq.SequenceData, loci).ToArray
         End Function
@@ -83,7 +88,6 @@ Namespace Motif
         ''' <param name="Loci"></param>
         ''' <returns></returns>
         ''' <remarks>这个位置查找函数是OK的</remarks>
-        <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
         Public Shared Iterator Function FindLocation(seq$, loci$) As IEnumerable(Of Integer)
             Dim pI32% = 1
 

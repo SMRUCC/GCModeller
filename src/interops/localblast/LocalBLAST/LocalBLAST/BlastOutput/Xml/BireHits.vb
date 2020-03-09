@@ -83,8 +83,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
         ''' <remarks></remarks>
         Protected Friend ReadOnly Property Coverage As Double
             Get
-                Dim LQuery = From Hsp As Hsp In Me.Hsps Select Val(Hsp.HitTo) - Val(Hsp.HitFrom) '
-                Return LQuery.Sum / Val(Len)
+                Return (Aggregate hsp As Hsp In Hsps Into Sum(Val(hsp.HitTo) - Val(hsp.HitFrom))) / Val(Len)
             End Get
         End Property
 
@@ -108,15 +107,13 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
 
         Protected Friend ReadOnly Property Identities As Double
             Get
-                Dim LQuery As Double() = (From Hsp As Hsp In Me.Hsps Select Val(Hsp.Identity)).ToArray
-                Return LQuery.Sum / LQuery.Length
+                Return Aggregate hsp As Hsp In Hsps Into Average(Val(hsp.Identity))
             End Get
         End Property
 
         Protected Friend ReadOnly Property Gaps As Integer
             Get
-                Dim LQuery = From Hsp As Hsp In Me.Hsps Select Val(Hsp.Gaps) '
-                Return LQuery.Sum
+                Return (From hsp As Hsp In Hsps Select Val(hsp.Gaps)).Sum
             End Get
         End Property
 
@@ -130,6 +127,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
             Else
                 Id = "Unknown"
             End If
+
             Return 0
         End Function
     End Class

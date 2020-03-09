@@ -150,7 +150,7 @@ Partial Module CLI
                      Let sw As SmithWaterman = SmithWaterman.Align(query, b, matrix)
                      Let out As HSP = sw.GetOutput(cutoff, minW).Best
                      Select b.Title,
-                         score = If(out Is Nothing, -100.0R, out.Score)
+                         score = If(out Is Nothing, -100.0R, out.score)
 
         Dim output As Dictionary(Of String, Double) =
             LQuery.ToDictionary(Function(x) x.Title,

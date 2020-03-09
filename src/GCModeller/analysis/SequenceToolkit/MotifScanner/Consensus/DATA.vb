@@ -94,7 +94,7 @@ Public Class PopulatorParameter
 
 End Class
 
-Public Class Motif : Inherits Probability
+Public Class SequenceMotif : Inherits Probability
 
     Public Property seeds As MSAOutput
     Public Property length As Integer
