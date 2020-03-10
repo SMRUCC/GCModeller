@@ -258,6 +258,12 @@ Public Module Extensions
             .ToDictionary(Function(gene)
                               Return gene.geneID
                           End Function)
+        Dim RNAIndex As Index(Of String) = model.Genotype.centralDogmas _
+            .Where(Function(proc) proc.IsRNAGene) _
+            .Select(Function(proc)
+                        Return proc.geneID
+                    End Function) _
+            .ToArray
 
         ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
@@ -265,8 +271,10 @@ Public Module Extensions
 
             If proteinSequnce.ContainsKey(gene.Synonym) Then
                 aa = proteinSequnce(gene.Synonym).CreateVector
-            Else
+            ElseIf locus_tag Like RNAIndex Then
                 aa = Nothing
+            Else
+                Continue For
             End If
 
             rna = RNAComposition _
