@@ -46,6 +46,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
+Public Delegate Function Weights(x As Vector) As Vector
+
 Public Module DoubleLinear
 
     <Extension>
@@ -71,7 +73,7 @@ Public Module DoubleLinear
     ''' <returns></returns>
     <Extension>
     Public Function AutoPointDeletion(points As IEnumerable(Of PointF),
-                                      Optional weighted As Boolean = False,
+                                      Optional weighted As Weights = Nothing,
                                       Optional max As Integer = -1,
                                       Optional ByRef removed As List(Of PointF) = Nothing,
                                       Optional keepsLowestPoint As Boolean = False) As IFitted
@@ -98,8 +100,8 @@ Public Module DoubleLinear
         model = LinearRegression(measure, ref, weighted)
         bestfit = model
 
-        If Not model Is Nothing AndAlso model.CorrelationCoefficient > R2 Then
-            R2 = model.CorrelationCoefficient
+        If Not model Is Nothing AndAlso model.R2 > R2 Then
+            R2 = model.R2
             bestfit = model
 
             If R2 > 0.999 Then
@@ -126,8 +128,8 @@ Public Module DoubleLinear
                 Y = ref.Delete({i})
                 model = LinearRegression(X, Y, weighted)
 
-                If Not model Is Nothing AndAlso model.CorrelationCoefficient > RMax Then
-                    RMax = model.CorrelationCoefficient
+                If Not model Is Nothing AndAlso model.R2 > RMax Then
+                    RMax = model.R2
                     modelBest = model
                     bestX = X
                     bestY = Y
