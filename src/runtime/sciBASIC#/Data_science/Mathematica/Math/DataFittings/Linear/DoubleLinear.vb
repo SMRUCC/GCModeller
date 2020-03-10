@@ -73,9 +73,10 @@ Public Module DoubleLinear
     Public Function AutoPointDeletion(points As IEnumerable(Of PointF),
                                       Optional weighted As Boolean = False,
                                       Optional max As Integer = -1,
-                                      Optional ByRef removed As List(Of PointF) = Nothing) As IFitted
+                                      Optional ByRef removed As List(Of PointF) = Nothing,
+                                      Optional keepsLowestPoint As Boolean = False) As IFitted
 
-        Dim pointVec As PointF() = points.ToArray
+        Dim pointVec As PointF() = points.OrderBy(Function(p) p.X).ToArray
 
         If max < 0 Then
             ' auto
@@ -106,6 +107,9 @@ Public Module DoubleLinear
             End If
         End If
 
+        ' try to removes at least one point
+        ' and the auto deletion is limited 
+        ' to the max point
         For p As Integer = 1 To max
             ' 循环删除一个点，取R2最大的
             Dim X, Y As Vector
@@ -115,7 +119,9 @@ Public Module DoubleLinear
             Dim bestY As Vector = Nothing
             Dim invalidIndex As Integer = -999
 
-            For i As Integer = 0 To measure.Length - 1
+            ' if keeps the lowest point, then we start from the third point
+            ' else we start from the first lowest point
+            For i As Integer = If(keepsLowestPoint, 1, 0) To measure.Length - 1
                 X = measure.Delete({i})
                 Y = ref.Delete({i})
                 model = LinearRegression(X, Y, weighted)
@@ -142,7 +148,7 @@ Public Module DoubleLinear
                 measure = bestX
                 ref = bestY
 
-                If R2 > 0.999 Then
+                If R2 > 0.99 Then
                     Return bestfit
                 End If
             End If
