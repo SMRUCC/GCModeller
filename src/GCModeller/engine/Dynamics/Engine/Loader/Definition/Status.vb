@@ -73,7 +73,7 @@ Namespace Engine.Definitions
 
         Sub New(name$, status As Dictionary(Of String, Double))
             Me.masslist = status.Keys.ToArray
-            Me.status = status.Takes(masslist)
+            Me.status = status.Takes(masslist).AsVector
             Me.name = name
         End Sub
 
