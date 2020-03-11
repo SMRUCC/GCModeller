@@ -1,4 +1,6 @@
-let regulations <- read.csv("S:\2020\union\1.TRN\regulations.csv");
+require(plot.charts);
+
+let regulations <- read.csv("K:\20200226\TRN\genomics\search\regulations.csv");
 let family = regulations[, "family"] 
 :> as.character 
 :> groupBy(name -> name) 
@@ -11,5 +13,5 @@ str(family);
 family
 :> as.numeric
 :> plot
-:> save.graphics(file = "S:\2020\union\1.TRN\regulation_family.png")
+:> save.graphics(file = "K:\20200226\TRN\genomics\search\regulations.png")
 ;
