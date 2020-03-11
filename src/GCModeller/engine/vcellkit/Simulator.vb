@@ -54,6 +54,12 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
+Public Enum ModuleSystemLevels
+    Transcriptome
+    Proteome
+    Metabolome
+End Enum
+
 ''' <summary>
 ''' 
 ''' </summary>
@@ -76,6 +82,12 @@ Public Module Simulator
         Return path.LoadXml(Of VirtualCell)
     End Function
 
+    ''' <summary>
+    ''' Create a new status profile data object with unify mass contents.
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="mass#"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.mass.kegg")>
     <Extension>
     Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
@@ -120,9 +132,38 @@ Public Module Simulator
             .LoadModel(vcell, deletions, time_resolutions)
     End Function
 
+    ''' <summary>
+    ''' Create the default cell dynamics parameters
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("dynamics.default")>
     Public Function GetDefaultDynamics() As FluxBaseline
         Return New FluxBaseline
+    End Function
+
+    <ExportAPI("apply.module_profile")>
+    Public Function ApplyModuleProfile(engine As Engine, profile As Dictionary(Of String, Double), Optional system As ModuleSystemLevels = ModuleSystemLevels.Transcriptome) As Engine
+        If engine Is Nothing OrElse profile.IsNullOrEmpty Then
+            Return engine
+        End If
+
+        Dim status As Definition = engine.initials
+
+        Select Case system
+            Case ModuleSystemLevels.Transcriptome
+
+            Case ModuleSystemLevels.Proteome
+
+            Case ModuleSystemLevels.Metabolome
+                For Each compound In profile
+                    status.status(compound.Key) = compound.Value
+                Next
+
+            Case Else
+                Return engine
+        End Select
+
+        Return engine
     End Function
 
     <ExportAPI("vcell.snapshot")>
