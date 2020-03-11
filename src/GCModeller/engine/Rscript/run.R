@@ -97,11 +97,16 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     sampleName = `${exp.tag}${i}`;
     sample.names = sample.names << sampleName;
 
-    # run virtual cell simulation and then 
-    # save the result snapshot data files into 
-    # target data directory
-    engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+	using xml as open.vcellXml(file = `${output.dir}/raw/${sampleName}.vcXML`, vcell = vcell) {
+		let folder as string = `${output.dir}/${sampleName}/`;
+	
+	    # run virtual cell simulation and then 
+		# save the result snapshot data files into 
+		# target data directory
+		engine$AttachBiologicalStorage(xml);
+		engine$Run();
+		engine :> vcell.snapshot(mass, flux, save = folder);
+	}
 }
 
 let save.sampleName as function(fileName) {

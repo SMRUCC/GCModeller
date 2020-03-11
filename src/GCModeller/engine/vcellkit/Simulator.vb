@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
@@ -164,6 +165,11 @@ Public Module Simulator
         End Select
 
         Return engine
+    End Function
+
+    <ExportAPI("open.vcellXml")>
+    Public Function xmlWriter(file As String, vcell As CellularModule) As VcellAdapterDriver
+        Return New VcellAdapterDriver(file, vcell)
     End Function
 
     <ExportAPI("vcell.snapshot")>
