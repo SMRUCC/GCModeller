@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -85,7 +86,25 @@ Module RawXmlKit
             End If
         Next
 
+        Dim entities As DataSet() = raw _
+            .getStreamEntities(index(Scan0).module, index(Scan0).content_type) _
+            .Select(Function(id)
+                        Return New DataSet With {
+                            .ID = id,
+                            .Properties = New Dictionary(Of String, Double)
+                        }
+                    End Function) _
+            .ToArray
+        Dim vector As Double()
 
+        For Each offset As offset In index
+            vector = raw.getFrameVector(offset.offset)
 
+            For i As Integer = 0 To vector.Length - 1
+                entities(i).Add(offset.id, vector(i))
+            Next
+        Next
+
+        Return entities
     End Function
 End Module

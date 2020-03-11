@@ -38,8 +38,31 @@ Namespace vcXML
             Return index(name)
         End Function
 
-        Public Function getFrameVector(offset As Long) As Double()
+        Public Function getStreamEntities(module$, type$) As String()
+            Return entities([module])(type)
+        End Function
 
+        Public Function getFrameVector(offset As Long) As Double()
+            Dim line As Value(Of String) = ""
+
+            fs.BaseStream.Position = offset
+            fs.DiscardBufferedData()
+
+            Do While Not (line = fs.ReadLine).StringEmpty
+                If InStr(line.Value, "<vector") > 0 Then
+                    Exit Do
+                End If
+            Loop
+
+            Dim buffer As Byte() = line.Value.GetValue.DoCall(AddressOf decodeBuffer)
+            Dim vector As Double() = buffer _
+                .Split(8) _
+                .Select(Function(bits)
+                            Return BitConverter.ToDouble(bits, Scan0)
+                        End Function) _
+                .ToArray
+
+            Return vector
         End Function
 
         Private Sub loadOffsets()
@@ -163,7 +186,7 @@ Namespace vcXML
                 index([module])(type).Add(offset)
             Loop
 
-            fs.ReadLine()
+            Call fs.ReadLine()
         End Sub
 
 #Region "IDisposable Support"
