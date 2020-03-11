@@ -34,7 +34,7 @@ Module RawXmlKit
         If LCase(mode) = "read" Then
             Return New vcXML.Reader(file)
         ElseIf LCase(mode) = "write" Then
-            Dim vcell As Engine = arguments!vcell
+            Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
 
             If vcell Is Nothing Then
                 Return Internal.debug.stop("missing vcell engine argument value!", env)
