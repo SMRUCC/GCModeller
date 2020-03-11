@@ -106,6 +106,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RawXmlKit.vb" />
     <Compile Include="Compiler.vb" />
     <Compile Include="Analysis.vb" />
     <Compile Include="Simulator.vb" />

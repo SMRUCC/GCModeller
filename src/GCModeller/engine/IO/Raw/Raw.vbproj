@@ -188,6 +188,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="vcXML\Reader.vb" />
     <Compile Include="vcXML\XmlHelper.vb" />
     <Compile Include="vcXML\VcellAdapterDriver.vb" />
     <Compile Include="vcXML\Writer.vb" />

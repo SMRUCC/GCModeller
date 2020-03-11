@@ -48,7 +48,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 Public Module Extensions
 
     <Extension>
-    Public Iterator Function GetMatrix(raw As Reader, module$) As IEnumerable(Of DataSet)
+    Public Iterator Function GetMatrix(raw As Raw.Reader, module$) As IEnumerable(Of DataSet)
         For Each time As Double In raw.AllTimePoints
             Yield New DataSet With {
                 .ID = time,
