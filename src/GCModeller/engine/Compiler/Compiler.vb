@@ -269,9 +269,7 @@ Public Module Workflow
 
             Dim RNA As Feature = feature _
                 .FirstOrDefault(Function(component)
-                                    Return component.KeyName = "tRNA" OrElse
-                                           component.KeyName = "rRNA" OrElse
-                                           component.KeyName = "RNA"
+                                    Return InStr(component.KeyName, "RNA", CompareMethod.Text) > 0
                                 End Function)
             Dim CDS As Feature = feature _
                 .FirstOrDefault(Function(component)
@@ -302,9 +300,12 @@ Public Module Workflow
                     Else
                         rnaData = tRNAAnticodon.Parse(rnaData).aa
                     End If
-                Else
+                ElseIf RNA.KeyName = "rRNA" Then
                     rnaType = RNATypes.ribosomalRNA
                     rnaData = RNA.Query("product").Trim.Split().First
+                Else
+                    rnaType = RNATypes.micsRNA
+                    rnaData = RNA.Query("product").Trim
                 End If
             ElseIf Not CDS Is Nothing Then
                 proteinId = CDS.Query("protein_id")

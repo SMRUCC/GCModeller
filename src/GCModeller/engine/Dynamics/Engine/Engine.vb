@@ -72,10 +72,16 @@ Namespace Engine
         ''' The biological flux simulator engine core module
         ''' </summary>
         Dim core As Vessel
-        Dim def As Definition
+
         Dim dynamics As FluxBaseline
-        Dim model As CellularModule
         Dim iterations As Integer = 5000
+
+        Public ReadOnly Property model As CellularModule
+        ''' <summary>
+        ''' The compound map definition and the initial status
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property initials As Definition
 
         ''' <summary>
         ''' Data snapshot of current iteration.
@@ -85,7 +91,7 @@ Namespace Engine
         Public ReadOnly Property debugView As DebuggerView
 
         Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000)
-            Me.def = def
+            Me.initials = def
             Me.iterations = iterations
             Me.dynamics = dynamics
             Me.debugView = New DebuggerView(Me)
@@ -106,12 +112,12 @@ Namespace Engine
                                   Optional timeResolution# = 1000,
                                   Optional ByRef getLoader As Loader = Nothing) As Engine
 
-            getLoader = New Loader(def, dynamics)
+            getLoader = New Loader(initials, dynamics)
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize(timeResolution)
             mass = getLoader.massTable
-            model = virtualCell
+            _model = virtualCell
 
             Call Reset()
 
@@ -132,8 +138,8 @@ Namespace Engine
         ''' </summary>
         Public Sub Reset()
             For Each mass As Factor In Me.mass
-                If def.status.ContainsKey(mass.ID) Then
-                    mass.Value = def.status(mass.ID)
+                If initials.status.ContainsKey(mass.ID) Then
+                    mass.Value = initials.status(mass.ID)
                 Else
                     mass.Value = 1
                 End If

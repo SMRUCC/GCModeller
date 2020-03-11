@@ -135,7 +135,7 @@ Namespace Raw
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
-            Return Write([module], time, snapshot.Takes(modules([module]).Objects))
+            Return Write([module], time, snapshot.Takes(modules([module]).Objects).ToArray)
         End Function
 
         Public Function Write(module$, time#, data#()) As Writer

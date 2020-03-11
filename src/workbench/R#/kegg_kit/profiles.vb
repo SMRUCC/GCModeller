@@ -1,11 +1,16 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Visualize.CatalogProfiling
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("kegg.profiles")>
 Module profiles
@@ -41,6 +46,26 @@ Module profiles
                                   .Distinct _
                                   .Count
                           End Function)
+    End Function
+
+    <ExportAPI("KO.map.profiles")>
+    <RApiReturn(GetType(Dictionary(Of String, Double)))>
+    Public Function KOpathwayProfiles(<RRawVectorArgument> KO As Object, Optional env As Environment = Nothing) As Object
+        If KO Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf KO Is String() Then
+            KO = DirectCast(KO, String()).Select(Function(id) New NamedValue(Of String)(id, id)).ToArray
+        End If
+
+        If Not TypeOf KO Is NamedValue(Of String)() Then
+            Return Internal.debug.stop({
+                $"invalid data type for KO mapping statices",
+                $"data type: {KO.GetType.FullName}"
+            }, env)
+        End If
+
+        Dim profiles = DirectCast(KO, NamedValue(Of String)()).LevelAKOStatics.AsDouble
+        Return profiles
     End Function
 
     <ExportAPI("kegg.category_profiles")>
