@@ -48,6 +48,10 @@ Imports SMRUCC.genomics.Metagenomics
 ''' + Phenotype
 ''' + Regulations
 ''' 
+''' This object class is just a object model of the target cellular system, 
+''' and only contains the network structure information in it. The expression 
+''' profiles data is not includes in this object model.
+''' 
 ''' (GCMarkup或者Tabular模型文件加载之后会被转换为这个对象，然后计算核心加载这个对象模型来进行计算分析)
 ''' </summary>
 ''' <remarks>

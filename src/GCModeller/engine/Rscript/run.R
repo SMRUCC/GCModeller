@@ -6,11 +6,33 @@ imports "vcellkit.simulator" from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
-let model                <- read.vcell(path = ?"--in") :> as.object;
-let output.dir as string <- ?"--out" || `${dirname(?"--in")}/result/`;
+let model.file as string <- ?"--in"  || stop("No virtual cell model provided!");
+let model                <- read.vcell(path = model.file) :> as.object;
+let output.dir as string <- ?"--out" || `${dirname(model.file)}/result/`;
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
+
+# get profile list files
+let transcripts as string = ?"--transcripts";
+let proteins    as string = ?"--proteins";
+let compounds   as string = ?"--compounds";
+
+if (file.exists(transcripts)) {
+	transcripts <- read.list(transcripts, mode = "numeric"); 
+} else {
+	transcripts <- NULL;
+}
+if (file.exists(proteins)) {
+	proteins <- read.list(proteins, mode = "numeric");
+} else {
+	proteins <- NULL;
+}
+if (file.exists(compounds)) {
+	compounds <- read.list(compounds, mode = "numeric");
+} else {
+	compounds <- NULL;
+}
 
 print("Run virtual cell model:");
 print(model);
@@ -38,7 +60,7 @@ print("Gene list file for apply the deletion operation:");
 print(deletions);
 
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
-tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
+tag.name  <- is.empty(tag.name) ? "control_" : tag.name;
 
 if (is.empty(deletions)) {
     print("No gene deletions for current VirtualCell simulation analysis.");
@@ -60,10 +82,14 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 500, 
+            iterations       = 2, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
+		# apply profiles data
+		:> apply.module_profile(profile = transcripts, system = "Transcriptome")
+		:> apply.module_profile(profile = proteins,    system = "Proteome")
+		:> apply.module_profile(profile = compounds,   system = "Metabolome")
         # apply as.object function for the initialzie pipeline code
         # to construct a R# object
         :> as.object;
@@ -72,11 +98,16 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     sampleName = `${exp.tag}${i}`;
     sample.names = sample.names << sampleName;
 
-    # run virtual cell simulation and then 
-    # save the result snapshot data files into 
-    # target data directory
-    engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+	using xml as open.vcellXml(file = `${output.dir}/raw/${sampleName}.vcXML`, vcell = engine) {
+		let folder as string = `${output.dir}/${sampleName}/`;
+	
+	    # run virtual cell simulation and then 
+		# save the result snapshot data files into 
+		# target data directory
+		engine$AttachBiologicalStorage(xml);
+		engine$Run();
+		engine :> vcell.snapshot(mass, flux, save = folder);
+	}
 }
 
 let save.sampleName as function(fileName) {

@@ -130,7 +130,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(keys As IEnumerable(Of String)) As Factor()
-            Return massTable.Takes(keys)
+            Return massTable.Takes(keys).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

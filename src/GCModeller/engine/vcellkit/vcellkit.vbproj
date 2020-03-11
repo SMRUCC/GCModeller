@@ -106,6 +106,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RawXmlKit.vb" />
     <Compile Include="Compiler.vb" />
     <Compile Include="Analysis.vb" />
     <Compile Include="Simulator.vb" />
@@ -180,6 +181,10 @@
     <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
       <Name>GCMarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\Raw\Raw.vbproj">
+      <Project>{07CC0292-9EDA-4E02-BF0D-043391C99F07}</Project>
+      <Name>Raw</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.vbproj">
       <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
