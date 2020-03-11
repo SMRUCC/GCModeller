@@ -1,5 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Xml
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Namespace vcXML
@@ -11,12 +13,12 @@ Namespace vcXML
 
         Dim fs As Writer
 
-        Sub New(file As String, model As CellularModule)
+        Sub New(file As String, model As CellularModule, args As FluxBaseline)
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
 
-            fs = New Writer(file)
-            fs.writeInit(Me)
+            fs = New Writer(file, New XmlWriterSettings With {.Indent = True, .NewLineOnAttributes = True})
+            fs.writeInit(Me, args)
         End Sub
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot

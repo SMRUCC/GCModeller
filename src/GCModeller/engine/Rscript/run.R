@@ -82,7 +82,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 5000, 
+            iterations       = 2, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -98,7 +98,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     sampleName = `${exp.tag}${i}`;
     sample.names = sample.names << sampleName;
 
-	using xml as open.vcellXml(file = `${output.dir}/raw/${sampleName}.vcXML`, vcell = vcell) {
+	using xml as open.vcellXml(file = `${output.dir}/raw/${sampleName}.vcXML`, vcell = engine) {
 		let folder as string = `${output.dir}/${sampleName}/`;
 	
 	    # run virtual cell simulation and then 

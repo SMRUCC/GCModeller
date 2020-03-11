@@ -168,8 +168,8 @@ Public Module Simulator
     End Function
 
     <ExportAPI("open.vcellXml")>
-    Public Function xmlWriter(file As String, vcell As CellularModule) As VcellAdapterDriver
-        Return New VcellAdapterDriver(file, vcell)
+    Public Function xmlWriter(file As String, vcell As Engine) As VcellAdapterDriver
+        Return New VcellAdapterDriver(file, vcell.model, vcell.dynamics)
     End Function
 
     <ExportAPI("vcell.snapshot")>

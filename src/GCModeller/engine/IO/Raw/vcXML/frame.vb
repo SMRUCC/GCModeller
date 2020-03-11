@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace vcXML
 
@@ -9,7 +10,23 @@ Namespace vcXML
         Public Property sha1 As String
     End Class
 
+    Public Class parameters : Inherits ListOf(Of NamedValue)
+
+        <XmlElement>
+        Public Property args As NamedValue()
+
+        Protected Overrides Function getSize() As Integer
+            Return args.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of NamedValue)
+            Return args
+        End Function
+    End Class
+
     Public Class vcRun
+
+        Public Property parameters As parameters
 
         <XmlElement>
         Public Property omics As omicsDataEntities()

@@ -2,10 +2,13 @@
 Imports System.Text
 Imports System.Xml
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 
 Namespace vcXML
 
@@ -16,16 +19,16 @@ Namespace vcXML
         Dim doReverse As Boolean = False
         Dim index As New List(Of offset)
         Dim serializer As New XmlSerializer(GetType(frame))
-        Dim emptyNamespace As New XmlSerializerNamespaces()
         Dim md5 As New List(Of String)
+        Dim xmlConfig As XmlWriterSettings
 
-        Friend Sub New(file As String, Optional networkByteOrder As Boolean = True)
+        Friend Sub New(file As String, xmlSettings As XmlWriterSettings, Optional networkByteOrder As Boolean = True)
             fs = file.OpenWriter(Encodings.UTF8WithoutBOM)
             doReverse = networkByteOrder AndAlso BitConverter.IsLittleEndian
-            emptyNamespace.Add(String.Empty, String.Empty)
+            xmlConfig = xmlSettings
         End Sub
 
-        Friend Sub writeInit(entities As VcellAdapterDriver)
+        Friend Sub writeInit(entities As VcellAdapterDriver, args As FluxBaseline)
             fs.WriteLine("<?xml version=""1.0"" encoding=""utf8""?>")
             fs.WriteLine("<vcXML xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
 xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
@@ -34,6 +37,9 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
             fs.WriteLine($"<run time=""{Now.ToString}"" software=""GCModeller"" />")
             fs.WriteLine("<vcRun>")
+
+            Call writeArguments(args)
+
             fs.WriteLine("<dataEntity>")
 
             Call writeHeader(NameOf(entities.mass.transcriptome), "mass_profile", entities.mass.transcriptome)
@@ -48,6 +54,20 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
             Call fs.WriteLine("<raw>")
             Call fs.Flush()
+        End Sub
+
+        Private Sub writeArguments(args As FluxBaseline)
+            Dim params As New parameters With {
+                .args = DataFramework.Schema(Of FluxBaseline)(PublicProperty, True, True) _
+                    .Select(Function(p)
+                                Return New NamedValue With {
+                                    .name = p.Key,
+                                    .text = p.Value.GetValue(args)
+                                }
+                            End Function)
+            }
+
+            Call fs.WriteLine(XmlHelper.getXmlFragment(params, xmlConfig))
         End Sub
 
         Private Sub writeHeader(module$, type$, list As String())
@@ -75,13 +95,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 .content_type = type
             }
 
-            Dim serializer As New XmlSerializer(GetType(omicsDataEntities))
-            Dim output As New StringBuilder()
-            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True})
-
-            serializer.Serialize(writer, objects, emptyNamespace)
-
-            Call fs.WriteLine(output.ToString)
+            Call fs.WriteLine(XmlHelper.getXmlFragment(objects, xmlConfig))
         End Sub
 
         Public Sub addFrame(time As Double, module$, type$, data As IEnumerable(Of Double))
@@ -105,7 +119,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
             md5 += frame.vector.data.MD5
 
             Dim output As New StringBuilder()
-            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True, .NewLineOnAttributes = True})
+            Dim writer As XmlWriter = XmlWriter.Create(output, xmlConfig)
 
             serializer.Serialize(writer, frame, emptyNamespace)
 
@@ -148,13 +162,8 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
             fs.Flush()
 
             Dim indexoffset As Long = fs.BaseStream.Position
-            Dim serializer As New XmlSerializer(GetType(index))
-            Dim output As New StringBuilder()
-            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True})
 
-            serializer.Serialize(writer, index, emptyNamespace)
-
-            fs.WriteLine(output.ToString)
+            fs.WriteLine(XmlHelper.getXmlFragment(index, xmlConfig))
             fs.WriteLine($"<indexOffset>{indexoffset}</indexOffset>")
             fs.WriteLine($"<md5>{md5.JoinBy("+").MD5}</md5>")
             fs.WriteLine("</vcXML>")

@@ -73,7 +73,12 @@ Namespace Engine
         ''' </summary>
         Dim core As Vessel
 
-        Dim dynamics As FluxBaseline
+        ''' <summary>
+        ''' The argument of the cellular flux dynamics
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dynamics As FluxBaseline
+
         Dim iterations As Integer = 5000
 
         Public ReadOnly Property model As CellularModule
