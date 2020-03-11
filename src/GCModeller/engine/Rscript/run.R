@@ -12,6 +12,27 @@ let output.dir as string <- ?"--out" || `${dirname(?"--in")}/result/`;
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
 
+# get profile list files
+let transcripts as string = ?"--transcripts";
+let proteins    as string = ?"--proteins";
+let compounds   as string = ?"--compounds";
+
+if (file.exists(transcripts)) {
+	transcripts <- read.list(transcripts, mode = "numeric"); 
+} else {
+	transcripts <- NULL;
+}
+if (file.exists(proteins)) {
+	proteins <- read.list(proteins, mode = "numeric");
+} else {
+	proteins <- NULL;
+}
+if (file.exists(compounds)) {
+	compounds <- read.list(compounds, mode = "numeric");
+} else {
+	compounds <- NULL;
+}
+
 print("Run virtual cell model:");
 print(model);
 
@@ -64,6 +85,10 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
+		# apply profiles data
+		:> apply.module_profile(profile = transcripts, system = "Transcriptome")
+		:> apply.module_profile(profile = proteins,    system = "Proteome")
+		:> apply.module_profile(profile = compounds,   system = "Metabolome")
         # apply as.object function for the initialzie pipeline code
         # to construct a R# object
         :> as.object;
