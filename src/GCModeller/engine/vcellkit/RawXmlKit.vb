@@ -8,7 +8,10 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
-<Package("vcellkit.rawXML")>
+''' <summary>
+''' 
+''' </summary>
+<Package("vcellkit.rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
 
     ''' <summary>
@@ -38,6 +41,24 @@ Module RawXmlKit
             Else
                 Return New VcellAdapterDriver(file, vcell.model, vcell.dynamics)
             End If
+        Else
+            Return Internal.debug.stop($"unknown I/O mode: {mode}...", env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' [debug api]
+    ''' </summary>
+    ''' <param name="raw"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("frame.index")>
+    Public Function getOffsetIndex(raw As vcXML.Reader) As offset()
+        Return raw.allFrames
+    End Function
+
+    <ExportAPI("time.frames")>
+    Public Function timeFrames(raw As vcXML.Reader, stream As list) As Object
+
     End Function
 End Module

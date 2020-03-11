@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.Linq
 
 Namespace vcXML
 
@@ -9,6 +10,12 @@ Namespace vcXML
         ''' [module -> [type -> offset]]
         ''' </summary>
         Dim index As Dictionary(Of String, Dictionary(Of String, offset))
+
+        Public ReadOnly Property allFrames As offset()
+            Get
+                Return index.Values.IteratesALL.Values
+            End Get
+        End Property
 
         Sub New(file As String)
             fs = file.OpenReader()
