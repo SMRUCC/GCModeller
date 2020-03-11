@@ -70,7 +70,15 @@ Namespace Text.Parser.HtmlParser
                 .EachValue _
                 .Select(Function(t)
                             Dim a = t.GetTagValue("=", trim:="""'")
-                            Dim val = a.Value.GetStackValue("""", """").GetStackValue("'", "'")
+                            Dim val As String
+
+                            If a.Value.Length = 1 AndAlso a.Value.First <> """"c AndAlso a.Value.First <> "'"c Then
+                                val = a.Value
+                            Else
+                                val = a.Value _
+                                    .GetStackValue("""", """") _
+                                    .GetStackValue("'", "'")
+                            End If
 
                             Return New NamedValue(Of String)(a.Name, val)
                         End Function)

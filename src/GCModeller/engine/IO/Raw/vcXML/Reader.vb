@@ -1,5 +1,7 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace vcXML
 
@@ -9,27 +11,73 @@ Namespace vcXML
         ''' <summary>
         ''' [module -> [type -> offset]]
         ''' </summary>
-        Dim index As Dictionary(Of String, Dictionary(Of String, offset))
+        Dim index As Dictionary(Of String, Dictionary(Of String, List(Of offset)))
+        Dim hash As String
 
         Public ReadOnly Property allFrames As offset()
             Get
-                Return index.Values.IteratesALL.Values
+                Return index.Values _
+                    .IteratesALL _
+                    .Values _
+                    .IteratesALL _
+                    .ToArray
             End Get
         End Property
 
         Sub New(file As String)
             fs = file.OpenReader()
+            fs.BaseStream.Seek(-128, SeekOrigin.End)
 
             Call loadOffsets()
         End Sub
 
         Private Sub loadOffsets()
-            fs.BaseStream.Seek(-200, SeekOrigin.End)
-
+            Dim line As Value(Of String) = ""
             Dim content = fs.ReadToEnd
-            Dim i = InStr(content, "<indexOffset>")
+            Dim i As Long = content _
+                .Match("<indexOffset>\d+</indexOffset>") _
+                .GetValue _
+                .DoCall(AddressOf Long.Parse)
 
+            hash = content.Match("<md5>.+</md5>", RegexICSng).GetValue
+            fs.BaseStream.Seek(i, SeekOrigin.Begin)
+            content = fs.ReadLine
+            index = New Dictionary(Of String, Dictionary(Of String, List(Of offset)))
 
+            Dim numOfFrames As Integer = content.attr("size").DoCall(AddressOf Integer.Parse)
+            Dim module$
+            Dim type$
+            Dim attrs As Dictionary(Of String, String)
+            Dim offset As offset
+
+            Do While numOfFrames > 0 AndAlso Not (line = fs.ReadLine).StringEmpty
+                attrs = line.Value _
+                    .TagAttributes _
+                    .ToDictionary(Function(a) a.Name,
+                                  Function(a)
+                                      Return a.Value
+                                  End Function)
+                [module] = attrs!module
+                [type] = attrs!content_type
+
+                If Not index.ContainsKey([module]) Then
+                    index.Add([module], New Dictionary(Of String, List(Of offset)))
+                End If
+                If Not index([module]).ContainsKey(type) Then
+                    index([module]).Add(type, New List(Of offset))
+                End If
+
+                numOfFrames -= 1
+                offset = New offset With {
+                    .offset = line.Value _
+                        .GetValue _
+                        .DoCall(AddressOf Long.Parse),
+                    .content_type = type,
+                    .id = attrs!id,
+                    .[module] = [module]
+                }
+                index([module])(type).Add(offset)
+            Loop
         End Sub
 
 #Region "IDisposable Support"
