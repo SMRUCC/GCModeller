@@ -98,7 +98,9 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
             index += New offset With {
                 .id = frame.num,
-                .offset = fs.BaseStream.Position
+                .offset = fs.BaseStream.Position,
+                .content_type = type,
+                .[module] = [module]
             }
             md5 += frame.vector.data.MD5
 

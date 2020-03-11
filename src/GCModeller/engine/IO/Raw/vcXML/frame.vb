@@ -58,8 +58,11 @@ Namespace vcXML
     End Class
 
     Public Class offset
-        <XmlAttribute>
-        Public Property id As String
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property [module] As String
+        <XmlAttribute> Public Property content_type As String
+
         <XmlText>
         Public Property offset As Long
     End Class
