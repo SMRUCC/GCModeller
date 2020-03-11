@@ -21,7 +21,7 @@ Namespace vcXML
         <XmlAttribute>
         Public Property [module] As String
         <XmlAttribute>
-        Public Property type As String
+        Public Property content_type As String
 
         <XmlText>
         Public Property entities As String
@@ -51,6 +51,7 @@ Namespace vcXML
 
         <XmlAttribute>
         Public Property name As String
+        <XmlAttribute>
         Public Property size As Integer
         <XmlElement>
         Public Property offsets As offset()

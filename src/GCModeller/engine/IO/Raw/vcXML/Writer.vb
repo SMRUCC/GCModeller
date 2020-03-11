@@ -27,9 +27,14 @@ Namespace vcXML
 
         Friend Sub writeInit(entities As VcellAdapterDriver)
             fs.WriteLine("<?xml version=""1.0"" encoding=""utf8""?>")
-            fs.WriteLine("<vcXML>")
+            fs.WriteLine("<vcXML xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+xmlns:GCModeller=""https://gcmodeller.org"" 
+xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
+
             fs.WriteLine($"<run time=""{Now.ToString}"" software=""GCModeller"" />")
             fs.WriteLine("<vcRun>")
+            fs.WriteLine("<dataEntity>")
 
             Call writeHeader(NameOf(entities.mass.transcriptome), "mass_profile", entities.mass.transcriptome)
             Call writeHeader(NameOf(entities.mass.proteome), "mass_profile", entities.mass.proteome)
@@ -38,6 +43,11 @@ Namespace vcXML
             Call writeHeader(NameOf(entities.flux.transcriptome), "activity", entities.flux.transcriptome)
             Call writeHeader(NameOf(entities.flux.proteome), "activity", entities.flux.proteome)
             Call writeHeader(NameOf(entities.flux.metabolome), "flux_size", entities.flux.metabolome)
+
+            Call fs.WriteLine("</dataEntity>")
+
+            Call fs.WriteLine("<raw>")
+            Call fs.Flush()
         End Sub
 
         Private Sub writeHeader(module$, type$, list As String())
@@ -62,14 +72,14 @@ Namespace vcXML
             Dim objects As New omicsDataEntities With {
                 .entities = ms.ToArray.ToBase64String,
                 .[module] = [module],
-                .type = type
+                .content_type = type
             }
 
             Dim serializer As New XmlSerializer(GetType(omicsDataEntities))
             Dim output As New StringBuilder()
             Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True})
 
-            serializer.Serialize(writer, index, emptyNamespace)
+            serializer.Serialize(writer, objects, emptyNamespace)
 
             Call fs.WriteLine(output.ToString)
         End Sub
@@ -98,6 +108,7 @@ Namespace vcXML
             serializer.Serialize(writer, frame, emptyNamespace)
 
             fs.WriteLine(output.ToString)
+            fs.Flush()
         End Sub
 
         Private Function encode(data As IEnumerable(Of Double)) As String
@@ -130,12 +141,14 @@ Namespace vcXML
                 .size = .offsets.Length
             }
 
+            fs.WriteLine("</raw>")
             fs.WriteLine("</vcRun>")
+            fs.Flush()
 
             Dim indexoffset As Long = fs.BaseStream.Position
             Dim serializer As New XmlSerializer(GetType(index))
             Dim output As New StringBuilder()
-            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True})
+            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True})
 
             serializer.Serialize(writer, index, emptyNamespace)
 
