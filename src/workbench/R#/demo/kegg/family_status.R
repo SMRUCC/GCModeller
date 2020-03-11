@@ -1,5 +1,6 @@
 imports "visualkit.plots" from "visualkit.dll";
 imports "bioseq.fasta" from "seqtoolkit.dll";
+imports "kegg.profiles" from "kegg_kit.dll";
 
 let KOmaps = read.csv("S:\2020\union\2.KEGG\KO.csv");
 let geneId = KOmaps[, "query_name"] :> as.character;
@@ -10,12 +11,15 @@ KOmaps <- lapply(1:length(geneId), i -> KOterms[i], names = i -> geneId[i]);
 
 for(file in list.files(work, pattern = "*.fasta")) {
 	let geneIds = read.fasta(file) :> as.vector :> sapply(fa -> as.object(fa)$locus_tag) :> unique;
+	let savePng as string = `${dirname(work)}/${basename(file)}.png`;
 	
-	KOterms = KOmaps[geneIds] :> unlist :> which(str -> !is.empty(str));
-	KOterms = lapply(KOterms, any -> 1, names = KOterms) :> as.numeric;
-	
+	KOterms = KOmaps[geneIds] 
+	:> unlist 
+	:> which(str -> !is.empty(str)) 
+	:> as.character
+	:> KO.map.profiles
 	# do plots of the KO profiles
-	KOterms 
 	:> kegg.category_profiles.plot 
-	:> save.graphics(file = `${dirname(work)}/${basename(file)}.png`);
+	:> save.graphics(file = savePng)
+	;
 }
