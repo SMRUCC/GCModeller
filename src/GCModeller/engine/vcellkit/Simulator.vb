@@ -167,11 +167,6 @@ Public Module Simulator
         Return engine
     End Function
 
-    <ExportAPI("open.vcellXml")>
-    Public Function xmlWriter(file As String, vcell As Engine) As VcellAdapterDriver
-        Return New VcellAdapterDriver(file, vcell.model, vcell.dynamics)
-    End Function
-
     <ExportAPI("vcell.snapshot")>
     <Extension>
     Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)
