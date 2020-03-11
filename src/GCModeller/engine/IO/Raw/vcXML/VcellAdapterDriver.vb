@@ -17,7 +17,7 @@ Namespace vcXML
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
 
-            fs = New Writer(file, New XmlWriterSettings With {.Indent = True, .NewLineOnAttributes = True})
+            fs = New Writer(file, New XmlWriterSettings With {.Indent = True, .OmitXmlDeclaration = True})
             fs.writeInit(Me, args)
         End Sub
 

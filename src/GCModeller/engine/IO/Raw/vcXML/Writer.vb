@@ -58,13 +58,14 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
         Private Sub writeArguments(args As FluxBaseline)
             Dim params As New parameters With {
-                .args = DataFramework.Schema(Of FluxBaseline)(PublicProperty, True, True) _
+                .args = DataFramework.Schema(Of FluxBaseline)(PropertyAccess.Readable, True, True) _
                     .Select(Function(p)
                                 Return New NamedValue With {
                                     .name = p.Key,
                                     .text = p.Value.GetValue(args)
                                 }
-                            End Function)
+                            End Function) _
+                    .ToArray
             }
 
             Call fs.WriteLine(XmlHelper.getXmlFragment(params, xmlConfig))

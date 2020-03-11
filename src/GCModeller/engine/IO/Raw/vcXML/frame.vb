@@ -12,7 +12,7 @@ Namespace vcXML
 
     Public Class parameters : Inherits ListOf(Of NamedValue)
 
-        <XmlElement>
+        <XmlElement("argument")>
         Public Property args As NamedValue()
 
         Protected Overrides Function getSize() As Integer
