@@ -2,6 +2,7 @@
 Imports System.Text
 Imports System.Xml
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
@@ -18,19 +19,59 @@ Namespace vcXML
         Dim emptyNamespace As New XmlSerializerNamespaces()
         Dim md5 As New List(Of String)
 
-        Sub New(file As String, Optional networkByteOrder As Boolean = True)
+        Friend Sub New(file As String, Optional networkByteOrder As Boolean = True)
             fs = file.OpenWriter(Encodings.UTF8WithoutBOM)
             doReverse = networkByteOrder AndAlso BitConverter.IsLittleEndian
             emptyNamespace.Add(String.Empty, String.Empty)
-
-            Call writeInit()
         End Sub
 
-        Private Sub writeInit()
+        Friend Sub writeInit(entities As VcellAdapterDriver)
             fs.WriteLine("<?xml version=""1.0"" encoding=""utf8""?>")
             fs.WriteLine("<vcXML>")
             fs.WriteLine($"<run time=""{Now.ToString}"" software=""GCModeller"" />")
             fs.WriteLine("<vcRun>")
+
+            Call writeHeader(NameOf(entities.mass.transcriptome), "mass_profile", entities.mass.transcriptome)
+            Call writeHeader(NameOf(entities.mass.proteome), "mass_profile", entities.mass.proteome)
+            Call writeHeader(NameOf(entities.mass.metabolome), "mass_profile", entities.mass.metabolome)
+
+            Call writeHeader(NameOf(entities.flux.transcriptome), "activity", entities.flux.transcriptome)
+            Call writeHeader(NameOf(entities.flux.proteome), "activity", entities.flux.proteome)
+            Call writeHeader(NameOf(entities.flux.metabolome), "flux_size", entities.flux.metabolome)
+        End Sub
+
+        Private Sub writeHeader(module$, type$, list As String())
+            Dim ms As New MemoryStream
+
+            Using write As New BinaryDataWriter(ms)
+                For Each id As String In list
+                    Call write.Write(id, BinaryStringFormat.ByteLengthPrefix)
+                Next
+
+                write.Flush()
+            End Using
+
+            Dim buffer As Byte() = ms.ToArray
+
+            If doReverse Then
+                Array.Reverse(buffer)
+            End If
+
+            ms = New MemoryStream(buffer).GZipStream
+
+            Dim objects As New omicsDataEntities With {
+                .entities = ms.ToArray.ToBase64String,
+                .[module] = [module],
+                .type = type
+            }
+
+            Dim serializer As New XmlSerializer(GetType(omicsDataEntities))
+            Dim output As New StringBuilder()
+            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True})
+
+            serializer.Serialize(writer, index, emptyNamespace)
+
+            Call fs.WriteLine(output.ToString)
         End Sub
 
         Public Sub addFrame(time As Double, module$, type$, data As IEnumerable(Of Double))
@@ -45,11 +86,14 @@ Namespace vcXML
                 }
             }
 
-            index += New offset With {.id = frame.num, .offset = fs.BaseStream.Position}
+            index += New offset With {
+                .id = frame.num,
+                .offset = fs.BaseStream.Position
+            }
             md5 += frame.vector.data.MD5
 
             Dim output As New StringBuilder()
-            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True})
+            Dim writer As XmlWriter = XmlWriter.Create(output, New XmlWriterSettings With {.OmitXmlDeclaration = True, .Indent = True, .NewLineOnAttributes = True})
 
             serializer.Serialize(writer, frame, emptyNamespace)
 
@@ -80,7 +124,11 @@ Namespace vcXML
         End Function
 
         Private Sub writeIndex()
-            Dim index As New index With {.name = "frame", .offsets = Me.index}
+            Dim index As New index With {
+                .name = "frame",
+                .offsets = Me.index,
+                .size = .offsets.Length
+            }
 
             fs.WriteLine("</vcRun>")
 

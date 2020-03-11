@@ -10,7 +10,22 @@ Namespace vcXML
     End Class
 
     Public Class vcRun
-        Public Property frameCount As Integer
+
+        <XmlElement>
+        Public Property omics As omicsDataEntities()
+
+    End Class
+
+    Public Class omicsDataEntities
+
+        <XmlAttribute>
+        Public Property [module] As String
+        <XmlAttribute>
+        Public Property type As String
+
+        <XmlText>
+        Public Property entities As String
+
     End Class
 
     Public Class frame
@@ -36,6 +51,7 @@ Namespace vcXML
 
         <XmlAttribute>
         Public Property name As String
+        Public Property size As Integer
         <XmlElement>
         Public Property offsets As offset()
     End Class

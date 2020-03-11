@@ -60,7 +60,7 @@ print("Gene list file for apply the deletion operation:");
 print(deletions);
 
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
-tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
+tag.name  <- is.empty(tag.name) ? "control_" : tag.name;
 
 if (is.empty(deletions)) {
     print("No gene deletions for current VirtualCell simulation analysis.");

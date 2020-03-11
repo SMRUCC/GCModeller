@@ -12,9 +12,11 @@ Namespace vcXML
         Dim fs As Writer
 
         Sub New(file As String, model As CellularModule)
-            fs = New Writer(file)
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
+
+            fs = New Writer(file)
+            fs.writeInit(Me)
         End Sub
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
