@@ -6,8 +6,9 @@ imports "vcellkit.simulator" from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
-let model                <- read.vcell(path = ?"--in") :> as.object;
-let output.dir as string <- ?"--out" || `${dirname(?"--in")}/result/`;
+let model.file as string <- ?"--in"  || stop("No virtual cell model provided!");
+let model                <- read.vcell(path = model.file) :> as.object;
+let output.dir as string <- ?"--out" || `${dirname(model.file)}/result/`;
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
