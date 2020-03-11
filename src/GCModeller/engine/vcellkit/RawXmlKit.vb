@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
@@ -58,7 +59,33 @@ Module RawXmlKit
     End Function
 
     <ExportAPI("time.frames")>
-    Public Function timeFrames(raw As vcXML.Reader, stream As list) As Object
+    Public Function timeFrames(raw As vcXML.Reader,
+                               <RListObjectArgument>
+                               Optional stream As Object = Nothing,
+                               Optional env As Environment = Nothing) As Object
+
+        Dim args As list = Internal.Invokes.base.Rlist(stream, env)
+
+        If Not {"transcriptome", "proteome", "metabolome"}.Any(AddressOf args.hasName) Then
+            Return Internal.debug.stop({
+                "no module system name was specificed for read data!",
+                "module name should be in one of: transcriptome, proteome, metabolome",
+                "example as: time.frames(..., metabolome = ""mass_profile"")"
+            }, env)
+        End If
+
+        Dim index As offset() = {}
+
+        For Each name As String In {"transcriptome", "proteome", "metabolome"}
+            If args.hasName(name) Then
+                index = raw.getStreamIndex(name)(args.getValue(Of String)(name, env)) _
+                    .OrderBy(Function(p) p.id) _
+                    .ToArray
+                Exit For
+            End If
+        Next
+
+
 
     End Function
 End Module
