@@ -92,18 +92,19 @@ Namespace Engine.ModelLoader
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
                 Call MassTable.AddNew(cd.geneID)
-                Call MassTable.AddNew(cd.RNA.Name)
+                Call MassTable.AddNew(cd.RNAName)
 
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.AddNew(cd.polypeptide)
-                    Call mRNA.Add(cd.geneID)
+                    Call mRNA.Add(cd.RNAName)
                 Else
-                    Call componentRNA.Add(cd.geneID)
+                    Call componentRNA.Add(cd.RNAName)
                 End If
 
+                ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
-                    MassTable.variable(cd.RNA.Name),
+                    MassTable.variable(cd.RNAName),
                     MassTable.variable(loader.define.ADP)
                 }
 
@@ -111,7 +112,7 @@ Namespace Engine.ModelLoader
 
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
-                    templateRNA = translationTemplate(cd.RNA.Name, proteinMatrix)
+                    templateRNA = translationTemplate(cd.RNAName, proteinMatrix)
                     productsPro = {
                         MassTable.variable(cd.polypeptide),
                         MassTable.variable(loader.define.ADP)
