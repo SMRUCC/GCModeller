@@ -102,7 +102,7 @@ Namespace Engine.Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function KEGG(allCompounds As IEnumerable(Of String), Optional initMass# = 100) As Definition
-            Dim initStatus = allCompounds _
+            Dim initStatus As Dictionary(Of String, Double) = allCompounds _
                 .ToDictionary(Function(cid) cid,
                               Function(cid)
                                   Return initMass

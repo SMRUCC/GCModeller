@@ -82,7 +82,11 @@ Namespace Engine.ModelLoader
             Dim mRNA As New List(Of String)
             Dim componentRNA As New List(Of String)
             Dim polypeptides As New List(Of String)
+            Dim transcription As Channel
+            Dim translation As Channel
 
+            ' 在这里创建针对每一个基因的从转录到翻译的整个过程
+            ' 之中的不同阶段的生物学过程的模型对象
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
@@ -114,7 +118,8 @@ Namespace Engine.ModelLoader
                     }
                     polypeptides += cd.polypeptide
 
-                    Yield New Channel(templateRNA, productsPro) With {
+                    ' 针对mRNA对象，创建翻译过程
+                    translation = New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
                         .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
                         .reverse = New Controls With {.baseline = 0},
@@ -123,9 +128,13 @@ Namespace Engine.ModelLoader
                             .reverse = 0
                         }
                     }
+
+                    Yield translation
                 End If
 
-                Yield New Channel(templateDNA, productsRNA) With {
+                ' 针对所有基因对象，创建转录过程
+                ' 转录是以DNA为模板产生RNA分子
+                transcription = New Channel(templateDNA, productsRNA) With {
                     .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
                     .forward = New Controls With {.baseline = loader.dynamics.translationBaseline},
                     .reverse = New Controls With {.baseline = 0},
@@ -134,6 +143,8 @@ Namespace Engine.ModelLoader
                         .reverse = 0
                     }
                 }
+
+                Yield transcription
             Next
 
             _mRNA = mRNA
