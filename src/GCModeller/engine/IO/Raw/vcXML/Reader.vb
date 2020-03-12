@@ -184,7 +184,8 @@ Namespace vcXML
                         .DoCall(AddressOf Long.Parse),
                     .content_type = type,
                     .id = Integer.Parse(attrs!id),
-                    .[module] = [module]
+                    .[module] = [module],
+                    .tick = Integer.Parse(attrs!tick)
                 }
                 index([module])(type).Add(offset)
             Loop

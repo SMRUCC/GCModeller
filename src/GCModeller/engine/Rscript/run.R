@@ -6,9 +6,11 @@ imports ["vcellkit.simulator", "vcellkit.rawXML"] from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
-let model.file as string <- ?"--in"  || stop("No virtual cell model provided!");
-let model                <- read.vcell(path = model.file) :> as.object;
-let output.dir as string <- ?"--out" || `${dirname(model.file)}/result/`;
+let model.file as string  <- ?"--in"  || stop("No virtual cell model provided!");
+let model                 <- read.vcell(path = model.file) :> as.object;
+let output.dir as string  <- ?"--out" || `${dirname(model.file)}/result/`;
+
+let time.ticks as integer <- ?"--ticks" || 500;
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
@@ -82,8 +84,8 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 100, 
-            time_resolutions = 0.1, 
+            iterations       = time.ticks, 
+            time_resolutions = 0.5, 
             deletions        = deletions
         ) 
 		# apply profiles data
@@ -123,7 +125,7 @@ let save.sampleName as function(fileName) {
 
 let biological.replicates as integer = 6;
 
-if (background :> file.exists) {
+if ((background :> file.exists) && (!is.empty(deletions))) {
     let geneSet as string;
     let pathwayName as string;
 
