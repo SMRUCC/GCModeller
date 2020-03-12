@@ -150,6 +150,14 @@ Namespace Engine
             Return entity.ID
         End Function
 
+        Public Function AddNew(entity As String) As String
+            If Not massTable.ContainsKey(entity) Then
+                Return AddNew(New Factor With {.ID = entity})
+            End If
+
+            Return entity
+        End Function
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
             For Each mass As Factor In massTable.Values
                 Yield mass

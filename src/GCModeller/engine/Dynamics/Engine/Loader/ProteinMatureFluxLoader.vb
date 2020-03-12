@@ -81,7 +81,7 @@ Namespace Engine.ModelLoader
                 Next
 
                 Dim unformed = MassTable.variables(complex).ToArray
-                Dim complexID As String = MassTable.AddNew(complex.ProteinID & ".complex")
+                Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
                 Dim mature As Variable = MassTable.variable(complexID)
 
                 proteinComplex += complexID

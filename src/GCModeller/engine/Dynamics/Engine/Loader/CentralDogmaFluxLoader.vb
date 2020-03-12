@@ -101,9 +101,12 @@ Namespace Engine.ModelLoader
             Dim translation As Channel
             Dim trKey, tlKey As String
             Dim regulations As Regulation()
+            Dim proteinList As New Dictionary(Of String, String)
+            Dim proteinComplex = loader.massLoader.proteinComplex
 
-            ' 在这里创建针对每一个基因的从转录到翻译的整个过程
-            ' 之中的不同阶段的生物学过程的模型对象
+            ' 在这里分开两个循环来完成构建
+            ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
+            ' 否则在构建的过程中会出现很多的key not found 的错误
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
@@ -114,10 +117,15 @@ Namespace Engine.ModelLoader
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.AddNew(cd.polypeptide)
                     Call mRNA.Add(cd.geneID)
+                    Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
                 Else
                     Call componentRNA.Add(cd.geneID)
                 End If
+            Next
 
+            ' 在这里创建针对每一个基因的从转录到翻译的整个过程
+            ' 之中的不同阶段的生物学过程的模型对象
+            For Each cd As CentralDogma In cell.Genotype.centralDogmas
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
@@ -159,8 +167,8 @@ Namespace Engine.ModelLoader
                     .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
                     .forward = New Controls With {
                         .baseline = loader.dynamics.translationBaseline,
-                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(r.regulator, r.effects)).ToArray,
-                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(r.regulator, r.effects)).ToArray
+                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
+                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
                     },
                     .reverse = New Controls With {.baseline = 0},
                     .bounds = New Boundary With {

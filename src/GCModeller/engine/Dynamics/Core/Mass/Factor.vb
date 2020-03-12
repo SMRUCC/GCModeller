@@ -69,9 +69,5 @@ Namespace Core
         Public Overrides Function ToString() As String
             Return $"{ID} ({Value} unit)"
         End Function
-
-        Public Overloads Shared Widening Operator CType(name As String) As Factor
-            Return New Factor With {.ID = name}
-        End Operator
     End Class
 End Namespace
