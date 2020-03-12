@@ -168,9 +168,16 @@ if ((background :> file.exists) && (!is.empty(deletions))) {
 } else {
     # run 6 biological replicate for the 
     # current virtual cell simulation analysis
-    sample.names <- for(i in 1:biological.replicates) %dopar% {
-						# run for wildtype
-						i :> run;
+	sample.names <- if (!script$debug) {
+						 for(i in 1:biological.replicates) %do% {
+							 # run for wildtype
+							 i :> run;
+						 }	
+					} else {
+						 for(i in 1:biological.replicates) %dopar% {
+							 # run for wildtype
+							 i :> run;
+						 }	
 					}
 
     [fileName = tag.name] :> save.sampleName;
