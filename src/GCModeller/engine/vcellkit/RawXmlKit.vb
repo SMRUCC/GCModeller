@@ -12,6 +12,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' 
@@ -79,8 +80,16 @@ Module RawXmlKit
             Return message
         End If
 
-        Dim moduleName$ = args.slots.Keys.First
-        Dim contentType$ = args.getValue(Of String)(moduleName, env)
+        Dim moduleName$ = Nothing
+
+        For Each name As String In {"transcriptome", "proteome", "metabolome"}
+            If args.hasName(name) Then
+                moduleName = name
+                Exit For
+            End If
+        Next
+
+        Dim contentType$ = REnv.asVector(Of String)(args.getByName(moduleName)).GetValue(Scan0)
         Dim matrix As New Dictionary(Of String, DataSet)
 
         For Each file As String In raw
@@ -116,7 +125,7 @@ Module RawXmlKit
             End Using
         Next
 
-        Return matrix
+        Return matrix.Values.ToArray
     End Function
 
     Private Function checkStreamRef(args As list, env As Environment) As Message

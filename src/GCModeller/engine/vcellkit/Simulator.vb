@@ -51,7 +51,6 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
@@ -129,7 +128,8 @@ Public Module Simulator
                                       Optional iterations% = 5000,
                                       Optional time_resolutions% = 1000,
                                       Optional deletions$() = Nothing,
-                                      Optional dynamics As FluxBaseline = Nothing) As Engine
+                                      Optional dynamics As FluxBaseline = Nothing,
+                                      Optional showProgress As Boolean = True) As Engine
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
         ' do initialize of the virtual cell engine
@@ -138,7 +138,8 @@ Public Module Simulator
         Return New Engine(
                 def:=inits,
                 dynamics:=dynamics Or defaultDynamics,
-                iterations:=iterations
+                iterations:=iterations,
+                showProgress:=showProgress
             ) _
             .LoadModel(vcell, deletions, time_resolutions)
     End Function

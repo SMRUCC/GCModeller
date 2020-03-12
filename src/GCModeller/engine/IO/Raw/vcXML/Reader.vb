@@ -38,7 +38,11 @@ Namespace vcXML
         End Sub
 
         Public Function getStreamIndex(name As String) As Dictionary(Of String, List(Of offset))
-            Return index(name)
+            If Not index.ContainsKey(name) Then
+                Throw New MissingPrimaryKeyException(name)
+            Else
+                Return index(name)
+            End If
         End Function
 
         Public Function getStreamEntities(module$, type$) As String()

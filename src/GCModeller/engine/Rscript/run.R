@@ -87,7 +87,8 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
             inits            = inits, 
             iterations       = time.ticks, 
             time_resolutions = 0.5, 
-            deletions        = deletions
+            deletions        = deletions,
+			showProgress     = FALSE
         ) 
 		# apply profiles data
 		:> apply.module_profile(profile = transcripts, system = "Transcriptome")
