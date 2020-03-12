@@ -75,7 +75,7 @@ Public Structure Regulation
 
     Public Overrides Function ToString() As String
         Dim effectString$ = "accelerate" Or "inhibition".When(effects < 0)
-        Dim descript$ = $"[{type.ToString}] {regulator} {effectString} {process}"
+        Dim descript$ = $"[{type.ToString}] {regulator} {effectString} of [{process}]"
         Return descript
     End Function
 

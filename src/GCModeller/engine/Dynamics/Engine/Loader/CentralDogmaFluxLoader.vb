@@ -103,6 +103,8 @@ Namespace Engine.ModelLoader
             Dim regulations As Regulation()
             Dim proteinList As New Dictionary(Of String, String)
             Dim proteinComplex = loader.massLoader.proteinComplex
+            Dim tRNA As New Dictionary(Of String, List(Of String))
+            Dim rRNA As New Dictionary(Of String, List(Of String))
 
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
@@ -120,6 +122,23 @@ Namespace Engine.ModelLoader
                     Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
                 Else
                     Call componentRNA.Add(cd.geneID)
+
+                    If Not cd.RNA.Description.StringEmpty Then
+                        Select Case cd.RNA.Value
+                            Case RNATypes.ribosomalRNA
+                                If Not rRNA.ContainsKey(cd.RNA.Description) Then
+                                    rRNA.Add(cd.RNA.Description, New List(Of String))
+                                End If
+
+                                rRNA(cd.RNA.Description).Add(cd.RNAName)
+                            Case RNATypes.tRNA
+                                If Not tRNA.ContainsKey(cd.RNA.Description) Then
+                                    tRNA.Add(cd.RNA.Description, New List(Of String))
+                                End If
+
+                                tRNA(cd.RNA.Description).Add(cd.RNAName)
+                        End Select
+                    End If
                 End If
             Next
 
@@ -200,6 +219,9 @@ Namespace Engine.ModelLoader
                         End Function) _
                 .AsList + MassTable.template(geneID) + MassTable.variable(loader.define.ATP)
         End Function
+
+        '       ATP + AA   + ADP
+        ' cd -> tRNA -> charged-tRNA
 
         ''' <summary>
         ''' mRNA模板加上氨基酸消耗
