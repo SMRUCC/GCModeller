@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::5954c6c0a50fe7fdeb1d45dfb64f019c, Dynamics\Engine\Loader\CentralDogmaFluxLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class CentralDogmaFluxLoader
-    ' 
-    '         Properties: componentRNA, mRNA
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, transcriptionTemplate, translationTemplate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class CentralDogmaFluxLoader
+' 
+'         Properties: componentRNA, mRNA
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, transcriptionTemplate, translationTemplate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -79,11 +79,28 @@ Namespace Engine.ModelLoader
             Dim productsPro As Variable()
             Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
             Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim TFregulations = cell.Regulations _
+                .Where(Function(reg) reg.type = Processes.Transcription) _
+                .GroupBy(Function(reg) reg.process) _
+                .ToDictionary(Function(reg) reg.Key,
+                              Function(reg)
+                                  Return reg.ToArray
+                              End Function)
+            Dim TLregulations = cell.Regulations _
+                .Where(Function(reg) reg.type = Processes.Translation) _
+                .GroupBy(Function(reg) reg.process) _
+                .ToDictionary(Function(reg) reg.Key,
+                              Function(reg)
+                                  Return reg.ToArray
+                              End Function)
+
             Dim mRNA As New List(Of String)
             Dim componentRNA As New List(Of String)
             Dim polypeptides As New List(Of String)
             Dim transcription As Channel
             Dim translation As Channel
+            Dim trKey, tlKey As String
+            Dim regulations As Regulation()
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
@@ -133,11 +150,18 @@ Namespace Engine.ModelLoader
                     Yield translation
                 End If
 
+                trKey = cd.ToString
+                regulations = TFregulations.TryGetValue(trKey).SafeQuery.ToArray
+
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
                     .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                    .forward = New Controls With {.baseline = loader.dynamics.translationBaseline},
+                    .forward = New Controls With {
+                        .baseline = loader.dynamics.translationBaseline,
+                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(r.regulator, r.effects)).ToArray,
+                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(r.regulator, r.effects)).ToArray
+                    },
                     .reverse = New Controls With {.baseline = 0},
                     .bounds = New Boundary With {
                         .forward = loader.dynamics.translationCapacity,
