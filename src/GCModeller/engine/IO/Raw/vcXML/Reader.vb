@@ -17,6 +17,8 @@ Namespace vcXML
         Dim entities As Dictionary(Of String, Dictionary(Of String, String()))
         Dim hash As String
 
+        Public ReadOnly Property basename As String
+
         Public ReadOnly Property allFrames As offset()
             Get
                 Return index.Values _
@@ -30,12 +32,17 @@ Namespace vcXML
         Sub New(file As String)
             fs = file.OpenReader()
             fs.BaseStream.Seek(-128, SeekOrigin.End)
+            basename = file.BaseName
 
             Call loadOffsets()
         End Sub
 
         Public Function getStreamIndex(name As String) As Dictionary(Of String, List(Of offset))
-            Return index(name)
+            If Not index.ContainsKey(name) Then
+                Throw New MissingPrimaryKeyException(name)
+            Else
+                Return index(name)
+            End If
         End Function
 
         Public Function getStreamEntities(module$, type$) As String()
@@ -181,13 +188,18 @@ Namespace vcXML
                         .DoCall(AddressOf Long.Parse),
                     .content_type = type,
                     .id = Integer.Parse(attrs!id),
-                    .[module] = [module]
+                    .[module] = [module],
+                    .tick = Integer.Parse(attrs!tick)
                 }
                 index([module])(type).Add(offset)
             Loop
 
             Call fs.ReadLine()
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{basename} ({hash})"
+        End Function
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls

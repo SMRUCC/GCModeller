@@ -113,6 +113,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
             Dim vecBase64$ = encode(data)
             Dim frame As New frame With {
                 .frameTime = time,
+                .tick = time,
                 .[module] = [module],
                 .num = ++frameCount,
                 .vector = New vector With {
@@ -125,7 +126,8 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 .id = frame.num,
                 .offset = fs.BaseStream.Position,
                 .content_type = type,
-                .[module] = [module]
+                .[module] = [module],
+                .tick = time
             }
             md5 += frame.vector.data.MD5
 

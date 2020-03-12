@@ -61,6 +61,14 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 <Package("vcellkit.compiler")>
 Module Compiler
 
+    ''' <summary>
+    ''' create kegg repository arguments
+    ''' </summary>
+    ''' <param name="compounds">A directory path which the folder contains the compounds data models.</param>
+    ''' <param name="maps">A directory path which the folder contains the kegg reference map data.</param>
+    ''' <param name="reactions"></param>
+    ''' <param name="glycan2Cpd"></param>
+    ''' <returns></returns>
     <ExportAPI("kegg")>
     Public Function kegg(compounds$, maps$, reactions$, glycan2Cpd As Dictionary(Of String, String())) As RepositoryArguments
         Return New RepositoryArguments With {
@@ -75,6 +83,14 @@ Module Compiler
         }
     End Function
 
+    ''' <summary>
+    ''' create a list that map gene id to KO id.
+    ''' </summary>
+    ''' <param name="data">any kind of dataframe dataset.</param>
+    ''' <param name="KOcol">the column name for get KO term id</param>
+    ''' <param name="geneIDcol">the column name for get gene id</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("geneKO.maps")>
     <RApiReturn(GetType(list))>
     Public Function load_geneKOMapping(<RRawVectorArgument> data As Object,
@@ -140,6 +156,15 @@ Module Compiler
         Return gccWorkflow.AssemblingRegulationNetwork(model, regulations)
     End Function
 
+    ''' <summary>
+    ''' Save the virtual cell data model in XML file format.
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="genomes"></param>
+    ''' <param name="KEGG"></param>
+    ''' <param name="regulations"></param>
+    ''' <param name="lociAsLocus_tag"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.markup")>
     Public Function ToMarkup(model As CellularModule,
                              genomes As Dictionary(Of String, GBFF.File),
