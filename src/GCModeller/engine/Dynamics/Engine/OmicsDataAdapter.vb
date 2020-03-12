@@ -81,7 +81,7 @@ Namespace Engine
 
         Public Shared Function GetMassTuples(model As CellularModule) As OmicsTuple(Of String())
             Dim RNA = model.Genotype.centralDogmas _
-                .Select(Function(gene) gene.RNA.Name) _
+                .Select(Function(gene) gene.RNAName) _
                 .ToArray
             Dim protein = model.Genotype.centralDogmas _
                 .Where(Function(gene) Not gene.IsRNAGene) _

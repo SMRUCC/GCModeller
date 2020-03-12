@@ -169,7 +169,7 @@ if ((background :> file.exists) && (!is.empty(deletions))) {
     # run 6 biological replicate for the 
     # current virtual cell simulation analysis
 	sample.names <- if (!script$debug) {
-						 for(i in 1:biological.replicates) %do% {
+						 for(i in 1:biological.replicates) {
 							 # run for wildtype
 							 i :> run;
 						 }	

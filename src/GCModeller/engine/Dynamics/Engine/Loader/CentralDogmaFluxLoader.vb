@@ -96,9 +96,9 @@ Namespace Engine.ModelLoader
 
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.AddNew(cd.polypeptide)
-                    Call mRNA.Add(cd.RNAName)
+                    Call mRNA.Add(cd.geneID)
                 Else
-                    Call componentRNA.Add(cd.RNAName)
+                    Call componentRNA.Add(cd.geneID)
                 End If
 
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
@@ -112,7 +112,7 @@ Namespace Engine.ModelLoader
 
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
-                    templateRNA = translationTemplate(cd.RNAName, proteinMatrix)
+                    templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
                     productsPro = {
                         MassTable.variable(cd.polypeptide),
                         MassTable.variable(loader.define.ADP)
@@ -172,11 +172,11 @@ Namespace Engine.ModelLoader
         ''' <summary>
         ''' mRNA模板加上氨基酸消耗
         ''' </summary>
-        ''' <param name="mRNA$"></param>
+        ''' <param name="mRNA">The name of the mRNA molecule</param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
-        Private Function translationTemplate(mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Return matrix(mRNA) _
+        Private Function translationTemplate(geneID$, mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Return matrix(geneID) _
                 .Where(Function(i) i.Value > 0) _
                 .Select(Function(aa)
                             Dim aaName = loader.define.AminoAcid(aa.Name)
