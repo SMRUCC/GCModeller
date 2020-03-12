@@ -114,6 +114,16 @@ Public Module Simulator
         Return vcell.DoCall(AddressOf OmicsDataAdapter.GetFluxTuples)
     End Function
 
+    ''' <summary>
+    ''' create a new virtual cell engine
+    ''' </summary>
+    ''' <param name="inits"></param>
+    ''' <param name="vcell"></param>
+    ''' <param name="iterations%"></param>
+    ''' <param name="time_resolutions%"></param>
+    ''' <param name="deletions$"></param>
+    ''' <param name="dynamics"></param>
+    ''' <returns></returns>
     <ExportAPI("engine.load")>
     Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
                                       Optional iterations% = 5000,
