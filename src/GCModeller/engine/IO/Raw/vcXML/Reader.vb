@@ -17,6 +17,8 @@ Namespace vcXML
         Dim entities As Dictionary(Of String, Dictionary(Of String, String()))
         Dim hash As String
 
+        Public ReadOnly Property basename As String
+
         Public ReadOnly Property allFrames As offset()
             Get
                 Return index.Values _
@@ -30,6 +32,7 @@ Namespace vcXML
         Sub New(file As String)
             fs = file.OpenReader()
             fs.BaseStream.Seek(-128, SeekOrigin.End)
+            basename = file.BaseName
 
             Call loadOffsets()
         End Sub
@@ -188,6 +191,10 @@ Namespace vcXML
 
             Call fs.ReadLine()
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{basename} ({hash})"
+        End Function
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls

@@ -48,6 +48,7 @@ Namespace vcXML
     Public Class frame
         <XmlAttribute> Public Property num As Integer
         <XmlAttribute> Public Property frameTime As Double
+        <XmlAttribute> Public Property tick As Integer
         <XmlAttribute> Public Property [module] As String
 
         Public Property vector As vector
@@ -77,6 +78,7 @@ Namespace vcXML
     Public Class offset
 
         <XmlAttribute> Public Property id As Integer
+        <XmlAttribute> Public Property tick As Integer
         <XmlAttribute> Public Property [module] As String
         <XmlAttribute> Public Property content_type As String
 
