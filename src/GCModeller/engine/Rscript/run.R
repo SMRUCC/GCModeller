@@ -2,7 +2,7 @@
 # Run a virtual cell model in R# 
 
 # first load GCModeller virtualcell toolkit R# package into R# environment
-imports "vcellkit.simulator" from "vcellkit.dll";
+imports ["vcellkit.simulator", "vcellkit.rawXML"] from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
@@ -82,7 +82,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 2, 
+            iterations       = 100, 
             time_resolutions = 0.1, 
             deletions        = deletions
         ) 
@@ -98,7 +98,10 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
     sampleName = `${exp.tag}${i}`;
     sample.names = sample.names << sampleName;
 
-	using xml as open.vcellXml(file = `${output.dir}/raw/${sampleName}.vcXML`, vcell = engine) {
+	using xml as open.vcellXml(file  = `${output.dir}/raw/${sampleName}.vcXML`, 
+							   mode  = "write", 
+							   vcell = engine) {
+		
 		let folder as string = `${output.dir}/${sampleName}/`;
 	
 	    # run virtual cell simulation and then 
@@ -165,9 +168,3 @@ if (background :> file.exists) {
 
     [fileName = tag.name] :> save.sampleName;
 }
-
-
-
-
-
-

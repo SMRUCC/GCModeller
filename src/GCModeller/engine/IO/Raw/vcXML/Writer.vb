@@ -18,6 +18,7 @@ Namespace vcXML
         Dim fs As StreamWriter
         Dim doReverse As Boolean = False
         Dim index As New List(Of offset)
+        Dim entityIndex As New List(Of offset)
         Dim serializer As New XmlSerializer(GetType(frame))
         Dim md5 As New List(Of String)
         Dim xmlConfig As XmlWriterSettings
@@ -41,6 +42,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
             Call writeArguments(args)
 
             fs.WriteLine("<dataEntity>")
+            fs.Flush()
 
             Call writeHeader(NameOf(entities.mass.transcriptome), "mass_profile", entities.mass.transcriptome)
             Call writeHeader(NameOf(entities.mass.proteome), "mass_profile", entities.mass.proteome)
@@ -95,8 +97,16 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 .[module] = [module],
                 .content_type = type
             }
+            Dim offset As New offset With {
+                .id = entityIndex.Count + 1,
+                .offset = fs.BaseStream.Position,
+                .content_type = type,
+                .[module] = [module]
+            }
 
+            Call entityIndex.Add(offset)
             Call fs.WriteLine(XmlHelper.getXmlFragment(objects, xmlConfig))
+            Call fs.Flush()
         End Sub
 
         Public Sub addFrame(time As Double, module$, type$, data As IEnumerable(Of Double))
@@ -157,6 +167,11 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 .offsets = Me.index,
                 .size = .offsets.Length
             }
+            Dim entityIndex As New index With {
+                .name = "entity",
+                .offsets = Me.entityIndex,
+                .size = .offsets.Length
+            }
 
             fs.WriteLine("</raw>")
             fs.WriteLine("</vcRun>")
@@ -165,6 +180,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
             Dim indexoffset As Long = fs.BaseStream.Position
 
             fs.WriteLine(XmlHelper.getXmlFragment(index, xmlConfig))
+            fs.WriteLine(XmlHelper.getXmlFragment(entityIndex, xmlConfig))
             fs.WriteLine($"<indexOffset>{indexoffset}</indexOffset>")
             fs.WriteLine($"<md5>{md5.JoinBy("+").MD5}</md5>")
             fs.WriteLine("</vcXML>")

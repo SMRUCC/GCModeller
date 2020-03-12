@@ -76,11 +76,15 @@ Namespace vcXML
 
     Public Class offset
 
-        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property id As Integer
         <XmlAttribute> Public Property [module] As String
         <XmlAttribute> Public Property content_type As String
 
         <XmlText>
         Public Property offset As Long
+
+        Public Overrides Function ToString() As String
+            Return $"[{id}] Dim {[module]} As {content_type} = &{offset}"
+        End Function
     End Class
 End Namespace
