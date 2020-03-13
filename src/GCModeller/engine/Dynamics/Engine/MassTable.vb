@@ -146,10 +146,19 @@ Namespace Engine
         End Function
 
         Public Function AddNew(entity As Factor) As String Implements IRepositoryWrite(Of String, Factor).AddNew
-            massTable(entity.ID) = entity
+            ' 20200313 在这里不可以使用可能产生对象替换的代码调用方式
+            ' 否则可能会让之前的反应对象失去正确的对象引用关系
+            '所以下面的字典索引引用被替换为字典直接添加方法了
+            ' massTable(entity.ID) = entity
+            massTable.Add(entity.ID, entity)
             Return entity.ID
         End Function
 
+        ''' <summary>
+        ''' 这个函数会先判断目标对象是否存在，只会添加不存在的对象
+        ''' </summary>
+        ''' <param name="entity"></param>
+        ''' <returns></returns>
         Public Function AddNew(entity As String) As String
             If Not massTable.ContainsKey(entity) Then
                 Return AddNew(New Factor With {.ID = entity})
