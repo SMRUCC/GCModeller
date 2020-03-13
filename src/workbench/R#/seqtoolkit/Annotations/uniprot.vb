@@ -18,16 +18,28 @@ Module uniprot
     End Function
 
     <ExportAPI("protein.seqs")>
-    Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As pipeline
+    Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
+                                  Optional extractAll As Boolean = False,
+                                  Optional env As Environment = Nothing) As pipeline
+
         If uniprot Is Nothing Then
             Return Nothing
         End If
 
-        Dim protFa = Function(prot As entry) As FastaSeq
-                         Return New FastaSeq With {
-                             .Headers = {prot.accessions(Scan0)},
-                             .SequenceData = prot.ProteinSequence
-                         }
+        Dim protFa = Iterator Function(prot As entry) As IEnumerable(Of FastaSeq)
+                         If extractAll Then
+                             For Each accid As String In prot.accessions
+                                 Yield New FastaSeq With {
+                                    .Headers = {accid},
+                                    .SequenceData = prot.ProteinSequence
+                                 }
+                             Next
+                         Else
+                             Yield New FastaSeq With {
+                                .Headers = {prot.accessions(Scan0)},
+                                .SequenceData = prot.ProteinSequence
+                             }
+                         End If
                      End Function
 
         If TypeOf uniprot Is entry() Then
@@ -35,11 +47,13 @@ Module uniprot
                 .Select(Function(prot)
                             Return protFa(prot)
                         End Function) _
+                .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
         ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Is GetType(entry) Then
             Return DirectCast(uniprot, pipeline) _
                 .populates(Of entry) _
                 .Select(Function(prot) protFa(prot)) _
+                .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
         Else
             Return Internal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
