@@ -121,9 +121,9 @@ Public Structure CentralDogma : Implements INamedValue
                 Case RNATypes.mRNA
                     Return $"{geneID}::{RNA.Value.Description}"
                 Case RNATypes.ribosomalRNA
-                    Return $"{RNA.Description}_rRNA"
+                    Return $"{geneID}::{RNA.Description}_rRNA"
                 Case RNATypes.tRNA
-                    Return $"tRNA-{RNA.Description}"
+                    Return $"{geneID}::tRNA-{RNA.Description}"
                 Case Else
                     Return geneID & "::RNA"
             End Select

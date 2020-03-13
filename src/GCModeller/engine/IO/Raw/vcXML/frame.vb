@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace vcXML
 
@@ -9,7 +10,23 @@ Namespace vcXML
         Public Property sha1 As String
     End Class
 
+    Public Class parameters : Inherits ListOf(Of NamedValue)
+
+        <XmlElement("argument")>
+        Public Property args As NamedValue()
+
+        Protected Overrides Function getSize() As Integer
+            Return args.Length
+        End Function
+
+        Protected Overrides Function getCollection() As IEnumerable(Of NamedValue)
+            Return args
+        End Function
+    End Class
+
     Public Class vcRun
+
+        Public Property parameters As parameters
 
         <XmlElement>
         Public Property omics As omicsDataEntities()
@@ -31,6 +48,7 @@ Namespace vcXML
     Public Class frame
         <XmlAttribute> Public Property num As Integer
         <XmlAttribute> Public Property frameTime As Double
+        <XmlAttribute> Public Property tick As Integer
         <XmlAttribute> Public Property [module] As String
 
         Public Property vector As vector
@@ -58,9 +76,17 @@ Namespace vcXML
     End Class
 
     Public Class offset
-        <XmlAttribute>
-        Public Property id As String
+
+        <XmlAttribute> Public Property id As Integer
+        <XmlAttribute> Public Property tick As Integer
+        <XmlAttribute> Public Property [module] As String
+        <XmlAttribute> Public Property content_type As String
+
         <XmlText>
         Public Property offset As Long
+
+        Public Overrides Function ToString() As String
+            Return $"[{id}] Dim {[module]} As {content_type} = &{offset}"
+        End Function
     End Class
 End Namespace

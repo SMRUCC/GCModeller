@@ -136,6 +136,7 @@
     <Compile Include="Engine\DebuggerView.vb" />
     <Compile Include="Engine\Loader\CentralDogmaFluxLoader.vb" />
     <Compile Include="Engine\Loader\BioMoleculeDegradation.vb" />
+    <Compile Include="Engine\Loader\MassLoader.vb" />
     <Compile Include="Engine\Loader\Definition\FluxBaseline.vb" />
     <Compile Include="Engine\Loader\FluxLoader.vb" />
     <Compile Include="Engine\Loader\MetabolismNetworkLoader.vb" />

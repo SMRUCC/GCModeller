@@ -206,6 +206,10 @@ Namespace SequenceModel.Polypeptides
             Return LQuery
         End Function
 
+        ''' <summary>
+        ''' 大小写不敏感
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Abbreviate As New Dictionary(Of String, String) From {
  _
             {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},

@@ -68,6 +68,7 @@ Namespace Engine.ModelLoader
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property massTable As New MassTable
+        Public ReadOnly Property massLoader As MassLoader
 
         Public ReadOnly Property isLoadded As Boolean
             Get
@@ -119,16 +120,13 @@ Namespace Engine.ModelLoader
         End Function
 
         Public Function CreateEnvironment(cell As CellularModule) As Vessel
-            ' 在这里需要首选构建物质列表
-            ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
-            For Each reaction As Reaction In cell.Phenotype.fluxes
-                For Each compound In reaction.AllCompounds
-                    If Not massTable.Exists(compound) Then
-                        Call massTable.AddNew(compound)
-                    End If
-                Next
-            Next
+            _massLoader = New MassLoader(Me)
+            _massLoader.doMassLoadingOn(cell)
 
+            Return cell.DoCall(AddressOf create)
+        End Function
+
+        Private Function create(cell As CellularModule) As Vessel
             Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray
             Dim metabolism = cell.DoCall(AddressOf GetMetabolismNetworkLoader().CreateFlux).ToArray
@@ -136,9 +134,10 @@ Namespace Engine.ModelLoader
                 .proteinMatures = proteinMatrues
             }
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
+            Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
 
             Return New Vessel With {
-                .Channels = centralDogmas + proteinMatrues + metabolism + degradation,
+                .Channels = processes,
                 .MassEnvironment = massTable.ToArray
             }
         End Function
