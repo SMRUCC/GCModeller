@@ -49,7 +49,7 @@ Module uniprot
                         End Function) _
                 .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
-        ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Is GetType(entry) Then
+        ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Like GetType(entry) Then
             Return DirectCast(uniprot, pipeline) _
                 .populates(Of entry) _
                 .Select(Function(prot) protFa(prot)) _

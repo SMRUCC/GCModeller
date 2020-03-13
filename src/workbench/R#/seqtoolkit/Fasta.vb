@@ -146,6 +146,8 @@ Module Fasta
                         End Function()
 
                     Return populator
+                ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
+                    Return DirectCast(a, pipeline).populates(Of FastaSeq)
                 Else
                     Return Nothing
                 End If
