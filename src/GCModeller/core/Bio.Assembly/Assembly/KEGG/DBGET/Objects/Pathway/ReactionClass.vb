@@ -68,22 +68,31 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property enzymes As NamedValue()
         Public Property pathways As NamedValue()
         Public Property orthology As NamedValue()
+        Public Property category As String
 
-        Public Shared Iterator Function ScanRepository(repository As String) As IEnumerable(Of ReactionClass)
+        Public Shared Iterator Function ScanRepository(repository As String, Optional loadsAll As Boolean = False) As IEnumerable(Of ReactionClass)
             Dim busy As New SwayBar
             Dim message$
             Dim [class] As ReactionClass
             Dim loaded As New Index(Of String)
 
+            repository = repository.GetDirectoryFullPath
+
             For Each xml As String In ls - l - r - "*.xml" <= repository
                 [class] = xml.LoadXml(Of ReactionClass)
+                [class].category = xml.GetFullPath.ParentPath.Replace(repository, "").Trim("\"c, "/"c, " ")
                 message = [class].definition
 
                 Call busy.Step(message)
 
-                If Not [class].entryId Like loaded Then
-                    loaded.Add([class].entryId)
+                If Not loadsAll Then
+                    If Not [class].entryId Like loaded Then
+                        loaded.Add([class].entryId)
 
+                        ' return current file data
+                        Yield [class]
+                    End If
+                Else
                     ' return current file data
                     Yield [class]
                 End If

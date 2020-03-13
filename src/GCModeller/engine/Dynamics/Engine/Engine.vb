@@ -73,8 +73,14 @@ Namespace Engine
         ''' </summary>
         Dim core As Vessel
 
-        Dim dynamics As FluxBaseline
+        ''' <summary>
+        ''' The argument of the cellular flux dynamics
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dynamics As FluxBaseline
+
         Dim iterations As Integer = 5000
+        Dim showProgress As Boolean = True
 
         Public ReadOnly Property model As CellularModule
         ''' <summary>
@@ -90,11 +96,12 @@ Namespace Engine
         Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000)
+        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000, Optional showProgress As Boolean = True)
             Me.initials = def
             Me.iterations = iterations
             Me.dynamics = dynamics
             Me.debugView = New DebuggerView(Me)
+            Me.showProgress = showProgress
         End Sub
 
         ''' <summary>
@@ -158,31 +165,53 @@ Namespace Engine
                 Call Console.WriteLine()
             End If
 
-            Using process As New ProgressBar("Running simulator...")
-                Dim progress As New ProgressProvider(process, iterations)
-                Dim flux As Dictionary(Of String, Double)
+            Dim tick As Action(Of Integer)
+            Dim process As ProgressBar = Nothing
+            Dim progress As ProgressProvider = Nothing
 
-                For i As Integer = 0 To iterations
-                    flux = core _
-                        .ContainerIterator() _
-                        .ToDictionary _
-                        .FlatTable
+            If showProgress Then
+                process = New ProgressBar("Running simulator...")
+                progress = New ProgressProvider(process, iterations)
 
-                    _snapshot = (mass.GetMassValues, flux)
+                tick = Sub(i)
+                           Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
+                               .DoCall(Sub(msg)
+                                           Call process.SetProgress(progress.StepProgress, msg)
+                                       End Sub)
+                       End Sub
+            Else
+                tick = Sub()
+                           ' do nothing
+                       End Sub
+            End If
 
-                    If Not dataStorageDriver Is Nothing Then
-                        Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
-                        Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
-                    End If
+            Call loopInternal(tick)
 
-                    Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
-                        .DoCall(Sub(msg)
-                                    Call process.SetProgress(progress.StepProgress, msg)
-                                End Sub)
-                Next
-            End Using
+            If Not process Is Nothing Then
+                Call process.Dispose()
+            End If
 
             Return 0
         End Function
+
+        Private Sub loopInternal(tick As Action(Of Integer))
+            Dim flux As Dictionary(Of String, Double)
+
+            For i As Integer = 0 To iterations
+                flux = core _
+                    .ContainerIterator() _
+                    .ToDictionary _
+                    .FlatTable
+
+                _snapshot = (mass.GetMassValues, flux)
+
+                If Not dataStorageDriver Is Nothing Then
+                    Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
+                    Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
+                End If
+
+                Call tick(i)
+            Next
+        End Sub
     End Class
 End Namespace

@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::84048d2ec453484d27a5e4cf32acf8ca, annotations\GSEA\GSEA\KOBAS\Formats\Gct.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Gct
-    ' 
-    '         Properties: genes, numberOfgenes, numberOfsamples, version
-    ' 
-    '         Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
-    ' 
-    '         Class GeneExpression
-    ' 
-    '             Properties: Description
-    ' 
-    '             Function: ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Gct
+' 
+'         Properties: genes, numberOfgenes, numberOfsamples, version
+' 
+'         Function: GetEnumerator, IEnumerable_GetEnumerator, LoadFile
+' 
+'         Class GeneExpression
+' 
+'             Properties: Description
+' 
+'             Function: ToString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports tsv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Namespace KOBAS
@@ -92,7 +93,7 @@ Namespace KOBAS
         End Class
 
         Public Shared Function LoadFile(path As String) As Gct
-            Dim table = tsv.LoadTsv(path)
+            Dim table = tsv.LoadTsv(path, Encodings.UTF8)
             Dim version = table.First()(Scan0).Trim("#"c)
             Dim size = table(1)
             Dim geneNumber As Integer = size(0)
@@ -107,7 +108,10 @@ Namespace KOBAS
                             .Properties = row _
                                 .Skip(2) _
                                 .SeqIterator _
-                                .ToDictionary(Function(i) sampleNames(i), Function(x) Val(x.value))
+                                .ToDictionary(Function(i) sampleNames(i),
+                                              Function(x)
+                                                  Return Val(x.value)
+                                              End Function)
                         }
                     Next
                 End Function().ToArray
