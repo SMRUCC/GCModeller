@@ -145,41 +145,38 @@ Namespace Engine.ModelLoader
                                 End If
 
                                 tRNA(cd.RNA.Description).Add(cd.RNAName)
+
+                                For Each proc As Channel In tRNAProcess(cd)
+                                    Yield proc
+                                Next
                         End Select
                     End If
                 End If
             Next
 
-            If cd.RNA.Value = RNATypes.tRNA Then
-                For Each proc As Channel In tRNAProcess(cd)
-                    Yield proc
-                Next
-            End If
-            End If
-
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
-                    ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
-                    templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
-                    productsRNA = {
+                ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
+                templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
+                productsRNA = {
                         MassTable.variable(cd.RNAName),
                         MassTable.variable(loader.define.ADP)
                     }
 
-                    ' 转录和翻译的反应过程都是不可逆的
+                ' 转录和翻译的反应过程都是不可逆的
 
-                    ' 翻译模板过程只针对CDS基因
-                    If Not cd.polypeptide Is Nothing Then
-                        templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
-                        productsPro = {
+                ' 翻译模板过程只针对CDS基因
+                If Not cd.polypeptide Is Nothing Then
+                    templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
+                    productsPro = {
                             MassTable.variable(cd.polypeptide),
                             MassTable.variable(loader.define.ADP)
                         }
-                        polypeptides += cd.polypeptide
+                    polypeptides += cd.polypeptide
 
-                        ' 针对mRNA对象，创建翻译过程
-                        translation = New Channel(templateRNA, productsPro) With {
+                    ' 针对mRNA对象，创建翻译过程
+                    translation = New Channel(templateRNA, productsPro) With {
                             .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
                             .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
                             .reverse = New Controls With {.baseline = 0},
@@ -189,15 +186,15 @@ Namespace Engine.ModelLoader
                             }
                         }
 
-                        Yield translation
-                    End If
+                    Yield translation
+                End If
 
-                    trKey = cd.ToString
-                    regulations = TFregulations.TryGetValue(trKey).SafeQuery.ToArray
+                trKey = cd.ToString
+                regulations = TFregulations.TryGetValue(trKey).SafeQuery.ToArray
 
-                    ' 针对所有基因对象，创建转录过程
-                    ' 转录是以DNA为模板产生RNA分子
-                    transcription = New Channel(templateDNA, productsRNA) With {
+                ' 针对所有基因对象，创建转录过程
+                ' 转录是以DNA为模板产生RNA分子
+                transcription = New Channel(templateDNA, productsRNA) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
                         .forward = New Controls With {
                             .baseline = loader.dynamics.translationBaseline,
@@ -211,12 +208,12 @@ Namespace Engine.ModelLoader
                         }
                     }
 
-                    Yield transcription
-                Next
+                Yield transcription
+            Next
 
-                _mRNA = mRNA
-                _componentRNA = componentRNA
-                _polypeptides = polypeptides
+            _mRNA = mRNA
+            _componentRNA = componentRNA
+            _polypeptides = polypeptides
         End Function
 
         ''' <summary>
