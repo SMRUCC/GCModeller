@@ -77,7 +77,19 @@ Namespace Engine.ModelLoader
         ''' </summary>
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
+            Dim chargeName As String = "*" & cd.RNAName
 
+            MassTable.AddNew(chargeName)
+
+            Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP)}
+            Dim right As Variable() = {MassTable.variable(chargeName), MassTable.variable(loader.define.ADP)}
+
+            Yield New Channel(left, right) With {
+                .ID = $"chargeOf_{cd.RNAName}",
+                .bounds = New Boundary() With {.forward = loader.dynamics.tRNAChargeCapacity},
+                .reverse = 0,
+                .forward = loader.dynamics.tRNAChargeBaseline
+            }
         End Function
 
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
