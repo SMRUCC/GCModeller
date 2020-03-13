@@ -63,6 +63,30 @@ Module RawXmlKit
         Return raw.allFrames
     End Function
 
+    <ExportAPI("entity.names")>
+    Public Function getEntityNames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
+        Dim args As list = Internal.Invokes.base.Rlist(stream, env)
+        Dim message As Message = checkStreamRef(args, env)
+
+        If Not message Is Nothing Then
+            Return message
+        End If
+
+        Dim moduleName$ = Nothing
+
+        For Each name As String In {"transcriptome", "proteome", "metabolome"}
+            If args.hasName(name) Then
+                moduleName = name
+                Exit For
+            End If
+        Next
+
+        Dim contentType$ = REnv.asVector(Of String)(args.getByName(moduleName)).GetValue(Scan0)
+        Dim names As String() = raw.getStreamEntities(moduleName, contentType)
+
+        Return names
+    End Function
+
     ''' <summary>
     ''' get a frame matrix for compares between different samples.
     ''' </summary>

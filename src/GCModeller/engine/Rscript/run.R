@@ -78,7 +78,9 @@ let sample.names as string = [];
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
 	# vector used for generate sampleInfo file
     let sampleName as string = `${exp.tag}${i}`;
-	
+	let rawXml as string = `${output.dir}/raw/${sampleName}.vcXML`;
+	let folder as string = `${output.dir}/${sampleName}/`;
+		
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
     # directly in script.    
@@ -100,11 +102,8 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
 
     # sample.names = sample.names << sampleName;
 
-	using xml as open.vcellXml(file  = `${output.dir}/raw/${sampleName}.vcXML`, 
-							   mode  = "write", 
-							   vcell = engine) {
-		
-		let folder as string = `${output.dir}/${sampleName}/`;
+	using xml as open.vcellXml(file  = rawXml, mode  = "write", vcell = engine) {
+		print(rawXml);
 	
 	    # run virtual cell simulation and then 
 		# save the result snapshot data files into 

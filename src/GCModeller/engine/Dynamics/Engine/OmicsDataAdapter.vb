@@ -80,8 +80,11 @@ Namespace Engine
         End Sub
 
         Public Shared Function GetMassTuples(model As CellularModule) As OmicsTuple(Of String())
+            ' 因为rRNA和tRNA会存在重复
+            ' 所以对于RNA分子需要做一下去重复
             Dim RNA = model.Genotype.centralDogmas _
                 .Select(Function(gene) gene.RNAName) _
+                .Distinct _
                 .ToArray
             Dim protein = model.Genotype.centralDogmas _
                 .Where(Function(gene) Not gene.IsRNAGene) _

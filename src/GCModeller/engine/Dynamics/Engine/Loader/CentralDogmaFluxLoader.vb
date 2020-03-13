@@ -72,6 +72,51 @@ Namespace Engine.ModelLoader
             Call MyBase.New(loader)
         End Sub
 
+        Dim charged_tRNA As New Dictionary(Of String, String)
+        Dim uncharged_tRNA As New Dictionary(Of String, String)
+
+        ''' <summary>
+        ''' tRNA charge process
+        ''' </summary>
+        ''' <returns></returns>
+        Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
+            Dim chargeName As String = "*" & cd.RNAName
+            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(cd.RNA.Description)
+
+            ' tRNA基因会存在多个拷贝
+            ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
+            If charged_tRNA.ContainsKey(AA) Then
+                Return
+            Else
+                charged_tRNA.Add(AA, chargeName)
+                uncharged_tRNA.Add(AA, cd.RNAName)
+                MassTable.AddNew(chargeName)
+            End If
+
+            Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP), MassTable.variable(loader.define.AminoAcid(AA))}
+            Dim right As Variable() = {MassTable.variable(chargeName), MassTable.variable(loader.define.ADP)}
+
+            Yield New Channel(left, right) With {
+                .ID = $"chargeOf_{cd.RNAName}",
+                .bounds = New Boundary() With {.forward = loader.dynamics.tRNAChargeCapacity},
+                .reverse = 0,
+                .forward = loader.dynamics.tRNAChargeBaseline
+            }
+        End Function
+
+        Private Function ribosomeAssembly(rRNA As String()) As Channel
+            Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref)).ToArray
+
+            MassTable.AddNew(NameOf(ribosomeAssembly))
+
+            Return New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
+                .ID = NameOf(ribosomeAssembly),
+                .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
+                .forward = loader.dynamics.ribosomeAssemblyBaseline,
+                .reverse = loader.dynamics.ribosomeDisassemblyBaseline
+            }
+        End Function
+
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
@@ -137,10 +182,16 @@ Namespace Engine.ModelLoader
                                 End If
 
                                 tRNA(cd.RNA.Description).Add(cd.RNAName)
+
+                                For Each proc As Channel In tRNAProcess(cd)
+                                    Yield proc
+                                Next
                         End Select
                     End If
                 End If
             Next
+
+            Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
@@ -148,28 +199,25 @@ Namespace Engine.ModelLoader
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
-                    MassTable.variable(cd.RNAName),
-                    MassTable.variable(loader.define.ADP)
-                }
+                        MassTable.variable(cd.RNAName),
+                        MassTable.variable(loader.define.ADP)
+                    }
 
                 ' 转录和翻译的反应过程都是不可逆的
 
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
                     templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
-                    productsPro = {
-                        MassTable.variable(cd.polypeptide),
-                        MassTable.variable(loader.define.ADP)
-                    }
+                    productsPro = translationUncharged(cd.geneID, cd.polypeptide, proteinMatrix)
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                        .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
+                        .forward = New Controls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
                         .reverse = New Controls With {.baseline = 0},
                         .bounds = New Boundary With {
-                            .forward = loader.dynamics.transcriptionCapacity,
+                            .forward = loader.dynamics.translationCapacity,
                             .reverse = 0
                         }
                     }
@@ -183,18 +231,18 @@ Namespace Engine.ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                    .forward = New Controls With {
-                        .baseline = loader.dynamics.translationBaseline,
-                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
-                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
-                    },
-                    .reverse = New Controls With {.baseline = 0},
-                    .bounds = New Boundary With {
-                        .forward = loader.dynamics.translationCapacity,
-                        .reverse = 0
+                        .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
+                        .forward = New Controls With {
+                            .baseline = loader.dynamics.transcriptionBaseline,
+                            .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
+                            .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
+                        },
+                        .reverse = New Controls With {.baseline = 0},
+                        .bounds = New Boundary With {
+                            .forward = loader.dynamics.transcriptionCapacity,
+                            .reverse = 0
+                        }
                     }
-                }
 
                 Yield transcription
             Next
@@ -224,19 +272,31 @@ Namespace Engine.ModelLoader
         ' cd -> tRNA -> charged-tRNA
 
         ''' <summary>
-        ''' mRNA模板加上氨基酸消耗
+        ''' mRNA模板加上氨基酸消耗，请注意，在这里并不是直接消耗的氨基酸，而是消耗的已经荷载的tRNA分子
         ''' </summary>
         ''' <param name="mRNA">The name of the mRNA molecule</param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
         Private Function translationTemplate(geneID$, mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Return matrix(geneID) _
-                .Where(Function(i) i.Value > 0) _
+            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+            Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Dim aaName = loader.define.AminoAcid(aa.Name)
-                            Return MassTable.variable(aaName, aa.Value)
+                            Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
                         End Function) _
-                .AsList + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
+                .AsList
+
+            Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
+        End Function
+
+        Private Function translationUncharged(geneID$, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+            Dim AAtRNA = AAVector _
+                .Select(Function(aa)
+                            Return MassTable.variable(uncharged_tRNA(aa.Name), aa.Value)
+                        End Function) _
+                .AsList
+
+            Return AAtRNA + MassTable.template(peptide) + MassTable.variable(loader.define.ADP)
         End Function
     End Class
 End Namespace
