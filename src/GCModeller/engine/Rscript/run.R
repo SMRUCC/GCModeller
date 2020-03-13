@@ -10,7 +10,7 @@ let model.file as string  <- ?"--in"  || stop("No virtual cell model provided!")
 let model                 <- read.vcell(path = model.file) :> as.object;
 let output.dir as string  <- ?"--out" || `${dirname(model.file)}/result/`;
 
-let time.ticks as integer <- ?"--ticks" || 500;
+let time.ticks as integer <- ?"--ticks" || 100;
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
@@ -88,7 +88,7 @@ let run as function(i, deletions = NULL, exp.tag = tag.name) {
             iterations       = time.ticks, 
             time_resolutions = 0.5, 
             deletions        = deletions,
-			showProgress     = FALSE
+			showProgress     = !script$debug
         ) 
 		# apply profiles data
 		:> apply.module_profile(profile = transcripts, system = "Transcriptome")
@@ -168,9 +168,16 @@ if ((background :> file.exists) && (!is.empty(deletions))) {
 } else {
     # run 6 biological replicate for the 
     # current virtual cell simulation analysis
-    sample.names <- for(i in 1:biological.replicates) %dopar% {
-						# run for wildtype
-						i :> run;
+	sample.names <- if (!script$debug) {
+						 for(i in 1:biological.replicates) {
+							 # run for wildtype
+							 i :> run;
+						 }	
+					} else {
+						 for(i in 1:biological.replicates) %dopar% {
+							 # run for wildtype
+							 i :> run;
+						 }	
 					}
 
     [fileName = tag.name] :> save.sampleName;
