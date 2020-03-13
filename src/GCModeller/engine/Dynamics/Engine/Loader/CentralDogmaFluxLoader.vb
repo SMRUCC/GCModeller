@@ -72,16 +72,28 @@ Namespace Engine.ModelLoader
             Call MyBase.New(loader)
         End Sub
 
+        Dim charged_tRNA As New Dictionary(Of String, String)
+        Dim uncharged_tRNA As New Dictionary(Of String, String)
+
         ''' <summary>
         ''' tRNA charge process
         ''' </summary>
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
             Dim chargeName As String = "*" & cd.RNAName
+            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(cd.RNA.Description)
 
-            MassTable.AddNew(chargeName)
+            ' tRNA基因会存在多个拷贝
+            ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
+            If charged_tRNA.ContainsKey(AA) Then
+                Return
+            Else
+                charged_tRNA.Add(AA, chargeName)
+                uncharged_tRNA.Add(AA, cd.RNAName)
+                MassTable.AddNew(chargeName)
+            End If
 
-            Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP)}
+            Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP), MassTable.variable(loader.define.AminoAcid(AA))}
             Dim right As Variable() = {MassTable.variable(chargeName), MassTable.variable(loader.define.ADP)}
 
             Yield New Channel(left, right) With {
@@ -182,9 +194,9 @@ Namespace Engine.ModelLoader
                 If Not cd.polypeptide Is Nothing Then
                     templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
                     productsPro = {
-                            MassTable.variable(cd.polypeptide),
-                            MassTable.variable(loader.define.ADP)
-                        }
+                        MassTable.variable(cd.polypeptide),
+                        MassTable.variable(loader.define.ADP)
+                    }
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
@@ -248,19 +260,20 @@ Namespace Engine.ModelLoader
         ' cd -> tRNA -> charged-tRNA
 
         ''' <summary>
-        ''' mRNA模板加上氨基酸消耗
+        ''' mRNA模板加上氨基酸消耗，请注意，在这里并不是直接消耗的氨基酸，而是消耗的已经荷载的tRNA分子
         ''' </summary>
         ''' <param name="mRNA">The name of the mRNA molecule</param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
         Private Function translationTemplate(geneID$, mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Return matrix(geneID) _
-                .Where(Function(i) i.Value > 0) _
+            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+            Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Dim aaName = loader.define.AminoAcid(aa.Name)
-                            Return MassTable.variable(aaName, aa.Value)
+                            Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
                         End Function) _
-                .AsList + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
+                .AsList
+
+            Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
         End Function
     End Class
 End Namespace
