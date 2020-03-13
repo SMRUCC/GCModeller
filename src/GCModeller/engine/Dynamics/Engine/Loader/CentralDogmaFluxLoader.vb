@@ -104,6 +104,19 @@ Namespace Engine.ModelLoader
             }
         End Function
 
+        Private Function ribosomeAssembly(rRNA As String()) As Channel
+            Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref)).ToArray
+
+            MassTable.AddNew(NameOf(ribosomeAssembly))
+
+            Return New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
+                .ID = NameOf(ribosomeAssembly),
+                .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
+                .forward = loader.dynamics.ribosomeAssemblyBaseline,
+                .reverse = loader.dynamics.ribosomeDisassemblyBaseline
+            }
+        End Function
+
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
@@ -178,6 +191,8 @@ Namespace Engine.ModelLoader
                 End If
             Next
 
+            Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
+
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
             For Each cd As CentralDogma In cell.Genotype.centralDogmas
@@ -193,22 +208,19 @@ Namespace Engine.ModelLoader
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
                     templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
-                    productsPro = {
-                        MassTable.variable(cd.polypeptide),
-                        MassTable.variable(loader.define.ADP)
-                    }
+                    productsPro = translationUncharged(cd.geneID, cd.polypeptide, proteinMatrix)
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
-                            .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                            .forward = New Controls With {.baseline = loader.dynamics.transcriptionBaseline},
-                            .reverse = New Controls With {.baseline = 0},
-                            .bounds = New Boundary With {
-                                .forward = loader.dynamics.transcriptionCapacity,
-                                .reverse = 0
-                            }
+                        .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
+                        .forward = New Controls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
+                        .reverse = New Controls With {.baseline = 0},
+                        .bounds = New Boundary With {
+                            .forward = loader.dynamics.translationCapacity,
+                            .reverse = 0
                         }
+                    }
 
                     Yield translation
                 End If
@@ -221,13 +233,13 @@ Namespace Engine.ModelLoader
                 transcription = New Channel(templateDNA, productsRNA) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
                         .forward = New Controls With {
-                            .baseline = loader.dynamics.translationBaseline,
+                            .baseline = loader.dynamics.transcriptionBaseline,
                             .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
                             .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
                         },
                         .reverse = New Controls With {.baseline = 0},
                         .bounds = New Boundary With {
-                            .forward = loader.dynamics.translationCapacity,
+                            .forward = loader.dynamics.transcriptionCapacity,
                             .reverse = 0
                         }
                     }
@@ -274,6 +286,17 @@ Namespace Engine.ModelLoader
                 .AsList
 
             Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
+        End Function
+
+        Private Function translationUncharged(geneID$, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+            Dim AAtRNA = AAVector _
+                .Select(Function(aa)
+                            Return MassTable.variable(uncharged_tRNA(aa.Name), aa.Value)
+                        End Function) _
+                .AsList
+
+            Return AAtRNA + MassTable.template(peptide) + MassTable.variable(loader.define.ADP)
         End Function
     End Class
 End Namespace
