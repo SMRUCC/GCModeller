@@ -72,6 +72,14 @@ Namespace Engine.ModelLoader
             Call MyBase.New(loader)
         End Sub
 
+        ''' <summary>
+        ''' tRNA charge process
+        ''' </summary>
+        ''' <returns></returns>
+        Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
+
+        End Function
+
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
@@ -95,6 +103,12 @@ Namespace Engine.ModelLoader
                     Call mRNA.Add(cd.geneID)
                 Else
                     Call componentRNA.Add(cd.geneID)
+
+                    If cd.RNA.Value = RNATypes.tRNA Then
+                        For Each proc As Channel In tRNAProcess(cd)
+                            Yield proc
+                        Next
+                    End If
                 End If
 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
