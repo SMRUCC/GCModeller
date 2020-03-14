@@ -371,7 +371,7 @@ Namespace LocalBLAST.Application.BBH
         ''' 因为qvs表示query vs subject，所以sbh的注释结果来自于subject，则在这里的注释功能描述结果则来自于qvs之中
         ''' </remarks>
         <ExportAPI("BBH")>
-        Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
+        Public Function GetBBHTop(qvs As IEnumerable(Of BestHit), svq As IEnumerable(Of BestHit), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
             Dim qHash As Dictionary(Of String, BestHit) = qvs.bhTopTable(identities, coverage)
             Dim shash As Dictionary(Of String, BestHit) = svq.bhTopTable(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)
