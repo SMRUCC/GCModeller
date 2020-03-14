@@ -68,7 +68,7 @@ Module workflows
 
         If query Is Nothing Then
             Return Nothing
-        ElseIf Not query.elementType.raw Is GetType(Query) Then
+        ElseIf Not query.elementType Like GetType(Query) Then
             Return REnv.Internal.debug.stop($"invalid pipeline data type: {query.elementType.ToString}", env)
         End If
 
@@ -101,22 +101,31 @@ Module workflows
             Return REnv.Internal.debug.stop("No reversed alignment data!", env)
         End If
 
-        If forward.elementType Is GetType(Query) Then
+        If forward.elementType Like GetType(Query) Then
             forward = forward.ExportSBHHits(env:=env)
             env.AddMessage($"Best hit result from raw query in forward direction with default parameters.", MSG_TYPES.WRN)
         End If
-        If reverse.elementType Is GetType(Query) Then
+        If reverse.elementType Like GetType(Query) Then
             reverse = reverse.ExportSBHHits(env:=env)
             env.AddMessage($"Best hit result from raw query in reverse direction with default parameters.", MSG_TYPES.WRN)
         End If
 
-        If Not forward.elementType Is GetType(BestHit) Then
+        If Not forward.elementType Like GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in forward direction for create bbh result!", env)
-        ElseIf Not reverse.elementType Is GetType(BestHit) Then
+        ElseIf Not reverse.elementType Like GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in reverse direction for create bbh result!", env)
         End If
 
-        Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit), reverse.populates(Of BestHit)))
+        Select Case algorithm
+            Case BBHAlgorithm.Naive
+                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit), reverse.populates(Of BestHit)))
+            Case BBHAlgorithm.BHR
+            Case BBHAlgorithm.TaxonomySupports
+            Case Else
+                Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
+        End Select
+
+        Return REnv.Internal.debug.stop(New NotImplementedException, env)
     End Function
 
     <ExportAPI("grep.names")>
@@ -126,7 +135,7 @@ Module workflows
 
         If query Is Nothing Then
             Return Nothing
-        ElseIf Not query.elementType.raw Is GetType(Query) Then
+        ElseIf Not query.elementType Like GetType(Query) Then
             Return REnv.Internal.debug.stop($"Invalid pipeline data type: {query.elementType.ToString}", env)
         End If
 
@@ -170,11 +179,11 @@ Module workflows
             Return Internal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
             Return Internal.debug.stop("No content data provided!", env)
-        ElseIf data.elementType.raw Is GetType(BestHit) AndAlso Not TypeOf stream Is WriteStream(Of BestHit) Then
+        ElseIf data.elementType Like GetType(BestHit) AndAlso Not TypeOf stream Is WriteStream(Of BestHit) Then
             Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
-        ElseIf data.elementType.raw Is GetType(BiDirectionalBesthit) AndAlso Not TypeOf stream Is WriteStream(Of BiDirectionalBesthit) Then
+        ElseIf data.elementType Like GetType(BiDirectionalBesthit) AndAlso Not TypeOf stream Is WriteStream(Of BiDirectionalBesthit) Then
             Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
-        ElseIf data.elementType.raw Is GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
+        ElseIf data.elementType Like GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
             Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
         End If
 
@@ -204,7 +213,7 @@ Module workflows
     Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
-        ElseIf Not besthits.elementType.raw Is GetType(BestHit) Then
+        ElseIf Not besthits.elementType Like GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"could not handle the stream data: {besthits.elementType.fullName}", env)
         End If
 
