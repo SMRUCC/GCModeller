@@ -206,6 +206,8 @@ Module workflows
             For Each hit As T In data.populates(Of T)
                 Call .Flush(hit)
             Next
+
+            Call .Flush()
         End With
     End Sub
 
