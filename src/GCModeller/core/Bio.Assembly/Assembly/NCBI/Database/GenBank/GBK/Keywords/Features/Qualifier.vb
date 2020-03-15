@@ -125,6 +125,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <remarks></remarks>
         gene
+        inference
         ''' <summary>
         ''' A label used to permanently identify a feature
         ''' </summary>
@@ -141,6 +142,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <remarks></remarks>
         mod_base
+        mol_type
         ''' <summary>
         ''' Any comment or additional information
         ''' </summary>

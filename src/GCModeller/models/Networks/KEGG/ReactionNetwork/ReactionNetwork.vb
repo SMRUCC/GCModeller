@@ -100,7 +100,9 @@ Namespace ReactionNetwork
                 .Select(Function(x)
                             Return x.substrates _
                                 .JoinIterates(x.products) _
-                                .Select(Function(id) (id, x))
+                                .Select(Function(id)
+                                            Return (id, x)
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(x) x.Item1) _
@@ -161,22 +163,22 @@ Namespace ReactionNetwork
                     .U = a,
                     .V = rNode,
                     .data = New EdgeData With {
-                        .weight = geneNames.geneNames.Length,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
-                    }
+                    },
+                    .weight = geneNames.geneNames.Length
                 }.DoCall(AddressOf addNewEdge)
 
                 Call New Edge With {
                     .U = rNode,
                     .V = b,
                     .data = New EdgeData With {
-                        .weight = geneNames.geneNames.Length,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
-                    }
+                    },
+                    .weight = geneNames.geneNames.Length
                 }.DoCall(AddressOf addNewEdge)
             Next
         End Sub
@@ -184,14 +186,12 @@ Namespace ReactionNetwork
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
         ''' </summary>
-        ''' <param name="delimiter$"></param>
         ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
         ''' <param name="enzymeInfo">
         ''' ``{KO => protein names}``
         ''' </param>
         ''' <returns></returns>
-        Public Function BuildModel(Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                   Optional extended As Boolean = False,
+        Public Function BuildModel(Optional extended As Boolean = False,
                                    Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
                                    Optional enzymeRelated As Boolean = True) As NetworkGraph
 
@@ -282,21 +282,42 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        ''' <param name="delimiter$"></param>
         ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
-        ''' <param name="enzymeInfo">
+        ''' <param name="enzymes">
         ''' ``{KO => protein names}``
+        ''' </param>
+        ''' <param name="enzymaticRelated">
+        ''' 是否只使用酶促反应进行网络的构建
+        ''' </param>
+        ''' <param name="filterByEnzymes">
+        ''' 是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络
         ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)),
-                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
                                    Optional extended As Boolean = False,
-                                   Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
-                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
+                                   Optional enzymes As Dictionary(Of String, String()) = Nothing,
+                                   Optional enzymaticRelated As Boolean = True,
+                                   Optional filterByEnzymes As Boolean = False) As NetworkGraph
 
-            Dim builderSession As New ReactionNetworkBuilder(br08901, compounds)
-            Dim g = builderSession.BuildModel(delimiter, extended, enzymeInfo, enzymeRelated)
+            Dim source As ReactionTable()
+
+            If filterByEnzymes Then
+                If enzymes.Count = 0 Then
+                    Return Nothing
+                Else
+                    source = br08901 _
+                        .Where(Function(r)
+                                   Return Not r.KO.IsNullOrEmpty AndAlso r.KO.Any(AddressOf enzymes.ContainsKey)
+                               End Function) _
+                        .ToArray
+                End If
+            Else
+                source = br08901.ToArray
+            End If
+
+            Dim builderSession As New ReactionNetworkBuilder(br08901:=source, compounds)
+            Dim g = builderSession.BuildModel(extended, enzymes, enzymaticRelated)
 
             Return g
         End Function

@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::af0d7b7142101e813fa62836849f097e, CLI_tools\CLI\COGTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: COG_myva, COG2003_2014, COG2014_result, COGStatics, ExportDOORCogs
-    '               InstallCOGDatabase, WhogXML
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: COG_myva, COG2003_2014, COG2014_result, COGStatics, ExportDOORCogs
+'               InstallCOGDatabase, WhogXML
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -63,18 +64,18 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
-    <ExportAPI("/Whog.XML",
-               Info:="Converts the whog text file into a XML data file.",
-               Usage:="/Whog.XML /in <whog> [/out <whog.XML>]")>
+    <ExportAPI("/Whog.XML")>
+    <Description("Converts the whog text file into a XML data file.")>
+    <Usage("/Whog.XML /in <whog> [/out <whog.XML>]")>
     Public Function WhogXML(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
         Return WhogRepository.Imports([in]).Save(out).CLICode
     End Function
 
-    <ExportAPI("/COG.myva",
-               Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
-               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /grep <donothing> /simple /out <out.csv/txt>]")>
+    <ExportAPI("/COG.myva")>
+    <Description("COG myva annotation using blastp raw output or exports sbh/bbh table result.")>
+    <Usage("/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /grep <donothing> /simple /out <out.csv/txt>]")>
     <Argument("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
               AcceptTypes:={GetType(Boolean)},
               Description:="This flag will change the output file format. 
@@ -130,9 +131,9 @@ Partial Module CLI
         End If
     End Function
 
-    <ExportAPI("/COG.Statics",
-               Info:="Statics the COG profiling in your analysised genome.",
-               Usage:="/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
+    <ExportAPI("/COG.Statics")>
+    <Description("Statics the COG profiling in your analysised genome.")>
+    <Usage("/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
     Public Function COGStatics(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
@@ -170,7 +171,8 @@ Partial Module CLI
         Return stst.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/EXPORT.COGs.from.DOOR", Usage:="/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
+    <ExportAPI("/EXPORT.COGs.from.DOOR")>
+    <Usage("/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
     Public Function ExportDOORCogs(args As CommandLine) As Integer
         Dim opr As String = args("/in")
@@ -191,11 +193,11 @@ Partial Module CLI
             }) >> out.FileOpen
     End Function
 
-    <ExportAPI("/install.cog2003-2014",
-               Info:="Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
-               This command required of the blast+ install first.",
-               Usage:="/install.cog2003-2014 /db <prot2003-2014.fasta>",
-               Example:="/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
+    <ExportAPI("/install.cog2003-2014")>
+    <Description("Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
+               This command required of the blast+ install first.")>
+    <Usage("/install.cog2003-2014 /db <prot2003-2014.fasta>")>
+    <Example("/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
     <Group(CLIGrouping.COGTools)>
     <Argument("/db", False, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
@@ -215,8 +217,9 @@ Partial Module CLI
             .Run()
     End Function
 
-    <ExportAPI("/query.cog2003-2014", Info:="Protein COG annotation by using NCBI cog2003-2014.fasta database.",
-               Usage:="/query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]")>
+    <ExportAPI("/query.cog2003-2014")>
+    <Description("Protein COG annotation by using NCBI cog2003-2014.fasta database.")>
+    <Usage("/query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]")>
     <Group(CLIGrouping.COGTools)>
     <Argument("/db", True, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
@@ -276,8 +279,8 @@ Partial Module CLI
 
     End Function
 
-    <ExportAPI("/COG2014.result",
-               Usage:="/COG2014.result /sbh <query-vs-COG2003-2014.fasta> /cog <cog2003-2014.csv> [/cog.names <cognames2003-2014.tab> /out <out.myva_cog.csv>]")>
+    <ExportAPI("/COG2014.result")>
+    <Usage("/COG2014.result /sbh <query-vs-COG2003-2014.fasta> /cog <cog2003-2014.csv> [/cog.names <cognames2003-2014.tab> /out <out.myva_cog.csv>]")>
     Public Function COG2014_result(args As CommandLine) As Integer
         Dim [in] As String = args("/sbh")
         Dim cog As String = args("/cog")

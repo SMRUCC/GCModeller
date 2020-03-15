@@ -61,7 +61,7 @@ Public Class HSP : Inherits Match
     ''' <returns></returns>
     Public ReadOnly Property LengthQuery As Integer
         Get
-            Return Math.Abs(ToA - FromA)
+            Return Math.Abs(toA - fromA)
         End Get
     End Property
 
@@ -71,22 +71,22 @@ Public Class HSP : Inherits Match
     ''' <returns></returns>
     Public ReadOnly Property LengthHit As Integer
         Get
-            Return Math.Abs(ToB - FromB)
+            Return Math.Abs(toB - fromB)
         End Get
     End Property
 
     Public Shared Function CreateObject(match As Match, query As String, subject As String) As HSP
-        Dim queryp = Mid(query, match.FromA, match.ToA - match.FromA)
-        Dim subjectp = Mid(subject, match.FromB, match.ToB - match.FromB)
+        Dim queryp = Mid(query, match.fromA, match.toA - match.fromA)
+        Dim subjectp = Mid(subject, match.fromB, match.toB - match.fromB)
 
         Return New HSP With {
-            .FromA = match.FromA,
-            .FromB = match.FromB,
-            .ToA = match.ToA,
-            .ToB = match.ToB,
+            .fromA = match.fromA,
+            .fromB = match.fromB,
+            .toA = match.toA,
+            .toB = match.toB,
             .QueryLength = query.Length,
             .SubjectLength = subject.Length,
-            .Score = match.Score,
+            .score = match.score,
             .Query = queryp,
             .Subject = subjectp
         }
@@ -102,7 +102,7 @@ Public Class HSP : Inherits Match
 
         Try
             Dim lstb = SimpleChaining.Chaining(hsp.Select(Function(x) DirectCast(x, Match)).AsList, False)
-            lstb = (From x In lstb Select x Order By x.Score Descending).AsList
+            lstb = (From x In lstb Select x Order By x.score Descending).AsList
             If Not lstb.IsNullOrEmpty Then
                 best = CreateObject(lstb.FirstOrDefault, query, subject)
             End If

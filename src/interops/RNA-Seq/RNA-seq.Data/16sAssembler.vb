@@ -115,7 +115,7 @@ Public Module Assembler
                         For Each refer In readsGroup
                             Dim ref$ = refer.Key
                             Dim reads = refer.Select(Function(r) r.SequenceData).AsList
-                            Dim contig$ = reads.AsList.ShortestCommonSuperString
+                            Dim contig$ = reads.AsList.ShortestCommonSuperString().First
                             Dim covTxt$ = $"{path.TrimSuffix}/{ref.NormalizePathString}.txt"
 
                             Using view As StreamWriter = covTxt.OpenWriter

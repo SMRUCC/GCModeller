@@ -191,7 +191,7 @@ Namespace Regprecise
         ''' 相似度
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identities As Double
+        Public Property identities As Double
 
         ''' <summary>
         ''' 注释来源的基因组名称

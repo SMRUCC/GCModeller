@@ -2,15 +2,39 @@
 # Run a virtual cell model in R# 
 
 # first load GCModeller virtualcell toolkit R# package into R# environment
-imports "vcellkit.simulator" from "vcellkit.dll";
+imports ["vcellkit.simulator", "vcellkit.rawXML"] from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments
-let model                <- read.vcell(path = ?"--in") :> as.object;
-let output.dir as string <- ?"--out";
+let model.file as string  <- ?"--in"  || stop("No virtual cell model provided!");
+let model                 <- read.vcell(path = model.file) :> as.object;
+let output.dir as string  <- ?"--out" || `${dirname(model.file)}/result/`;
+
+let time.ticks as integer <- ?"--ticks" || 100;
 
 # config experiment analysis from command line arguments
 let [deletions, tag.name, background] as string = [?"--deletions", ?"--tag", ?"--background"];
+
+# get profile list files
+let transcripts as string = ?"--transcripts";
+let proteins    as string = ?"--proteins";
+let compounds   as string = ?"--compounds";
+
+if (file.exists(transcripts)) {
+	transcripts <- read.list(transcripts, mode = "numeric"); 
+} else {
+	transcripts <- NULL;
+}
+if (file.exists(proteins)) {
+	proteins <- read.list(proteins, mode = "numeric");
+} else {
+	proteins <- NULL;
+}
+if (file.exists(compounds)) {
+	compounds <- read.list(compounds, mode = "numeric");
+} else {
+	compounds <- NULL;
+}
 
 print("Run virtual cell model:");
 print(model);
@@ -38,7 +62,7 @@ print("Gene list file for apply the deletion operation:");
 print(deletions);
 
 deletions <- file.exists(deletions) ? readLines(deletions) : NULL;
-tag.name  <- is.empty(tag.name) ? "replicate=" : tag.name;
+tag.name  <- is.empty(tag.name) ? "control_" : tag.name;
 
 if (is.empty(deletions)) {
     print("No gene deletions for current VirtualCell simulation analysis.");
@@ -49,47 +73,63 @@ if (is.empty(deletions)) {
 print(`The biological replication of the analysis will be tagged as '${tag.name}'`);
 
 let sample.names as string = [];
-let sampleName as string;
-let engine;
 
 # Run virtual cell simulation
 let run as function(i, deletions = NULL, exp.tag = tag.name) {
+	# vector used for generate sampleInfo file
+    let sampleName as string = `${exp.tag}${i}`;
+	let rawXml as string = `${output.dir}/raw/${sampleName}.vcXML`;
+	let folder as string = `${output.dir}/${sampleName}/`;
+		
     # The VB.NET object should be convert to R# object then 
     # we can reference its member function 
     # directly in script.    
-    engine = [vcell = vcell] 
+    let engine = [vcell = vcell] 
         :> engine.load(
             inits            = inits, 
-            iterations       = 500, 
-            time_resolutions = 0.1, 
-            deletions        = deletions
+            iterations       = time.ticks, 
+            time_resolutions = 0.5, 
+            deletions        = deletions,
+			showProgress     = !script$debug
         ) 
+		# apply profiles data
+		:> apply.module_profile(profile = transcripts, system = "Transcriptome")
+		:> apply.module_profile(profile = proteins,    system = "Proteome")
+		:> apply.module_profile(profile = compounds,   system = "Metabolome")
         # apply as.object function for the initialzie pipeline code
         # to construct a R# object
         :> as.object;
 
-    # vector used for generate sampleInfo file
-    sampleName = `${exp.tag}${i}`;
-    sample.names = sample.names << sampleName;
+    # sample.names = sample.names << sampleName;
 
-    # run virtual cell simulation and then 
-    # save the result snapshot data files into 
-    # target data directory
-    engine$Run();
-    engine :> vcell.snapshot(mass, flux, save = `${output.dir}/${sampleName}/`);
+	using xml as open.vcellXml(file  = rawXml, mode  = "write", vcell = engine) {
+		print(rawXml);
+	
+	    # run virtual cell simulation and then 
+		# save the result snapshot data files into 
+		# target data directory
+		engine$AttachBiologicalStorage(xml);
+		engine$Run();
+		engine :> vcell.snapshot(mass, flux, save = folder);
+	}
+	
+	sampleName;
 }
 
 let save.sampleName as function(fileName) {
     print("sample names of current sample group:");
     print(sample.names);
 
-    sample.names :> writeLines(`${output.dir}/${fileName}.txt`);
-    sample.names = [];
+    sample.names 
+	:> as.character 
+	:> orderBy(name -> name)
+	:> writeLines(`${output.dir}/${fileName}.txt`)
+	;
 }
 
 let biological.replicates as integer = 6;
 
-if (background :> file.exists) {
+if ((background :> file.exists) && (!is.empty(deletions))) {
     let geneSet as string;
     let pathwayName as string;
 
@@ -115,10 +155,10 @@ if (background :> file.exists) {
             print(`do pathway cluster deletion mutation for: ${pathwayName}!`);
             print(`intersect ${length(geneSet)} with the given geneSet.`);
 
-            for(i in 1:biological.replicates) {
-                # run for mutation genome model
-                i :> run(deletions = geneSet, exp.tag = pathwayName);
-            }
+            sample.names <- for(i in 1:biological.replicates) %dopar% {
+								# run for mutation genome model
+								i :> run(deletions = geneSet, exp.tag = pathwayName);
+							}
 
             [fileName = pathwayName] :> save.sampleName;
         }
@@ -127,16 +167,17 @@ if (background :> file.exists) {
 } else {
     # run 6 biological replicate for the 
     # current virtual cell simulation analysis
-    for(i in 1:biological.replicates) {
-        # run for wildtype
-        i :> run;
-    }
+	sample.names <- if (!script$debug) {
+						 for(i in 1:biological.replicates) {
+							 # run for wildtype
+							 i :> run;
+						 }	
+					} else {
+						 for(i in 1:biological.replicates) %dopar% {
+							 # run for wildtype
+							 i :> run;
+						 }	
+					}
 
     [fileName = tag.name] :> save.sampleName;
 }
-
-
-
-
-
-

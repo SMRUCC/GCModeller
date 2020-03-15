@@ -1,0 +1,438 @@
+﻿********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 3.5.4 (Release date: 3.5.4)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= K:\20200226\TRN\motifs\TunR.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+Ddes_1667:-399           1.0000     30  DMR_27630:-328           1.0000     30  
+Ddes_0168:-100           1.0000     30  DMR_19500:-342           1.0000     30  
+Ddes_0089:-100           1.0000     30  DMR_19500:-248           1.0000     30  
+Ddes_0167:-85            1.0000     30  DMR_43920:-23            1.0000     30  
+DMR_19510:-213           1.0000     30  DMR_20140:-85            1.0000     30  
+DMR_17470:-144           1.0000     30  DMR_17150:-121           1.0000     30  
+DVU0181:-219             1.0000     30  DMR_43460:-159           1.0000     30  
+DVU0771:-134             1.0000     30  DMR_43930:-49            1.0000     30  
+DVU0770:-50              1.0000     30  DESPIG_00488:-99         1.0000     30  
+DvMF_0320:-335           1.0000     30  Desal_0306:-119          1.0000     30  
+DvMF_2478:-67            1.0000     30  DVU0177:-132             1.0000     30  
+DvMF_1233:-83            1.0000     30  DVU0179:-102             1.0000     30  
+DMR_19510:-160           1.0000     30  DMR_08230:-213           1.0000     30  
+DMR_17470:-224           1.0000     30  DMR_08220:-19            1.0000     30  
+DMR_12820:-103           1.0000     30  DMR_12820:-49            1.0000     30  
+DvMF_0650:-96            1.0000     30  DvMF_0320:-138           1.0000     30  
+DvMF_2475:-235           1.0000     30  DvMF_1613:-243           1.0000     30  
+DvMF_1613:-371           1.0000     30  DvMF_2780:-117           1.0000     30  
+DvMF_2476:-108           1.0000     30  DvMF_2403:-145           1.0000     30  
+DvMF_2813:-242           1.0000     30  DvMF_2812:-213           1.0000     30  
+DvMF_2812:-157           1.0000     30  DvMF_2813:-298           1.0000     30  
+Dbac_1578:-179           1.0000     30  Dbac_1581:-90            1.0000     30  
+Dbac_1580:-112           1.0000     30  Dbac_2091:-114           1.0000     30  
+Dde_0155:-134            1.0000     30  Dde_3518:-120            1.0000     30  
+Dde_3517:-51             1.0000     30  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme K:\20200226\TRN\motifs\TunR.fasta -dna -mod zoops -evt 10 -nmotifs 6 -maxsize 1000000000 -maxw 30 
+
+model:  mod=         zoops    nmotifs=         6    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           30    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=       49    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            1470    N=              49
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.255 C 0.237 G 0.218 T 0.290 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.255 C 0.237 G 0.218 T 0.290 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   30   sites =  49   llr = 726   E-value = 1.5e-247
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  1212:a::43342242544432:1::6142
+pos.-specific     C  6:::a:91311:1221112:129:::1831
+probability       G  1381:::81111112122:11219:a:1:5
+matrix            T  2416::1:24546425233463::a:3132
+
+         bits    2.2                          *    
+                 2.0     *                    *    
+                 1.8     ***                ***    
+                 1.5     ****              ****    
+Information      1.3     ****              ****    
+content          1.1     ****              ****    
+(21.4 bits)      0.9   * ****              **** *  
+                 0.7   ******              **** *  
+                 0.4 * ******   *          ******  
+                 0.2 ********* ***  ** *** ********
+                 0.0 ------------------------------
+
+Multilevel           CTGTCACGATTTTTATAAAATTCGTGACAG
+consensus            TG A    CAAA CCA TTTAC    T CA
+sequence              A      T    AT      G      T 
+                                                   
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                         Site           
+-------------             ----- ---------            ------------------------------
+Dde_0155:-134                 1  4.30e-13          . CTGTCACGCATTTTATTTTTTTCGTGACCG           
+Desal_0306:-119               1  6.19e-12          . CAGTCACGTTTTTATTAGAATGCGTGACCG           
+Dde_3517:-51                  1  4.59e-11          . CGGTCACGAATGTCCTGAAAATCGTGACAA           
+Dde_3518:-120                 1  5.51e-11          . TTGTCACGATTTTCAGGACATTCGTGACCG           
+DvMF_2812:-157                1  4.10e-10          . TTGACACGAAGATTATAAAAAACGTGTCAG           
+DvMF_2813:-298                1  5.56e-10          . CTGACACGTTTTTTATAATCTTCGTGTCAA           
+DMR_12820:-103                1  5.56e-10          . TTGTCACGAGTTGCAAAACTTGCGTGACAA           
+Dbac_1578:-179                1  7.48e-10          . CGGTCACGCTTTTCCGCGCTACCGTGACCG           
+DMR_27630:-328                1  4.38e-09          . CTGTCATGTGAATAGAATTATTCGTGACAG           
+Dbac_1581:-90                 1  6.37e-09          . CAGTCACGCTTTATCATGCGTGCGTGACCA           
+DvMF_2812:-213                1  1.03e-08          . CAGGCATGAAAATAAAATAATCCGTGACAA           
+DMR_20140:-85                 1  1.03e-08          . GTAACACGTATTTTCTAAAATCCGTGTCAT           
+Ddes_0089:-100                1  1.16e-08          . TATTCACGATTATTATAAAAACCGTGAACA           
+DMR_43460:-159                1  2.04e-08          . CTGGCACGGCAATCCTAAAAGCCGTGTCTT           
+Dbac_1580:-112                1  2.28e-08          . TGGTCACGCACGCATGATAAAGCGTGACTG           
+DESPIG_00488:-99              1  2.28e-08          . TTGTCGCGCTTTTCGTATAATCCGTGCCTG           
+DVU0179:-102                  1  2.83e-08          . CGGTCACCCTCATGGTGACGAACGTGACCG           
+DvMF_0320:-335                1  3.15e-08          . CGGGCACGATATGTCCTGCTTTCGTGCCTG           
+DMR_43930:-49                 1  3.89e-08          . CTGACACGTATATTATAAAACCGGTGTGAG           
+DMR_43920:-23                 1  3.89e-08          . CTCACACCGGTTTTATAATATACGTGTCAG           
+DvMF_1233:-83                 1  4.31e-08          . CAGGCACGGCCTGCCGGAAAATCGTGACCG           
+DMR_17150:-121                1  4.31e-08          . CTAACACGAAAAAATTAATTTGCGTGTGAG           
+Ddes_0168:-100                1  4.31e-08          . TGTTCACGCTTTTTATGTAAATCGTGATCT           
+DMR_19500:-248                1  5.30e-08          . CTGACACGTACAGGGTATTATTCGTGATAT           
+DvMF_1613:-243                1  5.86e-08          . ATGTCACGCCAAGTCGCGCTTCCGTGACTG           
+DMR_17470:-144                1  5.86e-08          . GAGACACCCATATTCTATTTGCCGTGACAT           
+Ddes_0167:-85                 1  7.15e-08          . AGATCACGATTTACATAAAAAGCGTGAACA           
+DvMF_2403:-145                1  7.89e-08          . CGGTCACGATAATTTTATTTTGCATGGCTC           
+DvMF_2813:-242                1  1.16e-07          . TTGTCACGGATTATTTTATTTTCATGCCTG           
+DVU0177:-132                  1  1.27e-07          . CGGTCACGTTCGTCACCATGAGGGTGACCG           
+DVU0771:-134                  1  1.27e-07          . GAGGCACGAAAATATCATGTATCGTGTCAG           
+DvMF_2476:-108                1  1.40e-07          . CGGTCACCTGGGCTGTTTTTTTCGTGACTG           
+Ddes_1667:-399                1  1.40e-07          . TGTTCACGAAAATGAAAAATAGCGTGTAAA           
+DVU0770:-50                   1  2.01e-07          . CTGACACGATACATGATATTTTCGTGCCTC           
+DvMF_0650:-96                 1  2.62e-07          . CAGTCACGCGAACCATGCCGGACGTGACCC           
+DvMF_2478:-67                 1  2.62e-07          . CGGTCACCAAGACGAAAGTTTTCGTGCCTC           
+DMR_12820:-49                 1  2.86e-07          . TTGTCACCTCATTTTTTCTTTTCGTGATAA           
+DVU0181:-219                  1  2.86e-07          . CGGTCACCACCCGGCAACATTCCGTGACCA           
+DMR_19510:-213                1  3.69e-07          . ATATCACGAATAATACCCTGTACGTGTCAG           
+DMR_08220:-19                 1  4.36e-07          . CAATCACGATTTCCTGCTAGTGCGTGAGAG           
+DMR_19500:-342                1  4.36e-07          . GCGTCATGACTTTTCTACTTTGCGTGTCAT           
+DMR_08230:-213                1  4.73e-07          . CTCTCACGCACTAGCAGGAAATCGTGATTG           
+DvMF_2475:-235                1  5.13e-07          . CAGTCACGAAAAAAACAGCCCAGGTGACCG           
+DvMF_0320:-138                1  5.13e-07          . TGGTCACGCGTGTATCGGAATGCGTGTTCC           
+DvMF_1613:-371                1  6.52e-07          . CCTACACGCTTTGCATCCAACCCGTGACCA           
+DMR_17470:-224                1  7.63e-07          . CTGACACGGCAATATAAAAACAAGTGACTC           
+DvMF_2780:-117                1  1.04e-06          . TGTGCACGTTTTCTGCTTGTTTCGTGACTG           
+DMR_19510:-160                1  1.60e-06          . CTGTCACTTGTTTTGTATTTGCCGTGTCGT           
+Dbac_2091:-114                1  4.65e-06          . GTGACACGATAAAAATTAAAAAAATGTCTT           
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+Dde_0155:-134                     4.3e-13  [1]
+Desal_0306:-119                   6.2e-12  [1]
+Dde_3517:-51                      4.6e-11  [1]
+Dde_3518:-120                     5.5e-11  [1]
+DvMF_2812:-157                    4.1e-10  [1]
+DvMF_2813:-298                    5.6e-10  [1]
+DMR_12820:-103                    5.6e-10  [1]
+Dbac_1578:-179                    7.5e-10  [1]
+DMR_27630:-328                    4.4e-09  [1]
+Dbac_1581:-90                     6.4e-09  [1]
+DvMF_2812:-213                      1e-08  [1]
+DMR_20140:-85                       1e-08  [1]
+Ddes_0089:-100                    1.2e-08  [1]
+DMR_43460:-159                      2e-08  [1]
+Dbac_1580:-112                    2.3e-08  [1]
+DESPIG_00488:-99                  2.3e-08  [1]
+DVU0179:-102                      2.8e-08  [1]
+DvMF_0320:-335                    3.1e-08  [1]
+DMR_43930:-49                     3.9e-08  [1]
+DMR_43920:-23                     3.9e-08  [1]
+DvMF_1233:-83                     4.3e-08  [1]
+DMR_17150:-121                    4.3e-08  [1]
+Ddes_0168:-100                    4.3e-08  [1]
+DMR_19500:-248                    5.3e-08  [1]
+DvMF_1613:-243                    5.9e-08  [1]
+DMR_17470:-144                    5.9e-08  [1]
+Ddes_0167:-85                     7.2e-08  [1]
+DvMF_2403:-145                    7.9e-08  [1]
+DvMF_2813:-242                    1.2e-07  [1]
+DVU0177:-132                      1.3e-07  [1]
+DVU0771:-134                      1.3e-07  [1]
+DvMF_2476:-108                    1.4e-07  [1]
+Ddes_1667:-399                    1.4e-07  [1]
+DVU0770:-50                         2e-07  [1]
+DvMF_0650:-96                     2.6e-07  [1]
+DvMF_2478:-67                     2.6e-07  [1]
+DMR_12820:-49                     2.9e-07  [1]
+DVU0181:-219                      2.9e-07  [1]
+DMR_19510:-213                    3.7e-07  [1]
+DMR_08220:-19                     4.4e-07  [1]
+DMR_19500:-342                    4.4e-07  [1]
+DMR_08230:-213                    4.7e-07  [1]
+DvMF_2475:-235                    5.1e-07  [1]
+DvMF_0320:-138                    5.1e-07  [1]
+DvMF_1613:-371                    6.5e-07  [1]
+DMR_17470:-224                    7.6e-07  [1]
+DvMF_2780:-117                      1e-06  [1]
+DMR_19510:-160                    1.6e-06  [1]
+Dbac_2091:-114                    4.6e-06  [1]
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=30 seqs=49
+Dde_0155:-134            (    1) CTGTCACGCATTTTATTTTTTTCGTGACCG  1 
+Desal_0306:-119          (    1) CAGTCACGTTTTTATTAGAATGCGTGACCG  1 
+Dde_3517:-51             (    1) CGGTCACGAATGTCCTGAAAATCGTGACAA  1 
+Dde_3518:-120            (    1) TTGTCACGATTTTCAGGACATTCGTGACCG  1 
+DvMF_2812:-157           (    1) TTGACACGAAGATTATAAAAAACGTGTCAG  1 
+DvMF_2813:-298           (    1) CTGACACGTTTTTTATAATCTTCGTGTCAA  1 
+DMR_12820:-103           (    1) TTGTCACGAGTTGCAAAACTTGCGTGACAA  1 
+Dbac_1578:-179           (    1) CGGTCACGCTTTTCCGCGCTACCGTGACCG  1 
+DMR_27630:-328           (    1) CTGTCATGTGAATAGAATTATTCGTGACAG  1 
+Dbac_1581:-90            (    1) CAGTCACGCTTTATCATGCGTGCGTGACCA  1 
+DvMF_2812:-213           (    1) CAGGCATGAAAATAAAATAATCCGTGACAA  1 
+DMR_20140:-85            (    1) GTAACACGTATTTTCTAAAATCCGTGTCAT  1 
+Ddes_0089:-100           (    1) TATTCACGATTATTATAAAAACCGTGAACA  1 
+DMR_43460:-159           (    1) CTGGCACGGCAATCCTAAAAGCCGTGTCTT  1 
+Dbac_1580:-112           (    1) TGGTCACGCACGCATGATAAAGCGTGACTG  1 
+DESPIG_00488:-99         (    1) TTGTCGCGCTTTTCGTATAATCCGTGCCTG  1 
+DVU0179:-102             (    1) CGGTCACCCTCATGGTGACGAACGTGACCG  1 
+DvMF_0320:-335           (    1) CGGGCACGATATGTCCTGCTTTCGTGCCTG  1 
+DMR_43930:-49            (    1) CTGACACGTATATTATAAAACCGGTGTGAG  1 
+DMR_43920:-23            (    1) CTCACACCGGTTTTATAATATACGTGTCAG  1 
+DvMF_1233:-83            (    1) CAGGCACGGCCTGCCGGAAAATCGTGACCG  1 
+DMR_17150:-121           (    1) CTAACACGAAAAAATTAATTTGCGTGTGAG  1 
+Ddes_0168:-100           (    1) TGTTCACGCTTTTTATGTAAATCGTGATCT  1 
+DMR_19500:-248           (    1) CTGACACGTACAGGGTATTATTCGTGATAT  1 
+DvMF_1613:-243           (    1) ATGTCACGCCAAGTCGCGCTTCCGTGACTG  1 
+DMR_17470:-144           (    1) GAGACACCCATATTCTATTTGCCGTGACAT  1 
+Ddes_0167:-85            (    1) AGATCACGATTTACATAAAAAGCGTGAACA  1 
+DvMF_2403:-145           (    1) CGGTCACGATAATTTTATTTTGCATGGCTC  1 
+DvMF_2813:-242           (    1) TTGTCACGGATTATTTTATTTTCATGCCTG  1 
+DVU0177:-132             (    1) CGGTCACGTTCGTCACCATGAGGGTGACCG  1 
+DVU0771:-134             (    1) GAGGCACGAAAATATCATGTATCGTGTCAG  1 
+DvMF_2476:-108           (    1) CGGTCACCTGGGCTGTTTTTTTCGTGACTG  1 
+Ddes_1667:-399           (    1) TGTTCACGAAAATGAAAAATAGCGTGTAAA  1 
+DVU0770:-50              (    1) CTGACACGATACATGATATTTTCGTGCCTC  1 
+DvMF_0650:-96            (    1) CAGTCACGCGAACCATGCCGGACGTGACCC  1 
+DvMF_2478:-67            (    1) CGGTCACCAAGACGAAAGTTTTCGTGCCTC  1 
+DMR_12820:-49            (    1) TTGTCACCTCATTTTTTCTTTTCGTGATAA  1 
+DVU0181:-219             (    1) CGGTCACCACCCGGCAACATTCCGTGACCA  1 
+DMR_19510:-213           (    1) ATATCACGAATAATACCCTGTACGTGTCAG  1 
+DMR_08220:-19            (    1) CAATCACGATTTCCTGCTAGTGCGTGAGAG  1 
+DMR_19500:-342           (    1) GCGTCATGACTTTTCTACTTTGCGTGTCAT  1 
+DMR_08230:-213           (    1) CTCTCACGCACTAGCAGGAAATCGTGATTG  1 
+DvMF_2475:-235           (    1) CAGTCACGAAAAAAACAGCCCAGGTGACCG  1 
+DvMF_0320:-138           (    1) TGGTCACGCGTGTATCGGAATGCGTGTTCC  1 
+DvMF_1613:-371           (    1) CCTACACGCTTTGCATCCAACCCGTGACCA  1 
+DMR_17470:-224           (    1) CTGACACGGCAATATAAAAACAAGTGACTC  1 
+DvMF_2780:-117           (    1) TGTGCACGTTTTCTGCTTGTTTCGTGACTG  1 
+DMR_19510:-160           (    1) CTGTCACTTGTTTTGTATTTGCCGTGTCGT  1 
+Dbac_2091:-114           (    1) GTGACACGATAAAAATTAAAAAAATGTCTT  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 30 n= 49 bayes= 1.7217 E= 1.5e-247 
+  -206    132   -109    -24 
+   -32   -254     49     63 
+  -132   -254    179   -150 
+    -6  -1226    -83    113 
+ -1226    207  -1226  -1226 
+   194  -1226   -341  -1226 
+ -1226    198  -1226   -224 
+ -1226    -73    194   -382 
+    68     16   -109    -37 
+    44    -73    -61     34 
+    26    -73   -183     76 
+    68   -254   -109     63 
+   -47    -96    -61     93 
+   -32      4    -83     56 
+    60      4    -42    -51 
+   -32    -73    -83     87 
+   106    -96    -42    -66 
+    68    -96    -25     -2 
+    75    -37   -241     26 
+    82   -254    -83     42 
+    16   -154   -142     93 
+   -64      4     17     26 
+  -264    192   -183  -1226 
+  -206  -1226    211  -1226 
+ -1226  -1226  -1226    179 
+ -1226  -1226    220  -1226 
+   121   -122   -341     -2 
+  -206    171   -183   -150 
+    53     46   -341     -2 
+   -18    -96    117    -83 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 30 nsites= 49 E= 1.5e-247 
+ 0.061224  0.591837  0.102041  0.244898 
+ 0.204082  0.040816  0.306122  0.448980 
+ 0.102041  0.040816  0.755102  0.102041 
+ 0.244898  0.000000  0.122449  0.632653 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.979592  0.000000  0.020408  0.000000 
+ 0.000000  0.938776  0.000000  0.061224 
+ 0.000000  0.142857  0.836735  0.020408 
+ 0.408163  0.265306  0.102041  0.224490 
+ 0.346939  0.142857  0.142857  0.367347 
+ 0.306122  0.142857  0.061224  0.489796 
+ 0.408163  0.040816  0.102041  0.448980 
+ 0.183673  0.122449  0.142857  0.551020 
+ 0.204082  0.244898  0.122449  0.428571 
+ 0.387755  0.244898  0.163265  0.204082 
+ 0.204082  0.142857  0.122449  0.530612 
+ 0.530612  0.122449  0.163265  0.183673 
+ 0.408163  0.122449  0.183673  0.285714 
+ 0.428571  0.183673  0.040816  0.346939 
+ 0.448980  0.040816  0.122449  0.387755 
+ 0.285714  0.081633  0.081633  0.551020 
+ 0.163265  0.244898  0.244898  0.346939 
+ 0.040816  0.897959  0.061224  0.000000 
+ 0.061224  0.000000  0.938776  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.591837  0.102041  0.020408  0.285714 
+ 0.061224  0.775510  0.061224  0.102041 
+ 0.367347  0.326531  0.020408  0.285714 
+ 0.224490  0.122449  0.489796  0.163265 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+[CT][TGA]G[TA]CACG[ACT][TA][TA][TA]T[TCA][ACT][TA]A[AT][AT][AT][TA][TCG]CGTG[AT]C[ACT][GA]
+--------------------------------------------------------------------------------
+
+
+
+
+Time  0.48 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+Ddes_1667:-399                   1.40e-07  [1(1.40e-07)]
+DMR_27630:-328                   4.38e-09  [1(4.38e-09)]
+Ddes_0168:-100                   4.31e-08  [1(4.31e-08)]
+DMR_19500:-342                   4.36e-07  [1(4.36e-07)]
+Ddes_0089:-100                   1.16e-08  [1(1.16e-08)]
+DMR_19500:-248                   5.30e-08  [1(5.30e-08)]
+Ddes_0167:-85                    7.15e-08  [1(7.15e-08)]
+DMR_43920:-23                    3.89e-08  [1(3.89e-08)]
+DMR_19510:-213                   3.69e-07  [1(3.69e-07)]
+DMR_20140:-85                    1.03e-08  [1(1.03e-08)]
+DMR_17470:-144                   5.86e-08  [1(5.86e-08)]
+DMR_17150:-121                   4.31e-08  [1(4.31e-08)]
+DVU0181:-219                     2.86e-07  [1(2.86e-07)]
+DMR_43460:-159                   2.04e-08  [1(2.04e-08)]
+DVU0771:-134                     1.27e-07  [1(1.27e-07)]
+DMR_43930:-49                    3.89e-08  [1(3.89e-08)]
+DVU0770:-50                      2.01e-07  [1(2.01e-07)]
+DESPIG_00488:-99                 2.28e-08  [1(2.28e-08)]
+DvMF_0320:-335                   3.15e-08  [1(3.15e-08)]
+Desal_0306:-119                  6.19e-12  [1(6.19e-12)]
+DvMF_2478:-67                    2.62e-07  [1(2.62e-07)]
+DVU0177:-132                     1.27e-07  [1(1.27e-07)]
+DvMF_1233:-83                    4.31e-08  [1(4.31e-08)]
+DVU0179:-102                     2.83e-08  [1(2.83e-08)]
+DMR_19510:-160                   1.60e-06  [1(1.60e-06)]
+DMR_08230:-213                   4.73e-07  [1(4.73e-07)]
+DMR_17470:-224                   7.63e-07  [1(7.63e-07)]
+DMR_08220:-19                    4.36e-07  [1(4.36e-07)]
+DMR_12820:-103                   5.56e-10  [1(5.56e-10)]
+DMR_12820:-49                    2.86e-07  [1(2.86e-07)]
+DvMF_0650:-96                    2.62e-07  [1(2.62e-07)]
+DvMF_0320:-138                   5.13e-07  [1(5.13e-07)]
+DvMF_2475:-235                   5.13e-07  [1(5.13e-07)]
+DvMF_1613:-243                   5.86e-08  [1(5.86e-08)]
+DvMF_1613:-371                   6.52e-07  [1(6.52e-07)]
+DvMF_2780:-117                   1.04e-06  [1(1.04e-06)]
+DvMF_2476:-108                   1.40e-07  [1(1.40e-07)]
+DvMF_2403:-145                   7.89e-08  [1(7.89e-08)]
+DvMF_2813:-242                   1.16e-07  [1(1.16e-07)]
+DvMF_2812:-213                   1.03e-08  [1(1.03e-08)]
+DvMF_2812:-157                   4.10e-10  [1(4.10e-10)]
+DvMF_2813:-298                   5.56e-10  [1(5.56e-10)]
+Dbac_1578:-179                   7.48e-10  [1(7.48e-10)]
+Dbac_1581:-90                    6.37e-09  [1(6.37e-09)]
+Dbac_1580:-112                   2.28e-08  [1(2.28e-08)]
+Dbac_2091:-114                   4.65e-06  [1(4.65e-06)]
+Dde_0155:-134                    4.30e-13  [1(4.30e-13)]
+Dde_3518:-120                    5.51e-11  [1(5.51e-11)]
+Dde_3517:-51                     4.59e-11  [1(4.59e-11)]
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because couldn't find any more starting points for EM.
+********************************************************************************
+********************************************************************************

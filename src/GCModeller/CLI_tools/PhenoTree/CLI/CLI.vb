@@ -170,7 +170,7 @@ Public Module CLI
         Dim anno As String = args("/go.anno")
         Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")
-        Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
+        Dim GO_anno As IO.File = IO.File.LoadTsv(anno, Encodings.UTF8)
         '  Dim term2gene$ = GO_anno.PushAsTable(False)
         ' Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
         Dim clusters = [in].ReadAllText.LoadJSON(Of Dictionary(Of String, EntityClusterModel()))

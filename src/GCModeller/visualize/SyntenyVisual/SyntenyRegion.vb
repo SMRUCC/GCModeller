@@ -136,9 +136,9 @@ Public Module SyntenyRegionExtensions
         ' match的位置就是基因组上面的坐标位置
         For Each map In smithwaterMan.Matches(cutoff * smithwaterMan.MaxScore)
             Yield New SyntenyRegion With {
-                .query = {map.FromA, map.ToA},
-                .subject = {map.FromB, map.ToB},
-                .score = map.Score
+                .query = {map.fromA, map.toA},
+                .subject = {map.fromB, map.toB},
+                .score = map.score
             }
         Next
     End Function

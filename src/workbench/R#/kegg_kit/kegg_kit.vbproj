@@ -110,7 +110,7 @@
     <Compile Include="metabolism.vb" />
     <Compile Include="britekit.vb" />
     <Compile Include="profiles.vb" />
-    <Compile Include="Repository.vb" />
+    <Compile Include="kegg_repository.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

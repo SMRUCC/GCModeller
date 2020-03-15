@@ -133,20 +133,18 @@ Namespace Regprecise
         ''' </summary>
         ''' <returns></returns>
         Public Function ExportMotifs() As FASTA.FastaSeq()
-            Dim LQuery As FASTA.FastaSeq() =
-                LinqAPI.Exec(Of FASTA.FastaSeq) <=
-                    From FastaObject As Regtransbase.WebServices.MotifFasta
-                    In regulatorySites
-                    Let t As String = $"[gene={FastaObject.locus_tag}:{FastaObject.position}] [family={family}] [regulog={regulog.name}]"
-                    Let attrs = New String() {t}
-                    Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(FastaObject)
-                    Let fa As FASTA.FastaSeq =
-                        New FASTA.FastaSeq With {
-                            .SequenceData = seq,
-                            .Headers = attrs
-                        }
-                    Select fa
-            Return LQuery
+            Return LinqAPI.Exec(Of FASTA.FastaSeq) _
+ _
+                () <= From fa As Regtransbase.WebServices.MotifFasta
+                      In regulatorySites
+                      Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
+                      Let t As String = $"{fa.locus_tag}:{fa.position} [family={family}] [regulog={regulog.name}]"
+                      Let attrs = New String() {t}
+                      Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(fa)
+                      Select New FASTA.FastaSeq With {
+                           .SequenceData = seq,
+                           .Headers = attrs
+                      }
         End Function
     End Class
 End Namespace

@@ -88,7 +88,7 @@ Namespace Motif
         ''' <returns></returns>
         Public Function FromMla(fa As FastaFile) As MotifPWM
             Dim f As PatternModel = PatternsAPI.Frequency(fa)
-            Dim n As Integer = fa.NumberOfFasta
+            Dim n As Integer = fa.Count
             Dim base As Integer = If(fa.First.IsProtSource, 20, 4)
             Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
             Dim H As Double() = f.Residues.Select(Function(x) x.Alphabets.__hi).ToArray

@@ -77,11 +77,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>vcellkit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -104,6 +106,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RawXmlKit.vb" />
     <Compile Include="Compiler.vb" />
     <Compile Include="Analysis.vb" />
     <Compile Include="Simulator.vb" />
@@ -143,6 +146,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>
@@ -155,6 +162,14 @@
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
+      <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
+      <Name>RegulonDatabase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Compiler\Compiler.vbproj">
       <Project>{a2a0f8c4-f84f-4a3a-958c-076ea4c70b5f}</Project>
       <Name>Compiler</Name>
@@ -166,6 +181,10 @@
     <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1EE7910D-9171-426F-B874-B935E633C419}</Project>
       <Name>GCMarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\Raw\Raw.vbproj">
+      <Project>{07CC0292-9EDA-4E02-BF0D-043391C99F07}</Project>
+      <Name>Raw</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.vbproj">
       <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>

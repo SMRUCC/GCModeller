@@ -797,6 +797,7 @@
     <Compile Include="ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />
     <Compile Include="ContextModel\Algorithm\ContextCore.vb" />
+    <Compile Include="ContextModel\Gtf.vb" />
     <Compile Include="ContextModel\GenomeContext.vb" />
     <Compile Include="ContextModel\Operon\Operon.vb" />
     <Compile Include="ContextModel\Algorithm\ContextProvider.vb" />
@@ -895,6 +896,9 @@
     <Compile Include="SequenceModel\FASTA\HeaderFormats.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Assembly.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\NtHelper.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\GeneticCodes.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Translation\TranslTableTextReader.vb" />
     <Compile Include="SequenceModel\TypeExtensions.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />

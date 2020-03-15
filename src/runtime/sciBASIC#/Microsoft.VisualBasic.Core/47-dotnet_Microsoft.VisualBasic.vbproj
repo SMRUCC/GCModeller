@@ -100,6 +100,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -1148,6 +1149,8 @@
     <Compile Include="ApplicationServices\Terminal\xConsole\CoolWriteSettings.vb" />
     <Compile Include="CommandLine\Reflection\ExportApiInformation.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
+    <Compile Include="ComponentModel\DataSource\Property\Extensions.vb" />
+    <Compile Include="ComponentModel\File\IOWorkModes.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="Data\NamespaceDoc.vb" />
     <Compile Include="Data\Repository\RepositoryFileSystem.vb" />
@@ -1157,6 +1160,7 @@
     <Compile Include="Extensions\Collection\CollectionValueGetter.vb" />
     <Compile Include="Extensions\Math\StatisticsMathExtensions\SampleObservation.vb" />
     <Compile Include="Extensions\Math\StatisticsMathExtensions\Min.vb" />
+    <Compile Include="Extensions\Reflection\ScriptMeta.vb" />
     <Compile Include="Extensions\Reflection\ValueReader.vb" />
     <Compile Include="Extensions\Reflection\EnumHelpers.vb" />
     <Compile Include="Extensions\StringHelpers\StringFormats.vb" />
@@ -1335,7 +1339,7 @@
     <Compile Include="ComponentModel\Ranges\Selector\IndexSelector.vb" />
     <Compile Include="ComponentModel\Ranges\Extensions.vb" />
     <Compile Include="ComponentModel\Ranges\RangeList.vb" />
-    <Compile Include="ComponentModel\Ranges\RangeModel\IRanges.vb" />
+    <Compile Include="ComponentModel\Ranges\RangeModel\IRangeModel.vb" />
     <Compile Include="ComponentModel\Ranges\RangeModel\Range.vb" />
     <Compile Include="ComponentModel\Ranges\RangeModel\DoubleRange.vb" />
     <Compile Include="ComponentModel\Ranges\RangeModel\IntRange.vb" />

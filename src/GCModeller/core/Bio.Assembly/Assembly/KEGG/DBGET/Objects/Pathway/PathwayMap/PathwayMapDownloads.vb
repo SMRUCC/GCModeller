@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                               End Function
 
             Using progress As New ProgressBar("Download KEGG pathway reference map data...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(entries.Length)
+                Dim tick As New ProgressProvider(progress, entries.Length)
 
                 Call tick.StepProgress()
 
@@ -144,7 +144,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Call Thread.Sleep(10000)
                     End If
 EXIT_LOOP:
-                    Dim ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    Dim ETA = tick.ETA().FormatTime
                     Call progress.SetProgress(tick.StepProgress, "ETA " & ETA)
                 Next
             End Using

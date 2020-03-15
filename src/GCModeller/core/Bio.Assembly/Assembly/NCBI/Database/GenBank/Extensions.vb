@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::45b98aa5fc2b277cdae1198e65fbb68a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: __lociUid, __protShort, _16SribosomalRNA, ExportProteins, ExportProteins_Short
-    '                   GeneList, GetObjects, GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps
-    '                   ToGff
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: __lociUid, __protShort, _16SribosomalRNA, ExportProteins, ExportProteins_Short
+'                   GeneList, GetObjects, GPFF2Feature, LoadPTT, (+2 Overloads) LocusMaps
+'                   ToGff
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -55,12 +56,22 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
 Namespace Assembly.NCBI.GenBank
 
     <Package("NCBI.Genbank.Extensions", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module Extensions
+
+        <Extension>
+        Public Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
+            Return GBFF.File _
+           .LoadDatabase(filePath:=genome) _
+           .ToDictionary(Function(gb)
+                             Return gb.Locus.AccessionID
+                         End Function)
+        End Function
 
         <Extension>
         Public Function GPFF2Feature(gb As GBFF.File, gff As Dictionary(Of String, GFF.Feature)) As GeneBrief
@@ -97,6 +108,66 @@ Namespace Assembly.NCBI.GenBank
             }
 
             Return gene
+        End Function
+
+        <Extension>
+        Public Function CreateGenbankObject(table As PTT) As GBFF.File
+            Dim feature, CDS As gbffFeature
+            Dim gb As New GBFF.File With {
+                .Features = New FEATURES,
+                .Source = New SOURCE With {
+                    .SpeciesName = table.Title,
+                    .OrganismHierarchy = New ORGANISM With {
+                        .SpeciesName = table.Title,
+                        .Lineage = {"n/a"}
+                    }
+                },
+                .Locus = New LOCUS With {
+                    .AccessionID = "n/a",
+                    .Length = table.Size,
+                    .Molecular = "unknown",
+                    .Type = "nucl",
+                    .UpdateTime = Now.ToString
+                },
+                .Definition = New DEFINITION With {.Value = table.Title}
+            }
+            Dim loci As NucleotideLocation
+
+            For Each gene As GeneBrief In table.GeneObjects
+                loci = gene.Location
+                feature = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "gene",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+                CDS = New gbffFeature With {
+                    .gb = gb,
+                    .KeyName = "CDS",
+                    .Location = New featureLocation With {
+                        .Complement = loci.Strand = Strands.Reverse,
+                        .Locations = {
+                            New RegionSegment With {.Left = loci.left, .Right = loci.right}
+                        }
+                    }
+                }
+
+                Call feature.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call feature.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+
+                Call CDS.SetValue(FeatureQualifiers.gene, gene.Gene)
+                Call CDS.SetValue(FeatureQualifiers.locus_tag, gene.Synonym)
+                Call CDS.SetValue(FeatureQualifiers.product, gene.Product)
+
+                Call gb.Features.Add(feature)
+                Call gb.Features.Add(CDS)
+            Next
+
+            Return gb
         End Function
 
         ''' <summary>
@@ -155,9 +226,9 @@ Namespace Assembly.NCBI.GenBank
             Call loci.Normalization()
 
             If loci.Strand = Strands.Forward Then
-                Return $"{loci.Left}..{loci.Right}"
+                Return $"{loci.left}..{loci.right}"
             Else
-                Return $"complement({loci.Left()}..{loci.Right()})"
+                Return $"complement({loci.left()}..{loci.right()})"
             End If
         End Function
 

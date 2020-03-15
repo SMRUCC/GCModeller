@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("GCModeller_cli")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("GCModeller_cli")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("GCModeller internal CLI pipeline and configuration supports")>
+<Assembly: AssemblyDescription("GCModeller internal CLI pipeline and configuration supports")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2019")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 

@@ -107,7 +107,7 @@ Public Class ConsensusScanner
         End With
     End Sub
 
-    Public Iterator Function PopulateMotifs(Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of NamedCollection(Of Motif))
+    Public Iterator Function PopulateMotifs(Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of NamedCollection(Of SequenceMotif))
         For Each KO As String In Me.KO.Keys
             Dim motifs = PopulateMotifs(KO, leastN, param) _
                 .OrderByDescending(Function(m)
@@ -115,7 +115,7 @@ Public Class ConsensusScanner
                                    End Function) _
                 .ToArray
 
-            Yield New NamedCollection(Of Motif) With {
+            Yield New NamedCollection(Of SequenceMotif) With {
                 .Name = KO,
                 .Value = motifs
             }
@@ -128,7 +128,7 @@ Public Class ConsensusScanner
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function PopulateMotifs(KO$, Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of Motif)
+    Public Function PopulateMotifs(KO$, Optional leastN% = 10, Optional param As PopulatorParameter = Nothing) As IEnumerable(Of SequenceMotif)
         Return KOUpstream(KO).PopulateMotifs(leastN, param)
     End Function
 End Class

@@ -66,6 +66,7 @@ Namespace ComponentModel.Loci
     ''' 但是生物分子序列中的残基的起始是从1开始的
     ''' </remarks>
     Public Class Location : Inherits IntRange
+        Implements IRange(Of Integer)
         Implements ILocationComponent
         Implements IKeyValuePairObject(Of Integer, Integer)
 

@@ -1,49 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::64c5e2663de76bc7e9a1c0f59839b95e, Data_science\Mathematica\Math\DataFittings\Linear\DoubleLinear.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DoubleLinear
-    ' 
-    '     Function: AutoPointDeletion, GetInputPoints
-    ' 
-    ' /********************************************************************************/
+' Module DoubleLinear
+' 
+'     Function: AutoPointDeletion, GetInputPoints
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+Public Delegate Function Weights(x As Vector) As Vector
 
 Public Module DoubleLinear
 
@@ -70,10 +73,12 @@ Public Module DoubleLinear
     ''' <returns></returns>
     <Extension>
     Public Function AutoPointDeletion(points As IEnumerable(Of PointF),
-                                      Optional weighted As Boolean = False,
-                                      Optional max As Integer = -1) As IFitted
+                                      Optional weighted As Weights = Nothing,
+                                      Optional max As Integer = -1,
+                                      Optional ByRef removed As List(Of PointF) = Nothing,
+                                      Optional keepsLowestPoint As Boolean = False) As IFitted
 
-        Dim pointVec As PointF() = points.ToArray
+        Dim pointVec As PointF() = points.OrderBy(Function(p) p.X).ToArray
 
         If max < 0 Then
             ' auto
@@ -95,8 +100,8 @@ Public Module DoubleLinear
         model = LinearRegression(measure, ref, weighted)
         bestfit = model
 
-        If Not model Is Nothing AndAlso model.CorrelationCoefficient > R2 Then
-            R2 = model.CorrelationCoefficient
+        If Not model Is Nothing AndAlso model.R2 > R2 Then
+            R2 = model.R2
             bestfit = model
 
             If R2 > 0.999 Then
@@ -104,6 +109,9 @@ Public Module DoubleLinear
             End If
         End If
 
+        ' try to removes at least one point
+        ' and the auto deletion is limited 
+        ' to the max point
         For p As Integer = 1 To max
             ' 循环删除一个点，取R2最大的
             Dim X, Y As Vector
@@ -111,27 +119,38 @@ Public Module DoubleLinear
             Dim modelBest As IFitted = Nothing
             Dim bestX As Vector = Nothing
             Dim bestY As Vector = Nothing
+            Dim invalidIndex As Integer = -999
 
-            For i As Integer = 0 To measure.Length - 1
+            ' if keeps the lowest point, then we start from the third point
+            ' else we start from the first lowest point
+            For i As Integer = If(keepsLowestPoint, 1, 0) To measure.Length - 1
                 X = measure.Delete({i})
                 Y = ref.Delete({i})
                 model = LinearRegression(X, Y, weighted)
 
-                If Not model Is Nothing AndAlso model.CorrelationCoefficient > RMax Then
-                    RMax = model.CorrelationCoefficient
+                If Not model Is Nothing AndAlso model.R2 > RMax Then
+                    RMax = model.R2
                     modelBest = model
                     bestX = X
                     bestY = Y
+                    invalidIndex = i
                 End If
             Next
 
             If RMax > R2 Then
+                If invalidIndex >= 0 Then
+                    removed += New PointF With {
+                        .X = measure(invalidIndex),
+                        .Y = ref(invalidIndex)
+                    }
+                End If
+
                 R2 = RMax
                 bestfit = modelBest
                 measure = bestX
                 ref = bestY
 
-                If R2 > 0.999 Then
+                If R2 > 0.99 Then
                     Return bestfit
                 End If
             End If

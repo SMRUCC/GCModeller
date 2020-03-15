@@ -74,7 +74,7 @@ Namespace v2
             End If
 
             Using progress As New ProgressBar("Build lpSolve constraints matrix...", Y:=30)
-                Dim tick As New ProgressProvider(matrix.Matrix.Length)
+                Dim tick As New ProgressProvider(progress, matrix.Matrix.Length)
 
                 For Each compound As Double() In matrix.Matrix
                     Call addconstraint(lprec, compound, 0, lpSolveAPI.constraintTypes.equals)

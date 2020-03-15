@@ -110,7 +110,9 @@ Namespace SequenceModel.NucleotideModels
             NucleotideConvert = Enums(Of DNA).ToDictionary(Function(base) base.Description.First)
             NucleotideAsChar = Enums(Of DNA) _
                 .ToDictionary(Function(base) base,
-                              Function(c) c.Description.First)
+                              Function(c)
+                                  Return c.Description.First
+                              End Function)
 
             ' 添加完大写的碱基字母之后再添加小写的碱基字母，这样子就可以大小写不敏感了
             For Each base In NucleotideConvert.ToArray

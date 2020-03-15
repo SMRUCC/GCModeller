@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::174997b88a9571b2f9022fd8a9e20452, Compiler\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: createEnzymes, createMaps, getCompounds, getGenes, getRNAs
-    '               getTFregulations, populateReplicons, ToMarkup, ToTabular
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: createEnzymes, createMaps, getCompounds, getGenes, getRNAs
+'               getTFregulations, populateReplicons, ToMarkup, ToTabular
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -76,7 +77,7 @@ Public Module Extensions
                 .RNAs = model _
                     .getRNAs(.genomeName) _
                     .ToArray,
-                .isPlasmid = genome.Value.IsPlasmidSource
+                .isPlasmid = genome.Value.isPlasmid
             }
         Next
     End Function
@@ -239,6 +240,9 @@ Public Module Extensions
                           End Function)
         Dim genes = genome _
             .Features _
+            .Where(Function(feature)
+                       Return feature.KeyName = "gene"
+                   End Function) _
             .ToDictionary(Function(g)
                               If locationAsLocus_tag Then
                                   Return g.Location.ToString
@@ -254,6 +258,12 @@ Public Module Extensions
             .ToDictionary(Function(gene)
                               Return gene.geneID
                           End Function)
+        Dim RNAIndex As Index(Of String) = model.Genotype.centralDogmas _
+            .Where(Function(proc) proc.IsRNAGene) _
+            .Select(Function(proc)
+                        Return proc.geneID
+                    End Function) _
+            .ToArray
 
         ' RNA基因是没有蛋白序列的
         For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
@@ -261,8 +271,10 @@ Public Module Extensions
 
             If proteinSequnce.ContainsKey(gene.Synonym) Then
                 aa = proteinSequnce(gene.Synonym).CreateVector
-            Else
+            ElseIf locus_tag Like RNAIndex Then
                 aa = Nothing
+            Else
+                Continue For
             End If
 
             rna = RNAComposition _
@@ -291,6 +303,10 @@ Public Module Extensions
 
             If process.geneID.StringEmpty Then
                 Call $"{reg.regulated} process not found!".Warning
+            End If
+
+            If reg.motif Is Nothing Then
+                reg.motif = New NucleotideLocation
             End If
 
             Yield New transcription With {

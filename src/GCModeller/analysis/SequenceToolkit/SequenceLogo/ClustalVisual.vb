@@ -136,7 +136,7 @@ Public Module ClustalVisual
 
         Dim grSize As New Size(
             aln.Max(Function(fa) fa.Length) * DotSize + StringSize.Width + 2 * Margin,
-            (aln.NumberOfFasta + 1) * DotSize + 2.5 * Margin)
+            (aln.Count + 1) * DotSize + 2.5 * Margin)
 
         Dim gdi As Graphics2D = grSize.CreateGDIDevice
         Dim X As Integer = 0.5 * Margin + StringSize.Width + 10

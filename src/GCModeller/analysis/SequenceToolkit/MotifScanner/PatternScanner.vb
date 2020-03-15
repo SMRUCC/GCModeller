@@ -1,56 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::71275ad06a949598343812d8006f067b, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class PatternScanner
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Equals, GetOutput, (+2 Overloads) Scan, ToChar
-    ' 
-    ' /********************************************************************************/
+' Class PatternScanner
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: Equals, GetOutput, (+2 Overloads) Scan, ToChar
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
+''' <summary>
+''' 对位点进行类似于正则表达式的模式匹配
+''' </summary>
 Public Class PatternScanner : Inherits IScanner
 
     Sub New(nt As IPolymerSequenceModel)
@@ -64,27 +68,29 @@ Public Class PatternScanner : Inherits IScanner
             .ToArray
     End Function
 
-    ReadOnly __rand As Random = New Random
-
     Public Overloads Function Equals(pattern As String, residue As String) As Integer
         Dim r As Char = residue.FirstOrDefault(ASCII.NUL)
 
         If pattern.Length = 1 Then
             Dim p As Char = pattern.FirstOrDefault(ASCII.NUL)
+
             If p = "."c OrElse p = "N"c Then
                 Return 10
             End If
+
             If Char.IsUpper(p) Then
                 If p = r Then
                     Return 10
                 Else
                     Return -10
                 End If
-            Else  ' 小写的，有一定的概率是别的字符
+            Else
+                ' 小写的，有一定的概率是别的字符
                 If p = Char.ToLower(r) Then
                     Return 5
                 Else
-                    If __rand.NextDouble < 0.75 Then  '  例如a大多数情况下是A
+                    '  例如a大多数情况下是A
+                    If randf.seeds.NextDouble < 0.75 Then
                         Return -5
                     Else
                         Return 5
@@ -115,8 +121,8 @@ Public Class PatternScanner : Inherits IScanner
                   In out.HSP
                   Select New SimpleSegment With {
                       .SequenceData = x.Subject,
-                      .Start = x.FromB,
-                      .Ends = x.ToB
+                      .Start = x.fromB,
+                      .Ends = x.toB
                   }
     End Function
 

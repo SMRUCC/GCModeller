@@ -1,6 +1,5 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
@@ -31,11 +30,11 @@ Namespace ReactionNetwork
 
         <Extension>
         Friend Sub doAppendReactionEnzyme(reactionID As IEnumerable(Of String),
-                                           enzymeInfo As Dictionary(Of String, String()),
-                                           networkBase As Dictionary(Of String, ReactionTable),
-                                           nodes As CompoundNodeTable,
-                                           addNewEdge As Action(Of Edge),
-                                           enzymeRelated As Boolean)
+                                          enzymeInfo As Dictionary(Of String, String()),
+                                          networkBase As Dictionary(Of String, ReactionTable),
+                                          nodes As CompoundNodeTable,
+                                          addNewEdge As Action(Of Edge),
+                                          enzymeRelated As Boolean)
 
             Dim reactions As ReactionTable()
             Dim usedEnzymies As New List(Of String)
@@ -104,11 +103,11 @@ Namespace ReactionNetwork
                        .U = nodes(enzyme),
                        .V = nodes(reaction.entry),
                        .data = New EdgeData With {
-                           .weight = 1,
                            .Properties = New Dictionary(Of String, String) From {
                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "catalyst"}
                            }
-                       }
+                       },
+                       .weight = 1
                     }
 
                     Call addNewEdge(edge)
@@ -121,13 +120,13 @@ Namespace ReactionNetwork
                     Dim edge As New Edge With {
                        .U = nodes(reaction.entry),
                        .V = nodes(compound),
+                       .weight = 1,
                        .data = New EdgeData With {
-                        .length = 1,
-                        .weight = 1,
-                        .Properties = New Dictionary(Of String, String) From {
-                                {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
-                            }
-                        }
+                           .length = 1,
+                           .Properties = New Dictionary(Of String, String) From {
+                               {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                           }
+                       }
                     }
 
                     If Not nodes.containsKey(compound) Then
@@ -141,9 +140,9 @@ Namespace ReactionNetwork
                     Dim edge As New Edge With {
                        .U = nodes(reaction.entry),
                        .V = nodes(compound),
+                       .weight = 1,
                        .data = New EdgeData With {
                           .length = 1,
-                          .weight = 1,
                           .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
                             }

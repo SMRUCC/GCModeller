@@ -56,12 +56,18 @@ Namespace Core
 
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
+        ''' <summary>
+        ''' debug view
+        ''' </summary>
+        ''' <returns></returns>
+        Private ReadOnly Property hashCode As Integer
+            Get
+                Return Me.GetHashCode
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return $"{ID} ({Value} unit)"
         End Function
-
-        Public Overloads Shared Widening Operator CType(name As String) As Factor
-            Return New Factor With {.ID = name}
-        End Operator
     End Class
 End Namespace

@@ -51,7 +51,6 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.SequenceModel
@@ -227,8 +226,8 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Return Feature
         End Operator
 
-        Protected Shared Iterator Function ReadingQualifiers(Data As String()) As IEnumerable(Of NamedValue(Of String))
-            For Each str As String In Data
+        Protected Shared Iterator Function ReadingQualifiers(data As String()) As IEnumerable(Of NamedValue(Of String))
+            For Each str As String In data
                 Yield doParser(Mid(str, 2))
             Next
         End Function

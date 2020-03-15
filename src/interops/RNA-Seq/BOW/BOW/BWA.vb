@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::86379a52557ef273609aff6c5287d650, RNA-Seq\BOW\BOW\BWA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module BWA
-    ' 
-    '     Function: Aln, Bwasw, Bwt2sa, Bwtupdate, Fa2pac
-    '               Fastmap, Index, Pac2bwt, Pac2bwtgen, Pac2cspac
-    '               PaireEndMapping, Sampe, Samse, SingleEndMapping, Stdsw
-    ' 
-    ' /********************************************************************************/
+' Module BWA
+' 
+'     Function: Aln, Bwasw, Bwt2sa, Bwtupdate, Fa2pac
+'               Fastmap, Index, Pac2bwt, Pac2bwtgen, Pac2cspac
+'               PaireEndMapping, Sampe, Samse, SingleEndMapping, Stdsw
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -175,7 +176,8 @@ Public Module BWA
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("Index", Info:="[Step 1] Index sequences in the FASTA format")>
+    <ExportAPI("Index")>
+    <Description("[Step 1] Index sequences in the FASTA format")>
     Public Function Index(<Parameter("ref", "The genome reference fasta sequence.")> Reference As String,
                           <Parameter("-a", "BWT construction algorithm: bwtsw or is [is]")> Optional Algorithm As String = "bwtsw") As Integer
 
@@ -186,7 +188,8 @@ Public Module BWA
         Return i
     End Function
 
-    <ExportAPI("aln", Info:="[Step 2]")>
+    <ExportAPI("aln")>
+    <Description("[Step 2]")>
     Public Function Aln(<Parameter("ref", "The genome reference fasta sequence file.")> Reference As String,
                         <Parameter("Reads", "The RNA-Seq fastaq reads file *.fq")> Fastaq As String,
                         <Parameter("sai", "(*.sai) If this parameter is not specific then the default file name of the *.fq reads file will be used.")>
@@ -219,7 +222,8 @@ Public Module BWA
     ''' <param name="Left">left fastq</param>
     ''' <param name="Right">right fastq</param>
     ''' <param name="Reference">参考基因组的fasta序列的文件路径</param>
-    <ExportAPI("Mapping.PaireEnd", Info:="The sam mapping file will be saved at the location of the reference genome directory.")>
+    <ExportAPI("Mapping.PaireEnd")>
+    <Description("The sam mapping file will be saved at the location of the reference genome directory.")>
     Public Function PaireEndMapping(<Parameter("Ref", "The reference genome sequence fasta file.")> Reference As String,
                                     <Parameter("Left.fq")> Left As String,
                                     <Parameter("Right.fq")> Right As String,
@@ -320,8 +324,9 @@ Public Module BWA
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("Samse", Info:="[Step 3] Generate alignment (single ended)",
-             Usage:="bwa samse -f single.sam reference.fa single.sai single.fastq")>
+    <ExportAPI("Samse")>
+    <Description("[Step 3] Generate alignment (single ended)")>
+    <Usage("bwa samse -f single.sam reference.fa single.sai single.fastq")>
     Public Function Samse(<Parameter("ref", "(*.fasta) The genome reference fasta file.")> Reference As String,
                           <Parameter("sai", "The *.sai coordination")> SAI As String,
                           <Parameter("reads", "*.fq")> Fastaq As String,
@@ -344,7 +349,9 @@ Public Module BWA
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("Sampe", Info:="[Step 3] Generate alignment (paired ended)", Usage:="sampe -f pair-end.sam reference.fa leftRead.sai rightRead.sai leftRead.fastq rightread.fastq")>
+    <ExportAPI("Sampe")>
+    <Description("[Step 3] Generate alignment (paired ended)")>
+    <Usage("sampe -f pair-end.sam reference.fa leftRead.sai rightRead.sai leftRead.fastq rightread.fastq")>
     Public Function Sampe(<Parameter("ref", "(*.fasta) The genome reference fasta file.")> Reference As String,
                           <Parameter("left.sai")> LeftSAI As String,
                           <Parameter("right.sai")> RightSAI As String,

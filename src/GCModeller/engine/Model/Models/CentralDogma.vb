@@ -121,6 +121,9 @@ Public Structure CentralDogma : Implements INamedValue
                 Case RNATypes.mRNA
                     Return $"{geneID}::{RNA.Value.Description}"
                 Case RNATypes.ribosomalRNA
+                    ' 20200313 因为tRNA和rRNA具有通用性
+                    ' 不像mRNA一样和基因蛋白石一一对应的
+                    ' 所以在这里不再添加基因编号了
                     Return $"{RNA.Description}_rRNA"
                 Case RNATypes.tRNA
                     Return $"tRNA-{RNA.Description}"

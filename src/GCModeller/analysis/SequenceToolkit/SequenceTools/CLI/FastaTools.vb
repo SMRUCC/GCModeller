@@ -145,8 +145,8 @@ Partial Module Utilities
         Dim fa1 As New FastaFile(f1$)
         Dim fa2 As New FastaFile(f2$)
 
-        If fa1.NumberOfFasta <> fa2.NumberOfFasta Then
-            Call $"file1:={fa1.NumberOfFasta}, file2:={fa2.NumberOfFasta} is not equals!".Warning
+        If fa1.Count <> fa2.Count Then
+            Call $"file1:={fa1.Count}, file2:={fa2.Count} is not equals!".Warning
         End If
 
         Dim f2Dict = (From x In fa2 Let id = x.Headers.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)

@@ -1,6 +1,4 @@
-imports "vcellkit.analysis" from "vcellkit.dll";
-imports "vcellkit.simulator" from "vcellkit.dll";
-imports "JSON" from "fileformatkit.dll";
+imports ["vcellkit.analysis", "vcellkit.simulator"] from "vcellkit.dll";
 
 # Get data source directory and reference name 
 # from commandline arguments:
@@ -8,8 +6,8 @@ imports "JSON" from "fileformatkit.dll";
 #    --data
 #    --set
 #
-let data as string    = ?"--data";
-let setName as string = ?"--set";
+let data as string    = ?"--data" || stop("A directory path should provided!");
+let setName as string = ?"--set"  || "mass\metabolome.json";
 let kegg.compounds    = ?"--kegg_cpd";
 
 if (is.empty(setName)) {

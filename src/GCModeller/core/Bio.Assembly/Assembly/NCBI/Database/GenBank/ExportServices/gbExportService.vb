@@ -503,7 +503,7 @@ Namespace Assembly.NCBI.GenBank
 
             Dim Source As GBFF.File() = (From gb As GBFF.File
                                          In list.AsParallel
-                                         Where gb.IsPlasmidSource
+                                         Where gb.isPlasmid
                                          Select gb).ToArray
 
             Call "Flushed memory....".__DEBUG_ECHO

@@ -248,7 +248,7 @@ Public Module ReadsMap
         Next
 
         '将位点还原为标签
-        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.Tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
+        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
         Dim Df As New IO.File
         Dim OperonPromoterGene As String() = Nothing
@@ -329,7 +329,7 @@ Public Module ReadsMap
         Return New NucleotideLocation(
             GeneObject.Location.GetUpStreamLoci(CUInt(150)),
             GeneObject.Location.Start,
-            GeneObject.Location.Strand = Strands.Reverse) With {.Tag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
+            GeneObject.Location.Strand = Strands.Reverse) With {.tag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
     End Function
 
 End Module

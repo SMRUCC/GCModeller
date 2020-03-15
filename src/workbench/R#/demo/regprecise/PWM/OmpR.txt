@@ -1,0 +1,1618 @@
+﻿********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 3.5.4 (Release date: 3.5.4)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme.nbcr.net.
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= K:\20200226\TRN\motifs\OmpR.fasta
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+RB2654_15916:-72         1.0000     24  RB2654_15916:-90         1.0000     24  
+MED193_16484:-93         1.0000     24  ISM_13540:-106           1.0000     24  
+SPO0710:-91              1.0000     24  TM1040_2441:-89          1.0000     25  
+SA2150:-68               1.0000     20  SA2185:-134              1.0000     18  
+SA2176:-184              1.0000     18  DvMF_0944:-185           1.0000     18  
+SA2189:-93               1.0000     18  DvMF_0617:-37            1.0000     18  
+SA1818:-98               1.0000     16  DvMF_3186:-281           1.0000     18  
+SA1818:-87               1.0000     16  DvMF_3186:-133           1.0000     18  
+SA0663:-99               1.0000     16  DvMF_1169:-141           1.0000     18  
+SA0663:-78               1.0000     16  DvMF_0655:-218           1.0000     18  
+SA1758:-175              1.0000     16  Fnod_1428:-89            1.0000     17  
+SA1758:-164              1.0000     16  GK2342:-98               1.0000     17  
+SA2206:-92               1.0000     16  GK0561:71                1.0000     36  
+SA0387:-145              1.0000     16  GK0430:-92               1.0000     18  
+SA0387:-134              1.0000     16  MCCL_0087:-66            1.0000     20  
+SA0389:-175              1.0000     16  MCCL_0136:-85            1.0000     18  
+SA0393:-123              1.0000     16  MCCL_1342:-118           1.0000     18  
+SA1631:-121              1.0000     16  MAE_18380:-87            1.0000     32  
+SA1631:-99               1.0000     16  MAE_23860:-129           1.0000     32  
+SA1819:-110              1.0000     16  MAE_18440:-86            1.0000     32  
+SA1754:-77               1.0000     16  MAE_02800:-66            1.0000     32  
+SA1633:-86               1.0000     16  MAE_18310:-139           1.0000     32  
+SA1633:-97               1.0000     16  all3651:-119             1.0000     32  
+SA1633:-108              1.0000     16  alr5291:-229             1.0000     32  
+SA1000:-99               1.0000     16  all4021:-136             1.0000     32  
+SA1000:-88               1.0000     16  alr5259:-329             1.0000     32  
+SA0357:-95               1.0000     16  all1758:-49              1.0000     32  
+SA0213:-100              1.0000     16  all0129:-101             1.0000     32  
+SA1751:-88               1.0000     16  all3822:-149             1.0000     32  
+SA1813:-99               1.0000     16  alr4975:-10              1.0000     32  
+SA1638:-86               1.0000     16  alr2234:-275             1.0000     32  
+SA1638:-335              1.0000     16  all0207:-98              1.0000     32  
+SA0396:-253              1.0000     16  all0911:-105             1.0000     32  
+SA2208:-86               1.0000     16  all4575:-324             1.0000     32  
+SA1007:-190              1.0000     16  OB2597_10164:-91         1.0000     24  
+efb:-81                  1.0000     16  OG2516_08703:-94         1.0000     23  
+OB0833:-115              1.0000     17  SYNPCC7002_A1357:-125    1.0000     32  
+OB0584:-91               1.0000     17  SYNPCC7002_A2352:-182    1.0000     32  
+OB0583:-88               1.0000     17  efb:-85                  1.0000     16  
+SYNPCC7002_A2352:-91     1.0000     32  OB2826:-100              1.0000     18  
+SA0222:-82               1.0000     16  SYNPCC7002_A1232:-126    1.0000     32  
+Pjdr2_4787:-115          1.0000     18  SA0222:-103              1.0000     16  
+SYNPCC7002_A2120:-309    1.0000     32  Pjdr2_4843:-123          1.0000     16  
+STACA0001_1124:-64       1.0000     20  SYNW2391:-78             1.0000     32  
+Pmob_1932:-87            1.0000     17  STACA0001_1080:-116      1.0000     18  
+sll0679:-135             1.0000     32  BSU33130:-99             1.0000     18  
+DMR_24190:-62            1.0000     18  RSP_1681:-81             1.0000     24  
+STACA0001_1087:-172      1.0000     18  sll0654:-210             1.0000     32  
+BSU34700:-96             1.0000     16  DMR_02640:-83            1.0000     18  
+STACA0001_1076:-93       1.0000     18  sll0654:-175             1.0000     32  
+cce_1163:-109            1.0000     32  DMR_38880:-100           1.0000     18  
+STACA0001_1401:-65       1.0000     16  slr1247:-342             1.0000     32  
+cce_1859:-141            1.0000     32  DESPIG_00907:-41         1.0000     18  
+STACA0001_1401:-87       1.0000     16  slr0115:-174             1.0000     32  
+cce_0886:-53             1.0000     32  DESPIG_00907:-30         1.0000     18  
+STACA0001_0321:-79       1.0000     16  THA_124:-87              1.0000     17  
+cce_0886:-358            1.0000     32  DESPIG_00907:-19         1.0000     18  
+STACA0001_0021:-99       1.0000     16  Tmel_1829:-84            1.0000     17  
+cce_3317:-44             1.0000     32  DESPIG_03037:-147        1.0000     18  
+STACA0001_0321:-100      1.0000     16  tlr2164:-51              1.0000     32  
+cce_1211:-143            1.0000     32  DESPIG_03037:-91         1.0000     18  
+Sca_1862:-66             1.0000     20  tll1671:-171             1.0000     32  
+cce_4621:-88             1.0000     32  DESPIG_03037:-80         1.0000     18  
+Sca_1899:-93             1.0000     18  null:-268                1.0000     32  
+cce_4758:-125            1.0000     32  DESPIG_03036:-149        1.0000     18  
+Sca_1887:-157            1.0000     18  Tlet_1702:-86            1.0000     17  
+cce_5183:-74             1.0000     32  DESPIG_03036:-93         1.0000     18  
+Sca_1894:-123            1.0000     18  TM1264:-89               1.0000     17  
+cce_4392:20              1.0000     32  Dbac_1141:-118           1.0000     18  
+Desal_2167:-95           1.0000     18  Sca_0350:-88             1.0000     16  
+TM0122:-143              1.0000     19  cce_5174:-70             1.0000     32  
+Dbac_1141:-107           1.0000     18  Desal_2167:-84           1.0000     18  
+Sca_1510:-50             1.0000     16  Tnap_1530:-89            1.0000     17  
+cce_0154:-83             1.0000     32  Dbac_1842:-104           1.0000     18  
+Desal_0095:-198          1.0000     18  SE1940:-63               1.0000     20  
+Tnap_0752:-143           1.0000     19  Cyan7425_0207:-81        1.0000     32  
+Dbac_1842:-64            1.0000     18  Desal_0095:-68           1.0000     18  
+SE1978:-174              1.0000     18  CTN_1309:-81             1.0000     17  
+Cyan7425_4261:-146       1.0000     32  Dbac_1842:-53            1.0000     18  
+Desal_1742:-232          1.0000     18  SE1968:-165              1.0000     18  
+CTN_0567:-152            1.0000     19  Cyan7425_4387:-102       1.0000     32  
+Dbac_2694:-114           1.0000     18  Desal_3695:-76           1.0000     18  
+SE1975:-113              1.0000     18  Tpet_1507:-89            1.0000     17  
+Cyan7425_1977:-238       1.0000     32  Dbac_2694:-62            1.0000     18  
+Desal_3694:-85           1.0000     18  SE0481:-79               1.0000     16  
+Tpet_0802:-143           1.0000     19  Cyan7425_0664:-80        1.0000     32  
+Dbac_2694:-51            1.0000     18  Desal_3392:-166          1.0000     18  
+SE2396:-288              1.0000     16  TRQ2_1556:-90            1.0000     17  
+PCC8801_1024:-108        1.0000     32  Dbac_2705:-141           1.0000     18  
+Desal_3392:-144          1.0000     18  SE2396:-65               1.0000     16  
+TRQ2_0825:-143           1.0000     19  PCC8801_4067:-157        1.0000     32  
+Dbac_2705:-130           1.0000     18  Desal_3087:-83           1.0000     18  
+SE0481:-100              1.0000     16  Kole_0711:-79            1.0000     17  
+PCC8801_1433:-224        1.0000     32  Dbac_2705:-70            1.0000     18  
+Desal_3091:-280          1.0000     18  SE0163:-99               1.0000     16  
+Tery_3534:-192           1.0000     32  PCC8801_1847:-43         1.0000     32  
+Dbac_2663:-180           1.0000     18  Desal_3473:-115          1.0000     18  
+SH0698:-65               1.0000     20  Tery_2653:-43            1.0000     32  
+PCC8801_4178:-104        1.0000     32  Dbac_2663:-103           1.0000     18  
+DVU0093:-110             1.0000     18  SH0651:-170              1.0000     18  
+Tery_4322:-395           1.0000     32  PCC8801_1683:-246        1.0000     32  
+Dbac_2704:-107           1.0000     18  DVU1959:-98              1.0000     18  
+SH0661:-141              1.0000     18  Tery_3699:-97            1.0000     32  
+PCC8801_0430:-278        1.0000     32  Dbac_2704:-96            1.0000     18  
+DVU1959:-87              1.0000     18  SH0654:-118              1.0000     18  
+Tery_0682:-336           1.0000     32  PCC8801_0346:-91         1.0000     32  
+Dbac_2662:-98            1.0000     18  DVU2305:-290             1.0000     18  
+SSP0542:-67              1.0000     20  Tery_2568:-208           1.0000     32  
+PCC8801_3887:-183        1.0000     32  Dbac_2679:-113           1.0000     18  
+DVU2305:-279             1.0000     18  EE36_04883:-95           1.0000     24  
+Tery_0739:-250           1.0000     32  PCC8801_1625:-95         1.0000     32  
+Dbac_2679:-91            1.0000     18  DVU2305:-137             1.0000     18  
+Synpcc7942_0004:-76      1.0000     32  Tery_4937:-158           1.0000     32  
+PCC8801_3662:-162        1.0000     32  Dde_1062:-115            1.0000     18  
+DVU0013:-44              1.0000     18  Synpcc7942_1392:-233     1.0000     32  
+Tery_0954:-309           1.0000     32  PCC8801_2302:-232        1.0000     32  
+Dde_1062:-241            1.0000     18  DVU2747:-57              1.0000     18  
+CYA_1552:-203            1.0000     32  Tery_2902:-365           1.0000     32  
+Dret_1361:-147           1.0000     18  Dde_2387:-88             1.0000     18  
+DVU3162:-103             1.0000     18  CYA_1732:-75             1.0000     32  
+Tery_3661:-342           1.0000     32  Dret_2292:-102           1.0000     18  
+Dde_1216:-95             1.0000     18  DVU1083:-179             1.0000     18  
+CYA_1541:-172            1.0000     32  Dret_1981:-203           1.0000     18  
+Dde_3324:-253            1.0000     18  DVU1083:-85              1.0000     18  
+CYA_2506:-129            1.0000     32  Dret_0464:-267           1.0000     18  
+Dde_3782:-48             1.0000     18  DVU2477:-87              1.0000     18  
+Dret_0464:-96            1.0000     18  Dde_3781:-202            1.0000     18  
+DvMF_2565:-122           1.0000     18  Dbac_0213:-132           1.0000     18  
+Dde_3781:-232            1.0000     18  DvMF_1040:-156           1.0000     18  
+Dbac_0213:-121           1.0000     18  Dde_1628:-87             1.0000     18  
+DvMF_1040:-176           1.0000     18  Dbac_0213:-40            1.0000     18  
+Dde_1185:-113            1.0000     18  DvMF_0882:-86            1.0000     18  
+Dbac_1141:-129           1.0000     18  Dde_0275:-19             1.0000     18  
+DvMF_0882:-180           1.0000     18  Dde_1061:-124            1.0000     18  
+Ddes_0567:-82            1.0000     18  Ddes_0566:-99            1.0000     18  
+DMR_33040:-181           1.0000     18  DMR_33040:-170           1.0000     18  
+DMR_13500:-85            1.0000     18  DMR_08630:-116           1.0000     18  
+DMR_08630:-31            1.0000     18  DMR_08520:-65            1.0000     18  
+DMR_20230:-292           1.0000     18  DMR_20240:-116           1.0000     18  
+Aflv_0168:-52            1.0000     18  RBAM_027310:-110         1.0000     17  
+RBAM_012750:-90          1.0000     16  RBAM_030110:-200         1.0000     16  
+RBAM_012750:-111         1.0000     16  RBAM_030120:-71          1.0000     16  
+RBAM_030110:-221         1.0000     16  RBAM_030120:-93          1.0000     16  
+RBAM_004800:-105         1.0000     36  RBAM_030260:-99          1.0000     18  
+BC1435:-102              1.0000     18  ABC3378:-113             1.0000     18  
+ABC3229:-108             1.0000     16  BH3913:-121              1.0000     17  
+BH1195:-98               1.0000     18  BH0753:-94               1.0000     16  
+BLi04211:-105            1.0000     17  BLi03482:-72             1.0000     16  
+BLi03482:-94             1.0000     16  BLi01390:-73             1.0000     16  
+BLi01390:-94             1.0000     16  BLi03481:-161            1.0000     16  
+BLi03481:-182            1.0000     16  BLi03497:-99             1.0000     18  
+BPUM_2594:-110           1.0000     17  BPUM_1181:-100           1.0000     16  
+BPUM_2953:-84            1.0000     16  BPUM_1181:-121           1.0000     16  
+BPUM_2952:-122           1.0000     16  BPUM_2953:-230           1.0000     16  
+BPUM_0419:-123           1.0000     36  BPUM_2968:-100           1.0000     18  
+BSU30380:-106            1.0000     17  BSU33000:-200            1.0000     16  
+BSU12900:-99             1.0000     16  BSU12900:-120            1.0000     16  
+BSU33000:-221            1.0000     16  BSU33010:-72             1.0000     16  
+BSU33010:-94             1.0000     16  BSU04470:-115            1.0000     36  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme K:\20200226\TRN\motifs\OmpR.fasta -dna -mod zoops -evt 10 -nmotifs 6 -maxsize 1000000000 -maxw 30 
+
+model:  mod=         zoops    nmotifs=         6    evt=            10
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           30    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=      318    wnsites=       0.8
+theta:  prob=            1    spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            6789    N=             318
+strands: +
+sample: seed=            0    seqfrac=         1
+Letter frequencies in dataset:
+A 0.298 C 0.204 G 0.144 T 0.353 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.298 C 0.204 G 0.144 T 0.353 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1	width =   15   sites = 318   llr = 1135   E-value = 4.9e-206
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  113842443221128
+pos.-specific     C  11314322123213:
+probability       G  5:1111211116:1:
+matrix            T  484:13344441851
+
+         bits    2.8                
+                 2.5                
+                 2.2                
+                 2.0                
+Information      1.7                
+content          1.4                
+(5.2 bits)       1.1                
+                 0.8    *       *  *
+                 0.6 ** *       ** *
+                 0.3 ** **      ** *
+                 0.0 ---------------
+
+Multilevel           GTTACTAATTTGTTA
+consensus            T C ACTTACCC C 
+sequence               A  A   AA  A 
+                                    
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                 Site    
+-------------             ----- ---------            ---------------
+Dbac_2694:-62                 3  1.81e-06         CT GTCACCCAAACGTCA C         
+DMR_08630:-116                3  2.15e-06         TT GTCACGAGATTGTCA C         
+DVU1959:-87                   3  2.15e-06         TT GTCACCCTGCCGTCA C         
+DMR_02640:-83                 3  2.15e-06         GT GTCACACAATCGTCA C         
+DVU0093:-110                  3  2.52e-06         TC GTCACCACAACGTCA G         
+DvMF_3186:-281                3  3.43e-06         AT GTCACCGTTCCGTAA C         
+Dbac_1141:-129                3  3.97e-06         TC GTCACACATCTGTCA C         
+Dbac_2694:-51                 3  3.97e-06         AC GTCACCGCGCTGTCA C         
+Ddes_0567:-82                 3  5.27e-06         AT GTCACGAAATTGTAA C         
+DMR_38880:-100                3  5.27e-06         GC GTCACCGGACCGTAA C         
+DVU2747:-57                   3  6.08e-06         CC GTAACCATTCCGTAA C         
+Dbac_2662:-98                 3  6.08e-06         GT GTCACAATGCTGTCA C         
+Dde_0275:-19                  3  8.80e-06         AT GTTACAAAAATGTCA T         
+Dde_3781:-202                 3  8.80e-06         TT GTCACACGATTGTTA C         
+Dret_0464:-267                3  1.12e-05         TT GTTACCGCAATGTTA C         
+Desal_2167:-95                3  1.12e-05         GT GTTACATTATCGTTA C         
+DESPIG_00907:-41              3  1.24e-05         GT GTAACCTACTCGTCA C         
+Dbac_2679:-113                3  1.55e-05         TT GTCACACCTCTGTCA C         
+DVU2305:-137                  3  1.74e-05         TC GTCACTGTTCTGTAA C         
+DESPIG_03037:-80              3  1.74e-05         CT GTCACACAATTGTAA C         
+Dbac_2704:-107                3  1.92e-05         CT GTCACGGAACTGTGA C         
+SE0163:-99                    1  1.92e-05          . GTTAATAAATAGTTA A         
+SA1000:-88                    1  1.92e-05          . GTTAATAAATAGTTA A         
+SA2206:-92                    1  1.92e-05          . GTTAATAATTAGTTA A         
+DvMF_0882:-180                3  2.36e-05         TT GTCACGCCGTTGTCA C         
+Dbac_0213:-132                3  2.36e-05         TT GTTACCGCTCTGTGA C         
+Dde_3324:-253                 3  2.36e-05         CG GTCACACGGCTGTCA C         
+SE0481:-79                    1  2.36e-05          . GTTAAGAAATAGTTA A         
+SA1638:-335                   1  2.36e-05          . GTTAATAATCAGTTA A         
+SA1758:-175                   1  2.36e-05          . GTTAAATATTTGTTA A         
+SA0663:-78                    1  2.36e-05          . GTTAAGAATTAGTTA A         
+DvMF_1169:-141                3  2.36e-05         CC GTAACCTTTCCGTAA C         
+DvMF_1040:-156                3  2.59e-05         GC GTCACACCGCCGTCA C         
+Dbac_2705:-130                3  2.86e-05         GC GTCACAGTTCCGTGA C         
+BSU30380:-106                 2  3.14e-05          T GTGACNNNNNTGTCA C         
+BPUM_2594:-110                2  3.14e-05          T GTGACNNNNNTGTCA C         
+BLi04211:-105                 2  3.14e-05          T GTGACNNNNNTGTCA C         
+BH3913:-121                   2  3.14e-05          T GTGACNNNNNTGTCA C         
+RBAM_027310:-110              2  3.14e-05          T GTGACNNNNNTGTCA C         
+DESPIG_03036:-93              3  3.14e-05         GC GTCACATTTTCGTAA C         
+SA0222:-82                    1  3.14e-05          . GTTAATATATAGTTA A         
+OB0833:-115                   2  3.14e-05          T GTGACNNNNNTGTCA C         
+GK2342:-98                    2  3.14e-05          T GTGACNNNNNTGTCA C         
+Desal_0095:-198               3  3.44e-05         TT GTAACTGTATTGTAA C         
+DVU2305:-279                  3  3.77e-05         TA GTCACAATCACGTTA C         
+Dbac_2694:-114                3  3.77e-05         CC GTGACCGCACCGTGA C         
+SA2208:-86                    1  3.77e-05          . GTTAATGAACAGTTA A         
+Dde_1062:-241                 3  4.13e-05         CT GTAACCGTGCTGTGA C         
+Dbac_2704:-96                 3  4.13e-05         CT GTGACGCAAATGTCA C         
+SA1633:-108                   1  4.13e-05          . GTTAATAGATAGTTA A         
+DMR_20240:-116                3  4.50e-05         TT GTCACCGGTTTGCCA T         
+DESPIG_03037:-147             3  4.92e-05         TT GTTACGAAAATGTGA C         
+Dde_1185:-113                 3  5.36e-05         TC GTCACATTTTTGTGA T         
+Desal_3473:-115               3  5.85e-05         GC GTAACAGGTTTGTAA C         
+DVU0013:-44                   3  6.37e-05         TT GTAACCTTGCCGTGA C         
+Dbac_1141:-118                3  6.37e-05         CT GTCACACCCCTGTCA T         
+STACA0001_0321:-79            1  6.37e-05          . GTTAATAAAAAGTTA A         
+DVU1083:-85                   3  6.92e-05         AT GTCACACGGTTGTAA C         
+Dbac_2705:-141                3  6.92e-05         CT GTGACATTTGCGTCA C         
+Dret_0464:-96                 3  7.52e-05         TT GTCGCAGGATTGTCA C         
+Dde_2387:-88                  3  9.58e-05         GC GTAACGTGATTGTAA C         
+Dbac_2663:-180                3  1.21e-04         GT GTGACAGCATTGTGA C         
+DESPIG_03036:-149             3  1.21e-04         GT GTGACAGGGCCGTAA A         
+SA0357:-95                    1  1.21e-04          . GTTAATCAAGAGTTA A         
+Desal_3392:-166               3  1.31e-04         GC GTAACATAAACGTAA C         
+DMR_08630:-31                 3  1.64e-04         TC GTCACGCTTCTGCCA T         
+SA0396:-253                   1  1.77e-04          . TTTAATAAATAGTTA A         
+SA1813:-99                    1  1.77e-04          . TTTAATAAATAGTTA A         
+SA1631:-121                   1  1.77e-04          . TTTAATAAAATGTTA A         
+DVU1959:-98                   3  1.90e-04         TC GAAACCGCATTGTCA C         
+DvMF_0882:-86                 3  2.05e-04         AT GTCACATCCTTGTAA C         
+DvMF_0617:-37                 3  2.05e-04         TC GTCATCTGTCCGTCA C         
+Ddes_0566:-99                 3  2.20e-04         CC GTCATCATTCTGTAA C         
+DVU1083:-179                  3  2.36e-04         CT GTAACAGCCCCGTAA C         
+Dbac_0213:-40                 3  2.53e-04         TT GTCATACAATTGTCA C         
+CYA_1552:-203                14  2.53e-04 AACCTNNNNT TTAACCTNNNNGTTA ACCA      
+Desal_0095:-68                3  2.72e-04         TT GTTACTCCCCTGTGA C         
+DMR_13500:-85                 3  2.91e-04         GC GTCACGTAATCGTCG C         
+DMR_33040:-170                3  2.91e-04         TC GTAACCGGCCCGCCA C         
+SA1638:-86                    1  2.91e-04          . TTTAATGAACAGTTA A         
+DMR_33040:-181                3  3.34e-04         GC GACACCCTGTCGTAA C         
+Dde_3781:-232                 3  3.34e-04         AT GTTATTTAACCGTCA C         
+Dde_3782:-48                  3  3.34e-04         TT GTAACAATCGTGTGA C         
+DMR_08520:-65                 3  3.57e-04         AC GCCACGGGTTCGTCA C         
+PCC8801_2302:-232            14  3.81e-04 AATGANNNNT TTTAAGANNNNGTTA AAAA      
+SA0387:-134                   1  3.81e-04          . GTTAAAAAGAGGTTA A         
+SA0387:-145                   1  3.81e-04          . GTTCAAAAATAGTTA A         
+Dret_1981:-203                3  4.08e-04         GC GTCATAGCATTGTCA C         
+DESPIG_03037:-91              3  4.08e-04         TT TTTACGGCCCTGTCA C         
+Dbac_1842:-53                 3  4.35e-04         AT GTCACAGTTTCGAAA C         
+Dde_1216:-95                  3  4.65e-04         CT GTCATTCTGTTGTCA C         
+DMR_20230:-292                3  4.96e-04         TT GTCACGGAAATGTCG C         
+Desal_3694:-85                3  4.96e-04         TC CTTACCTGATTGTCA C         
+PCC8801_3887:-183            14  5.28e-04 TGACCNNNNG TTTACCANNNNCTTA ACCT      
+PCC8801_4178:-104            14  5.28e-04 AAGATNNNNG TTAAAGANNNNGTTA AAAT      
+Sca_1510:-50                  1  5.28e-04          . ATTAATATTCTGTTA A         
+all3651:-119                 14  5.28e-04 AATATNNNNG TTAAAGANNNNGTTA AGAC      
+DvMF_2565:-122                3  5.63e-04         GC GACACAGGATTGTAA C         
+Desal_3695:-76                3  6.00e-04         AA TTAACATAGTTGTAA C         
+Desal_1742:-232               3  6.00e-04         TT GTCACTAATTTGTAT T         
+DvMF_0655:-218                3  6.00e-04         AC GCCACACCATCGTCA C         
+DVU2477:-87                   3  6.39e-04         CC GCAACCGTTCCGTAA C         
+Dde_1628:-87                  3  6.79e-04         TT GTCACACAGCTGGCA C         
+Dde_1062:-115                 3  6.79e-04         AT GACACAGCACCGTAA C         
+Dbac_1842:-64                 3  6.79e-04         TT GTCATTCTTATGTCA C         
+MAE_18310:-139               14  7.22e-04 AACCGNNNNT TTTACCGNNNNCTTA ACCA      
+Sca_0350:-88                  1  7.68e-04          . ATTAATAAATAGTTA A         
+STACA0001_0021:-99            1  7.68e-04          . ATTAATAAATAGTTA A         
+STACA0001_1401:-65            1  7.68e-04          . GTTAATTGTTACTTA A         
+efb:-81                       1  7.68e-04          . ATTAATAATTAGTTA A         
+SA0213:-100                   1  7.68e-04          . ATTAATAAATAGTTA A         
+Tery_2902:-365                2  8.66e-04          G ATAACCCNNNNGTTA ACCTNNNNCT
+Dbac_2663:-103                3  9.19e-04         TT GTCGCGAAACTGTCG C         
+Desal_3392:-144               3  9.19e-04         GA GTCATTGCTCTGTAA C         
+PCC8801_1683:-246            14  9.75e-04 AAACTNNNNC TTAAATTNNNNGTTA AATA      
+sll0679:-135                 14  1.03e-03 AACCANNNNC TTTACTANNNNCTTA ACCT      
+SA0389:-175                   1  1.03e-03          . ATTAAAAATCAGTTA A         
+Dbac_0213:-121                3  1.10e-03         CT GTGACAGTTTTGTTT C         
+PCC8801_1024:-108            14  1.10e-03 TATCANNNNG TTTACCTNNNNCTTA ACCC      
+tlr2164:-51                  14  1.10e-03 AAACANNNNT TTTACCTNNNNCTTA ACTT      
+SA1007:-190                   1  1.10e-03          . TTTAAATAAAAGTTA A         
+all0911:-105                 14  1.10e-03 AACTTNNNNG TTTACCTNNNNCTTA ACTT      
+Desal_3091:-280               3  1.16e-03         GC GTGACAACTCTGAAA C         
+DMR_24190:-62                 3  1.16e-03         CC GACGCGCTATTGTCA C         
+SA1751:-88                    1  1.16e-03          . ATTAATATTCAGTTA A         
+SA1758:-164                   1  1.16e-03          . GTTAATTATTTTTTA A         
+STACA0001_1401:-87            1  1.23e-03          . GTTAATAAAATTTTA A         
+SA1818:-87                    1  1.23e-03          . GTTAATAATTATTTA A         
+Dde_1061:-124                 3  1.30e-03         GC TTCATCAAGCTGTAA C         
+SA1633:-86                    1  1.30e-03          . TTTGATATTTAGTTA A         
+Desal_2167:-84                3  1.38e-03         TC GTTACAAAGTTGTAT C         
+SA1000:-99                    1  1.38e-03          . ATTAATGTTTAGTTA A         
+PCC8801_3662:-162            15  1.46e-03 ACGCNNNNGA TTAACCNNNNCCTAA TTA       
+Tery_3534:-192               14  1.46e-03 GATATNNNNT TTAACCTNNNNCTTA ATCT      
+alr2234:-275                  2  1.46e-03          A TTAACCTNNNNCTTA GTCANNNNAT
+sll0654:-210                 14  1.54e-03 TACTTNNNNC TTTCCCTNNNNGTTA GCAA      
+SA0222:-103                   1  1.54e-03          . GTTAATGCTTTGTTT A         
+DvMF_3186:-133                3  1.54e-03         CC GCGACACATCCGTAA C         
+cce_4392:20                   2  1.63e-03          C TTTAACCNNNNCTCA ATCTNNNNCT
+cce_0886:-358                14  1.72e-03 GAAAANNNNT ATAAATANNNNGTTA TCAT      
+CYA_2506:-129                 2  1.81e-03          C TTAAACANNNNGCTA ACCCNNNNTT
+Dbac_2679:-91                 3  1.81e-03         GC CTCAACATCCTGTAA C         
+SA1818:-98                    1  1.81e-03          . TTTATGTATTTGTTA A         
+BPUM_1181:-121                2  1.91e-03          T TTTAACAATTTCCCA           
+Dret_1361:-147                3  1.91e-03         TT GTCACACGATTGTAT A         
+SA0393:-123                   1  2.02e-03          . ATTAATTTTTAGTTA A         
+Synpcc7942_0004:-76           2  2.24e-03          G TTAAGTCNNNNGTTA AATTNNNNAT
+Desal_3087:-83                3  2.24e-03         TC GTCATCGAATCTTTA C         
+DvMF_0944:-185                3  2.24e-03         GT GACACACGTCCGCCA C         
+DESPIG_00907:-19              3  2.36e-03         TT GACGCGAGGTCGTAA C         
+SA1631:-99                    1  2.36e-03          . GTTAATTAATATTTA A         
+SYNPCC7002_A2352:-91          2  2.48e-03          A TTAAACTNNNNCTTA GTTTNNNNTT
+all0207:-98                   2  2.48e-03          A TTAACCCNNNNGATA ACTCNNNNCT
+DVU2305:-290                  3  2.62e-03         TC GCCGCAGAATAGTCA C         
+Dbac_1842:-104                3  2.62e-03         TT GACATCATCCTGTCA C         
+all1758:-49                   2  2.75e-03          A TTTATTANNNNGTCA ATCTNNNNAT
+CYA_1732:-75                  2  2.89e-03          G TTAACCTNNNNGATA TCCTNNNNGT
+Tery_3661:-342               14  3.04e-03 TAATANNNNA ATTACCCNNNNCTTA GCCT      
+Tery_4937:-158               14  3.20e-03 GACAANNNNA ATAAATTNNNNGTTA AAGA      
+SA1754:-77                    1  3.20e-03          . GTTAATGAATAATTA A         
+SA0663:-99                    1  3.36e-03          . GTTAAGCGATATTTA A         
+DVU3162:-103                  3  3.71e-03         GC GACGCACTGCCGTAA C         
+cce_4758:-125                 2  3.71e-03          A TTAACCTNNNNCTGA AATTNNNNCT
+Tlet_1702:-86                 1  4.08e-03          . GTTAAAANNNTTTGA TA        
+DvMF_1040:-176                3  4.28e-03         CC GCCACCGGGCCGCAA C         
+PCC8801_1433:-224             2  4.28e-03          T TTAACAGNNNNCTAA ACCTNNNNTT
+efb:-85                       1  4.49e-03          . GTTAATTAATAATTA G         
+cce_1859:-141                15  5.17e-03 ATAANNNNGT TTAACTNNNNCTTCA TAT       
+cce_1163:-109                14  5.67e-03 AATCTNNNNT TTTACTGNNNNTTTA ACCC      
+all3822:-149                 14  5.67e-03 AATTTNNNNC TTAAGTANNNNCTCA AATT      
+alr5291:-229                  2  5.93e-03          G TTAACCTNNNNTTTA TATTNNNNCT
+MAE_23860:-129                2  5.93e-03          A TTAGCCANNNNCTAA AACTNNNNCT
+Tery_2568:-208               14  6.20e-03 AAGATNNNNA TTAACCTNNNNGTTT GCTA      
+Tery_3699:-97                 2  6.20e-03          G TTAAGGANNNNCTTA AAGTNNNNTT
+DESPIG_00907:-30              3  6.20e-03         TC GTCACATCATTGACG C         
+OB0584:-91                    2  6.20e-03          T GGAAAAANTGTGTAA T         
+BLi01390:-94                  2  6.79e-03          C TTTGACAATTTCCCA           
+Cyan7425_4387:-102           15  6.79e-03 TCATNNNNTA TTACCTNNNNCCTTA CCC       
+SE2396:-65                    1  7.09e-03          . ATTAATAATTTTTTA A         
+SE0481:-100                   1  7.41e-03          . TTTAATTCTTTTTTA A         
+STACA0001_0321:-100           1  7.41e-03          . TTTAATTCTTTTTTA A         
+cce_5183:-74                 14  7.74e-03 AATTTNNNNT TTAATCANNNNCTTA AAAT      
+cce_0886:-53                 14  8.09e-03 AGATTNNNNC TTTAAGANNNNGTTT AGTT      
+Cyan7425_4261:-146           14  8.45e-03 AATCANNNNG TTTACCTNNNNCATA AATC      
+SYNW2391:-78                  2  8.45e-03          T TTGATCANNNNCTTA AACTNNNNCC
+BSU12900:-120                 2  9.59e-03          T TTTCACAATTTCCCA           
+RBAM_012750:-111              2  9.59e-03          T TTTCACAATTTCCCA           
+SSP0542:-67                   1  9.59e-03          . GTTCATATTNNGTTC ACATT     
+SH0698:-65                    1  9.59e-03          . GTTCATATTNNGTTC ATAAT     
+Kole_0711:-79                 1  9.59e-03          . ATAAAAANNNCCTAA TA        
+SE1940:-63                    1  9.59e-03          . GTTCATATTNNGTTC ATATT     
+Sca_1862:-66                  1  9.59e-03          . GTTCATATTNNGTTC ATATA     
+STACA0001_1124:-64            1  9.59e-03          . GTTCATATTNNGTTC ACATT     
+MCCL_0087:-66                 1  9.59e-03          . GTTCATATTNNGTTC ATATT     
+SA2150:-68                    1  9.59e-03          . GTTCATATTNNGTTC ATATT     
+Synpcc7942_1392:-233          2  1.00e-02          T TTAACTANNNNCATA ATCTNNNNCT
+Dbac_1141:-107                3  1.00e-02         CT GTCATCCGATTTTGA C         
+CYA_1541:-172                 2  1.04e-02          C TTAACCTNNNNCATA ACCTNNNNCT
+sll0654:-175                  2  1.04e-02          C TTAACCTNNNNCATA GTCTNNNNCA
+MAE_02800:-66                 2  1.04e-02          T TTTATCTNNNNCTTA ACCTNNNNTT
+SA1633:-97                    1  1.13e-02          . GTTAATACATTTTTG A         
+Dret_2292:-102                3  1.18e-02         GC GCCATGCCTGTGTCA C         
+SYNPCC7002_A2352:-182         2  1.18e-02          A TTTAATTNNNNTTTA GTTGNNNNCT
+Dbac_2705:-70                 3  1.23e-02         TT GCCATGCAAGCGTAA C         
+cce_5174:-70                 14  1.23e-02 AAAAANNNNC ATAAAGTNNNNCTTA AACT      
+tll1671:-171                  2  1.23e-02          C TTAACCCNNNNCTTG AACCNNNNGA
+PCC8801_0346:-91             14  1.28e-02 AATCTNNNNG ATTACCTNNNNGTTT ACCT      
+Cyan7425_0664:-80             2  1.28e-02          A TTAATCTNNNNCTTA ATCTNNNNCT
+slr1247:-342                  2  1.28e-02          C TTAATCTNNNNCTTA ATTCNNNNCT
+MAE_18440:-86                14  1.28e-02 AATCTNNNNG ATTACCTNNNNGTTT ACCT      
+SE2396:-288                   1  1.44e-02          . TTTAATAATAAATTA A         
+Tery_0739:-250                2  1.50e-02          T TAAAACTNNNNCTTA ATCTNNNNAC
+slr0115:-174                  2  1.50e-02          A TTACCCANNNNTTTA GATGNNNNTT
+SA1819:-110                   1  1.50e-02          . ATTAATATATATTTA A         
+cce_4621:-88                  2  1.56e-02          T TTAAAGTNNNNTTTA ACATNNNNCT
+null:-268                     2  1.68e-02          A TTAAAAANNNNATTA AAAANNNNTT
+cce_0154:-83                  2  1.75e-02          T TTTATCTNNNNGATA ATTANNNNAT
+all4021:-136                  2  1.75e-02          C GTAAACTNNNNGATT TCTTNNNNTT
+TRQ2_1556:-90                 1  1.82e-02          . CTTAACANNNCTTAA CA        
+Tpet_1507:-89                 1  1.82e-02          . CTTAACANNNCTTAA CA        
+CTN_1309:-81                  1  1.82e-02          . CTTAACANNNCTTAA CA        
+Tnap_1530:-89                 1  1.82e-02          . CTTAACANNNCTTAA CA        
+TM1264:-89                    1  1.82e-02          . CTTAACANNNCTTAA CA        
+Tmel_1829:-84                 1  1.82e-02          . CTTAACANNNCTTAA TA        
+THA_124:-87                   1  1.82e-02          . CTTAACANNNCTTAA TA        
+BSU33000:-221                 2  1.96e-02          T TTTCATAATTTCACA           
+BLi03481:-182                 2  1.96e-02          T TTTCATAATTTCACA           
+RBAM_030110:-221              2  1.96e-02          T TTTCATAATTTCACA           
+MAE_18380:-87                14  1.96e-02 ATTCANNNNC TTAACCTNNNNCTTT ACCA      
+Cyan7425_1977:-238            2  2.03e-02          G TTATCCCNNNNGTTA ATTTNNNNAT
+Cyan7425_0207:-81             2  2.03e-02          T TTAACGANNNNCTTT AGCANNNNGA
+BSU04470:-115                13  2.27e-02 ACCAAAAAGA CCAAAATGTCCGTTA TGATCATAA 
+RBAM_004800:-105             13  2.27e-02 ACCAAAAAGA CCAAAATGTCCGTTA TGATCATAA 
+PCC8801_1625:-95             14  2.27e-02 TACCTNNNNT ATAGCCTNNNNGATA GCCT      
+SH0654:-118                   3  2.44e-02         AT TAGGACATTCCCTAA T         
+SE1975:-113                   3  2.44e-02         AT TAGGACATTCCCTAA T         
+Pmob_1932:-87                 1  2.71e-02          . CTTAATANNNCTTAA TA        
+Fnod_1428:-89                 1  2.71e-02          . CTTAATANNNCTTAA CG        
+alr4975:-10                  14  2.81e-02 AATTANNNNT GTTACCTNNNNATTT ATAT      
+STACA0001_1080:-116           2  2.90e-02          A TTAGGTATTTCCCTA AT        
+SA2185:-134                   2  2.90e-02          A TTAGGTGATTCCCTA AT        
+SYNPCC7002_A2120:-309        14  3.11e-02 AAATTNNNNT TTTACTANNNNTTTG ATCA      
+alr5259:-329                  1  3.11e-02          . GTAAAACTNNNNTTT ATTTANNNNC
+Tery_2653:-43                14  3.22e-02 AAACTNNNNA TTTGATANNNNATTA ACTC      
+Sca_1894:-123                 3  3.22e-02         TA TAGGAGAATCCCTAA T         
+BLi01390:-73                  2  3.44e-02          T TTTCATGTTATCCCA           
+CTN_0567:-152                 3  3.56e-02         TA TACCATAATTCGGCA TA        
+MCCL_0136:-85                 2  3.68e-02          T TTAGGACATTCCCCA AT        
+ABC3378:-113                  1  3.80e-02          . CTCAGCCTCTAGTCG CAG       
+Tery_0954:-309                2  3.93e-02          A TTAACCANNNNATTG AATTNNNNAT
+SYNPCC7002_A1357:-125         1  4.05e-02          . GCTAACCTNNNNCTA TATTTNNNNT
+BSU12900:-99                  2  4.32e-02          T TTTCATTTTATCCCA           
+BSU33000:-200                 2  4.32e-02          T TTTCATTTTATCCCA           
+BPUM_1181:-100                2  4.32e-02          T TTTCATTTTATCCCA           
+BLi03481:-161                 2  4.32e-02          T TTTCATTTTATCCCA           
+RBAM_030110:-200              2  4.32e-02          T TTTCATTTTATCCCA           
+RBAM_012750:-90               2  4.32e-02          T TTTCATTTTATCCCA           
+cce_3317:-44                 14  4.32e-02 ATCTANNNNC TTTATTTNNNNTTTA TACT      
+SYNPCC7002_A1232:-126         2  4.32e-02          C TTAAACTNNNNGATT ACATNNNNAT
+all0129:-101                 13  4.60e-02 TATGTTNNNN TTTAAAATNNNNTTT TATAA     
+PCC8801_1847:-43              3  5.05e-02         AA TAAATTNNNNTCTTA TTTNNNNATT
+OB0583:-88                    3  5.05e-02         AT TACACANTTTTTCCA           
+TRQ2_0825:-143                3  5.37e-02         TA TACCATAATACGGTA TA        
+Tpet_0802:-143                3  5.37e-02         TA TACCATAATACGGTA TA        
+Tnap_0752:-143                3  5.37e-02         TA TACCATAATACGGTA TA        
+TM0122:-143                   3  5.37e-02         TA TACCATAATACGGTA TA        
+MCCL_1342:-118                2  5.37e-02          T ATAGGGAAATCCCTA TT        
+BPUM_0419:-123                9  5.53e-02   AGACCAAA AAGACCAAAATGTAC GATATGTACA
+BPUM_2952:-122                2  5.70e-02          A TTATATAATTTGACA           
+BSU33130:-99                  3  5.87e-02         AT ACGACTCCGGTCTTA T         
+STACA0001_1087:-172           3  6.41e-02         TT AAGGGTAAATCCTTA T         
+SA2176:-184                   3  6.99e-02         AT AAGGGAAAATCCTTA T         
+cce_1211:-143                 2  7.19e-02          T ATAATCTNNNNGTTT TATTNNNNGT
+all4575:-324                  2  7.39e-02          T TTTATCTNNNNCTTT TATTNNNNCT
+PCC8801_0430:-278             1  7.60e-02          . TTAAAATTNNNNTTT TATTTNNNNC
+SH0661:-141                   3  8.03e-02         AT AAGGGAATATCCTTA T         
+OB2826:-100                   1  8.03e-02          . ATACACCTTAAGTCT TAG       
+GK0561:71                     2  8.26e-02          A GACCAAAAAGACCAA AACGACCATT
+BH0753:-94                    2  8.95e-02          T GACAACNNTGTCACC           
+Sca_1887:-157                 3  8.95e-02         TT AAGGGAAAGCCCTTA T         
+BSU33010:-72                  2  9.19e-02          T GTGAAATTATGAAAA           
+BLi03482:-72                  2  9.19e-02          T GTGAAATTATGAAAA           
+RBAM_030120:-71               2  9.19e-02          T GTGAAATTATGAAAA           
+Tery_0682:-336                8  9.43e-02    TTTTAGA TNNNNGTTTTTGTNN NNCATTATCA
+RBAM_030260:-99               3  9.68e-02         AT ACGACTCCGGTCTGA T         
+Aflv_0168:-52                 1  9.94e-02          . ATACGCCTTGAGTCG TAG       
+Sca_1899:-93                  2  1.02e-01          A TAAGGGGATTCCCTA TT        
+ISM_13540:-106                3  1.02e-01         GA GTCGNNNNNNNNNNN NGATTCG   
+SE1968:-165                   3  1.07e-01         AT CAGGGTATGTCCTTA T         
+SE1978:-174                   2  1.10e-01          A TTAGGGAAATCCCCG AT        
+SA2189:-93                    1  1.18e-01          . ATCAGGGAATTCCCT GAT       
+BSU33010:-94                  1  1.21e-01          . TGGGATAAAATGAAA A         
+BPUM_2953:-84                 1  1.21e-01          . TGTGAAATTGTGAAA A         
+BLi03482:-94                  1  1.21e-01          . TGGGATAAAATGAAA A         
+RBAM_030120:-93               1  1.21e-01          . TGGGATAAAATGAAA A         
+STACA0001_1076:-93            2  1.21e-01          A TAAGGGTATTCCCTA CT        
+BPUM_2968:-100                1  1.24e-01          . TTACGACTCTGGTCG CAA       
+BC1435:-102                   1  1.30e-01          . CTCGGTCTTAAGTCT GAG       
+SH0651:-170                   1  1.37e-01          . ATTAGGGAATTCCCC GAT       
+PCC8801_4067:-157             8  1.37e-01    CTTAGCA TNNNNCTTTTTCTNN NNGCTAAACT
+BSU34700:-96                  2  1.40e-01          T GACAGCNNTGTAAGA           
+GK0430:-92                    1  1.43e-01          . ATACGCCTCGAGTCG TAG       
+BPUM_2953:-230                2  1.46e-01          T GTCAAATTATATAAT           
+BLi03497:-99                  3  1.46e-01         AT ACGACCCTGGTCGTA C         
+Tery_4322:-395               10  1.53e-01  CTTATTATN NNNAATTATTTNNNN ATTTAGCT  
+Pjdr2_4843:-123               2  1.78e-01          T GACAAANNCGTAAGA           
+EE36_04883:-95                6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTCG      
+RSP_1681:-81                  6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTCC      
+OB2597_10164:-91              6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTGT      
+SPO0710:-91                   6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTCG      
+MED193_16484:-93              6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTCG      
+RB2654_15916:-90              6  1.82e-01      GATTC GNNNNNNNNNNNNGA TTCT      
+OG2516_08703:-94              3  1.86e-01         GA TTCGNNNNNNNNNNN GATTCG    
+TM1040_2441:-89               3  1.86e-01         GA TTCGNNNNNNNNNNN NNGATTCG  
+BH1195:-98                    1  2.68e-01          . CTCAGACTCAAGGCG GAG       
+RB2654_15916:-72              6  2.98e-01      GATTC TNNNNNNNNNNNNGA TTCT      
+ABC3229:-108                  2  3.87e-01          T GACAAANNTGTAAGC           
+Pjdr2_4787:-115               1  4.26e-01          . CTCCGTCTCGAGACC GAT       
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+Dbac_2694:-62                     1.8e-06  2_[1]_1
+DMR_08630:-116                    2.1e-06  2_[1]_1
+DVU1959:-87                       2.1e-06  2_[1]_1
+DMR_02640:-83                     2.1e-06  2_[1]_1
+DVU0093:-110                      2.5e-06  2_[1]_1
+DvMF_3186:-281                    3.4e-06  2_[1]_1
+Dbac_1141:-129                      4e-06  2_[1]_1
+Dbac_2694:-51                       4e-06  2_[1]_1
+Ddes_0567:-82                     5.3e-06  2_[1]_1
+DMR_38880:-100                    5.3e-06  2_[1]_1
+DVU2747:-57                       6.1e-06  2_[1]_1
+Dbac_2662:-98                     6.1e-06  2_[1]_1
+Dde_0275:-19                      8.8e-06  2_[1]_1
+Dde_3781:-202                     8.8e-06  2_[1]_1
+Dret_0464:-267                    1.1e-05  2_[1]_1
+Desal_2167:-95                    1.1e-05  2_[1]_1
+DESPIG_00907:-41                  1.2e-05  2_[1]_1
+Dbac_2679:-113                    1.6e-05  2_[1]_1
+DVU2305:-137                      1.7e-05  2_[1]_1
+DESPIG_03037:-80                  1.7e-05  2_[1]_1
+Dbac_2704:-107                    1.9e-05  2_[1]_1
+SE0163:-99                        1.9e-05  [1]_1
+SA1000:-88                        1.9e-05  [1]_1
+SA2206:-92                        1.9e-05  [1]_1
+DvMF_0882:-180                    2.4e-05  2_[1]_1
+Dbac_0213:-132                    2.4e-05  2_[1]_1
+Dde_3324:-253                     2.4e-05  2_[1]_1
+SE0481:-79                        2.4e-05  [1]_1
+SA1638:-335                       2.4e-05  [1]_1
+SA1758:-175                       2.4e-05  [1]_1
+SA0663:-78                        2.4e-05  [1]_1
+DvMF_1169:-141                    2.4e-05  2_[1]_1
+DvMF_1040:-156                    2.6e-05  2_[1]_1
+Dbac_2705:-130                    2.9e-05  2_[1]_1
+BSU30380:-106                     3.1e-05  1_[1]_1
+BPUM_2594:-110                    3.1e-05  1_[1]_1
+BLi04211:-105                     3.1e-05  1_[1]_1
+BH3913:-121                       3.1e-05  1_[1]_1
+RBAM_027310:-110                  3.1e-05  1_[1]_1
+DESPIG_03036:-93                  3.1e-05  2_[1]_1
+SA0222:-82                        3.1e-05  [1]_1
+OB0833:-115                       3.1e-05  1_[1]_1
+GK2342:-98                        3.1e-05  1_[1]_1
+Desal_0095:-198                   3.4e-05  2_[1]_1
+DVU2305:-279                      3.8e-05  2_[1]_1
+Dbac_2694:-114                    3.8e-05  2_[1]_1
+SA2208:-86                        3.8e-05  [1]_1
+Dde_1062:-241                     4.1e-05  2_[1]_1
+Dbac_2704:-96                     4.1e-05  2_[1]_1
+SA1633:-108                       4.1e-05  [1]_1
+DMR_20240:-116                    4.5e-05  2_[1]_1
+DESPIG_03037:-147                 4.9e-05  2_[1]_1
+Dde_1185:-113                     5.4e-05  2_[1]_1
+Desal_3473:-115                   5.9e-05  2_[1]_1
+DVU0013:-44                       6.4e-05  2_[1]_1
+Dbac_1141:-118                    6.4e-05  2_[1]_1
+STACA0001_0321:-79                6.4e-05  [1]_1
+DVU1083:-85                       6.9e-05  2_[1]_1
+Dbac_2705:-141                    6.9e-05  2_[1]_1
+Dret_0464:-96                     7.5e-05  2_[1]_1
+Dde_2387:-88                      9.6e-05  2_[1]_1
+Dbac_2663:-180                    0.00012  2_[1]_1
+DESPIG_03036:-149                 0.00012  2_[1]_1
+SA0357:-95                        0.00012  [1]_1
+Desal_3392:-166                   0.00013  2_[1]_1
+DMR_08630:-31                     0.00016  2_[1]_1
+SA0396:-253                       0.00018  [1]_1
+SA1813:-99                        0.00018  [1]_1
+SA1631:-121                       0.00018  [1]_1
+DVU1959:-98                       0.00019  2_[1]_1
+DvMF_0882:-86                      0.0002  2_[1]_1
+DvMF_0617:-37                      0.0002  2_[1]_1
+Ddes_0566:-99                     0.00022  2_[1]_1
+DVU1083:-179                      0.00024  2_[1]_1
+Dbac_0213:-40                     0.00025  2_[1]_1
+CYA_1552:-203                     0.00025  13_[1]_4
+Desal_0095:-68                    0.00027  2_[1]_1
+DMR_13500:-85                     0.00029  2_[1]_1
+DMR_33040:-170                    0.00029  2_[1]_1
+SA1638:-86                        0.00029  [1]_1
+DMR_33040:-181                    0.00033  2_[1]_1
+Dde_3781:-232                     0.00033  2_[1]_1
+Dde_3782:-48                      0.00033  2_[1]_1
+DMR_08520:-65                     0.00036  2_[1]_1
+PCC8801_2302:-232                 0.00038  13_[1]_4
+SA0387:-134                       0.00038  [1]_1
+SA0387:-145                       0.00038  [1]_1
+Dret_1981:-203                    0.00041  2_[1]_1
+DESPIG_03037:-91                  0.00041  2_[1]_1
+Dbac_1842:-53                     0.00044  2_[1]_1
+Dde_1216:-95                      0.00046  2_[1]_1
+DMR_20230:-292                     0.0005  2_[1]_1
+Desal_3694:-85                     0.0005  2_[1]_1
+PCC8801_3887:-183                 0.00053  13_[1]_4
+PCC8801_4178:-104                 0.00053  13_[1]_4
+Sca_1510:-50                      0.00053  [1]_1
+all3651:-119                      0.00053  13_[1]_4
+DvMF_2565:-122                    0.00056  2_[1]_1
+Desal_3695:-76                     0.0006  2_[1]_1
+Desal_1742:-232                    0.0006  2_[1]_1
+DvMF_0655:-218                     0.0006  2_[1]_1
+DVU2477:-87                       0.00064  2_[1]_1
+Dde_1628:-87                      0.00068  2_[1]_1
+Dde_1062:-115                     0.00068  2_[1]_1
+Dbac_1842:-64                     0.00068  2_[1]_1
+MAE_18310:-139                    0.00072  13_[1]_4
+Sca_0350:-88                      0.00077  [1]_1
+STACA0001_0021:-99                0.00077  [1]_1
+STACA0001_1401:-65                0.00077  [1]_1
+efb:-81                           0.00077  [1]_1
+SA0213:-100                       0.00077  [1]_1
+Tery_2902:-365                    0.00087  1_[1]_16
+Dbac_2663:-103                    0.00092  2_[1]_1
+Desal_3392:-144                   0.00092  2_[1]_1
+PCC8801_1683:-246                 0.00098  13_[1]_4
+sll0679:-135                        0.001  13_[1]_4
+SA0389:-175                         0.001  [1]_1
+Dbac_0213:-121                     0.0011  2_[1]_1
+PCC8801_1024:-108                  0.0011  13_[1]_4
+tlr2164:-51                        0.0011  13_[1]_4
+SA1007:-190                        0.0011  [1]_1
+all0911:-105                       0.0011  13_[1]_4
+Desal_3091:-280                    0.0012  2_[1]_1
+DMR_24190:-62                      0.0012  2_[1]_1
+SA1751:-88                         0.0012  [1]_1
+SA1758:-164                        0.0012  [1]_1
+STACA0001_1401:-87                 0.0012  [1]_1
+SA1818:-87                         0.0012  [1]_1
+Dde_1061:-124                      0.0013  2_[1]_1
+SA1633:-86                         0.0013  [1]_1
+Desal_2167:-84                     0.0014  2_[1]_1
+SA1000:-99                         0.0014  [1]_1
+PCC8801_3662:-162                  0.0015  14_[1]_3
+Tery_3534:-192                     0.0015  13_[1]_4
+alr2234:-275                       0.0015  1_[1]_16
+sll0654:-210                       0.0015  13_[1]_4
+SA0222:-103                        0.0015  [1]_1
+DvMF_3186:-133                     0.0015  2_[1]_1
+cce_4392:20                        0.0016  1_[1]_16
+cce_0886:-358                      0.0017  13_[1]_4
+CYA_2506:-129                      0.0018  1_[1]_16
+Dbac_2679:-91                      0.0018  2_[1]_1
+SA1818:-98                         0.0018  [1]_1
+BPUM_1181:-121                     0.0019  1_[1]
+Dret_1361:-147                     0.0019  2_[1]_1
+SA0393:-123                         0.002  [1]_1
+Synpcc7942_0004:-76                0.0022  1_[1]_16
+Desal_3087:-83                     0.0022  2_[1]_1
+DvMF_0944:-185                     0.0022  2_[1]_1
+DESPIG_00907:-19                   0.0024  2_[1]_1
+SA1631:-99                         0.0024  [1]_1
+SYNPCC7002_A2352:-91               0.0025  1_[1]_16
+all0207:-98                        0.0025  1_[1]_16
+DVU2305:-290                       0.0026  2_[1]_1
+Dbac_1842:-104                     0.0026  2_[1]_1
+all1758:-49                        0.0028  1_[1]_16
+CYA_1732:-75                       0.0029  1_[1]_16
+Tery_3661:-342                      0.003  13_[1]_4
+Tery_4937:-158                     0.0032  13_[1]_4
+SA1754:-77                         0.0032  [1]_1
+SA0663:-99                         0.0034  [1]_1
+DVU3162:-103                       0.0037  2_[1]_1
+cce_4758:-125                      0.0037  1_[1]_16
+Tlet_1702:-86                      0.0041  [1]_2
+DvMF_1040:-176                     0.0043  2_[1]_1
+PCC8801_1433:-224                  0.0043  1_[1]_16
+efb:-85                            0.0045  [1]_1
+cce_1859:-141                      0.0052  14_[1]_3
+cce_1163:-109                      0.0057  13_[1]_4
+all3822:-149                       0.0057  13_[1]_4
+alr5291:-229                       0.0059  1_[1]_16
+MAE_23860:-129                     0.0059  1_[1]_16
+Tery_2568:-208                     0.0062  13_[1]_4
+Tery_3699:-97                      0.0062  1_[1]_16
+DESPIG_00907:-30                   0.0062  2_[1]_1
+OB0584:-91                         0.0062  1_[1]_1
+BLi01390:-94                       0.0068  1_[1]
+Cyan7425_4387:-102                 0.0068  14_[1]_3
+SE2396:-65                         0.0071  [1]_1
+SE0481:-100                        0.0074  [1]_1
+STACA0001_0321:-100                0.0074  [1]_1
+cce_5183:-74                       0.0077  13_[1]_4
+cce_0886:-53                       0.0081  13_[1]_4
+Cyan7425_4261:-146                 0.0084  13_[1]_4
+SYNW2391:-78                       0.0084  1_[1]_16
+BSU12900:-120                      0.0096  1_[1]
+RBAM_012750:-111                   0.0096  1_[1]
+SSP0542:-67                        0.0096  [1]_5
+SH0698:-65                         0.0096  [1]_5
+Kole_0711:-79                      0.0096  [1]_2
+SE1940:-63                         0.0096  [1]_5
+Sca_1862:-66                       0.0096  [1]_5
+STACA0001_1124:-64                 0.0096  [1]_5
+MCCL_0087:-66                      0.0096  [1]_5
+SA2150:-68                         0.0096  [1]_5
+Synpcc7942_1392:-233                 0.01  1_[1]_16
+Dbac_1141:-107                       0.01  2_[1]_1
+CYA_1541:-172                        0.01  1_[1]_16
+sll0654:-175                         0.01  1_[1]_16
+MAE_02800:-66                        0.01  1_[1]_16
+SA1633:-97                          0.011  [1]_1
+Dret_2292:-102                      0.012  2_[1]_1
+SYNPCC7002_A2352:-182               0.012  1_[1]_16
+Dbac_2705:-70                       0.012  2_[1]_1
+cce_5174:-70                        0.012  13_[1]_4
+tll1671:-171                        0.012  1_[1]_16
+PCC8801_0346:-91                    0.013  13_[1]_4
+Cyan7425_0664:-80                   0.013  1_[1]_16
+slr1247:-342                        0.013  1_[1]_16
+MAE_18440:-86                       0.013  13_[1]_4
+SE2396:-288                         0.014  [1]_1
+Tery_0739:-250                      0.015  1_[1]_16
+slr0115:-174                        0.015  1_[1]_16
+SA1819:-110                         0.015  [1]_1
+cce_4621:-88                        0.016  1_[1]_16
+null:-268                           0.017  1_[1]_16
+cce_0154:-83                        0.017  1_[1]_16
+all4021:-136                        0.017  1_[1]_16
+TRQ2_1556:-90                       0.018  [1]_2
+Tpet_1507:-89                       0.018  [1]_2
+CTN_1309:-81                        0.018  [1]_2
+Tnap_1530:-89                       0.018  [1]_2
+TM1264:-89                          0.018  [1]_2
+Tmel_1829:-84                       0.018  [1]_2
+THA_124:-87                         0.018  [1]_2
+BSU33000:-221                        0.02  1_[1]
+BLi03481:-182                        0.02  1_[1]
+RBAM_030110:-221                     0.02  1_[1]
+MAE_18380:-87                        0.02  13_[1]_4
+Cyan7425_1977:-238                   0.02  1_[1]_16
+Cyan7425_0207:-81                    0.02  1_[1]_16
+BSU04470:-115                       0.023  12_[1]_9
+RBAM_004800:-105                    0.023  12_[1]_9
+PCC8801_1625:-95                    0.023  13_[1]_4
+SH0654:-118                         0.024  2_[1]_1
+SE1975:-113                         0.024  2_[1]_1
+Pmob_1932:-87                       0.027  [1]_2
+Fnod_1428:-89                       0.027  [1]_2
+alr4975:-10                         0.028  13_[1]_4
+STACA0001_1080:-116                 0.029  1_[1]_2
+SA2185:-134                         0.029  1_[1]_2
+SYNPCC7002_A2120:-309               0.031  13_[1]_4
+alr5259:-329                        0.031  [1]_17
+Tery_2653:-43                       0.032  13_[1]_4
+Sca_1894:-123                       0.032  2_[1]_1
+BLi01390:-73                        0.034  1_[1]
+CTN_0567:-152                       0.036  2_[1]_2
+MCCL_0136:-85                       0.037  1_[1]_2
+ABC3378:-113                        0.038  [1]_3
+Tery_0954:-309                      0.039  1_[1]_16
+SYNPCC7002_A1357:-125               0.041  [1]_17
+BSU12900:-99                        0.043  1_[1]
+BSU33000:-200                       0.043  1_[1]
+BPUM_1181:-100                      0.043  1_[1]
+BLi03481:-161                       0.043  1_[1]
+RBAM_030110:-200                    0.043  1_[1]
+RBAM_012750:-90                     0.043  1_[1]
+cce_3317:-44                        0.043  13_[1]_4
+SYNPCC7002_A1232:-126               0.043  1_[1]_16
+all0129:-101                        0.046  12_[1]_5
+PCC8801_1847:-43                    0.051  2_[1]_15
+OB0583:-88                          0.051  2_[1]
+TRQ2_0825:-143                      0.054  2_[1]_2
+Tpet_0802:-143                      0.054  2_[1]_2
+Tnap_0752:-143                      0.054  2_[1]_2
+TM0122:-143                         0.054  2_[1]_2
+MCCL_1342:-118                      0.054  1_[1]_2
+BPUM_0419:-123                      0.055  8_[1]_13
+BPUM_2952:-122                      0.057  1_[1]
+BSU33130:-99                        0.059  2_[1]_1
+STACA0001_1087:-172                 0.064  2_[1]_1
+SA2176:-184                          0.07  2_[1]_1
+cce_1211:-143                       0.072  1_[1]_16
+all4575:-324                        0.074  1_[1]_16
+PCC8801_0430:-278                   0.076  [1]_17
+SH0661:-141                          0.08  2_[1]_1
+OB2826:-100                          0.08  [1]_3
+GK0561:71                           0.083  1_[1]_20
+BH0753:-94                          0.089  1_[1]
+Sca_1887:-157                       0.089  2_[1]_1
+BSU33010:-72                        0.092  1_[1]
+BLi03482:-72                        0.092  1_[1]
+RBAM_030120:-71                     0.092  1_[1]
+Tery_0682:-336                      0.094  7_[1]_10
+RBAM_030260:-99                     0.097  2_[1]_1
+Aflv_0168:-52                       0.099  [1]_3
+Sca_1899:-93                          0.1  1_[1]_2
+ISM_13540:-106                        0.1  2_[1]_7
+SE1968:-165                          0.11  2_[1]_1
+SE1978:-174                          0.11  1_[1]_2
+SA2189:-93                           0.12  [1]_3
+BSU33010:-94                         0.12  [1]_1
+BPUM_2953:-84                        0.12  [1]_1
+BLi03482:-94                         0.12  [1]_1
+RBAM_030120:-93                      0.12  [1]_1
+STACA0001_1076:-93                   0.12  1_[1]_2
+BPUM_2968:-100                       0.12  [1]_3
+BC1435:-102                          0.13  [1]_3
+SH0651:-170                          0.14  [1]_3
+PCC8801_4067:-157                    0.14  7_[1]_10
+BSU34700:-96                         0.14  1_[1]
+GK0430:-92                           0.14  [1]_3
+BPUM_2953:-230                       0.15  1_[1]
+BLi03497:-99                         0.15  2_[1]_1
+Tery_4322:-395                       0.15  9_[1]_8
+Pjdr2_4843:-123                      0.18  1_[1]
+EE36_04883:-95                       0.18  5_[1]_4
+RSP_1681:-81                         0.18  5_[1]_4
+OB2597_10164:-91                     0.18  5_[1]_4
+SPO0710:-91                          0.18  5_[1]_4
+MED193_16484:-93                     0.18  5_[1]_4
+RB2654_15916:-90                     0.18  5_[1]_4
+OG2516_08703:-94                     0.19  2_[1]_6
+TM1040_2441:-89                      0.19  2_[1]_8
+BH1195:-98                           0.27  [1]_3
+RB2654_15916:-72                      0.3  5_[1]_4
+ABC3229:-108                         0.39  1_[1]
+Pjdr2_4787:-115                      0.43  [1]_3
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=15 seqs=318
+Dbac_2694:-62            (    3) GTCACCCAAACGTCA  1 
+DMR_08630:-116           (    3) GTCACGAGATTGTCA  1 
+DVU1959:-87              (    3) GTCACCCTGCCGTCA  1 
+DMR_02640:-83            (    3) GTCACACAATCGTCA  1 
+DVU0093:-110             (    3) GTCACCACAACGTCA  1 
+DvMF_3186:-281           (    3) GTCACCGTTCCGTAA  1 
+Dbac_1141:-129           (    3) GTCACACATCTGTCA  1 
+Dbac_2694:-51            (    3) GTCACCGCGCTGTCA  1 
+Ddes_0567:-82            (    3) GTCACGAAATTGTAA  1 
+DMR_38880:-100           (    3) GTCACCGGACCGTAA  1 
+DVU2747:-57              (    3) GTAACCATTCCGTAA  1 
+Dbac_2662:-98            (    3) GTCACAATGCTGTCA  1 
+Dde_0275:-19             (    3) GTTACAAAAATGTCA  1 
+Dde_3781:-202            (    3) GTCACACGATTGTTA  1 
+Dret_0464:-267           (    3) GTTACCGCAATGTTA  1 
+Desal_2167:-95           (    3) GTTACATTATCGTTA  1 
+DESPIG_00907:-41         (    3) GTAACCTACTCGTCA  1 
+Dbac_2679:-113           (    3) GTCACACCTCTGTCA  1 
+DVU2305:-137             (    3) GTCACTGTTCTGTAA  1 
+DESPIG_03037:-80         (    3) GTCACACAATTGTAA  1 
+Dbac_2704:-107           (    3) GTCACGGAACTGTGA  1 
+SE0163:-99               (    1) GTTAATAAATAGTTA  1 
+SA1000:-88               (    1) GTTAATAAATAGTTA  1 
+SA2206:-92               (    1) GTTAATAATTAGTTA  1 
+DvMF_0882:-180           (    3) GTCACGCCGTTGTCA  1 
+Dbac_0213:-132           (    3) GTTACCGCTCTGTGA  1 
+Dde_3324:-253            (    3) GTCACACGGCTGTCA  1 
+SE0481:-79               (    1) GTTAAGAAATAGTTA  1 
+SA1638:-335              (    1) GTTAATAATCAGTTA  1 
+SA1758:-175              (    1) GTTAAATATTTGTTA  1 
+SA0663:-78               (    1) GTTAAGAATTAGTTA  1 
+DvMF_1169:-141           (    3) GTAACCTTTCCGTAA  1 
+DvMF_1040:-156           (    3) GTCACACCGCCGTCA  1 
+Dbac_2705:-130           (    3) GTCACAGTTCCGTGA  1 
+BSU30380:-106            (    2) GTGACXXXXXTGTCA  1 
+BPUM_2594:-110           (    2) GTGACXXXXXTGTCA  1 
+BLi04211:-105            (    2) GTGACXXXXXTGTCA  1 
+BH3913:-121              (    2) GTGACXXXXXTGTCA  1 
+RBAM_027310:-110         (    2) GTGACXXXXXTGTCA  1 
+DESPIG_03036:-93         (    3) GTCACATTTTCGTAA  1 
+SA0222:-82               (    1) GTTAATATATAGTTA  1 
+OB0833:-115              (    2) GTGACXXXXXTGTCA  1 
+GK2342:-98               (    2) GTGACXXXXXTGTCA  1 
+Desal_0095:-198          (    3) GTAACTGTATTGTAA  1 
+DVU2305:-279             (    3) GTCACAATCACGTTA  1 
+Dbac_2694:-114           (    3) GTGACCGCACCGTGA  1 
+SA2208:-86               (    1) GTTAATGAACAGTTA  1 
+Dde_1062:-241            (    3) GTAACCGTGCTGTGA  1 
+Dbac_2704:-96            (    3) GTGACGCAAATGTCA  1 
+SA1633:-108              (    1) GTTAATAGATAGTTA  1 
+DMR_20240:-116           (    3) GTCACCGGTTTGCCA  1 
+DESPIG_03037:-147        (    3) GTTACGAAAATGTGA  1 
+Dde_1185:-113            (    3) GTCACATTTTTGTGA  1 
+Desal_3473:-115          (    3) GTAACAGGTTTGTAA  1 
+DVU0013:-44              (    3) GTAACCTTGCCGTGA  1 
+Dbac_1141:-118           (    3) GTCACACCCCTGTCA  1 
+STACA0001_0321:-79       (    1) GTTAATAAAAAGTTA  1 
+DVU1083:-85              (    3) GTCACACGGTTGTAA  1 
+Dbac_2705:-141           (    3) GTGACATTTGCGTCA  1 
+Dret_0464:-96            (    3) GTCGCAGGATTGTCA  1 
+Dde_2387:-88             (    3) GTAACGTGATTGTAA  1 
+Dbac_2663:-180           (    3) GTGACAGCATTGTGA  1 
+DESPIG_03036:-149        (    3) GTGACAGGGCCGTAA  1 
+SA0357:-95               (    1) GTTAATCAAGAGTTA  1 
+Desal_3392:-166          (    3) GTAACATAAACGTAA  1 
+DMR_08630:-31            (    3) GTCACGCTTCTGCCA  1 
+SA0396:-253              (    1) TTTAATAAATAGTTA  1 
+SA1813:-99               (    1) TTTAATAAATAGTTA  1 
+SA1631:-121              (    1) TTTAATAAAATGTTA  1 
+DVU1959:-98              (    3) GAAACCGCATTGTCA  1 
+DvMF_0882:-86            (    3) GTCACATCCTTGTAA  1 
+DvMF_0617:-37            (    3) GTCATCTGTCCGTCA  1 
+Ddes_0566:-99            (    3) GTCATCATTCTGTAA  1 
+DVU1083:-179             (    3) GTAACAGCCCCGTAA  1 
+Dbac_0213:-40            (    3) GTCATACAATTGTCA  1 
+CYA_1552:-203            (   14) TTAACCTXXXXGTTA  1 
+Desal_0095:-68           (    3) GTTACTCCCCTGTGA  1 
+DMR_13500:-85            (    3) GTCACGTAATCGTCG  1 
+DMR_33040:-170           (    3) GTAACCGGCCCGCCA  1 
+SA1638:-86               (    1) TTTAATGAACAGTTA  1 
+DMR_33040:-181           (    3) GACACCCTGTCGTAA  1 
+Dde_3781:-232            (    3) GTTATTTAACCGTCA  1 
+Dde_3782:-48             (    3) GTAACAATCGTGTGA  1 
+DMR_08520:-65            (    3) GCCACGGGTTCGTCA  1 
+PCC8801_2302:-232        (   14) TTTAAGAXXXXGTTA  1 
+SA0387:-134              (    1) GTTAAAAAGAGGTTA  1 
+SA0387:-145              (    1) GTTCAAAAATAGTTA  1 
+Dret_1981:-203           (    3) GTCATAGCATTGTCA  1 
+DESPIG_03037:-91         (    3) TTTACGGCCCTGTCA  1 
+Dbac_1842:-53            (    3) GTCACAGTTTCGAAA  1 
+Dde_1216:-95             (    3) GTCATTCTGTTGTCA  1 
+DMR_20230:-292           (    3) GTCACGGAAATGTCG  1 
+Desal_3694:-85           (    3) CTTACCTGATTGTCA  1 
+PCC8801_3887:-183        (   14) TTTACCAXXXXCTTA  1 
+PCC8801_4178:-104        (   14) TTAAAGAXXXXGTTA  1 
+Sca_1510:-50             (    1) ATTAATATTCTGTTA  1 
+all3651:-119             (   14) TTAAAGAXXXXGTTA  1 
+DvMF_2565:-122           (    3) GACACAGGATTGTAA  1 
+Desal_3695:-76           (    3) TTAACATAGTTGTAA  1 
+Desal_1742:-232          (    3) GTCACTAATTTGTAT  1 
+DvMF_0655:-218           (    3) GCCACACCATCGTCA  1 
+DVU2477:-87              (    3) GCAACCGTTCCGTAA  1 
+Dde_1628:-87             (    3) GTCACACAGCTGGCA  1 
+Dde_1062:-115            (    3) GACACAGCACCGTAA  1 
+Dbac_1842:-64            (    3) GTCATTCTTATGTCA  1 
+MAE_18310:-139           (   14) TTTACCGXXXXCTTA  1 
+Sca_0350:-88             (    1) ATTAATAAATAGTTA  1 
+STACA0001_0021:-99       (    1) ATTAATAAATAGTTA  1 
+STACA0001_1401:-65       (    1) GTTAATTGTTACTTA  1 
+efb:-81                  (    1) ATTAATAATTAGTTA  1 
+SA0213:-100              (    1) ATTAATAAATAGTTA  1 
+Tery_2902:-365           (    2) ATAACCCXXXXGTTA  1 
+Dbac_2663:-103           (    3) GTCGCGAAACTGTCG  1 
+Desal_3392:-144          (    3) GTCATTGCTCTGTAA  1 
+PCC8801_1683:-246        (   14) TTAAATTXXXXGTTA  1 
+sll0679:-135             (   14) TTTACTAXXXXCTTA  1 
+SA0389:-175              (    1) ATTAAAAATCAGTTA  1 
+Dbac_0213:-121           (    3) GTGACAGTTTTGTTT  1 
+PCC8801_1024:-108        (   14) TTTACCTXXXXCTTA  1 
+tlr2164:-51              (   14) TTTACCTXXXXCTTA  1 
+SA1007:-190              (    1) TTTAAATAAAAGTTA  1 
+all0911:-105             (   14) TTTACCTXXXXCTTA  1 
+Desal_3091:-280          (    3) GTGACAACTCTGAAA  1 
+DMR_24190:-62            (    3) GACGCGCTATTGTCA  1 
+SA1751:-88               (    1) ATTAATATTCAGTTA  1 
+SA1758:-164              (    1) GTTAATTATTTTTTA  1 
+STACA0001_1401:-87       (    1) GTTAATAAAATTTTA  1 
+SA1818:-87               (    1) GTTAATAATTATTTA  1 
+Dde_1061:-124            (    3) TTCATCAAGCTGTAA  1 
+SA1633:-86               (    1) TTTGATATTTAGTTA  1 
+Desal_2167:-84           (    3) GTTACAAAGTTGTAT  1 
+SA1000:-99               (    1) ATTAATGTTTAGTTA  1 
+PCC8801_3662:-162        (   15) TTAACCXXXXCCTAA  1 
+Tery_3534:-192           (   14) TTAACCTXXXXCTTA  1 
+alr2234:-275             (    2) TTAACCTXXXXCTTA  1 
+sll0654:-210             (   14) TTTCCCTXXXXGTTA  1 
+SA0222:-103              (    1) GTTAATGCTTTGTTT  1 
+DvMF_3186:-133           (    3) GCGACACATCCGTAA  1 
+cce_4392:20              (    2) TTTAACCXXXXCTCA  1 
+cce_0886:-358            (   14) ATAAATAXXXXGTTA  1 
+CYA_2506:-129            (    2) TTAAACAXXXXGCTA  1 
+Dbac_2679:-91            (    3) CTCAACATCCTGTAA  1 
+SA1818:-98               (    1) TTTATGTATTTGTTA  1 
+BPUM_1181:-121           (    2) TTTAACAATTTCCCA  1 
+Dret_1361:-147           (    3) GTCACACGATTGTAT  1 
+SA0393:-123              (    1) ATTAATTTTTAGTTA  1 
+Synpcc7942_0004:-76      (    2) TTAAGTCXXXXGTTA  1 
+Desal_3087:-83           (    3) GTCATCGAATCTTTA  1 
+DvMF_0944:-185           (    3) GACACACGTCCGCCA  1 
+DESPIG_00907:-19         (    3) GACGCGAGGTCGTAA  1 
+SA1631:-99               (    1) GTTAATTAATATTTA  1 
+SYNPCC7002_A2352:-91     (    2) TTAAACTXXXXCTTA  1 
+all0207:-98              (    2) TTAACCCXXXXGATA  1 
+DVU2305:-290             (    3) GCCGCAGAATAGTCA  1 
+Dbac_1842:-104           (    3) GACATCATCCTGTCA  1 
+all1758:-49              (    2) TTTATTAXXXXGTCA  1 
+CYA_1732:-75             (    2) TTAACCTXXXXGATA  1 
+Tery_3661:-342           (   14) ATTACCCXXXXCTTA  1 
+Tery_4937:-158           (   14) ATAAATTXXXXGTTA  1 
+SA1754:-77               (    1) GTTAATGAATAATTA  1 
+SA0663:-99               (    1) GTTAAGCGATATTTA  1 
+DVU3162:-103             (    3) GACGCACTGCCGTAA  1 
+cce_4758:-125            (    2) TTAACCTXXXXCTGA  1 
+Tlet_1702:-86            (    1) GTTAAAAXXXTTTGA  1 
+DvMF_1040:-176           (    3) GCCACCGGGCCGCAA  1 
+PCC8801_1433:-224        (    2) TTAACAGXXXXCTAA  1 
+efb:-85                  (    1) GTTAATTAATAATTA  1 
+cce_1859:-141            (   15) TTAACTXXXXCTTCA  1 
+cce_1163:-109            (   14) TTTACTGXXXXTTTA  1 
+all3822:-149             (   14) TTAAGTAXXXXCTCA  1 
+alr5291:-229             (    2) TTAACCTXXXXTTTA  1 
+MAE_23860:-129           (    2) TTAGCCAXXXXCTAA  1 
+Tery_2568:-208           (   14) TTAACCTXXXXGTTT  1 
+Tery_3699:-97            (    2) TTAAGGAXXXXCTTA  1 
+DESPIG_00907:-30         (    3) GTCACATCATTGACG  1 
+OB0584:-91               (    2) GGAAAAAXTGTGTAA  1 
+BLi01390:-94             (    2) TTTGACAATTTCCCA  1 
+Cyan7425_4387:-102       (   15) TTACCTXXXXCCTTA  1 
+SE2396:-65               (    1) ATTAATAATTTTTTA  1 
+SE0481:-100              (    1) TTTAATTCTTTTTTA  1 
+STACA0001_0321:-100      (    1) TTTAATTCTTTTTTA  1 
+cce_5183:-74             (   14) TTAATCAXXXXCTTA  1 
+cce_0886:-53             (   14) TTTAAGAXXXXGTTT  1 
+Cyan7425_4261:-146       (   14) TTTACCTXXXXCATA  1 
+SYNW2391:-78             (    2) TTGATCAXXXXCTTA  1 
+BSU12900:-120            (    2) TTTCACAATTTCCCA  1 
+RBAM_012750:-111         (    2) TTTCACAATTTCCCA  1 
+SSP0542:-67              (    1) GTTCATATTXXGTTC  1 
+SH0698:-65               (    1) GTTCATATTXXGTTC  1 
+Kole_0711:-79            (    1) ATAAAAAXXXCCTAA  1 
+SE1940:-63               (    1) GTTCATATTXXGTTC  1 
+Sca_1862:-66             (    1) GTTCATATTXXGTTC  1 
+STACA0001_1124:-64       (    1) GTTCATATTXXGTTC  1 
+MCCL_0087:-66            (    1) GTTCATATTXXGTTC  1 
+SA2150:-68               (    1) GTTCATATTXXGTTC  1 
+Synpcc7942_1392:-233     (    2) TTAACTAXXXXCATA  1 
+Dbac_1141:-107           (    3) GTCATCCGATTTTGA  1 
+CYA_1541:-172            (    2) TTAACCTXXXXCATA  1 
+sll0654:-175             (    2) TTAACCTXXXXCATA  1 
+MAE_02800:-66            (    2) TTTATCTXXXXCTTA  1 
+SA1633:-97               (    1) GTTAATACATTTTTG  1 
+Dret_2292:-102           (    3) GCCATGCCTGTGTCA  1 
+SYNPCC7002_A2352:-182    (    2) TTTAATTXXXXTTTA  1 
+Dbac_2705:-70            (    3) GCCATGCAAGCGTAA  1 
+cce_5174:-70             (   14) ATAAAGTXXXXCTTA  1 
+tll1671:-171             (    2) TTAACCCXXXXCTTG  1 
+PCC8801_0346:-91         (   14) ATTACCTXXXXGTTT  1 
+Cyan7425_0664:-80        (    2) TTAATCTXXXXCTTA  1 
+slr1247:-342             (    2) TTAATCTXXXXCTTA  1 
+MAE_18440:-86            (   14) ATTACCTXXXXGTTT  1 
+SE2396:-288              (    1) TTTAATAATAAATTA  1 
+Tery_0739:-250           (    2) TAAAACTXXXXCTTA  1 
+slr0115:-174             (    2) TTACCCAXXXXTTTA  1 
+SA1819:-110              (    1) ATTAATATATATTTA  1 
+cce_4621:-88             (    2) TTAAAGTXXXXTTTA  1 
+null:-268                (    2) TTAAAAAXXXXATTA  1 
+cce_0154:-83             (    2) TTTATCTXXXXGATA  1 
+all4021:-136             (    2) GTAAACTXXXXGATT  1 
+TRQ2_1556:-90            (    1) CTTAACAXXXCTTAA  1 
+Tpet_1507:-89            (    1) CTTAACAXXXCTTAA  1 
+CTN_1309:-81             (    1) CTTAACAXXXCTTAA  1 
+Tnap_1530:-89            (    1) CTTAACAXXXCTTAA  1 
+TM1264:-89               (    1) CTTAACAXXXCTTAA  1 
+Tmel_1829:-84            (    1) CTTAACAXXXCTTAA  1 
+THA_124:-87              (    1) CTTAACAXXXCTTAA  1 
+BSU33000:-221            (    2) TTTCATAATTTCACA  1 
+BLi03481:-182            (    2) TTTCATAATTTCACA  1 
+RBAM_030110:-221         (    2) TTTCATAATTTCACA  1 
+MAE_18380:-87            (   14) TTAACCTXXXXCTTT  1 
+Cyan7425_1977:-238       (    2) TTATCCCXXXXGTTA  1 
+Cyan7425_0207:-81        (    2) TTAACGAXXXXCTTT  1 
+BSU04470:-115            (   13) CCAAAATGTCCGTTA  1 
+RBAM_004800:-105         (   13) CCAAAATGTCCGTTA  1 
+PCC8801_1625:-95         (   14) ATAGCCTXXXXGATA  1 
+SH0654:-118              (    3) TAGGACATTCCCTAA  1 
+SE1975:-113              (    3) TAGGACATTCCCTAA  1 
+Pmob_1932:-87            (    1) CTTAATAXXXCTTAA  1 
+Fnod_1428:-89            (    1) CTTAATAXXXCTTAA  1 
+alr4975:-10              (   14) GTTACCTXXXXATTT  1 
+STACA0001_1080:-116      (    2) TTAGGTATTTCCCTA  1 
+SA2185:-134              (    2) TTAGGTGATTCCCTA  1 
+SYNPCC7002_A2120:-309    (   14) TTTACTAXXXXTTTG  1 
+alr5259:-329             (    1) GTAAAACTXXXXTTT  1 
+Tery_2653:-43            (   14) TTTGATAXXXXATTA  1 
+Sca_1894:-123            (    3) TAGGAGAATCCCTAA  1 
+BLi01390:-73             (    2) TTTCATGTTATCCCA  1 
+CTN_0567:-152            (    3) TACCATAATTCGGCA  1 
+MCCL_0136:-85            (    2) TTAGGACATTCCCCA  1 
+ABC3378:-113             (    1) CTCAGCCTCTAGTCG  1 
+Tery_0954:-309           (    2) TTAACCAXXXXATTG  1 
+SYNPCC7002_A1357:-125    (    1) GCTAACCTXXXXCTA  1 
+BSU12900:-99             (    2) TTTCATTTTATCCCA  1 
+BSU33000:-200            (    2) TTTCATTTTATCCCA  1 
+BPUM_1181:-100           (    2) TTTCATTTTATCCCA  1 
+BLi03481:-161            (    2) TTTCATTTTATCCCA  1 
+RBAM_030110:-200         (    2) TTTCATTTTATCCCA  1 
+RBAM_012750:-90          (    2) TTTCATTTTATCCCA  1 
+cce_3317:-44             (   14) TTTATTTXXXXTTTA  1 
+SYNPCC7002_A1232:-126    (    2) TTAAACTXXXXGATT  1 
+all0129:-101             (   13) TTTAAAATXXXXTTT  1 
+PCC8801_1847:-43         (    3) TAAATTXXXXTCTTA  1 
+OB0583:-88               (    3) TACACAXTTTTTCCA  1 
+TRQ2_0825:-143           (    3) TACCATAATACGGTA  1 
+Tpet_0802:-143           (    3) TACCATAATACGGTA  1 
+Tnap_0752:-143           (    3) TACCATAATACGGTA  1 
+TM0122:-143              (    3) TACCATAATACGGTA  1 
+MCCL_1342:-118           (    2) ATAGGGAAATCCCTA  1 
+BPUM_0419:-123           (    9) AAGACCAAAATGTAC  1 
+BPUM_2952:-122           (    2) TTATATAATTTGACA  1 
+BSU33130:-99             (    3) ACGACTCCGGTCTTA  1 
+STACA0001_1087:-172      (    3) AAGGGTAAATCCTTA  1 
+SA2176:-184              (    3) AAGGGAAAATCCTTA  1 
+cce_1211:-143            (    2) ATAATCTXXXXGTTT  1 
+all4575:-324             (    2) TTTATCTXXXXCTTT  1 
+PCC8801_0430:-278        (    1) TTAAAATTXXXXTTT  1 
+SH0661:-141              (    3) AAGGGAATATCCTTA  1 
+OB2826:-100              (    1) ATACACCTTAAGTCT  1 
+GK0561:71                (    2) GACCAAAAAGACCAA  1 
+BH0753:-94               (    2) GACAACXXTGTCACC  1 
+Sca_1887:-157            (    3) AAGGGAAAGCCCTTA  1 
+BSU33010:-72             (    2) GTGAAATTATGAAAA  1 
+BLi03482:-72             (    2) GTGAAATTATGAAAA  1 
+RBAM_030120:-71          (    2) GTGAAATTATGAAAA  1 
+Tery_0682:-336           (    8) TXXXXGTTTTTGTXX  1 
+RBAM_030260:-99          (    3) ACGACTCCGGTCTGA  1 
+Aflv_0168:-52            (    1) ATACGCCTTGAGTCG  1 
+Sca_1899:-93             (    2) TAAGGGGATTCCCTA  1 
+ISM_13540:-106           (    3) GTCGXXXXXXXXXXX  1 
+SE1968:-165              (    3) CAGGGTATGTCCTTA  1 
+SE1978:-174              (    2) TTAGGGAAATCCCCG  1 
+SA2189:-93               (    1) ATCAGGGAATTCCCT  1 
+BSU33010:-94             (    1) TGGGATAAAATGAAA  1 
+BPUM_2953:-84            (    1) TGTGAAATTGTGAAA  1 
+BLi03482:-94             (    1) TGGGATAAAATGAAA  1 
+RBAM_030120:-93          (    1) TGGGATAAAATGAAA  1 
+STACA0001_1076:-93       (    2) TAAGGGTATTCCCTA  1 
+BPUM_2968:-100           (    1) TTACGACTCTGGTCG  1 
+BC1435:-102              (    1) CTCGGTCTTAAGTCT  1 
+SH0651:-170              (    1) ATTAGGGAATTCCCC  1 
+PCC8801_4067:-157        (    8) TXXXXCTTTTTCTXX  1 
+BSU34700:-96             (    2) GACAGCXXTGTAAGA  1 
+GK0430:-92               (    1) ATACGCCTCGAGTCG  1 
+BPUM_2953:-230           (    2) GTCAAATTATATAAT  1 
+BLi03497:-99             (    3) ACGACCCTGGTCGTA  1 
+Tery_4322:-395           (   10) XXXAATTATTTXXXX  1 
+Pjdr2_4843:-123          (    2) GACAAAXXCGTAAGA  1 
+EE36_04883:-95           (    6) GXXXXXXXXXXXXGA  1 
+RSP_1681:-81             (    6) GXXXXXXXXXXXXGA  1 
+OB2597_10164:-91         (    6) GXXXXXXXXXXXXGA  1 
+SPO0710:-91              (    6) GXXXXXXXXXXXXGA  1 
+MED193_16484:-93         (    6) GXXXXXXXXXXXXGA  1 
+RB2654_15916:-90         (    6) GXXXXXXXXXXXXGA  1 
+OG2516_08703:-94         (    3) TTCGXXXXXXXXXXX  1 
+TM1040_2441:-89          (    3) TTCGXXXXXXXXXXX  1 
+BH1195:-98               (    1) CTCAGACTCAAGGCG  1 
+RB2654_15916:-72         (    6) TXXXXXXXXXXXXGA  1 
+ABC3229:-108             (    2) GACAAAXXTGTAAGC  1 
+Pjdr2_4787:-115          (    1) CTCCGTCTCGAGACC  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 15 n= 2337 bayes= 2.66654 E= 4.9e-206 
+  -143   -183    171      3 
+  -140   -202   -283    121 
+   -23     37    -37      7 
+   135    -86    -38   -444 
+    44    103    -78   -189 
+   -30     60    -22    -13 
+    39    -18      9    -37 
+    31    -41    -20     -1 
+    19    -78    -21     23 
+   -51     21    -44     34 
+   -46     47   -139     34 
+  -244     23    203   -159 
+  -151   -106   -226    112 
+   -57     38    -83     36 
+   148   -230   -162   -216 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 15 nsites= 318 E= 4.9e-206 
+ 0.111001  0.057246  0.472151  0.359602 
+ 0.113157  0.050446  0.020255  0.816142 
+ 0.254667  0.264282  0.111450  0.369601 
+ 0.760017  0.112697  0.110997  0.016289 
+ 0.404342  0.416510  0.084055  0.095093 
+ 0.242367  0.309657  0.124057  0.323919 
+ 0.392322  0.180216  0.153293  0.274170 
+ 0.370235  0.154184  0.125296  0.350284 
+ 0.340995  0.118951  0.124843  0.415211 
+ 0.209198  0.236653  0.106003  0.448145 
+ 0.216857  0.282276  0.055152  0.445715 
+ 0.054956  0.239191  0.588559  0.117294 
+ 0.104661  0.098258  0.030142  0.766938 
+ 0.200599  0.264859  0.081336  0.453207 
+ 0.832674  0.041588  0.046744  0.078993 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+[GT]T[TCA]A[CA][TCA][AT][AT][TA][TCA][TCA][GC]T[TCA]A
+--------------------------------------------------------------------------------
+
+
+
+
+Time  8.58 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+RB2654_15916:-72                 9.71e-01  24
+RB2654_15916:-90                 8.66e-01  24
+MED193_16484:-93                 8.66e-01  24
+ISM_13540:-106                   6.59e-01  24
+SPO0710:-91                      8.66e-01  24
+TM1040_2441:-89                  8.96e-01  25
+SA2150:-68                       5.62e-02  20
+SA2185:-134                      1.11e-01  18
+SA2176:-184                      2.52e-01  18
+DvMF_0944:-185                   8.93e-03  18
+SA2189:-93                       3.96e-01  18
+DvMF_0617:-37                    8.19e-04  18
+SA1818:-98                       3.62e-03  16
+DvMF_3186:-281                   1.37e-05  2_[1(3.43e-06)]_1
+SA1818:-87                       2.46e-03  16
+DvMF_3186:-133                   6.14e-03  18
+SA0663:-99                       6.71e-03  16
+DvMF_1169:-141                   9.44e-05  2_[1(2.36e-05)]_1
+SA0663:-78                       4.72e-05  [1(2.36e-05)]_1
+DvMF_0655:-218                   2.40e-03  18
+SA1758:-175                      4.72e-05  [1(2.36e-05)]_1
+Fnod_1428:-89                    7.91e-02  17
+SA1758:-164                      2.32e-03  16
+GK2342:-98                       9.41e-05  1_[1(3.14e-05)]_1
+SA2206:-92                       3.85e-05  [1(1.92e-05)]_1
+GK0561:71                        8.50e-01  36
+SA0387:-145                      7.63e-04  16
+GK0430:-92                       4.61e-01  18
+SA0387:-134                      7.63e-04  16
+MCCL_0087:-66                    5.62e-02  20
+SA0389:-175                      2.07e-03  16
+MCCL_0136:-85                    1.39e-01  18
+SA0393:-123                      4.03e-03  16
+MCCL_1342:-118                   1.98e-01  18
+SA1631:-121                      3.54e-04  16
+MAE_18380:-87                    3.00e-01  32
+SA1631:-99                       4.71e-03  16
+MAE_23860:-129                   1.02e-01  32
+SA1819:-110                      2.98e-02  16
+MAE_18440:-86                    2.07e-01  32
+SA1754:-77                       6.39e-03  16
+MAE_02800:-66                    1.72e-01  32
+SA1633:-86                       2.60e-03  16
+MAE_18310:-139                   1.29e-02  32
+SA1633:-97                       2.25e-02  16
+all3651:-119                     9.47e-03  32
+SA1633:-108                      8.25e-05  [1(4.13e-05)]_1
+alr5291:-229                     1.02e-01  32
+SA1000:-99                       2.75e-03  16
+all4021:-136                     2.72e-01  32
+SA1000:-88                       3.85e-05  [1(1.92e-05)]_1
+alr5259:-329                     4.34e-01  32
+SA0357:-95                       2.43e-04  16
+all1758:-49                      4.84e-02  32
+SA0213:-100                      1.54e-03  16
+all0129:-101                     5.14e-01  32
+SA1751:-88                       2.32e-03  16
+all3822:-149                     9.72e-02  32
+SA1813:-99                       3.54e-04  16
+alr4975:-10                      4.01e-01  32
+SA1638:-86                       5.83e-04  16
+alr2234:-275                     2.59e-02  32
+SA1638:-335                      4.72e-05  [1(2.36e-05)]_1
+all0207:-98                      4.38e-02  32
+SA0396:-253                      3.54e-04  16
+all0911:-105                     1.96e-02  32
+SA2208:-86                       7.55e-05  [1(3.77e-05)]_1
+all4575:-324                     7.49e-01  32
+SA1007:-190                      2.19e-03  16
+OB2597_10164:-91                 8.66e-01  24
+efb:-81                          1.54e-03  16
+OG2516_08703:-94                 8.43e-01  23
+OB0833:-115                      9.41e-05  1_[1(3.14e-05)]_1
+SYNPCC7002_A1357:-125            5.25e-01  32
+OB0584:-91                       1.85e-02  17
+SYNPCC7002_A2352:-182            1.92e-01  32
+OB0583:-88                       1.44e-01  17
+efb:-85                          8.96e-03  16
+SYNPCC7002_A2352:-91             4.38e-02  32
+OB2826:-100                      2.85e-01  18
+SA0222:-82                       6.27e-05  [1(3.14e-05)]_1
+SYNPCC7002_A1232:-126            5.49e-01  32
+Pjdr2_4787:-115                  8.91e-01  18
+SA0222:-103                      3.07e-03  16
+SYNPCC7002_A2120:-309            4.34e-01  32
+Pjdr2_4843:-123                  3.25e-01  16
+STACA0001_1124:-64               5.62e-02  20
+SYNW2391:-78                     1.42e-01  32
+Pmob_1932:-87                    7.91e-02  17
+STACA0001_1080:-116              1.11e-01  18
+sll0679:-135                     1.84e-02  32
+BSU33130:-99                     2.15e-01  18
+DMR_24190:-62                    4.63e-03  18
+RSP_1681:-81                     8.66e-01  24
+STACA0001_1087:-172              2.33e-01  18
+sll0654:-210                     2.73e-02  32
+BSU34700:-96                     2.60e-01  16
+DMR_02640:-83                    8.59e-06  2_[1(2.15e-06)]_1
+STACA0001_1076:-93               4.04e-01  18
+sll0654:-175                     1.72e-01  32
+cce_1163:-109                    9.72e-02  32
+DMR_38880:-100                   2.11e-05  2_[1(5.27e-06)]_1
+STACA0001_1401:-65               1.54e-03  16
+slr1247:-342                     2.07e-01  32
+cce_1859:-141                    8.90e-02  32
+DESPIG_00907:-41                 4.97e-05  2_[1(1.24e-05)]_1
+STACA0001_1401:-87               2.46e-03  16
+slr0115:-174                     2.38e-01  32
+cce_0886:-53                     1.36e-01  32
+DESPIG_00907:-30                 2.46e-02  18
+STACA0001_0321:-79               1.27e-04  [1(6.37e-05)]_1
+THA_124:-87                      5.35e-02  17
+cce_0886:-358                    3.04e-02  32
+DESPIG_00907:-19                 9.41e-03  18
+STACA0001_0021:-99               1.54e-03  16
+Tmel_1829:-84                    5.35e-02  17
+cce_3317:-44                     5.49e-01  32
+DESPIG_03037:-147                1.97e-04  2_[1(4.92e-05)]_1
+STACA0001_0321:-100              1.48e-02  16
+tlr2164:-51                      1.96e-02  32
+cce_1211:-143                    7.39e-01  32
+DESPIG_03037:-91                 1.63e-03  18
+Sca_1862:-66                     5.62e-02  20
+tll1671:-171                     2.00e-01  32
+cce_4621:-88                     2.46e-01  32
+DESPIG_03037:-80                 6.95e-05  2_[1(1.74e-05)]_1
+Sca_1899:-93                     3.50e-01  18
+null:-268                        2.63e-01  32
+cce_4758:-125                    6.47e-02  32
+DESPIG_03036:-149                4.85e-04  18
+Sca_1887:-157                    3.13e-01  18
+Tlet_1702:-86                    1.22e-02  17
+cce_5183:-74                     1.31e-01  32
+DESPIG_03036:-93                 1.25e-04  2_[1(3.14e-05)]_1
+Sca_1894:-123                    1.23e-01  18
+TM1264:-89                       5.35e-02  17
+cce_4392:20                      2.89e-02  32
+Dbac_1141:-118                   2.55e-04  2_[1(6.37e-05)]_1
+Desal_2167:-95                   4.48e-05  2_[1(1.12e-05)]_1
+Sca_0350:-88                     1.54e-03  16
+TM0122:-143                      2.41e-01  19
+cce_5174:-70                     2.00e-01  32
+Dbac_1141:-107                   3.94e-02  18
+Desal_2167:-84                   5.49e-03  18
+Sca_1510:-50                     1.06e-03  16
+Tnap_1530:-89                    5.35e-02  17
+cce_0154:-83                     2.72e-01  32
+Dbac_1842:-104                   1.04e-02  18
+Desal_0095:-198                  1.38e-04  2_[1(3.44e-05)]_1
+SE1940:-63                       5.62e-02  20
+Tnap_0752:-143                   2.41e-01  19
+Cyan7425_0207:-81                3.09e-01  32
+Dbac_1842:-64                    2.71e-03  18
+Desal_0095:-68                   1.09e-03  18
+SE1978:-174                      3.72e-01  18
+CTN_1309:-81                     5.35e-02  17
+Cyan7425_4261:-146               1.42e-01  32
+Dbac_1842:-53                    1.74e-03  18
+Desal_1742:-232                  2.40e-03  18
+SE1968:-165                      3.65e-01  18
+CTN_0567:-152                    1.66e-01  19
+Cyan7425_4387:-102               1.15e-01  32
+Dbac_2694:-114                   1.51e-04  2_[1(3.77e-05)]_1
+Desal_3695:-76                   2.40e-03  18
+SE1975:-113                      9.40e-02  18
+Tpet_1507:-89                    5.35e-02  17
+Cyan7425_1977:-238               3.09e-01  32
+Dbac_2694:-62                    7.24e-06  2_[1(1.81e-06)]_1
+Desal_3694:-85                   1.98e-03  18
+SE0481:-79                       4.72e-05  [1(2.36e-05)]_1
+Tpet_0802:-143                   2.41e-01  19
+Cyan7425_0664:-80                2.07e-01  32
+Dbac_2694:-51                    1.59e-05  2_[1(3.97e-06)]_1
+Desal_3392:-166                  5.24e-04  18
+SE2396:-288                      2.86e-02  16
+TRQ2_1556:-90                    5.35e-02  17
+PCC8801_1024:-108                1.96e-02  32
+Dbac_2705:-141                   2.77e-04  2_[1(6.92e-05)]_1
+Desal_3392:-144                  3.67e-03  18
+SE2396:-65                       1.41e-02  16
+TRQ2_0825:-143                   2.41e-01  19
+PCC8801_4067:-157                7.39e-01  32
+Dbac_2705:-130                   1.14e-04  2_[1(2.86e-05)]_1
+Desal_3087:-83                   8.93e-03  18
+SE0481:-100                      1.48e-02  16
+Kole_0711:-79                    2.85e-02  17
+PCC8801_1433:-224                7.43e-02  32
+Dbac_2705:-70                    4.83e-02  18
+Desal_3091:-280                  4.63e-03  18
+SE0163:-99                       3.85e-05  [1(1.92e-05)]_1
+Tery_3534:-192                   2.59e-02  32
+PCC8801_1847:-43                 6.07e-01  32
+Dbac_2663:-180                   4.85e-04  18
+Desal_3473:-115                  2.34e-04  2_[1(5.85e-05)]_1
+SH0698:-65                       5.62e-02  20
+Tery_2653:-43                    4.45e-01  32
+PCC8801_4178:-104                9.47e-03  32
+Dbac_2663:-103                   3.67e-03  18
+DVU0093:-110                     1.01e-05  2_[1(2.52e-06)]_1
+SH0651:-170                      3.72e-01  18
+Tery_4322:-395                   9.50e-01  32
+PCC8801_1683:-246                1.74e-02  32
+Dbac_2704:-107                   7.69e-05  2_[1(1.92e-05)]_1
+DVU1959:-98                      7.61e-04  18
+SH0661:-141                      2.85e-01  18
+Tery_3699:-97                    1.06e-01  32
+PCC8801_0430:-278                7.59e-01  32
+Dbac_2704:-96                    1.65e-04  2_[1(4.13e-05)]_1
+DVU1959:-87                      8.59e-06  2_[1(2.15e-06)]_1
+SH0654:-118                      9.40e-02  18
+Tery_0682:-336                   3.90e-01  32
+PCC8801_0346:-91                 2.07e-01  32
+Dbac_2662:-98                    2.43e-05  2_[1(6.08e-06)]_1
+DVU2305:-290                     1.04e-02  18
+SSP0542:-67                      5.62e-02  20
+Tery_2568:-208                   1.06e-01  32
+PCC8801_3887:-183                9.47e-03  32
+Dbac_2679:-113                   6.21e-05  2_[1(1.55e-05)]_1
+DVU2305:-279                     1.51e-04  2_[1(3.77e-05)]_1
+EE36_04883:-95                   8.66e-01  24
+Tery_0739:-250                   2.38e-01  32
+PCC8801_1625:-95                 3.38e-01  32
+Dbac_2679:-91                    7.23e-03  18
+DVU2305:-137                     6.95e-05  2_[1(1.74e-05)]_1
+Synpcc7942_0004:-76              3.96e-02  32
+Tery_4937:-158                   5.60e-02  32
+PCC8801_3662:-162                2.59e-02  32
+Dde_1062:-115                    2.71e-03  18
+DVU0013:-44                      2.55e-04  2_[1(6.37e-05)]_1
+Synpcc7942_1392:-233             1.66e-01  32
+Tery_0954:-309                   5.14e-01  32
+PCC8801_2302:-232                6.84e-03  32
+Dde_1062:-241                    1.65e-04  2_[1(4.13e-05)]_1
+DVU2747:-57                      2.43e-05  2_[1(6.08e-06)]_1
+CYA_1552:-203                    4.55e-03  32
+Tery_2902:-365                   1.55e-02  32
+Dret_1361:-147                   7.62e-03  18
+Dde_2387:-88                     3.83e-04  2_[1(9.58e-05)]_1
+DVU3162:-103                     1.47e-02  18
+CYA_1732:-75                     5.08e-02  32
+Tery_3661:-342                   5.34e-02  32
+Dret_2292:-102                   4.64e-02  18
+Dde_1216:-95                     1.86e-03  18
+DVU1083:-179                     9.44e-04  18
+CYA_1541:-172                    1.72e-01  32
+Dret_1981:-203                   1.63e-03  18
+Dde_3324:-253                    9.44e-05  2_[1(2.36e-05)]_1
+DVU1083:-85                      2.77e-04  2_[1(6.92e-05)]_1
+CYA_2506:-129                    3.21e-02  32
+Dret_0464:-267                   4.48e-05  2_[1(1.12e-05)]_1
+Dde_3782:-48                     1.33e-03  18
+DVU2477:-87                      2.55e-03  18
+Dret_0464:-96                    3.01e-04  2_[1(7.52e-05)]_1
+Dde_3781:-202                    3.52e-05  2_[1(8.80e-06)]_1
+DvMF_2565:-122                   2.25e-03  18
+Dbac_0213:-132                   9.44e-05  2_[1(2.36e-05)]_1
+Dde_3781:-232                    1.33e-03  18
+DvMF_1040:-156                   1.04e-04  2_[1(2.59e-05)]_1
+Dbac_0213:-121                   4.38e-03  18
+Dde_1628:-87                     2.71e-03  18
+DvMF_1040:-176                   1.70e-02  18
+Dbac_0213:-40                    1.01e-03  18
+Dde_1185:-113                    2.15e-04  2_[1(5.36e-05)]_1
+DvMF_0882:-86                    8.19e-04  18
+Dbac_1141:-129                   1.59e-05  2_[1(3.97e-06)]_1
+Dde_0275:-19                     3.52e-05  2_[1(8.80e-06)]_1
+DvMF_0882:-180                   9.44e-05  2_[1(2.36e-05)]_1
+Dde_1061:-124                    5.19e-03  18
+Ddes_0567:-82                    2.11e-05  2_[1(5.27e-06)]_1
+Ddes_0566:-99                    8.79e-04  18
+DMR_33040:-181                   1.33e-03  18
+DMR_33040:-170                   1.16e-03  18
+DMR_13500:-85                    1.16e-03  18
+DMR_08630:-116                   8.59e-06  2_[1(2.15e-06)]_1
+DMR_08630:-31                    6.57e-04  18
+DMR_08520:-65                    1.43e-03  18
+DMR_20230:-292                   1.98e-03  18
+DMR_20240:-116                   1.80e-04  2_[1(4.50e-05)]_1
+Aflv_0168:-52                    3.42e-01  18
+RBAM_027310:-110                 9.41e-05  1_[1(3.14e-05)]_1
+RBAM_012750:-90                  8.46e-02  16
+RBAM_030110:-200                 8.46e-02  16
+RBAM_012750:-111                 1.91e-02  16
+RBAM_030120:-71                  1.75e-01  16
+RBAM_030110:-221                 3.88e-02  16
+RBAM_030120:-93                  2.28e-01  16
+RBAM_004800:-105                 3.96e-01  36
+RBAM_030260:-99                  3.35e-01  18
+BC1435:-102                      4.28e-01  18
+ABC3378:-113                     1.44e-01  18
+ABC3229:-108                     6.24e-01  16
+BH3913:-121                      9.41e-05  1_[1(3.14e-05)]_1
+BH1195:-98                       7.13e-01  18
+BH0753:-94                       1.71e-01  16
+BLi04211:-105                    9.41e-05  1_[1(3.14e-05)]_1
+BLi03482:-72                     1.75e-01  16
+BLi03482:-94                     2.28e-01  16
+BLi01390:-73                     6.76e-02  16
+BLi01390:-94                     1.35e-02  16
+BLi03481:-161                    8.46e-02  16
+BLi03481:-182                    3.88e-02  16
+BLi03497:-99                     4.69e-01  18
+BPUM_2594:-110                   9.41e-05  1_[1(3.14e-05)]_1
+BPUM_1181:-100                   8.46e-02  16
+BPUM_2953:-84                    2.08e-01  16
+BPUM_1181:-121                   3.82e-03  16
+BPUM_2952:-122                   1.11e-01  16
+BPUM_2953:-230                   2.71e-01  16
+BPUM_0419:-123                   7.14e-01  36
+BPUM_2968:-100                   4.12e-01  18
+BSU30380:-106                    9.41e-05  1_[1(3.14e-05)]_1
+BSU33000:-200                    8.46e-02  16
+BSU12900:-99                     8.46e-02  16
+BSU12900:-120                    1.91e-02  16
+BSU33000:-221                    3.88e-02  16
+BSU33010:-72                     1.75e-01  16
+BSU33010:-94                     2.28e-01  16
+BSU04470:-115                    3.96e-01  36
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because motif E-value > 1.00e+01.
+********************************************************************************
+********************************************************************************

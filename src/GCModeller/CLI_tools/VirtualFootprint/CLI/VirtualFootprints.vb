@@ -544,7 +544,7 @@ Partial Module CLI
                             .distance = gene.distance,
                             .effector = predict.effector,
                             .family = predict.Family,
-                            .Identities = predict.Identities,
+                            .identities = predict.Identities,
                             .mode = predict.mode,
                             .motif = New NucleotideLocation(gene.left, gene.right, gene.strand),
                             .product = gene.product,

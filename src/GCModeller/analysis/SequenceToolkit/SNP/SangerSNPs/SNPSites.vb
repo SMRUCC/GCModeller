@@ -83,7 +83,7 @@ Namespace SangerSNPs
                                         output_monomorphic As Integer,
                                         Optional ByRef vcf_output_filename$ = Nothing) As SNPsAln
 
-            Dim bases_for_snps As Char()() = New Char(fasta.NumberOfFasta - 1)() {}
+            Dim bases_for_snps As Char()() = New Char(fasta.Count - 1)() {}
             Dim args As New SNPsAln
 
             SNPsAlignment.DetectSNPs(fasta, pure_mode, output_monomorphic, args)

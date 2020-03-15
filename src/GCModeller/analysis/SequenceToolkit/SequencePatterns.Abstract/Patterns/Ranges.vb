@@ -54,8 +54,8 @@ Namespace Motif.Patterns
         Public Property raw As String
         Public Property MaxExpression As String
 
-        Sub New(token As Token(Of Tokens))
-            raw = token.Text
+        Sub New(token As PatternToken)
+            raw = token.text
 
             Dim tokens As String() = raw.Split(","c)
 

@@ -48,7 +48,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -121,7 +120,7 @@ Public Module Greedy
         If nucl.Count = 1 Then
             scsUnion = nucl(Scan0)
         Else
-            scsUnion = nucl.ShortestCommonSuperString
+            scsUnion = (nucl.ShortestCommonSuperString)(Scan0)
         End If
 
         Dim unionFa As New FastaSeq With {

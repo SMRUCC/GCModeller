@@ -139,14 +139,16 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Test if is there any given extension name is equals 
+    ''' to the extension name of the specific file 
+    ''' <paramref name="path"/>.
     ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="isAny">不带小数点的文件拓展名列表</param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function ExtensionSuffix(path$, ParamArray isAny As String()) As String
+    Public Function ExtensionSuffix(path$, ParamArray isAny As String()) As Boolean
         Return path.ExtensionSuffix.DoCall(Function(ext) isAny.Any(Function(s) s.TextEquals(ext)))
     End Function
 

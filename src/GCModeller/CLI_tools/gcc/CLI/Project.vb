@@ -136,15 +136,6 @@ Partial Module CLI
         End If
     End Function
 
-    <Extension>
-    Private Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
-        Return GBFF.File _
-           .LoadDatabase(filePath:=genome) _
-           .ToDictionary(Function(gb)
-                             Return gb.Locus.AccessionID
-                         End Function)
-    End Function
-
     ''' <summary>
     ''' This cli tools is apply for the reference genome model
     ''' </summary>
