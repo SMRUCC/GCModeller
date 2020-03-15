@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Module VCellNetwork
@@ -7,31 +8,62 @@ Module VCellNetwork
     <Extension>
     Public Function CreateGraph(vcell As Vessel) As NetworkGraph
         Dim g As New NetworkGraph
+        Dim processNode As Node
 
         For Each mass As Factor In vcell.MassEnvironment
             g.AddNode(New Node With {.label = mass.ID})
         Next
 
         For Each process As Channel In vcell.Channels
-            Dim processNode As Node = g.AddNode(New Node With {.label = process.ID})
+            processNode = g.AddNode(New Node With {.label = process.ID})
 
             For Each mass In process.GetReactants
-                g.AddEdge(g.GetElementByID(mass.Mass.ID), processNode, mass.Coefficient)
+                Call New Edge With {
+                    .U = g.GetElementByID(mass.Mass.ID),
+                    .V = processNode,
+                    .weight = mass.Coefficient,
+                    .ID = $"{process.ID}.reactant"
+                }.DoCall(AddressOf g.AddEdge)
             Next
             For Each mass In process.GetProducts
-                g.AddEdge(processNode, g.GetElementByID(mass.Mass.ID), mass.Coefficient)
+                Call New Edge With {
+                    .U = processNode,
+                    .V = g.GetElementByID(mass.Mass.ID),
+                    .weight = mass.Coefficient,
+                    .ID = $"{process.ID}.product"
+                }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.forward.activation
-                g.AddEdge(g.GetElementByID(factor.Mass.ID), processNode, factor.Coefficient)
+                Call New Edge With {
+                    .U = g.GetElementByID(factor.Mass.ID),
+                    .V = processNode,
+                    .weight = factor.Coefficient,
+                    .ID = $"{process.ID}.forward.activedBy.{factor.Mass.ID}"
+                }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.forward.inhibition
-                g.AddEdge(g.GetElementByID(factor.Mass.ID), processNode, factor.Coefficient)
+                Call New Edge With {
+                    .U = g.GetElementByID(factor.Mass.ID),
+                    .V = processNode,
+                    .weight = factor.Coefficient,
+                    .ID = $"{process.ID}.forward.inhibitedBy.{factor.Mass.ID}"
+                }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.reverse.activation
-                g.AddEdge(g.GetElementByID(factor.Mass.ID), processNode, factor.Coefficient)
+                Call New Edge With {
+                    .U = g.GetElementByID(factor.Mass.ID),
+                    .V = processNode,
+                    .weight = factor.Coefficient,
+                    .ID = $"{process.ID}.reverse.activedBy.{factor.Mass.ID}"
+                }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.reverse.inhibition
-                g.AddEdge(g.GetElementByID(factor.Mass.ID), processNode, factor.Coefficient)
+                Call New Edge With {
+                    .U = g.GetElementByID(factor.Mass.ID),
+                    .V = processNode,
+                    .weight = factor.Coefficient,
+                    .ID = $"{process.ID}.reverse.inhibitedBy.{factor.Mass.ID}"
+                }.DoCall(AddressOf g.AddEdge)
             Next
         Next
 
