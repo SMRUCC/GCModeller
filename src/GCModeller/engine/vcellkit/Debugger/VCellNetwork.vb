@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -22,7 +23,13 @@ Module VCellNetwork
                     .U = g.GetElementByID(mass.Mass.ID),
                     .V = processNode,
                     .weight = mass.Coefficient,
-                    .ID = $"{process.ID}.reactant"
+                    .ID = $"{process.ID}.reactant"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
             For Each mass In process.GetProducts
@@ -30,7 +37,13 @@ Module VCellNetwork
                     .U = processNode,
                     .V = g.GetElementByID(mass.Mass.ID),
                     .weight = mass.Coefficient,
-                    .ID = $"{process.ID}.product"
+                    .ID = $"{process.ID}.product"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reaction"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.forward.activation
@@ -38,7 +51,13 @@ Module VCellNetwork
                     .U = g.GetElementByID(factor.Mass.ID),
                     .V = processNode,
                     .weight = factor.Coefficient,
-                    .ID = $"{process.ID}.forward.activedBy.{factor.Mass.ID}"
+                    .ID = $"{process.ID}.forward.activedBy.{factor.Mass.ID}"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.activation"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.forward.inhibition
@@ -46,7 +65,13 @@ Module VCellNetwork
                     .U = g.GetElementByID(factor.Mass.ID),
                     .V = processNode,
                     .weight = factor.Coefficient,
-                    .ID = $"{process.ID}.forward.inhibitedBy.{factor.Mass.ID}"
+                    .ID = $"{process.ID}.forward.inhibitedBy.{factor.Mass.ID}"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "forward.inhibition"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.reverse.activation
@@ -54,7 +79,13 @@ Module VCellNetwork
                     .U = g.GetElementByID(factor.Mass.ID),
                     .V = processNode,
                     .weight = factor.Coefficient,
-                    .ID = $"{process.ID}.reverse.activedBy.{factor.Mass.ID}"
+                    .ID = $"{process.ID}.reverse.activedBy.{factor.Mass.ID}"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.activation"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
             For Each factor In process.reverse.inhibition
@@ -62,7 +93,13 @@ Module VCellNetwork
                     .U = g.GetElementByID(factor.Mass.ID),
                     .V = processNode,
                     .weight = factor.Coefficient,
-                    .ID = $"{process.ID}.reverse.inhibitedBy.{factor.Mass.ID}"
+                    .ID = $"{process.ID}.reverse.inhibitedBy.{factor.Mass.ID}"，
+                    .data = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reverse.inhibition"}
+                        },
+                        .label = process.ID
+                    }
                 }.DoCall(AddressOf g.AddEdge)
             Next
         Next
