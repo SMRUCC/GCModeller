@@ -141,16 +141,42 @@ Module Compiler
         Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
     End Function
 
+    ''' <summary>
+    ''' create genome framework for the virtual cell model
+    ''' </summary>
+    ''' <param name="replicons"></param>
+    ''' <param name="geneKO"></param>
+    ''' <param name="lociAsLocus_tag"></param>
+    ''' <returns></returns>
     <ExportAPI("assembling.genome")>
-    Public Function AssemblingGenomeInformation(replicons As Dictionary(Of String, GBFF.File), geneKO As Dictionary(Of String, String), Optional lociAsLocus_tag As Boolean = False) As CellularModule
+    Public Function AssemblingGenomeInformation(replicons As Dictionary(Of String, GBFF.File),
+                                                geneKO As Dictionary(Of String, String),
+                                                Optional lociAsLocus_tag As Boolean = False) As CellularModule
+
         Return gccWorkflow.AssemblingGenomeInformation(replicons, geneKO, lociAsLocus_tag)
     End Function
 
+    ''' <summary>
+    ''' add metabolism network information for the virtual cell model
+    ''' </summary>
+    ''' <param name="cell"></param>
+    ''' <param name="geneKO"></param>
+    ''' <param name="repo"></param>
+    ''' <returns></returns>
     <ExportAPI("assembling.metabolic")>
-    Public Function AssemblingMetabolicNetwork(cell As CellularModule, geneKO As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+    Public Function AssemblingMetabolicNetwork(cell As CellularModule,
+                                               geneKO As Dictionary(Of String, String),
+                                               repo As RepositoryArguments) As CellularModule
+
         Return gccWorkflow.AssemblingMetabolicNetwork(cell, geneKO, repo)
     End Function
 
+    ''' <summary>
+    ''' add transcription regulation network information for the virtual cell model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="regulations"></param>
+    ''' <returns></returns>
     <ExportAPI("assembling.TRN")>
     Public Function AssemblingRegulationNetwork(model As CellularModule, regulations As RegulationFootprint()) As CellularModule
         Return gccWorkflow.AssemblingRegulationNetwork(model, regulations)

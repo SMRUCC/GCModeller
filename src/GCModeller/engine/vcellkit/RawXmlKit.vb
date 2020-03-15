@@ -97,7 +97,12 @@ Module RawXmlKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("frame.matrix")>
-    Public Function extractFrameMatrix(raw As String(), tick As Integer, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
+    Public Function extractFrameMatrix(raw As String(),
+                                       tick As Integer,
+                                       <RListObjectArgument>
+                                       stream As Object,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
         Dim message As Message = checkStreamRef(args, env)
 

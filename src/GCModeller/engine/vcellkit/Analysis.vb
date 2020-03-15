@@ -46,11 +46,14 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' GCModeller virtual cell analysis toolkit.
+''' </summary>
 <Package("vcellkit.analysis")>
 Public Module Analysis
 
     ''' <summary>
-    ''' 
+    ''' union of the profile snapshot list to a matrix dataset.
     ''' </summary>
     ''' <param name="result"></param>
     ''' <param name="setName"></param>
@@ -103,6 +106,12 @@ Public Module Analysis
         End If
     End Function
 
+    ''' <summary>
+    ''' set compound names for the kegg metabolites
+    ''' </summary>
+    ''' <param name="metabolites"></param>
+    ''' <param name="names"></param>
+    ''' <returns></returns>
     <ExportAPI("compound.names")>
     Public Function CompoundNames(metabolites As DataSet(), names As Dictionary(Of String, String)) As DataSet()
         If Not names.IsNullOrEmpty Then
