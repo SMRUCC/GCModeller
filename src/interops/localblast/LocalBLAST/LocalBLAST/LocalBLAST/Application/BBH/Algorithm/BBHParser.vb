@@ -51,8 +51,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
-Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LocalBLAST.Application.BBH
@@ -371,7 +369,7 @@ Namespace LocalBLAST.Application.BBH
         ''' 因为qvs表示query vs subject，所以sbh的注释结果来自于subject，则在这里的注释功能描述结果则来自于qvs之中
         ''' </remarks>
         <ExportAPI("BBH")>
-        Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
+        Public Function GetBBHTop(qvs As IEnumerable(Of BestHit), svq As IEnumerable(Of BestHit), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
             Dim qHash As Dictionary(Of String, BestHit) = qvs.bhTopTable(identities, coverage)
             Dim shash As Dictionary(Of String, BestHit) = svq.bhTopTable(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)
@@ -427,45 +425,6 @@ Namespace LocalBLAST.Application.BBH
             VBDebugger.Mute = False
 
             Return result.ToArray
-        End Function
-
-        <ExportAPI("EnzymeClassification")>
-        Public Function EnzymeClassification(Expasy As NomenclatureDB, bh As BBH.BestHit()) As T_EnzymeClass_BLAST_OUT()
-            Dim EnzymeClasses As T_EnzymeClass_BLAST_OUT() =
-                API.GenerateBasicDocument(Expasy.Enzymes)
-            Dim LQuery As T_EnzymeClass_BLAST_OUT() =
-                LinqAPI.Exec(Of T_EnzymeClass_BLAST_OUT) <= From enzPre As T_EnzymeClass_BLAST_OUT
-                                                            In EnzymeClasses.AsParallel
-                                                            Select enzPre.__export(bh)
-            Return LQuery
-        End Function
-
-        <Extension>
-        Private Function __export(enzPre As T_EnzymeClass_BLAST_OUT, bh As BBH.BestHit()) As T_EnzymeClass_BLAST_OUT()
-            Dim getbhLQuery As BestHit() =
-                LinqAPI.Exec(Of BestHit) <= From hit As BBH.BestHit
-                                            In bh
-                                            Where String.Equals(
-                                                hit.HitName,
-                                                enzPre.uniprot,
-                                                StringComparison.OrdinalIgnoreCase)
-                                            Select hit
-
-            If Not getbhLQuery.IsNullOrEmpty Then
-                Dim Linq As T_EnzymeClass_BLAST_OUT() =
-                    LinqAPI.Exec(Of T_EnzymeClass_BLAST_OUT) <= From bhItem As BBH.BestHit
-                                                                In getbhLQuery
-                                                                Select New T_EnzymeClass_BLAST_OUT With {
-                                                                    .Class = enzPre.Class,
-                                                                    .EValue = bhItem.evalue,
-                                                                    .Identity = bhItem.identities,
-                                                                    .ProteinId = bhItem.QueryName,
-                                                                    .uniprot = enzPre.uniprot
-                                                                }
-                Return Linq
-            Else
-                Return Nothing
-            End If
         End Function
     End Module
 End Namespace

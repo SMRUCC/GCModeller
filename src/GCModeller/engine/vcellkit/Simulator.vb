@@ -184,7 +184,9 @@ Public Module Simulator
         Dim massSnapshot = engine.snapshot.mass
         Dim fluxSnapshot = engine.snapshot.flux
 
-        Call massSnapshot.Subset(massIndex.transcriptome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/transcriptome.json")
+        ' rRNA, tRNA会在这产生重复
+        ' 所以在这里会需要进行一次去重操作
+        Call massSnapshot.Subset(massIndex.transcriptome.Distinct.ToArray, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/transcriptome.json")
         Call massSnapshot.Subset(massIndex.proteome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/proteome.json")
         Call massSnapshot.Subset(massIndex.metabolome, ignoreMissing:=True).GetJson.SaveTo($"{save}/mass/metabolome.json")
 

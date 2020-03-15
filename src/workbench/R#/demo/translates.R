@@ -1,6 +1,6 @@
 imports "bioseq.fasta" from "seqtoolkit.dll";
 
-let genes as string = "K:\20200226\X101SC19112292-Z01-J001-B1-16_TR_result\X101SC19112292-Z01-J001-B1-16_results\0.SuppFiles\gene.fasta";
+let genes as string = ?"--seq" || stop("no gene sequence fasta file input provided!");
 let prots as string = `${dirname(genes)}/${basename(genes)}.prot.fasta`;
 let rnaId = $"sRNA\d+";
 

@@ -223,6 +223,7 @@ Namespace SequenceModel.Polypeptides
             {"Ser", "S"},
             {"Thr", "T"}, {"Trp", "W"}, {"Tyr", "Y"},
             {"Val", "V"},
+            {"Sec", "U"}, {"Pyl", "O"},
  _
             {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
             {"CYS", "C"},

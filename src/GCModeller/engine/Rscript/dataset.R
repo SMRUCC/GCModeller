@@ -1,5 +1,4 @@
-imports "vcellkit.analysis" from "vcellkit.dll";
-imports "vcellkit.simulator" from "vcellkit.dll";
+imports ["vcellkit.analysis", "vcellkit.simulator"] from "vcellkit.dll";
 
 # Get data source directory and reference name 
 # from commandline arguments:
