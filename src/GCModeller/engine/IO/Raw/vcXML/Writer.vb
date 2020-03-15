@@ -9,6 +9,8 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 Namespace vcXML
 
@@ -17,8 +19,8 @@ Namespace vcXML
         Dim frameCount As i32 = 1
         Dim fs As StreamWriter
         Dim doReverse As Boolean = False
-        Dim index As New List(Of offset)
-        Dim entityIndex As New List(Of offset)
+        Dim index As New List(Of XmlOffset)
+        Dim entityIndex As New List(Of XmlOffset)
         Dim serializer As New XmlSerializer(GetType(frame))
         Dim md5 As New List(Of String)
         Dim xmlConfig As XmlWriterSettings
@@ -97,7 +99,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 .[module] = [module],
                 .content_type = type
             }
-            Dim offset As New offset With {
+            Dim offset As New XmlOffset With {
                 .id = entityIndex.Count + 1,
                 .offset = fs.BaseStream.Position,
                 .content_type = type,
@@ -122,7 +124,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
                 }
             }
 
-            index += New offset With {
+            index += New XmlOffset With {
                 .id = frame.num,
                 .offset = fs.BaseStream.Position,
                 .content_type = type,

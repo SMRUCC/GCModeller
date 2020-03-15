@@ -13,6 +13,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 ''' <summary>
 ''' 
@@ -59,7 +60,7 @@ Module RawXmlKit
     ''' <returns></returns>
     ''' 
     <ExportAPI("frame.index")>
-    Public Function getOffsetIndex(raw As vcXML.Reader) As offset()
+    Public Function getOffsetIndex(raw As vcXML.Reader) As XmlOffset()
         Return raw.allFrames
     End Function
 
@@ -118,7 +119,7 @@ Module RawXmlKit
 
         For Each file As String In raw
             Using xml As New vcXML.Reader(file)
-                Dim index As offset = xml _
+                Dim index As XmlOffset = xml _
                     .getStreamIndex(moduleName)(contentType) _
                     .Where(Function(frame) frame.tick = tick) _
                     .FirstOrDefault
@@ -174,7 +175,7 @@ Module RawXmlKit
     <ExportAPI("time.frames")>
     Public Function timeFrames(raw As vcXML.Reader, <RListObjectArgument> stream As Object, Optional env As Environment = Nothing) As Object
         Dim args As list = Internal.Invokes.base.Rlist(stream, env)
-        Dim index As offset() = {}
+        Dim index As XmlOffset() = {}
         Dim message As Message = checkStreamRef(args, env)
 
         If Not message Is Nothing Then
@@ -201,7 +202,7 @@ Module RawXmlKit
             .ToArray
         Dim vector As Double()
 
-        For Each offset As offset In index
+        For Each offset As XmlOffset In index
             vector = raw.getFrameVector(offset.offset)
 
             For i As Integer = 0 To vector.Length - 1

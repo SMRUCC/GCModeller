@@ -194,7 +194,7 @@
     <Compile Include="vcXML\XmlHelper.vb" />
     <Compile Include="vcXML\VcellAdapterDriver.vb" />
     <Compile Include="vcXML\Writer.vb" />
-    <Compile Include="vcXML\frame.vb" />
+    <Compile Include="vcXML\XML.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
