@@ -71,7 +71,8 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 prefix:=Nothing,
                 cache:=cache,
                 interval:=interval,
-                offline:=offline
+                offline:=offline,
+                debug:=False
             )
         End Sub
 
