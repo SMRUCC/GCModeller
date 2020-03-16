@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Namespace vcXML
+Namespace vcXML.XML
 
     Public Class vcXMLFile
         Public Property vcRun As vcRun

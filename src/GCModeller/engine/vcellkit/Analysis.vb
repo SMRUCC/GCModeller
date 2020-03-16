@@ -41,16 +41,24 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' GCModeller virtual cell analysis toolkit.
+''' </summary>
 <Package("vcellkit.analysis")>
 Public Module Analysis
 
     ''' <summary>
-    ''' 
+    ''' union of the profile snapshot list to a matrix dataset.
     ''' </summary>
     ''' <param name="result"></param>
     ''' <param name="setName"></param>
@@ -103,6 +111,12 @@ Public Module Analysis
         End If
     End Function
 
+    ''' <summary>
+    ''' set compound names for the kegg metabolites
+    ''' </summary>
+    ''' <param name="metabolites"></param>
+    ''' <param name="names"></param>
+    ''' <returns></returns>
     <ExportAPI("compound.names")>
     Public Function CompoundNames(metabolites As DataSet(), names As Dictionary(Of String, String)) As DataSet()
         If Not names.IsNullOrEmpty Then
@@ -114,6 +128,20 @@ Public Module Analysis
         End If
 
         Return metabolites
+    End Function
+
+    <ExportAPI("vcell.mass.graph")>
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function vcellGraph(vcell As Object, Optional env As Environment = Nothing) As Object
+        If vcell Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf vcell Is Engine Then
+            vcell = DirectCast(vcell, Engine).getCore
+        ElseIf Not TypeOf vcell Is Vessel Then
+            Return Internal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
+        End If
+
+        Return VCellNetwork.CreateGraph(DirectCast(vcell, Vessel))
     End Function
 End Module
 

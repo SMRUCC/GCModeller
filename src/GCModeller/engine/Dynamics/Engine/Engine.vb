@@ -114,6 +114,10 @@ Namespace Engine
             Return Me
         End Function
 
+        Public Function getCore() As Vessel
+            Return core
+        End Function
+
         Public Function LoadModel(virtualCell As CellularModule,
                                   Optional deletions As IEnumerable(Of String) = Nothing,
                                   Optional timeResolution# = 1000,
