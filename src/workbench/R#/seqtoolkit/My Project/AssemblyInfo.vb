@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("seqtoolkit")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyTitle("biological sequence analysis toolkit")>
+<Assembly: AssemblyDescription("motif analysis, similarity search, functional annotations for the biological sequence object.")>
+<Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("seqtoolkit")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC/GCModeller 2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

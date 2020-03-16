@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 Namespace vcXML
 
@@ -13,13 +14,13 @@ Namespace vcXML
         ''' <summary>
         ''' [module -> [type -> offset]]
         ''' </summary>
-        Dim index As Dictionary(Of String, Dictionary(Of String, List(Of offset)))
+        Dim index As Dictionary(Of String, Dictionary(Of String, List(Of XmlOffset)))
         Dim entities As Dictionary(Of String, Dictionary(Of String, String()))
         Dim hash As String
 
         Public ReadOnly Property basename As String
 
-        Public ReadOnly Property allFrames As offset()
+        Public ReadOnly Property allFrames As XmlOffset()
             Get
                 Return index.Values _
                     .IteratesALL _
@@ -37,7 +38,7 @@ Namespace vcXML
             Call loadOffsets()
         End Sub
 
-        Public Function getStreamIndex(name As String) As Dictionary(Of String, List(Of offset))
+        Public Function getStreamIndex(name As String) As Dictionary(Of String, List(Of XmlOffset))
             If Not index.ContainsKey(name) Then
                 Throw New MissingPrimaryKeyException(name)
             Else
@@ -82,7 +83,7 @@ Namespace vcXML
 
             hash = content.Match("<md5>.+</md5>", RegexICSng).GetValue
             fs.BaseStream.Seek(i, SeekOrigin.Begin)
-            index = New Dictionary(Of String, Dictionary(Of String, List(Of offset)))
+            index = New Dictionary(Of String, Dictionary(Of String, List(Of XmlOffset)))
             entities = New Dictionary(Of String, Dictionary(Of String, String()))
 
             Call parseFrameIndex(fs.ReadLine)
@@ -96,8 +97,8 @@ Namespace vcXML
             Dim numOfFrames As Integer = content.attr("size").DoCall(AddressOf Integer.Parse)
             Dim attrs As Dictionary(Of String, String)
             Dim buffer As Byte()
-            Dim offset As offset
-            Dim tmpOffsets As New List(Of offset)
+            Dim offset As XmlOffset
+            Dim tmpOffsets As New List(Of XmlOffset)
 
             Do While numOfFrames > 0 AndAlso Not (line = fs.ReadLine).StringEmpty
                 attrs = line.Value _
@@ -108,7 +109,7 @@ Namespace vcXML
                                  End Function)
                 [module] = attrs!module
                 [type] = attrs!content_type
-                offset = New offset With {
+                offset = New XmlOffset With {
                     .offset = line.Value _
                         .GetValue _
                         .DoCall(AddressOf Long.Parse),
@@ -161,7 +162,7 @@ Namespace vcXML
             Dim module$
             Dim type$
             Dim attrs As Dictionary(Of String, String)
-            Dim offset As offset
+            Dim offset As XmlOffset
             Dim line As Value(Of String) = ""
 
             Do While numOfFrames > 0 AndAlso Not (line = fs.ReadLine).StringEmpty
@@ -175,14 +176,14 @@ Namespace vcXML
                 [type] = attrs!content_type
 
                 If Not index.ContainsKey([module]) Then
-                    index.Add([module], New Dictionary(Of String, List(Of offset)))
+                    index.Add([module], New Dictionary(Of String, List(Of XmlOffset)))
                 End If
                 If Not index([module]).ContainsKey(type) Then
-                    index([module]).Add(type, New List(Of offset))
+                    index([module]).Add(type, New List(Of XmlOffset))
                 End If
 
                 numOfFrames -= 1
-                offset = New offset With {
+                offset = New XmlOffset With {
                     .offset = line.Value _
                         .GetValue _
                         .DoCall(AddressOf Long.Parse),

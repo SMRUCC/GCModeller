@@ -54,8 +54,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
-Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
@@ -117,7 +115,11 @@ Public Module NCBILocalBlast
     End Function
 #End If
 
-    <ExportAPI("Blast.Version()", Info:="Returns the blast program version.")>
+    ''' <summary>
+    ''' Returns the blast program version.
+    ''' </summary>
+    ''' <param name="Handle"></param>
+    ''' <returns></returns>
     Public Function Version(Handle As LocalBLAST.InteropService.InteropService) As String
         Dim ver As String = Handle.Version
         Dim str As String = "NCBI.Localblast " & vbCrLf &
@@ -129,7 +131,7 @@ Public Module NCBILocalBlast
     End Function
 
     ''' <summary>
-    '''
+    ''' Invoke the batch blastn operations for the target query nt sequence.
     ''' </summary>
     ''' <param name="handle"></param>
     ''' <param name="NT">核酸序列的fasta文件的文件路径</param>
@@ -139,7 +141,6 @@ Public Module NCBILocalBlast
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("Blastn", Info:="Invoke the batch blastn operations for the target query nt sequence.")>
     Public Function Blastn(<Parameter("LocalBlast.Handle", "The commandline interop services program for the local blast program.")>
                            Handle As LocalBLAST.InteropService.InteropService,
                            <Parameter("Nt.Query", "The query nt sequence fasta file path.")> NT As String,
@@ -190,7 +191,6 @@ Public Module NCBILocalBlast
     ''' <param name="reversed">假若这个参数为真，则<paramref name="nt"/>参数所指向的fasta序列则会作为参考库</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("Blastn", Info:="Invoke the batch blastn operations for the target query nt sequence.")>
     Public Function Blastn(<Parameter("LocalBlast.Handle")> Handle As LocalBLAST.InteropService.InteropService,
                            nt As String,
                            <Parameter("Source.Genomes")> GenomeSource As IEnumerable(Of String),
@@ -228,7 +228,10 @@ Public Module NCBILocalBlast
     End Function
 
     ''' <summary>
-    '''
+    ''' The proteins parameter can be both of the protein sequence fasta 
+    ''' file or a folder which contains the protein fasta source file as 
+    ''' the blastx subject. nt parameter Is the fasta file path Of the 
+    ''' nucleotide sequence.
     ''' </summary>
     ''' <param name="handle"></param>
     ''' <param name="nt">核酸序列的fasta文件的文件路径</param>
@@ -238,9 +241,6 @@ Public Module NCBILocalBlast
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("blastx",
-               Info:="The proteins parameter can be both of the protein sequence fasta file or a folder which contains the protein fasta source file as the blastx subject. 
-               nt parameter is the fasta file path of the nucleotide sequence.")>
     Public Function BlastX(handle As LocalBLAST.InteropService.InteropService,
                            nt As String,
                            proteins As String,
@@ -282,7 +282,6 @@ Public Module NCBILocalBlast
     ''' </param>
     ''' <returns></returns>
     ''' <remarks>目前blast日志分析模块仅仅能够支持2.2.28版本的blast日志的解析</remarks>
-    <ExportAPI("localblast.session.handles.new()", Info:="If the <para>blastbin</para> is not specific, then the program will search for the blast bin automatically.")>
     Public Function CreateSession(Optional blastbin As String = "") As NCBI.Extensions.LocalBLAST.InteropService.InteropService
         If Not String.IsNullOrEmpty(blastbin) AndAlso
             FileIO.FileSystem.DirectoryExists(blastbin) AndAlso
@@ -348,12 +347,6 @@ Public Module NCBILocalBlast
         Return NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(path, CHUNK_SIZE:=chunk_size * 1024 * 1024)
     End Function
 
-    <ExportAPI("Script.Compile",
-               Info:="The script line should be this format:  script_tokens1;script_tokens2;....  if there is any space in the script line, then the space should wrapped by the ' character.")>
-    Public Function CreateGrepScript(script As String) As TextGrepScriptEngine
-        Return TextGrepScriptEngine.Compile(script)
-    End Function
-
     <ExportAPI("Grep.Query")>
     Public Function GrepQuery(blast_output As BlastPlus.v228, script As TextGrepScriptEngine) As BlastPlus.v228
         Call blast_output.Grep(script.PipelinePointer, Nothing)
@@ -366,7 +359,13 @@ Public Module NCBILocalBlast
         Return blast_output
     End Function
 
-    <ExportAPI("Export.Besthit", Info:="Exports all of the besthit from the blastp output")>
+    ''' <summary>
+    ''' Exports all of the besthit from the blastp output
+    ''' </summary>
+    ''' <param name="blast_output"></param>
+    ''' <param name="saveto"></param>
+    ''' <param name="identities"></param>
+    ''' <returns></returns>
     Public Function ExportBesthit(blast_output As BlastPlus.v228, Optional saveto As String = "", Optional identities As Double = 0.15) As IO.File
         Dim bh As IO.File = blast_output.ExportAllBestHist(identities).ToCsvDoc
         If Not String.IsNullOrEmpty(saveto) Then Call bh.Save(saveto, False)
@@ -423,17 +422,18 @@ Public Module NCBILocalBlast
         Return data.SaveTo(saveCsv, False)
     End Function
 
-    <ExportAPI("Enzyme.Classify")>
-    Public Function ClassifyEnzyme(Expasy As NomenclatureDB, bh As BestHit()) As T_EnzymeClass_BLAST_OUT()
-        Return BBHParser.EnzymeClassification(Expasy, bh)
-    End Function
-
     <ExportAPI("Read.Csv.Myva")>
     Public Function ReadMyvaCOG(path As String) As MyvaCOG()
         Return path.LoadCsv(Of MyvaCOG)(False).ToArray
     End Function
 
-    <ExportAPI("Create.Myva_COG", Info:="blast_output parameter is the original blast output file path.")>
+    ''' <summary>
+    ''' blast_output parameter is the original blast output file path.
+    ''' </summary>
+    ''' <param name="blast_output"></param>
+    ''' <param name="query_grep"></param>
+    ''' <param name="Whog_Xml"></param>
+    ''' <returns></returns>
     Public Function MyvaCogClassify(blast_output As String, query_grep As String, Whog_Xml As String) As MyvaCOG()
         Dim textEngine = TextGrepScriptEngine.Compile(query_grep).PipelinePointer
         Return COGsUtils.MyvaCOGCatalog(blast_output, Whog_Xml,,, textEngine)

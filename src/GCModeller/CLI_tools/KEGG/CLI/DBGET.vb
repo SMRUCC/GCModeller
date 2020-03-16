@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::549bf0fe5515f44bfdd0cf2047d8d84e, CLI_tools\KEGG\CLI\DBGET.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DownloadCompounds, DownloadKEGGReaction, DownloadPathwayMaps, DownloadPathwayMapsBatchTask, DownloadReferenceMapDatabase
-    '               DownloadsAllPathways, DownloadsBacteriasRefMaps, HumanKEGGMaps
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DownloadCompounds, DownloadKEGGReaction, DownloadPathwayMaps, DownloadPathwayMapsBatchTask, DownloadReferenceMapDatabase
+'               DownloadsAllPathways, DownloadsBacteriasRefMaps, HumanKEGGMaps
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Metagenomics
@@ -63,6 +64,17 @@ Imports Organism = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.Organ
 Imports OrganismHText = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Organism
 
 Partial Module CLI
+
+    <ExportAPI("/Download.reaction_class")>
+    <Usage("/Download.reaction_class [/save <dir, default=./>]")>
+    Public Function DownloadReactionClass(args As CommandLine) As Integer
+        Dim save$ = args("/save") Or "./"
+        Dim list = ReactionClassWebQuery.DownloadReactionClass(save).ToArray
+
+        Return list.GetJson _
+            .SaveTo($"{save}/failures.json") _
+            .CLICode
+    End Function
 
     ''' <summary>
     ''' 使用这个工具下载KEGG之中的代谢反应的模型信息
@@ -76,7 +88,7 @@ Partial Module CLI
     <Description("Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.")>
     <Group(CLIGroups.DBGET_tools)>
     <Argument("/compounds", True, CLITypes.File,
-              Description:="If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
+              Description:="If this argument Is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./br08201/"
         Dim compounds$ = args <= "/compounds"
@@ -201,7 +213,7 @@ Partial Module CLI
     <Argument("/sp", False, CLITypes.String,
               PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
-              Description:="The 3 characters kegg organism code, example as: ""xcb"" is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
+              Description:="The 3 characters kegg organism code, example as: ""xcb"" Is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
     <Group(CLIGroups.DBGET_tools)>
     <LastUpdated("2019-06-22 21:00:00.00")>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
@@ -252,8 +264,8 @@ Partial Module CLI
     <Argument("/sp", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String), GetType(Organism)},
               Extensions:="*.txt, *.csv",
-              Description:="A list of kegg species code. If this parameter is a text file, 
-              then each line should be start with the kegg organism code in three or four letters, 
+              Description:="A list of kegg species code. If this parameter Is a text file, 
+              then each line should be start with the kegg organism code in three Or four letters, 
               else if this parameter is a csv table file, then it must in format of kegg organism data model.")>
     Public Function DownloadPathwayMapsBatchTask(args As CommandLine) As Integer
         Dim sp$ = args <= "/sp"

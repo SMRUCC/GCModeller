@@ -503,7 +503,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.NCBILocalBlast" Collapsed="true">
     <Position X="42" Y="10.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAJsAAAQAABiJIAkAAAAggEAAAEAAECAABCQAAgA=</HashCode>
+      <HashCode>IAAAAJsAAAQAABCJIAkAAAAggEAAAEAAACAABCQAAgA=</HashCode>
       <FileName>NCBILocalBlast.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -566,7 +566,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser" Collapsed="true">
     <Position X="45.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgIEEIQAAAACBIBAAAgAAAAABGAAAAAAAAgCQAAAIA=</HashCode>
+      <HashCode>AAgAEAIQAAAACBIBAAAgAAAAABGAAAAAAAAgCQAAAIA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb</FileName>
     </TypeIdentifier>
   </Module>
@@ -662,7 +662,7 @@
   <Module Name="SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.Extensions" Collapsed="true">
     <Position X="40.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pipeline\Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
