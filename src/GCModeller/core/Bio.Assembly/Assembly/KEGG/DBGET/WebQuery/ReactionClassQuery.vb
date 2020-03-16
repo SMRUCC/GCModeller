@@ -120,6 +120,8 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                             .GetXml _
                             .SaveTo(save)
                     End If
+
+                    Call progressbar.SetProgress(progress.StepProgress, $"{number.RCNumber}, ETA={progress.ETA.FormatTime}")
                 Next
             End Using
 
