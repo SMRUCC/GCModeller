@@ -125,6 +125,13 @@ Public Module StreamHelper
     End Sub
 
     <Extension>
+    Public Function CastByte(signed As SByte()) As Byte()
+        Dim unsigned As Byte() = New Byte(signed.Length - 1) {}
+        Buffer.BlockCopy(signed, Scan0, unsigned, Scan0, signed.Length - 1)
+        Return unsigned
+    End Function
+
+    <Extension>
     Public Function CastSByte(unsigned As Byte()) As SByte()
         Dim signed As SByte() = New SByte(unsigned.Length - 1) {}
         Dim b127 As Byte = 127
