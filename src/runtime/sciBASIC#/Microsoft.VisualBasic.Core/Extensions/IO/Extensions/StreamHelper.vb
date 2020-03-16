@@ -123,4 +123,21 @@ Public Module StreamHelper
     Public Sub WriteLine(stream As Stream, Optional value$ = "", Optional encoding As Encoding = Nothing, Optional newLine$ = vbCrLf)
         Call stream.Write(value & newLine, encoding)
     End Sub
+
+    <Extension>
+    Public Function CastSByte(unsigned As Byte()) As SByte()
+        Dim signed As SByte() = New SByte(unsigned.Length - 1) {}
+        Dim b127 As Byte = 127
+        Dim b256 As Short = 256
+
+        For i As Integer = 0 To unsigned.Length - 1
+            If unsigned(i) > b127 Then
+                signed(i) = CSByte(CShort(unsigned(i)) - b256)
+            Else
+                signed(i) = CSByte(unsigned(i))
+            End If
+        Next
+
+        Return signed
+    End Function
 End Module
