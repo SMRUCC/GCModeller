@@ -112,6 +112,10 @@ Namespace StoreProcedure
         Sub New()
         End Sub
 
+        Sub New(samples As IEnumerable(Of Double))
+            Call Me.encodeVector(samples)
+        End Sub
+
         Private Iterator Function decodeVector() As IEnumerable(Of Double)
             Using buffer = status.Base64RawBytes.UnGzipStream
                 For Each block As Byte() In buffer.ToArray.Split(8)
@@ -120,7 +124,7 @@ Namespace StoreProcedure
             End Using
         End Function
 
-        Private Sub encodeVector(data As Double())
+        Private Sub encodeVector(data As IEnumerable(Of Double))
             Using buffer As New MemoryStream
                 For Each x As Double In data
                     buffer.Write(BitConverter.GetBytes(x), Scan0, 8)
