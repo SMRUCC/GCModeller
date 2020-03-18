@@ -363,7 +363,7 @@ Public Module StringHelpers
     <Extension>
     Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter$, Optional toString As Func(Of T, String) = Nothing) As String
         If toString Is Nothing Then
-            toString = AddressOf Scripting.ToString
+            toString = Function(o) Scripting.ToString(o)
         End If
 
         Return data _
