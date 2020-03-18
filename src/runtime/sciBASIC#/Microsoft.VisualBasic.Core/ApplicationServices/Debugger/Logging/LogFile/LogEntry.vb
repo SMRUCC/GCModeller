@@ -61,7 +61,7 @@ Namespace ApplicationServices.Debugging.Logging
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Dim obj As String = TrimObject()
+            Dim obj As String = [object].TrimNewLine
             Dim str As String
 
             If message.Contains(vbCr) OrElse message.Contains(vbLf) Then
@@ -83,11 +83,6 @@ Namespace ApplicationServices.Debugging.Logging
                 .level = level,
                 .time = Now
             }.ToString
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function TrimObject() As String
-            Return object$.Replace(vbCr, " ").Replace(vbLf, " ")
         End Function
     End Structure
 End Namespace
