@@ -86,11 +86,12 @@ Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
         Return samples _
             .Select(Function(sample)
                         Dim row As New T
+                        Dim vector As Double() = sample.vector
 
                         row.Key = sample.ID
                         row.Properties = New Dictionary(Of String, Double)
 
-                        Call nameIndex.DoEach(Sub(i) Call row.Add(i.value, sample.status(i)))
+                        Call nameIndex.DoEach(Sub(i) Call row.Add(i.value, vector(i)))
                         Call outsIndex.DoEach(Sub(i) Call row.Add(i.value, sample.target(i)))
 
                         Return row

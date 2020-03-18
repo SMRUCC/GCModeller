@@ -1,4 +1,6 @@
-﻿Namespace NeuralNetwork
+﻿Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
+
+Namespace NeuralNetwork
 
     Public Structure TrainingSample
 
@@ -15,6 +17,12 @@
                 Return sample.IsNullOrEmpty OrElse classify.IsNullOrEmpty
             End Get
         End Property
+
+        Sub New(sample As Sample)
+            Me.sampleID = sample.ID
+            Me.sample = sample.vector
+            Me.classify = sample.target
+        End Sub
 
     End Structure
 End Namespace
