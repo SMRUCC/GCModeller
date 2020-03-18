@@ -65,6 +65,7 @@ Namespace NeuralNetwork
 
         Public Property TrainingType As TrainingType = TrainingType.Epoch
         Public Property MinError As Double = Helpers.MinimumError
+
         ''' <summary>
         ''' 对<see cref="Neuron.Gradient"/>的剪裁限制阈值，小于等于零表示不进行剪裁，默认不剪裁
         ''' </summary>
