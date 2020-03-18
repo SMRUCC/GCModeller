@@ -98,8 +98,7 @@ Namespace StoreProcedure
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function NormalizeInput(sample As Sample, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
-            Return sample.status _
-                .vector _
+            Return sample.vector _
                 .Select(Function(x, i)
                             Return doNormalInternal(i, x, method)
                         End Function) _
