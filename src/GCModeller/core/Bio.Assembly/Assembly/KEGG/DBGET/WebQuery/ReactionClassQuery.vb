@@ -71,7 +71,8 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                 prefix:=Nothing,
                 cache:=cache,
                 interval:=interval,
-                offline:=offline
+                offline:=offline,
+                debug:=False
             )
         End Sub
 
@@ -90,6 +91,12 @@ Namespace Assembly.KEGG.DBGET.WebQuery
 
     Public Module ReactionClassWebQuery
 
+        ''' <summary>
+        ''' The function returns a id list which failure to download its content data.
+        ''' </summary>
+        ''' <param name="export"></param>
+        ''' <param name="cache"></param>
+        ''' <returns></returns>
         Public Function DownloadReactionClass(export$, Optional cache$ = Nothing) As IEnumerable(Of String)
             Dim web As New ReactionClassQuery(cache Or $"{export}/.cache/".When(cache.StringEmpty))
             Dim numbers As BriteHEntry.ReactionClass() = BriteHEntry.ReactionClass _
@@ -106,9 +113,15 @@ Namespace Assembly.KEGG.DBGET.WebQuery
                     save = $"{export}/{number.GetPathComponents}/{number.RCNumber}.xml"
                     rcnumber = web.Query(Of ReactionClass)(number, ".html")
 
-                    Call rcnumber _
-                        .GetXml _
-                        .SaveTo(save)
+                    If rcnumber Is Nothing Then
+                        failures.Add(number.RCNumber)
+                    Else
+                        Call rcnumber _
+                            .GetXml _
+                            .SaveTo(save)
+                    End If
+
+                    Call progressbar.SetProgress(progress.StepProgress, $"{number.RCNumber}, ETA={progress.ETA.FormatTime}")
                 Next
             End Using
 
