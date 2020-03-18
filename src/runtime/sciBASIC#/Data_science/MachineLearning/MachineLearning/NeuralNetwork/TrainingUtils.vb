@@ -241,7 +241,11 @@ Namespace NeuralNetwork
 #If UNIX Then
                     Call msg.__INFO_ECHO
 #Else
-                    Call progress.SetProgress(tick.StepProgress, msg)
+                    If App.IsMicrosoftPlatform Then
+                        Call progress.SetProgress(tick.StepProgress, msg)
+                    Else
+                        Call msg.__INFO_ECHO
+                    End If
 #End If
                     If errors < 0.0001 Then
                         Selective = False
