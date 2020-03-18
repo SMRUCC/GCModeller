@@ -64,6 +64,20 @@ Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
         Return small
     End Function
 
+    ''' <summary>
+    ''' Convert samples data to dataset matrix
+    ''' </summary>
+    ''' <typeparam name="T">The type of the target output dataset.</typeparam>
+    ''' <param name="samples"></param>
+    ''' <param name="names">The property names of the sample data vector.</param>
+    ''' <param name="outputNames">The property names of the output vector for each sample</param>
+    ''' <returns>
+    ''' data layout of the populated matrix row:
+    ''' 
+    ''' ```
+    ''' ID|names|outputNames
+    ''' ```
+    ''' </returns>
     <Extension>
     Public Function ToDataMatrix(Of T As {New, DynamicPropertyBase(Of Double), INamedValue})(samples As IEnumerable(Of Sample), names$(), outputNames$()) As IEnumerable(Of T)
         Dim nameIndex = names.SeqIterator.ToArray
