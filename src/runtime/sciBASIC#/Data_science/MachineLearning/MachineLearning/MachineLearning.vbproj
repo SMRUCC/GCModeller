@@ -485,6 +485,7 @@
     <Compile Include="Darwinism\GeneticAlgorithm\Population\Collection.vb" />
     <Compile Include="Darwinism\GeneticAlgorithm\ReplacementStrategy.vb" />
     <Compile Include="Darwinism\GeneticAlgorithm\EnvironmentDriver.vb" />
+    <Compile Include="DataSet\Diagnostics.vb" />
     <Compile Include="DataSet\NamespaceDoc.vb" />
     <Compile Include="IterationReporter.vb" />
     <Compile Include="Darwinism\DifferentialEvolution.vb" />
