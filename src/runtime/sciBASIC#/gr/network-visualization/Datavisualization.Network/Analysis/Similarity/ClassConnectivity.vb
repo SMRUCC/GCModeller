@@ -21,6 +21,8 @@ Namespace Analysis.SimilarityImpl
                 Else
                     Return 0
                 End If
+            ElseIf av.Length = 0 Then
+                Return 0
             Else
                 Dim cos As Double = Math.SSM(av, bv)
                 Return cos
