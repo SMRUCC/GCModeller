@@ -118,7 +118,8 @@ Namespace StoreProcedure
                                                  Optional estimateQuantile As Boolean = True) As NormalizeMatrix
             With samples.Select(Function(sample) sample.vector).ToArray
                 Dim len% = .First.Length
-                Dim matrix As SampleDistribution() = (len - 1).SeqIterator _
+                Dim matrix As SampleDistribution() = len _
+                    .SeqIterator _
                     .AsParallel _
                     .Select(Function(index)
                                 ' 遍历每一列的数据,将每一列的数据都执行归一化
