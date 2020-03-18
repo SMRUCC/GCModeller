@@ -72,7 +72,7 @@ Namespace ApplicationServices.Debugging.Logging
                 str = $"[{time.ToString}][{level.ToString}][{[obj]}] {message}"
             End If
 
-            Return str & vbCrLf
+            Return str
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
