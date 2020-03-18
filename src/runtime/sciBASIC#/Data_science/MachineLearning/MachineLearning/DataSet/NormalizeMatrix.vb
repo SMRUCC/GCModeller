@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace StoreProcedure
 
@@ -61,7 +62,7 @@ Namespace StoreProcedure
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("matrix")>
-        Public Property matrix As SampleDistribution()
+        Public Property matrix As XmlList(Of SampleDistribution)
         ''' <summary>
         ''' 属性名称列表,这个序列的长度是和<see cref="matrix"/>的长度一致的,并且元素的顺序一一对应的
         ''' </summary>
@@ -76,15 +77,17 @@ Namespace StoreProcedure
         End Function
 
         Private Function doNormalInternal(i%, x#, method As Normalizer.Methods) As Double
+            Dim dist As SampleDistribution = matrix(i)
+
             Select Case method
                 Case Normalizer.Methods.NormalScaler
-                    Return Normalizer.ScalerNormalize(matrix(i), x)
+                    Return Normalizer.ScalerNormalize(dist, x)
                 Case Normalizer.Methods.RelativeScaler
-                    Return Normalizer.RelativeNormalize(matrix(i), x)
+                    Return Normalizer.RelativeNormalize(dist, x)
                 Case Normalizer.Methods.RangeDiscretizer
-                    Return Normalizer.RangeDiscretizer(matrix(i), x)
+                    Return Normalizer.RangeDiscretizer(dist, x)
                 Case Else
-                    Return Normalizer.ScalerNormalize(matrix(i), x)
+                    Return Normalizer.ScalerNormalize(dist, x)
             End Select
         End Function
 
