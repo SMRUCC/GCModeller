@@ -63,15 +63,17 @@ Public Module DumpProcedures
         Dim br As Dictionary(Of String, BriteHText) = htext.ko00001 _
             .Hierarchical _
             .EnumerateEntries _
-            .Select(Function(x) x.Parent) _
+            .Select(Function(x) x.parent) _
             .Where(Function(x)
                        Return Not x Is Nothing AndAlso
                             x.CategoryLevel = "C"c AndAlso
-                            Not x.ClassLabel.StringEmpty
+                            Not x.classLabel.StringEmpty
                    End Function) _
-            .GroupBy(Function(pathway) pathway.ClassLabel.Split.First) _
+            .GroupBy(Function(pathway) pathway.classLabel.Split.First) _
             .ToDictionary(Function(x) x.Key,
-                          Function(g) g.First)
+                          Function(g)
+                              Return g.First
+                          End Function)
 
         For Each xml As String In ls - l - r - "*.XML" <= DIR
             Dim map As PathwayMap = xml.LoadXml(Of PathwayMap)
