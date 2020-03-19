@@ -159,7 +159,7 @@ Public Module App
     ''' 在这里使用<see cref="Console.IsErrorRedirected"/>这个来进行判断是可靠的
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property IsConsoleApp As Boolean = Not Console.IsErrorRedirected
+    Public ReadOnly Property IsConsoleApp As Boolean = (Not Console.IsErrorRedirected) OrElse (Not Console.IsOutputRedirected)
     ''' <summary>
     ''' Get the referenced dll list of current running ``*.exe`` program.
     ''' (获取得到当前的这个所运行的应用程序所引用的dll文件列表)
