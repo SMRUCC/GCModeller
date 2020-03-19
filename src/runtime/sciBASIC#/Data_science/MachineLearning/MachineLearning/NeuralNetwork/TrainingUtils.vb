@@ -244,6 +244,7 @@ Namespace NeuralNetwork
                     If App.IsMicrosoftPlatform Then
                         Call progress.SetProgress(tick.StepProgress, msg)
                     Else
+                        Call tick.StepProgress()
                         Call msg.__INFO_ECHO
                     End If
 #End If
