@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <script id="mapjson" type="application/json">{$map_json}</script>
+</head>
+
+<body>
+    <div>
+        <p>
+            <a href="{$keggLink}">View on the KEGG web site</a>.
+        </p>
+        <img src="{$map_base64}" name="pathwayimage" id="pathwayimage" name="pathwayimage" usemap="#mapdata" border="0"
+            width="{$image_width}" />
+        <map id="mapdata" name="mapdata">
+        </map>
+
+        <div id="poplay" class="poplay"></div>
+    </div>
+
+    <script type="text/javascript">
+        // script for build user map data
+        let mapjson = JSON.parse(document.getElementById("mapjson").innerText);
+        let mapdata = document.getElementById("mapdata");
+        let shape = null;
+
+        for (let area of mapjson) {
+            shape = document.createElement("area");
+            shape.shape = area.shape;
+            shape.coords = area.coords;
+            shape.href = area.href;
+            shape.title = area.title;
+            shape.onmouseover = function () {
+                popupTimer(area.kegg_id, area.title, area.color);
+            }
+            shape.onmouseout = function () {
+                hideMapTn();
+            }
+
+            mapdata.append(shape);
+        }
+    </script>
+</body>
+
+</html>
