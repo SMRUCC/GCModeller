@@ -282,6 +282,10 @@
       <Project>{2DD4BE80-DDC3-4767-94A7-10F1C3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\modules\keggReport\keggReport.vbproj">
+      <Project>{C6F51B7C-C3F9-4BDF-8611-91528C5A096F}</Project>
+      <Name>keggReport</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
       <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>
       <Name>Microarray</Name>

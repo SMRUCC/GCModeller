@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Partial Module CLI

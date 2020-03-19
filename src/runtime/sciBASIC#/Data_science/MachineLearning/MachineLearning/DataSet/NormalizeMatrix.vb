@@ -98,8 +98,7 @@ Namespace StoreProcedure
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function NormalizeInput(sample As Sample, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
-            Return sample.status _
-                .vector _
+            Return sample.vector _
                 .Select(Function(x, i)
                             Return doNormalInternal(i, x, method)
                         End Function) _
@@ -117,16 +116,18 @@ Namespace StoreProcedure
         Public Shared Function CreateFromSamples(samples As IEnumerable(Of Sample),
                                                  names As IEnumerable(Of String),
                                                  Optional estimateQuantile As Boolean = True) As NormalizeMatrix
-            With samples.ToArray
-                Dim len% = .First.status.Length
-                Dim matrix As SampleDistribution() = (len - 1).SeqIterator _
+            With samples.Select(Function(sample) sample.vector).ToArray
+                Dim len% = .First.Length
+                Dim matrix As SampleDistribution() = len _
+                    .SeqIterator _
                     .AsParallel _
                     .Select(Function(index)
                                 ' 遍历每一列的数据,将每一列的数据都执行归一化
-                                Dim [property] = .Select(Function(sample)
-                                                             Return sample.status(index)
-                                                         End Function) _
-                                                 .ToArray
+                                Dim [property] As Double() =
+                                    .Select(Function(sample)
+                                                Return sample(index)
+                                            End Function) _
+                                    .ToArray
                                 Dim dist As New SampleDistribution([property], estimateQuantile)
 
                                 Return (i:=index, Data:=dist)

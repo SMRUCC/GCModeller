@@ -125,13 +125,9 @@ Namespace StoreProcedure
 
             For Each sample As Sample In DataSamples.items
                 input = NormalizeMatrix.NormalizeInput(sample, method)
-                normSample = New Sample With {
-                    .ID = sample.ID,
-                    .status = input,
-                    .target = sample.target + createExtends(input, dummyExtends)
-                }
+                normSample = New Sample(input, sample.target + createExtends(input, dummyExtends), sample.ID)
 
-                If sample.status.vector.Any(AddressOf IsNaNImaginary) Then
+                If sample.vector.Any(AddressOf IsNaNImaginary) Then
                     Throw New InvalidProgramException("NaN value exists in your dataset: " & normSample.GetJson)
                 End If
 

@@ -16,7 +16,7 @@ Namespace StoreProcedure
 
             ' check for sample datas
             For Each sample As Sample In data.DataSamples.AsEnumerable
-                If sample.status.Length <> size.Width Then
+                If sample.vector.Length <> size.Width Then
                     Yield New LogEntry With {
                         .message = $"sample vector size is not equals to {size.Width}!",
                         .[object] = sample.ID,
@@ -24,7 +24,7 @@ Namespace StoreProcedure
                         .level = MSG_TYPES.ERR
                     }
                 End If
-                If sample.status.Length <> outputSize Then
+                If sample.target.Length <> outputSize Then
                     Yield New LogEntry With {
                         .message = $"output vector size is not equals to {outputSize}!",
                         .[object] = sample.ID,
