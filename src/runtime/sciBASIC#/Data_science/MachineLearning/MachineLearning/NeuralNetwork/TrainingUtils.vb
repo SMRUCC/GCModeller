@@ -234,6 +234,12 @@ Namespace NeuralNetwork
                 Dim tick As New ProgressProvider(progress, numEpochs)
                 Dim msg$
                 Dim ETA$
+                Dim break As Boolean = False
+                Dim cancelSignal
+
+                If App.IsConsoleApp Then
+
+                End If
 
                 For i As Integer = 0 To numEpochs - 1
                     errors = trainingImpl(dataSets, parallel, Selective)
@@ -255,6 +261,9 @@ Namespace NeuralNetwork
 
                     If Not reporter Is Nothing Then
                         Call reporter(i, errors, network)
+                    End If
+                    If break Then
+                        Exit For
                     End If
                 Next
             End Using
