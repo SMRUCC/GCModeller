@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports r = System.Text.RegularExpressions.Regex
+Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile
 
 Public Module WebRequest
 
@@ -50,5 +51,14 @@ Public Module WebRequest
                 .GetXml _
                 .SaveTo(saveXml)
         Next
+    End Function
+
+    Public Function QueryByECNumber(ECNumber As String, Optional cache$ = "./.cache") As sbXML
+        Dim q As New Dictionary(Of QueryFields, String) From {
+            {QueryFields.ECNumber, ECNumber}
+        }
+        Dim xml As sbXML = docuRESTfulWeb.searchKineticLaws(q, cache)
+
+        Return xml
     End Function
 End Module
