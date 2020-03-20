@@ -421,14 +421,7 @@
     <Compile Include="MetaCyc\MySQL\zonedefect.vb" />
     <Compile Include="MetaCyc\MySQL\zonegroup.vb" />
     <Compile Include="MetaCyc\MySQL\zonelayout.vb" />
-    <Compile Include="SABIORK KineticLaws\Dumps\Kinetics.vb" />
-    <Compile Include="SABIORK KineticLaws\Dumps\Enzyme.vb" />
-    <Compile Include="SABIORK KineticLaws\DocAPI.vb" />
     <Compile Include="ShellScriptAPI.vb" />
-    <Compile Include="SABIORK KineticLaws\SBMLParser.vb" />
-    <Compile Include="SABIORK KineticLaws\LocalParameterParser.vb" />
-    <Compile Include="SABIORK KineticLaws\Dumps\TabularDump.vb" />
-    <Compile Include="SABIORK KineticLaws\SABIORK.vb" />
     <Compile Include="DEG\Annotations.vb" />
     <Compile Include="MySQLDbReflector.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

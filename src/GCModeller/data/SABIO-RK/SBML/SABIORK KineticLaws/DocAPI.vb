@@ -176,6 +176,15 @@ Namespace SabiorkKineticLaws
             Return SabiorkKineticLaws.SBMLParser.kineticLawModel.LoadDocument(FilePath)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="IdList"></param>
+        ''' <param name="ExportDir"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 因为会存在非常多的废弃的id编号，所以这个函数应该会被废弃掉
+        ''' </remarks>
         <ExportAPI("Query.KEGG")>
         <Extension>
         Public Iterator Function QueryUsing_KEGGId(IdList As String(), ExportDir As String) As IEnumerable(Of String)

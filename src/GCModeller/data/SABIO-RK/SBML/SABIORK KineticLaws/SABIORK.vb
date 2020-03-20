@@ -51,9 +51,9 @@ Namespace SabiorkKineticLaws
     Public Class SABIORK : Inherits Equation
 
         ''' <summary>
-        ''' http://sabiork.h-its.org/sabioRestWebServices/kineticLaws?kinlawids=
+        ''' http://sabiork.h-its.org/sabioRestWebServices/kineticLaws/123
         ''' </summary>
-        Public Const URL_SABIORK_KINETIC_LAWS_QUERY As String = "http://sabiork.h-its.org/sabioRestWebServices/kineticLaws?kinlawids="
+        Public Const URL_SABIORK_KINETIC_LAWS_QUERY As String = "http://sabiork.h-its.org/sabioRestWebServices/kineticLaws/"
 
         Public Property kineticLawID As Long
         Public Property startValuepH As Double
