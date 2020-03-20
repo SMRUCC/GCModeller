@@ -95,21 +95,21 @@ Public Module ShellScriptAPI
         Return Simpheny.Project.LoadProject(DIR)
     End Function
 
-    <ExportAPI("LoadModel.From.CsvTabular", Info:="Load FBA model file from the Csv tabular format GCModeller virtual cell model file.")>
-    Public Function LoadData(Model As XmlresxLoader) As DataModel.FluxObject()
-        Dim LQuery = (From FluxObject As FileStream.MetabolismFlux In Model.MetabolismModel Select FluxObject.CreateObject).ToArray
-        Return LQuery
-    End Function
+    '<ExportAPI("LoadModel.From.CsvTabular", Info:="Load FBA model file from the Csv tabular format GCModeller virtual cell model file.")>
+    'Public Function LoadData(Model As XmlresxLoader) As DataModel.FluxObject()
+    '    Dim LQuery = (From FluxObject As FileStream.MetabolismFlux In Model.MetabolismModel Select FluxObject.CreateObject).ToArray
+    '    Return LQuery
+    'End Function
 
-    <ExportAPI("get.full_objective")>
-    Public Function FullObjective(Model As DataModel.FluxObject()) As String()
-        Return (From Flux In Model Select Flux.Identifier).ToArray
-    End Function
+    '<ExportAPI("get.full_objective")>
+    'Public Function FullObjective(Model As DataModel.FluxObject()) As String()
+    '    Return (From Flux In Model Select Flux.Identifier).ToArray
+    'End Function
 
-    <ExportAPI("create_model.from_csvtabular")>
-    Public Function CreateModel(Model As DataModel.FluxObject(), ObjectiveFunction As Object()) As lpSolveRModel
-        Return New Models.CsvTabular(Model, (From obj In ObjectiveFunction Let value As String = obj.ToString Select value).ToArray)
-    End Function
+    '<ExportAPI("create_model.from_csvtabular")>
+    'Public Function CreateModel(Model As DataModel.FluxObject(), ObjectiveFunction As Object()) As lpSolveRModel
+    '    Return New Models.CsvTabular(Model, (From obj In ObjectiveFunction Let value As String = obj.ToString Select value).ToArray)
+    'End Function
 
     <ExportAPI("set.objective_factors")>
     Public Sub SetObjectives(model As lpSolveRModel, factors As Object())
