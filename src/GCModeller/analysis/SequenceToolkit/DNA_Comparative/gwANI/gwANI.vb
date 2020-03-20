@@ -45,9 +45,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.C
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 '     *  Wellcome Trust Sanger Institute
