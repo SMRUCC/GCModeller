@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::09df17824c6cb9b423e6126a51eae213, data\ExternalDBSource\SABIORK KineticLaws\LocalParameterParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module LocalParameterParser
-    ' 
-    '         Function: GetEnzymeId, (+2 Overloads) TryParseEnzymeCatalyst, (+2 Overloads) TryParseModifierKinetic
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module LocalParameterParser
+' 
+'         Function: GetEnzymeId, (+2 Overloads) TryParseEnzymeCatalyst, (+2 Overloads) TryParseModifierKinetic
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
-Namespace SabiorkKineticLaws
+Namespace SBML
 
     Public Module LocalParameterParser
 
         ''' <summary>
-        ''' Km_[<see cref="SabiorkKineticLaws.SBMLParser.CompoundSpecie.Id"></see>]
+        ''' Km_[<see cref="SBMLParser.CompoundSpecie.Id"></see>]
         ''' </summary>
         ''' <remarks></remarks>
         Const KM_ID As String = "^Km_(.+?_)?SPC_.+?"
 
         Public Function TryParseEnzymeCatalyst(DataModel As SABIORK) As EnzymeCatalystKineticLaw()
             Dim LQuery = (From item In DataModel.LocalParameters Where Regex.Match(item.name, KM_ID).Success Select item).ToArray
-            Dim Enzyme As SabiorkKineticLaws.SBMLParser.CompoundSpecie
+            Dim Enzyme As SBMLParser.CompoundSpecie
 
             If LQuery.IsNullOrEmpty Then
                 Return New EnzymeCatalystKineticLaw() {}
@@ -72,7 +72,7 @@ Namespace SabiorkKineticLaws
             Return EnzCatalystLQuery
         End Function
 
-        Private Function TryParseEnzymeCatalyst(Km As [property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As EnzymeCatalystKineticLaw
+        Private Function TryParseEnzymeCatalyst(Km As [Property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As EnzymeCatalystKineticLaw
             Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.name, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.value))
             Dim SubstrateId As String = Regex.Match(Km.name, "SPC.+").Value

@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
-Namespace SabiorkKineticLaws.SBMLParser
+Namespace SBML.SBMLParser
 
     Public Class CompoundSpecie : Implements INamedValue
 
@@ -85,7 +85,7 @@ Namespace SabiorkKineticLaws.SBMLParser
         Public Property Identifiers As String()
         Public Property Modifiers As String()
         Public Property Fast As Boolean
-        Public Property LocalParameters As [property]()
+        Public Property LocalParameters As [Property]()
 
         Friend Overloads Shared Function TryParse(strData As String) As kineticLawModel
             Dim KineticRecord As kineticLawModel = New kineticLawModel
@@ -96,7 +96,7 @@ Namespace SabiorkKineticLaws.SBMLParser
             strTemp = Regex.Match(strData, "<listOfProducts>.+?</listOfProducts>", RegexOptions.Singleline).Value
             TempChunk = (From m As Match In Regex.Matches(strTemp, "<speciesReference.+?/>") Select m.Value).ToArray
             KineticRecord.Products = (From strItem As String In TempChunk Select TryParseSpeciesReference(strItem)).ToArray
-            KineticRecord.Reversible = GetStringValue(Regex.Match(strData, "reversible="".+?""").Value)
+            KineticRecord.reversible = GetStringValue(Regex.Match(strData, "reversible="".+?""").Value)
             KineticRecord.Fast = GetStringValue(Regex.Match(strData, "fast="".+?""").Value)
             KineticRecord.LocalParameters = TryParseLocalParameters(Regex.Match(strData, "<listOfLocalParameters>.+?</listOfLocalParameters>", RegexOptions.Singleline).Value)
 
@@ -115,7 +115,7 @@ Namespace SabiorkKineticLaws.SBMLParser
                 Select New [Property] With {
                     .name = strId,
                     .value = strName,
-                    .Comment = strValue
+                    .comment = strValue
                 }
 
             Return LQuery
@@ -148,7 +148,7 @@ Namespace SabiorkKineticLaws.SBMLParser
                 .startValueTemperature = startValueTemperature,
                 .CompoundSpecies = CompoundSpecies,
                 .Fast = kineticLawModel.Fast,
-                .Reversible = kineticLawModel.Reversible,
+                .reversible = kineticLawModel.reversible,
                 .LocalParameters = kineticLawModel.LocalParameters
             }
             Return KineticLaw

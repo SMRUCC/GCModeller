@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
-Namespace SabiorkKineticLaws
+Namespace SBML
 
     <Package("Sabio-rk.DbAPI")>
     Public Module DocAPI

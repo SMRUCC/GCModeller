@@ -46,7 +46,7 @@
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
-Namespace SabiorkKineticLaws
+Namespace SBML
 
     Public Class SABIORK : Inherits Equation
 

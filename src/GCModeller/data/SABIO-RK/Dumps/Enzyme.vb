@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace SabiorkKineticLaws.TabularDump
+Namespace TabularDump
 
     Public Class EnzymeModifier : Inherits SabiorkEntity
         Implements IPolymerSequenceModel, INamedValue

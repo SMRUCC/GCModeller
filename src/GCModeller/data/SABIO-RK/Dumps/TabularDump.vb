@@ -52,8 +52,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Data.SABIORK.SBML
 
-Namespace SabiorkKineticLaws.TabularDump
+Namespace TabularDump
 
     Public MustInherit Class SabiorkEntity : Implements INamedValue
 
