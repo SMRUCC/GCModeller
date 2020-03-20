@@ -1,7 +1,9 @@
 <html>
 
 <head>
-    <script id="mapjson" type="application/json">{$map_json}</script>
+    <script id="mapjson" type="application/json">
+        {$map_json}
+    </script>
 </head>
 
 <body>
@@ -9,8 +11,7 @@
         <p>
             <a href="{$keggLink}">View on the KEGG web site</a>.
         </p>
-        <img src="{$map_base64}" name="pathwayimage" id="pathwayimage" name="pathwayimage" usemap="#mapdata" border="0"
-            width="{$image_width}" />
+        <img src="{$map_base64}" name="pathwayimage" id="pathwayimage" usemap="#mapdata" border="0" width="{$image_width}" />
         <map id="mapdata" name="mapdata">
         </map>
 
