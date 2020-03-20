@@ -49,7 +49,6 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 
 Namespace Algebra.LinearProgramming
 
