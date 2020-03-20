@@ -131,6 +131,8 @@
   <ItemGroup>
     <Compile Include="Core\Flux\Boundary.vb" />
     <Compile Include="Core\Flux\Extensions.vb" />
+    <Compile Include="Core\Kinetics\KineticsFactor.vb" />
+    <Compile Include="Core\Kinetics\ModularRateLaws.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
     <Compile Include="Engine\DebuggerView.vb" />

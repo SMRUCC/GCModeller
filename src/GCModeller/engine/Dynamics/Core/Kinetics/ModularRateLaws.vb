@@ -98,11 +98,11 @@ Bioinformatics. 2010 Jun 15;26(12):1528-34. doi: 10.1093/bioinformatics/btq141. 
 share the form Equation (1). The terms f [Equation (12)], T [Equation (10)],
 D [Equation 11] and Dreg [Equation (13)] depend on reaction stoichiometry,
 rate law, allosteric regulation and on the preferred model parameterization.")>
-        Public Function FluxRate(<Parameter("u", "Enzyme level")> u As KineticsLDM,
-                                 <Parameter("f", "Complete or partial regulation")> f As KineticsLDM,
-                                 <Parameter("T", "Stoichiometry 3 parameterizations")> T As KineticsLDM,
-                                 <Parameter("D", "5 rate laws")> D As KineticsLDM,
-                                 <Parameter("D.reg", "Specific regulation")> Dreg As KineticsLDM) As <FunctionReturns("Reaction rate")> Double
+        Public Function FluxRate(<Parameter("u", "Enzyme level")> u As KineticsFactor,
+                                 <Parameter("f", "Complete or partial regulation")> f As KineticsFactor,
+                                 <Parameter("T", "Stoichiometry 3 parameterizations")> T As KineticsFactor,
+                                 <Parameter("D", "5 rate laws")> D As KineticsFactor,
+                                 <Parameter("D.reg", "Specific regulation")> Dreg As KineticsFactor) As <FunctionReturns("Reaction rate")> Double
             Return u * f * (T / (D + Dreg))
         End Function
 

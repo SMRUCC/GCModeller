@@ -246,8 +246,6 @@
     <Compile Include="Driver\KernelDriver\DataAdapter\CsvSheet.vb" />
     <Compile Include="Driver\KernelDriver\DataAdapter\DataAdapter.vb" />
     <Compile Include="GridPBS\MetaboliteCompound.vb" />
-    <Compile Include="Kinetics\ModularRateLaws.vb" />
-    <Compile Include="Kinetics\KineticsLDM.vb" />
     <Compile Include="GridPBS\PBS.vb" />
     <Compile Include="Driver\KernelDriver\KernelDriver.vb" />
     <Compile Include="DataServices\DataAdapter.vb" />

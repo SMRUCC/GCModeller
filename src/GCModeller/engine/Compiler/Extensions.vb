@@ -369,7 +369,8 @@ Public Module Extensions
                                 }
                             End Function) _
                     .ToArray,
-                .KO = KOgenes.TryGetValue(.geneID).orthology
+                .KO = KOgenes.TryGetValue(.geneID).orthology,
+                .ECNumber = ""
             }
         Next
     End Function
