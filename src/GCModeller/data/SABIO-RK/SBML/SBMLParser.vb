@@ -129,7 +129,7 @@ Namespace SBML.SBMLParser
             Return Reference
         End Function
 
-        Public Shared Function LoadDocument(FilePath As String) As SABIORK
+        Public Shared Function LoadDocument(FilePath As String) As SabiorkSBML
             Dim strData As String = FileIO.FileSystem.ReadAllText(FilePath)
             Dim kineticLawID As Long = Val(GetNodeValue(Regex.Match(strData, "<sbrk:kineticLawID>.+?</sbrk:kineticLawID>").Value))
             Dim CompoundSpecies = TryParseListOfSpecies(strData:=Regex.Match(strData, "<listOfSpecies>.+</listOfSpecies>", RegexOptions.Singleline).Value)
@@ -138,7 +138,7 @@ Namespace SBML.SBMLParser
             Dim startValueTemperature As Double = Val(GetNodeValue(Regex.Match(strData, "<sbrk:startValueTemperature>.+?</sbrk:startValueTemperature>").Value))
             Dim Buffer As String = GetNodeValue(Regex.Match(strData, "<sbrk:buffer>.+?</sbrk:buffer>").Value).Trim
 
-            Dim KineticLaw As New SABIORK With {
+            Dim KineticLaw As New SabiorkSBML With {
                 .Buffer = Buffer,
                 .Identifiers = kineticLawModel.Identifiers,
                 .kineticLawID = kineticLawID,

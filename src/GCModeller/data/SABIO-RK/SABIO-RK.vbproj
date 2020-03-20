@@ -87,7 +87,7 @@
     <Compile Include="Dumps\Kinetics.vb" />
     <Compile Include="Dumps\TabularDump.vb" />
     <Compile Include="SBML\LocalParameterParser.vb" />
-    <Compile Include="SBML\SABIORK.vb" />
+    <Compile Include="SBML\SabiorkSBML.vb" />
     <Compile Include="SBML\SBMLParser.vb" />
   </ItemGroup>
   <ItemGroup>

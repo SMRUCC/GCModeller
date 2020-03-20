@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.IEnumerations
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
 Namespace SBML
 
@@ -58,6 +58,7 @@ Namespace SBML
     Public Module DocAPI
 
         <ExportAPI("GET.Identifier")>
+        <Extension>
         Public Function GetIdentifier(strData As String(), Keyword As String) As String
             Dim LQuery As String = LinqAPI.DefaultFirst(Of String) <=
                 From strItem As String
@@ -69,6 +70,7 @@ Namespace SBML
         End Function
 
         <ExportAPI("GET.Identifiers")>
+        <Extension>
         Public Function GetIdentifiers(strData As String(), Keyword As String) As String()
             Dim LQuery As String() = LinqAPI.Exec(Of String) <=
                 From strItem As String
@@ -96,7 +98,7 @@ Namespace SBML
         End Sub
 
         <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(data As SABIORK(), ExportDir As String)
+        Public Sub ExportDatabase(data As SabiorkSBML(), ExportDir As String)
             Dim KineticLawModels As KineticLawModel() = Nothing
             Dim CompoundSpecies As CompoundSpecie() = Nothing
             Dim EnzymeModifiers As EnzymeModifier() = Nothing
@@ -113,7 +115,7 @@ Namespace SBML
         End Sub
 
         <ExportAPI("Db.Export")>
-        Public Sub ExportDatabase(data As SABIORK(),
+        Public Sub ExportDatabase(data As SabiorkSBML(),
  _
                       ByRef KineticLawModels As KineticLawModel(),
                       ByRef CompoundSpecies As CompoundSpecie(),
@@ -140,8 +142,8 @@ Namespace SBML
                     End If
                 Next
 
-                Call ModifierKineticsList.AddRange(SabiorkKineticLaws.LocalParameterParser.TryParseModifierKinetic(ItemObject))
-                Call EnzymeCatalystKineticLawsList.AddRange(SabiorkKineticLaws.LocalParameterParser.TryParseEnzymeCatalyst(ItemObject))
+                Call ModifierKineticsList.AddRange(LocalParameterParser.TryParseModifierKinetic(ItemObject))
+                Call EnzymeCatalystKineticLawsList.AddRange(LocalParameterParser.TryParseEnzymeCatalyst(ItemObject))
                 Call KineticLaws.Add(KineticLawModel.CreateObject(ItemObject))
             Next
 
@@ -164,17 +166,12 @@ Namespace SBML
             Dim LQuery = (From strPath As String
                           In FileIO.FileSystem.GetFiles(DataDir, FileIO.SearchOption.SearchTopLevelOnly, "*.sbml").AsParallel
                           Where FileIO.FileSystem.GetFileInfo(strPath).Length > 0
-                          Select SabiorkKineticLaws.SBMLParser.kineticLawModel.LoadDocument(strPath)).ToArray 'Read sbml file document from the filesystem
+                          Select SBMLParser.kineticLawModel.LoadDocument(strPath)).ToArray 'Read sbml file document from the filesystem
 
             Call ExportDatabase(LQuery, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
         End Sub
 
         Public Const KEGG_QUERY_ENTRY As String = "http://sabiork.h-its.org/sabioRestWebServices/reactions/reactionIDs?q=KeggReactionID:"
-
-        <ExportAPI("Load.Doc")>
-        Public Function LoadDocument(FilePath As String) As SABIORK
-            Return SabiorkKineticLaws.SBMLParser.kineticLawModel.LoadDocument(FilePath)
-        End Function
 
         ''' <summary>
         ''' 
@@ -196,7 +193,7 @@ Namespace SBML
                 For Each Entry In Entries
                     Dim File = String.Format("{0}/{1}-{2}.sbml", ExportDir, Id, Entry)
 
-                    url = SABIORK.URL_SABIORK_KINETIC_LAWS_QUERY & Entry
+                    url = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & Entry
                     Call url.GET.SaveTo(File)
                 Next
             Next
@@ -208,7 +205,7 @@ Namespace SBML
 
             For i As Integer = FileIO.FileSystem.GetFiles(Dir).Count + 1 To Integer.MaxValue
                 Dim id As String = "kinlawids_" & i
-                Dim url As String = SABIORK.URL_SABIORK_KINETIC_LAWS_QUERY & i
+                Dim url As String = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & i
                 Dim File = String.Format("{0}/{1}.sbml", Dir, id)
 
                 Call url.GET.SaveTo(File)

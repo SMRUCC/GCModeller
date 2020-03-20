@@ -323,6 +323,10 @@
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.vbproj">
+      <Project>{cf69e369-5ded-46d8-b6aa-9835a89bfd9f}</Project>
+      <Name>SABIO-RK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
       <Name>STRING-db</Name>

@@ -55,7 +55,7 @@ Namespace SBML
         ''' <remarks></remarks>
         Const KM_ID As String = "^Km_(.+?_)?SPC_.+?"
 
-        Public Function TryParseEnzymeCatalyst(DataModel As SABIORK) As EnzymeCatalystKineticLaw()
+        Public Function TryParseEnzymeCatalyst(DataModel As SabiorkSBML) As EnzymeCatalystKineticLaw()
             Dim LQuery = (From item In DataModel.LocalParameters Where Regex.Match(item.name, KM_ID).Success Select item).ToArray
             Dim Enzyme As SBMLParser.CompoundSpecie
 
@@ -72,7 +72,7 @@ Namespace SBML
             Return EnzCatalystLQuery
         End Function
 
-        Private Function TryParseEnzymeCatalyst(Km As [Property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As EnzymeCatalystKineticLaw
+        Private Function TryParseEnzymeCatalyst(Km As [Property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SabiorkSBML) As EnzymeCatalystKineticLaw
             Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.name, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.value))
             Dim SubstrateId As String = Regex.Match(Km.name, "SPC.+").Value
@@ -97,7 +97,7 @@ Namespace SBML
 
         Const ENZYME_ID As String = "^ENZ_.+?"
 
-        Private Function GetEnzymeId(DataModel As SABIORK) As SBMLParser.CompoundSpecie
+        Private Function GetEnzymeId(DataModel As SabiorkSBML) As SBMLParser.CompoundSpecie
             Dim LQuery = (From item In DataModel.CompoundSpecies Where Regex.Match(item.Id, ENZYME_ID).Success Select item).ToArray
             If LQuery.IsNullOrEmpty Then
                 Return Nothing
@@ -115,7 +115,7 @@ Namespace SBML
             End If
         End Function
 
-        Public Function TryParseModifierKinetic(DataModel As SABIORK) As ModifierKinetics()
+        Public Function TryParseModifierKinetic(DataModel As SabiorkSBML) As ModifierKinetics()
             Dim Modifiers = (From item In DataModel.CompoundSpecies
                              Where Not String.IsNullOrEmpty(item.modifierType) AndAlso
                                  InStr("Modifier-Inhibitor|Modifier-Activator|Modifier-Cofactor", item.modifierType) > 0
@@ -131,7 +131,7 @@ Namespace SBML
             Return LQuery
         End Function
 
-        Private Function TryParseModifierKinetic(Modifier As SBMLParser.CompoundSpecie, Enzyme As SBMLParser.CompoundSpecie, DataModel As SABIORK) As ModifierKinetics
+        Private Function TryParseModifierKinetic(Modifier As SBMLParser.CompoundSpecie, Enzyme As SBMLParser.CompoundSpecie, DataModel As SabiorkSBML) As ModifierKinetics
             Dim ModifierType As ModifierKinetics.ModifierTypes = ModifierKinetics.TryGetType(Modifier.modifierType)
             Dim Id As String = If(ModifierType = ModifierKinetics.ModifierTypes.Inhibitor, "Ki_" & Modifier.Id, "Ka_" & Modifier.Id)
             Dim Parameters = (From item In DataModel.LocalParameters Where String.Equals(Id, item.name) Select item).ToArray

@@ -421,7 +421,6 @@
     <Compile Include="MetaCyc\MySQL\zonedefect.vb" />
     <Compile Include="MetaCyc\MySQL\zonegroup.vb" />
     <Compile Include="MetaCyc\MySQL\zonelayout.vb" />
-    <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="DEG\Annotations.vb" />
     <Compile Include="MySQLDbReflector.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

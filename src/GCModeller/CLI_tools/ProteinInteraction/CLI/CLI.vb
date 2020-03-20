@@ -39,12 +39,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -56,10 +54,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
-Imports SMRUCC.genomics.Data.SabiorkKineticLaws
-Imports SMRUCC.genomics.Data.STRING
-Imports SMRUCC.genomics.Data.STRING.SimpleCsv
-Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
+Imports SMRUCC.genomics.Data.SABIORK.SBML
 
 <Package("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
