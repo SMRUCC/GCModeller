@@ -333,10 +333,6 @@
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\engine\IO\GCTabular\GCTabular.vbproj">
-      <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
-      <Name>GCTabular</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>

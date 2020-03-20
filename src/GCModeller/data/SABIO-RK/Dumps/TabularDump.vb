@@ -51,9 +51,9 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Data.SABIORK.SBML
 
-Namespace SabiorkKineticLaws.TabularDump
+Namespace TabularDump
 
     Public MustInherit Class SabiorkEntity : Implements INamedValue
 
@@ -72,7 +72,7 @@ Namespace SabiorkKineticLaws.TabularDump
             Return CommonNames.First
         End Function
 
-        Public Shared Function CreateObjects(SABIORK_DATA As SABIORK) As CompoundSpecie()
+        Public Shared Function CreateObjects(SABIORK_DATA As SabiorkSBML) As CompoundSpecie()
             Dim LQuery = (From cs As SBMLParser.CompoundSpecie In SABIORK_DATA.CompoundSpecies
                           Where String.IsNullOrEmpty(GetIdentifier(cs.Identifiers, "uniprot"))
                           Let ref As CompoundSpecie = New CompoundSpecie With {

@@ -441,10 +441,6 @@
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
       <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\engine\GCModeller\GCModeller.ModellingEngine.vbproj">
-      <Project>{8384ac6e-a7f6-40f0-a9a0-f995c2106843}</Project>
-      <Name>GCModeller.ModellingEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

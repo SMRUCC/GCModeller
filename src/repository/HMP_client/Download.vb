@@ -42,9 +42,9 @@
 Imports System.Net
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports ThinkVB.FileSystem.OSS
 
 Public Module Download
