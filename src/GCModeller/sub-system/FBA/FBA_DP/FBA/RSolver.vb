@@ -1,55 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::518be80d9382ea508440cf8e7442b4e8, sub-system\FBA\FBA_DP\FBA\RSolver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class FBAlpRSolver
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __initLpSolver, RSolving
-    ' 
-    '     Sub: (+2 Overloads) Dispose
-    ' 
-    ' /********************************************************************************/
+' Class FBAlpRSolver
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __initLpSolver, RSolving
+' 
+'     Sub: (+2 Overloads) Dispose
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports RDotNET
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.API.utils
-Imports RDotNET.Extensions.VisualBasic.API.base
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.API.base
+Imports RDotNet.Extensions.VisualBasic.API.utils
 
 ''' <summary>
 ''' 求解FBA线性规划问题的模块对象

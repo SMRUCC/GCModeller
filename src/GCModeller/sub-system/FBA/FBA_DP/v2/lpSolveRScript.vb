@@ -41,10 +41,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports RDotNET.Extensions.Bioinformatics
+Imports RDotNet.Extensions.Bioinformatics
 Imports RDotNET.Extensions.Bioinformatics.lpSolveAPI.APIExtensions
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder

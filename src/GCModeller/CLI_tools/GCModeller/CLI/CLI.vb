@@ -42,17 +42,16 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports Oracle.LinuxCompatibility.MySQL.Uri
@@ -124,70 +123,70 @@ Public Module CLI
         End Try
     End Function
 
-    ''' <summary>
-    ''' 从MYSQL数据库服务器之中导出计算数据
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("export", Info:="Export the calculation data from a specific data table in the mysql database server.",
-        Usage:="export -mysql <mysql_connection_string> [-o <output_save_file/dir> -t <table_name>]",
-        Example:="export -t all -o ~/Desktop/ -mysql ""http://localhost:8080/client?user=username%password=password%database=database""")>
-    <Argument("-t", True,
-        Description:="Optional, The target table name for export the data set, there is a option value for this switch: all." & vbCrLf &
-                     " <name> - export the data in the specific name of the table;" & vbCrLf &
-                     " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.")>
-    <Argument("-o", True,
-        Description:="Optional, The path of the export csv file save, it can be a directory or a file path, depend on the value of the -t switch value." & vbCrLf &
-                    "Default is desktop directory and table name combination")>
-    <Argument("-mysql",
-        Description:="The mysql connection string for gc program connect to a specific mysql database server.")>
-    Public Function ExportData(args As CommandLine) As Integer
-        Dim Cnn As String = args("-mysql")  '获取与MySQL服务器的连接URL
-        Dim Table As String = args("-t") '获取表名称
-        Dim Output As String = args("-o") '获取数据输出位置
-        Dim ExportDirectory As Boolean = False
+    '''' <summary>
+    '''' 从MYSQL数据库服务器之中导出计算数据
+    '''' </summary>
+    '''' <param name="args"></param>
+    '''' <returns></returns>
+    '''' <remarks></remarks>
+    '<ExportAPI("export", Info:="Export the calculation data from a specific data table in the mysql database server.",
+    '    Usage:="export -mysql <mysql_connection_string> [-o <output_save_file/dir> -t <table_name>]",
+    '    Example:="export -t all -o ~/Desktop/ -mysql ""http://localhost:8080/client?user=username%password=password%database=database""")>
+    '<Argument("-t", True,
+    '    Description:="Optional, The target table name for export the data set, there is a option value for this switch: all." & vbCrLf &
+    '                 " <name> - export the data in the specific name of the table;" & vbCrLf &
+    '                 " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.")>
+    '<Argument("-o", True,
+    '    Description:="Optional, The path of the export csv file save, it can be a directory or a file path, depend on the value of the -t switch value." & vbCrLf &
+    '                "Default is desktop directory and table name combination")>
+    '<Argument("-mysql",
+    '    Description:="The mysql connection string for gc program connect to a specific mysql database server.")>
+    'Public Function ExportData(args As CommandLine) As Integer
+    '    Dim Cnn As String = args("-mysql")  '获取与MySQL服务器的连接URL
+    '    Dim Table As String = args("-t") '获取表名称
+    '    Dim Output As String = args("-o") '获取数据输出位置
+    '    Dim ExportDirectory As Boolean = False
 
-        If String.IsNullOrEmpty(Output) Then
-            Output = My.Computer.FileSystem.SpecialDirectories.Desktop
-            ExportDirectory = True
-        End If
+    '    If String.IsNullOrEmpty(Output) Then
+    '        Output = My.Computer.FileSystem.SpecialDirectories.Desktop
+    '        ExportDirectory = True
+    '    End If
 
-        If String.IsNullOrEmpty(Cnn) Then '没有与数据库服务器的连接参数，程序抛出异常
-            Return -1
-        End If
+    '    If String.IsNullOrEmpty(Cnn) Then '没有与数据库服务器的连接参数，程序抛出异常
+    '        Return -1
+    '    End If
 
-        Using ExportService As DataExport = New DataExport
-            Dim path As String
-            Call ExportService.Connect(uri:=Cnn)
+    '    Using ExportService As DataExport = New DataExport
+    '        Dim path As String
+    '        Call ExportService.Connect(uri:=Cnn)
 
-            If String.IsNullOrEmpty(Table) Or String.Equals(Table, "all") Then  'Default is export all of the table
-                Call FileIO.FileSystem.CreateDirectory(Output)
+    '        If String.IsNullOrEmpty(Table) Or String.Equals(Table, "all") Then  'Default is export all of the table
+    '            Call FileIO.FileSystem.CreateDirectory(Output)
 
-                Dim Tables As String() = ExportService.GetStorageTables
+    '            Dim Tables As String() = ExportService.GetStorageTables
 
-                For Each Name As String In Tables
-                    path = Output & "/" & Name & ".csv"
+    '            For Each Name As String In Tables
+    '                path = Output & "/" & Name & ".csv"
 
-                    Call Console.WriteLine("Export Table ""{0}""", path)
+    '                Call Console.WriteLine("Export Table ""{0}""", path)
 
-                    Call ExportService.FetchData(Name)
-                    Call ExportService.Export.Save(path, False)
-                Next
-            Else
-                If ExportDirectory Then
-                    path = Output & "/" & Table & ".csv"
-                Else
-                    path = Output
-                End If
+    '                Call ExportService.FetchData(Name)
+    '                Call ExportService.Export.Save(path, False)
+    '            Next
+    '        Else
+    '            If ExportDirectory Then
+    '                path = Output & "/" & Table & ".csv"
+    '            Else
+    '                path = Output
+    '            End If
 
-                Call ExportService.FetchData(Table)
-                Call ExportService.Export.Save(path, False)
-            End If
-        End Using
+    '            Call ExportService.FetchData(Table)
+    '            Call ExportService.Export.Save(path, False)
+    '        End If
+    '    End Using
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 
     <ExportAPI("--install.MYSQL", Usage:="--install.MYSQL /user <userName> /pass <password> /repository <host_ipAddress> [/port 3306 /database <GCModeller>]")>
     Public Function InstallMySQL(args As CommandLine) As Integer

@@ -1,63 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::f085c2eb90aeb87a92a638440dd69696, analysis\ProteinTools\ProteinTools.Interactions\Bayesian\SequenceAssembler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class SequenceAssembler
-    ' 
-    '     Function: Assemble, FileIO, initialize
-    '     Class AlignmentColumn
-    ' 
-    '         Properties: Alphabets, ColIndex
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Compute, GetFrequency, GetResidueCollection, ToString
-    '         Class Alphabet
-    ' 
-    '             Properties: [Chr], Counts
-    ' 
-    '             Function: Convert, ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Class SequenceAssembler
+' 
+'     Function: Assemble, FileIO, initialize
+'     Class AlignmentColumn
+' 
+'         Properties: Alphabets, ColIndex
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Compute, GetFrequency, GetResidueCollection, ToString
+'         Class Alphabet
+' 
+'             Properties: [Chr], Counts
+' 
+'             Function: Convert, ToString
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 ''' <summary>
 ''' 在计算贝叶斯网络所需要的矩阵之前所进行的比对序列的拼接并进行向量化的程序模块
