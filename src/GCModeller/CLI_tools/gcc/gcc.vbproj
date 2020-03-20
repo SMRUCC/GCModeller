@@ -352,10 +352,6 @@
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\engine\IO\GCTabular\GCTabular.vbproj">
-      <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
-      <Name>GCTabular</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\engine\Model\Model.vbproj">
       <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
       <Name>Model</Name>
