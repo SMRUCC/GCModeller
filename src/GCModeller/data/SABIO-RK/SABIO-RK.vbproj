@@ -106,7 +106,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="docuRESTfulWeb\Class1.vb" />
+    <Compile Include="docuRESTfulWeb\QueryFields.vb" />
     <Compile Include="docuRESTfulWeb\docuRESTfulWeb.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

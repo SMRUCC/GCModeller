@@ -9,6 +9,18 @@ Public Module docuRESTfulWeb
     Public Const KEGG_QUERY_ENTRY As String = "http://sabiork.h-its.org/sabioRestWebServices/reactions/reactionIDs?q=KeggReactionID:"
 
     ''' <summary>
+    ''' Get a single kinetic law entry by SABIO entry ID
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    Public Function getModelById(id As String, Optional level As Integer = 2, Optional version As Integer = 3, Optional annotation As String = "identifier") As SabiorkSBML
+        Dim url = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & id
+        Dim sbml As String = url.GET
+
+        Return sbml.LoadXml(Of SabiorkSBML)
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="IdList"></param>
