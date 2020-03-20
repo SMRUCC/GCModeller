@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
-Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Data.SABIORK
 
 <Package("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
