@@ -109,7 +109,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="res$"></param>
         ''' <returns></returns>
-        Public Shared Function StreamParser(res$) As htext
+        Public Shared Function StreamParser(res As String) As htext
             If (res.IndexOf(ASCII.LF) = -1 AndAlso res.LastIndexOf(ASCII.CR) = -1 AndAlso res.FileExists(True)) Then
                 res = res.ReadAllText
             End If
