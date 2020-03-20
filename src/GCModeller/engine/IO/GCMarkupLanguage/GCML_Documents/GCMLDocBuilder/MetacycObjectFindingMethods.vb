@@ -40,10 +40,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Terminal.STDIO
 
 ''' <summary>
 ''' An extension method collection of the metacyc object query for the model compiling processing.

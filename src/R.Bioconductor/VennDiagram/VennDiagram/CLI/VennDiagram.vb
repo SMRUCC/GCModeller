@@ -40,18 +40,19 @@
 #End Region
 
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
-Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.API
-Imports RDotNET.Extensions.VisualBasic.RSystem
+Imports RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.API
+Imports RDotNet.Extensions.VisualBasic.RSystem
+
 
 <Package("VennTools.CLI", Category:=APICategories.CLI_MAN,
                   Description:="Tools for creating venn diagram model for the R program and venn diagram visualize drawing.",

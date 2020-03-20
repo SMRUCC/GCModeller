@@ -45,8 +45,7 @@
 #End Region
 
 Imports System.Text
-
-Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Oracle.LinuxCompatibility.MySQL
 Imports Oracle.LinuxCompatibility.MySQL.Uri
 

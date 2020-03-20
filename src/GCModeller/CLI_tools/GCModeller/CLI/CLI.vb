@@ -42,17 +42,16 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports Oracle.LinuxCompatibility.MySQL.Uri
