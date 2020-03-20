@@ -28,7 +28,11 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
     End Function
 
     Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
-        Dim searches As String() = q.Select(Function(t) $"{t.Key.Description}:""{t.Value}""")
+        Dim searches As String() = q _
+            .Select(Function(t)
+                        Return $"{t.Key.Description}:""{t.Value}"""
+                    End Function) _
+            .ToArray
         Dim query As String = searches.JoinBy(" AND ").UrlEncode
         Dim url As String = $"http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q={query}"
 
@@ -36,6 +40,6 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
     End Function
 
     Public Shared Function parseSBML(xml As String, schema As Type) As Object
-        Return xml.LoadFromXml(Of sbXML)
+        Return xml.LoadFromXml(Of sbXML)(throwEx:=False)
     End Function
 End Class

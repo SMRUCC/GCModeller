@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.SBML
@@ -33,18 +34,21 @@ Public Module WebRequest
         Next
     End Function
 
-    Public Iterator Function QueryByECNumbers(enzymes As htext, export$) As IEnumerable
+    <Extension>
+    Public Iterator Function QueryByECNumbers(enzymes As htext, export$) As IEnumerable(Of String)
         Dim ecNumbers As BriteHText() = enzymes.Hierarchical _
             .EnumerateEntries _
             .ToArray
         Dim saveXml As String
         Dim cache$ = $"{export}/.cache"
         Dim q As Dictionary(Of QueryFields, String)
+        Dim ECNumber As String
 
         For Each id As BriteHText In ecNumbers
             saveXml = id.BuildPath(export)
+            ECNumber = id.parent.classLabel.Split.First
             q = New Dictionary(Of QueryFields, String) From {
-                {QueryFields.ECNumber, id.entryID}
+                {QueryFields.ECNumber, ECNumber}
             }
 
             Call docuRESTfulWeb.searchKineticLaws(q, cache) _

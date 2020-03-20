@@ -41,6 +41,11 @@ Module Modeller
         Return vcell
     End Function
 
+    <ExportAPI("cacheOf.enzyme_kinetics")>
+    Public Sub createKineticsDbCache(Optional export$ = "./")
+        Call htext.GetInternalResource("ko01000").QueryByECNumbers(export).ToArray
+    End Sub
+
     ''' <summary>
     ''' read the virtual cell model file
     ''' </summary>
