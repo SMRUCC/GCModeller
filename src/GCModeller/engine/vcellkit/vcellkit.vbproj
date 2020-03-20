@@ -108,8 +108,9 @@
   <ItemGroup>
     <Compile Include="Debugger\Debugger.vb" />
     <Compile Include="Debugger\VCellNetwork.vb" />
+    <Compile Include="Modeller\Module1.vb" />
     <Compile Include="RawXmlKit.vb" />
-    <Compile Include="Compiler.vb" />
+    <Compile Include="Modeller\Compiler.vb" />
     <Compile Include="Analysis.vb" />
     <Compile Include="Simulator.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
