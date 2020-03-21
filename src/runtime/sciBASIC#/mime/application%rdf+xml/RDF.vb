@@ -53,7 +53,9 @@ Public Class RDF
     Public Const XmlnsNamespace$ = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 
     <XmlNamespaceDeclarations()>
-    Public xmlns As XmlSerializerNamespaces
+    Public xmlns As New XmlSerializerNamespaces
+
+    Public Property Description As Description
 
     Sub New()
         xmlns.Add("rdf", RDF.XmlnsNamespace)

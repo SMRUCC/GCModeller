@@ -199,7 +199,8 @@ Namespace Level3
     End Class
 
     Public Class annotation
-        Public Property rdf As RDF
+        <XmlElement("RDF", [Namespace]:=RDF.XmlnsNamespace)>
+        Public Property RDF As RDF
     End Class
 
     <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
