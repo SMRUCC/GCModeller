@@ -42,6 +42,9 @@
 
 Imports System.Xml.Serialization
 
+''' <summary>
+''' the xml file serilization model
+''' </summary>
 Public Class RDF
 
     ''' <summary>
