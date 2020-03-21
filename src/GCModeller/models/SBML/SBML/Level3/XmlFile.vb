@@ -199,9 +199,24 @@ Namespace Level3
     End Class
 
     Public Class annotation
-        <XmlElement("RDF", [Namespace]:=RDF.XmlnsNamespace)>
-        Public Property RDF As RDF
+        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Property RDF As AnnotationInfo
+
+        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+
+            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
+            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
+
+            Sub New()
+                Call MyBase.New
+
+                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
+                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
+            End Sub
+        End Class
+
     End Class
+
 
     <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class Reaction
@@ -263,8 +278,6 @@ Namespace Level3
                     Public Property startValuepH As Double
                 End Class
             End Class
-
-            <XmlElement("RDF")> Public Property RDFData As RDF
         End Class
 
         <XmlElement("math")> Public Property Math As Math
