@@ -139,12 +139,15 @@ Namespace Level3
 
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class XmlFile
+
+        Public Const xmlnamespace As String = "http://www.sbml.org/sbml/level3/version1/core"
+
         <XmlAttribute("level")> Public Property Level As Integer
         <XmlAttribute("version")> Public Property Version As Integer
-        <XmlElement("model")> Public Property ModelData As Model
+        <XmlElement("model")> Public Property model As Model
 
         Public Overrides Function ToString() As String
-            Return ModelData.ToString
+            Return model.ToString
         End Function
 
         Public Shared Function LoadDocument(xml As String) As XmlFile
@@ -152,9 +155,9 @@ Namespace Level3
         End Function
     End Class
 
-    <XmlType("model", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    <XmlType("model", Namespace:=XmlFile.xmlnamespace)>
     Public Class Model : Inherits Components.ModelBase
-        '    <XmlElement("notes")> Public Property Notes As Notes
+        <XmlElement("notes")> Public Property notes As Notes
         <XmlArray("listOfCompartments")> Public Property ListOfCompartment As Compartment()
         <XmlArray("listOfSpecies")> Public Property ListOfSpecies As Species()
         <XmlArray("listOfReactions")> Public Property ListOfReactions As Reaction()
