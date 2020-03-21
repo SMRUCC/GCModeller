@@ -8,6 +8,10 @@ Namespace Level3
 
         <XmlElement("is", [Namespace]:=annotation.AnnotationInfo.bqbiol)>
         Public Property [is] As [is]
+
+        Sub New()
+            Call MyBase.New
+        End Sub
     End Class
 
     Public Class [is]

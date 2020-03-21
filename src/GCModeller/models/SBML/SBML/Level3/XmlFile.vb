@@ -202,6 +202,7 @@ Namespace Level3
         <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property RDF As AnnotationInfo
 
+        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
 
             Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
