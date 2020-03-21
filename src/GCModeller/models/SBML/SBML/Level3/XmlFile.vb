@@ -133,7 +133,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
@@ -146,6 +145,10 @@ Namespace Level3
 
         Public Overrides Function ToString() As String
             Return ModelData.ToString
+        End Function
+
+        Public Shared Function LoadDocument(xml As String) As XmlFile
+            Return xml.LoadXml(Of XmlFile)
         End Function
     End Class
 
