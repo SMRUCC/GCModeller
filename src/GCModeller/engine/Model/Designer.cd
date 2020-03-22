@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction" Collapsed="true">
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAABAgAAAgIAEAAABAAAAAACMAAAAAAADBAAAgAA=</HashCode>
       <FileName>Models\Metabolism.vb</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.My.MySettings" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
@@ -24,15 +25,15 @@
     <Position X="2.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAAAAAAABAEAAAQAAAAAAAAAAAEAAAAqAACAAA=</HashCode>
-      <FileName>Models\Genotype.vb</FileName>
+      <FileName>Models\Vector\RNAComposition.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.ProteinComposition" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAQAAAABAAgAAAAAAAAAAAAAAEAAAAvv7+IQA=</HashCode>
-      <FileName>Models\Genotype.vb</FileName>
+      <HashCode>AAAAAQAAQAAAABAEgAAAAAAAAAAAAAAEAAAAvv7+IQA=</HashCode>
+      <FileName>Models\Vector\ProteinComposition.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -97,8 +98,8 @@
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Extensions" Collapsed="true">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Extensions.vb</FileName>
+      <HashCode>AAAAAABABAAAAAAABAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.My.Resources.Resources" Collapsed="true">
