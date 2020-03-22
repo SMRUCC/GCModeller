@@ -56,6 +56,10 @@ Namespace Components
         End Function
     End Class
 
+    ''' <summary>
+    ''' this object is one of a model element and
+    ''' contains id and name attribute value
+    ''' </summary>
     Public MustInherit Class IPartsBase
 
         <Escaped>

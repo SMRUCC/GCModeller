@@ -48,8 +48,7 @@ Imports System.Drawing
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.application
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Text
 
 Namespace CytoscapeGraphView.XGMML.File
@@ -131,7 +130,7 @@ Namespace CytoscapeGraphView.XGMML.File
             xmlns = New XmlSerializerNamespaces
 
             xmlns.Add("cy", xmlnsCytoscape)
-            xmlns.Add("rdf", rdf_xml.RDF.XmlnsNamespace)
+            xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
             xmlns.Add("xlink", "http://www.w3.org/1999/xlink")
             xmlns.Add("dc", xmlns_dc)
         End Sub

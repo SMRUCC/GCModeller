@@ -1081,9 +1081,6 @@
     <None Include="Resources\ko00001.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Web\KEGG Organisms.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\transl_table\transl_table-1.txt" />
   </ItemGroup>
   <ItemGroup>

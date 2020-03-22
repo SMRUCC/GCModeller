@@ -57,12 +57,12 @@ Namespace Components
 
         <Escaped>
         <XmlAttribute("compartment")>
-        Public Overridable Property CompartmentID As String
+        Public Overridable Property compartmentId As String
         <XmlAttribute()>
         Public Property boundaryCondition As Boolean
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}]{1} [{2}]", id, name, CompartmentID)
+            Return String.Format("[{0}]{1} [{2}]", id, name, compartmentId)
         End Function
     End Class
 End Namespace

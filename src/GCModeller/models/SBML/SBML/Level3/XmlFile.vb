@@ -1,160 +1,185 @@
 ﻿#Region "Microsoft.VisualBasic::b567f8088cf6f9e970891b0ccd1f64b2, models\SBML\SBML\Level3\XmlFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class XmlFile
-    ' 
-    '         Properties: Level, ModelData, Version
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Model
-    ' 
-    '         Properties: ListOfCompartment, ListOfReactions, ListOfSpecies
-    ' 
-    '     Class Compartment
-    ' 
-    '         Properties: Constant, Size
-    ' 
-    '     Class Species
-    ' 
-    '         Properties: constant, hasOnlySubstanceUnits
-    ' 
-    '     Class Reaction
-    ' 
-    '         Properties: id, listOfModifiers, listOfProducts, listOfReactants, name
-    '                     Notes, reversible
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class modifierSpeciesReference
-    ' 
-    '         Properties: species
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class SpeciesReference
-    ' 
-    '         Properties: Constant
-    ' 
-    '     Class kineticLaw
-    ' 
-    '         Properties: AnnotationData, listOfLocalParameters, Math, metaid, sboTerm
-    '         Class annotation
-    ' 
-    '             Properties: _sbrk, bqbiol, rdf, RDFData, sabiorkValue
-    '             Class sabiork
-    ' 
-    '                 Properties: ExperimentConditionsValue, kineticLawID
-    '                 Class experimentalConditions
-    ' 
-    '                     Properties: buffer, pHValue, TempratureValue
-    ' 
-    '                 Class temperature
-    ' 
-    '                     Properties: startValueTemperature, temperatureUnit
-    ' 
-    '                 Class pH
-    ' 
-    '                     Properties: startValuepH
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    '     Class RDF
-    ' 
-    '         Properties: bqbiol, bqmodel, DescriptionValue, rdf
-    '         Class Description
-    ' 
-    '             Properties: about, isDescribedBy
-    ' 
-    '         Class isDescribedBy
-    ' 
-    '             Properties: Bag
-    ' 
-    '         Class Bag
-    ' 
-    '             Properties: li
-    ' 
-    '         Class li
-    ' 
-    '             Properties: resource
-    ' 
-    ' 
-    ' 
-    '     Class Math
-    ' 
-    '         Properties: applyValue
-    '         Class Apply
-    ' 
-    '             Properties: VaslueCollection
-    ' 
-    ' 
-    ' 
-    '     Class localParameter
-    ' 
-    '         Properties: id, name, sboTerm, units, value
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class XmlFile
+' 
+'         Properties: Level, ModelData, Version
+' 
+'         Function: ToString
+' 
+'     Class Model
+' 
+'         Properties: ListOfCompartment, ListOfReactions, ListOfSpecies
+' 
+'     Class Compartment
+' 
+'         Properties: Constant, Size
+' 
+'     Class Species
+' 
+'         Properties: constant, hasOnlySubstanceUnits
+' 
+'     Class Reaction
+' 
+'         Properties: id, listOfModifiers, listOfProducts, listOfReactants, name
+'                     Notes, reversible
+' 
+'         Function: ToString
+' 
+'     Class modifierSpeciesReference
+' 
+'         Properties: species
+' 
+'         Function: ToString
+' 
+'     Class SpeciesReference
+' 
+'         Properties: Constant
+' 
+'     Class kineticLaw
+' 
+'         Properties: AnnotationData, listOfLocalParameters, Math, metaid, sboTerm
+'         Class annotation
+' 
+'             Properties: _sbrk, bqbiol, rdf, RDFData, sabiorkValue
+'             Class sabiork
+' 
+'                 Properties: ExperimentConditionsValue, kineticLawID
+'                 Class experimentalConditions
+' 
+'                     Properties: buffer, pHValue, TempratureValue
+' 
+'                 Class temperature
+' 
+'                     Properties: startValueTemperature, temperatureUnit
+' 
+'                 Class pH
+' 
+'                     Properties: startValuepH
+' 
+' 
+' 
+' 
+' 
+' 
+' 
+'     Class RDF
+' 
+'         Properties: bqbiol, bqmodel, DescriptionValue, rdf
+'         Class Description
+' 
+'             Properties: about, isDescribedBy
+' 
+'         Class isDescribedBy
+' 
+'             Properties: Bag
+' 
+'         Class Bag
+' 
+'             Properties: li
+' 
+'         Class li
+' 
+'             Properties: resource
+' 
+' 
+' 
+'     Class Math
+' 
+'         Properties: applyValue
+'         Class Apply
+' 
+'             Properties: VaslueCollection
+' 
+' 
+' 
+'     Class localParameter
+' 
+'         Properties: id, name, sboTerm, units, value
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class XmlFile
-        <XmlAttribute("level")> Public Property Level As Integer
-        <XmlAttribute("version")> Public Property Version As Integer
-        <XmlElement("model")> Public Property ModelData As Model
+
+        Public Const XmlNamespace As String = "http://www.sbml.org/sbml/level3/version1/core"
+
+        <XmlAttribute("level")> Public Property level As Integer
+        <XmlAttribute("version")> Public Property version As Integer
+        <XmlElement("model")> Public Property model As Model
 
         Public Overrides Function ToString() As String
-            Return ModelData.ToString
+            Return model.ToString
+        End Function
+
+        Public Shared Function LoadDocument(xml As String) As XmlFile
+            Return xml.LoadXml(Of XmlFile)
         End Function
     End Class
 
-    <XmlType("model", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    <XmlType("model", Namespace:=XmlFile.XmlNamespace)>
     Public Class Model : Inherits Components.ModelBase
-        '    <XmlElement("notes")> Public Property Notes As Notes
-        <XmlArray("listOfCompartments")> Public Property ListOfCompartment As Compartment()
-        <XmlArray("listOfSpecies")> Public Property ListOfSpecies As Species()
-        <XmlArray("listOfReactions")> Public Property ListOfReactions As Reaction()
+
+        <XmlElement("notes")> Public Property notes As Notes
+
+        Public Property listOfCompartments As Compartment()
+        Public Property listOfSpecies As Species()
+        Public Property listOfReactions As Reaction()
+        Public Property listOfUnitDefinitions As unitDefinition()
+
+    End Class
+
+    Public Class unitDefinition : Inherits IPartsBase
+
+        Public Property listOfUnits As unit()
+
+    End Class
+
+    Public Class unit
+        <XmlAttribute> Public Property scale As Double
+        <XmlAttribute> Public Property exponent As Double
+        <XmlAttribute> Public Property multiplier As Double
+        <XmlAttribute> Public Property kind As String
+
     End Class
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
@@ -163,11 +188,36 @@ Namespace Level3
         <XmlAttribute("constant")> Public Property Constant As Boolean
     End Class
 
-    <XmlType("species", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    <XmlType("species", Namespace:=XmlFile.XmlNamespace)>
     Public Class Species : Inherits Components.Specie
         <XmlAttribute> Public Property hasOnlySubstanceUnits As Boolean
         <XmlAttribute> Public Property constant As Boolean
+        <XmlAttribute> Public Property metaid As String
+        <XmlAttribute> Public Property initialConcentration As Double
+
+        Public Property annotation As annotation
     End Class
+
+    Public Class annotation
+        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Property RDF As AnnotationInfo
+
+        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+
+            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
+            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
+
+            Sub New()
+                Call MyBase.New
+
+                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
+                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
+            End Sub
+        End Class
+
+    End Class
+
 
     <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class Reaction
@@ -229,40 +279,10 @@ Namespace Level3
                     Public Property startValuepH As Double
                 End Class
             End Class
-
-            <XmlElement("RDF")> Public Property RDFData As RDF
         End Class
 
         <XmlElement("math")> Public Property Math As Math
         Public Property listOfLocalParameters As localParameter()
-    End Class
-
-    Public Class RDF
-        <XmlNamespaceDeclarations()> Public Property rdf As String
-        <XmlNamespaceDeclarations()> Public Property bqbiol As String
-        <XmlNamespaceDeclarations()> Public Property bqmodel As String
-        <XmlElement("Description")> Public Property DescriptionValue As Description
-
-        <XmlType("Description", Namespace:="http://www.w3.org/1999/02/22-rdf-syntax-ns#")>
-        Public Class Description
-            <XmlAttribute> Public Property about As String
-            <XmlElement("isDescribedBy")> Public Property isDescribedBy As isDescribedBy
-        End Class
-
-        <XmlType("isDescribedBy", Namespace:="http://biomodels.net/biology-qualifiers/")>
-        Public Class isDescribedBy
-            Public Property Bag As Bag
-        End Class
-
-        <XmlType("Bag", Namespace:="http://www.w3.org/1999/02/22-rdf-syntax-ns#")>
-        Public Class Bag
-            Public Property li As li
-        End Class
-
-        <XmlType("li", Namespace:="http://www.w3.org/1999/02/22-rdf-syntax-ns#")>
-        Public Class li
-            <XmlAttribute> Public Property resource As String
-        End Class
     End Class
 
     <XmlType("math", Namespace:="http://www.w3.org/1998/Math/MathML")>

@@ -150,14 +150,14 @@ Public Module CLI
         Return types.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/sabiork.kinetics")>
-    <Usage("/sabiork.kinetics [/output <dir>]")>
-    Public Function sabiorkKinetics(args As CommandLine) As Integer
-        Dim output As String = args("/output") Or "./"
-        Dim idlist As String() = KEGG.DBGET.BriteHEntry.htext.br08201.Hierarchical.EnumerateEntries.Select(Function(r) r.entryID).Distinct.ToArray
+    '<ExportAPI("/sabiork.kinetics")>
+    '<Usage("/sabiork.kinetics [/output <dir>]")>
+    'Public Function sabiorkKinetics(args As CommandLine) As Integer
+    '    Dim output As String = args("/output") Or "./"
+    '    Dim idlist As String() = KEGG.DBGET.BriteHEntry.htext.br08201.Hierarchical.EnumerateEntries.Select(Function(r) r.entryID).Distinct.ToArray
 
-        Call idlist.QueryUsing_KEGGId(output).GetJson.SaveTo($"{output}/failures.json")
+    '    Call idlist.QueryUsing_KEGGId(output).GetJson.SaveTo($"{output}/failures.json")
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 End Module

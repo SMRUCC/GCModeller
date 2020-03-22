@@ -49,7 +49,7 @@ Namespace Components
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <XmlType("compartment")>
+    <XmlType("compartment", [Namespace]:="sbml/components")>
     Public Class Compartment : Inherits IPartsBase
 
         Public Overrides Function ToString() As String
