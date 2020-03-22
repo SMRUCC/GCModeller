@@ -143,7 +143,7 @@ Public Module Extensions
                     .populateReplicons(genomes, locationAsLocus_tag) _
                     .ToArray,
                  .regulations = model _
-                    .getTFregulations(regulations) _
+                    .getTFregulations(regulations, allCompounds.CreateMapping) _
                     .ToArray
             },
             .metabolismStructure = New MetabolismStructure With {
