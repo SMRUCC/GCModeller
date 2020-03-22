@@ -131,7 +131,10 @@ Public Module Extensions
             .Values _
             .GroupBy(Function(proc) proc.orthology) _
             .ToDictionary(Function(KO) KO.Key,
-                          Function(g) g.ToArray)
+                          Function(g)
+                              Return g.ToArray
+                          End Function)
+        Dim allCompounds = KEGG.GetCompounds
 
         Return New VirtualCell With {
             .taxonomy = model.Taxonomy,
@@ -159,7 +162,7 @@ Public Module Extensions
                 .enzymes = enzymes,
                 .compounds = .reactions _
                              .AsEnumerable _
-                             .getCompounds(KEGG.GetCompounds) _
+                             .getCompounds(allCompounds) _
                              .ToArray,
                 .maps = KEGG.GetPathways _
                     .PathwayMaps _
@@ -295,7 +298,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint()) As IEnumerable(Of transcription)
+    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint(), getId As Func(Of String, String)) As IEnumerable(Of transcription)
         Dim centralDogmas = model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
 
         For Each reg As RegulationFootprint In regulations
@@ -311,10 +314,12 @@ Public Module Extensions
 
             Yield New transcription With {
                 .biological_process = reg.biological_process,
-                .effector = reg.effector,
+                .effector = reg.effector _
+                    .StringSplit("\s*;\s*") _
+                    .Select(getId) _
+                    .ToArray,
                 .mode = reg.mode,
                 .regulator = reg.regulator,
-                .target = reg.regulated,
                 .motif = New Motif With {
                     .family = reg.family,
                     .left = reg.motif.left,
@@ -377,6 +382,6 @@ Public Module Extensions
 
     <Extension>
     Public Function ToTabular(model As CellularModule) As Excel
-
+        Throw New NotImplementedException
     End Function
 End Module
