@@ -42,31 +42,30 @@
 
 Imports System.Xml.Serialization
 
-Public Class RDF
-
-    ''' <summary>
-    ''' rdf:XXX
-    ''' </summary>
-    Public Const XmlnsNamespace$ = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+''' <summary>
+''' the xml file serilization model
+''' </summary>
+''' <remarks>
+''' 关于RDF模型对象的使用方法，在这里提供两两个抽象对象用来表示RDF模型
+''' 
+''' 1. description数据是对象的注释信息存储位置
+''' 2. 这个RDF抽象类型为注释信息的存储容器
+''' 
+''' 因为不同的应用程序会产生不同的注释信息数据，所以需要继承所提供的
+''' description对象以及继承当前的RDF对象来生成一个特定的数据读取对象
+''' 后进行信息数据的读取操作。
+''' </remarks>
+''' 
+<XmlType("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+Public MustInherit Class RDF(Of T As Description)
 
     <XmlNamespaceDeclarations()>
-    Public xmlns As XmlSerializerNamespaces
+    Public xmlns As New XmlSerializerNamespaces
+
+    <XmlElement("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property description As T
 
     Sub New()
-        xmlns.Add("rdf", RDF.XmlnsNamespace)
+        xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
     End Sub
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="Text">参数值为文件之中的字符串内容，而非文件的路径</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Shared Function LoadDocument(Text As String) As RDF
-        Throw New NotImplementedException
-    End Function
-
-    Public Shared Function LoadDocument(Of T As RDF)(path As String) As T
-        Return path.LoadXml(Of T)()
-    End Function
 End Class

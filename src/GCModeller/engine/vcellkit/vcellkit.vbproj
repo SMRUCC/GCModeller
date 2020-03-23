@@ -108,8 +108,9 @@
   <ItemGroup>
     <Compile Include="Debugger\Debugger.vb" />
     <Compile Include="Debugger\VCellNetwork.vb" />
+    <Compile Include="Modeller\Modeller.vb" />
     <Compile Include="RawXmlKit.vb" />
-    <Compile Include="Compiler.vb" />
+    <Compile Include="Modeller\Compiler.vb" />
     <Compile Include="Analysis.vb" />
     <Compile Include="Simulator.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -179,6 +180,14 @@
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.vbproj">
+      <Project>{cf69e369-5ded-46d8-b6aa-9835a89bfd9f}</Project>
+      <Name>SABIO-RK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
+      <Project>{169AE739-DF7C-4DDA-AD0B-D7BA447825EB}</Project>
+      <Name>SBML</Name>
     </ProjectReference>
     <ProjectReference Include="..\Compiler\Compiler.vbproj">
       <Project>{a2a0f8c4-f84f-4a3a-958c-076ea4c70b5f}</Project>

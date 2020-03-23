@@ -55,10 +55,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace CytoscapeGraphView.XGMML.File
 
-    <XmlType("RDF", [Namespace]:=RDF.XmlnsNamespace)>
+    <XmlType("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Class InnerRDF
 
-        <XmlElement("Description", [Namespace]:=RDF.XmlnsNamespace)>
+        <XmlElement("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property meta As NetworkMetadata
 
         Public Overrides Function ToString() As String

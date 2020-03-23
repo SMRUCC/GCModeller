@@ -66,7 +66,7 @@ Namespace Level2.Elements
         Public Property InitialAmount As Double Implements IMetabolite.InitializeAmount
         <Escaped>
         <XmlAttribute("compartment")>
-        Public Overrides Property CompartmentID As String
+        Public Overrides Property compartmentId As String
         <XmlAttribute("charge")>
         Public Property Charge As Double
         <XmlElement("notes")> Public Property Notes As Notes
@@ -81,7 +81,7 @@ Namespace Level2.Elements
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}]{1} [{2}]", ID, name, CompartmentID)
+            Return String.Format("[{0}]{1} [{2}]", ID, name, compartmentId)
         End Function
     End Class
 End Namespace

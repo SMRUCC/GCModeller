@@ -47,7 +47,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.application
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace CytoscapeGraphView.XGMML.File
 
@@ -95,7 +95,7 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement("RDF", [Namespace]:=rdf_xml.RDF.XmlnsNamespace)>
+        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property RDF As InnerRDF
 
     End Class

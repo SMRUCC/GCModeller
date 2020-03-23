@@ -239,50 +239,6 @@
     <Compile Include="v2\NamespaceDoc.vb" />
     <Compile Include="v2\Genome.vb" />
     <Compile Include="v2\MetabolismStructure.vb" />
-    <Compile Include="EquationGenerator.vb" />
-    <Compile Include="FBA\ModelParts\Vector.vb" />
-    <Compile Include="FBA\ModelParts\MetabolismFlux.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\RegulonBuilder.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\UniqueIdTrimer.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\Expender.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb" />
-    <Compile Include="GCML_Documents\XmlElements\SequenceModel.vb" />
-    <Compile Include="GCML_Documents\XmlElements\ComponentModels\ConstraintMetaboliteMap.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Reaction\TransportationReaction.vb" />
-    <Compile Include="GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\SignalTransductionNetwork.vb" />
-    <Compile Include="GCML_Documents\XmlElements\ComponentModels\SystemVariables.vb" />
-    <Compile Include="GCML_Documents\XmlElements\CultivationMediums.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Experiment.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\RibosomeAssemble.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\Regulon.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Metabolism.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Reaction\DispositionReactant.vb" />
-    <Compile Include="NetworkVisualization.vb" />
-    <Compile Include="Replacer.vb" />
-    <Compile Include="FBA\API.vb" />
-    <Compile Include="FBA\Model.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\Compiler.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\IBuilder.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\MetabolismBuilder.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\ExpressionFluxBuilder.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Proteins.vb" />
-    <Compile Include="GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\Transcript.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb" />
-    <Compile Include="GCML_Documents\XmlElements\ComponentModels\Compartment.vb" />
-    <Compile Include="GCML_Documents\XmlElements\ComponentModels\T_MetaCycEntity.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\ModelExport.vb" />
-    <Compile Include="Extensions.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Bacterial_GENOME\GeneObject.vb" />
-    <Compile Include="GCML_Documents\GCMLDocBuilder\MappingBuilder.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Metabolite.vb" />
-    <Compile Include="GCML_Documents\XmlElements\BacterialModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -298,9 +254,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Pathway.vb" />
-    <Compile Include="GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb" />
-    <Compile Include="GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb" />
     <Compile Include="v2\ModelExtensions.vb" />
     <Compile Include="v2\VirtualCell.vb" />
     <Compile Include="v2\OperationExtensions.vb" />
@@ -341,10 +294,6 @@
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Model\Model.vbproj">
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
