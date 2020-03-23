@@ -2,7 +2,7 @@
 # Run a virtual cell model in R# 
 
 # first load GCModeller virtualcell toolkit R# package into R# environment
-imports ["vcellkit.simulator", "vcellkit.rawXML"] from "vcellkit.dll";
+imports ["vcellkit.modeller", "vcellkit.simulator", "vcellkit.rawXML"] from "vcellkit.dll";
 imports "gseakit.background" from "gseakit.dll";
 
 # config input model and result save directory from commandline arguments

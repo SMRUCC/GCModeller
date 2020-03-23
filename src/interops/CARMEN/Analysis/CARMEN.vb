@@ -79,7 +79,7 @@ Public Module CARMEN
         For Each pwyModel In lstFiles
             Dim LQuery As Reaction() =
                 LinqAPI.Exec(Of Reaction) <= From rn As Level3.Reaction
-                                             In pwyModel.model.ModelData.ListOfReactions
+                                             In pwyModel.model.model.listOfReactions
                                              Select setValue(Reaction.CreateObject(rn), pwyModel.pwy)
             Call list.AddRange(LQuery)
         Next
@@ -101,9 +101,9 @@ Public Module CARMEN
     End Function
 
     Private Function Replace(XmlFile As Level3.XmlFile) As Level3.XmlFile
-        Dim ListOfSpecies = XmlFile.ModelData.ListOfSpecies
+        Dim ListOfSpecies = XmlFile.model.listOfSpecies
 
-        For Each Reaction In XmlFile.ModelData.ListOfReactions
+        For Each Reaction In XmlFile.model.listOfReactions
             Reaction.id = __getKEGGReactionId(Reaction)
             For Each Item In Reaction.listOfModifiers
                 Item.species = ListOfSpecies.GetItem(Item.species).name

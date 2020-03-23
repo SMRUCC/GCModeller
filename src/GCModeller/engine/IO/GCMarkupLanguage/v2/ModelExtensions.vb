@@ -51,6 +51,7 @@ Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction
 
 Namespace v2
 
+    <HideModuleName>
     Public Module ModelExtensions
 
         ''' <summary>

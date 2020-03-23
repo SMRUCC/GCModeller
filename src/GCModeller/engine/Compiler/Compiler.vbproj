@@ -171,6 +171,7 @@
     <Compile Include="Arguments.vb" />
     <Compile Include="Compiler.vb" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="KEGG\CompoundNameIDMappings.vb" />
     <Compile Include="KEGG\PathwayCompiler.vb" />
     <Compile Include="NetworkViz.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

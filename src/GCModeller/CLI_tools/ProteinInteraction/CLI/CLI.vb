@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
-Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Data.SABIORK
 
 <Package("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
@@ -150,14 +150,14 @@ Public Module CLI
         Return types.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/sabiork.kinetics")>
-    <Usage("/sabiork.kinetics [/output <dir>]")>
-    Public Function sabiorkKinetics(args As CommandLine) As Integer
-        Dim output As String = args("/output") Or "./"
-        Dim idlist As String() = KEGG.DBGET.BriteHEntry.htext.br08201.Hierarchical.EnumerateEntries.Select(Function(r) r.entryID).Distinct.ToArray
+    '<ExportAPI("/sabiork.kinetics")>
+    '<Usage("/sabiork.kinetics [/output <dir>]")>
+    'Public Function sabiorkKinetics(args As CommandLine) As Integer
+    '    Dim output As String = args("/output") Or "./"
+    '    Dim idlist As String() = KEGG.DBGET.BriteHEntry.htext.br08201.Hierarchical.EnumerateEntries.Select(Function(r) r.entryID).Distinct.ToArray
 
-        Call idlist.QueryUsing_KEGGId(output).GetJson.SaveTo($"{output}/failures.json")
+    '    Call idlist.QueryUsing_KEGGId(output).GetJson.SaveTo($"{output}/failures.json")
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 End Module

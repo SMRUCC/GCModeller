@@ -233,6 +233,7 @@ Namespace v2
 
         <XmlAttribute> Public Property geneID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property KO As String
+        <XmlAttribute> Public Property ECNumber As String
 
         <XmlElement>
         Public Property catalysis As Catalysis()

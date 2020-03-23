@@ -295,10 +295,6 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Model\Model.vbproj">
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>

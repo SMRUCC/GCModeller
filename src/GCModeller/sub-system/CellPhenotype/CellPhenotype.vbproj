@@ -324,10 +324,6 @@
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
@@ -339,6 +335,10 @@
     <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
+      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
+      <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\engine\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>

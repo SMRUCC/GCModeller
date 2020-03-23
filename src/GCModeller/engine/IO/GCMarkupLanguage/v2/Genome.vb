@@ -195,18 +195,27 @@ Namespace v2
     Public Class transcription
 
         <XmlAttribute> Public Property regulator As String
-        <XmlAttribute> Public Property target As String
+
         <XmlAttribute> Public Property mode As String
 
-        Public Property effector As String
-        Public Property biological_process As String
-
         ''' <summary>
-        ''' 这个调控关系所影响到的中心法则的名称
+        ''' 这个是效应物物质编号列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property effector As String()
+        ''' <summary>
+        ''' 这个调控关系所影响到的中心法则的事件名称
         ''' </summary>
         ''' <returns></returns>
         Public Property centralDogma As String
+        Public Property biological_process As String
         Public Property motif As Motif
+
+        Public ReadOnly Property target As String
+            Get
+                Return centralDogma.Split.First
+            End Get
+        End Property
 
     End Class
 
