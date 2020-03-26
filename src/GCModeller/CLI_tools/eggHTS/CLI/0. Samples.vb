@@ -296,7 +296,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
         Dim color As String = args("/color") Or "black"
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
-        Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
+        Dim legendFontSize! = args("/legend.fontsize") Or 20.0#
         Dim legendSize$ = args("/legend.size") Or "100,30"
         Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
         Dim yTicks# = args.GetValue("/ticks.Y", -1.0R)
@@ -308,7 +308,7 @@ Partial Module CLI
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
-               legendFontSize:=legendFontSize,
+               legendFontCSS:=CSSFont.GetFontStyle("Microsoft YaHei", FontStyle.Regular, legendFontSize),
                legendSize:=legendSize,
                Xlabel:="Calc.pI",
                Ylabel:="MW [kDa]",

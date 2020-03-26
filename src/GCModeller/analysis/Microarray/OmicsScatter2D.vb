@@ -67,9 +67,9 @@ Public Module OmicsScatter2D
             .ToArray
         Dim serial As New SerialData With {
             .lineType = DashStyle.Dot,
-            .PointSize = pointSize,
+            .pointSize = pointSize,
             .pts = points,
-            .Shape = LegendStyles.Circle,
+            .shape = LegendStyles.Circle,
             .title = $"{xlab} ~ {ylab}",
             .DataAnnotations = labels _
                 .SafeQuery _

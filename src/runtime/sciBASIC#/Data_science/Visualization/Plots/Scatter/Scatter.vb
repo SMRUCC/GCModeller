@@ -54,6 +54,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -63,6 +64,8 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -166,6 +169,9 @@ Public Module Scatter
     ''' </param>
     ''' <param name="legendSize">默认为(120,40)</param>
     ''' <param name="preferPositive"><see cref="CreateAxisTicks"/></param>
+    ''' <param name="hullConvexList">
+    ''' a list of <see cref="SerialData.title"/> for draw hull convex polygon.
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(c As IEnumerable(Of SerialData),
@@ -181,7 +187,7 @@ Public Module Scatter
                          Optional legendRegionBorder As Stroke = Nothing,
                          Optional fill As Boolean = False,
                          Optional fillPie As Boolean = True,
-                         Optional legendFontSize! = 48,
+                         Optional legendFontCSS$ = CSSFont.PlotSubTitle,
                          Optional absoluteScaling As Boolean = True,
                          Optional XaxisAbsoluteScalling As Boolean = False,
                          Optional YaxisAbsoluteScalling As Boolean = False,
@@ -204,11 +210,14 @@ Public Module Scatter
                          Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
                          Optional gridFill$ = "rgb(245,245,245)",
                          Optional gridColor$ = "white",
-                         Optional legendBgFill As String = Nothing) As GraphicsData
+                         Optional legendBgFill As String = Nothing,
+                         Optional legendSplit% = -1,
+                         Optional hullConvexList As String() = Nothing) As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
         Dim XTicks#(), YTicks#()
+        Dim hullPolygonIndex As Index(Of String) = hullConvexList.SafeQuery.ToArray
 
         With array.CreateAxisTicks(preferPositive)
             XTicks = .x
@@ -221,7 +230,7 @@ Public Module Scatter
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rect As GraphicsRegion)
-
+                Dim canvas As IGraphics = g
                 Dim region As Rectangle = rect.PlotRegion
                 Dim X, Y As d3js.scale.LinearScale
 
@@ -264,8 +273,8 @@ Public Module Scatter
                     Dim pen As Pen = line.GetPen
                     Dim br As New SolidBrush(line.color)
                     Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
-                    Dim d! = line.PointSize
-                    Dim r As Single = line.PointSize / 2
+                    Dim d! = line.pointSize
+                    Dim r As Single = line.pointSize / 2
                     Dim bottom! = gSize.Height - margin.Bottom
                     Dim getPointBrush = Function(pt As PointData)
                                             If pt.color.StringEmpty Then
@@ -275,6 +284,7 @@ Public Module Scatter
                                             End If
                                         End Function
                     Dim pt1, pt2 As PointF
+                    Dim polygon As New List(Of PointF)
 
                     For Each pt As SlideWindow(Of PointData) In pts
                         Dim a As PointData = pt.First
@@ -282,6 +292,9 @@ Public Module Scatter
 
                         pt1 = scaler.Translate(a.pt.X, a.pt.Y)
                         pt2 = scaler.Translate(b.pt.X, b.pt.Y)
+
+                        polygon.Add(pt1)
+                        polygon.Add(pt2)
 
                         If drawLine Then
                             Call g.DrawLine(pen, pt1, pt2)
@@ -330,6 +343,14 @@ Public Module Scatter
                         End If
                     Next
 
+                    If line.title Like hullPolygonIndex Then
+                        Call polygon _
+                            .DoCall(AddressOf ConvexHull.JarvisMatch) _
+                            .DoCall(Sub(hull)
+                                        HullPolygonDraw.DrawHullPolygon(canvas, hull, line.color)
+                                    End Sub)
+                    End If
+
                     If Not line.DataAnnotations.IsNullOrEmpty Then
                         Dim raw = array.Where(Function(s) s.title = line.title).First
 
@@ -337,44 +358,67 @@ Public Module Scatter
                             Call annotation.Draw(g, scaler, raw, rect)
                         Next
                     End If
+                Next
 
-                    If showLegend Then
-                        Dim legends = LinqAPI.Exec(Of Legend) _
+                If showLegend Then
+                    Dim lsize As Size = legendSize.SizeParser
+                    Dim legends As Legend() = LinqAPI.Exec(Of Legend) _
  _
                         () <= From s As SerialData
                               In array
                               Let sColor As String = s.color.RGBExpression
-                              Let legendFont = CSSFont.GetFontStyle(
-                                  FontFace.SegoeUI,
-                                  FontStyle.Regular,
-                                  legendFontSize)
                               Select New Legend With {
                                   .color = sColor,
-                                  .fontstyle = legendFont,
+                                  .fontstyle = legendFontCSS,
                                   .style = LegendStyles.Circle,
                                   .title = s.title
-                                  }
-                        Dim lsize As Size = legendSize.SizeParser
+                              }
+                    Dim legendParts As Legend()() = Nothing
+                    Dim maxWidth!
 
-                        If legendPosition.IsEmpty Then
-                            Dim maxLen = legends.Select(Function(l) l.title).MaxLengthString
-                            Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject
-                            Dim maxWidth = g.MeasureString(maxLen, lFont).Width
+                    If legendPosition.IsEmpty Then
+                        Dim maxLen = legends.Select(Function(l) l.title).MaxLengthString
+                        Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject
+
+                        maxWidth! = g.MeasureString(maxLen, lFont).Width
+
+                        If legendSplit > 0 AndAlso legends.Length > legendSplit Then
+                            legendParts = legends.Split(legendSplit)
+                            legendPosition = New Point With {
+                                    .X = region.Width - (lsize.Width + maxWidth + 5) * (legendParts.Length - 1),
+                                    .Y = margin.Top + lFont.Height
+                                }
+                        Else
+                            legendPosition = New Point With {
+                                    .X = region.Size.Width - lsize.Width / 2 - maxWidth,
+                                    .Y = margin.Top + lFont.Height
+                                }
+                        End If
+                    End If
+
+                    If legendParts.IsNullOrEmpty Then
+                        Call g.DrawLegends(
+                                legendPosition, legends, legendSize,
+                                shapeBorder:=legendBorder,
+                                regionBorder:=legendRegionBorder,
+                                fillBg:=legendBgFill
+                            )
+                    Else
+                        For Each part As Legend() In legendParts
+                            Call g.DrawLegends(
+                                    legendPosition, part, legendSize,
+                                    shapeBorder:=legendBorder,
+                                    regionBorder:=legendRegionBorder,
+                                    fillBg:=legendBgFill
+                                )
 
                             legendPosition = New Point With {
-                                .X = region.Size.Width - lsize.Width / 2 - maxWidth,
-                                .Y = margin.Top + lFont.Height
-                            }
-                        End If
-
-                        Call g.DrawLegends(
-                            legendPosition, legends, legendSize,
-                            shapeBorder:=legendBorder,
-                            regionBorder:=legendRegionBorder,
-                            fillBg:=legendBgFill
-                        )
+                                    .X = legendPosition.X + maxWidth + lsize.Width + 5,
+                                    .Y = legendPosition.Y
+                                }
+                        Next
                     End If
-                Next
+                End If
 
                 If Not title.StringEmpty Then
                     Dim fontOfTitle As Font = CSSFont.TryParse(titleFontCSS)
@@ -431,7 +475,7 @@ Public Module Scatter
         Return New SerialData With {
             .color = Drawing.Color.FromArgb(alpha, color.ToColor),
             .lineType = dash,
-            .PointSize = ptSize,
+            .pointSize = ptSize,
             .title = title,
             .width = width,
             .pts = LinqAPI.Exec(Of PointData) <=
@@ -492,7 +536,7 @@ Public Module Scatter
         Else
             Dim syline As New SerialData With {
                 .color = ylineColor.ToColor,
-                .PointSize = 3,
+                .pointSize = 3,
                 .width = 3,
                 .title = $"y={yline}",
                 .pts = {
@@ -592,7 +636,7 @@ Public Module Scatter
         Return New SerialData With {
             .color = lineColor.ToColor,
             .lineType = lineType,
-            .PointSize = ptSize,
+            .pointSize = ptSize,
             .width = lineWidth,
             .pts = points.Select(
                 Function(pt) New PointData With {
