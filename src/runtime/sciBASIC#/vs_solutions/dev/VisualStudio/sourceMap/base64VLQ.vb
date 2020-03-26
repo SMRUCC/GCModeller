@@ -133,14 +133,29 @@ Public Module base64VLQ
     ''' <param name="[in]"></param>
     ''' <returns></returns>
     Public Function base64VLQ_decode([in] As String) As Integer
+        Dim chars As CharEnumerator = [in].GetEnumerator
+        Call chars.MoveNext()
+        Return base64VLQ_decode(chars)
+    End Function
+
+    Public Iterator Function getIntegers([in] As String) As IEnumerable(Of Integer)
+        Dim chars As CharEnumerator = [in].GetEnumerator
+
+        Do While chars.MoveNext()
+            Yield base64VLQ_decode(chars)
+        Loop
+    End Function
+
+    ''' <summary>
+    ''' Decodes the next VLQValue from the provided chars.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function base64VLQ_decode(chars As CharEnumerator) As Integer
         Dim result As Integer = 0
         Dim shift As Integer = 0
         Dim continuation As Boolean
         Dim c As Char
-        Dim chars As CharEnumerator = [in].GetEnumerator
         Dim digit As Integer
-
-        Call chars.MoveNext()
 
         Do
             c = chars.Current
