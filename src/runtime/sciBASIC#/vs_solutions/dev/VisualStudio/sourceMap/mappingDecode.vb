@@ -1,33 +1,36 @@
 ﻿Imports System.Runtime.CompilerServices
 
-Public Module mappingDecode
+Namespace SourceMap
 
-    <Extension>
-    Public Iterator Function decodeMappings(map As sourceMap) As IEnumerable(Of mappingLine)
-        Dim lines As String() = map.mappings.Split(";"c)
+    Public Module mappingDecode
 
-        For Each line As String In lines
-            If line.StringEmpty Then
-                Yield New mappingLine
-            Else
-                For Each col As String In line.Split(","c)
-                    Yield decodeVLQ(encode:=col)
-                Next
-            End If
-        Next
-    End Function
+        <Extension>
+        Public Iterator Function decodeMappings(map As sourceMap) As IEnumerable(Of mappingLine)
+            Dim lines As String() = map.mappings.Split(";"c)
 
-    Private Function decodeVLQ(encode As String) As mappingLine
-        Dim locations As Integer() = base64VLQ.getIntegers(encode).ToArray
+            For Each line As String In lines
+                If line.StringEmpty Then
+                    Yield New mappingLine
+                Else
+                    For Each col As String In line.Split(","c)
+                        Yield decodeVLQ(encode:=col)
+                    Next
+                End If
+            Next
+        End Function
 
-        If locations.Length < 5 Then ReDim Preserve locations(4)
+        Private Function decodeVLQ(encode As String) As mappingLine
+            Dim locations As Integer() = base64VLQ.getIntegers(encode).ToArray
 
-        Return New mappingLine With {
-            .targetCol = locations(0),
-            .fileIndex = locations(1),
-            .sourceLine = locations(2),
-            .sourceCol = locations(3),
-            .nameIndex = locations(4)
-        }
-    End Function
-End Module
+            If locations.Length < 5 Then ReDim Preserve locations(4)
+
+            Return New mappingLine With {
+                .targetCol = locations(0),
+                .fileIndex = locations(1),
+                .sourceLine = locations(2),
+                .sourceCol = locations(3),
+                .nameIndex = locations(4)
+            }
+        End Function
+    End Module
+End Namespace

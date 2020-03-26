@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.SourceMap
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1

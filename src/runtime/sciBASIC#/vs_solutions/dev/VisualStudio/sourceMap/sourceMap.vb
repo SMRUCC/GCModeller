@@ -1,73 +1,76 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
 
-Public Class sourceMap
+Namespace SourceMap
 
-    Public Property version As Integer
-    Public Property file As String
-    Public Property sourceRoot As String
-    Public Property sources As String()
-    Public Property names As String()
-    Public Property mappings As String
+    Public Class sourceMap
 
-End Class
+        Public Property version As Integer
+        Public Property file As String
+        Public Property sourceRoot As String
+        Public Property sources As String()
+        Public Property names As String()
+        Public Property mappings As String
 
-''' <summary>
-''' 
-''' </summary>
-Public Class mappingLine
+    End Class
 
     ''' <summary>
-    ''' 第一位，表示这个位置在（转换后的代码的）的第几列。
+    ''' 
     ''' </summary>
-    ''' <returns></returns>
-    Public Property targetCol As Integer
-    ''' <summary>
-    ''' 第二位，表示这个位置属于sources属性中的哪一个文件。
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property fileIndex As Integer
-    ''' <summary>
-    ''' 第三位，表示这个位置属于转换前代码的第几行。
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property sourceLine As Integer
-    ''' <summary>
-    ''' 第四位，表示这个位置属于转换前代码的第几列。
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property sourceCol As Integer
-    ''' <summary>
-    ''' 第五位，表示这个位置属于names属性中的哪一个变量。
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property nameIndex As Integer
+    Public Class mappingLine
 
-    Private ReadOnly Property isEmpty As Boolean
-        Get
-            Return targetCol = 0 AndAlso fileIndex = 0 AndAlso sourceLine = 0 AndAlso sourceCol = 0 AndAlso nameIndex = 0
-        End Get
-    End Property
+        ''' <summary>
+        ''' 第一位，表示这个位置在（转换后的代码的）的第几列。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property targetCol As Integer
+        ''' <summary>
+        ''' 第二位，表示这个位置属于sources属性中的哪一个文件。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property fileIndex As Integer
+        ''' <summary>
+        ''' 第三位，表示这个位置属于转换前代码的第几行。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sourceLine As Integer
+        ''' <summary>
+        ''' 第四位，表示这个位置属于转换前代码的第几列。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sourceCol As Integer
+        ''' <summary>
+        ''' 第五位，表示这个位置属于names属性中的哪一个变量。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property nameIndex As Integer
 
-    Public Function GetStackFrame(map As sourceMap) As StackFrame
-        If isEmpty Then
-            ' return empty info
-            Return New StackFrame
-        End If
+        Private ReadOnly Property isEmpty As Boolean
+            Get
+                Return targetCol = 0 AndAlso fileIndex = 0 AndAlso sourceLine = 0 AndAlso sourceCol = 0 AndAlso nameIndex = 0
+            End Get
+        End Property
 
-        Return New StackFrame With {
-            .File = map.sources(fileIndex),
-            .Line = sourceLine,
-            .Method = New Method With {
-                .Method = map.names.ElementAtOrDefault(nameIndex, "N/A")
+        Public Function GetStackFrame(map As sourceMap) As StackFrame
+            If isEmpty Then
+                ' return empty info
+                Return New StackFrame
+            End If
+
+            Return New StackFrame With {
+                .File = map.sources(fileIndex),
+                .Line = sourceLine,
+                .Method = New Method With {
+                    .Method = map.names.ElementAtOrDefault(nameIndex, "N/A")
+                }
             }
-        }
-    End Function
+        End Function
 
-    Public Overrides Function ToString() As String
-        Return New Integer() {
-            targetCol, fileIndex, sourceLine, sourceCol, nameIndex
-        } _
-            .Select(AddressOf base64VLQ.base64VLQ_encode) _
-            .JoinBy("")
-    End Function
-End Class
+        Public Overrides Function ToString() As String
+            Return New Integer() {
+                targetCol, fileIndex, sourceLine, sourceCol, nameIndex
+            } _
+                .Select(AddressOf base64VLQ.base64VLQ_encode) _
+                .JoinBy("")
+        End Function
+    End Class
+End Namespace
