@@ -1,4 +1,6 @@
-﻿Public Class sourceMap
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
+
+Public Class sourceMap
 
     Public Property version As Integer
     Public Property file As String
@@ -40,7 +42,32 @@ Public Class mappingLine
     ''' <returns></returns>
     Public Property nameIndex As Integer
 
+    Private ReadOnly Property isEmpty As Boolean
+        Get
+            Return targetCol = 0 AndAlso fileIndex = 0 AndAlso sourceLine = 0 AndAlso sourceCol = 0 AndAlso nameIndex = 0
+        End Get
+    End Property
+
+    Public Function GetStackFrame(map As sourceMap) As StackFrame
+        If isEmpty Then
+            ' return empty info
+            Return New StackFrame
+        End If
+
+        Return New StackFrame With {
+            .File = map.sources(fileIndex),
+            .Line = sourceLine,
+            .Method = New Method With {
+                .Method = map.names.ElementAtOrDefault(nameIndex, "N/A")
+            }
+        }
+    End Function
+
     Public Overrides Function ToString() As String
-        Return MyBase.ToString()
+        Return New Integer() {
+            targetCol, fileIndex, sourceLine, sourceCol, nameIndex
+        } _
+            .Select(AddressOf base64VLQ.base64VLQ_encode) _
+            .JoinBy("")
     End Function
 End Class

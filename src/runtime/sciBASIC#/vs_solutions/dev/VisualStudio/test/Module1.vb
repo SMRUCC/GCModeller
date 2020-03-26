@@ -12,6 +12,10 @@ Module Module1
         Dim map As sourceMap = "D:\biodeep\biodeep_v2\biodeep\cdn.biodeep.cn\typescripts\build\linq.js.map".LoadJsonFile(Of sourceMap)
         Dim ref = map.decodeMappings.ToArray
 
+        For Each n In ref
+            Call Console.WriteLine(n.GetStackFrame(map).ToString)
+        Next
+
         Pause()
     End Sub
 
