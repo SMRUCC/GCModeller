@@ -10,12 +10,24 @@ Public Module mappingDecode
             If line.StringEmpty Then
                 Yield New mappingLine
             Else
-                Yield decodeVLQ(encode:=line)
+                For Each col As String In line.Split(","c)
+                    Yield decodeVLQ(encode:=col)
+                Next
             End If
         Next
     End Function
 
     Private Function decodeVLQ(encode As String) As mappingLine
+        Dim locations As Integer() = base64VLQ.getIntegers(encode).ToArray
 
+        If locations.Length < 5 Then ReDim Preserve locations(4)
+
+        Return New mappingLine With {
+            .targetCol = locations(0),
+            .fileIndex = locations(1),
+            .sourceLine = locations(2),
+            .sourceCol = locations(3),
+            .nameIndex = locations(4)
+        }
     End Function
 End Module

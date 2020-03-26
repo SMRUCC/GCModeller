@@ -4,7 +4,15 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module Module1
 
     Sub Main()
+        Call sourceMapDecodeTest()
         Call vlqtest()
+    End Sub
+
+    Sub sourceMapDecodeTest()
+        Dim map As sourceMap = "D:\biodeep\biodeep_v2\biodeep\cdn.biodeep.cn\typescripts\build\linq.js.map".LoadJsonFile(Of sourceMap)
+        Dim ref = map.decodeMappings.ToArray
+
+        Pause()
     End Sub
 
     Sub vlqtest()
