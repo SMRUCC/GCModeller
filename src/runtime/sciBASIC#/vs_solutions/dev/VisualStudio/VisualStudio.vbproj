@@ -216,6 +216,9 @@
     <Compile Include="sln\Global.vb" />
     <Compile Include="sln\Parser.vb" />
     <Compile Include="sln\Solution.vb" />
+    <Compile Include="sourceMap\mappingDecode.vb" />
+    <Compile Include="sourceMap\base64VLQ.vb" />
+    <Compile Include="sourceMap\sourceMap.vb" />
     <Compile Include="vbproj\Mics.vb" />
     <Compile Include="vbproj\ItemGroup.vb" />
     <Compile Include="vbproj\Project.vb" />
