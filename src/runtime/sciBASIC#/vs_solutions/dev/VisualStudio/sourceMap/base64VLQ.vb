@@ -66,28 +66,44 @@ Public Module base64VLQ
     ' binary 100000
     Const VLQ_CONTINUATION_BIT = VLQ_BASE
 
+    Const Base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" &
+                   "abcdefghijklmnopqrstuvwxyz" &
+                   "0123456789+/"
+
     '
     ' Converts from a two-complement value to a value where the sign bit Is
     ' placed in the least significant bit.  For example, as decimals:
     '   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
     '   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
 
-    Function toVLQSigned(aValue As Integer) As Integer
-        If aValue < 0 Then
-            Return (-aValue << 1) + 1
+    Function toVLQSigned(a As Integer) As Integer
+        If a < 0 Then
+            Return (-a << 1) + 1
         Else
-            Return (aValue << 1) + 0
+            Return (a << 1) + 0
         End If
     End Function
 
-    Function base64VLQ_encode(aValue As Integer) As Integer
+    '
+    ' Converts to a two-complement value from a value where the sign bit Is
+    ' Is placed in the least significant bit.  For example, as decimals:
+    '   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
+    '   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
+    Private Function fromVLQSigned(value As Integer) As Integer
+        Dim negate = (value And 1) = 1
+        value = value >> 1
+        Return If(negate, -value, value)
+    End Function
+
+
+    Function base64VLQ_encode(aValue As Integer) As String
         Dim encoded As New StringBuilder
         Dim digit As Integer
         Dim vlq As Integer = toVLQSigned(aValue)
 
         Do
             digit = vlq And VLQ_BASE_MASK
-            vlq = vlq >> VLQ_BASE_SHIFT
+            vlq >>= VLQ_BASE_SHIFT
 
             If vlq > 0 Then
                 ' There are still more digits in this value, so we must make sure the
@@ -95,14 +111,15 @@ Public Module base64VLQ
                 digit = digit Or VLQ_CONTINUATION_BIT
             End If
 
-            encoded.Append(Base64Codec.ToBase64String(BitConverter.GetBytes(digit)))
+            encoded.Append(Base64(digit))
 
-            If vlq < 0 Then
+            If vlq <= 0 Then
                 Exit Do
             End If
         Loop
 
         Return encoded.ToString
     End Function
+
 
 End Module
