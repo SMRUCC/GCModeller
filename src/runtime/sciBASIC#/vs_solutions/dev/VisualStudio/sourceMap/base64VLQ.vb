@@ -33,9 +33,8 @@
 ' (INCLUDING NEGLIGENCE Or OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ' OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-Imports System.Text
-Imports Microsoft.VisualBasic.Net.Http
-
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' VLQ编码
@@ -70,6 +69,14 @@ Public Module base64VLQ
                    "abcdefghijklmnopqrstuvwxyz" &
                    "0123456789+/"
 
+    ReadOnly fromBase64 As New Dictionary(Of Char, Integer)
+
+    Sub New()
+        For Each c As SeqValue(Of Char) In Base64.SeqIterator
+            fromBase64(c.value) = c
+        Next
+    End Sub
+
     '
     ' Converts from a two-complement value to a value where the sign bit Is
     ' placed in the least significant bit.  For example, as decimals:
@@ -95,9 +102,8 @@ Public Module base64VLQ
         Return If(negate, -value, value)
     End Function
 
-
-    Function base64VLQ_encode(aValue As Integer) As String
-        Dim encoded As New StringBuilder
+    Public Function base64VLQ_encode(aValue As Integer) As String
+        Dim encoded As New List(Of Char)
         Dim digit As Integer
         Dim vlq As Integer = toVLQSigned(aValue)
 
@@ -111,15 +117,46 @@ Public Module base64VLQ
                 digit = digit Or VLQ_CONTINUATION_BIT
             End If
 
-            encoded.Append(Base64(digit))
+            encoded += Base64(digit)
 
             If vlq <= 0 Then
                 Exit Do
             End If
         Loop
 
-        Return encoded.ToString
+        Return encoded.CharString
     End Function
 
+    ''' <summary>
+    ''' Decodes the next VLQValue from the provided chars.
+    ''' </summary>
+    ''' <param name="[in]"></param>
+    ''' <returns></returns>
+    Public Function base64VLQ_decode([in] As String) As Integer
+        Dim result As Integer = 0
+        Dim shift As Integer = 0
+        Dim continuation As Boolean
+        Dim c As Char
+        Dim chars As CharEnumerator = [in].GetEnumerator
+        Dim digit As Integer
 
+        Call chars.MoveNext()
+
+        Do
+            c = chars.Current
+            digit = fromBase64(c)
+            continuation = (digit And VLQ_CONTINUATION_BIT) <> 0
+            digit = digit And VLQ_BASE_MASK
+            result = result + (digit << shift)
+            shift = shift + VLQ_BASE_SHIFT
+
+            If Not continuation Then
+                Exit Do
+            Else
+                chars.MoveNext()
+            End If
+        Loop
+
+        Return fromVLQSigned(result)
+    End Function
 End Module
