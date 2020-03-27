@@ -1,62 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::279ade831195ffec4b0a2e0d898036ed, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Camera.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Camera
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Lighting, (+2 Overloads) Project, (+4 Overloads) Rotate, (+2 Overloads) RotateX, (+2 Overloads) RotateY
-    '                   (+2 Overloads) RotateZ, ToString
-    ' 
-    '         Sub: Draw
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Camera
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: Lighting, (+2 Overloads) Project, (+4 Overloads) Rotate, (+2 Overloads) RotateX, (+2 Overloads) RotateY
+'                   (+2 Overloads) RotateZ, ToString
+' 
+'         Sub: Draw
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device
+Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Drawing3D
 
     Public Class Camera
 
-        Public ViewDistance!, angleX!, angleY!, angleZ!
+        ''' <summary>
+        ''' the view distance from the user view to target object
+        ''' </summary>
+        Public viewDistance!
+        Public angleX!, angleY!, angleZ!
         Public fov! = 256.0!
         Public screen As Size
         ''' <summary>
@@ -152,12 +157,12 @@ Namespace Drawing3D
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Project(pt As Point3D) As Point3D
-            Return pt.Project(screen.Width, screen.Height, fov, ViewDistance, offset)
+            Return pt.Project(screen.Width, screen.Height, fov, viewDistance, offset)
         End Function
 
         Public Iterator Function Project(pts As IEnumerable(Of Point3D)) As IEnumerable(Of Point3D)
             For Each pt As Point3D In pts
-                Yield pt.Project(screen.Width, screen.Height, fov, ViewDistance, offset)
+                Yield pt.Project(screen.Width, screen.Height, fov, viewDistance, offset)
             Next
         End Function
 
@@ -203,8 +208,21 @@ Namespace Drawing3D
             Return color
         End Function
 
+        ''' <summary>
+        ''' debug view
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Dim debug As New StringBuilder
+
+            Call debug.AppendLine($"Rotation vector:  x={angleX}, y={angleY}, z={angleZ}")
+            Call debug.AppendLine($"View distance:    {viewDistance}")
+            Call debug.AppendLine($"FOV:              {fov}")
+            Call debug.AppendLine($"Screen size:      {screen.Width}px X {screen.Height}px")
+            Call debug.AppendLine($"Light color:      {lightColor.ToHtmlColor}")
+            Call debug.AppendLine($"Light angle:      x={lightAngle.X}, y={lightAngle.Y}, z={lightAngle.Z}")
+
+            Return debug.ToString
         End Function
     End Class
 End Namespace
