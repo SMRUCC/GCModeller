@@ -163,6 +163,10 @@ function $goto(url: string, currentFrame: boolean = false): void {
     win.location.href = Internal.urlSolver(url, currentFrame);
 }
 
+function $download(url: string, rename: string = null) {
+    DOM.download(rename, url, true);
+}
+
 /**
  * 这个函数会自动处理多行的情况
 */
@@ -225,17 +229,21 @@ const $ts: Internal.TypeScript = Internal.Static();
 /**
  * 从文档之中查询或者创建一个新的图像标签元素
 */
-function $image(query: string, args?: Internal.TypeScriptArgument): IHTMLImageElement {
-    return Internal.StringEval.doEval(query, null, args);
-}
+const $image = function (query: string | HTMLElement, args?: Internal.TypeScriptArgument): IHTMLImageElement {
+    return Internal.typeGenericElement<IHTMLImageElement>(query, args);
+};
 
 /**
  * 从文档之中查询或者创建一个新的输入标签元素
 */
-function $input(query: string, args?: Internal.TypeScriptArgument): IHTMLInputElement {
-    return Internal.StringEval.doEval(query, null, args);
-}
+const $input = function (query: string | HTMLElement, args?: Internal.TypeScriptArgument): IHTMLInputElement {
+    return Internal.typeGenericElement<IHTMLInputElement>(query, args)
+};
 
-function $link(query: string, args?: Internal.TypeScriptArgument): IHTMLLinkElement {
-    return Internal.StringEval.doEval(query, null, args);
-}
+const $link = function (query: string | HTMLElement, args?: Internal.TypeScriptArgument): IHTMLLinkElement {
+    return Internal.typeGenericElement<IHTMLLinkElement>(query, args);
+};
+
+const $iframe = function (query: string | HTMLElement, args?: Internal.TypeScriptArgument): HTMLIFrameElement {
+    return Internal.typeGenericElement<HTMLIFrameElement>(query, args);
+};

@@ -22,15 +22,15 @@ namespace DOM {
      * @param name The file save name for download operation
      * @param uri The file object to download
     */
-    export function download(name: string, uri: string | DataURI): void {
-        if (navigator.msSaveOrOpenBlob) {
+    export function download(name: string, uri: string | DataURI, isUrl: boolean = false): void {
+        if (!isUrl && navigator.msSaveOrOpenBlob) {
             navigator.msSaveOrOpenBlob(DataExtensions.uriToBlob(uri), name);
         } else {
-            downloadImpl(name, uri);
+            downloadImpl(name, uri, isUrl);
         }
     }
 
-    function downloadImpl(name: string, uri: string | DataURI): void {
+    function downloadImpl(name: string, uri: string | DataURI, isUrl: boolean): void {
         var saveLink: HTMLAnchorElement = <any>$ts('<a>');
         var downloadSupported = 'download' in saveLink;
 
@@ -39,26 +39,30 @@ namespace DOM {
             saveLink.style.display = 'none';
             document.body.appendChild(saveLink);
 
-            try {
-                var blob = DataExtensions.uriToBlob(uri);
-                var url = URL.createObjectURL(blob);
+            if (isUrl && typeof uri == "string") {
+                saveLink.href = <string>uri;
+            } else {
+                try {
+                    let blob = DataExtensions.uriToBlob(uri);
+                    let url = URL.createObjectURL(blob);
 
-                saveLink.href = url;
-                saveLink.onclick = function () {
-                    requestAnimationFrame(function () {
-                        URL.revokeObjectURL(url);
-                    })
-                };
-            } catch (e) {
-                if (TypeScript.logging.outputWarning) {
-                    console.warn('This browser does not support object URLs. Falling back to string URL.');
+                    saveLink.href = url;
+                    saveLink.onclick = function () {
+                        requestAnimationFrame(function () {
+                            URL.revokeObjectURL(url);
+                        })
+                    };
+                } catch (e) {
+                    if (TypeScript.logging.outputWarning) {
+                        console.warn('This browser does not support object URLs. Falling back to string URL.');
+                    }
+
+                    if (typeof uri !== "string") {
+                        uri = DataExtensions.toUri(uri);
+                    }
+
+                    saveLink.href = uri;
                 }
-
-                if (typeof uri !== "string") {
-                    uri = DataExtensions.toUri(uri);
-                }
-
-                saveLink.href = uri;
             }
 
             saveLink.click();

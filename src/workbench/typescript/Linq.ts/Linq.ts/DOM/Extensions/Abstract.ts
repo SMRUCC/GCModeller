@@ -18,9 +18,16 @@ interface HTMLExtensions {
 
     /**
      * 将当前的html文档节点元素之中的显示内容替换为参数所给定的html内容
+     * 
+     * @param html 可以为文档文本字符串内容，也可以是一个节点对象的实例，或者不需要参数的生成器函数
     */
     display(html: string | HTMLElement | HTMLTsElement | (() => HTMLElement)): IHTMLElement;
-    append(html: string | HTMLElement | HTMLTsElement | (() => HTMLElement)): IHTMLElement;
+    /**
+     * 将一个或者多个文档节点对象添加至当前的节点之中
+     * 
+     * @returns 这个函数返回当前的文档节点对象实例
+    */
+    appendElement(...html: (string | HTMLElement | HTMLTsElement | (() => HTMLElement))[]): IHTMLElement;
 
     /**
      * @param reset If this parameter is true, then it means all of the style that this node have will be clear up.
