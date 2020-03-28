@@ -19,3 +19,8 @@ maps[["map00680"]]
 :> keggMap.reportHtml(highlights)
 :> writeLines(con = "X:\test.html")
 ;
+
+maps[["map00680"]]
+:> keggMap.highlights(highlights)
+:> save.graphics(file = "X:\test.png")
+;

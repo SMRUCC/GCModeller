@@ -67,6 +67,7 @@ Public Class ReportRender
         Dim rendering As Image = LocalRender.Rendering(map, objectList)
 
         With New ScriptBuilder(My.Resources.map_template)
+            !title = map.Name
             !map_json = mapjson.GetJson(indent:=True)
             !map_base64 = New DataURI(rendering).ToString
             !image_width = rendering.Width
@@ -75,7 +76,6 @@ Public Class ReportRender
                 .description = map.Name,
                 .value = objectList
             }.KEGGURLEncode
-            !title = map.Name
 
             Return .ToString
         End With
