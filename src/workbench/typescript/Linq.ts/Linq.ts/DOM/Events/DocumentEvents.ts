@@ -31,8 +31,8 @@
                 return;
             }
         } else if (TypeScript.logging.outputEverything) {
-            console.log("Add Document.ready event handler.");
-            console.log(`document.readyState = ${docObj.readyState}`)
+            TypeScript.logging.log("Add Document.ready event handler.", TypeScript.ConsoleColors.Green);
+            TypeScript.logging.log(`document.readyState = ${docObj.readyState}`, TypeScript.ConsoleColors.Green);
         }
 
         // 2018-12-25 "interactive", "complete" 这两种状态都可以算作是DOM已经准备好了

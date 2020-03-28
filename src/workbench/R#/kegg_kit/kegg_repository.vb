@@ -1,5 +1,47 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿#Region "Microsoft.VisualBasic::2c2969bdab61e5f9c57f331c02c93a0b, R#\kegg_kit\kegg_repository.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module kegg_repository
+    ' 
+    '     Function: FetchKEGGOrganism, LoadCompoundRepo, LoadMapIndex, LoadPathways, LoadReactionRepo
+    '               ReadKEGGOrganism, SaveKEGGOrganism, TableOfReactions
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -12,9 +54,17 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
-<Package("kegg.repository")>
+''' <summary>
+''' 
+''' </summary>
+<Package("kegg.repository", Category:=APICategories.SoftwareTools)>
 Public Module kegg_repository
 
+    ''' <summary>
+    ''' load repository of kegg <see cref="Compound"/>.
+    ''' </summary>
+    ''' <param name="repository"></param>
+    ''' <returns></returns>
     <ExportAPI("load.compounds")>
     Public Function LoadCompoundRepo(repository As String) As CompoundRepository
         Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
@@ -25,9 +75,20 @@ Public Module kegg_repository
         Return ReactionRepository.LoadAuto(repository)
     End Function
 
-    <ExportAPI("load.maps.index")>
-    Public Function LoadMapIndex(repository As String) As Dictionary(Of String, Map)
-        Return MapRepository.GetMapsAuto(repository).ToDictionary(Function(map) map.id)
+    ''' <summary>
+    ''' load list of kegg reference <see cref="Map"/>.
+    ''' </summary>
+    ''' <param name="repository">
+    ''' a directory of repository data for kegg reference <see cref="Map"/>.
+    ''' </param>
+    ''' <returns>
+    ''' a kegg reference map object vector, which can be indexed 
+    ''' via <see cref="Map.id"/>.
+    ''' </returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <ExportAPI("load.maps")>
+    Public Function LoadMapIndex(repository As String) As Map()
+        Return MapRepository.GetMapsAuto(repository).ToArray
     End Function
 
     <ExportAPI("load.pathways")>
@@ -51,16 +112,6 @@ Public Module kegg_repository
         Else
             Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
         End If
-    End Function
-
-    <ExportAPI("map.local_render")>
-    Public Function MapRender(maps As Dictionary(Of String, Map)) As LocalRender
-        Return New LocalRender(maps)
-    End Function
-
-    <ExportAPI("nodes.colorAs")>
-    Public Function singleColor(nodes As String(), color$) As NamedValue(Of String)()
-        Return nodes.Select(Function(id) New NamedValue(Of String)(id, color)).ToArray
     End Function
 
     ''' <summary>
@@ -103,3 +154,4 @@ Public Module kegg_repository
         Return file.LoadCsv(Of Prokaryote)
     End Function
 End Module
+

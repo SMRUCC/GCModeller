@@ -670,6 +670,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{a4db87f1-8b06-4398-af22-4bf0bafbd87a}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{a6390958-28ba-4c53-b22d-a859353556da}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4

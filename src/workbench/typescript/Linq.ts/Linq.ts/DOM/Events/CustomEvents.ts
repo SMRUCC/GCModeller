@@ -31,10 +31,7 @@
         if (!started) {
             setInterval(backgroundInternal, 10);
             started = true;
-
-            if (TypeScript.logging.outputEverything) {
-                console.log("Start background worker...");
-            }
+            TypeScript.logging.log("Start background worker...", TypeScript.ConsoleColors.DarkBlue);
         }
     }
 

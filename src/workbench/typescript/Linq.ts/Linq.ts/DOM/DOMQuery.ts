@@ -115,7 +115,7 @@ namespace DOM {
 
             switch (prefix) {
                 case "#": return this.getById(expr.substr(1));
-                case ".": return this.getByClass(expr, isSingle);
+                case ".": return this.getByClass(expr.substr(1), isSingle);
                 case "!": return this.getByName(expr.substr(1), isSingle);
                 case "<": return this.createElement(expr);
                 case "@": return this.queryMeta(expr.substr(1));

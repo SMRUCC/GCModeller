@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22ba85bb29b4a156bef01a869da92781, WebCloud\JavaScript\highcharts.js\Common\Components.vb"
+﻿#Region "Microsoft.VisualBasic::5618ad05ce6daad20b7d916d3e9f7a6e, markdown2pdf\JavaScript\highcharts.js\Common\Components.vb"
 
     ' Author:
     ' 
@@ -34,9 +34,10 @@
     ' Class Axis
     ' 
     '     Properties: allowDecimals, categories, className, crosshair, dateTimeLabelFormats
-    '                 enabled, endOnTick, gridLineWidth, labels, max
-    '                 min, opposite, plotBands, showFirstLabel, showLastLabel
-    '                 startOnTick, tickInterval, title, type
+    '                 enabled, endOnTick, gridLineInterpolation, gridLineWidth, labels
+    '                 lineWidth, max, min, opposite, plotBands
+    '                 showFirstLabel, showLastLabel, startOnTick, tickInterval, tickmarkPlacement
+    '                 title, type
     ' 
     ' Class dateTimeLabelFormats
     ' 

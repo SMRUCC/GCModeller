@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a0f903fefb42e2cece5359234165cfd, R#\GCModeller_cli\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::d5977b3f0791ead7dd81c58f58f738b3, R#\GCModeller_cli\CLI.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,11 @@
 
     ' Module CLI
     ' 
-    '     Function: eggHTS, profiler
+    '     Function: eggHTS, keggTools, profiler
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -61,4 +60,3 @@ Public Module CLI
         Return GCModellerApps.KEGG_tools.FromEnvironment(App.HOME)
     End Function
 End Module
-
