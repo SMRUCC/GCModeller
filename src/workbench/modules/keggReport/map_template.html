@@ -1,8 +1,16 @@
 <html>
 
 <head>
+    <title>{$title}</title>
+   
     <script id="mapjson" type="application/json">
         {$map_json}
+    </script>
+
+    <script type="text/javascript">
+        function kegg_href(area) {
+            return "https://www.genome.jp/dbget-bin/www_bget?" + area.entities[0];
+        }
     </script>
 </head>
 
@@ -11,11 +19,10 @@
         <p>
             <a href="{$keggLink}">View on the KEGG web site</a>.
         </p>
-        <img src="{$map_base64}" name="pathwayimage" id="pathwayimage" usemap="#mapdata" border="0" width="{$image_width}" />
+        <img src="{$map_base64}" name="pathwayimage" id="pathwayimage" usemap="#mapdata" width="{$image_width}" />
+
         <map id="mapdata" name="mapdata">
         </map>
-
-        <div id="poplay" class="poplay"></div>
     </div>
 
     <script type="text/javascript">
@@ -24,19 +31,15 @@
         let mapdata = document.getElementById("mapdata");
         let shape = null;
 
+        console.log(mapjson);
+
         for (let area of mapjson) {
             shape = document.createElement("area");
             shape.shape = area.shape;
-            shape.coords = area.coords;
-            shape.href = area.href;
+            shape.coords = area.location.join(",");
+            shape.href = kegg_href(area);
             shape.title = area.title;
-            shape.onmouseover = function () {
-                popupTimer(area.kegg_id, area.title, area.color);
-            }
-            shape.onmouseout = function () {
-                hideMapTn();
-            }
-
+           
             mapdata.append(shape);
         }
     </script>

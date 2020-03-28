@@ -43,7 +43,11 @@ Public Class ReportRender
             .location = area.coords _
                 .Split(","c) _
                 .Select(AddressOf Val) _
-                .ToArray
+                .ToArray,
+            .isEntity = Not .entities _
+                .All(Function(id)
+                         Return id.IsPattern("[KCDGR]\d+")
+                     End Function)
         }
     End Function
 
@@ -63,7 +67,7 @@ Public Class ReportRender
         Dim rendering As Image = LocalRender.Rendering(map, objectList)
 
         With New ScriptBuilder(My.Resources.map_template)
-            !map_json = mapjson.GetJson
+            !map_json = mapjson.GetJson(indent:=True)
             !map_base64 = New DataURI(rendering).ToString
             !image_width = rendering.Width
             !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
@@ -71,6 +75,7 @@ Public Class ReportRender
                 .description = map.Name,
                 .value = objectList
             }.KEGGURLEncode
+            !title = map.Name
 
             Return .ToString
         End With
@@ -87,5 +92,10 @@ Public Class MapShape
     ''' <returns></returns>
     Public Property entities As String()
     Public Property title As String
+    Public Property isEntity As Boolean
+
+    Public Overrides Function ToString() As String
+        Return title
+    End Function
 
 End Class
