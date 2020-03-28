@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -69,16 +68,6 @@ Public Module kegg_repository
         Else
             Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
         End If
-    End Function
-
-    <ExportAPI("map.local_render")>
-    Public Function MapRender(maps As Dictionary(Of String, Map)) As LocalRender
-        Return New LocalRender(maps)
-    End Function
-
-    <ExportAPI("nodes.colorAs")>
-    Public Function singleColor(nodes As String(), color$) As NamedValue(Of String)()
-        Return nodes.Select(Function(id) New NamedValue(Of String)(id, color)).ToArray
     End Function
 
     ''' <summary>

@@ -55,7 +55,7 @@ Public Class ReportRender
     ''' a collection of ``[kegg_id => color]`` tuples.
     ''' </param>
     ''' <returns></returns>
-    Public Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String))) As String
+    Public Shared Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String))) As String
         Dim mapjson As MapShape() = map.shapes _
             .Select(AddressOf CreateMap) _
             .ToArray
