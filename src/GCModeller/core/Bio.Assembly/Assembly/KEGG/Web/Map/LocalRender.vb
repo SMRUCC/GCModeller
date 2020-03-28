@@ -299,7 +299,7 @@ Namespace Assembly.KEGG.WebServices
                             .Scale(scaleCircle)
 
                         g.FillPie(brush, rect, 0, 360)
-                        g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                        ' g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
                     Next
                 End With
             Next

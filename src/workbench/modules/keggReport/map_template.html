@@ -9,7 +9,7 @@
 
     <script type="text/javascript">
         function kegg_href(area) {
-            return "https://www.genome.jp/dbget-bin/www_bget?" + area.entities[0];
+            return "https://www.genome.jp/dbget-bin/www_bget?" + area.entities.join("+");
         }
     </script>
 </head>

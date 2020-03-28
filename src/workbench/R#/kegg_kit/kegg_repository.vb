@@ -39,12 +39,14 @@ Public Module kegg_repository
     ''' <param name="repository">
     ''' a directory of repository data for kegg reference <see cref="Map"/>.
     ''' </param>
-    ''' <returns></returns>
-    ''' 
+    ''' <returns>
+    ''' a kegg reference map object vector, which can be indexed 
+    ''' via <see cref="Map.id"/>.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <ExportAPI("load.maps.index")>
-    Public Function LoadMapIndex(repository As String) As Dictionary(Of String, Map)
-        Return MapRepository.GetMapsAuto(repository).ToDictionary(Function(map) map.id)
+    <ExportAPI("load.maps")>
+    Public Function LoadMapIndex(repository As String) As Map()
+        Return MapRepository.GetMapsAuto(repository).ToArray
     End Function
 
     <ExportAPI("load.pathways")>
