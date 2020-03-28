@@ -35,7 +35,7 @@ Public Class ReportRender
         }
     End Function
 
-    Public Function CreateMap(area As Area) As MapShape
+    Public Shared Function CreateMap(area As Area) As MapShape
         Return New MapShape With {
             .shape = area.shape,
             .title = area.title,
