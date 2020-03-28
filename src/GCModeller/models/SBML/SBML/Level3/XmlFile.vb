@@ -157,7 +157,7 @@ Namespace Level3
     End Class
 
     <XmlType("model", Namespace:=XmlFile.XmlNamespace)>
-    Public Class Model : Inherits Components.ModelBase
+    Public Class Model : Inherits ModelBase
 
         <XmlElement("notes")> Public Property notes As Notes
 
@@ -165,7 +165,13 @@ Namespace Level3
         Public Property listOfSpecies As Species()
         Public Property listOfReactions As Reaction()
         Public Property listOfUnitDefinitions As unitDefinition()
+        Public Property listOfFunctionDefinitions As functionDefinition()
+    End Class
 
+    Public Class functionDefinition : Inherits IPartsBase
+
+        <XmlElement("math", [Namespace]:="http://www.w3.org/1998/Math/MathML")>
+        Public Property math As Math
     End Class
 
     Public Class unitDefinition : Inherits IPartsBase
@@ -283,15 +289,6 @@ Namespace Level3
 
         <XmlElement("math")> Public Property Math As Math
         Public Property listOfLocalParameters As localParameter()
-    End Class
-
-    <XmlType("math", Namespace:="http://www.w3.org/1998/Math/MathML")>
-    Public Class Math
-        <XmlElement("apply")> Public Property applyValue As Apply
-
-        Public Class Apply
-            <XmlElement("ci")> Public Property VaslueCollection As String()
-        End Class
     End Class
 
     Public Class localParameter
