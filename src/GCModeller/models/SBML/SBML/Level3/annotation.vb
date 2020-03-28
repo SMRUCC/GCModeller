@@ -19,4 +19,32 @@ Namespace Level3
         <XmlElement("Bag", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property Bag As Array
     End Class
+
+    Public Class annotation
+
+        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Property RDF As AnnotationInfo
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        End Sub
+
+        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+
+            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
+            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
+
+            Sub New()
+                Call MyBase.New
+
+                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
+                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
+            End Sub
+        End Class
+
+    End Class
 End Namespace

@@ -147,6 +147,13 @@ Namespace Level3
         <XmlAttribute("version")> Public Property version As Integer
         <XmlElement("model")> Public Property model As Model
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return model.ToString
         End Function
@@ -189,27 +196,6 @@ Namespace Level3
 
         Public Property annotation As annotation
     End Class
-
-    Public Class annotation
-        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
-        Public Property RDF As AnnotationInfo
-
-        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
-        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
-
-            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
-            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
-
-            Sub New()
-                Call MyBase.New
-
-                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
-                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
-            End Sub
-        End Class
-
-    End Class
-
 
     <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class Reaction
