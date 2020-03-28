@@ -174,20 +174,6 @@ Namespace Level3
         Public Property math As Math
     End Class
 
-    Public Class unitDefinition : Inherits IPartsBase
-
-        Public Property listOfUnits As unit()
-
-    End Class
-
-    Public Class unit
-        <XmlAttribute> Public Property scale As Double
-        <XmlAttribute> Public Property exponent As Double
-        <XmlAttribute> Public Property multiplier As Double
-        <XmlAttribute> Public Property kind As String
-
-    End Class
-
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class Compartment : Inherits Components.Compartment
         <XmlAttribute("size")> Public Property Size As Integer
