@@ -47,6 +47,14 @@ Public Class ReportRender
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="highlights">
+    ''' a collection of ``[kegg_id => color]`` tuples.
+    ''' </param>
+    ''' <returns></returns>
     Public Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String))) As String
         Dim mapjson As MapShape() = map.shapes _
             .Select(AddressOf CreateMap) _

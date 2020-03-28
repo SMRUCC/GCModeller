@@ -187,6 +187,10 @@
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\modules\keggReport\keggReport.vbproj">
+      <Project>{c6f51b7c-c3f9-4bdf-8611-91528c5a096f}</Project>
+      <Name>keggReport</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

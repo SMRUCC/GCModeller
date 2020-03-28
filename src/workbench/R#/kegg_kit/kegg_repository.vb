@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
@@ -12,9 +13,17 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
-<Package("kegg.repository")>
+''' <summary>
+''' 
+''' </summary>
+<Package("kegg.repository", Category:=APICategories.SoftwareTools)>
 Public Module kegg_repository
 
+    ''' <summary>
+    ''' load repository of kegg <see cref="Compound"/>.
+    ''' </summary>
+    ''' <param name="repository"></param>
+    ''' <returns></returns>
     <ExportAPI("load.compounds")>
     Public Function LoadCompoundRepo(repository As String) As CompoundRepository
         Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
@@ -25,6 +34,15 @@ Public Module kegg_repository
         Return ReactionRepository.LoadAuto(repository)
     End Function
 
+    ''' <summary>
+    ''' load list of kegg reference <see cref="Map"/>.
+    ''' </summary>
+    ''' <param name="repository">
+    ''' a directory of repository data for kegg reference <see cref="Map"/>.
+    ''' </param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps.index")>
     Public Function LoadMapIndex(repository As String) As Dictionary(Of String, Map)
         Return MapRepository.GetMapsAuto(repository).ToDictionary(Function(map) map.id)
