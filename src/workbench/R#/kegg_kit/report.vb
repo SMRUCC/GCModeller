@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
@@ -41,6 +42,17 @@ Module report
                             Return New NamedValue(Of String) With {
                                 .Name = tuple(Scan0),
                                 .Value = tuple(1)
+                            }
+                        End Function) _
+                .ToArray
+        ElseIf TypeOf highlights Is list Then
+            highlightObjs = DirectCast(highlights, list).slots _
+                .Select(Function(tuple)
+                            Dim colorVal As String = InteropArgumentHelper.getColor(tuple.Value)
+
+                            Return New NamedValue(Of String) With {
+                                .Name = tuple.Key,
+                                .Value = colorVal
                             }
                         End Function) _
                 .ToArray
