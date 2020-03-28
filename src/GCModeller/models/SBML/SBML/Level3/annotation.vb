@@ -20,6 +20,7 @@ Namespace Level3
         Public Property Bag As Array
     End Class
 
+    <XmlType("annotation", [Namespace]:=XmlFile.XmlNamespace)>
     Public Class annotation
 
         <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>

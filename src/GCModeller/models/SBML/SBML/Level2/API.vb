@@ -62,9 +62,9 @@ Namespace Level2
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function IsEntry(sbml As XmlFile, metabolite As String) As Boolean
-            Dim LQuery = LinqAPI.DefaultFirst(Of Reaction) <=
+            Dim LQuery = LinqAPI.DefaultFirst(Of Elements.Reaction) <=
  _
-                From rxn As Reaction
+                From rxn As Elements.Reaction
                 In sbml.Model.listOfReactions
                 Where rxn.Produce(metabolite) ' 当该代谢物仅有消耗而无合成项目的时候，该代谢物为入口
                 Select rxn '
@@ -79,9 +79,9 @@ Namespace Level2
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function GetAllConsume(sbml As XmlFile, Metabolite As String) As Elements.Reaction()
-            Dim LQuery = LinqAPI.Exec(Of Reaction) <=
+            Dim LQuery = LinqAPI.Exec(Of Elements.Reaction) <=
  _
-                From rxn As Reaction
+                From rxn As Elements.Reaction
                 In sbml.Model.listOfReactions
                 Where rxn.Consume(Metabolite)
                 Select rxn '
@@ -90,9 +90,9 @@ Namespace Level2
         End Function
 
         <Extension> Public Function GetAllProduce(SBML As Level2.XmlFile, Metabolite As String) As Elements.Reaction()
-            Dim LQuery = LinqAPI.Exec(Of Reaction) <=
+            Dim LQuery = LinqAPI.Exec(Of Elements.Reaction) <=
  _
-                From rxn As Reaction
+                From rxn As Elements.Reaction
                 In SBML.Model.listOfReactions
                 Where rxn.Produce(Metabolite)
                 Select rxn '
@@ -104,7 +104,7 @@ Namespace Level2
             Dim model As Elements.Model = file.Model
             Dim splst As speciesReference() = LinqAPI.Exec(Of speciesReference) <=
  _
-                From rxn As Reaction
+                From rxn As Elements.Reaction
                 In model.listOfReactions
                 Select rxn.Products.Join(rxn.Reactants)
 

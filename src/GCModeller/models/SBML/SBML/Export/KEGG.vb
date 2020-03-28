@@ -67,10 +67,10 @@ Namespace ExportServices
                          Select xx,
                              x.Key)).IteratesALL.ToDictionary(Function(x) x.xx.ID,
                                                                    Function(x) x.Key)
-            Dim source = (From x As Reaction In model.Model.listOfReactions
+            Dim source = (From x As Level2.Elements.Reaction In model.Model.listOfReactions
                           Where Meta2KEGG.Exists(x)
                           Select x)
-            Dim models = (From x As Reaction In source.AsParallel
+            Dim models = (From x As Level2.Elements.Reaction In source.AsParallel
                           Let created = __getModel(x, Meta2KEGG, nonEnzymes)
                           Where Not created Is Nothing
                           Select created).ToArray
@@ -84,7 +84,7 @@ Namespace ExportServices
         ''' <param name="allCompounds"></param>
         ''' <param name="filterNonEnzyme">只会生成非酶促反应的数据</param>
         ''' <returns></returns>
-        Private Function __getModel(rxn As Reaction, allCompounds As Dictionary(Of String, String), Optional filterNonEnzyme As Boolean = False) As bGetObject.Reaction
+        Private Function __getModel(rxn As Level2.Elements.Reaction, allCompounds As Dictionary(Of String, String), Optional filterNonEnzyme As Boolean = False) As bGetObject.Reaction
             Dim props As New FluxPropReader(rxn.Notes)
 
             If filterNonEnzyme Then
@@ -106,7 +106,7 @@ Namespace ExportServices
             Return model
         End Function
 
-        <Extension> Public Function Exists(allCompunds As Dictionary(Of String, String), rxn As Reaction) As Boolean
+        <Extension> Public Function Exists(allCompunds As Dictionary(Of String, String), rxn As Level2.Elements.Reaction) As Boolean
             For Each x In rxn.Reactants
                 If Not allCompunds.ContainsKey(x.species) Then
                     Return False
