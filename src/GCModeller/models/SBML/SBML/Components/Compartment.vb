@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::796f7b46af90cc471696c6ce20a86909, models\SBML\SBML\Components\Compartment.vb"
+﻿#Region "Microsoft.VisualBasic::d9854d2df20bd22f73c9936fa37541a9, SBML\SBML\Components\Compartment.vb"
 
     ' Author:
     ' 

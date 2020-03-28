@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0720acb21f033f096b82fe559d0546e4, models\SBML\SBML\Components\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::9f072bb85f805725e1b93b61c2babc62, SBML\SBML\Components\Specie.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Specie
     ' 
-    '         Properties: boundaryCondition, CompartmentID, id
+    '         Properties: boundaryCondition, compartmentId, id
     ' 
     '         Function: ToString
     ' 

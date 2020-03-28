@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9586ebd2b4b725d5a55fd1ba6871db25, models\SBML\SBML\Level2\API.vb"
+﻿#Region "Microsoft.VisualBasic::15f898ea946b849f5de81d2a7b45ee30, SBML\SBML\Level2\API.vb"
 
     ' Author:
     ' 
