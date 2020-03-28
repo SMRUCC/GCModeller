@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b82ae8f402e8a477bc84f7dd51b15472, mime\application%rdf+xml\DataModel\Bag.vb"
+﻿#Region "Microsoft.VisualBasic::83de14074edc4d30d351f17bcae127bc, mime\application%rdf+xml\DataModel\Bag.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,13 @@
     '     Properties: list
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
+    ' 
+    ' Class li
+    ' 
+    '     Properties: resource
+    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -50,16 +57,35 @@ Imports System.Xml.Serialization
 ''' + ``&lt;rdf:Seq>`` 元素用于描述一个规定为有序的值的列表（比如一个字母顺序的排序）。
 ''' + ``&lt;rdf:Alt>`` 元素用于一个可替换的值的列表（用户仅可选择这些值的其中之一）。
 ''' </summary>
-<XmlType(NameOf(Array), [Namespace]:=RDF.XmlnsNamespace)>
+<XmlType(NameOf(Array), [Namespace]:=RDFEntity.XmlnsNamespace)>
 Public Class Array
 
     <XmlNamespaceDeclarations()>
-    Public xmlns As XmlSerializerNamespaces
+    Public xmlns As New XmlSerializerNamespaces
+
+    <XmlElement("li", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property list As li()
 
     Sub New()
-        xmlns.Add("rdf", RDF.XmlnsNamespace)
+        xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
     End Sub
 
-    <XmlElement("li", [Namespace]:=RDF.XmlnsNamespace)>
-    Public Property list As String()
+    Public Overrides Function ToString() As String
+        Return $"listof {list.Count} elements: {list.Take(3).JoinBy(", ")}..."
+    End Function
+End Class
+
+<XmlType("item", [Namespace]:=RDFEntity.XmlnsNamespace)>
+Public Class li
+
+    <XmlAttribute("li", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property resource As String
+
+    Public Overrides Function ToString() As String
+        If resource Is Nothing Then
+            Return "null"
+        Else
+            Return resource
+        End If
+    End Function
 End Class

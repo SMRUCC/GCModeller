@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a3209523da7aa302b78e1ed3a518bd5, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\xConsole\xConsole.vb"
+﻿#Region "Microsoft.VisualBasic::db3b8e9543d16ef36a97631e72ad620e, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\xConsole\xConsole.vb"
 
     ' Author:
     ' 
@@ -65,7 +65,7 @@ Imports Microsoft.VisualBasic.Language
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports stdNum = System.Math
 
-Namespace Terminal.xConsole
+Namespace ApplicationServices.Terminal.xConsole
 
     ''' <summary>
     ''' Allows you to color and animate the console. ~ overpowered.it ~ TheTrigger - 💸

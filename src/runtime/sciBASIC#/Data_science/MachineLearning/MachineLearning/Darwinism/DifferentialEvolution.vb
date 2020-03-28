@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18c568c9dc55700311fb34858170498d, Data_science\MachineLearning\MachineLearning\Darwinism\DifferentialEvolution.vb"
+﻿#Region "Microsoft.VisualBasic::bcd6d676c72f329406257fc49e36c9d7, Data_science\MachineLearning\MachineLearning\Darwinism\DifferentialEvolution.vb"
 
     ' Author:
     ' 
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports stdNum = System.Math
 
 Namespace Darwinism
 
@@ -266,18 +267,18 @@ Namespace Darwinism
                 ' calculate New candidate solution
 
                 ' pick random point from population
-                Dim x = Math.Floor(random.NextDouble * (populationSize - 1))
+                Dim x = stdNum.Floor(random.NextDouble * (populationSize - 1))
                 Dim a, b, c As Integer
 
                 ' pick three different random points from population
                 Do While (a = x)
-                    a = Math.Floor(random.NextDouble * (populationSize - 1))
+                    a = stdNum.Floor(random.NextDouble * (populationSize - 1))
                 Loop
                 Do While (b = x OrElse b = a)
-                    b = Math.Floor(random.NextDouble * (populationSize - 1))
+                    b = stdNum.Floor(random.NextDouble * (populationSize - 1))
                 Loop
                 Do While (c = x OrElse c = a OrElse c = b)
-                    c = Math.Floor(random.NextDouble * (populationSize - 1))
+                    c = stdNum.Floor(random.NextDouble * (populationSize - 1))
                 Loop
 
                 ' Pick a random index [0-Dimensionality]

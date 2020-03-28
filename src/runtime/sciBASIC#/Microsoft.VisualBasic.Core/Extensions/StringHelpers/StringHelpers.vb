@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::703ea865ef00c67e0b76d93a57c55633, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::37c96c049aa9e79ae9d7bd58b5c67434, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -356,13 +356,22 @@ Public Module StringHelpers
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="data"></param>
-    ''' <param name="delimiter$"></param>
+    ''' <param name="delimiter"></param>
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter$) As String
-        Return String.Join(delimiter, data.SafeQuery.Select(AddressOf Scripting.ToString).ToArray)
+    Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter$, Optional toString As Func(Of T, String) = Nothing) As String
+        If toString Is Nothing Then
+            toString = Function(o) Scripting.ToString(o)
+        End If
+
+        Return data _
+            .SafeQuery _
+            .Select(toString) _
+            .DoCall(Function(strs)
+                        Return String.Join(delimiter, strs.ToArray)
+                    End Function)
     End Function
 
     ''' <summary>

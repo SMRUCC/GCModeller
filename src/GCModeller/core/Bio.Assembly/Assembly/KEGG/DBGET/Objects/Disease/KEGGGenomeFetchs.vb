@@ -42,10 +42,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Models

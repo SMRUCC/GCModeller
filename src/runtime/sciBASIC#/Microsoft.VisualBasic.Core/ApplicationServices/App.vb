@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d541797c5491988084df30bdfba3bea3, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::851342afa5a29be39326f664a9c6cbbc, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -45,11 +45,11 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: __isMicrosoftPlatform, __listFiles, __sysTEMP, (+2 Overloads) Argument, CLICode
+    '     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
     '               ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
     '               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
     '               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
-    '               NullDevice, (+10 Overloads) RunCLI, RunCLIInternal, SelfFolk, SelfFolks
+    '               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, SelfFolks
     '               Shell, tempCode, TemporaryEnvironment, TraceBugs
     ' 
     '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
@@ -68,15 +68,14 @@ Imports System.Security
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
-Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Windows.Forms.VistaSecurity
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
@@ -88,7 +87,6 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.ValueTypes
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
@@ -159,7 +157,7 @@ Public Module App
     ''' 在这里使用<see cref="Console.IsErrorRedirected"/>这个来进行判断是可靠的
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property IsConsoleApp As Boolean = Not Console.IsErrorRedirected
+    Public ReadOnly Property IsConsoleApp As Boolean = (Not Console.IsErrorRedirected) OrElse (Not Console.IsOutputRedirected)
     ''' <summary>
     ''' Get the referenced dll list of current running ``*.exe`` program.
     ''' (获取得到当前的这个所运行的应用程序所引用的dll文件列表)
@@ -477,15 +475,22 @@ Public Module App
     Dim m_joinedVariables As New Dictionary(Of NamedValue(Of String))
 
     ''' <summary>
-    ''' 添加参数到应用程序的环境变量之中
+    ''' add/update the environment variable in sciBASIC.NET framework.
+    ''' 
+    ''' (添加参数到应用程序的环境变量之中)
     ''' </summary>
-    ''' <param name="name">如果给定的当前这个参数名称存在于当前框架环境中，则会更新原来的值</param>
-    ''' <param name="value$"></param>
+    ''' <param name="name">
+    ''' if target variable symbol name is exists in the framework, 
+    ''' then the config value of the variable will be updated.
+    ''' or this function will add a new variable into the 
+    ''' environment.
+    ''' 
+    ''' (如果给定的当前这个参数名称存在于当前框架环境中，则会更新原来的值)</param>
+    ''' <param name="value"></param>
     Public Sub JoinVariable(name$, value$)
-        m_joinedVariables(name) =
-            New NamedValue(Of String) With {
-                .Name = name,
-                .Value = value
+        m_joinedVariables(name) = New NamedValue(Of String) With {
+            .Name = name,
+            .Value = value
         }
     End Sub
 
@@ -867,13 +872,13 @@ Public Module App
     ''' Is this application running on a Microsoft OS platform.(是否是运行于微软的操作系统平台？)
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property IsMicrosoftPlatform As Boolean = App.__isMicrosoftPlatform
+    Public ReadOnly Property IsMicrosoftPlatform As Boolean = App.checkIsMicrosoftPlatform
 
     ''' <summary>
     ''' 这个主要是判断一个和具体的操作系统平台相关的Win32 API是否能够正常的工作？
     ''' </summary>
     ''' <returns></returns>
-    Private Function __isMicrosoftPlatform() As Boolean
+    Private Function checkIsMicrosoftPlatform() As Boolean
 #If UNIX Then
         Return False
 #Else

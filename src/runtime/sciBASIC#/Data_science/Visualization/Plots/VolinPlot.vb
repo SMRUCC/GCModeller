@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f347634a41e6da863f15eb2a6e94b27, Data_science\Visualization\Plots\VolinPlot.vb"
+﻿#Region "Microsoft.VisualBasic::5132ceff3c18c78023e5c8434d6d8af7, Data_science\Visualization\Plots\VolinPlot.vb"
 
     ' Author:
     ' 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' ## 小提琴图
@@ -89,7 +90,8 @@ Public Module VolinPlot
                          Optional yTickFormat$ = "F2",
                          Optional stroke$ = Stroke.AxisStroke,
                          Optional title$ = "Volin Plot",
-                         Optional titleFontCSS$ = Canvas.Resolution2K.PlotTitle) As GraphicsData
+                         Optional titleFontCSS$ = Canvas.Resolution2K.PlotTitle,
+                         Optional labelAngle As Double = -45) As GraphicsData
 
         With dataset.ToArray
             Return .PropertyNames _
@@ -110,7 +112,8 @@ Public Module VolinPlot
                                    yTickFormat:=yTickFormat,
                                    strokeCSS:=stroke,
                                    title:=title,
-                                   titleFontCSS:=titleFontCSS
+                                   titleFontCSS:=titleFontCSS,
+                                   labelAngle:=labelAngle
                                )
                            End Function)
         End With
@@ -129,16 +132,17 @@ Public Module VolinPlot
                          Optional size$ = Canvas.Resolution2K.Size,
                          Optional margin$ = Canvas.Resolution2K.PaddingWithTopTitle,
                          Optional bg$ = "white",
-                         Optional colorset$ = DesignerTerms.TSFShellColors,
+                         Optional colorset$ = "#94cac1",
                          Optional Ylabel$ = "y axis",
                          Optional yLabelFontCSS$ = Canvas.Resolution2K.PlotSmallTitle,
                          Optional ytickFontCSS$ = Canvas.Resolution2K.PlotLabelNormal,
                          Optional splineDegree% = 2,
                          Optional removesOutliers As Boolean = True,
                          Optional yTickFormat$ = "F2",
-                         Optional strokeCSS$ = Stroke.AxisStroke,
+                         Optional strokeCSS$ = "stroke: #6e797a; stroke-width: 15px; stroke-dash: solid;",
                          Optional title$ = "Volin Plot",
-                         Optional titleFontCSS$ = Canvas.Resolution2K.PlotTitle) As GraphicsData
+                         Optional titleFontCSS$ = Canvas.Resolution2K.PlotTitle,
+                         Optional labelAngle As Double = -45) As GraphicsData
 
         Dim matrix As NamedCollection(Of Double)() = dataset.ToArray
 
@@ -157,7 +161,10 @@ Public Module VolinPlot
 
         ' 用来构建Y坐标轴的总体数据
         Dim alldata = matrix _
-            .Select(Function(d) d.AsEnumerable) _
+            .Select(Function(d)
+                        Dim dq = d.Quartile
+                        Return {dq.Q1 - 1.5 * dq.IQR, dq.Q3 + 1.5 * dq.IQR}.AsList + d.AsEnumerable
+                    End Function) _
             .IteratesALL _
             .ToArray
         Dim yticks = alldata.Range.CreateAxisTicks
@@ -183,13 +190,13 @@ Public Module VolinPlot
                                 tickFormat:=yTickFormat
                 )
 
-                Dim groupInterval = plotRegion.Width * 0.1
-                Dim maxWidth = (plotRegion.Width - groupInterval) / matrix.Length
+                Dim groupInterval As Double = plotRegion.Width * 0.1
+                Dim maxWidth As Double = (plotRegion.Width - groupInterval) / matrix.Length
 
                 groupInterval = groupInterval / matrix.Length
 
-                Dim semiWidth = maxWidth / 2
-                Dim X As Single = plotRegion.Left + groupInterval + semiWidth
+                Dim semiWidth As Double = maxWidth / 2
+                Dim X As Single = plotRegion.Left + groupInterval / 2 + semiWidth
                 Dim index As i32 = Scan0
 
                 labelSize = g.MeasureString(title, titleFont)
@@ -200,18 +207,21 @@ Public Module VolinPlot
                 g.DrawString(title, titleFont, Brushes.Black, labelPos)
 
                 For Each group As NamedCollection(Of Double) In matrix
-                    ' Dim q = quantiles(group)
-                    Dim upper = yScale.TranslateY(group.Max)
-                    Dim lower = yScale.TranslateY(group.Min)
+                    Dim quartile As DataQuartile = group.Quartile
+                    Dim C95lowerBound = quartile.Q1 - 1.5 * quartile.IQR
+                    Dim C95upperBound = quartile.Q3 + 1.5 * quartile.IQR
+                    Dim upper = yScale.TranslateY(C95upperBound)
+                    Dim lower = yScale.TranslateY(C95lowerBound)
                     ' 计算数据分布的密度之后，进行左右对称的线条的生成
                     Dim line_l As New List(Of PointF)
                     Dim line_r As New List(Of PointF)
-                    Dim q0 = group.Min
-                    Dim dstep = (group.Max - group.Min) / 10
-                    Dim dy = Math.Abs(upper - lower) / 10
+                    Dim q0 = C95lowerBound  'group.Min
+                    Dim n As Integer = 30
+                    Dim dstep = (C95upperBound - C95lowerBound) / n ' (group.Max - group.Min) / n
+                    Dim dy = Math.Abs(upper - lower) / n
                     Dim outliers As New List(Of PointF)
 
-                    For p As Integer = 1 To 10
+                    For p As Integer = 0 To n
                         Dim q1 = q0 + dstep
                         Dim range As DoubleRange = {q0, q1}
                         Dim density = group.Count(AddressOf range.IsInside)
@@ -234,8 +244,8 @@ Public Module VolinPlot
                         line_r(i) = New PointF With {.X = X + densityWidth, .Y = line_r(i).Y}
                     Next
 
-                    line_l = line_l.BSpline(degree:=splineDegree)
-                    line_r = line_r.BSpline(degree:=splineDegree)
+                    line_l = line_l.BSpline(degree:=splineDegree).AsList
+                    line_r = line_r.BSpline(degree:=splineDegree).AsList
 
                     ' 需要插值么？
                     ' 生成多边形
@@ -253,20 +263,64 @@ Public Module VolinPlot
                     Call g.DrawPolygon(polygonStroke, polygon)
                     Call g.FillPolygon(New SolidBrush(colors(++index)), polygon)
 
-                    labelSize = g.MeasureString(group.name, labelFont)
-                    labelPos = New PointF With {
-                        .X = X - labelSize.Width / 2,
-                        .Y = plotRegion.Bottom + labelSize.Width * Math.Sin(Math.PI / 4)
+                    ' 绘制quartile
+                    Dim yQ1 As Double = yScale.TranslateY(Quartile.Q1)
+
+                    ' draw IQR
+                    Dim iqrBox As New RectangleF With {
+                        .Width = 32,
+                        .X = X - .Width / 2,
+                        .Y = yScale.TranslateY(quartile.Q3),
+                        .Height = stdNum.Abs(.Y - yQ1)
                     }
 
-                    ' 绘制X坐标轴分组标签
-                    Call New GraphicsText(DirectCast(g, GDICanvas).Graphics).DrawString(
-                        s:=group.name,
-                        font:=labelFont,
-                        brush:=Brushes.Black,
-                        point:=labelPos,
-                        angle:=-45
+                    Call g.FillRectangle(polygonStroke.Brush, iqrBox)
+
+                    ' draw 95% CI
+                    C95upperBound = group.Average + 1.96 * group.StdError
+                    C95lowerBound = group.Average - 1.96 * group.StdError
+
+                    Call g.DrawLine(
+                        pen:=polygonStroke,
+                        pt1:=New PointF(X, yScale.TranslateY(C95lowerBound)),
+                        pt2:=New PointF(X, yScale.TranslateY(C95upperBound))
                     )
+
+                    ' draw median point
+                    Call g.DrawCircle(New PointF(X + 1, yScale.TranslateY(quartile.Q2) - 1), 12, color:=Pens.White)
+
+                    ' 在右上绘制数据的分布信息
+                    Dim sampleDescrib As String =
+                    $"CI95%: {C95lowerBound.ToString(yTickFormat)} ~ {C95upperBound.ToString(yTickFormat)}" & vbCrLf &
+                    $"Median: {quartile.Q2.ToString(yTickFormat)}" & vbCrLf &
+                    $"Normal Range: {(quartile.Q1 - 1.5 * quartile.IQR).ToString(yTickFormat)} ~ {(quartile.Q3 + 1.5 * quartile.IQR).ToString(yTickFormat)}"
+
+                    labelSize = g.MeasureString(group.name, labelFont)
+
+                    Call g.DrawString(sampleDescrib, labelFont, Brushes.Black, New PointF(X + semiWidth / 5, upper + labelSize.Height * 2))
+
+                    If labelAngle = 0.0 Then
+                        labelPos = New PointF With {
+                            .X = X - labelSize.Width / 2,
+                            .Y = plotRegion.Bottom + labelSize.Height * 1.125
+                        }
+
+                        Call g.DrawString(group.name, labelFont, Brushes.Black, labelPos)
+                    Else
+                        labelPos = New PointF With {
+                            .X = X - labelSize.Width / 2,
+                            .Y = plotRegion.Bottom + labelSize.Width * Math.Sin(Math.PI / 4)
+                        }
+
+                        ' 绘制X坐标轴分组标签
+                        Call New GraphicsText(DirectCast(g, GDICanvas).Graphics).DrawString(
+                            s:=group.name,
+                            font:=labelFont,
+                            brush:=Brushes.Black,
+                            point:=labelPos,
+                            angle:=labelAngle
+                        )
+                    End If
 
                     X += semiWidth + groupInterval + semiWidth
                 Next

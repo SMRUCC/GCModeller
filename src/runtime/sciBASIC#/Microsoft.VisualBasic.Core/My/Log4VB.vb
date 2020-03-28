@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::418a6b1f9a375eb489bd85d56e1e1fd5, Microsoft.VisualBasic.Core\My\Log4VB.vb"
+﻿#Region "Microsoft.VisualBasic::b4bf7b1db94e0b6731a94168f93453c5, Microsoft.VisualBasic.Core\My\Log4VB.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
-Imports Microsoft.VisualBasic.Terminal
 
 Namespace My
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8af23d8d91137c8353743db6b2fa1a36, Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1313a7d8edb9f3a9ab10aa0c30536e74, Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -101,7 +101,11 @@ Imports stdNum = System.Math
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function SSM(q As Vector, s As Vector) As Double
-        Return (q * s).Sum / Sqrt((q ^ 2).Sum * (s ^ 2).Sum)
+        If q.All(Function(a) a = 0.0R) OrElse s.All(Function(a) a = 0.0R) Then
+            Return 0
+        Else
+            Return (q * s).Sum / Sqrt((q ^ 2).Sum * (s ^ 2).Sum)
+        End If
     End Function
 
     ''' <summary>

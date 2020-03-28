@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::051df9d9d951aea29e194e13c8232320, Microsoft.VisualBasic.Core\Extensions\Collection\BucketOperators.vb"
+﻿#Region "Microsoft.VisualBasic::193c19a8b6f69e06eff6c1f9cb8c646a, Microsoft.VisualBasic.Core\Extensions\Collection\BucketOperators.vb"
 
     ' Author:
     ' 
@@ -69,7 +69,9 @@ Public Module BucketOperators
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <param name="partitionSize"></param>
+    ''' <param name="partitionSize">
+    ''' The partition size should be less than the array upbound size
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function SplitIterator(Of T)(source As IEnumerable(Of T), partitionSize As Integer) As IEnumerable(Of T())

@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::92272057f9ad2ee08b1361c6cf35e259, Data_science\Visualization\Plots-statistics\ScatterExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c167bcad59a4af4fdc04d46f4221ec52, Data_science\Visualization\Plots-statistics\ScatterExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module ScatterExtensions
-' 
-'     Function: FromODE, FromODEList, FromODEs, (+2 Overloads) Plot
-' 
-' /********************************************************************************/
+    ' Module ScatterExtensions
+    ' 
+    '     Function: FromODE, FromODEList, FromODEs, (+2 Overloads) Plot
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -133,7 +133,7 @@ Public Module ScatterExtensions
             .title = ode.ID,
             .color = color.ToColor,
             .lineType = dash,
-            .PointSize = ptSize,
+            .pointSize = ptSize,
             .width = width,
             .pts = ode.GetPointsData _
                 .Select(Function(p)
@@ -211,7 +211,7 @@ Public Module ScatterExtensions
                   Select New SerialData With {
                        .color = color,
                        .lineType = DashStyle.Solid,
-                       .PointSize = ptSize,
+                       .pointSize = ptSize,
                        .title = y.value.name,
                        .width = width,
                        .pts = pts

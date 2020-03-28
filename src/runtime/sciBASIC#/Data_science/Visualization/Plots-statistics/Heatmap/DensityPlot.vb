@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0d77c18b87ab4215daa1a464e8bbf60, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
+﻿#Region "Microsoft.VisualBasic::370d66c0a79997711bc832ba34634df3, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
 
     ' Author:
     ' 
@@ -244,7 +244,7 @@ Namespace Heatmap
             Return New SerialData With {
                 .color = Color.Black,
                 .pts = serialData,
-                .PointSize = r!
+                .pointSize = r!
             }
         End Function
     End Module

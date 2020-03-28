@@ -378,10 +378,6 @@
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\engine\IO\GCTabular\GCTabular.vbproj">
-      <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
-      <Name>GCTabular</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\engine\Model\Model.vbproj">
       <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
       <Name>Model</Name>
@@ -405,10 +401,6 @@
     <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8F12481C-04F2-4A9F-B7D6-21F1757C43C3}</Project>

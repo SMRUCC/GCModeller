@@ -231,7 +231,6 @@
   <ItemGroup>
     <Compile Include="ReactionNetwork\CompoundNodeTable.vb" />
     <Compile Include="KEGGMap\PathwayNetwork.vb" />
-    <Compile Include="KEGGMap\PathwayMapRender.vb" />
     <Compile Include="KOLinks.vb" />
     <Compile Include="CompoundSupportsEvidence.vb" />
     <Compile Include="BiologicalObjectCluster.vb" />

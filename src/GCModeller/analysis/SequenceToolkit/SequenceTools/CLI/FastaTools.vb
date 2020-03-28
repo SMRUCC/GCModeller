@@ -57,6 +57,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -69,7 +70,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -83,7 +83,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 
-    <ExportAPI("/Count", Usage:="/Count /in <data.fasta>")>
+    <ExportAPI("/Count")>
+    <Usage("/Count /in <data.fasta>")>
+    <Description("Count the number of the given fasta file.")>
     Public Function Count(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim n As Integer

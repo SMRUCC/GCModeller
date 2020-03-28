@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51b996278bdac69db934cad9a61fadbd, Data_science\MachineLearning\MLDebugger\ANN\ROC.vb"
+﻿#Region "Microsoft.VisualBasic::6f74918bf8d85e426efe71f02723b038, Data_science\MachineLearning\MLDebugger\ANN\ROC.vb"
 
     ' Author:
     ' 
@@ -51,8 +51,8 @@ Public Module ROC
         Dim network = training.NeuronNetwork
         Dim result = training.TrainingSet _
             .Select(Function(sample)
-                        Dim predicts = network.Compute(sample.status.vector)
-                        Dim actuals = sample.target
+                        Dim predicts = network.Compute(sample.sample)
+                        Dim actuals = sample.classify
 
                         Return New Validate With {
                             .actuals = actuals,

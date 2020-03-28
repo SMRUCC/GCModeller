@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61e600ff0b5b7d54d1c5b6005c6e6829, Microsoft.VisualBasic.Core\CommandLine\CLITools.vb"
+﻿#Region "Microsoft.VisualBasic::3d2e2ee35c9e5aa0eed2f3faae608746, Microsoft.VisualBasic.Core\CommandLine\CLITools.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module CLITools
     ' 
-    '         Function: __checkKeyDuplicated, Args, CreateObject, CreateParameterValues, Equals
+    '         Function: Args, checkKeyDuplicated, CreateObject, CreateParameterValues, Equals
     '                   GetFileList, GetLogicalFlags, GetTokens, IsPossibleLogicFlag, Join
     '                   makesureQuot, Print, ShellExec, SingleValueOrStdIn, TrimParamPrefix
     '                   (+3 Overloads) TryParse
@@ -266,7 +266,7 @@ Namespace CommandLine
                 .Skip(1) _
                 .GetLogicalFlags(singleValue)
             Dim cli As New CommandLine With {
-                .Name = tokens(Scan0).ToLower,
+                .Name = tokens(Scan0),
                 .Tokens = tokens,
                 .BoolFlags = bools,
                 .cliCommandArgvs = Join(tokens)

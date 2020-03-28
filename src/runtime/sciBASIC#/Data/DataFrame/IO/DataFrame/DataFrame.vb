@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb9eb4e3f1b01482b2b7430f6bb2680f, Data\DataFrame\IO\DataFrame\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::3bf7a898388392d16b7610476f53f896, Data\DataFrame\IO\DataFrame\DataFrame.vb"
 
     ' Author:
     ' 
@@ -59,13 +59,13 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.xConsole
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
-Imports Microsoft.VisualBasic.Terminal
 
 Namespace IO
 

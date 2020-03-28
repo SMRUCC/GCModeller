@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36c4fd1701459cb7cee93bced60ebe49, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::1c77bb3c6ee3142986d5a74f1bda1869, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -298,6 +298,9 @@ Namespace Graphic.Legend
         ''' <param name="g"></param>
         ''' <param name="topLeft"></param>
         ''' <param name="legends"></param>
+        ''' <param name="fillBg">
+        ''' The background color of the legend area, by default is transparent
+        ''' </param>
         ''' <param name="gSize">
         ''' 单个legend图形的绘图区域的大小，图例之中的shap的大小都是根据这个参数来进行限制自动调整的
         ''' </param>

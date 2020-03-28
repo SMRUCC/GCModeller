@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::8501eb6b62a912127526450404a29ce4, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::71d18de8e8e6bd509a1d3cf9e9cfe4ce, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Interpreter
-' 
-'         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
-'                     ExecuteNotFound, Info, IsReadOnly, ListCommandInfo, Stack
-'                     Type
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __getsAllCommands, apiInvoke, Contains, CreateEmptyCLIObject, (+3 Overloads) CreateInstance
-'                   doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand, GetAllCommands
-'                   getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand, Help
-'                   ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary, ToString
-'                   TryGetValue
-' 
-'         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
-' 
-' 
-' /********************************************************************************/
+    '     Class Interpreter
+    ' 
+    '         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
+    '                     ExecuteNotFound, Info, IsReadOnly, ListCommandInfo, Stack
+    '                     Type
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
+    '                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand
+    '                   GetAllCommands, getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand
+    '                   Help, ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary
+    '                   ToString, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -133,7 +133,7 @@ Namespace CommandLine
         ''' <remarks></remarks>
         Public Overridable Function Execute(args As CommandLine) As Integer
             If Not args.IsNullOrEmpty Then
-                Dim i As Integer = apiInvoke(args.Name.ToLower, {args}, args.Parameters)
+                Dim i As Integer = apiInvoke(args.Name, {args}, args.Parameters)
 #If DEBUG Then
 
 #Else
@@ -184,8 +184,8 @@ Namespace CommandLine
         Private Function apiInvoke(commandName$, args As Object(), help_argvs$()) As Integer
             Dim cli As CommandLine = DirectCast(args(Scan0), CommandLine)
 
-            If apiTable.ContainsKey(commandName) Then
-                Return apiTable(commandName).Execute(args)
+            If apiTable.ContainsKey(commandName.ToLower) Then
+                Return apiTable(commandName.ToLower).Execute(args)
             End If
 
             Select Case commandName.ToLower

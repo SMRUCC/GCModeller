@@ -42,8 +42,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Terminal
 
 Namespace DocumentFormat
 

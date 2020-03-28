@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef74c8677e5d60f95c894a97fb03440b, gr\network-visualization\Datavisualization.Network\Layouts\forceNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::fa4042b45a94ab9d675007c7334b0012, gr\network-visualization\Datavisualization.Network\Layouts\forceNetwork.vb"
 
     ' Author:
     ' 
@@ -41,11 +41,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Layouts

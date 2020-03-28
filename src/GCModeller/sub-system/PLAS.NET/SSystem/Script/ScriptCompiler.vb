@@ -45,10 +45,10 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 

@@ -42,8 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST

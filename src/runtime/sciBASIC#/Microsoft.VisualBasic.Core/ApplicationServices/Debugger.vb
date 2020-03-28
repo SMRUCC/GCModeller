@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d0224a2158b70b7b13c850d3f0bdf30, Microsoft.VisualBasic.Core\ApplicationServices\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::680b84cd453fa6737bd77654bd134fd2, Microsoft.VisualBasic.Core\ApplicationServices\Debugger.vb"
 
     ' Author:
     ' 
@@ -58,6 +58,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
@@ -66,8 +68,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 
 ''' <summary>

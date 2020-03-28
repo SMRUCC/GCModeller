@@ -77,11 +77,6 @@ Public Module Simulator
         Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
     End Sub
 
-    <ExportAPI("read.vcell")>
-    Public Function LoadVirtualCell(path As String) As VirtualCell
-        Return path.LoadXml(Of VirtualCell)
-    End Function
-
     ''' <summary>
     ''' Create a new status profile data object with unify mass contents.
     ''' </summary>

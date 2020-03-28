@@ -1,4 +1,45 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::bde1f7102c01c716c6cda61910d9d1ac, R#\proteomics_toolkit\labelFree.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module labelFree
+    ' 
+    '     Function: aggregateByGroupLabels, normalizationCorrelation, totalSumNormalize
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -8,8 +49,6 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.FoldChangeMatrix
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports SMRUCC.Rsharp.Runtime.Internal.Object
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("proteomics.labelfree")>
 Module labelFree
@@ -32,22 +71,6 @@ Module labelFree
                                                           End Function)
                                      }
                                  End Function)
-    End Function
-
-    <ExportAPI("guess.sample_groups")>
-    Public Function guessSampleGroups(sample_names As Array) As list
-        Return REnv.asVector(Of String)(sample_names) _
-            .AsObjectEnumerator(Of String) _
-            .GuessPossibleGroups _
-            .ToDictionary(Function(group) group.name,
-                          Function(group)
-                              Return CObj(group.ToArray)
-                          End Function) _
-            .DoCall(Function(list)
-                        Return New list With {
-                            .slots = list
-                        }
-                    End Function)
     End Function
 
     <ExportAPI("sample.normalize.correlation")>
@@ -123,3 +146,4 @@ Module labelFree
         Return output.ToArray
     End Function
 End Module
+

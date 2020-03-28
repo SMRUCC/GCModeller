@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8ce4394270fb4c6b5c0e10853d6045f, R#\gseakit\DEGSample.vb"
+﻿#Region "Microsoft.VisualBasic::d8a7d2768eaddf9a83b985a0c67b80d0, R#\gseakit\DEGSample.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,27 @@
     ' Module DEGSample
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
+    '     Function: guessSampleGroups, print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports REnv = SMRUCC.Rsharp.Runtime
 
-<Package("gseakit.DEG_sample")>
+''' <summary>
+''' GCModeller DEG experiment analysis designer toolkit
+''' </summary>
+<Package("gseakit.DEG_sample", Category:=APICategories.ResearchTools)>
 Module DEGSample
 
     Sub New()
@@ -58,6 +63,22 @@ Module DEGSample
 
     Private Function print(sample As SampleInfo) As String
         Return $" ({sample.sample_group}) {sample.sample_name}"
+    End Function
+
+    <ExportAPI("guess.sample_groups")>
+    Public Function guessSampleGroups(sample_names As Array) As List
+        Return REnv.asVector(Of String)(sample_names) _
+            .AsObjectEnumerator(Of String) _
+            .GuessPossibleGroups _
+            .ToDictionary(Function(group) group.name,
+                          Function(group)
+                              Return CObj(group.ToArray)
+                          End Function) _
+            .DoCall(Function(list)
+                        Return New List With {
+                            .slots = list
+                        }
+                    End Function)
     End Function
 
     <ExportAPI("read.sampleinfo")>
@@ -99,4 +120,3 @@ Module DEGSample
         Return sampleInfo
     End Function
 End Module
-

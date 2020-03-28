@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::022c48ff60aa11fbd66b2c657c58ba1c, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\Utility\ManualPages.vb"
+﻿#Region "Microsoft.VisualBasic::57f1af11b91be5b3fe9a419710b60e66, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\Utility\ManualPages.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@
 
 #End Region
 
-Namespace Terminal.Utility
+Namespace ApplicationServices.Terminal.Utility
 
     Public Class ManualPages : Implements System.IDisposable
 

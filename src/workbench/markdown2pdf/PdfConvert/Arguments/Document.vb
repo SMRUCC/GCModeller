@@ -1,4 +1,67 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::80194d027a2a3a3d3ee01a08aab1b427, markdown2pdf\PdfConvert\Arguments\Document.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class PdfDocument
+    ' 
+    '         Properties: Html, LocalConfigMode, Url
+    ' 
+    '         Function: GetDocument
+    ' 
+    '     Class HTMLDocument
+    ' 
+    '         Properties: HTML
+    ' 
+    '         Function: GetDocument
+    ' 
+    '     Class PDFContent
+    ' 
+    '         Properties: footer, globalOptions, header, outline, page
+    '                     pagesize, state, TOC
+    ' 
+    '         Function: (+2 Overloads) DefaultPDFStyle, DefaultStyleDocument, ToString
+    ' 
+    '     Interface IPDFDocument
+    ' 
+    '         Properties: HTML
+    ' 
+    '         Function: GetDocument
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Linq
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbb4fdcefa49769fc63844de53ee4742, Data\Trinity\TextRank.vb"
+﻿#Region "Microsoft.VisualBasic::acde3b2d09d5019fa82a95729bc66c21, Data\Trinity\TextRank.vb"
 
     ' Author:
     ' 
@@ -41,12 +41,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.PageRank
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 

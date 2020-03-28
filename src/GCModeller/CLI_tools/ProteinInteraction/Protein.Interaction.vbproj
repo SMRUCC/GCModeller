@@ -163,12 +163,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>link.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>link.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>link.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -185,12 +188,14 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>link.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x86'">
     <DefineTrace>true</DefineTrace>
@@ -317,6 +322,10 @@
     <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.vbproj">
+      <Project>{cf69e369-5ded-46d8-b6aa-9835a89bfd9f}</Project>
+      <Name>SABIO-RK</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>

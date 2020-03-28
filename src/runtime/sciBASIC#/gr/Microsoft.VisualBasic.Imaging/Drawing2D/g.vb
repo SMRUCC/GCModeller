@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d43dab8566c1f43844867c2ba8798b8d, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
+﻿#Region "Microsoft.VisualBasic::952f5293b5ebcfe87f03bf1eb97eb070, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     '         Function: __getDriver, Allocate, CreateGraphics, (+2 Overloads) GraphicsPlots, (+2 Overloads) MeasureSize
     '                   MeasureWidthOrHeight
     ' 
-    '         Sub: FillBackground
+    '         Sub: FillBackground, SetDriver
     '         Class InternalCanvas
     ' 
     '             Properties: bg, padding, size
@@ -165,7 +165,7 @@ Namespace Drawing2D
         ''' 用户所指定的图形引擎驱动程序类型，但是这个值会被开发人员设定的驱动程序类型的值所覆盖，
         ''' 通常情况下，默认引擎选用的是``gdi+``引擎
         ''' </summary>
-        ReadOnly __defaultDriver As Drivers = Drivers.Default
+        Dim __defaultDriver As Drivers = Drivers.Default
 
         ''' <summary>
         ''' 这个函数不会返回<see cref="Drivers.Default"/>
@@ -184,6 +184,14 @@ Namespace Drawing2D
                 End If
             End If
         End Function
+
+        ''' <summary>
+        ''' 在代码中手动配置默认的驱动程序
+        ''' </summary>
+        ''' <param name="driver"></param>
+        Public Sub SetDriver(driver As Drivers)
+            g.__defaultDriver = driver
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function MeasureWidthOrHeight(wh#, length%) As Single

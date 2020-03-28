@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::383b8feb02f6318617da073544d3b724, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\InteractiveIODevice\Shell.vb"
+﻿#Region "Microsoft.VisualBasic::68aab791a54c85b16b8dc4ff3146cada, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\InteractiveIODevice\Shell.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
-Namespace Terminal
+Namespace ApplicationServices.Terminal
 
     ''' <summary>
     ''' Shell model for console.
@@ -87,7 +87,8 @@ Namespace Terminal
             Do While True
                 Call Console.Write(ps1.ToString)
 
-                If (cli = Console.ReadLine).Trim.StringEmpty Then
+                If Strings.Trim((cli = Console.ReadLine)).StringEmpty Then
+                    Call _shell(cli)
                     Continue Do
                 End If
 

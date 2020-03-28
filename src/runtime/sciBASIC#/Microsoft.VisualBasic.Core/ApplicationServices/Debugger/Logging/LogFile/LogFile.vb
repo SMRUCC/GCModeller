@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99634e02bd3bb723482cefb5aa8536d9, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\Logging\LogFile\LogFile.vb"
+﻿#Region "Microsoft.VisualBasic::e60438760751d1967fa69b06ce25a84c, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\Logging\LogFile\LogFile.vb"
 
     ' Author:
     ' 
@@ -50,10 +50,9 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO__
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Terminal.STDIO__
 Imports Microsoft.VisualBasic.Text
 
 Namespace ApplicationServices.Debugging.Logging
@@ -131,10 +130,10 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="Type"></param>
         Public Sub WriteLine(Msg As String, [Object] As String, Optional Type As MSG_TYPES = MSG_TYPES.INF)
             Dim LogEntry As New LogEntry With {
-                .Msg = Msg,
-                .Object = [Object],
-                .Time = Now,
-                .Type = Type
+                .message = Msg,
+                .[object] = [Object],
+                .time = Now,
+                .level = Type
             }
 
             buffer.WriteLine(LogEntry.ToString)

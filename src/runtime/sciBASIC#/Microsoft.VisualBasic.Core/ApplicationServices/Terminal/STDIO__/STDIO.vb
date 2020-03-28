@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a82b19fed016535c5e96cdb33a3cedf8, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
+﻿#Region "Microsoft.VisualBasic::1f2f80fd4bd8364765e05a76063b428b, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
 
     ' Author:
     ' 
@@ -50,13 +50,12 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 
-Namespace Terminal
+Namespace ApplicationServices.Terminal
 
     ''' <summary>
     ''' A standard input/output compatibility package that makes VisualBasic console

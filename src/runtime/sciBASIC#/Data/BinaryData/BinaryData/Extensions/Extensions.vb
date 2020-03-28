@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f87a5d7c4edec62bce43bd0df10a470, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4aacf5cdda18f7ab5eacf0c49461c48c, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,8 @@
     ' Module Extensions
     ' 
     '     Function: OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector, (+2 Overloads) VerifyMagicSignature
+    ' 
+    '     Sub: WriteByte
     ' 
     ' /********************************************************************************/
 
@@ -157,4 +159,9 @@ End Interface
             Loop
         End Using
     End Function
+
+    <Extension>
+    Public Sub WriteByte(stream As Stream, sbytes As SByte())
+        Call stream.Write(sbytes.CastByte, Scan0, sbytes.Length)
+    End Sub
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::937643701c5a3d13c78814746fff8007, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\PipelineCLI.vb"
+﻿#Region "Microsoft.VisualBasic::91480881a7aedf9600bb9961ac988746, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\PipelineCLI.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 
-Namespace Terminal
+Namespace ApplicationServices.Terminal
 
     ''' <summary>
     ''' a | b - 管道命令在读写方面更加适合于文本数据，由于省去了IO的时间，故而效率较高

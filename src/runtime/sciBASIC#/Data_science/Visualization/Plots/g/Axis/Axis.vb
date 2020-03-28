@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31d8b9f22429d611d4f0652277834839, Data_science\Visualization\Plots\g\Axis\Axis.vb"
+﻿#Region "Microsoft.VisualBasic::756907767ff92ff44f7b56eab7556924, Data_science\Visualization\Plots\g\Axis\Axis.vb"
 
     ' Author:
     ' 
@@ -370,10 +370,13 @@ Namespace Graphic.Axis
                     End If
 
                     ' Call $"[Y:={label}] {location.ToString}".__INFO_ECHO
-
-                    With New GraphicsText(DirectCast(g, Graphics2D).Graphics)
-                        Call .DrawString(label, font, Brushes.Black, location, -90)
-                    End With
+                    If TypeOf g Is Graphics2D Then
+                        With New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+                            Call .DrawString(label, font, Brushes.Black, location, -90)
+                        End With
+                    Else
+                        Call g.DrawString(label, font, Brushes.Black, location)
+                    End If
                 End If
             End If
         End Sub

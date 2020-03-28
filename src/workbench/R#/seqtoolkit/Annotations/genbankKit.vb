@@ -1,4 +1,46 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::6d0e3487c1c7235f727a1016923a7bcb, R#\seqtoolkit\Annotations\genbankKit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module genbankKit
+    ' 
+    '     Function: addproteinSeq, addRNAGene, asGenbank, getOrAddNtOrigin, getRNASeq
+    '               readGenbank, writeGenbank
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -15,9 +57,19 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
+''' <summary>
+''' NCBI genbank assembly file I/O toolkit
+''' </summary>
 <Package("annotation.genbank_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module genbankKit
 
+    ''' <summary>
+    ''' read the given genbank assembly file.
+    ''' </summary>
+    ''' <param name="file">the file path of the given genbank assembly file.</param>
+    ''' <param name="repliconTable"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("read.genbank")>
     Public Function readGenbank(file As String,
                                 Optional repliconTable As Boolean = False,
@@ -34,6 +86,13 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' save the modified genbank file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="file">the file path of the genbank assembly file to write data.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("write.genbank")>
     Public Function writeGenbank(gb As GBFF.File, file$, Optional env As Environment = Nothing) As Object
         If gb Is Nothing Then
@@ -43,6 +102,12 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' converts tabular data file to genbank assembly object
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.genbank")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function asGenbank(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -58,30 +123,53 @@ Module genbankKit
         End If
     End Function
 
-    <ExportAPI("add.origin.fasta")>
-    Public Function addNtOrigin(gb As GBFF.File, nt As FastaSeq, Optional mol_type$ = "genomic DNA") As GBFF.File
-        Dim source As New gbffFeature With {
-            .KeyName = "source",
-            .Location = New featureLocation With {
-                .Complement = False,
-                .Locations = {
-                    New RegionSegment With {.Left = 1, .Right = nt.Length}
+    ''' <summary>
+    ''' get, add or replace the genome origin fasta sequence in the given genbank assembly file.
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="nt"></param>
+    ''' <param name="mol_type"></param>
+    ''' <returns>
+    ''' if the ``<paramref name="nt"/>`` parameter is nothing, 
+    ''' means get fasta sequence, otherwise is add/update fasta 
+    ''' sequence in the genbank assembly, the returns type of 
+    ''' the api will change from the getted fasta sequence to 
+    ''' the modified genbank assembly object.
+    ''' </returns>
+    <ExportAPI("origin.fasta")>
+    <RApiReturn(GetType(GBFF.File))>
+    Public Function getOrAddNtOrigin(gb As GBFF.File, Optional nt As FastaSeq = Nothing, Optional mol_type$ = "genomic DNA") As Object
+        If nt Is Nothing Then
+            Return gb.Origin.ToFasta
+        Else
+            Dim source As New gbffFeature With {
+                .KeyName = "source",
+                .Location = New featureLocation With {
+                    .Complement = False,
+                    .Locations = {
+                        New RegionSegment With {.Left = 1, .Right = nt.Length}
+                    }
                 }
             }
-        }
 
-        gb.Origin = New ORIGIN With {
-            .Headers = nt.Headers,
-            .SequenceData = nt.SequenceData
-        }
-        gb.Features.SetSourceFeature(source)
+            gb.Origin = New ORIGIN With {
+                .Headers = nt.Headers,
+                .SequenceData = nt.SequenceData
+            }
+            gb.Features.SetSourceFeature(source)
 
-        source.SetValue(FeatureQualifiers.mol_type, mol_type)
-        source.SetValue(FeatureQualifiers.organism, nt.Title)
+            source.SetValue(FeatureQualifiers.mol_type, mol_type)
+            source.SetValue(FeatureQualifiers.organism, nt.Title)
 
-        Return gb
+            Return gb
+        End If
     End Function
 
+    ''' <summary>
+    ''' get all of the RNA gene its gene sequence in fasta sequence format.
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
     <ExportAPI("getRNA.fasta")>
     Public Function getRNASeq(gb As GBFF.File) As FastaFile
         Dim rnaGenes = gb.Features.Where(Function(region) InStr(region.KeyName, "RNA") > 0).ToArray
@@ -100,9 +188,27 @@ Module genbankKit
         Return New FastaFile(fasta)
     End Function
 
-    <ExportAPI("add.protein.fasta")>
-    Public Function addproteinSeq(gb As GBFF.File, <RRawVectorArgument> proteins As Object, Optional env As Environment = Nothing) As Object
-        Dim seqs = GetFastaSeq(proteins)
+    ''' <summary>
+    ''' get or set fasta sequence of all CDS feature in the given genbank assembly file. 
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="proteins"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("protein.fasta")>
+    <RApiReturn(GetType(GBFF.File))>
+    Public Function addproteinSeq(gb As GBFF.File,
+                                  <RRawVectorArgument>
+                                  Optional proteins As Object = Nothing,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq)
+
+        If proteins Is Nothing Then
+            Return gb.ExportProteins_Short
+        Else
+            seqs = GetFastaSeq(proteins)
+        End If
 
         If seqs Is Nothing Then
             Return Internal.debug.stop("no protein sequence data provided!", env)
@@ -181,3 +287,4 @@ Module genbankKit
         Return gb
     End Function
 End Module
+

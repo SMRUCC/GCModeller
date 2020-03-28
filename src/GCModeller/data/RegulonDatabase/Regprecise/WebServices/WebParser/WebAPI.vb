@@ -44,11 +44,11 @@
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel

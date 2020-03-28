@@ -186,7 +186,14 @@ Namespace Assembly.KEGG.WebServices
                                   Optional textColor$ = "white",
                                   Optional scale$ = "1,1") As Image
 
-            Dim pathway As Map = mapTable(mapName)
+            Return Rendering(mapTable(mapName), nodes, font, textColor, scale)
+        End Function
+
+        Public Shared Function Rendering(pathway As Map, nodes As IEnumerable(Of NamedValue(Of String)),
+                                         Optional font As Font = Nothing,
+                                         Optional textColor$ = "white",
+                                         Optional scale$ = "1,1") As Image
+
             Dim pen As Brush = textColor.GetBrush
             Dim scaleFactor As SizeF = scale.FloatSizeParser
 
@@ -292,7 +299,7 @@ Namespace Assembly.KEGG.WebServices
                             .Scale(scaleCircle)
 
                         g.FillPie(brush, rect, 0, 360)
-                        g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                        ' g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
                     Next
                 End With
             Next

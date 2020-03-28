@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1a21000559db76fee5e46129eaf6664, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\SDKManual.vb"
+﻿#Region "Microsoft.VisualBasic::794e03f64fd5de438866f90e1b17fcf9, Microsoft.VisualBasic.Core\CommandLine\Interpreters\View\SDKManual.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Grouping
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
@@ -55,7 +56,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.TokenIcer.Prefix
-Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 Imports VBCore = Microsoft.VisualBasic.App
 

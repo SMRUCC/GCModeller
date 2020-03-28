@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ce226308485c8d0d4ab06708c0da46a, WebCloud\JavaScript\highcharts.js\Charts\PolarChart.vb"
+﻿#Region "Microsoft.VisualBasic::0c55d1ce04bb43d7aa931df77cd443db, markdown2pdf\JavaScript\highcharts.js\Charts\PolarChart.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class paneOptions
     ' 
-    '         Properties: endAngle, startAngle
+    '         Properties: endAngle, size, startAngle
     ' 
     '     Class PolarChart
     ' 

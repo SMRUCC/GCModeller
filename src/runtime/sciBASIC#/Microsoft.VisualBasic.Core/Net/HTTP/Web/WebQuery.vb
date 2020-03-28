@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bcf23784afb87b5b57b984de52e9928, Microsoft.VisualBasic.Core\Net\HTTP\Web\WebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::d0aad775191d43052fc49e9977064fcf, Microsoft.VisualBasic.Core\Net\HTTP\Web\WebQuery.vb"
 
     ' Author:
     ' 
@@ -88,6 +88,7 @@ Namespace Net.Http
         ''' </summary>
         Protected cache$
         Protected sleepInterval As Integer
+        Protected debug As Boolean = True
 
         Shared ReadOnly interval As [Default](Of Integer)
 
@@ -122,7 +123,8 @@ Namespace Net.Http
                 <CallerMemberName>
                 Optional cache$ = Nothing,
                 Optional interval% = -1,
-                Optional offline As Boolean = False)
+                Optional offline As Boolean = False,
+                Optional debug As Boolean = True)
 
             Call Me.New(cache, interval, offline)
 
@@ -130,6 +132,7 @@ Namespace Net.Http
             Me.contextGuid = contextGuid Or Scripting.ToString(Of Context)
             Me.deserialization = parser Or XmlParser
             Me.prefix = prefix
+            Me.debug = debug
         End Sub
 
         Friend Sub New(cache$, interval%, offline As Boolean)
@@ -196,12 +199,12 @@ Namespace Net.Http
                 If is404 Then
                     url404 += url
                     Call $"{url} 404 Not Found!".PrintException
-                Else
+                ElseIf debug Then
                     Call $"Worker thread sleep {sleepInterval}ms...".__INFO_ECHO
                 End If
 
                 hitCache = False
-            Else
+            ElseIf debug Then
                 Call "hit cache!".__DEBUG_ECHO
             End If
         End Sub

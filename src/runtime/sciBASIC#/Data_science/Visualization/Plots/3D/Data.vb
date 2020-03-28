@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847d8485c2c1fc8179aaf75e2848e704, Data_science\Visualization\Plots\3D\Data.vb"
+﻿#Region "Microsoft.VisualBasic::cfe1d547bd09a573f0b3ca397324bd4c, Data_science\Visualization\Plots\3D\Data.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -50,8 +52,6 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 
 Namespace Plot3D
 

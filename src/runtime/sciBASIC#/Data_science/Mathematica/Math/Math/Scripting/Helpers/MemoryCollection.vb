@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0987190c3530e01023282264331eb64b, Data_science\Mathematica\Math\Math\Scripting\Helpers\MemoryCollection.vb"
+﻿#Region "Microsoft.VisualBasic::804fb86bb00afabfe0c3fe366f8bdabc, Data_science\Mathematica\Math\Math\Scripting\Helpers\MemoryCollection.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Namespace Scripting
 
     Public MustInherit Class MemoryCollection(Of T) : Implements IEnumerable(Of KeyValuePair(Of String, T))
 
-        Protected ReadOnly objTable As Dictionary(Of String, T) = New Dictionary(Of String, T)
+        Protected ReadOnly objTable As New Dictionary(Of String, T)
         Protected ReadOnly __engine As Expression
 
         Dim __caches As String()

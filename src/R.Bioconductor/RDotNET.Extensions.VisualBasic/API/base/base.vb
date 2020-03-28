@@ -543,6 +543,21 @@ Namespace API
         End Function
 
         ''' <summary>
+        ''' lapply on a dictionary list object.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x"></param>
+        ''' <param name="FUN"></param>
+        ''' <returns></returns>
+        Public Function lapply(Of T)(x As Dictionary(Of String, T), FUN As Func(Of T, String, String)) As String
+            Return lapply(Of KeyValuePair(Of String, T))(
+                x:=x,
+                key:=Function(obj) obj.Key,
+                FUN:=Function(tuple) FUN(tuple.Value, tuple.Key)
+            )
+        End Function
+
+        ''' <summary>
         ''' ###### load {base}
         ''' 
         ''' Reload Saved Datasets, Reload datasets written with the function <see cref="save"/>.

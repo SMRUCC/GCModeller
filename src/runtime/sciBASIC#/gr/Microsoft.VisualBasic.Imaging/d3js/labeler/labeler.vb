@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb9a88dc120310998bf975fdc675ccdb, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\labeler.vb"
+﻿#Region "Microsoft.VisualBasic::d62131f55650835a87e59a1a3e52cab8, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\labeler.vb"
 
     ' Author:
     ' 
@@ -50,8 +50,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports stdNum = System.Math
 

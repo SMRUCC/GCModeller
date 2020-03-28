@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2031c3597c79f27f2b5951eaafa3cad, CLI_tools\MLkit\Chart\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::462fa230031ad5f91e550b9611ccc819, CLI_tools\MLkit\Chart\CLI.vb"
 
     ' Author:
     ' 
@@ -132,10 +132,10 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
                         Dim serial As New SerialData With {
                             .color = colors.Next(),
                             .lineType = DashStyle.Solid,
-                            .PointSize = 10,
+                            .pointSize = 10,
                             .title = ylabel,
                             .width = 5,
-                            .Shape = LegendStyles.Triangle,
+                            .shape = LegendStyles.Triangle,
                             .pts = points _
                                 .Select(Function(p)
                                             Return New PointData With {

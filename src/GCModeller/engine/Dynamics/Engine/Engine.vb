@@ -47,9 +47,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
@@ -112,6 +112,10 @@ Namespace Engine
         Public Function AttachBiologicalStorage(driver As IOmicsDataAdapter) As Engine
             dataStorageDriver = driver
             Return Me
+        End Function
+
+        Public Function getCore() As Vessel
+            Return core
         End Function
 
         Public Function LoadModel(virtualCell As CellularModule,

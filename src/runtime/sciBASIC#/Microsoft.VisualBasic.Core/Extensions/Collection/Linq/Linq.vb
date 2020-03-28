@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c05f7f1e449124bf85e8a846db8f5a80, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::870ed0df31c915da89ed5733247a118a, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -323,7 +323,7 @@ Namespace Linq
         ''' <summary>
         ''' ``0,1,2,3,...<paramref name="n"/>``
         ''' </summary>
-        ''' <param name="n"></param>
+        ''' <param name="n">the api function is already makes ``n-1`` for populate index sequence.</param>
         ''' <param name="offset"></param>
         ''' <returns></returns>
         <Extension>
