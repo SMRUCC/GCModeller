@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b391f0e72da3c643eced138068fc61e, WebCloud\JavaScript\font-awesome\Styles.vb"
+﻿#Region "Microsoft.VisualBasic::1b391f0e72da3c643eced138068fc61e, markdown2pdf\JavaScript\font-awesome\Styles.vb"
 
     ' Author:
     ' 
