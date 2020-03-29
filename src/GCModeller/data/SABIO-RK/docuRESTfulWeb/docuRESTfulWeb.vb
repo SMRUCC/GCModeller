@@ -1,5 +1,5 @@
 ﻿Imports SMRUCC.genomics.Data.SABIORK.SBML
-Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile
+Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 Public Module docuRESTfulWeb
 

@@ -49,6 +49,9 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Namespace SBML
 
+    ''' <summary>
+    ''' 从sbml文件中的数据解析转换得到的GCModeller的内部数据存储格式
+    ''' </summary>
     <XmlType("SABIORK")>
     Public Class SabiorkSBML : Inherits Equation
 
