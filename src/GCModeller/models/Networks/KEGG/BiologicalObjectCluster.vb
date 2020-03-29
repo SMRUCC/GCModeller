@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b662f947f6ab34c1860a8f9b77044d4b, models\Networks\KEGG\BiologicalObjectCluster.vb"
+﻿#Region "Microsoft.VisualBasic::e74bfeb5a99f14549e12c9b5b13a19f8, Networks\KEGG\BiologicalObjectCluster.vb"
 
     ' Author:
     ' 
@@ -89,4 +89,3 @@ Public Module BiologicalObjectCluster
             .ToDictionary(Function(map) map.EntryId)
     End Function
 End Module
-

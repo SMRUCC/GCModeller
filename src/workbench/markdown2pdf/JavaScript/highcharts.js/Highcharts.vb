@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f946784e4a5cc871fb66e6c67fcc0c9, WebCloud\JavaScript\highcharts.js\Highcharts.vb"
+﻿#Region "Microsoft.VisualBasic::9f946784e4a5cc871fb66e6c67fcc0c9, markdown2pdf\JavaScript\highcharts.js\Highcharts.vb"
 
     ' Author:
     ' 

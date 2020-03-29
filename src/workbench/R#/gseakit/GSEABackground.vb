@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57b61c2570b5900dd81773ce5f2f4002, R#\gseakit\GSEABackground.vb"
+﻿#Region "Microsoft.VisualBasic::22f64b2658cdb953532bfb0a6c3019c5, R#\gseakit\GSEABackground.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,9 @@
 
     ' Module GSEABackground
     ' 
-    '     Function: ClusterIntersections, KOTable, ReadBackground
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ClusterIntersections, CreateKOBackground, KOTable, PrintBackground, ReadBackground
+    '               WriteBackground
     ' 
     ' /********************************************************************************/
 
@@ -108,4 +110,3 @@ Public Module GSEABackground
 
     End Function
 End Module
-

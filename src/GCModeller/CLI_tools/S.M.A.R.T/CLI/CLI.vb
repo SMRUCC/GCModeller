@@ -44,10 +44,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Data

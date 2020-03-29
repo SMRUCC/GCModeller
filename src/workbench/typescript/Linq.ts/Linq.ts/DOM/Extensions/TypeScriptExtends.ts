@@ -3,6 +3,16 @@
 */
 namespace TypeExtensions {
 
+    function appendElement(extendsNode: HTMLTsElement, html: any) {
+        if (typeof html == "string") {
+            html = $ts("<span>").display(html);
+        } else if (typeof html == "function") {
+            html = html()
+        }
+
+        extendsNode.append(html);
+    }
+
     /**
      * 在原生节点模式之下对输入的给定的节点对象添加拓展方法
      * 
@@ -13,13 +23,13 @@ namespace TypeExtensions {
      * @param node 当查询失败的时候是空值
     */
     export function Extends(node: HTMLElement): HTMLElement {
-        var obj: any = node;
+        let obj: any = node;
 
         if (isNullOrUndefined(node)) {
             return null;
         }
 
-        var extendsNode: HTMLTsElement = new HTMLTsElement(node);
+        let extendsNode: HTMLTsElement = new HTMLTsElement(node);
 
         obj.css = function (stylesheet: string, reset: boolean = false) {
             if (reset) {
@@ -39,12 +49,18 @@ namespace TypeExtensions {
             extendsNode.display(html);
             return node;
         };
-        obj.append = function (html: string | HTMLElement) {
-            if (typeof html == "string") {
-                html = $ts("<span>").display(html);
+        obj.appendElement = function (html: any) {
+
+            // a(args[])
+            if (Array.isArray(html)) {
+                html.forEach(n => appendElement(extendsNode, n));
+            } else {
+                // a(a,b,c,d,...)
+                for (let i: number = 0; i < arguments.length; i++) {
+                    appendElement(extendsNode, arguments[i]);
+                }
             }
 
-            extendsNode.append(html);
             return node;
         }
         obj.show = function () {

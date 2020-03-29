@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eba70174ad43609d1fb54532debbeb87, Compiler\Arguments.vb"
+﻿#Region "Microsoft.VisualBasic::87d8919fa653059fe994c30a940674ca, Compiler\Arguments.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,8 @@
     ' Summaries:
 
     ' Class RepositoryArguments
+    ' 
+    '     Properties: Glycan2Cpd
     ' 
     '     Function: GetCompounds, GetPathways, GetReactions
     ' 

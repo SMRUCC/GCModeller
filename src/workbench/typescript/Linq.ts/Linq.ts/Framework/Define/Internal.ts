@@ -15,6 +15,14 @@ namespace Internal {
 
     export const StringEval = new Handlers.stringEval();
 
+    export function typeGenericElement<T extends HTMLElement>(query: string | HTMLElement, args?: Internal.TypeScriptArgument): T {
+        if (typeof query == "string") {
+            return Internal.StringEval.doEval(query, null, args);
+        } else {
+            return <any>query;
+        }
+    }
+
     /**
      * 对``$ts``对象的内部实现过程在这里
     */
@@ -35,6 +43,7 @@ namespace Internal {
     }
 
     function extendsHttpHelpers(ts: any): any {
+        ts.url = urlSolver;
         ts.post = function (url: string, data: object | FormData,
             callback?: ((response: IMsg<{}>) => void),
             options?: {
@@ -404,12 +413,16 @@ namespace Internal {
         }
         ts.select.getSelects = (id => DOMquery.doEval(id, null, null));
         ts.select.getSelectedOptions = function (query: string, context: Window = window) {
-            var sel: HTMLElement = $ts(query, {
+            let sel: HTMLElement = $ts(query, {
                 context: context
             });
-            var options = <HTMLOptionElement[]>DOM.InputValueGetter.getSelectedOptions(<any>sel);
+            let options = <any>DOM.InputValueGetter.getSelectedOptions(<any>sel);
 
-            return new DOMEnumerator<HTMLOptionElement>(options);
+            if (Array.isArray(options) && typeof options[0] == "string") {
+                return options;
+            } else {
+                return new DOMEnumerator<HTMLOptionElement>(options);
+            }
         };
         ts.select.getOption = function (query: string, context: Window = window) {
             var sel: HTMLElement = $ts(query, {

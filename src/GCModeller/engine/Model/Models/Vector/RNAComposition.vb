@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68edf54c8bd06d89d966b57eea7bbdaa, Model\Models\Vector\RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::84fbaa104a3d03d245eabaf77527c7a7, Model\Models\Vector\RNAComposition.vb"
 
     ' Author:
     ' 
@@ -106,4 +106,3 @@ Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
         Yield GetEnumerator()
     End Function
 End Class
-

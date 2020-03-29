@@ -269,6 +269,9 @@
     <Compile Include="Level2\Elements\Model.vb" />
     <Compile Include="Level2\API.vb" />
     <Compile Include="Level3\annotation.vb" />
+    <Compile Include="Level3\kineticLaw.vb" />
+    <Compile Include="Level3\reaction.vb" />
+    <Compile Include="Level3\unitDefinition.vb" />
     <Compile Include="Specifics\MetaCyc\Property\ReaderBase.vb" />
     <Compile Include="Specifics\MetaCyc\Property\SpeciesPropReader.vb" />
     <Compile Include="Specifics\MetaCyc\Property\FluxPropReader.vb" />
