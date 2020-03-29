@@ -69,6 +69,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
 
@@ -86,6 +87,8 @@ Namespace SBML
 
         <XmlElement("sabiork", [Namespace]:="http://sabiork.h-its.org")>
         Public Property sabiork As sabiorkAnnotation
+        <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
+        Public Property RDF As AnnotationInfo
 
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces

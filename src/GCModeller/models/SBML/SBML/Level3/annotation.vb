@@ -66,9 +66,9 @@ Namespace Level3
     <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Class speciesAnnotation : Inherits Description
 
-        <XmlElement([Namespace]:=annotation.AnnotationInfo.bqbiol)>
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
         Public Property [is] As [is]
-        <XmlElement([Namespace]:=annotation.AnnotationInfo.bqbiol)>
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
         Public Property isDescribedBy As [is]
 
         Sub New()
@@ -94,20 +94,19 @@ Namespace Level3
         Sub New()
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
         End Sub
+    End Class
 
-        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
-        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+    <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
 
-            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
-            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
+        Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
+        Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
 
-            Sub New()
-                Call MyBase.New
+        Sub New()
+            Call MyBase.New
 
-                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
-                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
-            End Sub
-        End Class
-
+            Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
+            Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
+        End Sub
     End Class
 End Namespace
