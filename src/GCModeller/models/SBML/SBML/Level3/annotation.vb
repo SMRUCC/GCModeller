@@ -65,8 +65,10 @@ Namespace Level3
 
     Public Class speciesAnnotation : Inherits Description
 
-        <XmlElement("is", [Namespace]:=annotation.AnnotationInfo.bqbiol)>
+        <XmlElement([Namespace]:=annotation.AnnotationInfo.bqbiol)>
         Public Property [is] As [is]
+        <XmlElement([Namespace]:=annotation.AnnotationInfo.bqbiol)>
+        Public Property isDescribedBy As [is]
 
         Sub New()
             Call MyBase.New
