@@ -77,6 +77,7 @@ Namespace SBML
         <XmlAttribute> Public Property sboTerm As String
 
         Public Property annotation As kineticLawAnnotation
+        <XmlElement("math", Namespace:="http://www.w3.org/1998/Math/MathML")>
         Public Property math As Math
         Public Property listOfLocalParameters As localParameter()
     End Class
@@ -97,31 +98,34 @@ Namespace SBML
 
     <XmlType("sabiork", Namespace:="http://sabiork.h-its.org")>
     Public Class sabiorkAnnotation
-        <XmlAttribute("kineticLawID", Namespace:="http://sabiork.h-its.org")>
+        <XmlElement("kineticLawID", Namespace:="http://sabiork.h-its.org")>
         Public Property kineticLawID As Integer
+
         <XmlElement("experimentalConditions", [Namespace]:="http://sabiork.h-its.org")>
-        Public Property ExperimentConditionsValue As experimentalConditions
+        Public Property experimentalConditions As experimentalConditions
 
-        Public Class experimentalConditions
-            <XmlElement("temperature", [Namespace]:="http://sabiork.h-its.org")>
-            Public Property TempratureValue As temperature
-            <XmlElement("pH", [Namespace]:="http://sabiork.h-its.org")>
-            Public Property pHValue As pH
+    End Class
 
-            <XmlElement("buffer", [Namespace]:="http://sabiork.h-its.org")> Public Property buffer As String
-        End Class
+    Public Class experimentalConditions
+        <XmlElement("temperature", [Namespace]:="http://sabiork.h-its.org")>
+        Public Property temperature As temperature
+        <XmlElement("pH", [Namespace]:="http://sabiork.h-its.org")>
+        Public Property pHValue As pH
 
-        Public Class temperature
-            <XmlElement([Namespace]:="http://sabiork.h-its.org")>
-            Public Property startValueTemperature As Double
-            <XmlElement([Namespace]:="http://sabiork.h-its.org")>
-            Public Property temperatureUnit As String
-        End Class
+        <XmlElement("buffer", [Namespace]:="http://sabiork.h-its.org")>
+        Public Property buffer As String
+    End Class
 
-        Public Class pH
-            <XmlElement([Namespace]:="http://sabiork.h-its.org")>
-            Public Property startValuepH As Double
-        End Class
+    Public Class temperature
+        <XmlElement([Namespace]:="http://sabiork.h-its.org")>
+        Public Property startValueTemperature As Double
+        <XmlElement([Namespace]:="http://sabiork.h-its.org")>
+        Public Property temperatureUnit As String
+    End Class
+
+    Public Class pH
+        <XmlElement([Namespace]:="http://sabiork.h-its.org")>
+        Public Property startValuepH As Double
     End Class
 
     Public Class localParameter
