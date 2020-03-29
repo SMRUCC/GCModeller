@@ -67,13 +67,11 @@ Imports SMRUCC.genomics.Model.SBML.Components
 Namespace Level3
 
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
-    Public Class XmlFile
-
-        Public Const XmlNamespace As String = "http://www.sbml.org/sbml/level3/version1/core"
+    Public Class XmlFile(Of T As Reaction)
 
         <XmlAttribute("level")> Public Property level As Integer
         <XmlAttribute("version")> Public Property version As Integer
-        <XmlElement("model")> Public Property model As Model
+        <XmlElement("model")> Public Property model As Model(Of T)
 
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces
@@ -86,19 +84,19 @@ Namespace Level3
             Return model.ToString
         End Function
 
-        Public Shared Function LoadDocument(xml As String) As XmlFile
-            Return xml.LoadXml(Of XmlFile)
+        Public Shared Function LoadDocument(xml As String) As XmlFile(Of T)
+            Return xml.LoadXml(Of XmlFile(Of T))
         End Function
     End Class
 
-    <XmlType("model", Namespace:=XmlFile.XmlNamespace)>
-    Public Class Model : Inherits ModelBase
+    <XmlType("model", Namespace:=sbmlXmlns)>
+    Public Class Model(Of T As Reaction) : Inherits ModelBase
 
         <XmlElement("notes")> Public Property notes As Notes
 
         Public Property listOfCompartments As Compartment()
         Public Property listOfSpecies As Species()
-        Public Property listOfReactions As Reaction()
+        Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
         Public Property listOfFunctionDefinitions As functionDefinition()
     End Class
@@ -115,7 +113,7 @@ Namespace Level3
         <XmlAttribute("constant")> Public Property Constant As Boolean
     End Class
 
-    <XmlType("species", Namespace:=XmlFile.XmlNamespace)>
+    <XmlType("species", Namespace:=sbmlXmlns)>
     Public Class Species : Inherits Components.Specie
         <XmlAttribute> Public Property hasOnlySubstanceUnits As Boolean
         <XmlAttribute> Public Property constant As Boolean

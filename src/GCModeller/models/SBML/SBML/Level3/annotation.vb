@@ -63,10 +63,22 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3
 
-    Public Class speciesAnnotation : Inherits Description
+    ''' <summary>
+    ''' 在SBML文件之中通用的RDF注释信息模型
+    ''' </summary>
+    <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Class SbmlAnnotationData : Inherits Description
 
-        <XmlElement("is", [Namespace]:=annotation.AnnotationInfo.bqbiol)>
-        Public Property [is] As [is]
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property [is] As [is]()
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property isDescribedBy As [is]()
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property isVersionOf As [is]
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property hasTaxon As [is]
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property occursIn As [is]
 
         Sub New()
             Call MyBase.New
@@ -79,7 +91,7 @@ Namespace Level3
         Public Property Bag As Array
     End Class
 
-    <XmlType("annotation", [Namespace]:=XmlFile.XmlNamespace)>
+    <XmlType("annotation", [Namespace]:=sbmlXmlns)>
     Public Class annotation
 
         <XmlElement("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
@@ -91,20 +103,19 @@ Namespace Level3
         Sub New()
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
         End Sub
+    End Class
 
-        <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
-        Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+    <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Class AnnotationInfo : Inherits RDF(Of SbmlAnnotationData)
 
-            Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
-            Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
+        Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
+        Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"
 
-            Sub New()
-                Call MyBase.New
+        Sub New()
+            Call MyBase.New
 
-                Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
-                Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
-            End Sub
-        End Class
-
+            Call MyBase.xmlns.Add("bqbiol", "http://biomodels.net/biology-qualifiers/")
+            Call MyBase.xmlns.Add("bqmodel", "http://biomodels.net/model-qualifiers/")
+        End Sub
     End Class
 End Namespace

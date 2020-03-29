@@ -58,8 +58,11 @@ Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
-    <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
-    Public Class Reaction : Inherits IPartsBase
+    ''' <summary>
+    ''' the base element model of the sbml
+    ''' </summary>
+    <XmlType("sbml_reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    Public MustInherit Class Reaction : Inherits IPartsBase
 
         <XmlAttribute> Public Property reversible As Boolean
         <XmlAttribute> Public Property fast As Boolean
@@ -70,8 +73,6 @@ Namespace Level3
         Public Property listOfReactants As List(Of SpeciesReference)
         Public Property listOfProducts As List(Of SpeciesReference)
         Public Property listOfModifiers As List(Of modifierSpeciesReference)
-
-        '<XmlElement("kineticLaw")> Public Property kineticLaw As kineticLaw
 
         Public Overrides Function ToString() As String
             Return id
