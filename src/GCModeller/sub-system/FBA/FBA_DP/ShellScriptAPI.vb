@@ -47,8 +47,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 
 <Cite(Title:="What is flux balance analysis?",
       Abstract:="Flux balance analysis is a mathematical approach for analyzing the flow of metabolites through a metabolic network. 

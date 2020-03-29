@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::319e57c1541337b1e104c52b88a47d5f, Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::145d7907d156e2d9884a0ad6726f0d27, Compiler\Compiler.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module Workflow
     ' 
     '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, converts
-    '               createMetabolicProcess, GetCentralDogmas, getTaxonomy
+    '               createMetabolicProcess, GetCentralDogmas, getTaxonomy, glycan2Cpd
     ' 
     ' /********************************************************************************/
 

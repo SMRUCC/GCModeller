@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::016baf5d4b497ed4a952f7c5ec2c8278, models\SBML\SBML\Level2\Elements\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::6c658e5ffe1a8cca52fe0d649071c4c4, SBML\SBML\Level2\Elements\Specie.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Specie
     ' 
-    '         Properties: Charge, CompartmentID, ID, InitialAmount, Notes
+    '         Properties: Charge, compartmentId, ID, InitialAmount, Notes
     ' 
     '         Function: GetTrimmedId, ToString
     ' 

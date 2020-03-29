@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8719379f6d1332b64fa428c4e9422b95, IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::be17af4d9b6b31dc083766665b7af4e8, IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -37,13 +37,19 @@
     ' 
     '         Function: GetAllFluxID
     ' 
+    '     Class ReactionGroup
+    ' 
+    '         Properties: enzymatic, etc, size
+    ' 
+    '         Function: GenericEnumerator, GetEnumerator
+    ' 
     '     Class Compound
     ' 
     '         Properties: ID, name, otherNames
     ' 
     '     Class Reaction
     ' 
-    '         Properties: Equation, ID, is_enzymatic, name
+    '         Properties: bounds, Equation, ID, is_enzymatic, name
     ' 
     '         Function: ToString
     ' 
@@ -61,7 +67,7 @@
     ' 
     '     Class Enzyme
     ' 
-    '         Properties: catalysis, geneID, KO
+    '         Properties: catalysis, ECNumber, geneID, KO
     ' 
     '         Function: ToString
     ' 

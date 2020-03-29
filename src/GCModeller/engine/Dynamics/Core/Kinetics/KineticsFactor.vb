@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea7233fcd1e26807d0c00747e75e6760, GCModeller.Framework.Kernel_Driver\Kinetics\KineticsLDM.vb"
+﻿#Region "Microsoft.VisualBasic::fda0312e4b78705eae3a3e4f365e159d, Dynamics\Core\Kinetics\KineticsFactor.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class KineticsLDM
+    '     Class KineticsFactor
     ' 
     '         Operators: (+3 Overloads) -, (+3 Overloads) *, (+3 Overloads) /, (+3 Overloads) \, (+3 Overloads) ^
     '                    (+3 Overloads) +, (+6 Overloads) Mod

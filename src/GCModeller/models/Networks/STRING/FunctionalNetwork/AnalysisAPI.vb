@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72bf0bb253421a1cd28542f7ad70ef89, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
+﻿#Region "Microsoft.VisualBasic::72bf0bb253421a1cd28542f7ad70ef89, Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
     ' Author:
     ' 
