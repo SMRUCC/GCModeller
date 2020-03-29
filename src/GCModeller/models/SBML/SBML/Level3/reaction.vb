@@ -61,7 +61,7 @@ Namespace Level3
     ''' <summary>
     ''' the base element model of the sbml
     ''' </summary>
-    <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    <XmlType("sbml_reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public MustInherit Class Reaction : Inherits IPartsBase
 
         <XmlAttribute> Public Property reversible As Boolean
