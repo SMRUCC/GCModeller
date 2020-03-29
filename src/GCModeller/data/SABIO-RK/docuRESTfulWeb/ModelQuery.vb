@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile
+Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String))
 
