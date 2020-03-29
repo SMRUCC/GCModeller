@@ -74,8 +74,6 @@ Namespace Level3
         Public Property listOfProducts As List(Of SpeciesReference)
         Public Property listOfModifiers As List(Of modifierSpeciesReference)
 
-        '<XmlElement("kineticLaw")> Public Property kineticLaw As kineticLaw
-
         Public Overrides Function ToString() As String
             Return id
         End Function

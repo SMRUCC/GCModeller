@@ -69,7 +69,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace Level3
+Namespace SBML
 
     Public Class kineticLaw
         <XmlAttribute> Public Property metaid As String

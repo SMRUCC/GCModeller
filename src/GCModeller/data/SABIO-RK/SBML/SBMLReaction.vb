@@ -7,5 +7,6 @@ Namespace SBML
     ''' </summary>
     Public Class SBMLReaction : Inherits Reaction
 
+        Public Property kineticLaw As kineticLaw
     End Class
 End Namespace
