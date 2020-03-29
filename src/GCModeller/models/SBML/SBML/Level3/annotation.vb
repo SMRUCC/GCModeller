@@ -63,8 +63,11 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3
 
+    ''' <summary>
+    ''' 在SBML文件之中通用的RDF注释信息模型
+    ''' </summary>
     <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
-    Public Class speciesAnnotation : Inherits Description
+    Public Class SbmlAnnotationData : Inherits Description
 
         <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
         Public Property [is] As [is]()
@@ -103,7 +106,7 @@ Namespace Level3
     End Class
 
     <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>
-    Public Class AnnotationInfo : Inherits RDF(Of speciesAnnotation)
+    Public Class AnnotationInfo : Inherits RDF(Of SbmlAnnotationData)
 
         Public Const bqbiol As String = "http://biomodels.net/biology-qualifiers/"
         Public Const bqmodel As String = "http://biomodels.net/model-qualifiers/"

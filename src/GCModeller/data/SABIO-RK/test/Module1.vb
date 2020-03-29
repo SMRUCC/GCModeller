@@ -12,7 +12,9 @@ Module Module1
             .kineticLaw = New kineticLaw With {
             .annotation = New kineticLawAnnotation With {
                 .sabiork = New sabiorkAnnotation With {.kineticLawID = 5},
-                .RDF = New AnnotationInfo With {.description = New speciesAnnotation With {.about = "12344", .isDescribedBy = New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}
+                .RDF = New AnnotationInfo With {.description = New SbmlAnnotationData With {
+                .about = "12344",
+                .isDescribedBy = {New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}}
         }
         }}}}}
 
