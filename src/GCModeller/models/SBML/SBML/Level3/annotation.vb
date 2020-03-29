@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3
 
+    <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Class speciesAnnotation : Inherits Description
 
         <XmlElement([Namespace]:=annotation.AnnotationInfo.bqbiol)>
