@@ -5,7 +5,8 @@ Public Class CellEntity(Of T As Individual) : Inherits GridCell(Of T)
 
     Protected adjacents As CellEntity(Of T)()
 
-    Sub New(i As Integer, j As Integer)
+    Sub New(i As Integer, j As Integer, obj As T)
+        data = obj
         index = New Point(i, j)
     End Sub
 
@@ -19,8 +20,11 @@ Public Class CellEntity(Of T As Individual) : Inherits GridCell(Of T)
     End Sub
 
     Private Iterator Function getAdjacents() As IEnumerable(Of CellEntity(Of Individual))
+        Dim individual As CellEntity(Of Individual)
+
         For Each cell As CellEntity(Of T) In adjacents
-            Yield DirectCast(cell, Object)
+            individual = DirectCast(DirectCast(cell, Object), CellEntity(Of Individual))
+            Yield individual
         Next
     End Function
 
