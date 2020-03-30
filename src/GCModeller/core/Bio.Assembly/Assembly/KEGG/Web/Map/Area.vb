@@ -109,7 +109,7 @@ Namespace Assembly.KEGG.WebServices
             Get
                 If InStr(href, "/dbget-bin/www_bget") = 1 Then
                     With IDVector
-                        If .First.IsPattern("[CDG]\d+") Then
+                        If .First.IsPattern("[CDG]\d+") OrElse .First.IsPattern("DG\d+") Then
                             ' compound, drug, glycan
                             Return NameOf(Compound)
                         ElseIf (shape = "rect" AndAlso .Any(Function(id) id.IsPattern("K\d+"))) OrElse .First.IndexOf(":"c) > -1 Then

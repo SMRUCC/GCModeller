@@ -5,9 +5,6 @@ setwd(!script$dir);
 let genes as string           = ?"--genes";
 let proteins as string        = ?"--proteins";
 let output.dir as string      = ?"--out" || "./output";
-let foldchangeField as string = "ratio";
-let pvalue as string          = "t.test_p.value";
-let KOField as string         = "KEGG_Inforamtion";
 let profileValues = list();
 let color.types   = list(
 	up      = "red",
@@ -15,20 +12,26 @@ let color.types   = list(
 	non_deg = "green"
 );
 
+let addProfile as function(table, foldchangeField, pvalue, KOField, t.log2, log2fc.cutoff) {
+
+}
+
 if (file.exists(genes)) {
 	let geneValues <- read.csv(genes);
 	
-	let fc     <- log(as.numeric(geneValues[, foldchangeField]), 2);
-	let pval   <- as.numeric(geneValues[, pvalue]);
-	let KO     <- $"K\d+"(as.character(geneValues[, KOField])) :> sapply(x -> is.empty(x) ? "" : x);
+	let foldchangeField as string = "log2FoldChange";
+	let pvalue as string          = "pval";
+	let KOField as string         = "KeggOrtholog";
 	
-	print(KO);
-
-	let genes  <- (abs(fc) >= 1) && (pval <= 0.05) && (KO != ""); 
+	let fc    <- as.numeric(geneValues[, foldchangeField]);
+	let pval  <- as.numeric(geneValues[, pvalue]);
+	let KO    <- $"K\d+"(as.character(geneValues[, KOField])) :> sapply(x -> is.empty(x) ? "" : x[1]);
+	let genes <- (abs(fc) >= 4) && (pval <= 0.05) && (KO != ""); 
 	
-	str(genes);
+	# print(KO);
+	# str(genes);
 	
-	fc <- fc[genes];
+	fc         <- fc[genes];
 	geneValues <- KO[genes];
 	geneValues <- lapply(1:length(geneValues), function(i) {
 		if(fc[i] > 0) {
@@ -48,7 +51,34 @@ if (file.exists(genes)) {
 }
 
 if (file.exists(proteins)) {
+	let protValues <- read.csv(proteins);
+
+	let foldchangeField as string = "ratio";
+	let pvalue as string          = "t.test_p.value";
+	let KOField as string         = "KEGG_Inforamtion";
 	
+	let fc    <- log(as.numeric(protValues[, foldchangeField]), 2);
+	let pval  <- as.numeric(protValues[, pvalue]);
+	let KO    <- $"K\d+"(as.character(protValues[, KOField])) :> sapply(x -> is.empty(x) ? "" : x[1]);
+	let genes <- (abs(fc) >= 1) && (pval <= 0.05) && (KO != ""); 
+	
+	fc         <- fc[genes];
+	protValues <- KO[genes];
+	protValues <- lapply(1:length(protValues), function(i) {
+		if(fc[i] > 0) {
+			color.types$up;
+		} else {
+			color.types$down;
+		}
+	}, names = i -> protValues[i]);
+	
+	str(protValues);
+	
+	for(id in names(protValues)) {
+		profileValues[[id]] <- protValues[[id]];
+	}
+} else {
+	print("no proteins value provided...");
 }
 
 using kegg_maps as open.zip("kegg_maps.zip") {
@@ -64,12 +94,12 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 		mapId = basename(mapId);
 		innerId = map :> map.intersects(allId);		
 		
-		print(map$Name);
-		
 		if (length(innerId) > 0) {
 			let profile = profileValues[innerId];
 		
 			print(`${mapId} contains ${length(innerId)} inside this pathway map!`);
+			print(map$Name);
+			
 			str(profile);
 			
 			# draw image
