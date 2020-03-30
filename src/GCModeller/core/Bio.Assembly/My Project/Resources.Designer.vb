@@ -71,7 +71,7 @@ Namespace My.Resources
         '''E        R00623  Primary alcohol + NAD+ &lt;=&gt; Aldehyde + NADH + H+
         '''E        R00624  Secondary alcohol + NAD+ &lt;=&gt; Ketone + NADH + H+
         '''E        R00754  Ethanol + NAD+ &lt;=&gt; Acetaldehyde + NADH + H+
-        '''E        R02124  Retinol + NAD+ &lt;=&gt;  [rest of string was truncated]&quot;;.
+        '''E        R02124  Retinol + NAD+ &lt;=&gt; Retinal +  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08201() As String
             Get
@@ -81,7 +81,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to +D	Reaction	Substrate	Product	Substrate2	Product2
-        '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1400px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:200px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;overflow:hidden;width:300px;}.col3{position:relative;background:white;z-index:3;padding-left:10px;overflow:hidden;width:300px;}.col4{position:relative;background:white;z-index:2;padding-left:10 [rest of string was truncated]&quot;;.
+        '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1400px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:200px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;overflow:hidden;width:300px;}.col3{position:relative;background:white;z-index:3;padding-left:10px;overflow:hidden;width:300px;}.col4{position:relative;background:white;z-index:2;padding-left:10p [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08202() As String
             Get
@@ -100,7 +100,8 @@ Namespace My.Resources
         '''B  R00292  Glc a1-4 Glc [KO:K00693] [PATH:rn00500]
         '''B  R06184  Glc a1-6 Glc
         '''B  R06018  Glc b1-3 Glc
-        '''B  R01994  Glc a1-2 Gal [KO:K03276] [PATH:rn [rest of string was truncated]&quot;;.
+        '''B  R01994  Glc a1-2 Gal [KO:K03276] [PATH:rn00540]
+        '''B   [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08203() As String
             Get
@@ -129,8 +130,7 @@ Namespace My.Resources
         '''E        RC00050
         '''E        RC00087
         '''E        RC00088
-        '''E        RC00099
-        '''E        [rest of string was truncated]&quot;;.
+        '''E     [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08204() As String
             Get
@@ -157,7 +157,8 @@ Namespace My.Resources
         '''I                Euarchontoglires
         '''J                  Primates
         '''K                    Haplorrhini
-        '''L                      Catarrh [rest of string was truncated]&quot;;.
+        '''L                      Catarrhini
+        '''M              [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08610() As String
             Get
@@ -178,8 +179,7 @@ Namespace My.Resources
         '''C    01200  Carbon metabolism
         '''C    01210  2-Oxocarboxylic acid metabolism
         '''C    01212  Fatty acid metabolism
-        '''C    01230  Biosynthesis of amino acids
-        '''C  [rest of string was truncated]&quot;;.
+        '''C    01230  Biosynthesis of am [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08901() As String
             Get
@@ -200,7 +200,7 @@ Namespace My.Resources
         '''D      K00845  glk; glucokinase
         '''D      K01810  GPI, pgi; glucose-6-phosphate isomerase
         '''D      K06859  pgi1; glucose-6-phosphate isomerase, archaeal
-        '''D      K13810  tal-pgi; transaldo [rest of string was truncated]&quot;;.
+        '''D      K13810  tal-pgi; transaldolase / gluco [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00000() As String
             Get
@@ -220,7 +220,7 @@ Namespace My.Resources
         '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
         '''D      K00845  glk; glucokinase [EC:2.7.1.2]
         '''D      K01810  GPI, pgi; glucose-6-phosphate isomerase [EC:5.3.1.9]
-        '''D      K06859  pgi1; glucose-6-phosphate isomerase, archaeal [EC:5.3.1. [rest of string was truncated]&quot;;.
+        '''D      K06859  pgi1; glucose-6-phosphate isomerase, archaeal [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00001() As String
             Get
@@ -239,7 +239,7 @@ Namespace My.Resources
         '''D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map00710 map01200 map01100 map01120]
         '''E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
         '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1.39]
-        '''E        K01602  rbcS; ribulose-bisphosphate car [rest of string was truncated]&quot;;.
+        '''E        K01602  rbcS; ribulose-bisphosphate carboxylase s [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00002_keg() As String
             Get
@@ -257,7 +257,7 @@ Namespace My.Resources
         '''PF01584,CheW,CheW,chemotaxis,Chemotaxis,Yes
         '''PF09078,CheY-binding,CheY-binding,chemotaxis,Chemotaxis,Yes
         '''PF04344,CheZ,CheZ,chemotaxis,Chemotaxis,Yes
-        '''PF02895,H-kinase_dim,H-kinase_dim,chemota [rest of string was truncated]&quot;;.
+        '''PF02895,H-kinase_dim,H-kinase_dim,chemotaxis,Chemo [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property MiST2() As String
             Get
@@ -287,7 +287,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_1() As String
             Get
@@ -308,7 +308,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_10() As String
             Get
@@ -329,7 +329,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile i    ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_11() As String
             Get
@@ -350,7 +350,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG S Ser i    CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_12() As String
             Get
@@ -371,7 +371,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_13() As String
             Get
@@ -392,7 +392,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_14() As String
             Get
@@ -413,7 +413,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_16() As String
             Get
@@ -434,7 +434,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile i    ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_2() As String
             Get
@@ -455,7 +455,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_21() As String
             Get
@@ -476,7 +476,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_22() As String
             Get
@@ -497,7 +497,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile i    ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_23() As String
             Get
@@ -518,7 +518,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_24() As String
             Get
@@ -539,7 +539,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_25() As String
             Get
@@ -560,7 +560,7 @@ Namespace My.Resources
         '''CTA T Thr      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG T Thr      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_3() As String
             Get
@@ -581,7 +581,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile i    ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_4() As String
             Get
@@ -602,7 +602,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile i    ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_5() As String
             Get
@@ -623,7 +623,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_6() As String
             Get
@@ -644,7 +644,7 @@ Namespace My.Resources
         '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
         '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
         '''
-        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''ATT I Ile      ACT T Thr      AAT N As [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property transl_table_9() As String
             Get

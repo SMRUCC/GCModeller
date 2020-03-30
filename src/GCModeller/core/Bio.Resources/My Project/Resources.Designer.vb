@@ -98,8 +98,7 @@ Namespace My.Resources
         '''D      C17714  Heptanoic acid
         '''D      C06423  Octanoic acid
         '''D      C01601  Nonanoic acid
-        '''D      C17715  Undecanoic acid
-        '''D  [rest of string was truncated]&quot;;.
+        '''D      C17715  Und [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08002() As String
             Get
@@ -124,7 +123,7 @@ Namespace My.Resources
         '''C    Pyrrolizidine alkaloids
         '''D      C10124  Alexine
         '''D      C10263  Amabiline
-        '''D      C10132  Austra [rest of string was truncated]&quot;;.
+        '''D     [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08003() As String
             Get
@@ -150,8 +149,7 @@ Namespace My.Resources
         '''C    C01836  Neurotensin
         '''C    C15868  Neuromedin N
         '''B  Feeding-related peptide
-        '''C    C16025  Ghrelin
-        '''C    C15901   [rest of string was truncated]&quot;;.
+        '''C    C16025  Ghre [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08005() As String
             Get
@@ -204,8 +202,7 @@ Namespace My.Resources
         '''D      C10932  Carpropamid
         '''D      C18573  Cyazofamid
         '''D      C18516  Cyflufenamid
-        '''D      C18820  Dichlofluanid
-        '''D      C185 [rest of string was truncated]&quot;;.
+        '''D      C18820  Dichlofl [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08007() As String
             Get
@@ -247,8 +244,7 @@ Namespace My.Resources
         '''D      C19957  Fasciculol E
         '''D      C19958  Fasciculol F
         '''D      C09687  Illudin M
-        '''D      C09688  Illudin S
-        '''D      C1 [rest of string was truncated]&quot;;.
+        '''D      C09688  I [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08009() As String
             Get
@@ -287,7 +283,7 @@ Namespace My.Resources
         '''B  Anthraquinone glycosides
         '''C    C10303  Aurantio-obtusin beta-D-glucoside
         '''C    C10313  Chryso-obtusin glucoside
-        '''C    C10316  Chrysophanol 8-O-be [rest of string was truncated]&quot;;.
+        '''C    C10316  Chr [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08021() As String
             Get
@@ -336,7 +332,8 @@ Namespace My.Resources
         '''I                Euarchontoglires
         '''J                  Primates
         '''K                    Haplorrhini
-        '''L                      Catarrh [rest of string was truncated]&quot;;.
+        '''L                      Catarrhini
+        '''M              [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08610() As String
             Get
@@ -357,7 +354,8 @@ Namespace My.Resources
         '''C    01200  Carbon metabolism
         '''C    01210  2-Oxocarboxylic acid metabolism
         '''C    01212  Fatty acid metabolism
-        '''C    01230  Biosynthesis of am [rest of string was truncated]&quot;;.
+        '''C    01230  Biosynthesis of amino acids
+        '''C  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08901() As String
             Get
@@ -384,7 +382,7 @@ Namespace My.Resources
         '''A&lt;b&gt;Genes and Proteins&lt;/b&gt;
         '''B  Orthologs and modules
         '''C    ko00001  KEGG Orthology (KO)
-        '''C    [rest of string was truncated]&quot;;.
+        '''C    ko00002  KEGG mod [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08902() As String
             Get
@@ -408,7 +406,8 @@ Namespace My.Resources
         '''C    br06010  Ribosomal proteins
         '''C    br06011  RNA polymerases
         '''C    br06020  Photosynthetic and chemosynthetic capacities
-        '''C    br06021  Signaling  [rest of string was truncated]&quot;;.
+        '''C    br06021  Signaling modules
+        '''B  Enzy [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08904() As String
             Get
@@ -449,7 +448,7 @@ Namespace My.Resources
         '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
         '''D      K00845  glk; glucokinase [EC:2.7.1.2]
         '''D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
-        '''D   [rest of string was truncated]&quot;;.
+        '''D      K08074  ADPG [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00001() As String
             Get
@@ -472,7 +471,7 @@ Namespace My.Resources
         '''C    Carbon fixation
         '''D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map01200 map00710]
         '''E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
-        '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large ch [rest of string was truncated]&quot;;.
+        '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1. [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00002() As String
             Get
@@ -493,7 +492,7 @@ Namespace My.Resources
         '''B  2-Oxocarboxylic acid chain extension
         '''C    RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
         '''D      M00010  Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate
-        '''D      M00433  Lysine biosynthesi [rest of string was truncated]&quot;;.
+        '''D      M00433  Lysine biosynthesis, 2-oxoglut [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00003() As String
             Get
@@ -511,7 +510,7 @@ Namespace My.Resources
         '''D      1.1.1.1  alcohol dehydrogenase
         '''E        K00001  E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
         '''E        K00121  frmA, ADH5, adhC; S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC:1.1.1.284 1.1.1.1]
-        '''E        K04072  adhE; acetaldehyde  [rest of string was truncated]&quot;;.
+        '''E        K04072  adhE; acetaldehyde dehydroge [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko01000() As String
             Get
@@ -529,7 +528,7 @@ Namespace My.Resources
         '''D      K05641  ABCA1; ATP-binding cassette, subfamily A (ABC1), member 1
         '''D      K05642  ABCA2; ATP-binding cassette, subfamily A (ABC1), member 2
         '''D      K05643  ABCA3; ATP-binding cassette, subfamily A (ABC1), member 3
-        '''D      K05644  ABCA4; ATP-binding cassette, subfamily A (ABC1),  [rest of string was truncated]&quot;;.
+        '''D      K05644  ABCA4; ATP-binding cassette, subfamily A [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02000() As String
             Get
@@ -545,7 +544,7 @@ Namespace My.Resources
         '''B  PhoR-PhoB (phosphate starvation response)
         '''C    K07636  phoR; two-component system, OmpR family, phosphate regulon sensor histidine kinase PhoR [EC:2.7.13.3]
         '''C    K07657  phoB; two-component system, OmpR family, phosphate regulon response regulator PhoB
-        '''C    K07658  phoB1, phoP; two-component system, OmpR family, alkaline phosphatase synt [rest of string was truncated]&quot;;.
+        '''C    K07658  phoB1, phoP; two-component system, OmpR family, alkaline phosphata [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02022() As String
             Get
@@ -564,7 +563,7 @@ Namespace My.Resources
         '''D      K03408  cheW; purine-binding chemotaxis protein CheW
         '''D      K03409  cheX; chemotaxis protein CheX
         '''D      K03410  cheC; chemotaxis protein CheC
-        '''D      K03411  cheD; [rest of string was truncated]&quot;;.
+        '''D      K03 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02035() As String
             Get
@@ -584,7 +583,7 @@ Namespace My.Resources
         '''D      K10928  ctxA; cholera enterotoxin subunit A [EC:2.4.2.36]
         '''D      K10929  ctxB; cholera enterotoxin subunit B
         '''C    Exototoxin-A (ETA)
-        '''D      K11020   [rest of string was truncated]&quot;;.
+        '''D    [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02042() As String
             Get
@@ -603,7 +602,7 @@ Namespace My.Resources
         '''C    K12340  tolC; outer membrane protein
         '''B  RTX toxin transporter
         '''C    K12530  rtxB, fitA; ATP-binding cassette, subfamily B, bacterial RtxB
-        '''C    K12531  rtxE, fitC; ATP-binding  [rest of string was truncated]&quot;;.
+        '''C    K12531  rtxE, fitC; AT [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02044() As String
             Get
@@ -622,7 +621,7 @@ Namespace My.Resources
         '''B  Type I CRISPR-Cas system
         '''C    Type I signiture cas proteins
         '''D      K07012  cas3; CRISPR-associated endonuclease/helicase Cas3 [EC:3.1.-.- 3.6.4.-]
-        '''D      K07475  cas3; CRISPR-associated endonuclease [rest of string was truncated]&quot;;.
+        '''D      K07475  cas3; CRISPR-associated en [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko02048() As String
             Get
@@ -644,7 +643,7 @@ Namespace My.Resources
         '''A&lt;b&gt;ssRNA-RT viruses&lt;/b&gt;
         '''B  Human T-cell leukemia virus
         '''C    K23017  gag; HTLV-1 gag polyprotein
-        '''C    K23454   [rest of string was truncated]&quot;;.
+        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko03200() As String
             Get
@@ -662,8 +661,7 @@ Namespace My.Resources
         '''C    K05181  GABRB; gamma-aminobutyric acid receptor subunit beta
         '''C    K05184  GABRD; gamma-aminobutyric acid receptor subunit delta
         '''C    K05185  GABRE; gamma-aminobutyric acid receptor subunit epsilon
-        '''C    K05186  GABRG; gamma-aminobutyric acid receptor subunit gamma
-        '''C    K0 [rest of string was truncated]&quot;;.
+        '''C    K05186  GABRG; gamma-aminobutyric acid receptor subunit gamm [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko04040() As String
             Get
@@ -684,7 +682,7 @@ Namespace My.Resources
         '''C    K05719  ITGB1, CD29; integrin beta 1
         '''C    K17253  MFGE8; lactadherin
         '''C    K06490  ICAM1, CD54; intercellular adhesion molecule 1
-        '''C    K05692  ACTB_G1 [rest of string was truncated]&quot;;.
+        '''C    K05 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko04147() As String
             Get
@@ -704,8 +702,7 @@ Namespace My.Resources
         '''E        K12313  ACTA2; actin, aortic smooth muscle
         '''E        K12314  ACTC1; actin, alpha cardiac muscle
         '''E        K12315  ACTG2; actin, gamma-enteric smooth muscle
-        '''E        K05692  ACTB_G1; actin beta/gamma 1
-        '''E     [rest of string was truncated]&quot;;.
+        '''E        K05692  ACTB_G1; actin beta/ga [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko04812() As String
             Get
@@ -736,8 +733,7 @@ Namespace My.Resources
         '''3322	KEGG	C00020	6083
         '''3323	KEGG	C00021	439155
         '''3324	KEGG	C00022	1060
-        '''3325	KEGG	C00023	23925
-        '''3326	KEGG	C [rest of string was truncated]&quot;;.
+        '''3325	KEGG	C0 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property SID_Map_KEGG() As String
             Get
