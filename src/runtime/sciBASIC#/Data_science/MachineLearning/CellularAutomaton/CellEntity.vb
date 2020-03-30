@@ -21,7 +21,9 @@ Public Class CellEntity(Of T As Individual) : Inherits GridCell(Of T)
 
     Private Iterator Function getAdjacents() As IEnumerable(Of Individual)
         For Each cell As CellEntity(Of T) In adjacents
-            Yield cell.data
+            If Not cell Is Nothing Then
+                Yield cell.data
+            End If
         Next
     End Function
 
