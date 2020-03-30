@@ -1,445 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7e74af6b7398c2ed025f853710ad3148, data\WebServices\Service References\NCBI.eUtils\Reference.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    '     Interface eUtilsServiceSoap
-    ' 
-    '         Function: run_eGquery, run_eGqueryAsync, run_eInfo, run_eInfoAsync, run_eLink
-    '                   run_eLinkAsync, run_ePost, run_ePostAsync, run_eSearch, run_eSearchAsync
-    '                   run_eSpell, run_eSpellAsync, run_eSummary, run_eSummaryAsync
-    ' 
-    '     Class eGqueryRequest
-    ' 
-    '         Properties: email, term, tool
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkInfoType
-    ' 
-    '         Properties: DbTo, HtmlTag, LinkName, MenuTag, Priority
-    '                     Url
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class UrlType
-    ' 
-    '         Properties: LNG, Value
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Enum UrlTypeLNG
-    ' 
-    '         DA, DE, EL, EN, ES
-    '         FR, IT, IW, JA, NL
-    '         NO, RU, SV, ZH
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class IdLinkSetType
-    ' 
-    '         Properties: Id, LinkInfo
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class IdType
-    ' 
-    '         Properties: HasLinkOut, HasLinkOutSpecified, HasNeighbor, HasNeighborSpecified, Value
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Enum IdTypeHasLinkOut
-    ' 
-    '         N, Y
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Enum IdTypeHasNeighbor
-    ' 
-    '         N, Y
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class IdCheckListType
-    ' 
-    '         Properties: [ERROR], Items
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class FirstCharsType
-    ' 
-    '         Properties: FirstChar
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ProviderType
-    ' 
-    '         Properties: IconUrl, Id, Name, NameAbbr, Url
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class IconUrlType
-    ' 
-    '         Properties: LNG, Value
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Enum IconUrlTypeLNG
-    ' 
-    '         DA, DE, EL, EN, ES
-    '         FR, IT, IW, JA, NL
-    '         NO, RU, SV, ZH
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class ObjUrlType
-    ' 
-    '         Properties: Attribute, Category, IconUrl, LinkName, Provider
-    '                     SubjectType, SubProvider, Url
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class IdUrlSetType
-    ' 
-    '         Properties: Id, Items
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class IdUrlListType
-    ' 
-    '         Properties: Items
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkSetDbHistoryType
-    ' 
-    '         Properties: [ERROR], DbTo, Info, LinkName, QueryKey
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkType1
-    ' 
-    '         Properties: Id, Score
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkSetDbType
-    ' 
-    '         Properties: [ERROR], DbTo, Info, Link, LinkName
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkSetType
-    ' 
-    '         Properties: [ERROR], DbFrom, IdCheckList, IdList, IdUrlList
-    '                     LinkSetDb, LinkSetDbHistory, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ItemType
-    ' 
-    '         Properties: Item, ItemContent, Name, Type
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Enum ItemTypeType
-    ' 
-    '         [Date], [Integer], [String], [Structure], Enumerator
-    '         Flags, List, Qualifier, Unknown
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class DocSumType
-    ' 
-    '         Properties: Id, Item
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class WarningListType
-    ' 
-    '         Properties: OutputMessage, PhraseIgnored, QuotedPhraseNotFound
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ErrorListType
-    ' 
-    '         Properties: FieldNotFound, PhraseNotFound
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class TermSetType
-    ' 
-    '         Properties: Count, Explode, Field, Term
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class TranslationType
-    ' 
-    '         Properties: [To], From
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class LinkType
-    ' 
-    '         Properties: DbTo, Description, Menu, Name
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class FieldType
-    ' 
-    '         Properties: Description, FullName, Hierarchy, IsDate, IsHidden
-    '                     IsNumerical, IsRangable, IsTruncatable, Name, SingleToken
-    '                     TermCount
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class DbInfoType
-    ' 
-    '         Properties: Count, DbName, Description, FieldList, LastUpdate
-    '                     LinkList, MenuName
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class DbListType
-    ' 
-    '         Properties: Items
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ResultItemType
-    ' 
-    '         Properties: Count, DbName, MenuName, Status
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eGQueryResultType
-    ' 
-    '         Properties: [ERROR], ResultItem
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class Result
-    ' 
-    '         Properties: eGQueryResult, Term
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_eGqueryRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eGqueryResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class eInfoRequest
-    ' 
-    '         Properties: db, email, tool
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eInfoResult
-    ' 
-    '         Properties: [ERROR], DbInfo, DbList
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_eInfoRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eInfoResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class eSearchRequest
-    ' 
-    '         Properties: datetype, db, email, field, maxdate
-    '                     mindate, QueryKey, reldate, RetMax, RetStart
-    '                     rettype, sort, term, tool, usehistory
-    '                     WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eSearchResult
-    ' 
-    '         Properties: [ERROR], Count, ErrorList, IdList, QueryKey
-    '                     QueryTranslation, RetMax, RetStart, TranslationSet, TranslationStack
-    '                     WarningList, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_eSearchRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eSearchResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class eSummaryRequest
-    ' 
-    '         Properties: db, email, id, query_key, retmax
-    '                     retstart, tool, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eSummaryResult
-    ' 
-    '         Properties: [ERROR], DocSum
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_eSummaryRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eSummaryResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class eLinkRequest
-    ' 
-    '         Properties: cmd, datetype, db, dbfrom, email
-    '                     id, linkname, maxdate, mindate, query_key
-    '                     reldate, term, tool, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eLinkResult
-    ' 
-    '         Properties: [ERROR], LinkSet
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_eLinkRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eLinkResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class eSpellRequest
-    ' 
-    '         Properties: db, email, term, tool
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class eSpellResult
-    ' 
-    '         Properties: [ERROR], CorrectedQuery, Database, Query, SpelledQuery
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class SpelledQuery
-    ' 
-    '         Properties: Items, ItemsElementName
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Enum ItemsChoiceType
-    ' 
-    '         Original, Replaced
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class run_eSpellRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_eSpellResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class ePostRequest
-    ' 
-    '         Properties: db, email, id, tool, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ePostResult
-    ' 
-    '         Properties: [ERROR], InvalidIdList, QueryKey, WebEnv
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class run_ePostRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class run_ePostResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Interface eUtilsServiceSoapChannel
-    ' 
-    ' 
-    ' 
-    '     Class eUtilsServiceSoapClient
-    ' 
-    '         Constructor: (+5 Overloads) Sub New
-    '         Function: NCBI_eUtils_eUtilsServiceSoap_run_eGquery, NCBI_eUtils_eUtilsServiceSoap_run_eGqueryAsync, NCBI_eUtils_eUtilsServiceSoap_run_eInfo, NCBI_eUtils_eUtilsServiceSoap_run_eInfoAsync, NCBI_eUtils_eUtilsServiceSoap_run_eLink
-    '                   NCBI_eUtils_eUtilsServiceSoap_run_eLinkAsync, NCBI_eUtils_eUtilsServiceSoap_run_ePost, NCBI_eUtils_eUtilsServiceSoap_run_ePostAsync, NCBI_eUtils_eUtilsServiceSoap_run_eSearch, NCBI_eUtils_eUtilsServiceSoap_run_eSearchAsync
-    '                   NCBI_eUtils_eUtilsServiceSoap_run_eSpell, NCBI_eUtils_eUtilsServiceSoap_run_eSpellAsync, NCBI_eUtils_eUtilsServiceSoap_run_eSummary, NCBI_eUtils_eUtilsServiceSoap_run_eSummaryAsync, run_eGquery
-    '                   run_eGqueryAsync, run_eInfo, run_eInfoAsync, run_eLink, run_eLinkAsync
-    '                   run_ePost, run_ePostAsync, run_eSearch, run_eSearchAsync, run_eSpell
-    '                   run_eSpellAsync, run_eSummary, run_eSummaryAsync
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-'------------------------------------------------------------------------------
+﻿'------------------------------------------------------------------------------
 ' <auto-generated>
-'     此代码由工具生成。
-'     运行时版本:4.0.30319.42000
+'     This code was generated by a tool.
+'     Runtime Version:4.0.30319.42000
 '
-'     对此文件的更改可能会导致不正确的行为，并且如果
-'     重新生成代码，这些更改将会丢失。
+'     Changes to this file may cause incorrect behavior and will be lost if
+'     the code is regenerated.
 ' </auto-generated>
 '------------------------------------------------------------------------------
 
@@ -453,7 +18,7 @@ Namespace NCBI.eUtils
      System.ServiceModel.ServiceContractAttribute([Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/", ConfigurationName:="NCBI.eUtils.eUtilsServiceSoap")>  _
     Public Interface eUtilsServiceSoap
         
-        'CODEGEN: 操作 run_eGquery 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eGquery is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="egquery", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eGquery(ByVal request As NCBI.eUtils.run_eGqueryRequest) As NCBI.eUtils.run_eGqueryResponse
@@ -461,7 +26,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="egquery", ReplyAction:="*")>  _
         Function run_eGqueryAsync(ByVal request As NCBI.eUtils.run_eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse)
         
-        'CODEGEN: 操作 run_eInfo 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eInfo is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="einfo", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eInfo(ByVal request As NCBI.eUtils.run_eInfoRequest) As NCBI.eUtils.run_eInfoResponse
@@ -469,7 +34,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="einfo", ReplyAction:="*")>  _
         Function run_eInfoAsync(ByVal request As NCBI.eUtils.run_eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse)
         
-        'CODEGEN: 操作 run_eSearch 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eSearch is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="esearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eSearch(ByVal request As NCBI.eUtils.run_eSearchRequest) As NCBI.eUtils.run_eSearchResponse
@@ -477,7 +42,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="esearch", ReplyAction:="*")>  _
         Function run_eSearchAsync(ByVal request As NCBI.eUtils.run_eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse)
         
-        'CODEGEN: 操作 run_eSummary 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eSummary is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="esummary", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eSummary(ByVal request As NCBI.eUtils.run_eSummaryRequest) As NCBI.eUtils.run_eSummaryResponse
@@ -485,7 +50,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="esummary", ReplyAction:="*")>  _
         Function run_eSummaryAsync(ByVal request As NCBI.eUtils.run_eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse)
         
-        'CODEGEN: 操作 run_eLink 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eLink is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="elink", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eLink(ByVal request As NCBI.eUtils.run_eLinkRequest) As NCBI.eUtils.run_eLinkResponse
@@ -493,7 +58,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="elink", ReplyAction:="*")>  _
         Function run_eLinkAsync(ByVal request As NCBI.eUtils.run_eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse)
         
-        'CODEGEN: 操作 run_eSpell 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_eSpell is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="espell", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_eSpell(ByVal request As NCBI.eUtils.run_eSpellRequest) As NCBI.eUtils.run_eSpellResponse
@@ -501,7 +66,7 @@ Namespace NCBI.eUtils
         <System.ServiceModel.OperationContractAttribute(Action:="espell", ReplyAction:="*")>  _
         Function run_eSpellAsync(ByVal request As NCBI.eUtils.run_eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse)
         
-        'CODEGEN: 操作 run_ePost 以后生成的消息协定不是 RPC，也不是换行文档。
+        'CODEGEN: Generating message contract since the operation run_ePost is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="epost", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
         Function run_ePost(ByVal request As NCBI.eUtils.run_ePostRequest) As NCBI.eUtils.run_ePostResponse
@@ -511,7 +76,7 @@ Namespace NCBI.eUtils
     End Interface
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -573,7 +138,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -677,7 +242,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -731,7 +296,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=true, [Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/elink")>  _
     Public Enum UrlTypeLNG
@@ -780,7 +345,7 @@ Namespace NCBI.eUtils
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -828,7 +393,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -918,7 +483,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=true, [Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/elink")>  _
     Public Enum IdTypeHasLinkOut
@@ -931,7 +496,7 @@ Namespace NCBI.eUtils
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=true, [Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/elink")>  _
     Public Enum IdTypeHasNeighbor
@@ -944,7 +509,7 @@ Namespace NCBI.eUtils
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -993,7 +558,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1027,7 +592,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1117,7 +682,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1171,7 +736,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=true, [Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/elink")>  _
     Public Enum IconUrlTypeLNG
@@ -1220,7 +785,7 @@ Namespace NCBI.eUtils
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1352,7 +917,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1401,7 +966,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1436,7 +1001,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1526,7 +1091,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1574,7 +1139,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1664,7 +1229,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1797,7 +1362,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1873,7 +1438,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=true, [Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/esummary")>  _
     Public Enum ItemTypeType
@@ -1907,7 +1472,7 @@ Namespace NCBI.eUtils
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -1955,7 +1520,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2017,7 +1582,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2065,7 +1630,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2141,7 +1706,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2189,7 +1754,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2265,7 +1830,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2439,7 +2004,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2559,7 +2124,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2593,7 +2158,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2669,7 +2234,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2717,7 +2282,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2803,7 +2368,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2865,7 +2430,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -2965,7 +2530,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3209,7 +2774,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3439,7 +3004,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3571,7 +3136,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3657,7 +3222,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3873,7 +3438,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -3959,7 +3524,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -4035,7 +3600,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -4125,7 +3690,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -4176,7 +3741,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute([Namespace]:="http://www.ncbi.nlm.nih.gov/soap/eutils/espell", IncludeInSchema:=false)>  _
     Public Enum ItemsChoiceType
@@ -4227,7 +3792,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -4317,7 +3882,7 @@ Namespace NCBI.eUtils
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
