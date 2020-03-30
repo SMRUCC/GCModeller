@@ -3,19 +3,20 @@ imports ["kegg.repository", "report.utils"] from "kegg_kit";
 setwd(!script$dir);
 
 let genes as string           = ?"--genes";
+let proteins as string        = ?"--proteins";
 let output.dir as string      = ?"--out" || "./output";
-let geneValues                = NULL;
 let foldchangeField as string = "ratio";
 let pvalue as string          = "t.test_p.value";
 let KOField as string         = "KEGG_Inforamtion";
-let color.types = list(
+let profileValues = list();
+let color.types   = list(
 	up      = "red",
 	down    = "blue",
 	non_deg = "green"
 );
 
 if (file.exists(genes)) {
-	geneValues <- read.csv(genes);
+	let geneValues <- read.csv(genes);
 	
 	let fc     <- log(as.numeric(geneValues[, foldchangeField]), 2);
 	let pval   <- as.numeric(geneValues[, pvalue]);
@@ -38,14 +39,22 @@ if (file.exists(genes)) {
 	}, names = i -> geneValues[i]);
 	
 	str(geneValues);
+	
+	for(id in names(geneValues)) {
+		profileValues[[id]] <- geneValues[[id]];
+	}
 } else {
 	print("no gene value provided...");
+}
+
+if (file.exists(proteins)) {
+	
 }
 
 using kegg_maps as open.zip("kegg_maps.zip") {
 	let mapIds as string = as.object(kegg_maps)$ls;
 	let map = NULL;
-	let allId as string = names(geneValues);
+	let allId as string = names(profileValues);
 	let innerId as string;
 	
 	# print(mapIds);
@@ -58,7 +67,7 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 		print(map$Name);
 		
 		if (length(innerId) > 0) {
-			let profile = geneValues[innerId];
+			let profile = profileValues[innerId];
 		
 			print(`${mapId} contains ${length(innerId)} inside this pathway map!`);
 			str(profile);
