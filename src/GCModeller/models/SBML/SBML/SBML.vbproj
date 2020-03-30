@@ -10,7 +10,7 @@
     <AssemblyName>SMRUCC.genomics.Model.SBML_v1.0_2.0.22.0__a8b9cc5dce5d8b0cc9</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
