@@ -250,3 +250,4 @@ pip-log.txt
 /.vs/GCModeller/v16/Browse.VC.db
 /.vs/GCModeller/v16/Browse.VC.opendb
 /GCModeller/bin_unix64
+src/workbench/R#/demo/kegg/kegg_maps.zip
