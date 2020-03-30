@@ -196,6 +196,12 @@
          * 解析一个给定的URL字符串
         */
         parseURL(url: string): TypeScript.URL;
+
+        /**
+         * Url solver of the meta reference value.
+        */
+        url(reference: string, currentFrame?: boolean): string;
+
         /**
          * 从当前页面跳转到给定的链接页面
          * 

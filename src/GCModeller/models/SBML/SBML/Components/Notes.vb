@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6fcf148decc7c6697e43ca7a2a8129b, models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::64497e0d32bd0889220b369813bf56ab, SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 
@@ -62,6 +62,8 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Namespace Components
 
     <XmlType("notes")> Public Class Notes
+
+        <XmlElement("body", [Namespace]:="http://www.w3.org/1999/xhtml")>
         Public Property body As Body
 
         Public ReadOnly Property Text As String
@@ -89,7 +91,8 @@ Namespace Components
         End Function
     End Class
 
-    <XmlType("body")> Public Class Body
+    <XmlType("body", [Namespace]:="http://www.w3.org/1999/xhtml")> Public Class Body
+
         <XmlElement("p")> Public Property Passage As String()
         <XmlText> Public Property Text As String
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b82ae8f402e8a477bc84f7dd51b15472, mime\application%rdf+xml\DataModel\Bag.vb"
+﻿#Region "Microsoft.VisualBasic::83de14074edc4d30d351f17bcae127bc, mime\application%rdf+xml\DataModel\Bag.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,13 @@
     '     Properties: list
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
+    ' 
+    ' Class li
+    ' 
+    '     Properties: resource
+    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -68,10 +75,10 @@ Public Class Array
     End Function
 End Class
 
-<XmlType("item", [Namespace]:=RDFEntity.XmlnsNamespace)>
+<XmlType("item", [Namespace]:="NA")>
 Public Class li
 
-    <XmlAttribute("li", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    <XmlAttribute([Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Property resource As String
 
     Public Overrides Function ToString() As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad353c7944723ac70347e48519bf0bd9, Microsoft.VisualBasic.Core\Extensions\ValueTypes\DateTimeHelper.vb"
+﻿#Region "Microsoft.VisualBasic::a69f315c82d12bb246184555966578cc, Microsoft.VisualBasic.Core\Extensions\ValueTypes\DateTimeHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,15 @@
 
     ' Summaries:
 
+    '     Enum TimeScales
+    ' 
+    '         Day, Hour, Millisecond, Minute, Month
+    '         Second, Year
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
     '     Module DateTimeHelper
     ' 
     '         Properties: MonthList
@@ -186,6 +195,13 @@ Namespace ValueTypes
                 .FromUnixTimeSeconds(unixDateTime) _
                 .DateTime _
                 .ToLocalTime()
+        End Function
+
+        Public Function FromMilliseconds(milliseconds As Long) As Date
+            Dim start As New DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            Dim [date] = start.AddMilliseconds(milliseconds).ToLocalTime()
+
+            Return [date]
         End Function
 
         Const ZeroDate1$ = "0001-01-01, 00:00:00"

@@ -51,6 +51,8 @@ namespace Internal.Handlers {
         }
 
         /**
+         * Node selection by css selector
+         * 
          * @param query 函数会在这里自动的处理转义问题
          * @param context 默认为当前的窗口文档
         */
@@ -70,7 +72,7 @@ namespace Internal.Handlers {
                 throw `Unsupported context type: ${TypeScript.Reflection.getClass(context)}`;
             }
 
-            var it = new DOMEnumerator<T>(<any>nodes);
+            let it = new DOMEnumerator<T>(<any>nodes);
 
             return it;
         }
@@ -99,9 +101,19 @@ namespace Internal.Handlers {
                     }
                 }
             } else if (query.type == DOM.QueryTypes.NoQuery) {
+                // create a new node
                 return stringEval.createNew(expr, argument, <Window>context);
             } else if (!query.singleNode) {
-                return stringEval.select(query.expression, context);
+                // query by class
+                if (query.type == DOM.QueryTypes.class) {
+                    // 不通过css select来选择class可以获取更好的代码执行性能
+                    let nodes = document.getElementsByClassName(query.expression);
+                    let it = new DOMEnumerator<HTMLElement>(<any>nodes);
+
+                    return it;
+                } else {
+                    return stringEval.select(query.expression, context);
+                }
             } else if (query.type == DOM.QueryTypes.QueryMeta) {
                 // meta标签查询默认是可以在父节点文档之中查询的
                 // 所以在这里不需要context上下文环境

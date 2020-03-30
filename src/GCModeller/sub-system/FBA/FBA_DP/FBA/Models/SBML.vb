@@ -47,11 +47,10 @@
 #End Region
 
 Imports System.Collections.ObjectModel
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly
-Imports Microsoft.VisualBasic.Linq
 
 Namespace Models
 

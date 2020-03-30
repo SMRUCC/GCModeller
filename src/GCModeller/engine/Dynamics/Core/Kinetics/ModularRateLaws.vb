@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bbdea72f6d7800d5420cf5295ccd9e1, GCModeller.Framework.Kernel_Driver\Kinetics\ModularRateLaws.vb"
+﻿#Region "Microsoft.VisualBasic::14dadc48521d4e680a5af87b13b23a75, Dynamics\Core\Kinetics\ModularRateLaws.vb"
 
     ' Author:
     ' 

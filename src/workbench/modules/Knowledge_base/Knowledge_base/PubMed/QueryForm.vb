@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f51e975243d31bf221d8fc4d8a83c97, modules\Knowledge_base\Knowledge_base\PubMed\QueryForm.vb"
+﻿#Region "Microsoft.VisualBasic::325834bb0b869ac77398236d000b2bf9, modules\Knowledge_base\Knowledge_base\PubMed\QueryForm.vb"
 
     ' Author:
     ' 
@@ -127,5 +127,3 @@ Namespace PubMed
         ' p%24st=pubmed
     End Class
 End Namespace
-
-

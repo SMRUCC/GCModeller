@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8ce4394270fb4c6b5c0e10853d6045f, R#\gseakit\DEGSample.vb"
+﻿#Region "Microsoft.VisualBasic::d8a7d2768eaddf9a83b985a0c67b80d0, R#\gseakit\DEGSample.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,11 @@
     ' Module DEGSample
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
+    '     Function: guessSampleGroups, print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -121,4 +120,3 @@ Module DEGSample
         Return sampleInfo
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9a80718b4489ce1c3af60720d0bb475, Model\Models\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::b11bc066a9595ffe0243dbdd2be8e253, Model\Models\Regulation.vb"
 
     ' Author:
     ' 

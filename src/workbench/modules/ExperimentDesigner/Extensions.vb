@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cefa2260f372279de697eed7a7738593, modules\ExperimentDesigner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e02350aa2d5bc865356c2a0a48e76f79, modules\ExperimentDesigner\Extensions.vb"
 
     ' Author:
     ' 

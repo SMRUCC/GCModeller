@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5e21aa838d42957fde3903a157184ad, modules\ReportBuilder\HTML\TemplateHandler.vb"
+﻿#Region "Microsoft.VisualBasic::e0f477987f97fd8cf38b70e78a824f21, markdown2pdf\ReportBuilder\HTML\TemplateHandler.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class TemplateHandler
     ' 
-    '         Properties: Builder, Path
+    '         Properties: builder, path
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
