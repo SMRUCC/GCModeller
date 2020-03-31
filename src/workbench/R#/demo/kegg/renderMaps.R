@@ -1,4 +1,4 @@
-imports ["kegg.repository", "report.utils"] from "kegg_kit";
+imports ["kegg.repository", "report.utils", "kegg.brite"] from "kegg_kit";
 
 setwd(!script$dir);
 
@@ -15,6 +15,9 @@ let color.types   = list(
 let deg = [];
 let dep = [];
 let dem = [];
+let KOnames = KO.geneNames();
+
+print(str(KOnames));
 
 let addProfile as function(table, foldchangeField, pvalue, KOField, t.log2, log2fc.cutoff) {
 
