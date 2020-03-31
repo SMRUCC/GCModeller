@@ -3,8 +3,8 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Simulator(Of T As Individual)
 
-    ReadOnly grid As CellEntity(Of T)()()
-    ReadOnly size As Size
+    Friend ReadOnly grid As CellEntity(Of T)()()
+    Friend ReadOnly size As Size
 
     ''' <summary>
     ''' 
@@ -83,5 +83,13 @@ Public Class Simulator(Of T As Individual)
 
             Yield grid(y)(x)
         Loop
+    End Function
+
+    Public Iterator Function Snapshot() As IEnumerable(Of T)
+        For Each row In grid
+            For Each individual In row
+                Yield individual.data
+            Next
+        Next
     End Function
 End Class
