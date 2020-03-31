@@ -62,15 +62,27 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;html&gt;
+        '''
+        '''&lt;head&gt;
+        '''    &lt;title&gt;{$title}&lt;/title&gt;
+        '''   
+        '''    &lt;script id=&quot;mapjson&quot; type=&quot;application/json&quot;&gt;
+        '''        {$map_json}
+        '''    &lt;/script&gt;
+        '''
+        '''    &lt;script type=&quot;text/javascript&quot;&gt;
+        '''        function kegg_href(area) {
+        '''            return &quot;https://www.genome.jp/dbget-bin/www_bget?&quot; + area.entities.join(&quot;+&quot;);
+        '''        }
+        '''    &lt;/script&gt;
+        '''&lt;/head&gt;
+        '''
         '''&lt;body&gt;
         '''    &lt;div&gt;
         '''        &lt;p&gt;
         '''            &lt;a href=&quot;{$keggLink}&quot;&gt;View on the KEGG web site&lt;/a&gt;.
         '''        &lt;/p&gt;
-        '''        &lt;img src=&quot;./png/ypc00010.png&quot; name=&quot;pathwayimage&quot; id=&quot;pathwayimage&quot; name=&quot;pathwayimage&quot; usemap=&quot;#mapdata&quot; border=&quot;0&quot; width=&quot;716&quot; /&gt;
-        '''        &lt;map name=&quot;mapdata&quot;&gt;
-        '''
-        '''            &lt;area shape=circle coords=146,958,4 href=&quot;https://www.genome.jp/dbget-bin/www_bget?C00033&quot; title=&quot;C00033 (Acetate)&quot; onmouseover=&quot;popupTimer(&amp;quot;C00033&amp;quot;, &amp;quot;C00033 (Acetate)&amp;quot;, &amp;quot;#ffffff&amp;quo [rest of string was truncated]&quot;;.
+        '''        &lt;img src=&quot;{$map_base64}&quot; name=&quot;pathwayimage&quot; id=&quot;p [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property map_template() As String
             Get

@@ -19,12 +19,11 @@ Public Class CellEntity(Of T As Individual) : Inherits GridCell(Of T)
         adjacents(3) = grid(index.X + 1, index.Y)
     End Sub
 
-    Private Iterator Function getAdjacents() As IEnumerable(Of CellEntity(Of Individual))
-        Dim individual As CellEntity(Of Individual)
-
+    Private Iterator Function getAdjacents() As IEnumerable(Of Individual)
         For Each cell As CellEntity(Of T) In adjacents
-            individual = DirectCast(DirectCast(cell, Object), CellEntity(Of Individual))
-            Yield individual
+            If Not cell Is Nothing Then
+                Yield cell.data
+            End If
         Next
     End Function
 
@@ -32,9 +31,3 @@ Public Class CellEntity(Of T As Individual) : Inherits GridCell(Of T)
         Call data.Tick(getAdjacents)
     End Sub
 End Class
-
-Public Interface Individual
-
-    Sub Tick(adjacents As IEnumerable(Of CellEntity(Of Individual)))
-
-End Interface

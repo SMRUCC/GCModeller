@@ -12,7 +12,7 @@
     <AssemblyName>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh080dc9c</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>

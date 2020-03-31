@@ -10,8 +10,9 @@
     <AssemblyName>Microsoft.VisualBasic.MachineLearning.CellularAutomaton</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,8 +68,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CellEntity.vb" />
-    <Compile Include="Simulator.vb" />
+    <Compile Include="Debugger\Debugger.vb" />
+    <Compile Include="Debugger\WriteCDF.vb" />
+    <Compile Include="SimulatorModel\CellEntity.vb" />
+    <Compile Include="Extensions.vb" />
+    <Compile Include="SimulatorModel\Individual.vb" />
+    <Compile Include="SimulatorModel\Simulator.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -105,6 +110,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\BinaryData\BinaryData\BinaryData.vbproj">
+      <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
+      <Name>BinaryData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Data\BinaryData\DataStorage\DataStorage.vbproj">
+      <Project>{3c79ae03-a766-4b61-bdc4-824d78481b53}</Project>
+      <Name>DataStorage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
