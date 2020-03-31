@@ -15,7 +15,7 @@ let color.types   = list(
 let deg = [];
 let dep = [];
 let dem = [];
-let KOnames = KO.geneNames();
+let KOnames = as.list(KO.geneNames());
 
 print(str(KOnames));
 
@@ -101,9 +101,13 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 	let mapId.vec = [];
 	let mapName.vec = [];
 	let deg.vec = [];
+	let deg.names = [];
 	let dep.vec = [];
+	let dep.names = [];
 	let dem.vec = [];
 	let mapUrl  = [];
+	
+	let idList = [];
 	
 	# print(mapIds);
 	
@@ -134,8 +138,25 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 			# create output table
 			mapId.vec   <- mapId.vec   << mapId;
 			mapName.vec <- mapName.vec << map$Name;
-			deg.vec     <- deg.vec     << paste(intersect(innerId, deg), ",");
-			dep.vec     <- dep.vec     << paste(intersect(innerId, dep), ",");
+			
+			idList <- intersect(innerId, deg);
+			deg.vec     <- deg.vec     << paste(idList, ",");
+			
+			if (length(idList) > 0) {
+			deg.names   <- deg.names   << paste(unlist(KOnames[[idList]]), ";");
+			} else {
+			deg.names   <- deg.names   << "";
+			}
+						
+			idList <- intersect(innerId, dep);			
+			dep.vec     <- dep.vec     << paste(idList, ",");
+			
+			if (length(idList) > 0) {
+			dep.names   <- dep.names   << paste(unlist(KOnames[[idList]]), ";");
+			} else {
+			dep.names   <- dep.names   << "";
+			}
+						
 			dem.vec     <- dem.vec     << paste(intersect(innerId, dem), ",");
 			mapUrl      <- mapUrl      << keggMap.url(mapId, profile);
 			
@@ -146,8 +167,10 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 	
 	data.frame(
 		map  = mapId.vec, 
-		name = mapName.vec, 
+		name = mapName.vec,
+		genes = deg.names,
 		deg  = deg.vec, 
+		proteins = dep.names,
 		dep  = dep.vec, 
 		dem  = dem.vec, 
 		url  = mapUrl
