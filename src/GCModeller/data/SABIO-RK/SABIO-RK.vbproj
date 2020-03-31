@@ -10,7 +10,7 @@
     <AssemblyName>SMRUCC.genomics.Data.SABIO-RK</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -129,6 +129,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SBML\kineticLaw.vb" />
+    <Compile Include="SBML\SBMLReaction.vb" />
     <Compile Include="SBML\DocAPI.vb" />
     <Compile Include="Dumps\Enzyme.vb" />
     <Compile Include="Dumps\Kinetics.vb" />
@@ -164,6 +166,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
+      <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
+      <Name>application.RDF_xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

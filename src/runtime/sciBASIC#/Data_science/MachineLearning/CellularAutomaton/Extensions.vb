@@ -1,0 +1,50 @@
+﻿
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+
+<HideModuleName>
+Public Module Extensions
+
+    <Extension>
+    Public Sub TakeSnapshots(Of T As Individual)(simulator As Simulator(Of T), getKey As Func(Of T, String), counts As Dictionary(Of String, List(Of Integer)))
+        Dim groups = simulator.Snapshot.GroupBy(getKey).ToDictionary(Function(n) n.Key, Function(n) n.Count)
+
+        For Each type In counts.Keys
+            If groups.ContainsKey(type) Then
+                counts(type).Add(groups(type))
+            Else
+                counts(type).Add(0)
+            End If
+        Next
+    End Sub
+
+    Public Function CreateCountSnapshotBuckets(Of T As Structure)() As Dictionary(Of String, List(Of Integer))
+        Dim snapshots As New Dictionary(Of String, List(Of Integer))
+
+        For Each statuKey In Enums(Of T)()
+            snapshots.Add(statuKey.ToString, New List(Of Integer))
+        Next
+
+        Return snapshots
+    End Function
+
+    <Extension>
+    Public Function CreateSnapshotMatrix(Of T As {New, INamedValue, IDynamicMeta(Of Double)})(snapshots As Dictionary(Of String, List(Of Integer))) As T()
+        Dim ticks As Integer() = snapshots.First.Value.Sequence.ToArray
+        Dim matrix As T() = ticks _
+            .Select(Function(i)
+                        Return New T With {
+                            .Key = i,
+                            .Properties = snapshots _
+                                .ToDictionary(Function(d) d.Key,
+                                              Function(d)
+                                                  Return CDbl(d.Value(i))
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
+
+        Return matrix
+    End Function
+End Module

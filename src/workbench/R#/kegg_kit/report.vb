@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::9b6ab402c58d179fcf52f85c642980c2, R#\kegg_kit\report.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module report
-    ' 
-    '     Function: getHighlightObjects, MapRender, renderMapHighlights, showReportHtml, singleColor
-    ' 
-    ' /********************************************************************************/
+' Module report
+' 
+'     Function: getHighlightObjects, MapRender, renderMapHighlights, showReportHtml, singleColor
+' 
+' /********************************************************************************/
 
 #End Region
 
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -56,6 +57,24 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' </summary>
 <Package("report.utils")>
 Module report
+
+    <ExportAPI("loadMap")>
+    <RApiReturn(GetType(Map))>
+    Public Function loadMap(file As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf file Is String Then
+            With DirectCast(file, String)
+                If .FileExists Then
+                    Return .LoadXml(Of Map)
+                Else
+                    Return .LoadFromXml(Of Map)
+                End If
+            End With
+        ElseIf TypeOf file Is Stream Then
+            Return New StreamReader(DirectCast(file, Stream)).ReadToEnd.LoadFromXml(Of Map)
+        Else
+            Return Internal.debug.stop("invalid data type!", env)
+        End If
+    End Function
 
     <ExportAPI("map.local_render")>
     Public Function MapRender(maps As Dictionary(Of String, Map)) As LocalRender
@@ -120,6 +139,27 @@ Module report
             Return highlightObjs.TryCast(Of Message)
         Else
             Return ReportRender.Render(map, highlightObjs.TryCast(Of NamedValue(Of String)()))
+        End If
+    End Function
+
+    <ExportAPI("map.intersects")>
+    Public Function checkIntersection(map As Map, list As String()) As String()
+        Return map.GetMembers.Intersect(list).ToArray
+    End Function
+
+    <ExportAPI("keggMap.url")>
+    <RApiReturn(GetType(String))>
+    Public Function url(mapId As String, highlights As Object, Optional env As Environment = Nothing) As Object
+        Dim highlightObjs = getHighlightObjects(highlights, env)
+
+        If highlightObjs Like GetType(Message) Then
+            Return highlightObjs.TryCast(Of Message)
+        Else
+            Return New NamedCollection(Of NamedValue(Of String))() With {
+                .name = mapId,
+                .description = Nothing,
+                .value = highlightObjs.TryCast(Of NamedValue(Of String)())
+            }.KEGGURLEncode
         End If
     End Function
 

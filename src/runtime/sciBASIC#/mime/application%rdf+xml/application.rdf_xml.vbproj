@@ -12,7 +12,7 @@
     <AssemblyName>Microsoft.VisualBasic.MIME.application.rdf_xml</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -342,6 +342,8 @@
     <Compile Include="DataTypes.vb" />
     <Compile Include="MathML\Math.vb" />
     <Compile Include="MathML\maction.vb" />
+    <Compile Include="MathML\contentBuilder.vb" />
+    <Compile Include="NamespaceDoc.vb" />
     <Compile Include="RDFEntity.vb" />
     <Compile Include="RDF.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
