@@ -147,5 +147,21 @@ Module report
         Return map.GetMembers.Intersect(list).ToArray
     End Function
 
+    <ExportAPI("keggMap.url")>
+    <RApiReturn(GetType(String))>
+    Public Function url(mapId As String, highlights As Object, Optional env As Environment = Nothing) As Object
+        Dim highlightObjs = getHighlightObjects(highlights, env)
+
+        If highlightObjs Like GetType(Message) Then
+            Return highlightObjs.TryCast(Of Message)
+        Else
+            Return New NamedCollection(Of NamedValue(Of String))() With {
+                .name = mapId,
+                .description = Nothing,
+                .value = highlightObjs.TryCast(Of NamedValue(Of String)())
+            }.KEGGURLEncode
+        End If
+    End Function
+
 End Module
 
