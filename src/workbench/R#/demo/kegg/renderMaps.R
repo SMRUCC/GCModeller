@@ -129,12 +129,12 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 			;
 			
 			# create output table
-			mapId.vec <- mapId.vec << mapId;
+			mapId.vec   <- mapId.vec   << mapId;
 			mapName.vec <- mapName.vec << map$Name;
-			deg.vec <- deg.vec << paste(intersect(innerId, deg), ",");
-			dep.vec <- dep.vec << paste(intersect(innerId, dep), ",");
-			dem.vec <- dem.vec << paste(intersect(innerId, dem), ",");
-			mapUrl  <- mapUrl << keggMap.url(mapId, profile);
+			deg.vec     <- deg.vec     << paste(intersect(innerId, deg), ",");
+			dep.vec     <- dep.vec     << paste(intersect(innerId, dep), ",");
+			dem.vec     <- dem.vec     << paste(intersect(innerId, dem), ",");
+			mapUrl      <- mapUrl      << keggMap.url(mapId, profile);
 			
 		} else {
 			next;
@@ -149,5 +149,5 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 		dem  = dem.vec, 
 		url  = mapUrl
 	)
-	:> write.csv(file = `${output.dir}/result.csv`, row_names = FALSE);
+	:> write.csv(file = `${output.dir}/result.csv`, row.names = FALSE);
 }
