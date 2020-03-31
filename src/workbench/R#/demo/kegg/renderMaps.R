@@ -12,6 +12,10 @@ let color.types   = list(
 	non_deg = "green"
 );
 
+let deg = [];
+let dep = [];
+let dem = [];
+
 let addProfile as function(table, foldchangeField, pvalue, KOField, t.log2, log2fc.cutoff) {
 
 }
@@ -42,6 +46,8 @@ if (file.exists(genes)) {
 	}, names = i -> geneValues[i]);
 	
 	str(geneValues);
+	
+	deg = names(geneValues);
 	
 	for(id in names(geneValues)) {
 		profileValues[[id]] <- geneValues[[id]];
@@ -74,6 +80,8 @@ if (file.exists(proteins)) {
 	
 	str(protValues);
 	
+	dep = names(protValues);
+	
 	for(id in names(protValues)) {
 		profileValues[[id]] <- protValues[[id]];
 	}
@@ -86,6 +94,13 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 	let map = NULL;
 	let allId as string = names(profileValues);
 	let innerId as string;
+
+	let mapId.vec = [];
+	let mapName.vec = [];
+	let deg.vec = [];
+	let dep.vec = [];
+	let dem.vec = [];
+	let mapUrl  = [];
 	
 	# print(mapIds);
 	
@@ -100,7 +115,7 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 			print(`${mapId} contains ${length(innerId)} inside this pathway map!`);
 			print(map$Name);
 			
-			str(profile);
+			str(profile);		
 			
 			# draw image
 			map 
@@ -112,8 +127,27 @@ using kegg_maps as open.zip("kegg_maps.zip") {
 			:> keggMap.reportHtml(profile)
 			:> writeLines(con = `${output.dir}/${mapId}.html`)
 			;
+			
+			# create output table
+			mapId.vec <- mapId.vec << mapId;
+			mapName.vec <- mapName.vec << map$Name;
+			deg.vec <- deg.vec << paste(intersect(innerId, deg), ",");
+			dep.vec <- dep.vec << paste(intersect(innerId, dep), ",");
+			dem.vec <- dem.vec << paste(intersect(innerId, dem), ",");
+			mapUrl  <- mapUrl << keggMap.url(mapId, profile);
+			
 		} else {
 			next;
 		}
 	}
+	
+	data.frame(
+		map  = mapId.vec, 
+		name = mapName.vec, 
+		deg  = deg.vec, 
+		dep  = dep.vec, 
+		dem  = dem.vec, 
+		url  = mapUrl
+	)
+	:> write.csv(file = `${output.dir}/result.csv`, row_names = FALSE);
 }
