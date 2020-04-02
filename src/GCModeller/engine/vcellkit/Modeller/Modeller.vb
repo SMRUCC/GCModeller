@@ -75,6 +75,12 @@ Module Modeller
 
                 For Each number As String In numbers.Select(Function(num) num.parent.classLabel.Split.First)
                     Dim kinetics = WebRequest.QueryByECNumber(number, cache)
+
+                    If kinetics Is Nothing Then
+                        Continue For
+                    End If
+
+
                 Next
             Else
                 env.AddMessage($"missing ECNumber mapping for '{enzyme.KO}'.", MSG_TYPES.WRN)
