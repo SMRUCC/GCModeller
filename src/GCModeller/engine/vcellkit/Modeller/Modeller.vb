@@ -49,10 +49,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.Rsharp.Runtime
 
 <Package("vcellkit.modeller")>
 Module Modeller
+
+    ' ((kcat * E) * S) / (Km + S)
 
     ''' <summary>
     ''' apply the kinetics parameters from the sabio-rk database.
@@ -70,15 +73,17 @@ Module Modeller
                               Return ECNumber.ToArray
                           End Function)
         Dim numbers As BriteHText()
+        Dim reactions As IEnumerable(Of SBMLReaction)
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
             Dim kineticList As New List(Of SBMLInternalIndexer)
+            Dim kinetics As XmlFile(Of SBMLReaction)
 
             If keggEnzymes.ContainsKey(enzyme.KO) Then
                 numbers = keggEnzymes(enzyme.KO)
 
                 For Each number As String In numbers.Select(Function(num) num.parent.classLabel.Split.First)
-                    Dim kinetics = WebRequest.QueryByECNumber(number, cache)
+                    kinetics = WebRequest.QueryByECNumber(number, cache)
 
                     If kinetics Is Nothing Then
                         Continue For
@@ -91,7 +96,13 @@ Module Modeller
             End If
 
             For Each react As Catalysis In enzyme.catalysis
+                For Each index In kineticList
+                    reactions = index.getKEGGreactions(react.reaction)
 
+                    If Not reactions Is Nothing Then
+
+                    End If
+                Next
             Next
         Next
 

@@ -28,7 +28,9 @@ Namespace SBML
             species = sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
         End Sub
 
-
+        Public Function getKEGGreactions(id As String) As IEnumerable(Of SBMLReaction)
+            Return keggReactions.TryGetValue(id)
+        End Function
 
         Public Iterator Function getEnzymes(react As SBMLReaction) As IEnumerable(Of species)
             If Not react.listOfModifiers.IsNullOrEmpty Then
