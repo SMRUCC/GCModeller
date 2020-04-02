@@ -43,6 +43,7 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
@@ -71,6 +72,8 @@ Module Modeller
         Dim numbers As BriteHText()
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
+            Dim kineticList As New List(Of SBMLInternalIndexer)
+
             If keggEnzymes.ContainsKey(enzyme.KO) Then
                 numbers = keggEnzymes(enzyme.KO)
 
@@ -81,11 +84,15 @@ Module Modeller
                         Continue For
                     End If
 
-                    Dim index As New SBMLInternalIndexer(kinetics)
+                    kineticList += New SBMLInternalIndexer(kinetics)
                 Next
             Else
                 env.AddMessage($"missing ECNumber mapping for '{enzyme.KO}'.", MSG_TYPES.WRN)
             End If
+
+            For Each react As Catalysis In enzyme.catalysis
+
+            Next
         Next
 
         Return vcell

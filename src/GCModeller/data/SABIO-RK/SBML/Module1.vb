@@ -7,7 +7,7 @@ Namespace SBML
     Module Module1
 
         <Extension>
-        Private Iterator Function getIdentifiers(react As SBMLReaction) As IEnumerable(Of NamedValue(Of String))
+        Friend Iterator Function getIdentifiers(react As SBMLReaction) As IEnumerable(Of NamedValue(Of String))
             Dim annotation = react.annotation.RDF.description
 
             If Not annotation.is.IsNullOrEmpty Then
