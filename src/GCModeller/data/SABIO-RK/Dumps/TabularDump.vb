@@ -73,35 +73,35 @@ Namespace TabularDump
         End Function
 
         Public Shared Function CreateObjects(SABIORK_DATA As SabiorkSBML) As CompoundSpecie()
-            Dim LQuery = (From cs As SBMLParser.CompoundSpecie In SABIORK_DATA.CompoundSpecies
-                          Where String.IsNullOrEmpty(GetIdentifier(cs.Identifiers, "uniprot"))
-                          Let ref As CompoundSpecie = New CompoundSpecie With {
-                              .SabiorkId = cs.Id,
-                              .DBLinks = CreateDBLinksData(cs),
-                              .CommonNames = New String() {cs.Name},
-                              .KEGG_Compound = GetIdentifier(cs.Identifiers, "kegg.compound")
-                          }
-                          Select ref).ToArray
-            Return LQuery
+            'Dim LQuery = (From cs As SBMLParser.CompoundSpecie In SABIORK_DATA.CompoundSpecies
+            '              Where String.IsNullOrEmpty(GetIdentifier(cs.Identifiers, "uniprot"))
+            '              Let ref As CompoundSpecie = New CompoundSpecie With {
+            '                  .SabiorkId = cs.Id,
+            '                  .DBLinks = CreateDBLinksData(cs),
+            '                  .CommonNames = New String() {cs.Name},
+            '                  .KEGG_Compound = GetIdentifier(cs.Identifiers, "kegg.compound")
+            '              }
+            '              Select ref).ToArray
+            'Return LQuery
         End Function
 
         Private Shared Function CreateDBLinksData(cs As SBMLParser.CompoundSpecie) As String()
-            Dim SabiorkId As String = New DBLinkManager.DBLink() With {.DBName = "Sabio-rk", .AccessionId = cs.Id}.GetFormatValue
-            Dim KEGG_Compound = GetIdentifier(cs.Identifiers, "kegg.compound")
-            Dim CheBI As String() = (From strValue As String
-                                     In GetIdentifiers(cs.Identifiers, "chebi")
-                                     Select New DBLinkManager.DBLink() With {
-                                         .DBName = "CheBI",
-                                         .AccessionId = strValue.Replace("CHEBI:", "")}.GetFormatValue).ToArray
+            'Dim SabiorkId As String = New DBLinkManager.DBLink() With {.DBName = "Sabio-rk", .AccessionId = cs.Id}.GetFormatValue
+            'Dim KEGG_Compound = GetIdentifier(cs.Identifiers, "kegg.compound")
+            'Dim CheBI As String() = (From strValue As String
+            '                         In GetIdentifiers(cs.Identifiers, "chebi")
+            '                         Select New DBLinkManager.DBLink() With {
+            '                             .DBName = "CheBI",
+            '                             .AccessionId = strValue.Replace("CHEBI:", "")}.GetFormatValue).ToArray
 
-            KEGG_Compound = If(String.IsNullOrEmpty(KEGG_Compound), "", New DBLinkManager.DBLink() With {.DBName = "KEGG.Compound", .AccessionId = KEGG_Compound}.GetFormatValue)
+            'KEGG_Compound = If(String.IsNullOrEmpty(KEGG_Compound), "", New DBLinkManager.DBLink() With {.DBName = "KEGG.Compound", .AccessionId = KEGG_Compound}.GetFormatValue)
 
-            Dim List As List(Of String) = New List(Of String)
-            Call List.Add(SabiorkId)
-            Call List.Add(KEGG_Compound)
-            Call List.AddRange(CheBI)
+            'Dim List As List(Of String) = New List(Of String)
+            'Call List.Add(SabiorkId)
+            'Call List.Add(KEGG_Compound)
+            'Call List.AddRange(CheBI)
 
-            Return (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct).ToArray
+            'Return (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct).ToArray
         End Function
 
         Public Function GetDBLinkManager() As DBLinkManager
