@@ -23,7 +23,7 @@ Namespace MathML
 
         Public Overrides Function ToString() As String
             Return $"function({parameters.JoinBy(", ")}) {{
-    return {lambda}
+    return {lambda};
 }}"
         End Function
 

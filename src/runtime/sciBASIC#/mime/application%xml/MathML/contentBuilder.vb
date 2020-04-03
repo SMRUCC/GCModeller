@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace MathML
 
@@ -44,7 +45,14 @@ Namespace MathML
             If lambdaElement Is Nothing Then
                 Return Nothing
             Else
-                parameters = lambdaElement.getElementsByTagName("bvar").Select(Function(b) b.getElementsByTagName("ci").First.text).ToArray
+                parameters = lambdaElement _
+                    .getElementsByTagName("bvar") _
+                    .Select(Function(b)
+                                Return b.getElementsByTagName("ci") _
+                                    .First.text _
+                                    .Trim(" "c, ASCII.TAB)
+                            End Function) _
+                    .ToArray
                 lambdaElement = lambdaElement.getElementsByTagName("apply").FirstOrDefault
             End If
 
@@ -67,17 +75,17 @@ Namespace MathML
             If applys.Length = 1 Then
                 If apply.elements(1).name = "apply" Then
                     left = applys(Scan0).parseInternal
-                    right = apply.elements(2).text
+                    right = apply.elements(2).text.Trim(" "c, ASCII.TAB)
                 Else
-                    left = apply.elements(1).text
+                    left = apply.elements(1).text.Trim(" "c, ASCII.TAB)
                     right = applys(Scan0).parseInternal
                 End If
             ElseIf applys.Length = 2 Then
                 left = applys(Scan0).parseInternal
                 right = applys(1).parseInternal
             Else
-                left = apply.elements(1).text
-                right = apply.elements(2).text
+                left = apply.elements(1).text.Trim(" "c, ASCII.TAB)
+                right = apply.elements(2).text.Trim(" "c, ASCII.TAB)
             End If
 
             Dim exp As New BinaryExpression With {
