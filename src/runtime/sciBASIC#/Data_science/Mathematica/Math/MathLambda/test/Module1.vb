@@ -1,9 +1,9 @@
-﻿Imports Microsoft.VisualBasic.MIME.application.rdf_xml.MathML
+﻿Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 
 Module Module1
 
     Sub Main()
-        Dim exp As BinaryExpression = BinaryExpression.FromMathML("E:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematica\Math\MathLambda\mathML.xml".ReadAllText)
+        Dim exp As LambdaExpression = LambdaExpression.FromMathML("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematica\Math\MathLambda\mathML.xml".ReadAllText)
 
         Pause()
     End Sub
