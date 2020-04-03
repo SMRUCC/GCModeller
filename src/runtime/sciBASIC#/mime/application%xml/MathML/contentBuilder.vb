@@ -16,15 +16,10 @@ Namespace MathML
         ''' </summary>
         ''' <param name="mathML"></param>
         ''' <returns></returns>
-        Public Function ParseXml(mathML As XmlReader) As BinaryExpression
-            mathML.MoveToContent()
-            mathML.moveToElementName("lambda")
-            mathML.moveToElementName("apply")
+        ''' 
+        <Extension>
+        Public Function ParseXml(mathML As XmlElement) As BinaryExpression
 
-            mathML = XmlReader.Create(New MemoryStream(Encoding.UTF8.GetBytes(mathML.ReadInnerXml)))
-            mathML.MoveToContent()
-
-            Return mathML.parseInternal()
         End Function
 
         <Extension>

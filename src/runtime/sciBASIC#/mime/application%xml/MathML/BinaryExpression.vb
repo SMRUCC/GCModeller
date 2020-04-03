@@ -31,13 +31,8 @@ Namespace MathML
             Return $"{left} {[operator]} {right}"
         End Function
 
-        Public Shared Function FromMathML(xml As String) As BinaryExpression
-            Using buffer As New MemoryStream(Encoding.UTF8.GetBytes(xml))
-                Dim reader As XmlReader = XmlReader.Create(buffer)
-                Dim exp As BinaryExpression = contentBuilder.ParseXml(mathML:=reader)
-
-                Return exp
-            End Using
+        Public Shared Function FromMathML(xmlText As String) As BinaryExpression
+            Return XmlParser.ParseXml(xmlText).ParseXml
         End Function
 
     End Class
