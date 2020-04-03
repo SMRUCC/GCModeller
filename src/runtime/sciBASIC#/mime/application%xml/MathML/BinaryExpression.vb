@@ -14,7 +14,20 @@ Namespace MathML
             Return contentBuilder.ToString(Me)
         End Function
 
-        Public Shared Function FromMathML(xmlText As String) As BinaryExpression
+    End Class
+
+    Public Class LambdaExpression
+
+        Public Property parameters As String()
+        Public Property lambda As BinaryExpression
+
+        Public Overrides Function ToString() As String
+            Return $"function({parameters.JoinBy(", ")}) {{
+    return {lambda}
+}}"
+        End Function
+
+        Public Shared Function FromMathML(xmlText As String) As LambdaExpression
             Return XmlParser.ParseXml(xmlText).ParseXml
         End Function
 

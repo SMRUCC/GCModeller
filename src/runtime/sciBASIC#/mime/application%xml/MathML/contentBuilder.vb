@@ -37,19 +37,24 @@ Namespace MathML
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function ParseXml(mathML As XmlElement) As BinaryExpression
+        Public Function ParseXml(mathML As XmlElement) As LambdaExpression
             Dim lambdaElement As XmlElement = mathML.getElementsByTagName("lambda").FirstOrDefault
+            Dim parameters As String()
 
             If lambdaElement Is Nothing Then
                 Return Nothing
             Else
+                parameters = lambdaElement.getElementsByTagName("bvar").Select(Function(b) b.getElementsByTagName("ci").First.text).ToArray
                 lambdaElement = lambdaElement.getElementsByTagName("apply").FirstOrDefault
             End If
 
             If lambdaElement Is Nothing Then
                 Return Nothing
             Else
-                Return lambdaElement.parseInternal
+                Return New LambdaExpression With {
+                    .parameters = parameters,
+                    .lambda = lambdaElement.parseInternal
+                }
             End If
         End Function
 
