@@ -130,6 +130,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SBML\kineticLaw.vb" />
+    <Compile Include="SBML\Module1.vb" />
+    <Compile Include="SBML\SBMLInternalIndexer.vb" />
     <Compile Include="SBML\SBMLReaction.vb" />
     <Compile Include="SBML\DocAPI.vb" />
     <Compile Include="Dumps\Enzyme.vb" />

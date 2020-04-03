@@ -73,26 +73,26 @@ Namespace SBML
         End Function
 
         Private Function TryParseEnzymeCatalyst(Km As [Property], Enzyme As SBMLParser.CompoundSpecie, DataModel As SabiorkSBML) As EnzymeCatalystKineticLaw
-            Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.name, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
-            Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.value))
-            Dim SubstrateId As String = Regex.Match(Km.name, "SPC.+").Value
-            Dim CatalystSubstrate = DataModel.CompoundSpecies.GetItem(SubstrateId)
-            Dim KineticLaw As New EnzymeCatalystKineticLaw With {
-                .Metabolite = CatalystSubstrate.Id,
-                .Enzyme = Enzyme.Id,
-                .Km = Val(Km.value),
-                .Kcat = KcatValue,
-                .Buffer = DataModel.Buffer,
-                .KineticRecord = DataModel.kineticLawID,
-                .PH = DataModel.startValuepH,
-                .Temperature = DataModel.startValueTemperature,
-                .Ec = GetIdentifier(DataModel.Identifiers, "ec-code"),
-                .PubMed = GetIdentifier(DataModel.Identifiers, "pubmed"),
-                .Uniprot = GetIdentifier(Enzyme.Identifiers, "uniprot"),
-                .KEGGReactionId = GetIdentifier(DataModel.Identifiers, "kegg.reaction"),
-                .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")
-            }
-            Return KineticLaw
+            'Dim Kcat = (From item In DataModel.LocalParameters Where String.Equals(item.name, "kcat", StringComparison.OrdinalIgnoreCase) Select item).ToArray
+            'Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.value))
+            'Dim SubstrateId As String = Regex.Match(Km.name, "SPC.+").Value
+            'Dim CatalystSubstrate = DataModel.CompoundSpecies.GetItem(SubstrateId)
+            'Dim KineticLaw As New EnzymeCatalystKineticLaw With {
+            '    .Metabolite = CatalystSubstrate.Id,
+            '    .Enzyme = Enzyme.Id,
+            '    .Km = Val(Km.value),
+            '    .Kcat = KcatValue,
+            '    .Buffer = DataModel.Buffer,
+            '    .KineticRecord = DataModel.kineticLawID,
+            '    .PH = DataModel.startValuepH,
+            '    .Temperature = DataModel.startValueTemperature,
+            '    .Ec = GetIdentifier(DataModel.Identifiers, "ec-code"),
+            '    .PubMed = GetIdentifier(DataModel.Identifiers, "pubmed"),
+            '    .Uniprot = GetIdentifier(Enzyme.Identifiers, "uniprot"),
+            '    .KEGGReactionId = GetIdentifier(DataModel.Identifiers, "kegg.reaction"),
+            '    .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")
+            '}
+            'Return KineticLaw
         End Function
 
         Const ENZYME_ID As String = "^ENZ_.+?"
@@ -132,25 +132,25 @@ Namespace SBML
         End Function
 
         Private Function TryParseModifierKinetic(Modifier As SBMLParser.CompoundSpecie, Enzyme As SBMLParser.CompoundSpecie, DataModel As SabiorkSBML) As ModifierKinetics
-            Dim ModifierType As ModifierKinetics.ModifierTypes = ModifierKinetics.TryGetType(Modifier.modifierType)
-            Dim Id As String = If(ModifierType = ModifierKinetics.ModifierTypes.Inhibitor, "Ki_" & Modifier.Id, "Ka_" & Modifier.Id)
-            Dim Parameters = (From item In DataModel.LocalParameters Where String.Equals(Id, item.name) Select item).ToArray
-            If Parameters.IsNullOrEmpty Then
-                Return Nothing
-            End If
+            'Dim ModifierType As ModifierKinetics.ModifierTypes = ModifierKinetics.TryGetType(Modifier.modifierType)
+            'Dim Id As String = If(ModifierType = ModifierKinetics.ModifierTypes.Inhibitor, "Ki_" & Modifier.Id, "Ka_" & Modifier.Id)
+            'Dim Parameters = (From item In DataModel.LocalParameters Where String.Equals(Id, item.name) Select item).ToArray
+            'If Parameters.IsNullOrEmpty Then
+            '    Return Nothing
+            'End If
 
-            Dim ObjectId As String = If(Enzyme Is Nothing,
-                                        Schema.PropertyAttributes.ToString(DataModel.kineticLawID, New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "REACTION-ACTIVITY")}),
-                                        Schema.PropertyAttributes.ToString(GetIdentifier(Enzyme.Identifiers, "uniprot"), New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "ENZYME-ACTIVITY")}))
-            Dim KineticsData As New ModifierKinetics With {
-                .K = Val(Parameters.First.value),
-                .Modifier = Modifier.Id,
-                .ModifierType = ModifierType,
-                .ObjectId = ObjectId,
-                .KineticsRecordId = DataModel.kineticLawID,
-                .KEGGCompoundId = GetIdentifier(Modifier.Identifiers, "kegg.compound")
-            }
-            Return KineticsData
+            'Dim ObjectId As String = If(Enzyme Is Nothing,
+            '                            Schema.PropertyAttributes.ToString(DataModel.kineticLawID, New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "REACTION-ACTIVITY")}),
+            '                            Schema.PropertyAttributes.ToString(GetIdentifier(Enzyme.Identifiers, "uniprot"), New KeyValuePair(Of String, String)() {New KeyValuePair(Of String, String)("TYPE", "ENZYME-ACTIVITY")}))
+            'Dim KineticsData As New ModifierKinetics With {
+            '    .K = Val(Parameters.First.value),
+            '    .Modifier = Modifier.Id,
+            '    .ModifierType = ModifierType,
+            '    .ObjectId = ObjectId,
+            '    .KineticsRecordId = DataModel.kineticLawID,
+            '    .KEGGCompoundId = GetIdentifier(Modifier.Identifiers, "kegg.compound")
+            '}
+            'Return KineticsData
         End Function
     End Module
 End Namespace
