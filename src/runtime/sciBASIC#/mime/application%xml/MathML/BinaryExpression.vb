@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports System.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace MathML
 
@@ -18,4 +19,12 @@ Namespace MathML
         End Function
 
     End Class
+
+    Public Enum mathOperators
+        <Description("+")> plus
+        <Description("*")> times
+        <Description("/")> divide
+        <Description("^")> power
+        <Description("-")> minus
+    End Enum
 End Namespace

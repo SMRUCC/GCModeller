@@ -5,6 +5,8 @@ Namespace MathML
 
     Module contentBuilder
 
+        ReadOnly operators As Dictionary(Of String, mathOperators) = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
+
         Public Function ToString(lambda As BinaryExpression) As String
             Dim left As String = ""
             Dim right As String = ""
@@ -25,7 +27,7 @@ Namespace MathML
                 End If
             End If
 
-            Return $"{left} {lambda.[operator]} {right}"
+            Return $"{left} {operators(lambda.[operator]).Description} {right}"
         End Function
 
         ''' <summary>
@@ -58,8 +60,13 @@ Namespace MathML
             Dim applys = apply.getElementsByTagName("apply").ToArray
 
             If applys.Length = 1 Then
-                left = applys(Scan0).parseInternal
-                right = Nothing
+                If apply.elements(1).name = "apply" Then
+                    left = applys(Scan0).parseInternal
+                    right = apply.elements(2).text
+                Else
+                    left = apply.elements(1).text
+                    right = applys(Scan0).parseInternal
+                End If
             ElseIf applys.Length = 2 Then
                 left = applys(Scan0).parseInternal
                 right = applys(1).parseInternal
