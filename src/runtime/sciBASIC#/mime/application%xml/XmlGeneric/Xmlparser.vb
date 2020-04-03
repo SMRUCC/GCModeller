@@ -1,10 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser
 
 Public Class XmlParser
 
-    Dim stringEscape As Boolean = False
     Dim text As CharPtr
     Dim buffer As New CharBuffer
 
@@ -17,34 +17,84 @@ Public Class XmlParser
     ''' </summary>
     ''' <returns></returns>
     Public Function ParseXml() As XmlElement
-        Dim flag As Value(Of Boolean) = True
+        Dim flag As New Value(Of XmlToken)
+        Dim node As New XmlElement
+
+        Call moveToNextTagOpen()
+        Call readCurrentTagName()
+
+        node.name = buffer.ToString
+
+        Call readCurrentAttributeName()
+
+    End Function
+
+    Private Sub moveToNextTagOpen()
+        Dim c As Value(Of Char) = ASCII.NUL
 
         Do While text
-            If (flag = walkChar(c:=++text)) = True Then
-
+            If (c = ++text) = "<"c Then
+                Exit Do
             End If
         Loop
-    End Function
+    End Sub
 
-    Private Function walkChar(c As Char) As Boolean
-        If stringEscape Then
-            If c = ASCII.Quot Then
-                stringEscape = False
+    Private Sub readCurrentAttributeName()
+        Dim c As Value(Of Char) = ASCII.NUL
+
+        Do While text
+            If (c = ++text) <> "="c Then
                 buffer += c
-
-                Return True
             Else
+                Exit Do
+            End If
+        Loop
+    End Sub
+
+    Private Sub readCurrentAttributeValue()
+        Dim c As Value(Of Char) = ASCII.NUL
+
+        Do While text
+            If (c = ++text) <> ASCII.Quot Then
                 buffer += c
-                Return False
+            Else
+                Exit Do
             End If
-        End If
+        Loop
+    End Sub
 
-        If c = "<"c Then
-            If buffer = 0 Then
+    Private Sub readCurrentElementText()
+        Dim c As Value(Of Char) = ASCII.NUL
 
+        ' > ..... <
+        Do While text
+            If (c = ++text) <> "<"c Then
+                buffer += c
+            Else
+                Exit Do
             End If
-        End If
-    End Function
+        Loop
+    End Sub
+
+    Private Sub readCurrentTagName()
+        Dim c As Value(Of Char) = ASCII.NUL
+
+        ' read current xml tag name
+        Do While text
+            If (c = ++text) <> " "c Then
+                buffer += c
+            Else
+                Exit Do
+            End If
+        Loop
+    End Sub
+End Class
+
+Public Class XmlToken : Inherits CodeToken(Of XmlTokens)
+
+    Sub New(token As XmlTokens, text As String)
+        Call MyBase.New(token, text)
+    End Sub
 End Class
 
 Public Enum XmlTokens

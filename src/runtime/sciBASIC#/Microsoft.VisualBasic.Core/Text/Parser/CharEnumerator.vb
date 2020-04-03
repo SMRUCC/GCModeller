@@ -82,6 +82,11 @@ Namespace Text.Parser
             Return buf
         End Operator
 
+        Public Shared Operator +(buf As CharBuffer, c As Value(Of Char)) As CharBuffer
+            buf.buffer.Add(c.Value)
+            Return buf
+        End Operator
+
         Public Shared Operator *(buf As CharBuffer, n As Integer) As CharBuffer
             If n = 0 Then
                 buf.Clear()
