@@ -195,19 +195,19 @@ Namespace TabularDump
         <Column("sabiork.kineticrecord")> Public Property KineticRecord As String
 
         Public Shared Function CreateObject(SabiorkData As SabiorkSBML) As KineticLawModel
-            Dim kineticLawModel As KineticLawModel = New KineticLawModel With {.SabiorkId = SabiorkData.kineticLawID}
-            kineticLawModel.Ec = GetIdentifier(SabiorkData.Identifiers, "ec-code")
-            kineticLawModel.KeggReaction = GetIdentifier(SabiorkData.Identifiers, "kegg.reaction")
-            kineticLawModel.KineticRecord = GetIdentifier(SabiorkData.Identifiers, "sabiork.kineticrecord")
-            kineticLawModel.PubMed = GetIdentifier(SabiorkData.Identifiers, "pubmed")
-            kineticLawModel.Reaction = GetIdentifier(SabiorkData.Identifiers, "sabiork.reaction")
-            kineticLawModel.Taxonomy = GetIdentifier(SabiorkData.Identifiers, "taxonomy")
-            kineticLawModel.Fast = SabiorkData.Fast
-            kineticLawModel.Equation = EquationBuilder.ToString(Of CompoundSpecieReference)(SabiorkData)
-            kineticLawModel.Catalyst = (From item In SabiorkData.CompoundSpecies
-                                        Where String.Equals(item.modifierType, "Modifier-Catalyst")
-                                        Select GetIdentifier(item.Identifiers, "uniprot")).ToArray
-            Return kineticLawModel
+            'Dim kineticLawModel As KineticLawModel = New KineticLawModel With {.SabiorkId = SabiorkData.kineticLawID}
+            'kineticLawModel.Ec = GetIdentifier(SabiorkData.Identifiers, "ec-code")
+            'kineticLawModel.KeggReaction = GetIdentifier(SabiorkData.Identifiers, "kegg.reaction")
+            'kineticLawModel.KineticRecord = GetIdentifier(SabiorkData.Identifiers, "sabiork.kineticrecord")
+            'kineticLawModel.PubMed = GetIdentifier(SabiorkData.Identifiers, "pubmed")
+            'kineticLawModel.Reaction = GetIdentifier(SabiorkData.Identifiers, "sabiork.reaction")
+            'kineticLawModel.Taxonomy = GetIdentifier(SabiorkData.Identifiers, "taxonomy")
+            'kineticLawModel.Fast = SabiorkData.Fast
+            'kineticLawModel.Equation = EquationBuilder.ToString(Of CompoundSpecieReference)(SabiorkData)
+            'kineticLawModel.Catalyst = (From item In SabiorkData.CompoundSpecies
+            '                            Where String.Equals(item.modifierType, "Modifier-Catalyst")
+            '                            Select GetIdentifier(item.Identifiers, "uniprot")).ToArray
+            'Return kineticLawModel
         End Function
 
         Public Overrides Function ToString() As String

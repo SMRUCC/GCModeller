@@ -61,15 +61,15 @@ Namespace TabularDump
         End Function
 
         Public Shared Function CreateObjects(SABIORK_DATA As SabiorkSBML) As EnzymeModifier()
-            Dim LQuery = (From cs As SBMLParser.CompoundSpecie
-                          In SABIORK_DATA.CompoundSpecies
-                          Let uniprot = GetIdentifier(cs.Identifiers, "uniprot")
-                          Where Not String.IsNullOrEmpty(uniprot)
-                          Select New EnzymeModifier With {
-                              .CommonName = cs.Name,
-                              .Uniprot = uniprot,
-                              .SabiorkId = cs.Id}).ToArray
-            Return LQuery
+            'Dim LQuery = (From cs As SBMLParser.CompoundSpecie
+            '              In SABIORK_DATA.CompoundSpecies
+            '              Let uniprot = GetIdentifier(cs.Identifiers, "uniprot")
+            '              Where Not String.IsNullOrEmpty(uniprot)
+            '              Select New EnzymeModifier With {
+            '                  .CommonName = cs.Name,
+            '                  .Uniprot = uniprot,
+            '                  .SabiorkId = cs.Id}).ToArray
+            'Return LQuery
         End Function
 
         Public Function ConvertToFastaObject() As FastaSeq
