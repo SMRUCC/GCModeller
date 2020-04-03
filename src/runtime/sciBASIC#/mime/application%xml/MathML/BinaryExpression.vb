@@ -11,7 +11,7 @@ Namespace MathML
         Public Property applyright As [Variant](Of BinaryExpression, String)
 
         Public Overrides Function ToString() As String
-            Return contentBuilder.ToString(Me)
+            Return ContentBuilder.ToString(Me)
         End Function
 
     End Class

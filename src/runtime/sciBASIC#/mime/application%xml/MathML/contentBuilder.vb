@@ -4,11 +4,15 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace MathML
 
-    Module contentBuilder
+    Public Module ContentBuilder
 
         ReadOnly operators As Dictionary(Of String, mathOperators) = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
 
-        Public Function ToString(lambda As BinaryExpression) As String
+        Public Function SimplyOperator(text As String) As String
+            Return operators(text).Description
+        End Function
+
+        Friend Function ToString(lambda As BinaryExpression) As String
             Dim left As String = ""
             Dim right As String = ""
 
