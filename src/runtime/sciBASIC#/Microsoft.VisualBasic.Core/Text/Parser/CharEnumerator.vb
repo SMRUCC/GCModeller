@@ -51,6 +51,23 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace Text.Parser
 
+    Public Class CharBuffer
+
+        ReadOnly buffer As New List(Of Char)
+
+        Public Overrides Function ToString() As String
+            Return buffer.CharString
+        End Function
+
+        Public Shared Widening Operator CType(c As Char) As CharBuffer
+            Dim buf As New CharBuffer
+            buf.buffer.Add(c)
+            Return buf
+        End Operator
+
+
+    End Class
+
     ''' <summary>
     ''' Char enumerator
     ''' </summary>
