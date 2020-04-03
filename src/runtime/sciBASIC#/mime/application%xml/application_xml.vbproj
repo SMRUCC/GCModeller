@@ -64,6 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGenerator.vb" />
+    <Compile Include="MathML\BinaryExpression.vb" />
+    <Compile Include="MathML\contentBuilder.vb" />
+    <Compile Include="MathML\maction.vb" />
+    <Compile Include="MathML\Math.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
