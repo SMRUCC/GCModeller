@@ -1,14 +1,31 @@
-﻿Imports System.IO
-Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports System.Xml
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Namespace MathML
 
     Module contentBuilder
 
-        Public Function ToString(lambda As Apply) As String
+        Public Function ToString(lambda As BinaryExpression) As String
+            Dim left As String = ""
+            Dim right As String = ""
 
+            If Not lambda.applyleft Is Nothing Then
+                If lambda.applyleft Like GetType(String) Then
+                    left = lambda.applyleft.TryCast(Of String)
+                Else
+                    left = $"( {lambda.applyleft.TryCast(Of BinaryExpression).ToString} )"
+                End If
+            End If
+
+            If Not lambda.applyright Is Nothing Then
+                If lambda.applyright Like GetType(String) Then
+                    right = lambda.applyright.TryCast(Of String)
+                Else
+                    right = $"( {lambda.applyright.TryCast(Of BinaryExpression).ToString} )"
+                End If
+            End If
+
+            Return $"{left} {lambda.[operator]} {right}"
         End Function
 
         ''' <summary>
@@ -19,24 +36,45 @@ Namespace MathML
         ''' 
         <Extension>
         Public Function ParseXml(mathML As XmlElement) As BinaryExpression
+            Dim lambdaElement As XmlElement = mathML.getElementsByTagName("lambda").FirstOrDefault
 
+            If lambdaElement Is Nothing Then
+                Return Nothing
+            Else
+                lambdaElement = lambdaElement.getElementsByTagName("apply").FirstOrDefault
+            End If
+
+            If lambdaElement Is Nothing Then
+                Return Nothing
+            Else
+                Return lambdaElement.parseInternal
+            End If
         End Function
 
         <Extension>
-        Private Function parseInternal(mathML As XmlReader) As BinaryExpression
-            Dim [operator] = mathML.Name
-            Dim left, right As BinaryExpression
+        Private Function parseInternal(apply As XmlElement) As BinaryExpression
+            Dim [operator] = apply.elements(Scan0)
+            Dim left, right As [Variant](Of BinaryExpression, String)
+            Dim applys = apply.getElementsByTagName("apply").ToArray
 
-            mathML.moveToElementName("apply")
+            If applys.Length = 1 Then
+                left = applys(Scan0).parseInternal
+                right = Nothing
+            ElseIf applys.Length = 2 Then
+                left = applys(Scan0).parseInternal
+                right = applys(1).parseInternal
+            Else
+                left = apply.elements(1).text
+                right = apply.elements(2).text
+            End If
 
+            Dim exp As New BinaryExpression With {
+                .[operator] = [operator].name,
+                .applyleft = left,
+                .applyright = right
+            }
 
+            Return exp
         End Function
-
-        <Extension>
-        Private Sub moveToElementName(xml As XmlReader, name As String)
-            Do While xml.Name <> name AndAlso Not xml.EOF
-                Call xml.Read()
-            Loop
-        End Sub
     End Module
 End Namespace
