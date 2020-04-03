@@ -96,6 +96,13 @@ Namespace Text.Parser
             Return buf
         End Operator
 
+        Public Shared Operator =(buf As CharBuffer, size As Integer) As Boolean
+            Return buf.buffer.Count = size
+        End Operator
+
+        Public Shared Operator <>(buf As CharBuffer, size As Integer) As Boolean
+            Return buf.buffer.Count <> size
+        End Operator
     End Class
 
     ''' <summary>
