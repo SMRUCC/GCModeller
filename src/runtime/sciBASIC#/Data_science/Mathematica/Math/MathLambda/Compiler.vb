@@ -1,15 +1,15 @@
-﻿Imports lambda = Microsoft.VisualBasic.MIME.application.xml.MathML.LambdaExpression
-Imports ML = Microsoft.VisualBasic.MIME.application.xml.MathML.BinaryExpression
-Imports System.Linq.Expressions
-Imports Microsoft.VisualBasic.MIME.application.xml
+﻿Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application.xml
+Imports ML = Microsoft.VisualBasic.MIME.application.xml.MathML.BinaryExpression
+Imports MLlambda = Microsoft.VisualBasic.MIME.application.xml.MathML.LambdaExpression
 
 ''' <summary>
 ''' mathML -> lambda -> linq expression -> compile VB lambda
 ''' </summary>
 Public Module Compiler
 
-    Public Function CreateLambda(lambda As lambda) As LambdaExpression
+    Public Function CreateLambda(lambda As MLlambda) As LambdaExpression
         Dim parameters = lambda.parameters.Select(Function(name) Expression.Parameter(GetType(Double), name)).ToDictionary(Function(par) par.Name)
         Dim body As Expression = CreateBinary(lambda.lambda, parameters)
         Dim expr As LambdaExpression = Expression.Lambda(body, lambda.parameters.Select(Function(par) parameters(par)).ToArray)
