@@ -94,8 +94,8 @@ Namespace Level3
 
         <XmlElement("notes")> Public Property notes As Notes
 
-        Public Property listOfCompartments As Compartment()
-        Public Property listOfSpecies As Species()
+        Public Property listOfCompartments As compartment()
+        Public Property listOfSpecies As species()
         Public Property listOfReactions As T()
         Public Property listOfUnitDefinitions As unitDefinition()
         Public Property listOfFunctionDefinitions As functionDefinition()
@@ -108,13 +108,13 @@ Namespace Level3
     End Class
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
-    Public Class Compartment : Inherits Components.Compartment
+    Public Class compartment : Inherits Components.Compartment
         <XmlAttribute("size")> Public Property Size As Integer
         <XmlAttribute("constant")> Public Property Constant As Boolean
     End Class
 
     <XmlType("species", Namespace:=sbmlXmlns)>
-    Public Class Species : Inherits Components.Specie
+    Public Class species : Inherits Components.Specie
         <XmlAttribute> Public Property hasOnlySubstanceUnits As Boolean
         <XmlAttribute> Public Property constant As Boolean
         <XmlAttribute> Public Property metaid As String

@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Microsoft.VisualBasic.MIME.application.xml.My.MySettings
+        Friend ReadOnly Property Settings() As Global.Microsoft.VisualBasic.Math.Lambda.My.MySettings
             Get
-                Return Global.Microsoft.VisualBasic.MIME.application.xml.My.MySettings.Default
+                Return Global.Microsoft.VisualBasic.Math.Lambda.My.MySettings.Default
             End Get
         End Property
     End Module
