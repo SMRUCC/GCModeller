@@ -59,8 +59,8 @@ Namespace Script
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function sEquationParser(x As Token(Of Tokens)) As SEquation
-            Dim value = x.Value.GetTagValue("=")
+        Public Function sEquationParser(x As ScriptToken) As SEquation
+            Dim value = x.text.GetTagValue("=")
             Return New SEquation With {
                 .x = value.Name,
                 .Expression = value.Value
@@ -109,13 +109,15 @@ Namespace Script
         ''' 
         <Extension>
         Public Function ParseScript(scriptText As String) As Model
-            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(scriptText.LineTokens)
-            Dim typeTokens = (From x As Token(Of Tokens)
+            Dim tokens As ScriptToken() = TokenIcer.TryParse(scriptText.LineTokens)
+            Dim typeTokens = (From x As ScriptToken
                               In tokens
                               Select x
-                              Group x By x.Type Into Group) _
-                                   .ToDictionary(Function(x) x.Type,
-                                                 Function(x) x.Group.ToArray)
+                              Group x By x.name Into Group) _
+                                   .ToDictionary(Function(x) x.name,
+                                                 Function(x)
+                                                     Return x.Group.ToArray
+                                                 End Function)
 
             Dim equations = typeTokens(Script.Tokens.Reaction).Select(AddressOf sEquationParser)
             Dim Disturbs As Experiment()
@@ -238,8 +240,8 @@ Namespace Script
         ''' </summary>
         ''' <param name="expr"></param>
         ''' <returns></returns>
-        Public Function ConstantParser(expr As Token(Of Script.Tokens)) As NamedValue(Of String)
-            Return ConstantParser(expr.Text)
+        Public Function ConstantParser(expr As ScriptToken) As NamedValue(Of String)
+            Return ConstantParser(expr.text)
         End Function
     End Module
 End Namespace

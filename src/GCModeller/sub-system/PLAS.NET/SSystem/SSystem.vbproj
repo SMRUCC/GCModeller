@@ -266,11 +266,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Script\ScriptWriter.vb" />
-    <Compile Include="Script\SBML.vb" />
-    <Compile Include="Script\Model.vb" />
+    <Compile Include="Script\Models\SBML.vb" />
+    <Compile Include="Script\Models\Model.vb" />
     <Compile Include="Script\ScriptCompiler.vb" />
     <Compile Include="Script\ScriptParser.vb" />
-    <Compile Include="Script\SEquation.vb" />
+    <Compile Include="Script\Models\SEquation.vb" />
     <Compile Include="Script\TokenIcer.vb" />
     <Compile Include="Script\Tokens.vb" />
     <Compile Include="System\ODEs.vb" />

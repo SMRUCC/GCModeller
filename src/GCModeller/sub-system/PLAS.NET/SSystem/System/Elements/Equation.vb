@@ -49,10 +49,8 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
-Imports Microsoft.VisualBasic.Math.Scripting.Types
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
