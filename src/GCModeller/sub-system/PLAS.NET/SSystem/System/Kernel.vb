@@ -52,9 +52,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports MathExpression = Microsoft.VisualBasic.Math.Scripting.Expression
 
 Namespace Kernel
 
@@ -82,13 +83,13 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Property Vars As IEnumerable(Of var)
             Get
-                Return __varsHash.Values
+                Return symbolTable.Values
             End Get
             Set(value As IEnumerable(Of var))
                 If value Is Nothing Then
-                    __varsHash = New Dictionary(Of var)
+                    symbolTable = New Dictionary(Of var)
                 Else
-                    __varsHash = value.ToDictionary
+                    symbolTable = value.ToDictionary
                 End If
             End Set
         End Property
@@ -99,12 +100,23 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Channels As Equation()
 
-        Friend __varsHash As Dictionary(Of var)
+        Friend symbolTable As Dictionary(Of var)
+
+        ''' <summary>
+        ''' Gets the system run time ticks
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overrides ReadOnly Property RuntimeTicks As Long
+            Get
+                Return Me._RTime
+            End Get
+        End Property
 
         ''' <summary>
         ''' 模拟器的数学计算引擎
         ''' </summary>
-        ReadOnly __engine As New MathExpression
+        ReadOnly __engine As New ExpressionEngine
 
         Sub New(Model As Script.Model, Optional dataTick As Action(Of DataSet) = Nothing)
             Call MyBase.New(Model)
@@ -112,7 +124,7 @@ Namespace Kernel
         End Sub
 
         Public Function GetValue(id As String) As var
-            Return __varsHash(id)
+            Return symbolTable(id)
         End Function
 
         ''' <summary>
@@ -202,10 +214,10 @@ Namespace Kernel
                 Order By Len(v.UniqueId) Descending
 
             For Each declares In script.UserFunc.SafeQuery
-                Call __engine.Functions.Add(declares.Declaration)
+                Call __engine.SetFunction(declares.Declaration)
             Next
             For Each __const In script.Constant.SafeQuery
-                Call __engine.Constant.Add(__const.Name, __const.Value)
+                Call __engine.SetSymbol(__const.Name, __const.Value)
             Next
 
             For Each x As var In Vars
@@ -248,16 +260,5 @@ Namespace Kernel
             Call Kernel.Run()
             Return Kernel.dataSvr.data
         End Function
-
-        ''' <summary>
-        ''' Gets the system run time ticks
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Overrides ReadOnly Property RuntimeTicks As Long
-            Get
-                Return Me._RTime
-            End Get
-        End Property
     End Class
 End Namespace

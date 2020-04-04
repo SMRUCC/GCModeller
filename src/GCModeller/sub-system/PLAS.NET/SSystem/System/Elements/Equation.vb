@@ -1,54 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::7f613f2eb99e77cc527dd3780bae00a1, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Equation
-    ' 
-    '         Properties: Expression, Model, Value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Elapsed, Evaluate, get_ObjectHandle, ToString
-    ' 
-    '         Sub: [Set]
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Equation
+' 
+'         Properties: Expression, Model, Value
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: Elapsed, Evaluate, get_ObjectHandle, ToString
+' 
+'         Sub: [Set]
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.Math.Scripting.Types
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework
@@ -73,19 +76,24 @@ Namespace Kernel.ObjectModels
         ''' <remarks></remarks>
         Friend Var As var
 
-        Dim dynamics As SimpleExpression
+        Dim dynamics As Expression
+        Dim engine As ExpressionEngine
 
-        Sub New(s As SEquation, engine As Expression)
+        Sub New(s As SEquation, engine As ExpressionEngine)
             Me.Model = s
             Me.Expression = s.Expression
+            Me.engine = engine
             Me.Identifier = s.x
 #If DEBUG Then
             Call Expression.__DEBUG_ECHO
 #End If
-            Me.dynamics = ExpressionParser.TryParse(Expression, engine)
+            Me.dynamics = New ExpressionTokenIcer(Expression) _
+                .GetTokens _
+                .ToArray _
+                .DoCall(AddressOf BuildExpression)
         End Sub
 
-        Sub New(id As String, expr As String, engine As Expression)
+        Sub New(id As String, expr As String, engine As ExpressionEngine)
             Call Me.New(New SEquation(id, expr), engine)
         End Sub
 
@@ -96,7 +104,7 @@ Namespace Kernel.ObjectModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function Evaluate() As Double
-            Dim rtvl As Double = dynamics.Evaluate
+            Dim rtvl As Double = dynamics.Evaluate(engine)
             Return rtvl
         End Function
 
@@ -117,7 +125,7 @@ Namespace Kernel.ObjectModels
         ''' </summary>
         ''' <param name="engine"></param>
         ''' <returns></returns>
-        Public Function Elapsed(engine As Expression) As Boolean
+        Public Function Elapsed(engine As ExpressionEngine) As Boolean
             Var.Value += (Me.Evaluate * Kernel.Precision)
             engine(Var.UniqueId) = Var.Value
 
@@ -152,7 +160,7 @@ Namespace Kernel.ObjectModels
                     .UniqueId = Identifier,
                     .Value = 10.0R
                 }
-                k.__varsHash(Identifier) = Var
+                k.symbolTable(Identifier) = Var
             End If
         End Sub
 
