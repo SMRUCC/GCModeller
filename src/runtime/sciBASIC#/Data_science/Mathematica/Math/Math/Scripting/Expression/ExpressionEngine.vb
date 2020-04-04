@@ -67,7 +67,7 @@ Namespace Scripting.MathExpression
                 Function(arguments) As Double
                     Dim env As New ExpressionEngine
 
-                    For Each symbol In symbols
+                    For Each symbol As KeyValuePair(Of String, Double) In symbols
                         env.symbols(symbol.Key) = symbol.Value
                     Next
 
@@ -94,6 +94,10 @@ Namespace Scripting.MathExpression
         Public Function SetSymbol(symbol As String, value As Double) As ExpressionEngine
             symbols(symbol) = value
             Return Me
+        End Function
+
+        Public Function Evaluate(expression As Expression) As Double
+            Return expression.Evaluate(env:=Me)
         End Function
 
         Public Function Evaluate(expression As String) As Double
