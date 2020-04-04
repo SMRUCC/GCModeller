@@ -53,7 +53,6 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Framework
-Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
@@ -69,13 +68,13 @@ Namespace Kernel
         ''' Data collecting
         ''' </summary>
         ''' <remarks></remarks>
-        Dim dataSvr As DataAcquisition
+        Friend dataSvr As DataAcquisition
 
         ''' <summary>
         ''' Object that action the disturbing.(生物扰动实验)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Kicks As Kicks
+        Friend kicks As Kicks
 
         ''' <summary>
         ''' Store the system state.(变量，也就是生化反应底物)
@@ -108,15 +107,22 @@ Namespace Kernel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property RuntimeTicks As Long
-        Public ReadOnly Property Model As Script.Model
+
+        Friend ReadOnly finalTime As Integer
 
         ''' <summary>
         ''' 模拟器的数学计算引擎
         ''' </summary>
         Friend ReadOnly mathEngine As New ExpressionEngine
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="model"></param>
+        ''' <param name="dataTick">数据采集的函数句柄</param>
         Sub New(model As Script.Model, Optional dataTick As Action(Of DataSet) = Nothing)
-            Call Me.Load(model, dataTick)
+            finalTime = model.FinalTime
+            dataSvr = New DataAcquisition(Me, dataTick)
         End Sub
 
         Public Function GetValue(id As String) As var
@@ -135,7 +141,7 @@ Namespace Kernel
         ''' <remarks></remarks>
         Protected Overrides Sub [Step](itr As Integer)
             Call dataSvr.Tick()
-            Call Kicks.Tick()
+            Call kicks.Tick()
             Call (From x As Equation In Channels Select x.Elapsed(mathEngine)).ToArray
         End Sub
 
@@ -145,9 +151,9 @@ Namespace Kernel
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
             Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-                Dim prog As New ProgressProvider(proc, Model.FinalTime * (1 / Precision))
+                Dim progress As New ProgressProvider(proc, finalTime * (1 / Precision))
 
-                For _RuntimeTicks = 0 To prog.Target
+                For _RuntimeTicks = 0 To progress.Target
                     If is_terminated Then
                         Exit For
                     End If
@@ -163,7 +169,7 @@ Namespace Kernel
                         Return -1
                     End Try
 #End If
-                    Call proc.SetProgress(prog.StepProgress)
+                    Call proc.SetProgress(progress.StepProgress)
                 Next
             End Using
 
@@ -175,40 +181,6 @@ Namespace Kernel
         ''' </summary>
         Public Sub Break()
             is_terminated = True
-        End Sub
-
-        Public Sub Export(Path As String)
-            Call dataSvr.Save(Path)
-        End Sub
-
-        Private Sub Load(script As Script.Model, tick As Action(Of DataSet))
-            Me._Model = script
-            Me.Vars = LinqAPI.Exec(Of var) <=
- _
-                From v As var
-                In script.Vars
-                Select v
-                Order By Len(v.Id) Descending
-
-            For Each declares In script.UserFunc.SafeQuery
-                Call mathEngine.SetFunction(declares.Declaration)
-            Next
-            For Each __const In script.Constant.SafeQuery
-                Call mathEngine.SetSymbol(__const.Name, __const.Value)
-            Next
-
-            For Each x As var In Vars
-                mathEngine(x.Id) = x.Value
-            Next
-
-            Me.Channels = script.sEquations.Select(Function(x) New Equation(x)).ToArray
-
-            For i As Integer = 0 To Channels.Length - 1
-                Channels(i).Set(Me)
-            Next
-
-            Kicks = New Kicks(Me)
-            dataSvr = New DataAcquisition(Me, tick)
         End Sub
 
         ''' <summary>
@@ -224,18 +196,18 @@ Namespace Kernel
         ''' <summary>
         ''' Run a compiled model.(运行一个已经编译好的模型文件)
         ''' </summary>
-        ''' <param name="Model"></param>
+        ''' <param name="model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Model As Script.Model,
+        Public Overloads Shared Function Run(model As Script.Model,
                                              precise As Double,
                                              Optional dataTick As Action(Of DataSet) = Nothing) As List(Of DataSet)
 
-            Dim Kernel As New Kernel(Model, dataTick) With {
+            Dim kernel As New Kernel(model, dataTick) With {
                 .Precision = precise
             }
-            Call Kernel.Run()
-            Return Kernel.dataSvr.data
+            Call kernel.loadModel(model).Run()
+            Return kernel.dataSvr.data
         End Function
     End Class
 End Namespace

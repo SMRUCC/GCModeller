@@ -273,6 +273,7 @@
     <Compile Include="Script\Models\SEquation.vb" />
     <Compile Include="Script\TokenIcer.vb" />
     <Compile Include="Script\Tokens.vb" />
+    <Compile Include="System\KernelLoader.vb" />
     <Compile Include="System\ODEs.vb" />
     <Compile Include="System\DataAcquisition.vb" />
     <Compile Include="System\Elements\Equation.vb" />

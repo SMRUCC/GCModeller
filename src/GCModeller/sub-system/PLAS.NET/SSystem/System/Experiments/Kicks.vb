@@ -65,13 +65,9 @@ Namespace Kernel
         ReadOnly __runningKicks As New List(Of Disturb)
         ' ReadOnly __kernel As Kernel
 
-        Sub New(kernel As Kernel)
+        Sub New(kernel As Kernel, model As Script.Model)
             ' __kernel = kernel
-            __pendingKicks = kernel.Model.Experiments.ToList(
-                Function(x) New Disturb(
-                    x,
-                    kernel.GetValue(x.Id),
-                    Function() kernel.RuntimeTicks))
+            __pendingKicks = model.Experiments.ToList(Function(x) New Disturb(x, kernel.GetValue(x.Id), Function() kernel.RuntimeTicks))
 
             ' For i As Integer = 0 To __pendingKicks.Count - 1
             '    __pendingKicks(i).Set(kernel)
