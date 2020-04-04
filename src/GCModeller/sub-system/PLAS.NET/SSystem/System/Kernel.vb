@@ -108,7 +108,12 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public ReadOnly Property RuntimeTicks As Long
 
-        Friend ReadOnly finalTime As Integer
+        Public Property finalTime As Integer
+        ''' <summary>
+        ''' 整个引擎的计算精度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property precision As Double = 0.1
 
         ''' <summary>
         ''' 模拟器的数学计算引擎
@@ -122,18 +127,31 @@ Namespace Kernel
         ''' <param name="dataTick">数据采集的函数句柄</param>
         Sub New(model As Script.Model, Optional dataTick As Action(Of DataSet) = Nothing)
             finalTime = model.FinalTime
-            dataSvr = New DataAcquisition(Me, dataTick)
+            dataSvr = New DataAcquisition(dataTick)
+            dataSvr.loadKernel(Me)
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="model"></param>
+        Sub New(model As Script.Model, dataSvr As DataAcquisition)
+            Me.finalTime = model.FinalTime
+            Me.dataSvr = dataSvr
+            Me.dataSvr.loadKernel(Me)
         End Sub
 
         Public Function GetValue(id As String) As var
             Return symbolTable(id)
         End Function
 
-        ''' <summary>
-        ''' 整个引擎的计算精度
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Precision As Double = 0.1
+        Public Sub SetMathSymbol(name As String, value As Double)
+            mathEngine.SetSymbol(name, value)
+
+            If symbolTable.ContainsKey(name) Then
+                symbolTable(name).Value = value
+            End If
+        End Sub
 
         ''' <summary>
         ''' The kernel loop.(内核循环, 会在这里更新数学表达式计算引擎的环境变量)
@@ -151,7 +169,7 @@ Namespace Kernel
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
             Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-                Dim progress As New ProgressProvider(proc, finalTime * (1 / Precision))
+                Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
 
                 For _RuntimeTicks = 0 To progress.Target
                     If is_terminated Then
@@ -199,15 +217,13 @@ Namespace Kernel
         ''' <param name="model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(model As Script.Model,
-                                             precise As Double,
-                                             Optional dataTick As Action(Of DataSet) = Nothing) As List(Of DataSet)
-
-            Dim kernel As New Kernel(model, dataTick) With {
-                .Precision = precise
+        Public Overloads Shared Function Run(model As Script.Model, precise As Double) As List(Of DataSet)
+            Dim snapshot As New MemoryCacheSnapshot
+            Dim kernel As New Kernel(model, AddressOf snapshot.cache) With {
+                .precision = precise
             }
             Call kernel.loadModel(model).Run()
-            Return kernel.dataSvr.data
+            Return snapshot.data
         End Function
     End Class
 End Namespace

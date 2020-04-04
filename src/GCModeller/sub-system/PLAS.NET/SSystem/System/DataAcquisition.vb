@@ -46,54 +46,120 @@
 
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Kernel
+
+    Public MustInherit Class DataSnapshot
+
+        Public MustOverride Sub Cache(data As DataSet)
+
+    End Class
+
+    Public Class MemoryCacheSnapshot : Inherits DataSnapshot
+
+        Friend data As New List(Of DataSet)
+
+        Public Overrides Sub Cache(data As DataSet)
+            Me.data.Add(data)
+        End Sub
+
+        Public Sub flush(path As String)
+            Call data.SaveTo(path, strict:=False)
+        End Sub
+    End Class
+
+    Public Class SnapshotStream : Inherits DataSnapshot
+        Implements IDisposable
+
+        ReadOnly stream As WriteStream(Of DataSet)
+
+        Sub New(fileOpen As String, symbols As String())
+            stream = New WriteStream(Of DataSet)(fileOpen, strict:=False, metaKeys:=symbols)
+        End Sub
+
+        Public Overrides Sub Cache(data As DataSet)
+            Call stream.Flush(data)
+        End Sub
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' To detect redundant calls
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects).
+                    Call stream.Flush()
+                    Call stream.Dispose()
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+                ' TODO: set large fields to null.
+            End If
+            disposedValue = True
+        End Sub
+
+        ' TODO: override Finalize() only if Dispose(disposing As Boolean) above has code to free unmanaged resources.
+        'Protected Overrides Sub Finalize()
+        '    ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' This code added by Visual Basic to correctly implement the disposable pattern.
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+            Dispose(True)
+            ' TODO: uncomment the following line if Finalize() is overridden above.
+            ' GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
 
     ''' <summary>
     ''' Data service.(数据采集服务)
     ''' </summary>
     Public Class DataAcquisition
 
-        Friend data As New List(Of DataSet)
-
-        Dim kernel As Kernel
         ''' <summary>
         ''' 这个主要是调用外部接口的回调函数，这个回调函数会在一个内核循环之中采集完数据之后被触发调用
         ''' </summary>
         Dim __tickCallback As Action(Of DataSet)
+        Dim kernel As Kernel
 
-        Sub New(k As Kernel, Optional tick As Action(Of DataSet) = Nothing)
-            kernel = k
+        Sub New(tick As Action(Of DataSet))
             __tickCallback = tick
         End Sub
 
+        Public Function loadKernel(kernel As Kernel) As DataAcquisition
+            Me.kernel = kernel
+            Return Me
+        End Function
+
         Public Sub Tick()
             Dim t As New DataSet With {
-                .ID = kernel.RuntimeTicks * kernel.Precision,
+                .ID = kernel.RuntimeTicks * kernel.precision,
                 .Properties = kernel.Vars _
-                    .ToDictionary(AddressOf __tag, Function(x) x.Value)
+                    .ToDictionary(AddressOf tagAs,
+                                  Function(x)
+                                      Return x.Value
+                                  End Function)
             }
 
-            data += t
-
             ' 在一次内核循环之中才几万计算数据之后调用回调函数来触发外部事件
-            If Not __tickCallback Is Nothing Then
-                Call __tickCallback(t)
-            End If
+            Call __tickCallback(t)
         End Sub
 
-        Private Shared Function __tag(x As var) As String
+        Private Shared Function tagAs(x As var) As String
             If Not String.IsNullOrEmpty(x.title) Then
                 Return $"{x.Id}({x.title})"
             Else
                 Return x.Id
             End If
         End Function
-
-        Public Sub Save(Path As String)
-            Call data.SaveTo(Path, False)
-        End Sub
     End Class
 End Namespace
