@@ -50,7 +50,6 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 
 Namespace Script
 
@@ -88,7 +87,7 @@ Namespace Script
  _
                     From var As var
                     In Metabolites
-                    Where String.Equals(var.UniqueId, r.x)
+                    Where String.Equals(var.Id, r.x)
                     Select var
 
                 If LQuery.Length = 0 Then '没有找到
@@ -121,7 +120,7 @@ Namespace Script
 
                 For Each Var As SEquation In checked.Value
                     CompiledModel += New var With {
-                        .UniqueId = Var.x,
+                        .Id = Var.x,
                         .Value = 0
                     }
 
@@ -152,14 +151,6 @@ Namespace Script
             }
                 Return Script.Compile
             End Using
-        End Function
-
-        Protected Overrides Function Link() As Integer
-            Return -1
-        End Function
-
-        Public Overrides Function PreCompile(args As CommandLine) As Integer
-            Return -1
         End Function
     End Class
 End Namespace

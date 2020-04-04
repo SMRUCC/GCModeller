@@ -330,10 +330,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
-      <Name>GCModeller.Framework.Kernel_Driver</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>

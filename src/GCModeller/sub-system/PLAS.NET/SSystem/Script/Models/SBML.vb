@@ -51,8 +51,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.Analysis.SSystem.Script
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.Model.SBML.Level2
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
@@ -61,7 +59,7 @@ Namespace Script
     ''' <summary>
     ''' SBML模型编译器
     ''' </summary>
-    Public Class SBML : Inherits Compiler(Of Script.Model)
+    Public Class SBML
 
         Dim SBMLFile As XmlFile
 
@@ -124,7 +122,7 @@ Namespace Script
                 End If
 
                 metabolites += New var With {
-                    .UniqueId = m.ID,
+                    .Id = m.ID,
                     .Title = m.name,
                     .Value = m.InitialAmount
                 }
@@ -145,7 +143,7 @@ Namespace Script
         ''' <param name="model"></param>
         ''' <returns></returns>
         Private Function __where(x As var, model As Script.Model) As Boolean
-            Dim name As String = x.UniqueId
+            Dim name As String = x.Id
 
             For Each eq As SEquation In model.sEquations
                 If InStr(eq.Expression, name) > 0 Then
@@ -207,13 +205,5 @@ Namespace Script
                 .SBMLFile = path
             }
         End Operator
-
-        Protected Overrides Function Link() As Integer
-            Return -1
-        End Function
-
-        Public Overrides Function PreCompile(ARGV As CommandLine) As Integer
-            Return -1
-        End Function
     End Class
 End Namespace

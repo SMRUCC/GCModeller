@@ -44,13 +44,13 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports Microsoft.VisualBasic.Math.Framework
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace Kernel.ObjectModels
 
-    Public Class var : Inherits Variable
+    Public Class var : Inherits VariableObject
         Implements Ivar
 
         <XmlAttribute> Public Property Title As String
@@ -59,23 +59,23 @@ Namespace Kernel.ObjectModels
 
         Public Overrides Function ToString() As String
             If String.IsNullOrEmpty(Comment) Then
-                Return String.Format("{0}={1}", IIf(Len(Title) > 0, Title, UniqueId), Value)
+                Return String.Format("{0}={1}", IIf(Len(Title) > 0, Title, Id), Value)
             Else
-                Return String.Format("{0}={1}; //{2}", IIf(Len(Title) > 0, Title, UniqueId), Value, Comment)
+                Return String.Format("{0}={1}; //{2}", IIf(Len(Title) > 0, Title, Id), Value, Comment)
             End If
         End Function
 
-        Public Shared Narrowing Operator CType(e As var) As Double
+        Public Overloads Shared Narrowing Operator CType(e As var) As Double
             Return e.Value
         End Operator
 
-        Public Shared Narrowing Operator CType(e As var) As String
-            Return IIf(Len(e.Title) > 0, e.Title, e.UniqueId)
+        Public Overloads Shared Narrowing Operator CType(e As var) As String
+            Return IIf(Len(e.Title) > 0, e.Title, e.Id)
         End Operator
 
-        Public Shared Widening Operator CType(e As Specie) As var
+        Public Overloads Shared Widening Operator CType(e As Specie) As var
             Return New var With {
-                .UniqueId = e.ID,
+                .Id = e.ID,
                 .Title = e.name,
                 .Value = Val(e.InitialAmount)
             }
@@ -91,7 +91,7 @@ Namespace Kernel.ObjectModels
             Dim tokens = strData.GetTagValue("=", trim:=True)
 
             Return New var With {
-                .UniqueId = tokens.Name,
+                .Id = tokens.Name,
                 .Value = val.Evaluate(tokens.Value)
             }
         End Function
@@ -102,11 +102,11 @@ Namespace Kernel.ObjectModels
         ''' <param name="s">Script line.(脚本行文本)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Widening Operator CType(s As String) As var
+        Public Overloads Shared Widening Operator CType(s As String) As var
             Dim Token = s.GetTagValue("=")
 
             Return New var With {
-                .UniqueId = Token.Name,
+                .Id = Token.Name,
                 .Value = Val(Token.Value)
             }
         End Operator
