@@ -47,35 +47,37 @@
 
 Imports System.Xml.Serialization
 
-<XmlType("GCML_Document_PropertyValue", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCML_Documents.XmlElements.ComponentsModel/")>
+''' <summary>
+''' the property about the current virtual cell model
+''' </summary>
 Public Class [Property]
 
-    <XmlAttribute> Public Property Name As String
-    <XmlElement> Public Property Authors As List(Of String)
-    <XmlElement> Public Property Comment As String
-    <XmlAttribute> Public Property [CompiledDate] As String
-    <XmlElement> Public Property SpecieId As String
-    <XmlElement> Public Property Title As String
+    <XmlAttribute> Public Property name As String
+    <XmlAttribute> Public Property compiled As Date
+    <XmlAttribute> Public Property reversion As Integer
+
+    <XmlElement> Public Property guid As String
+    <XmlElement> Public Property specieId As String
+    <XmlElement> Public Property title As String
     <XmlElement> Public Property Emails As List(Of String)
-    <XmlAttribute> Public Property Reversion As Integer
-    <XmlElement("I_GUID", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCML_Documents.XmlElements.ComponentsModel/")>
-    Public Property GUID As String
-    <XmlElement> Public Property Publications As List(Of String)
+    <XmlElement> Public Property authors As List(Of String)
+    <XmlElement> Public Property comment As String
+    <XmlElement> Public Property publications As List(Of String)
     <XmlElement> Public Property URLs As List(Of String)
-    <XmlElement("DB-xRefLinks", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCML_Documents.XmlElements.ComponentsModel/")>
+
     Public Property DBLinks As String()
 
     Sub New()
-        Authors = New List(Of String) From {My.Computer.Name}
-        CompiledDate = Now.ToString
+        authors = New List(Of String) From {My.Computer.Name}
+        compiled = Now.ToString
         Emails = New List(Of String)
-        GUID = System.Guid.NewGuid.ToString
-        Publications = New List(Of String)
-        URLs = New List(Of String) From {"http://code.google.com/p/genome-in-code"}
+        guid = System.Guid.NewGuid.ToString
+        publications = New List(Of String)
+        URLs = New List(Of String) From {"https://gcmodeller.org/"}
         DBLinks = New String() {}
     End Sub
 
     Public Overrides Function ToString() As String
-        Return SpecieId
+        Return specieId
     End Function
 End Class

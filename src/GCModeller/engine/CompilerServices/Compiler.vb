@@ -89,7 +89,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' 
     ''' </summary>
     ''' <param name="args">
-    ''' Property definition parameters for <see cref="ModelBaseType.ModelProperty"></see>, the override function of 
+    ''' Property definition parameters for <see cref="ModelBaseType.properties"></see>, the override function of 
     ''' this mustOverride method should call method <see cref="WriteProperty"></see> to write the property into the 
     ''' compiled model file.</param>
     ''' <returns></returns>
@@ -100,28 +100,28 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
-        If model.ModelProperty Is Nothing Then _
-           model.ModelProperty = New [Property]
+        If model.properties Is Nothing Then _
+           model.properties = New [Property]
 
-        If String.IsNullOrEmpty(model.ModelProperty.GUID) Then
-            model.ModelProperty.GUID = Guid.NewGuid.ToString
+        If String.IsNullOrEmpty(model.properties.guid) Then
+            model.properties.guid = Guid.NewGuid.ToString
         End If
-        If String.IsNullOrEmpty(model.ModelProperty.CompiledDate) Then
-            model.ModelProperty.CompiledDate = Now.ToString
+        If String.IsNullOrEmpty(model.properties.compiled) Then
+            model.properties.compiled = Now.ToString
         End If
-        If model.ModelProperty.Reversion = 0 Then
-            model.ModelProperty.Reversion = 1
+        If model.properties.reversion = 0 Then
+            model.properties.reversion = 1
         End If
-        If model.ModelProperty.URLs.IsNullOrEmpty Then
-            model.ModelProperty.URLs = New List(Of String) From {
+        If model.properties.URLs.IsNullOrEmpty Then
+            model.properties.URLs = New List(Of String) From {
                 "http://gcmodeller.org/"
             }
         Else
-            Call model.ModelProperty.URLs.Add("http://gcmodeller.org/")
+            Call model.properties.URLs.Add("http://gcmodeller.org/")
         End If
 
-        If model.ModelProperty.Authors.IsNullOrEmpty Then
-            model.ModelProperty.Authors = New List(Of String) From {
+        If model.properties.Authors.IsNullOrEmpty Then
+            model.properties.Authors = New List(Of String) From {
                 "SMRUCC.genomics.GCModeller"
             }
         End If

@@ -53,14 +53,19 @@ Imports Microsoft.VisualBasic.Text
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<XmlRoot("LANS-SystemsBiology-GCML", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/")>
 Public MustInherit Class ModelBaseType : Inherits XmlDataModel
     Implements ISaveHandle
 
-    <XmlElement("GCModeller.DB.Properties", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCModeller/Components")>
-    Public Property ModelProperty As [Property]
+    <XmlElement([Namespace]:=GCModellerVCellKit)>
+    Public Property properties As [Property]
+
+    <XmlNamespaceDeclarations()>
+    Public xmlns As New XmlSerializerNamespaces
+
+    Public Const GCModellerVCellKit As String = "https://bioCAD.gcmodeller.org/vcellkit/"
 
     Sub New()
+        Call xmlns.Add("vcellkit", GCModellerVCellKit)
     End Sub
 
     Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
@@ -76,7 +81,7 @@ Public MustInherit Class ModelBaseType : Inherits XmlDataModel
 
     Public Overrides Function ToString() As String
         Try
-            Return String.Format("{0}::[{1}]", ModelProperty.GUID, ModelProperty.SpecieId)
+            Return String.Format("{0}::[{1}]", properties.guid, properties.specieId)
         Catch ex As Exception
             Return MyBase.ToString
         End Try

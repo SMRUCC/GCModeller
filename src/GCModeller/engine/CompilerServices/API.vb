@@ -50,61 +50,61 @@ Module API
 
     <ExportAPI("Write.Name")>
     Public Function _set_Name(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Name = value
+        model.properties.Name = value
         Return model
     End Function
 
     <ExportAPI("Author.Add")>
     Public Function __add_author(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Authors.Add(value)
+        model.properties.Authors.Add(value)
         Return model
     End Function
 
     <ExportAPI("Write.Comment")>
     Public Function setComments(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Comment = value
+        model.properties.Comment = value
         Return model
     End Function
 
     <ExportAPI("Write.Species")>
     Public Function set_SpeciesId(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.SpecieId = value
+        model.properties.specieId = value
         Return model
     End Function
 
     <ExportAPI("Write.Title")>
     Public Function _set_Title(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Title = value
+        model.properties.title = value
         Return model
     End Function
 
     <ExportAPI("EMail.Add")>
     Public Function __add_email(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Emails.Add(value)
+        model.properties.Emails.Add(value)
         Return model
     End Function
 
     <ExportAPI("Reversion.Plus")>
     Public Function __add_reversion(model As ModelBaseType) As ModelBaseType
-        model.ModelProperty.Reversion += 1
+        model.properties.reversion += 1
         Return model
     End Function
 
     <ExportAPI("Publication.Add")>
     Public Function __add_publication(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.Publications.Add(value)
+        model.properties.publications.Add(value)
         Return model
     End Function
 
     <ExportAPI("Url.Add")>
     Public Function __add_URL(model As ModelBaseType, value As String) As ModelBaseType
-        model.ModelProperty.URLs.Add(value)
+        model.properties.URLs.Add(value)
         Return model
     End Function
 
     <ExportAPI("Write.DBLinks")>
     Public Function _set_DBLinks(model As ModelBaseType, value As IEnumerable(Of String)) As ModelBaseType
-        model.ModelProperty.DBLinks = value.ToArray
+        model.properties.DBLinks = value.ToArray
         Return model
     End Function
 
