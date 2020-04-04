@@ -73,7 +73,7 @@ Namespace Kernel.ObjectModels
         Friend var As var
 
         Dim dynamics As Expression
-        Dim precision As Double
+        Public Property precision As Double
 
         Public ReadOnly Property Model As SEquation
 
@@ -108,10 +108,10 @@ Namespace Kernel.ObjectModels
                 .DoCall(AddressOf BuildExpression)
         End Sub
 
-        Friend Sub New(s As SEquation, kernel As Kernel)
+        Sub New(s As SEquation, kernel As Kernel)
             Call Me.New(s)
 
-            Me.precision = kernel.Precision
+            Me.precision = kernel.precision
             Me.var = kernel.GetValue(Id)
 
             If var Is Nothing Then

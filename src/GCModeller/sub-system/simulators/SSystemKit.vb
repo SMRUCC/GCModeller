@@ -1,13 +1,17 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("S.system")>
 Module SSystemKit
@@ -56,7 +60,7 @@ Module SSystemKit
         End If
 
         For Each symbolName As String In data.slots.Keys
-            value = asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
+            value = REnv.asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
             kernel.SetMathSymbol(symbolName, value)
         Next
 
@@ -64,7 +68,24 @@ Module SSystemKit
     End Function
 
     <ExportAPI("s.system")>
-    Public Function ConfigSSystem(kernel As Kernel, ssystem As Array, Optional env As Environment = Nothing) As Kernel
+    Public Function ConfigSSystem(kernel As Kernel, ssystem As DeclareLambdaFunction(), Optional env As Environment = Nothing) As Kernel
+        Dim equations As New List(Of NamedValue(Of String))
+        Dim name As String
+        Dim expression As String
+
+        For Each formula In ssystem
+            name = formula.parameterNames(Scan0)
+            expression = formula.name.GetStackValue("[", "]").GetTagValue("->").Value
+            equations += New NamedValue(Of String) With {
+                .Name = name,
+                .Value = expression
+            }
+        Next
+
+        kernel.Channels = equations _
+            .Select(Function(a) New SEquation(a.Name, a.Value)) _
+            .Select(Function(a) New Equation(a, kernel)) _
+            .ToArray
 
         Return kernel
     End Function
@@ -73,6 +94,11 @@ Module SSystemKit
     Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.01) As Kernel
         kernel.finalTime = ticks
         kernel.precision = resolution
+
+        For Each reaction As Equation In kernel.Channels
+            reaction.precision = resolution
+        Next
+
         kernel.Run()
 
         Return kernel
