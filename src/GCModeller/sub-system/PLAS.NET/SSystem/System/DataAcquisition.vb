@@ -77,7 +77,7 @@ Namespace Kernel
         ReadOnly stream As WriteStream(Of DataSet)
 
         Sub New(fileOpen As String, symbols As String())
-            stream = New WriteStream(Of DataSet)(fileOpen, strict:=False, metaKeys:=symbols)
+            stream = New WriteStream(Of DataSet)(fileOpen, strict:=False, metaKeys:=symbols, maps:=New Dictionary(Of String, String) From {{"ID", "#time"}})
         End Sub
 
         Public Overrides Sub Cache(data As DataSet)
