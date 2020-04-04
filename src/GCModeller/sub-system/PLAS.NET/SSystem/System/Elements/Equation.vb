@@ -100,11 +100,9 @@ Namespace Kernel.ObjectModels
             End Get
         End Property
 
-        Sub New(var As var, s As SEquation)
+        Sub New(s As SEquation)
             Me.Model = s
             Me.Expression = s.Expression
-            Me.var = var
-
             Me.dynamics = New ExpressionTokenIcer(Expression) _
                 .GetTokens _
                 .ToArray _

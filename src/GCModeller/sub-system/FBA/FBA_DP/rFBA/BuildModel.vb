@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.GCModeller.Framework
+Imports SMRUCC.genomics.GCModeller
 
 Namespace rFBA
 
@@ -65,16 +65,16 @@ Namespace rFBA
                                           Mapping.EffectorMapping(Regprecise)).SaveTo(TranscriptionFile, False)
 
             Dim Model As New rFBA.DataModel.CellSystem
-            Model.ModelProperty = New Kernel_Driver.LDM.Property
-            Model.ModelProperty.Authors = New List(Of String) From {My.User.Name}
-            Model.ModelProperty.CompiledDate = Now.ToString
-            Model.ModelProperty.GUID = Guid.NewGuid.ToString
-            Model.ModelProperty.Name = "rFBA"
-            Model.ModelProperty.SpecieId = MetaCyc.Database.Species.First.Synonyms.First
+            Model.properties = New CompilerServices.[Property] With {
+            .authors = New List(Of String) From {My.User.Name},
+            .compiled = Now.ToString,
+            .guid = Guid.NewGuid.ToString,
+            .name = "rFBA",
+            .specieId = MetaCyc.Database.Species.First.Synonyms.First
+            }
             Model.MetabolismModel = New Href With {.Value = MetabolismFile}
             Model.TranscriptionModel = New Href With {.Value = TranscriptionFile}
             Model.ObjectiveFunctionModel = New Href With {.Value = EXPORT & "/ObjectiveFunction.csv"}
-            Model.IteractionLoops = 10
 
             Dim ObjectiveFunction As DataModel.ObjectiveFunction() = New DataModel.ObjectiveFunction() {}
 

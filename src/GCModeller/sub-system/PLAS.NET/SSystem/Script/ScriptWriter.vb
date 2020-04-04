@@ -76,7 +76,7 @@ Namespace Script
             Call sb.WriteLine()
 
             For Each var In model.Vars
-                Call sb.WriteLine($"INIT {var.UniqueId}={var.Value}")
+                Call sb.WriteLine($"INIT {var.Id}={var.Value}")
             Next
             Call sb.WriteLine()
             Call sb.WriteLine("FINALTIME " & model.FinalTime)
