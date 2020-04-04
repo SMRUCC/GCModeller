@@ -49,18 +49,18 @@
 
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace Script
 
     ''' <summary>
     ''' 可以被保存至文件的脚本模型对象
     ''' </summary>
-    Public Class Model : Inherits XmlDataModel
+    Public Class Model : Inherits ModelBaseType
 
         ''' <summary>
         ''' The user define function.

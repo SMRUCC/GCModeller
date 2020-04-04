@@ -330,6 +330,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.vbproj">
+      <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>

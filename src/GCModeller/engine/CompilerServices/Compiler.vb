@@ -95,7 +95,9 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
-    Protected MustOverride Function Link() As Integer
+    Protected Overridable Function Link() As Integer
+
+    End Function
 
     Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
