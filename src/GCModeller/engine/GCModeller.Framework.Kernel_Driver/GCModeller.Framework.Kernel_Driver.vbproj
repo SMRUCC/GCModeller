@@ -262,8 +262,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataServices\ModelBase\API.vb" />
-    <Compile Include="DataServices\ModelBase\Property.vb" />
     <Compile Include="DataServices\StorageInterface\API.vb" />
     <Compile Include="DataServices\StorageInterface\ObjectHandle.vb" />
     <Compile Include="DataServices\StorageInterface\Specialized.vb" />
@@ -280,8 +278,6 @@
     <Compile Include="Driver\KernelDriver\KernelDriver.vb" />
     <Compile Include="DataServices\DataAdapter.vb" />
     <Compile Include="Driver\Engine.vb" />
-    <Compile Include="Compiler.vb" />
-    <Compile Include="DataServices\ModelBase\Model.vb" />
     <Compile Include="DriverAPI.vb" />
     <Compile Include="DataServices\StorageInterface\DataSerials%28Of T%29.vb" />
     <Compile Include="Extensions.vb" />
