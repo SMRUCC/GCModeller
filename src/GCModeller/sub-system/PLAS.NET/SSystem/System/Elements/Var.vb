@@ -53,15 +53,17 @@ Namespace Kernel.ObjectModels
     Public Class var : Inherits VariableObject
         Implements Ivar
 
-        <XmlAttribute> Public Property Title As String
-        <XmlElement> Public Property Comment As String
+        <XmlAttribute> Public Property title As String
         <XmlAttribute> Public Overrides Property Value As Double Implements Ivar.value
 
+        <XmlElement>
+        Public Property comment As String
+
         Public Overrides Function ToString() As String
-            If String.IsNullOrEmpty(Comment) Then
-                Return String.Format("{0}={1}", IIf(Len(Title) > 0, Title, Id), Value)
+            If String.IsNullOrEmpty(comment) Then
+                Return String.Format("{0}={1}", IIf(Len(title) > 0, title, Id), Value)
             Else
-                Return String.Format("{0}={1}; //{2}", IIf(Len(Title) > 0, Title, Id), Value, Comment)
+                Return String.Format("{0}={1}; //{2}", IIf(Len(title) > 0, title, Id), Value, comment)
             End If
         End Function
 
@@ -70,13 +72,13 @@ Namespace Kernel.ObjectModels
         End Operator
 
         Public Overloads Shared Narrowing Operator CType(e As var) As String
-            Return IIf(Len(e.Title) > 0, e.Title, e.Id)
+            Return IIf(Len(e.title) > 0, e.title, e.Id)
         End Operator
 
         Public Overloads Shared Widening Operator CType(e As Specie) As var
             Return New var With {
                 .Id = e.ID,
-                .Title = e.name,
+                .title = e.name,
                 .Value = Val(e.InitialAmount)
             }
         End Operator

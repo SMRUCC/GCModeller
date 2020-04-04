@@ -156,12 +156,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86' ">
     <OutputPath>./bin</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -208,12 +211,14 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Biostack\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Analysis.SSystem.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x86'">
     <DefineTrace>true</DefineTrace>
@@ -265,14 +270,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Script\ScriptText\ModelParsers.vb" />
     <Compile Include="Script\ScriptWriter.vb" />
     <Compile Include="Script\Models\SBML.vb" />
     <Compile Include="Script\Models\Model.vb" />
     <Compile Include="Script\ScriptCompiler.vb" />
-    <Compile Include="Script\ScriptParser.vb" />
+    <Compile Include="Script\ScriptText\ScriptParser.vb" />
     <Compile Include="Script\Models\SEquation.vb" />
-    <Compile Include="Script\TokenIcer.vb" />
-    <Compile Include="Script\Tokens.vb" />
+    <Compile Include="Script\ScriptText\TokenIcer.vb" />
+    <Compile Include="Script\ScriptText\Tokens.vb" />
     <Compile Include="System\KernelLoader.vb" />
     <Compile Include="System\ODEs.vb" />
     <Compile Include="System\DataAcquisition.vb" />

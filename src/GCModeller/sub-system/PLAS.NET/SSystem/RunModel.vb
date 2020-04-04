@@ -89,30 +89,33 @@ Public Module RunModel
     ' /time 10
 
     <Extension>
-    Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
-        Dim t As Double = args.GetDouble("/time")
-        Dim in$ = BuildArgs() <= "-i"
-        Dim out As String = args.GetValue("-o", in$.TrimSuffix & ".out.Csv")
+    Public Function RunModel(model As Script.Model, args As CommandLine) As Integer
+        Dim t As Double = args("/time")
+        Dim in$ = args <= "-i"
+        Dim out As String = args("-o") Or (in$.TrimSuffix & ".out.Csv")
 
         If t > 0 Then
-            Model.FinalTime = t
+            model.FinalTime = t
         End If
 
-        If args.GetBoolean("/ODEs") Then
+        If args("/ODEs") Then
             Call "PLAS using ODEs solver....".__DEBUG_ECHO
 
             Dim p As Double = args.GetValue("/precise", 10000)
-            Dim output As ODEsOut = Kernel.ODEs.RunSystem(Model)
+            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model)
             Dim df As File = output.DataFrame(xDisp:="#Time")
 
             Return df.Save(out, Encodings.ASCII)
         Else
-            Dim p As Double = args.GetValue("/precise", 0.1)
-            Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
+            Dim p As Double = args("/precise") Or 0.1
+            Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(model, p)
             Dim maps As New Dictionary(Of String, String) From {
                 {NameOf(DataSet.ID), "#Time"}
             }
-            Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
+
+            Return ds _
+                .SaveTo(path:=out, nonParallel:=True, maps:=maps) _
+                .CLICode
         End If
     End Function
 End Module

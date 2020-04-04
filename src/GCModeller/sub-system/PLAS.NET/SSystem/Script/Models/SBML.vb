@@ -124,7 +124,7 @@ Namespace Script
 
                 metabolites += New var With {
                     .Id = m.ID,
-                    .Title = m.name,
+                    .title = m.name,
                     .Value = m.InitialAmount
                 }
             Next

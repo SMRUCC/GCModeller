@@ -63,9 +63,7 @@ Namespace Kernel.ObjectModels
         ''' 使用代谢底物的UniqueID属性值作为数值替代的表达式
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Expression As String
-
-        Friend Kernel As Kernel
+        Public Property Expression As String
 
         ''' <summary>
         ''' The target that associated with this channel.
@@ -75,6 +73,7 @@ Namespace Kernel.ObjectModels
         Friend var As var
 
         Dim dynamics As Expression
+        Dim precision As Double
 
         Public ReadOnly Property Model As SEquation
 
@@ -84,7 +83,7 @@ Namespace Kernel.ObjectModels
         ''' <returns></returns>
         Public ReadOnly Property Id As String Implements IReadOnlyId.Identity
             Get
-                Return var.Id
+                Return Model.x
             End Get
         End Property
 
@@ -109,6 +108,21 @@ Namespace Kernel.ObjectModels
                 .DoCall(AddressOf BuildExpression)
         End Sub
 
+        Friend Sub New(s As SEquation, kernel As Kernel)
+            Call Me.New(s)
+
+            Me.precision = kernel.Precision
+            Me.var = kernel.GetValue(Id)
+
+            If var Is Nothing Then
+                var = New var With {
+                    .Id = Id,
+                    .Value = 10.0R
+                }
+                kernel.symbolTable(Id) = var
+            End If
+        End Sub
+
         ''' <summary>
         ''' Evaluate the expression value of the property <see cref="Equation.Expression"></see>.
         ''' (计算<see cref="Equation.Expression"></see>属性表达式的值)
@@ -126,7 +140,7 @@ Namespace Kernel.ObjectModels
         ''' <param name="engine"></param>
         ''' <returns></returns>
         Public Function Elapsed(engine As ExpressionEngine) As Boolean
-            var.Value += (Me.Evaluate(engine) * Kernel.Precision)
+            var.Value += Evaluate(engine) * precision
             engine(var.Id) = var.Value
 
             Return True
@@ -139,29 +153,5 @@ Namespace Kernel.ObjectModels
                 Return String.Format("{0}; //{1}'={2}", var.ToString, Id, Expression)
             End If
         End Function
-
-        ''' <summary>
-        ''' Set up the simulation kernel.
-        ''' (设置模拟核心)
-        ''' </summary>
-        ''' <param name="k"></param>
-        ''' <remarks></remarks>
-        Public Sub [Set](k As Kernel)
-            Kernel = k
-            var = LinqAPI.DefaultFirst(Of var) <=
- _
-                From o As var
-                In k.Vars
-                Where String.Equals(o.Id, Id)
-                Select o '
-
-            If var Is Nothing Then
-                var = New var With {
-                    .Id = Id,
-                    .Value = 10.0R
-                }
-                k.symbolTable(Id) = var
-            End If
-        End Sub
     End Class
 End Namespace
