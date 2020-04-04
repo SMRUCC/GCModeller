@@ -48,8 +48,6 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 <Package("GCModeller.Property", Publisher:="GCModeller Virtual Cell System", Description:="")>
 Module API
 
-#Region "Shell API"
-
     <ExportAPI("Write.Name")>
     Public Function _set_Name(model As ModelBaseType, value As String) As ModelBaseType
         model.ModelProperty.Name = value
@@ -63,7 +61,7 @@ Module API
     End Function
 
     <ExportAPI("Write.Comment")>
-    Public Function _set_Comments(model As ModelBaseType, value As String) As ModelBaseType
+    Public Function setComments(model As ModelBaseType, value As String) As ModelBaseType
         model.ModelProperty.Comment = value
         Return model
     End Function
@@ -109,5 +107,5 @@ Module API
         model.ModelProperty.DBLinks = value.ToArray
         Return model
     End Function
-#End Region
+
 End Module

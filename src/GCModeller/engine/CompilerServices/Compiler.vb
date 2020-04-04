@@ -1,51 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::c596d8da32b3f34c995fb0a5acba3dcf, GCModeller.Framework.Kernel_Driver\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Compiler
-    ' 
-    '     Properties: [Return], CompileLogging, Version
-    ' 
-    '     Function: ToString, WriteLog, WriteProperty
-    ' 
-    '     Sub: (+2 Overloads) Dispose
-    ' 
-    ' /********************************************************************************/
+' Class Compiler
+' 
+'     Properties: [Return], CompileLogging, Version
+' 
+'     Function: ToString, WriteLog, WriteProperty
+' 
+'     Sub: (+2 Overloads) Dispose
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -70,13 +69,21 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
+    Public Overridable ReadOnly Property [Return] As TModel
+        Get
+            Return CompiledModel
+        End Get
+    End Property
+
     ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="args"><see cref="CommandLine.cli"></see></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function PreCompile(args As CommandLine) As Integer
+    Protected Overridable Function PreCompile(args As CommandLine) As Integer
+
+    End Function
 
     ''' <summary>
     ''' 
@@ -90,25 +97,6 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
     Protected MustOverride Function Link() As Integer
 
-    Public Overridable ReadOnly Property [Return] As TModel
-        Get
-            Return CompiledModel
-        End Get
-    End Property
-
-    Const CLI_Usage As String =
-        "-write_property [-name <name>] [-authors <author1; author2; ...>] [-comment <shot_comment>] [-title <title>] [-emails <address1; address2; ...>] [-publications <pubmed1; pubmed2; ...>] [-urls <url1; url2; ...>]"
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <param name="model"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("-write_property", Info:="",
-               Usage:=CLI_Usage,
-               Example:="")>
     Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
@@ -182,10 +170,10 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean
-        'If Not _Logging Is Nothing Then
-        '    Return _Logging.Save()
-        'End If
-        'Return True
-        Throw New NotImplementedException
+        If Not _Logging Is Nothing Then
+            Return _Logging.Save()
+        End If
+
+        Return True
     End Function
 End Class

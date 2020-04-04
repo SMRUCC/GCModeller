@@ -45,6 +45,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' All of the model file basetype definition in the GCModeller program group, all of the model file must inherits from this class object.
@@ -54,13 +55,23 @@ Imports Microsoft.VisualBasic.ComponentModel
 ''' 
 <XmlRoot("LANS-SystemsBiology-GCML", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/")>
 Public MustInherit Class ModelBaseType : Inherits XmlDataModel
+    Implements ISaveHandle
 
     <XmlElement("GCModeller.DB.Properties", Namespace:="http://code.google.com/p/genome-in-code/GCMarkupLanguage/GCModeller/Components")>
     Public Property ModelProperty As [Property]
-    <XmlAttribute> Public Property IteractionLoops As Integer
 
-    Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
-        Return XmlExtensions.GetXml(Me, MyClass.GetType).SaveTo(FilePath, Encoding)
+    Sub New()
+    End Sub
+
+    Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Return ISaveHandle_Save(path, encoding.CodePage)
+    End Function
+
+    Private Function ISaveHandle_Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+        Dim implType As Type = MyClass.GetType
+        Dim xml As String = XmlExtensions.GetXml(Me, implType)
+
+        Return xml.SaveTo(path, encoding)
     End Function
 
     Public Overrides Function ToString() As String
