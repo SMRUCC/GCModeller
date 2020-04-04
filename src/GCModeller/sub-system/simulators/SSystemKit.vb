@@ -32,8 +32,10 @@ Module SSystemKit
 
         Dim dataDriver As New DataAcquisition(AddressOf snapshot.Cache)
         Dim kernel As New Kernel(model, dataDriver)
+        Dim kick As New Kicks(kernel, model)
 
-        Call dataDriver.loadKernel(kernel)
+        kick.loadKernel(kernel)
+        dataDriver.loadKernel(kernel)
 
         Return kernel
     End Function

@@ -46,6 +46,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
@@ -67,7 +68,11 @@ Namespace Kernel
 
         Sub New(kernel As Kernel, model As Script.Model)
             ' __kernel = kernel
-            __pendingKicks = model.Experiments.ToList(Function(x) New Disturb(x, kernel.GetValue(x.Id), Function() kernel.RuntimeTicks))
+            __pendingKicks = model.Experiments _
+                .SafeQuery _
+                .ToList(Function(x)
+                            Return New Disturb(x, kernel.GetValue(x.Id), Function() kernel.RuntimeTicks)
+                        End Function)
 
             ' For i As Integer = 0 To __pendingKicks.Count - 1
             '    __pendingKicks(i).Set(kernel)
@@ -80,6 +85,10 @@ Namespace Kernel
                     x,
                     vars(x.Id),
                     getRunTicks))
+        End Sub
+
+        Public Sub loadKernel(kernel As Kernel)
+            kernel.kicks = Me
         End Sub
 
         Public Sub Tick()
