@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b083dc8591e118d79425ef7839b3651a, Compiler\KEGG\CompoundNameIDMappings.vb"
+﻿#Region "Microsoft.VisualBasic::8740ee6720deaa751e1d004fa9417111, Compiler\KEGG\CompoundNameIDMappings.vb"
 
     ' Author:
     ' 
@@ -49,4 +49,3 @@ Module CompoundNameIDMappings
         Throw New NotImplementedException
     End Function
 End Module
-
