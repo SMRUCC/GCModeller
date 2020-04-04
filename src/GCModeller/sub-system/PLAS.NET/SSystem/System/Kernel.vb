@@ -99,7 +99,7 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Channels As Equation()
 
-        Friend symbolTable As Dictionary(Of var)
+        Friend symbolTable As New Dictionary(Of var)
 
         ''' <summary>
         ''' Gets the system run time ticks

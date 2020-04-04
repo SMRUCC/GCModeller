@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
@@ -35,8 +36,24 @@ Module SSystemKit
 
     <ExportAPI("environment")>
     Public Function ConfigEnvironment(kernel As Kernel, <RListObjectArgument> symbols As Object, Optional env As Environment = Nothing) As Kernel
-        Dim data As list = base.Rlist(symbols, env)
+        Dim data As list = If(TypeOf symbols Is list, DirectCast(symbols, list), base.Rlist(symbols, env))
         Dim value As Double
+
+        If data.length = 1 AndAlso TypeOf data.slots.Values.First Is list Then
+            data = data.slots.Values.First
+        End If
+
+        If Not data.getValue(Of Boolean)("is.const", env) Then
+            data.slots.Remove("is.const")
+            kernel.Vars = data.slots _
+                .Select(Function(a)
+                            Return New var With {
+                                .Id = a.Key,
+                                .Value = CDbl(getFirst(a.Value))
+                            }
+                        End Function) _
+                .ToArray
+        End If
 
         For Each symbolName As String In data.slots.Keys
             value = asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
