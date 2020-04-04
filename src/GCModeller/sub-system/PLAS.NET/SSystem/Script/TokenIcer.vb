@@ -62,13 +62,13 @@ Namespace Script
             {Script.Tokens.Title.Description, Script.Tokens.Title}
         }
 
-        Public Function TryParse(script As IEnumerable(Of String)) As Token(Of Tokens)()
-            Dim LQuery As Token(Of Tokens)() =
-                LinqAPI.Exec(Of Token(Of Tokens)) <=
+        Public Function TryParse(script As IEnumerable(Of String)) As ScriptToken()
+            Dim LQuery As ScriptToken() =
+                LinqAPI.Exec(Of ScriptToken) <=
  _
                     From line As String
                     In script
-                    Let token As Token(Of Tokens) = line.Trim.__tokenParser()  ' 类型的前缀已经被切割掉了
+                    Let token As ScriptToken = line.Trim.tokenParser()  ' 类型的前缀已经被切割掉了
                     Where Not token Is Nothing
                     Select token
 
@@ -80,7 +80,7 @@ Namespace Script
         ''' </summary>
         ''' <param name="line"></param>
         ''' <returns></returns>
-        <Extension> Private Function __tokenParser(line As String) As Token(Of Tokens)
+        <Extension> Private Function tokenParser(line As String) As ScriptToken
             Dim x As String = line.Split.First.ToUpper
 
             If Not Tokens.ContainsKey(x) Then
@@ -92,7 +92,7 @@ Namespace Script
                 Return Nothing
             End If
             Dim text As String = Mid(line, x.Length + 1).Trim
-            Return New Token(Of Tokens)(type, text)
+            Return New ScriptToken(type, text)
         End Function
     End Module
 End Namespace
