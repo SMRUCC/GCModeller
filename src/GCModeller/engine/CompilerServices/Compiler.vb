@@ -46,7 +46,6 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
