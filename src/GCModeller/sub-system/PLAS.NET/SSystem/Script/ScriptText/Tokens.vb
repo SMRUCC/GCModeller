@@ -49,14 +49,14 @@ Imports Microsoft.VisualBasic.Scripting.TokenIcer
 
 Namespace Script
 
-    Public Class ScriptToken : Inherits CodeToken(Of Tokens)
+    Public Class ScriptToken : Inherits CodeToken(Of ScriptTokens)
 
-        Sub New(token As Tokens, text As String)
+        Sub New(token As ScriptTokens, text As String)
             Call MyBase.New(token, text)
         End Sub
     End Class
 
-    Public Enum Tokens
+    Public Enum ScriptTokens
         UNDEFINE
 
         ''' <summary>

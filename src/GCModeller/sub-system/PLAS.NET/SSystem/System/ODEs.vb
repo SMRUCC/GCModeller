@@ -42,10 +42,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
-Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 
 Namespace Kernel
@@ -63,15 +61,15 @@ Namespace Kernel
                 From x As ObjectModels.var
                 In model.Vars
                 Select New var With {
-                    .Name = x.UniqueId,
+                    .Name = x.Id,
                     .Value = x.Value
                 }
             Dim engine As New ExpressionEngine
             Dim dynamics = (From x As Script.SEquation
                             In model.sEquations
-                            Select y = New ObjectModels.Equation(x, engine)
-                            Group y By y.Identifier Into Group) _
-                                 .ToDictionary(Function(x) x.Identifier,
+                            Select y = New ObjectModels.Equation(x)
+                            Group y By y.Id Into Group) _
+                                 .ToDictionary(Function(x) x.Id,
                                                Function(x)
                                                    Return x.Group.ToArray
                                                End Function)
@@ -88,7 +86,7 @@ Namespace Kernel
                           For Each var As var In vars
                               ' 然后分别计算常微分方程
                               For Each eq In dynamics(var.Name)
-                                  dy(index:=var) = eq.Evaluate
+                                  dy(index:=var) = eq.Evaluate(engine)
                               Next
                           Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c596d8da32b3f34c995fb0a5acba3dcf, GCModeller.Framework.Kernel_Driver\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::1b9b53379b06990a4108a7515ff4307b, CompilerServices\Compiler.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '     Properties: [Return], CompileLogging, Version
     ' 
-    '     Function: ToString, WriteLog, WriteProperty
+    '     Function: Link, PreCompile, ToString, WriteLog, WriteProperty
     ' 
     '     Sub: (+2 Overloads) Dispose
     ' 
@@ -45,8 +45,6 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -71,70 +69,61 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="args"><see cref="CommandLine.cli"></see></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public MustOverride Function PreCompile(args As CommandLine) As Integer
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="args">
-    ''' Property definition parameters for <see cref="ModelBaseType.ModelProperty"></see>, the override function of 
-    ''' this mustOverride method should call method <see cref="WriteProperty"></see> to write the property into the 
-    ''' compiled model file.</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
-    Protected MustOverride Function Link() As Integer
-
     Public Overridable ReadOnly Property [Return] As TModel
         Get
             Return CompiledModel
         End Get
     End Property
 
-    Const CLI_Usage As String =
-        "-write_property [-name <name>] [-authors <author1; author2; ...>] [-comment <shot_comment>] [-title <title>] [-emails <address1; address2; ...>] [-publications <pubmed1; pubmed2; ...>] [-urls <url1; url2; ...>]"
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="args"><see cref="CommandLine.cli"></see></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Protected Overridable Function PreCompile(args As CommandLine) As Integer
+
+    End Function
 
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="args"></param>
-    ''' <param name="model"></param>
+    ''' <param name="args">
+    ''' Property definition parameters for <see cref="ModelBaseType.properties"></see>, the override function of 
+    ''' this mustOverride method should call method <see cref="WriteProperty"></see> to write the property into the 
+    ''' compiled model file.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("-write_property", Info:="",
-               Usage:=CLI_Usage,
-               Example:="")>
+    Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
+    Protected Overridable Function Link() As Integer
+
+    End Function
+
     Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
-        If model.ModelProperty Is Nothing Then _
-           model.ModelProperty = New [Property]
+        If model.properties Is Nothing Then _
+           model.properties = New [Property]
 
-        If String.IsNullOrEmpty(model.ModelProperty.GUID) Then
-            model.ModelProperty.GUID = Guid.NewGuid.ToString
+        If String.IsNullOrEmpty(model.properties.guid) Then
+            model.properties.guid = Guid.NewGuid.ToString
         End If
-        If String.IsNullOrEmpty(model.ModelProperty.CompiledDate) Then
-            model.ModelProperty.CompiledDate = Now.ToString
+        If String.IsNullOrEmpty(model.properties.compiled) Then
+            model.properties.compiled = Now.ToString
         End If
-        If model.ModelProperty.Reversion = 0 Then
-            model.ModelProperty.Reversion = 1
+        If model.properties.reversion = 0 Then
+            model.properties.reversion = 1
         End If
-        If model.ModelProperty.URLs.IsNullOrEmpty Then
-            model.ModelProperty.URLs = New List(Of String) From {
+        If model.properties.URLs.IsNullOrEmpty Then
+            model.properties.URLs = New List(Of String) From {
                 "http://gcmodeller.org/"
             }
         Else
-            Call model.ModelProperty.URLs.Add("http://gcmodeller.org/")
+            Call model.properties.URLs.Add("http://gcmodeller.org/")
         End If
 
-        If model.ModelProperty.Authors.IsNullOrEmpty Then
-            model.ModelProperty.Authors = New List(Of String) From {
+        If model.properties.Authors.IsNullOrEmpty Then
+            model.properties.Authors = New List(Of String) From {
                 "SMRUCC.genomics.GCModeller"
             }
         End If
@@ -183,10 +172,10 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean
-        'If Not _Logging Is Nothing Then
-        '    Return _Logging.Save()
-        'End If
-        'Return True
-        Throw New NotImplementedException
+        If Not _Logging Is Nothing Then
+            Return _Logging.Save()
+        End If
+
+        Return True
     End Function
 End Class

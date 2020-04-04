@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18e14a776b37d74d62df4d250ea50a4f, Data_science\Mathematica\Math\Math\Algebra\Framework\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::232711f39a24ae99103bda37c06fc426, Data_science\Mathematica\Math\Math\Numerics\Framework\VariableObject.vb"
 
     ' Author:
     ' 
@@ -31,46 +31,34 @@
 
     ' Summaries:
 
-    '     Module Iterator
+    '     Class VariableObject
     ' 
-    '         Sub: Run
-    '         Class Kernel
+    '         Properties: Id
     ' 
-    '             Properties: terminated
-    ' 
-    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 
 Namespace Framework
 
-    Public Module Iterator
+    Public Class VariableObject : Inherits f64
+        Implements INamedValue
 
-        Public MustInherit Class Kernel
+        ''' <summary>
+        ''' the unique id of current object variable 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Id As String Implements IKeyedEntity(Of String).Key
 
-            Protected Friend ReadOnly Property terminated As Boolean
-
-            ''' <summary>
-            ''' Execute the iterator step.
-            ''' </summary>
-            ''' <param name="itr"></param>
-            Protected Friend MustOverride Sub [Step](itr As Integer)
-
-        End Class
-
-        <Extension>
-        Public Sub Run(kernel As Kernel, Optional iterations% = 10 * 10000)
-            Dim i As i32 = 0
-
-            Do While ++i <= iterations AndAlso Not kernel.terminated
-                Call kernel.Step(itr:=i)
-            Loop
-        End Sub
-    End Module
+        Public Overrides Function ToString() As String
+            Return $"Dim {Id} As f64 = {Value}"
+        End Function
+    End Class
 End Namespace

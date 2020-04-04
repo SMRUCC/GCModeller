@@ -50,27 +50,22 @@ Namespace Script
 
     Public Module TokenIcer
 
-        Public ReadOnly Property Tokens As IReadOnlyDictionary(Of String, Tokens) =
-            New Dictionary(Of String, Tokens) From {
- _
-            {Script.Tokens.Alias.Description, Script.Tokens.Alias},
-            {Script.Tokens.Comment.Description, Script.Tokens.Comment},
-            {Script.Tokens.Constant.Description, Script.Tokens.Constant},
-            {Script.Tokens.InitValue.Description, Script.Tokens.InitValue},
-            {Script.Tokens.Reaction.Description, Script.Tokens.Reaction},
-            {Script.Tokens.Time.Description, Script.Tokens.Time},
-            {Script.Tokens.Title.Description, Script.Tokens.Title}
-        }
+        ReadOnly tokens As New Dictionary(Of String, ScriptTokens)
+
+        Sub New()
+            For Each token As ScriptTokens In Enums(Of ScriptTokens)()
+                tokens.Add(token.Description, token)
+            Next
+        End Sub
 
         Public Function TryParse(script As IEnumerable(Of String)) As ScriptToken()
-            Dim LQuery As ScriptToken() =
-                LinqAPI.Exec(Of ScriptToken) <=
+            Dim LQuery As ScriptToken() = LinqAPI.Exec(Of ScriptToken) _
  _
-                    From line As String
-                    In script
-                    Let token As ScriptToken = line.Trim.tokenParser()  ' 类型的前缀已经被切割掉了
-                    Where Not token Is Nothing
-                    Select token
+                () <= From line As String
+                      In script
+                      Let token As ScriptToken = line.Trim.tokenParser()
+                      Where Not token Is Nothing
+                      Select token
 
             Return LQuery
         End Function
@@ -78,20 +73,26 @@ Namespace Script
         ''' <summary>
         ''' 会忽略掉注释信息
         ''' </summary>
-        ''' <param name="line"></param>
+        ''' <param name="line">类型的前缀应该是已经被切割掉了</param>
         ''' <returns></returns>
-        <Extension> Private Function tokenParser(line As String) As ScriptToken
+        <Extension>
+        Private Function tokenParser(line As String) As ScriptToken
             Dim x As String = line.Split.First.ToUpper
+            Dim type As ScriptTokens
+            Dim text As String
 
-            If Not Tokens.ContainsKey(x) Then
+            If Not tokens.ContainsKey(x) Then
                 Return Nothing
+            Else
+                type = tokens(x)
             End If
 
-            Dim type As Tokens = Tokens(x)
-            If type = Script.Tokens.Comment Then
+            If type = Script.ScriptTokens.Comment Then
                 Return Nothing
+            Else
+                text = Mid(line, x.Length + 1).Trim
             End If
-            Dim text As String = Mid(line, x.Length + 1).Trim
+
             Return New ScriptToken(type, text)
         End Function
     End Module

@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::0fcdcdeb63c4681d4383f49221e30ee0, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ScriptCompiler
-    ' 
-    '         Properties: AutoFixError
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CheckConsist, (+2 Overloads) Compile, Link, PreCompile
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ScriptCompiler
+' 
+'         Properties: AutoFixError
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CheckConsist, (+2 Overloads) Compile, Link, PreCompile
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace Script
 
@@ -88,7 +88,7 @@ Namespace Script
  _
                     From var As var
                     In Metabolites
-                    Where String.Equals(var.UniqueId, r.x)
+                    Where String.Equals(var.Id, r.x)
                     Select var
 
                 If LQuery.Length = 0 Then '没有找到
@@ -121,7 +121,7 @@ Namespace Script
 
                 For Each Var As SEquation In checked.Value
                     CompiledModel += New var With {
-                        .UniqueId = Var.x,
+                        .Id = Var.x,
                         .Value = 0
                     }
 
@@ -152,14 +152,6 @@ Namespace Script
             }
                 Return Script.Compile
             End Using
-        End Function
-
-        Protected Overrides Function Link() As Integer
-            Return -1
-        End Function
-
-        Public Overrides Function PreCompile(args As CommandLine) As Integer
-            Return -1
         End Function
     End Class
 End Namespace
