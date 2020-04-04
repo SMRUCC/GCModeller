@@ -1,13 +1,61 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+﻿#Region "Microsoft.VisualBasic::806e5955367bbbeb5ff52f83bf364c9a, vcellkit\Modeller\Modeller.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+' Module Modeller
+' 
+'     Function: applyKinetics, LoadVirtualCell
+' 
+'     Sub: createKineticsDbCache
+' 
+' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
+Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.Rsharp.Runtime
 
 <Package("vcellkit.modeller")>
 Module Modeller
+
+    ' ((kcat * E) * S) / (Km + S)
 
     ''' <summary>
     ''' apply the kinetics parameters from the sabio-rk database.
@@ -25,17 +73,37 @@ Module Modeller
                               Return ECNumber.ToArray
                           End Function)
         Dim numbers As BriteHText()
+        Dim reactions As IEnumerable(Of SBMLReaction)
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
+            Dim kineticList As New List(Of SBMLInternalIndexer)
+            Dim kinetics As XmlFile(Of SBMLReaction)
+
             If keggEnzymes.ContainsKey(enzyme.KO) Then
                 numbers = keggEnzymes(enzyme.KO)
 
                 For Each number As String In numbers.Select(Function(num) num.parent.classLabel.Split.First)
-                    Dim kinetics = WebRequest.QueryByECNumber(number, cache)
+                    kinetics = WebRequest.QueryByECNumber(number, cache)
+
+                    If kinetics Is Nothing Then
+                        Continue For
+                    End If
+
+                    kineticList += New SBMLInternalIndexer(kinetics)
                 Next
             Else
                 env.AddMessage($"missing ECNumber mapping for '{enzyme.KO}'.", MSG_TYPES.WRN)
             End If
+
+            For Each react As Catalysis In enzyme.catalysis
+                For Each index In kineticList
+                    reactions = index.getKEGGreactions(react.reaction)
+
+                    If Not reactions Is Nothing Then
+
+                    End If
+                Next
+            Next
         Next
 
         Return vcell
@@ -56,3 +124,4 @@ Module Modeller
         Return path.LoadXml(Of VirtualCell)
     End Function
 End Module
+

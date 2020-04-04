@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bffbb7e55ad598afdc463e6c462de76b, Dynamics\Engine\Loader\Loader.vb"
+﻿#Region "Microsoft.VisualBasic::d80eb6f2bbc43aea380f417966a1737b, Dynamics\Engine\Loader\Loader.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class Loader
     ' 
-    '         Properties: isLoadded, massTable
+    '         Properties: isLoadded, massLoader, massTable
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateEnvironment, GetCentralDogmaFluxLoader, GetMetabolismNetworkLoader, GetProteinMatureFluxLoader, GetProteinMatureId
-    '                   GetTranscriptionId, GetTranslationId
+    '         Function: create, CreateEnvironment, GetCentralDogmaFluxLoader, GetMetabolismNetworkLoader, GetProteinMatureFluxLoader
+    '                   GetProteinMatureId, GetTranscriptionId, GetTranslationId
     ' 
     ' 
     ' /********************************************************************************/

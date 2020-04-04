@@ -44,9 +44,9 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
-Imports MathExpression = Microsoft.VisualBasic.Math.Scripting.Expression
 
 Namespace Kernel.ObjectModels
 
@@ -87,12 +87,12 @@ Namespace Kernel.ObjectModels
         ''' <param name="strData"></param>
         ''' <param name="val"></param>
         ''' <returns></returns>
-        Public Shared Function TryParse(strData As String, val As MathExpression) As var
+        Public Shared Function TryParse(strData As String, val As ExpressionEngine) As var
             Dim tokens = strData.GetTagValue("=", trim:=True)
 
             Return New var With {
                 .UniqueId = tokens.Name,
-                .Value = val.Evaluation(tokens.Value)
+                .Value = val.Evaluate(tokens.Value)
             }
         End Function
 

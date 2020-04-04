@@ -133,6 +133,12 @@ Namespace netCDF.Components
             End Get
         End Property
 
+        Public Shared ReadOnly Property [Boolean] As Dimension
+            Get
+                Return New Dimension With {.name = GetType(Boolean).FullName, .size = 1}
+            End Get
+        End Property
+
         Public Shared ReadOnly Property Text(fixedChars As Integer) As Dimension
             Get
                 Return New Dimension With {.name = GetType(String).FullName, .size = fixedChars}
@@ -305,6 +311,10 @@ Namespace netCDF.Components
         ''' <returns></returns>
         <XmlAttribute> Public Property record As Boolean
 
+        ''' <summary>
+        ''' 惰性求值的属性
+        ''' </summary>
+        ''' <returns></returns>
         Public Property value As CDFData
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

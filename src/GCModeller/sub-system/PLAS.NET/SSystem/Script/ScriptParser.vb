@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::bd5e8e5358a2a0501cf2d81689d490f2, sub-system\PLAS.NET\SSystem\Script\ScriptParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ScriptParser
-    ' 
-    '         Function: (+2 Overloads) ConstantParser, ExperimentParser, ParseFile, ParseScript, ParseStream
-    '                   sEquationParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ScriptParser
+' 
+'         Function: (+2 Overloads) ConstantParser, ExperimentParser, ParseFile, ParseScript, ParseStream
+'                   sEquationParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,7 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
@@ -59,8 +59,8 @@ Namespace Script
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function sEquationParser(x As Token(Of Tokens)) As SEquation
-            Dim value = x.Value.GetTagValue("=")
+        Public Function sEquationParser(x As ScriptToken) As SEquation
+            Dim value = x.text.GetTagValue("=")
             Return New SEquation With {
                 .x = value.Name,
                 .Expression = value.Value
@@ -109,18 +109,20 @@ Namespace Script
         ''' 
         <Extension>
         Public Function ParseScript(scriptText As String) As Model
-            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(scriptText.LineTokens)
-            Dim typeTokens = (From x As Token(Of Tokens)
+            Dim tokens As ScriptToken() = TokenIcer.TryParse(scriptText.LineTokens)
+            Dim typeTokens = (From x As ScriptToken
                               In tokens
                               Select x
-                              Group x By x.Type Into Group) _
-                                   .ToDictionary(Function(x) x.Type,
-                                                 Function(x) x.Group.ToArray)
+                              Group x By x.name Into Group) _
+                                   .ToDictionary(Function(x) x.name,
+                                                 Function(x)
+                                                     Return x.Group.ToArray
+                                                 End Function)
 
             Dim equations = typeTokens(Script.Tokens.Reaction).Select(AddressOf sEquationParser)
             Dim Disturbs As Experiment()
             Dim FinalTime As Integer
-            Dim val As New Expression
+            Dim val As New ExpressionEngine
 
             Dim c =
                 If(typeTokens.ContainsKey(Script.Tokens.Constant),
@@ -128,7 +130,7 @@ Namespace Script
                 {})
 
             For Each x As NamedValue(Of String) In c
-                Call val.Constant.Add(x.Name, expr:=x.Value)
+                Call val.SetSymbol(x.Name, x.Value)
             Next
 
             Dim inits = typeTokens(Script.Tokens.InitValue).Select(Function(x) var.TryParse(x.Text, val))
@@ -142,7 +144,7 @@ Namespace Script
             If Not typeTokens.ContainsKey(Script.Tokens.Time) Then
                 FinalTime = 100
             Else
-                FinalTime = val.Evaluation(typeTokens(Script.Tokens.Time).First.Text)
+                FinalTime = val.Evaluate(typeTokens(Script.Tokens.Time).First.Text)
             End If
 
             Dim Title As String
@@ -222,8 +224,8 @@ Namespace Script
         ''' <returns></returns>
         Public Function ConstantParser(expr As Value(Of String)) As NamedValue(Of String)
             Dim name As String = (expr = (+expr).Trim).Split.First
-            expr.value = Mid(expr.value, name.Length + 1).Trim
-            expr = expr.value _
+            expr.Value = Mid(expr.Value, name.Length + 1).Trim
+            expr = expr.Value _
                 .GetTagValue("#", failureNoName:=False).Name _
                 .GetTagValue("'", failureNoName:=False).Name _
                 .GetTagValue("//", failureNoName:=False).Name
@@ -238,8 +240,8 @@ Namespace Script
         ''' </summary>
         ''' <param name="expr"></param>
         ''' <returns></returns>
-        Public Function ConstantParser(expr As Token(Of Script.Tokens)) As NamedValue(Of String)
-            Return ConstantParser(expr.Text)
+        Public Function ConstantParser(expr As ScriptToken) As NamedValue(Of String)
+            Return ConstantParser(expr.text)
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::211c04ca715faa2076850608f79201fb, IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::268b6fb580eef7e2d36c7e7952ae8ff0, IO\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Compiler.vb"
 
     ' Author:
     ' 

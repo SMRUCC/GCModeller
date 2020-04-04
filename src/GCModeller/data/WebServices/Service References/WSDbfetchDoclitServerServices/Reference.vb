@@ -1,170 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7cf953676a5e2d039f34eba5cc0bff0d, data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-    '     Class DbfParamsException
-    ' 
-    ' 
-    ' 
-    '     Class DbfException
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class StyleInfo
-    ' 
-    '         Properties: mimeType, name
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class FormatInfo
-    ' 
-    '         Properties: aliases, dataTerms, name, styleInfoList, syntaxTerms
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class ExampleIdentifiersInfo
-    ' 
-    '         Properties: accessionList, entryVersionList, idList, nameList, sequenceVersionList
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class DataResourceInfo
-    ' 
-    '         Properties: href, name
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class DatabaseInfo
-    ' 
-    '         Properties: aliasList, databaseTerms, dataResourceInfoList, defaultFormat, description
-    '                     displayName, exampleIdentifiers, formatInfoList, href, name
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Class DbfNoEntryFoundException
-    ' 
-    ' 
-    ' 
-    '     Class DbfConnException
-    ' 
-    ' 
-    ' 
-    '     Class InputException
-    ' 
-    '         Sub: RaisePropertyChanged
-    ' 
-    '     Interface WSDBFetchServer
-    ' 
-    '         Function: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDatabaseInfo
-    '                   getDatabaseInfoAsync, getDatabaseInfoList, getDatabaseInfoListAsync, getDbFormats, getDbFormatsAsync
-    '                   getFormatInfo, getFormatInfoAsync, getFormatStyles, getFormatStylesAsync, getStyleInfo
-    '                   getStyleInfoAsync, getSupportedDBs, getSupportedDBsAsync, getSupportedFormats, getSupportedFormatsAsync
-    '                   getSupportedStyles, getSupportedStylesAsync
-    ' 
-    '     Class getSupportedDBsRequest
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class getSupportedDBsResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getSupportedFormatsRequest
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class getSupportedFormatsResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getSupportedStylesRequest
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class getSupportedStylesResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getDatabaseInfoListRequest
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class getDatabaseInfoListResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getDbFormatsRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getDbFormatsResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getFormatStylesRequest
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Class getFormatStylesResponse
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Interface WSDBFetchServerChannel
-    ' 
-    ' 
-    ' 
-    '     Class WSDBFetchServerClient
-    ' 
-    '         Constructor: (+5 Overloads) Sub New
-    '         Function: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDatabaseInfo
-    '                   getDatabaseInfoAsync, getDatabaseInfoList, getDatabaseInfoListAsync, getDbFormats, getDbFormatsAsync
-    '                   getFormatInfo, getFormatInfoAsync, getFormatStyles, getFormatStylesAsync, getStyleInfo
-    '                   getStyleInfoAsync, getSupportedDBs, getSupportedDBsAsync, getSupportedFormats, getSupportedFormatsAsync
-    '                   getSupportedStyles, getSupportedStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoList, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoListAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormats
-    '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBs, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBsAsync
-    '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormats, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStylesAsync
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-'------------------------------------------------------------------------------
+﻿'------------------------------------------------------------------------------
 ' <auto-generated>
-'     此代码由工具生成。
-'     运行时版本:4.0.30319.42000
+'     This code was generated by a tool.
+'     Runtime Version:4.0.30319.42000
 '
-'     对此文件的更改可能会导致不正确的行为，并且如果
-'     重新生成代码，这些更改将会丢失。
+'     Changes to this file may cause incorrect behavior and will be lost if
+'     the code is regenerated.
 ' </auto-generated>
 '------------------------------------------------------------------------------
 
@@ -175,7 +15,7 @@ Option Explicit On
 Namespace WSDbfetchDoclitServerServices
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -188,7 +28,7 @@ Namespace WSDbfetchDoclitServerServices
     <System.Xml.Serialization.XmlIncludeAttribute(GetType(DbfNoEntryFoundException)),  _
      System.Xml.Serialization.XmlIncludeAttribute(GetType(DbfConnException)),  _
      System.Xml.Serialization.XmlIncludeAttribute(GetType(DbfParamsException)),  _
-     System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+     System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -208,7 +48,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -256,7 +96,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -350,7 +190,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -445,7 +285,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -493,7 +333,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -657,7 +497,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -667,7 +507,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -677,7 +517,7 @@ Namespace WSDbfetchDoclitServerServices
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -700,7 +540,7 @@ Namespace WSDbfetchDoclitServerServices
      System.ServiceModel.ServiceContractAttribute([Namespace]:="http://www.ebi.ac.uk/ws/services/WSDbfetchDoclit", ConfigurationName:="WSDbfetchDoclitServerServices.WSDBFetchServer")>  _
     Public Interface WSDBFetchServer
         
-        'CODEGEN: 参数“getSupportedDBsReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getSupportedDBsReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
@@ -709,7 +549,7 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
         Function getSupportedDBsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedDBsResponse)
         
-        'CODEGEN: 参数“getSupportedFormatsReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getSupportedFormatsReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
@@ -718,7 +558,7 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
         Function getSupportedFormatsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedFormatsResponse)
         
-        'CODEGEN: 参数“getSupportedStylesReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getSupportedStylesReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
@@ -727,7 +567,7 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
         Function getSupportedStylesAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedStylesResponse)
         
-        'CODEGEN: 参数“getDatabaseInfoListReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getDatabaseInfoListReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
@@ -745,7 +585,7 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
         Function getDatabaseInfoAsync(ByVal db As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.DatabaseInfo)
         
-        'CODEGEN: 参数“getDbFormatsReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getDbFormatsReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
@@ -764,7 +604,7 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
         Function getFormatInfoAsync(ByVal db As String, ByVal format As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.FormatInfo)
         
-        'CODEGEN: 参数“getFormatStylesReturn”需要其他方案信息，使用参数模式无法捕获这些信息。特定特性为“System.Xml.Serialization.XmlElementAttribute”。
+        'CODEGEN: Parameter 'getFormatStylesReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _

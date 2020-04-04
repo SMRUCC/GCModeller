@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a7f37bb5e22a474cb986a93b7f5f7ba, Dynamics\Engine\OmicsDataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::3c7710d3d83678ab47dc20f0335a3285, Dynamics\Engine\OmicsDataAdapter.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class OmicsDataAdapter
     ' 
-    '         Properties: mass
+    '         Properties: flux, mass
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 

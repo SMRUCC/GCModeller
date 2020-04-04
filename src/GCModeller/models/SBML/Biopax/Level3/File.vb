@@ -1,47 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::f5a276cacb43a7b993c94df5b79cfba0, models\SBML\Biopax\Level3\File.vb"
+﻿#Region "Microsoft.VisualBasic::5ee146f04bc148ac76de24bfcdf8ef60, SBML\Biopax\Level3\File.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class File
-' 
-'         Properties: BiochemicalReaction, BioSource, Catalysis, CellularLocationVocabulary, Complex
-'                     FragmentFeature, Owl, PhysicalEntity, Protein, ProteinReference
-'                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
-'                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
-' 
-'         Function: LoadDoc
-' 
-' 
-' /********************************************************************************/
+    '     Class DescriptionData
+    ' 
+    ' 
+    ' 
+    '     Class File
+    ' 
+    '         Properties: BiochemicalReaction, BioSource, Catalysis, CellularLocationVocabulary, Complex
+    '                     FragmentFeature, Owl, PhysicalEntity, Protein, ProteinReference
+    '                     Provenance, PublicationXref, RelationshipTypeVocabulary, RelationshipXref, SequenceInterval
+    '                     SequenceSite, SmallMoleculeReference, SmallMolecules, Stoichiometry, UnificationXref
+    ' 
+    '         Function: LoadDoc
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

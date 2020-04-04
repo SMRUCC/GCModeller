@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::dbc093421cff3f48a16f4878af6cc882, CLI_tools\eggHTS\CLI\2. DEP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: DEPs_heatmapKmeans, DEPsCloudPlot, DEPStatics, DEPsUnion, DEPUniprotIDlist
-    '               DEPUniprotIDs2, edgeRDesigner, iTraqInvert, logFCHistogram, logFCVolcano
-    '               MergeDEPs, PairedSampleDesigner, TakeDEPsValues, TtestDesigner, TtestDesignerLFQ
-    '               Union, unionDATA, VennData
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: DEPs_heatmapKmeans, DEPsCloudPlot, DEPStatics, DEPsUnion, DEPUniprotIDlist
+'               DEPUniprotIDs2, edgeRDesigner, iTraqInvert, logFCHistogram, logFCVolcano
+'               MergeDEPs, PairedSampleDesigner, TakeDEPsValues, TtestDesigner, TtestDesignerLFQ
+'               Union, unionDATA, VennData
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
@@ -94,7 +95,7 @@ Partial Module CLI
                 (args <= "/tuple").LoadCsv(Of SampleTuple))
 
             With group
-                Call .Value.SaveTo($"{out}/{ .Name.NormalizePathString}.csv")
+                Call .value.SaveTo($"{out}/{ .name.NormalizePathString}.csv")
             End With
         Next
 
@@ -811,7 +812,7 @@ Partial Module CLI
         End If
 
         ' 在下面生成文氏图的数据
-        Dim cut# = (New Expression).Evaluation(threshold)
+        Dim cut# = (New ExpressionEngine).Evaluate(threshold)
 
         For Each row In output.Skip(1)
             For i As Integer = 1 To row.Width - 1

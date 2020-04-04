@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190935173a49288a01f0d1121ad84530, models\Networks\Network.Regulons\RegulatesGraph\TFNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::190935173a49288a01f0d1121ad84530, Networks\Network.Regulons\RegulatesGraph\TFNetwork.vb"
 
     ' Author:
     ' 
