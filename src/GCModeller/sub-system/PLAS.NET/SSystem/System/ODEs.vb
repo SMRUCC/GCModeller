@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 
 Namespace Kernel
 
@@ -65,23 +66,27 @@ Namespace Kernel
                     .Name = x.UniqueId,
                     .Value = x.Value
                 }
-            Dim engine As New Expression
+            Dim engine As New ExpressionEngine
             Dim dynamics = (From x As Script.SEquation
                             In model.sEquations
                             Select y = New ObjectModels.Equation(x, engine)
                             Group y By y.Identifier Into Group) _
                                  .ToDictionary(Function(x) x.Identifier,
-                                               Function(x) x.Group.ToArray)
+                                               Function(x)
+                                                   Return x.Group.ToArray
+                                               End Function)
             Dim tick As Long
             Dim experimentTrigger As New Kicks(vars.Select(Function(x) DirectCast(x, Ivar)).ToDictionary, model, Function() tick)
 
             Return New GenericODEs(vars) With {
                 .df = Sub(dx, ByRef dy)
-                          For Each var As var In vars ' 首先将所有的变量值更新到计算引擎之中
-                              Call engine.Variables.Set(var.Name, var.Value)
+                          For Each var As var In vars
+                              ' 首先将所有的变量值更新到计算引擎之中
+                              Call engine.SetSymbol(var.Name, var.Value)
                           Next
 
-                          For Each var As var In vars  ' 然后分别计算常微分方程
+                          For Each var As var In vars
+                              ' 然后分别计算常微分方程
                               For Each eq In dynamics(var.Name)
                                   dy(index:=var) = eq.Evaluate
                               Next
