@@ -48,6 +48,15 @@ Namespace Scripting.MathExpression
             {"int", Function(args) CType(args(Scan0), Integer)}
         }
 
+        Default Public Property Symbol(name As String) As Double
+            Get
+                Return symbols(name)
+            End Get
+            Set(value As Double)
+                symbols(name) = value
+            End Set
+        End Property
+
         ''' <summary>
         ''' 
         ''' </summary>
