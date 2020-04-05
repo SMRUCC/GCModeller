@@ -57,7 +57,9 @@ plot(lines,
 	x.lab        = "#time", 
 	y.lab        = "intensity",
 	legendBgFill = "white",
-	title        = "Atkinson system"
+	title        = "Atkinson system",
+	y.format     = "G2",
+	interplot    = "B_Spline"
 )
 :> save.graphics(file = "./atkinson.png")
 ;
