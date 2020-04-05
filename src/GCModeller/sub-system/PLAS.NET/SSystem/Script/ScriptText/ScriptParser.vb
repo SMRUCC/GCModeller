@@ -1,43 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::bd5e8e5358a2a0501cf2d81689d490f2, sub-system\PLAS.NET\SSystem\Script\ScriptParser.vb"
+﻿#Region "Microsoft.VisualBasic::061626b13533a231ca1db558ba99e059, PLAS.NET\SSystem\Script\ScriptText\ScriptParser.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ScriptParser
-' 
-'         Function: (+2 Overloads) ConstantParser, ExperimentParser, ParseFile, ParseScript, ParseStream
-'                   sEquationParser
-' 
-' 
-' /********************************************************************************/
+    '     Module ScriptParser
+    ' 
+    '         Function: getCommentText, getScriptTokenGroups, getTimeFinalConfig, getTitleOrDefault, getUserFunctionOrDefault
+    '                   ParseFile, ParseScript, ParseStream, setConstants
+    ' 
+    '         Sub: setAliasNames, setObjectComments
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

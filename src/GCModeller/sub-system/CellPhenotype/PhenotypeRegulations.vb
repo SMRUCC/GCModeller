@@ -1,4 +1,42 @@
-﻿'#Region "Microsoft.VisualBasic::7ea2b71b75664e07796e8c7b44eec8cf, sub-system\CellPhenotype\PhenotypeRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::5d020e416b488f67b9b4834cbe2c2052, CellPhenotype\PhenotypeRegulations.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+'#Region "Microsoft.VisualBasic::7ea2b71b75664e07796e8c7b44eec8cf, sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
 '' Author:
 '' 
@@ -977,3 +1015,4 @@
 '    '    Return New Microsoft.VisualBasic.Datavisualization.Network.FileStream.Network With {.Nodes = ReactionNodes, .Edges = ReactionInteractions}
 '    'End Function
 'End Module
+
