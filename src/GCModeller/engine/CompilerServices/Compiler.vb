@@ -197,7 +197,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 
     Public Function WriteLog() As Boolean
         If Not m_logging Is Nothing Then
-            Return m_logging.Save()
+            Call m_logging.Dispose()
         End If
 
         Return True
