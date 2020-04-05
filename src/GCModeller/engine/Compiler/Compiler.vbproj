@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arguments.vb" />
-    <Compile Include="Compiler.vb" />
+    <Compile Include="Workflow.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="KEGG\CompoundNameIDMappings.vb" />
     <Compile Include="KEGG\PathwayCompiler.vb" />

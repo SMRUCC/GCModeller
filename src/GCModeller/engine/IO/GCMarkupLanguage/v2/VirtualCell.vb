@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace v2
 
     ''' <summary>
-    ''' 虚拟细胞数据模型
+    ''' 虚拟细胞数据模型Xml文件
     ''' </summary>
     <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class VirtualCell : Inherits ModelBaseType
