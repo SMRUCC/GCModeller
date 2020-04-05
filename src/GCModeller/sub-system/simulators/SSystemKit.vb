@@ -93,7 +93,7 @@ Module SSystemKit
     End Function
 
     <ExportAPI("run")>
-    Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.01) As Kernel
+    Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.1) As Kernel
         kernel.finalTime = ticks
         kernel.precision = resolution
 
