@@ -13,18 +13,17 @@ Namespace MarkupCompiler
 
     Public Class v2MarkupCompiler : Inherits Compiler(Of VirtualCell)
 
-        ReadOnly model As CellularModule
         ReadOnly genomes As Dictionary(Of String, GBFF.File)
         ReadOnly KEGG As RepositoryArguments
         ReadOnly regulations As RegulationFootprint()
 
-
+        Friend ReadOnly model As CellularModule
         Friend ReadOnly locationAsLocus_tag As Boolean
 
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="model"></param>
+        ''' <param name="model">中间模型数据</param>
         ''' <param name="genomes"></param>
         ''' <param name="KEGG"></param>
         ''' <param name="regulations">

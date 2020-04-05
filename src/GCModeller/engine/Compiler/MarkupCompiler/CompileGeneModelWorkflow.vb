@@ -10,7 +10,6 @@ Namespace MarkupCompiler
 
     Friend Class CompileGeneModelWorkflow : Inherits CompilerWorkflow
 
-        ReadOnly compiler As v2MarkupCompiler
         ReadOnly genome As GBFF.File
 
         Public ReadOnly Property locationAsLocus_tag As Boolean
