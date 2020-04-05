@@ -61,14 +61,19 @@ Namespace MarkupCompiler
         ''' <returns></returns>
         Friend Iterator Function populateReplicons(genomes As Dictionary(Of String, GBFF.File)) As IEnumerable(Of replicon)
             Dim genePopulator As New CompileGeneModelWorkflow(compiler)
+            Dim replicon As replicon
 
             For Each genome In genomes
-                Yield New replicon With {
+                replicon = New replicon With {
                     .genomeName = genome.Value.Locus.AccessionID,
                     .genes = genePopulator.getGenes(genome.Value).ToArray,
                     .RNAs = getRNAs(.genomeName).ToArray,
                     .isPlasmid = genome.Value.isPlasmid
                 }
+
+                Call compiler.CompileLogging.WriteLine("create replicon model: " & replicon.ToString)
+
+                Yield replicon
             Next
         End Function
 

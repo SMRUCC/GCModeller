@@ -115,6 +115,8 @@ Namespace MarkupCompiler
                         End Function) _
                 .ToArray
 
+            Call compiler.CompileLogging.WriteLine("create gene object models")
+
             ' RNA基因是没有蛋白序列的
             For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
                 locus_tag = gene.Synonym

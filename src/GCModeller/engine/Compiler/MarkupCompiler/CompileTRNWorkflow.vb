@@ -83,7 +83,7 @@ Namespace MarkupCompiler
                            Return mapperIndex(name)
                        Else
                            If Not name = "" Then
-                               Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!")
+                               Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!", NameOf(getIdMapper))
                            End If
 
                            Return Nothing
@@ -94,6 +94,8 @@ Namespace MarkupCompiler
         Friend Iterator Function getTFregulations() As IEnumerable(Of transcription)
             Dim centralDogmas = compiler.model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
             Dim getId As Func(Of String, String) = getIdMapper()
+
+            Call compiler.CompileLogging.WriteLine("create transcripting regulation network")
 
             For Each reg As RegulationFootprint In compiler.regulations
                 Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)

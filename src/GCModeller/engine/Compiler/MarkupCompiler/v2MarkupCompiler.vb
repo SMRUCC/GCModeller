@@ -138,6 +138,9 @@ Namespace MarkupCompiler
                     .getTFregulations() _
                     .ToArray
             }
+
+            Call CompileLogging.WriteLine("create metabolism network")
+
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
                 .reactions = model _
                     .Phenotype _
