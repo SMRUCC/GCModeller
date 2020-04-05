@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Text
+﻿Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -12,15 +13,29 @@ Namespace MarkupCompiler
             MyBase.New(compiler)
         End Sub
 
+        Private Shared Function processingName(ByRef name As String) As String
+            name = LCase(name).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF, "-"c, ";"c)
+            Return name
+        End Function
+
         Private Function getIdMapper() As Func(Of String, String)
             Dim allCompounds = compiler.KEGG.GetCompounds.Compounds
             ' lower name -> cid mapping
             Dim mapperIndex As New Dictionary(Of String, String)
 
-            Return Function(name)
-                       name = LCase(name).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF, "-"c, ";"c)
+            For Each keggCompound In allCompounds _
+                .Select(Function(c) c.Entity) _
+                .OrderBy(Function(c)
+                             Return c.entry.Match("\d+").DoCall(AddressOf Integer.Parse)
+                         End Function)
 
-                       If mapperIndex.ContainsKey(name) Then
+                For Each name As String In keggCompound.commonNames
+                    mapperIndex(processingName(name)) = keggCompound.entry
+                Next
+            Next
+
+            Return Function(name)
+                       If mapperIndex.ContainsKey(processingName(name)) Then
                            Return mapperIndex(name)
                        Else
                            Return Nothing
