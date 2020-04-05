@@ -42,6 +42,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -66,6 +67,7 @@ Namespace MarkupCompiler
             Dim allCompounds = compiler.KEGG.GetCompounds.Compounds
             ' lower name -> cid mapping
             Dim mapperIndex As New Dictionary(Of String, String)
+            Dim invalidNames As New Index(Of String)
 
             For Each keggCompound In allCompounds _
                 .Select(Function(c) c.Entity) _
@@ -79,11 +81,16 @@ Namespace MarkupCompiler
             Next
 
             Return Function(name)
+                       Dim rawName As String = name
+
                        If mapperIndex.ContainsKey(processingName(name)) Then
                            Return mapperIndex(name)
                        Else
                            If Not name = "" Then
-                               Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!", NameOf(getIdMapper))
+                               If Not rawName Like invalidNames Then
+                                   Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!", NameOf(getIdMapper))
+                                   Call invalidNames.Add(rawName)
+                               End If
                            End If
 
                            Return Nothing
