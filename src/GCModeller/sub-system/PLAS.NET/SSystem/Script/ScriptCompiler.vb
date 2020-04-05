@@ -113,7 +113,7 @@ Namespace Script
         ''' </summary>
         ''' <param name="args"></param>
         ''' <returns></returns>
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Model
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Dim checked = CheckConsist(m_compiledModel.Vars, m_compiledModel.sEquations)
 
             If Not String.IsNullOrEmpty(checked.Name) Then  ' 检测的结果有错误
@@ -129,7 +129,9 @@ Namespace Script
                 Next
             End If
 
-            Return WriteProperty(args, m_compiledModel)
+            Call WriteProperty(args, m_compiledModel)
+
+            Return 0
         End Function
 
         ''' <summary>

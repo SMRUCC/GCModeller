@@ -65,16 +65,19 @@ Namespace Script
 
         Public Property AutoFixError As Boolean = False
 
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
-            Me.m_compiledModel = New Script.Model
+        Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            m_compiledModel = New Model
+            Return 0
+        End Function
 
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Call __strip()
             Call __generateSystem(m_compiledModel)
 
             m_compiledModel.Title = SBMLFile.Model.name
             m_compiledModel.FinalTime = 100
 
-            Return m_compiledModel
+            Return 0
         End Function
 
         ''' <summary>
