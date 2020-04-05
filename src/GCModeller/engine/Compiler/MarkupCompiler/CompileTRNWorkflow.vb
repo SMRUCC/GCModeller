@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Loci
+﻿Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
@@ -11,8 +12,25 @@ Namespace MarkupCompiler
             MyBase.New(compiler)
         End Sub
 
-        Friend Iterator Function getTFregulations(getId As Func(Of String, String)) As IEnumerable(Of transcription)
+        Private Function getIdMapper() As Func(Of String, String)
+            Dim allCompounds = compiler.KEGG.GetCompounds.Compounds
+            ' lower name -> cid mapping
+            Dim mapperIndex As New Dictionary(Of String, String)
+
+            Return Function(name)
+                       name = LCase(name).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF, "-"c, ";"c)
+
+                       If mapperIndex.ContainsKey(name) Then
+                           Return mapperIndex(name)
+                       Else
+                           Return Nothing
+                       End If
+                   End Function
+        End Function
+
+        Friend Iterator Function getTFregulations() As IEnumerable(Of transcription)
             Dim centralDogmas = compiler.model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
+            Dim getId As Func(Of String, String) = getIdMapper()
 
             For Each reg As RegulationFootprint In compiler.regulations
                 Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)

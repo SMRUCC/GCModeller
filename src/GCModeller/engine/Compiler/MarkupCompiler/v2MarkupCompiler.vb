@@ -14,8 +14,8 @@ Namespace MarkupCompiler
     Public Class v2MarkupCompiler : Inherits Compiler(Of VirtualCell)
 
         ReadOnly genomes As Dictionary(Of String, GBFF.File)
-        ReadOnly KEGG As RepositoryArguments
 
+        Friend ReadOnly KEGG As RepositoryArguments
         Friend ReadOnly regulations As RegulationFootprint()
         Friend ReadOnly model As CellularModule
         Friend ReadOnly locationAsLocus_tag As Boolean
@@ -80,7 +80,7 @@ Namespace MarkupCompiler
                     .populateReplicons(genomes) _
                     .ToArray,
                 .regulations = TRNCompiler _
-                    .getTFregulations(allCompounds.CreateMapping) _
+                    .getTFregulations() _
                     .ToArray
             }
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
