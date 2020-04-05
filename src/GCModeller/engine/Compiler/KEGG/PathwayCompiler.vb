@@ -84,49 +84,54 @@ Public Module PathwayCompiler
                        Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                    End Function) _
             .ToDictionary(Function(term) term.geneID)
-        Dim pathwayCategory = BriteHEntry.Pathway.LoadFromResource
-        Dim pathwayIndex = kegg.genome.ToDictionary(Function(map) map.briteID)
-        Dim maps As FunctionalCategory() = pathwayCategory _
-            .GroupBy(Function(pathway) pathway.class) _
-            .Select(Function(category)
-                        Dim pathways = category _
-                            .Where(Function(entry) pathwayIndex.ContainsKey(entry.EntryId)) _
-                            .Select(Function(entry)
-                                        Dim map = pathwayIndex(entry.EntryId)
-
-                                        Return New Pathway With {
-                                            .ID = map.EntryId,
-                                            .name = map.name,
-                                            .enzymes = map.genes _
-                                                .Select(Function(gene)
-                                                            Return New [Property] With {
-                                                                .name = gene.name.GetTagValue(":", trim:=True).Value,
-                                                                .comment = gene.name,
-                                                                .value = gene.text.Split.First
-                                                            }
-                                                        End Function) _
-                                                .ToArray
-                                        }
-                                    End Function) _
-                            .ToArray
-
-                        Return New FunctionalCategory With {
-                            .category = category.Key,
-                            .pathways = pathways
-                        }
-                    End Function) _
-            .ToArray
+        Dim maps As FunctionalCategory() = kegg.CreateMaps.ToArray
+        Dim compiler As New v2MarkupCompiler(cell, genomes, Nothing, {}, locationAsLocustag)
+        Dim genomeCompiler As New CompileGenomeWorkflow(compiler)
 
         Return New VirtualCell With {
             .taxonomy = cell.Taxonomy,
             .genome = New Genome With {
-                .replicons = cell _
-                    .populateReplicons(genomes, locationAsLocustag) _
+                .replicons = genomeCompiler _
+                    .populateReplicons(genomes) _
                     .ToArray
             },
             .metabolismStructure = New MetabolismStructure With {
                 .maps = maps
             }
         }
+    End Function
+
+    <Extension>
+    Private Iterator Function CreateMaps(kegg As OrganismModel) As IEnumerable(Of FunctionalCategory)
+        Dim pathwayCategory = BriteHEntry.Pathway.LoadFromResource
+        Dim pathwayIndex = kegg.genome.ToDictionary(Function(map) map.briteID)
+
+        For Each category As IGrouping(Of String, BriteHEntry.Pathway) In pathwayCategory.GroupBy(Function(pathway) pathway.class)
+            Dim pathways As Pathway() = category _
+                .Where(Function(entry) pathwayIndex.ContainsKey(entry.EntryId)) _
+                .Select(Function(entry)
+                            Dim map = pathwayIndex(entry.EntryId)
+
+                            Return New Pathway With {
+                                .ID = map.EntryId,
+                                .name = map.name,
+                                .enzymes = map.genes _
+                                    .Select(Function(gene)
+                                                Return New [Property] With {
+                                                    .name = gene.name.GetTagValue(":", trim:=True).Value,
+                                                    .comment = gene.name,
+                                                    .value = gene.text.Split.First
+                                                }
+                                            End Function) _
+                                    .ToArray
+                            }
+                        End Function) _
+                .ToArray
+
+            Yield New FunctionalCategory With {
+                .category = category.Key,
+                .pathways = pathways
+            }
+        Next
     End Function
 End Module

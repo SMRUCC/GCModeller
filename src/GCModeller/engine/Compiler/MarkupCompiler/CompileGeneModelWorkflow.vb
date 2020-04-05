@@ -10,21 +10,17 @@ Namespace MarkupCompiler
 
     Friend Class CompileGeneModelWorkflow : Inherits CompilerWorkflow
 
-        ReadOnly genome As GBFF.File
-
         Public ReadOnly Property locationAsLocus_tag As Boolean
             Get
                 Return compiler.locationAsLocus_tag
             End Get
         End Property
 
-        Sub New(genome As GBFF.File, compiler As v2MarkupCompiler)
+        Sub New(compiler As v2MarkupCompiler)
             Call MyBase.New(compiler)
-
-            Me.genome = genome
         End Sub
 
-        Private Function getProtVector() As Dictionary(Of String, ProteinComposition)
+        Private Function getProtVector(genome As GBFF.File) As Dictionary(Of String, ProteinComposition)
             Return genome.Features _
                 .Where(Function(feature)
                            Return feature.KeyName = "CDS"
@@ -45,8 +41,9 @@ Namespace MarkupCompiler
                               End Function)
         End Function
 
-        Public Iterator Function getGenes(model As CellularModule) As IEnumerable(Of gene)
-            Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = getProtVector()
+        Public Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
+            Dim model As CellularModule = compiler.model
+            Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = getProtVector(genome)
             Dim genes = genome.Features _
                 .Where(Function(feature)
                            Return feature.KeyName = "gene"

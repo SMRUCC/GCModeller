@@ -64,12 +64,13 @@ Namespace MarkupCompiler
                                   Return g.ToArray
                               End Function)
             Dim allCompounds As CompoundRepository = KEGG.GetCompounds
+            Dim genomeCompiler As New CompileGenomeWorkflow(Me)
 
             Return New VirtualCell With {
                 .taxonomy = model.Taxonomy,
                 .genome = New Genome With {
-                    .replicons = model _
-                        .populateReplicons(genomes, locationAsLocus_tag) _
+                    .replicons = genomeCompiler _
+                        .populateReplicons(genomes) _
                         .ToArray,
                      .regulations = model _
                         .getTFregulations(regulations, allCompounds.CreateMapping) _
