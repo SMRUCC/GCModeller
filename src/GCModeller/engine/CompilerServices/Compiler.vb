@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b9b53379b06990a4108a7515ff4307b, CompilerServices\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::248f150396b11da82829407a57d67429, CompilerServices\Compiler.vb"
 
 ' Author:
 ' 
@@ -35,7 +35,8 @@
 ' 
 '     Properties: [Return], CompileLogging, Version
 ' 
-'     Function: Link, PreCompile, ToString, WriteLog, WriteProperty
+'     Function: Compile, Link, PreCompile, ToString, WriteLog
+'               WriteProperty
 ' 
 '     Sub: (+2 Overloads) Dispose
 ' 
@@ -46,6 +47,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -76,6 +78,13 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
+    Protected Overridable Sub Initialize(args As CommandLine)
+        m_logging = (args("--log") Or $"{App.LocalDataTemp}/v2MarkupCompiler.{LogFile.NowTimeNormalizedString}.log") _
+            .DoCall(Function(logpath)
+                        Return New LogFile(logpath, autoFlush:=False, append:=False)
+                    End Function)
+    End Sub
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -92,15 +101,30 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
             args = New CommandLine
         End If
 
+        Call Initialize(args)
+        Call m_logging.WriteLine($"pre-compile target model {GetType(TModel).FullName}")
+
         If (errorCode = PreCompile(args)) <> 0 Then
+            Call m_logging.WriteLine("pre-compile with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine("run compiler process!")
+
         If (errorCode = CompileImpl(args)) <> 0 Then
+            Call m_logging.WriteLine("run model compiler with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine("link model components.")
+
         If (errorCode = Link()) <> 0 Then
+            Call m_logging.WriteLine("link model component with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine(m_compiledModel.ToString)
+        Call m_logging.WriteLine("model compile success!")
 
         Return m_compiledModel
     End Function
@@ -196,7 +220,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 
     Public Function WriteLog() As Boolean
         If Not m_logging Is Nothing Then
-            Return m_logging.Save()
+            Call m_logging.Dispose()
         End If
 
         Return True

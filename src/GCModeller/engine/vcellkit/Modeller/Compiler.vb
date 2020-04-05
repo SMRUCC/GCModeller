@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc5ad48536de017d2df2ffccc378d015, vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::7834dca599a25455792ee1a9e12e0085, vcellkit\Modeller\Compiler.vb"
 
 ' Author:
 ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -198,8 +199,11 @@ Module Compiler
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
                              regulations As RegulationFootprint(),
-                             Optional lociAsLocus_tag As Boolean = False) As VirtualCell
+                             Optional lociAsLocus_tag As Boolean = False,
+                             Optional logfile As String = Nothing) As VirtualCell
 
-        Return New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag).Compile
+        Using compiler As New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
+            Return compiler.Compile($"compile --log {logfile.CLIPath}")
+        End Using
     End Function
 End Module

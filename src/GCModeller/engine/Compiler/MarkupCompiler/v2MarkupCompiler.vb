@@ -1,4 +1,51 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿#Region "Microsoft.VisualBasic::2b7923799bd47d724218ff5b1aa0c806, Compiler\MarkupCompiler\v2MarkupCompiler.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Class v2MarkupCompiler
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CompileImpl, PreCompile
+' 
+' 
+' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -44,9 +91,16 @@ Namespace MarkupCompiler
         End Sub
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            Dim info As New StringBuilder
+
+            Using writer As New StringWriter(info)
+                Call CLITools.AppSummary(GetType(v2MarkupCompiler).Assembly.FromAssembly, "", "", writer)
+            End Using
+
             m_compiledModel = New VirtualCell With {
                 .taxonomy = model.Taxonomy
             }
+            m_logging.WriteLine(info.ToString)
 
             Return 0
         End Function
@@ -58,12 +112,16 @@ Namespace MarkupCompiler
                 .Where(Function(process)
                            Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                        End Function) _
-                .ToDictionary(Function(term) term.geneID)
+                .ToDictionary(Function(term)
+                                  Return term.geneID
+                              End Function)
+            Dim metabolism As New CompileMetabolismWorkflow(Me)
+
             Dim enzymes As Enzyme() = model.Regulations _
                 .Where(Function(process)
                            Return process.type = Processes.MetabolicProcess
                        End Function) _
-                .createEnzymes(KOgenes) _
+                .DoCall(Function(cat) metabolism.createEnzymes(cat, KOgenes)) _
                 .ToArray
             Dim KOfunc As Dictionary(Of String, CentralDogma()) = KOgenes.Values _
                 .GroupBy(Function(proc) proc.orthology) _
@@ -71,7 +129,6 @@ Namespace MarkupCompiler
                               Function(g)
                                   Return g.ToArray
                               End Function)
-            Dim allCompounds As CompoundRepository = KEGG.GetCompounds
             Dim genomeCompiler As New CompileGenomeWorkflow(Me)
             Dim TRNCompiler As New CompileTRNWorkflow(Me)
 
@@ -83,6 +140,9 @@ Namespace MarkupCompiler
                     .getTFregulations() _
                     .ToArray
             }
+
+            Call CompileLogging.WriteLine("create metabolism network")
+
             m_compiledModel.metabolismStructure = New MetabolismStructure With {
                 .reactions = model _
                     .Phenotype _
@@ -98,12 +158,12 @@ Namespace MarkupCompiler
                     .ToArray,
                 .enzymes = enzymes,
                 .compounds = .reactions _
-                                .AsEnumerable _
-                                .getCompounds(allCompounds) _
-                                .ToArray,
+                    .AsEnumerable _
+                    .DoCall(AddressOf metabolism.getCompounds) _
+                    .ToArray,
                 .maps = KEGG.GetPathways _
                     .PathwayMaps _
-                    .createMaps(KOfunc) _
+                    .DoCall(Function(maps) metabolism.createMaps(maps, KOfunc)) _
                     .ToArray
             }
 

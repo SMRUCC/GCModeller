@@ -176,7 +176,7 @@
     <Compile Include="KEGG\Arguments.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Workflow.vb" />
-    <Compile Include="MarkupCompiler\Extensions.vb" />
+    <Compile Include="MarkupCompiler\CompileMetabolismWorkflow.vb" />
     <Compile Include="KEGG\PathwayCompiler.vb" />
     <Compile Include="NetworkViz.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -204,6 +204,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Designer.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

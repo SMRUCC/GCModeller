@@ -1,4 +1,49 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿#Region "Microsoft.VisualBasic::1faee5dfd7c05ef4565b0ae4521440f9, Compiler\MarkupCompiler\CompileTRNWorkflow.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Class CompileTRNWorkflow
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: getIdMapper, getTFregulations, processingName
+' 
+' 
+' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Regprecise
@@ -22,6 +67,7 @@ Namespace MarkupCompiler
             Dim allCompounds = compiler.KEGG.GetCompounds.Compounds
             ' lower name -> cid mapping
             Dim mapperIndex As New Dictionary(Of String, String)
+            Dim invalidNames As New Index(Of String)
 
             For Each keggCompound In allCompounds _
                 .Select(Function(c) c.Entity) _
@@ -35,9 +81,18 @@ Namespace MarkupCompiler
             Next
 
             Return Function(name)
+                       Dim rawName As String = name
+
                        If mapperIndex.ContainsKey(processingName(name)) Then
                            Return mapperIndex(name)
                        Else
+                           If Not name = "" Then
+                               If Not rawName Like invalidNames Then
+                                   Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!", NameOf(getIdMapper))
+                                   Call invalidNames.Add(rawName)
+                               End If
+                           End If
+
                            Return Nothing
                        End If
                    End Function
@@ -47,11 +102,13 @@ Namespace MarkupCompiler
             Dim centralDogmas = compiler.model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
             Dim getId As Func(Of String, String) = getIdMapper()
 
+            Call compiler.CompileLogging.WriteLine("create transcripting regulation network")
+
             For Each reg As RegulationFootprint In compiler.regulations
                 Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
 
                 If process.geneID.StringEmpty Then
-                    Call $"{reg.regulated} process not found!".Warning
+                    Call compiler.CompileLogging.WriteLine($"{reg.ToString}: {reg.regulated} process not found!", type:=MSG_TYPES.WRN)
                 End If
 
                 If reg.motif Is Nothing Then
