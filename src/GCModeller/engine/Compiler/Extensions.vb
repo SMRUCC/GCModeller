@@ -98,82 +98,8 @@ Public Module Extensions
                     End Function)
     End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="model"></param>
-    ''' <param name="genomes"></param>
-    ''' <param name="KEGG"></param>
-    ''' <param name="regulations">所有的复制子的调控网络应该都是合并在一起通过这个参数传递进来了</param>
-    ''' <returns></returns>
     <Extension>
-    Public Function ToMarkup(model As CellularModule,
-                             genomes As Dictionary(Of String, GBFF.File),
-                             KEGG As RepositoryArguments,
-                             regulations As RegulationFootprint(),
-                             locationAsLocus_tag As Boolean) As VirtualCell
-
-        Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
-            .Genotype _
-            .centralDogmas _
-            .Where(Function(process)
-                       Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
-                   End Function) _
-            .ToDictionary(Function(term) term.geneID)
-        Dim enzymes As Enzyme() = model _
-            .Regulations _
-            .Where(Function(process)
-                       Return process.type = Processes.MetabolicProcess
-                   End Function) _
-            .createEnzymes(KOgenes) _
-            .ToArray
-        Dim KOfunc As Dictionary(Of String, CentralDogma()) = KOgenes _
-            .Values _
-            .GroupBy(Function(proc) proc.orthology) _
-            .ToDictionary(Function(KO) KO.Key,
-                          Function(g)
-                              Return g.ToArray
-                          End Function)
-        Dim allCompounds = KEGG.GetCompounds
-
-        Return New VirtualCell With {
-            .taxonomy = model.Taxonomy,
-            .genome = New Genome With {
-                .replicons = model _
-                    .populateReplicons(genomes, locationAsLocus_tag) _
-                    .ToArray,
-                 .regulations = model _
-                    .getTFregulations(regulations, allCompounds.CreateMapping) _
-                    .ToArray
-            },
-            .metabolismStructure = New MetabolismStructure With {
-                .reactions = model _
-                    .Phenotype _
-                    .fluxes _
-                    .Select(Function(r)
-                                Return New XmlReaction With {
-                                    .ID = r.ID,
-                                    .name = r.name,
-                                    .Equation = r.GetEquationString,
-                                    .is_enzymatic = r.is_enzymatic
-                                }
-                            End Function) _
-                    .ToArray,
-                .enzymes = enzymes,
-                .compounds = .reactions _
-                             .AsEnumerable _
-                             .getCompounds(allCompounds) _
-                             .ToArray,
-                .maps = KEGG.GetPathways _
-                    .PathwayMaps _
-                    .createMaps(KOfunc) _
-                    .ToArray
-            }
-        }
-    End Function
-
-    <Extension>
-    Private Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
+    Friend Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
         Dim mapgroups = pathwayMaps _
             .Where(Function(map) Not map.brite Is Nothing) _
             .GroupBy(Function(map) map.brite.class)
@@ -298,7 +224,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint(), getId As Func(Of String, String)) As IEnumerable(Of transcription)
+    Friend Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint(), getId As Func(Of String, String)) As IEnumerable(Of transcription)
         Dim centralDogmas = model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
 
         For Each reg As RegulationFootprint In regulations
@@ -334,7 +260,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction), compounds As CompoundRepository) As IEnumerable(Of Compound)
+    Friend Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction), compounds As CompoundRepository) As IEnumerable(Of Compound)
         Dim allCompoundId$() = reactions _
             .Select(Function(r)
                         Return Equation.TryParse(r.Equation) _
@@ -361,7 +287,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function createEnzymes(metabolicProcess As IEnumerable(Of Regulation), KOgenes As Dictionary(Of String, CentralDogma)) As IEnumerable(Of Enzyme)
+    Friend Iterator Function createEnzymes(metabolicProcess As IEnumerable(Of Regulation), KOgenes As Dictionary(Of String, CentralDogma)) As IEnumerable(Of Enzyme)
         For Each catalysis As IGrouping(Of String, Regulation) In metabolicProcess.GroupBy(Function(c) c.regulator)
             Yield New Enzyme With {
                 .geneID = catalysis.Key,

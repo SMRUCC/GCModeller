@@ -169,7 +169,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.vb" />
+    <Compile Include="v2MarkupCompiler.vb" />
+    <Compile Include="KEGG\Arguments.vb" />
     <Compile Include="Workflow.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="KEGG\CompoundNameIDMappings.vb" />
