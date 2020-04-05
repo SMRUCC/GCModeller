@@ -169,6 +169,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MarkupCompiler\CompilerWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileTRNWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileGenomeWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileGeneModelWorkflow.vb" />
     <Compile Include="MarkupCompiler\v2MarkupCompiler.vb" />
     <Compile Include="KEGG\Arguments.vb" />
     <Compile Include="Extensions.vb" />

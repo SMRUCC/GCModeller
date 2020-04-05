@@ -54,51 +54,12 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
 
 Namespace MarkupCompiler
 
     <HideModuleName>
     Module Extensions
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="model"></param>
-        ''' <param name="genomes">染色体基因组+质粒基因组</param>
-        ''' <returns></returns>
-        <Extension>
-        Friend Iterator Function populateReplicons(model As CellularModule, genomes As Dictionary(Of String, GBFF.File), locationAsLocustag As Boolean) As IEnumerable(Of replicon)
-            For Each genome In genomes
-                Yield New replicon With {
-                    .genomeName = genome.Value.Locus.AccessionID,
-                    .genes = genome.Value _
-                        .getGenes(model, locationAsLocustag) _
-                        .ToArray,
-                    .RNAs = model _
-                        .getRNAs(.genomeName) _
-                        .ToArray,
-                    .isPlasmid = genome.Value.isPlasmid
-                }
-            Next
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Private Function getRNAs(model As CellularModule, repliconName$) As IEnumerable(Of RNA)
-            Return model.Genotype _
-                .centralDogmas _
-                .Where(Function(proc)
-                           Return proc.RNA.Value <> RNATypes.mRNA AndAlso repliconName = proc.replicon
-                       End Function) _
-                .Select(Function(proc)
-                            Return New RNA With {
-                                .type = proc.RNA.Value,
-                                .val = proc.RNA.Description,
-                                .gene = proc.geneID
-                            }
-                        End Function)
-        End Function
 
         <Extension>
         Friend Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
@@ -147,81 +108,6 @@ Namespace MarkupCompiler
                         .pathways = maps
                     }
                 End If
-            Next
-        End Function
-
-        <Extension>
-        Private Iterator Function getGenes(genome As GBFF.File, model As CellularModule, locationAsLocus_tag As Boolean) As IEnumerable(Of gene)
-            Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = genome.Features _
-                .Where(Function(feature)
-                           Return feature.KeyName = "CDS"
-                       End Function) _
-                .Select(Function(feature)
-                            Dim id As String
-
-                            If locationAsLocus_tag Then
-                                id = feature.Location.ToString
-                            Else
-                                id = feature.Query("locus_tag")
-                            End If
-
-                            Return ProteinComposition.FromRefSeq(feature.Query("translation"), id)
-                        End Function) _
-                .ToDictionary(Function(prot)
-                                  Return prot.proteinID
-                              End Function)
-            Dim genes = genome.Features _
-                .Where(Function(feature)
-                           Return feature.KeyName = "gene"
-                       End Function) _
-                .ToDictionary(Function(g)
-                                  If locationAsLocus_tag Then
-                                      Return g.Location.ToString
-                                  Else
-                                      Return g.Query("locus_tag")
-                                  End If
-                              End Function)
-            Dim aa As NumericVector
-            Dim rna As NumericVector
-            Dim locus_tag As String
-            Dim proteinId = model.Genotype.centralDogmas _
-                .Where(Function(proc) Not proc.IsRNAGene) _
-                .ToDictionary(Function(gene)
-                                  Return gene.geneID
-                              End Function)
-            Dim RNAIndex As Index(Of String) = model.Genotype.centralDogmas _
-                .Where(Function(proc) proc.IsRNAGene) _
-                .Select(Function(proc)
-                            Return proc.geneID
-                        End Function) _
-                .ToArray
-
-            ' RNA基因是没有蛋白序列的
-            For Each gene As GeneBrief In genome.GbffToPTT(ORF:=False).GeneObjects
-                locus_tag = gene.Synonym
-
-                If proteinSequnce.ContainsKey(gene.Synonym) Then
-                    aa = proteinSequnce(gene.Synonym).CreateVector
-                ElseIf locus_tag Like RNAIndex Then
-                    aa = Nothing
-                Else
-                    Continue For
-                End If
-
-                rna = RNAComposition _
-                    .FromNtSequence(genes(locus_tag).SequenceData, locus_tag) _
-                    .CreateVector
-
-                Yield New gene With {
-                    .left = gene.Location.left,
-                    .right = gene.Location.right,
-                    .locus_tag = locus_tag,
-                    .product = gene.Product,
-                    .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
-                    .strand = gene.Location.Strand.GetBriefCode,
-                    .amino_acid = aa,
-                    .nucleotide_base = rna
-                }
             Next
         End Function
 

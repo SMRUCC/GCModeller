@@ -17,7 +17,9 @@ Namespace MarkupCompiler
         ReadOnly genomes As Dictionary(Of String, GBFF.File)
         ReadOnly KEGG As RepositoryArguments
         ReadOnly regulations As RegulationFootprint()
-        ReadOnly locationAsLocus_tag As Boolean
+
+
+        Friend ReadOnly locationAsLocus_tag As Boolean
 
         ''' <summary>
         ''' 
