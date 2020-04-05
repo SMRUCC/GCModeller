@@ -374,6 +374,10 @@
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\engine\CompilerServices\CompilerServices.vbproj">
+      <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\engine\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>

@@ -255,6 +255,10 @@
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
+      <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>

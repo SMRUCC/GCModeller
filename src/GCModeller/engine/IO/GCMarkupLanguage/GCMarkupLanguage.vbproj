@@ -295,6 +295,10 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CompilerServices\CompilerServices.vbproj">
+      <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Model\Model.vbproj">
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>
