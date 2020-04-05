@@ -18,12 +18,13 @@ let maps = "K:\20200226\X101SC19112292-Z01-J001-B1-16_TR_result\X101SC19112292-Z
 
 let regulations = read.regulations("K:\20200226\TRN\genomics\search\regulations.csv");
 let genome <- list(genome = read.genbank("K:\20200226\IGV_data\assembly.gb"));
+let logfile as string = "K:\20200226\metabolism\vcell\model.log";
 
 genome
 :> assembling.genome(maps)
 :> assembling.metabolic(maps, kegg.repo)
 :> assembling.TRN(regulations = regulations)
-:> vcell.markup(genome, kegg.repo, regulations)
+:> vcell.markup(genome, kegg.repo, regulations, logfile = logfile)
 :> xml
 :> writeLines(con = "K:\20200226\metabolism\vcell\model.Xml")
 ;

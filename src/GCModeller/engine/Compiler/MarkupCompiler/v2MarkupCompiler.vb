@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 
 Namespace MarkupCompiler
 
@@ -87,9 +88,12 @@ Namespace MarkupCompiler
         End Sub
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            Dim logpath As String = args("--log") Or $"{App.LocalDataTemp}/v2MarkupCompiler.{LogFile.NowTimeNormalizedString}.log"
+
             m_compiledModel = New VirtualCell With {
                 .taxonomy = model.Taxonomy
             }
+            m_logging = New LogFile(logpath, autoFlush:=False)
 
             Return 0
         End Function
@@ -141,9 +145,9 @@ Namespace MarkupCompiler
                     .ToArray,
                 .enzymes = enzymes,
                 .compounds = .reactions _
-                                .AsEnumerable _
-                                .getCompounds(allCompounds) _
-                                .ToArray,
+                    .AsEnumerable _
+                    .getCompounds(allCompounds) _
+                    .ToArray,
                 .maps = KEGG.GetPathways _
                     .PathwayMaps _
                     .createMaps(KOfunc) _
