@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::1b9b53379b06990a4108a7515ff4307b, CompilerServices\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Compiler
-    ' 
-    '     Properties: [Return], CompileLogging, Version
-    ' 
-    '     Function: Link, PreCompile, ToString, WriteLog, WriteProperty
-    ' 
-    '     Sub: (+2 Overloads) Dispose
-    ' 
-    ' /********************************************************************************/
+' Class Compiler
+' 
+'     Properties: [Return], CompileLogging, Version
+' 
+'     Function: Link, PreCompile, ToString, WriteLog, WriteProperty
+' 
+'     Sub: (+2 Overloads) Dispose
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -85,17 +86,19 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Compile(Optional args As CommandLine = Nothing) As TModel
+        Dim errorCode As Value(Of Integer) = 0
+
         If args Is Nothing Then
             args = New CommandLine
         End If
 
-        If PreCompile(args) <> 0 Then
+        If (errorCode = PreCompile(args)) <> 0 Then
             Return Nothing
         End If
-        If CompileImpl(args) <> 0 Then
+        If (errorCode = CompileImpl(args)) <> 0 Then
             Return Nothing
         End If
-        If Link() <> 0 Then
+        If (errorCode = Link()) <> 0 Then
             Return Nothing
         End If
 
