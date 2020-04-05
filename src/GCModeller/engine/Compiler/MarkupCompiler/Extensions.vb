@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7438207222805da405a64d5cfe6ba1ff, Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d30269aaad0131c37b80f8479019dbf9, Compiler\MarkupCompiler\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,27 +31,22 @@
 
     ' Summaries:
 
-    ' Module Extensions
+    '     Module Extensions
     ' 
-    '     Function: createEnzymes, createMaps, getCompounds, getGenes, getRNAs
-    '               getTFregulations, populateReplicons, ToMarkup, ToTabular
+    '         Function: createEnzymes, createMaps, getCompounds
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction

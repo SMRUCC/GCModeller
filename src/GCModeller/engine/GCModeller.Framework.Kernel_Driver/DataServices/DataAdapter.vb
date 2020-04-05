@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd9650ca7f4647ba0d132473323a09fb, GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::0e686b7c9da558c5d52c658700e0dd0b, GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
 
     ' Author:
     ' 
@@ -150,4 +150,3 @@
 '        Protected Friend MustOverride Function __getHeaders() As String()
 '    End Class
 'End Namespace
-
