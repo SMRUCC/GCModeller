@@ -103,8 +103,12 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="path">This logfile will saved to.</param>
         ''' <remarks></remarks>
         ''' <param name="bufferSize">当日志的记录数目达到这个数目的时候就会将日志数据写入到文件之中</param>
-        Public Sub New(path As String, Optional autoFlush As Boolean = True, Optional bufferSize As Integer = 1024)
-            Dim file As New FileStream(path, FileMode.Append)
+        Public Sub New(path As String,
+                       Optional autoFlush As Boolean = True,
+                       Optional bufferSize As Integer = 1024,
+                       Optional append As Boolean = True)
+
+            Dim file As New FileStream(path, If(append, FileMode.Append, FileMode.Truncate))
 
             buffer = New StreamWriter(file, Encoding.UTF8, bufferSize) With {
                 .AutoFlush = autoFlush

@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::248f150396b11da82829407a57d67429, CompilerServices\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Compiler
-    ' 
-    '     Properties: [Return], CompileLogging, Version
-    ' 
-    '     Function: Compile, Link, PreCompile, ToString, WriteLog
-    '               WriteProperty
-    ' 
-    '     Sub: (+2 Overloads) Dispose
-    ' 
-    ' /********************************************************************************/
+' Class Compiler
+' 
+'     Properties: [Return], CompileLogging, Version
+' 
+'     Function: Compile, Link, PreCompile, ToString, WriteLog
+'               WriteProperty
+' 
+'     Sub: (+2 Overloads) Dispose
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -77,6 +78,13 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
+    Protected Overridable Sub Initialize(args As CommandLine)
+        m_logging = (args("--log") Or $"{App.LocalDataTemp}/v2MarkupCompiler.{LogFile.NowTimeNormalizedString}.log") _
+            .DoCall(Function(logpath)
+                        Return New LogFile(logpath, autoFlush:=False, append:=False)
+                    End Function)
+    End Sub
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -93,15 +101,30 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
             args = New CommandLine
         End If
 
+        Call Initialize(args)
+        Call m_logging.WriteLine($"pre-compile target model {GetType(TModel).FullName}")
+
         If (errorCode = PreCompile(args)) <> 0 Then
+            Call m_logging.WriteLine("pre-compile with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine("run compiler process!")
+
         If (errorCode = CompileImpl(args)) <> 0 Then
+            Call m_logging.WriteLine("run model compiler with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine("link model components.")
+
         If (errorCode = Link()) <> 0 Then
+            Call m_logging.WriteLine("link model component with error code: " & errorCode.Value)
             Return Nothing
         End If
+
+        Call m_logging.WriteLine(m_compiledModel.ToString)
+        Call m_logging.WriteLine("model compile success!")
 
         Return m_compiledModel
     End Function

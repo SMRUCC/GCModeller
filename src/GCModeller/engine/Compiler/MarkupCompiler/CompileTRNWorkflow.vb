@@ -82,6 +82,10 @@ Namespace MarkupCompiler
                        If mapperIndex.ContainsKey(processingName(name)) Then
                            Return mapperIndex(name)
                        Else
+                           If Not name = "" Then
+                               Call compiler.CompileLogging.WriteLine($"no mapped kegg compound id for name: {name}!")
+                           End If
+
                            Return Nothing
                        End If
                    End Function
@@ -95,7 +99,7 @@ Namespace MarkupCompiler
                 Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
 
                 If process.geneID.StringEmpty Then
-                    Call compiler.CompileLogging.WriteLine($"{reg.regulated} process not found!", type:=MSG_TYPES.WRN)
+                    Call compiler.CompileLogging.WriteLine($"{reg.ToString}: {reg.regulated} process not found!", type:=MSG_TYPES.WRN)
                 End If
 
                 If reg.motif Is Nothing Then
