@@ -15,8 +15,8 @@ Namespace MarkupCompiler
 
         ReadOnly genomes As Dictionary(Of String, GBFF.File)
         ReadOnly KEGG As RepositoryArguments
-        ReadOnly regulations As RegulationFootprint()
 
+        Friend ReadOnly regulations As RegulationFootprint()
         Friend ReadOnly model As CellularModule
         Friend ReadOnly locationAsLocus_tag As Boolean
 
@@ -73,13 +73,14 @@ Namespace MarkupCompiler
                               End Function)
             Dim allCompounds As CompoundRepository = KEGG.GetCompounds
             Dim genomeCompiler As New CompileGenomeWorkflow(Me)
+            Dim TRNCompiler As New CompileTRNWorkflow(Me)
 
             m_compiledModel.genome = New Genome With {
                 .replicons = genomeCompiler _
                     .populateReplicons(genomes) _
                     .ToArray,
-                    .regulations = model _
-                    .getTFregulations(regulations, allCompounds.CreateMapping) _
+                .regulations = TRNCompiler _
+                    .getTFregulations(allCompounds.CreateMapping) _
                     .ToArray
             }
             m_compiledModel.metabolismStructure = New MetabolismStructure With {

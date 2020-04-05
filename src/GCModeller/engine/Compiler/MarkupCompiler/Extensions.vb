@@ -112,42 +112,6 @@ Namespace MarkupCompiler
         End Function
 
         <Extension>
-        Friend Iterator Function getTFregulations(model As CellularModule, regulations As RegulationFootprint(), getId As Func(Of String, String)) As IEnumerable(Of transcription)
-            Dim centralDogmas = model.Genotype.centralDogmas.ToDictionary(Function(d) d.geneID)
-
-            For Each reg As RegulationFootprint In regulations
-                Dim process As CentralDogma = centralDogmas.TryGetValue(reg.regulated)
-
-                If process.geneID.StringEmpty Then
-                    Call $"{reg.regulated} process not found!".Warning
-                End If
-
-                If reg.motif Is Nothing Then
-                    reg.motif = New NucleotideLocation
-                End If
-
-                Yield New transcription With {
-                    .biological_process = reg.biological_process,
-                    .effector = reg.effector _
-                        .StringSplit("\s*;\s*") _
-                        .Select(getId) _
-                        .ToArray,
-                    .mode = reg.mode,
-                    .regulator = reg.regulator,
-                    .motif = New Motif With {
-                        .family = reg.family,
-                        .left = reg.motif.left,
-                        .right = reg.motif.right,
-                        .strand = reg.motif.Strand.GetBriefCode,
-                        .sequence = reg.sequenceData,
-                        .distance = reg.distance
-                    },
-                    .centralDogma = process.ToString
-                }
-            Next
-        End Function
-
-        <Extension>
         Friend Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction), compounds As CompoundRepository) As IEnumerable(Of Compound)
             Dim allCompoundId$() = reactions _
                 .Select(Function(r)
