@@ -169,10 +169,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="v2MarkupCompiler.vb" />
+    <Compile Include="MarkupCompiler\v2MarkupCompiler.vb" />
     <Compile Include="KEGG\Arguments.vb" />
-    <Compile Include="Workflow.vb" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="Workflow.vb" />
+    <Compile Include="MarkupCompiler\Extensions.vb" />
     <Compile Include="KEGG\CompoundNameIDMappings.vb" />
     <Compile Include="KEGG\PathwayCompiler.vb" />
     <Compile Include="NetworkViz.vb" />
@@ -269,5 +270,6 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
