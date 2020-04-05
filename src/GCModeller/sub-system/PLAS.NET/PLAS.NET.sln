@@ -2299,8 +2299,8 @@ Global
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biodeep|x86.Build.0 = GCModeller(Release_X64)|Any CPU
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x64.Build.0 = GCModeller(Release_X64)|x64
+		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x64.ActiveCfg = Biostack|x64
+		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x64.Build.0 = Biostack|x64
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x86.ActiveCfg = GCModeller(Release_X64)|Any CPU
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack|x86.Build.0 = GCModeller(Release_X64)|Any CPU
 		{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}.Biostack-Debug|Any CPU.ActiveCfg = Debug|Any CPU

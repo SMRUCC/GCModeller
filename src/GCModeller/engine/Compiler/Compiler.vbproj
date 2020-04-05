@@ -11,7 +11,6 @@
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -169,10 +168,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.vb" />
-    <Compile Include="Compiler.vb" />
+    <Compile Include="MarkupCompiler\CompilerWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileTRNWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileGenomeWorkflow.vb" />
+    <Compile Include="MarkupCompiler\CompileGeneModelWorkflow.vb" />
+    <Compile Include="MarkupCompiler\v2MarkupCompiler.vb" />
+    <Compile Include="KEGG\Arguments.vb" />
     <Compile Include="Extensions.vb" />
-    <Compile Include="KEGG\CompoundNameIDMappings.vb" />
+    <Compile Include="Workflow.vb" />
+    <Compile Include="MarkupCompiler\Extensions.vb" />
     <Compile Include="KEGG\PathwayCompiler.vb" />
     <Compile Include="NetworkViz.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -255,6 +259,10 @@
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
+      <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IO\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>GCMarkupLanguage</Name>
@@ -264,5 +272,6 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

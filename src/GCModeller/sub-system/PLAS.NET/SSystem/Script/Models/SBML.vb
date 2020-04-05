@@ -1,47 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::67dd3cb06bf63f02caeb6ba208e6f551, sub-system\PLAS.NET\SSystem\Script\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::2f95fa0961b4b016f9190a4726453e2b, PLAS.NET\SSystem\Script\Models\SBML.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class SBML
-' 
-'         Properties: AutoFixError
-' 
-'         Function: __contact, __generateSystem, __where, (+2 Overloads) Compile, GenerateFunction
-'                   Link, PreCompile
-' 
-'         Sub: __strip, __stripNumber
-' 
-' 
-' /********************************************************************************/
+    '     Class SBML
+    ' 
+    '         Properties: AutoFixError
+    ' 
+    '         Function: __contact, __generateSystem, __where, (+2 Overloads) Compile, GenerateFunction
+    ' 
+    '         Sub: __strip, __stripNumber
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -66,16 +65,19 @@ Namespace Script
 
         Public Property AutoFixError As Boolean = False
 
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
-            Me.CompiledModel = New Script.Model
+        Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            m_compiledModel = New Model
+            Return 0
+        End Function
 
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Call __strip()
-            Call __generateSystem(CompiledModel)
+            Call __generateSystem(m_compiledModel)
 
-            CompiledModel.Title = SBMLFile.Model.name
-            CompiledModel.FinalTime = 100
+            m_compiledModel.Title = SBMLFile.Model.name
+            m_compiledModel.FinalTime = 100
 
-            Return CompiledModel
+            Return 0
         End Function
 
         ''' <summary>
@@ -195,7 +197,7 @@ Namespace Script
                 .AutoFixError = AutoFix
             }
                 Call Compiler.Compile()
-                Call Compiler.CompiledModel.WriteScript(path & ".plas")
+                Call Compiler.m_compiledModel.WriteScript(path & ".plas")
 
                 Return Compiler.Return
             End Using
