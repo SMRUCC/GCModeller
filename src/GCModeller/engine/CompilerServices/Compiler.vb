@@ -54,8 +54,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements IDisposable
 
-    Protected Friend CompiledModel As TModel
-    Protected Friend _Logging As LogFile
+    Protected Friend m_compiledModel As TModel
+    Protected Friend m_logging As LogFile
 
     Public Overridable ReadOnly Property Version As Version
         Get
@@ -65,25 +65,15 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 
     Public ReadOnly Property CompileLogging As LogFile
         Get
-            Return _Logging
+            Return m_logging
         End Get
     End Property
 
     Public Overridable ReadOnly Property [Return] As TModel
         Get
-            Return CompiledModel
+            Return m_compiledModel
         End Get
     End Property
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="args"><see cref="CommandLine.cli"></see></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Protected Overridable Function PreCompile(args As CommandLine) As Integer
-
-    End Function
 
     ''' <summary>
     ''' 
@@ -94,13 +84,42 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' compiled model file.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
-    Protected Overridable Function Link() As Integer
+    Public Function Compile(Optional args As CommandLine = Nothing) As TModel
+        If args Is Nothing Then
+            args = New CommandLine
+        End If
 
+        If PreCompile(args) <> 0 Then
+            Return Nothing
+        End If
+        If CompileImpl(args) <> 0 Then
+            Return Nothing
+        End If
+        If Link() <> 0 Then
+            Return Nothing
+        End If
+
+        Return m_compiledModel
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="args"><see cref="CommandLine.cli"></see></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Protected Overridable Function PreCompile(args As CommandLine) As Integer
+        Return 0
+    End Function
+
+    Protected MustOverride Function CompileImpl(args As CommandLine) As Integer
+
+    Protected Overridable Function Link() As Integer
+        Return 0
     End Function
 
     Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
-        Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
+        Call m_logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
         If model.properties Is Nothing Then _
            model.properties = New [Property]
@@ -122,13 +141,14 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
             Call model.properties.URLs.Add("http://gcmodeller.org/")
         End If
 
-        If model.properties.Authors.IsNullOrEmpty Then
-            model.properties.Authors = New List(Of String) From {
+        If model.properties.authors.IsNullOrEmpty Then
+            model.properties.authors = New List(Of String) From {
                 "SMRUCC.genomics.GCModeller"
             }
         End If
 
-        If Not args Is Nothing Then  '请先使用If判断是否为空，因为不知道本方法的调用顺序，不使用if判断可能会丢失已经在调用之前就写入的属性数据
+        If Not args Is Nothing Then
+            ' 请先使用If判断是否为空，因为不知道本方法的调用顺序，不使用if判断可能会丢失已经在调用之前就写入的属性数据
 
         End If
 
@@ -172,8 +192,8 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean
-        If Not _Logging Is Nothing Then
-            Return _Logging.Save()
+        If Not m_logging Is Nothing Then
+            Return m_logging.Save()
         End If
 
         Return True

@@ -1,3 +1,6 @@
+# script for run GCModeller vCell Compiler to create
+# virtual cell model file
+
 imports "vcellkit.compiler" from "vcellkit.dll";
 imports "TRN.builder" from "phenotype_kit.dll";
 imports ["annotation.genomics", "annotation.workflow", "annotation.genbank_kit"] from "seqtoolkit.dll";

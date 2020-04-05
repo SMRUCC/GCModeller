@@ -66,15 +66,15 @@ Namespace Script
         Public Property AutoFixError As Boolean = False
 
         Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
-            Me.CompiledModel = New Script.Model
+            Me.m_compiledModel = New Script.Model
 
             Call __strip()
-            Call __generateSystem(CompiledModel)
+            Call __generateSystem(m_compiledModel)
 
-            CompiledModel.Title = SBMLFile.Model.name
-            CompiledModel.FinalTime = 100
+            m_compiledModel.Title = SBMLFile.Model.name
+            m_compiledModel.FinalTime = 100
 
-            Return CompiledModel
+            Return m_compiledModel
         End Function
 
         ''' <summary>
@@ -194,7 +194,7 @@ Namespace Script
                 .AutoFixError = AutoFix
             }
                 Call Compiler.Compile()
-                Call Compiler.CompiledModel.WriteScript(path & ".plas")
+                Call Compiler.m_compiledModel.WriteScript(path & ".plas")
 
                 Return Compiler.Return
             End Using

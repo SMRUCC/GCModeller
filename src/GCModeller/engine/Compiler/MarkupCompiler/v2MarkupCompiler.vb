@@ -43,7 +43,15 @@ Namespace MarkupCompiler
             Me.locationAsLocus_tag = locationAsLocus_tag
         End Sub
 
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As VirtualCell
+        Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            m_compiledModel = New VirtualCell With {
+                .taxonomy = model.Taxonomy
+            }
+
+            Return 0
+        End Function
+
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Dim KOgenes As Dictionary(Of String, CentralDogma) = model _
                 .Genotype _
                 .centralDogmas _
@@ -66,40 +74,39 @@ Namespace MarkupCompiler
             Dim allCompounds As CompoundRepository = KEGG.GetCompounds
             Dim genomeCompiler As New CompileGenomeWorkflow(Me)
 
-            Return New VirtualCell With {
-                .taxonomy = model.Taxonomy,
-                .genome = New Genome With {
-                    .replicons = genomeCompiler _
-                        .populateReplicons(genomes) _
-                        .ToArray,
-                     .regulations = model _
-                        .getTFregulations(regulations, allCompounds.CreateMapping) _
-                        .ToArray
-                },
-                .metabolismStructure = New MetabolismStructure With {
-                    .reactions = model _
-                        .Phenotype _
-                        .fluxes _
-                        .Select(Function(r)
-                                    Return New XmlReaction With {
-                                        .ID = r.ID,
-                                        .name = r.name,
-                                        .Equation = r.GetEquationString,
-                                        .is_enzymatic = r.is_enzymatic
-                                    }
-                                End Function) _
-                        .ToArray,
-                    .enzymes = enzymes,
-                    .compounds = .reactions _
-                                 .AsEnumerable _
-                                 .getCompounds(allCompounds) _
-                                 .ToArray,
-                    .maps = KEGG.GetPathways _
-                        .PathwayMaps _
-                        .createMaps(KOfunc) _
-                        .ToArray
-                }
+            m_compiledModel.genome = New Genome With {
+                .replicons = genomeCompiler _
+                    .populateReplicons(genomes) _
+                    .ToArray,
+                    .regulations = model _
+                    .getTFregulations(regulations, allCompounds.CreateMapping) _
+                    .ToArray
             }
+            m_compiledModel.metabolismStructure = New MetabolismStructure With {
+                .reactions = model _
+                    .Phenotype _
+                    .fluxes _
+                    .Select(Function(r)
+                                Return New XmlReaction With {
+                                    .ID = r.ID,
+                                    .name = r.name,
+                                    .Equation = r.GetEquationString,
+                                    .is_enzymatic = r.is_enzymatic
+                                }
+                            End Function) _
+                    .ToArray,
+                .enzymes = enzymes,
+                .compounds = .reactions _
+                                .AsEnumerable _
+                                .getCompounds(allCompounds) _
+                                .ToArray,
+                .maps = KEGG.GetPathways _
+                    .PathwayMaps _
+                    .createMaps(KOfunc) _
+                    .ToArray
+            }
+
+            Return 0
         End Function
     End Class
 End Namespace
