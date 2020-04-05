@@ -112,12 +112,16 @@ Namespace MarkupCompiler
                 .Where(Function(process)
                            Return Not process.IsRNAGene AndAlso Not process.orthology.StringEmpty
                        End Function) _
-                .ToDictionary(Function(term) term.geneID)
+                .ToDictionary(Function(term)
+                                  Return term.geneID
+                              End Function)
+            Dim metabolism As New CompileMetabolismWorkflow(Me)
+
             Dim enzymes As Enzyme() = model.Regulations _
                 .Where(Function(process)
                            Return process.type = Processes.MetabolicProcess
                        End Function) _
-                .createEnzymes(KOgenes) _
+                .DoCall(Function(cat) metabolism.createEnzymes(cat, KOgenes)) _
                 .ToArray
             Dim KOfunc As Dictionary(Of String, CentralDogma()) = KOgenes.Values _
                 .GroupBy(Function(proc) proc.orthology) _
@@ -125,8 +129,6 @@ Namespace MarkupCompiler
                               Function(g)
                                   Return g.ToArray
                               End Function)
-
-            Dim allCompounds As CompoundRepository = KEGG.GetCompounds
             Dim genomeCompiler As New CompileGenomeWorkflow(Me)
             Dim TRNCompiler As New CompileTRNWorkflow(Me)
 
@@ -157,11 +159,11 @@ Namespace MarkupCompiler
                 .enzymes = enzymes,
                 .compounds = .reactions _
                     .AsEnumerable _
-                    .getCompounds(allCompounds) _
+                    .DoCall(AddressOf metabolism.getCompounds) _
                     .ToArray,
                 .maps = KEGG.GetPathways _
                     .PathwayMaps _
-                    .createMaps(KOfunc) _
+                    .DoCall(Function(maps) metabolism.createMaps(maps, KOfunc)) _
                     .ToArray
             }
 

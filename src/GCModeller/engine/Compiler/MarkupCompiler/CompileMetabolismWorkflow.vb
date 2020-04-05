@@ -1,46 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::d30269aaad0131c37b80f8479019dbf9, Compiler\MarkupCompiler\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: createEnzymes, createMaps, getCompounds
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: createEnzymes, createMaps, getCompounds
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -53,10 +52,12 @@ Imports XmlReaction = SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Re
 
 Namespace MarkupCompiler
 
-    <HideModuleName>
-    Module Extensions
+    Friend Class CompileMetabolismWorkflow : Inherits CompilerWorkflow
 
-        <Extension>
+        Public Sub New(compiler As v2MarkupCompiler)
+            MyBase.New(compiler)
+        End Sub
+
         Friend Iterator Function createMaps(pathwayMaps As bGetObject.PathwayMap(), KOfunc As Dictionary(Of String, CentralDogma())) As IEnumerable(Of FunctionalCategory)
             Dim mapgroups = pathwayMaps _
                 .Where(Function(map) Not map.brite Is Nothing) _
@@ -106,8 +107,7 @@ Namespace MarkupCompiler
             Next
         End Function
 
-        <Extension>
-        Friend Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction), compounds As CompoundRepository) As IEnumerable(Of Compound)
+        Friend Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction)) As IEnumerable(Of Compound)
             Dim allCompoundId$() = reactions _
                 .Select(Function(r)
                             Return Equation.TryParse(r.Equation) _
@@ -117,6 +117,7 @@ Namespace MarkupCompiler
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+            Dim compounds As CompoundRepository = compiler.KEGG.GetCompounds
 
             For Each id As String In allCompoundId.Where(Function(cid) compounds.Exists(cid))
                 Dim keggModel = compounds.GetByKey(id).Entity
@@ -133,7 +134,6 @@ Namespace MarkupCompiler
             Next
         End Function
 
-        <Extension>
         Friend Iterator Function createEnzymes(metabolicProcess As IEnumerable(Of Regulation), KOgenes As Dictionary(Of String, CentralDogma)) As IEnumerable(Of Enzyme)
             For Each catalysis As IGrouping(Of String, Regulation) In metabolicProcess.GroupBy(Function(c) c.regulator)
                 Yield New Enzyme With {
@@ -152,5 +152,5 @@ Namespace MarkupCompiler
                 }
             Next
         End Function
-    End Module
+    End Class
 End Namespace
