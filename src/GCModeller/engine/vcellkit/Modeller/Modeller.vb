@@ -132,7 +132,7 @@ Module Modeller
                             .name = target.name,
                             .parameters = formula.parameters
                         }
-                        react.parameters = parameters
+                        react.parameter = parameters
                         react.PH = target.kineticLaw.annotation.sabiork.experimentalConditions.pHValue.startValuepH
                         react.temperature = target.kineticLaw.annotation.sabiork.experimentalConditions.temperature.startValueTemperature
                     End If
@@ -160,6 +160,6 @@ Module Modeller
 
     <ExportAPI("zip")>
     Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
-
+        Return ZipAssembly.WriteZip(vcell, file)
     End Function
 End Module
