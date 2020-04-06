@@ -261,6 +261,12 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property reaction As String
+        <XmlAttribute> Public Property PH As Double
+        ''' <summary>
+        ''' 单位为摄氏度的温度参数值
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property temperature As Double
 
         <XmlElement>
         Public Property description As String

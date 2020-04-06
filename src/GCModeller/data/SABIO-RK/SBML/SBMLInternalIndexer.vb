@@ -28,6 +28,15 @@ Namespace SBML
             species = sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
         End Sub
 
+        ''' <summary>
+        ''' 获取得到反应过程对应的动力学函数
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function getFormula(id As String) As String
+
+        End Function
+
         Public Function getKEGGreactions(id As String) As IEnumerable(Of SBMLReaction)
             Return keggReactions.TryGetValue(id)
         End Function
