@@ -120,6 +120,7 @@ Namespace MarkupCompiler
                     .effector = reg.effector _
                         .StringSplit("\s*;\s*") _
                         .Select(getId) _
+                        .Where(Function(cid) Not cid.StringEmpty) _
                         .ToArray,
                     .mode = reg.mode,
                     .regulator = reg.regulator,

@@ -250,6 +250,9 @@ Namespace v2
 
     End Class
 
+    ''' <summary>
+    ''' 酶分子对目标反应过程的催化动力学函数
+    ''' </summary>
     <XmlType("catalysis", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Catalysis
 
@@ -258,10 +261,22 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property reaction As String
-        <XmlAttribute> Public Property coefficient As Double
 
+        <XmlElement>
+        Public Property description As String
+
+        ''' <summary>
+        ''' 通过sabio-rk数据库得到的动力学函数方程
+        ''' </summary>
+        ''' <returns></returns>
         <XmlText>
-        Public Property comment As String
+        Public Property formula As String
+
+        ''' <summary>
+        ''' 动力学方程的参数列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property parameters As NamedValue()
 
     End Class
 End Namespace

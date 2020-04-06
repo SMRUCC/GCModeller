@@ -141,9 +141,9 @@ Namespace MarkupCompiler
                     .catalysis = catalysis _
                         .Select(Function(reg)
                                     Return New Catalysis With {
-                                        .coefficient = reg.effects,
                                         .reaction = reg.process,
-                                        .comment = reg.name
+                                        .formula = Nothing,
+                                        .description = reg.name
                                     }
                                 End Function) _
                         .ToArray,
