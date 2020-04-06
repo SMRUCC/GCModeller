@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace SBML
 
-    Module Module1
+    Module TargetParser
 
         <Extension>
         Friend Iterator Function getIdentifiers(react As SBMLReaction) As IEnumerable(Of NamedValue(Of String))
