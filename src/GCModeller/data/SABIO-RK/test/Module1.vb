@@ -5,7 +5,10 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Module Module1
 
     Sub parseMathMLTest()
+        Dim text As String = "D:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml".ReadAllText
+        Dim formulas = MathMLParser.ParseMathML(text).ToArray
 
+        Pause()
     End Sub
 
     Sub Main()
