@@ -99,6 +99,10 @@ Module Modeller
                         kinetics = SbmlDocument.LoadDocument(xml)
                     End If
 
+                    If kinetics Is Nothing Then
+                        Continue For
+                    End If
+
                     kineticList += New SBMLInternalIndexer(kinetics)
                 Next
             Else
