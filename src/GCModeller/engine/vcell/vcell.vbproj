@@ -170,6 +170,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
+      <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
+      <Name>CompilerServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dynamics\Dynamics.vbproj">
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
       <Name>Dynamics</Name>

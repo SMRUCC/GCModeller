@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e641c91f251595b76e9867f578dd47b3, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::c975db2f57e0be8dc333df2004a55231, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -72,7 +72,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -154,6 +155,43 @@ Public Module Scatter
         CubicSpline
     End Enum
 
+    ReadOnly splineValues As Dictionary(Of String, Splines) = Enums(Of Splines).ToDictionary(Function(a) a.Description.ToLower)
+
+    Public Function ParseSplineValue(describ As String) As Splines
+        With LCase(describ).Trim
+            If .DoCall(AddressOf splineValues.ContainsKey) Then
+                Return .DoCall(Function(key) splineValues(key))
+            Else
+                Return Splines.None
+            End If
+        End With
+    End Function
+
+    <Extension>
+    Private Function getSplinePoints(raw As PointData(), spline As Splines) As PointData()
+        Select Case spline
+            Case Splines.None
+                Return raw
+            Case Splines.B_Spline
+                Dim pointdata As PointF() = raw _
+                    .Select(Function(p) p.pt) _
+                    .BSpline(degree:=2) _
+                    .ToArray
+                Dim interplot As PointData() = pointdata _
+                    .Select(Function(p)
+                                Return New PointData With {
+                                    .pt = p
+                                }
+                            End Function) _
+                    .OrderBy(Function(p) p.pt.X) _
+                    .ToArray
+
+                Return interplot
+            Case Else
+                Throw New NotImplementedException(spline.ToString)
+        End Select
+    End Function
+
     ''' <summary>
     ''' Scatter plot function.(绘图函数，默认的输出大小为``4300px,2000px``)
     ''' </summary>
@@ -171,6 +209,9 @@ Public Module Scatter
     ''' <param name="preferPositive"><see cref="CreateAxisTicks"/></param>
     ''' <param name="hullConvexList">
     ''' a list of <see cref="SerialData.title"/> for draw hull convex polygon.
+    ''' </param>
+    ''' <param name="interplot">
+    ''' 是否对线条或者多边形数据进行插值圆滑处理
     ''' </param>
     ''' <returns></returns>
     <Extension>
@@ -212,7 +253,9 @@ Public Module Scatter
                          Optional gridColor$ = "white",
                          Optional legendBgFill As String = Nothing,
                          Optional legendSplit% = -1,
-                         Optional hullConvexList As String() = Nothing) As GraphicsData
+                         Optional hullConvexList As String() = Nothing,
+                         Optional XtickFormat$ = "F2",
+                         Optional YtickFormat$ = "F2") As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
@@ -262,14 +305,19 @@ Public Module Scatter
                         xlayout:=xlayout,
                         ylayout:=ylayout,
                         gridColor:=gridColor,
-                        gridFill:=gridFill
+                        gridFill:=gridFill,
+                        XtickFormat:=XtickFormat,
+                        YtickFormat:=YtickFormat
                     )
                 End If
 
-                Dim width = rect.PlotRegion.Width / 200
+                Dim width As Double = rect.PlotRegion.Width / 200
 
                 For Each line As SerialData In array
-                    Dim pts = line.pts.SlideWindows(2)
+                    Dim pts As SlideWindow(Of PointData)() = line.pts _
+                        .getSplinePoints(spline:=interplot) _
+                        .SlideWindows(2) _
+                        .ToArray
                     Dim pen As Pen = line.GetPen
                     Dim br As New SolidBrush(line.color)
                     Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
@@ -514,19 +562,22 @@ Public Module Scatter
                                  Optional yline# = Double.NaN,
                                  Optional ylineColor$ = "red") As GraphicsData
 
-        Dim engine As New Expression
+        Dim engine As New ExpressionEngine
         Dim ranges As Double() = range.Value.seq(steps).ToArray
         Dim y As New List(Of Double)
+        Dim exp As Expression = New ExpressionTokenIcer(expression) _
+            .GetTokens _
+            .ToArray _
+            .DoCall(AddressOf BuildExpression)
 
         If Not variables.IsNullOrEmpty Then
             For Each var In variables
-                Call engine.SetVariable(var.Key, var.Value)
+                Call engine.SetSymbol(var.Key, var.Value)
             Next
         End If
 
         For Each x As Double In ranges
-            Call engine.SetVariable(range.Name, x)
-            y += engine.Evaluation(expression)
+            y += engine.SetSymbol(range.Name, x).Evaluate(exp)
         Next
 
         Dim serial As SerialData = FromVector(y, lineColor,,, lineWidth, ranges, expression,)

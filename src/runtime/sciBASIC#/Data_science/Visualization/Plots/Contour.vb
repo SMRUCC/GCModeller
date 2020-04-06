@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0d689d762aa966d5ee96e079c976bed, Data_science\Visualization\Plots\Contour.vb"
+﻿#Region "Microsoft.VisualBasic::3e20b264862f0c1353ee31553fee8854, Data_science\Visualization\Plots\Contour.vb"
 
     ' Author:
     ' 
@@ -59,8 +59,8 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.Scripting
-Imports Microsoft.VisualBasic.Math.Scripting.Types
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -79,17 +79,21 @@ Public Module Contour
     ''' <param name="exp$">A string math function expression: ``f(x,y)``</param>
     ''' <returns></returns>
     Public Function Compile(exp$) As Func(Of Double, Double, Double)
-        With New Expression
+        With New ExpressionEngine()
 
             !x = 0
             !y = 0
 
-            Dim func As SimpleExpression = .Compile(exp)
+            Dim func As Expression = New ExpressionTokenIcer(exp) _
+                .GetTokens _
+                .ToArray _
+                .DoCall(AddressOf BuildExpression)
 
             Return Function(x, y)
                        !x = x
                        !y = y
-                       Return func.Evaluate
+
+                       Return .DoCall(AddressOf func.Evaluate)
                    End Function
         End With
     End Function
@@ -289,11 +293,11 @@ Public Module Contour
             If func Is Nothing Then
                 ' 直接返回矩阵数据
                 Return LinqAPI.Exec(Of (x#, y#, Z#)) _
-					() <= From line As DataSet 
-						  In matrix 
-						  Let xi = Val(line.ID) 
-						  Let data = line.Properties.Select(Function(o) (x:=xi, y:=Val(o.Key), Z:=o.Value)) 
-						  Select Data
+                    () <= From line As DataSet
+                          In matrix
+                          Let xi = Val(line.ID)
+                          Let data = line.Properties.Select(Function(o) (X:=xi, Y:=Val(o.Key), Z:=o.Value))
+                          Select data
             Else
 
                 Return func _

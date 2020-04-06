@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
+Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Partial Module CLI
@@ -125,10 +126,11 @@ Partial Module CLI
         Call $"Model file save at location: {out}!".__DEBUG_ECHO
 
         If out.IsGCMarkup Then
-            Return model.ToMarkup(genome, kegg, regulations, locationAsLocus_tag) _
-                        .GetXml _
-                        .SaveTo(out) _
-                        .CLICode
+            Return New v2MarkupCompiler(model, genome, kegg, regulations, locationAsLocus_tag) _
+                .Compile _
+                .GetXml _
+                .SaveTo(out) _
+                .CLICode
         Else
             Return model.ToTabular _
                         .WriteXlsx(out) _

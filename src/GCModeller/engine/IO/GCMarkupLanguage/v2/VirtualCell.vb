@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4beb9efb481fdb3658a033ffda39b054, IO\GCMarkupLanguage\v2\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::6df80b12886e97ae6071450e5ca06e20, IO\GCMarkupLanguage\v2\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -45,19 +45,19 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
 
     ''' <summary>
-    ''' 虚拟细胞数据模型
+    ''' 虚拟细胞数据模型Xml文件
     ''' </summary>
     <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
-    Public Class VirtualCell : Inherits XmlDataModel
+    Public Class VirtualCell : Inherits ModelBaseType
 
         ''' <summary>
         ''' 物种注释信息
@@ -79,10 +79,9 @@ Namespace v2
 
         Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
-        <XmlNamespaceDeclarations()>
-        Public xmlns As New XmlSerializerNamespaces
-
         Sub New()
+            Call MyBase.New
+
             Call xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
         End Sub
 

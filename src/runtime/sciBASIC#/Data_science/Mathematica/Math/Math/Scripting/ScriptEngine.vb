@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c1cd0f39c2630fcfd74f07a05682259, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
+﻿#Region "Microsoft.VisualBasic::af3461e4bbf39a09a2196782115174d6, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: Evaluate, Shell
     ' 
-    '         Sub: AddConstant, SetVariable
+    '         Sub: setFunction, SetFunction, setSymbol, SetVariable
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +45,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Scripting
 
@@ -57,7 +61,7 @@ Namespace Scripting
         ''' The default expression engine.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Expression As Expression = Expression.DefaultEngine
+        Public ReadOnly Property Expression As New ExpressionEngine
 
         ''' <summary>
         ''' all of the commands are stored at here
@@ -65,13 +69,13 @@ Namespace Scripting
         ''' <remarks>
         ''' .quit for do nothing and end of this program.
         ''' </remarks>
-        Public ReadOnly Property StatementEngine As Dictionary(Of String, Action(Of String)) =
-            New Dictionary(Of String, Action(Of String)) From {
-                {"const", AddressOf Expression.Constant.Add},
-                {"function", AddressOf Expression.Functions.Add},
-                {"func", AddressOf Expression.Functions.Add},
-                {"var", AddressOf Expression.Variables.Set},
-                {".quit", Sub(null$) null = Nothing}}
+        Public ReadOnly Property StatementEngine As New Dictionary(Of String, Action(Of String)) From {
+            {"const", AddressOf setSymbol},
+            {"function", AddressOf setFunction},
+            {"func", AddressOf setFunction},
+            {"var", AddressOf setSymbol},
+            {".quit", Sub(null$) null = Nothing}
+        }
 
         ''' <summary>
         ''' Lambda expression table.
@@ -80,30 +84,70 @@ Namespace Scripting
         Public ReadOnly Property Scripts As New Hashtable
 
         ''' <summary>
+        ''' var x = 100
+        ''' const x = 100
+        ''' </summary>
+        ''' <param name="run"></param>
+        Private Sub setSymbol(run As String)
+            Dim assign As NamedValue(Of String) = run.GetTagValue("=", trim:=True)
+            Dim value As Double = Expression.Evaluate(assign.Value)
+
+            Expression.SetSymbol(assign.Name, value)
+        End Sub
+
+        ''' <summary>
+        ''' func add(x, y) x+y
+        ''' </summary>
+        ''' <param name="run"></param>
+        Private Sub setFunction(run As String)
+            Call SetFunction(Expression, run)
+        End Sub
+
+        ''' <summary>
+        ''' func add(x, y) x+y
+        ''' </summary>
+        ''' <param name="run"></param>
+        ''' 
+        <Extension>
+        Public Sub SetFunction(engine As ExpressionEngine, run As String)
+            Dim declares As String = r.Match(run, ".+\(.+?\)").Value
+            Dim lambda As String = Mid(run, declares.Length)
+            Dim name As String = declares.Split("("c).First
+            Dim parameters As String() = declares.GetStackValue("(", ")").StringSplit("\s*,\s*")
+
+            Call engine.AddFunction(declares, parameters, lambda)
+        End Sub
+
+        ''' <summary>
         ''' Run the simple script that stores in the <see cref="Scripts"/> table.
         ''' </summary>
         ''' <param name="statement"></param>
         ''' <returns></returns>
         Public Function Shell(statement$) As Double
-            Dim Token As String = statement.Split.First.ToLower
-
-            ' This is a value assignment statement
             If InStr(statement, "<-") Then
-                Return Expression.Variables.AssignValue(statement)
+                ' This is a value assignment statement
+                Dim tokens As NamedValue(Of String) = statement.GetTagValue("<-", trim:=True)
+                Dim result As Double = tokens.Value.DoCall(AddressOf Expression.Evaluate)
+
+                Expression.SetSymbol(tokens.Name, result)
+
+                Return result
             End If
 
-            If StatementEngine.ContainsKey(Token) Then
-                Call StatementEngine(Token)(Mid(statement, Len(Token) + 1).Trim)
+            Dim token As String = statement.Split.First.ToLower
+
+            If StatementEngine.ContainsKey(token) Then
+                Call StatementEngine(token)(Mid(statement, Len(token) + 1).Trim)
                 Return 0
             Else
                 ' if the statement input from the user is not appears 
                 ' in the engine dictionary, then maybe is a mathematics expression. 
-                Dim Result As Double = Expression.Evaluate(statement)
+                Dim result As Double = Expression.Evaluate(statement)
                 ' You can treat the variable 'last' as a system variable for return 
                 ' the Result of a multiple function script in the future of this 
                 ' feature will add to this module.
-                Expression.Variables.Set("$", Result)
-                Return Result
+                Expression.SetSymbol("$", result)
+                Return result
             End If
         End Function
 
@@ -129,19 +173,10 @@ Namespace Scripting
         ''' <summary>
         ''' Set variable value
         ''' </summary>
-        ''' <param name="Name"></param>
+        ''' <param name="name"></param>
         ''' <param name="expr"></param>
-        Public Sub SetVariable(Name$, expr$)
-            Call Expression.Variables.Set(Name, expr)
-        End Sub
-
-        ''' <summary>
-        ''' Add constant object
-        ''' </summary>
-        ''' <param name="Name"></param>
-        ''' <param name="expr"></param>
-        Public Sub AddConstant(Name$, expr$)
-            Call Expression.Constant.Add(Name, expr)
+        Public Sub SetVariable(name$, expr$)
+            Call Expression.SetSymbol(name, expr)
         End Sub
     End Module
 End Namespace

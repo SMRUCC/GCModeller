@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ec3b9decd2b568c3515a7ba85d14b53, vcellkit\RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::5361a99b8308101955876a103f4fb584, vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -260,4 +259,3 @@ Module RawXmlKit
         Return entities
     End Function
 End Module
-

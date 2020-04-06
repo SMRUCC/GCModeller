@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dabd0d0ca269da6d268e77b717b3370d, sub-system\FBA\FBA_DP\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2fddf5e8db4a4598a1761f7d082bcf8e, FBA\FBA_DP\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,7 @@
 
     ' Module ShellScriptAPI
     ' 
-    '     Function: CreateModel, ExportResult, FullObjective, GetFluxDistribution, LoadData
-    '               LoadProject, SaveData, SolveModel
+    '     Function: ExportResult, GetFluxDistribution, LoadProject, SaveData, SolveModel
     ' 
     '     Sub: SetObjectives
     ' 

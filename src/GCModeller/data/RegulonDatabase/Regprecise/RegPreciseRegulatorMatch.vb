@@ -205,6 +205,10 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Property site As String
 
+        Public Overrides Function ToString() As String
+            Return $"[{family}]..{regulog}..{regulator} ({mode}) {regulated}"
+        End Function
+
     End Class
 
     Public Class FootprintSite : Inherits MotifSiteMatch
