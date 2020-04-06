@@ -22,7 +22,6 @@ Namespace SBML
                         End Function) _
                 .ToArray
 
-
             Return New SbmlDocument With {
                 .sbml = sbml,
                 .mathML = formulas

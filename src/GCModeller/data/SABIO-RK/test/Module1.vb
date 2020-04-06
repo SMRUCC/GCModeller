@@ -7,6 +7,8 @@ Module Module1
     Sub parseMathMLTest()
         Dim text As String = "D:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml".ReadAllText
         Dim formulas = MathMLParser.ParseMathML(text).ToArray
+        Dim doc As SbmlDocument = SbmlDocument.LoadDocument("D:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml")
+        Dim index As New SBMLInternalIndexer(doc)
 
         Pause()
     End Sub
