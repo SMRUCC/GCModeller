@@ -239,6 +239,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="v2\Assembly\ZipComponent.vb" />
+    <Compile Include="v2\Assembly\ZipWriter.vb" />
     <Compile Include="v2\Assembly\ZipAssembly.vb" />
     <Compile Include="v2\NamespaceDoc.vb" />
     <Compile Include="v2\Xml\Genome.vb" />
