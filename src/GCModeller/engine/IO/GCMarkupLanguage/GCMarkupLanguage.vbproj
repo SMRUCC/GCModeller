@@ -237,8 +237,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="v2\NamespaceDoc.vb" />
-    <Compile Include="v2\Genome.vb" />
-    <Compile Include="v2\MetabolismStructure.vb" />
+    <Compile Include="v2\Xml\Genome.vb" />
+    <Compile Include="v2\Xml\MetabolismStructure.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -255,7 +255,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="v2\ModelExtensions.vb" />
-    <Compile Include="v2\VirtualCell.vb" />
+    <Compile Include="v2\Xml\VirtualCell.vb" />
     <Compile Include="v2\OperationExtensions.vb" />
   </ItemGroup>
   <ItemGroup>
