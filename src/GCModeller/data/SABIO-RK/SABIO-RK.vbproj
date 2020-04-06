@@ -129,18 +129,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SBML\SbmlDocument.vb" />
     <Compile Include="SBML\kineticLaw.vb" />
     <Compile Include="SBML\MathMLParser.vb" />
     <Compile Include="SBML\TargetParser.vb" />
     <Compile Include="SBML\SBMLInternalIndexer.vb" />
     <Compile Include="SBML\SBMLReaction.vb" />
-    <Compile Include="SBML\DocAPI.vb" />
+    <Compile Include="Dumps\DocAPI.vb" />
     <Compile Include="Dumps\Enzyme.vb" />
     <Compile Include="Dumps\Kinetics.vb" />
     <Compile Include="Dumps\TabularDump.vb" />
-    <Compile Include="SBML\LocalParameterParser.vb" />
-    <Compile Include="SBML\SabiorkSBML.vb" />
-    <Compile Include="SBML\SBMLParser.vb" />
+    <Compile Include="Dumps\LocalParameterParser.vb" />
+    <Compile Include="Dumps\SabiorkSBML.vb" />
+    <Compile Include="Dumps\SBMLParser.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
