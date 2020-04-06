@@ -4,7 +4,20 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Module Module1
 
+    Sub parseMathMLTest()
+        Dim text As String = "D:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml".ReadAllText
+        Dim formulas = MathMLParser.ParseMathML(text).ToArray
+        Dim doc As SbmlDocument = SbmlDocument.LoadDocument("D:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml")
+        Dim index As New SBMLInternalIndexer(doc)
+
+        Pause()
+    End Sub
+
     Sub Main()
+        Call parseMathMLTest()
+    End Sub
+
+    Sub xmlReadertest()
         Dim sbml = XmlFile(Of SBMLReaction).LoadDocument("E:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml")
         Dim newML As New XmlFile(Of SBMLReaction) With {
             .model = New Model(Of SBMLReaction) With {
