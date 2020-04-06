@@ -10,8 +10,8 @@ Namespace SBML
         Public Property mathML As NamedValue(Of LambdaExpression)()
 
         Public Shared Function LoadDocument(path As String) As SbmlDocument
-            Dim sbml As XmlFile(Of SBMLReaction) = path.LoadXml(Of XmlFile(Of SBMLReaction))
-            Dim math = MathMLParser.ParseMathML(sbmlText:=path.ReadAllText).ToArray
+            Dim sbml As XmlFile(Of SBMLReaction) = path.SolveStream.LoadFromXml(Of XmlFile(Of SBMLReaction))
+            Dim math = MathMLParser.ParseMathML(sbmlText:=path.SolveStream).ToArray
             Dim formulas As NamedValue(Of LambdaExpression)() = math _
                 .Select(Function(a)
                             Return New NamedValue(Of LambdaExpression) With {

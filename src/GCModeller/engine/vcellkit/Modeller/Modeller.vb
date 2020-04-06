@@ -44,13 +44,14 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.Rsharp.Runtime
 
 <Package("vcellkit.modeller")>
@@ -78,16 +79,21 @@ Module Modeller
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
             Dim kineticList As New List(Of SBMLInternalIndexer)
-            Dim kinetics As XmlFile(Of SBMLReaction)
+            Dim kinetics As SbmlDocument
 
             If keggEnzymes.ContainsKey(enzyme.KO) Then
                 numbers = keggEnzymes(enzyme.KO)
 
                 For Each number As String In numbers.Select(Function(num) num.parent.classLabel.Split.First)
-                    kinetics = WebRequest.QueryByECNumber(number, cache)
+                    Dim q As New Dictionary(Of QueryFields, String) From {
+                        {QueryFields.ECNumber, number}
+                    }
+                    Dim xml As String = docuRESTfulWeb.searchKineticLawsRawXml(q, cache)
 
-                    If kinetics Is Nothing Then
+                    If xml.StringEmpty Then
                         Continue For
+                    Else
+                        kinetics = SbmlDocument.LoadDocument(xml)
                     End If
 
                     kineticList += New SBMLInternalIndexer(kinetics)
@@ -112,9 +118,17 @@ Module Modeller
                                         }
                                     End Function) _
                             .ToArray
-                        Dim formula As String = index.getFormula(target.kineticLaw.metaid)
+                        Dim formula As LambdaExpression = index.getFormula(target.kineticLaw.metaid)
 
-                        react.formula = formula
+                        If formula Is Nothing Then
+                            Continue For
+                        End If
+
+                        react.formula = New FunctionElement With {
+                            .lambda = formula.lambda.ToString,
+                            .name = target.name,
+                            .parameters = formula.parameters
+                        }
                         react.parameters = parameters
                         react.PH = target.kineticLaw.annotation.sabiork.experimentalConditions.pHValue.startValuepH
                         react.temperature = target.kineticLaw.annotation.sabiork.experimentalConditions.temperature.startValueTemperature

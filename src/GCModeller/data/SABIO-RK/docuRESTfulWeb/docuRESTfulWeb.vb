@@ -20,8 +20,27 @@ Public Module docuRESTfulWeb
     ''' </summary>
     ''' <param name="q"></param>
     ''' <returns></returns>
+    Public Function searchKineticLawsRawXml(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As String
+        Static api As New Dictionary(Of String, ModelQuery)
+
+        ' do file data query
+        Return api.ComputeIfAbsent(
+            key:=cache,
+            lazyValue:=Function()
+                           Return New ModelQuery(cache)
+                       End Function) _
+                  .QueryCacheText(q)
+    End Function
+
+    ''' <summary>
+    ''' Search for SABIO kinetic law entries by a query string
+    ''' </summary>
+    ''' <param name="q"></param>
+    ''' <returns></returns>
     Public Function searchKineticLaws(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As sbXML
         Static api As New Dictionary(Of String, ModelQuery)
+
+        ' do file data query
         Return api.ComputeIfAbsent(
             key:=cache,
             lazyValue:=Function()
