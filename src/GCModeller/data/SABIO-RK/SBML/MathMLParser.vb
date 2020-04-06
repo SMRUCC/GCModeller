@@ -29,7 +29,7 @@ Namespace SBML
             For Each func As String In functions
                 xml = XmlElement.ParseXmlText(func)
                 id = xml.attributes("id")
-                term = xml.attributes("sboTerm")
+                term = xml.attributes.TryGetValue("sboTerm")
                 math = xml.getElementsByTagName("math").First
 
                 Yield New NamedValue(Of XmlElement) With {
