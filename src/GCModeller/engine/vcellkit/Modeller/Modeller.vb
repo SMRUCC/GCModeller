@@ -123,4 +123,9 @@ Module Modeller
     Public Function LoadVirtualCell(path As String) As VirtualCell
         Return path.LoadXml(Of VirtualCell)
     End Function
+
+    <ExportAPI("zip")>
+    Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
+
+    End Function
 End Module
