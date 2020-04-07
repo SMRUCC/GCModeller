@@ -208,6 +208,36 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Biostack\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh080dc9c.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Biostack\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh080dc9c.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Biostack\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh080dc9c.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -232,8 +262,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataServices\ModelBase\API.vb" />
-    <Compile Include="DataServices\ModelBase\Property.vb" />
     <Compile Include="DataServices\StorageInterface\API.vb" />
     <Compile Include="DataServices\StorageInterface\ObjectHandle.vb" />
     <Compile Include="DataServices\StorageInterface\Specialized.vb" />
@@ -250,8 +278,6 @@
     <Compile Include="Driver\KernelDriver\KernelDriver.vb" />
     <Compile Include="DataServices\DataAdapter.vb" />
     <Compile Include="Driver\Engine.vb" />
-    <Compile Include="Compiler.vb" />
-    <Compile Include="DataServices\ModelBase\Model.vb" />
     <Compile Include="DriverAPI.vb" />
     <Compile Include="DataServices\StorageInterface\DataSerials%28Of T%29.vb" />
     <Compile Include="Extensions.vb" />

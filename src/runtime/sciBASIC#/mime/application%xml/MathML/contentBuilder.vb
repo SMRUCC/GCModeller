@@ -1,4 +1,48 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::7220c76bb3218d0ca113b0f9a9c0fc32, mime\application%xml\MathML\contentBuilder.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+' /********************************************************************************/
+
+' Summaries:
+
+'     Module ContentBuilder
+' 
+'         Function: getTextSymbol, parseInternal, ParseXml, SimplyOperator, ToString
+'                   TrimWhitespace
+' 
+' 
+' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
@@ -17,22 +61,26 @@ Namespace MathML
             Dim right As String = ""
 
             If Not lambda.applyleft Is Nothing Then
-                If lambda.applyleft Like GetType(String) Then
-                    left = lambda.applyleft.TryCast(Of String)
+                If lambda.applyleft Like GetType(SymbolExpression) Then
+                    left = lambda.applyleft.TryCast(Of SymbolExpression).ToString
                 Else
                     left = $"( {lambda.applyleft.TryCast(Of BinaryExpression).ToString} )"
                 End If
             End If
 
             If Not lambda.applyright Is Nothing Then
-                If lambda.applyright Like GetType(String) Then
-                    right = lambda.applyright.TryCast(Of String)
+                If lambda.applyright Like GetType(SymbolExpression) Then
+                    right = lambda.applyright.TryCast(Of SymbolExpression).ToString
                 Else
                     right = $"( {lambda.applyright.TryCast(Of BinaryExpression).ToString} )"
                 End If
             End If
 
-            Return $"{left} {operators(lambda.[operator]).Description} {right}"
+            If lambda.applyright Is Nothing Then
+                Return $"{operators(lambda.[operator]).Description} {left}"
+            Else
+                Return $"{left} {operators(lambda.[operator]).Description} {right}"
+            End If
         End Function
 
         ''' <summary>
@@ -54,7 +102,7 @@ Namespace MathML
                     .Select(Function(b)
                                 Return b.getElementsByTagName("ci") _
                                     .First.text _
-                                    .Trim(" "c, ASCII.TAB)
+                                    .TrimWhitespace
                             End Function) _
                     .ToArray
                 lambdaElement = lambdaElement.getElementsByTagName("apply").FirstOrDefault
@@ -70,27 +118,37 @@ Namespace MathML
             End If
         End Function
 
+        ReadOnly symbols As Index(Of String) = {"apply", "ci", "cn"}
+        ''' <summary>
+        ''' a list of standard math function
+        ''' </summary>
+        ReadOnly stdMathFunc As Index(Of String) = {"abs"}
+
         <Extension>
         Private Function parseInternal(apply As XmlElement) As BinaryExpression
-            Dim [operator] = apply.elements(Scan0)
-            Dim left, right As [Variant](Of BinaryExpression, String)
-            Dim applys = apply.getElementsByTagName("apply").ToArray
+            Dim [operator] As XmlElement
+            Dim left, right As [Variant](Of BinaryExpression, SymbolExpression)
 
-            If applys.Length = 1 Then
-                If apply.elements(1).name = "apply" Then
-                    left = applys(Scan0).parseInternal
-                    right = apply.elements(2).text.Trim(" "c, ASCII.TAB)
-                Else
-                    left = apply.elements(1).text.Trim(" "c, ASCII.TAB)
-                    right = applys(Scan0).parseInternal
-                End If
-            ElseIf applys.Length = 2 Then
-                left = applys(Scan0).parseInternal
-                right = applys(1).parseInternal
+            If apply.elements(Scan0).name Like symbols Then
+                [operator] = New XmlElement With {.name = "times"}
+                apply.elements = {[operator]}.Join(apply.elements).ToArray
             Else
-                left = apply.elements(1).text.Trim(" "c, ASCII.TAB)
-                right = apply.elements(2).text.Trim(" "c, ASCII.TAB)
+                [operator] = apply.elements(Scan0)
             End If
+
+            If apply.elements.Length = 2 Then
+                If apply.elements(Scan0).name = "minus" Then
+                    apply.elements = {apply.elements(Scan0)} _
+                        .Join({New XmlElement With {.name = "cn", .text = 0}}) _
+                        .Join(apply.elements.Skip(1)) _
+                        .ToArray
+                Else
+                    Throw New NotImplementedException(apply.elements(Scan0).name)
+                End If
+            End If
+
+            left = apply.elements(1).ExpressionComponent
+            right = apply.elements(2).ExpressionComponent
 
             Dim exp As New BinaryExpression With {
                 .[operator] = [operator].name,
@@ -99,6 +157,41 @@ Namespace MathML
             }
 
             Return exp
+        End Function
+
+        <Extension>
+        Private Function ExpressionComponent(element As XmlElement) As [Variant](Of BinaryExpression, SymbolExpression)
+            If element.name = "apply" Then
+                Return element.parseInternal
+            Else
+                Return element.getTextSymbol
+            End If
+        End Function
+
+        <Extension>
+        Private Function getTextSymbol(element As XmlElement) As SymbolExpression
+            Dim value As String = element.text.TrimWhitespace
+
+            If element.name = "ci" Then
+                Return New SymbolExpression With {.text = value}
+            ElseIf element.name = "cn" Then
+                If element.attributes.TryGetValue("type") = "rational" Then
+                    Dim a = element.elements(0).text.TrimWhitespace
+                    Dim b = element.elements(2).text.TrimWhitespace
+
+                    Return New SymbolExpression With {.text = $"{a}/{b}", .isNumericLiteral = True}
+                Else
+                    Return New SymbolExpression With {.text = value, .isNumericLiteral = True}
+                End If
+            Else
+                Throw New NotImplementedException(element.ToString)
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Private Function TrimWhitespace(str As String) As String
+            Return Strings.Trim(str).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
         End Function
     End Module
 End Namespace

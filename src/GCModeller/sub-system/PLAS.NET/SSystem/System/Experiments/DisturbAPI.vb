@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd592a41e170cb48187062cb97d431ce, sub-system\PLAS.NET\SSystem\System\Experiments\DisturbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b996036d032c463c406a9bd8c15abe97, PLAS.NET\SSystem\System\Experiments\DisturbAPI.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,8 @@
     ' 
     '         Properties: Methods
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -58,12 +60,15 @@ Namespace Kernel.ObjectModels
 
     Public Module DisturbAPI
 
-        Public ReadOnly Property Methods As IReadOnlyDictionary(Of Types, Func(Of Double, Double, Double)) =
-            New Dictionary(Of Types, Func(Of Double, Double, Double)) From {
+        Public ReadOnly Property Methods As IReadOnlyDictionary(Of Types, Func(Of Double, Double, Double))
+
+        Sub New()
+            Methods = New Dictionary(Of Types, Func(Of Double, Double, Double)) From {
  _
-            {Types.Increase, Function(x, d) x + d},
-            {Types.Decrease, Function(x, d) x - d},
-            {Types.ChangeTo, Function(x, d) x}
-        }
+                {Types.Increase, Function(x, d) x + d},
+                {Types.Decrease, Function(x, d) x - d},
+                {Types.ChangeTo, Function(x, d) x}
+            }
+        End Sub
     End Module
 End Namespace

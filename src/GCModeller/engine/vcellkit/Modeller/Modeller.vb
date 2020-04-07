@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::806e5955367bbbeb5ff52f83bf364c9a, vcellkit\Modeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::e548dba8f1546e0b1e92d90425985fcd, vcellkit\Modeller\Modeller.vb"
 
 ' Author:
 ' 
@@ -44,15 +44,20 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.Rsharp.Runtime
 
-<Package("vcellkit.modeller")>
+''' <summary>
+''' virtual cell network kinetics modeller
+''' </summary>
+<Package("vcellkit.modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module Modeller
 
     ' ((kcat * E) * S) / (Km + S)
@@ -77,13 +82,22 @@ Module Modeller
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
             Dim kineticList As New List(Of SBMLInternalIndexer)
-            Dim kinetics As XmlFile(Of SBMLReaction)
+            Dim kinetics As SbmlDocument
 
             If keggEnzymes.ContainsKey(enzyme.KO) Then
                 numbers = keggEnzymes(enzyme.KO)
 
                 For Each number As String In numbers.Select(Function(num) num.parent.classLabel.Split.First)
-                    kinetics = WebRequest.QueryByECNumber(number, cache)
+                    Dim q As New Dictionary(Of QueryFields, String) From {
+                        {QueryFields.ECNumber, number}
+                    }
+                    Dim xml As String = docuRESTfulWeb.searchKineticLawsRawXml(q, cache)
+
+                    If xml.StringEmpty Then
+                        Continue For
+                    Else
+                        kinetics = SbmlDocument.LoadDocument(xml)
+                    End If
 
                     If kinetics Is Nothing Then
                         Continue For
@@ -100,7 +114,31 @@ Module Modeller
                     reactions = index.getKEGGreactions(react.reaction)
 
                     If Not reactions Is Nothing Then
+                        ' 如何查找匹配最优的催化动力学过程？
+                        ' 在这里假设只使用第一个
+                        Dim target As SBMLReaction = reactions.First
+                        Dim parameters As NamedValue() = target.kineticLaw.listOfLocalParameters _
+                            .Select(Function(a)
+                                        Return New NamedValue With {
+                                            .name = a.name,
+                                            .text = a.value
+                                        }
+                                    End Function) _
+                            .ToArray
+                        Dim formula As LambdaExpression = index.getFormula(target.kineticLaw.metaid)
 
+                        If formula Is Nothing Then
+                            Continue For
+                        End If
+
+                        react.formula = New FunctionElement With {
+                            .lambda = formula.lambda.ToString,
+                            .name = target.name,
+                            .parameters = formula.parameters
+                        }
+                        react.parameter = parameters
+                        react.PH = target.kineticLaw.annotation.sabiork.experimentalConditions.pHValue.startValuepH
+                        react.temperature = target.kineticLaw.annotation.sabiork.experimentalConditions.temperature.startValueTemperature
                     End If
                 Next
             Next
@@ -123,5 +161,9 @@ Module Modeller
     Public Function LoadVirtualCell(path As String) As VirtualCell
         Return path.LoadXml(Of VirtualCell)
     End Function
-End Module
 
+    <ExportAPI("zip")>
+    Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
+        Return ZipAssembly.WriteZip(vcell, file)
+    End Function
+End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f2b63c9dbbc684d83e0eaab9b27af27, vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::4d7eb389619c7bbfb795477151a3444b, vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@
 Module Debugger
 
 End Module
-

@@ -1,45 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::bc5ad48536de017d2df2ffccc378d015, vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::7834dca599a25455792ee1a9e12e0085, vcellkit\Modeller\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Compiler
-    ' 
-    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, kegg, load_geneKOMapping
-    '               ToMarkup
-    ' 
-    ' /********************************************************************************/
+' Module Compiler
+' 
+'     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, kegg, load_geneKOMapping
+'               ToMarkup
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -48,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
+Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
@@ -197,7 +199,11 @@ Module Compiler
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
                              regulations As RegulationFootprint(),
-                             Optional lociAsLocus_tag As Boolean = False) As VirtualCell
-        Return model.ToMarkup(genomes, KEGG, regulations, lociAsLocus_tag)
+                             Optional lociAsLocus_tag As Boolean = False,
+                             Optional logfile As String = Nothing) As VirtualCell
+
+        Using compiler As New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
+            Return compiler.Compile($"compile --log {logfile.CLIPath}")
+        End Using
     End Function
 End Module

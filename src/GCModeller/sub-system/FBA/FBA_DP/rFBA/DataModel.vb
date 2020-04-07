@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0ec7363972ef242635307563b98c624, sub-system\FBA\FBA_DP\rFBA\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::9a9f86ca422b4aaa52c961b06fdc61f8, FBA\FBA_DP\rFBA\DataModel.vb"
 
     ' Author:
     ' 
@@ -70,7 +70,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace rFBA
 

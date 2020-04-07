@@ -99,6 +99,7 @@
     <Compile Include="LPPTest.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="HalfTest.vb" />
+    <Compile Include="scriptTest.vb" />
     <Compile Include="VectorTest.vb" />
     <Compile Include="quantileTest.vb" />
     <Compile Include="PCAtest.vb" />

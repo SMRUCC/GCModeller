@@ -129,17 +129,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SBML\SbmlDocument.vb" />
     <Compile Include="SBML\kineticLaw.vb" />
-    <Compile Include="SBML\Module1.vb" />
+    <Compile Include="SBML\MathMLParser.vb" />
+    <Compile Include="SBML\TargetParser.vb" />
     <Compile Include="SBML\SBMLInternalIndexer.vb" />
     <Compile Include="SBML\SBMLReaction.vb" />
-    <Compile Include="SBML\DocAPI.vb" />
+    <Compile Include="Dumps\DocAPI.vb" />
     <Compile Include="Dumps\Enzyme.vb" />
     <Compile Include="Dumps\Kinetics.vb" />
     <Compile Include="Dumps\TabularDump.vb" />
-    <Compile Include="SBML\LocalParameterParser.vb" />
-    <Compile Include="SBML\SabiorkSBML.vb" />
-    <Compile Include="SBML\SBMLParser.vb" />
+    <Compile Include="Dumps\LocalParameterParser.vb" />
+    <Compile Include="Dumps\SabiorkSBML.vb" />
+    <Compile Include="Dumps\SBMLParser.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -169,9 +171,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\application.rdf_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
-      <Name>application.RDF_xml</Name>
+      <Name>application.rdf_xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25xml\application_xml.vbproj">
       <Project>{25af39f4-76af-411f-ac19-0dd1e128d801}</Project>

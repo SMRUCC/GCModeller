@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a898b6127da786a01cb9ef3b80992649, sub-system\PLAS.NET\PLAS\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::281dbf857fb5cfefa2e15f3bb5ef5000, PLAS.NET\PLAS\CLI.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -47,9 +48,10 @@ Imports SMRUCC.genomics.Analysis.SSystem
 <Package("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI
 
-    <ExportAPI("Run", Info:="run a model file of the biochemical network system.",
-        Usage:="run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]",
-        Example:="run -i ""/home/xieguigang/proj/xcc8004.sbml"" -f sbml -chart T -o ""/home/xieguigang/Desktop/xcc8004.csv""")>
+    <ExportAPI("Run")>
+    <Description("run a model file of the biochemical network system.")>
+    <Usage("run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]")>
+    <Example("run -i ""/home/xieguigang/proj/xcc8004.sbml"" -f sbml -chart T -o ""/home/xieguigang/Desktop/xcc8004.csv""")>
     <Argument("-i", False, Description:="The file path of the input model file that will be run on the PLAS program.")>
     <Argument("-f", True,
         Description:="This parameter specific that the file format of the model file which will be run on the PLAS program." & vbCrLf &
@@ -65,11 +67,11 @@ Public Module CLI
         Return RunMethods(args <= "-f")(args)
     End Function
 
-    <ExportAPI("Compile", Info:="Compile a script file or sbml file into the plas model file.",
-        Usage:="compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]",
-        Example:="compile -i ""/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-reactions.sbml"" -f sbml -o ""/home/xieguigang/Desktop/xcc8004.xml""")>
+    <ExportAPI("Compile")>
+    <Description("Compile a script file or sbml file into the plas model file.")>
+    <Usage("compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]")>
+    <Example("compile -i ""/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-reactions.sbml"" -f sbml -o ""/home/xieguigang/Desktop/xcc8004.xml""")>
     Public Function Compile(args As CommandLine) As Integer
-        Dim AutoFix As Boolean = args.GetBoolean("/auto-fix")
-        Return Compilers(args <= "-f")(args <= "-i", args <= "-o", AutoFix).CLICode
+        Return Compilers(args <= "-f")(args <= "-i", args <= "-o", args("/auto-fix")).CLICode
     End Function
 End Module

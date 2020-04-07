@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fcdcdeb63c4681d4383f49221e30ee0, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::8a58da7e943a68503b53bed0de78f3b7, PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: AutoFixError
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CheckConsist, (+2 Overloads) Compile, Link, PreCompile
+    '         Function: CheckConsist, (+2 Overloads) Compile
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace Script
 
@@ -69,8 +69,8 @@ Namespace Script
         ''' </summary>
         ''' <param name="path">The file path of the PLAS script.</param>
         Sub New(path As String)
-            MyBase.CompiledModel = ScriptParser.ParseFile(path)
-            MyBase._Logging = New LogFile(App.LocalData & "/.logs/" & LogFile.NowTimeNormalizedString & "." & path.BaseName & ".log")
+            MyBase.m_compiledModel = ScriptParser.ParseFile(path)
+            MyBase.m_logging = New LogFile(App.LocalData & "/.logs/" & LogFile.NowTimeNormalizedString & "." & path.BaseName & ".log")
         End Sub
 
         ''' <summary>
@@ -88,7 +88,7 @@ Namespace Script
  _
                     From var As var
                     In Metabolites
-                    Where String.Equals(var.UniqueId, r.x)
+                    Where String.Equals(var.Id, r.x)
                     Select var
 
                 If LQuery.Length = 0 Then '没有找到
@@ -113,15 +113,15 @@ Namespace Script
         ''' </summary>
         ''' <param name="args"></param>
         ''' <returns></returns>
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Model
-            Dim checked = CheckConsist(CompiledModel.Vars, CompiledModel.sEquations)
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
+            Dim checked = CheckConsist(m_compiledModel.Vars, m_compiledModel.sEquations)
 
             If Not String.IsNullOrEmpty(checked.Name) Then  ' 检测的结果有错误
                 Call printf("Trying to fix these problems.\n-----------------------------")
 
                 For Each Var As SEquation In checked.Value
-                    CompiledModel += New var With {
-                        .UniqueId = Var.x,
+                    m_compiledModel += New var With {
+                        .Id = Var.x,
                         .Value = 0
                     }
 
@@ -129,7 +129,9 @@ Namespace Script
                 Next
             End If
 
-            Return WriteProperty(args, CompiledModel)
+            Call WriteProperty(args, m_compiledModel)
+
+            Return 0
         End Function
 
         ''' <summary>
@@ -152,14 +154,6 @@ Namespace Script
             }
                 Return Script.Compile
             End Using
-        End Function
-
-        Protected Overrides Function Link() As Integer
-            Return -1
-        End Function
-
-        Public Overrides Function PreCompile(args As CommandLine) As Integer
-            Return -1
         End Function
     End Class
 End Namespace

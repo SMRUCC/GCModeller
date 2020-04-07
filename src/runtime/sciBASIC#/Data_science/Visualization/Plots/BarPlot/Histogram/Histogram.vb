@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39d7a716e377547a9710a0857e4ae131, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::20fe4e33b60f4c9268c4319059fc3be0, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
 
     ' Author:
     ' 
@@ -58,6 +58,8 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -162,11 +164,14 @@ Namespace BarPlot.Histogram
                              Optional padding$ = g.DefaultPadding,
                              Optional showGrid As Boolean = True) As GraphicsData
             Dim data As New List(Of Double)
-            Dim engine As New Expression
+            Dim engine As New ExpressionEngine
+            Dim exp As Expression = New ExpressionTokenIcer(expression) _
+                .GetTokens _
+                .ToArray _
+                .DoCall(AddressOf BuildExpression)
 
             For Each x As Double In xrange.Value.seq(steps)
-                Call engine.SetVariable(xrange.Name, x#)
-                data += engine.Evaluation(expression$)
+                data += engine.SetSymbol(xrange.Name, x#).Evaluate(exp)
             Next
 
             Return Plot(data, xrange.Value, color, bg, size, padding, showGrid)

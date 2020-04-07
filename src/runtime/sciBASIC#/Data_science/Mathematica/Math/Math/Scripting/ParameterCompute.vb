@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5849bcc671a83afef68906e254d1a0a, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
+﻿#Region "Microsoft.VisualBasic::cc068ac6d7b6db8ac8c6ad7a40baba2a, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Emit.Parameters
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Scripting.Expressions
 
 Namespace Scripting
@@ -178,7 +179,7 @@ Namespace Scripting
                 .Where(Function(n) params.ContainsKey(n.Name)) _
                 .ToArray   ' 按顺序计算
             Dim out As New List(Of String)
-            Dim expression As New Expression
+            Dim expression As New ExpressionEngine
 
             strings = New List(Of String)
 
@@ -186,7 +187,7 @@ Namespace Scripting
                 Dim value As Value = params(name.Name)
 
                 If value.IsNumeric Then
-                    Call expression.SetVariable(name.Name, CDbl(value.Value))
+                    Call expression.SetSymbol(name.Name, CDbl(value.Value))
                 ElseIf value.IsString Then
                     Dim s$ = CStr(value.Value)
 
@@ -194,7 +195,7 @@ Namespace Scripting
                         strings += name.Name
                         Continue For ' 跳过字符串插值计算
                     Else
-                        Call expression.SetVariable(name.Name, s)
+                        Call expression.SetSymbol(name.Name, s)
                     End If
                 Else
                     ' 忽略掉其他的类型
@@ -206,7 +207,9 @@ Namespace Scripting
 
             Dim values As Dictionary(Of String, Double) = out _
                 .ToDictionary(Function(name) name,
-                              Function(name) expression(name))
+                              Function(name)
+                                  Return expression.GetSymbolValue(name)
+                              End Function)
             Return values
         End Function
     End Module

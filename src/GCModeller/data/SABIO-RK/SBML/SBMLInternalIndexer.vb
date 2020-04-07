@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
@@ -8,11 +9,12 @@ Namespace SBML
         ReadOnly compartments As Dictionary(Of String, compartment)
         ReadOnly species As Dictionary(Of String, species)
         ReadOnly keggReactions As New Dictionary(Of String, List(Of SBMLReaction))
+        ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
 
-        Sub New(sbml As XmlFile(Of SBMLReaction))
+        Sub New(sbml As SbmlDocument)
             Dim entries As NamedValue(Of String)()
 
-            For Each react As SBMLReaction In sbml.model.listOfReactions
+            For Each react As SBMLReaction In sbml.sbml.model.listOfReactions
                 entries = react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction").ToArray
 
                 For Each id In entries
@@ -24,9 +26,28 @@ Namespace SBML
                 Next
             Next
 
-            compartments = sbml.model.listOfCompartments.ToDictionary(Function(c) c.id)
-            species = sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
+            For Each lambda As NamedValue(Of LambdaExpression) In sbml.mathML
+                If Not lambda.Value Is Nothing Then
+                    formulaLambdas.Add(lambda.Name, lambda.Value)
+                End If
+            Next
+
+            compartments = sbml.sbml.model.listOfCompartments.ToDictionary(Function(c) c.id)
+            species = sbml.sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
         End Sub
+
+        ''' <summary>
+        ''' 获取得到反应过程对应的动力学函数
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function getFormula(id As String) As LambdaExpression
+            If formulaLambdas.ContainsKey(id) Then
+                Return formulaLambdas(id)
+            Else
+                Return Nothing
+            End If
+        End Function
 
         Public Function getKEGGreactions(id As String) As IEnumerable(Of SBMLReaction)
             Return keggReactions.TryGetValue(id)

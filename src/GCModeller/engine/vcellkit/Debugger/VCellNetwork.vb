@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5e20a0dc1cbcbcb40fd6f9aa02431a2, vcellkit\Debugger\VCellNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::df3a501ba60b5267e98a546e97cb3437, vcellkit\Debugger\VCellNetwork.vb"
 
     ' Author:
     ' 
@@ -148,4 +148,3 @@ Module VCellNetwork
         Return g
     End Function
 End Module
-
