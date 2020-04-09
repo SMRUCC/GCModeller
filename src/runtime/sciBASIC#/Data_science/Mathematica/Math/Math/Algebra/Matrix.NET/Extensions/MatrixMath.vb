@@ -52,7 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace LinearAlgebra
 
@@ -70,7 +70,7 @@ Namespace LinearAlgebra
         ''' 其中A为m*n的矩阵,r为A的秩.即A=Return_M*Return_N.函数执行成功返回r(也就是其秩)
         ''' </remarks>
         <Extension> Public Function SG(K As Matrix) As (M As Matrix, N As Matrix, rank As Int16)
-            Dim erro As Double = sys.Pow(0.1, 10)
+            Dim erro As Double = stdNum.Pow(0.1, 10)
             Dim n As Int16 = K.GetSize
             Dim m As Int16 = K.Length / n
             Dim i As Int16
@@ -79,12 +79,12 @@ Namespace LinearAlgebra
             Dim return_M, return_N As Matrix
 
             If Rank = m And m = n Then
-                Return_M = New Matrix(m - 1, n - 1) '    ReDim Return_M(m - 1, n - 1)
-                Return_N = New Matrix(m - 1, n - 1) '    ReDim Return_N(m - 1, n - 1)
+                return_M = New Matrix(m - 1, n - 1) '    ReDim Return_M(m - 1, n - 1)
+                return_N = New Matrix(m - 1, n - 1) '    ReDim Return_N(m - 1, n - 1)
                 For i = 0 To m - 1
-                    Return_N(i, i) = 1
+                    return_N(i, i) = 1
                     For j = 0 To m - 1
-                        Return_M(i, j) = K(i, j)
+                        return_M(i, j) = K(i, j)
                     Next
                 Next
                 Return (return_M, return_N, Rank)
@@ -122,7 +122,7 @@ Namespace LinearAlgebra
                             temp = tempk(i, j) / tempk(i1, j)
                             For j1 = 0 To n - 1
                                 tempk(i1, j1) = tempk(i1, j1) * temp - tempk(i, j1)
-                                If sys.Abs(tempk(i1, j1)) <= erro Then
+                                If stdNum.Abs(tempk(i1, j1)) <= erro Then
                                     tempk(i1, j1) = 0
                                 End If
                             Next
@@ -133,19 +133,19 @@ Namespace LinearAlgebra
                 j += 1
             End While
             j1 = 0
-            Return_M = New Matrix(m - 1, Rank - 1) '    ReDim Return_M(m - 1, Rank - 1)
+            return_M = New Matrix(m - 1, Rank - 1) '    ReDim Return_M(m - 1, Rank - 1)
             For i = 0 To m - 1
                 j = i
                 While j < n
                     If tempk(i, j) <> 0 Then
                         For i1 = 0 To m - 1
-                            Return_M(i1, j1) = K(i1, j)
+                            return_M(i1, j1) = K(i1, j)
                         Next
                         j1 += 1
                         temp = tempk(i, j)
                         While j < n
                             tempk(i, j) /= temp
-                            If sys.Abs(tempk(i, j)) <= erro Then
+                            If stdNum.Abs(tempk(i, j)) <= erro Then
                                 tempk(i, j) = 0
                             End If
                             j += 1
@@ -155,10 +155,10 @@ Namespace LinearAlgebra
                     j += 1
                 End While
             Next
-            Return_N = New Matrix(Rank - 1, n - 1) '    ReDim Return_N(Rank - 1, n - 1)
+            return_N = New Matrix(Rank - 1, n - 1) '    ReDim Return_N(Rank - 1, n - 1)
             For i = 0 To Rank - 1
                 For j = 0 To n - 1
-                    Return_N(i, j) = tempk(i, j)
+                    return_N(i, j) = tempk(i, j)
                 Next
             Next
             Return (return_M, return_N, Rank)
@@ -227,7 +227,7 @@ Namespace LinearAlgebra
         ''' <remarks></remarks>
         Public Function Pinv2(K As Matrix, Erro As Int16, m As Int16, Ret As Matrix) As Int16
             Dim n As Integer = K.Length / m
-            Dim Erro1 As Double = sys.Pow(0.1, Erro)
+            Dim Erro1 As Double = stdNum.Pow(0.1, Erro)
             If Erro1 = 1 Then
                 Erro1 = 0
             End If
@@ -250,11 +250,11 @@ Namespace LinearAlgebra
                 If i = n + 1 Then
                     Exit For
                 End If
-                If sys.Abs(K(i, i)) <= Erro1 Then
+                If stdNum.Abs(K(i, i)) <= Erro1 Then
                     K(i, i) = 0
                     ii = i + 1
                     While ii <= m
-                        If sys.Abs(K(ii, i)) > Erro1 Then
+                        If stdNum.Abs(K(ii, i)) > Erro1 Then
                             For j = 0 To n
                                 temp = K(i, j)
                                 K(i, j) = K(ii, j)
@@ -274,17 +274,17 @@ Namespace LinearAlgebra
                 If K(i, i) <> 0 Then
                     For ii = 0 To m
                         If ii <> i Then
-                            If sys.Abs(K(ii, i)) > Erro1 Then
+                            If stdNum.Abs(K(ii, i)) > Erro1 Then
                                 temp = K(i, i) / K(ii, i)
                                 For j = 0 To n
                                     K(ii, j) = K(ii, j) * temp - K(i, j)
-                                    If sys.Abs(K(ii, j)) <= Erro1 Then
+                                    If stdNum.Abs(K(ii, j)) <= Erro1 Then
                                         K(ii, j) = 0
                                     End If
                                 Next
                                 For j = 0 To m
                                     P(ii, j) = P(ii, j) * temp - P(i, j)
-                                    If sys.Abs(P(ii, j)) <= Erro1 Then
+                                    If stdNum.Abs(P(ii, j)) <= Erro1 Then
                                         P(ii, j) = 0
                                     End If
                                 Next
@@ -299,11 +299,11 @@ Namespace LinearAlgebra
                 If j = m + 1 Then
                     Exit For
                 End If
-                If sys.Abs(K(j, j)) <= Erro1 Then
+                If stdNum.Abs(K(j, j)) <= Erro1 Then
                     K(j, j) = 0
                     jj = j + 1
                     While jj <= n
-                        If sys.Abs(K(j, jj)) > Erro1 Then
+                        If stdNum.Abs(K(j, jj)) > Erro1 Then
                             For i = 0 To m
                                 temp = K(i, j)
                                 K(i, j) = K(i, jj)
@@ -323,17 +323,17 @@ Namespace LinearAlgebra
                 If K(j, j) <> 0 Then
                     For jj = 0 To n
                         If jj <> j Then
-                            If sys.Abs(K(j, jj)) > Erro1 Then
+                            If stdNum.Abs(K(j, jj)) > Erro1 Then
                                 temp = K(j, j) / K(j, jj)
                                 For i = 0 To m
                                     K(i, jj) = K(i, jj) * temp - K(i, j)
-                                    If sys.Abs(K(i, jj)) <= Erro1 Then
+                                    If stdNum.Abs(K(i, jj)) <= Erro1 Then
                                         K(i, jj) = 0
                                     End If
                                 Next
                                 For i = 0 To n
                                     Q(i, jj) = Q(i, jj) * temp - Q(i, j)
-                                    If sys.Abs(Q(i, jj)) <= Erro1 Then
+                                    If stdNum.Abs(Q(i, jj)) <= Erro1 Then
                                         Q(i, jj) = 0
                                     End If
                                 Next
@@ -350,7 +350,7 @@ Namespace LinearAlgebra
                     E(i, i) = 1
                     For j = 0 To m
                         P(i, j) /= K(i, i)
-                        If sys.Abs(P(i, j)) <= Erro1 Then
+                        If stdNum.Abs(P(i, j)) <= Erro1 Then
                             P(i, j) = 0
                         End If
                     Next
@@ -522,7 +522,7 @@ Namespace LinearAlgebra
                 For j = 0 To n
                     Btemp(i) += B(j, i) * B(j, i)
                 Next
-                Btemp(i) = sys.Pow(Btemp(i), 0.5)
+                Btemp(i) = stdNum.Pow(Btemp(i), 0.5)
             Next
             Q = New Matrix(n, n) '  ReDim Q(n, n)
             R = New Matrix(n, n) '   ReDim R(n, n)
@@ -588,7 +588,7 @@ Namespace LinearAlgebra
                 For j = 0 To n
                     Btemp(i) += B(j, i) * B(j, i)
                 Next
-                Btemp(i) = sys.Pow(Btemp(i), 0.5)
+                Btemp(i) = stdNum.Pow(Btemp(i), 0.5)
             Next
             Ret = New Matrix(n, n) '  ReDim Ret(n, n)
             For i = 0 To n
@@ -621,7 +621,7 @@ Namespace LinearAlgebra
             Dim m As Int16
             Dim A(0, 0) As Double
             Ret = New Matrix(n - 1, 1) ' ReDim Ret(n - 1, 1) 'u v
-            Dim erro As Double = sys.Pow(0.1, errors)
+            Dim erro As Double = stdNum.Pow(0.1, errors)
             Dim b As Double
             Dim c As Double
             Dim d As Double
@@ -658,7 +658,7 @@ Namespace LinearAlgebra
             While m <> 0
                 t = m - 1
                 While t > 0
-                    If sys.Abs(A(t, t - 1)) > erro * (Abs(A(t - 1, t - 1)) + sys.Abs(A(t, t))) Then
+                    If stdNum.Abs(A(t, t - 1)) > erro * (Abs(A(t - 1, t - 1)) + stdNum.Abs(A(t, t))) Then
                         t -= 1
                     Else
                         Exit While
@@ -731,7 +731,7 @@ Namespace LinearAlgebra
                             Else
                                 xy = 1
                             End If
-                            s = xy * sys.Pow(p * p + q * q + r * r, 0.5)
+                            s = xy * stdNum.Pow(p * p + q * q + r * r, 0.5)
                             If k <> t Then
                                 A(k, k - 1) = -s
                             End If
@@ -804,9 +804,9 @@ Namespace LinearAlgebra
             For k = 1 To n - 1
                 i = k - 1
                 MaxNumber = k
-                temp = sys.Abs(A(k, i))
+                temp = stdNum.Abs(A(k, i))
                 For j = k + 1 To n
-                    If sys.Abs(A(j, i)) > temp Then
+                    If stdNum.Abs(A(j, i)) > temp Then
                         MaxNumber = j
                     End If
                 Next
@@ -869,7 +869,7 @@ Namespace LinearAlgebra
             Dim b(0, 0) As Double
             Dim b1(0, 0) As Double
             Dim temp As Double
-            Dim Error1 As Double = sys.Pow(0.1, 10) '误差控制
+            Dim Error1 As Double = stdNum.Pow(0.1, 10) '误差控制
             At = A.Transpose '   Math_Matrix_T(A, n, At)
             Mul(At, A, m, AtA)
             EigSym(AtA, n, 9, b, b1) 'b特征值，b1特征向量
@@ -904,7 +904,7 @@ Namespace LinearAlgebra
             For i = 0 To j '给s赋值
                 If b(i, 0) > Error1 Then
                     ii += 1
-                    S(i, i) = sys.Sqrt(b(i, 0))
+                    S(i, i) = stdNum.Sqrt(b(i, 0))
                 Else
                     Exit For
                 End If
@@ -914,7 +914,7 @@ Namespace LinearAlgebra
                 For i = 0 To n
                     temp += b1(i, j) * b1(i, j)
                 Next
-                temp = sys.Sqrt(temp)
+                temp = stdNum.Sqrt(temp)
                 For i = 0 To n
                     V(i, j) = b1(i, j) / temp
                 Next
@@ -948,7 +948,7 @@ Namespace LinearAlgebra
                 For i = 0 To m
                     temp += A(i, 0) * A(i, 0)
                 Next
-                temp = sys.Sqrt(temp)
+                temp = stdNum.Sqrt(temp)
                 If temp = 0 Then
                     temp = Error1
                 End If
@@ -1078,7 +1078,7 @@ Namespace LinearAlgebra
             Dim n As Integer = A.GetSize
             n -= 1
             L = New Matrix(n, n) '     ReDim L(n, n)
-            L(0, 0) = sys.Sqrt(A(0, 0))
+            L(0, 0) = stdNum.Sqrt(A(0, 0))
             For i = 1 To n
                 j = 0
                 While j < i
@@ -1102,7 +1102,7 @@ Namespace LinearAlgebra
                 If sun <= 0 Then
                     Return False
                 End If
-                L(i, i) = sys.Sqrt(sun)
+                L(i, i) = stdNum.Sqrt(sun)
             Next
             Return True
         End Function
@@ -1148,7 +1148,7 @@ Namespace LinearAlgebra
                 '误差控制
                 maxerr = 0
                 For i = k To m
-                    t = sys.Abs(A(i, k))
+                    t = stdNum.Abs(A(i, k))
                     If t > maxerr Then
                         maxerr = t
                     End If
@@ -1158,7 +1158,7 @@ Namespace LinearAlgebra
                     p = A(i, k) / maxerr
                     t += p * p
                 Next
-                a1 = maxerr * sys.Pow(t, 0.5)
+                a1 = maxerr * stdNum.Pow(t, 0.5)
                 If A(k, k) > 0 Then
                     a1 = 0 - a1
                 End If
@@ -1166,7 +1166,7 @@ Namespace LinearAlgebra
                 If t <= 0 Then
                     Return False
                 End If
-                p = sys.Pow(t, 0.5)
+                p = stdNum.Pow(t, 0.5)
                 If p > 0 Then
                     A(k, k) = (A(k, k) - a1) / p
                     i = k + 1
@@ -1262,7 +1262,7 @@ Namespace LinearAlgebra
                 '误差控制
                 maxerr = 0
                 For i = k To m
-                    t = sys.Abs(A(i, k))
+                    t = stdNum.Abs(A(i, k))
                     If t > maxerr Then
                         maxerr = t
                     End If
@@ -1272,7 +1272,7 @@ Namespace LinearAlgebra
                     p = A(i, k) / maxerr
                     t += p * p
                 Next
-                a1 = maxerr * sys.Pow(t, 0.5)
+                a1 = maxerr * stdNum.Pow(t, 0.5)
                 If A(k, k) > 0 Then
                     a1 = 0 - a1
                 End If
@@ -1280,7 +1280,7 @@ Namespace LinearAlgebra
                 If t <= 0 Then
                     Return False
                 End If
-                p = sys.Pow(t, 0.5)
+                p = stdNum.Pow(t, 0.5)
                 If p > 0 Then
                     A(k, k) = (A(k, k) - a1) / p
                     i = k + 1
@@ -1586,7 +1586,7 @@ Namespace LinearAlgebra
                     m = 0
                     For i = 0 To n
                         If At(i, 0) > 0 Then
-                            Ret(m, 0) = sys.Sqrt(At(i, 0))
+                            Ret(m, 0) = stdNum.Sqrt(At(i, 0))
                             m += 1
                         End If
                     Next
@@ -1644,12 +1644,12 @@ Namespace LinearAlgebra
                     d = A(k, i)
                     s += d * d
                 Next
-                s = sys.Pow(s, 0.5)
+                s = stdNum.Pow(s, 0.5)
                 If s <> 0 Then
                     For i = 0 To n
                         w(i) = 0
                     Next
-                    w(k + 1) = sys.Pow((1 + sys.Abs(A(k, k + 1) / s)) / 2, 0.5)
+                    w(k + 1) = stdNum.Pow((1 + stdNum.Abs(A(k, k + 1) / s)) / 2, 0.5)
                     i = k + 2
                     While i <= n
                         w(i) = A(k, i) / (2 * s * w(k + 1))
@@ -1848,7 +1848,7 @@ Namespace LinearAlgebra
             Dim J As Double
             Dim ATemp(0, 0) As Double
             Dim ATemp2(0, 2) As Double
-            Dim Erro1 As Double = sys.Pow(0.1, Erro)
+            Dim Erro1 As Double = stdNum.Pow(0.1, Erro)
             Ret = New Matrix(N, 1) '    ReDim Ret(N, 1)
             While N >= 0
                 u = 1
@@ -1869,7 +1869,7 @@ Namespace LinearAlgebra
                     J = c(A_n - 2) * c(A_n) - c(A_n - 1) * c(A_n - 1)
                     u = u + (c(A_n - 1) * b(A_n - 1) - c(A_n - 2) * b(A_n)) / J
                     v = v + (c(A_n - 1) * b(A_n) - c(A_n) * b(A_n - 1)) / J
-                    If sys.Abs(b(A_n)) <= Erro1 And sys.Abs(b(A_n - 1)) <= Erro1 Then
+                    If stdNum.Abs(b(A_n)) <= Erro1 And stdNum.Abs(b(A_n - 1)) <= Erro1 Then
                         Exit While
                     End If
                 End While
@@ -1998,7 +1998,7 @@ Namespace LinearAlgebra
                 Next
                 Return 1
             End If
-            Dim error1 As Double = sys.Abs(A2(0, 0)) * sys.Pow(0.1, Erro)
+            Dim error1 As Double = stdNum.Abs(A2(0, 0)) * stdNum.Pow(0.1, Erro)
             Dim j As Integer
             N = n1 - n2
             Ret = New Matrix(0, N) '  ReDim Ret(0, N)
@@ -2008,7 +2008,7 @@ Namespace LinearAlgebra
                 i = 1
                 While i < n2
                     A1(0, i) -= A2(0, i) * Ret(0, N)
-                    If sys.Abs(A1(0, i)) <= error1 Then
+                    If stdNum.Abs(A1(0, i)) <= error1 Then
                         A1(0, i) = 0
                     End If
                     i += 1
@@ -2097,7 +2097,7 @@ Namespace LinearAlgebra
                 max = 0
                 For temp_i = i To A_m
                     For temp_j = i To n
-                        temp = sys.Abs(A(temp_i, temp_j))
+                        temp = stdNum.Abs(A(temp_i, temp_j))
                         If temp > max Then
                             max = temp
                             Index_j = temp_j
@@ -2205,7 +2205,7 @@ A:              For temp_i = A_m + 1 To n
             Dim x As Double
             Dim y As Double
             Dim d As Double
-            Dim ero As Double = sys.Pow(0.1, Erro1)
+            Dim ero As Double = stdNum.Pow(0.1, Erro1)
             Ret_Eigenvectors = New Matrix(n, n) '  ReDim Ret_Eigenvectors(n, n)
             For i = 0 To n
                 Ret_Eigenvectors(i, i) = 1
@@ -2217,13 +2217,13 @@ A:              For temp_i = A_m + 1 To n
                     ff += d * d
                 Next
             Next
-            ff = sys.Pow(2 * ff, 0.5)
+            ff = stdNum.Pow(2 * ff, 0.5)
 Loop0:
             ff /= (n + 1)
 Loop1:
             For i = 1 To n
                 For j = 0 To i - 1
-                    d = sys.Abs(A(i, j))
+                    d = stdNum.Abs(A(i, j))
                     If d > ff Then
                         p = i
                         q = j
@@ -2239,13 +2239,13 @@ Loop1:
 Loop00:
             x = -A(p, q)
             y = (A(q, q) - A(p, p)) / 2
-            comega = x / sys.Pow(x * x + y * y, 0.5)
+            comega = x / stdNum.Pow(x * x + y * y, 0.5)
             If y < 0 Then
                 comega = -comega
             End If
-            sn = 1 + sys.Pow(1 - comega * comega, 0.5)
-            sn = comega / sys.Pow(2 * sn, 0.5)
-            cn = sys.Pow(1 - sn * sn, 0.5)
+            sn = 1 + stdNum.Pow(1 - comega * comega, 0.5)
+            sn = comega / stdNum.Pow(2 * sn, 0.5)
+            cn = stdNum.Pow(1 - sn * sn, 0.5)
             fm = A(p, p)
             A(p, p) = fm * cn * cn + A(q, q) * sn * sn + A(p, q) * comega
             A(q, q) = fm * sn * sn + A(q, q) * cn * cn - A(p, q) * comega
@@ -2361,7 +2361,7 @@ Loopexit:
                 Next
                 Dim diag(n, n), eigtor(n, n), temp(n, 0), temp2(n, 0) As Double
                 For i = 0 To n
-                    diag(i, i) = sys.Sqrt(eigvalue(i, 0))
+                    diag(i, i) = stdNum.Sqrt(eigvalue(i, 0))
                     EigTorF(K, n + 1, eigvalue(i, 0), temp)
                     For j = 0 To n
                         eigtor(j, i) = temp(j, 0)
@@ -2569,7 +2569,7 @@ Loopexit:
                 Next
                 Return 1
             End If
-            Dim error1 As Double = sys.Abs(A2(0, 0)) * sys.Pow(0.1, Erro)
+            Dim error1 As Double = stdNum.Abs(A2(0, 0)) * stdNum.Pow(0.1, Erro)
             Dim j As Integer
             N = n1 - n2
             Ret = New Matrix(0, N) '     ReDim Ret(0, N)
@@ -2579,7 +2579,7 @@ Loopexit:
                 i = 1
                 While i < n2
                     A1(0, i) -= A2(0, i) * Ret(0, N)
-                    If sys.Abs(A1(0, i)) <= error1 Then
+                    If stdNum.Abs(A1(0, i)) <= error1 Then
                         A1(0, i) = 0
                     End If
                     i += 1
@@ -2644,7 +2644,7 @@ Loopexit:
                 Next
                 i = a1n + 1
             Else
-                Dim Erro1 As Double = sys.Abs(A2(0, 0)) * sys.Pow(0.1, Erro)
+                Dim Erro1 As Double = stdNum.Abs(A2(0, 0)) * stdNum.Pow(0.1, Erro)
                 Dim n As Integer
                 Dim is1 As Boolean
                 While a1n >= a2n
@@ -2653,11 +2653,11 @@ Loopexit:
                     For i = 1 To a2n
                         A1(0, i) -= temp * A2(0, i)
                         If is1 Then
-                            If sys.Abs(A1(0, i)) > Erro1 Then
+                            If stdNum.Abs(A1(0, i)) > Erro1 Then
                                 n = i
                                 is1 = False
                             End If
-                        ElseIf sys.Abs(A1(0, i)) <= Erro1 Then
+                        ElseIf stdNum.Abs(A1(0, i)) <= Erro1 Then
                             A1(0, i) = 0
                         End If
                     Next
@@ -2718,13 +2718,13 @@ Loopexit:
             Dim tempcos As Double
             Dim tempsin As Double
             For i = 0 To m
-                temp = sys.PI * 2 * i / Number
+                temp = stdNum.PI * 2 * i / Number
                 tempx = 0
                 tempy = 0
                 For j = 0 To m
                     temp2 = temp * j
-                    tempcos = sys.Cos(temp2)
-                    tempsin = sys.Sin(temp2)
+                    tempcos = stdNum.Cos(temp2)
+                    tempsin = stdNum.Sin(temp2)
                     tempx += tempcos * k(j, 0) - tempsin * k(j, 1)
                     tempy += tempcos * k(j, 1) + tempsin * k(j, 0)
                 Next
@@ -2766,8 +2766,8 @@ Loopexit:
                 tempy = 0
                 For j = 0 To m
                     temp2 = temp * j
-                    tempcos = sys.Cos(temp2)
-                    tempsin = sys.Sin(temp2)
+                    tempcos = stdNum.Cos(temp2)
+                    tempsin = stdNum.Sin(temp2)
                     tempx += tempcos * k(j, 0) - tempsin * k(j, 1)
                     tempy += tempcos * k(j, 1) + tempsin * k(j, 0)
                 Next
@@ -3015,7 +3015,7 @@ Loopexit:
                 max = 0
                 For temp_i = i To A_m
                     For temp_j = i To n
-                        temp = sys.Abs(A(temp_i, temp_j))
+                        temp = stdNum.Abs(A(temp_i, temp_j))
                         If temp > max Then
                             max = temp
                             Index_j = temp_j
@@ -3143,14 +3143,14 @@ Loopexit:
             End If
             Dim i As Integer
             Dim j As Integer
-            Dim Erro1 As Double = sys.Abs(A1(0, 0)) * sys.Pow(0.1, Erro)
+            Dim Erro1 As Double = stdNum.Abs(A1(0, 0)) * stdNum.Pow(0.1, Erro)
             Dim temp As Double
             While True
                 temp = A1(0, 0) / A2(0, 0)
                 i = 1
                 While i < A2_n
                     A1(0, i) -= A2(0, i) * temp
-                    If sys.Abs(A1(0, i)) <= Erro1 Then
+                    If stdNum.Abs(A1(0, i)) <= Erro1 Then
                         A1(0, i) = 0
                     End If
                     i += 1
