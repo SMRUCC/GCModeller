@@ -329,6 +329,17 @@ Namespace LinearAlgebra.Matrix
 
 #Region "Public Methods"
 
+        ''' <summary>
+        ''' 获取仅包含有一个元素的矩阵对象
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Number() As GeneralMatrix
+            Return New GeneralMatrix(0, 0)
+        End Function
+
         ''' <summary>Construct a matrix from a copy of a 2-D array.</summary>
         ''' <param name="A">   Two-dimensional array of doubles.
         ''' </param>
@@ -1205,6 +1216,23 @@ Namespace LinearAlgebra.Matrix
             End Try
         End Sub
 #End Region
+
+        ''' <summary>
+        ''' 调整矩阵的大小，并保留原有的数据
+        ''' </summary>
+        ''' <param name="m"></param>
+        ''' <param name="n"></param>
+        ''' <remarks></remarks>
+        Public Sub Resize(m As Integer, n As Integer)
+            Me.m = m
+            Me.n = n
+
+            ReDim Preserve buffer(n - 1)
+
+            For i As Integer = 0 To buffer.Length - 1
+                ReDim Preserve buffer(i)(m - 1)
+            Next
+        End Sub
 
         ''' <summary>Clone the GeneralMatrix object.</summary>
         Public Function Clone() As System.Object Implements ICloneable.Clone
