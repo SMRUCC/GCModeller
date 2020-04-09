@@ -63,7 +63,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
-Namespace Matrix
+Namespace LinearAlgebra.Matrix
 
     ''' <summary>
     ''' ### .NET GeneralMatrix class.
