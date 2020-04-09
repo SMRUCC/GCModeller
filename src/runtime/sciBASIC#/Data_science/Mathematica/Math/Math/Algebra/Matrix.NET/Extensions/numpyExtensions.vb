@@ -73,7 +73,7 @@ Namespace LinearAlgebra.Matrix
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Mean(matrix As IEnumerable(Of Vector), Optional axis% = -1) As Vector
-            Return matrix.Apply(Function(x) x.Average, axis:=axis, aggregate:=AddressOf AsVector)
+            Return matrix.Apply(Function(x) x.Average, axis:=axis, aggregate:=AddressOf NumericsVector.AsVector)
         End Function
 
         ''' <summary>
@@ -127,13 +127,13 @@ Namespace LinearAlgebra.Matrix
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Std(matrix As IEnumerable(Of Vector), Optional axis% = -1) As Vector
-            Return matrix.Apply(Function(x) x.StdError, axis:=axis, aggregate:=AddressOf AsVector)
+            Return matrix.Apply(Function(x) x.StdError, axis:=axis, aggregate:=AddressOf NumericsVector.AsVector)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Sum(matrix As IEnumerable(Of Vector), Optional axis% = -1) As Vector
-            Return matrix.Apply(Function(x) x.Sum, axis:=axis, aggregate:=AddressOf AsVector)
+            Return matrix.Apply(Function(x) x.Sum, axis:=axis, aggregate:=AddressOf NumericsVector.AsVector)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

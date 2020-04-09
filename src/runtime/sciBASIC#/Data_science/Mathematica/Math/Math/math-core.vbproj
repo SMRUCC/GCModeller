@@ -724,7 +724,6 @@
     <Compile Include="Algebra\Helpers\Constants.vb" />
     <Compile Include="Algebra\Helpers\Function.vb" />
     <Compile Include="Algebra\Helpers\Variable.vb" />
-    <Compile Include="Algebra\Matrix.NET\Extensions\Matrix.vb" />
     <Compile Include="Algebra\Matrix.NET\Extensions\MatrixMath.vb" />
     <Compile Include="Algebra\Vector\Class\Math.vb" />
     <Compile Include="Algebra\RSyntax\Math\Poisson.vb" />
