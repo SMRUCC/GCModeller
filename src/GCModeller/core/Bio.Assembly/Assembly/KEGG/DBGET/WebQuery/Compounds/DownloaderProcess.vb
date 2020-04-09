@@ -128,7 +128,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                               End If
                           End Sub)
 
-                If Not compound Is Nothing AndAlso structInfo Then
+                If Not (compound Is Nothing OrElse compound.entry.StringEmpty) AndAlso structInfo Then
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
                     Dim gif = xmlFile.ChangeSuffix("gif")
 

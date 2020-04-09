@@ -54,7 +54,10 @@ Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.Rsharp.Runtime
 
-<Package("vcellkit.modeller")>
+''' <summary>
+''' virtual cell network kinetics modeller
+''' </summary>
+<Package("vcellkit.modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module Modeller
 
     ' ((kcat * E) * S) / (Km + S)
@@ -96,6 +99,10 @@ Module Modeller
                         kinetics = SbmlDocument.LoadDocument(xml)
                     End If
 
+                    If kinetics Is Nothing Then
+                        Continue For
+                    End If
+
                     kineticList += New SBMLInternalIndexer(kinetics)
                 Next
             Else
@@ -129,7 +136,7 @@ Module Modeller
                             .name = target.name,
                             .parameters = formula.parameters
                         }
-                        react.parameters = parameters
+                        react.parameter = parameters
                         react.PH = target.kineticLaw.annotation.sabiork.experimentalConditions.pHValue.startValuepH
                         react.temperature = target.kineticLaw.annotation.sabiork.experimentalConditions.temperature.startValueTemperature
                     End If
@@ -153,5 +160,10 @@ Module Modeller
     <ExportAPI("read.vcell")>
     Public Function LoadVirtualCell(path As String) As VirtualCell
         Return path.LoadXml(Of VirtualCell)
+    End Function
+
+    <ExportAPI("zip")>
+    Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
+        Return ZipAssembly.WriteZip(vcell, file)
     End Function
 End Module

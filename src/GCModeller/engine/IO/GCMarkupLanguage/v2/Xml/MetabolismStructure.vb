@@ -276,14 +276,15 @@ Namespace v2
         ''' 通过sabio-rk数据库得到的动力学函数方程
         ''' </summary>
         ''' <returns></returns>
-        <XmlText>
         Public Property formula As FunctionElement
 
         ''' <summary>
         ''' 动力学方程的参数列表
         ''' </summary>
         ''' <returns></returns>
-        Public Property parameters As NamedValue()
+        ''' 
+        <XmlElement>
+        Public Property parameter As NamedValue()
 
     End Class
 End Namespace
