@@ -142,8 +142,7 @@ Namespace MarkupCompiler
                         .Select(Function(reg)
                                     Return New Catalysis With {
                                         .reaction = reg.process,
-                                        .formula = Nothing,
-                                        .description = reg.name
+                                        .formula = Nothing
                                     }
                                 End Function) _
                         .ToArray,

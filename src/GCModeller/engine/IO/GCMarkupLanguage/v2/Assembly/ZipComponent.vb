@@ -5,6 +5,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace v2
 
@@ -27,6 +28,14 @@ Namespace v2
 
         <XmlElement>
         Public Property components As T()
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            Call xmlns.Add("vcellkit", ModelBaseType.GCModellerVCellKit)
+            Call xmlns.Add("biocad", VirtualCell.GCMarkupLanguage)
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"{components.TryCount} components"

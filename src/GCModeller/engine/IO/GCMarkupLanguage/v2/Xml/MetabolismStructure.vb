@@ -269,9 +269,6 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property temperature As Double
 
-        <XmlElement>
-        Public Property description As String
-
         ''' <summary>
         ''' 通过sabio-rk数据库得到的动力学函数方程
         ''' </summary>
@@ -284,7 +281,29 @@ Namespace v2
         ''' <returns></returns>
         ''' 
         <XmlElement>
-        Public Property parameter As NamedValue()
+        Public Property parameter As KineticsParameter()
+
+    End Class
+
+    Public Class KineticsParameter
+
+        <XmlAttribute> Public Property name As String
+        ''' <summary>
+        ''' kegg compound id
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property target As String
+
+        <XmlText>
+        Public Property value As Double
+
+        Public Overrides Function ToString() As String
+            If Not target.StringEmpty Then
+                Return $"Dim {name} As {target} = {value}"
+            Else
+                Return $"Dim {name} = {value}"
+            End If
+        End Function
 
     End Class
 End Namespace
