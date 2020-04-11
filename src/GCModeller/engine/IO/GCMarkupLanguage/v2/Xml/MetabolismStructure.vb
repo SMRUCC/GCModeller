@@ -293,6 +293,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property target As String
+        <XmlAttribute> Public Property isModifier As Boolean
 
         <XmlText>
         Public Property value As Double

@@ -65,6 +65,11 @@ Module Modeller
 
     ' ((kcat * E) * S) / (Km + S)
 
+    <Extension>
+    Private Function compoundIdNameIndex(vcell As VirtualCell) As Dictionary(Of String, String)
+
+    End Function
+
     ''' <summary>
     ''' apply the kinetics parameters from the sabio-rk database.
     ''' </summary>
@@ -82,6 +87,7 @@ Module Modeller
                           End Function)
         Dim numbers As BriteHText()
         Dim reactions As IEnumerable(Of SBMLReaction)
+        Dim compoundId As Dictionary(Of String, String) = vcell.compoundIdNameIndex
 
         For Each enzyme As Enzyme In vcell.metabolismStructure.enzymes
             Dim kineticList As New List(Of SBMLInternalIndexer)
@@ -139,7 +145,7 @@ Module Modeller
                                 .OrderByDescending(Function(name) name.Length) _
                                 .ToArray
                             react.parameter = target _
-                                .parseKineticsParameters(index) _
+                                .parseKineticsParameters(index, enzyme.KO, compoundId) _
                                 .ToArray
 
                             If conditions.pHValue Is Nothing Then
@@ -169,7 +175,7 @@ Module Modeller
     ''' </summary>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function parseKineticsParameters(reaction As SBMLReaction， index As SBMLInternalIndexer, compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
+    Private Iterator Function parseKineticsParameters(reaction As SBMLReaction， index As SBMLInternalIndexer, KO$, compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
         Dim locals As Dictionary(Of String, localParameter) = reaction.kineticLaw.listOfLocalParameters.ToDictionary(Function(a) a.id)
         Dim local As localParameter
         Dim id As String
@@ -196,6 +202,22 @@ Module Modeller
                     ' 也包含有kegg代谢物id
                     enzyme = index.getSpecies(require)
 
+                    If compoundId.ContainsKey(enzyme.name) Then
+                        Yield New KineticsParameter With {
+                            .name = require,
+                            .target = compoundId(enzyme.name),
+                            .value = Double.NaN,
+                            .isModifier = True
+                        }
+                    Else
+                        ' enzyme?
+                        Yield New KineticsParameter With {
+                            .name = require,
+                            .target = KO,
+                            .value = Double.NaN,
+                            .isModifier = True
+                        }
+                    End If
                 Else
                     ' 是代谢物反应底物或者产物
                     Yield New KineticsParameter With {
