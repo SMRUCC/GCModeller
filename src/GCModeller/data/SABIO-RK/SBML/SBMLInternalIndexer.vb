@@ -44,7 +44,11 @@ Namespace SBML
                             ref = li.getIdentifier
 
                             If ref.Name = "kegg.compound" Then
-                                keggCompounds.Add(sp.id, ref.Value)
+                                If keggCompounds.ContainsKey(sp.id) Then
+                                    Call $"found duplicated entry: {sp.id} -> {ref.Value}, where {keggCompounds(sp.id)} is already assigned!".PrintException
+                                Else
+                                    keggCompounds.Add(sp.id, ref.Value)
+                                End If
                             End If
                         Next
                     Next

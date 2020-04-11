@@ -67,7 +67,17 @@ Module Modeller
 
     <Extension>
     Private Function compoundIdNameIndex(vcell As VirtualCell) As Dictionary(Of String, String)
+        Dim index As New Dictionary(Of String, String)
 
+        For Each cpd In vcell.metabolismStructure.compounds
+            For Each name As String In {cpd.name}.JoinIterates(cpd.otherNames)
+                If Not index.ContainsKey(name) Then
+                    Call index.Add(name, cpd.ID)
+                End If
+            Next
+        Next
+
+        Return index
     End Function
 
     ''' <summary>
