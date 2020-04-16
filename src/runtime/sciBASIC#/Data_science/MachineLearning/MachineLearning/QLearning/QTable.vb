@@ -48,6 +48,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
+Imports stdNum = System.Math
 
 Namespace QLearning
 
@@ -147,7 +148,7 @@ Namespace QLearning
         End Sub
 
         Private Sub New()
-            randomGenerator = stdNum.seeds
+            randomGenerator = Math.seeds
         End Sub
 
         ''' <summary>

@@ -225,7 +225,7 @@ Namespace d3js.Layout
 
         Private Sub MonteCarlo(currT#, action As Action(Of Integer))
             ' select a random label which is not pinned
-            Dim i As Integer = unpinnedLabels(Math.Floor(Rnd() * unpinnedLabels.Length))
+            Dim i As Integer = unpinnedLabels(stdNum.Floor(Rnd() * unpinnedLabels.Length))
 
             ' save old coordinates
             Dim x_old = lab(i).X

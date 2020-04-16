@@ -83,7 +83,7 @@ Namespace Distributions.LinearMoments
                 'no solution because t3 is greater than or equal to 1.
             End If
             Dim gamma As Double = (2 / stdNum.Sqrt(a)) * stdNum.Sign(LM.T3())
-            Dim sigma As Double = (12 * stdNum.Sqrt(Math.PI) * stdNum.Sqrt(a) * stdNum.Exp(SpecialFunctions.gammaln(a))) / stdNum.Exp(SpecialFunctions.gammaln(a + 0.5)) 'need gammaln
+            Dim sigma As Double = (12 * stdNum.Sqrt(stdNum.PI) * stdNum.Sqrt(a) * stdNum.Exp(SpecialFunctions.gammaln(a))) / stdNum.Exp(SpecialFunctions.gammaln(a + 0.5)) 'need gammaln
             If gamma <> 0 Then
                 _Alpha = 4 / (gamma * gamma)
                 _Xi = LM.L1() - ((2 * sigma) / gamma)

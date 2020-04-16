@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports stdNum = System.Math
 
 Namespace Graphic.Axis
 
@@ -161,10 +162,10 @@ Namespace Graphic.Axis
 
                 ' starting value depends on whether Or Not 0 Is in the array
                 If (zeroFlag) Then
-                    minSteps = stdNum.Ceiling(Math.Abs(min) / steps)
+                    minSteps = stdNum.Ceiling(stdNum.Abs(min) / steps)
                     stepArray = {-minSteps * steps}.AsList
                 Else
-                    stepArray = {Math.Floor(min / steps) * steps}.AsList
+                    stepArray = {stdNum.Floor(min / steps) * steps}.AsList
                 End If
 
                 Dim stepnum% = 1
@@ -196,9 +197,9 @@ Namespace Graphic.Axis
 
             ' 通过分别计算ticks的数量差值，是否容纳了输入的[min,max]范围来判断是否合适
             Dim maxSteps = candidateArray.Max(Function(candidate) candidate.Length)
-            Dim dSteps = maxSteps - candidateArray.Select(Function(candidate) Abs(candidate.Length - ticks)).AsVector
-            Dim dMin = inputRange.Length - candidateArray.Select(Function(candidate) Abs(candidate.Min - inputRange.Min)).AsVector
-            Dim dMax = inputRange.Length - candidateArray.Select(Function(candidate) Abs(candidate.Max - inputRange.Max)).AsVector
+            Dim dSteps = maxSteps - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Length - ticks)).AsVector
+            Dim dMin = inputRange.Length - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Min - inputRange.Min)).AsVector
+            Dim dMax = inputRange.Length - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Max - inputRange.Max)).AsVector
 
             dSteps = dSteps / dSteps.Max
             dMin = dMin / dMin.Max
@@ -243,13 +244,13 @@ Namespace Graphic.Axis
             Dim vmin#
 
             If min < 0 Then
-                vmin = -__max(Math.Abs(min), 0)
+                vmin = -__max(stdNum.Abs(min), 0)
             Else
                 vmin = If(min < t * max, If(absoluteScalling, min, 0), min - (max - min) / 20)
             End If
 
             Dim d = __fix(vmax, True) - __fix(vmin, False)
-            Dim p = stdNum.Round(Math.Log10(d), 0)
+            Dim p = stdNum.Round(stdNum.Log10(d), 0)
             Dim tick# = 2 * ((10 ^ p) / parts)
             Dim out As List(Of Double) = GetAxisByTick(vmax, tick, vmin)
 
@@ -300,11 +301,11 @@ Namespace Graphic.Axis
             '    End If
             'End If
 
-            Dim p% = stdNum.Round(Math.Log10(Math.Abs(n)), 0) ' Fix(Math.Log10(Math.Abs(n))) ' stdNum.Round(Math.Log10(Math.Abs(n)), 0)
+            Dim p% = stdNum.Round(stdNum.Log10(stdNum.Abs(n)), 0) ' Fix(Math.Log10(Math.Abs(n))) ' stdNum.Round(Math.Log10(Math.Abs(n)), 0)
             Dim d = 10 ^ (p - 1)
             Dim v#
             Dim s = stdNum.Sign(n)
-            Dim l% = CInt(Val(Math.Abs(n).ToString.First))
+            Dim l% = CInt(Val(stdNum.Abs(n).ToString.First))
 
             If Not enlarge Then
                 p = 10 ^ (p - 1)

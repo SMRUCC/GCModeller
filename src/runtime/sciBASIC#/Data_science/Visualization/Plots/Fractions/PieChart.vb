@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace Fractions
 
@@ -122,7 +122,7 @@ Namespace Fractions
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
                     Dim gSize = region.PlotRegion.Size
-                    Dim r# = sys.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
+                    Dim r# = stdNum.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
                     Dim topLeft As New Point(margin.Left, margin.Top)
                     Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle)
                     Dim layoutRect As Rectangle

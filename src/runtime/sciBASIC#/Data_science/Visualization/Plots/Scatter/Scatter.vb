@@ -77,6 +77,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports stdNum = System.Math
 
 Public Module Scatter
 
@@ -480,7 +481,7 @@ Public Module Scatter
         Dim y0#() = y.ToArray
 
         If xrange Is Nothing Then
-            array = stdNum.seq(0, y0.Length, 1)
+            array = Math.seq(0, y0.Length, 1)
         Else
             array = xrange.ToArray
         End If

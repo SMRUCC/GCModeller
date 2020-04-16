@@ -75,10 +75,10 @@ Namespace Distributions.MethodOfMoments
             PeriodOfRecord = (BPM.SampleSize())
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
-            Return (_Mu - (_Beta * (Math.Log(Math.Log(probability)))))
+            Return (_Mu - (_Beta * (stdNum.Log(stdNum.Log(probability)))))
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return stdNum.Exp(-Math.Exp(-(value - _Mu) / _Beta))
+            Return stdNum.Exp(-stdNum.Exp(-(value - _Mu) / _Beta))
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
             Dim z As Double = (value - _Mu) / _Beta

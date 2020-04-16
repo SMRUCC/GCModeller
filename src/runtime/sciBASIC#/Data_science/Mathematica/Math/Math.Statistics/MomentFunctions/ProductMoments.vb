@@ -91,7 +91,7 @@ Namespace MomentFunctions
             'just alittle more stdNum...
             ksums *= (count * (count + 1)) \ ((count - 1) * (count - 2) * (count - 3))
             _Skew = (count * skewsums) / ((count - 1) * (count - 2) * stdNum.Pow(_StandardDeviation, 3))
-            _Kurtosis = ksums - ((3 * (Math.Pow(count - 1, 2))) / ((count - 2) * (count - 3)))
+            _Kurtosis = ksums - ((3 * (stdNum.Pow(count - 1, 2))) / ((count - 2) * (count - 3)))
 
             'figure out an efficent algorithm for median...
             Median = data.Median

@@ -68,6 +68,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
+Imports stdNum = System.Math
 
 Namespace Darwinism.GAF.ReplacementStrategy
 
@@ -133,7 +134,7 @@ Namespace Darwinism.GAF.ReplacementStrategy
     Public Class EliteReplacement(Of Chr As {Class, Chromosome(Of Chr)})
         Implements IStrategy(Of Chr)
 
-        ReadOnly ranf As Random = stdNum.seeds
+        ReadOnly ranf As Random = Math.seeds
 
         Public ReadOnly Property type As Strategies Implements IStrategy(Of Chr).type
             Get

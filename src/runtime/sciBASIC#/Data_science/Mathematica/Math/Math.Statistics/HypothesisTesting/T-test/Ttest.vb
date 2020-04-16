@@ -164,7 +164,7 @@ Namespace Hypothesis
                 Case Hypothesis.Less
                     Return Tcdf(t, v)
                 Case Else
-                    Return 2 * (1 - Tcdf(Math.Abs(t), v))
+                    Return 2 * (1 - Tcdf(stdNum.Abs(t), v))
             End Select
         End Function
 

@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
+Imports stdNum = System.Math
 
 Namespace Plot3D
 
@@ -360,7 +361,7 @@ Namespace Plot3D
                 Yield New Line3D With {
                     .a = line.a,
                     .b = line.b,
-                    .pen = New Pen(colors.ElementAtOrDefault(levels(Math.Round((.a.Z + .b.Z) / 2, 1)) - 1))
+                    .pen = New Pen(colors.ElementAtOrDefault(levels(stdNum.Round((.a.Z + .b.Z) / 2, 1)) - 1))
                 }
             Next
         End Function

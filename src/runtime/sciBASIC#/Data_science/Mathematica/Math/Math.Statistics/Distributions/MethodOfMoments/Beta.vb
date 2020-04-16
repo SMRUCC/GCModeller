@@ -106,7 +106,7 @@ Namespace Distributions.MethodOfMoments
             Return SpecialFunctions.RegularizedIncompleteBetaFunction(_Alpha, _Beta, value)
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (Math.Pow(value, (_Alpha - 1)) * (Math.Pow((1 - value), (_Beta - 1)))) / SpecialFunctions.BetaFunction(_Alpha, _Beta)
+            Return (stdNum.Pow(value, (_Alpha - 1)) * (stdNum.Pow((1 - value), (_Beta - 1)))) / SpecialFunctions.BetaFunction(_Alpha, _Beta)
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)
             If _Alpha <= 0 Then Yield New Exception("Alpha must be greater than 0")

@@ -310,7 +310,7 @@ Public Module VolinPlot
                     Else
                         labelPos = New PointF With {
                             .X = X - labelSize.Width / 2,
-                            .Y = plotRegion.Bottom + labelSize.Width * stdNum.Sin(Math.PI / 4)
+                            .Y = plotRegion.Bottom + labelSize.Width * stdNum.Sin(stdNum.PI / 4)
                         }
 
                         ' 绘制X坐标轴分组标签

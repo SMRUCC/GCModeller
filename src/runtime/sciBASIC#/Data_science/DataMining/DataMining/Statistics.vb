@@ -261,7 +261,7 @@ Public Module Statistics
         Next
 
         Dim min As Integer, max As Integer, hits As Integer
-        Dim h As Integer = CInt(Math.Truncate(total * (percent + (1 - percent) / 2)))
+        Dim h As Integer = CInt(stdNum.Truncate(total * (percent + (1 - percent) / 2)))
 
         ' get range min value
         min = 0
