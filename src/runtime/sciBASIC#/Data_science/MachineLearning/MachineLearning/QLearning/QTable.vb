@@ -147,7 +147,7 @@ Namespace QLearning
         End Sub
 
         Private Sub New()
-            randomGenerator = Math.seeds
+            randomGenerator = stdNum.seeds
         End Sub
 
         ''' <summary>

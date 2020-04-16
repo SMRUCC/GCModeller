@@ -345,7 +345,7 @@ Namespace Plot3D
                                       Optional ysteps! = 0.01) As IEnumerable(Of Line3D)
             Dim array As Line3D() = Grid(f, x, y, xsteps, ysteps).ToArray
             Dim z#() = array _
-                .Select(Function(pt) Math.Round((pt.a.Z + pt.b.Z) / 2, 1)) _
+                .Select(Function(pt) stdNum.Round((pt.a.Z + pt.b.Z) / 2, 1)) _
                 .Distinct _
                 .ToArray
             Dim levels As Dictionary(Of Double, Integer) =

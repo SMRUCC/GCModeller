@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Math.Statistics
+Namespace stdNum.Statistics
 
     ''' <summary>
     ''' Numeric value statics property.

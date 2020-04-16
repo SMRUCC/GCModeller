@@ -40,7 +40,7 @@
 
 #End Region
 
-Namespace Math.Statistics.Linq
+Namespace stdNum.Statistics.Linq
 
     ''' <summary>
     ''' http://www.codeproject.com/Articles/42492/Using-LINQ-to-Calculate-Basic-Statistics

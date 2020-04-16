@@ -247,8 +247,8 @@ Namespace ComponentModel.Loci
             If allowedOffset = 0 Then
                 Return loci1.Min = loci2.Min AndAlso loci1.Max = loci2.Max
             Else
-                Return Math.Abs(loci1.Min - loci2.Min) <= allowedOffset AndAlso
-                       Math.Abs(loci1.Max - loci2.Max) <= allowedOffset
+                Return stdNum.Abs(loci1.Min - loci2.Min) <= allowedOffset AndAlso
+                       stdNum.Abs(loci1.Max - loci2.Max) <= allowedOffset
             End If
         End Function
     End Module

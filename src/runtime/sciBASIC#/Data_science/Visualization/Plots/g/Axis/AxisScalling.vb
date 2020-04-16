@@ -119,7 +119,7 @@ Namespace Graphic.Axis
             Dim digits As Integer
 
             If (steps >= 1) Then
-                rounded = Math.Round(steps)
+                rounded = stdNum.Round(steps)
                 digits = rounded.ToString().Length
             Else
                 Dim places = steps.ToString().Split("."c)(1)
@@ -146,9 +146,9 @@ Namespace Graphic.Axis
             Dim candidateSteps As New List(Of Double)
 
             For i As Integer = 0 To niceTicks.Length - 1
-                candidateSteps.Add(niceTicks(i) * Math.Pow(10, digits))
-                candidateSteps.Add(niceTicks(i) * Math.Pow(10, digits - 1))
-                candidateSteps.Add(niceTicks(i) * Math.Pow(10, digits + 1))
+                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits))
+                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits - 1))
+                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits + 1))
             Next
 
             Dim minSteps As Double
@@ -161,7 +161,7 @@ Namespace Graphic.Axis
 
                 ' starting value depends on whether Or Not 0 Is in the array
                 If (zeroFlag) Then
-                    minSteps = Math.Ceiling(Math.Abs(min) / steps)
+                    minSteps = stdNum.Ceiling(Math.Abs(min) / steps)
                     stepArray = {-minSteps * steps}.AsList
                 Else
                     stepArray = {Math.Floor(min / steps) * steps}.AsList
@@ -212,7 +212,7 @@ Namespace Graphic.Axis
             ' 在这里加个开关，如果小于零就不在进行round了
             If decimalDigits >= 0 Then
                 For i As Integer = 0 To tickArray.Length - 1
-                    tickArray(i) = Math.Round(tickArray(i), decimalDigits)
+                    tickArray(i) = stdNum.Round(tickArray(i), decimalDigits)
                 Next
             End If
 
@@ -249,7 +249,7 @@ Namespace Graphic.Axis
             End If
 
             Dim d = __fix(vmax, True) - __fix(vmin, False)
-            Dim p = Math.Round(Math.Log10(d), 0)
+            Dim p = stdNum.Round(Math.Log10(d), 0)
             Dim tick# = 2 * ((10 ^ p) / parts)
             Dim out As List(Of Double) = GetAxisByTick(vmax, tick, vmin)
 
@@ -258,7 +258,7 @@ Namespace Graphic.Axis
             End If
 
             If 0 <= [decimal] Then
-                out = New List(Of Double)(out.Select(Function(x) Math.Round(x, [decimal])))
+                out = New List(Of Double)(out.Select(Function(x) stdNum.Round(x, [decimal])))
             End If
 
             Return out.ToArray
@@ -300,10 +300,10 @@ Namespace Graphic.Axis
             '    End If
             'End If
 
-            Dim p% = Math.Round(Math.Log10(Math.Abs(n)), 0) ' Fix(Math.Log10(Math.Abs(n))) ' Math.Round(Math.Log10(Math.Abs(n)), 0)
+            Dim p% = stdNum.Round(Math.Log10(Math.Abs(n)), 0) ' Fix(Math.Log10(Math.Abs(n))) ' stdNum.Round(Math.Log10(Math.Abs(n)), 0)
             Dim d = 10 ^ (p - 1)
             Dim v#
-            Dim s = Math.Sign(n)
+            Dim s = stdNum.Sign(n)
             Dim l% = CInt(Val(Math.Abs(n).ToString.First))
 
             If Not enlarge Then

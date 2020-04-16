@@ -849,7 +849,7 @@ Namespace LinearAlgebra
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CumSum() As Vector
-            Return Math.CumSum(Me)
+            Return stdNum.CumSum(Me)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

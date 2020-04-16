@@ -214,7 +214,7 @@ Public Module TimeTrends
                         x = x - labelSize.Width / 2
                         y = rect.Bottom + labelSize.Width * (3 / 4)
 
-                        maxLabelXWidth = Math.Max(
+                        maxLabelXWidth = stdNum.Max(
                             labelSize.Width,
                             maxLabelXWidth
                         )

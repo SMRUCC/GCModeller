@@ -339,7 +339,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
             Dim result As New List(Of Tables.ChemicalData)
 
             For Each massGroup As DoubleTagged(Of Tables.ChemicalData()) In masses
-                If Math.Abs(massGroup.Tag - mass) <= deltaPPM Then
+                If stdNum.Abs(massGroup.Tag - mass) <= deltaPPM Then
                     enter = False
                     result += massGroup.Value
                 Else

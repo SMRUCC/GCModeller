@@ -123,7 +123,7 @@ Namespace Graphic.Legend
                     }
 
                     labelPos = New PointF With {
-                        .X = Math.Max(c.X + r, labelPos.X),
+                        .X = stdNum.Max(c.X + r, labelPos.X),
                         .Y = labelPos.Y
                     }
 

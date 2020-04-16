@@ -83,7 +83,7 @@ Namespace FuzzyCMeans
                         distance = 0.0000001
                     End If
 
-                    Dim membershipValue As Double = Math.Pow(1 / distance, (1 / (fuzzificationParameter - 1)))
+                    Dim membershipValue As Double = stdNum.Pow(1 / distance, (1 / (fuzzificationParameter - 1)))
                     sum += membershipValue
                     unNormaizedMembershipValues.Add(membershipValue)
                 Next
@@ -119,10 +119,10 @@ Namespace FuzzyCMeans
                     Dim pointCoordinates As FuzzyCMeansEntity = pair.Key
                     Dim membershipValues As List(Of Double) = pair.Value
 
-                    clusterMembershipValuesSums(i) += Math.Pow(membershipValues(i), fuzzificationParameter)
+                    clusterMembershipValuesSums(i) += stdNum.Pow(membershipValues(i), fuzzificationParameter)
 
                     For j As Integer = 0 To pointCoordinates.Length - 1
-                        clusterCoordinatesSum(j) += pointCoordinates(j) * Math.Pow(membershipValues(i), fuzzificationParameter)
+                        clusterCoordinatesSum(j) += pointCoordinates(j) * stdNum.Pow(membershipValues(i), fuzzificationParameter)
                     Next
                 Next
 

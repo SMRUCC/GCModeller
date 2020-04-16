@@ -77,13 +77,13 @@ Namespace Distributions.LinearMoments
             _Xi = Xi
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
-            Return _Xi - _Alpha * Math.Log(1 - probability)
+            Return _Xi - _Alpha * stdNum.Log(1 - probability)
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return 1 - Math.Exp(-(value - _Xi) / _Alpha)
+            Return 1 - stdNum.Exp(-(value - _Xi) / _Alpha)
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (1 / _Alpha) * Math.Exp(-(value - _Xi) / _Alpha)
+            Return (1 / _Alpha) * stdNum.Exp(-(value - _Xi) / _Alpha)
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)
             If _Alpha = 0 Then Yield New Exception("Alpha cannot be zero")

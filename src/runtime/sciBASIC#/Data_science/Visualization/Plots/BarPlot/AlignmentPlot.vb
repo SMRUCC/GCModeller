@@ -162,7 +162,7 @@ Namespace BarPlot
                            Dim e#
 
                            For Each n In highlights
-                               e = Math.Abs(n - x)
+                               e = stdNum.Abs(n - x)
 
                                If e <= err Then
                                    Return (e, n, True)

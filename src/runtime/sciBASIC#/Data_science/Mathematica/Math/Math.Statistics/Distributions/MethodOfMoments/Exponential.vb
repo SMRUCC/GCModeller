@@ -73,16 +73,16 @@ Namespace Distributions.MethodOfMoments
             PeriodOfRecord = (BPM.SampleSize())
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
-            Return Math.Log(probability) / _Lambda
+            Return stdNum.Log(probability) / _Lambda
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return 1 - Math.Exp(-_Lambda * value)
+            Return 1 - stdNum.Exp(-_Lambda * value)
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
             If value < 0 Then
                 Return 0
             Else
-                Return _Lambda * Math.Exp(-_Lambda * value)
+                Return _Lambda * stdNum.Exp(-_Lambda * value)
             End If
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)

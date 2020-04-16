@@ -325,7 +325,7 @@ Public Module Contour
                     .Where(Function(x) Not (+x).IsNaNImaginary AndAlso (+x) <> 0R) _
                     .ToArray
                 indexLevels = reals _
-                    .Select(Function(x) Math.Abs(+x)) _
+                    .Select(Function(x) stdNum.Abs(+x)) _
                     .Log2Ranks(mapLevels)
             Else
                 reals = data _

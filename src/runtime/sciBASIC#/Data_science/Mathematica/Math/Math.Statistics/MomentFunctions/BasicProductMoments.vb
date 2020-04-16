@@ -77,7 +77,7 @@ Namespace MomentFunctions
         Public ReadOnly Property StDev() As Double
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Math.Sqrt(_SampleVariance)
+                Return stdNum.Sqrt(_SampleVariance)
             End Get
         End Property
 
@@ -204,7 +204,7 @@ Namespace MomentFunctions
         Private Sub TestForConvergence()
             If Count > _MinValuesBeforeConvergenceTest Then
                 If Not IsConverged Then
-                    Dim var As Double = (_ZAlphaForConvergence * Me.StDev()) / (Me.Mean() * Math.Abs(Me.StDev()))
+                    Dim var As Double = (_ZAlphaForConvergence * Me.StDev()) / (Me.Mean() * stdNum.Abs(Me.StDev()))
                     _IsConverged = (Math.Abs(var) <= _ToleranceForConvergence)
                 End If
             End If

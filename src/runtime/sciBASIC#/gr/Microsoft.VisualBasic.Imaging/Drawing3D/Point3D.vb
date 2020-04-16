@@ -113,7 +113,7 @@ Namespace Drawing3D
         Public Function RotateX(angle As Single) As Point3D
             Dim rad As Single, cosa As Single, sina As Single, yn As Single, zn As Single
 
-            rad = angle * Math.PI / 180
+            rad = angle * stdNum.PI / 180
             cosa = sys.Cos(rad)
             sina = sys.Sin(rad)
             yn = Me.Y * cosa - Me.Z * sina
@@ -124,7 +124,7 @@ Namespace Drawing3D
         Public Function RotateY(angle As Single) As Point3D
             Dim rad As Single, cosa As Single, sina As Single, Xn As Single, Zn As Single
 
-            rad = angle * Math.PI / 180
+            rad = angle * stdNum.PI / 180
             cosa = sys.Cos(rad)
             sina = sys.Sin(rad)
             Zn = Me.Z * cosa - Me.X * sina
@@ -136,7 +136,7 @@ Namespace Drawing3D
         Public Function RotateZ(angle As Single) As Point3D
             Dim rad As Single, cosa As Single, sina As Single, Xn As Single, Yn As Single
 
-            rad = angle * Math.PI / 180
+            rad = angle * stdNum.PI / 180
             cosa = sys.Cos(rad)
             sina = sys.Sin(rad)
             Xn = Me.X * cosa - Me.Y * sina

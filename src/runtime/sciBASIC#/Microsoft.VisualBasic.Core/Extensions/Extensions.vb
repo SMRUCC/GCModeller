@@ -143,7 +143,7 @@ Public Module Extensions
     Public Function Slice(range As DoubleRange, n%) As IEnumerable(Of DoubleRange)
         Dim l = range.Length
         Dim d = l / n
-        Dim parts = Math.seq(range.Min, range.Max, by:=d) _
+        Dim parts = stdNum.seq(range.Min, range.Max, by:=d) _
                         .SlideWindows(winSize:=2) _
                         .Select(Function(w)
                                     Return New DoubleRange(w)
@@ -1114,7 +1114,7 @@ Public Module Extensions
     <ExportAPI("Shuffles")>
     <Extension> Public Function Shuffles(Of T)(source As IEnumerable(Of T)) As T()
         Dim list = source.SafeQuery.ToList
-        Call Math.Shuffle(list)
+        Call stdNum.Shuffle(list)
         Return list.ToArray
     End Function
 

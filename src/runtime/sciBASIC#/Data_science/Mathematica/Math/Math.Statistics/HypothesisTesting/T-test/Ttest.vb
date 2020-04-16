@@ -70,7 +70,7 @@ Namespace Hypothesis
             Return New TtestResult With {
                 .alpha = alpha,
                 .DegreeFreedom = sample.SampleSize - 1,
-                .StdErr = Math.Sqrt(x.Variance / sample.SampleSize),
+                .StdErr = stdNum.Sqrt(x.Variance / sample.SampleSize),
                 .TestValue = (sample.Mean - mu) / .StdErr,
                 .Pvalue = Pvalue(.TestValue, .DegreeFreedom, alternative),
                 .Mean = sample.Mean,
@@ -111,7 +111,7 @@ Namespace Hypothesis
 
             Dim commonVariance# = ((left.SampleSize - 1) * va.Variance + (right.SampleSize - 1) * vb.Variance) / v
             Dim testVal#
-            Dim stdErr# = Math.Sqrt(commonVariance * (1 / left.SampleSize + 1 / right.SampleSize))
+            Dim stdErr# = stdNum.Sqrt(commonVariance * (1 / left.SampleSize + 1 / right.SampleSize))
 
             If varEqual Then
                 testVal = ((left.Mean - right.Mean) - mu) / stdErr
@@ -136,7 +136,7 @@ Namespace Hypothesis
 
         Private Function welch2t(m1#, m2#, s1#, s2#, N1#, N2#) As Double
             Dim a = m1 - m2
-            Dim b = Math.Sqrt((s1 ^ 2) / N1 + (s2 ^ 2) / N2)
+            Dim b = stdNum.Sqrt((s1 ^ 2) / N1 + (s2 ^ 2) / N2)
             Dim t = a / b
             Return t
         End Function

@@ -42,7 +42,7 @@
 
 Imports stdNum = System.Math
 
-Namespace Math.Correlations
+Namespace stdNum.Correlations
 
     Public Module Beta
 

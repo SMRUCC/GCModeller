@@ -61,8 +61,8 @@ Public Module Extensions
     End Function
 
     Public Function CI(m#, factor#, sd#, n%) As DoubleRange
-        Dim lower = m - factor * sd / Math.Sqrt(n)
-        Dim upper = m + factor * sd / Math.Sqrt(n)
+        Dim lower = m - factor * sd / stdNum.Sqrt(n)
+        Dim upper = m + factor * sd / stdNum.Sqrt(n)
         Return New DoubleRange(lower, upper)
     End Function
 

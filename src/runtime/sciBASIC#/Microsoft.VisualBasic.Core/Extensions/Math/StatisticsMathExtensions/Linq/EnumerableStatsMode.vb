@@ -44,7 +44,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Runtime.CompilerServices
 
-Namespace Math.Statistics.Linq
+Namespace stdNum.Statistics.Linq
 
     Public Module EnumerableStatsMode
 

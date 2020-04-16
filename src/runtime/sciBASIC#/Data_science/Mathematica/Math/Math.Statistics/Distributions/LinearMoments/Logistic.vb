@@ -71,8 +71,8 @@ Namespace Distributions.LinearMoments
         Public Sub New(data As Double())
             Dim LM As New MomentFunctions.LinearMoments(data)
             _K = -LM.T3()
-            _Alpha = LM.L2() * Math.Sin(_K * Math.PI) / (_K * Math.PI)
-            _Xi = LM.L1() - _Alpha * ((1 / _K) - (Math.PI / Math.Sin(_K * Math.PI)))
+            _Alpha = LM.L2() * stdNum.Sin(_K * stdNum.PI) / (_K * stdNum.PI)
+            _Xi = LM.L1() - _Alpha * ((1 / _K) - (Math.PI / stdNum.Sin(_K * stdNum.PI)))
             PeriodOfRecord = (LM.SampleSize())
         End Sub
         Public Sub New(K As Double, Alpha As Double, Xi As Double)
@@ -88,14 +88,14 @@ Namespace Distributions.LinearMoments
             End If
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return (1 / (1 + Math.Exp(-Y(value))))
+            Return (1 / (1 + stdNum.Exp(-Y(value))))
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (1 / _Alpha) * Math.Exp(-(1 - _K) * Y(value)) / (Math.Pow((1 + Math.Exp(-Y(value))), 2))
+            Return (1 / _Alpha) * stdNum.Exp(-(1 - _K) * Y(value)) / (Math.Pow((1 + stdNum.Exp(-Y(value))), 2))
         End Function
         Private Function Y(value As Double) As Double
             If _K <> 0 Then
-                Return (1 / -_K) * Math.Log(1 - _K * (value - _Xi) / _Alpha)
+                Return (1 / -_K) * stdNum.Log(1 - _K * (value - _Xi) / _Alpha)
             Else
                 Return (value - _Xi) / _Alpha
             End If

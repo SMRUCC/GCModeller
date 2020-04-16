@@ -257,7 +257,7 @@ Namespace ContextModel
             foundTEMP = GetRelation(SegmentRelationships.UpStream, lociDist)  ' 获取ATG距离小于阈值的所有基因
             'foundTEMP = (From gene As T
             '             In foundTEMP
-            '             Where Math.Abs(GetATGDistance(loci, gene)) <= lociDist
+            '             Where stdNum.Abs(GetATGDistance(loci, gene)) <= lociDist
             '             Select gene).ToArray
 
             If Not foundTEMP.IsNullOrEmpty Then

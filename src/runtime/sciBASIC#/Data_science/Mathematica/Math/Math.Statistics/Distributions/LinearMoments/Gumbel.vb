@@ -68,7 +68,7 @@ Namespace Distributions.LinearMoments
         End Sub
         Public Sub New(data As Double())
             Dim LM As New MomentFunctions.LinearMoments(data)
-            _Alpha = LM.L2() / Math.Log(2)
+            _Alpha = LM.L2() / stdNum.Log(2)
             _Xi = LM.L1() - 0.57721566490153287 * _Alpha
             PeriodOfRecord = (LM.SampleSize())
         End Sub
@@ -77,13 +77,13 @@ Namespace Distributions.LinearMoments
             _Xi = Xi
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
-            Return _Xi - _Alpha * Math.Log(-Math.Log(probability))
+            Return _Xi - _Alpha * stdNum.Log(-Math.Log(probability))
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return Math.Exp(-Math.Exp(-(value - _Xi) / _Alpha))
+            Return stdNum.Exp(-Math.Exp(-(value - _Xi) / _Alpha))
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (1 / _Alpha) * Math.Exp(-(value - _Xi) / _Alpha) * Math.Exp(-Math.Exp(-(value - _Xi) / _Alpha))
+            Return (1 / _Alpha) * stdNum.Exp(-(value - _Xi) / _Alpha) * stdNum.Exp(-Math.Exp(-(value - _Xi) / _Alpha))
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)
             If _Alpha = 0 Then Yield New Exception("Alpha cannot be zero")

@@ -76,7 +76,7 @@ Imports DataSet = Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedValu
 Imports stdNum = System.Math
 Imports Vector = Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedValue(Of Double())
 
-Namespace Math.Correlations
+Namespace stdNum.Correlations
 
     ''' <summary>
     ''' 计算两个数据向量之间的相关度的大小

@@ -43,7 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports sys = System.Math
 
-Namespace Math.Statistics.Linq
+Namespace stdNum.Statistics.Linq
 
     Public Module EnumerableStatsVarianceP
         '

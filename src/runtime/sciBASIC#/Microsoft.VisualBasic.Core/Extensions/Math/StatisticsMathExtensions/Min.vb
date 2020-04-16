@@ -46,7 +46,7 @@
 
 #End Region
 
-Namespace Math.Statistics
+Namespace stdNum.Statistics
 
     Public Class Min : Inherits SampleObservation
 

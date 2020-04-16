@@ -69,7 +69,7 @@ Namespace Distributions.MethodOfMoments
         Public Sub New(data As Double())
             'http://www.itl.nist.gov/div898/handbook/eda/section3/eda366b.htm
             Dim BPM As New MomentFunctions.BasicProductMoments(data)
-            _Alpha = Math.Pow((BPM.Mean() / BPM.StDev()), 2)
+            _Alpha = stdNum.Pow((BPM.Mean() / BPM.StDev()), 2)
             _Beta = 1 / (BPM.StDev() / BPM.Mean())
             PeriodOfRecord = (BPM.SampleSize())
         End Sub
@@ -85,14 +85,14 @@ Namespace Distributions.MethodOfMoments
                 xn = xn - ((testvalue - probability) / GetPDF(xn))
                 testvalue = GetCDF(xn)
                 i += 1
-            Loop While Math.Abs(testvalue - probability) <= 0.00000000000001 Or i = 100
+            Loop While stdNum.Abs(testvalue - probability) <= 0.00000000000001 Or i = 100
             Return xn
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
-            Return SpecialFunctions.IncompleteGamma(_Alpha, _Beta * value) / Math.Exp(SpecialFunctions.gammaln(_Alpha))
+            Return SpecialFunctions.IncompleteGamma(_Alpha, _Beta * value) / stdNum.Exp(SpecialFunctions.gammaln(_Alpha))
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (((Math.Pow(_Beta, _Alpha)) * ((Math.Pow(value, _Alpha - 1)) * Math.Exp(-_Beta * value)) / Math.Exp(SpecialFunctions.gammaln(_Alpha))))
+            Return (((Math.Pow(_Beta, _Alpha)) * ((Math.Pow(value, _Alpha - 1)) * stdNum.Exp(-_Beta * value)) / stdNum.Exp(SpecialFunctions.gammaln(_Alpha))))
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)
             If _Beta <= 0 Then Yield New Exception("Beta must be greater than 0")

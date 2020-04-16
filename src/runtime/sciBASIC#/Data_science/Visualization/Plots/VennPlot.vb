@@ -160,14 +160,14 @@ Public Module VennPlot
                 Dim region As Rectangle = rectangle.PlotRegion
                 ' 计算三个圆的半径大小
                 ' ra + rb = width
-                Dim maxTop = Math.Max(a.Size, b.Size)
+                Dim maxTop = stdNum.Max(a.Size, b.Size)
                 Dim ra = a.Size / (a.Size + b.Size) * region.Width / 2
                 Dim rb = b.Size / (a.Size + b.Size) * region.Width / 2
                 Dim rc = c.Size / (c.Size + maxTop) * region.Height / 2
 
                 ' 将交集大小转换为圆心的偏移量
                 Dim offsetX = a.intersections(b.Name) / sys.Min(a.Size, b.Size) * sys.Min(ra, rb)
-                Dim offsetY = Math.Max(a.intersections(c.Name), b.intersections(c.Name)) / {a.Size, b.Size, c.Size}.Min * {ra, rb, rc}.Min
+                Dim offsetY = stdNum.Max(a.intersections(c.Name), b.intersections(c.Name)) / {a.Size, b.Size, c.Size}.Min * {ra, rb, rc}.Min
                 Dim dx = (region.Width - (ra + rb + (ra + rb - offsetX))) / 2
                 Dim dy = (region.Height - (maxTop + rc + (maxTop - offsetY))) / 2
                 Dim x, y As Integer

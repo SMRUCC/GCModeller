@@ -204,7 +204,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Public Overloads Function Read(feature As Feature) As FASTA.FastaSeq
             Dim left As Long = feature.Location.Locations.First.Left
             Dim right As Long = feature.Location.Locations.Last.Right
-            Dim sequence As String = Mid(Origin, left, Math.Abs(left - right))
+            Dim sequence As String = Mid(Origin, left, stdNum.Abs(left - right))
 
             If feature.Location.Complement Then
                 sequence = (NucleicAcid.Complement(sequence))

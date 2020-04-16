@@ -117,9 +117,9 @@ Namespace DendrogramVisualize
 
                 ' TODO Better use closure here
                 ' Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
-                Dim val As Double = Math.Max(InitPoint.X, LinkPoint.X)
+                Dim val As Double = stdNum.Max(InitPoint.X, LinkPoint.X)
                 For Each child As ClusterComponent In Children
-                    val = Math.Max(val, child.RectMaxX)
+                    val = stdNum.Max(val, child.RectMaxX)
                 Next
                 Return val
             End Get
@@ -130,9 +130,9 @@ Namespace DendrogramVisualize
 
                 ' TODO Better use closure here
                 '  Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
-                Dim val As Double = Math.Max(InitPoint.Y, LinkPoint.Y)
+                Dim val As Double = stdNum.Max(InitPoint.Y, LinkPoint.Y)
                 For Each child As ClusterComponent In Children
-                    val = Math.Max(val, child.RectMaxY)
+                    val = stdNum.Max(val, child.RectMaxY)
                 Next
                 Return val
             End Get

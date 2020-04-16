@@ -75,7 +75,7 @@ Namespace Drawing3D
         ReadOnly angle, scale As Double
 
         Public Sub New()
-            Me.angle = Math.PI / 6
+            Me.angle = stdNum.PI / 6
             Me.scale = 70
             Me.transformation = {
                 ({Me.scale * stdNum.Cos(Me.angle), Me.scale * stdNum.Sin(Me.angle)}),

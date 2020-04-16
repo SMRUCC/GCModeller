@@ -131,7 +131,7 @@ Namespace Layouts.Cola
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub symmetricDiffLinkLengths(Of Link)(links As Link(), la As LinkAccessor(Of Link), Optional w As Double = 1)
-            computeLinkLengths(links, w, Function(a, b) Math.Sqrt(unionCount(a, b) - intersectionCount(a, b)), la)
+            computeLinkLengths(links, w, Function(a, b) stdNum.Sqrt(unionCount(a, b) - intersectionCount(a, b)), la)
         End Sub
 
         ''' <summary>
@@ -204,7 +204,7 @@ Namespace Layouts.Cola
             Dim strongConnect As Action(Of NodeIndexer) =
                 Sub(v As NodeIndexer)
                     ' Set the depth index for v to the smallest unused index
-                    v.lowlink = Math.Max(Interlocked.Increment(index), index - 1)
+                    v.lowlink = stdNum.Max(Interlocked.Increment(index), index - 1)
                     v.index = v.lowlink
                     stack.Push(v)
                     v.onStack = True

@@ -81,7 +81,7 @@ Namespace ContextModel.Operon
         ''' 
         <Extension>
         Public Function NeighborhoodConservation(Of T As IGeneBrief)(gi$, gj$, genomes As GenomeContext(Of T)(), P As Dictionary(Of String, Double)) As Double
-            Dim S = -(Aggregate Gk In genomes Let log = Math.Log(L(gi, gj, G:=Gk, P:=P)) Into Sum(log))
+            Dim S = -(Aggregate Gk In genomes Let log = stdNum.Log(L(gi, gj, G:=Gk, P:=P)) Into Sum(log))
             Return S
         End Function
 
@@ -185,7 +185,7 @@ Namespace ContextModel.Operon
         Public Function LengthRatio(Of T As IGeneBrief)(i%, genome As GenomeContext(Of T)) As Double
             Dim j = i + 1
             Dim gi = genome(i), gj = genome(j)
-            Dim l = Math.Log(gi.Length / gj.Length)
+            Dim l = stdNum.Log(gi.Length / gj.Length)
             Return l
         End Function
     End Module

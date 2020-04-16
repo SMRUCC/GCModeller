@@ -398,7 +398,7 @@ Namespace Imaging
 
         <Extension>
         Public Function EuclideanDistance(a As Color, b As Color) As Double
-            Return Math.EuclideanDistance({a.R, a.G, a.B}, {b.R, b.G, b.B})
+            Return stdNum.EuclideanDistance({a.R, a.G, a.B}, {b.R, b.G, b.B})
         End Function
     End Module
 End Namespace

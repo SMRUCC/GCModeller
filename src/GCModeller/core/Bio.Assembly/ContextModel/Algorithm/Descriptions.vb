@@ -116,9 +116,9 @@ Namespace ContextModel
             Call gene.Location.Normalization()
 
             If gene.Location.Strand = Strands.Forward Then
-                Return Math.Abs(gene.Location.Right - nucl.Left)
+                Return stdNum.Abs(gene.Location.Right - nucl.Left)
             Else
-                Return Math.Abs(gene.Location.Left - nucl.Right)
+                Return stdNum.Abs(gene.Location.Left - nucl.Right)
             End If
         End Function
 

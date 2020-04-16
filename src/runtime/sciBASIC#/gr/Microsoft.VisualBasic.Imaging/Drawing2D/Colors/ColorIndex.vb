@@ -110,7 +110,7 @@ Namespace Drawing2D.Colors
 
             For i As Integer = 0 To colors.Length - 1
                 With colors(i)
-                    Dim d# = Math.EuclideanDistance(value, New Double() { .R, .G, .B})
+                    Dim d# = stdNum.EuclideanDistance(value, New Double() { .R, .G, .B})
                     If d <= minD Then
                         minD = d
                         minIndex = i
@@ -153,7 +153,7 @@ Namespace Drawing2D.Colors
             With color
                 Dim array As Double() = { .R, .G, .B}
                 Return Points.Min(
-                    Function(x) Math.EuclideanDistance(
+                    Function(x) stdNum.EuclideanDistance(
                         array,
                         New Double() {x.R, x.G, x.B}))
             End With

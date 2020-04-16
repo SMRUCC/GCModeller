@@ -164,7 +164,7 @@ Public Module Statistics
             i += 1
         End While
 
-        Return If((total = 0), 0, Math.Sqrt(stddev__1 / total))
+        Return If((total = 0), 0, stdNum.Sqrt(stddev__1 / total))
     End Function
 
     ''' <summary>
@@ -341,7 +341,7 @@ Public Module Statistics
                 p = CDbl(values(i)) / total
                 ' calculate entropy
                 If p <> 0 Then
-                    entropy__1 += (-p * Math.Log(p, 2))
+                    entropy__1 += (-p * stdNum.Log(p, 2))
                 End If
             Next
         End If

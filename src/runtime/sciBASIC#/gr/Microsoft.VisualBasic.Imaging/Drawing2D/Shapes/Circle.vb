@@ -107,7 +107,7 @@ Namespace Drawing2D.Shapes
         End Function
 
         Public Shared Iterator Function PathIterator(centerX!, centerY!, radius!, Optional vertices% = 30) As IEnumerable(Of PointF)
-            Dim deltaAngle# = 2 * Math.PI / vertices
+            Dim deltaAngle# = 2 * stdNum.PI / vertices
             Dim X#, Y#
 
             For i As Integer = 0 To vertices - 1

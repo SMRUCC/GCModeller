@@ -60,7 +60,7 @@ Namespace Layouts.Cola
         End Sub
 
         Public Function actualLength(x As Double()()) As Double
-            Return Math.Sqrt(x.Reduce(Function(c As Double, v As Double())
+            Return stdNum.Sqrt(x.Reduce(Function(c As Double, v As Double())
                                           Dim dx = v(Me.target) - v(Me.source)
                                           Return c + dx * dx
                                       End Function, 0))

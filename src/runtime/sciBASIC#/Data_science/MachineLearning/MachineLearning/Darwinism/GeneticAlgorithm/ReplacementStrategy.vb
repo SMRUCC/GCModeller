@@ -133,7 +133,7 @@ Namespace Darwinism.GAF.ReplacementStrategy
     Public Class EliteReplacement(Of Chr As {Class, Chromosome(Of Chr)})
         Implements IStrategy(Of Chr)
 
-        ReadOnly ranf As Random = Math.seeds
+        ReadOnly ranf As Random = stdNum.seeds
 
         Public ReadOnly Property type As Strategies Implements IStrategy(Of Chr).type
             Get

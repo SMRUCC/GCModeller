@@ -86,7 +86,7 @@ Namespace Heatmap
                             If x = 0R Then
                                 Return 0
                             Else
-                                Return Math.Sign(x) * Math.Log(x, base)
+                                Return stdNum.Sign(x) * stdNum.Log(x, base)
                             End If
                         End Function) _
                 .AsVector
@@ -412,8 +412,8 @@ Namespace Heatmap
 
                         For Each key$ In keys
                             Dim sz = g.MeasureString(key$, colLabelFont) ' 得到斜边的长度
-                            Dim dx! = sz.Width * Math.Cos(angle) + sz.Height / 2
-                            Dim dy! = sz.Width * Math.Sin(angle) + (sz.Width / 2) * Math.Cos(angle) - sz.Height
+                            Dim dx! = sz.Width * stdNum.Cos(angle) + sz.Height / 2
+                            Dim dy! = sz.Width * stdNum.Sin(angle) + (sz.Width / 2) * stdNum.Cos(angle) - sz.Height
                             Dim pos As New PointF(left - dx, top - dy)
 
                             Call text.DrawString(key$, colLabelFont, Brushes.Black, pos, angle, format)

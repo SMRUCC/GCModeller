@@ -69,7 +69,7 @@ Namespace Layouts.Cola
             nodes.ForEach(Sub(v, i)
                               For Each [dim] As String In Layout3D.dims
                                   If v([dim]) = 0 Then
-                                      v([dim]) = Math.Seeds.NextDouble
+                                      v([dim]) = stdNum.Seeds.NextDouble
                                   End If
                               Next
                               Me.result(0)(i) = v.x

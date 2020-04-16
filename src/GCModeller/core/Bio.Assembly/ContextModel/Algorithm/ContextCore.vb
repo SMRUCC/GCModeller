@@ -105,7 +105,7 @@ Namespace ContextModel
             Dim LQuery As T() =
                 LinqAPI.Exec(Of T) <= From gene As T
                                       In genes
-                                      Where Math.Abs(GetATGDistance(loci, gene)) <= ATGdist
+                                      Where stdNum.Abs(GetATGDistance(loci, gene)) <= ATGdist
                                       Select gene '获取ATG距离小于阈值的所有基因
             Return LQuery
         End Function

@@ -116,7 +116,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         Public Shared Function ppm(measured#, actualValue#) As Double
             ' （测量值-实际分子量）/实际分子量
             ' |(实验数据 - 数据库结果)| / 实验数据 * 1000000
-            Dim ppmd# = Math.Abs(measured - actualValue) / actualValue
+            Dim ppmd# = stdNum.Abs(measured - actualValue) / actualValue
             ppmd = ppmd * 1000000
             Return ppmd
         End Function

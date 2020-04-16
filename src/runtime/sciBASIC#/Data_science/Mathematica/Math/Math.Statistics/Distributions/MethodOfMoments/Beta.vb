@@ -100,7 +100,7 @@ Namespace Distributions.MethodOfMoments
                     testvalue = GetCDF(value)
                 End If
                 n += 1
-            Loop While Math.Abs(testvalue - probability) > 0.000000000000001 Or n <> 100
+            Loop While stdNum.Abs(testvalue - probability) > 0.000000000000001 Or n <> 100
             Return value
         End Function
         Public Overrides Function GetCDF(value As Double) As Double 'not sure this is right, technically it is the regularized incomplete beta.

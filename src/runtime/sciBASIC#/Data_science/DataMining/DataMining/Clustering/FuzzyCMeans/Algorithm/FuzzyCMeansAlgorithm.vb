@@ -146,7 +146,7 @@ Namespace FuzzyCMeans
 
                             For i As Integer = 0 To pair.Value.Count - 1
                                 Dim value As Double = pair.Value(i)
-                                Call tooltip.Add(i, Math.Round(value, 2))
+                                Call tooltip.Add(i, stdNum.Round(value, 2))
                             Next
 
                             annotation.Memberships = tooltip

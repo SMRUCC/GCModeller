@@ -172,8 +172,8 @@ Namespace Fractions
 
                                 ' 标签文本信息跟随pie的值而变化的
                                 Dim layout As New PointF With {
-                                    .X = (r * 1.15 * Math.Cos((start / 360) * (2 * Math.PI))) + centra.X,
-                                    .Y = (r * 1.15 * Math.Sin((start / 360) * (2 * Math.PI))) + centra.Y
+                                    .X = (r * 1.15 * stdNum.Cos((start / 360) * (2 * stdNum.PI))) + centra.X,
+                                    .Y = (r * 1.15 * stdNum.Sin((start / 360) * (2 * stdNum.PI))) + centra.Y
                                 }
 
                                 labelSize = g.MeasureString(x.Name, font)

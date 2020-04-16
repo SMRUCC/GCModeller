@@ -223,8 +223,8 @@ Namespace BarPlot
 
                 ' 得到斜边的长度
                 Dim sz = g.MeasureString((+key), font)
-                Dim dx! = sz.Width * Math.Cos(angle)
-                Dim dy! = sz.Width * Math.Sin(angle)
+                Dim dx! = sz.Width * stdNum.Cos(angle)
+                Dim dy! = sz.Width * stdNum.Sin(angle)
 
                 Call g.DrawString(key, font, Brushes.Black, left - dx, bottom, angle)
             Next

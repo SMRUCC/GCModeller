@@ -42,7 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace Math.Statistics.Linq
+Namespace stdNum.Statistics.Linq
 
     ''' <summary>
     ''' 中位数计算拓展

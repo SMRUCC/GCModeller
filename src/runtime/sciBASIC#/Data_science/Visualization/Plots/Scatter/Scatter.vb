@@ -480,7 +480,7 @@ Public Module Scatter
         Dim y0#() = y.ToArray
 
         If xrange Is Nothing Then
-            array = Math.seq(0, y0.Length, 1)
+            array = stdNum.seq(0, y0.Length, 1)
         Else
             array = xrange.ToArray
         End If

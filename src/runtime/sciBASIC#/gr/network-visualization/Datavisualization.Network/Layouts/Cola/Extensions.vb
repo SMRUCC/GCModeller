@@ -135,7 +135,7 @@ Namespace Layouts.Cola
             Dim ti = target.rayIntersection(source.CenterX, source.CenterY) Or New Point2D(target.CenterX, target.CenterY).AsDefault
             Dim dx = ti.X - si.X
             Dim dy = ti.Y - si.Y
-            Dim l = Math.Sqrt(dx * dx + dy * dy), al = l - ah
+            Dim l = stdNum.Sqrt(dx * dx + dy * dy), al = l - ah
 
             Return New DirectedEdge With {
                 .sourceIntersection = si,
@@ -168,7 +168,7 @@ Namespace Layouts.Cola
 
             Dim dx = ti.X - s.X
             Dim dy = ti.Y - s.Y
-            Dim l = Math.Sqrt(dx * dx + dy * dy)
+            Dim l = stdNum.Sqrt(dx * dx + dy * dy)
 
             Return New Point2D With {
                 .X = ti.X - ah * dx / l,

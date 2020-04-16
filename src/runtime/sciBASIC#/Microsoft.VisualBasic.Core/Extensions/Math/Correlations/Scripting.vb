@@ -40,7 +40,7 @@
 
 #End Region
 
-Namespace Math.Correlations
+Namespace stdNum.Correlations
 
     Public Module Scripting
 

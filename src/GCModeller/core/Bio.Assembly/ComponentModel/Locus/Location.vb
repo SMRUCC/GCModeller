@@ -172,7 +172,7 @@ Namespace ComponentModel.Loci
             ' >>> overlap(0, 100, 0, 20)
             ' 20
 
-            Return Math.Max(0, Math.Min(Me.right, loci.right) - Math.Max(Me.left, loci.right))
+            Return stdNum.Max(0, stdNum.Min(Me.right, loci.right) - stdNum.Max(Me.left, loci.right))
         End Function
 
         ''' <summary>
@@ -274,7 +274,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public ReadOnly Property FragmentSize As Integer
             Get
-                Return Math.Abs(right - left) + 1
+                Return stdNum.Abs(right - left) + 1
             End Get
         End Property
 

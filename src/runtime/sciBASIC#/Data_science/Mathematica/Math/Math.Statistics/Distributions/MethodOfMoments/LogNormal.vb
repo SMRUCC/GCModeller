@@ -76,7 +76,7 @@ Namespace Distributions.MethodOfMoments
         ''' <param name="data"> the sampled data (in linear space) </param>
         Public Sub New(data As Double())
             For i As Integer = 0 To data.Length - 1
-                data(i) = Math.Log10(data(i))
+                data(i) = stdNum.Log10(data(i))
             Next i
             Dim BPM As New MomentFunctions.BasicProductMoments(data)
             _Mean = BPM.Mean()
@@ -85,7 +85,7 @@ Namespace Distributions.MethodOfMoments
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
             Dim z As New Normal(_Mean, _StDev)
-            Return Math.Pow(10, z.GetInvCDF(probability))
+            Return stdNum.Pow(10, z.GetInvCDF(probability))
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
             Dim n As New Distributions.MethodOfMoments.Normal(_Mean, _StDev)
@@ -99,15 +99,15 @@ Namespace Distributions.MethodOfMoments
             Dim sn As New Normal(0, 1)
             Dim k As Double = sn.GetInvCDF(probability)
             Dim z As Double = sn.GetInvCDF(alphaValue)
-            Dim zSquared As Double = Math.Pow(z, 2)
-            Dim kSquared As Double = Math.Pow(k, 2)
+            Dim zSquared As Double = stdNum.Pow(z, 2)
+            Dim kSquared As Double = stdNum.Pow(k, 2)
             Dim Avalue As Double = (1 - (zSquared) / 2 \ (PeriodOfRecord() - 1))
             Dim Bvalue As Double = (kSquared) - ((zSquared) / PeriodOfRecord())
-            Dim RootValue As Double = Math.Sqrt(kSquared - (Avalue * Bvalue))
+            Dim RootValue As Double = stdNum.Sqrt(kSquared - (Avalue * Bvalue))
             If alphaValue > 0.5 Then
-                Return Math.Pow(10, _Mean + _StDev * (k + RootValue) / Avalue)
+                Return stdNum.Pow(10, _Mean + _StDev * (k + RootValue) / Avalue)
             Else
-                Return Math.Pow(10, _Mean + _StDev * (k - RootValue) / Avalue)
+                Return stdNum.Pow(10, _Mean + _StDev * (k - RootValue) / Avalue)
             End If
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)

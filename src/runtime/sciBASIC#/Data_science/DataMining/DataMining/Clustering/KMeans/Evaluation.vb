@@ -74,7 +74,7 @@ Namespace KMeans
             clusterInDist /= clusters.Length
             clusterOutDist /= clusters.Length
 
-            Dim maxDist As Double = Math.Max(clusterInDist, clusterOutDist)
+            Dim maxDist As Double = stdNum.Max(clusterInDist, clusterOutDist)
             Dim SI As Double = (clusterOutDist - clusterInDist) / maxDist
 
             Return SI

@@ -45,7 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Language
 
-Namespace Math.Information
+Namespace stdNum.Information
 
     Public Module UncheckHelpers
 
