@@ -46,11 +46,13 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Shapes
 

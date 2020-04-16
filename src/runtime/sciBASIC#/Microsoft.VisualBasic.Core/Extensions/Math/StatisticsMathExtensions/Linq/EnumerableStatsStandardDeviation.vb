@@ -43,7 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports sys = System.Math
 
-Namespace stdNum.Statistics.Linq
+Namespace Math.Statistics.Linq
 
     Public Module EnumerableStatsStandardDeviation
         '

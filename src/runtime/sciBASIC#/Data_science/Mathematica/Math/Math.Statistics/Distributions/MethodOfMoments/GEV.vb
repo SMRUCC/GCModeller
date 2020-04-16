@@ -1,49 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::abc8e216ea06dd6cbdc83b53189506ff, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\GEV.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GEV
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetCDF, GetInvCDF, GetPDF, T, Tinv
-    '                   Validate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GEV
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: GetCDF, GetInvCDF, GetPDF, T, Tinv
+'                   Validate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System
-Imports System.Collections.Generic
+Imports stdNum = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -109,9 +108,9 @@ Namespace Distributions.MethodOfMoments
         End Function
         Private Function Tinv(probability As Double) As Double
             If _Xi <> 0 Then
-                Return _Mu - _Sigma * (Math.Pow(Math.Log(1 / probability), _Xi) - 1) / _Xi
+                Return _Mu - _Sigma * (stdNum.Pow(stdNum.Log(1 / probability), _Xi) - 1) / _Xi
             Else
-                Return _Mu - _Sigma * stdNum.Log(Math.Log(1 / probability))
+                Return _Mu - _Sigma * stdNum.Log(stdNum.Log(1 / probability))
             End If
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)

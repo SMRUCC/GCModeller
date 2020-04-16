@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Math
+Imports stdNum = System.Math
 
 Namespace Drawing3D.Models.Isometric.Paths
 

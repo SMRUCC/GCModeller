@@ -45,6 +45,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports stdNum = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -187,7 +188,7 @@ Namespace MomentFunctions
                     N21 = 0
                 End If
 
-                _SampleVariance = N21 + (Math.Pow(observation - Mean, 2.0)) / count
+                _SampleVariance = N21 + (stdNum.Pow(observation - Mean, 2.0)) / count
                 means = newmean
             End If
 
@@ -205,7 +206,7 @@ Namespace MomentFunctions
             If Count > _MinValuesBeforeConvergenceTest Then
                 If Not IsConverged Then
                     Dim var As Double = (_ZAlphaForConvergence * Me.StDev()) / (Me.Mean() * stdNum.Abs(Me.StDev()))
-                    _IsConverged = (Math.Abs(var) <= _ToleranceForConvergence)
+                    _IsConverged = (stdNum.Abs(var) <= _ToleranceForConvergence)
                 End If
             End If
         End Sub

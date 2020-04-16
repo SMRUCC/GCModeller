@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.My.JavaScript
+Imports stdNum = System.Math
 
 Namespace Layouts.Cola
 

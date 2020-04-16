@@ -47,6 +47,7 @@
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
+Imports stdNum = System.Math
 
 Namespace SequenceModel
 

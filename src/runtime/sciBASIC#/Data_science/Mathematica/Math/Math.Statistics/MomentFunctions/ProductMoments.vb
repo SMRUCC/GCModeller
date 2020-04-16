@@ -46,6 +46,7 @@
 
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports stdNum = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.

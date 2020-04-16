@@ -46,6 +46,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports stdNum = System.Math
 
 Namespace SequenceModel.NucleotideModels
 

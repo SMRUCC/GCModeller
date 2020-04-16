@@ -50,7 +50,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace stdNum.Statistics
+Namespace Math.Statistics
 
     Public Class Average : Inherits SampleObservation
 

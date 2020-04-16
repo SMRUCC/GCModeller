@@ -42,7 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace stdNum.Statistics.Linq
+Namespace Math.Statistics.Linq
 
     Public Module EnumerableStatsRange
         '

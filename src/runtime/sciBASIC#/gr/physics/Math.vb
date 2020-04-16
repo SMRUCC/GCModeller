@@ -45,7 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' Math provider for <see cref="Force"/>
@@ -66,7 +66,7 @@ Public Module Math
     Public Function Decomposition2D(F As Force) As Vector
         Dim v = F.strength
         Dim a = F.angle
-        Return New Vector({v * sys.Cos(a), v * Sin(a)})
+        Return New Vector({v * stdNum.Cos(a), v * Sin(a)})
     End Function
 
     <Extension>
@@ -91,7 +91,7 @@ Public Module Math
         End If
 
         Dim alpha = f1.angle - f2.angle
-        Dim F = Sqrt(f1 ^ 2 + f2 ^ 2 + 2 * f1 * f2 * sys.Cos(alpha))
+        Dim F = Sqrt(f1 ^ 2 + f2 ^ 2 + 2 * f1 * f2 * stdNum.Cos(alpha))
 
         If F = 0R Then
             ' F 为零的之后，只有二者方向相反
@@ -189,7 +189,7 @@ Public Module Math
     ''' <returns></returns>
     Public Function CoulombsLaw(m1 As MassPoint, m2 As MassPoint, Optional k# = 9000000000.0) As Force
         Dim d = m1.Point - m2.Point
-        Dim f = stdNum.CoulombsLaw(m1.Charge, m2.Charge, d.SumMagnitude, k)
+        Dim f = Math.CoulombsLaw(m1.Charge, m2.Charge, d.SumMagnitude, k)
 
         With RepulsiveForce(f, m1.Point, m2.Point)
             .source = NameOf(CoulombsLaw)

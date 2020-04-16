@@ -44,6 +44,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports stdNum = System.Math
 
 Namespace ContextModel
 

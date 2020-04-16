@@ -51,7 +51,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
 Imports any = System.Object
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace Layouts.Cola
 
@@ -144,7 +144,7 @@ Namespace Layouts.Cola
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub jaccardLinkLengths(Of Link)(links As Link(), la As LinkAccessor(Of Link), Optional w As Double = 1)
-            computeLinkLengths(links, w, Function(a, b) If(sys.Min(a.Keys.Count, b.Keys.Count) < 1.1, 0, intersectionCount(a, b) / unionCount(a, b)), la)
+            computeLinkLengths(links, w, Function(a, b) If(stdNum.Min(a.Keys.Count, b.Keys.Count) < 1.1, 0, intersectionCount(a, b) / unionCount(a, b)), la)
         End Sub
 
         ''' <summary>
@@ -214,10 +214,10 @@ Namespace Layouts.Cola
                         If w.index Is Nothing Then
                             ' Successor w has not yet been visited; recurse on it
                             strongConnect(w)
-                            v.lowlink = sys.Min(v.lowlink, w.lowlink)
+                            v.lowlink = stdNum.Min(v.lowlink, w.lowlink)
                         ElseIf w.onStack Then
                             ' Successor w is in stack S and hence in the current SCC
-                            v.lowlink = sys.Min(v.lowlink, CType(w.index, Integer))
+                            v.lowlink = stdNum.Min(v.lowlink, CType(w.index, Integer))
                         End If
                     Next
 

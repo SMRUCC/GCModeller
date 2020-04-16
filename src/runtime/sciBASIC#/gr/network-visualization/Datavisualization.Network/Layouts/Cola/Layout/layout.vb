@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports any = System.Object
 Imports number = System.Double
+Imports stdNum = System.Math
 
 Namespace Layouts.Cola
 
@@ -209,7 +210,7 @@ Namespace Layouts.Cola
                 ' if we have links but no nodes, create the nodes array now with empty objects for the links to point at.
                 ' in this case the links are expected to be numeric indices for nodes in the range 0..n-1 where n is the number of nodes
                 Dim n = 0
-                Me._links.DoEach(Sub(l) n = stdNum.Max(n, l.source.id, l.target.id))
+                Me._links.DoEach(Sub(l) n = Math.Max(n, l.source.id, l.target.id))
                 Me._nodes = New Node(Interlocked.Increment(n)) {}
                 For i As Integer = 0 To n - 1
                     Me._nodes(i) = New Node

@@ -41,8 +41,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Statistics.MomentFunctions
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
+Imports Microsoft.VisualBasic.Math.Statistics.MomentFunctions
+Imports stdNum = System.Math
 
 Namespace Hypothesis
 

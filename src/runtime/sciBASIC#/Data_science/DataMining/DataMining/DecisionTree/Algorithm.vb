@@ -43,6 +43,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DecisionTree.Data
+Imports stdNum = System.Math
 
 Namespace DecisionTree
 

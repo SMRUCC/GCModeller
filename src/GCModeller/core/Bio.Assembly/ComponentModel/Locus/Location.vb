@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports stdNum = System.Math
 
 Namespace ComponentModel.Loci
 

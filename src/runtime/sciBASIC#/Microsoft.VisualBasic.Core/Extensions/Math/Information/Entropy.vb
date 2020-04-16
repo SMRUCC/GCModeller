@@ -43,7 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports stdNum = System.Math
 
-Namespace stdNum.Information
+Namespace Math.Information
 
     ''' <summary>
     ''' 信息熵越大表示所含信息量越多

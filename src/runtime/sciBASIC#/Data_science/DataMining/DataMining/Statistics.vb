@@ -49,6 +49,7 @@
 '
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' Set of statistics functions.

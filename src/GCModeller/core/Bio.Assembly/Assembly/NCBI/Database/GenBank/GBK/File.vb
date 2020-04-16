@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports r = System.Text.RegularExpressions.Regex
+Imports stdNum = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF
 

@@ -42,6 +42,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.My.JavaScript
+Imports stdNum = System.Math
 
 Namespace Layouts.Cola
 

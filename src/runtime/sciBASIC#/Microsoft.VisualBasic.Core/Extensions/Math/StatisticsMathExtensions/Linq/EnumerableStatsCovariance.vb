@@ -42,7 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace stdNum.Statistics.Linq
+Namespace Math.Statistics.Linq
 
     Public Module EnumerableStatsCovariance
 
@@ -129,7 +129,7 @@ Namespace stdNum.Statistics.Linq
         '     source contains no elements.
         <Extension>
         Public Function Covariance(source As IEnumerable(Of Double), other As IEnumerable(Of Double)) As Double
-            Return stdNum.Covariance(source.ToArray, other.ToArray)
+            Return Math.Covariance(source.ToArray, other.ToArray)
         End Function
         '
         ' Summary:

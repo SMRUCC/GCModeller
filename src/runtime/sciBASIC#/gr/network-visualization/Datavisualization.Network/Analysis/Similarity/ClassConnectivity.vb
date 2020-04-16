@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports stdNum = System.Math
 
 Namespace Analysis.SimilarityImpl
 
@@ -66,7 +67,7 @@ Namespace Analysis.SimilarityImpl
             ElseIf av.Length = 0 Then
                 Return 0
             Else
-                Dim cos As Double = stdNum.SSM(av, bv)
+                Dim cos As Double = Math.SSM(av, bv)
                 Return cos
             End If
         End Function

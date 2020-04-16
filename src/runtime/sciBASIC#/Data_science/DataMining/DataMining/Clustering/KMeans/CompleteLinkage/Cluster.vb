@@ -47,6 +47,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports stdNum = System.Math
 
 Namespace KMeans.CompleteLinkage
 

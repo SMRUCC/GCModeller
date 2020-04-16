@@ -41,9 +41,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports sys = System.Math
+Imports stdNum = System.Math
 
-Namespace stdNum.Statistics.Linq
+Namespace Math.Statistics.Linq
 
     Public Module EnumerableStatsVariance
 
@@ -143,7 +143,7 @@ Namespace stdNum.Statistics.Linq
         Public Function Variance(source As IEnumerable(Of Double)) As Double
             Dim avg As Double = source.Average()
             Dim d As Double = source.Aggregate(0.0, Function(total, [next]) As Double
-                                                        total += sys.Pow([next] - avg, 2)
+                                                        total += System.Math.Pow([next] - avg, 2)
                                                         Return total
                                                     End Function)
             Return d / (source.Count() - 1)

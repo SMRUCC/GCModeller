@@ -47,6 +47,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports stdNum = System.Math
 
 Namespace ComponentModel.Evaluation
 

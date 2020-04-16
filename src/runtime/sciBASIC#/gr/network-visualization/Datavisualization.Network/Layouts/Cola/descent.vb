@@ -48,6 +48,8 @@
 
 Imports System.Threading
 Imports Microsoft.VisualBasic.Math
+Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Layouts.Cola
 
@@ -128,7 +130,7 @@ Namespace Layouts.Cola
         Public snapStrength As Double = 1000
         Public scaleSnapByMaxH As Boolean = False
 
-        Private random As Random = stdNum.Seeds
+        Private random As Random = randf.seeds
 
         Public project As Action(Of Double(), Double(), Double())() = Nothing
 

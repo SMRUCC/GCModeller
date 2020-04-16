@@ -48,6 +48,7 @@
 Imports System.Drawing
 Imports System.Math
 Imports Circle2D = Microsoft.VisualBasic.Imaging.Drawing2D.Shapes.Circle
+Imports stdNum = System.Math
 
 Namespace Drawing3D.Models.Isometric.Paths
 

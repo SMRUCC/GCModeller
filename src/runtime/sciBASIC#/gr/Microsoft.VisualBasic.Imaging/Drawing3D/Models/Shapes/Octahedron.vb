@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports System.Math
+Imports stdNum = System.Math
 
 Namespace Drawing3D.Models.Isometric.Shapes
 

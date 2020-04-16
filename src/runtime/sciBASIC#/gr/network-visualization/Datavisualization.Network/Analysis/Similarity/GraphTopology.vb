@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports stdNum = System.Math
 
 Namespace Analysis.SimilarityImpl
 
@@ -67,7 +68,7 @@ Namespace Analysis.SimilarityImpl
             Dim allGroups As Index(Of String) = aTopo.Keys.AsList + bTopo.Keys
             Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf aTopo.TryGetValue))
             Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf bTopo.TryGetValue))
-            Dim cos As Double = stdNum.SSM(av, bv)
+            Dim cos As Double = Math.SSM(av, bv)
 
             Return cos
         End Function
@@ -106,7 +107,7 @@ Namespace Analysis.SimilarityImpl
             Dim allGroups As Index(Of String) = aDist.Keys.AsList + bDist.Keys
             Dim av As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf aDist.TryGetValue))
             Dim bv As New Vector(allGroups.EnumerateMapKeys.Select(AddressOf bDist.TryGetValue))
-            Dim cos As Double = stdNum.SSM(av, bv)
+            Dim cos As Double = Math.SSM(av, bv)
 
             Return cos
         End Function

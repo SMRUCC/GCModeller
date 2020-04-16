@@ -1,48 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::e36685a4a004eda261fb17955e044ed1, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\LogPearsonIII.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class LogPearsonIII
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: Bullentin17BConfidenceLimit, GetCDF, GetInvCDF, GetPDF, Validate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class LogPearsonIII
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: Bullentin17BConfidenceLimit, GetCDF, GetInvCDF, GetPDF, Validate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System
-Imports System.Collections.Generic
+Imports stdNum = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -94,7 +93,7 @@ Namespace Distributions.MethodOfMoments
             Else
                 Dim sn As New Normal
                 Dim z As Double = sn.GetInvCDF(probability)
-                Dim k As Double = (2 / _Skew) * (Math.Pow((z - _Skew / 6.0) * _Skew / 6.0 + 1, 3) - 1)
+                Dim k As Double = (2 / _Skew) * (stdNum.Pow((z - _Skew / 6.0) * _Skew / 6.0 + 1, 3) - 1)
                 Dim logflow As Double = _Mean + (k * _StDev)
                 Return stdNum.Pow(10, logflow)
             End If
@@ -112,7 +111,7 @@ Namespace Distributions.MethodOfMoments
             If _Skew = 0 Then
                 k = z1
             Else
-                k = (2 / _Skew) * (Math.Pow((z1 - _Skew / 6.0) * _Skew / 6.0 + 1, 3) - 1)
+                k = (2 / _Skew) * (stdNum.Pow((z1 - _Skew / 6.0) * _Skew / 6.0 + 1, 3) - 1)
             End If
             Dim z As Double = sn.GetInvCDF(alphaValue)
             Dim zSquared As Double = stdNum.Pow(z, 2)

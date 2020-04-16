@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Shapes
 
@@ -99,7 +100,7 @@ Namespace Drawing2D.Shapes
             Return rect
         End Function
 
-        Shared ReadOnly black As [Default](Of  String) = NameOf(black)
+        Shared ReadOnly black As [Default](Of String) = NameOf(black)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function PathIterator(center As PointF, radius!, Optional vertices% = 30) As IEnumerable(Of PointF)

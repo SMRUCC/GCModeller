@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 Imports SMRUCC.genomics.ComponentModel
+Imports stdNum = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI
 
