@@ -74,8 +74,8 @@ Namespace Core
                     Return baseline
                 End If
 
-                Dim i = inhibition.Sum(Function(v) v.Coefficient * v.Mass.Value)
-                Dim a = activation.Sum(Function(v) v.Coefficient * v.Mass.Value)
+                Dim i = inhibition.Sum(Function(v) v.coefficient * v.mass.Value)
+                Dim a = activation.Sum(Function(v) v.coefficient * v.mass.Value)
 
                 ' 抑制的总量已经大于等于激活的总量的时候，返回零值，
                 ' 则反应过程可能不会发生
@@ -85,7 +85,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If coefficient > 0 Then
-                Return $"active by {activation.Select(Function(a) a.Mass.ID).GetJson}"
+                Return $"active by {activation.Select(Function(a) a.mass.ID).GetJson}"
             Else
                 Return "No activity!"
             End If

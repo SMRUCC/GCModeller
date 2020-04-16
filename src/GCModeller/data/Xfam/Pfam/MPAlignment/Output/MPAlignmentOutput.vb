@@ -45,8 +45,7 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.ComponentModel
+Imports stdNum = System.Math
 
 Namespace ProteinDomainArchitecture.MPAlignment
 
@@ -103,7 +102,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
             Call ChunkBuffer.Add(String.Join(" ", {String.Format("Query{0}", New String(" "c, QueryMaxLength - 5)), String.Format("Subject{0}", New String(" "c, SbjctMaxLength - 7)), "Score"}))
             Call ChunkBuffer.Add(String.Join("+", {String.Format("-----{0}", New String("-"c, QueryMaxLength - 6)), String.Format("-------{0}", New String("-"c, SbjctMaxLength - 8)),
-                                                       New String("-", Len(Math.E.ToString) + 5)}))
+                                                       New String("-", Len(stdNum.E.ToString) + 5)}))
             For Each item In data.AlignmentResult
                 Call ChunkBuffer.Add(item.FormatPlantTextOutput(QueryMaxLength, SbjctMaxLength))
             Next

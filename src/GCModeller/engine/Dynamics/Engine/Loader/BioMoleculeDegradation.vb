@@ -80,7 +80,7 @@ Namespace Engine.ModelLoader
             Dim geneID$
 
             For Each complex As Channel In proteinMatures
-                proteinComplex = complex.right.First(Function(c) c.Mass.ID.EndsWith(".complex")).Mass.ID
+                proteinComplex = complex.right.First(Function(c) c.mass.ID.EndsWith(".complex")).mass.ID
                 peptideId = proteinComplex.Replace(".complex", "")
                 geneID = geneIDindex(peptideId)
                 composition = proteinMatrix(geneID)
