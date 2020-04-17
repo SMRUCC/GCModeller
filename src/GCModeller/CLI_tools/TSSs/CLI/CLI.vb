@@ -41,7 +41,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -50,10 +49,9 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.DocumentFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports SMRUCC.genomics.ContextModel
+Imports stdNum = System.Math
 
 Module CLI
 
@@ -109,7 +107,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Dim Source = Transcripts.LoadCsv(Of DocumentFormat.Transcript)(False)
         Call $"Data load job done!   {Source.Count} sites in {sw.ElapsedMilliseconds}ms....".__DEBUG_ECHO
 
-        Dim max = (From obj In Source.AsParallel Select Math.Max(obj.MappingLocation.Left, obj.MappingLocation.Right)).ToArray.Max
+        Dim max = (From obj In Source.AsParallel Select stdNum.Max(obj.MappingLocation.left, obj.MappingLocation.right)).ToArray.Max
 
         If max > genomeSize Then
             Call $"[WARNING] The given {NameOf(genomeSize)}:={genomeSize} is smaller than max position of the reads, auto correct value to {max + 1}".__DEBUG_ECHO
