@@ -126,11 +126,11 @@ Namespace Core
             reactUnit = reactUnit * dir
 
             ' 一般左边为模板
-            For Each mass In left.Where(Function(m) Not m.IsTemplate)
-                mass.Mass.Value -= reactUnit * mass.Coefficient
+            For Each mass In left.Where(Function(m) Not m.isTemplate)
+                mass.mass.Value -= reactUnit * mass.coefficient
             Next
             For Each mass In right
-                mass.Mass.Value += reactUnit * mass.Coefficient
+                mass.mass.Value += reactUnit * mass.coefficient
             Next
         End Sub
 
@@ -143,9 +143,9 @@ Namespace Core
         Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), factors As IEnumerable(Of Variable), regulation#, max#) As Double
             Return factors _
                 .Select(Function(v)
-                            Dim r = regulation * v.Coefficient
-                            Dim shares# = parallel(v.Mass.ID)
-                            Dim massUnit = v.Mass.Value / shares
+                            Dim r = regulation * v.coefficient
+                            Dim shares# = parallel(v.mass.ID)
+                            Dim massUnit = v.mass.Value / shares
                             Dim reactionUnit As Double
 
                             If r > massUnit Then
@@ -155,7 +155,7 @@ Namespace Core
                                 ' 如果某一个物质的容量是零，则表示没有反应物可以被利用了
                                 ' 则计算出来的最小反应单位是零
                                 ' 即此反应过程不可能会发生
-                                reactionUnit = massUnit / v.Coefficient
+                                reactionUnit = massUnit / v.coefficient
                             Else ' 能够正常的以当前的反应单位进行
                                 reactionUnit = regulation
                             End If

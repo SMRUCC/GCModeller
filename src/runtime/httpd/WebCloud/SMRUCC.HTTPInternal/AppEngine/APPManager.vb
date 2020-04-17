@@ -1,53 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::693e9293c674f0e0266595b5e23bfd8a, WebCloud\SMRUCC.HTTPInternal\AppEngine\APPManager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class APPManager
-    ' 
-    '         Properties: baseUrl, DefaultAPI
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: falseAsDefaultFailure, GetApp, GetEnumerator, Help, helpInfo
-    '                   IEnumerable_GetEnumerator, Invoke, InvokePOST, PrintHelp, Register
-    '                   ServerStatus, Test404
-    ' 
-    '         Sub: Join, ResetAPIDefault
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class APPManager
+' 
+'         Properties: baseUrl, DefaultAPI
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: falseAsDefaultFailure, GetApp, GetEnumerator, Help, helpInfo
+'                   IEnumerable_GetEnumerator, Invoke, InvokePOST, PrintHelp, Register
+'                   ServerStatus, Test404
+' 
+'         Sub: Join, ResetAPIDefault
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -220,10 +221,10 @@ Namespace AppEngine
             Return head
         End Function
 
-        <ExportAPI("/dashboard/help_doc.html",
-                   Info:="Get the help documents about how to using the mipaimai platform WebAPI.",
-                   Usage:="/dashboard/help_doc.html",
-                   Example:="<a href=""/dashboard/help_doc.html"">/dashboard/help_doc.html</a>")>
+        <ExportAPI("/dashboard/help_doc.html")>
+        <Description("Get the help documents about how to using the mipaimai platform WebAPI.")>
+        <Usage("/dashboard/help_doc.html")>
+        <Example("<a href=""/dashboard/help_doc.html"">/dashboard/help_doc.html</a>")>
         <[GET](GetType(String))>
         Public Function Help(request As HttpRequest, response As HttpResponse) As Boolean
             Call response.WriteHTML(PrintHelp)

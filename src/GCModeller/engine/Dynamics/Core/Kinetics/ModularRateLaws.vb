@@ -94,15 +94,24 @@ Bioinformatics. 2010 Jun 15;26(12):1528-34. doi: 10.1093/bioinformatics/btq141. 
                   Publisher:="Wolfram Liebermeister∗, Jannis Uhlendorf and Edda Klipp", Url:="http://www.semanticsbml.org")>
     Public Module ModularRateLaws
 
-        <ExportAPI("Flux.Rate", Info:="Modular rate laws
-share the form Equation (1). The terms f [Equation (12)], T [Equation (10)],
-D [Equation 11] and Dreg [Equation (13)] depend on reaction stoichiometry,
-rate law, allosteric regulation and on the preferred model parameterization.")>
-        Public Function FluxRate(<Parameter("u", "Enzyme level")> u As KineticsFactor,
-                                 <Parameter("f", "Complete or partial regulation")> f As KineticsFactor,
-                                 <Parameter("T", "Stoichiometry 3 parameterizations")> T As KineticsFactor,
-                                 <Parameter("D", "5 rate laws")> D As KineticsFactor,
-                                 <Parameter("D.reg", "Specific regulation")> Dreg As KineticsFactor) As <FunctionReturns("Reaction rate")> Double
+        ''' <summary>
+        ''' Modular rate laws
+        ''' share the form Equation (1). The terms f [Equation (12)], T [Equation (10)],
+        ''' D [Equation 11] and Dreg [Equation (13)] depend on reaction stoichiometry,
+        ''' rate law, allosteric regulation and on the preferred model parameterization.
+        ''' </summary>
+        ''' <param name="u">Enzyme level</param>
+        ''' <param name="f">Complete or partial regulation</param>
+        ''' <param name="T">Stoichiometry 3 parameterizations</param>
+        ''' <param name="D">5 rate laws</param>
+        ''' <param name="Dreg">Specific regulation</param>
+        ''' <returns></returns>
+        <ExportAPI("Flux.Rate")>
+        Public Function FluxRate(<Parameter("u", "")> u As KineticsFactor,
+                                 <Parameter("f", "")> f As KineticsFactor,
+                                 <Parameter("T", "")> T As KineticsFactor,
+                                 <Parameter("D", "")> D As KineticsFactor,
+                                 <Parameter("D.reg", "")> Dreg As KineticsFactor) As <FunctionReturns("Reaction rate")> Double
             Return u * f * (T / (D + Dreg))
         End Function
 

@@ -44,9 +44,10 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Math
+Imports stdNum = System.Math
 
 Namespace ComponentModel.Loci
 
@@ -85,8 +86,8 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function Merge(Of TLoci As Location)(a As TLoci, b As TLoci) As TLoci
-            a.left = Math.Min(a.left, b.left)
-            a.right = Math.Max(a.right, b.right)
+            a.left = stdNum.Min(a.left, b.left)
+            a.right = stdNum.Max(a.right, b.right)
             Return a
         End Function
 
@@ -96,8 +97,8 @@ Namespace ComponentModel.Loci
             lc = (From lcl In lc Select lcl Order By lcl.left Ascending)
             Dim GroupOperation = (From item In lc.AsParallel
                                   Let Possible_Duplicated = (From o As TLocation In lc
-                                                             Where Math.Abs(o.left - item.left) < Length_Offset AndAlso
-                                                                   Math.Abs(o.FragmentSize - item.FragmentSize) < Length_Offset
+                                                             Where stdNum.Abs(o.left - item.left) < Length_Offset AndAlso
+                                                                   stdNum.Abs(o.FragmentSize - item.FragmentSize) < Length_Offset
                                                              Select o
                                                              Order By o.left).ToArray
                                   Let mLeft As Integer = (From o In Possible_Duplicated Select o.left).Min

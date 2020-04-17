@@ -113,7 +113,7 @@ Namespace Core
                             End If
                         End Function) _
                 .IteratesALL _
-                .GroupBy(Function(var) var.Mass.ID) _
+                .GroupBy(Function(var) var.mass.ID) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return CDbl(m.Count)

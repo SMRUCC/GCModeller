@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 Imports SMRUCC.genomics.ComponentModel
+Imports stdNum = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI
 
@@ -54,7 +55,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
     Public Module Extensions
 
         <Extension> Public Function RewriteMass(mass#, molecule As IMolecule) As Double
-            If Math.Abs(mass - 0) <= 0.00001 OrElse Math.Abs(mass - molecule.Mass) <= 0.5 Then
+            If stdNum.Abs(mass - 0) <= 0.00001 OrElse stdNum.Abs(mass - molecule.Mass) <= 0.5 Then
                 Return molecule.Mass
             Else
                 Return mass
@@ -111,7 +112,7 @@ re0:            Dim comfirm As New List(Of String)
                     Dim chemical = chebi.GetChemicalDatas(chebiID:=id)
                     Dim MASS_find = Val(chemical.TryGetValue("MASS")?.CHEMICAL_DATA)
 
-                    If Math.Abs(MASS_find - mass) <= 0.5 Then
+                    If stdNum.Abs(MASS_find - mass) <= 0.5 Then
                         comfirm += id
                     End If
                 Next

@@ -141,7 +141,7 @@ Namespace Engine.ModelLoader
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
             Return factors _
-                .Where(Function(fac) Not fac.Mass.ID Like infinitySource) _
+                .Where(Function(fac) Not fac.mass.ID Like infinitySource) _
                 .DoCall(Function(objects)
                             Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
                         End Function) _
