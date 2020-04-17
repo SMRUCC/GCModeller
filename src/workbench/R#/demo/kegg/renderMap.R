@@ -1,5 +1,9 @@
 imports ["kegg.repository", "report.utils"] from "kegg_kit";
 
+# set current work directory to directory location where contains 
+# current R# script
+setwd(!script$dir);
+
 # objects for highlights on kegg pathway map
 let outputdir as string = "./";
 let highlights = list(
