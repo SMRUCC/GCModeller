@@ -280,7 +280,9 @@ Public Module KEGGOrthology
                     {"name", term.Term},
                     {"class", catalog.class},
                     {"category", catalog.category},
-                    {"pvalue", term.Pvalue}
+                    {"pvalue", term.Pvalue}，
+                    {"num_inputs", term.number},
+                    {"input_genes", term.Input}
                 }
             }
         Next
