@@ -28,13 +28,17 @@ str(highlights);
 
 using maps as open.zip("./kegg_maps.zip") {
 	# render result as html output
-	maps[["map00680"]]
+	maps[["map00680.XML"]] 
+	:> loadMap 
+	:> as.object
 	:> keggMap.reportHtml(highlights)
 	:> writeLines(con = `${outputdir}\test.html`)
 	;
 
 	# just render image file 
-	maps[["map00680"]]
+	maps[["map00680.XML"]]
+	:> loadMap 
+	:> as.object
 	:> keggMap.highlights(highlights)
 	:> save.graphics(file = `${outputdir}\test.png`)
 	;	
