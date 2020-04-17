@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::7daa877fcc55af7f781eb825d3057f91, CLI_tools\eggHTS\CLI\Enrichment\3. EnrichmentAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Backgrounds, Converts, EnrichmentTermFilter, KEGGEnrichmentPathwayMapLocal, Term2Genes
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Backgrounds, Converts, EnrichmentTermFilter, KEGGEnrichmentPathwayMapLocal, Term2Genes
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.Mappings
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -278,5 +279,19 @@ Partial Module CLI
             .ToArray
 
         Return result.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.enrichment.profile")>
+    <Usage("/KEGG.enrichment.profile /in <enrichment.csv> [/out <profile.csv>]")>
+    Public Function KEGGPathwayEnrichmentProfile(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.KEGG_enrichmentProfiles.csv"
+
+        Return [in] _
+            .LoadCsv(Of EnrichmentTerm) _
+            .DoCall(AddressOf KEGGOrthology.KEGGPathwayEnrichmentProfile) _
+            .ToArray _
+            .SaveDataSet(path:=out) _
+            .CLICode
     End Function
 End Module
