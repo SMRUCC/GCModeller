@@ -53,11 +53,17 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
-''' 
+''' the kegg pathway map report helper tool
 ''' </summary>
 <Package("report.utils")>
 Module report
 
+    ''' <summary>
+    ''' load a blank kegg pathway map template object from a given file object.
+    ''' </summary>
+    ''' <param name="file">a given file object, it can be a file path or a file input stream.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("loadMap")>
     <RApiReturn(GetType(Map))>
     Public Function loadMap(file As Object, Optional env As Environment = Nothing) As Object
@@ -86,6 +92,13 @@ Module report
         Return nodes.Select(Function(id) New NamedValue(Of String)(id, color)).ToArray
     End Function
 
+    ''' <summary>
+    ''' generate the kegg pathway map highlight image render result
+    ''' </summary>
+    ''' <param name="map">the blank template of the kegg map</param>
+    ''' <param name="highlights">a list of object with color highlights</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
     Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
@@ -126,7 +139,7 @@ Module report
     End Function
 
     ''' <summary>
-    ''' 
+    ''' generate the kegg pathway map highlight html report
     ''' </summary>
     ''' <param name="map">the blank template of the kegg map</param>
     ''' <returns></returns>
@@ -142,11 +155,24 @@ Module report
         End If
     End Function
 
+    ''' <summary>
+    ''' check object id that intersect with the current given map object.
+    ''' </summary>
+    ''' <param name="map">a given kegg pathway map object model</param>
+    ''' <param name="list">an object id list</param>
+    ''' <returns></returns>
     <ExportAPI("map.intersects")>
     Public Function checkIntersection(map As Map, list As String()) As String()
         Return map.GetMembers.Intersect(list).ToArray
     End Function
 
+    ''' <summary>
+    ''' generate the url that used for view the highlight result on kegg website.
+    ''' </summary>
+    ''' <param name="mapId">the id of the map object.</param>
+    ''' <param name="highlights">a list of object with color highlight specifics</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("keggMap.url")>
     <RApiReturn(GetType(String))>
     Public Function url(mapId As String, highlights As Object, Optional env As Environment = Nothing) As Object
