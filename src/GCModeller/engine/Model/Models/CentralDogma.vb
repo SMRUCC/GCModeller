@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90ea4c958229999f7f5e2efd83032649, Model\Models\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::00199bfa6e5ee1b04779c6349f329995, Model\Models\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -36,20 +36,6 @@
     '     Properties: geneID, IsRNAGene, RNAName
     ' 
     '     Function: ToString
-    ' 
-    ' Enum RNATypes
-    ' 
-    '     micsRNA, ribosomalRNA, tRNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Structure Protein
-    ' 
-    '     Properties: ProteinID
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 

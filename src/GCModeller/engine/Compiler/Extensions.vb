@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ebc8644714071496648eb9718ec3b9e, Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b3f373652b75b8105f4c1e51e5d43816, Compiler\Extensions.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Public Module Extensions
         Throw New NotImplementedException
     End Function
 End Module
-

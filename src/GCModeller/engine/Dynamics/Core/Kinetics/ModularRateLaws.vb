@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14dadc48521d4e680a5af87b13b23a75, Dynamics\Core\Kinetics\ModularRateLaws.vb"
+﻿#Region "Microsoft.VisualBasic::7e7e78f215f265bf36783c4f092b3019, Dynamics\Core\Kinetics\ModularRateLaws.vb"
 
     ' Author:
     ' 

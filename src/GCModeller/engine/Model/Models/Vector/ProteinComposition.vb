@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::176154734a4d3aa88380bb971c7e3b96, Model\Models\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::5f4d51256030a8b91cbc9b7ff5656b97, Model\Models\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,17 @@
 
     ' Summaries:
 
-    ' Class ProteinComposition
+    '     Class ProteinComposition
     ' 
-    '     Properties: A, C, D, E, F
-    '                 G, H, I, K, L
-    '                 M, N, O, P, proteinID
-    '                 Q, R, S, T, U
-    '                 V, W, Y
+    '         Properties: A, C, D, E, F
+    '                     G, H, I, K, L
+    '                     M, N, O, P, proteinID
+    '                     Q, R, S, T, U
+    '                     V, W, Y
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

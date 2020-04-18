@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a5088ef15d49b3c1ec90cf5116e4282, Dynamics\Core\Mass\Variable.vb"
+﻿#Region "Microsoft.VisualBasic::2bdf759b5923218ba6f0d42ee7f50fc6, Dynamics\Core\Mass\Variable.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Variable
     ' 
-    '         Properties: Coefficient, IsTemplate, Mass
+    '         Properties: coefficient, isTemplate, mass
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString

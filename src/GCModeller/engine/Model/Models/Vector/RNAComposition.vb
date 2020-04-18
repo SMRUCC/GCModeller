@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84fbaa104a3d03d245eabaf77527c7a7, Model\Models\Vector\RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::e6e681113dcd56220f7a618247468647, Model\Models\Vector\RNAComposition.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    ' Class RNAComposition
+    '     Class RNAComposition
     ' 
-    '     Properties: A, C, G, geneID, U
+    '         Properties: A, C, G, geneID, U
     ' 
-    '     Function: FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 
