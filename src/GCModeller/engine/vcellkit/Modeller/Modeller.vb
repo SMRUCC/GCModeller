@@ -47,13 +47,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.genomics.GCModeller.Compiler
 
 ''' <summary>
 ''' virtual cell network kinetics modeller
 ''' </summary>
 <Package("vcellkit.modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
-Module Modeller
+Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)
 
@@ -63,8 +63,8 @@ Module Modeller
     ''' <param name="vcell"></param>
     ''' <returns></returns>
     <ExportAPI("apply.kinetics")>
-    Public Function applyKinetics(vcell As VirtualCell, Optional cache$ = "./.cache", Optional env As Environment = Nothing) As VirtualCell
-
+    Public Function applyKinetics(vcell As VirtualCell, Optional cache$ = "./.cache") As VirtualCell
+        Return New Modeller(vcell, cache).Compile()
     End Function
 
     <ExportAPI("cacheOf.enzyme_kinetics")>
