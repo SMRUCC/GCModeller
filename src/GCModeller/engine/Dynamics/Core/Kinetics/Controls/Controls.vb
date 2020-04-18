@@ -58,6 +58,14 @@ Namespace Core
         ''' <returns></returns>
         Public Property baseline As Double = 0.5
 
+        Public Shared Function StaticControl(baseline As Double) As Controls
+            Return New AdditiveControls With {
+                .baseline = baseline,
+                .activation = {},
+                .inhibition = {}
+            }
+        End Function
+
         Public Shared Operator >(a As Controls, b As Controls) As Boolean
             If a Is Nothing Then
                 Return False

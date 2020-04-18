@@ -69,11 +69,16 @@ Namespace Core
         ''' 虚拟细胞中的生命活动过程事件网络
         ''' </remarks>
         Public Property Channels As Channel()
+
         ''' <summary>
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property MassEnvironment As Factor()
+        Public ReadOnly Property MassEnvironment As Factor()
+            Get
+                Return massIndex.Values.ToArray
+            End Get
+        End Property
 
         ''' <summary>
         ''' 因为在现实中这些反应过程是同时发生的，所以在这里使用这个共享因子来模拟并行事件
@@ -83,6 +88,11 @@ Namespace Core
         ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
         ''' </summary>
         Dim resolution As Double
+        Dim massIndex As Dictionary(Of String, Factor)
+
+        Sub New(massEnvir As IEnumerable(Of Factor))
+            massIndex = massEnvir.ToDictionary(Function(m) m.ID)
+        End Sub
 
         ''' <summary>
         ''' 

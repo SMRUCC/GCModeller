@@ -125,7 +125,7 @@ Namespace Engine.ModelLoader
                         .ToArray,
                     .baseline = 15
                 },
-                .reverse = New Controls With {.baseline = 15}
+                .reverse = Controls.StaticControl(15)
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应

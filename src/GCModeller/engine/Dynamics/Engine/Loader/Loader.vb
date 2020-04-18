@@ -136,9 +136,8 @@ Namespace Engine.ModelLoader
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
             Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
 
-            Return New Vessel With {
-                .Channels = processes,
-                .MassEnvironment = massTable.ToArray
+            Return New Vessel(massTable.AsEnumerable) With {
+                .Channels = processes
             }
         End Function
     End Class

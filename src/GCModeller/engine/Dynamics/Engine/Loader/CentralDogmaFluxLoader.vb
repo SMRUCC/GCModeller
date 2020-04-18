@@ -101,8 +101,8 @@ Namespace Engine.ModelLoader
             Yield New Channel(left, right) With {
                 .ID = $"chargeOf_{cd.RNAName}",
                 .bounds = New Boundary() With {.forward = loader.dynamics.tRNAChargeCapacity},
-                .reverse = 0,
-                .forward = loader.dynamics.tRNAChargeBaseline
+                .reverse = Controls.StaticControl(0),
+                .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
             }
         End Function
 
@@ -114,8 +114,8 @@ Namespace Engine.ModelLoader
             Return New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
                 .ID = NameOf(ribosomeAssembly),
                 .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
-                .forward = loader.dynamics.ribosomeAssemblyBaseline,
-                .reverse = loader.dynamics.ribosomeDisassemblyBaseline
+                .forward = Controls.StaticControl(loader.dynamics.ribosomeAssemblyBaseline),
+                .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline)
             }
         End Function
 
@@ -217,7 +217,7 @@ Namespace Engine.ModelLoader
                     translation = New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
                         .forward = New Controls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
-                        .reverse = New Controls With {.baseline = 0},
+                        .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.translationCapacity,
                             .reverse = 0
@@ -239,7 +239,7 @@ Namespace Engine.ModelLoader
                             .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
                             .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
                         },
-                        .reverse = New Controls With {.baseline = 0},
+                        .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.transcriptionCapacity,
                             .reverse = 0

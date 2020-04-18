@@ -2,6 +2,11 @@
 
 Namespace Core
 
+    ''' <summary>
+    ''' 基于累加效应的动力学模型
+    ''' 
+    ''' 这个模型可能比较适用于基因表达过程的简略建模
+    ''' </summary>
     Public Class AdditiveControls : Inherits Controls
 
         Public Property activation As Variable() = {}
