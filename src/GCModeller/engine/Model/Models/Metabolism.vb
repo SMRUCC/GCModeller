@@ -74,6 +74,9 @@ Public Class Reaction : Implements INamedValue
     ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
     ''' </summary>
     Public enzyme As String()
+
+    Dim kinetics As Kinetics()
+
     ''' <summary>
     ''' 这个代谢反应过程的流量的正反方向的流量限制值
     ''' </summary>
