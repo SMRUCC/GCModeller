@@ -234,7 +234,7 @@ Namespace Engine.ModelLoader
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                        .forward = New Controls With {
+                        .forward = New AdditiveControls With {
                             .baseline = loader.dynamics.transcriptionBaseline,
                             .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
                             .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray

@@ -88,7 +88,8 @@ Namespace Core
         ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
         ''' </summary>
         Dim resolution As Double
-        Dim massIndex As Dictionary(Of String, Factor)
+
+        Friend ReadOnly massIndex As Dictionary(Of String, Factor)
 
         Sub New(massEnvir As IEnumerable(Of Factor))
             massIndex = massEnvir.ToDictionary(Function(m) m.ID)
