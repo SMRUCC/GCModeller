@@ -185,6 +185,22 @@ Public Class Modeller : Inherits Compiler(Of VirtualCell)
 
             For Each react As Catalysis In enzyme.catalysis
                 Call applyReactionKinetics(enzyme, react, kineticList)
+
+                If react.formula Is Nothing Then
+                    ' 采用标准的米氏方程么？
+                    react.PH = 7
+                    react.temperature = 36
+                    react.formula = New FunctionElement With {
+                        .name = "Michaelis-Menten equation",
+                        .parameters = {"Vmax", "S", "Km"},
+                        .lambda = "(Vmax * S) / (Km + S)"
+                    }
+                    react.parameter = {
+                        New KineticsParameter With {.name = "Vmax", .target = "Vmax", .value = 100},
+                        New KineticsParameter With {.name = "S", .target = "S", .value = Double.NaN},
+                        New KineticsParameter With {.name = "Km", .target = "Km", .value = 0.5}
+                    }
+                End If
             Next
         Else
             m_logging.WriteLine($"missing ECNumber mapping for '{enzyme.KO}'.",, MSG_TYPES.WRN)

@@ -55,6 +55,8 @@ Public Structure Kinetics
     ''' target reaction id
     ''' </summary>
     Dim target As String
+    Dim temperature As Double
+    Dim PH As Double
 
     Public Overrides Function ToString() As String
         Return $"[{target}] {formula}"

@@ -289,6 +289,14 @@ Namespace v2
         <XmlElement>
         Public Property parameter As KineticsParameter()
 
+        Public Overrides Function ToString() As String
+            If formula Is Nothing Then
+                Return "null"
+            Else
+                Return formula.lambda
+            End If
+        End Function
+
     End Class
 
     Public Class KineticsParameter

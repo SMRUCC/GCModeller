@@ -75,7 +75,7 @@ Public Class Reaction : Implements INamedValue
     ''' </summary>
     Public enzyme As String()
 
-    Dim kinetics As Kinetics()
+    Public kinetics As Kinetics()
 
     ''' <summary>
     ''' 这个代谢反应过程的流量的正反方向的流量限制值
