@@ -168,6 +168,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KineticsModeller\Modeller.vb" />
+    <Compile Include="KineticsModeller\KineticsModellerHelpers.vb" />
     <Compile Include="MarkupCompiler\CompilerWorkflow.vb" />
     <Compile Include="MarkupCompiler\CompileTRNWorkflow.vb" />
     <Compile Include="MarkupCompiler\CompileGenomeWorkflow.vb" />
@@ -248,6 +250,10 @@
       <Project>{e695d793-c970-422b-ba74-703ee43194fc}</Project>
       <Name>application.vnd.openxmlformats-officedocument.spreadsheetml.sheet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25xml\application_xml.vbproj">
+      <Project>{25AF39F4-76AF-411F-AC19-0DD1E128D801}</Project>
+      <Name>application_xml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
@@ -263,6 +269,14 @@
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\SABIO-RK\SABIO-RK.vbproj">
+      <Project>{cf69e369-5ded-46d8-b6aa-9835a89bfd9f}</Project>
+      <Name>SABIO-RK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Name>SBML</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
       <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
