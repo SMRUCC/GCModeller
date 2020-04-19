@@ -216,7 +216,7 @@ Namespace Engine.ModelLoader
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                        .forward = New Controls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
+                        .forward = New AdditiveControls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
                         .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.translationCapacity,

@@ -116,15 +116,22 @@ Namespace Engine.ModelLoader
                 bounds = {10, 10}
             End If
 
-            Dim metabolismFlux As New Channel(left, right) With {
-                .bounds = bounds,
-                .ID = reaction.ID,
-                .forward = New Controls With {
+            Dim forward As Controls
+
+            If reaction.kinetics.IsNullOrEmpty Then
+            Else
+                forward = New AdditiveControls With {
                     .activation = MassTable _
                         .variables(enzymeProteinComplexes, 10) _
                         .ToArray,
                     .baseline = 15
-                },
+                }
+            End If
+
+            Dim metabolismFlux As New Channel(left, right) With {
+                .bounds = bounds,
+                .ID = reaction.ID,
+                .forward = forward,
                 .reverse = Controls.StaticControl(15)
             }
 
