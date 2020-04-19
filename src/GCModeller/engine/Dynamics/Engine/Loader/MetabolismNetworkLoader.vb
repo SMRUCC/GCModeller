@@ -119,6 +119,7 @@ Namespace Engine.ModelLoader
             Dim forward As Controls
 
             If reaction.kinetics.IsNullOrEmpty Then
+
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
