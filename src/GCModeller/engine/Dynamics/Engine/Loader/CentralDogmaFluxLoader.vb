@@ -233,18 +233,18 @@ Namespace Engine.ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                        .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                        .forward = New AdditiveControls With {
-                            .baseline = loader.dynamics.transcriptionBaseline,
-                            .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
-                            .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
-                        },
-                        .reverse = Controls.StaticControl(0),
-                        .bounds = New Boundary With {
-                            .forward = loader.dynamics.transcriptionCapacity,
-                            .reverse = 0
-                        }
+                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
+                    .forward = New AdditiveControls With {
+                        .baseline = loader.dynamics.transcriptionBaseline,
+                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
+                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
+                    },
+                    .reverse = Controls.StaticControl(0),
+                    .bounds = New Boundary With {
+                        .forward = loader.dynamics.transcriptionCapacity,
+                        .reverse = 0
                     }
+                }
 
                 Yield transcription
             Next

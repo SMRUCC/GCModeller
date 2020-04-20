@@ -58,6 +58,7 @@ Namespace Engine.ModelLoader
 
         Friend ReadOnly define As Definition
         Friend ReadOnly dynamics As FluxBaseline
+        Friend ReadOnly vcellEngine As New Vessel
 
         Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
@@ -136,9 +137,9 @@ Namespace Engine.ModelLoader
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
             Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
 
-            Return New Vessel(massTable.AsEnumerable) With {
-                .Channels = processes
-            }
+            Return vcellEngine _
+                .load(massTable.AsEnumerable) _
+                .load(processes)
         End Function
     End Class
 End Namespace

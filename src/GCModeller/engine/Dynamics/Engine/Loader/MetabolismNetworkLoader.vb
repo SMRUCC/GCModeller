@@ -118,8 +118,8 @@ Namespace Engine.ModelLoader
 
             Dim forward As Controls
 
-            If reaction.kinetics.IsNullOrEmpty Then
-
+            If Not reaction.kinetics.formula Is Nothing Then
+                forward = New Core.Kinetics(loader.vcellEngine, reaction.kinetics)
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _

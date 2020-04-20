@@ -68,7 +68,11 @@ Namespace Core
         ''' <remarks>
         ''' 虚拟细胞中的生命活动过程事件网络
         ''' </remarks>
-        Public Property Channels As Channel()
+        Public ReadOnly Property Channels As Channel()
+            Get
+                Return m_channels
+            End Get
+        End Property
 
         ''' <summary>
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
@@ -76,7 +80,7 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property MassEnvironment As Factor()
             Get
-                Return massIndex.Values.ToArray
+                Return m_massIndex.Values.ToArray
             End Get
         End Property
 
@@ -89,11 +93,18 @@ Namespace Core
         ''' </summary>
         Dim resolution As Double
 
-        Friend ReadOnly massIndex As Dictionary(Of String, Factor)
+        Friend m_massIndex As Dictionary(Of String, Factor)
+        Friend m_channels As Channel()
 
-        Sub New(massEnvir As IEnumerable(Of Factor))
-            massIndex = massEnvir.ToDictionary(Function(m) m.ID)
-        End Sub
+        Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
+            m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
+            Return Me
+        End Function
+
+        Public Function load(flux As IEnumerable(Of Channel)) As Vessel
+            m_channels = flux.ToArray
+            Return Me
+        End Function
 
         ''' <summary>
         ''' 

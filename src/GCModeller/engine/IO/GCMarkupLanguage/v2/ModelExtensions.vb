@@ -254,7 +254,7 @@ Namespace v2
                         .ToArray,
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
-                    .kinetics = kinetics
+                    .kinetics = kinetics.FirstOrDefault
                 }
             Next
         End Function

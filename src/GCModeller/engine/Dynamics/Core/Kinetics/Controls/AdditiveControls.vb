@@ -10,11 +10,6 @@ Namespace Core
     Public Class AdditiveControls : Inherits Controls
 
         Public Property activation As Variable() = {}
-        ''' <summary>
-        ''' 如果抑制的总量大于激活的总量，那么这个调控的反应过程将不会进行
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property inhibition As Variable() = {}
 
         ''' <summary>
         ''' 计算出当前的调控效应单位

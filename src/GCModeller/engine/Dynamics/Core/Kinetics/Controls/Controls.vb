@@ -58,6 +58,12 @@ Namespace Core
         ''' <returns></returns>
         Public Property baseline As Double = 0.5
 
+        ''' <summary>
+        ''' 如果抑制的总量大于激活的总量，那么这个调控的反应过程将不会进行
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property inhibition As Variable() = {}
+
         Public Shared Function StaticControl(baseline As Double) As Controls
             Return New AdditiveControls With {
                 .baseline = baseline,
