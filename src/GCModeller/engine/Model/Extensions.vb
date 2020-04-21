@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e8d3443b8da981bff4e1ed6d5b2fb68, Model\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::deb9495c7e5aa1e260d2e467da3c07ec, Model\Extensions.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
 <HideModuleName>
 Public Module Extensions

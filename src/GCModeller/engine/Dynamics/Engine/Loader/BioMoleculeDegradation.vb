@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fffcdaac3772c80a31f4db5f0544eea7, Dynamics\Engine\Loader\BioMoleculeDegradation.vb"
+﻿#Region "Microsoft.VisualBasic::219cf099fc8a2895bd80b1565edbf8dd, Dynamics\Engine\Loader\BioMoleculeDegradation.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
 Namespace Engine.ModelLoader
 
@@ -94,8 +95,8 @@ Namespace Engine.ModelLoader
 
                 Yield New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
                     .ID = $"proteinComplexDegradationOf{proteinComplex}",
-                    .forward = New Controls With {.baseline = 10},
-                    .reverse = New Controls With {.baseline = 0},
+                    .forward = Controls.StaticControl(10),
+                    .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
                         .forward = 1000,
                         .reverse = 0
@@ -104,8 +105,8 @@ Namespace Engine.ModelLoader
 
                 Yield New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
                     .ID = $"polypeptideDegradationOf{peptideId}",
-                    .forward = New Controls With {.baseline = 10},
-                    .reverse = New Controls With {.baseline = 0},
+                    .forward = Controls.StaticControl(10),
+                    .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
                         .forward = 1000,
                         .reverse = 0
@@ -134,8 +135,8 @@ Namespace Engine.ModelLoader
                 ' 降解过程是不可逆的
                 Yield New Channel(MassTable.variables({rna}, 1), ntBase) With {
                     .ID = $"RNADegradationOf{rna}",
-                    .forward = New Controls With {.baseline = 10},
-                    .reverse = New Controls With {.baseline = 0},
+                    .forward = Controls.StaticControl(10),
+                    .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
                         .forward = 1000,
                         .reverse = 0

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb0f0bb4bb5d0b6ec02818a31255e65a, IO\GCMarkupLanguage\v2\ModelExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::282578101b0c5d9b929276a8ddda4e4a, IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction
+Imports Microsoft.VisualBasic.Math.Scripting
 
 Namespace v2
 
@@ -178,7 +179,7 @@ Namespace v2
                             Return enz _
                                 .catalysis _
                                 .Select(Function(ec)
-                                            Return (rID:=ec.reaction, enz:=enz.KO)
+                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
                                         End Function)
                         End Function) _
                 .IteratesALL _
@@ -189,25 +190,52 @@ Namespace v2
                                           .Distinct _
                                           .ToArray
                               End Function)
-            Dim KO$()
+            Dim KO As NamedValue(Of Catalysis)()
             Dim bounds As Double()
+            Dim kinetics As Kinetics()
 
             For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
                 equation = Equation.TryParse(reaction.Equation)
 
                 If reaction.is_enzymatic Then
-                    KO = enzymes.TryGetValue(reaction.ID, mute:=True)
+                    KO = enzymes.TryGetValue(reaction.ID, [default]:={}, mute:=True)
 
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
                         bounds = {10, 10}
+                        ' 标准的米氏方程？
+                        kinetics = {}
                     Else
                         bounds = {500, 1000.0}
+                        kinetics = KO _
+                            .Where(Function(c) Not c.Value.formula Is Nothing) _
+                            .Where(Function(c) c.Value.reaction = reaction.ID) _
+                            .Select(Function(k)
+                                        Return New Kinetics With {
+                                            .enzyme = k.Name,
+                                            .formula = ScriptEngine.ParseExpression(k.Value.formula.lambda),
+                                            .parameters = k.Value.formula.parameters,
+                                            .paramVals = k.Value.parameter _
+                                                .Select(Function(a)
+                                                            If a.value.IsNaNImaginary Then
+                                                                Return a.target
+                                                            Else
+                                                                Return a.value
+                                                            End If
+                                                        End Function) _
+                                                .ToArray,
+                                            .target = reaction.ID,
+                                            .PH = k.Value.PH,
+                                            .temperature = k.Value.temperature
+                                        }
+                                    End Function) _
+                            .ToArray
                     End If
                 Else
                     KO = {}
                     bounds = {200, 200.0}
+                    kinetics = {}
                 End If
 
                 If Not equation.reversible Then
@@ -224,8 +252,9 @@ Namespace v2
                     .products = equation.Products _
                         .Select(Function(c) c.AsFactor) _
                         .ToArray,
-                    .enzyme = KO,
-                    .bounds = bounds
+                    .enzyme = KO.Keys.Distinct.ToArray,
+                    .bounds = bounds,
+                    .kinetics = kinetics.FirstOrDefault
                 }
             Next
         End Function

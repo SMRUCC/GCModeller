@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90ea4c958229999f7f5e2efd83032649, Model\Models\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::00199bfa6e5ee1b04779c6349f329995, Model\Models\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -36,20 +36,6 @@
     '     Properties: geneID, IsRNAGene, RNAName
     ' 
     '     Function: ToString
-    ' 
-    ' Enum RNATypes
-    ' 
-    '     micsRNA, ribosomalRNA, tRNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Structure Protein
-    ' 
-    '     Properties: ProteinID
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 
@@ -144,38 +130,4 @@ Public Structure CentralDogma : Implements INamedValue
             Return {geneID, RNAName}.JoinBy(" -> ")
         End If
     End Function
-End Structure
-
-Public Enum RNATypes As Byte
-    mRNA = 0
-    tRNA
-
-    <Description("rRNA")>
-    ribosomalRNA
-    ''' <summary>
-    ''' 其他类型的RNA
-    ''' </summary>
-    micsRNA
-End Enum
-
-''' <summary>
-''' Protein Modification
-''' 
-''' ``{polypeptide} + compounds -> protein``
-''' </summary>
-Public Structure Protein
-
-    Dim polypeptides As String()
-    Dim compounds As String()
-
-    Public Property ProteinID As String
-
-    ''' <summary>
-    ''' 这个蛋白质是由一条多肽链所构成的
-    ''' </summary>
-    ''' <param name="proteinId"></param>
-    Sub New(proteinId As String)
-        polypeptides = {proteinId}
-    End Sub
-
 End Structure

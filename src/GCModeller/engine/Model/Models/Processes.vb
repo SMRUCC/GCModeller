@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3f373652b75b8105f4c1e51e5d43816, Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ff115bc52885de5e19a6fba92adf733f, Model\Models\Processes.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,33 @@
 
     ' Summaries:
 
-    ' Module Extensions
+    ' Enum Processes
     ' 
-    '     Function: ToTabular
+    '     MetabolicProcess, Transcription, Translation
+    ' 
+    '  
+    ' 
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
 
-<HideModuleName>
-Public Module Extensions
-
-
-    <Extension>
-    Public Function ToTabular(model As CellularModule) As Excel
-        Throw New NotImplementedException
-    End Function
-End Module
+''' <summary>
+''' 过程类型
+''' </summary>
+Public Enum Processes
+    ''' <summary>
+    ''' 转录过程
+    ''' </summary>
+    Transcription
+    ''' <summary>
+    ''' 翻译过程
+    ''' </summary>
+    Translation
+    ''' <summary>
+    ''' 代谢过程，主要是产物对上游的抑制类型
+    ''' </summary>
+    MetabolicProcess
+End Enum

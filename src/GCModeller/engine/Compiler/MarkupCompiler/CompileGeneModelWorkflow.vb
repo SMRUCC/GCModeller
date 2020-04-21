@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4104cf22045fdb3b4b4a859ad6c98c4c, Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::016eb5b699200eb737af9f148ec69da5, Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
 Namespace MarkupCompiler
 

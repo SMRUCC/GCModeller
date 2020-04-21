@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3f373652b75b8105f4c1e51e5d43816, Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::fc0a6fbf854ea3162471aed34f39b458, Model\Models\Protein.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,34 @@
 
     ' Summaries:
 
-    ' Module Extensions
+    ' Structure Protein
     ' 
-    '     Function: ToTabular
+    '     Properties: ProteinID
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
+''' <summary>
+''' Protein Modification
+''' 
+''' ``{polypeptide} + compounds -> protein``
+''' </summary>
+Public Structure Protein
 
-<HideModuleName>
-Public Module Extensions
+    Dim polypeptides As String()
+    Dim compounds As String()
 
+    Public Property ProteinID As String
 
-    <Extension>
-    Public Function ToTabular(model As CellularModule) As Excel
-        Throw New NotImplementedException
-    End Function
-End Module
+    ''' <summary>
+    ''' 这个蛋白质是由一条多肽链所构成的
+    ''' </summary>
+    ''' <param name="proteinId"></param>
+    Sub New(proteinId As String)
+        polypeptides = {proteinId}
+    End Sub
+
+End Structure
