@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3f373652b75b8105f4c1e51e5d43816, Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4596a84a3e3cd504af177e2f2c7ac139, Model\Models\RNATypes.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,28 @@
 
     ' Summaries:
 
-    ' Module Extensions
+    ' Enum RNATypes
     ' 
-    '     Function: ToTabular
+    '     micsRNA, ribosomalRNA, tRNA
+    ' 
+    '  
+    ' 
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports System.ComponentModel
 
-<HideModuleName>
-Public Module Extensions
+Public Enum RNATypes As Byte
+    mRNA = 0
+    tRNA
 
-
-    <Extension>
-    Public Function ToTabular(model As CellularModule) As Excel
-        Throw New NotImplementedException
-    End Function
-End Module
+    <Description("rRNA")>
+    ribosomalRNA
+    ''' <summary>
+    ''' 其他类型的RNA
+    ''' </summary>
+    micsRNA
+End Enum

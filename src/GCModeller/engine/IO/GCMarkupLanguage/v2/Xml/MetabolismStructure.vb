@@ -1,82 +1,88 @@
-﻿#Region "Microsoft.VisualBasic::be17af4d9b6b31dc083766665b7af4e8, IO\GCMarkupLanguage\v2\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::c2344489213c90d3af139da8edaffdeb, IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class MetabolismStructure
-' 
-'         Properties: compounds, enzymes, maps, reactions
-' 
-'         Function: GetAllFluxID
-' 
-'     Class ReactionGroup
-' 
-'         Properties: enzymatic, etc, size
-' 
-'         Function: GenericEnumerator, GetEnumerator
-' 
-'     Class Compound
-' 
-'         Properties: ID, name, otherNames
-' 
-'     Class Reaction
-' 
-'         Properties: bounds, Equation, ID, is_enzymatic, name
-' 
-'         Function: ToString
-' 
-'     Class FunctionalCategory
-' 
-'         Properties: category, pathways
-' 
-'         Function: ToString
-' 
-'     Class Pathway
-' 
-'         Properties: enzymes, ID, name
-' 
-'         Function: ToString
-' 
-'     Class Enzyme
-' 
-'         Properties: catalysis, ECNumber, geneID, KO
-' 
-'         Function: ToString
-' 
-'     Class Catalysis
-' 
-'         Properties: coefficient, comment, reaction
-' 
-' 
-' /********************************************************************************/
+    '     Class MetabolismStructure
+    ' 
+    '         Properties: compounds, enzymes, maps, reactions
+    ' 
+    '         Function: GetAllFluxID
+    ' 
+    '     Class ReactionGroup
+    ' 
+    '         Properties: enzymatic, etc, size
+    ' 
+    '         Function: GenericEnumerator, GetEnumerator
+    ' 
+    '     Class Compound
+    ' 
+    '         Properties: ID, name, otherNames
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: bounds, Equation, ID, is_enzymatic, name
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class FunctionalCategory
+    ' 
+    '         Properties: category, pathways
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Pathway
+    ' 
+    '         Properties: enzymes, ID, name
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Enzyme
+    ' 
+    '         Properties: catalysis, ECNumber, geneID, KO
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Catalysis
+    ' 
+    '         Properties: formula, parameter, PH, reaction, temperature
+    ' 
+    '     Class KineticsParameter
+    ' 
+    '         Properties: isModifier, name, target, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -282,6 +288,14 @@ Namespace v2
         ''' 
         <XmlElement>
         Public Property parameter As KineticsParameter()
+
+        Public Overrides Function ToString() As String
+            If formula Is Nothing Then
+                Return "null"
+            Else
+                Return formula.lambda
+            End If
+        End Function
 
     End Class
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b129dd3cf69f22c65723659573ada77a, Dynamics\Engine\Loader\CentralDogmaFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::9f29500bbcb73b457e2b0083e54c8b0f, Dynamics\Engine\Loader\CentralDogmaFluxLoader.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
 Namespace Engine.ModelLoader
 
@@ -100,8 +101,8 @@ Namespace Engine.ModelLoader
             Yield New Channel(left, right) With {
                 .ID = $"chargeOf_{cd.RNAName}",
                 .bounds = New Boundary() With {.forward = loader.dynamics.tRNAChargeCapacity},
-                .reverse = 0,
-                .forward = loader.dynamics.tRNAChargeBaseline
+                .reverse = Controls.StaticControl(0),
+                .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
             }
         End Function
 
@@ -113,8 +114,8 @@ Namespace Engine.ModelLoader
             Return New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
                 .ID = NameOf(ribosomeAssembly),
                 .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
-                .forward = loader.dynamics.ribosomeAssemblyBaseline,
-                .reverse = loader.dynamics.ribosomeDisassemblyBaseline
+                .forward = Controls.StaticControl(loader.dynamics.ribosomeAssemblyBaseline),
+                .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline)
             }
         End Function
 
@@ -215,8 +216,8 @@ Namespace Engine.ModelLoader
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
-                        .forward = New Controls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
-                        .reverse = New Controls With {.baseline = 0},
+                        .forward = New AdditiveControls With {.baseline = 0, .activation = {MassTable.variable(NameOf(ribosomeAssembly))}},
+                        .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.translationCapacity,
                             .reverse = 0
@@ -232,18 +233,18 @@ Namespace Engine.ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                        .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
-                        .forward = New Controls With {
-                            .baseline = loader.dynamics.transcriptionBaseline,
-                            .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
-                            .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
-                        },
-                        .reverse = New Controls With {.baseline = 0},
-                        .bounds = New Boundary With {
-                            .forward = loader.dynamics.transcriptionCapacity,
-                            .reverse = 0
-                        }
+                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
+                    .forward = New AdditiveControls With {
+                        .baseline = loader.dynamics.transcriptionBaseline,
+                        .activation = regulations.Where(Function(r) r.effects > 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray,
+                        .inhibition = regulations.Where(Function(r) r.effects < 0).Select(Function(r) MassTable.variable(proteinList(r.regulator), r.effects)).ToArray
+                    },
+                    .reverse = Controls.StaticControl(0),
+                    .bounds = New Boundary With {
+                        .forward = loader.dynamics.transcriptionCapacity,
+                        .reverse = 0
                     }
+                }
 
                 Yield transcription
             Next
