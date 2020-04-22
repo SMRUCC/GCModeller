@@ -511,9 +511,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RScript", "RScript", "{40AE
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R", "R-sharp\R#\R.vbproj", "{0C2EB77C-39F2-460D-A3F8-CE905F867637}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R-cmd", "R-sharp\R-terminal\R-cmd.vbproj", "{3A35AC34-F313-4F72-89E9-EACCA217BC8D}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R-cmd", "R-sharp\studio\R-terminal\R-cmd.vbproj", "{3A35AC34-F313-4F72-89E9-EACCA217BC8D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.exec", "R-sharp\R.exec\R.exec.vbproj", "{E0FBB76C-5F1B-4018-87F6-BD7A9A505F30}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.exec", "R-sharp\studio\R.exec\R.exec.vbproj", "{E0FBB76C-5F1B-4018-87F6-BD7A9A505F30}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rsharp", "Rsharp", "{4308FAE2-8F4F-43BD-874E-50E1802339F0}"
 EndProject
