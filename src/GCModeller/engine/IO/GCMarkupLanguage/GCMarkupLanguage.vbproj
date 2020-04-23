@@ -242,6 +242,7 @@
     <Compile Include="v2\Assembly\ZipComponent.vb" />
     <Compile Include="v2\Assembly\ZipWriter.vb" />
     <Compile Include="v2\Assembly\ZipAssembly.vb" />
+    <Compile Include="v2\Debugger.vb" />
     <Compile Include="v2\NamespaceDoc.vb" />
     <Compile Include="v2\Xml\Genome.vb" />
     <Compile Include="v2\Xml\MetabolismStructure.vb" />

@@ -44,10 +44,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction
-Imports Microsoft.VisualBasic.Math.Scripting
 
 Namespace v2
 
