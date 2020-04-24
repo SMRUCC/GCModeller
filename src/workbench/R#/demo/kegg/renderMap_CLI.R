@@ -54,7 +54,7 @@ using maps as open.zip("/etc/GCModeller/kegg_maps.zip") {
 	:> loadMap 
 	:> as.object
 	:> keggMap.reportHtml(highlights)
-	:> writeLines(con = `${outputdir}\${basename(mapId)}.html`)
+	:> writeLines(con = `${outputdir}/${basename(mapId)}.html`)
 	;
 
 	# just render image file 
@@ -62,6 +62,6 @@ using maps as open.zip("/etc/GCModeller/kegg_maps.zip") {
 	:> loadMap 
 	:> as.object
 	:> keggMap.highlights(highlights)
-	:> save.graphics(file = `${outputdir}\${basename(mapId)}.png`)
+	:> save.graphics(file = `${outputdir}/${basename(mapId)}.png`)
 	;	
 }
