@@ -52,24 +52,49 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' tools for create a transcription regulation network
+''' </summary>
 <Package("TRN.builder")>
 Module TRNBuilder
 
+    ''' <summary>
+    ''' load regprecise database from a given file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.regprecise")>
     Public Function readRegPrecise(file As String) As TranscriptionFactors
         Return file.LoadXml(Of TranscriptionFactors)
     End Function
 
+    ''' <summary>
+    ''' read a footprint site model data file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.footprints")>
     Public Function readFootprintSites(file As String) As FootprintSite()
         Return file.LoadCsv(Of FootprintSite)
     End Function
 
+    ''' <summary>
+    ''' read a regulation prediction result file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.regulations")>
     Public Function readRegulations(file As String) As RegulationFootprint()
         Return file.LoadCsv(Of RegulationFootprint)
     End Function
 
+    ''' <summary>
+    ''' save the regulation network data file.
+    ''' </summary>
+    ''' <param name="regulationFootprints"></param>
+    ''' <param name="file$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("write.regulations")>
     Public Function writeRegulationFootprints(regulationFootprints As Object, file$, Optional env As Environment = Nothing) As Object
         If regulationFootprints Is Nothing Then

@@ -16,3 +16,4 @@ node_modules
 *.ide-shm
 *.ide-wal
 *.sqlite-journal
+/R#/demo/kegg/KEGG_maps.zip
