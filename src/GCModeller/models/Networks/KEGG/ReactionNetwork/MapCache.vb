@@ -61,7 +61,7 @@ Namespace ReactionNetwork
             For Each line As String In text
                 values = line.Split
                 key = values(Scan0)
-                values = values.Split(","c)
+                values = values(1).Split(","c)
 
                 Call cache.Add(key, values)
             Next
