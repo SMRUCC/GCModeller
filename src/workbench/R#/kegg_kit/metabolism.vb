@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::f0f15bb14bf9e4f666fb692c456364a4, R#\kegg_kit\metabolism.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module metabolism
-    ' 
-    '     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds
-    ' 
-    ' /********************************************************************************/
+' Module metabolism
+' 
+'     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,12 +46,18 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.GCModeller
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 ''' <summary>
 ''' The kegg metabolism model toolkit
 ''' </summary>
 <Package("kegg.metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
+
+    <ExportAPI("load.reaction.cacheIndex")>
+    Public Function loadReactionCacheIndex(file As String) As MapCache
+        Return MapCache.ParseText(file.SolveStream.LineTokens)
+    End Function
 
     ''' <summary>
     ''' Get compounds kegg id which is related to the given KO id list
