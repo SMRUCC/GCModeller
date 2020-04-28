@@ -42,6 +42,9 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
+''' <summary>
+''' GCModeller internal cli pipeline api for R# scripting
+''' </summary>
 <Package("GCModeller")>
 Public Module CLI
 

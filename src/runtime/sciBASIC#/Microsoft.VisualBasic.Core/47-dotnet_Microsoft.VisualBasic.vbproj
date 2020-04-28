@@ -1102,8 +1102,6 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="Microsoft.VisualC.STLCLR" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -1248,6 +1246,7 @@
     <Compile Include="My\JavaScript\ES6\Map.vb" />
     <Compile Include="My\JavaScript\Linq.vb" />
     <Compile Include="My\JavaScript\JavaScriptObject.vb" />
+    <Compile Include="My\JavaScript\String.vb" />
     <Compile Include="My\JavaScript\UnionType.vb" />
     <Compile Include="Language\Language\Java\NamespaceDoc.vb" />
     <Compile Include="Language\Language\Python\NamespaceDoc.vb" />
@@ -1336,7 +1335,11 @@
     <Compile Include="Extensions\Math\StatisticsMathExtensions\DataSample.vb" />
     <Compile Include="Serialization\BinaryDumping\ObjectVisitor.vb" />
     <Compile Include="Serialization\ICloneable.vb" />
+    <Compile Include="Text\IO\Encodings.vb" />
     <Compile Include="Text\Parser\CharBuffer.vb" />
+    <Compile Include="Text\Patterns\NamespaceDoc.vb" />
+    <Compile Include="Text\Patterns\Validator\isIP.vb" />
+    <Compile Include="Text\Patterns\Validator\Validator.vb" />
     <Compile Include="Text\Xml\Linq\NamespaceIgnorantXmlTextReader.vb" />
     <Compile Include="Text\Xml\Models\Sequence.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\IndexSelector.vb" />
@@ -1676,7 +1679,7 @@
     <Compile Include="ComponentModel\Algorithm\DynamicProgramming\Levenshtein\LevenshteinModel.vb" />
     <Compile Include="Text\StringSimilarity\Levenshtein\Extensions.vb" />
     <Compile Include="Extensions\StringHelpers\StrUtils.vb" />
-    <Compile Include="Text\TextEncodings.vb" />
+    <Compile Include="Text\IO\TextEncodings.vb" />
     <Compile Include="Net\HTTP\HTTP_RFC.vb" />
     <Compile Include="Net\HTTP\Stream\Base64Codec.vb" />
     <Compile Include="Net\Protocol\NetResponse.vb" />

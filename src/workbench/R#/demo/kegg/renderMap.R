@@ -26,7 +26,7 @@ str(highlights);
 # method2, load from a zip archive file which contains the kegg pathway
 # template file
 
-using maps as open.zip("./kegg_maps.zip") {
+using maps as open.zip("/etc/GCModeller/kegg_maps.zip") {
 	# render result as html output
 	maps[["map00680.XML"]] 
 	:> loadMap 

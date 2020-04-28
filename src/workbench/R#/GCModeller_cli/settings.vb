@@ -41,6 +41,9 @@
 
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
+''' <summary>
+''' GCModeller configuration api
+''' </summary>
 <Package("GCModeller.ini")>
 Module settingsHelper
 
