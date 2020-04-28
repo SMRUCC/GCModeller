@@ -23,12 +23,11 @@ Namespace ReactionNetwork
             End If
         End Function
 
-        Public Function FindAllPoints(compounds As IEnumerable(Of String)) As String()
-            Dim list = compounds.ToArray
+        Public Function FindAllPoints(compounds As String()) As String()
             Dim result As New List(Of String)
 
-            For Each a In list
-                For Each b In list
+            For Each a As String In compounds
+                For Each b As String In compounds
                     result.AddRange(FindPoints(a, b))
                 Next
             Next
