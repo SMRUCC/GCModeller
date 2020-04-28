@@ -588,8 +588,12 @@ Partial Module CLI
     <Group(CLIGrouping.KEGGTools)>
     Public Function WriteReactionTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".table.csv")
+        Dim out$ = args("/out") Or ([in].TrimDIR & ".table.csv")
         Dim table As ReactionTable() = ReactionTable.Load(br08201:=[in]).ToArray
+        Dim mapcache As MapCache = MapCache.CreateFromTable(table)
+
+        Call mapcache.Text.SaveTo(out.TrimSuffix & ".cacheIndex.txt")
+
         Return table.SaveTo(out).CLICode
     End Function
 
