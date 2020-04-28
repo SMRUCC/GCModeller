@@ -114,7 +114,7 @@ Namespace ReactionNetwork
             Dim model As ReactionTable = Nothing
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
 
-            For Each file As String In (ls - l - r - "*.XML" <= br08201)
+            For Each file As String In (ls - l - r - {"*.XML", "*.xml"} <= br08201)
                 Try
                     model = Reaction _
                         .LoadXml(handle:=file) _
