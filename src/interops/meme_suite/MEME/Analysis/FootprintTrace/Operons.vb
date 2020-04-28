@@ -41,7 +41,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -49,6 +48,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports stdNum = System.Math
 
 Namespace Analysis.FootprintTraceAPI
 
@@ -113,8 +113,8 @@ Namespace Analysis.FootprintTraceAPI
             Dim expands = (From x In LQuery Select x.x.__expands(x.opr, coors)).IteratesALL
             Dim cuts = (From x As PredictedRegulationFootprint
                         In expands.AsParallel
-                        Where Math.Abs(x.Pcc) >= cut OrElse
-                            Math.Abs(x.sPcc) >= cut
+                        Where stdNum.Abs(x.Pcc) >= cut OrElse
+                            stdNum.Abs(x.sPcc) >= cut
                         Select x).AsList
             Return cuts + footprints
         End Function

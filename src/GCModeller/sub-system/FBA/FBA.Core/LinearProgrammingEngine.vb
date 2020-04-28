@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0dde780d7ccad2367c722c2464e2c87, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
+﻿#Region "Microsoft.VisualBasic::7d1a810f9a6da85ee793c6b46f9b1c7f, FBA\FBA.Core\LinearProgrammingEngine.vb"
 
 ' Author:
 ' 
@@ -42,7 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Algebra.LinearProgramming
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0af697fc9459fb2cea3719e1629a3925, Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::dd720a29338d91dc4b107a2523c922dc, Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -68,12 +68,21 @@ Namespace Core
         ''' <remarks>
         ''' 虚拟细胞中的生命活动过程事件网络
         ''' </remarks>
-        Public Property Channels As Channel()
+        Public ReadOnly Property Channels As Channel()
+            Get
+                Return m_channels
+            End Get
+        End Property
+
         ''' <summary>
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property MassEnvironment As Factor()
+        Public ReadOnly Property MassEnvironment As Factor()
+            Get
+                Return m_massIndex.Values.ToArray
+            End Get
+        End Property
 
         ''' <summary>
         ''' 因为在现实中这些反应过程是同时发生的，所以在这里使用这个共享因子来模拟并行事件
@@ -83,6 +92,19 @@ Namespace Core
         ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
         ''' </summary>
         Dim resolution As Double
+
+        Friend m_massIndex As Dictionary(Of String, Factor)
+        Friend m_channels As Channel()
+
+        Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
+            m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
+            Return Me
+        End Function
+
+        Public Function load(flux As IEnumerable(Of Channel)) As Vessel
+            m_channels = flux.ToArray
+            Return Me
+        End Function
 
         ''' <summary>
         ''' 
@@ -113,7 +135,7 @@ Namespace Core
                             End If
                         End Function) _
                 .IteratesALL _
-                .GroupBy(Function(var) var.Mass.ID) _
+                .GroupBy(Function(var) var.mass.ID) _
                 .ToDictionary(Function(m) m.Key,
                               Function(m)
                                   Return CDbl(m.Count)

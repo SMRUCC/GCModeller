@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b11bc066a9595ffe0243dbdd2be8e253, Model\Models\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::3371246b7d0c1a519c60338a893a7a21, Model\Models\Regulation.vb"
 
     ' Author:
     ' 
@@ -34,14 +34,6 @@
     ' Structure Regulation
     ' 
     '     Function: ToString
-    ' 
-    ' Enum Processes
-    ' 
-    '     MetabolicProcess, Transcription, Translation
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -80,21 +72,3 @@ Public Structure Regulation
     End Function
 
 End Structure
-
-''' <summary>
-''' 过程类型
-''' </summary>
-Public Enum Processes
-    ''' <summary>
-    ''' 转录过程
-    ''' </summary>
-    Transcription
-    ''' <summary>
-    ''' 翻译过程
-    ''' </summary>
-    Translation
-    ''' <summary>
-    ''' 代谢过程，主要是产物对上游的抑制类型
-    ''' </summary>
-    MetabolicProcess
-End Enum

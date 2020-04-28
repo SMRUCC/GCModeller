@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f797f3c2ec82ab78fe8841f15350b00, vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::3a3b611b4ab0acf640d9502afa52776f, vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -106,6 +106,11 @@ Public Module Simulator
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' create a generic vcell object model from a loaded vcell xml file model
+    ''' </summary>
+    ''' <param name="vcell">the file model data of the GCModeller vcell</param>
+    ''' <returns></returns>
     <ExportAPI("vcell.model")>
     Public Function CreateObjectModel(vcell As VirtualCell) As CellularModule
         Return vcell.CreateModel

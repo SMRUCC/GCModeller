@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::e0d689d762aa966d5ee96e079c976bed, Data_science\Visualization\Plots\Contour.vb"
+﻿#Region "Microsoft.VisualBasic::3e20b264862f0c1353ee31553fee8854, Data_science\Visualization\Plots\Contour.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Contour
-' 
-'     Function: __getData, Compile, (+3 Overloads) Plot
-'     Class __plotHelper
-' 
-'         Function: GetColor, GetData
-' 
-'         Sub: Plot
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module Contour
+    ' 
+    '     Function: __getData, Compile, (+3 Overloads) Plot
+    '     Class __plotHelper
+    ' 
+    '         Function: GetColor, GetData
+    ' 
+    '         Sub: Plot
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' Contour heatmap 
@@ -325,7 +326,7 @@ Public Module Contour
                     .Where(Function(x) Not (+x).IsNaNImaginary AndAlso (+x) <> 0R) _
                     .ToArray
                 indexLevels = reals _
-                    .Select(Function(x) Math.Abs(+x)) _
+                    .Select(Function(x) stdNum.Abs(+x)) _
                     .Log2Ranks(mapLevels)
             Else
                 reals = data _

@@ -51,6 +51,7 @@ Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports stdNum = System.Math
 
 Namespace DocumentFormat
 
@@ -130,7 +131,7 @@ Namespace DocumentFormat
 
         <Column(Name:="5'UTR")> Public ReadOnly Property _5UTR As Integer
             Get
-                Return Math.Abs(TSSs - ATG)
+                Return stdNum.Abs(TSSs - ATG)
             End Get
         End Property
 
@@ -296,7 +297,7 @@ Namespace DocumentFormat
                 Dim last As Transcript = source(Scan0)
 
                 For Each loci In source.Skip(1)
-                    If Math.Abs(loci.TSSs - last.TSSs) <= offset Then
+                    If stdNum.Abs(loci.TSSs - last.TSSs) <= offset Then
                         last.TSSsShared += loci.TSSsShared
                     Else
                         Call list.Add(last)
@@ -313,7 +314,7 @@ Namespace DocumentFormat
                 Dim last As Transcript = source(Scan0)
 
                 For Each loci In source.Skip(1)
-                    If Math.Abs(loci.TSSs - last.TSSs) <= offset Then
+                    If stdNum.Abs(loci.TSSs - last.TSSs) <= offset Then
                         last.TSSsShared += loci.TSSsShared
                     Else
                         Call list.Add(last)

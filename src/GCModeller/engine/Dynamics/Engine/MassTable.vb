@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ad929818170a370732d171bb764d81b, Dynamics\Engine\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::f8eab116a1170e7c7cc7166cd5d906f9, Dynamics\Engine\MassTable.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of Variable), factor As Double) As IEnumerable(Of Variable)
-            Return compounds.Select(Function(cpd) Me.variable(cpd.Mass.ID, factor))
+            Return compounds.Select(Function(cpd) Me.variable(cpd.mass.ID, factor))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

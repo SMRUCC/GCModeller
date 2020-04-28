@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f9720eedc089fba7baec09edf2d0a75, sub-system\PLAS.NET\SSystem\Script\Model.vb"
+﻿#Region "Microsoft.VisualBasic::7657be5b43582b8bbd2183fbbaa3875b, PLAS.NET\SSystem\Script\Models\Model.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace Script
 

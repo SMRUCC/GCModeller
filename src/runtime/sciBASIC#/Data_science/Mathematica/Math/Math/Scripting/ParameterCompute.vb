@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::b5849bcc671a83afef68906e254d1a0a, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
+﻿#Region "Microsoft.VisualBasic::cc068ac6d7b6db8ac8c6ad7a40baba2a, Data_science\Mathematica\Math\Math\Scripting\ParameterCompute.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ParameterExpression
-' 
-'         Function: Demo, (+2 Overloads) Evaluate, GetValue
-' 
-'         Sub: Apply
-' 
-' 
-' /********************************************************************************/
+    '     Module ParameterExpression
+    ' 
+    '         Function: Demo, (+2 Overloads) Evaluate, GetValue
+    ' 
+    '         Sub: Apply
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -57,21 +57,21 @@ Namespace Scripting
     ''' 在vb之中由于可选参数的值只能够是常量，假若变量之间还存在关联，则必须要用表达式，
     ''' 但是表达式不是常量，所以使用这个模块之中的代码来模拟R语言之中的可选参数表达式
     ''' </summary>
-    Public Module ParameterExpression
+    Public Module ParameterExpressionScript
 
-        Public Function Demo(c#,
-                             Optional x$ = "c*33+5!",
-                             Optional y$ = "log(x)+sin(9)",
-                             Optional title$ = "This is a title string, not numeric expression") As Double()
+        'Public Function Demo(c#,
+        '                     Optional x$ = "c*33+5!",
+        '                     Optional y$ = "log(x)+sin(9)",
+        '                     Optional title$ = "This is a title string, not numeric expression") As Double()
 
-            Dim parameters As Dictionary(Of String, Double) = Evaluate(Function() {c, x, y})
+        '    Dim parameters As Dictionary(Of String, Double) = Evaluate(Function() {c, x, y})
 
-            Return {
-                c,
-                parameters(NameOf(x)),
-                parameters(NameOf(y))
-            }
-        End Function
+        '    Return {
+        '        c,
+        '        parameters(NameOf(x)),
+        '        parameters(NameOf(y))
+        '    }
+        'End Function
 
         '<Extension>
         'Public Function Evaluate(params As IEnumerable(Of Object)) As Dictionary(Of String, Double)

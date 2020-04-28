@@ -1,4 +1,45 @@
-﻿Imports System.Linq.Expressions
+﻿#Region "Microsoft.VisualBasic::dea10533435f8a1229abdbd725747a9c, Data_science\Mathematica\Math\MathLambda\MathMLCompiler.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module MathMLCompiler
+    ' 
+    '     Function: (+2 Overloads) CreateBinary, CreateLambda
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.xml
 Imports ML = Microsoft.VisualBasic.MIME.application.xml.MathML.BinaryExpression
@@ -22,7 +63,7 @@ Public Module MathMLCompiler
         If member Like GetType(MLSymbol) Then
             With member.TryCast(Of MLSymbol)
                 If .isNumericLiteral Then
-                    Return Expression.Constant(Val(.text), GetType(Double))
+                    Return Expression.Constant(ParseDouble(.text), GetType(Double))
                 Else
                     Return parameters(.text)
                 End If
@@ -52,3 +93,4 @@ Public Module MathMLCompiler
         End Select
     End Function
 End Module
+

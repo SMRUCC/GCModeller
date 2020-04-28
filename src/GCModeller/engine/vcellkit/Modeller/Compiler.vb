@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc5ad48536de017d2df2ffccc378d015, vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::266e3d12a3118ff00bce723770b4ba36, vcellkit\Modeller\Compiler.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
@@ -48,6 +49,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
+Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
@@ -197,7 +199,11 @@ Module Compiler
                              genomes As Dictionary(Of String, GBFF.File),
                              KEGG As RepositoryArguments,
                              regulations As RegulationFootprint(),
-                             Optional lociAsLocus_tag As Boolean = False) As VirtualCell
-        Return model.ToMarkup(genomes, KEGG, regulations, lociAsLocus_tag)
+                             Optional lociAsLocus_tag As Boolean = False,
+                             Optional logfile As String = Nothing) As VirtualCell
+
+        Using compiler As New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
+            Return compiler.Compile($"compile --log {logfile.CLIPath}")
+        End Using
     End Function
 End Module

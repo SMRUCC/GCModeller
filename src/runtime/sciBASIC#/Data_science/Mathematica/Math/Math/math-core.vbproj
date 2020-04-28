@@ -662,12 +662,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algebra\Extensions.vb" />
-    <Compile Include="Algebra\Framework\Iterator.vb" />
+    <Compile Include="Algebra\PCA\Algorithm.vb" />
+    <Compile Include="Algebra\PCA\Helper.vb" />
+    <Compile Include="Numerics\Framework\VariableObject.vb" />
+    <Compile Include="Numerics\Framework\Iterator.vb" />
     <Compile Include="Algebra\LP\Extensions.vb" />
     <Compile Include="Algebra\LP\LPP.vb" />
     <Compile Include="Algebra\LP\LPPSolution.vb" />
-    <Compile Include="Algebra\Matrix\NumpyExtensions.vb" />
-    <Compile Include="Algebra\PCA.vb" />
+    <Compile Include="Algebra\Matrix.NET\Extensions\NumpyExtensions.vb" />
+    <Compile Include="Algebra\PCA\PCA.vb" />
     <Compile Include="Algebra\SVD.vb" />
     <Compile Include="Algebra\Vector\Class\HalfVector.vb" />
     <Compile Include="Algebra\Vector\Class\SparseVector.vb" />
@@ -688,6 +691,8 @@
     <Compile Include="Numerics\Half.vb" />
     <Compile Include="Numerics\HalfHelper.vb" />
     <Compile Include="Quantile\DataQuartile.vb" />
+    <Compile Include="Scripting\Expression\ExpressionCompiler.vb" />
+    <Compile Include="Scripting\Expression\FunctionElement.vb" />
     <Compile Include="Scripting\Factors\NamedVector.vb" />
     <Compile Include="Scripting\Expression\ExpressionEngine.vb" />
     <Compile Include="Scripting\Expression\ExpressionBuilder.vb" />
@@ -715,13 +720,12 @@
     <Compile Include="HashMaps\HashBlizzard.vb" />
     <Compile Include="HashMaps\JenkinsHash.vb" />
     <Compile Include="Algebra\Vector\Extensions.vb" />
-    <Compile Include="Algebra\Matrix.NET\Extensions.vb" />
+    <Compile Include="Algebra\Matrix.NET\Extensions\Extensions.vb" />
     <Compile Include="Algebra\Helpers\MatrixMathArithmetic.vb" />
     <Compile Include="Algebra\Helpers\Constants.vb" />
     <Compile Include="Algebra\Helpers\Function.vb" />
     <Compile Include="Algebra\Helpers\Variable.vb" />
-    <Compile Include="Algebra\Matrix\Matrix.vb" />
-    <Compile Include="Algebra\Matrix\MatrixMath.vb" />
+    <Compile Include="Algebra\Matrix.NET\Extensions\MatrixMath.vb" />
     <Compile Include="Algebra\Vector\Class\Math.vb" />
     <Compile Include="Algebra\RSyntax\Math\Poisson.vb" />
     <Compile Include="Algebra\RSyntax\Math\Skellam.vb" />

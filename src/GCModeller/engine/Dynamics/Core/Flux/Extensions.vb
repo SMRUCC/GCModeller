@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c84c800db4023cc963c9fa016f4af905, Dynamics\Core\Flux\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::89d5e15b43bd6e0cf8da21fdf449058f, Dynamics\Core\Flux\Extensions.vb"
 
     ' Author:
     ' 
@@ -57,10 +57,10 @@ Namespace Core
 
         <Extension>
         Private Function MassToString(var As Variable) As String
-            If var.IsTemplate Then
-                Return $"[{var.Coefficient} {var.Mass.ID}]"
+            If var.isTemplate Then
+                Return $"[{var.coefficient} {var.mass.ID}]"
             Else
-                Return $"{var.Coefficient} {var.Mass.ID}"
+                Return $"{var.coefficient} {var.mass.ID}"
             End If
         End Function
 

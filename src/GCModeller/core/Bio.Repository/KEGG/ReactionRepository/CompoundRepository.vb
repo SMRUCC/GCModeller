@@ -132,7 +132,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
                 If ignoreGlycan Then
                     Continue For
                 Else
-                    compound = xml.LoadXml(Of Glycan).ToCompound
+                    compound = xml.LoadXml(Of Glycan)?.ToCompound
                 End If
             Else
                 compound = xml.LoadXml(Of Compound)()

@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::7f8925e60a1fcdba046e7c7fdccebbe7, annotations\KEGG\KEGGOrthology.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module KEGGOrthology
-    ' 
-    '     Function: __profiles, CatalogProfiling, (+2 Overloads) KEGGEnrichmentPlot, Plot
-    ' 
-    ' /********************************************************************************/
+' Module KEGGOrthology
+' 
+'     Function: __profiles, CatalogProfiling, (+2 Overloads) KEGGEnrichmentPlot, Plot
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -96,8 +97,8 @@ Public Module KEGGOrthology
             End If
         Next
 
-        For Each A As BriteHText In htext.Hierarchical.CategoryItems
-            Call out.Add(A.ClassLabel, A.__profiles(KOcounts, level))
+        For Each A As BriteHText In htext.Hierarchical.categoryItems
+            Call out.Add(A.classLabel, A.__profiles(KOcounts, level))
         Next
 
         Call out.Add(
@@ -125,21 +126,21 @@ Public Module KEGGOrthology
         Dim out As New List(Of NamedValue(Of Integer))
 
         If htext.CategoryLevel = level Then  ' 将本对象之中的所有sub都进行求和
-            For Each [sub] As BriteHText In htext.CategoryItems.SafeQuery
+            For Each [sub] As BriteHText In htext.categoryItems.SafeQuery
                 Dim counts As Integer = [sub] _
                     .EnumerateEntries _
-                    .Where(Function(k) Not k.EntryId Is Nothing) _
+                    .Where(Function(k) Not k.entryID Is Nothing) _
                     .Sum(Function(ko) If(
-                        KOcounts.ContainsKey(ko.EntryId),
-                        KOcounts(ko.EntryId), 0))
+                        KOcounts.ContainsKey(ko.entryID),
+                        KOcounts(ko.entryID), 0))
 
                 out += New NamedValue(Of Integer) With {
-                    .Name = [sub].ClassLabel,
+                    .Name = [sub].classLabel,
                     .Value = counts
                 }
             Next
         Else
-            For Each [sub] As BriteHText In htext.CategoryItems
+            For Each [sub] As BriteHText In htext.categoryItems
                 out += [sub].__profiles(KOcounts, level)
             Next
         End If
@@ -214,7 +215,7 @@ Public Module KEGGOrthology
 
             With term.Term.GetTagValue(":", trim:=True)
                 If Not KEGG Is Nothing AndAlso KEGG.ContainsKey(.Name) Then
-                    Dim class$ = KEGG(.Name).Parent.Parent.Description
+                    Dim class$ = KEGG(.Name).parent.parent.description
 
                     If Not data.ContainsKey([class]) Then
                         data.Add([class], New List(Of NamedValue(Of Double)))
@@ -259,6 +260,35 @@ Public Module KEGGOrthology
     End Function
 
     <Extension>
+    Public Iterator Function KEGGPathwayEnrichmentProfile(result As IEnumerable(Of EnrichmentTerm)) As IEnumerable(Of EntityObject)
+        Dim pathwayBrite = Pathway.LoadDictionary
+        Dim catalog As Pathway
+
+        For Each term As EnrichmentTerm In result
+            catalog = pathwayBrite.GetPathwayBrite(term.ID)
+
+            If catalog Is Nothing Then
+                catalog = New Pathway With {
+                    .category = "Unclassified",
+                    .class = .category
+                }
+            End If
+
+            Yield New EntityObject With {
+                .ID = term.ID,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"name", term.Term},
+                    {"class", catalog.class},
+                    {"category", catalog.category},
+                    {"pvalue", term.Pvalue}，
+                    {"num_inputs", term.number},
+                    {"input_genes", term.Input}
+                }
+            }
+        Next
+    End Function
+
+    <Extension>
     Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm),
                                        Optional size$ = "2200,2000",
                                        Optional pvalue# = 0.05,
@@ -276,16 +306,16 @@ Public Module KEGGOrthology
 
             If catalog Is Nothing Then
                 catalog = New Pathway With {
-                    .Category = "Unclassified",
-                    .Class = .Category
+                    .category = "Unclassified",
+                    .class = .category
                 }
             End If
 
-            If Not profiles.ContainsKey(catalog.Class) Then
-                Call profiles.Add(catalog.Class, New List(Of NamedValue(Of Double)))
+            If Not profiles.ContainsKey(catalog.class) Then
+                Call profiles.Add(catalog.class, New List(Of NamedValue(Of Double)))
             End If
 
-            Call profiles(catalog.Class).Add(
+            Call profiles(catalog.class).Add(
                 New NamedValue(Of Double) With {
                     .Name = term.Term,
                     .Value = -Math.Log10(term.Pvalue)

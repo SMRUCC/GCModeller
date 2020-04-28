@@ -46,6 +46,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports stdNum = System.Math
 
 Namespace ContextModel
 
@@ -100,7 +101,7 @@ Namespace ContextModel
             Dim d1 As Integer = loci.Left - ATG
             Dim d2 As Integer = loci.Right - ATG
 
-            If Math.Abs(d1) < Math.Abs(d2) Then
+            If stdNum.Abs(d1) < stdNum.Abs(d2) Then
                 Return d1 * s
             Else
                 Return d2 * s

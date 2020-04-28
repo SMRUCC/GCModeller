@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c1cd0f39c2630fcfd74f07a05682259, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
+﻿#Region "Microsoft.VisualBasic::af3461e4bbf39a09a2196782115174d6, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
 
 ' Author:
 ' 
@@ -37,7 +37,7 @@
 ' 
 '         Function: Evaluate, Shell
 ' 
-'         Sub: AddConstant, SetVariable
+'         Sub: setFunction, SetFunction, setSymbol, SetVariable
 ' 
 ' 
 ' /********************************************************************************/
@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Scripting
@@ -178,5 +179,12 @@ Namespace Scripting
         Public Sub SetVariable(name$, expr$)
             Call Expression.SetSymbol(name, expr)
         End Sub
+
+        Public Function ParseExpression(expression As String) As Expression
+            Return New ExpressionTokenIcer(expression) _
+                .GetTokens _
+                .ToArray _
+                .DoCall(AddressOf ExpressionBuilder.BuildExpression)
+        End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd592a41e170cb48187062cb97d431ce, sub-system\PLAS.NET\SSystem\System\Experiments\DisturbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b996036d032c463c406a9bd8c15abe97, PLAS.NET\SSystem\System\Experiments\DisturbAPI.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,8 @@
     '     Module DisturbAPI
     ' 
     '         Properties: Methods
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

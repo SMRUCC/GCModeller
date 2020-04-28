@@ -109,6 +109,27 @@
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\GCModeller%28UNIX-Release_X64%29\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\GCModeller%28UNIX-Release_X64%29\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -132,6 +153,8 @@
   <ItemGroup>
     <Compile Include="Core\Flux\Boundary.vb" />
     <Compile Include="Core\Flux\Extensions.vb" />
+    <Compile Include="Core\Kinetics\Controls\AdditiveControls.vb" />
+    <Compile Include="Core\Kinetics\Controls\Kinetics.vb" />
     <Compile Include="Core\Kinetics\KineticsFactor.vb" />
     <Compile Include="Core\Kinetics\ModularRateLaws.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
@@ -158,7 +181,7 @@
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Flux\Channel.vb" />
     <Compile Include="Core\Flux\Directions.vb" />
-    <Compile Include="Core\Flux\Controls.vb" />
+    <Compile Include="Core\Kinetics\Controls\Controls.vb" />
     <Compile Include="Core\Mass\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
     <Compile Include="Engine\Loader\Loader.vb" />

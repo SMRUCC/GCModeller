@@ -89,8 +89,8 @@ Namespace Engine.ModelLoader
                 ' 酶的成熟过程也是一个不可逆的过程
                 Yield New Channel(unformed, {mature}) With {
                     .ID = complex.DoCall(AddressOf Loader.GetProteinMatureId),
-                    .reverse = New Controls With {.baseline = 0},
-                    .forward = New Controls With {.baseline = loader.dynamics.proteinMatureBaseline},
+                    .reverse = Controls.StaticControl(0),
+                    .forward = Controls.StaticControl(loader.dynamics.proteinMatureBaseline),
                     .bounds = New Boundary With {
                         .forward = loader.dynamics.proteinMatureCapacity,
                         .reverse = 0

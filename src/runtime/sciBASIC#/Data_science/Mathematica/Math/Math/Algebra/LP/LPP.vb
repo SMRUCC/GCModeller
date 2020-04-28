@@ -49,8 +49,9 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports stdNum = System.Math
 
-Namespace Algebra.LinearProgramming
+Namespace LinearAlgebra.LinearProgramming
 
     ''' <summary>
     ''' Linear programming solver from: 
@@ -380,7 +381,7 @@ Namespace Algebra.LinearProgramming
 
             ' Set up parameters for finding subsets
             Dim n As Integer = variableNames.Count - q
-            Dim powerSetSize As Integer = CInt(Fix(Math.Pow(2, n)))
+            Dim powerSetSize As Integer = CInt(Fix(stdNum.Pow(2, n)))
 
             For i As Integer = 0 To powerSetSize - 1
 

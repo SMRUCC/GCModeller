@@ -46,7 +46,6 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -65,26 +64,61 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Public Module CLI
 
     <ExportAPI("/KO.clusters")>
-    <Usage("/KO.clusters /uniprot <uniprot.XML> /maps <kegg_maps.XML/directory> [/out <clusters.XML>]")>
-    <Description("Create KEGG pathway map background for a given genome data.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+    <Usage("/KO.clusters /background <KO.txt/uniprot.XML> /maps <kegg_maps.XML/directory> [/out <clusters.XML>]")>
+    <Description("Create KEGG pathway map background for a given genome data or a reference KO list.")>
+    <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(UniProtXML)},
               Extensions:="*.xml",
-              Description:="Uniprot database that contains the uniprot_id to KO_id mapping.")>
+              Description:="the KO annotation background data, it can be a ``UniProt`` database that contains the uniprot_id to KO_id mapping. or just
+              a plain text file that contains a list of KO terms as background, each line in this text file should be one KO term word.")>
     <Argument("/maps", False, CLITypes.File,
               AcceptTypes:={GetType(Map)},
-              Description:="This argument should be a directory path which this folder contains multiple KEGG reference pathway map xml files. A xml file path of the kegg pathway map database is also accepted!")>
+              Description:="This argument should be a directory path which this folder contains multiple 
+              KEGG reference pathway map xml files. A xml file path of the kegg pathway map database 
+              is also accepted!")>
     Public Function CreateKOCluster(args As CommandLine) As Integer
-        Dim uniprot$ = args <= "/uniprot"
+        Dim background$ = args <= "/background"
         Dim maps$ = args <= "/maps"
-        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_KO.XML"
+        Dim out$ = args("/out") Or $"{background.TrimSuffix}_KO.XML"
         Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps)
-        Dim entries = UniProtXML.EnumerateEntries(uniprot)
-        Dim model As Background = GSEA.ImportsUniProt(
-            entries,
-            getTerm:=GSEA.UniProtGetKOTerms,
-            define:=GSEA.KEGGClusters(kegg)
-        )
+        Dim model As Background
+
+        If background.ExtensionSuffix("txt") Then
+            Dim KO_terms As String() = background _
+                .ReadAllLines _
+                .Where(Function(line) line.IsPattern("K\d+")) _
+                .Distinct _
+                .ToArray
+            Dim createGene As Func(Of String, String(), BackgroundGene) =
+                Function(KO, terms)
+                    Return New BackgroundGene With {
+                        .accessionID = KO,
+                        .[alias] = terms,
+                        .locus_tag = New NamedValue With {
+                            .name = KO,
+                            .text = KO
+                        },
+                        .name = KO,
+                        .term_id = terms
+                    }
+                End Function
+
+            model = GSEA.CreateBackground(
+                db:=KO_terms,
+                createGene:=createGene,
+                getTerms:=Function(term) {term},
+                define:=GSEA.KEGGClusters(kegg),
+                genomeName:="",
+                taxonomy:="",
+                outputAll:=False
+            )
+        Else
+            model = GSEA.ImportsUniProt(
+                db:=UniProtXML.EnumerateEntries(background),
+                getTerm:=GSEA.UniProtGetKOTerms,
+                define:=GSEA.KEGGClusters(kegg)
+            )
+        End If
 
         Return model.GetXml.SaveTo(out).CLICode
     End Function

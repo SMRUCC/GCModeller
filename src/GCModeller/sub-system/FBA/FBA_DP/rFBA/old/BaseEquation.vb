@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ad75aa2e70fadf28d03788d7ca5acea, sub-system\FBA\FBA_DP\rFBA\old\BaseEquation.vb"
+﻿#Region "Microsoft.VisualBasic::57303b9ae4267fb569fce834fe3f3951, FBA\FBA_DP\rFBA\old\BaseEquation.vb"
 
     ' Author:
     ' 
@@ -52,8 +52,8 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.GCModeller.Framework
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace rFBA
 

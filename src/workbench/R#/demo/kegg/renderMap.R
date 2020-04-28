@@ -1,10 +1,11 @@
 imports ["kegg.repository", "report.utils"] from "kegg_kit";
 
-let maps = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08901_pathwayMaps" 
-:> load.maps
-:> lapply(map -> map, names = map -> as.object(map)$id)
-;
+# set current work directory to directory location where contains 
+# current R# script
+setwd(!script$dir);
 
+# objects for highlights on kegg pathway map
+let outputdir as string = "./";
 let highlights = list(
 	R08214 = "red",
 	K12234 = "blue",
@@ -15,12 +16,30 @@ let highlights = list(
 
 str(highlights);
 
-maps[["map00680"]]
-:> keggMap.reportHtml(highlights)
-:> writeLines(con = "X:\test.html")
-;
+# load for kegg pathway maps
+# method1, scan a directory that contains template models
+# let maps = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08901_pathwayMaps" 
+# :> load.maps
+# :> lapply(map -> map, names = map -> as.object(map)$id)
+# ;
 
-maps[["map00680"]]
-:> keggMap.highlights(highlights)
-:> save.graphics(file = "X:\test.png")
-;
+# method2, load from a zip archive file which contains the kegg pathway
+# template file
+
+using maps as open.zip("/etc/GCModeller/kegg_maps.zip") {
+	# render result as html output
+	maps[["map00680.XML"]] 
+	:> loadMap 
+	:> as.object
+	:> keggMap.reportHtml(highlights)
+	:> writeLines(con = `${outputdir}\test.html`)
+	;
+
+	# just render image file 
+	maps[["map00680.XML"]]
+	:> loadMap 
+	:> as.object
+	:> keggMap.highlights(highlights)
+	:> save.graphics(file = `${outputdir}\test.png`)
+	;	
+}

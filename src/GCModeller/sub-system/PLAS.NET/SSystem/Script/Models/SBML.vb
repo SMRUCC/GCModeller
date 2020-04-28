@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67dd3cb06bf63f02caeb6ba208e6f551, sub-system\PLAS.NET\SSystem\Script\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::2f95fa0961b4b016f9190a4726453e2b, PLAS.NET\SSystem\Script\Models\SBML.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,6 @@
     '         Properties: AutoFixError
     ' 
     '         Function: __contact, __generateSystem, __where, (+2 Overloads) Compile, GenerateFunction
-    '                   Link, PreCompile
     ' 
     '         Sub: __strip, __stripNumber
     ' 
@@ -51,8 +50,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.Analysis.SSystem.Script
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.Model.SBML.Level2
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
@@ -61,22 +59,25 @@ Namespace Script
     ''' <summary>
     ''' SBML模型编译器
     ''' </summary>
-    Public Class SBML : Inherits Compiler(Of Script.Model)
+    Public Class SBML : Inherits Compiler(Of Model)
 
         Dim SBMLFile As XmlFile
 
         Public Property AutoFixError As Boolean = False
 
-        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
-            Me.CompiledModel = New Script.Model
+        Protected Overrides Function PreCompile(args As CommandLine) As Integer
+            m_compiledModel = New Model
+            Return 0
+        End Function
 
+        Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Call __strip()
-            Call __generateSystem(CompiledModel)
+            Call __generateSystem(m_compiledModel)
 
-            CompiledModel.Title = SBMLFile.Model.name
-            CompiledModel.FinalTime = 100
+            m_compiledModel.Title = SBMLFile.Model.name
+            m_compiledModel.FinalTime = 100
 
-            Return CompiledModel
+            Return 0
         End Function
 
         ''' <summary>
@@ -124,8 +125,8 @@ Namespace Script
                 End If
 
                 metabolites += New var With {
-                    .UniqueId = m.ID,
-                    .Title = m.name,
+                    .Id = m.ID,
+                    .title = m.name,
                     .Value = m.InitialAmount
                 }
             Next
@@ -145,7 +146,7 @@ Namespace Script
         ''' <param name="model"></param>
         ''' <returns></returns>
         Private Function __where(x As var, model As Script.Model) As Boolean
-            Dim name As String = x.UniqueId
+            Dim name As String = x.Id
 
             For Each eq As SEquation In model.sEquations
                 If InStr(eq.Expression, name) > 0 Then
@@ -196,7 +197,7 @@ Namespace Script
                 .AutoFixError = AutoFix
             }
                 Call Compiler.Compile()
-                Call Compiler.CompiledModel.WriteScript(path & ".plas")
+                Call Compiler.m_compiledModel.WriteScript(path & ".plas")
 
                 Return Compiler.Return
             End Using
@@ -207,13 +208,5 @@ Namespace Script
                 .SBMLFile = path
             }
         End Operator
-
-        Protected Overrides Function Link() As Integer
-            Return -1
-        End Function
-
-        Public Overrides Function PreCompile(ARGV As CommandLine) As Integer
-            Return -1
-        End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b83aab6a2dc971de21cff1d3001a2ab, Dynamics\Engine\Loader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::e7191fca933a567e8eb26799984cc5c3, Dynamics\Engine\Loader\MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 
@@ -87,8 +87,8 @@ Namespace Engine.ModelLoader
         End Function
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
-            Dim left = MassTable.variables(reaction.substrates, infinitySource)
-            Dim right = MassTable.variables(reaction.products, infinitySource)
+            Dim left As Variable() = MassTable.variables(reaction.substrates, infinitySource).ToArray
+            Dim right As Variable() = MassTable.variables(reaction.products, infinitySource).ToArray
             Dim bounds As New Boundary With {
                 .forward = reaction.bounds(1),
                 .reverse = reaction.bounds(0)
@@ -116,16 +116,24 @@ Namespace Engine.ModelLoader
                 bounds = {10, 10}
             End If
 
-            Dim metabolismFlux As New Channel(left, right) With {
-                .bounds = bounds,
-                .ID = reaction.ID,
-                .forward = New Controls With {
+            Dim forward As Controls
+
+            If Not reaction.kinetics.formula Is Nothing Then
+                forward = New Core.Kinetics(loader.vcellEngine, reaction.kinetics)
+            Else
+                forward = New AdditiveControls With {
                     .activation = MassTable _
                         .variables(enzymeProteinComplexes, 10) _
                         .ToArray,
                     .baseline = 15
-                },
-                .reverse = New Controls With {.baseline = 15}
+                }
+            End If
+
+            Dim metabolismFlux As New Channel(left, right) With {
+                .bounds = bounds,
+                .ID = reaction.ID,
+                .forward = forward,
+                .reverse = Controls.StaticControl(15)
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
@@ -141,7 +149,7 @@ Namespace Engine.ModelLoader
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
             Return factors _
-                .Where(Function(fac) Not fac.Mass.ID Like infinitySource) _
+                .Where(Function(fac) Not fac.mass.ID Like infinitySource) _
                 .DoCall(Function(objects)
                             Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
                         End Function) _

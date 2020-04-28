@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a5088ef15d49b3c1ec90cf5116e4282, Dynamics\Core\Mass\Variable.vb"
+﻿#Region "Microsoft.VisualBasic::2bdf759b5923218ba6f0d42ee7f50fc6, Dynamics\Core\Mass\Variable.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Variable
     ' 
-    '         Properties: Coefficient, IsTemplate, Mass
+    '         Properties: coefficient, isTemplate, mass
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
@@ -56,34 +56,34 @@ Namespace Core
         ''' 对反应容器之中的某一种物质的引用
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Mass As Factor
+        Public ReadOnly Property mass As Factor
         ''' <summary>
-        ''' 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<see cref="Mass"/>
+        ''' 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<see cref="mass"/>
         ''' 将会丢失或者增加这个系数相对应的数量的含量
         ''' 
         ''' 这个参数应该是一个大于零的数
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Coefficient As Double
+        Public ReadOnly Property coefficient As Double
 
         ''' <summary>
         ''' 当前的这种物质因子在目标反应通道之中是否为模板物质？对于模板物质而言，其容量是不会被消耗掉的
         ''' 例如，转录过程或者翻译过程，基因对象或者mRNA对象为模板物质，其不会像小分子反应一样作为底物被消耗掉
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property IsTemplate As Boolean
+        Public ReadOnly Property isTemplate As Boolean
 
         Sub New(mass As Factor, factor As Double, Optional isTemplate As Boolean = False)
-            Me.Mass = mass
-            Me.Coefficient = stdNum.Abs(factor)
-            Me.IsTemplate = isTemplate
+            Me.mass = mass
+            Me.coefficient = stdNum.Abs(factor)
+            Me.isTemplate = isTemplate
         End Sub
 
         Public Overrides Function ToString() As String
-            If Not IsTemplate Then
-                Return Mass.ToString
+            If Not isTemplate Then
+                Return mass.ToString
             Else
-                Return $"[{Mass}]"
+                Return $"[{mass}]"
             End If
         End Function
 

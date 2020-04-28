@@ -71,14 +71,13 @@ Namespace StoreProcedure
 
         Public Function DoNormalize(name$, value#, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double
             Dim i As Integer = Array.IndexOf(names, name)
-            Dim result = doNormalInternal(i, value, method)
+            Dim dist As SampleDistribution = matrix(i)
+            Dim result = doNormalInternal(dist, value, method)
 
             Return result
         End Function
 
-        Private Function doNormalInternal(i%, x#, method As Normalizer.Methods) As Double
-            Dim dist As SampleDistribution = matrix(i)
-
+        Public Shared Function doNormalInternal(dist As SampleDistribution, x#, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double
             Select Case method
                 Case Normalizer.Methods.NormalScaler
                     Return Normalizer.ScalerNormalize(dist, x)
@@ -98,9 +97,19 @@ Namespace StoreProcedure
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function NormalizeInput(sample As Sample, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
-            Return sample.vector _
+            Return NormalizeInput(sample.vector, method)
+        End Function
+
+        ''' <summary>
+        ''' Normalize the <paramref name="sample"/> inputs <see cref="Sample.status"/> to value range ``[0, 1]``
+        ''' </summary>
+        ''' <param name="sample"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function NormalizeInput(sample As IEnumerable(Of Double), Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
+            Return sample _
                 .Select(Function(x, i)
-                            Return doNormalInternal(i, x, method)
+                            Return doNormalInternal(matrix(i), x, method)
                         End Function) _
                 .ToArray
         End Function
