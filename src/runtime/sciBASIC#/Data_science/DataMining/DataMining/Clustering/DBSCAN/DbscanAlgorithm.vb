@@ -1,49 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::6017807189950dc76db910bd15f48825, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DbscanAlgorithm
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: ComputeClusterDbscan, ExpandCluster, RegionQuery
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DbscanAlgorithm
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: ComputeClusterDbscan, ExpandCluster, RegionQuery
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace DBSCAN
 
@@ -56,7 +55,7 @@ Namespace DBSCAN
     ''' 
     ''' > https://github.com/yusufuzun/dbscan
     ''' </remarks>
-    Public Class DbscanAlgorithm(Of T As DatasetItemBase)
+    Public Class DbscanAlgorithm(Of T)
 
         ReadOnly _metricFunc As Func(Of T, T, Double)
 
@@ -74,10 +73,14 @@ Namespace DBSCAN
         ''' <param name="allPoints">Dataset</param>
         ''' <param name="epsilon">Desired region ball radius</param>
         ''' <param name="minPts">Minimum number of points to be in a region</param>
-        ''' <param name="clusters">returns sets of clusters, renew the parameter</param>
-        Public Sub ComputeClusterDbscan(allPoints As T(), epsilon As Double, minPts As Integer, <Out> ByRef clusters As HashSet(Of T()))
+        ''' <returns>sets of clusters, renew the parameter</returns>
+        Public Function ComputeClusterDBSCAN(allPoints As T(),
+                                             epsilon As Double,
+                                             minPts As Integer,
+                                             Optional ByRef isseed As Integer() = Nothing) As NamedCollection(Of T)()
             Dim allPointsDbscan As DbscanPoint(Of T)() = allPoints.[Select](Function(x) New DbscanPoint(Of T)(x)).ToArray()
             Dim clusterId As Integer = 0
+            Dim seeds As New List(Of Integer)
 
             For i As Integer = 0 To allPointsDbscan.Length - 1
                 Dim p As DbscanPoint(Of T) = allPointsDbscan(i)
@@ -88,28 +91,32 @@ Namespace DBSCAN
                     p.IsVisited = True
                 End If
 
-                Dim neighborPts As DbscanPoint(Of T)() = Nothing
-
-                Call RegionQuery(allPointsDbscan, p.ClusterPoint, epsilon, neighborPts)
+                Dim neighborPts As DbscanPoint(Of T)() = RegionQuery(allPointsDbscan, p.ClusterPoint, epsilon)
 
                 If neighborPts.Length < minPts Then
                     p.ClusterId = ClusterIDs.Noise
                 Else
                     clusterId += 1
                     ExpandCluster(allPointsDbscan, p, neighborPts, clusterId, epsilon, minPts)
+                    seeds.Add(i)
                 End If
             Next
 
             With allPointsDbscan _
                 .Where(Function(x) x.ClusterId > 0) _
-                .GroupBy(Function(x) x.ClusterId) _
-                .[Select](Function(x)
-                              Return x.[Select](Function(y) y.ClusterPoint).ToArray()
-                          End Function)
+                .GroupBy(Function(x) x.ClusterId)
 
-                clusters = New HashSet(Of T())(.ByRef)
+                isseed = seeds.ToArray
+
+                Return .Select(Function(x)
+                                   Return New NamedCollection(Of T) With {
+                                       .name = x.Key,
+                                       .value = x.[Select](Function(y) y.ClusterPoint).ToArray()
+                                   }
+                               End Function) _
+                       .ToArray
             End With
-        End Sub
+        End Function
 
         ''' <summary>
         ''' 
@@ -127,15 +134,16 @@ Namespace DBSCAN
                                   epsilon As Double,
                                   minPts As Integer)
 
+            Dim neighborPts2 As DbscanPoint(Of T)() = Nothing
+
             point.ClusterId = clusterId
 
             For i As Integer = 0 To neighborPts.Length - 1
                 Dim pn As DbscanPoint(Of T) = neighborPts(i)
 
                 If Not pn.IsVisited Then
-                    Dim neighborPts2 As DbscanPoint(Of T)() = Nothing
                     pn.IsVisited = True
-                    RegionQuery(allPoints, pn.ClusterPoint, epsilon, neighborPts2)
+                    neighborPts2 = RegionQuery(allPoints, pn.ClusterPoint, epsilon)
 
                     If neighborPts2.Length >= minPts Then
                         neighborPts = neighborPts.Union(neighborPts2).ToArray()
@@ -154,13 +162,13 @@ Namespace DBSCAN
         ''' <param name="allPoints">Dataset</param>
         ''' <param name="point">centered point to be searched neighbors</param>
         ''' <param name="epsilon">radius of center point</param>
-        ''' <param name="neighborPts">result neighbors</param>
+        ''' <returns>result neighbors</returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Sub RegionQuery(allPoints As DbscanPoint(Of T)(), point As T, epsilon As Double, ByRef neighborPts As DbscanPoint(Of T)())
-            neighborPts = allPoints _
+        Private Function RegionQuery(allPoints As DbscanPoint(Of T)(), point As T, epsilon As Double) As DbscanPoint(Of T)()
+            Return allPoints _
                 .Where(Function(x) _metricFunc(point, x.ClusterPoint) <= epsilon) _
                 .ToArray()
-        End Sub
+        End Function
     End Class
 End Namespace
