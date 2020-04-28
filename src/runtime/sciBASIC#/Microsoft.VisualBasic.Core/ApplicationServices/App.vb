@@ -175,7 +175,7 @@ Public Module App
     ''' <see cref="Console.OpenStandardOutput()"/> as default text output device. [<see cref="StreamWriter"/>]
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property StdOut As [Default](Of TextWriter) = Console.OpenStandardOutput.OpenTextWriter(Encodings.UTF8WithoutBOM.CodePage)
+    Public ReadOnly Property StdOut As [Default](Of TextWriter)
     Public ReadOnly Property StdInput As [Default](Of TextReader) = New StreamReader(Console.OpenStandardInput)
 
     ''' <summary>
@@ -458,6 +458,8 @@ Public Module App
                         }
                     End Function) _
             .ToArray)
+
+        App.StdOut = Console.OpenStandardOutput.OpenTextWriter(Encodings.UTF8WithoutBOM.CodePage)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
