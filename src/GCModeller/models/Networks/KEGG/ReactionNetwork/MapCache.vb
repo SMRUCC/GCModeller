@@ -83,6 +83,10 @@ Namespace ReactionNetwork
                         End If
 
                         cache(key).Add(reaction.entry)
+
+                        If Not reaction.KO.IsNullOrEmpty Then
+                            cache(key).AddRange(reaction.KO)
+                        End If
                     Next
                 Next
             Next
