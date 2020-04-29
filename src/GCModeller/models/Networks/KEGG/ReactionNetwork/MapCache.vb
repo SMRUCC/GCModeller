@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
 Namespace ReactionNetwork
@@ -24,15 +25,19 @@ Namespace ReactionNetwork
         End Function
 
         Public Function FindAllPoints(compounds As String()) As String()
-            Dim result As New List(Of String)
+            Dim result As String() = compounds _
+                .AsParallel _
+                .Select(Iterator Function(a) As IEnumerable(Of String())
+                            For Each b As String In compounds
+                                Yield FindPoints(a, b)
+                            Next
+                        End Function) _
+                .IteratesALL _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
 
-            For Each a As String In compounds
-                For Each b As String In compounds
-                    result.AddRange(FindPoints(a, b))
-                Next
-            Next
-
-            Return result.Distinct.ToArray
+            Return result
         End Function
 
         Private Shared Function indexKey(c1$, c2$) As String
