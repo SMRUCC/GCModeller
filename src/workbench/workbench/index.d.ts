@@ -1,12 +1,20 @@
-declare module helpers {
+/// <reference path="node_modules/electron/electron.d.ts" />
+declare module workbench.view {
     function renderAppMenu(template: Electron.MenuItemConstructorOptions[]): Electron.Menu;
-    interface Sub {
-        (): void;
-    }
+}
+declare module workbench.view {
     function getMainWindow(): any;
-    function createWindow(view: string, size?: number[], callback?: Sub, lambda?: boolean, debug?: boolean): Sub;
+    function createWindow(view: string, size?: number[], callback?: Delegate.Action, lambda?: boolean, debug?: boolean): Delegate.Action;
+}
+declare module workbench.Shell {
+    function Rweb(): any;
+}
+declare module workbench {
+    function osd(): Electron.Notification;
 }
 declare const app: Electron.App, BrowserWindow: typeof Electron.BrowserWindow, Menu: typeof Electron.Menu, Notification: typeof Electron.Notification;
 declare const mainView: string;
-declare var template: Electron.MenuItemConstructorOptions[];
+declare const backend: any;
+declare const defaultViewSize: number[];
+declare let template: Electron.MenuItemConstructorOptions[];
 declare let menu: Electron.Menu;

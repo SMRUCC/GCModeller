@@ -3,11 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>GCModeller Workbench</title>
-<script src="./common.js"></script>
+
+    <script src="../vendor/linq.js"></script>
+    <script src="./common.js"></script>
+
+    <link rel="stylesheet" href="../vendor/console/simple-console.css">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex: 1;
+        }
+
+        h1,
+        p {
+            margin: 0.5rem 0;
+        }
+
+        h1,
+        h2 {
+            font-family: "Open Sans", sans-serif;
+        }
+
+        h1 {
+            font-weight: normal;
+        }
+
+        a {
+            color: #4078c0;
+        }
+
+        a:not(:hover) {
+            text-decoration: none;
+        }
+
+        code {
+            font-family: inherit;
+            padding: 0.1em 0.2em;
+            border: 1px solid rgba(128, 128, 128, 0.5);
+            border-radius: 0.1em;
+        }
+    </style>
+
 </head>
 
 <body>
+    <!--
     <h1>Hello World!</h1>
     We are using node
     <script>document.write(process.versions.node)</script>,
@@ -16,7 +63,12 @@
     and Electron
     <script>document.write(process.versions.electron)</script>.
 
-    <a href="javascript:void(0);" id="open_motif" onclick="openView('./views/motifLogo.html');" >Motif Logo Viewer</a>
-</body>
+    <a href="javascript:void(0);" id="open_motif" onclick="openView('./views/motifLogo.html');">Motif Logo Viewer</a>
+    -->
+    <div id="Rconsole">
 
-</html>
+    </div>
+
+    <script src="../vendor/console/simple-console.js"></script>
+    <script src="../lib/Rconsole.js"></script>
+</body>
