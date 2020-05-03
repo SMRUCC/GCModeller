@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{58E6A154-AF80-4EB7-A274-A9474A277815}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Dynamics.Debugger</RootNamespace>
-    <AssemblyName>Dynamics.Debugger</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -20,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -29,7 +29,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -49,7 +49,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -58,7 +58,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -68,7 +68,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -78,7 +78,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>Dynamics.Debugger.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>

@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Dynamics.Debugger.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.MySettings
             Get
-                Return Global.Dynamics.Debugger.My.MySettings.Default
+                Return Global.SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.MySettings.Default
             End Get
         End Property
     End Module
