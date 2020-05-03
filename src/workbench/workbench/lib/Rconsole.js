@@ -1,7 +1,7 @@
 var shell;
 (function (shell) {
     function handle_command(command) {
-        $ts.post("http://127.0.0.1:4752/exec", function (result) {
+        $ts.post("http://127.0.0.1:7452/exec", function (result) {
             if (result.code == 0) {
                 con.log(result.info).classList.add("result");
             }
