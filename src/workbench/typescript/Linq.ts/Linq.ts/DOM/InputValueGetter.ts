@@ -13,9 +13,9 @@ namespace DOM {
          * @param Default 查询失败的时候所返回来的默认值
         */
         export function metaValue(name: string, Default: string = null, allowQueryParent: boolean = false): string {
-            var selector: string = `meta[name~="${name}"]`;
-            var meta: Element = document.querySelector(selector);
-            var getContent = function () {
+            let selector: string = `meta[name~="${name}"]`;
+            let meta: Element = document.querySelector(selector);
+            let getContent = function () {
                 if (meta) {
                     var content: string = meta.getAttribute("content");
                     return content ? content : Default;
