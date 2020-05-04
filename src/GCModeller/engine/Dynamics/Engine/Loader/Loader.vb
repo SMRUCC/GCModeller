@@ -71,6 +71,8 @@ Namespace Engine.ModelLoader
         Public ReadOnly Property massTable As New MassTable
         Public ReadOnly Property massLoader As MassLoader
 
+        Protected Friend ReadOnly fluxIndex As New Dictionary(Of String, List(Of String))
+
         Public ReadOnly Property isLoadded As Boolean
             Get
                 Return Not centralDogmaFluxLoader Is Nothing AndAlso
