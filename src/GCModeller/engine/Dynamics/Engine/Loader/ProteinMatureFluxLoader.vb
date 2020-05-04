@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::6261b1e114cdbb9e887b6cd2a1ab6911, Dynamics\Engine\Loader\ProteinMatureFluxLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ProteinMatureFluxLoader
-    ' 
-    '         Properties: polypeptides, proteinComplex
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ProteinMatureFluxLoader
+' 
+'         Properties: polypeptides, proteinComplex
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,11 +60,14 @@ Namespace Engine.ModelLoader
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
+
+            Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
         End Sub
 
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim polypeptides As New List(Of String)
             Dim proteinComplex As New List(Of String)
+            Dim flux As Channel
 
             For Each complex As Protein In cell.Phenotype.proteins
                 For Each compound In complex.compounds
@@ -87,7 +90,7 @@ Namespace Engine.ModelLoader
                 proteinComplex += complexID
 
                 ' 酶的成熟过程也是一个不可逆的过程
-                Yield New Channel(unformed, {mature}) With {
+                flux = New Channel(unformed, {mature}) With {
                     .ID = complex.DoCall(AddressOf Loader.GetProteinMatureId),
                     .reverse = Controls.StaticControl(0),
                     .forward = Controls.StaticControl(loader.dynamics.proteinMatureBaseline),
@@ -96,6 +99,10 @@ Namespace Engine.ModelLoader
                         .reverse = 0
                     }
                 }
+
+                loader.fluxIndex(NameOf(ProteinMatureFluxLoader)).Add(flux.ID)
+
+                Yield flux
             Next
 
             _polypeptides = polypeptides
