@@ -76,10 +76,10 @@ Namespace MarkupCompiler
         ''' </param>
         ''' <param name="locationAsLocus_tag"></param>
         Sub New(model As CellularModule,
-            genomes As Dictionary(Of String, GBFF.File),
-            KEGG As RepositoryArguments,
-            regulations As RegulationFootprint(),
-            locationAsLocus_tag As Boolean)
+                genomes As Dictionary(Of String, GBFF.File),
+                KEGG As RepositoryArguments,
+                regulations As RegulationFootprint(),
+                locationAsLocus_tag As Boolean)
 
             Me.model = model
             Me.genomes = genomes
