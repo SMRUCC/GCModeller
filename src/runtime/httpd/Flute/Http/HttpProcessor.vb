@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Net.Http
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -229,13 +229,8 @@ Namespace Core
             ' 调用相对应的API进行请求的处理
             If http_method.Equals("GET", StringComparison.OrdinalIgnoreCase) Then
                 handleGETRequest()
-
             ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
                 HandlePOSTRequest()
-
-            ElseIf http_method.Equals("PUT", StringComparison.OrdinalIgnoreCase) Then
-                HandlePOSTRequest()
-
             Else
                 ' Dim msg As String = $"Unsupport {NameOf(http_method)}:={http_method}"
                 ' Call msg.__DEBUG_ECHO
@@ -369,7 +364,7 @@ Namespace Core
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)
                     ' Console.WriteLine("read finished, numread={0}", numread)
 
-                    If (numread = _inputStream.Read(buf, 0, sys.Min(BUF_SIZE, to_read))) = 0 Then
+                    If (numread = _inputStream.Read(buf, 0, stdNum.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else
@@ -395,9 +390,9 @@ Namespace Core
         ''' <param name="content_type"></param>
         Public Sub writeSuccess(len&, Optional content_type As String = "text/html")
             Try
-                Call __writeSuccess(
+                Call writeSuccess(
                     content_type, New Content With {
-                        .Length = len
+                        .length = len
                     })
             Catch ex As Exception
                 Call App.LogException(ex)
@@ -410,11 +405,11 @@ Namespace Core
         Public Const VBS_platform$ = "microsoft-visualbasic-servlet(*.vbs)"
         Public Const XPoweredBy$ = "X-Powered-By: " & VBS_platform
 
-        Private Sub __writeSuccess(content_type As String, content As Content)
+        Private Sub writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
             Call outputStream.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
-            Call outputStream.WriteLine("Content-Length: " & content.Length)
+            Call outputStream.WriteLine("Content-Length: " & content.length)
             Call outputStream.WriteLine("Content-Type: " & content_type)
             Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here if you like
@@ -446,7 +441,7 @@ Namespace Core
 
         Public Sub writeSuccess(content As Content)
             Try
-                Call __writeSuccess(content.Type, content)
+                Call writeSuccess(content.type, content)
             Catch ex As Exception
                 ex = New Exception(content.GetJson)
                 Call App.LogException(ex)
@@ -469,7 +464,7 @@ Namespace Core
         ''' </summary>
         Public Sub writeFailure(errCode%, ex As String)
             Try
-                Call __writeFailure(ex)
+                Call writeFailure(ex)
             Catch e As Exception
                 Call App.LogException(e)
             End Try
@@ -478,14 +473,15 @@ Namespace Core
         ''' <summary>
         ''' 404
         ''' </summary>
-        Private Sub __writeFailure(ex As String)
+        Private Sub writeFailure(ex As String)
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers
             outputStream.WriteLine("Content-Type: text/html")
             Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here
-            Call outputStream.WriteLine("")         ' this terminates the HTTP headers.
+            ' this terminates the HTTP headers.
+            Call outputStream.WriteLine("")
 
             Dim _404$ = __404Page()
 
