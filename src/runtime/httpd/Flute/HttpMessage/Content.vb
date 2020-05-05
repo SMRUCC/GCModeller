@@ -51,13 +51,13 @@ Namespace Core
 
     Public Structure Content
 
-        Public Property Length As Integer
+        Public Property length As Integer
 
         ''' <summary>
         ''' 不需要在这里写入http头部
         ''' </summary>
         ''' <returns></returns>
-        Public Property Type As String
+        Public Property type As String
         Public Property attachment As String
 
         Public Overrides Function ToString() As String
@@ -65,8 +65,8 @@ Namespace Core
         End Function
 
         Public Sub WriteHeader(outputStream As StreamWriter)
-            If Length > 0 Then
-                Call outputStream.WriteLine("Content-Length: " & Length)
+            If length > 0 Then
+                Call outputStream.WriteLine("Content-Length: " & length)
             End If
             If Not String.IsNullOrEmpty(attachment) Then
                 Call outputStream.WriteLine($"Content-Disposition: attachment;filename=""{attachment}""")

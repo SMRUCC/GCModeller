@@ -184,8 +184,7 @@ Namespace Core.HttpStream
             Call files _
                 .ToDictionary(Function(f) f.Key,
                               Function(names)
-                                  Return names _
-                                      .Value _
+                                  Return names.Value _
                                       .Select(Function(file) file.Summary) _
                                       .ToArray
                               End Function) _
