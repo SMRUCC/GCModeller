@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Net.Http
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -369,7 +369,7 @@ Namespace Core
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)
                     ' Console.WriteLine("read finished, numread={0}", numread)
 
-                    If (numread = _inputStream.Read(buf, 0, sys.Min(BUF_SIZE, to_read))) = 0 Then
+                    If (numread = _inputStream.Read(buf, 0, stdNum.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else
