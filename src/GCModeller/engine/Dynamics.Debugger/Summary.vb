@@ -59,6 +59,33 @@ Public Module Summary
 
     <Extension>
     Private Function summaryOf(rxn As Channel) As String
+        Dim forward As New List(Of String)
+        Dim reverse As New List(Of String)
 
+        For Each m In rxn.GetReactants
+            forward.Add((<li><%= m.mass.ID %></li>).ToString)
+        Next
+
+        For Each m In rxn.GetProducts
+            reverse.Add((<li><%= m.mass.ID %></li>).ToString)
+        Next
+
+        Return sprintf(
+            <div>
+                <h2 id=<%= rxn.ID %>><%= rxn.ID %></h2>
+
+                <div>
+                    <h3>left</h3>
+                    <ul>
+                    %s
+                    </ul>
+                </div>
+                <div>
+                    <h3>right</h3>
+                    <ul>
+                    %s
+                    </ul>
+                </div>
+            </div>, rxn.ID, forward.JoinBy("<br />"), reverse.JoinBy("<br />"))
     End Function
 End Module
