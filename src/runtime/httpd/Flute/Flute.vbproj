@@ -68,6 +68,8 @@
     <Compile Include="FileSystem\FileObject.vb" />
     <Compile Include="FileSystem\FileSystem.vb" />
     <Compile Include="HttpMessage\Content.vb" />
+    <Compile Include="HttpMessage\HttpRequest.vb" />
+    <Compile Include="HttpMessage\HttpResponse.vb" />
     <Compile Include="HttpMessage\POSTReader\StreamElement.vb" />
     <Compile Include="HttpMessage\POSTReader\HttpMultipart.vb" />
     <Compile Include="HttpMessage\POSTReader\HttpPostedFile.vb" />
