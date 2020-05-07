@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::67c08e37a636e1d4fd22702d8b2f3e3a, WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpProcessor
-    ' 
-    '         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
-    '                     IsWWWRoot, Out
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __streamReadLine, parseRequest, ToString, writeTemp
-    ' 
-    '         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
-    '              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
-    '              WriteLine, (+2 Overloads) writeSuccess
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpProcessor
+' 
+'         Properties: _404Page, http_method, http_protocol_versionstring, http_url, httpHeaders
+'                     IsWWWRoot, Out
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __streamReadLine, parseRequest, ToString, writeTemp
+' 
+'         Sub: __processInvoker, __writeFailure, __writeSuccess, (+2 Overloads) Dispose, handleGETRequest
+'              HandlePOSTRequest, Process, readHeaders, WriteData, writeFailure
+'              WriteLine, (+2 Overloads) writeSuccess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,10 +53,11 @@ Imports System.IO
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Net.Http
 Imports stdNum = System.Math
 
 ' offered to the public domain for any use with no restriction
@@ -268,14 +269,15 @@ Namespace Core
             Dim tokens As String() = request.Split(" "c)
 
             If tokens.Length <> 3 Then
-                Throw New Exception("invalid http request line: " & request)
+                Call ("invalid http request line: " & request).PrintException
+                Return False
+            Else
+                http_method = tokens(0).ToUpper()
+                http_url = tokens(1)
+                http_protocol_versionstring = tokens(2)
+
+                Call $"starting: {request}".__INFO_ECHO
             End If
-
-            http_method = tokens(0).ToUpper()
-            http_url = tokens(1)
-            http_protocol_versionstring = tokens(2)
-
-            Call $"starting: {request}".__INFO_ECHO
 
             Return True
         End Function
@@ -477,7 +479,7 @@ Namespace Core
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers
-            outputStream.WriteLine("Content-Type: text/html")
+            Call outputStream.WriteLine("Content-Type: text/html")
             Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here
             ' this terminates the HTTP headers.

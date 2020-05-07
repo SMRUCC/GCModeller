@@ -71,7 +71,7 @@ Namespace Core
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Protected Friend _threadPool As Threads.ThreadPool
+        Protected Friend ReadOnly _threadPool As Threads.ThreadPool
         Protected Friend ReadOnly _httpListener As TcpListener
 
         ''' <summary>

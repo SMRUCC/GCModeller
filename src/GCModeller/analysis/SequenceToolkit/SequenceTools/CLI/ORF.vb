@@ -66,8 +66,8 @@ Partial Module Utilities
         Dim Codes = Codon.CreateHashTable
         Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHashCode) Select code.CodonValue).ToArray
         Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).__DEBUG_ECHO
-        Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force))
-        Dim PROFasta = CType(PRO, FastaFile)
+        Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force)).ToArray
+        Dim PROFasta As New FastaFile(PRO)
         Return PROFasta.Save(args("/orf") & ".PRO.fasta").CLICode
     End Function
 
@@ -77,7 +77,7 @@ Partial Module Utilities
         ORF.SequenceData = transl_table.Translate(ORF.SequenceData, force)
         If proLenExpected <> ORF.Length Then
             ' 提前终止了，是不是翻译表选择不正确？？？给用户警告
-            Call $"{ORF.Title} ==> protein length={ORF.Length} is not expected as its (nt_length / 3)={proLenExpected} under table:  {transl_table.ToString}".__DEBUG_ECHO
+            Call $"{ORF.Title} ==> protein length={ORF.Length} is not expected as its (nt_length / 3)={proLenExpected} under table:  {transl_table.ToString}".Warning
             Call Console.WriteLine(Mid(NT, 1, ORF.Length * 3 + 3))
         End If
 

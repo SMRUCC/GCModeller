@@ -47,7 +47,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Core
+Namespace Core.Message
 
     Public Structure Content
 

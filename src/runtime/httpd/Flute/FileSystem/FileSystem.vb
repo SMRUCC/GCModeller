@@ -30,11 +30,11 @@ Namespace FileSystem
         ''' <param name="file$"></param>
         ''' <param name="mime"></param>
         ''' <returns></returns>
-        Public Function AddCache(resourceUrl$, file$, Optional mime As ContentType = Nothing) As FileObject
+        Public Function AddCache(resourceUrl$, file$, Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing) As FileObject
             Return AddCache(resourceUrl, file.ReadBinary, mime)
         End Function
 
-        Public Function AddCache(resourceUrl$, data As Byte(), Optional mime As ContentType = Nothing) As FileObject
+        Public Function AddCache(resourceUrl$, data As Byte(), Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing) As FileObject
             Dim resource As New MemoryCachedFile(resourceUrl.FileName, data, mime)
             Dim key$ = FileSystem.resourceUrl(resourceUrl)
 
@@ -45,7 +45,7 @@ Namespace FileSystem
             Return resource
         End Function
 
-        Public Function AddMapping(resourceUrl$, file$, Optional mime As ContentType = Nothing) As FileObject
+        Public Function AddMapping(resourceUrl$, file$, Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing) As FileObject
             Dim resource As New VirtualMappedFile(resourceUrl.FileName, file, mime)
             Dim key$ = FileSystem.resourceUrl(resourceUrl)
 
