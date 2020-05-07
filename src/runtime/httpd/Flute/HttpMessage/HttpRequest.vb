@@ -70,7 +70,7 @@ Namespace Core.Message
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property HTTPMethod As String
-        Public ReadOnly Property URL As String
+        Public ReadOnly Property URL As URL
         ''' <summary>
         ''' <see cref="HttpProcessor.http_protocol_versionstring"/>
         ''' </summary>
@@ -95,26 +95,20 @@ Namespace Core.Message
         End Property
 
         ''' <summary>
-        ''' Get from <see cref="URLParameters"/>
+        ''' Get from <see cref="URL"/>
         ''' </summary>
         ''' <param name="name"></param>
         ''' <returns></returns>
         Default Public Overridable ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New DefaultString(URLParameters(name))
+                Return New DefaultString(URL.query(name))
             End Get
         End Property
 
-        ''' <summary>
-        ''' The url query arguments
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property URLParameters As NameValueCollection
-
         Sub New(request As HttpProcessor)
             HTTPMethod = request.http_method
-            URL = request.http_url
+            URL = New URL(request.http_url)
             version = request.http_protocol_versionstring
             HttpHeaders = request.httpHeaders
             Remote = request.socket.Client.RemoteEndPoint.ToString.Split(":"c).First
@@ -129,15 +123,14 @@ Namespace Core.Message
         ''' <param name="args"></param>
         Friend Sub New(args As IEnumerable(Of NamedValue(Of String)))
             HTTPMethod = "GET"
-            URL = "memory://debug"
+            URL = URL.BuildUrl("memory://debug", query:=args)
             version = "2.1"
             HttpHeaders = New Dictionary(Of String, String)
             Remote = "127.0.0.1"
-            URLParameters = args.NameValueCollection
         End Sub
 
         Public Overridable Function HasValue(name As String) As Boolean
-            Return URLParameters.ContainsKey(name)
+            Return URL.query.ContainsKey(name)
         End Function
 
         Public Overrides Function ToString() As String
@@ -152,8 +145,8 @@ Namespace Core.Message
         Default Public Overrides ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                If URLParameters.ContainsKey(name) Then
-                    Return New DefaultString(URLParameters(name))
+                If URL.query.ContainsKey(name) Then
+                    Return New DefaultString(URL.query(name))
                 Else
                     Return New DefaultString(POSTData.Form(name))
                 End If
@@ -179,7 +172,7 @@ Namespace Core.Message
         End Sub
 
         Public Overrides Function HasValue(name As String) As Boolean
-            If Not URLParameters.ContainsKey(name) Then
+            If Not URL.query.ContainsKey(name) Then
                 Return POSTData.Form.ContainsKey(name)
             Else
                 Return False

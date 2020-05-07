@@ -1,4 +1,6 @@
-﻿Namespace Core.Message
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+
+Namespace Core.Message
 
     Public Class URL
 
@@ -20,5 +22,13 @@
         Sub New(url As String)
 
         End Sub
+
+        Private Sub New()
+
+        End Sub
+
+        Public Shared Function BuildUrl(url As String, query As IEnumerable(Of NamedValue(Of String))) As URL
+
+        End Function
     End Class
 End Namespace
