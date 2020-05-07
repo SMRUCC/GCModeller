@@ -71,6 +71,8 @@ Namespace Engine.ModelLoader
         Public ReadOnly Property massTable As New MassTable
         Public ReadOnly Property massLoader As MassLoader
 
+        Protected Friend ReadOnly fluxIndex As New Dictionary(Of String, List(Of String))
+
         Public ReadOnly Property isLoadded As Boolean
             Get
                 Return Not centralDogmaFluxLoader Is Nothing AndAlso
@@ -83,6 +85,14 @@ Namespace Engine.ModelLoader
             Me.define = define
             Me.dynamics = dynamics
         End Sub
+
+        Public Function GetFluxIndex() As Dictionary(Of String, String())
+            Return fluxIndex _
+                .ToDictionary(Function(m) m.Key,
+                              Function(t)
+                                  Return t.Value.ToArray
+                              End Function)
+        End Function
 
         Public Shared Function GetTranscriptionId(cd As CentralDogma) As String
             Return $"{cd.geneID}::transcript.process"

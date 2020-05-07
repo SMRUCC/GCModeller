@@ -70,7 +70,7 @@ Namespace Pipeline
         End Function
 
         ''' <summary>
-        ''' 
+        ''' ``term|uniprot_acc fullName|organismName``
         ''' </summary>
         ''' <param name="source"></param>
         ''' <param name="getAnnotationTerm">通过这个函数指针来获取得到KO或者GO注释信息</param>

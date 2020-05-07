@@ -67,6 +67,8 @@ Namespace Core
         ''' <returns></returns>
         ''' <remarks>
         ''' 虚拟细胞中的生命活动过程事件网络
+        ''' 
+        ''' 相当于常微分方程系统之中的一个y方程?
         ''' </remarks>
         Public ReadOnly Property Channels As Channel()
             Get

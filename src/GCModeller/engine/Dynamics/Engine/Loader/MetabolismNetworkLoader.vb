@@ -60,6 +60,7 @@ Namespace Engine.ModelLoader
 
             ' content of these metabolite will be changed
             infinitySource = loader.define.GetInfinitySource
+            loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
 
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
@@ -139,6 +140,8 @@ Namespace Engine.ModelLoader
             ' 假设所有的反应过程化都存在产物抑制效应
             metabolismFlux.forward.inhibition = metabolismFlux.right.DoCall(AddressOf productInhibitionFactor)
             metabolismFlux.reverse.inhibition = metabolismFlux.left.DoCall(AddressOf productInhibitionFactor)
+
+            Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 
             Return metabolismFlux
         End Function

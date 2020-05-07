@@ -13,6 +13,6 @@
   "author": "xieguigang",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^4.0.4"
+    "electron": "^4.2.12"
   }
 }

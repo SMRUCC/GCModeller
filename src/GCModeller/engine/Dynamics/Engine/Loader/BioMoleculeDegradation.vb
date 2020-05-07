@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::219cf099fc8a2895bd80b1565edbf8dd, Dynamics\Engine\Loader\BioMoleculeDegradation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BioMoleculeDegradation
-    ' 
-    '         Properties: proteinMatures
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, proteinDegradation, RNADegradation
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BioMoleculeDegradation
+' 
+'         Properties: proteinMatures
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, proteinDegradation, RNADegradation
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,10 @@ Namespace Engine.ModelLoader
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
+
+            Call loader.fluxIndex.Add(NameOf(proteinDegradation), New List(Of String))
+            Call loader.fluxIndex.Add(NameOf(RNADegradation), New List(Of String))
+            Call loader.fluxIndex.Add("polypeptideDegradation", New List(Of String))
         End Sub
 
         Public Overrides Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
@@ -70,7 +74,9 @@ Namespace Engine.ModelLoader
             Dim proteinComplex$
             Dim peptideId$
             Dim geneIDindex = cell.Genotype.centralDogmas _
-                .Where(Function(cd) Not cd.polypeptide.StringEmpty) _
+                .Where(Function(cd)
+                           Return Not cd.polypeptide.StringEmpty
+                       End Function) _
                 .ToDictionary(Function(cd) cd.polypeptide,
                               Function(cd)
                                   Return cd.geneID
@@ -79,6 +85,7 @@ Namespace Engine.ModelLoader
             Dim composition As ProteinComposition
             Dim aaResidue As Variable()
             Dim geneID$
+            Dim flux As Channel
 
             For Each complex As Channel In proteinMatures
                 proteinComplex = complex.right.First(Function(c) c.mass.ID.EndsWith(".complex")).mass.ID
@@ -93,7 +100,7 @@ Namespace Engine.ModelLoader
                             End Function) _
                     .ToArray
 
-                Yield New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
+                flux = New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
                     .ID = $"proteinComplexDegradationOf{proteinComplex}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
@@ -103,7 +110,11 @@ Namespace Engine.ModelLoader
                     }
                 }
 
-                Yield New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
+                Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
+
+                Yield flux
+
+                flux = New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
                     .ID = $"polypeptideDegradationOf{peptideId}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
@@ -112,6 +123,10 @@ Namespace Engine.ModelLoader
                         .reverse = 0
                     }
                 }
+
+                Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
+
+                Yield flux
             Next
         End Function
 
@@ -120,6 +135,7 @@ Namespace Engine.ModelLoader
             Dim composition As RNAComposition
             Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
             Dim ntBase As Variable()
+            Dim flux As Channel
 
             ' rna -> nt base
             For Each rna As String In centralDogmas.componentRNA.AsList + centralDogmas.mRNA
@@ -133,7 +149,7 @@ Namespace Engine.ModelLoader
                     .ToArray
 
                 ' 降解过程是不可逆的
-                Yield New Channel(MassTable.variables({rna}, 1), ntBase) With {
+                flux = New Channel(MassTable.variables({rna}, 1), ntBase) With {
                     .ID = $"RNADegradationOf{rna}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
@@ -142,6 +158,10 @@ Namespace Engine.ModelLoader
                         .reverse = 0
                     }
                 }
+
+                Call loader.fluxIndex(NameOf(Me.RNADegradation)).Add(flux.ID)
+
+                Yield flux
             Next
         End Function
     End Class
