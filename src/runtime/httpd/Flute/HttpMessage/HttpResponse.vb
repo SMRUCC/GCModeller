@@ -61,7 +61,7 @@ Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
-Namespace Core
+Namespace Core.Message
 
     Public Delegate Sub HttpError(code%, Msg As String)
 
