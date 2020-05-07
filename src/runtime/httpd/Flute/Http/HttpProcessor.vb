@@ -269,14 +269,15 @@ Namespace Core
             Dim tokens As String() = request.Split(" "c)
 
             If tokens.Length <> 3 Then
-                Throw New Exception("invalid http request line: " & request)
+                Call ("invalid http request line: " & request).PrintException
+                Return False
+            Else
+                http_method = tokens(0).ToUpper()
+                http_url = tokens(1)
+                http_protocol_versionstring = tokens(2)
+
+                Call $"starting: {request}".__INFO_ECHO
             End If
-
-            http_method = tokens(0).ToUpper()
-            http_url = tokens(1)
-            http_protocol_versionstring = tokens(2)
-
-            Call $"starting: {request}".__INFO_ECHO
 
             Return True
         End Function
@@ -478,7 +479,7 @@ Namespace Core
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers
-            outputStream.WriteLine("Content-Type: text/html")
+            Call outputStream.WriteLine("Content-Type: text/html")
             Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here
             ' this terminates the HTTP headers.
