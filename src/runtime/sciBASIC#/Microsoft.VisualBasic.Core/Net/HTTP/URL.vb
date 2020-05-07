@@ -108,6 +108,10 @@ Namespace Net.Http
             End With
         End Function
 
+        Public Overrides Function ToString() As String
+            Return $"{protocol}{hostName}:{port}/{path}?{query.Select(Function(q) q.Value.Select(Function(val) $"{q.Key}={UrlEncode(val)}")).IteratesALL.JoinBy("&")}#{hashcode}"
+        End Function
+
         Public Shared Function BuildUrl(url As String, query As IEnumerable(Of NamedValue(Of String))) As URL
             Return New URL With {
                 .hostName = "",

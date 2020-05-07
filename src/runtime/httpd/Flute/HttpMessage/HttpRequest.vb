@@ -102,7 +102,7 @@ Namespace Core.Message
         Default Public Overridable ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New DefaultString(URL.query(name))
+                Return New DefaultString(URL.query(name).ElementAtOrNull(Scan0))
             End Get
         End Property
 
@@ -146,7 +146,7 @@ Namespace Core.Message
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If URL.query.ContainsKey(name) Then
-                    Return New DefaultString(URL.query(name))
+                    Return New DefaultString(URL.query(name).ElementAtOrNull(Scan0))
                 Else
                     Return New DefaultString(POSTData.Form(name))
                 End If
