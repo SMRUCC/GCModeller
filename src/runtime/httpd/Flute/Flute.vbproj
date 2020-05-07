@@ -65,11 +65,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.vb" />
     <Compile Include="FileSystem\FileObject.vb" />
     <Compile Include="FileSystem\FileSystem.vb" />
     <Compile Include="HttpMessage\Content.vb" />
     <Compile Include="HttpMessage\HttpRequest.vb" />
     <Compile Include="HttpMessage\HttpResponse.vb" />
+    <Compile Include="HttpMessage\JsonResponse.vb" />
     <Compile Include="HttpMessage\Protocol\HttpHeader.vb" />
     <Compile Include="HttpMessage\Protocol\ContentType.vb" />
     <Compile Include="HttpMessage\Protocol\WebForm.vb" />
@@ -117,6 +119,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="Resources\favicon.zip" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
