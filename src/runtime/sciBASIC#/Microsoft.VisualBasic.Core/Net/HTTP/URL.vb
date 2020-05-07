@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
-Namespace Core.Message
+Namespace Net.Http
 
     Public Class URL
 
@@ -20,11 +20,12 @@ Namespace Core.Message
         Public Property hashcode As String
 
         Sub New(url As String)
+            With url.GetTagValue("?")
 
+            End With
         End Sub
 
         Private Sub New()
-
         End Sub
 
         Public Shared Function BuildUrl(url As String, query As IEnumerable(Of NamedValue(Of String))) As URL

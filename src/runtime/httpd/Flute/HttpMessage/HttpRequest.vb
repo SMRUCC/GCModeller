@@ -50,12 +50,12 @@
 
 #End Region
 
-Imports System.Collections.Specialized
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Flute.Http.Core.HttpStream
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core.Message
