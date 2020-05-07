@@ -50,9 +50,11 @@
 
 #End Region
 
+Imports System.Collections.Specialized
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Flute.Http.Core.HttpStream
+Imports Flute.Http.Core.Message.HttpHeader
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Http
@@ -128,6 +130,13 @@ Namespace Core.Message
             HttpHeaders = New Dictionary(Of String, String)
             Remote = "127.0.0.1"
         End Sub
+
+        Public Function GetCookies() As NameValueCollection
+            Dim cookies As String = HttpHeaders.TryGetValue(RequestHeaders.Cookie)
+            Dim data As New NameValueCollection
+
+            Return data
+        End Function
 
         Public Overridable Function HasValue(name As String) As Boolean
             Return URL.query.ContainsKey(name)
