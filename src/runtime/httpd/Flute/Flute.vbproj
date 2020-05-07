@@ -70,11 +70,11 @@
     <Compile Include="HttpMessage\Content.vb" />
     <Compile Include="HttpMessage\HttpRequest.vb" />
     <Compile Include="HttpMessage\HttpResponse.vb" />
-    <Compile Include="HttpMessage\POSTReader\StreamElement.vb" />
-    <Compile Include="HttpMessage\POSTReader\HttpMultipart.vb" />
-    <Compile Include="HttpMessage\POSTReader\HttpPostedFile.vb" />
-    <Compile Include="HttpMessage\POSTReader\PostReader.vb" />
-    <Compile Include="HttpMessage\POSTReader\ReadSubStream.vb" />
+    <Compile Include="Http\HttpStream\StreamElement.vb" />
+    <Compile Include="Http\HttpStream\HttpMultipart.vb" />
+    <Compile Include="Http\HttpStream\HttpPostedFile.vb" />
+    <Compile Include="Http\HttpStream\PostReader.vb" />
+    <Compile Include="Http\HttpStream\ReadSubStream.vb" />
     <Compile Include="Http\HttpProcessor.vb" />
     <Compile Include="Http\HttpServer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
