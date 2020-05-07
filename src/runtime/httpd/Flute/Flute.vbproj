@@ -70,6 +70,10 @@
     <Compile Include="HttpMessage\Content.vb" />
     <Compile Include="HttpMessage\HttpRequest.vb" />
     <Compile Include="HttpMessage\HttpResponse.vb" />
+    <Compile Include="HttpMessage\Protocol\HttpHeader.vb" />
+    <Compile Include="HttpMessage\Protocol\ContentType.vb" />
+    <Compile Include="HttpMessage\Protocol\WebForm.vb" />
+    <Compile Include="HttpMessage\Protocol\URL.vb" />
     <Compile Include="Http\HttpStream\StreamElement.vb" />
     <Compile Include="Http\HttpStream\HttpMultipart.vb" />
     <Compile Include="Http\HttpStream\HttpPostedFile.vb" />
