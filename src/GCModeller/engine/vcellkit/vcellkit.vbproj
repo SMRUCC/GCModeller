@@ -99,7 +99,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28UNIX-Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>vcellkit.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -230,6 +230,10 @@
     <ProjectReference Include="..\Compiler\Compiler.vbproj">
       <Project>{a2a0f8c4-f84f-4a3a-958c-076ea4c70b5f}</Project>
       <Name>Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dynamics.Debugger\Dynamics.Debugger.vbproj">
+      <Project>{58E6A154-AF80-4EB7-A274-A9474A277815}</Project>
+      <Name>Dynamics.Debugger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dynamics\Dynamics.vbproj">
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>

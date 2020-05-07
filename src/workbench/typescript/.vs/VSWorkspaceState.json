@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\MotifLogo"
+    "\\console"
   ],
-  "SelectedNode": "\\MotifLogo\\server.ts",
+  "SelectedNode": "\\console\\app.ts",
   "PreviewInSolutionExplorer": false
 }

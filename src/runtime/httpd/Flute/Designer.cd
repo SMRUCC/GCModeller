@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Flute.FileSystem.FileObject" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAEAACAAAAAA=</HashCode>
+      <FileName>FileSystem\FileObject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.FileSystem.MemoryCachedFile" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>FileSystem\FileObject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.FileSystem.VirtualMappedFile" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAACAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>FileSystem\FileObject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.FileSystem.FileSystem" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAIAAAAAEBAAAAAAAAAgAACAAAAEACAAAAEA=</HashCode>
+      <FileName>FileSystem\FileSystem.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.Core.HttpProcessor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UwCAIAAIBCAAAABcggAAAAABAAAhMgBEAQEIAiAgAMA=</HashCode>
+      <FileName>Http\HttpProcessor.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Flute.Core.HttpServer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACgAAQCAACAAgAjkCAAAAQAAAQAAAAAAAAAAAgAAAEI=</HashCode>
+      <FileName>Http\HttpServer.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Flute.Core.HttpStream.HttpMultipart" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sABEAAAgAAAAAAAiAACAAAAAAAAAAIAAAABQAIgCAAA=</HashCode>
+      <FileName>HttpMessage\POSTReader\HttpMultipart.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.Core.HttpStream.HttpPostedFile" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAEAAAABAAADAQAABAAAA=</HashCode>
+      <FileName>HttpMessage\POSTReader\HttpPostedFile.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.Core.HttpStream.PostReader" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAQAAAAgAACAAAAAAAAAAAAAAACAAAAAAAQgAEAECA=</HashCode>
+      <FileName>HttpMessage\POSTReader\PostReader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.Core.HttpStream.ReadSubStream" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAQAAgGAAAAABgAAAAAEAAAIgAAAEIACA=</HashCode>
+      <FileName>HttpMessage\POSTReader\ReadSubStream.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.StreamElement" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAQAAEAAAAAARAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>HttpMessage\POSTReader\StreamElement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flute.My.MySettings" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Flute.Core.Content" Collapsed="true">
+    <Position X="5.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAABAAAAAAAAAAQAgAAAAAgA=</HashCode>
+      <FileName>HttpMessage\Content.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Module Name="Flute.My.Resources.Resources" Collapsed="true">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Flute.My.MySettingsProperty" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
