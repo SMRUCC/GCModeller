@@ -14,6 +14,7 @@
         Public Const Host As String = "Host"
         Public Const Pragma As String = "Pragma"
         Public Const UpgradeInsecureRequests As String = "Upgrade-Insecure-Requests"
+        Public Const ContentType As String = "Content-Type"
         Public Const UserAgent As String = "User-Agent"
     End Class
 

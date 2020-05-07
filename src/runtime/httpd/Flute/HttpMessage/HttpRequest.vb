@@ -172,7 +172,7 @@ Namespace Core.Message
 
             POSTData = New PostReader(
                 inputData,
-                HttpHeaders(PlatformEngine.contentType),
+                HttpHeaders(HttpHeader.RequestHeaders.ContentType),
                 Encoding.UTF8,
                 HttpHeaders.TryGetValue("fileName") Or uploadfile
             )
