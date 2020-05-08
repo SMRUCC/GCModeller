@@ -50,7 +50,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module unitTest
     Sub Main()
-        ' Call singleDirection()
+        Call singleDirection()
         Call loopTest()
     End Sub
 
@@ -60,11 +60,11 @@ Module unitTest
 
         Dim a As New Factor With {.ID = "a", .Value = 1000}
         Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim reaction As New Channel({New Variable(a, 3)}, {New Variable(b, 1)}) With {
+        Dim reaction As New Channel({New Variable(a, 3, True)}, {New Variable(b, 1)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
             .forward = CType(10, AdditiveControls),
-            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
+            .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
         Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
