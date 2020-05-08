@@ -163,4 +163,9 @@ Namespace Dynamics
 
         Property value As Double
     End Interface
+
+    Public Interface INonlinearVar : Inherits Ivar
+
+        Function Evaluate() As Double
+    End Interface
 End Namespace

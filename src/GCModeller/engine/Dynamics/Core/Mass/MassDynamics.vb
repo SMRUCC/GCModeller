@@ -1,17 +1,30 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 
 Namespace Core
 
     ''' <summary>
     ''' Convert <see cref="Channel"/> matrix to mass equations
     ''' </summary>
-    Public Class MassDynamics : Implements IReadOnlyId
+    Public Class MassDynamics : Implements IReadOnlyId, INonlinearVar
 
-        Public ReadOnly Property massID As String Implements IReadOnlyId.Identity
+        Public Property massID As String Implements IReadOnlyId.Identity, INonlinearVar.Key
             Get
                 Return mass.ID
             End Get
+            Private Set(value As String)
+                ' set name is not allowed!
+            End Set
+        End Property
+
+        Public Property value As Double Implements Ivar.value
+            Get
+                Return mass.Value
+            End Get
+            Set(value As Double)
+                mass.Value = value
+            End Set
         End Property
 
         Dim channels As Channel()
@@ -22,7 +35,7 @@ Namespace Core
         Dim mass As Factor
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
-        Public Function Evaluate() As Double
+        Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
             Dim additions As Double
             Dim dir As Directions
             Dim variants As Double
