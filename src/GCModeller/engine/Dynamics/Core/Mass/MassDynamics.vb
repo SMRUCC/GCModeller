@@ -28,7 +28,9 @@ Namespace Core
                 Return mass.Value
             End Get
             Set(value As Double)
-                mass.Value = value
+                If Not mass Is Nothing Then
+                    mass.Value = value
+                End If
             End Set
         End Property
 
