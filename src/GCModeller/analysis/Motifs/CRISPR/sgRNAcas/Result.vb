@@ -68,6 +68,6 @@ Public Class SingleStrandResult
 
     Public Shared Function LoadDocument(Path As String) As SingleStrandResult()
         Dim Csv = DataImports.Imports(Path, vbTab)
-        Return Csv.AsDataSource(Of SingleStrandResult)(False)
+        Return Csv.AsDataSource(Of SingleStrandResult)(False).ToArray
     End Function
 End Class

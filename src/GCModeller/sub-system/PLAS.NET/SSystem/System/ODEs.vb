@@ -74,7 +74,12 @@ Namespace Kernel
                                                    Return x.Group.ToArray
                                                End Function)
             Dim tick As Long
-            Dim experimentTrigger As New Kicks(vars.Select(Function(x) DirectCast(x, Ivar)).ToDictionary, model, Function() tick)
+            Dim symbols As Dictionary(Of String, Ivar) = vars _
+                .Select(Function(x) DirectCast(x, Ivar)) _
+                .ToDictionary(Function(a)
+                                  Return a.Identity
+                              End Function)
+            Dim experimentTrigger As New Kicks(symbols, model, Function() tick)
 
             Return New GenericODEs(vars) With {
                 .df = Sub(dx, ByRef dy)
