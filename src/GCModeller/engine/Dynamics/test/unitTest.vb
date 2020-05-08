@@ -60,23 +60,23 @@ Module unitTest
 
         Dim a As New Factor With {.ID = "a", .Value = 1000}
         Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
+        Dim reaction As New Channel({New Variable(a, 3)}, {New Variable(b, 1)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .forward = CType(300, AdditiveControls),
+            .forward = CType(10, AdditiveControls),
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
         }
 
         Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
 
-        machine.Initialize()
+        machine.Initialize(10000)
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100000)
+        Dim dynamics = machine.ContainerIterator(100)
         Dim cache As New FluxAggregater(machine)
 
-        For i As Integer = 0 To 100000
+        For i As Integer = 0 To 10000
             Call dynamics.Tick()
 
             flux += New DataSet With {
