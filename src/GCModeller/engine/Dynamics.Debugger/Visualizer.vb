@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::c54c7512ffefc8802b38e624da90fbba, Dynamics.Debugger\Visualizer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Visualizer
-    ' 
-    '     Function: CreateTabularFormat, ToGraph
-    ' 
-    '     Sub: addRegulations
-    ' 
-    ' /********************************************************************************/
+' Module Visualizer
+' 
+'     Function: CreateTabularFormat, ToGraph
+' 
+'     Sub: addRegulations
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -84,7 +84,7 @@ Public Module Visualizer
         For Each reaction As Channel In cell.Channels
             If flux Is Nothing Then
                 reactionMass = reaction.direct * (reaction.GetReactants.AsList + reaction.GetProducts) _
-                    .Select(Function(m) m.Mass.Value) _
+                    .Select(Function(m) m.mass.Value) _
                     .Average
             Else
                 reactionMass = flux(reaction.ID)
@@ -109,12 +109,12 @@ Public Module Visualizer
         For Each reaction As Channel In cell.Channels
             For Each left As Variable In reaction.GetReactants
                 Call g.CreateEdge(
-                    left.Mass.ID,
-                    reaction.ID,
+                    g.GetElementByID(left.mass.ID),
+                    g.GetElementByID(reaction.ID),
+                    weight:=left.coefficient * left.mass.Value,
                     data:=New EdgeData With {
-                        .label = $"{left.Mass.ID}->{reaction.ID}",
-                        .length = left.Coefficient,
-                        .weight = left.Coefficient * left.Mass.Value,
+                        .label = $"{left.mass.ID}->{reaction.ID}",
+                        .length = left.coefficient,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "reactant"}
                         }
@@ -123,12 +123,12 @@ Public Module Visualizer
 
             For Each right As Variable In reaction.GetProducts
                 Call g.CreateEdge(
-                    reaction.ID,
-                    right.Mass.ID,
+                    g.GetElementByID(reaction.ID),
+                    g.GetElementByID(right.mass.ID),
+                    weight:=right.coefficient * right.mass.Value,
                     data:=New EdgeData With {
-                        .label = $"{reaction.ID}->{right.Mass.ID}",
-                        .length = right.Coefficient,
-                        .weight = right.Coefficient * right.Mass.Value,
+                        .label = $"{reaction.ID}->{right.mass.ID}",
+                        .length = right.coefficient,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"}
                         }
@@ -136,14 +136,18 @@ Public Module Visualizer
             Next
 
             ' add regulation controls
-            If Not reaction.forward Is Nothing Then
-                Call g.addRegulations(reaction.ID, reaction.forward.activation, "forward_active")
-                Call g.addRegulations(reaction.ID, reaction.forward.inhibition, "forward_inhibit")
-            End If
+            If TypeOf reaction.forward Is AdditiveControls Then
+                With DirectCast(reaction.forward, AdditiveControls)
+                    If Not reaction.forward Is Nothing Then
+                        Call g.addRegulations(reaction.ID, .activation, "forward_active")
+                        Call g.addRegulations(reaction.ID, .inhibition, "forward_inhibit")
+                    End If
 
-            If Not reaction.reverse Is Nothing Then
-                Call g.addRegulations(reaction.ID, reaction.reverse.activation, "reverse_active")
-                Call g.addRegulations(reaction.ID, reaction.reverse.inhibition, "reverse_inhibit")
+                    If Not reaction.reverse Is Nothing Then
+                        Call g.addRegulations(reaction.ID, .activation, "reverse_active")
+                        Call g.addRegulations(reaction.ID, .inhibition, "reverse_inhibit")
+                    End If
+                End With
             End If
         Next
 
@@ -154,11 +158,11 @@ Public Module Visualizer
     Private Sub addRegulations(g As NetworkGraph, reactionID$, regulations As Variable(), type$)
         For Each factor In regulations.SafeQuery
             Call g.CreateEdge(
-                factor.Mass.ID,
-                reactionID,
+                g.GetElementByID(factor.mass.ID),
+                g.GetElementByID(reactionID),
+                weight:=factor.coefficient * factor.mass.Value,
                 data:=New EdgeData With {
-                    .label = $"{type} ({factor.Mass.ID} ~ {reactionID})",
-                    .weight = factor.Coefficient * factor.Mass.Value,
+                    .label = $"{type} ({factor.mass.ID} ~ {reactionID})",
                     .Properties = New Dictionary(Of String, String) From {
                         {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, type}
                     }

@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Flute")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyTitle("Flute http web server")>
+<Assembly: AssemblyDescription("Flute http web server")>
+<Assembly: AssemblyCompany("https://biocad.cloud")>
 <Assembly: AssemblyProduct("Flute")>
-<Assembly: AssemblyCopyright("Copyright ©  2020")>
+<Assembly: AssemblyCopyright("Copyright © i@xieguigang.me 2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

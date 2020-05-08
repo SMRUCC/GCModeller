@@ -71,7 +71,7 @@ Namespace Core
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Protected Friend _threadPool As Threads.ThreadPool
+        Protected Friend ReadOnly _threadPool As Threads.ThreadPool
         Protected Friend ReadOnly _httpListener As TcpListener
 
         ''' <summary>
@@ -212,7 +212,6 @@ Namespace Core
         ''' </example>
         Public MustOverride Sub handleGETRequest(p As HttpProcessor)
         Public MustOverride Sub handlePOSTRequest(p As HttpProcessor, inputData$)
-        Public MustOverride Sub handlePUTMethod(p As HttpProcessor, inputData$)
         Public MustOverride Sub handleOtherMethod(p As HttpProcessor)
 
         Public Overrides Function ToString() As String
