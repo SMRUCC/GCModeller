@@ -1,51 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::dd720a29338d91dc4b107a2523c922dc, Dynamics\Core\Vessel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Vessel
-    ' 
-    '         Properties: Channels, MassEnvironment
-    ' 
-    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
-    '                   iterateFlux, Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Vessel
+' 
+'         Properties: Channels, MassEnvironment
+' 
+'         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
+'                   iterateFlux, Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
@@ -152,16 +154,27 @@ Namespace Core
         ''' <summary>
         ''' 当前的这个微环境的迭代器
         ''' </summary>
-        Public Iterator Function ContainerIterator() As IEnumerable(Of NamedValue(Of Double))
-            ' 在这里将原始序列随机打乱来模拟现实世界中的平行发生的事件
-            ' 因为在这里会涉及到mass对象的值的修改
-            ' 所以无法使用多线程进行并行计算
-            ' 在这里只能够使用随机+串联来模拟平行事件
-            For Each reaction As Channel In Channels.Shuffles
-                ' 不可以使用Where直接在for循环外进行筛选
-                ' 因为环境是不断地变化的
-                Yield iterateFlux(reaction)
-            Next
+        Public Function ContainerIterator(maxTime As Integer) As SolverIterator
+            '' 在这里将原始序列随机打乱来模拟现实世界中的平行发生的事件
+            '' 因为在这里会涉及到mass对象的值的修改
+            '' 所以无法使用多线程进行并行计算
+            '' 在这里只能够使用随机+串联来模拟平行事件
+            'For Each reaction As Channel In Channels.Shuffles
+            '    ' 不可以使用Where直接在for循环外进行筛选
+            '    ' 因为环境是不断地变化的
+            '    Yield iterateFlux(reaction)
+            'Next
+
+            Dim vector As MassDynamics() = m_dynamics
+            Dim df = Sub(dx#, ByRef dy As stdVec)
+                         For Each x As MassDynamics In vector
+                             dy(x) = x.Evaluate()
+                         Next
+                     End Sub
+            Dim ODEs As New GenericODEs(vector, df)
+            Dim iterator = New SolverIterator(New RungeKutta4(ODEs)).Config(ODEs.GetY0(False), resolution, 0, maxTime)
+
+            Return iterator
         End Function
 
         Private Function iterateFlux(reaction As Channel) As NamedValue(Of Double)
