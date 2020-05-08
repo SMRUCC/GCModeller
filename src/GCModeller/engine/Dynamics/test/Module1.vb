@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module Module1
 
@@ -57,13 +58,14 @@ Module Module1
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
         Dim dynamics = envir.ContainerIterator(100000)
+        Dim cache As New FluxAggregater(envir)
 
         Call envir.Initialize()
 
         For i As Integer = 0 To 100000
             flux += New DataSet With {
                 .ID = i,
-                .Properties = .ToDictionary.FlatTable
+                .Properties = cache.getFlux
             }
             snapshots += New DataSet With {
                 .ID = i,

@@ -46,10 +46,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module unitTest
     Sub Main()
-        ' Call singleDirection()
+        Call singleDirection()
         Call loopTest()
     End Sub
 
@@ -73,13 +74,14 @@ Module unitTest
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
         Dim dynamics = machine.ContainerIterator(100000)
+        Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 100000
             Call dynamics.Tick()
 
             flux += New DataSet With {
                 .ID = i,
-                .Properties = machine. .ToDictionary.FlatTable
+                .Properties = cache.getFlux
             }
             snapshots += New DataSet With {
                 .ID = i,
@@ -90,6 +92,9 @@ Module unitTest
         Call snapshots.SaveTo("./single/test_mass.csv")
         Call flux.SaveTo("./single/test_flux.csv")
         Call machine.ToGraph.DoCall(AddressOf Visualizer.CreateTabularFormat).Save("./single/test_network/")
+
+
+        Pause()
     End Sub
 
     Sub loopTest()
