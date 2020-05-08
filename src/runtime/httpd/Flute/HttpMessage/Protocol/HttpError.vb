@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
+﻿Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 
 Namespace Core.Message.HttpHeader
 
@@ -21,5 +22,28 @@ Namespace Core.Message.HttpHeader
                 Return .ToString
             End With
         End Function
+
+        Shared ReadOnly httpRFC As Dictionary(Of String, String)
+
+        Shared Sub New()
+            httpRFC = Enums(Of HTTP_RFC)() _
+                .Select(Function(a) (a.Description, CLng(a).ToString)) _
+                .Where(Function(a)
+                           Return Not a.Description.StringEmpty
+                       End Function) _
+                .ToDictionary(Function(a) a.Item2,
+                              Function(a)
+                                  Return a.Description
+                              End Function)
+        End Sub
+
+        Public Shared Function getRFCMessage(code As String) As String
+            If httpRFC.ContainsKey(code) Then
+                Return httpRFC(code)
+            Else
+                Return "Unknown Status"
+            End If
+        End Function
+
     End Class
 End Namespace
