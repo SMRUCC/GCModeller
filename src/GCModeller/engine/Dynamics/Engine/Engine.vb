@@ -202,6 +202,11 @@ Namespace Engine
         Private Sub loopInternal(tick As Action(Of Integer))
             Dim flux As Dictionary(Of String, Double)
             Dim engine As SolverIterator = core.ContainerIterator(iterations)
+            Dim fluxGroupCache = core.m_dynamics _
+                .Select(Function(m) m.getLastFluxVariants) _
+                .IteratesALL _
+                .GroupBy(Function(a) a.Name) _
+                .ToArray
 
             For i As Integer = 0 To iterations
                 'flux = core _
@@ -210,6 +215,11 @@ Namespace Engine
                 '    .FlatTable
                 Call engine.Tick()
 
+                flux = fluxGroupCache _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return Aggregate x In a Into Sum(x.Value)
+                                  End Function)
                 _snapshot = (mass.GetMassValues, flux)
 
                 If Not dataStorageDriver Is Nothing Then

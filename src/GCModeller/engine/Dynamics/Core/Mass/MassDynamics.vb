@@ -39,12 +39,14 @@ Namespace Core
         Dim factors As Double()
         Dim mass As Factor
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
+        Dim fluxVariants As var()
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
             Dim additions As Double
             Dim dir As Directions
             Dim variants As Double
             Dim flux As Channel
+            Dim fluxVariant As Double
 
             For i As Integer = 0 To channels.Length - 1
                 flux = channels(i)
@@ -53,20 +55,28 @@ Namespace Core
                 Select Case dir
                     Case Directions.forward
                         variants = flux.forward.coefficient - flux.reverse.coefficient
-                        variants = factors(i) * flux.CoverLeft(shareFactors.left, variants)
+                        fluxVariant = flux.CoverLeft(shareFactors.left, variants)
+                        variants = factors(i) * fluxVariant
                     Case Directions.reverse
                         variants = flux.reverse.coefficient - flux.forward.coefficient
-                        variants = -factors(i) * flux.CoverRight(shareFactors.right, variants)
+                        fluxVariant = -flux.CoverRight(shareFactors.right, variants)
+                        variants = factors(i) * fluxVariant
                     Case Directions.stop
                         variants = 0
+                        fluxVariant = 0
                     Case Else
                         Throw New InvalidProgramException
                 End Select
 
                 additions += variants
+                fluxVariants(i).Value = fluxVariant
             Next
 
             Return additions
+        End Function
+
+        Public Function getLastFluxVariants() As IEnumerable(Of var)
+            Return fluxVariants
         End Function
 
         Public Overrides Function ToString() As String
@@ -127,7 +137,16 @@ Namespace Core
                     .mass = mass,
                     .factors = factors.ToArray,
                     .channels = channels,
-                    .shareFactors = env.shareFactors
+                    .shareFactors = env.shareFactors,
+                    .fluxVariants = channels _
+                        .Select(Function(a, i)
+                                    Return New var With {
+                                        .Index = i,
+                                        .Name = a.ID,
+                                        .Value = 0
+                                    }
+                                End Function) _
+                        .ToArray
                 }
             Next
         End Function
