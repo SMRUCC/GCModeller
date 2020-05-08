@@ -89,7 +89,8 @@ Namespace Core
         ''' <summary>
         ''' 因为在现实中这些反应过程是同时发生的，所以在这里使用这个共享因子来模拟并行事件
         ''' </summary>
-        Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
+        Friend shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
+
         ''' <summary>
         ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
         ''' </summary>
@@ -97,6 +98,7 @@ Namespace Core
 
         Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
+        Friend m_dynamics As MassDynamics()
 
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
             m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
@@ -122,6 +124,9 @@ Namespace Core
 
             resolution = timeResolution
             shareFactors = (sharedLeft, sharedRight)
+
+            ' create dynamics equation for RK4 ODEs solver
+            m_dynamics = MassDynamics.PopulateDynamics(Me).ToArray
 
             Return Me
         End Function
@@ -176,11 +181,11 @@ Namespace Core
             Return New NamedValue(Of Double)(reaction.ID, flow * regulate)
         End Function
 
-        Private Function doReverseTransition(reaction As Channel) As Double
+        Friend Function doReverseTransition(reaction As Channel) As Double
             Dim regulate = reaction.reverse.coefficient
 
             If regulate > 0 Then
-                regulate = reaction.CoverRight(shareFactors.right, regulate, resolution)
+                regulate = reaction.CoverRight(shareFactors.right, regulate)
             End If
             If regulate > 0 Then
                 Call reaction.Transition(regulate, Directions.reverse)
@@ -194,13 +199,13 @@ Namespace Core
         ''' </summary>
         ''' <param name="reaction"></param>
         ''' <returns></returns>
-        Private Function doForwardTransition(reaction As Channel) As Double
+        Friend Function doForwardTransition(reaction As Channel) As Double
             Dim regulate = reaction.forward.coefficient
 
             If regulate > 0 Then
                 ' 当前是具有调控效应的
                 ' 接着计算最小的反应单位
-                regulate = reaction.CoverLeft(shareFactors.left, regulate, resolution)
+                regulate = reaction.CoverLeft(shareFactors.left, regulate)
             End If
             If regulate > 0 Then
                 ' 当前的过程是可以进行的
