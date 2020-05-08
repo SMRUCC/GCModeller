@@ -116,7 +116,7 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Function Initialize(Optional timeResolution# = 1000) As Vessel
+        Public Function Initialize(Optional timeResolution# = 10000) As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 

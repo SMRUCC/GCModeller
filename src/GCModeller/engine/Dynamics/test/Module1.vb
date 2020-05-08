@@ -57,12 +57,15 @@ Module Module1
         Dim envir As Vessel = New Vessel().load(massTable.Values).load(reactions(massTable))
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = envir.ContainerIterator(100000)
+
+        Call envir.Initialize(10000)
+
+        Dim dynamics = envir.ContainerIterator(100)
         Dim cache As New FluxAggregater(envir)
 
-        Call envir.Initialize()
+        For i As Integer = 0 To 10000
+            dynamics.Tick()
 
-        For i As Integer = 0 To 100000
             flux += New DataSet With {
                 .ID = i,
                 .Properties = cache.getFlux
@@ -128,7 +131,8 @@ Module Module1
         Yield New Channel(pop({"G"}), pop({"E"})) With {
             .bounds = {50, 50},
             .ID = "GE",
-            .forward = New AdditiveControls With {.activation = pop({"F"}).ToArray}
+            .forward = New AdditiveControls With {.activation = pop({"F"}).ToArray},
+            .reverse = New AdditiveControls With {.baseline = 0}
         }
         Yield New Channel(pop({"E"}), pop({"G", "D", "C"})) With {
             .bounds = {50, 50},
