@@ -79,7 +79,7 @@ Namespace Kernel
             ' Next
         End Sub
 
-        Sub New(vars As Dictionary(Of Ivar), model As Script.Model, getRunTicks As Func(Of Long))
+        Sub New(vars As Dictionary(Of String, Ivar), model As Script.Model, getRunTicks As Func(Of Long))
             __pendingKicks = model.Experiments.ToList(
                 Function(x) New Disturb(
                     x,
