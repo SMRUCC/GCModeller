@@ -68,7 +68,7 @@ Namespace Dynamics
         Implements IAddress(Of Integer)
 
         Public Overloads Property Index As Integer Implements IAddress(Of Integer).Address
-        Public Property Name As String Implements INamedValue.Key
+        Public Overridable Property Name As String Implements IReadOnlyId.Identity
         Public Overrides Property Value As Double Implements Ivar.value
 
         Public Shared ReadOnly type As Type = GetType(var)
@@ -159,7 +159,7 @@ Namespace Dynamics
         End Operator
     End Class
 
-    Public Interface Ivar : Inherits INamedValue
+    Public Interface Ivar : Inherits IReadOnlyId
 
         Property value As Double
     End Interface

@@ -7,18 +7,23 @@ Namespace Core
     ''' <summary>
     ''' Convert <see cref="Channel"/> matrix to mass equations
     ''' </summary>
-    Public Class MassDynamics : Implements IReadOnlyId, INonlinearVar
+    Public Class MassDynamics : Inherits var
+        Implements IReadOnlyId, INonlinearVar
 
-        Public Property massID As String Implements IReadOnlyId.Identity, INonlinearVar.Key
+        ''' <summary>
+        ''' <see cref="Factor.ID"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Property Name As String Implements IReadOnlyId.Identity
             Get
                 Return mass.ID
             End Get
-            Private Set(value As String)
-                ' set name is not allowed!
+            Set(value As String)
+                ' set name is not allowed
             End Set
         End Property
 
-        Public Property value As Double Implements Ivar.value
+        Public Overrides Property Value As Double Implements Ivar.value
             Get
                 Return mass.Value
             End Get
