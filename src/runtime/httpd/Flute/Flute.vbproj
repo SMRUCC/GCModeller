@@ -73,6 +73,7 @@
     <Compile Include="HttpMessage\HttpRequest.vb" />
     <Compile Include="HttpMessage\HttpResponse.vb" />
     <Compile Include="HttpMessage\JsonResponse.vb" />
+    <Compile Include="HttpMessage\Protocol\HttpError.vb" />
     <Compile Include="HttpMessage\Protocol\CookieParser.vb" />
     <Compile Include="HttpMessage\Protocol\HttpHeader.vb" />
     <Compile Include="HttpMessage\Protocol\ContentType.vb" />
