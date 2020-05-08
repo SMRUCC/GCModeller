@@ -65,6 +65,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpDriver.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="FileSystem\FileObject.vb" />
     <Compile Include="FileSystem\FileSystem.vb" />
