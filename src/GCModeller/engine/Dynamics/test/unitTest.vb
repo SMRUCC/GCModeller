@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::30604fae967ece186ae8d7c14986c4c0, Dynamics\test\unitTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module unitTest
-    ' 
-    '     Sub: loopTest, Main, singleDirection
-    ' 
-    ' /********************************************************************************/
+' Module unitTest
+' 
+'     Sub: loopTest, Main, singleDirection
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Dynamics.Debugger
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Module unitTest
@@ -62,22 +62,24 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .forward = 300,
-            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
+            .forward = CType(300, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
         }
 
-        Dim machine As New Vessel() With {.Channels = {reaction}, .MassEnvironment = {a, b}}
+        Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
 
         machine.Initialize()
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-
+        Dim dynamics = machine.ContainerIterator(100000)
 
         For i As Integer = 0 To 100000
+            Call dynamics.Tick()
+
             flux += New DataSet With {
                 .ID = i,
-                .Properties = machine.ContainerIterator().ToDictionary.FlatTable
+                .Properties = machine. .ToDictionary.FlatTable
             }
             snapshots += New DataSet With {
                 .ID = i,
@@ -100,34 +102,34 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .forward = 300,
-            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
+            .forward = CType(300, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
         }
         Dim reaction2 As New Channel({New Variable(b, 1)}, {New Variable(c, 2)}) With {
             .bounds = {10, 500},
             .ID = "b->c",
-            .forward = 300,
-            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
+            .forward = CType(300, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
         }
         Dim reaction3 As New Channel({New Variable(c, 4)}, {New Variable(a, 1)}) With {
             .bounds = {10, 500},
             .ID = "c->a",
-            .forward = 300,
-            .reverse = New Controls With {.baseline = 0.05, .activation = {New Variable(a, 0.01)}}
+            .forward = CType(300, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 0.01)}}
         }
 
-        Dim machine As New Vessel() With {.Channels = {reaction, reaction2, reaction3}, .MassEnvironment = {a, b, c}}
+        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3}).load({a, b, c})
 
         machine.Initialize()
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-
+        Dim dynamics = machine.ContainerIterator(100000)
 
         For i As Integer = 0 To 100000
             flux += New DataSet With {
                 .ID = i,
-                .Properties = machine.ContainerIterator().ToDictionary.FlatTable
+                .Properties = .ToDictionary.FlatTable
             }
             snapshots += New DataSet With {
                 .ID = i,
