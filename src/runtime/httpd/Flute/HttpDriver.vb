@@ -20,6 +20,6 @@ Public Class HttpDriver : Inherits HttpServer
     End Sub
 
     Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
-        Throw New NotImplementedException()
+        Return New HttpProcessor(client, Me, bufferSize)
     End Function
 End Class
