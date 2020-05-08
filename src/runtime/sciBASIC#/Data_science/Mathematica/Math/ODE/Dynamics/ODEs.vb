@@ -86,9 +86,14 @@ Namespace Dynamics
 
         Public Const y0RefName As String = NameOf(__vars)
 
-        Default Public ReadOnly Property GetVar(Name$) As var
+        ''' <summary>
+        ''' get variable by given unique name
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
+        Default Public ReadOnly Property GetVar(name As String) As var
             Get
-                Return __vars(Name)
+                Return __vars(name)
             End Get
         End Property
 
