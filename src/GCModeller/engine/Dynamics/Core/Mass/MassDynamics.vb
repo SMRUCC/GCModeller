@@ -20,6 +20,36 @@ Namespace Core
         ''' </summary>
         Dim factors As Double()
         Dim mass As Factor
+        Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
+
+        Public Function Evaluate() As Double
+            Dim additions As Double
+            Dim dir As Directions
+            Dim variants As Double
+            Dim flux As Channel
+
+            For i As Integer = 0 To channels.Length - 1
+                flux = channels(i)
+                dir = flux.direct
+
+                Select Case dir
+                    Case Directions.forward
+                        variants = flux.forward.coefficient - flux.reverse.coefficient
+                        variants = factors(i) * flux.CoverLeft(shareFactors.left, variants)
+                    Case Directions.reverse
+                        variants = flux.reverse.coefficient - flux.forward.coefficient
+                        variants = -factors(i) * flux.CoverRight(shareFactors.right, variants)
+                    Case Directions.stop
+                        variants = 0
+                    Case Else
+                        Throw New InvalidProgramException
+                End Select
+
+                additions += variants
+            Next
+
+            Return additions
+        End Function
 
         Public Overrides Function ToString() As String
             Return mass.ToString
@@ -41,12 +71,18 @@ Namespace Core
             Return index
         End Function
 
-        Public Shared Iterator Function PopulateDynamics(massEnv As Factor(), channels As Channel()) As IEnumerable(Of MassDynamics)
+        ''' <summary>
+        ''' create dynamics equation for RK4 ODEs solver
+        ''' </summary>
+        ''' <param name="env"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function PopulateDynamics(env As Vessel) As IEnumerable(Of MassDynamics)
             Dim factors As New List(Of Double)
             Dim matter As Variable
-            Dim massIndex = createMassIndex(channels)
+            Dim massIndex = createMassIndex(env.Channels)
+            Dim channels As Channel()
 
-            For Each mass As Factor In massEnv
+            For Each mass As Factor In env.m_massIndex.Values
                 factors.Clear()
                 channels = massIndex(mass.ID).ToArray
 
@@ -56,11 +92,15 @@ Namespace Core
                         .FirstOrDefault
 
                     If Not matter Is Nothing Then
-                        factors.Add(matter.coefficient)
+                        ' 反应物端是消耗当前代谢物
+                        ' 所以相关系数为负数值
+                        factors.Add(-matter.coefficient)
                     Else
                         matter = flux.GetProducts _
                             .Where(Function(a) a.mass.ID = mass.ID) _
                             .First
+                        ' 反应产物端则是增加当前代谢物
+                        ' 相关系数为正实数
                         factors.Add(matter.coefficient)
                     End If
                 Next
@@ -68,7 +108,8 @@ Namespace Core
                 Yield New MassDynamics With {
                     .mass = mass,
                     .factors = factors.ToArray,
-                    .channels = channels
+                    .channels = channels,
+                    .shareFactors = env.shareFactors
                 }
             Next
         End Function
