@@ -44,14 +44,65 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports Microsoft.VisualBasic.Math.Scripting
 
 Module unitTest
     Sub Main()
+        Call kineticsTest()
         Call singleDirection()
         Call loopTest()
+    End Sub
+
+    Sub kineticsTest()
+        ' a <=> b
+
+        Dim exp = "(Vmax * S) / (Km + S)"
+        Dim model As New Model.Kinetics With {
+            .formula = ScriptEngine.ParseExpression(exp),
+            .parameters = {"Vmax", "S", "Km"},
+            .paramVals = {10, "a", 2},
+            .target = "a->b"
+        }
+        Dim machine As Vessel = New Vessel()
+
+        Dim a As New Factor With {.ID = "a", .Value = 1000}
+        Dim b As New Factor With {.ID = "b", .Value = 1000}
+        Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
+            .bounds = {10, 10},
+            .ID = "a->b",
+            .forward = New Kinetics(machine, model) With {.baseline = 0, .inhibition = {}},
+            .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
+        }
+
+        machine = machine.load({a, b}).load({reaction}).Initialize(10000)
+
+        Dim snapshots As New List(Of DataSet)
+        Dim flux As New List(Of DataSet)
+        Dim dynamics = machine.ContainerIterator(100)
+        Dim cache As New FluxAggregater(machine)
+
+        For i As Integer = 0 To 10000
+            Call dynamics.Tick()
+
+            flux += New DataSet With {
+                .ID = i,
+                .Properties = cache.getFlux
+            }
+            snapshots += New DataSet With {
+                .ID = i,
+                .Properties = machine.MassEnvironment.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            }
+        Next
+
+        Call snapshots.SaveTo("./kinetics/test_mass.csv")
+        Call flux.SaveTo("./kinetics/test_flux.csv")
+        Call machine.ToGraph.DoCall(AddressOf Visualizer.CreateTabularFormat).Save("./kinetics/test_network/")
+
+        Pause()
     End Sub
 
     Sub singleDirection()
