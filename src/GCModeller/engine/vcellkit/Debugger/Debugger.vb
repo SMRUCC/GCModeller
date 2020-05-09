@@ -95,4 +95,9 @@ Module Debugger
             .load(fluxes) _
             .Initialize
     End Function
+
+    <ExportAPI("flux.dynamics")>
+    Public Function createFluxDynamicsEngine(core As Vessel, Optional time% = 50, Optional resolution% = 10000, Optional showProgress As Boolean = True) As FluxEmulator
+        Return New FluxEmulator(core, time, resolution, showProgress)
+    End Function
 End Module
