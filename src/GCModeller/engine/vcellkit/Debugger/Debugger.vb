@@ -40,20 +40,59 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.ModellingEngine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 <Package("vcellkit.debugger", Category:=APICategories.ResearchTools)>
 Module Debugger
 
     <ExportAPI("vcell.summary")>
-    Public Sub createDynamicsSummary(inits As Definition, model As CellularModule, dir As String)
+    Public Sub createDynamicsSummary(inits As Definition, model As Model.CellularModule, dir As String)
         Call Dynamics.Summary.summary(inits, model, dir)
     End Sub
 
-    Public Function ModelPathwayMap()
+    <ExportAPI("map.flux")>
+    Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository) As Vessel
+        Dim mass As New MassTable
+        Dim list As String() = map.GetMembers _
+            .Where(Function(id)
+                       Return id.IsPattern("R\d+")
+                   End Function) _
+            .Distinct _
+            .ToArray
+        Dim fluxes As New List(Of Channel)
+        Dim model As DefaultTypes.Equation
+        Dim left As String()
+        Dim right As List(Of String)
 
+        For Each reaction As Reaction In list.Select(AddressOf reactions.GetByKey)
+            model = reaction.ReactionModel
+            left = model.Reactants.Select(Function(a) a.ID).ToArray
+            right = model.Products.Select(Function(a) a.ID).AsList
+
+            For Each id As String In left + right
+                Call mass.AddNew(id, MassRoles.compound)
+            Next
+
+            fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
+                .ID = reaction.ID,
+                .bounds = {10, 10},
+                .forward = Controls.StaticControl(1),
+                .reverse = Controls.StaticControl(1)
+            }
+        Next
+
+        Return New Vessel() _
+            .load(mass.AsEnumerable) _
+            .load(fluxes) _
+            .Initialize
     End Function
 End Module
