@@ -1,6 +1,6 @@
 ﻿Namespace Core
 
-    Public Class Kinetics : Inherits Controls
+    Public Class KineticsControls : Inherits Controls
 
         ''' <summary>
         ''' 计算出当前的调控效应单位

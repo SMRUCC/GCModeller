@@ -155,7 +155,8 @@
     <Compile Include="Core\Flux\Boundary.vb" />
     <Compile Include="Core\Flux\Extensions.vb" />
     <Compile Include="Core\Kinetics\Controls\AdditiveControls.vb" />
-    <Compile Include="Core\Kinetics\Controls\Kinetics.vb" />
+    <Compile Include="Core\Kinetics\Controls\ProfileControls.vb" />
+    <Compile Include="Core\Kinetics\Controls\KineticsControls.vb" />
     <Compile Include="Core\Kinetics\KineticsFactor.vb" />
     <Compile Include="Core\Kinetics\ModularRateLaws.vb" />
     <Compile Include="Core\Mass\MassDynamics.vb" />
