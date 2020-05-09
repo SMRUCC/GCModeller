@@ -96,6 +96,10 @@ Namespace Core
         Friend m_channels As Channel()
         Friend m_dynamics As MassDynamics()
 
+        Public Function getMassValues() As Dictionary(Of String, Double)
+            Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+        End Function
+
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
             m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
             Return Me

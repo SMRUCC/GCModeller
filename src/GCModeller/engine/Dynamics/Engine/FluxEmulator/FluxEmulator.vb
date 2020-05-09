@@ -10,10 +10,6 @@ Namespace Engine
     Public Class FluxEmulator : Implements ITaskDriver
 
         ''' <summary>
-        ''' A snapshot of the compounds mass
-        ''' </summary>
-        Protected mass As MassTable
-        ''' <summary>
         ''' The biological flux simulator engine core module
         ''' </summary>
         Protected core As Vessel
@@ -57,7 +53,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMass(names As IEnumerable(Of String)) As IEnumerable(Of Factor)
-            Return mass.GetByKey(names)
+            Return names.Select(AddressOf core.m_massIndex.TryGetValue)
         End Function
 
         Public Overridable Function Run() As Integer Implements ITaskDriver.Run
@@ -100,7 +96,7 @@ Namespace Engine
                 Call engine.Tick()
 
                 ' and then populate result data snapshot
-                Call massSnapshotDriver(i, mass.GetMassValues)
+                Call massSnapshotDriver(i, core.getMassValues)
                 Call fluxSnapshotDriver(i, flux.getFlux)
 
                 Call tick(i)

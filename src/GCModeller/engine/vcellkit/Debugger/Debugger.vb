@@ -63,7 +63,7 @@ Module Debugger
     End Sub
 
     <ExportAPI("map.flux")>
-    Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository) As Vessel
+    Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository, Optional init As Double = 1000) As Vessel
         Dim mass As New MassTable
         Dim list As String() = map.GetMembers _
             .Where(Function(id)
@@ -76,7 +76,12 @@ Module Debugger
         Dim left As String()
         Dim right As List(Of String)
 
-        For Each reaction As Reaction In list.Select(AddressOf reactions.GetByKey)
+        For Each reaction As Reaction In list _
+            .Select(AddressOf reactions.GetByKey) _
+            .Where(Function(r)
+                       Return Not r Is Nothing
+                   End Function)
+
             model = reaction.ReactionModel
             left = model.Reactants.Select(Function(a) a.ID).ToArray
             right = model.Products.Select(Function(a) a.ID).AsList
@@ -93,10 +98,18 @@ Module Debugger
             }
         Next
 
+        Dim reset_data As Dictionary(Of String, Double) = mass _
+            .AsEnumerable _
+            .ToDictionary(Function(a) a.ID,
+                          Function()
+                              Return init
+                          End Function)
+
         Return New Vessel() _
             .load(mass.AsEnumerable) _
             .load(fluxes) _
-            .Initialize
+            .Initialize _
+            .Reset(reset_data)
     End Function
 
     <ExportAPI("flux.dynamics")>
