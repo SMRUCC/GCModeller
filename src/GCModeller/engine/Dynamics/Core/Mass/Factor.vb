@@ -57,6 +57,12 @@ Namespace Core
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
+        ''' 分子角色
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property role As MassRoles
+
+        ''' <summary>
         ''' debug view
         ''' </summary>
         ''' <returns></returns>

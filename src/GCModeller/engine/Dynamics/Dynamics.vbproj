@@ -159,6 +159,7 @@
     <Compile Include="Core\Kinetics\Controls\KineticsControls.vb" />
     <Compile Include="Core\Kinetics\KineticsFactor.vb" />
     <Compile Include="Core\Kinetics\ModularRateLaws.vb" />
+    <Compile Include="Core\Mass\MassRoles.vb" />
     <Compile Include="Core\Mass\MassDynamics.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
