@@ -41,6 +41,7 @@
 
 Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting
 
 Public Structure Kinetics
 
@@ -60,6 +61,10 @@ Public Structure Kinetics
 
     Public Overrides Function ToString() As String
         Return $"[{target}] {formula}"
+    End Function
+
+    Public Shared Function ExpressionModel(formula As String) As Impl.Expression
+        Return ScriptEngine.ParseExpression(formula)
     End Function
 
     Public Function CompileLambda() As Func(Of Func(Of String, Double), Double)

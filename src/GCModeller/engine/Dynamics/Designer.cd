@@ -3,54 +3,55 @@
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Channel" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="15.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEgAAAAIAgAAEAAAAABAAAABIAAIAAAACAAAAggA=</HashCode>
+      <HashCode>AAAAEgAAAAIAgAAEAAAAABAAAAAIAAIAAAACAAAAggA=</HashCode>
       <FileName>Core\Flux\Channel.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Variable" Collapsed="true">
-    <Position X="19" Y="3.5" Width="1.5" />
+    <Position X="12" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAEAAAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AIAAAAAAAAAAAAAEAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Core\Mass\Variable.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Vessel" Collapsed="true">
-    <Position X="12" Y="4.5" Width="1.5" />
+    <Position X="13.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIABQAAAAAAAiCQAAAACAAACAAAAgAAEAA=</HashCode>
+      <HashCode>AAAAAAEAAIIABQAAASAAACCAAAAACAAACAAAAAAAEAA=</HashCode>
       <FileName>Core\Vessel.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.NamespaceDoc" Collapsed="true">
-    <Position X="19" Y="2.5" Width="1.5" />
+    <Position X="12" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NamespaceDoc.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.My.MySettings" Collapsed="true">
-    <Position X="17.25" Y="2.5" Width="1.5" />
+    <Position X="19" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.MassTable" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="2.5" Width="1.5" />
+    <Position X="17.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAxBAACAAAAAAAAkAAAAEAgAACAEEAAA=</HashCode>
       <FileName>Engine\MassTable.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Controls" Collapsed="true">
-    <Position X="17.25" Y="0.5" Width="1.5" />
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Controls">
+    <Position X="5.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <FileName>Core\Flux\Controls.vb</FileName>
+      <HashCode>AECAAwgACAACAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Kinetics\Controls\Controls.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="1.5" Width="1.5" />
+    <Position X="13.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Core\Mass\Factor.vb</FileName>
@@ -64,7 +65,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Engine" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13.75" Y="1.5" Width="1.5" />
+    <Position X="12" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAGAAAIQABAABAgAIAAAAoACAAAgIAAAAAAAIAAI=</HashCode>
       <FileName>Engine\Engine.vb</FileName>
@@ -72,14 +73,14 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.OmicsTuple(Of T)" Collapsed="true">
-    <Position X="15.5" Y="3.5" Width="1.5" />
+    <Position X="17.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAEAAAABAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Engine\OmicsTuple.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.OmicsDataAdapter" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13.75" Y="3.5" Width="1.5" />
+    <Position X="15.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAABBAAgAAAgAAAAQAAAAAAAABAAAAAE=</HashCode>
       <FileName>Engine\OmicsDataAdapter.vb</FileName>
@@ -103,7 +104,7 @@
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.Loader" Collapsed="true">
     <Position X="12" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAIAAAAAQAABAAABEAAIABgAAAgAgABEAAAAggA=</HashCode>
+      <HashCode>AAIAAAIAAAIAQAABAAEBEAAIABgAAAgAgABEAAAAggA=</HashCode>
       <FileName>Engine\Loader\Loader.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -129,21 +130,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.Definition" Collapsed="true">
-    <Position X="12" Y="1.5" Width="1.5" />
+    <Position X="19" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAQAAAAAAAIAAoAAAAAAAAAAAABgAAAAKAAAAAAAAgA=</HashCode>
       <FileName>Engine\Loader\Definition\Definition.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.NucleicAcid" Collapsed="true">
-    <Position X="12" Y="3.5" Width="1.5" />
+    <Position X="13.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAqAACQAA=</HashCode>
       <FileName>Engine\Loader\Definition\NucleicAcid.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions.Status" Collapsed="true">
-    <Position X="17.25" Y="3.5" Width="1.5" />
+    <Position X="19" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEQAAAAIAAAAAAAAAAAAAAAAAAAEABAAAAAAAAAAAAA=</HashCode>
       <FileName>Engine\Loader\Definition\Status.vb</FileName>
@@ -157,7 +158,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.DebuggerView" Collapsed="true">
-    <Position X="19" Y="0.5" Width="1.5" />
+    <Position X="17.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAgAAAQAAAAAAAAAAAAAAAAAAAAQAAAAAAYAAAA=</HashCode>
       <FileName>Engine\DebuggerView.vb</FileName>
@@ -171,7 +172,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader.MassLoader" Collapsed="true">
-    <Position X="13.75" Y="2.5" Width="1.5" />
+    <Position X="15.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAJA=</HashCode>
       <FileName>Engine\Loader\MassLoader.vb</FileName>
@@ -182,6 +183,34 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAADAAAZAAEAAAAABAAAAAIAAQAAAAAAwABAAA=</HashCode>
       <FileName>Engine\Loader\Definition\FluxBaseline.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.AdditiveControls" Collapsed="true">
+    <Position X="4.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Core\Kinetics\Controls\AdditiveControls.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Kinetics">
+    <Position X="6.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAKAAAAAAAEAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Kinetics\Controls\Kinetics.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.MassDynamics" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAIAAoAAAAEAAAAAgwAAACAAAAAAAAwAACAAAA=</HashCode>
+      <FileName>Core\Mass\MassDynamics.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.FluxAggregater" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\FluxAggregater.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.IOmicsDataAdapter" Collapsed="true">

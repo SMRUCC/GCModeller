@@ -52,4 +52,8 @@ Module Debugger
     Public Sub createDynamicsSummary(inits As Definition, model As CellularModule, dir As String)
         Call Dynamics.Summary.summary(inits, model, dir)
     End Sub
+
+    Public Function ModelPathwayMap()
+
+    End Function
 End Module
