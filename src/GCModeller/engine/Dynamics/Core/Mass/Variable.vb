@@ -57,6 +57,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property mass As Factor
+
         ''' <summary>
         ''' 在反应过程之中的变异系数，每完成一个单位的反应过程，当前的<see cref="mass"/>
         ''' 将会丢失或者增加这个系数相对应的数量的含量

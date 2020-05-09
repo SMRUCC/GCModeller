@@ -92,11 +92,6 @@ Namespace Core
         ''' </summary>
         Friend shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
-        ''' <summary>
-        ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
-        ''' </summary>
-        Dim resolution As Double
-
         Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
         Friend m_dynamics As MassDynamics()
@@ -111,23 +106,16 @@ Namespace Core
             Return Me
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Function Initialize(Optional timeResolution# = 10000) As Vessel
+        Public Function Initialize() As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
-            If timeResolution < 1 Then
-                timeResolution = 1
-            End If
-
-            resolution = timeResolution
             shareFactors = (sharedLeft, sharedRight)
-
-            ' create dynamics equation for RK4 ODEs solver
-            m_dynamics = MassDynamics.PopulateDynamics(Me).ToArray
+            ' create dynamics equation for 
+            ' RK4 ODEs solver
+            m_dynamics = MassDynamics _
+                .PopulateDynamics(Me) _
+                .ToArray
 
             Return Me
         End Function
@@ -153,16 +141,12 @@ Namespace Core
         ''' <summary>
         ''' 当前的这个微环境的迭代器
         ''' </summary>
-        Public Function ContainerIterator(maxTime As Integer) As SolverIterator
-            '' 在这里将原始序列随机打乱来模拟现实世界中的平行发生的事件
-            '' 因为在这里会涉及到mass对象的值的修改
-            '' 所以无法使用多线程进行并行计算
-            '' 在这里只能够使用随机+串联来模拟平行事件
-            'For Each reaction As Channel In Channels.Shuffles
-            '    ' 不可以使用Where直接在for循环外进行筛选
-            '    ' 因为环境是不断地变化的
-            '    Yield iterateFlux(reaction)
-            'Next
+        ''' <param name="maxTime">最大的模拟时间长度</param>
+        ''' <param name="resolution">时间分辨率，这个值应该是大于<paramref name="maxTime"/>参数的一个值</param>
+        Public Function ContainerIterator(maxTime As Integer, resolution As Integer) As SolverIterator
+            If resolution < maxTime Then
+                Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
+            End If
 
             Dim vector As MassDynamics() = m_dynamics
             Dim df = Sub(dx#, ByRef dy As stdVec)
