@@ -72,8 +72,17 @@ Namespace Core
             End Get
         End Property
 
+        Sub New()
+            role = MassRoles.compound
+        End Sub
+
+        Sub New(id$, role As MassRoles)
+            Me.ID = id
+            Me.role = role
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return $"{ID} ({Value} unit)"
+            Return $"{ID} ({Value} unit, {role.Description})"
         End Function
     End Class
 End Namespace
