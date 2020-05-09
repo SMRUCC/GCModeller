@@ -164,6 +164,7 @@
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
     <Compile Include="Engine\FluxAggregater.vb" />
+    <Compile Include="Engine\FluxEmulator\FluxEmulator.vb" />
     <Compile Include="Engine\VCell\DebuggerView.vb" />
     <Compile Include="Engine\VCell\Loader\CentralDogmaFluxLoader.vb" />
     <Compile Include="Engine\VCell\Loader\BioMoleculeDegradation.vb" />
