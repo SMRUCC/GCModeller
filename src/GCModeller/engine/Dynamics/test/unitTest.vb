@@ -98,11 +98,11 @@ Module unitTest
             }
         Next
 
-        Call snapshots.SaveTo("./kinetics/test_mass.csv")
-        Call flux.SaveTo("./kinetics/test_flux.csv")
+        Call snapshots.SaveTo("./kinetics/kinetics_test_mass.csv")
+        Call flux.SaveTo("./kinetics/kinetics_test_flux.csv")
         Call machine.ToGraph.DoCall(AddressOf Visualizer.CreateTabularFormat).Save("./kinetics/test_network/")
 
-        Pause()
+        ' Pause()
     End Sub
 
     Sub singleDirection()
@@ -111,8 +111,8 @@ Module unitTest
 
         Dim a As New Factor With {.ID = "a", .Value = 1000}
         Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim reaction As New Channel({New Variable(a, 3, True)}, {New Variable(b, 1)}) With {
-            .bounds = {10, 500},
+        Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
+            .bounds = {10, 10},
             .ID = "a->b",
             .forward = CType(10, AdditiveControls),
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
