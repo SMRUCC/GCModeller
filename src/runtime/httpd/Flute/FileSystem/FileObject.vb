@@ -10,10 +10,10 @@ Namespace FileSystem
         ''' 文件的类型
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType
+        Public ReadOnly Property mime As ContentType
         Public ReadOnly Property fileName As String
 
-        Sub New(fileName$, Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing)
+        Sub New(fileName$, Optional mime As ContentType = Nothing)
             Me.fileName = fileName
             Me.mime = mime
 
@@ -33,7 +33,7 @@ Namespace FileSystem
 
         ReadOnly cache As MemoryStream
 
-        Sub New(fileName$, data As Byte(), Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing)
+        Sub New(fileName$, data As Byte(), Optional mime As ContentType = Nothing)
             Call MyBase.New(fileName, mime)
 
             ' create cache data stream
@@ -55,7 +55,7 @@ Namespace FileSystem
             End Get
         End Property
 
-        Sub New(fileName$, mappedPath$, Optional mime As Microsoft.VisualBasic.Net.Protocols.ContentTypes.ContentType = Nothing)
+        Sub New(fileName$, mappedPath$, Optional mime As ContentType = Nothing)
             Call MyBase.New(fileName, mime)
 
             Me.mappedPath = mappedPath

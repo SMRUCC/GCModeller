@@ -54,6 +54,7 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Flute.Http.Core.Message
+Imports Flute.Http.Core.Message.HttpHeader
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -233,9 +234,6 @@ Namespace Core
             ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
                 HandlePOSTRequest()
             Else
-                ' Dim msg As String = $"Unsupport {NameOf(http_method)}:={http_method}"
-                ' Call msg.__DEBUG_ECHO
-                ' Call writeFailure(msg)
                 Call srv.handleOtherMethod(Me)
             End If
         End Sub
@@ -284,6 +282,7 @@ Namespace Core
 
         Public Sub readHeaders()
             Dim line As String = "", s As New Value(Of String)
+            Dim separator As Integer
 
             Call NameOf(readHeaders).__DEBUG_ECHO
 
@@ -293,9 +292,9 @@ Namespace Core
                     Return
                 Else
                     line = s.Value
+                    separator = line.IndexOf(":"c)
                 End If
 
-                Dim separator As Integer = line.IndexOf(":"c)
                 If separator = -1 Then
                     Throw New Exception("invalid http header line: " & line)
                 End If
@@ -321,8 +320,7 @@ Namespace Core
 
         Public BUF_SIZE As Integer = 4096
 
-        Public Const packageTooLarge$ = "POST Content-Length({0}) too big for this simple server"
-        Public Const ContentLength$ = "Content-Length"
+        Public Const packageTooLarge$ = "POST Content-Length({0}) too big for this web server"
 
         ''' <summary>
         ''' This post data processing just reads everything into a memory stream.
@@ -333,44 +331,46 @@ Namespace Core
         ''' </summary>
         ''' <remarks></remarks>
         Public Sub HandlePOSTRequest()
-
-            ' Call Console.WriteLine("get post data start")
-
-            Dim content_len As Integer = 0
             Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
+            Dim result As (error%, message$) = Nothing
 
-            If Me.httpHeaders.ContainsKey(ContentLength) Then
-                content_len = writeTemp(handle)
+            If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) Then
+                result = flushPOSTPayload(handle)
             End If
 
-            ' Call Console.WriteLine("get post data end")
-            Call srv.handlePOSTRequest(Me, handle)
+            If Not result.message Is Nothing Then
+                Call writeFailure(result.error, result.message)
+            Else
+                Call srv.handlePOSTRequest(Me, handle)
+            End If
         End Sub
 
-        Private Function writeTemp(handle$) As Long
-            Dim content_len%
+        ''' <summary>
+        ''' save the payload data of the POST request to a given temp file
+        ''' </summary>
+        ''' <param name="handle">
+        ''' the given temp file for save the POST payload
+        ''' </param>
+        ''' <returns></returns>
+        Private Function flushPOSTPayload(handle As String) As (error%, message$)
+            Dim content_len% = Convert.ToInt32(httpHeaders(ResponseHeaders.ContentLength))
+
+            ' 小于零的时候不进行限制
+            If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
+                Return (413, String.Format(packageTooLarge, content_len))
+            End If
 
             Using content As Stream = handle.Open()
-                content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
-
-                ' 小于零的时候不进行限制
-                If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
-                    Throw New Exception(String.Format(packageTooLarge, content_len))
-                End If
-
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
                 Dim numread As i32 = 0
 
                 While to_read > 0
-                    ' Console.WriteLine("starting Read, to_read={0}", to_read)
-                    ' Console.WriteLine("read finished, numread={0}", numread)
-
                     If (numread = _inputStream.Read(buf, 0, stdNum.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else
-                            Throw New Exception("client disconnected during post")
+                            Return (900, "client disconnected during post")
                         End If
                     End If
 
@@ -378,11 +378,10 @@ Namespace Core
                     content.Write(buf, 0, numread)
                 End While
 
-                ' Call content.Seek(Scan0, SeekOrigin.Begin)
                 Call content.Flush()
             End Using
 
-            Return content_len
+            Return Nothing
         End Function
 
         ''' <summary>
@@ -453,20 +452,19 @@ Namespace Core
         ''' <summary>
         ''' You can customize your 404 error page at here.
         ''' </summary>
-        ''' <returns></returns>
         ''' <remarks>
         ''' 因为并不是每一次请求都会产生404错误的，并且由于404页面是需要通过vbhtml脚本来实现的，
         ''' 所以在这里使用函数指针，仅在发生错误的时候才会调用404的页面构造的过程，以提高网页
         ''' 服务器的性能
         ''' </remarks>
-        Public Property _404Page As Func(Of String)
+        Public errorPage As New HttpHeader.HttpError
 
         ''' <summary>
         ''' 404
         ''' </summary>
-        Public Sub writeFailure(errCode%, ex As String)
+        Public Sub writeFailure(error_code%, ex As String)
             Try
-                Call writeFailure(ex)
+                Call writeFailureInternal(error_code, ex)
             Catch e As Exception
                 Call App.LogException(e)
             End Try
@@ -475,7 +473,7 @@ Namespace Core
         ''' <summary>
         ''' 404
         ''' </summary>
-        Private Sub writeFailure(ex As String)
+        Private Sub writeFailureInternal(error_code%, ex As String)
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers
@@ -485,19 +483,7 @@ Namespace Core
             ' this terminates the HTTP headers.
             Call outputStream.WriteLine("")
 
-            Dim _404$ = __404Page()
-
-            If String.IsNullOrEmpty(_404) Then
-                _404 = ex
-            Else
-                ' 404 page html file usually located in the root directory of the site, 
-                ' If the Then file exists the read the page And replace the 
-                ' Exception message With the Placeholder %Exception%
-
-                _404 = _404.Replace("%404%", ex)
-            End If
-
-            Call outputStream.WriteLine(_404)
+            Call outputStream.WriteLine(errorPage.GetErrorPage(ex))
         End Sub
 
 #Region "IDisposable Support"
