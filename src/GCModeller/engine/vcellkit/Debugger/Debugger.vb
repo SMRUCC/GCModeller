@@ -93,8 +93,8 @@ Module Debugger
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
                 .ID = reaction.ID,
                 .bounds = {10, 10},
-                .forward = Controls.StaticControl(1),
-                .reverse = Controls.StaticControl(1)
+                .forward = New AdditiveControls With {.baseline = 1, .activation = mass.variables(left, 1).ToArray, .inhibition = mass.variables(right, 0.5).ToArray},
+                .reverse = New AdditiveControls With {.baseline = 1, .activation = mass.variables(right, 1).ToArray, .inhibition = mass.variables(left, 0.5).ToArray}
             }
         Next
 
