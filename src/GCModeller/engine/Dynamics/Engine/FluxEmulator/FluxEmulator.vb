@@ -5,7 +5,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
-
 Namespace Engine
 
     Public Class FluxEmulator : Implements ITaskDriver
@@ -22,17 +21,26 @@ Namespace Engine
         Protected resolution As Integer
         Protected maxTime As Integer
 
-        ''' <summary>
-        ''' Data snapshot of current iteration.
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
+        Dim massSnapshotDriver As SnapshotDriver
+        Dim fluxSnapshotDriver As SnapshotDriver
 
         Sub New(maxTime As Integer, Optional resolution As Integer = 10000, Optional showProgress As Boolean = True)
             Me.showProgress = showProgress
             Me.maxTime = maxTime
             Me.resolution = resolution
+
+            core = New Vessel
         End Sub
+
+        Public Function AttatchMassDriver(driver As SnapshotDriver) As FluxEmulator
+            massSnapshotDriver = driver
+            Return Me
+        End Function
+
+        Public Function AttatchFluxDriver(driver As SnapshotDriver) As FluxEmulator
+            fluxSnapshotDriver = driver
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getCore() As Vessel
@@ -81,11 +89,13 @@ Namespace Engine
 
             For i As Integer = 0 To iterations - 1
                 ' run internal engine iteration
-                engine.Tick()
-                ' and then populate result data snapshot
-                _snapshot = (mass.GetMassValues, flux.getFlux)
+                Call engine.Tick()
 
-                tick(i)
+                ' and then populate result data snapshot
+                Call massSnapshotDriver(i, mass.GetMassValues)
+                Call fluxSnapshotDriver(i, flux.getFlux)
+
+                Call tick(i)
             Next
         End Sub
     End Class
