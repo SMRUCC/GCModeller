@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 
@@ -85,11 +86,25 @@ Namespace Core
             Return mass.ToString
         End Function
 
-        Private Shared Function createMassIndex(channels As Channel()) As Dictionary(Of String, List(Of Channel))
+        Private Shared Function createMassIndex(channels As Channel(), ByRef templates As Index(Of String)) As Dictionary(Of String, List(Of Channel))
             Dim index As New Dictionary(Of String, List(Of Channel))
+            Dim templateList As New List(Of String)
 
             For Each flux As Channel In channels
-                For Each m In flux.GetReactants.JoinIterates(flux.GetProducts)
+                Call flux.GetReactants _
+                    .Where(Function(a) a.isTemplate) _
+                    .Select(Function(a) a.mass.ID) _
+                    .DoCall(AddressOf templateList.AddRange)
+
+                For Each m As Variable In flux _
+                    .GetReactants _
+                    .Where(Function(a)
+                               ' 被定义为模板的物质是不会被减少的
+                               ' 所以在代谢底物部分跳过模板物质
+                               Return Not a.isTemplate
+                           End Function) _
+                    .JoinIterates(flux.GetProducts)
+
                     If Not index.ContainsKey(m.mass.ID) Then
                         Call index.Add(m.mass.ID, New List(Of Channel))
                     End If
@@ -97,6 +112,8 @@ Namespace Core
                     Call index(m.mass.ID).Add(flux)
                 Next
             Next
+
+            templates = templateList.Distinct.ToArray
 
             Return index
         End Function
@@ -109,12 +126,22 @@ Namespace Core
         Public Shared Iterator Function PopulateDynamics(env As Vessel) As IEnumerable(Of MassDynamics)
             Dim factors As New List(Of Double)
             Dim matter As Variable
-            Dim massIndex = createMassIndex(env.Channels)
+            Dim templates As Index(Of String) = Nothing
+            Dim massIndex = createMassIndex(env.Channels, templates)
             Dim channels As Channel()
 
             For Each mass As Factor In env.m_massIndex.Values
                 factors.Clear()
-                channels = massIndex(mass.ID).ToArray
+
+                If Not massIndex.ContainsKey(mass.ID) Then
+                    If mass.ID Like templates Then
+                        channels = {}
+                    Else
+                        Throw New InvalidConstraintException($"missing dynamics for compound: " & mass.ID)
+                    End If
+                Else
+                    channels = massIndex(mass.ID).ToArray
+                End If
 
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _

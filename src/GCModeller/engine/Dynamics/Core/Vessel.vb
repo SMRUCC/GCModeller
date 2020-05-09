@@ -116,7 +116,7 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Function Initialize(Optional timeResolution# = 1000) As Vessel
+        Public Function Initialize(Optional timeResolution# = 10000) As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
@@ -175,58 +175,6 @@ Namespace Core
             Dim iterator = New SolverIterator(New RungeKutta4(ODEs)).Config(ODEs.GetY0(False), resolution, 0, maxTime)
 
             Return iterator
-        End Function
-
-        Private Function iterateFlux(reaction As Channel) As NamedValue(Of Double)
-            Dim regulate#
-            Dim flow As Directions = reaction.direct
-
-            Select Case flow
-                Case Directions.forward
-                    regulate = doForwardTransition(reaction)
-                Case Directions.reverse
-                    regulate = doReverseTransition(reaction)
-                Case Else
-                    ' no reaction will be happends
-                    regulate = 0
-            End Select
-
-            Return New NamedValue(Of Double)(reaction.ID, flow * regulate)
-        End Function
-
-        Friend Function doReverseTransition(reaction As Channel) As Double
-            Dim regulate = reaction.reverse.coefficient
-
-            If regulate > 0 Then
-                regulate = reaction.CoverRight(shareFactors.right, regulate)
-            End If
-            If regulate > 0 Then
-                Call reaction.Transition(regulate, Directions.reverse)
-            End If
-
-            Return regulate
-        End Function
-
-        ''' <summary>
-        ''' 消耗左边，产生右边
-        ''' </summary>
-        ''' <param name="reaction"></param>
-        ''' <returns></returns>
-        Friend Function doForwardTransition(reaction As Channel) As Double
-            Dim regulate = reaction.forward.coefficient
-
-            If regulate > 0 Then
-                ' 当前是具有调控效应的
-                ' 接着计算最小的反应单位
-                regulate = reaction.CoverLeft(shareFactors.left, regulate)
-            End If
-            If regulate > 0 Then
-                ' 当前的过程是可以进行的
-                ' 则进行物质的转移的计算
-                Call reaction.Transition(regulate, Directions.forward)
-            End If
-
-            Return regulate
         End Function
 
         ''' <summary>

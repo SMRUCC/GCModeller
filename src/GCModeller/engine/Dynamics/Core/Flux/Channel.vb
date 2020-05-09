@@ -115,26 +115,6 @@ Namespace Core
         End Function
 
         ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="reactUnit"></param>
-        ''' <param name="dir"></param>
-        ''' <remarks>
-        ''' 模板物质的容量是不会发生变化的
-        ''' </remarks>
-        Public Sub Transition(reactUnit As Double, dir As Directions)
-            reactUnit = reactUnit * dir
-
-            ' 一般左边为模板
-            For Each mass In left.Where(Function(m) Not m.isTemplate)
-                mass.mass.Value -= reactUnit * mass.coefficient
-            Next
-            For Each mass In right
-                mass.mass.Value += reactUnit * mass.coefficient
-            Next
-        End Sub
-
-        ''' <summary>
         ''' 得到当前的物质内容所能够支撑的最小反应单位
         ''' </summary>
         ''' <param name="factors"></param>
@@ -143,26 +123,33 @@ Namespace Core
         Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), factors As IEnumerable(Of Variable), regulation#, max#) As Double
             Return factors _
                 .Select(Function(v)
-                            Dim r = regulation * v.coefficient
-                            Dim shares# = parallel(v.mass.ID)
-                            Dim massUnit = v.mass.Value / shares
-                            Dim reactionUnit As Double
+                            Dim reactionUnit = minimalUnit(parallel, regulation, v)
+                            Dim unit As Double = Math.Min(reactionUnit, max)
 
-                            If r > massUnit Then
-                                ' 消耗的已经超过了当前的容量
-                                ' 则最小的反应单位是当前的物质容量
-
-                                ' 如果某一个物质的容量是零，则表示没有反应物可以被利用了
-                                ' 则计算出来的最小反应单位是零
-                                ' 即此反应过程不可能会发生
-                                reactionUnit = massUnit / v.coefficient
-                            Else ' 能够正常的以当前的反应单位进行
-                                reactionUnit = regulation
-                            End If
-
-                            Return Math.Min(reactionUnit, max)
+                            Return unit
                         End Function) _
                 .Min
+        End Function
+
+        Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), regulation#, v As Variable) As Double
+            Dim r = regulation * v.coefficient
+            Dim shares# = parallel(v.mass.ID)
+            Dim massUnit = v.mass.Value / shares
+            Dim reactionUnit As Double
+
+            If r > massUnit Then
+                ' 消耗的已经超过了当前的容量
+                ' 则最小的反应单位是当前的物质容量
+
+                ' 如果某一个物质的容量是零，则表示没有反应物可以被利用了
+                ' 则计算出来的最小反应单位是零
+                ' 即此反应过程不可能会发生
+                reactionUnit = massUnit / v.coefficient
+            Else ' 能够正常的以当前的反应单位进行
+                reactionUnit = regulation
+            End If
+
+            Return reactionUnit
         End Function
 
         Public Overrides Function ToString() As String

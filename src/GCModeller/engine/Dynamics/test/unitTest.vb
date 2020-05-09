@@ -60,23 +60,23 @@ Module unitTest
 
         Dim a As New Factor With {.ID = "a", .Value = 1000}
         Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
+        Dim reaction As New Channel({New Variable(a, 3, True)}, {New Variable(b, 1)}) With {
             .bounds = {10, 500},
             .ID = "a->b",
-            .forward = CType(300, AdditiveControls),
-            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
+            .forward = CType(10, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
         Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
 
-        machine.Initialize()
+        machine.Initialize(10000)
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100000)
+        Dim dynamics = machine.ContainerIterator(100)
         Dim cache As New FluxAggregater(machine)
 
-        For i As Integer = 0 To 100000
+        For i As Integer = 0 To 10000
             Call dynamics.Tick()
 
             flux += New DataSet With {
@@ -103,9 +103,9 @@ Module unitTest
 
         Dim a As New Factor With {.ID = "a", .Value = 1000}
         Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim c As New Factor With {.ID = "c", .Value = 1000}
-        Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 2)}) With {
-            .bounds = {10, 500},
+        Dim c As New Factor With {.ID = "c", .Value = 10000}
+        Dim reaction As New Channel({New Variable(a, 3)}, {New Variable(b, 2)}) With {
+            .bounds = {100, 5},
             .ID = "a->b",
             .forward = CType(300, AdditiveControls),
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(b, 1)}}
@@ -117,24 +117,34 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
         }
         Dim reaction3 As New Channel({New Variable(c, 4)}, {New Variable(a, 1)}) With {
-            .bounds = {10, 500},
+            .bounds = {10, 5},
             .ID = "c->a",
             .forward = CType(300, AdditiveControls),
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 0.01)}}
         }
 
-        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3}).load({a, b, c})
+        Dim reaction4 As New Channel({New Variable(b, 1), New Variable(a, 1)}, {New Variable(c, 2)}) With {
+            .bounds = {100, 1},
+            .ID = "ba->c",
+            .forward = CType(300, AdditiveControls),
+            .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
+        }
 
-        machine.Initialize()
+        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3, reaction4}).load({a, b, c})
+
+        machine.Initialize(10000)
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100000)
+        Dim dynamics = machine.ContainerIterator(100)
+        Dim cache As New FluxAggregater(machine)
 
-        For i As Integer = 0 To 100000
+        For i As Integer = 0 To 2500
+            dynamics.Tick()
+
             flux += New DataSet With {
                 .ID = i,
-                .Properties = .ToDictionary.FlatTable
+                .Properties = cache.getFlux
             }
             snapshots += New DataSet With {
                 .ID = i,
