@@ -107,6 +107,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSetDriver.vb" />
     <Compile Include="Summary.vb" />
     <Compile Include="Visualizer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
