@@ -61,7 +61,7 @@ Namespace Engine
     Public Class Engine : Inherits FluxEmulator
         Implements ITaskDriver
 
-        Friend dataStorageDriver As IOmicsDataAdapter
+        Public ReadOnly Property dataStorageDriver As IOmicsDataAdapter
 
         ''' <summary>
         ''' The argument of the cellular flux dynamics
@@ -74,7 +74,6 @@ Namespace Engine
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property initials As Definition
-
         Public ReadOnly Property debugView As DebuggerView
 
         Sub New(def As Definition, dynamics As FluxBaseline,
@@ -82,7 +81,7 @@ Namespace Engine
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True)
 
-            Call MyBase.New(iterations, timeResolution, showProgress)
+            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
 
             Me.initials = def
             Me.dynamics = dynamics
@@ -99,7 +98,11 @@ Namespace Engine
         ''' <param name="driver"></param>
         ''' <returns></returns>
         Public Function AttachBiologicalStorage(driver As IOmicsDataAdapter) As Engine
-            dataStorageDriver = driver
+            _dataStorageDriver = driver
+
+            Call AttatchMassDriver(AddressOf driver.MassSnapshot)
+            Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
+
             Return Me
         End Function
 
@@ -150,17 +153,5 @@ Namespace Engine
 
             Return MyBase.Run
         End Function
-
-        Protected Overrides Sub loopInternal(tick As Action(Of Integer))
-            Call MyBase.loopInternal(
-                Sub(i)
-                    If Not dataStorageDriver Is Nothing Then
-                        Call dataStorageDriver.FluxSnapshot(i, snapshot.flux)
-                        Call dataStorageDriver.MassSnapshot(i, snapshot.mass)
-                    End If
-
-                    Call tick(i)
-                End Sub)
-        End Sub
     End Class
 End Namespace
