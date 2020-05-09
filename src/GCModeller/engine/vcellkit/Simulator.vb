@@ -195,8 +195,8 @@ Public Module Simulator
     <ExportAPI("vcell.snapshot")>
     <Extension>
     Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)
-        Dim massSnapshot = engine.snapshot.mass
-        Dim fluxSnapshot = engine.snapshot.flux
+        Dim massSnapshot = DirectCast(engine.dataStorageDriver, FinalSnapshotDriver).mass
+        Dim fluxSnapshot = DirectCast(engine.dataStorageDriver, FinalSnapshotDriver).flux
 
         ' rRNA, tRNA会在这产生重复
         ' 所以在这里会需要进行一次去重操作

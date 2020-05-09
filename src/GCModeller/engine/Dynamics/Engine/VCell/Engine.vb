@@ -61,7 +61,7 @@ Namespace Engine
     Public Class Engine : Inherits FluxEmulator
         Implements ITaskDriver
 
-        Friend dataStorageDriver As IOmicsDataAdapter
+        Public ReadOnly Property dataStorageDriver As IOmicsDataAdapter
 
         ''' <summary>
         ''' The argument of the cellular flux dynamics
@@ -98,7 +98,7 @@ Namespace Engine
         ''' <param name="driver"></param>
         ''' <returns></returns>
         Public Function AttachBiologicalStorage(driver As IOmicsDataAdapter) As Engine
-            dataStorageDriver = driver
+            _dataStorageDriver = driver
 
             Call AttatchMassDriver(AddressOf driver.MassSnapshot)
             Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
