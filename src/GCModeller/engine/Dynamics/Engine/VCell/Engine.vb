@@ -81,7 +81,7 @@ Namespace Engine
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True)
 
-            Call MyBase.New(iterations, timeResolution, showProgress)
+            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
 
             Me.initials = def
             Me.dynamics = dynamics

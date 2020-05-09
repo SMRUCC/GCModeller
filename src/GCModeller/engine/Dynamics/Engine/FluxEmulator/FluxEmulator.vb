@@ -24,12 +24,20 @@ Namespace Engine
         Dim massSnapshotDriver As SnapshotDriver
         Dim fluxSnapshotDriver As SnapshotDriver
 
-        Sub New(maxTime As Integer, Optional resolution As Integer = 10000, Optional showProgress As Boolean = True)
+        Sub New(Optional core As Vessel = Nothing,
+                Optional maxTime As Integer = 50,
+                Optional resolution As Integer = 10000,
+                Optional showProgress As Boolean = True)
+
             Me.showProgress = showProgress
             Me.maxTime = maxTime
             Me.resolution = resolution
 
-            core = New Vessel
+            If Not core Is Nothing Then
+                Me.core = core
+            Else
+                Me.core = New Vessel
+            End If
         End Sub
 
         Public Function AttatchMassDriver(driver As SnapshotDriver) As FluxEmulator
