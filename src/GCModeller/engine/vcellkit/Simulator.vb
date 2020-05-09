@@ -152,9 +152,10 @@ Public Module Simulator
             def:=inits,
             dynamics:=dynamics Or defaultDynamics,
             iterations:=iterations,
-            showProgress:=showProgress
+            showProgress:=showProgress,
+            timeResolution:=time_resolutions
         ) _
-        .LoadModel(vcell, deletions, time_resolutions)
+        .LoadModel(vcell, deletions)
     End Function
 
     ''' <summary>

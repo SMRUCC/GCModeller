@@ -89,6 +89,10 @@ Namespace Engine
             Me.debugView = New DebuggerView(Me)
         End Sub
 
+        Friend Function getMassPool() As MassTable
+            Return mass
+        End Function
+
         ''' <summary>
         ''' Attach the biological data storage driver
         ''' </summary>
