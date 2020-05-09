@@ -74,7 +74,7 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
             .bounds = {10, 10},
             .ID = "a->b",
-            .forward = New Kinetics(machine, model) With {.baseline = 0, .inhibition = {}},
+            .forward = New KineticsControls(machine, model) With {.baseline = 0, .inhibition = {}},
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
