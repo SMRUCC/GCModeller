@@ -205,7 +205,7 @@ Namespace Engine
 
             For i As Integer = 0 To iterations
                 ' run internal engine iteration
-                Call engine.Tick()
+                engine.Tick()
                 ' and then populate result data snapshot
                 _snapshot = (mass.GetMassValues, flux.getFlux)
 

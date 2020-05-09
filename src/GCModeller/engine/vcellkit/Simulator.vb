@@ -138,8 +138,8 @@ Public Module Simulator
     ''' <returns></returns>
     <ExportAPI("engine.load")>
     Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
-                                      Optional iterations% = 5000,
-                                      Optional time_resolutions% = 1000,
+                                      Optional iterations% = 100,
+                                      Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
                                       Optional showProgress As Boolean = True) As Engine
@@ -149,12 +149,12 @@ Public Module Simulator
         ' and then load virtual cell model into 
         ' engine kernel
         Return New Engine(
-                def:=inits,
-                dynamics:=dynamics Or defaultDynamics,
-                iterations:=iterations,
-                showProgress:=showProgress
-            ) _
-            .LoadModel(vcell, deletions, time_resolutions)
+            def:=inits,
+            dynamics:=dynamics Or defaultDynamics,
+            iterations:=iterations,
+            showProgress:=showProgress
+        ) _
+        .LoadModel(vcell, deletions, time_resolutions)
     End Function
 
     ''' <summary>
