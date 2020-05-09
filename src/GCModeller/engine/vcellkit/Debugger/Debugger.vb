@@ -100,7 +100,18 @@ Module Debugger
     End Function
 
     <ExportAPI("flux.dynamics")>
-    Public Function createFluxDynamicsEngine(core As Vessel, Optional time% = 50, Optional resolution% = 10000, Optional showProgress As Boolean = True) As FluxEmulator
+    Public Function createFluxDynamicsEngine(core As Vessel,
+                                             Optional time% = 50,
+                                             Optional resolution% = 10000,
+                                             Optional showProgress As Boolean = True) As FluxEmulator
+
         Return New FluxEmulator(core, time, resolution, showProgress)
+    End Function
+
+    <ExportAPI("flux.load_driver")>
+    Public Function loadDataDriver(core As FluxEmulator, mass As DataSetDriver, flux As DataSetDriver) As FluxEmulator
+        Return core _
+            .AttatchMassDriver(AddressOf mass.SnapshotDriver) _
+            .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
     End Function
 End Module
