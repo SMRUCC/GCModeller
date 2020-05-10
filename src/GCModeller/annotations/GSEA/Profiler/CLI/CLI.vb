@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::8c5ba74c0cbe8855284665d3781f8071, annotations\GSEA\Profiler\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: CreateGOClusters, CreateKOCluster, CreateKOClusterFromBBH, EnrichmentTest, getMapsAuto
-    '               GSEA_GO, IDconverts
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: CreateGOClusters, CreateKOCluster, CreateKOClusterFromBBH, EnrichmentTest, getMapsAuto
+'               GSEA_GO, IDconverts
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 <CLI>
@@ -172,9 +173,40 @@ Public Module CLI
     <Usage("/GO.clusters.blastp /in <besthit.csv> /go <go.obo> [/out <clusters.XML>]")>
     Public Function GOCluster_blastp(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim go$ = args <= "/go"
+        Dim obo$ = args <= "/go"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_GO.XML"
-
+        Dim queryVsUniprot = [in] _
+            .LoadCsv(Of BestHit)(skipWhile:=Pipeline.SkipHitNotFound) _
+            .GroupBy(Function(q) q.QueryName) _
+            .ToArray
+        Dim go = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
+        Dim model As Background = GSEA.Imports _
+            .CreateBackground(
+                db:=queryVsUniprot,
+                createGene:=Function(g, terms)
+                                Return New BackgroundGene With {
+                                    .accessionID = g.Key,
+                                    .[alias] = {g.Key},
+                                    .locus_tag = New NamedValue With {
+                                        .name = g.Key,
+                                        .text = g.Key
+                                    },
+                                    .name = g.Key,
+                                    .term_id = terms
+                                }
+                            End Function,
+                getTerms:=Function(g)
+                              Return g _
+                                 .Select(Function(hit)
+                                             Return hit.HitName.Split("|"c).First.Split(","c)
+                                         End Function) _
+                                 .IteratesALL _
+                                 .Distinct _
+                                 .ToArray
+                          End Function,
+                define:=go
+            )
+        Return model.GetXml.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/id.converts")>
