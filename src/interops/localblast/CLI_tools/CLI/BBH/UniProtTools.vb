@@ -274,6 +274,15 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/UniProt.GO.assign")>
+    <Usage("/UniProt.GO.assign /in <query_vs_uniprot.GO.besthit> [/out <GO.csv>]")>
+    Public Function UniProtGoAssign(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.csv"
+        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound).ToArray
+
+    End Function
+
     ''' <summary>
     ''' 阈值筛选应该是发生在sbh导出的时候，在这里将不会做任何阈值筛选操作
     ''' </summary>
