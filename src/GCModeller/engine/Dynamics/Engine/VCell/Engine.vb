@@ -89,7 +89,7 @@ Namespace Engine
         End Sub
 
         Friend Function getMassPool() As MassTable
-            Return mass
+            Return New MassTable(core.m_massIndex)
         End Function
 
         ''' <summary>
@@ -114,7 +114,6 @@ Namespace Engine
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
                 .Initialize()
-            mass = getLoader.massTable
             _model = virtualCell
 
             Call Reset()
@@ -123,7 +122,7 @@ Namespace Engine
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
-                mass.GetByKey(geneTemplateId).Value = 0
+                core.m_massIndex(geneTemplateId).Value = 0
 
                 Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
             Next
@@ -135,7 +134,7 @@ Namespace Engine
         ''' Reset the reactor engine. (Do reset of the biological mass contents)
         ''' </summary>
         Public Sub Reset()
-            For Each mass As Factor In Me.mass
+            For Each mass As Factor In core.m_massIndex.Values
                 If initials.status.ContainsKey(mass.ID) Then
                     mass.Value = initials.status(mass.ID)
                 Else

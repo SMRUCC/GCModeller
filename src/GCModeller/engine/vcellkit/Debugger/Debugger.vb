@@ -63,7 +63,7 @@ Module Debugger
     End Sub
 
     <ExportAPI("map.flux")>
-    Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository) As Vessel
+    Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository, Optional init As Double = 1000) As Vessel
         Dim mass As New MassTable
         Dim list As String() = map.GetMembers _
             .Where(Function(id)
@@ -76,7 +76,12 @@ Module Debugger
         Dim left As String()
         Dim right As List(Of String)
 
-        For Each reaction As Reaction In list.Select(AddressOf reactions.GetByKey)
+        For Each reaction As Reaction In list _
+            .Select(AddressOf reactions.GetByKey) _
+            .Where(Function(r)
+                       Return Not r Is Nothing
+                   End Function)
+
             model = reaction.ReactionModel
             left = model.Reactants.Select(Function(a) a.ID).ToArray
             right = model.Products.Select(Function(a) a.ID).AsList
@@ -88,19 +93,38 @@ Module Debugger
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
                 .ID = reaction.ID,
                 .bounds = {10, 10},
-                .forward = Controls.StaticControl(1),
-                .reverse = Controls.StaticControl(1)
+                .forward = New AdditiveControls With {.baseline = 1, .activation = mass.variables(left, 1).ToArray, .inhibition = mass.variables(right, 0.5).ToArray},
+                .reverse = New AdditiveControls With {.baseline = 1, .activation = mass.variables(right, 1).ToArray, .inhibition = mass.variables(left, 0.5).ToArray}
             }
         Next
+
+        Dim reset_data As Dictionary(Of String, Double) = mass _
+            .AsEnumerable _
+            .ToDictionary(Function(a) a.ID,
+                          Function()
+                              Return init
+                          End Function)
 
         Return New Vessel() _
             .load(mass.AsEnumerable) _
             .load(fluxes) _
-            .Initialize
+            .Initialize _
+            .Reset(reset_data)
     End Function
 
     <ExportAPI("flux.dynamics")>
-    Public Function createFluxDynamicsEngine(core As Vessel, Optional time% = 50, Optional resolution% = 10000, Optional showProgress As Boolean = True) As FluxEmulator
+    Public Function createFluxDynamicsEngine(core As Vessel,
+                                             Optional time% = 50,
+                                             Optional resolution% = 10000,
+                                             Optional showProgress As Boolean = True) As FluxEmulator
+
         Return New FluxEmulator(core, time, resolution, showProgress)
+    End Function
+
+    <ExportAPI("flux.load_driver")>
+    Public Function loadDataDriver(core As FluxEmulator, mass As DataSetDriver, flux As DataSetDriver) As FluxEmulator
+        Return core _
+            .AttatchMassDriver(AddressOf mass.SnapshotDriver) _
+            .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
     End Function
 End Module

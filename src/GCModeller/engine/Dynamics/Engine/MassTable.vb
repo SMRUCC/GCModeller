@@ -75,6 +75,13 @@ Namespace Engine
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(cache As Dictionary(Of String, Factor))
+            massTable = cache
+        End Sub
+
         Public Sub Delete(key As String) Implements IRepositoryWrite(Of String, Factor).Delete
             If massTable.ContainsKey(key) Then
                 Call massTable.Remove(key)
