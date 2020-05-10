@@ -277,6 +277,9 @@ Partial Module CLI
     <ExportAPI("/UniProt.GO.assign")>
     <Usage("/UniProt.GO.assign /in <query_vs_uniprot.GO.besthit> [/out <GO.csv>]")>
     Public Function UniProtGoAssign(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.GO.csv"
+        Dim queryVsUniprot As BestHit() = [in].LoadCsv(Of BestHit)(skipWhile:=SkipHitNotFound).ToArray
 
     End Function
 
