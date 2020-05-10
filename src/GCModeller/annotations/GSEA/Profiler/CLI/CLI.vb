@@ -167,6 +167,16 @@ Public Module CLI
         Return model.GetXml.SaveTo(out).CLICode
     End Function
 
+    <ExportAPI("/GO.clusters.blastp")>
+    <Description("Create GO clusters from the blastp besthit dataset.")>
+    <Usage("/GO.clusters.blastp /in <besthit.csv> /go <go.obo> [/out <clusters.XML>]")>
+    Public Function GOCluster_blastp(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim go$ = args <= "/go"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}_GO.XML"
+
+    End Function
+
     <ExportAPI("/id.converts")>
     <Usage("/id.converts /uniprot <uniprot.XML> /geneSet <geneSet.txt> [/out <converts.txt>]")>
     Public Function IDconverts(args As CommandLine) As Integer
