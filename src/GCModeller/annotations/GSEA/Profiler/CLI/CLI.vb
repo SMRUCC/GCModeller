@@ -170,7 +170,7 @@ Public Module CLI
 
     <ExportAPI("/GO.clusters.blastp")>
     <Description("Create GO clusters from the blastp besthit dataset.")>
-    <Usage("/GO.clusters.blastp /in <besthit.csv> /go <go.obo> [/out <clusters.XML>]")>
+    <Usage("/GO.clusters.blastp /in <besthit.csv> /go <go.obo> [/size <default=-1> /out <clusters.XML>]")>
     Public Function GOCluster_blastp(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim obo$ = args <= "/go"
@@ -179,6 +179,7 @@ Public Module CLI
             .LoadCsv(Of BestHit)(skipWhile:=Pipeline.SkipHitNotFound) _
             .GroupBy(Function(q) q.QueryName) _
             .ToArray
+        Dim bgSize As Integer = args("/size") Or queryVsUniprot.Length
         Dim go = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
         Dim model As Background = GSEA.Imports _
             .CreateBackground(
@@ -206,6 +207,9 @@ Public Module CLI
                           End Function,
                 define:=go
             )
+
+        model.size = bgSize
+
         Return model.GetXml.SaveTo(out).CLICode
     End Function
 
