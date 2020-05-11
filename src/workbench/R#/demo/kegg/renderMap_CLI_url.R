@@ -20,7 +20,7 @@ using mapZip as open.zip(repo) {
 		mapId <- str_pad(as.integer($"\d+"(mapId)), 5, "left", "0");
 		mapId <- `map${mapId}.XML`;
 		
-		print(mapId);
+		print(url);
 		
 		if (mapId in allMaps) {
 			# render result as html output
