@@ -52,7 +52,7 @@ Namespace Engine
 
         Public ReadOnly Property mass As MassTable
             Get
-                Return engine.mass
+                Return engine.getMassPool
             End Get
         End Property
 

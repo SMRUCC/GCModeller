@@ -277,7 +277,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
 
         Call $"Loading kegg reaction repository: {directory}...".__DEBUG_ECHO(waitOutput:=True)
 
-        For Each Xml As String In ls - l - r - "*.Xml" <= directory
+        For Each Xml As String In ls - l - r - {"*.Xml", "*.xml"} <= directory
             With Reaction.LoadXml(handle:=Xml)
                 If Not list.ContainsKey(.ID) Then
                     list(.ID) = .ByRef

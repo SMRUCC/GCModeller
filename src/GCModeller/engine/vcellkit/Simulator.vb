@@ -138,8 +138,8 @@ Public Module Simulator
     ''' <returns></returns>
     <ExportAPI("engine.load")>
     Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
-                                      Optional iterations% = 5000,
-                                      Optional time_resolutions% = 1000,
+                                      Optional iterations% = 100,
+                                      Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
                                       Optional showProgress As Boolean = True) As Engine
@@ -149,12 +149,13 @@ Public Module Simulator
         ' and then load virtual cell model into 
         ' engine kernel
         Return New Engine(
-                def:=inits,
-                dynamics:=dynamics Or defaultDynamics,
-                iterations:=iterations,
-                showProgress:=showProgress
-            ) _
-            .LoadModel(vcell, deletions, time_resolutions)
+            def:=inits,
+            dynamics:=dynamics Or defaultDynamics,
+            iterations:=iterations,
+            showProgress:=showProgress,
+            timeResolution:=time_resolutions
+        ) _
+        .LoadModel(vcell, deletions)
     End Function
 
     ''' <summary>
@@ -194,8 +195,8 @@ Public Module Simulator
     <ExportAPI("vcell.snapshot")>
     <Extension>
     Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)
-        Dim massSnapshot = engine.snapshot.mass
-        Dim fluxSnapshot = engine.snapshot.flux
+        Dim massSnapshot = DirectCast(engine.dataStorageDriver, FinalSnapshotDriver).mass
+        Dim fluxSnapshot = DirectCast(engine.dataStorageDriver, FinalSnapshotDriver).flux
 
         ' rRNA, tRNA会在这产生重复
         ' 所以在这里会需要进行一次去重操作

@@ -71,4 +71,23 @@ Namespace Engine
         Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
         Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
     End Interface
+
+    Public Class FinalSnapshotDriver : Implements IOmicsDataAdapter
+
+        Private ReadOnly Property massIndex As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
+
+        Public ReadOnly Property mass As Dictionary(Of String, Double)
+        Public ReadOnly Property flux As Dictionary(Of String, Double)
+
+        Sub New()
+        End Sub
+
+        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
+            _mass = data
+        End Sub
+
+        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
+            _flux = data
+        End Sub
+    End Class
 End Namespace

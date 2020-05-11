@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::dd720a29338d91dc4b107a2523c922dc, Dynamics\Core\Vessel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Vessel
-    ' 
-    '         Properties: Channels, MassEnvironment
-    ' 
-    '         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
-    '                   iterateFlux, Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Vessel
+' 
+'         Properties: Channels, MassEnvironment
+' 
+'         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
+'                   iterateFlux, Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
@@ -91,14 +92,13 @@ Namespace Core
         ''' </summary>
         Friend shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
-        ''' <summary>
-        ''' 反应过程在时间上的分辨率，这个参数值必须是大于或者等于1的
-        ''' </summary>
-        Dim resolution As Double
-
         Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
         Friend m_dynamics As MassDynamics()
+
+        Public Function getMassValues() As Dictionary(Of String, Double)
+            Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+        End Function
 
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
             m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
@@ -110,23 +110,16 @@ Namespace Core
             Return Me
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="timeResolution">反应变换的时间分辨率</param>
-        Public Function Initialize(Optional timeResolution# = 1000) As Vessel
+        Public Function Initialize() As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
-            If timeResolution < 1 Then
-                timeResolution = 1
-            End If
-
-            resolution = timeResolution
             shareFactors = (sharedLeft, sharedRight)
-
-            ' create dynamics equation for RK4 ODEs solver
-            m_dynamics = MassDynamics.PopulateDynamics(Me).ToArray
+            ' create dynamics equation for 
+            ' RK4 ODEs solver
+            m_dynamics = MassDynamics _
+                .PopulateDynamics(Me) _
+                .ToArray
 
             Return Me
         End Function
@@ -152,68 +145,23 @@ Namespace Core
         ''' <summary>
         ''' 当前的这个微环境的迭代器
         ''' </summary>
-        Public Iterator Function ContainerIterator() As IEnumerable(Of NamedValue(Of Double))
-            ' 在这里将原始序列随机打乱来模拟现实世界中的平行发生的事件
-            ' 因为在这里会涉及到mass对象的值的修改
-            ' 所以无法使用多线程进行并行计算
-            ' 在这里只能够使用随机+串联来模拟平行事件
-            For Each reaction As Channel In Channels.Shuffles
-                ' 不可以使用Where直接在for循环外进行筛选
-                ' 因为环境是不断地变化的
-                Yield iterateFlux(reaction)
-            Next
-        End Function
-
-        Private Function iterateFlux(reaction As Channel) As NamedValue(Of Double)
-            Dim regulate#
-            Dim flow As Directions = reaction.direct
-
-            Select Case flow
-                Case Directions.forward
-                    regulate = doForwardTransition(reaction)
-                Case Directions.reverse
-                    regulate = doReverseTransition(reaction)
-                Case Else
-                    ' no reaction will be happends
-                    regulate = 0
-            End Select
-
-            Return New NamedValue(Of Double)(reaction.ID, flow * regulate)
-        End Function
-
-        Friend Function doReverseTransition(reaction As Channel) As Double
-            Dim regulate = reaction.reverse.coefficient
-
-            If regulate > 0 Then
-                regulate = reaction.CoverRight(shareFactors.right, regulate)
-            End If
-            If regulate > 0 Then
-                Call reaction.Transition(regulate, Directions.reverse)
+        ''' <param name="maxTime">最大的模拟时间长度</param>
+        ''' <param name="resolution">时间分辨率，这个值应该是大于<paramref name="maxTime"/>参数的一个值</param>
+        Public Function ContainerIterator(maxTime As Integer, resolution As Integer) As SolverIterator
+            If resolution < maxTime Then
+                Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
             End If
 
-            Return regulate
-        End Function
+            Dim vector As MassDynamics() = m_dynamics
+            Dim df = Sub(dx#, ByRef dy As stdVec)
+                         For Each x As MassDynamics In vector
+                             dy(x) = x.Evaluate()
+                         Next
+                     End Sub
+            Dim ODEs As New GenericODEs(vector, df)
+            Dim iterator = New SolverIterator(New RungeKutta4(ODEs)).Config(ODEs.GetY0(False), resolution, 0, maxTime)
 
-        ''' <summary>
-        ''' 消耗左边，产生右边
-        ''' </summary>
-        ''' <param name="reaction"></param>
-        ''' <returns></returns>
-        Friend Function doForwardTransition(reaction As Channel) As Double
-            Dim regulate = reaction.forward.coefficient
-
-            If regulate > 0 Then
-                ' 当前是具有调控效应的
-                ' 接着计算最小的反应单位
-                regulate = reaction.CoverLeft(shareFactors.left, regulate)
-            End If
-            If regulate > 0 Then
-                ' 当前的过程是可以进行的
-                ' 则进行物质的转移的计算
-                Call reaction.Transition(regulate, Directions.forward)
-            End If
-
-            Return regulate
+            Return iterator
         End Function
 
         ''' <summary>

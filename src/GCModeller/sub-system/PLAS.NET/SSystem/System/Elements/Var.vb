@@ -53,6 +53,8 @@ Namespace Kernel.ObjectModels
     Public Class var : Inherits VariableObject
         Implements Ivar
 
+        Public Overrides Property Id As String Implements Ivar.Identity
+
         <XmlAttribute> Public Property title As String
         <XmlAttribute> Public Overrides Property Value As Double Implements Ivar.value
 
@@ -72,7 +74,7 @@ Namespace Kernel.ObjectModels
         End Operator
 
         Public Overloads Shared Narrowing Operator CType(e As var) As String
-            Return IIf(Len(e.title) > 0, e.title, e.Id)
+            Return If(Len(e.title) > 0, e.title, e.Id)
         End Operator
 
         Public Overloads Shared Widening Operator CType(e As Specie) As var

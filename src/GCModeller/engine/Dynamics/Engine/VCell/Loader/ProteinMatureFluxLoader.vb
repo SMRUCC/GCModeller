@@ -72,7 +72,7 @@ Namespace Engine.ModelLoader
             For Each complex As Protein In cell.Phenotype.proteins
                 For Each compound In complex.compounds
                     If Not MassTable.Exists(compound) Then
-                        Call MassTable.AddNew(compound)
+                        Call MassTable.AddNew(compound, MassRoles.compound)
                     End If
                 Next
                 For Each peptide In complex.polypeptides

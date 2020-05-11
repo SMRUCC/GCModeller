@@ -95,6 +95,10 @@ Namespace Assembly.KEGG.WebServices
         <XmlElement("KEGGmap")>
         Public Property PathwayImage As String
 
+        ''' <summary>
+        ''' Get all member id list from this pathway map object.
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetMembers() As String()
             Return shapes _
