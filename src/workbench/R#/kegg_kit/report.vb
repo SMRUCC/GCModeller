@@ -104,7 +104,7 @@ Module report
     ''' generate the kegg pathway map highlight image render result
     ''' </summary>
     ''' <param name="map">the blank template of the kegg map</param>
-    ''' <param name="highlights">a list of object with color highlights</param>
+    ''' <param name="highlights">a list of object with color highlights, or url</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
@@ -141,6 +141,8 @@ Module report
                             }
                         End Function) _
                 .ToArray
+        ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
+            Return URLEncoder.URLParser(getFirst(highlights)).value
         Else
             Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If
