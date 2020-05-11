@@ -72,7 +72,7 @@ Imports vcellkit
     End Function
 
     <ExportAPI("/run")>
-    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /iterations <default=5000> /json /out <raw/result_directory>]")>
+    <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /time <default=100> /json /out <raw/result_directory>]")>
     <Description("Run GCModeller VirtualCell.")>
     <Argument("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
@@ -86,7 +86,7 @@ Imports vcellkit
         Dim deletes As String() = args("/deletes").getDeletionList
         Dim jsonFormat As Boolean = args("/json")
         Dim out$ = args("/out") Or If(jsonFormat, $"{in$.TrimSuffix}.vcell_simulation/", $"{in$.TrimSuffix}.vcell_simulation.raw")
-        Dim iterations% = args("/iterations") Or 5000
+        Dim iterations% = args("/time") Or 100
         Dim model As VirtualCell = [in].LoadXml(Of VirtualCell)
         Dim def As Definition = model.CreateUnifyDefinition
         Dim cell As CellularModule = model.CreateModel
@@ -94,7 +94,9 @@ Imports vcellkit
         If jsonFormat Then
             Dim massIndex = OmicsDataAdapter.GetMassTuples(cell)
             Dim fluxIndex = OmicsDataAdapter.GetFluxTuples(cell)
-            Dim engine As Engine = New Engine(def, New FluxBaseline, iterations).LoadModel(cell, deletes, 10)
+            Dim engine As Engine = New Engine(def, New FluxBaseline, iterations) _
+                .LoadModel(cell, deletes) _
+                .AttachBiologicalStorage(New FinalSnapshotDriver)
 
             Call engine.Run()
             Call engine.TakeStatusSnapshot(massIndex, fluxIndex, save:=out)
@@ -103,16 +105,13 @@ Imports vcellkit
         Else
             Dim loader As Loader = Nothing
             Dim engine As New Engine(def, New FluxBaseline, iterations)
+            Dim snapshot As New FinalSnapshotDriver
 
-            Call engine.LoadModel(cell, deletes,, getLoader:=loader)
+            Call engine.LoadModel(cell, deletes, getLoader:=loader).AttachBiologicalStorage(snapshot)
 
             Using rawStorage As New Raw.StorageDriver(out, loader, cell)
-                Call engine.Run()
-                ' Call engine.AttachBiologicalStorage(rawStorage).Run()
+                Call engine.AttachBiologicalStorage(rawStorage).Run()
             End Using
-
-            Call engine.snapshot.flux.GetJson.SaveTo($"{out.TrimSuffix}.flux.json")
-            Call engine.snapshot.mass.GetJson.SaveTo($"{out.TrimSuffix}.mass.json")
 
             Return 0
         End If

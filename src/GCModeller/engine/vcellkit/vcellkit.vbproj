@@ -211,6 +211,10 @@
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
@@ -224,7 +228,7 @@
       <Name>SBML</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
-      <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
+      <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
       <Name>CompilerServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Compiler\Compiler.vbproj">

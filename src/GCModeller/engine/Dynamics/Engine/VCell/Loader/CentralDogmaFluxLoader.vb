@@ -97,7 +97,7 @@ Namespace Engine.ModelLoader
             Else
                 charged_tRNA.Add(AA, chargeName)
                 uncharged_tRNA.Add(AA, cd.RNAName)
-                MassTable.AddNew(chargeName)
+                MassTable.AddNew(chargeName, MassRoles.tRNA)
             End If
 
             Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP), MassTable.variable(loader.define.AminoAcid(AA))}
@@ -118,7 +118,7 @@ Namespace Engine.ModelLoader
             Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref)).ToArray
             Dim flux As Channel
 
-            MassTable.AddNew(NameOf(ribosomeAssembly))
+            MassTable.AddNew(NameOf(ribosomeAssembly), MassRoles.protein)
             flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
                 .ID = NameOf(ribosomeAssembly),
                 .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
@@ -172,13 +172,13 @@ Namespace Engine.ModelLoader
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
-                Call MassTable.AddNew(cd.geneID)
-                Call MassTable.AddNew(cd.RNAName)
+                Call MassTable.AddNew(cd.geneID, MassRoles.gene)
 
                 If Not cd.polypeptide Is Nothing Then
-                    Call MassTable.AddNew(cd.polypeptide)
+                    Call MassTable.AddNew(cd.polypeptide, MassRoles.popypeptide)
                     Call mRNA.Add(cd.geneID)
                     Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
+                    Call MassTable.AddNew(cd.RNAName, MassRoles.mRNA)
                 Else
                     Call componentRNA.Add(cd.geneID)
 
@@ -190,12 +190,14 @@ Namespace Engine.ModelLoader
                                 End If
 
                                 rRNA(cd.RNA.Description).Add(cd.RNAName)
+                                MassTable.AddNew(cd.RNAName, MassRoles.rRNA)
                             Case RNATypes.tRNA
                                 If Not tRNA.ContainsKey(cd.RNA.Description) Then
                                     tRNA.Add(cd.RNA.Description, New List(Of String))
                                 End If
 
                                 tRNA(cd.RNA.Description).Add(cd.RNAName)
+                                MassTable.AddNew(cd.RNAName, MassRoles.tRNA)
 
                                 For Each proc As Channel In tRNAProcess(cd)
                                     Yield proc

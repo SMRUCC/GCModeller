@@ -46,11 +46,8 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
@@ -61,49 +58,39 @@ Namespace Engine
     ''' <summary>
     ''' The GCModeller VirtualCell dynamics engine module
     ''' </summary>
-    Public Class Engine : Implements ITaskDriver
+    Public Class Engine : Inherits FluxEmulator
+        Implements ITaskDriver
 
-        ''' <summary>
-        ''' A snapshot of the compounds mass
-        ''' </summary>
-        Friend mass As MassTable
-        Friend dataStorageDriver As IOmicsDataAdapter
-
-        ''' <summary>
-        ''' The biological flux simulator engine core module
-        ''' </summary>
-        Dim core As Vessel
+        Public ReadOnly Property dataStorageDriver As IOmicsDataAdapter
 
         ''' <summary>
         ''' The argument of the cellular flux dynamics
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property dynamics As FluxBaseline
-
-        Dim iterations As Integer = 5000
-        Dim showProgress As Boolean = True
-
         Public ReadOnly Property model As CellularModule
         ''' <summary>
         ''' The compound map definition and the initial status
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property initials As Definition
-
-        ''' <summary>
-        ''' Data snapshot of current iteration.
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property snapshot As (mass As Dictionary(Of String, Double), flux As Dictionary(Of String, Double))
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, dynamics As FluxBaseline, Optional iterations% = 5000, Optional showProgress As Boolean = True)
+        Sub New(def As Definition, dynamics As FluxBaseline,
+                Optional iterations% = 500,
+                Optional timeResolution# = 10000,
+                Optional showProgress As Boolean = True)
+
+            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
+
             Me.initials = def
-            Me.iterations = iterations
             Me.dynamics = dynamics
             Me.debugView = New DebuggerView(Me)
-            Me.showProgress = showProgress
         End Sub
+
+        Friend Function getMassPool() As MassTable
+            Return New MassTable(core.m_massIndex)
+        End Function
 
         ''' <summary>
         ''' Attach the biological data storage driver
@@ -111,24 +98,22 @@ Namespace Engine
         ''' <param name="driver"></param>
         ''' <returns></returns>
         Public Function AttachBiologicalStorage(driver As IOmicsDataAdapter) As Engine
-            dataStorageDriver = driver
-            Return Me
-        End Function
+            _dataStorageDriver = driver
 
-        Public Function getCore() As Vessel
-            Return core
+            Call AttatchMassDriver(AddressOf driver.MassSnapshot)
+            Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
+
+            Return Me
         End Function
 
         Public Function LoadModel(virtualCell As CellularModule,
                                   Optional deletions As IEnumerable(Of String) = Nothing,
-                                  Optional timeResolution# = 1000,
                                   Optional ByRef getLoader As Loader = Nothing) As Engine
 
             getLoader = New Loader(initials, dynamics)
             core = getLoader _
                 .CreateEnvironment(virtualCell) _
-                .Initialize(timeResolution)
-            mass = getLoader.massTable
+                .Initialize()
             _model = virtualCell
 
             Call Reset()
@@ -137,7 +122,7 @@ Namespace Engine
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
-                mass.GetByKey(geneTemplateId).Value = 0
+                core.m_massIndex(geneTemplateId).Value = 0
 
                 Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
             Next
@@ -149,7 +134,7 @@ Namespace Engine
         ''' Reset the reactor engine. (Do reset of the biological mass contents)
         ''' </summary>
         Public Sub Reset()
-            For Each mass As Factor In Me.mass
+            For Each mass As Factor In core.m_massIndex.Values
                 If initials.status.ContainsKey(mass.ID) Then
                     mass.Value = initials.status(mass.ID)
                 Else
@@ -158,64 +143,14 @@ Namespace Engine
             Next
         End Sub
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetMass(names As IEnumerable(Of String)) As IEnumerable(Of Factor)
-            Return mass.GetByKey(names)
-        End Function
-
-        Public Function Run() As Integer Implements ITaskDriver.Run
+        Public Overrides Function Run() As Integer Implements ITaskDriver.Run
             If dataStorageDriver Is Nothing Then
                 Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
                 Call VBDebugger.WaitOutput()
                 Call Console.WriteLine()
             End If
 
-            Dim tick As Action(Of Integer)
-            Dim process As ProgressBar = Nothing
-            Dim progress As ProgressProvider = Nothing
-
-            If showProgress Then
-                process = New ProgressBar("Running simulator...")
-                progress = New ProgressProvider(process, iterations)
-
-                tick = Sub(i)
-                           Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
-                               .DoCall(Sub(msg)
-                                           Call process.SetProgress(progress.StepProgress, msg)
-                                       End Sub)
-                       End Sub
-            Else
-                tick = Sub()
-                           ' do nothing
-                       End Sub
-            End If
-
-            Call loopInternal(tick)
-
-            If Not process Is Nothing Then
-                Call process.Dispose()
-            End If
-
-            Return 0
+            Return MyBase.Run
         End Function
-
-        Private Sub loopInternal(tick As Action(Of Integer))
-            Dim engine As SolverIterator = core.ContainerIterator(iterations)
-            Dim flux As New FluxAggregater(core)
-
-            For i As Integer = 0 To iterations
-                ' run internal engine iteration
-                Call engine.Tick()
-                ' and then populate result data snapshot
-                _snapshot = (mass.GetMassValues, flux.getFlux)
-
-                If Not dataStorageDriver Is Nothing Then
-                    Call dataStorageDriver.FluxSnapshot(i, _snapshot.flux)
-                    Call dataStorageDriver.MassSnapshot(i, _snapshot.mass)
-                End If
-
-                Call tick(i)
-            Next
-        End Sub
     End Class
 End Namespace

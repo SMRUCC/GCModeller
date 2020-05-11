@@ -1,6 +1,6 @@
 ﻿Namespace Core
 
-    Public Class Kinetics : Inherits Controls
+    Public Class KineticsControls : Inherits Controls
 
         ''' <summary>
         ''' 计算出当前的调控效应单位
@@ -21,16 +21,16 @@
             End Get
         End Property
 
-        ReadOnly env As Vessel
         ReadOnly lambda As Func(Of Func(Of String, Double), Double)
         ReadOnly getMass As Func(Of String, Double)
         ReadOnly raw As Model.Kinetics
 
         Sub New(env As Vessel, lambda As Model.Kinetics)
-            Me.env = env
             Me.lambda = lambda.CompileLambda
             Me.raw = lambda
-            Me.getMass = Function(id) env.m_massIndex(id).Value
+            Me.getMass = Function(id)
+                             Return env.m_massIndex(id).Value
+                         End Function
         End Sub
 
         Public Overrides Function ToString() As String
