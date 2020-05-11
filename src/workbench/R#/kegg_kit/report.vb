@@ -108,13 +108,13 @@ Module report
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
-    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional env As Environment = Nothing) As Object
+    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()))
+            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()), textColor:=text_color)
         End If
     End Function
 
@@ -155,13 +155,13 @@ Module report
     ''' <returns></returns>
     ''' 
     <ExportAPI("keggMap.reportHtml")>
-    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional env As Environment = Nothing) As Object
+    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return ReportRender.Render(map, highlightObjs.TryCast(Of NamedValue(Of String)()))
+            Return ReportRender.Render(map, highlightObjs.TryCast(Of NamedValue(Of String)()), text_color:=text_color)
         End If
     End Function
 
