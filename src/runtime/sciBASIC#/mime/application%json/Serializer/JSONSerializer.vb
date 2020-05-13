@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.ValueTypes
 
 Public Module JSONSerializer
 
@@ -65,12 +66,14 @@ Public Module JSONSerializer
     Public Function GetJson(Of T)(obj As T,
                                   Optional maskReadonly As Boolean = False,
                                   Optional indent As Boolean = False,
-                                  Optional enumToStr As Boolean = True) As String
+                                  Optional enumToStr As Boolean = True,
+                                  Optional unixTimestamp As Boolean = True) As String
 
         Return New JSONSerializerOptions With {
             .indent = indent,
             .maskReadonly = maskReadonly,
-            .enumToString = enumToStr
+            .enumToString = enumToStr,
+            .unixTimestamp = unixTimestamp
         }.DoCall(Function(opts)
                      Return obj.GetType.GetJson(obj, opts)
                  End Function)
@@ -168,7 +171,15 @@ Public Module JSONSerializer
                 Return $"[{elementJSON.JoinBy(", ")}]"
             End If
         ElseIf DataFramework.IsPrimitive(schema) Then
-            Return JsonContract.GetObjectJson(schema, obj)
+            If schema Is GetType(Date) Then
+                If opt.unixTimestamp Then
+                    Return DirectCast(obj, Date).UnixTimeStamp
+                Else
+                    Return JsonContract.GetObjectJson(schema, obj)
+                End If
+            Else
+                Return JsonContract.GetObjectJson(schema, obj)
+            End If
         ElseIf schema.IsEnum Then
             If opt.enumToString Then
                 Return """" & obj.ToString & """"
