@@ -106,12 +106,12 @@ Public Class ReportRender
     ''' a collection of ``[kegg_id => color]`` tuples.
     ''' </param>
     ''' <returns></returns>
-    Public Shared Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String))) As String
+    Public Shared Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String)), Optional text_color As String = "white") As String
         Dim mapjson As MapShape() = map.shapes _
             .Select(AddressOf CreateMap) _
             .ToArray
         Dim objectList As NamedValue(Of String)() = highlights.ToArray
-        Dim rendering As Image = LocalRender.Rendering(map, objectList)
+        Dim rendering As Image = LocalRender.Rendering(map, objectList, textColor:=text_color)
 
         With New ScriptBuilder(My.Resources.map_template)
             !title = map.Name
