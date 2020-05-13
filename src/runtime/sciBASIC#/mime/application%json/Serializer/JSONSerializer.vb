@@ -115,9 +115,13 @@ Public Module JSONSerializer
             members += $"""{reader.Key}"": {valueType.GetJson([property].GetValue(obj, Nothing), opt)}"
         Next
 
-        Return $"{{
+        If opt.indent Then
+            Return $"{{
             {members.JoinBy("," & ASCII.LF)}
         }}"
+        Else
+            Return $"{{{members.JoinBy("," & ASCII.LF)}}}"
+        End If
     End Function
 
     ''' <summary>
@@ -138,9 +142,13 @@ Public Module JSONSerializer
             members += $"""{key}"": {valueSchema.GetJson(value, opt)}"
         Next
 
-        Return $"{{
+        If opt.indent Then
+            Return $"{{
             {members.JoinBy("," & ASCII.LF)}
         }}"
+        Else
+            Return $"{{{members.JoinBy("," & ASCII.LF)}}}"
+        End If
     End Function
 
     <Extension>
@@ -148,9 +156,13 @@ Public Module JSONSerializer
         If schema.IsArray OrElse schema.IsInheritsFrom(GetType(List(Of )), strict:=False) Then
             Dim elementJSON = schema.populateArrayJson(obj, opt).ToArray
 
-            Return $"[
+            If opt.indent Then
+                Return $"[
                 {elementJSON.JoinBy(", " & ASCII.LF)}
             ]"
+            Else
+                Return $"[{elementJSON.JoinBy(", " & ASCII.LF)}]"
+            End If
         ElseIf DataFramework.IsPrimitive(schema) Then
             Return JsonContract.GetObjectJson(schema, obj)
         ElseIf schema.IsEnum Then
