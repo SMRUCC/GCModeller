@@ -120,7 +120,7 @@ Public Module JSONSerializer
             {members.JoinBy("," & ASCII.LF)}
         }}"
         Else
-            Return $"{{{members.JoinBy("," & ASCII.LF)}}}"
+            Return $"{{{members.JoinBy(",")}}}"
         End If
     End Function
 
@@ -147,7 +147,7 @@ Public Module JSONSerializer
             {members.JoinBy("," & ASCII.LF)}
         }}"
         Else
-            Return $"{{{members.JoinBy("," & ASCII.LF)}}}"
+            Return $"{{{members.JoinBy(",")}}}"
         End If
     End Function
 
@@ -161,7 +161,7 @@ Public Module JSONSerializer
                 {elementJSON.JoinBy(", " & ASCII.LF)}
             ]"
             Else
-                Return $"[{elementJSON.JoinBy(", " & ASCII.LF)}]"
+                Return $"[{elementJSON.JoinBy(", ")}]"
             End If
         ElseIf DataFramework.IsPrimitive(schema) Then
             Return JsonContract.GetObjectJson(schema, obj)
