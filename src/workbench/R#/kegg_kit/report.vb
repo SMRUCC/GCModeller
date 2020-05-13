@@ -104,17 +104,17 @@ Module report
     ''' generate the kegg pathway map highlight image render result
     ''' </summary>
     ''' <param name="map">the blank template of the kegg map</param>
-    ''' <param name="highlights">a list of object with color highlights</param>
+    ''' <param name="highlights">a list of object with color highlights, or url</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("keggMap.highlights")>
-    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional env As Environment = Nothing) As Object
+    Public Function renderMapHighlights(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()))
+            Return LocalRender.Rendering(map, highlightObjs.TryCast(Of NamedValue(Of String)()), textColor:=text_color)
         End If
     End Function
 
@@ -141,6 +141,8 @@ Module report
                             }
                         End Function) _
                 .ToArray
+        ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
+            Return URLEncoder.URLParser(getFirst(highlights)).value
         Else
             Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If
@@ -153,13 +155,13 @@ Module report
     ''' <returns></returns>
     ''' 
     <ExportAPI("keggMap.reportHtml")>
-    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional env As Environment = Nothing) As Object
+    Public Function showReportHtml(map As Map, <RRawVectorArgument> highlights As Object, Optional text_color As String = "white", Optional env As Environment = Nothing) As Object
         Dim highlightObjs = getHighlightObjects(highlights, env)
 
         If highlightObjs Like GetType(Message) Then
             Return highlightObjs.TryCast(Of Message)
         Else
-            Return ReportRender.Render(map, highlightObjs.TryCast(Of NamedValue(Of String)()))
+            Return ReportRender.Render(map, highlightObjs.TryCast(Of NamedValue(Of String)()), text_color:=text_color)
         End If
     End Function
 
