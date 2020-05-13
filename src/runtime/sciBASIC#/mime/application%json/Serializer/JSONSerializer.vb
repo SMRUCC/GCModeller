@@ -146,6 +146,8 @@ Public Module JSONSerializer
             ]"
         ElseIf DataFramework.IsPrimitive(schema) Then
             Return JsonContract.GetObjectJson(schema, obj)
+        ElseIf schema.IsEnum Then
+            Return """" & obj.ToString & """"
         ElseIf schema.IsInheritsFrom(GetType(Dictionary(Of, )), strict:=False) Then
             Dim valueType As Type = schema _
                 .GenericTypeArguments _
@@ -156,6 +158,9 @@ Public Module JSONSerializer
 
             Return DirectCast(obj, IDictionary).populateTableJson(valueType, maskReadonly)
         Else
+            If schema.IsAbstract AndAlso Not obj Is Nothing Then
+                schema = obj.GetType
+            End If
             ' isObject
             Return schema.populateObjectJson(obj, maskReadonly)
         End If
