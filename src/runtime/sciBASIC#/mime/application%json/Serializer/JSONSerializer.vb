@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::41449521f9873c61634511f298b05050, mime\application%json\Serializer\JSONSerializer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module JSONSerializer
-    ' 
-    '     Function: (+2 Overloads) GetJson, populateArrayJson, populateObjectJson, populateTableJson
-    ' 
-    ' /********************************************************************************/
+' Module JSONSerializer
+' 
+'     Function: (+2 Overloads) GetJson, populateArrayJson, populateObjectJson, populateTableJson
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,15 +45,9 @@ Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-
-Public Class JSONSerializerOptions
-
-    Public Property maskReadonly As Boolean = False
-    Public Property indent As Boolean = False
-
-End Class
 
 Public Module JSONSerializer
 
@@ -68,8 +62,18 @@ Public Module JSONSerializer
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function GetJson(Of T)(obj As T, Optional maskReadonly As Boolean = False, Optional indent As Boolean = False) As String
-        Return obj.GetType.GetJson(obj, New JSONSerializerOptions With {.indent = indent, .maskReadonly = maskReadonly})
+    Public Function GetJson(Of T)(obj As T,
+                                  Optional maskReadonly As Boolean = False,
+                                  Optional indent As Boolean = False,
+                                  Optional enumToStr As Boolean = True) As String
+
+        Return New JSONSerializerOptions With {
+            .indent = indent,
+            .maskReadonly = maskReadonly,
+            .enumToString = enumToStr
+        }.DoCall(Function(opts)
+                     Return obj.GetType.GetJson(obj, opts)
+                 End Function)
     End Function
 
     <Extension>
@@ -166,7 +170,11 @@ Public Module JSONSerializer
         ElseIf DataFramework.IsPrimitive(schema) Then
             Return JsonContract.GetObjectJson(schema, obj)
         ElseIf schema.IsEnum Then
-            Return """" & obj.ToString & """"
+            If opt.enumToString Then
+                Return """" & obj.ToString & """"
+            Else
+                Return CLng(obj)
+            End If
         ElseIf schema.IsInheritsFrom(GetType(Dictionary(Of, )), strict:=False) Then
             Dim valueType As Type = schema _
                 .GenericTypeArguments _
