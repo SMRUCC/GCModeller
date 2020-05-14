@@ -180,7 +180,8 @@ Public Module NetworkVisualizer
                               Optional convexHullLabelFontCSS$ = CSSFont.Win7VeryLarge,
                               Optional convexHullScale! = 1.125,
                               Optional convexHullCurveDegree As Single = 2,
-                              Optional fillConvexHullPolygon As Boolean = True) As GraphicsData
+                              Optional fillConvexHullPolygon As Boolean = True,
+                              Optional driver As Drivers = Drivers.GDI) As GraphicsData
 
         Call GetType(NetworkVisualizer).Assembly _
             .FromAssembly _
@@ -356,7 +357,7 @@ Public Module NetworkVisualizer
 
         Call "Start Render...".__INFO_ECHO
 
-        Return g.GraphicsPlots(frameSize.ToSize, margin, background, plotInternal)
+        Return g.GraphicsPlots(frameSize.ToSize, margin, background, plotInternal, driver:=driver)
     End Function
 
     Public Function DirectMapRadius(Optional scale# = 1) As Func(Of Node, Single)
