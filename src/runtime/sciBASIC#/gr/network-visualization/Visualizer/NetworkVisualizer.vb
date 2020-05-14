@@ -181,7 +181,7 @@ Public Module NetworkVisualizer
                               Optional convexHullScale! = 1.125,
                               Optional convexHullCurveDegree As Single = 2,
                               Optional fillConvexHullPolygon As Boolean = True,
-                              Optional driver As Drivers = Drivers.GDI) As GraphicsData
+                              Optional driver As Drivers = Drivers.Default) As GraphicsData
 
         Call GetType(NetworkVisualizer).Assembly _
             .FromAssembly _
