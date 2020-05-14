@@ -3,9 +3,11 @@ imports ["kegg.repository", "report.utils"] from "kegg_kit";
 
 setwd(!script$dir);
 
-let reactions = load.reactions("E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08201");
+let KEGG_maps = "E:\GCModeller\src\workbench\R#\demo\kegg\KEGG_maps.zip";
+let kegg_reactions = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08201";
+let reactions = load.reactions(kegg_reactions);
 let run as function(mass, flux) {
-	using maps as open.zip("E:\GCModeller\src\workbench\R#\demo\kegg\KEGG_maps.zip") {
+	using maps as open.zip(KEGG_maps) {
 		let dynamics = maps[["map00020.XML"]] 
 		:> loadMap 
 		:> map.flux(reactions) 

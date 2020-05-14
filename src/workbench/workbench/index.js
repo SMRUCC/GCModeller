@@ -89,10 +89,10 @@ var workbench;
     (function (Shell) {
         function Rweb() {
             let spawn = require("child_process").spawn;
-            let bat = spawn("Rweb.exe", [
-                "--start",
+            let bat = spawn("Rweb", [
+                "--session",
                 "--port", "7452",
-                "--Rweb", "./Rweb",
+                "--workspace", "./Rweb",
                 "--show_error",
                 "--n_threads", "2"
             ]);
