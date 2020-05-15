@@ -118,7 +118,8 @@ Namespace Core
             Is_active = False
 
             Try
-                Call _httpListener.Start(10240)
+                _httpListener.Start(10240)
+                Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
                 Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
                 Call ex.ToString.__DEBUG_ECHO

@@ -87,13 +87,13 @@ Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Sub SuccessMsg(rep As HttpResponse, message$)
-        Call rep.WriteJSON(New JsonResponse With {.code = 0, .message = message})
+    Public Sub SuccessMsg(Of T)(rep As HttpResponse, message As T)
+        Call rep.WriteJSON(New JsonResponse(Of T) With {.code = 0, .info = message})
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Sub FailureMsg(rep As HttpResponse, message$, Optional code& = HTTP_RFC.RFC_UNKNOWN_ERROR)
-        Call rep.WriteJSON(New JsonResponse With {.code = code, .message = message})
+    Public Sub FailureMsg(Of T)(rep As HttpResponse, message As T, Optional code& = HTTP_RFC.RFC_UNKNOWN_ERROR)
+        Call rep.WriteJSON(New JsonResponse(Of T) With {.code = code, .info = message})
     End Sub
 End Module
