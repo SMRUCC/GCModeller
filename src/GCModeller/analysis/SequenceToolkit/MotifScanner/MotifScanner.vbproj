@@ -191,6 +191,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Report\ReportParser.vb" />
     <Compile Include="Report\ReportTextBuilder.vb" />
     <Compile Include="Report\GeneReport.vb" />
   </ItemGroup>
