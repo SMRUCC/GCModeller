@@ -6,7 +6,10 @@
             .Split(
                 delimiter:=Function(l) l.FirstOrDefault = ">"c,
                 deliPosition:=DelimiterLocation.NextFirst
-            )
+            ) _
+            .Where(Function(sec)
+                       Return Not sec.IsNullOrEmpty
+                   End Function)
 
             Yield ParseSectionData(section)
         Next
