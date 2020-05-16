@@ -24,6 +24,10 @@ Public Class TFBindingSite
     Public Property oligonucleotides As String
     Public Property position As Integer
     Public Property score As Double
+
+    Public Overrides Function ToString() As String
+        Return $"       {regulator}:  {oligonucleotides} at position      {position} Score -  {score}"
+    End Function
 End Class
 
 Public Class PromoterComponent
