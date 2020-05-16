@@ -14,7 +14,7 @@
     Public Property numOfPromoters As Integer
     Public Property promoterPos As Integer
     Public Property promoterPosLDF As Double
-    Public Property components As promoterPos()
+    Public Property components As PromoterComponent()
     Public Property tfBindingSites As TFBindingSite()
 
 End Class
@@ -26,11 +26,15 @@ Public Class TFBindingSite
     Public Property score As Double
 End Class
 
-Public Class promoterPos
+Public Class PromoterComponent
 
     Public Property type As String
     Public Property pos As Integer
     Public Property oligonucleotides As String
     Public Property score As Double
+
+    Public Overrides Function ToString() As String
+        Return $" {type} at pos.     {pos} {oligonucleotides} Score    {score}"
+    End Function
 
 End Class
