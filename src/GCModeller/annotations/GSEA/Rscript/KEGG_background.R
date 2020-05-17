@@ -5,6 +5,6 @@ let kegg = "E:\smartnucl_integrative\biodeepdb_v3\KEGG\br08901_pathwayMaps" :> l
 let mapping = "K:\20200226\TRN\1025_mapping+KO.csv" :> read.csv;
 
 
-let background = KO.background(mapping, kegg, size = 4500, id_map = list(Reference = term));
+let background = KO.background(mapping, kegg, size = 4500, id_map = list(Reference = "term"));
 
 background :> xml :> writeLines(con = "K:\20200226\20200516_gbk\KEGG\model.XML");
