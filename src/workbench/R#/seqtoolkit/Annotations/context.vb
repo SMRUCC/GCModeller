@@ -3,6 +3,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal
@@ -19,13 +21,24 @@ Module context
 
     Private Function contextSummary(x As IContext, args As list, env As Environment) As Object
         Dim sb As New StringBuilder
+        Dim nt As FastaSeq = args.getValue(Of FastaSeq)("nt", env)
 
         Call sb.AppendLine($"summary of {x.tag}:")
         Call sb.AppendLine($"current feature: {x.feature.ToString}")
         Call sb.AppendLine($"distance: {x.distance} bp")
+        Call sb.AppendLine()
         Call sb.AppendLine($"upstream location in given distance: {x.upstream.ToString}")
+        If Not nt Is Nothing Then
+            Call sb.AppendLine(nt.CutSequenceLinear(x.upstream).SequenceData)
+        End If
         Call sb.AppendLine($"downstream location in given distance: {x.downstream.ToString}")
+        If Not nt Is Nothing Then
+            Call sb.AppendLine(nt.CutSequenceLinear(x.downstream).SequenceData)
+        End If
         Call sb.AppendLine($"complement strand location of current: {x.antisense.ToString}")
+        If Not nt Is Nothing Then
+            Call sb.AppendLine(nt.CutSequenceLinear(x.antisense).SequenceData)
+        End If
 
         Return sb.ToString
     End Function
