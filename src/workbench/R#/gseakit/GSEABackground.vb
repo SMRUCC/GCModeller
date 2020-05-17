@@ -1,53 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::22f64b2658cdb953532bfb0a6c3019c5, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module GSEABackground
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: ClusterIntersections, CreateKOBackground, KOTable, PrintBackground, ReadBackground
-    '               WriteBackground
-    ' 
-    ' /********************************************************************************/
+' Module GSEABackground
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: ClusterIntersections, CreateKOBackground, KOTable, PrintBackground, ReadBackground
+'               WriteBackground
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports GSEATools = SMRUCC.genomics.Analysis.HTS.GSEA
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <Package("gseakit.background", Category:=APICategories.ResearchTools)>
 Public Module GSEABackground
@@ -106,7 +114,104 @@ Public Module GSEABackground
             .ToArray
     End Function
 
-    Public Function CreateKOBackground() As Background
+    ''' <summary>
+    ''' create kegg background model
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="maps"></param>
+    ''' <param name="size%"></param>
+    ''' <param name="genomeName$"></param>
+    ''' <returns></returns>
+    <ExportAPI("KO.background")>
+    <RApiReturn(GetType(Background))>
+    Public Function CreateKOBackground(<RRawVectorArgument>
+                                       genes As Object,
+                                       maps As MapRepository,
+                                       Optional size% = -1,
+                                       Optional genomeName$ = "unknown",
+                                       Optional id_map As list = Nothing,
+                                       Optional env As Environment = Nothing) As Object
+        Dim geneId, KO As String
+        Dim mapping As NamedValue(Of String)()
+        Dim kegg As GetClusterTerms = GSEATools.KEGGClusters(maps.AsEnumerable)
 
+        If Not id_map Is Nothing Then
+            With DirectCast(id_map, list)
+                geneId = .slots.Keys.First
+                KO = Scripting.ToString([single](.slots(geneId)))
+            End With
+        Else
+            KO = Nothing
+            geneId = Nothing
+        End If
+
+        If TypeOf genes Is list Then
+            If KO.StringEmpty OrElse geneId.StringEmpty Then
+                mapping = DirectCast(genes, list).slots _
+                    .Select(Function(t)
+                                Return New NamedValue(Of String) With {
+                                    .Name = t.Key,
+                                    .Value = Scripting.ToString([single](t.Value))
+                                }
+                            End Function) _
+                    .ToArray
+            Else
+                mapping = DirectCast(genes, list).slots.Values _
+                    .Select(Function(map)
+                                Dim id As String = DirectCast(map, list).getValue(Of String)(geneId, env)
+                                Dim koId As String = DirectCast(map, list).getValue(Of String)(KO, env)
+
+                                Return New NamedValue(Of String)(id, koId)
+                            End Function) _
+                    .ToArray
+            End If
+        ElseIf TypeOf genes Is Rdataframe Then
+            Dim idVec As String() = DirectCast(genes, Rdataframe).columns(geneId)
+            Dim koVec As String() = DirectCast(genes, Rdataframe).columns(KO)
+
+            mapping = idVec _
+                .Select(Function(id, i)
+                            Return New NamedValue(Of String) With {
+                                .Name = id,
+                                .Value = koVec(i)
+                            }
+                        End Function) _
+                .ToArray
+        ElseIf TypeOf genes Is EntityObject() Then
+            mapping = DirectCast(genes, EntityObject()) _
+                .Select(Function(row)
+                            Return New NamedValue(Of String) With {
+                                .Name = row(geneId),
+                                .Value = row(KO)
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            Return Internal.debug.stop(New InvalidProgramException(genes.GetType.FullName), env)
+        End If
+
+        Dim model As Background = GSEATools.CreateBackground(
+            db:=mapping,
+            createGene:=Function(gene, terms)
+                            Return New BackgroundGene With {
+                                .accessionID = gene.Name,
+                                .[alias] = {gene.Name, gene.Value},
+                                .locus_tag = New NamedValue With {
+                                    .name = gene.Name,
+                                    .text = gene.Value
+                                },
+                                .name = gene.Name,
+                                .term_id = terms
+                            }
+                        End Function,
+            getTerms:=Function(gene)
+                          Return {gene.Value}
+                      End Function,
+            define:=kegg,
+            genomeName:=genomeName
+        )
+        model.size = size
+
+        Return model
     End Function
 End Module
