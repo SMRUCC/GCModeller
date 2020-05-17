@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
@@ -16,7 +17,14 @@ Imports IContext = SMRUCC.genomics.ContextModel.Context
 Module context
 
     Sub New()
+        Call Main()
+    End Sub
+
+    <RInitialize>
+    Private Sub Main()
         Call generic.add("summary", GetType(IContext), AddressOf contextSummary)
+
+        Call printer.AttachConsoleFormatter(Of NucleotideLocation)(Function(o) o.ToString)
     End Sub
 
     Private Function contextSummary(x As IContext, args As list, env As Environment) As Object

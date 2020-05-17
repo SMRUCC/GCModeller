@@ -1,5 +1,5 @@
 imports "TRN.builder" from "phenotype_kit";
-imports ["annotation.genbank_kit", "annotation.workflow"] from "seqtoolkit";
+imports ["annotation.genbank_kit", "annotation.genomics_context", "annotation.workflow"] from "seqtoolkit";
 
 let regions = "K:\20200226\20200516_gbk\X101SC19112292-Z01-J001_result\res.txt"
 :> readText
@@ -26,3 +26,15 @@ let mapping = "K:\20200226\TRN\1025_mapping.csv"
 }, names = g -> g$key);
 
 str(mapping);
+
+let templateGenbank = "K:\20200226\20200516_gbk\Yersinia pseudotuberculosis (Pfeiffer) Smith and Thal.gbk"
+:> read.genbank
+;
+
+let genes = templateGenbank :> enumerateFeatures :> projectAs(as.object) :> which(a -> a$KeyName == "CDS");
+
+for(a in genes) {
+	let location = as.object(a$Location)$ContiguousRegion;
+	
+	print(location);
+}
