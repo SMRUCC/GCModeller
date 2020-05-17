@@ -191,7 +191,9 @@ Public Module GSEABackground
         End If
 
         Dim model As Background = GSEATools.CreateBackground(
-            db:=mapping,
+            db:=mapping _
+                .Where(Function(gene) Not gene.Value.StringEmpty) _
+                .ToArray,
             createGene:=Function(gene, terms)
                             Return New BackgroundGene With {
                                 .accessionID = gene.Name,
