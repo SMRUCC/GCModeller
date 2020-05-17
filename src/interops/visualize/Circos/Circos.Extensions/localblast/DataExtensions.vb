@@ -137,7 +137,7 @@ Public Module DataExtensions
         Dim LQuery = From x As BlastnMapping
                      In source
                      Select x.MappingLocation,
-                         Identity = x.Identities,
+                         Identity = x.identitiesValue,
                          chr = x.Reference.Split("."c).First
                      Group By chr Into Group
         Dim list As New List(Of ValueTrackData)
@@ -199,7 +199,7 @@ Public Module DataExtensions
         Dim LQuery = From x As BlastnMapping
                      In source
                      Select x.MappingLocation,
-                         Identity = x.Identities,
+                         Identity = x.identitiesValue,
                          chr = x.Reference.Split("."c).First
                      Group By chr Into Group
         Dim list As New List(Of ValueTrackData)
@@ -262,7 +262,7 @@ Public Module DataExtensions
         Dim LQuery = From x As BlastnMapping
                      In source
                      Select x.MappingLocation,
-                         Identity = x.Identities,
+                         Identity = x.identitiesValue,
                          chr = x.Reference.Split("."c).First
                      Group By chr Into Group
         Dim list As New List(Of ValueTrackData)

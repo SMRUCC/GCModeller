@@ -199,7 +199,7 @@ Namespace Metagenome
         Public Iterator Function BuildMatrix(blastn As IEnumerable(Of BlastnMapping), Optional identities# = 0.3, Optional coverage# = 0.3) As IEnumerable(Of DataSet)
             Dim g = From x As BlastnMapping
                     In blastn
-                    Where x.Identities >= identities AndAlso
+                    Where x.identitiesValue >= identities AndAlso
                         x.GetCoverage >= coverage
                     Select x
                     Group x By x.ReadQuery Into Group
@@ -212,7 +212,7 @@ Namespace Metagenome
                 Dim similarity As Dictionary(Of String, Double) =
                     distinct.ToDictionary(Function(h) h.Reference,
                                           Function(h) h.Group.OrderBy(
-                                          Function(x) x.Identities).Last.Identities)
+                                          Function(x) x.identitiesValue).Last.identitiesValue)
                 Yield New DataSet With {
                     .ID = query.ReadQuery,
                     .Properties = similarity
