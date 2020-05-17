@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::2c2969bdab61e5f9c57f331c02c93a0b, R#\kegg_kit\kegg_repository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module kegg_repository
-    ' 
-    '     Function: FetchKEGGOrganism, LoadCompoundRepo, LoadMapIndex, LoadPathways, LoadReactionRepo
-    '               ReadKEGGOrganism, SaveKEGGOrganism, TableOfReactions
-    ' 
-    ' /********************************************************************************/
+' Module kegg_repository
+' 
+'     Function: FetchKEGGOrganism, LoadCompoundRepo, LoadMapIndex, LoadPathways, LoadReactionRepo
+'               ReadKEGGOrganism, SaveKEGGOrganism, TableOfReactions
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -87,8 +88,13 @@ Public Module kegg_repository
     ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("load.maps")>
-    Public Function LoadMapIndex(repository As String) As Map()
-        Return MapRepository.GetMapsAuto(repository).ToArray
+    <RApiReturn(GetType(Map), GetType(MapRepository))>
+    Public Function loadMapRepository(repository As String, Optional rawMaps As Boolean = True) As Object
+        If rawMaps Then
+            Return MapRepository.GetMapsAuto(repository).ToArray
+        Else
+            Return MapRepository.BuildRepository(repository)
+        End If
     End Function
 
     <ExportAPI("load.pathways")>
