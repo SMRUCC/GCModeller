@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations\genbankKit.vb" />
+    <Compile Include="Annotations\context.vb" />
     <Compile Include="Annotations\uniprot.vb" />
     <Compile Include="Annotations\terms.vb" />
     <Compile Include="Annotations\workflows.vb" />
