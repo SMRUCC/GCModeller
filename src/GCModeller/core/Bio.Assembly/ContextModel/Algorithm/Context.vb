@@ -55,38 +55,38 @@ Namespace ContextModel
         ''' <summary>
         ''' Current feature site
         ''' </summary>
-        Public ReadOnly Feature As NucleotideLocation
+        Public ReadOnly feature As NucleotideLocation
         ''' <summary>
-        ''' <see cref="Feature"/> its upstream region with a specific length
+        ''' <see cref="feature"/> its upstream region with a specific length
         ''' </summary>
-        Public ReadOnly Upstream As NucleotideLocation
+        Public ReadOnly upstream As NucleotideLocation
         ''' <summary>
-        ''' <see cref="Feature"/> its downstream region with a specific length
+        ''' <see cref="feature"/> its downstream region with a specific length
         ''' </summary>
-        Public ReadOnly Downstream As NucleotideLocation
-        Public ReadOnly Antisense As NucleotideLocation
+        Public ReadOnly downstream As NucleotideLocation
+        Public ReadOnly antisense As NucleotideLocation
 
         ''' <summary>
         ''' The user custom tag data for this feature site.
         ''' </summary>
-        Public ReadOnly Tag As String
+        Public ReadOnly tag As String
 
         Sub New(g As IGeneBrief, dist As Integer)
             Call Me.New(g.Location, dist, g.ToString)
         End Sub
 
-        Sub New(loci As NucleotideLocation, dist As Integer, Optional userTag As String = Nothing)
-            Feature = loci
-            Tag = FirstNotEmpty(userTag, loci.ToString)
+        Sub New(loci As NucleotideLocation, dist As Integer, Optional tag_note As String = Nothing)
+            feature = loci
+            tag = FirstNotEmpty(tag_note, loci.ToString)
 
             If loci.Strand = Strands.Forward Then
-                Upstream = New NucleotideLocation(loci.Left - dist, loci.Left, Strands.Forward)
-                Downstream = New NucleotideLocation(loci.Right, loci.Right + dist, Strands.Forward)
-                Antisense = New NucleotideLocation(loci.Left, loci.Right, Strands.Reverse)
+                upstream = New NucleotideLocation(loci.left - dist, loci.left, Strands.Forward)
+                downstream = New NucleotideLocation(loci.right, loci.right + dist, Strands.Forward)
+                antisense = New NucleotideLocation(loci.left, loci.right, Strands.Reverse)
             Else
-                Upstream = New NucleotideLocation(loci.Right, loci.Right + dist, Strands.Reverse)
-                Downstream = New NucleotideLocation(loci.Left - dist, loci.Left, Strands.Reverse)
-                Antisense = New NucleotideLocation(loci.Left, loci.Right, Strands.Forward)
+                upstream = New NucleotideLocation(loci.right, loci.right + dist, Strands.Reverse)
+                downstream = New NucleotideLocation(loci.left - dist, loci.left, Strands.Reverse)
+                antisense = New NucleotideLocation(loci.left, loci.right, Strands.Forward)
             End If
         End Sub
 
@@ -117,8 +117,8 @@ Namespace ContextModel
             Dim rel As SegmentRelationships = __getRel(loci)
 
             If rel = SegmentRelationships.Blank Then
-                If loci.Strand <> Feature.Strand Then
-                    If Antisense.IsInside(loci) Then
+                If loci.Strand <> feature.Strand Then
+                    If antisense.IsInside(loci) Then
                         Return SegmentRelationships.InnerAntiSense
                     End If
                 End If
@@ -128,24 +128,24 @@ Namespace ContextModel
         End Function
 
         Private Function __getRel(loci As NucleotideLocation) As SegmentRelationships
-            If Upstream.IsInside(loci) Then
+            If upstream.IsInside(loci) Then
                 Return SegmentRelationships.UpStream
-            ElseIf Downstream.IsInside(loci) Then
+            ElseIf downstream.IsInside(loci) Then
                 Return SegmentRelationships.DownStream
-            ElseIf Feature.Equals(loci, 1) Then
+            ElseIf feature.Equals(loci, 1) Then
                 Return SegmentRelationships.Equals
-            ElseIf Feature.IsInside(loci) Then
+            ElseIf feature.IsInside(loci) Then
                 Return SegmentRelationships.Inside
             Else
-                If Feature.IsInside(loci.Left) AndAlso Upstream.IsInside(loci.Right) Then
+                If feature.IsInside(loci.left) AndAlso upstream.IsInside(loci.right) Then
                     Return SegmentRelationships.UpStreamOverlap
-                ElseIf Feature.IsInside(loci.Right) AndAlso Upstream.IsInside(loci.Left) Then
+                ElseIf feature.IsInside(loci.right) AndAlso upstream.IsInside(loci.left) Then
                     Return SegmentRelationships.UpStreamOverlap
-                ElseIf Feature.IsInside(loci.Left) AndAlso Downstream.IsInside(loci.Right) Then
+                ElseIf feature.IsInside(loci.left) AndAlso downstream.IsInside(loci.right) Then
                     Return SegmentRelationships.DownStreamOverlap
-                ElseIf Feature.IsInside(loci.Right) AndAlso Downstream.IsInside(loci.Left) Then
+                ElseIf feature.IsInside(loci.right) AndAlso downstream.IsInside(loci.left) Then
                     Return SegmentRelationships.DownStreamOverlap
-                ElseIf loci.IsInside(Feature) Then
+                ElseIf loci.IsInside(feature) Then
                     Return SegmentRelationships.Cover
                 Else
                     Return SegmentRelationships.Blank
@@ -154,8 +154,8 @@ Namespace ContextModel
         End Function
 
         Private Function __relStranede(loci As NucleotideLocation) As SegmentRelationships
-            If loci.Strand <> Feature.Strand Then  ' 不在同一条链之上
-                If Antisense.IsInside(loci) Then
+            If loci.Strand <> feature.Strand Then  ' 不在同一条链之上
+                If antisense.IsInside(loci) Then
                     Return SegmentRelationships.InnerAntiSense
                 Else
                     Return SegmentRelationships.Blank
@@ -170,7 +170,7 @@ Namespace ContextModel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return Tag
+            Return tag
         End Function
     End Structure
 End Namespace
