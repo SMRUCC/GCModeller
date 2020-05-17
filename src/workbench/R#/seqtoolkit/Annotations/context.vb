@@ -1,10 +1,12 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
 
@@ -12,8 +14,21 @@ Imports IContext = SMRUCC.genomics.ContextModel.Context
 Module context
 
     Sub New()
-
+        Call generic.add("summary", GetType(IContext), AddressOf contextSummary)
     End Sub
+
+    Private Function contextSummary(x As IContext, args As list, env As Environment) As Object
+        Dim sb As New StringBuilder
+
+        Call sb.AppendLine($"summary of {x.tag}:")
+        Call sb.AppendLine($"current feature: {x.feature.ToString}")
+        Call sb.AppendLine($"distance: {x.distance} bp")
+        Call sb.AppendLine($"upstream location in given distance: {x.upstream.ToString}")
+        Call sb.AppendLine($"downstream location in given distance: {x.downstream.ToString}")
+        Call sb.AppendLine($"complement strand location of current: {x.antisense.ToString}")
+
+        Return sb.ToString
+    End Function
 
     <ExportAPI("location")>
     Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object

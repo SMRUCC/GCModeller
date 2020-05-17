@@ -64,7 +64,11 @@ Namespace ContextModel
         ''' <see cref="feature"/> its downstream region with a specific length
         ''' </summary>
         Public ReadOnly downstream As NucleotideLocation
+        ''' <summary>
+        ''' the complement strand location of current <see cref="feature"/>
+        ''' </summary>
         Public ReadOnly antisense As NucleotideLocation
+        Public ReadOnly distance As Integer
 
         ''' <summary>
         ''' The user custom tag data for this feature site.
@@ -75,9 +79,10 @@ Namespace ContextModel
             Call Me.New(g.Location, dist, g.ToString)
         End Sub
 
-        Sub New(loci As NucleotideLocation, dist As Integer, Optional tag_note As String = Nothing)
+        Sub New(loci As NucleotideLocation, dist As Integer, Optional note As String = Nothing)
             feature = loci
-            tag = FirstNotEmpty(tag_note, loci.ToString)
+            tag = If(note, loci.ToString)
+            distance = dist
 
             If loci.Strand = Strands.Forward Then
                 upstream = New NucleotideLocation(loci.left - dist, loci.left, Strands.Forward)
