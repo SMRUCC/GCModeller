@@ -66,4 +66,38 @@ Module context
 
         Return New IContext(pos, distance, note)
     End Function
+
+    Public Function getNtLocation(x As Object) As NucleotideLocation
+        If x Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf x Is IGeneBrief Then
+            Return DirectCast(x, IGeneBrief).Location
+        ElseIf TypeOf x Is Contig Then
+            Return DirectCast(x, Contig).MappingLocation
+        ElseIf TypeOf x Is NucleotideLocation Then
+            Return x
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    <ExportAPI("relationship")>
+    <RApiReturn(GetType(SegmentRelationships))>
+    Public Function relationship(a As Object, b As Object, Optional env As Environment = Nothing) As Object
+        Dim loci1 As NucleotideLocation = getNtLocation(a)
+        Dim loci2 As NucleotideLocation = getNtLocation(b)
+
+        If loci1 Is Nothing AndAlso Not a Is Nothing Then
+            Return debug.stop(New InvalidCastException(a.GetType.FullName), env)
+        ElseIf loci2 Is Nothing AndAlso Not b Is Nothing Then
+            Return debug.stop(New InvalidCastException(b.GetType.FullName), env)
+        End If
+
+        If loci1 Is Nothing OrElse loci2 Is Nothing Then
+            Return SegmentRelationships.Blank
+        Else
+            Return LocusExtensions.GetRelationship(loci1, loci2)
+        End If
+    End Function
+
 End Module
