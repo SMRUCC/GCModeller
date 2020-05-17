@@ -164,7 +164,7 @@ Namespace ComponentModel.Loci
         Public Function TryParse(loci As String) As NucleotideLocation
             If loci.StringEmpty Then
                 Return Nothing
-            ElseIf InStr(loci, " ==> ") > 0 Then
+            ElseIf InStr(loci, " ==> ") > 0 OrElse InStr(loci, " ~ ") > 0 Then
                 Return tryParseInternal(loci)
             End If
 
