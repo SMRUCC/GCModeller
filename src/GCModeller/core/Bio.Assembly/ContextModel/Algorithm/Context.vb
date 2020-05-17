@@ -1,48 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::4a07b178c98724979685e2d86d9f8dd0, core\Bio.Assembly\ContextModel\Algorithm\Context.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Structure Context
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __getRel, __relStranede, __relUnstrand, GetRelation, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Structure Context
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: __getRel, __relStranede, __relUnstrand, GetRelation, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ContextModel
@@ -119,7 +122,7 @@ Namespace ContextModel
         ''' <param name="loci"></param>
         ''' <returns></returns>
         Private Function __relUnstrand(loci As NucleotideLocation) As SegmentRelationships
-            Dim rel As SegmentRelationships = __getRel(loci)
+            Dim rel As SegmentRelationships = getRelationship(loci)
 
             If rel = SegmentRelationships.Blank Then
                 If loci.Strand <> feature.Strand Then
@@ -132,7 +135,7 @@ Namespace ContextModel
             Return rel
         End Function
 
-        Private Function __getRel(loci As NucleotideLocation) As SegmentRelationships
+        Private Function getRelationship(loci As NucleotideLocation) As SegmentRelationships
             If upstream.IsInside(loci) Then
                 Return SegmentRelationships.UpStream
             ElseIf downstream.IsInside(loci) Then
@@ -166,7 +169,7 @@ Namespace ContextModel
                     Return SegmentRelationships.Blank
                 End If
             Else
-                Return __getRel(loci)
+                Return getRelationship(loci)
             End If
         End Function
 
@@ -176,6 +179,13 @@ Namespace ContextModel
         ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return tag
+        End Function
+
+        Public Iterator Function PopulateSequence(nt As FastaSeq) As IEnumerable(Of NamedValue(Of SimpleSegment))
+            Yield New NamedValue(Of SimpleSegment) With {.Name = NameOf(feature), .Value = nt.CutSequenceLinear(feature)}
+            Yield New NamedValue(Of SimpleSegment) With {.Name = NameOf(upstream), .Value = nt.CutSequenceLinear(upstream)}
+            Yield New NamedValue(Of SimpleSegment) With {.Name = NameOf(downstream), .Value = nt.CutSequenceLinear(downstream)}
+            Yield New NamedValue(Of SimpleSegment) With {.Name = NameOf(antisense), .Value = nt.CutSequenceLinear(antisense)}
         End Function
     End Structure
 End Namespace
