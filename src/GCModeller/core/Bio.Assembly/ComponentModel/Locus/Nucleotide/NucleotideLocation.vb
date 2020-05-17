@@ -358,7 +358,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"{left} ==> {right} #{Strand.ToString}"
+            Return $"{left} ~ {right} #{Strings.LCase(Strand.ToString)}"
         End Function
 
         ''' <summary>
