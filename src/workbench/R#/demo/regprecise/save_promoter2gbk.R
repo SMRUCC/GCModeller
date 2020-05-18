@@ -35,6 +35,7 @@ let genes = templateGenbank :> enumerateFeatures :> projectAs(as.object) :> whic
 
 for(a in genes) {
 	let location = as.object(a$Location)$ContiguousRegion;
+	let id = a$Query("db_xref");
 	
-	print(location);
+	print(id);
 }
