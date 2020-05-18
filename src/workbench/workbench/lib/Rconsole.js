@@ -1,9 +1,11 @@
 var shell;
 (function (shell) {
+    var url = "http://127.0.0.1:7452/exec";
     function handle_command(command) {
-        $ts.post("http://127.0.0.1:7452/exec", function (result) {
+        $ts.post(url, { script: command }, function (result) {
             if (result.code == 0) {
-                con.log(result.info).classList.add("result");
+                var message = base64_decode(result.info);
+                con.log(message).classList.add("result");
             }
             else {
                 con.error(result.info);

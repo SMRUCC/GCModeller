@@ -1,4 +1,3 @@
-/// <reference path="node_modules/electron/electron.d.ts" />
 declare module workbench.view {
     function renderAppMenu(template: Electron.MenuItemConstructorOptions[]): Electron.Menu;
 }
