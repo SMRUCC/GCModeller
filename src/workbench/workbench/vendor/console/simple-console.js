@@ -176,6 +176,7 @@ var System;
         ;
         Console.prototype.log = function (content) {
             var was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
+            var vm = this;
             var entry = $ts("<div>", {
                 class: "entry"
             });
@@ -188,7 +189,7 @@ var System;
             this.output.appendChild(entry);
             requestAnimationFrame(function () {
                 if (was_scrolled_to_bottom) {
-                    this.output.scroll_to_bottom();
+                    vm.output.scroll_to_bottom();
                 }
             });
             this.last_entry = entry;

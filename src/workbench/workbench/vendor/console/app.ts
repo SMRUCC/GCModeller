@@ -219,6 +219,7 @@ namespace System {
 
         public log(content) {
             let was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
+            let vm = this;
             let entry = $ts("<div>", {
                 class: "entry"
             });
@@ -232,7 +233,7 @@ namespace System {
 
             requestAnimationFrame(function () {
                 if (was_scrolled_to_bottom) {
-                    this.output.scroll_to_bottom();
+                    vm.output.scroll_to_bottom();
                 }
             });
 
