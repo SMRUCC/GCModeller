@@ -9,15 +9,17 @@ namespace shell {
             let result: RInvoke = data;
 
             if (result.code == 0) {
-                let message = base64_decode(result.info);
-
-                con.log(message).classList.add("result");
+                if (result.content_type.startsWith("text/html")) {
+                    con.log(base64_decode(result.info)).classList.add("result");
+                } else {
+                    con.log($ts("<img>", { src: result.info })).classList.add("result");
+                }      
             } else {
                 con.error(result.info);
             }
 
             if (!isNullOrEmpty(result.warnings)) {
-                con.warn("with additional warning message:");
+                con.warn("<h3>with additional warning message:</h3>");
 
                 for (let warn of result.warnings) {
                     con.warn($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> "));

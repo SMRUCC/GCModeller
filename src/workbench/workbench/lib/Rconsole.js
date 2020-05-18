@@ -6,14 +6,18 @@ var shell;
         $ts.post(url, { script: command }, function (data) {
             var result = data;
             if (result.code == 0) {
-                var message = base64_decode(result.info);
-                con.log(message).classList.add("result");
+                if (result.content_type.startsWith("text/html")) {
+                    con.log(base64_decode(result.info)).classList.add("result");
+                }
+                else {
+                    con.log($ts("<img>", { src: result.info })).classList.add("result");
+                }
             }
             else {
                 con.error(result.info);
             }
             if (!isNullOrEmpty(result.warnings)) {
-                con.warn("with additional warning message:");
+                con.warn("<h3>with additional warning message:</h3>");
                 for (var _i = 0, _a = result.warnings; _i < _a.length; _i++) {
                     var warn = _a[_i];
                     con.warn($from(warn.environmentStack).Select(function (a) { return a.Method.Method; }).JoinBy(" -> "));
@@ -37,6 +41,6 @@ var con = new System.Console({
     storageID: "simple-console"
 });
 document.getElementById("Rconsole").append(con.element);
-con.logHTML("<h1>Welcome to <a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">R# Workbench!</a></h1>" +
-    "\n<p>\nWelcome to the R# language<br />\n<br />\nType 'demo()' for some demos, 'help()' for on-line help, or<br />\n'help.start()' for an HTML browser interface to help.<br />\nType 'q()' to quit R.</p>");
+con.logHTML("<h1><a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">SMRUCC\\GCModeller Workbench</a></h1>" +
+    "\n<p>\nWelcome to the R# language<br />\n<br />\nType '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />\n'<code>help.start()</code>' for an HTML browser interface to help.<br />\nType '<code>q()</code>' to quit R.</p>");
 //# sourceMappingURL=Rconsole.js.map

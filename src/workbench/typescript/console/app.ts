@@ -11,12 +11,12 @@ let con = new System.Console({
 document.getElementById("Rconsole").append(con.element);
 
 con.logHTML(
-    "<h1>Welcome to <a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">R# Workbench!</a></h1>" +
+    "<h1><a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">SMRUCC\\GCModeller Workbench</a></h1>" +
 `
 <p>
 Welcome to the R# language<br />
 <br />
-Type 'demo()' for some demos, 'help()' for on-line help, or<br />
-'help.start()' for an HTML browser interface to help.<br />
-Type 'q()' to quit R.</p>`
+Type '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />
+'<code>help.start()</code>' for an HTML browser interface to help.<br />
+Type '<code>q()</code>' to quit R.</p>`
 );
