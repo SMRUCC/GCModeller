@@ -1,10 +1,11 @@
 /// <reference path="shell.ts" />
 /// <reference path="../build/linq.d.ts" />
+/// <reference path="../../workbench/vendor/console/simple-console.d.ts" />
 
-let con = new SimpleConsole({
+let con = new System.Console({
     handleCommand: shell.handle_command,
-    placeholder: "Enter JavaScript, or ASCII emoticons :)",
-    storageID: "simple-console demo"
+    placeholder: "#",
+    storageID: "simple-console"
 });
 
 document.getElementById("Rconsole").append(con.element);

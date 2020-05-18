@@ -17,10 +17,11 @@ var shell;
 })(shell || (shell = {}));
 /// <reference path="shell.ts" />
 /// <reference path="../build/linq.d.ts" />
-var con = new SimpleConsole({
+/// <reference path="../../workbench/vendor/console/simple-console.d.ts" />
+var con = new System.Console({
     handleCommand: shell.handle_command,
-    placeholder: "Enter JavaScript, or ASCII emoticons :)",
-    storageID: "simple-console demo"
+    placeholder: "#",
+    storageID: "simple-console"
 });
 document.getElementById("Rconsole").append(con.element);
 con.logHTML("<h1>Welcome to <a href='https://github.com/SMRUCC/GCModeller-workbench'>R# Workbench!</a></h1>" +
