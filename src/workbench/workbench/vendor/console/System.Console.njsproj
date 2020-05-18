@@ -41,6 +41,9 @@
     <TypeScriptCompile Include="UI\add_popup_button.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="UI\add_popup_menu_button.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\" />

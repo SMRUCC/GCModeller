@@ -79,65 +79,7 @@ namespace System {
             }
             this.input_wrapper.appendChild(input);
 
-            var add_popup_menu_button = function (get_items) {
-
-                var popup_button = add_popup_button(function (menu) {
-                    menu.innerHTML = "";
-                    var items = get_items();
-
-                    for (var i = 0; i < items.length; i++) {
-                        var item = items[i];
-                        if (item.type === "divider") {
-                            var divider = document.createElement("hr");
-                            divider.classList.add("menu-divider");
-                            menu.appendChild(divider);
-                        } else {
-                            var menu_item = document.createElement("div");
-                            menu_item.classList.add("menu-item");
-                            menu_item.setAttribute("tabindex", 0);
-                            menu_item.addEventListener("click", item.action);
-                            menu_item.textContent = item.label;
-                            menu.appendChild(menu_item);
-                        }
-                    }
-                });
-
-                var menu = popup_button.popup;
-
-                menu.addEventListener("click", function (e) {
-                    var menu_item = e.target.closest(".menu-item");
-                    if (menu_item) {
-                        popup_button.closePopup();
-                    }
-                });
-
-                menu.addEventListener("keydown", function (e) {
-                    if (e.keyCode === 38) { // Up
-                        e.preventDefault();
-                        var prev = document.activeElement.previousElementSibling;
-                        while (prev && prev.nodeName === "HR") {
-                            prev = prev.previousElementSibling;
-                        }
-                        if (prev && prev.classList.contains("menu-item")) {
-                            prev.focus();
-                        }
-                    } else if (e.keyCode === 40) { // Down
-                        e.preventDefault();
-                        var next = document.activeElement.nextElementSibling;
-                        while (next && next.nodeName === "HR") {
-                            next = next.nextElementSibling;
-                        }
-                        if (next && next.classList.contains("menu-item")) {
-                            next.focus();
-                        }
-                    } else if (e.keyCode === 13 || e.keyCode === 32) { // Enter or Space
-                        e.preventDefault();
-                        document.activeElement.click();
-                    }
-                });
-
-                return popup_button;
-            };
+     
 
             addEventListener("keydown", function (e) {
                 if (e.keyCode === 27) { // Escape
