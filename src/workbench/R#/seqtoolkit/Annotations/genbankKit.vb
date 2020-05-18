@@ -123,6 +123,11 @@ Module genbankKit
         End If
     End Function
 
+    <ExportAPI("enumerateFeatures")>
+    Public Function enumerateFeatures(gb As GBFF.File) As Feature()
+        Return gb.Features.ToArray
+    End Function
+
     ''' <summary>
     ''' get, add or replace the genome origin fasta sequence in the given genbank assembly file.
     ''' </summary>

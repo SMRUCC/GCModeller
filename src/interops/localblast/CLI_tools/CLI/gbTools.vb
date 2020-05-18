@@ -261,9 +261,9 @@ Partial Module CLI
         Return list.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Export.gb",
-               Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
-               Usage:="/Export.gb /gb <genbank.gb/DIR> [/flat /out <outDIR> /simple /batch]")>
+    <ExportAPI("/Export.gb")>
+    <Description("Export the *.fna, *.faa, *.ptt file from the gbk file.")>
+    <Usage("/Export.gb /gb <genbank.gb/DIR> [/flat /out <outDIR> /simple /batch]")>
     <Argument("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
               Description:="Fasta sequence short title, which is just only contains locus_tag")>
     <Argument("/flat", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
@@ -380,19 +380,34 @@ Partial Module CLI
             .ToArray
     End Function
 
-    <ExportAPI("/Export.gb.genes",
-               Usage:="/Export.gb.genes /gb <genbank.gb> [/geneName /out <out.fasta>]")>
+    <ExportAPI("/Export.gb.genes")>
+    <Usage("/Export.gb.genes /gb <genbank.gb> [/locus_tag /geneName /out <out.fasta>]")>
     <Argument("/geneName", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function ExportGenesFasta(args As CommandLine) As Integer
         Dim gb$ = args <= "/gb"
-        Dim geneName As Boolean = args.GetBoolean("/geneName")
-        Dim out As String = args.GetValue("/out", gb.TrimSuffix & ".genes.fasta")
+        Dim locus_tag As Boolean = args("/locus_tag")
+        Dim geneName As Boolean = args("/geneName")
+        Dim out As String = args("/out") Or (gb.TrimSuffix & ".genes.fasta")
         Dim genbank As GBFF.File = GBFF.File.Load(gb)
-        Dim ffn As FastaFile = genbank.ExportGeneNtFasta(geneName)
+        Dim ffn As FastaFile = genbank.ExportGeneNtFasta(geneName, onlyLocus_tag:=locus_tag)
+
         Return ffn.Save(out, Encoding.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/Export.Protein")>
+    <Description("Export all of the protein sequence from the genbank database file.")>
+    <Usage("/Export.Protein /gb <genome.gb> [/out <out.fasta>]")>
+    <Group(CLIGrouping.GenbankTools)>
+    Public Function ExportProt(args As CommandLine) As Integer
+        Dim gb As String = args <= "/gb"
+        Dim out As String = args("/out") Or (gb.TrimSuffix & "-protein.fasta")
+        Dim gbk As GBFF.File = GBFF.File.Load(gb)
+        Dim prot As FastaFile = gbk.ExportProteins_Short
+
+        Return prot.Save(out).CLICode
     End Function
 
     <ExportAPI("/add.locus_tag",

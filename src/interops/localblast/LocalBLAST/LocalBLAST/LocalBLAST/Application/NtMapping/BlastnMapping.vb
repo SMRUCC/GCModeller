@@ -118,17 +118,19 @@ Namespace LocalBLAST.Application.NtMapping
         ''' Identities(%)
         ''' </summary>
         ''' <returns></returns>
-        <Column("Identities(%)")> Public Property Identities As Double
+        <Column("Identities(%)")> Public Property identitiesValue As Double
         <Column("Identities")> Public Property IdentitiesFraction As String
             Get
                 Return _identitiesFraction
             End Get
             Set(value As String)
                 _identitiesFraction = value
+
                 If Not String.IsNullOrEmpty(value) Then
-                    Dim Tokens As String() = value.Replace("\", "/").Split("/"c)
-                    If Tokens.Count > 1 Then
-                        __identitiesFraction = Math.Abs(Val(Tokens(Scan0) - Val(Tokens(1))))
+                    Dim tokens As String() = value.Replace("\", "/").Split("/"c)
+
+                    If tokens.Count > 1 Then
+                        __identitiesFraction = CInt(Math.Abs(Val(tokens(Scan0)) - Val(tokens(1))))
                     Else
                         __identitiesFraction = Integer.MaxValue
                     End If
@@ -145,7 +147,7 @@ Namespace LocalBLAST.Application.NtMapping
         ''' Gaps(%)
         ''' </summary>
         ''' <returns></returns>
-        <Column("Gaps(%)")> Public Property Gaps As String
+        <Column("Gaps(%)")> Public Property gapsValue As String
         <Column("Gaps")> Public Property GapsFraction As String
 
 #Region "Public Property Strand As String"
@@ -212,7 +214,7 @@ Namespace LocalBLAST.Application.NtMapping
         <Column("Perfect?")> Public ReadOnly Property PerfectAlignment As Boolean
             Get
                 ' Explicit conditions
-                Return (Identities = 100.0R AndAlso __identitiesFraction <= 3) AndAlso Val(Gaps) = 0R
+                Return (identitiesValue = 100.0R AndAlso __identitiesFraction <= 3) AndAlso Val(gapsValue) = 0R
             End Get
         End Property
 

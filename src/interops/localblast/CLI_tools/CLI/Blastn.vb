@@ -512,7 +512,7 @@ Partial Module CLI
                     In data
                     Select x
                     Group x By x.ReadQuery Into Group) _
-                   .Select(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
+                   .Select(Function(x) x.Group.OrderByDescending(Function(r) r.identitiesValue).First)
         Return best.SaveTo(out).CLICode
     End Function
 

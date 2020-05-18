@@ -178,7 +178,7 @@ Public Module API
         Dim result As New Rfamily With {
             .Evalue = blastn.Evalue,
             .Hit = blastn.ReadQuery.Split.First,
-            .Identities = blastn.Identities,
+            .Identities = blastn.identitiesValue,
             .Left = blastn.ReferenceLeft,
             .Right = blastn.ReferenceRight,
             .Strand = blastn.ReferenceStrand.GetBriefCode,

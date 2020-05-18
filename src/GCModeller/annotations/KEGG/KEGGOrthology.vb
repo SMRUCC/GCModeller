@@ -295,6 +295,7 @@ Public Module KEGGOrthology
                                        Optional tick# = 1,
                                        Optional gray As Boolean = False,
                                        Optional labelRightAlignment As Boolean = False,
+                                       Optional topN As Integer = 13,
                                        Optional colorSchema$ = "Set1:c6") As GraphicsData
 
         Dim pathwayBrite = Pathway.LoadDictionary
@@ -332,6 +333,7 @@ Public Module KEGGOrthology
                               Return terms _
                                   .Value _
                                   .OrderByDescending(Function(t) t.Value) _
+                                  .Take(topN) _
                                   .ToArray
                           End Function)
         Return profileData _

@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::3791c154545a82bb991a003dc1c42ec6, core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module LocationDescriptions
-    ' 
-    '         Function: ATGDistance, BlankSegment, GetATGDistance, GetLociRelations, IsBlankSegment
-    '                   LocationDescription
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module LocationDescriptions
+' 
+'         Function: ATGDistance, BlankSegment, GetATGDistance, GetLociRelations, IsBlankSegment
+'                   LocationDescription
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -82,22 +82,33 @@ Namespace ContextModel
         ''' <param name="nucl"></param>
         ''' <returns></returns>
         Public Function GetLociRelations(Of T As IGeneBrief)(gene As T, nucl As NucleotideLocation) As SegmentRelationships
-            Dim r As SegmentRelationships = gene.Location.GetRelationship(nucl)
+            Return GetLociRelations(gene.Location, nucl)
+        End Function
+
+        ''' <summary>
+        ''' Get the loci relationship between the target gene and the specific feature loci.
+        ''' </summary>
+        ''' <param name="gene"></param>
+        ''' <param name="nucl"></param>
+        ''' <returns></returns>
+        Public Function GetLociRelations(gene As NucleotideLocation, nucl As NucleotideLocation) As SegmentRelationships
+            Dim r As SegmentRelationships = gene.GetRelationship(nucl)
 
             If r = SegmentRelationships.DownStream AndAlso
-                gene.Location.Strand = Strands.Reverse Then
-                Return SegmentRelationships.UpStream  '反向的基因需要被特别注意，当目标片段处于下游的时候，该下游片段可能为该基因的启动子区
+                gene.Strand = Strands.Reverse Then
+                ' 反向的基因需要被特别注意，当目标片段处于下游的时候，该下游片段可能为该基因的启动子区
+                Return SegmentRelationships.UpStream
 
             ElseIf r = SegmentRelationships.UpStream AndAlso
-                gene.Location.Strand = Strands.Reverse Then
+                gene.Strand = Strands.Reverse Then
                 Return SegmentRelationships.DownStream
 
             ElseIf r = SegmentRelationships.UpStreamOverlap AndAlso
-                gene.Location.Strand = Strands.Reverse Then
+                gene.Strand = Strands.Reverse Then
                 Return SegmentRelationships.DownStreamOverlap
 
             ElseIf r = SegmentRelationships.DownStreamOverlap AndAlso
-                gene.Location.Strand = Strands.Reverse Then
+                gene.Strand = Strands.Reverse Then
                 Return SegmentRelationships.UpStreamOverlap
 
             Else
@@ -117,9 +128,9 @@ Namespace ContextModel
             Call gene.Location.Normalization()
 
             If gene.Location.Strand = Strands.Forward Then
-                Return stdNum.Abs(gene.Location.Right - nucl.Left)
+                Return stdNum.Abs(gene.Location.right - nucl.left)
             Else
-                Return stdNum.Abs(gene.Location.Left - nucl.Right)
+                Return stdNum.Abs(gene.Location.left - nucl.right)
             End If
         End Function
 
@@ -135,11 +146,11 @@ Namespace ContextModel
             Call gene.Location.Normalization()
 
             If gene.Location.Strand = Strands.Forward Then '直接和左边相减
-                Return loci.Right - gene.Location.Left
+                Return loci.right - gene.Location.left
             ElseIf gene.Location.Strand = Strands.Reverse Then  '互补链方向的基因，则应该减去右边
-                Return gene.Location.Right - loci.Left
+                Return gene.Location.right - loci.left
             Else
-                Return loci.Left - gene.Location.Left
+                Return loci.left - gene.Location.left
             End If
         End Function
 

@@ -609,9 +609,12 @@ Namespace Assembly.NCBI.GenBank
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function ExportGeneNtFasta(gb As GBFF.File, Optional geneName As Boolean = False) As FASTA.FastaFile
+        Public Function ExportGeneNtFasta(gb As GBFF.File,
+                                          Optional geneName As Boolean = False,
+                                          Optional onlyLocus_tag As Boolean = False) As FASTA.FastaFile
+
             Dim reader As IPolymerSequenceModel = gb.Origin
-            Dim list As New List(Of FASTA.FastaSeq)
+            Dim list As New List(Of FastaSeq)
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
             Dim Sequence As String
@@ -645,7 +648,13 @@ Namespace Assembly.NCBI.GenBank
                     [function] = products.SafeGetValue(locus_tag)?.function
                     [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
                     loc = gene.Location.ContiguousRegion
-                    attrs = {locus_tag, gene.Location.ToString, [function]}
+
+                    If onlyLocus_tag Then
+                        attrs = {locus_tag}
+                    Else
+                        attrs = {locus_tag, gene.Location.ToString, [function]}
+                    End If
+
                     Sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
                     Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
 
