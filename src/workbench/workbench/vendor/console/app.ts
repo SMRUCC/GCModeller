@@ -37,19 +37,13 @@ namespace System {
             class: "simple-console-input-wrapper"
         });
 
-        private add_button(action: Delegate.Sub) {
-            var button = $ts("<button>", {
-                onclick: action
-            });
-            this.input_wrapper.appendChild(button);
-            return button;
-        };
-
         public open_popup_button;
         public output: IHTMLElement;
         public input: IHTMLInputElement;
+        public element: IHTMLElement;
 
         private last_entry;
+        private history: ConsoleDevice.history;
 
         public get get_last_entry() {
             return this.last_entry;
@@ -72,7 +66,8 @@ namespace System {
                 class: "simple-console"
             });
 
-
+            this.history = new ConsoleDevice.history(storage_id + " command history");
+            this.element = console_element;
             this.output = $ts("<div>", {
                 class: "simple-console-output",
                 role: "log",
@@ -81,7 +76,7 @@ namespace System {
 
             add_chevron(this.input_wrapper);
 
-            this.input = $ts("<input>", {
+            this.input = <any>$ts("<input>", {
                 class: "simple-console-input",
                 autofocus: "autofocus",
                 placeholder: placeholder,
@@ -93,63 +88,15 @@ namespace System {
             if (!output_only) {
                 console_element.appendChild(this.input_wrapper);
             }
-            this.input_wrapper.appendChild(input);
+            this.input_wrapper.appendChild(this.input);
 
 
 
-            addEventListener("keydown", function (e) {
-                if (e.keyCode === 27) { // Escape
-                    if (vm.open_popup_button) {
-                        e.preventDefault();
-                        var popup_button = vm.open_popup_button;
-                        popup_button.closePopup();
-                        popup_button.focus();
-                    } else if (e.target.closest(".simple-console") === console_element) {
-                        input.focus();
-                    }
-                }
-            });
+            addEventListener("keydown", e => this.keydown27(e));
 
             new ConsoleUI.add_popup_menu_button(function () {
-                let items: historyItem[] = [];
-
-                if (command_history.length > 0) {
-                    for (var i = 0; i < command_history.length; i++) {
-                        var command = command_history[i];
-                        (function (command, i) {
-                            items.push({
-                                label: command,
-                                action: function () {
-                                    input.value = command;
-                                    input.focus();
-                                    input.setSelectionRange(input.value.length, input.value.length);
-                                }
-                            });
-                        }(command, i));
-                    }
-
-                    items.push({
-                        type: "divider"
-                    });
-
-                    items.push({
-                        label: "Clear command history",
-                        action: clear_command_history
-                    });
-                } else {
-                    items.push({
-                        label: "Command history empty",
-                        action: function () { }
-                    });
-                }
-
-                return items;
+                return vm.populateHistoryItems();
             }, this);
-
-
-
-
-
 
             this.output.is_scrolled_to_bottom = function () {
                 // 1px margin of error needed in case the user is zoomed in
@@ -160,110 +107,144 @@ namespace System {
                 vm.output.scrollTop = vm.output.scrollHeight;
             };
 
-            var command_history = [];
-            var command_index = command_history.length;
-            var command_history_key = storage_id + " command history";
-
-            var load_command_history = function () {
-                try {
-                    command_history = JSON.parse(localStorage[command_history_key]);
-                    command_index = command_history.length;
-                } catch (e) { }
-            };
-
-            var save_command_history = function () {
-                try {
-                    localStorage[command_history_key] = JSON.stringify(command_history);
-                } catch (e) { }
-            };
-
-            var clear_command_history = function () {
-                command_history = [];
-                save_command_history();
-            };
-
-            load_command_history();
-
-            input.addEventListener("keydown", e => this.keydown(e));
-
-            this.element = console_element;
-            this.input = input;
-            this.addButton = add_button;
-            this.addPopupButton = add_popup_button;
-            this.addPopupMenuButton = add_popup_menu_button;
+            this.history.load_command_history();
+            this.input.addEventListener("keydown", e => this.keydown(e));
         };
+
+        public addPopupButton(update: Delegate.Sub) {
+            return new ConsoleUI.add_popup_button(update, this);
+        }
+
+        public addPopupMenuButton(getHistories: get_historyItems) {
+            return new ConsoleUI.add_popup_menu_button(getHistories, this);
+        }
+
+        public addButton(action: Delegate.Sub) {
+            var button = $ts("<button>", {
+                onclick: action
+            });
+            this.input_wrapper.appendChild(button);
+            return button;
+        };
+
+        populateHistoryItems(): historyItem[] {
+            let items: historyItem[] = [];
+            let command_history = this.history.command_history;
+            let vm = this;
+
+            if (command_history.length > 0) {
+                for (var i = 0; i < command_history.length; i++) {
+                    var command = command_history[i];
+                    items.push(this.pushMyHistory(command, i));
+                }
+
+                items.push({
+                    type: "divider"
+                });
+
+                items.push({
+                    label: "Clear command history",
+                    action: function () {
+                        vm.history.clear_command_history();
+                    }
+                });
+            } else {
+                items.push({
+                    label: "Command history empty",
+                    action: function () { }
+                });
+            }
+
+            return items;
+        }
+
+        pushMyHistory(command, i) {
+            let vm = this;
+
+            return {
+                label: command,
+                action: function () {
+                    vm.input.value = command;
+                    vm.input.focus();
+                    vm.input.setSelectionRange(vm.input.value.length, vm.input.value.length);
+                }
+            }
+        }
 
         handleUncaughtErrors() {
             window.onerror = this.error;
         };
 
+        keydown27(e: KeyboardEvent) {
+            let vm = this;
+
+            if (e.keyCode === 27) { // Escape
+                if (vm.open_popup_button) {
+                    e.preventDefault();
+                    var popup_button = vm.open_popup_button;
+                    popup_button.closePopup();
+                    popup_button.focus();
+                } else if (e.target.closest(".simple-console") === console_element) {
+                    vm.input.focus();
+                }
+            }
+        }
+
         keydown(e: KeyboardEvent) {
+            let history = this.history;
+
             if (e.keyCode === 13) { // Enter
 
-                var command = input.value;
+                var command = this.input.value;
                 if (command === "") {
                     return;
+                } else {
+                    this.input.value = "";
+                    this.history.tryPushCommand(command);
                 }
-                input.value = "";
 
-                if (command_history[command_history.length - 1] !== command) {
-                    command_history.push(command);
-                }
-                command_index = command_history.length;
-                save_command_history();
-
-                var command_entry = log(command);
+                let command_entry = this.log(command);
                 command_entry.classList.add("input");
                 add_chevron(command_entry);
 
-                output.scroll_to_bottom();
+                this.output.scroll_to_bottom();
+                this.handle_command(command);
 
-                handle_command(command);
+            } else if (e.keyCode === 38) {
+                // Up
+                this.input.value = history.get_last_command();
+                this.input.setSelectionRange(this.input.value.length, this.input.value.length);
 
-            } else if (e.keyCode === 38) { // Up
-
-                if (--command_index < 0) {
-                    command_index = -1;
-                    input.value = "";
-                } else {
-                    input.value = command_history[command_index];
-                }
-                input.setSelectionRange(input.value.length, input.value.length);
                 e.preventDefault();
 
-            } else if (e.keyCode === 40) { // Down
+            } else if (e.keyCode === 40) {
+                // Down
 
-                if (++command_index >= command_history.length) {
-                    command_index = command_history.length;
-                    input.value = "";
-                } else {
-                    input.value = command_history[command_index];
-                }
-                input.setSelectionRange(input.value.length, input.value.length);
+                this.input.value = history.get_next_command();
+                this.input.setSelectionRange(this.input.value.length, this.input.value.length);
                 e.preventDefault();
 
-            } else if (e.keyCode === 46 && e.shiftKey) { // Shift+Delete
+            } else if (e.keyCode === 46 && e.shiftKey) {
+                // Shift+Delete
 
-                if (input.value === command_history[command_index]) {
-                    command_history.splice(command_index, 1);
-                    command_index = Math.max(0, command_index - 1)
-                    input.value = command_history[command_index] || "";
-                    save_command_history();
+                if (this.input.value === history.current_command_history) {
+                    this.input.value = history.delete_command_history();
                 }
                 e.preventDefault();
 
             }
         }
 
-        clear() {
+        public clear() {
             this.output.innerHTML = "";
         };
 
         public log(content) {
-            var was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
+            let was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
+            let entry = $ts("<div>", {
+                class: "entry"
+            });
 
-            var entry = document.createElement("div");
-            entry.className = "entry";
             if (content instanceof Element) {
                 entry.appendChild(content);
             } else {
@@ -278,6 +259,7 @@ namespace System {
             });
 
             this.last_entry = entry;
+
             return entry;
         };
 
