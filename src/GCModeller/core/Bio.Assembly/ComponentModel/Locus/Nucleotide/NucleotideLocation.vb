@@ -384,12 +384,16 @@ Namespace ComponentModel.Loci
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator +(loci As NucleotideLocation, offset%) As NucleotideLocation
-            Return New NucleotideLocation(loci.left + offset, loci.right + offset, loci.Strand)
+            Return New NucleotideLocation(loci.left + offset, loci.right + offset, loci.Strand) With {
+                .tag = $"{loci.tag} ({offset}bp)"
+            }
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator -(loci As NucleotideLocation, offset%) As NucleotideLocation
-            Return New NucleotideLocation(loci.left - offset, loci.right - offset, loci.Strand)
+            Return New NucleotideLocation(loci.left - offset, loci.right - offset, loci.Strand) With {
+                .tag = $"{loci.tag} ({offset}bp)"
+            }
         End Operator
     End Class
 End Namespace
