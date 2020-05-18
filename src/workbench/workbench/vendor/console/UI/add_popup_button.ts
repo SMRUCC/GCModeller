@@ -5,7 +5,7 @@ namespace System.ConsoleUI {
         public popup_button: IHTMLElement;
         public popup: IHTMLElement;
 
-        constructor(update_popup: Delegate.Sub, console: Console) {
+        constructor(private update_popup: Delegate.Sub, private console: Console) {
             let vm = this;
 
             this.popup = $ts("<div>", {
@@ -27,52 +27,52 @@ namespace System.ConsoleUI {
 
             console.input_wrapper
                 .appendElement(this.popup_button)
-                .appendElement(popup);
+                .appendElement(this.popup);
 
-            this.popup_button.addEventListener("keydown", function (e) {
-                if (e.keyCode === 40) { // Down
-                    e.preventDefault();
-                    first_item = popup.querySelector("[tabindex='0']");
-                    first_item.focus();
-                }
+            this.popup_button.addEventListener("keydown", e => this.keydown40(e));
+            this.popup.addEventListener("keydown", e => this.keydown38(e), true);
+            this.popup_button.addEventListener("click", function () {
+                vm.toggle_popup();
             });
-
-            popup.addEventListener("keydown", function (e) {
-                if (e.keyCode === 38) { // Up
-                    first_item = popup.querySelector("[tabindex='0']");
-                    if (document.activeElement === first_item) {
-                        popup_button.focus();
-                    }
-                }
-            }, true);
-
-
-
-
-
-            popup_button.addEventListener("click", toggle_popup);
 
             addEventListener("mousedown", e => this.mousedown(e));
             addEventListener("focusin", e => this.focusin(e));
 
-            popup_button.popup = popup;
-            popup_button.openPopup = open_popup;
-            popup_button.closePopup = close_popup;
-            popup_button.togglePopup = toggle_popup;
-            popup_button.popupIsOpen = popup_is_open;
+            this.popup_button.popup = vm.popup;
+            this.popup_button.openPopup = function () { return vm.open_popup() };
+            this.popup_button.closePopup = function () { return vm.close_popup() }
+            this.popup_button.togglePopup = function () { return vm.toggle_popup() }
+            this.popup_button.popupIsOpen = function () { return vm.popup_is_open() }
         };
+
+        keydown40(e: KeyboardEvent) {
+            if (e.keyCode === 40) { // Down
+                e.preventDefault();
+                first_item = this.popup.querySelector("[tabindex='0']");
+                first_item.focus();
+            }
+        }
+
+        keydown38(e: KeyboardEvent) {
+            if (e.keyCode === 38) { // Up
+                first_item = this.popup.querySelector("[tabindex='0']");
+                if (document.activeElement === first_item) {
+                    this.popup_button.focus();
+                }
+            }
+        }
 
         open_popup() {
             this.popup_button.setAttribute("aria-expanded", "true");
-            popup.setAttribute("aria-hidden", "false");
-            open_popup_button = vm.popup_button;
-            update_popup(popup);
+            this.popup.setAttribute("aria-hidden", "false");
+            this.console.open_popup_button = this.popup_button;
+            this.update_popup(this.popup);
         };
 
         close_popup() {
             this.popup_button.setAttribute("aria-expanded", "false");
-            popup.setAttribute("aria-hidden", "true");
-            open_popup_button = null;
+            this.popup.setAttribute("aria-hidden", "true");
+            this.console.open_popup_button = null;
         };
 
         toggle_popup() {
@@ -87,9 +87,9 @@ namespace System.ConsoleUI {
             if (this.popup_is_open()) {
                 if (!(
                     e.target.closest(".popup-button") == this.popup_button ||
-                    e.target.closest(".popup-menu") == popup
+                    e.target.closest(".popup-menu") == this.popup
                 )) {
-                    close_popup();
+                    this.close_popup();
                 }
             }
         }
@@ -98,10 +98,10 @@ namespace System.ConsoleUI {
             if (this.popup_is_open()) {
                 if (!(
                     e.target.closest(".popup-button") == this.popup_button ||
-                    e.target.closest(".popup-menu") == popup
+                    e.target.closest(".popup-menu") == this.popup
                 )) {
                     e.preventDefault();
-                    close_popup();
+                    this.close_popup();
                 }
             }
         }
