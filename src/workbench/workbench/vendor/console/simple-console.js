@@ -267,16 +267,18 @@ var System;
             }
             ;
             add_popup_button.prototype.keydown40 = function (e) {
-                if (e.keyCode === 40) { // Down
+                if (e.keyCode === 40) {
+                    // Down
                     e.preventDefault();
-                    first_item = this.popup.querySelector("[tabindex='0']");
-                    first_item.focus();
+                    this.first_item = this.popup.querySelector("[tabindex='0']");
+                    this.first_item.focus();
                 }
             };
             add_popup_button.prototype.keydown38 = function (e) {
-                if (e.keyCode === 38) { // Up
-                    first_item = this.popup.querySelector("[tabindex='0']");
-                    if (document.activeElement === first_item) {
+                if (e.keyCode === 38) {
+                    // Up
+                    this.first_item = this.popup.querySelector("[tabindex='0']");
+                    if (document.activeElement === this.first_item) {
                         this.popup_button.focus();
                     }
                 }

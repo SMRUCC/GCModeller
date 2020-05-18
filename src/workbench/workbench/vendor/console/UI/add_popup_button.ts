@@ -5,6 +5,8 @@ namespace System.ConsoleUI {
         public popup_button: ConsoleDevice.IPopupButton;
         public popup: IHTMLElement;
 
+        private first_item: HTMLElement;
+
         constructor(private update_popup: Delegate.Sub, private console: Console) {
             let vm = this;
 
@@ -46,17 +48,21 @@ namespace System.ConsoleUI {
         };
 
         keydown40(e: KeyboardEvent) {
-            if (e.keyCode === 40) { // Down
+            if (e.keyCode === 40) {
+                // Down
                 e.preventDefault();
-                first_item = this.popup.querySelector("[tabindex='0']");
-                first_item.focus();
+
+                this.first_item = this.popup.querySelector("[tabindex='0']");
+                this.first_item.focus();
             }
         }
 
         keydown38(e: KeyboardEvent) {
-            if (e.keyCode === 38) { // Up
-                first_item = this.popup.querySelector("[tabindex='0']");
-                if (document.activeElement === first_item) {
+            if (e.keyCode === 38) {
+                // Up
+                this.first_item = this.popup.querySelector("[tabindex='0']");
+
+                if (document.activeElement === this.first_item) {
                     this.popup_button.focus();
                 }
             }

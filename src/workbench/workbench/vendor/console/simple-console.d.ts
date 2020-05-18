@@ -55,6 +55,7 @@ declare namespace System.ConsoleUI {
         private console;
         popup_button: ConsoleDevice.IPopupButton;
         popup: IHTMLElement;
+        private first_item;
         constructor(update_popup: Delegate.Sub, console: Console);
         keydown40(e: KeyboardEvent): void;
         keydown38(e: KeyboardEvent): void;
