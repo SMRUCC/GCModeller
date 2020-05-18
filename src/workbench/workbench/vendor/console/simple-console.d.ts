@@ -1,6 +1,5 @@
 /// <reference path="../linq.d.ts" />
 declare namespace System {
-    function add_command_history_icon(to_element: HTMLElement): void;
     interface historyItem {
         label?: string;
         action?: Delegate.Action;
@@ -13,7 +12,7 @@ declare namespace System {
         options: ConsoleConfig;
         readonly input_wrapper: IHTMLElement;
         open_popup_button: any;
-        output: IHTMLElement;
+        output: ConsoleDevice.IConsoleOutputDevice;
         input: IHTMLInputElement;
         element: IHTMLElement;
         private last_entry;
@@ -54,7 +53,7 @@ declare namespace System.ConsoleUI {
     class add_popup_button {
         private update_popup;
         private console;
-        popup_button: IHTMLElement;
+        popup_button: ConsoleDevice.IPopupButton;
         popup: IHTMLElement;
         constructor(update_popup: Delegate.Sub, console: Console);
         keydown40(e: KeyboardEvent): void;
@@ -69,11 +68,29 @@ declare namespace System.ConsoleUI {
 }
 declare namespace System.ConsoleUI {
     class add_popup_menu_button {
-        popup_button: any;
+        popup_button: ConsoleDevice.IPopupButton;
         constructor(get_items: get_historyItems, console: Console);
         menu_update(menu: any, get_items: get_historyItems): void;
         keydown(e: KeyboardEvent): void;
         click(e: MouseEvent): void;
+    }
+}
+declare namespace System.ConsoleUI {
+    function add_svg(to_element: HTMLElement, icon_class_name: string, svg: string, viewBox?: string): void;
+    function add_chevron(to_element: HTMLElement): void;
+    function add_command_history_icon(to_element: HTMLElement): void;
+}
+declare namespace System.ConsoleDevice {
+    interface IConsoleOutputDevice extends IHTMLElement {
+        is_scrolled_to_bottom: () => boolean;
+        scroll_to_bottom: () => void;
+    }
+    interface IPopupButton extends IHTMLElement {
+        popup: IHTMLElement;
+        openPopup: Delegate.Action;
+        closePopup: Delegate.Action;
+        togglePopup: Delegate.Action;
+        popupIsOpen: () => boolean;
     }
 }
 declare namespace System.ConsoleDevice {
