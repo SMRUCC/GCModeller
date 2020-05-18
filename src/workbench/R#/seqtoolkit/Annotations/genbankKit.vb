@@ -43,6 +43,7 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -148,7 +149,7 @@ Module genbankKit
         For Each name As String In data.slots.Keys
             values = data.getValue(Of String())(name, env)
 
-            For Each val As String In values
+            For Each val As String In values.SafeQuery
                 loci.Add(name, val)
             Next
         Next

@@ -34,6 +34,26 @@ let templateGenbank = "K:\20200226\20200516_gbk\Yersinia pseudotuberculosis (Pfe
 let genes = templateGenbank :> enumerateFeatures :> projectAs(as.object) :> which(a -> a$KeyName == "CDS");
 let promoter;
 
+let writeData as function(location, id, db_xref, promoter) {
+	let direct = is.forward(location) ? (-1) : 1;
+	
+	for(site in as.object(promoter)$tfBindingSites) {
+		let tfbs_loci = offset(location, direct * as.object(promoter)$promoterPos);
+		
+		# create feature
+		site = as.object(site);
+		tfbs_loci = feature("Promoter", tfbs_loci, list(
+			family = site$regulator,
+			oligonucleotides = site$oligonucleotides,
+			score = site$score,
+			target = id,
+			target_dbxref = db_xref
+		));
+		# and then insert into genbank file
+		templateGenbank :> add.feature(tfbs_loci);
+	}
+} 
+
 for(a in genes) {
 	let location = as.object(a$Location)$ContiguousRegion;
 	let db_xref = a$Query("db_xref");
@@ -43,28 +63,14 @@ for(a in genes) {
 		next;
 	} else {
 		promoter = regions[[id]];
-	}
-		
-	if (is.null(promoter) || (as.object(promoter)$numOfPromoters == 0)) {
-		next;
-	} else {
-		let direct = is.forward(location) ? -1 : 1;
 	
-		for(site in as.object(promoter)$tfBindingSites) {
-			let tfbs_loci = offset(location, direct * as.object(promoter)$promoterPos);
-			
-			# create feature
-			site = as.object(site);
-			tfbs_loci = feature("Promoter", tfbs_loci, list(
-				family = site$regulator,
-				oligonucleotides = site$oligonucleotides,
-				score = site$score,
-				target = id,
-				target_dbxref = db_xref
-			));
-			# and then insert into genbank file
-			templateGenbank :> add.feature(tfbs_loci);
-		}	
+		if (is.null(promoter)) {
+			next;
+		} else {
+			if ((as.object(promoter)$numOfPromoters > 0)) {
+				writeData(location, id, db_xref, promoter);
+			}		
+		}
 	}
 	
 	print(id);
