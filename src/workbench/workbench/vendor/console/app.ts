@@ -23,6 +23,14 @@ namespace System {
         );
     };
 
+    export interface historyItem {
+        label?: string;
+        action?: Delegate.Action;
+        type?: string;
+    }
+
+    export interface get_historyItems { (): historyItem[]; }
+
     export class Console {
 
         readonly input_wrapper = $ts("<div>", {
@@ -38,6 +46,14 @@ namespace System {
         };
 
         public open_popup_button;
+        public output: IHTMLElement;
+        public input: IHTMLInputElement;
+
+        private last_entry;
+
+        public get get_last_entry() {
+            return this.last_entry;
+        };
 
         constructor(public options: ConsoleConfig) {
 
@@ -57,7 +73,7 @@ namespace System {
             });
 
 
-            var output = $ts("<div>", {
+            this.output = $ts("<div>", {
                 class: "simple-console-output",
                 role: "log",
                 "aria-live": "polite"
@@ -65,21 +81,21 @@ namespace System {
 
             add_chevron(this.input_wrapper);
 
-            var input = $ts("<input>", {
+            this.input = $ts("<input>", {
                 class: "simple-console-input",
                 autofocus: "autofocus",
                 placeholder: placeholder,
                 "aria-label": placeholder
             });
 
-            console_element.appendChild(output);
+            console_element.appendChild(this.output);
 
             if (!output_only) {
                 console_element.appendChild(this.input_wrapper);
             }
             this.input_wrapper.appendChild(input);
 
-     
+
 
             addEventListener("keydown", function (e) {
                 if (e.keyCode === 27) { // Escape
@@ -94,8 +110,8 @@ namespace System {
                 }
             });
 
-            add_popup_menu_button(function () {
-                var items = [];
+            new ConsoleUI.add_popup_menu_button(function () {
+                let items: historyItem[] = [];
 
                 if (command_history.length > 0) {
                     for (var i = 0; i < command_history.length; i++) {
@@ -128,71 +144,20 @@ namespace System {
                 }
 
                 return items;
-            });
+            }, this);
 
-            var clear = function () {
-                output.innerHTML = "";
-            };
 
-            var last_entry;
-            var get_last_entry = function () {
-                return last_entry;
-            };
 
-            var log = function (content) {
-                var was_scrolled_to_bottom = output.is_scrolled_to_bottom();
 
-                var entry = document.createElement("div");
-                entry.className = "entry";
-                if (content instanceof Element) {
-                    entry.appendChild(content);
-                } else {
-                    entry.innerText = entry.textContent = content;
-                }
-                output.appendChild(entry);
 
-                requestAnimationFrame(function () {
-                    if (was_scrolled_to_bottom) {
-                        output.scroll_to_bottom();
-                    }
-                });
 
-                last_entry = entry;
-                return entry;
-            };
-
-            var logHTML = function (html) {
-                log("");
-                get_last_entry().innerHTML = html;
-            };
-
-            var error = function (content) {
-                log(content);
-                get_last_entry().classList.add("error");
-            };
-
-            var warn = function (content) {
-                log(content);
-                get_last_entry().classList.add("warning");
-            };
-
-            var info = function (content) {
-                log(content);
-                get_last_entry().classList.add("info");
-            };
-
-            var success = function (content) {
-                log(content);
-                get_last_entry().classList.add("success");
-            };
-
-            output.is_scrolled_to_bottom = function () {
+            this.output.is_scrolled_to_bottom = function () {
                 // 1px margin of error needed in case the user is zoomed in
-                return output.scrollTop + output.clientHeight + 1 >= output.scrollHeight;
+                return vm.output.scrollTop + vm.output.clientHeight + 1 >= vm.output.scrollHeight;
             };
 
-            output.scroll_to_bottom = function () {
-                output.scrollTop = output.scrollHeight;
+            this.output.scroll_to_bottom = function () {
+                vm.output.scrollTop = vm.output.scrollHeight;
             };
 
             var command_history = [];
@@ -219,83 +184,126 @@ namespace System {
 
             load_command_history();
 
-            input.addEventListener("keydown", function (e) {
-                if (e.keyCode === 13) { // Enter
-
-                    var command = input.value;
-                    if (command === "") {
-                        return;
-                    }
-                    input.value = "";
-
-                    if (command_history[command_history.length - 1] !== command) {
-                        command_history.push(command);
-                    }
-                    command_index = command_history.length;
-                    save_command_history();
-
-                    var command_entry = log(command);
-                    command_entry.classList.add("input");
-                    add_chevron(command_entry);
-
-                    output.scroll_to_bottom();
-
-                    handle_command(command);
-
-                } else if (e.keyCode === 38) { // Up
-
-                    if (--command_index < 0) {
-                        command_index = -1;
-                        input.value = "";
-                    } else {
-                        input.value = command_history[command_index];
-                    }
-                    input.setSelectionRange(input.value.length, input.value.length);
-                    e.preventDefault();
-
-                } else if (e.keyCode === 40) { // Down
-
-                    if (++command_index >= command_history.length) {
-                        command_index = command_history.length;
-                        input.value = "";
-                    } else {
-                        input.value = command_history[command_index];
-                    }
-                    input.setSelectionRange(input.value.length, input.value.length);
-                    e.preventDefault();
-
-                } else if (e.keyCode === 46 && e.shiftKey) { // Shift+Delete
-
-                    if (input.value === command_history[command_index]) {
-                        command_history.splice(command_index, 1);
-                        command_index = Math.max(0, command_index - 1)
-                        input.value = command_history[command_index] || "";
-                        save_command_history();
-                    }
-                    e.preventDefault();
-
-                }
-            });
+            input.addEventListener("keydown", e => this.keydown(e));
 
             this.element = console_element;
             this.input = input;
             this.addButton = add_button;
             this.addPopupButton = add_popup_button;
             this.addPopupMenuButton = add_popup_menu_button;
+        };
 
-            this.handleUncaughtErrors = function () {
-                window.onerror = error;
-            };
+        handleUncaughtErrors() {
+            window.onerror = this.error;
+        };
 
-            this.log = log;
-            this.logHTML = logHTML;
-            this.error = error;
-            this.warn = warn;
-            this.info = info;
-            this.success = success;
-            this.getLastEntry = get_last_entry;
-            this.clear = clear;
+        keydown(e: KeyboardEvent) {
+            if (e.keyCode === 13) { // Enter
 
+                var command = input.value;
+                if (command === "") {
+                    return;
+                }
+                input.value = "";
+
+                if (command_history[command_history.length - 1] !== command) {
+                    command_history.push(command);
+                }
+                command_index = command_history.length;
+                save_command_history();
+
+                var command_entry = log(command);
+                command_entry.classList.add("input");
+                add_chevron(command_entry);
+
+                output.scroll_to_bottom();
+
+                handle_command(command);
+
+            } else if (e.keyCode === 38) { // Up
+
+                if (--command_index < 0) {
+                    command_index = -1;
+                    input.value = "";
+                } else {
+                    input.value = command_history[command_index];
+                }
+                input.setSelectionRange(input.value.length, input.value.length);
+                e.preventDefault();
+
+            } else if (e.keyCode === 40) { // Down
+
+                if (++command_index >= command_history.length) {
+                    command_index = command_history.length;
+                    input.value = "";
+                } else {
+                    input.value = command_history[command_index];
+                }
+                input.setSelectionRange(input.value.length, input.value.length);
+                e.preventDefault();
+
+            } else if (e.keyCode === 46 && e.shiftKey) { // Shift+Delete
+
+                if (input.value === command_history[command_index]) {
+                    command_history.splice(command_index, 1);
+                    command_index = Math.max(0, command_index - 1)
+                    input.value = command_history[command_index] || "";
+                    save_command_history();
+                }
+                e.preventDefault();
+
+            }
+        }
+
+        clear() {
+            this.output.innerHTML = "";
+        };
+
+        public log(content) {
+            var was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
+
+            var entry = document.createElement("div");
+            entry.className = "entry";
+            if (content instanceof Element) {
+                entry.appendChild(content);
+            } else {
+                entry.innerText = entry.textContent = content;
+            }
+            this.output.appendChild(entry);
+
+            requestAnimationFrame(function () {
+                if (was_scrolled_to_bottom) {
+                    this.output.scroll_to_bottom();
+                }
+            });
+
+            this.last_entry = entry;
+            return entry;
+        };
+
+        public logHTML(html) {
+            this.log("");
+            this.get_last_entry.innerHTML = html;
+        };
+
+        public error(content) {
+            this.log(content);
+            this.get_last_entry.classList.add("error");
+        };
+
+        public warn(content) {
+            this.log(content);
+            this.get_last_entry.classList.add("warning");
+        };
+
+        public info(content) {
+            this.log(content);
+            this.get_last_entry.classList.add("info");
+        };
+
+        public success(content) {
+            this.log(content);
+            this.get_last_entry.classList.add("success");
         };
     }
 }

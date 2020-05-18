@@ -4,7 +4,7 @@ namespace System.ConsoleUI {
 
         public popup_button;
 
-        constructor(get_items: Delegate.Func<any[]>, console: Console) {
+        constructor(get_items: get_historyItems, console: Console) {
             let popup_button = new add_popup_button(menu => this.menu_update(menu, get_items), console);
             let menu = popup_button.popup;
 
@@ -12,9 +12,9 @@ namespace System.ConsoleUI {
             menu.addEventListener("keydown", e => this.keydown(e));
         }
 
-        menu_update(menu, get_items: Delegate.Func<any[]>) {
+        menu_update(menu, get_items: get_historyItems) {
             menu.innerHTML = "";
-            let items: any[] = get_items();
+            let items: historyItem[] = get_items();
 
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
@@ -25,7 +25,7 @@ namespace System.ConsoleUI {
                 } else {
                     var menu_item = document.createElement("div");
                     menu_item.classList.add("menu-item");
-                    menu_item.setAttribute("tabindex", 0);
+                    menu_item.setAttribute("tabindex", "0");
                     menu_item.addEventListener("click", item.action);
                     menu_item.textContent = item.label;
                     menu.appendChild(menu_item);
