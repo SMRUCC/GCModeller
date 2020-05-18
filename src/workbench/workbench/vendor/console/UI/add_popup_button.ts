@@ -2,8 +2,10 @@ namespace System.ConsoleUI {
 
     export class add_popup_button {
 
-        public popup_button: IHTMLElement;
+        public popup_button: ConsoleDevice.IPopupButton;
         public popup: IHTMLElement;
+
+        private first_item: HTMLElement;
 
         constructor(private update_popup: Delegate.Sub, private console: Console) {
             let vm = this;
@@ -14,7 +16,7 @@ namespace System.ConsoleUI {
                 "aria-hidden": true,
                 id: "popup" + (~~(Math.random() * 0xffffff)).toString(0x10)
             });
-            this.popup_button = $ts("<button>", {
+            this.popup_button = <any>$ts("<button>", {
                 class: "popup-button",
                 title: "Command history",
                 "aria-haspopup": true,
@@ -46,17 +48,21 @@ namespace System.ConsoleUI {
         };
 
         keydown40(e: KeyboardEvent) {
-            if (e.keyCode === 40) { // Down
+            if (e.keyCode === 40) {
+                // Down
                 e.preventDefault();
-                first_item = this.popup.querySelector("[tabindex='0']");
-                first_item.focus();
+
+                this.first_item = this.popup.querySelector("[tabindex='0']");
+                this.first_item.focus();
             }
         }
 
         keydown38(e: KeyboardEvent) {
-            if (e.keyCode === 38) { // Up
-                first_item = this.popup.querySelector("[tabindex='0']");
-                if (document.activeElement === first_item) {
+            if (e.keyCode === 38) {
+                // Up
+                this.first_item = this.popup.querySelector("[tabindex='0']");
+
+                if (document.activeElement === this.first_item) {
                     this.popup_button.focus();
                 }
             }
@@ -85,9 +91,11 @@ namespace System.ConsoleUI {
 
         mousedown(e: MouseEvent) {
             if (this.popup_is_open()) {
+                let e_target: HTMLElement = <any>e.target;
+
                 if (!(
-                    e.target.closest(".popup-button") == this.popup_button ||
-                    e.target.closest(".popup-menu") == this.popup
+                    e_target.closest(".popup-button") == this.popup_button ||
+                    e_target.closest(".popup-menu") == this.popup
                 )) {
                     this.close_popup();
                 }
@@ -96,9 +104,11 @@ namespace System.ConsoleUI {
 
         focusin(e: FocusEvent) {
             if (this.popup_is_open()) {
+                let e_target: HTMLElement = <any>e.target;
+
                 if (!(
-                    e.target.closest(".popup-button") == this.popup_button ||
-                    e.target.closest(".popup-menu") == this.popup
+                    e_target.closest(".popup-button") == this.popup_button ||
+                    e_target.closest(".popup-menu") == this.popup
                 )) {
                     e.preventDefault();
                     this.close_popup();
