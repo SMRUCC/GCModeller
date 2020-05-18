@@ -16,7 +16,7 @@ namespace System {
         );
     };
 
-    function add_command_history_icon(to_element: HTMLElement) {
+    export function add_command_history_icon(to_element: HTMLElement) {
         add_svg(to_element, "command-history-icon",
             '<path style="fill:currentColor" d="m 44.77595,87.58531 c -5.22521,-1.50964 -12.71218,-5.59862 -14.75245,-8.05699 -1.11544,-1.34403 -0.96175,-1.96515 1.00404,-4.05763 2.86639,-3.05114 3.32893,-3.0558 7.28918,-0.0735 18.67347,14.0622 46.68328,-0.57603 46.68328,-24.39719 0,-16.97629 -14.94179,-31.06679 -31.5,-29.70533 -14.50484,1.19263 -25.37729,11.25581 -28.04263,25.95533 l -0.67995,3.75 6.6362,0 6.6362,0 -7.98926,8 c -4.39409,4.4 -8.35335,8 -8.79836,8 -0.44502,0 -4.38801,-3.6 -8.7622,-8 l -7.95308,-8 6.11969,0 6.11969,0 1.09387,-6.20999 c 3.5237,-20.00438 20.82127,-33.32106 40.85235,-31.45053 11.43532,1.06785 21.61339,7.05858 27.85464,16.39502 13.06245,19.54044 5.89841,45.46362 -15.33792,55.50045 -7.49404,3.54188 -18.8573,4.55073 -26.47329,2.35036 z m 6.22405,-32.76106 c 0,-6.94142 0,-13.88283 0,-20.82425 2,0 4,0 6,0 0,6.01641 0,12.03283 0,18.04924 4.9478,2.93987 9.88614,5.89561 14.82688,8.84731 l -3.27407,4.64009 c -5.88622,-3.5132 -11.71924,-7.11293 -17.55281,-10.71239 z"/>',
             "0 0 102 102"
@@ -37,11 +37,15 @@ namespace System {
             return button;
         };
 
+        public open_popup_button;
+
         constructor(public options: ConsoleConfig) {
 
             if (!options.handleCommand && !options.outputOnly) {
                 throw new Error("You must specify either options.handleCommand(input) or options.outputOnly");
             }
+
+            let vm = this;
 
             var output_only = options.outputOnly;
             var handle_command = options.handleCommand;
@@ -51,7 +55,7 @@ namespace System {
             var console_element = $ts("<div>", {
                 class: "simple-console"
             });
-                      
+
 
             var output = $ts("<div>", {
                 class: "simple-console-output",
@@ -67,113 +71,13 @@ namespace System {
                 placeholder: placeholder,
                 "aria-label": placeholder
             });
-           
+
             console_element.appendChild(output);
 
             if (!output_only) {
                 console_element.appendChild(this.input_wrapper);
             }
             this.input_wrapper.appendChild(input);
-
-            var open_popup_button;
-
-
-            var add_popup_button = function (update_popup) {
-                let popup = $ts("<div>", {
-                    class: "popup-menu",
-                    role: "menu",
-                    "aria-hidden": true,
-                    id: "popup" + (~~(Math.random() * 0xffffff)).toString(0x10)
-                });
-
-                let popup_button = $ts("<button>", {
-                    class: "popup-button",
-                    title: "Command history",
-                    "aria-haspopup": true,
-                    "aria-owns": popup.id,
-                    "aria-expanded": false,
-                    "aria-label": "Command history"
-                });
-
-                add_command_history_icon(popup_button);
-
-                this.input_wrapper.appendChild(popup_button);
-                this.input_wrapper.appendChild(popup);
-
-                popup_button.addEventListener("keydown", function (e) {
-                    if (e.keyCode === 40) { // Down
-                        e.preventDefault();
-                        first_item = popup.querySelector("[tabindex='0']");
-                        first_item.focus();
-                    }
-                });
-
-                popup.addEventListener("keydown", function (e) {
-                    if (e.keyCode === 38) { // Up
-                        first_item = popup.querySelector("[tabindex='0']");
-                        if (document.activeElement === first_item) {
-                            popup_button.focus();
-                        }
-                    }
-                }, true);
-
-                var open_popup = function () {
-                    popup_button.setAttribute("aria-expanded", "true");
-                    popup.setAttribute("aria-hidden", "false");
-                    open_popup_button = popup_button;
-                    update_popup(popup);
-                };
-
-                var close_popup = function () {
-                    popup_button.setAttribute("aria-expanded", "false");
-                    popup.setAttribute("aria-hidden", "true");
-                    open_popup_button = null;
-                };
-
-                var popup_is_open = function () {
-                    return popup_button.getAttribute("aria-expanded") == "true";
-                };
-
-                var toggle_popup = function () {
-                    if (popup_is_open()) {
-                        close_popup();
-                    } else {
-                        open_popup();
-                    }
-                };
-
-                popup_button.addEventListener("click", toggle_popup);
-
-                addEventListener("mousedown", function (e) {
-                    if (popup_is_open()) {
-                        if (!(
-                            e.target.closest(".popup-button") == popup_button ||
-                            e.target.closest(".popup-menu") == popup
-                        )) {
-                            close_popup();
-                        }
-                    }
-                });
-
-                addEventListener("focusin", function (e) {
-                    if (popup_is_open()) {
-                        if (!(
-                            e.target.closest(".popup-button") == popup_button ||
-                            e.target.closest(".popup-menu") == popup
-                        )) {
-                            e.preventDefault();
-                            close_popup();
-                        }
-                    }
-                });
-
-                popup_button.popup = popup;
-                popup_button.openPopup = open_popup;
-                popup_button.closePopup = close_popup;
-                popup_button.togglePopup = toggle_popup;
-                popup_button.popupIsOpen = popup_is_open;
-                return popup_button;
-            };
 
             var add_popup_menu_button = function (get_items) {
 
@@ -237,9 +141,9 @@ namespace System {
 
             addEventListener("keydown", function (e) {
                 if (e.keyCode === 27) { // Escape
-                    if (open_popup_button) {
+                    if (vm.open_popup_button) {
                         e.preventDefault();
-                        var popup_button = open_popup_button;
+                        var popup_button = vm.open_popup_button;
                         popup_button.closePopup();
                         popup_button.focus();
                     } else if (e.target.closest(".simple-console") === console_element) {
