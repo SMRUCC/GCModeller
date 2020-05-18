@@ -48,31 +48,34 @@ namespace System {
             var placeholder = options.placeholder || "";
             var autofocus = options.autofocus;
             var storage_id = options.storageID || "simple-console";
-            var console_element = document.createElement("div");
+            var console_element = $ts("<div>", {
+                class: "simple-console"
+            });
+                      
 
-            console_element.className = "simple-console";
-
-            var output = document.createElement("div");
-            output.className = "simple-console-output";
-            output.setAttribute("role", "log");
-            output.setAttribute("aria-live", "polite");
+            var output = $ts("<div>", {
+                class: "simple-console-output",
+                role: "log",
+                "aria-live": "polite"
+            });
 
             add_chevron(this.input_wrapper);
 
-            var input = document.createElement("input");
-            input.className = "simple-console-input";
-            input.setAttribute("autofocus", "autofocus");
-            input.setAttribute("placeholder", placeholder);
-            input.setAttribute("aria-label", placeholder);
-
+            var input = $ts("<input>", {
+                class: "simple-console-input",
+                autofocus: "autofocus",
+                placeholder: placeholder,
+                "aria-label": placeholder
+            });
+           
             console_element.appendChild(output);
+
             if (!output_only) {
                 console_element.appendChild(this.input_wrapper);
             }
             this.input_wrapper.appendChild(input);
 
             var open_popup_button;
-
 
 
             var add_popup_button = function (update_popup) {
@@ -83,13 +86,15 @@ namespace System {
                     id: "popup" + (~~(Math.random() * 0xffffff)).toString(0x10)
                 });
 
-                let popup_button = document.createElement("button");
-                popup_button.className = "popup-button";
-                popup_button.setAttribute("aria-haspopup", "true");
-                popup_button.setAttribute("aria-owns", popup.id);
-                popup_button.setAttribute("aria-expanded", "false");
-                popup_button.setAttribute("aria-label", "Command history");
-                popup_button.setAttribute("title", "Command history");
+                let popup_button = $ts("<button>", {
+                    class: "popup-button",
+                    title: "Command history",
+                    "aria-haspopup": true,
+                    "aria-owns": popup.id,
+                    "aria-expanded": false,
+                    "aria-label": "Command history"
+                });
+
                 add_command_history_icon(popup_button);
 
                 this.input_wrapper.appendChild(popup_button);
