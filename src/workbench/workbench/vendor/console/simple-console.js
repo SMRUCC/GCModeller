@@ -1,4 +1,3 @@
-/// <reference path="../../../../typescript/build/linq.d.ts" />
 var System;
 (function (System) {
     /**
@@ -234,6 +233,7 @@ var System;
     }());
     System.Console = Console;
 })(System || (System = {}));
+/// <reference path="../../../../typescript/build/linq.d.ts" />
 var System;
 (function (System) {
     var ConsoleUI;

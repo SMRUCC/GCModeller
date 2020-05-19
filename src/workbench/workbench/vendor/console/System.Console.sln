@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "System.Console", "System.Console.njsproj", "{E782DEBF-771B-42EE-8385-B71FC241CE1B}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "System.Console", "src\System.Console.njsproj", "{E782DEBF-771B-42EE-8385-B71FC241CE1B}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Linq.ts", "..\..\..\typescript\Linq.ts\Linq.ts\Linq.ts.njsproj", "{E0AEC189-6D05-47E4-9F69-DAFE43AC8398}"
 EndProject

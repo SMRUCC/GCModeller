@@ -31,11 +31,13 @@
   <ItemGroup>
     <None Include="app.ts" />
     <Content Include="package.json" />
-    <Content Include="README.md" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="options.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Console.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="UI\add_popup_button.ts">
