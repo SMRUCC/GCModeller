@@ -22,13 +22,19 @@ namespace RWeb.shell {
                 console.warn($ts("<h5>").display("run with additional warning message:"));
 
                 for (let warn of result.warnings) {
-                    console.warn($ts("<pre>").display($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> ")));
+                    let str: string = $from(warn.environmentStack)
+                        .Select(a => a.Method.Method)
+                        .JoinBy(" -> ") + "~:br/>";
 
                     for (let i = 0; i < warn.message.length; i++) {
-                        console.warn($ts("<pre>").display(`${i}. ${warn.message[i]}`));
+                        str += `${i}. ${warn.message[i]}` + "~:br/>";
                     }
 
-                    console.warn("");
+                    str = str
+                        .replace(/\s/g, "&nbsp;")
+                        .replace(/[<]/g, "&lt;")
+                        .replace(/[~:]{2}/g, "<");
+                    console.warn($ts("<span>").display(str));
                 }
             }
         });

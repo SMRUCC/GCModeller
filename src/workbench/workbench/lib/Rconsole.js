@@ -22,11 +22,17 @@ var RWeb;
                     RWeb.console.warn($ts("<h5>").display("run with additional warning message:"));
                     for (var _i = 0, _a = result.warnings; _i < _a.length; _i++) {
                         var warn = _a[_i];
-                        RWeb.console.warn($ts("<pre>").display($from(warn.environmentStack).Select(function (a) { return a.Method.Method; }).JoinBy(" -> ")));
+                        var str = $from(warn.environmentStack)
+                            .Select(function (a) { return a.Method.Method; })
+                            .JoinBy(" -> ") + "~:br/>";
                         for (var i = 0; i < warn.message.length; i++) {
-                            RWeb.console.warn($ts("<pre>").display(i + ". " + warn.message[i]));
+                            str += i + ". " + warn.message[i] + "~:br/>";
                         }
-                        RWeb.console.warn("");
+                        str = str
+                            .replace(/\s/g, "&nbsp;")
+                            .replace(/[<]/g, "&lt;")
+                            .replace(/[~:]{2}/g, "<");
+                        RWeb.console.warn($ts("<span>").display(str));
                     }
                 }
             });
