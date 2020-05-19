@@ -23,6 +23,8 @@
         alt?: string;
         checked?: boolean;
         selected?: boolean;
+        autofocus?: boolean;
+        placeholder?: string;
 
         /**
          * 应用于``<a>``标签进行文件下载重命名文件所使用的
@@ -43,6 +45,7 @@
         */
         value?: string | number | boolean;
         for?: string;
+        role?: string;
 
         /**
          * 处理HTML节点对象的点击事件，这个属性值应该是一个无参数的函数来的
@@ -52,7 +55,13 @@
 
         "data-toggle"?: string;
         "data-target"?: string;
+
         "aria-hidden"?: boolean;
+        "aria-label"?: string;
+        "aria-live"?: string;
+        "aria-haspopup"?: boolean;
+        "aria-owns"?: string;
+        "aria-expanded"?: boolean;
 
         usemap?: string;
         shape?: string;

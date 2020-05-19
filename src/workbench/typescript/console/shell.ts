@@ -1,6 +1,6 @@
 /// <reference path="../../../R-sharp/studio/RMessage.ts" />
 
-namespace shell {
+namespace RWeb.shell {
 
     const url: string = "http://127.0.0.1:7452/exec";
 
@@ -10,25 +10,25 @@ namespace shell {
 
             if (result.code == 0) {
                 if (result.content_type.startsWith("text/html")) {
-                    con.log(base64_decode(result.info)).classList.add("result");
+                    console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                 } else {
-                    con.log($ts("<img>", { src: result.info })).classList.add("result");
-                }      
+                    console.log($ts("<img>", { src: result.info })).classList.add("result");
+                }
             } else {
-                con.error(result.info);
+                console.error(result.info);
             }
 
             if (!isNullOrEmpty(result.warnings)) {
-                con.warn("<h3>with additional warning message:</h3>");
+                console.warn($ts("<h5>").display("run with additional warning message:"));
 
                 for (let warn of result.warnings) {
-                    con.warn($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> "));
+                    console.warn($ts("<pre>").display($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> ")));
 
                     for (let i = 0; i < warn.message.length; i++) {
-                        con.warn(`${i}. ${warn.message[i]}`);
+                        console.warn($ts("<pre>").display(`${i}. ${warn.message[i]}`));
                     }
 
-                    con.warn("");
+                    console.warn("");
                 }
             }
         });

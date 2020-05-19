@@ -4,7 +4,7 @@ namespace System.ConsoleUI {
 
         public popup_button: ConsoleDevice.IPopupButton;
 
-        constructor(get_items: get_historyItems, console: Console) {
+        constructor(get_items: ConsoleDevice.get_historyItems, console: Console) {
             let popup_button = new add_popup_button(menu => this.menu_update(menu, get_items), console).popup_button;
             let menu = popup_button.popup;
 
@@ -14,18 +14,19 @@ namespace System.ConsoleUI {
             menu.addEventListener("keydown", e => this.keydown(e));
         }
 
-        menu_update(menu, get_items: get_historyItems) {
-            menu.innerHTML = "";
-            let items: historyItem[] = get_items();
+        menu_update(menu, get_items: ConsoleDevice.get_historyItems) {
+            let divider: HTMLHRElement;
+            let menu_item: HTMLDivElement;
 
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
+            menu.innerHTML = "";
+
+            for (let item of get_items()) {
                 if (item.type === "divider") {
-                    var divider = document.createElement("hr");
+                    divider = document.createElement("hr");
                     divider.classList.add("menu-divider");
                     menu.appendChild(divider);
                 } else {
-                    var menu_item = document.createElement("div");
+                    menu_item = document.createElement("div");
                     menu_item.classList.add("menu-item");
                     menu_item.setAttribute("tabindex", "0");
                     menu_item.addEventListener("click", item.action);

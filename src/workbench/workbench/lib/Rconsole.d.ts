@@ -24,7 +24,10 @@ interface Method {
     Module: string;
     Method: string;
 }
-declare namespace shell {
+declare namespace RWeb.shell {
     function handle_command(command: string): void;
 }
-declare let con: System.Console;
+declare namespace RWeb {
+    const console: System.Console;
+    function run_app(): void;
+}

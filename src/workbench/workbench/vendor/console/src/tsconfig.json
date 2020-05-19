@@ -6,7 +6,7 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "../dist",
-    "outFile": "simple-console.js",
+    "outFile": "../simple-console.js",
     "declaration": true
   },
   "exclude": [

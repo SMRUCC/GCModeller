@@ -1,15 +1,10 @@
-/// <reference path="../linq.d.ts" />
+﻿namespace System {
 
-namespace System {
-
-    export interface historyItem {
-        label?: string;
-        action?: Delegate.Action;
-        type?: string;
-    }
-
-    export interface get_historyItems { (): historyItem[]; }
-
+    /**
+     * 表示控制台应用程序的标准输入流、输出流和错误流。 此类不能被继承。
+     * 
+     * > a typescript work derived from https://github.com/1j01/simple-console
+    */
     export class Console {
 
         readonly input_wrapper = $ts("<div>", {
@@ -45,7 +40,7 @@ namespace System {
 
             this.history = new ConsoleDevice.history(storage_id + " command history");
             this.element = console_element;
-            this.output = $ts("<div>", {
+            this.output = <any>$ts("<div>", {
                 class: "simple-console-output",
                 role: "log",
                 "aria-live": "polite"
@@ -90,7 +85,7 @@ namespace System {
             return new ConsoleUI.add_popup_button(update, this);
         }
 
-        public addPopupMenuButton(getHistories: get_historyItems) {
+        public addPopupMenuButton(getHistories: ConsoleDevice.get_historyItems) {
             return new ConsoleUI.add_popup_menu_button(getHistories, this);
         }
 
@@ -102,8 +97,8 @@ namespace System {
             return button;
         };
 
-        populateHistoryItems(): historyItem[] {
-            let items: historyItem[] = [];
+        populateHistoryItems(): ConsoleDevice.historyItem[] {
+            let items: ConsoleDevice.historyItem[] = [];
             let command_history = this.history.command_history;
             let vm = this;
 
@@ -146,8 +141,9 @@ namespace System {
             }
         }
 
-        handleUncaughtErrors() {
-            window.onerror = this.error;
+        handleUncaughtErrors(): Console {
+            (<any>window).onerror = this.error;
+            return this;
         };
 
         keydown27(e: KeyboardEvent) {
@@ -197,19 +193,18 @@ namespace System {
 
             } else if (e.keyCode === 40) {
                 // Down
-
                 this.input.value = <string>history.get_next_command();
                 this.input.setSelectionRange(this.input.value.length, this.input.value.length);
+
                 e.preventDefault();
 
             } else if (e.keyCode === 46 && e.shiftKey) {
                 // Shift+Delete
-
                 if (this.input.value === history.current_command_history) {
                     this.input.value = history.delete_command_history();
                 }
-                e.preventDefault();
 
+                e.preventDefault();
             }
         }
 
@@ -217,7 +212,10 @@ namespace System {
             this.output.innerHTML = "";
         };
 
-        public log(content) {
+        /**
+         * 将指定的字符串值（后跟当前行终止符）写入标准输出流。
+        */
+        public log(content: string | HTMLElement) {
             let was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
             let vm = this;
             let entry = $ts("<div>", {
@@ -242,27 +240,27 @@ namespace System {
             return entry;
         };
 
-        public logHTML(html) {
+        public logHTML(html: string) {
             this.log("");
             this.get_last_entry.innerHTML = html;
         };
 
-        public error(content) {
+        public error(content: string | HTMLElement) {
             this.log(content);
             this.get_last_entry.classList.add("error");
         };
 
-        public warn(content) {
+        public warn(content: string | HTMLElement) {
             this.log(content);
             this.get_last_entry.classList.add("warning");
         };
 
-        public info(content) {
+        public info(content: string | HTMLElement) {
             this.log(content);
             this.get_last_entry.classList.add("info");
         };
 
-        public success(content) {
+        public success(content: string | HTMLElement) {
             this.log(content);
             this.get_last_entry.classList.add("success");
         };

@@ -141,6 +141,10 @@ Namespace Core
             Return http_url
         End Function
 
+        Public Function openResponseStream() As HttpResponse
+            Return New HttpResponse(outputStream, AddressOf writeFailure)
+        End Function
+
         Private Function streamReadLine(inputStream As Stream) As String
             Dim nextChar As Integer
             Dim chrbuf As New List(Of Char)

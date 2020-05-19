@@ -1,6 +1,10 @@
-/// <reference path="../linq.d.ts" />
 var System;
 (function (System) {
+    /**
+     * 表示控制台应用程序的标准输入流、输出流和错误流。 此类不能被继承。
+     *
+     * > a typescript work derived from https://github.com/1j01/simple-console
+    */
     var Console = /** @class */ (function () {
         function Console(options) {
             var _this = this;
@@ -115,6 +119,7 @@ var System;
         };
         Console.prototype.handleUncaughtErrors = function () {
             window.onerror = this.error;
+            return this;
         };
         ;
         Console.prototype.keydown27 = function (e) {
@@ -174,6 +179,9 @@ var System;
             this.output.innerHTML = "";
         };
         ;
+        /**
+         * 将指定的字符串值（后跟当前行终止符）写入标准输出流。
+        */
         Console.prototype.log = function (content) {
             var was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
             var vm = this;
@@ -225,6 +233,7 @@ var System;
     }());
     System.Console = Console;
 })(System || (System = {}));
+/// <reference path="../../../../typescript/build/linq.d.ts" />
 var System;
 (function (System) {
     var ConsoleUI;
@@ -348,17 +357,18 @@ var System;
                 menu.addEventListener("keydown", function (e) { return _this.keydown(e); });
             }
             add_popup_menu_button.prototype.menu_update = function (menu, get_items) {
+                var divider;
+                var menu_item;
                 menu.innerHTML = "";
-                var items = get_items();
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
+                for (var _i = 0, _a = get_items(); _i < _a.length; _i++) {
+                    var item = _a[_i];
                     if (item.type === "divider") {
-                        var divider = document.createElement("hr");
+                        divider = document.createElement("hr");
                         divider.classList.add("menu-divider");
                         menu.appendChild(divider);
                     }
                     else {
-                        var menu_item = document.createElement("div");
+                        menu_item = document.createElement("div");
                         menu_item.classList.add("menu-item");
                         menu_item.setAttribute("tabindex", "0");
                         menu_item.addEventListener("click", item.action);
