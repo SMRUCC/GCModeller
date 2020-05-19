@@ -193,16 +193,6 @@ Namespace Core.HttpStream
                     Call loadMultiPart(boundary, input)
                 End Using
             End If
-
-            Call files _
-                .ToDictionary(Function(f) f.Key,
-                              Function(names)
-                                  Return names.Value _
-                                      .Select(Function(file) file.Summary) _
-                                      .ToArray
-                              End Function) _
-                .GetJson(indent:=True) _
-                .Warning
         End Sub
 
         Private Sub loadMultiPart(boundary$, input As Stream)

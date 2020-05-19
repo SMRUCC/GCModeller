@@ -564,7 +564,7 @@ var Enumerable;
                 tree.add(key, [obj]);
             }
         }
-        TypeScript.logging.log(tree);
+        // TypeScript.logging.log(tree);
         return tree
             .AsEnumerable()
             .Select(function (node) {
@@ -876,6 +876,26 @@ var IEnumerator = /** @class */ (function (_super) {
         }
         return new IEnumerator(seq);
     };
+    IEnumerator.prototype.subset = function (indexer) {
+        var index;
+        if (typeof indexer[0] == "boolean") {
+            index = [];
+            for (var i = 0; i < indexer.length; i++) {
+                if (indexer[i]) {
+                    index.push(i);
+                }
+            }
+        }
+        else {
+            index = indexer;
+        }
+        var subsetOutput = [];
+        for (var _i = 0, index_1 = index; _i < index_1.length; _i++) {
+            var i = index_1[_i];
+            subsetOutput.push(this.sequence[i]);
+        }
+        return new IEnumerator(subsetOutput);
+    };
     /**
      * 取出序列之中的前n个元素
     */
@@ -980,7 +1000,9 @@ var IEnumerator = /** @class */ (function (_super) {
      *
     */
     IEnumerator.prototype.ForEach = function (callbackfn) {
-        this.sequence.forEach(callbackfn);
+        this.sequence.forEach(function (value, index, array) {
+            callbackfn(value, index);
+        });
     };
     /**
      * Contract the data sequence to string
@@ -1240,6 +1262,11 @@ var DOMEnumerator = /** @class */ (function (_super) {
             return this.Select(function (x) { return x.getAttribute(attrName); });
         }
     };
+    DOMEnumerator.prototype.style = function (styleVal) {
+        var css = DOM.CSS.parseStylesheet(styleVal);
+        this.ForEach(function (e) { return DOM.CSS.Setter.setStyle(e, css); });
+        return this;
+    };
     DOMEnumerator.prototype.addClass = function (className) {
         this.ForEach(function (node) {
             if (!node.classList.contains(className)) {
@@ -1337,7 +1364,8 @@ var Internal;
     (function (Handlers) {
         var events = {
             onclick: "onclick",
-            onmouseover: "onmouseover"
+            onmouseover: "onmouseover",
+            onchange: "onchange"
         };
         var eventFuncNames = Object.keys(events);
         function hasKey(object, key) {
@@ -1457,7 +1485,18 @@ var Internal;
                         console.warn("Apply querySelector for expression: '" + query.expression + "', no typescript extension was made!");
                     }
                     // 只返回第一个满足条件的节点
-                    return Handlers.Selector.selectElementsUnderContext(query, context);
+                    var element = Handlers.Selector.selectElementsUnderContext(query, context);
+                    if (!isNullOrUndefined(element)) {
+                        if (argument.nativeModel) {
+                            return TypeExtensions.Extends(element);
+                        }
+                        else {
+                            return new HTMLTsElement(element);
+                        }
+                    }
+                    else {
+                        return null;
+                    }
                 }
             };
             /**
@@ -1533,6 +1572,7 @@ var Internal;
                 Internal.Arguments.nameFilter(attrs).forEach(function (name) { return setAttr(name); });
                 this.hookEvt(node, events.onclick, attrs);
                 this.hookEvt(node, events.onmouseover, attrs);
+                this.hookEvt(node, events.onchange, attrs);
             };
             /**
              * 添加事件
@@ -1550,6 +1590,9 @@ var Internal;
                                 break;
                             case events.onmouseover:
                                 node.onmouseover = evt;
+                                break;
+                            case events.onchange:
+                                node.onchange = evt;
                                 break;
                             default:
                                 TypeScript.logging.log(evtName, TypeScript.ConsoleColors.Yellow);
@@ -1782,6 +1825,7 @@ var Strings;
     Strings.A = "A".charCodeAt(0);
     Strings.Z = "Z".charCodeAt(0);
     Strings.numericPattern = /[-]?\d+(\.\d+)?/g;
+    Strings.integerPattern = /[0-9]+/g;
     /**
      * 判断所给定的字符串文本是否是任意实数的正则表达式模式
     */
@@ -1789,6 +1833,10 @@ var Strings;
         return IsPattern(text, Strings.numericPattern);
     }
     Strings.isNumericPattern = isNumericPattern;
+    function isIntegerPattern(text) {
+        return IsPattern(text, Strings.integerPattern);
+    }
+    Strings.isIntegerPattern = isIntegerPattern;
     /**
      * 尝试将任意类型的目标对象转换为数值类型
      *
@@ -3960,6 +4008,47 @@ var data;
     }());
     data_1.NumericRange = NumericRange;
 })(data || (data = {}));
+var csv;
+(function (csv) {
+    /**
+     * 将对象序列转换为``dataframe``对象
+     *
+     * 这个函数只能够转换object类型的数据，对于基础类型将不保证能够正常工作
+     *
+     * @param data 因为这个对象序列对象是具有类型约束的，所以可以直接从第一个
+     *    元素对象之中得到所有的属性名称作为csv文件头的数据
+    */
+    function toDataFrame(data) {
+        var seq = Array.isArray(data) ? new IEnumerator(data) : data;
+        var header = $ts(Object.keys(seq.First));
+        var rows = seq
+            .Select(function (obj) {
+            var columns = header
+                .Select(function (ref, i) {
+                return toString(obj[ref]);
+            });
+            return new csv.row(columns);
+        });
+        return new csv.dataframe([new csv.row(header)]).AppendRows(rows);
+    }
+    csv.toDataFrame = toDataFrame;
+    function toString(obj) {
+        if (isNullOrUndefined(obj)) {
+            // 这个对象值是空的，所以在csv文件之中是空字符串
+            return "";
+        }
+        else {
+            return "" + obj;
+        }
+    }
+    function isTsvFile(content) {
+        var lines = Strings.lineTokens(content);
+        var countTab = $from(lines).Select(function (l) { return Strings.Count(l, "\t"); }).Average();
+        var countComma = $from(lines).Select(function (l) { return Strings.Count(l, ","); }).Average();
+        return countTab >= countComma;
+    }
+    csv.isTsvFile = isTsvFile;
+})(csv || (csv = {}));
 /// <reference path="./Abstracts/TS.ts" />
 /// <reference path="../../Data/StringHelpers/URL.ts" />
 /// <reference path="../../Data/StringHelpers/PathHelper.ts" />
@@ -3969,6 +4058,7 @@ var data;
 /// <reference path="../../DOM/Events/CustomEvents.ts" />
 /// <reference path="../../Data/Range.ts" />
 /// <reference path="../Reflection/Reflector.ts" />
+/// <reference path="../../csv/doc.ts" />
 /**
  * The internal implementation of the ``$ts`` object.
 */
@@ -4328,6 +4418,7 @@ var Internal;
             }
             return csv.dataframe.Parse(data, isTsv);
         };
+        ts.csv.isTsvFile = csv.isTsvFile;
         ts.csv.toObjects = function (data) { return csv.dataframe.Parse(data, csv.isTsvFile(data)).Objects(); };
         ts.csv.toText = function (data, tsvOut) {
             if (tsvOut === void 0) { tsvOut = false; }
@@ -4352,7 +4443,11 @@ var Internal;
         var DOMquery = Internal.Handlers.Shared.string();
         ts.select = function (query, context) {
             if (context === void 0) { context = window; }
-            return Internal.Handlers.stringEval.select(query, context);
+            var dom = Internal.Handlers.stringEval.select(query, context);
+            if (dom.Count == 0) {
+                TypeScript.logging.warning("select query of '" + query + "' returns no data...");
+            }
+            return dom;
         };
         ts.select.getSelects = (function (id) { return DOMquery.doEval(id, null, null); });
         ts.select.getSelectedOptions = function (query, context) {
@@ -4665,20 +4760,18 @@ var $link = function (query, args) {
 var $iframe = function (query, args) {
     return Internal.typeGenericElement(query, args);
 };
-var RequireGlobal;
-(function (RequireGlobal) {
-    /**
-     * Linq???????????
-     *
-     * ``$ts``????????????????????????????
-     *
-     * @param source ?????????????
-    */
-    function $from(source) {
-        return new IEnumerator(source);
-    }
-    RequireGlobal.$from = $from;
-})(RequireGlobal || (RequireGlobal = {}));
+//namespace RequireGlobal {
+//    /**
+//     * Linq???????????
+//     * 
+//     * ``$ts``????????????????????????????
+//     * 
+//     * @param source ?????????????
+//    */
+//    export function $from<T>(source: T[] | IEnumerator<T>): IEnumerator<T> {
+//        return new IEnumerator<T>(source);
+//    }
+//}
 /// <reference path="./Collections/Map.ts" />
 var TypeExtensions;
 (function (TypeExtensions) {
@@ -5560,27 +5653,29 @@ var DOM;
             }
             Setter.css = css;
             function setStyle(node, style) {
-                var css = node.style;
-                TypeScript.logging.log(style);
                 for (var _i = 0, style_1 = style; _i < style_1.length; _i++) {
                     var declare = style_1[_i];
-                    applyStyle(css, declare.name, declare.value);
+                    applyStyle(node, declare.name, declare.value);
                 }
             }
             Setter.setStyle = setStyle;
-            function applyStyle(style, name, value) {
+            /**
+             * 20200427
+             * 似乎直接应用于style属性上并不会起作用，所以在这里修改为应用于节点元素的style上
+            */
+            function applyStyle(styledNode, name, value) {
                 switch (name.toLowerCase()) {
                     case "color":
-                        style.color = value;
+                        styledNode.style.color = value;
                         break;
                     case "background-color":
-                        style.backgroundColor = value;
+                        styledNode.style.backgroundColor = value;
                         break;
                     case "font-size":
-                        style.fontSize = value;
+                        styledNode.style.fontSize = value;
                         break;
                     default:
-                        style[name] = value;
+                        styledNode.style[name] = value;
                         TypeScript.logging.warning("Set style '" + name + "' is not implements yet...");
                 }
             }
@@ -5939,6 +6034,8 @@ var TypeExtensions;
             else {
                 node.style.pointerEvents = "none";
                 node.style.opacity = "0.4";
+                node.style.filter = "grayscale(100%)";
+                node.style.webkitFilter = "grayscale(100%)";
             }
         };
         // 用这个方法可以很方便的从现有的节点进行转换
@@ -9639,46 +9736,5 @@ var csv;
             return buffer[buffer.length - 1] == escape;
         }
     }
-})(csv || (csv = {}));
-var csv;
-(function (csv) {
-    /**
-     * 将对象序列转换为``dataframe``对象
-     *
-     * 这个函数只能够转换object类型的数据，对于基础类型将不保证能够正常工作
-     *
-     * @param data 因为这个对象序列对象是具有类型约束的，所以可以直接从第一个
-     *    元素对象之中得到所有的属性名称作为csv文件头的数据
-    */
-    function toDataFrame(data) {
-        var seq = Array.isArray(data) ? new IEnumerator(data) : data;
-        var header = $ts(Object.keys(seq.First));
-        var rows = seq
-            .Select(function (obj) {
-            var columns = header
-                .Select(function (ref, i) {
-                return toString(obj[ref]);
-            });
-            return new csv.row(columns);
-        });
-        return new csv.dataframe([new csv.row(header)]).AppendRows(rows);
-    }
-    csv.toDataFrame = toDataFrame;
-    function toString(obj) {
-        if (isNullOrUndefined(obj)) {
-            // 这个对象值是空的，所以在csv文件之中是空字符串
-            return "";
-        }
-        else {
-            return "" + obj;
-        }
-    }
-    function isTsvFile(content) {
-        var lines = Strings.lineTokens(content);
-        var countTab = $from(lines).Select(function (l) { return Strings.Count(l, "\t"); }).Average();
-        var countComma = $from(lines).Select(function (l) { return Strings.Count(l, ","); }).Average();
-        return countTab >= countComma;
-    }
-    csv.isTsvFile = isTsvFile;
 })(csv || (csv = {}));
 //# sourceMappingURL=linq.js.map
