@@ -58,7 +58,7 @@ namespace RWeb.shell {
             .replace(/[<]/g, "&lt;") + "<br/>";
 
         for (let i = 0; i < msg.message.length; i++) {
-            str += `${i}. ${msg.message[i]}`.replace(/[<]/g, "&lt;") + "<br/>";
+            str += `${i + 1}. ${msg.message[i]}`.replace(/[<]/g, "&lt;") + "<br/>";
         }
 
         str = str.replace(/\s/g, "&nbsp;");
