@@ -9,7 +9,7 @@ var RWeb;
                 var result = data;
                 if (result.code == 0) {
                     if (result.content_type.startsWith("text/html")) {
-                        RWeb.console.log("<code>" + base64_decode(result.info) + "</code>").classList.add("result");
+                        RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                     }
                     else {
                         RWeb.console.log($ts("<img>", { src: result.info })).classList.add("result");
