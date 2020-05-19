@@ -12,4 +12,12 @@ namespace System.ConsoleDevice {
         togglePopup: Delegate.Action;
         popupIsOpen: () => boolean;
     }
+
+    export interface historyItem {
+        label?: string;
+        action?: Delegate.Action;
+        type?: string;
+    }
+
+    export interface get_historyItems { (): historyItem[]; }
 }

@@ -1,14 +1,6 @@
-/// <reference path="../linq.d.ts" />
+/// <reference path="../../../typescript/build/linq.d.ts" />
 
 namespace System {
-
-    export interface historyItem {
-        label?: string;
-        action?: Delegate.Action;
-        type?: string;
-    }
-
-    export interface get_historyItems { (): historyItem[]; }
 
     /**
      * 表示控制台应用程序的标准输入流、输出流和错误流。 此类不能被继承。
@@ -50,7 +42,7 @@ namespace System {
 
             this.history = new ConsoleDevice.history(storage_id + " command history");
             this.element = console_element;
-            this.output = $ts("<div>", {
+            this.output = <any>$ts("<div>", {
                 class: "simple-console-output",
                 role: "log",
                 "aria-live": "polite"
@@ -95,7 +87,7 @@ namespace System {
             return new ConsoleUI.add_popup_button(update, this);
         }
 
-        public addPopupMenuButton(getHistories: get_historyItems) {
+        public addPopupMenuButton(getHistories: ConsoleDevice.get_historyItems) {
             return new ConsoleUI.add_popup_menu_button(getHistories, this);
         }
 
@@ -107,8 +99,8 @@ namespace System {
             return button;
         };
 
-        populateHistoryItems(): historyItem[] {
-            let items: historyItem[] = [];
+        populateHistoryItems(): ConsoleDevice.historyItem[] {
+            let items: ConsoleDevice.historyItem[] = [];
             let command_history = this.history.command_history;
             let vm = this;
 
@@ -151,8 +143,9 @@ namespace System {
             }
         }
 
-        handleUncaughtErrors() {
-            window.onerror = this.error;
+        handleUncaughtErrors(): Console {
+            (<any>window).onerror = this.error;
+            return this;
         };
 
         keydown27(e: KeyboardEvent) {
