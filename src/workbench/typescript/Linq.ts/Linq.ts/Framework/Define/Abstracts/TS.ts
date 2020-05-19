@@ -21,6 +21,7 @@
          * ##### 20191030 在这里为了重载的兼容性，nodes参数就从原来的T泛型变更为现在Element基本类型
         */
         <T extends HTMLElement>(nodes: NodeListOf<Element>): DOMEnumerator<T>;
+        <T extends HTMLElement>(nodes: HTMLCollectionOf<T>): DOMEnumerator<T>;
         <T extends HTMLElement & Node & ChildNode>(nodes: NodeListOf<T>): DOMEnumerator<T>;
         /**
          * Extends the properties and methods of the given original html element node.
