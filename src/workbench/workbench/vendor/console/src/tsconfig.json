@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es5",
+    "lib": [ "dom", "es5", "dom.iterable", "scripthost" ],
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "../dist",
+    "outFile": "../simple-console.js",
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules",
+	"simple-console.js",
+	"simple-console.d.ts"
+  ]
+}

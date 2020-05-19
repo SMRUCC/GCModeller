@@ -155,6 +155,12 @@ class DOMEnumerator<T extends HTMLElement> extends IEnumerator<T> {
         }
     }
 
+    public style(styleVal: string): DOMEnumerator<T> {
+        let css = DOM.CSS.parseStylesheet(styleVal);
+        this.ForEach(e => DOM.CSS.Setter.setStyle(e, css));
+        return this;
+    }
+
     public addClass(className: string): DOMEnumerator<T> {
         this.ForEach(node => {
             if (!node.classList.contains(className)) {

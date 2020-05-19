@@ -87,7 +87,7 @@ Namespace LocalBLAST.Application.NtMapping
             identities *= 100
 
             Dim preTest As Func(Of BlastnMapping, Boolean) = BuildAll(Of BlastnMapping)(logics, tests.ToArray)
-            Dim test As Func(Of BlastnMapping, Boolean) = Function(x) preTest(x) AndAlso (x.Identities >= identities)
+            Dim test As Func(Of BlastnMapping, Boolean) = Function(x) preTest(x) AndAlso (x.identitiesValue >= identities)
 
             Return test
         End Function
@@ -157,9 +157,9 @@ Namespace LocalBLAST.Application.NtMapping
                 .ReadQuery = query.QueryName,
                 .Reference = hitMapping.Name,
                 .Evalue = hitMapping.Score.Expect,
-                .Gaps = hitMapping.Score.Gaps.Value * 100,
+                .gapsValue = hitMapping.Score.Gaps.Value * 100,
                 .GapsFraction = hitMapping.Score.Gaps.FractionExpr,
-                .Identities = hitMapping.Score.Identities.Value * 100,
+                .identitiesValue = hitMapping.Score.Identities.Value * 100,
                 .IdentitiesFraction = hitMapping.Score.Identities.FractionExpr,
                 .QueryLeft = hitMapping.QueryLocation.Left,
                 .QueryRight = hitMapping.QueryLocation.Right,

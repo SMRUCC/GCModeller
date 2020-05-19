@@ -83,7 +83,12 @@
 
     export interface IcsvHelperApi {
 
+        /**
+         * parse the given text into dataframe object.
+        */
         (data: string, isTsv?: boolean | ((data: string) => boolean)): csv.dataframe;
+
+        isTsvFile(data: string): boolean;
 
         /**
          * 将csv文档文本进行解析，然后反序列化为js对象的集合
@@ -94,6 +99,9 @@
         */
         toText<T>(data: IEnumerator<T> | T[], outTsv?: boolean): string;
 
+        /**
+         * build csv or tsv from target object sequence and then encode as base64 uri
+        */
         toUri<T>(data: IEnumerator<T> | T[], outTsv?: boolean): DataURI;
     }
 }

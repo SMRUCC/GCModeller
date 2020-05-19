@@ -252,7 +252,7 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.plot")>
     <Description("Bar plots of the KEGG enrichment analysis result.")>
-    <Usage("/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+    <Usage("/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /top <default=13> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
     <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
@@ -273,12 +273,14 @@ Partial Module CLI
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim tick As Double = args("/tick") Or 1.0
+        Dim topN As Integer = args("/top") Or 13
         Dim plot As GraphicsData = enrichments.KEGGEnrichmentPlot(
             size, pvalue,
             gray:=gray,
             labelRightAlignment:=labelRight,
             tick:=tick,
-            colorSchema:=args("/colors") Or DefaultColorSchema
+            colorSchema:=args("/colors") Or DefaultColorSchema,
+            topN:=topN
         )
 
         Return plot.Save(out).CLICode

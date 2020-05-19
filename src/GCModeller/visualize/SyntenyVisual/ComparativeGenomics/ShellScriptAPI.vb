@@ -197,7 +197,7 @@ Namespace ComparativeGenomics
             Dim grep As TextGrepMethod = (grepOp Or TextGrepScriptEngine.DoNothing).PipelinePointer
             Dim colors As Color() = Designer.GetColors(ribbonColors, 30)
             Dim mapsVector = maps.ToArray
-            Dim scores As Vector = mapsVector.Select(Function(d) d.Identities).AsVector  ' maps.LogScore(Function(m) m.Evalue)
+            Dim scores As Vector = mapsVector.Select(Function(d) d.identitiesValue).AsVector  ' maps.LogScore(Function(m) m.Evalue)
             Dim colorIndex As New DoubleRange(scores)
             Dim indexRange As DoubleRange = {0, colors.Length - 1}
 

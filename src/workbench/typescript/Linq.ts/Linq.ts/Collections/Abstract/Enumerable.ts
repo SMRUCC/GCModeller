@@ -176,7 +176,7 @@ module Enumerable {
             }
         }
 
-        TypeScript.logging.log(tree);
+        // TypeScript.logging.log(tree);
 
         return tree
             .AsEnumerable()
