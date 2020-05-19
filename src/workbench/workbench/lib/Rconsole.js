@@ -8,31 +8,57 @@ var RWeb;
             $ts.post(url, { script: command }, function (data) {
                 var result = data;
                 if (result.code == 0) {
-                    if (result.content_type.startsWith("text/html")) {
-                        RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
-                    }
-                    else {
-                        RWeb.console.log($ts("<img>", { src: result.info })).classList.add("result");
+                    if (!Strings.Empty(result.info)) {
+                        if (result.content_type.startsWith("text/html")) {
+                            RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
+                        }
+                        else {
+                            RWeb.console.log(image(result.info)).classList.add("result");
+                        }
                     }
                 }
                 else {
-                    RWeb.console.error(result.info);
+                    RWeb.console.error($ts("<h5>").display(" Error in:"));
+                    RWeb.console.error(messageText(result.err));
                 }
                 if (!isNullOrEmpty(result.warnings)) {
-                    RWeb.console.warn($ts("<h5>").display("run with additional warning message:"));
+                    RWeb.console.warn($ts("<h5>").display("with additional warning message:"));
                     for (var _i = 0, _a = result.warnings; _i < _a.length; _i++) {
                         var warn = _a[_i];
-                        RWeb.console.warn($ts("<pre>").display($from(warn.environmentStack).Select(function (a) { return a.Method.Method; }).JoinBy(" -> ")));
-                        for (var i = 0; i < warn.message.length; i++) {
-                            RWeb.console.warn($ts("<pre>").display(i + ". " + warn.message[i]));
-                        }
-                        RWeb.console.warn("");
+                        RWeb.console.warn(messageText(warn));
                     }
                 }
             });
         }
         shell.handle_command = handle_command;
         ;
+        function image(base64) {
+            var link = $ts("<a>", {
+                id: "image_fancybox",
+                class: "fancybox",
+                "data-rel": "fancybox",
+                "data-fancybox": "",
+                "data-caption": "",
+                href: base64
+            }).display($ts("<img>", {
+                class: "img-responsive",
+                src: base64,
+                style: "width: 600px;"
+            }));
+            return link;
+        }
+        function messageText(msg) {
+            var str = $from(msg.environmentStack)
+                .Select(function (a) { return a.Method.Method; })
+                .Reverse()
+                .JoinBy(" -> ")
+                .replace(/[<]/g, "&lt;") + "<br/>";
+            for (var i = 0; i < msg.message.length; i++) {
+                str += (i + 1 + ". " + msg.message[i]).replace(/[<]/g, "&lt;") + "<br/>";
+            }
+            str = str.replace(/\s/g, "&nbsp;");
+            return $ts("<span>").display(str);
+        }
     })(shell = RWeb.shell || (RWeb.shell = {}));
 })(RWeb || (RWeb = {}));
 /// <reference path="shell.ts" />
@@ -47,9 +73,6 @@ var RWeb;
     });
     function run_app() {
         $ts("#Rconsole").appendElement(RWeb.console.element);
-        // show welcome message
-        RWeb.console.logHTML("<h1><a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">SMRUCC\\GCModeller Workbench</a></h1>" +
-            "\n<p>\nWelcome to the R# language<br />\n<br />\nType '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />\n'<code>help.start()</code>' for an HTML browser interface to help.<br />\nType '<code>q()</code>' to quit R.</p>");
     }
     RWeb.run_app = run_app;
 })(RWeb || (RWeb = {}));

@@ -12,18 +12,6 @@ namespace RWeb {
 
     export function run_app() {
         $ts("#Rconsole").appendElement(console.element);
-
-        // show welcome message
-        console.logHTML(
-            "<h1><a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">SMRUCC\\GCModeller Workbench</a></h1>" +
-            `
-<p>
-Welcome to the R# language<br />
-<br />
-Type '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />
-'<code>help.start()</code>' for an HTML browser interface to help.<br />
-Type '<code>q()</code>' to quit R.</p>`
-        );
     }
 }
 

@@ -323,6 +323,30 @@ class IEnumerator<T> extends LINQIterator<T> {
         return new IEnumerator<T[]>(seq);
     }
 
+    public subset(indexer: number[] | boolean[]): IEnumerator<T> {
+        let index: number[];
+
+        if (typeof indexer[0] == "boolean") {
+            index = [];
+
+            for (let i = 0; i < indexer.length; i++) {
+                if (<boolean>indexer[i]) {
+                    index.push(i);
+                }
+            }
+        } else {
+            index = <number[]>indexer;
+        }
+
+        let subsetOutput: T[] = [];
+
+        for (let i of index) {
+            subsetOutput.push(this.sequence[i]);
+        }
+
+        return new IEnumerator<T>(subsetOutput);
+    }
+
     /**
      * 取出序列之中的前n个元素
     */
@@ -433,7 +457,9 @@ class IEnumerator<T> extends LINQIterator<T> {
      * 
     */
     public ForEach(callbackfn: (x: T, index: number) => void) {
-        this.sequence.forEach(callbackfn);
+        this.sequence.forEach(function (value, index, array) {
+            callbackfn(value, index);
+        });
     }
 
     /**

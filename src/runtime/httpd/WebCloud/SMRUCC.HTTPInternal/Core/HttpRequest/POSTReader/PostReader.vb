@@ -181,16 +181,16 @@ Namespace Core.HttpStream
                 End Using
             End If
 
-            Call Files _
-                .ToDictionary(Function(f) f.Key,
-                              Function(names)
-                                  Return names _
-                                      .Value _
-                                      .Select(Function(file) file.Summary) _
-                                      .ToArray
-                              End Function) _
-                .GetJson(indent:=True) _
-                .Warning
+            'Call Files _
+            '    .ToDictionary(Function(f) f.Key,
+            '                  Function(names)
+            '                      Return names _
+            '                          .Value _
+            '                          .Select(Function(file) file.Summary) _
+            '                          .ToArray
+            '                  End Function) _
+            '    .GetJson(indent:=True) _
+            '    .Warning
         End Sub
 
         Private Sub loadMultiPart(boundary$, input As Stream)
