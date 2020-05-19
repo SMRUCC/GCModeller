@@ -8,6 +8,11 @@ declare namespace System {
     interface get_historyItems {
         (): historyItem[];
     }
+    /**
+     * 表示控制台应用程序的标准输入流、输出流和错误流。 此类不能被继承。
+     *
+     * > a typescript work derived from https://github.com/1j01/simple-console
+    */
     class Console {
         options: ConsoleConfig;
         readonly input_wrapper: IHTMLElement;
@@ -17,7 +22,7 @@ declare namespace System {
         element: IHTMLElement;
         private last_entry;
         private history;
-        readonly get_last_entry: any;
+        get get_last_entry(): any;
         constructor(options: ConsoleConfig);
         addPopupButton(update: Delegate.Sub): ConsoleUI.add_popup_button;
         addPopupMenuButton(getHistories: get_historyItems): ConsoleUI.add_popup_menu_button;
@@ -31,12 +36,15 @@ declare namespace System {
         keydown27(e: KeyboardEvent): void;
         keydown(e: KeyboardEvent): void;
         clear(): void;
-        log(content: any): IHTMLElement;
-        logHTML(html: any): void;
-        error(content: any): void;
-        warn(content: any): void;
-        info(content: any): void;
-        success(content: any): void;
+        /**
+         * 将指定的字符串值（后跟当前行终止符）写入标准输出流。
+        */
+        log(content: string | HTMLElement): IHTMLElement;
+        logHTML(html: string): void;
+        error(content: string | HTMLElement): void;
+        warn(content: string | HTMLElement): void;
+        info(content: string | HTMLElement): void;
+        success(content: string | HTMLElement): void;
     }
 }
 interface ConsoleConfig {
@@ -99,7 +107,7 @@ declare namespace System.ConsoleDevice {
         command_history_key: string;
         command_history: (historyItem | string)[];
         private command_index;
-        readonly current_command_history: historyItem | string;
+        get current_command_history(): historyItem | string;
         constructor(command_history_key: string, command_history?: (historyItem | string)[]);
         get_last_command(): string;
         get_next_command(): string | historyItem;

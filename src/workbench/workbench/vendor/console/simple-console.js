@@ -1,6 +1,11 @@
 /// <reference path="../linq.d.ts" />
 var System;
 (function (System) {
+    /**
+     * 表示控制台应用程序的标准输入流、输出流和错误流。 此类不能被继承。
+     *
+     * > a typescript work derived from https://github.com/1j01/simple-console
+    */
     var Console = /** @class */ (function () {
         function Console(options) {
             var _this = this;
@@ -174,6 +179,9 @@ var System;
             this.output.innerHTML = "";
         };
         ;
+        /**
+         * 将指定的字符串值（后跟当前行终止符）写入标准输出流。
+        */
         Console.prototype.log = function (content) {
             var was_scrolled_to_bottom = this.output.is_scrolled_to_bottom();
             var vm = this;
