@@ -2,11 +2,13 @@ namespace System.ConsoleUI {
 
     export class add_popup_menu_button {
 
-        public popup_button;
+        public popup_button: ConsoleDevice.IPopupButton;
 
         constructor(get_items: get_historyItems, console: Console) {
-            let popup_button = new add_popup_button(menu => this.menu_update(menu, get_items), console);
+            let popup_button = new add_popup_button(menu => this.menu_update(menu, get_items), console).popup_button;
             let menu = popup_button.popup;
+
+            this.popup_button = popup_button;
 
             menu.addEventListener("click", e => this.click(e));
             menu.addEventListener("keydown", e => this.keydown(e));
@@ -34,32 +36,38 @@ namespace System.ConsoleUI {
         }
 
         keydown(e: KeyboardEvent) {
-            if (e.keyCode === 38) { // Up
+            if (e.keyCode === 38) {
+                // Up
+                let prev: HTMLElement = <any>document.activeElement.previousElementSibling;
+
                 e.preventDefault();
-                var prev = document.activeElement.previousElementSibling;
                 while (prev && prev.nodeName === "HR") {
-                    prev = prev.previousElementSibling;
+                    prev = <any>prev.previousElementSibling;
                 }
+
                 if (prev && prev.classList.contains("menu-item")) {
                     prev.focus();
                 }
-            } else if (e.keyCode === 40) { // Down
+            } else if (e.keyCode === 40) {
+                // Down                
+                let next: HTMLElement = <any>document.activeElement.nextElementSibling;
+
                 e.preventDefault();
-                var next = document.activeElement.nextElementSibling;
                 while (next && next.nodeName === "HR") {
-                    next = next.nextElementSibling;
+                    next = <any>next.nextElementSibling;
                 }
                 if (next && next.classList.contains("menu-item")) {
                     next.focus();
                 }
-            } else if (e.keyCode === 13 || e.keyCode === 32) { // Enter or Space
+            } else if (e.keyCode === 13 || e.keyCode === 32) {
+                // Enter or Space
                 e.preventDefault();
-                document.activeElement.click();
+                (<HTMLElement>document.activeElement).click();
             }
         }
 
         click(e: MouseEvent) {
-            let menu_item = e.target.closest(".menu-item");
+            let menu_item = (<HTMLElement>e.target).closest(".menu-item");
 
             if (menu_item) {
                 this.popup_button.closePopup();

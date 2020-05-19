@@ -44,10 +44,13 @@
     <TypeScriptCompile Include="UI\add_popup_menu_button.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="UI\device\output.ts">
+    <TypeScriptCompile Include="UI\device\devices.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="UI\device\history.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="UI\etc.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

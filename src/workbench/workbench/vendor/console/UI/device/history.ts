@@ -17,14 +17,14 @@ namespace System.ConsoleDevice {
                 this.command_index = -1;
                 return "";
             } else {
-                return this.command_history[this.command_index];
+                return <string>this.command_history[this.command_index];
             }
         }
 
         get_next_command() {
             if (++this.command_index >= this.command_history.length) {
                 this.command_index = this.command_history.length;
-               return  "";
+                return "";
             } else {
                 return this.command_history[this.command_index];
             }
@@ -35,7 +35,7 @@ namespace System.ConsoleDevice {
 
             this.command_history.splice(this.command_index, 1);
             this.command_index = Math.max(0, this.command_index - 1)
-            value = this.command_history[this.command_index] || "";
+            value = <string>this.command_history[this.command_index] || "";
             this.save_command_history();
 
             return value;

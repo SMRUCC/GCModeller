@@ -66,6 +66,16 @@ Module context
         Return New NucleotideLocation(left, right, strVal)
     End Function
 
+    <ExportAPI("is.forward")>
+    Public Function isForward(loci As NucleotideLocation) As Boolean
+        Return loci.Strand = Strands.Forward
+    End Function
+
+    <ExportAPI("offset")>
+    Public Function offsetLocation(loci As NucleotideLocation, offset As Integer) As NucleotideLocation
+        Return loci + offset
+    End Function
+
     <ExportAPI("context")>
     <RApiReturn(GetType(IContext))>
     Public Function context(loci As Object, distance As Integer, Optional note As String = Nothing, Optional env As Environment = Nothing) As Object

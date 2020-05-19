@@ -11,6 +11,7 @@
   },
   "exclude": [
     "node_modules",
-	"simple-console.js"
+	"simple-console.js",
+	"simple-console.d.ts"
   ]
 }
