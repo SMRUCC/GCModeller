@@ -19,12 +19,12 @@ var RWeb;
                     RWeb.console.error(result.info);
                 }
                 if (!isNullOrEmpty(result.warnings)) {
-                    RWeb.console.warn("<h3>with additional warning message:</h3>");
+                    RWeb.console.warn($ts("<h5>").display("run with additional warning message:"));
                     for (var _i = 0, _a = result.warnings; _i < _a.length; _i++) {
                         var warn = _a[_i];
-                        RWeb.console.warn($from(warn.environmentStack).Select(function (a) { return a.Method.Method; }).JoinBy(" -> "));
+                        RWeb.console.warn($ts("<pre>").display($from(warn.environmentStack).Select(function (a) { return a.Method.Method; }).JoinBy(" -> ")));
                         for (var i = 0; i < warn.message.length; i++) {
-                            RWeb.console.warn(i + ". " + warn.message[i]);
+                            RWeb.console.warn($ts("<pre>").display(i + ". " + warn.message[i]));
                         }
                         RWeb.console.warn("");
                     }

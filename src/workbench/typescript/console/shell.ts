@@ -19,13 +19,13 @@ namespace RWeb.shell {
             }
 
             if (!isNullOrEmpty(result.warnings)) {
-                console.warn("<h3>with additional warning message:</h3>");
+                console.warn($ts("<h5>").display("run with additional warning message:"));
 
                 for (let warn of result.warnings) {
-                    console.warn($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> "));
+                    console.warn($ts("<pre>").display($from(warn.environmentStack).Select(a => a.Method.Method).JoinBy(" -> ")));
 
                     for (let i = 0; i < warn.message.length; i++) {
-                        console.warn(`${i}. ${warn.message[i]}`);
+                        console.warn($ts("<pre>").display(`${i}. ${warn.message[i]}`));
                     }
 
                     console.warn("");
