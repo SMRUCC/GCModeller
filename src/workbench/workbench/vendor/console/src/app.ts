@@ -1,4 +1,4 @@
-/// <reference path="../../../typescript/build/linq.d.ts" />
+/// <reference path="../../../../typescript/build/linq.d.ts" />
 
 namespace System {
 
