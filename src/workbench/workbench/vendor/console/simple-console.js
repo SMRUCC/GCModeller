@@ -1,4 +1,4 @@
-/// <reference path="../linq.d.ts" />
+/// <reference path="../../../typescript/build/linq.d.ts" />
 var System;
 (function (System) {
     /**
@@ -120,6 +120,7 @@ var System;
         };
         Console.prototype.handleUncaughtErrors = function () {
             window.onerror = this.error;
+            return this;
         };
         ;
         Console.prototype.keydown27 = function (e) {
@@ -356,17 +357,18 @@ var System;
                 menu.addEventListener("keydown", function (e) { return _this.keydown(e); });
             }
             add_popup_menu_button.prototype.menu_update = function (menu, get_items) {
+                var divider;
+                var menu_item;
                 menu.innerHTML = "";
-                var items = get_items();
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
+                for (var _i = 0, _a = get_items(); _i < _a.length; _i++) {
+                    var item = _a[_i];
                     if (item.type === "divider") {
-                        var divider = document.createElement("hr");
+                        divider = document.createElement("hr");
                         divider.classList.add("menu-divider");
                         menu.appendChild(divider);
                     }
                     else {
-                        var menu_item = document.createElement("div");
+                        menu_item = document.createElement("div");
                         menu_item.classList.add("menu-item");
                         menu_item.setAttribute("tabindex", "0");
                         menu_item.addEventListener("click", item.action);
