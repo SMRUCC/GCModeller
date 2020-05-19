@@ -21,11 +21,16 @@
 
     <title>GCModeller Workbench</title>
 
+<!-- Insert this line above script imports  -->
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+  
+
+
+  <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../vendor/linq.js"></script>
     <script type="text/javascript" src="../vendor/common.js"></script>
-    <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../vendor/bootstrap_v3/js/bootstrap.min.js"></script>
-
+  
     <link rel="shortcut icon" href="../assets/images/logo.png" />
     <link rel="stylesheet" href="../vendor/console/simple-console.css">
     <link rel="stylesheet" href="../assets/index.css">
@@ -33,8 +38,7 @@
 	
 	<!-- Add fancyBox main JS and CSS files -->
 <link href="../vendor/fancybox_v3/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
-<!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
-<script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
+
 
 <style type="text/css">
     .fancybox-custom .fancybox-skin {
@@ -52,14 +56,7 @@
     }
 </style>
 
-<script type="text/javascript">
-    $ts(function () {
-        // Customize buttons
-        $('[data-fancybox]').fancybox({
-            buttons: ['close']
-        });
-    });
-</script>
+
 	
 </head>
 
@@ -102,4 +99,21 @@
 
     <script src="../vendor/console/simple-console.js"></script>
     <script src="../lib/Rconsole.js"></script>
+	
+	    <script type="text/javascript" src="../vendor/bootstrap_v3/js/bootstrap.min.js"></script>
+<!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
+<script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript">
+    $ts(function () {
+        // Customize buttons
+        $('[data-fancybox]').fancybox({
+            buttons: ['close']
+        });
+    });
+</script>
+
+
+<!-- Insert this line after script imports -->
+<script>if (window.module) module = window.module;</script>
 </body>
