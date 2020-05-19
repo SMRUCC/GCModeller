@@ -13,7 +13,7 @@ namespace RWeb.shell {
                     if (result.content_type.startsWith("text/html")) {
                         console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                     } else {
-                        console.log($ts("<img>", { src: result.info })).classList.add("result");
+                        console.log(image(result.info)).classList.add("result");
                     }
                 }
             } else {
@@ -30,6 +30,25 @@ namespace RWeb.shell {
             }
         });
     };
+
+    function image(base64: string): HTMLElement {
+        let link = $ts("<a>", {
+            id: "image_fancybox",
+            class: "fancybox",
+            "data-rel": "fancybox",
+            "data-fancybox": "",
+            "data-caption": "",
+            href: base64
+        }).display(
+            $ts("<img>", {
+                class: "img-responsive",
+                src: base64,
+                style: "width: 600px;"
+            })
+        );
+
+        return link;
+    }
 
     function messageText(msg: RMessage): HTMLElement {
         let str: string = $from(msg.environmentStack)

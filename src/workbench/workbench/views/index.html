@@ -30,6 +30,37 @@
     <link rel="stylesheet" href="../vendor/console/simple-console.css">
     <link rel="stylesheet" href="../assets/index.css">
     <link rel="stylesheet" href="../vendor/bootstrap_v3/css/bootstrap.min.css">
+	
+	<!-- Add fancyBox main JS and CSS files -->
+<link href="../vendor/fancybox_v3/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+<!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
+<script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
+
+<style type="text/css">
+    .fancybox-custom .fancybox-skin {
+        box-shadow: 0 0 50px #222;
+    }
+
+    .mirror-tip {
+        border: 1px solid gray;
+        background: #EEEEEE;
+        padding: 5px;
+    }
+
+    .fancybox-image {
+        background-color: white;
+    }
+</style>
+
+<script type="text/javascript">
+    $ts(function () {
+        // Customize buttons
+        $('[data-fancybox]').fancybox({
+            buttons: ['close']
+        });
+    });
+</script>
+	
 </head>
 
 <body>

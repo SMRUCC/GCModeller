@@ -13,7 +13,7 @@ var RWeb;
                             RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                         }
                         else {
-                            RWeb.console.log($ts("<img>", { src: result.info })).classList.add("result");
+                            RWeb.console.log(image(result.info)).classList.add("result");
                         }
                     }
                 }
@@ -32,6 +32,21 @@ var RWeb;
         }
         shell.handle_command = handle_command;
         ;
+        function image(base64) {
+            var link = $ts("<a>", {
+                id: "image_fancybox",
+                class: "fancybox",
+                "data-rel": "fancybox",
+                "data-fancybox": "",
+                "data-caption": "",
+                href: base64
+            }).display($ts("<img>", {
+                class: "img-responsive",
+                src: base64,
+                style: "width: 600px;"
+            }));
+            return link;
+        }
         function messageText(msg) {
             var str = $from(msg.environmentStack)
                 .Select(function (a) { return a.Method.Method; })
