@@ -47,10 +47,6 @@ var RWeb;
     });
     function run_app() {
         $ts("#Rconsole").appendElement(RWeb.console.element);
-        // show welcome message
-        RWeb.console.logHTML("<h1><a href='https://github.com/SMRUCC/GCModeller-workbench' target=\"__blank\">GCModeller Workbench</a></h1>" +
-            "<div>\n\t\t\t\n\t\t\t<div style=\"max-width: 200px; padding-right: 10px;\">\n<img src=\"../assets/images/R-sharp.png\" style=\"width: 100%;\"/>\n</div>\n\t\t\t\n\t\t\t\n\t\t\t<div style=\"float: left; width: 65%;\">\n\t\t\t<br />\n<p>\n<strong style=\"font-size: 2em;\">Welcome to the <code>R#</code> language</strong><br />\n<br />\nType '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />\n'<code>help.start()</code>' for an HTML browser interface to help.<br />\nType '<code>q()</code>' to quit R.</p>\n</div>\n\n</div>\n");
-        RWeb.console.logHTML("<br /><br />");
     }
     RWeb.run_app = run_app;
 })(RWeb || (RWeb = {}));
