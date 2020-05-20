@@ -7,6 +7,7 @@
 /// <reference path="../../DOM/Events/CustomEvents.ts" />
 /// <reference path="../../Data/Range.ts" />
 /// <reference path="../Reflection/Reflector.ts" />
+/// <reference path="../../csv/doc.ts" />
 
 /**
  * The internal implementation of the ``$ts`` object.
@@ -384,6 +385,7 @@ namespace Internal {
 
             return csv.dataframe.Parse(data, isTsv);
         };
+        ts.csv.isTsvFile = csv.isTsvFile;
         ts.csv.toObjects = (data: string) => csv.dataframe.Parse(data, csv.isTsvFile(data)).Objects();
         ts.csv.toText = (data, tsvOut: boolean = false) => csv.toDataFrame(data).buildDoc(tsvOut);
         ts.csv.toUri = function (data: IEnumerator<{}> | {}[], outTsv?: boolean): DataURI {
@@ -409,7 +411,13 @@ namespace Internal {
         let DOMquery = Internal.Handlers.Shared.string();
 
         ts.select = function (query: string, context: Window = window) {
-            return Handlers.stringEval.select(query, context);
+            let dom = Handlers.stringEval.select(query, context);
+
+            if (dom.Count == 0) {
+                TypeScript.logging.warning(`select query of '${query}' returns no data...`);
+            }
+
+            return dom;
         }
         ts.select.getSelects = (id => DOMquery.doEval(id, null, null));
         ts.select.getSelectedOptions = function (query: string, context: Window = window) {

@@ -5,7 +5,8 @@ namespace Internal.Handlers {
 
     const events = {
         onclick: "onclick",
-        onmouseover: "onmouseover"
+        onmouseover: "onmouseover",
+        onchange: "onchange"
     }
     const eventFuncNames: string[] = Object.keys(events);
 
@@ -125,7 +126,17 @@ namespace Internal.Handlers {
                 }
 
                 // 只返回第一个满足条件的节点
-                return Selector.selectElementsUnderContext(query, context);
+                let element: HTMLElement = <any>Selector.selectElementsUnderContext(query, context);
+
+                if (!isNullOrUndefined(element)) {
+                    if (argument.nativeModel) {
+                        return TypeExtensions.Extends(element);
+                    } else {
+                        return new HTMLTsElement(element);
+                    }
+                } else {
+                    return null;
+                }
             }
         }
 
@@ -204,6 +215,7 @@ namespace Internal.Handlers {
 
             this.hookEvt(node, events.onclick, attrs);
             this.hookEvt(node, events.onmouseover, attrs);
+            this.hookEvt(node, events.onchange, attrs);
         }
 
         /**
@@ -223,6 +235,10 @@ namespace Internal.Handlers {
                         case events.onmouseover:
                             node.onmouseover = evt;
                             break;
+                        case events.onchange:
+                            node.onchange = evt;
+                            break;
+
                         default:
                             TypeScript.logging.log(evtName, TypeScript.ConsoleColors.Yellow);
                     }
