@@ -11,7 +11,8 @@
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
   <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
-  
+  <script type="text/javascript" src="../vendor/common.js"></script>
+    <script type="text/javascript" src="../vendor/linq.js"></script>
   <script type="text/javascript" src="../vendor/json/jquery.jsonview.min.js"></script>
   <link href="../vendor/json/jquery.jsonview.min.css" rel="stylesheet" type="text/css" />
 </head>
@@ -20,10 +21,13 @@
 
 <div class='jsonview-container' id='jsonwcJrPG'></div>
                     <script type='text/javascript'>
-                        $(function() {
-							let $obj = [1,2,3,4,5];
+                        $ts(function() {
+							let $obj = localStorage.getItem("inspect_json");
 							
-                            $('#jsonwcJrPG').JSONView($obj, { collapsed: true });
+							$ts.getText("http://127.0.0.1:7452/inspect?guid=" + $obj, function(str) {
+								localStorage.removeItem("inspect_json");
+								$('#jsonwcJrPG').JSONView(JSON.parse(str), { collapsed: true });
+							})                        
                         });
                     </script>
 

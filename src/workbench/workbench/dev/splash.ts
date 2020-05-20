@@ -87,9 +87,9 @@ export const initSplashScreen = (config: Config): BrowserWindow => {
         windowOpts: config.windowOpts,
         templateUrl: config.templateUrl,
         splashScreenOpts: config.splashScreenOpts,
-        delay: config.delay ?? 500,
-        minVisible: config.minVisible ?? 500,
-        closeWindow: config.closeWindow ?? true,
+        delay: config.delay || 500,
+        minVisible: config.minVisible || 500,
+        closeWindow: config.closeWindow || true,
     };
     xConfig.splashScreenOpts.frame = false;
     xConfig.splashScreenOpts.center = true;

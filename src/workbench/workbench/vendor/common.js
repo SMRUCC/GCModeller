@@ -1,23 +1,20 @@
 function openView(view) {
-    const remote = require('electron').remote;
-    const BrowserWindow = remote.BrowserWindow;
-
-    let win = new BrowserWindow({ width: 800, height: 600 });
+    var remote = require('electron').remote;
+    var BrowserWindow = remote.BrowserWindow;
+    var win = new BrowserWindow({ width: 800, height: 600 });
     win.loadFile(view);
-	return win;
     // win.webContents.openDevTools();
+    return win;
 }
-
 function ipc_sendData(key, value, win) {
-	// main process
-	win.webContents.send(key, value);
+    // main process
+    win.webContents.send(key, value);
 }
-
 function getData(key, action) {
-	// renderer process
-	let ipcRenderer = require('electron').ipcRenderer;
-	
-	ipcRenderer.on(key, function (event, data) {
-		action(store);
-	});	
+    // renderer process
+    var ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.on(key, function (event, data) {
+        action(data);
+    });
 }
+//# sourceMappingURL=common.js.map
