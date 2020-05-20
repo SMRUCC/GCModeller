@@ -17,10 +17,10 @@ namespace RWeb.shell {
                         let win = openView("views/inspector.html");
                         // ipc_sendData("inspect_json", result.info, win);
                         localStorage.setItem("inspect_json", result.info);
-                    } else if (result.content_type == "text/csv") {
-                        let csv = base64_decode(result.info);
-                        openView("./inspector.table.html");
-                        console.info(csv);
+                    } else if (result.content_type == "inspector/csv") {
+                        let win = openView("views/inspector.table.html");
+                        // ipc_sendData("inspect_json", result.info, win);
+                        localStorage.setItem("inspect_table", result.info);
                     } else {
                         console.log(image(result.info)).classList.add("result");
                     }

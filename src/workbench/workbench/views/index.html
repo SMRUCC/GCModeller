@@ -21,43 +21,40 @@
 
     <title>GCModeller Workbench</title>
 
-<!-- Insert this line above script imports  -->
-<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <!-- Insert this line above script imports  -->
+    <script>
+        if (typeof module === 'object') {
+            window.module = module; module = undefined;
+        }
+    </script>
 
-  
-
-
-  <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../vendor/linq.js"></script>
     <script type="text/javascript" src="../vendor/common.js"></script>
-  
+
     <link rel="shortcut icon" href="../assets/images/logo.png" />
     <link rel="stylesheet" href="../vendor/console/simple-console.css">
     <link rel="stylesheet" href="../assets/index.css">
     <link rel="stylesheet" href="../vendor/bootstrap_v3/css/bootstrap.min.css">
-	
-	<!-- Add fancyBox main JS and CSS files -->
-<link href="../vendor/fancybox_v3/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- Add fancyBox main JS and CSS files -->
+    <link href="../vendor/fancybox_v3/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
-<style type="text/css">
-    .fancybox-custom .fancybox-skin {
-        box-shadow: 0 0 50px #222;
-    }
+    <style type="text/css">
+        .fancybox-custom .fancybox-skin {
+            box-shadow: 0 0 50px #222;
+        }
 
-    .mirror-tip {
-        border: 1px solid gray;
-        background: #EEEEEE;
-        padding: 5px;
-    }
+        .mirror-tip {
+            border: 1px solid gray;
+            background: #EEEEEE;
+            padding: 5px;
+        }
 
-    .fancybox-image {
-        background-color: white;
-    }
-</style>
-
-
-	
+        .fancybox-image {
+            background-color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -74,7 +71,7 @@
                 <img src="../assets/images/R-sharp.png" style="width: 100%; max-width: 200px;" />
             </div>
 
-            <div class="col-lg-5" style="">
+            <div class="col-lg-5">
                 <br />
                 <p>
                     <strong style="font-size: 2em;">Welcome to the <code>R#</code> language</strong><br />
@@ -99,21 +96,20 @@
 
     <script src="../vendor/console/simple-console.js"></script>
     <script src="../lib/Rconsole.js"></script>
-	
-	    <script type="text/javascript" src="../vendor/bootstrap_v3/js/bootstrap.min.js"></script>
-<!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
-<script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
 
-<script type="text/javascript">
-    $ts(function () {
-        // Customize buttons
-        $('[data-fancybox]').fancybox({
-            buttons: ['close']
+    <script type="text/javascript" src="../vendor/bootstrap_v3/js/bootstrap.min.js"></script>
+    <!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
+    <script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
+
+    <script type="text/javascript">
+        $ts(function () {
+            // Customize buttons
+            $('[data-fancybox]').fancybox({
+                buttons: ['close']
+            });
         });
-    });
-</script>
+    </script>
 
-
-<!-- Insert this line after script imports -->
-<script>if (window.module) module = window.module;</script>
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
 </body>

@@ -7,6 +7,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "console", "console\console.
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "common", "common\common.njsproj", "{52928DD8-C59B-4DD6-825B-0D39BF171658}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "inspector", "inspector\inspector.njsproj", "{DBA882A2-14E3-40AF-8A75-7C83FDDAD3DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{52928DD8-C59B-4DD6-825B-0D39BF171658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52928DD8-C59B-4DD6-825B-0D39BF171658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52928DD8-C59B-4DD6-825B-0D39BF171658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA882A2-14E3-40AF-8A75-7C83FDDAD3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA882A2-14E3-40AF-8A75-7C83FDDAD3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA882A2-14E3-40AF-8A75-7C83FDDAD3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA882A2-14E3-40AF-8A75-7C83FDDAD3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
