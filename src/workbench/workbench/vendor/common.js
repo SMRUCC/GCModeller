@@ -7,3 +7,17 @@ function openView(view) {
 	return win;
     // win.webContents.openDevTools();
 }
+
+function ipc_sendData(key, value, win) {
+	// main process
+	win.webContents.send(key, value);
+}
+
+function getData(key, action) {
+	// renderer process
+	let ipcRenderer = require('electron').ipcRenderer;
+	
+	ipcRenderer.on(key, function (event, data) {
+		action(store);
+	});	
+}
