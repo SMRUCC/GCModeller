@@ -12,6 +12,16 @@ var RWeb;
                         if (result.content_type.startsWith("text/html")) {
                             RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                         }
+                        else if (result.content_type == "application/json") {
+                            var json = JSON.parse();
+                            openView("./inspector.html");
+                            RWeb.console.info(base64_decode(result.info));
+                        }
+                        else if (result.content_type == "text/csv") {
+                            var csv_1 = base64_decode(result.info);
+                            openView("./inspector.table.html");
+                            RWeb.console.info(csv_1);
+                        }
                         else {
                             RWeb.console.log(image(result.info)).classList.add("result");
                         }

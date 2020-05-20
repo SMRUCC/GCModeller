@@ -12,6 +12,14 @@ namespace RWeb.shell {
                 if (!Strings.Empty(result.info)) {
                     if (result.content_type.startsWith("text/html")) {
                         console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
+                    } else if (result.content_type == "application/json") {
+                        let json = JSON.parse();
+						openView("./inspector.html");
+						console.info(base64_decode(result.info))
+					} else if (result.content_type == "text/csv") {
+						let csv = base64_decode(result.info);
+						openView("./inspector.table.html");
+						console.info(csv);
                     } else {
                         console.log(image(result.info)).classList.add("result");
                     }

@@ -31,7 +31,7 @@ var System;
                 "aria-live": "polite"
             });
             System.ConsoleUI.add_chevron(this.input_wrapper);
-            this.input = $ts("<input>", {
+            this.input = $ts("<textarea>", {
                 class: "simple-console-input",
                 autofocus: autofocus,
                 placeholder: placeholder,
