@@ -12,6 +12,9 @@ var RWeb;
                         if (result.content_type.startsWith("text/html")) {
                             RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                         }
+                        else if (result.content_type == "application/json") {
+                            RWeb.console.info(base64_decode(result.info));
+                        }
                         else {
                             RWeb.console.log(image(result.info)).classList.add("result");
                         }
