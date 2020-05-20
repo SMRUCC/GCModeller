@@ -108,6 +108,17 @@ var workbench;
             return bat;
         }
         Shell.Rweb = Rweb;
+        function initialize() {
+            // 导入Rstudio环境诊断组件
+            let request = require('request');
+            let script = "imports 'diagnostics' from 'Rstudio';";
+            request(`http://127.0.0.1:7452/exec?script=${encodeURIComponent(script)}`, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body);
+                }
+            });
+        }
+        Shell.initialize = initialize;
     })(Shell = workbench.Shell || (workbench.Shell = {}));
 })(workbench || (workbench = {}));
 var workbench;
@@ -131,6 +142,7 @@ var workbench;
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
 const mainView = "./views/index.html";
+// start the R# backend environment
 const backend = workbench.Shell.Rweb();
 const defaultViewSize = [1440, 900];
 // load internal app components
@@ -159,4 +171,5 @@ app.on('activate', function () {
 });
 // 在这个文件中，你可以续写应用剩下主进程代码。
 // 也可以拆分成几个文件，然后用 require 导入。
+workbench.Shell.initialize();
 //# sourceMappingURL=index.js.map

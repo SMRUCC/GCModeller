@@ -9,6 +9,7 @@
 const { app, BrowserWindow, Menu, Notification } = require('electron');
 
 const mainView: string = "./views/index.html";
+// start the R# backend environment
 const backend = workbench.Shell.Rweb();
 const defaultViewSize = [1440, 900];
 
@@ -42,3 +43,4 @@ app.on('activate', function () {
 
 // 在这个文件中，你可以续写应用剩下主进程代码。
 // 也可以拆分成几个文件，然后用 require 导入。
+workbench.Shell.initialize();
