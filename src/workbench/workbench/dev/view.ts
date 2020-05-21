@@ -12,8 +12,10 @@ module workbench.view {
         }
     }
 
-    export function createWindow(view: string, size: number[] = [800, 600], callback: Delegate.Action = null, lambda: boolean = false, debug = false): Delegate.Action {
-        let invoke: Delegate.Action = function (): Delegate.Action {
+    export interface action { (): void; }
+
+    export function createWindow(view: string, size: number[] = [800, 600], callback: action = null, lambda: boolean = false, debug = false): action {
+        let invoke: action = function (): action {
             // 创建浏览器窗口。
             let win = new BrowserWindow({ width: size[0], height: size[1] })
 
@@ -37,7 +39,7 @@ module workbench.view {
                 callback();
             }
 
-            return <Delegate.Action>function () {
+            return <action>function () {
 
             }
         }

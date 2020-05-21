@@ -1,7 +1,7 @@
 /**
  * Module handles configurable splashscreen to show while app is loading.
  */
-namespace splashScreen {
+namespace workbench.view {
 
     /**
      * When splashscreen was shown.
