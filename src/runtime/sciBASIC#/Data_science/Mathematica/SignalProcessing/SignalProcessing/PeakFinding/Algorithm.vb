@@ -20,31 +20,40 @@ Namespace PeakFinding
         ReadOnly cos_angle As Double
         ReadOnly baseline_quantile As Double
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="angle">这个是一个角度值，取值区间为[0,90]</param>
+        ''' <param name="baselineQuantile"></param>
         Sub New(angle As Double, baselineQuantile As Double)
             Me.cos_angle = stdNum.Cos(angle)
             Me.baseline_quantile = baselineQuantile
         End Sub
 
-        Public Iterator Function FindAllSignalPeaks(signals As IEnumerable(Of ITimeSignal)) As IEnumerable(Of SeqValue(Of ITimeSignal()))
+        Public Iterator Function FindAllSignalPeaks(signals As IEnumerable(Of ITimeSignal)) As IEnumerable(Of SignalPeak)
             Dim data As ITimeSignal() = signals.OrderBy(Function(t) t.time).ToArray
             Dim baseline As Double = data.SignalBaseline(baseline_quantile)
-            Dim line As PointF() = data.AccumulateLine(baseline)
+            Dim line As IVector(Of PointF) = data.AccumulateLine(baseline).Shadows
             ' 计算出角度
-            Dim angles As PointF() = cos(line).ToArray
+            Dim angles As PointF() = cos(line.Array).ToArray
             ' 删掉所有角度低于阈值的片段
             ' 剩下所有递增的坡度片段
             Dim slopes As SeqValue(Of PointF())() = filterByCosAngles(angles).ToArray
             Dim rawSignals As IVector(Of ITimeSignal) = data.Shadows
             Dim rtmin, rtmax As Double
             Dim time As Vector = rawSignals.Select(Function(t) t.time).AsVector
+            Dim area As PointF()
 
             For Each region As SeqValue(Of PointF()) In slopes
                 rtmin = region.value.First.X
                 rtmax = region.value.Last.X
+                area = line((time >= rtmin) & (time <= rtmax))
 
-                Yield New SeqValue(Of ITimeSignal()) With {
-                    .i = region.i,
-                    .value = rawSignals((time >= rtmin) & (time <= rtmax))
+                ' 因为Y是累加曲线的值，所以可以近似的看作为峰面积积分值
+                ' 在这里将区间的上限的积分值减去区间的下限的积分值即可得到当前的这个区间的积分值（近似于定积分）
+                Yield New SignalPeak With {
+                    .integration = area.Last.Y - area.First.Y,
+                    .region = rawSignals((time >= rtmin) & (time <= rtmax))
                 }
             Next
         End Function

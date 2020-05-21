@@ -60,16 +60,16 @@ Namespace PeakFinding
         End Function
 
         <Extension>
-        Public Iterator Function Triming(regions As IEnumerable(Of SeqValue(Of ITimeSignal())), peakwidth As DoubleRange) As IEnumerable(Of SeqValue(Of ITimeSignal()))
+        Public Iterator Function Triming(regions As IEnumerable(Of SignalPeak), peakwidth As DoubleRange) As IEnumerable(Of SignalPeak)
             Dim rt As Double
             Dim rtmin, rtmax As Double
             Dim dt As Double
             Dim halfPeakWidth As Double = peakwidth.Length / 2
 
             For Each region In regions
-                rt = region.value(Which.Max(region.value.Select(Function(a) a.intensity))).time
-                rtmin = region.value.First.time
-                rtmax = region.value.Last.time
+                rt = region(Which.Max(region.region.Select(Function(a) a.intensity))).time
+                rtmin = region.rtmin
+                rtmax = region.rtmax
                 dt = rtmax - rtmin
 
                 If dt < peakwidth.Min Then
@@ -78,14 +78,7 @@ Namespace PeakFinding
                     rtmin = stdNum.Max(rtmin, rt - halfPeakWidth)
                     rtmax = stdNum.Min(rtmax, rt + halfPeakWidth)
 
-                    Yield New SeqValue(Of ITimeSignal()) With {
-                        .i = region.i,
-                        .value = region.value _
-                            .Where(Function(a)
-                                       Return a.time >= rtmin AndAlso a.time <= rtmax
-                                   End Function) _
-                            .ToArray
-                    }
+                    Yield region.Subset(rtmin, rtmax)
                 Else
                     Yield region
                 End If
