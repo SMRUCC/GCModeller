@@ -26,7 +26,7 @@ Namespace PeakFinding
         ''' <param name="angle">这个是一个角度值，取值区间为[0,90]</param>
         ''' <param name="baselineQuantile"></param>
         Sub New(angle As Double, baselineQuantile As Double)
-            Me.cos_angle = stdNum.Cos(angle)
+            Me.cos_angle = stdNum.Cos((90 - angle) / 90 * (1 / 2 * stdNum.PI))
             Me.baseline_quantile = baselineQuantile
         End Sub
 
