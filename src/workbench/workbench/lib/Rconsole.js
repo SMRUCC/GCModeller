@@ -1,4 +1,5 @@
 /// <reference path="../../../R-sharp/studio/RMessage.ts" />
+/// <reference path="../../workbench/vendor/common.d.ts" />
 var RWeb;
 (function (RWeb) {
     var shell;
@@ -12,15 +13,15 @@ var RWeb;
                         if (result.content_type.startsWith("text/html")) {
                             RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
                         }
-                        else if (result.content_type == "application/json") {
-                            var json = JSON.parse();
-                            openView("./inspector.html");
-                            RWeb.console.info(base64_decode(result.info));
+                        else if (result.content_type == "inspector/json") {
+                            var win = openView("views/inspector.html");
+                            // ipc_sendData("inspect_json", result.info, win);
+                            localStorage.setItem("inspect_json", result.info);
                         }
-                        else if (result.content_type == "text/csv") {
-                            var csv_1 = base64_decode(result.info);
-                            openView("./inspector.table.html");
-                            RWeb.console.info(csv_1);
+                        else if (result.content_type == "inspector/csv") {
+                            var win = openView("views/inspector.table.html");
+                            // ipc_sendData("inspect_json", result.info, win);
+                            localStorage.setItem("inspect_table", result.info);
                         }
                         else {
                             RWeb.console.log(image(result.info)).classList.add("result");

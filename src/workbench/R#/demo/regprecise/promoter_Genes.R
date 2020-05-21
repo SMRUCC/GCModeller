@@ -90,6 +90,5 @@ write.csv(out, file = `${dirname(path)}/regulators_${basename(path)}.csv`, row_n
 
 }
 
-
 bindData("K:\20200226\20200516_gbk\Archive 2\转录组蛋白质组结果1_细胞.csv");
 bindData("K:\20200226\20200516_gbk\Archive 2\转录组蛋白质组结果2_上清.csv");
