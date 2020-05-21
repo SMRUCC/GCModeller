@@ -236,7 +236,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|x64'">
-    <OutputPath>bin\x64\mzkit\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\mzkit\dist\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
