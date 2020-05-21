@@ -1,9 +1,9 @@
-/// <reference path="node_modules/electron/electron.d.ts" />
+/// <reference path="dev/splash.ts" />
 /// <reference path="dev/renderMenu.ts" />
 /// <reference path="dev/view.ts" />
 /// <reference path="dev/shell.ts" />
 /// <reference path="dev/osd.ts" />
-//// <reference path="vendor/linq.d.ts" />
+/// <reference path="node_modules/electron/electron.d.ts" />
 
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
