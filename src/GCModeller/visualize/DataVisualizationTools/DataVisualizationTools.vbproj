@@ -239,9 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneticClockDiagram\RegulationSerials.vb" />
-    <Compile Include="GeneticClockDiagram\DopplerEffect.vb" />
     <Compile Include="GeneticClockDiagram\DrawingDevice.vb" />
-    <Compile Include="GeneticClockDiagram\ShellScriptAPI.vb" />
     <Compile Include="GeneticClockDiagram\ColorRender.vb" />
     <Compile Include="GC.vb" />
     <Compile Include="NCBIBlastResult\BlastVisualize.vb" />
