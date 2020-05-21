@@ -1,6 +1,9 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
+Imports stdNum = System.Math
 
 Namespace PeakFinding
 
@@ -54,6 +57,39 @@ Namespace PeakFinding
             Dim baseline As Double = q.Query(quantile)
 
             Return baseline
+        End Function
+
+        <Extension>
+        Public Iterator Function Triming(regions As IEnumerable(Of SeqValue(Of ITimeSignal())), peakwidth As DoubleRange) As IEnumerable(Of SeqValue(Of ITimeSignal()))
+            Dim rt As Double
+            Dim rtmin, rtmax As Double
+            Dim dt As Double
+            Dim halfPeakWidth As Double = peakwidth.Length / 2
+
+            For Each region In regions
+                rt = region.value(Which.Max(region.value.Select(Function(a) a.intensity))).time
+                rtmin = region.value.First.time
+                rtmax = region.value.Last.time
+                dt = rtmax - rtmin
+
+                If dt < peakwidth.Min Then
+                    Yield region
+                ElseIf dt > peakwidth.Max Then
+                    rtmin = stdNum.Max(rtmin, rt - halfPeakWidth)
+                    rtmax = stdNum.Min(rtmax, rt + halfPeakWidth)
+
+                    Yield New SeqValue(Of ITimeSignal()) With {
+                        .i = region.i,
+                        .value = region.value _
+                            .Where(Function(a)
+                                       Return a.time >= rtmin AndAlso a.time <= rtmax
+                                   End Function) _
+                            .ToArray
+                    }
+                Else
+                    Yield region
+                End If
+            Next
         End Function
     End Module
 End Namespace
