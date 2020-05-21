@@ -36,6 +36,7 @@
     <TypeScriptCompile Include="dev\osd.ts" />
     <TypeScriptCompile Include="dev\renderMenu.ts" />
     <TypeScriptCompile Include="dev\shell.ts" />
+    <TypeScriptCompile Include="dev\splash.ts" />
     <TypeScriptCompile Include="main.ts" />
     <TypeScriptCompile Include="dev\view.ts" />
   </ItemGroup>

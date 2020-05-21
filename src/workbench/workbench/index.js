@@ -1,9 +1,8 @@
 /**
  * Module handles configurable splashscreen to show while app is loading.
  */
-define("dev/splash", ["require", "exports", "electron"], function (require, exports, electron_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
+var splashScreen;
+(function (splashScreen_1) {
     /**
      * When splashscreen was shown.
      * @ignore
@@ -61,7 +60,7 @@ define("dev/splash", ["require", "exports", "electron"], function (require, expo
      * @param config - Configures splashscren
      * @returns {BrowserWindow} the main browser window ready for loading
      */
-    exports.initSplashScreen = (config) => {
+    splashScreen_1.initSplashScreen = (config) => {
         const xConfig = {
             windowOpts: config.windowOpts,
             templateUrl: config.templateUrl,
@@ -74,8 +73,8 @@ define("dev/splash", ["require", "exports", "electron"], function (require, expo
         xConfig.splashScreenOpts.center = true;
         xConfig.splashScreenOpts.show = false;
         xConfig.windowOpts.show = false;
-        const window = new electron_1.BrowserWindow(xConfig.windowOpts);
-        splashScreen = new electron_1.BrowserWindow(xConfig.splashScreenOpts);
+        const window = new BrowserWindow(xConfig.windowOpts);
+        splashScreen = new BrowserWindow(xConfig.splashScreenOpts);
         splashScreen.loadURL(`file://${xConfig.templateUrl}`);
         xConfig.closeWindow && splashScreen.on("close", () => {
             done || window.close();
@@ -102,14 +101,14 @@ define("dev/splash", ["require", "exports", "electron"], function (require, expo
      * @param config - Configures splashscren
      * @returns {DynamicSplashScreen} the main browser window and the created splashscreen
      */
-    exports.initDynamicSplashScreen = (config) => {
+    splashScreen_1.initDynamicSplashScreen = (config) => {
         return {
-            main: exports.initSplashScreen(config),
+            main: splashScreen_1.initSplashScreen(config),
             // initSplashScreen initializes splashscreen so this is a safe cast.
             splashScreen: splashScreen,
         };
     };
-});
+})(splashScreen || (splashScreen = {}));
 var workbench;
 (function (workbench) {
     var view;
