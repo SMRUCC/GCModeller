@@ -1,9 +1,12 @@
-/// <reference path="node_modules/electron/electron.d.ts" />
+/// <reference path="dev/splash.ts" />
 /// <reference path="dev/renderMenu.ts" />
 /// <reference path="dev/view.ts" />
 /// <reference path="dev/shell.ts" />
 /// <reference path="dev/osd.ts" />
-//// <reference path="vendor/linq.d.ts" />
+
+/// <reference path="splash.ts" />
+
+/// <reference path="node_modules/electron/electron.d.ts" />
 
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
@@ -21,6 +24,7 @@ let menu: Electron.Menu = null;
 // 创建浏览器窗口时，调用这个函数。
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', workbench.view.createWindow(mainView, defaultViewSize, function () {
+    startup();
     menu = workbench.view.renderAppMenu(template);
 }, true));
 

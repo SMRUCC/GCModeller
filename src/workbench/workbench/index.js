@@ -1,3 +1,117 @@
+/**
+ * Module handles configurable splashscreen to show while app is loading.
+ */
+var workbench;
+(function (workbench) {
+    var view;
+    (function (view) {
+        /**
+         * When splashscreen was shown.
+         * @ignore
+         */
+        let splashScreenTimestamp = 0;
+        /**
+         * Splashscreen is loaded and ready to show.
+         * @ignore
+         */
+        let splashScreenReady = false;
+        /**
+         * Main window has been loading for a min amount of time.
+         * @ignore
+         */
+        let slowStartup = false;
+        /**
+         * True when expected work is complete and we've closed splashscreen, else user prematurely closed splashscreen.
+         * @ignore
+         */
+        let done = false;
+        /**
+         * Show splashscreen if criteria are met.
+         * @ignore
+         */
+        const showSplash = () => {
+            if (splashScreen && splashScreenReady && slowStartup) {
+                splashScreen.show();
+                splashScreenTimestamp = Date.now();
+            }
+        };
+        /**
+         * Close splashscreen / show main screen. Ensure screen is visible for a min amount of time.
+         * @ignore
+         */
+        const closeSplashScreen = (main, min) => {
+            if (splashScreen) {
+                const timeout = min - (Date.now() - splashScreenTimestamp);
+                setTimeout(() => {
+                    done = true;
+                    if (splashScreen) {
+                        splashScreen.isDestroyed() || splashScreen.close(); // Avoid `Error: Object has been destroyed` (#19)
+                        splashScreen = null;
+                    }
+                    main.show();
+                }, timeout);
+            }
+        };
+        /**
+         * The actual splashscreen browser window.
+         * @ignore
+         */
+        let splashScreen;
+        /**
+         * Initializes a splashscreen that will show/hide smartly (and handle show/hiding of main window).
+         * @param config - Configures splashscren
+         * @returns {BrowserWindow} the main browser window ready for loading
+         */
+        view.initSplashScreen = (config) => {
+            const xConfig = {
+                windowOpts: config.windowOpts,
+                templateUrl: config.templateUrl,
+                splashScreenOpts: config.splashScreenOpts,
+                delay: config.delay || 500,
+                minVisible: config.minVisible || 500,
+                closeWindow: config.closeWindow || true,
+            };
+            xConfig.splashScreenOpts.frame = false;
+            xConfig.splashScreenOpts.center = true;
+            xConfig.splashScreenOpts.show = false;
+            xConfig.windowOpts.show = false;
+            const window = new BrowserWindow(xConfig.windowOpts);
+            splashScreen = new BrowserWindow(xConfig.splashScreenOpts);
+            splashScreen.loadURL(`file://${xConfig.templateUrl}`);
+            xConfig.closeWindow && splashScreen.on("close", () => {
+                done || window.close();
+            });
+            // Splashscreen is fully loaded and ready to view.
+            splashScreen.webContents.on("did-finish-load", () => {
+                splashScreenReady = true;
+                showSplash();
+            });
+            // Startup is taking enough time to show a splashscreen.
+            setTimeout(() => {
+                slowStartup = true;
+                showSplash();
+            }, xConfig.delay);
+            window.webContents.on("did-finish-load", () => {
+                closeSplashScreen(window, xConfig.minVisible);
+            });
+            return window;
+        };
+        /**
+         * Initializes a splashscreen that will show/hide smartly (and handle show/hiding of main window).
+         * Use this function if you need to send/receive info to the splashscreen (e.g., you want to send
+         * IPC messages to the splashscreen to inform the user of the app's loading state).
+         * @param config - Configures splashscren
+         * @returns {DynamicSplashScreen} the main browser window and the created splashscreen
+         */
+        view.initDynamicSplashScreen = (config) => {
+            return {
+                main: view.initSplashScreen(config),
+                // initSplashScreen initializes splashscreen so this is a safe cast.
+                splashScreen: splashScreen,
+            };
+        };
+    })(view = workbench.view || (workbench.view = {}));
+})(workbench || (workbench = {}));
 var workbench;
 (function (workbench) {
     var view;
@@ -133,12 +247,31 @@ var workbench;
     }
     workbench.osd = osd;
 })(workbench || (workbench = {}));
-/// <reference path="node_modules/electron/electron.d.ts" />
+function startup() {
+    var windowOptions = {
+        width: 500,
+        height: 375,
+        show: false,
+    };
+    workbench.view.initSplashScreen({
+        windowOpts: windowOptions,
+        templateUrl: "assets/images/logo.png",
+        delay: 0,
+        minVisible: 1500,
+        splashScreenOpts: {
+            height: 500,
+            width: 500,
+            transparent: true,
+        },
+    });
+}
+/// <reference path="dev/splash.ts" />
 /// <reference path="dev/renderMenu.ts" />
 /// <reference path="dev/view.ts" />
 /// <reference path="dev/shell.ts" />
 /// <reference path="dev/osd.ts" />
-//// <reference path="vendor/linq.d.ts" />
+/// <reference path="splash.ts" />
+/// <reference path="node_modules/electron/electron.d.ts" />
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
 const mainView = "./views/index.html";
@@ -152,6 +285,7 @@ let menu = null;
 // 创建浏览器窗口时，调用这个函数。
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', workbench.view.createWindow(mainView, defaultViewSize, function () {
+    startup();
     menu = workbench.view.renderAppMenu(template);
 }, true));
 // 当全部窗口关闭时退出。
@@ -172,116 +306,4 @@ app.on('activate', function () {
 // 在这个文件中，你可以续写应用剩下主进程代码。
 // 也可以拆分成几个文件，然后用 require 导入。
 workbench.Shell.initialize();
-/**
- * Module handles configurable splashscreen to show while app is loading.
- */
-define("dev/splash", ["require", "exports", "electron"], function (require, exports, electron_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    /**
-     * When splashscreen was shown.
-     * @ignore
-     */
-    let splashScreenTimestamp = 0;
-    /**
-     * Splashscreen is loaded and ready to show.
-     * @ignore
-     */
-    let splashScreenReady = false;
-    /**
-     * Main window has been loading for a min amount of time.
-     * @ignore
-     */
-    let slowStartup = false;
-    /**
-     * True when expected work is complete and we've closed splashscreen, else user prematurely closed splashscreen.
-     * @ignore
-     */
-    let done = false;
-    /**
-     * Show splashscreen if criteria are met.
-     * @ignore
-     */
-    const showSplash = () => {
-        if (splashScreen && splashScreenReady && slowStartup) {
-            splashScreen.show();
-            splashScreenTimestamp = Date.now();
-        }
-    };
-    /**
-     * Close splashscreen / show main screen. Ensure screen is visible for a min amount of time.
-     * @ignore
-     */
-    const closeSplashScreen = (main, min) => {
-        if (splashScreen) {
-            const timeout = min - (Date.now() - splashScreenTimestamp);
-            setTimeout(() => {
-                done = true;
-                if (splashScreen) {
-                    splashScreen.isDestroyed() || splashScreen.close(); // Avoid `Error: Object has been destroyed` (#19)
-                    splashScreen = null;
-                }
-                main.show();
-            }, timeout);
-        }
-    };
-    /**
-     * The actual splashscreen browser window.
-     * @ignore
-     */
-    let splashScreen;
-    /**
-     * Initializes a splashscreen that will show/hide smartly (and handle show/hiding of main window).
-     * @param config - Configures splashscren
-     * @returns {BrowserWindow} the main browser window ready for loading
-     */
-    exports.initSplashScreen = (config) => {
-        const xConfig = {
-            windowOpts: config.windowOpts,
-            templateUrl: config.templateUrl,
-            splashScreenOpts: config.splashScreenOpts,
-            delay: config.delay || 500,
-            minVisible: config.minVisible || 500,
-            closeWindow: config.closeWindow || true,
-        };
-        xConfig.splashScreenOpts.frame = false;
-        xConfig.splashScreenOpts.center = true;
-        xConfig.splashScreenOpts.show = false;
-        xConfig.windowOpts.show = false;
-        const window = new electron_1.BrowserWindow(xConfig.windowOpts);
-        splashScreen = new electron_1.BrowserWindow(xConfig.splashScreenOpts);
-        splashScreen.loadURL(`file://${xConfig.templateUrl}`);
-        xConfig.closeWindow && splashScreen.on("close", () => {
-            done || window.close();
-        });
-        // Splashscreen is fully loaded and ready to view.
-        splashScreen.webContents.on("did-finish-load", () => {
-            splashScreenReady = true;
-            showSplash();
-        });
-        // Startup is taking enough time to show a splashscreen.
-        setTimeout(() => {
-            slowStartup = true;
-            showSplash();
-        }, xConfig.delay);
-        window.webContents.on("did-finish-load", () => {
-            closeSplashScreen(window, xConfig.minVisible);
-        });
-        return window;
-    };
-    /**
-     * Initializes a splashscreen that will show/hide smartly (and handle show/hiding of main window).
-     * Use this function if you need to send/receive info to the splashscreen (e.g., you want to send
-     * IPC messages to the splashscreen to inform the user of the app's loading state).
-     * @param config - Configures splashscren
-     * @returns {DynamicSplashScreen} the main browser window and the created splashscreen
-     */
-    exports.initDynamicSplashScreen = (config) => {
-        return {
-            main: exports.initSplashScreen(config),
-            // initSplashScreen initializes splashscreen so this is a safe cast.
-            splashScreen: splashScreen,
-        };
-    };
-});
 //# sourceMappingURL=index.js.map
