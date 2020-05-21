@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports stdNum = System.Math
@@ -22,7 +23,7 @@ Namespace PeakFinding
         ''' <param name="baseline"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function AccumulateLine(signals As ITimeSignal(), baseline As Double) As PointF()
+        Public Function AccumulateLine(signals As ITimeSignal(), baseline As Double) As Vector2D()
             Dim accumulate#
             Dim sumALL# = Aggregate t As ITimeSignal In signals
                           Let x As Double = t.intensity - baseline
@@ -35,9 +36,9 @@ Namespace PeakFinding
                     accumulate += If(into < 0, 0, into)
                     Return (accumulate / sumALL) * 100
                 End Function
-            Dim accumulates As PointF() = signals _
+            Dim accumulates As Vector2D() = signals _
                 .Select(Function(tick)
-                            Return New PointF(tick.time, ay(tick.intensity))
+                            Return New Vector2D(tick.time, ay(tick.intensity))
                         End Function) _
                 .ToArray
 

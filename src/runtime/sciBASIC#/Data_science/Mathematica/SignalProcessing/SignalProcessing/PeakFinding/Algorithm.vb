@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -33,48 +34,50 @@ Namespace PeakFinding
         Public Iterator Function FindAllSignalPeaks(signals As IEnumerable(Of ITimeSignal)) As IEnumerable(Of SignalPeak)
             Dim data As ITimeSignal() = signals.OrderBy(Function(t) t.time).ToArray
             Dim baseline As Double = data.SignalBaseline(baseline_quantile)
-            Dim line As IVector(Of PointF) = data.AccumulateLine(baseline).Shadows
+            Dim line As IVector(Of Vector2D) = data.AccumulateLine(baseline).Shadows
             ' 计算出角度
-            Dim angles As PointF() = sin(line.Array).ToArray
+            Dim angles As Vector2D() = sin(line.Array).ToArray
             ' 删掉所有角度低于阈值的片段
             ' 剩下所有递增的坡度片段
-            Dim slopes As SeqValue(Of PointF())() = filterByCosAngles(angles).ToArray
+            Dim slopes As SeqValue(Of Vector2D())() = filterByCosAngles(angles).ToArray
             Dim rawSignals As IVector(Of ITimeSignal) = data.Shadows
             Dim rtmin, rtmax As Double
             Dim time As Vector = rawSignals.Select(Function(t) t.time).AsVector
-            Dim area As PointF()
+            Dim area As Vector2D()
 
-            For Each region As SeqValue(Of PointF()) In slopes
-                If region.value.Length = 1 Then
-                    Dim t As Single = region.value(Scan0).X
-                    Dim i As Integer = Which(angles.Select(Function(a) a.X = t)).First
+            For Each region As SeqValue(Of Vector2D()) In slopes
+                'If region.value.Length = 1 Then
+                '    Dim t As Single = region.value(Scan0).x
+                '    Dim i As Integer = Which(angles.Select(Function(a) a.x = t)).First
 
-                    region = New SeqValue(Of PointF()) With {
-                        .value = {angles(i - 1), region.value(Scan0), angles(i + 1)}
-                    }
-                End If
+                '    region = New SeqValue(Of Vector2D()) With {
+                '        .value = {angles(i - 1), region.value(Scan0), angles(i + 1)}
+                '    }
+                'End If
 
-                rtmin = region.value.First.X
-                rtmax = region.value.Last.X
+                rtmin = region.value.First.x
+                rtmax = region.value.Last.x
                 area = line((time >= rtmin) & (time <= rtmax))
 
                 ' 因为Y是累加曲线的值，所以可以近似的看作为峰面积积分值
                 ' 在这里将区间的上限的积分值减去区间的下限的积分值即可得到当前的这个区间的积分值（近似于定积分）
                 Yield New SignalPeak With {
-                    .integration = area.Last.Y - area.First.Y,
+                    .integration = area.Last.y - area.First.y,
                     .region = rawSignals((time >= rtmin) & (time <= rtmax))
                 }
             Next
         End Function
 
-        Private Iterator Function filterByCosAngles(angles As PointF()) As IEnumerable(Of SeqValue(Of PointF()))
-            Dim buffer As New List(Of PointF)
+        Private Iterator Function filterByCosAngles(angles As Vector2D()) As IEnumerable(Of SeqValue(Of Vector2D()))
+            Dim buffer As New List(Of Vector2D)
             Dim i As i32 = 0
 
-            For Each a As PointF In angles
-                If a.Y < sin_angle Then
+            For Each a As Vector2D In angles
+                If a.y < sin_angle Then
                     If buffer > 0 Then
-                        Yield New SeqValue(Of PointF()) With {
+                        buffer += a
+
+                        Yield New SeqValue(Of Vector2D()) With {
                             .i = ++i,
                             .value = buffer.PopAll
                         }
@@ -85,24 +88,24 @@ Namespace PeakFinding
             Next
 
             If buffer > 0 Then
-                Yield New SeqValue(Of PointF()) With {
+                Yield New SeqValue(Of Vector2D()) With {
                     .i = ++i,
                     .value = buffer.PopAll
                 }
             End If
         End Function
 
-        Private Iterator Function sin(line As PointF()) As IEnumerable(Of PointF)
-            Dim A As PointF
-            Dim B As PointF
+        Private Iterator Function sin(line As Vector2D()) As IEnumerable(Of Vector2D)
+            Dim A As Vector2D
+            Dim B As Vector2D
             Dim sinA, sinC As Double
 
-            For Each con As SlideWindow(Of PointF) In line.SlideWindows(winSize:=2, offset:=1)
+            For Each con As SlideWindow(Of Vector2D) In line.SlideWindows(winSize:=2, offset:=1)
                 If con.Length = 2 Then
                     A = con.First
                     B = con.Last
-                    sinA = B.Y - A.Y
-                    sinC = EuclideanDistance(New Double() {A.X, A.Y}, New Double() {B.X, B.Y})
+                    sinA = B.y - A.y
+                    sinC = EuclideanDistance(New Double() {A.x, A.y}, New Double() {B.x, B.y})
 
                     '      B
                     '     /|
@@ -110,7 +113,7 @@ Namespace PeakFinding
                     '   /  |
                     ' A ---- X
 
-                    Yield New PointF(A.X, sinA / sinC)
+                    Yield New Vector2D(A.x, sinA / sinC)
                 End If
             Next
         End Function
