@@ -4,8 +4,6 @@
 /// <reference path="dev/shell.ts" />
 /// <reference path="dev/osd.ts" />
 
-/// <reference path="splash.ts" />
-
 /// <reference path="node_modules/electron/electron.d.ts" />
 
 // load framework
@@ -19,14 +17,37 @@ const defaultViewSize = [1440, 900];
 // load internal app components
 let template: Electron.MenuItemConstructorOptions[] = require("./menu.json");
 let menu: Electron.Menu = null;
+let mainWindow: Electron.BrowserWindow;
 
 // Electron 会在初始化后并准备
 // 创建浏览器窗口时，调用这个函数。
 // 部分 API 在 ready 事件触发后才能使用。
-app.on('ready', workbench.view.createWindow(mainView, defaultViewSize, function () {
-    startup();
+app.on("ready", () => {
+    const windowOptions = {
+        width: defaultViewSize[0],
+        height: defaultViewSize[1],
+        show: true,
+    };
+    mainWindow = workbench.view.initSplashScreen({
+        windowOpts: windowOptions,
+        templateUrl: "./assets/images/logo.png",
+        delay: 0, // force show immediately since example will load fast
+        minVisible: 1500, // show for 1.5s so example is obvious
+        splashScreenOpts: {
+            height: 500,
+            width: 500,
+            transparent: true,
+        },
+    });
+
+    mainWindow.loadURL(mainView);
     menu = workbench.view.renderAppMenu(template);
-}, true));
+
+    // 在这个文件中，你可以续写应用剩下主进程代码。
+    // 也可以拆分成几个文件，然后用 require 导入。
+    workbench.Shell.initialize();
+});
+
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', function () {
@@ -43,8 +64,4 @@ app.on('activate', function () {
     if (workbench.view.getMainWindow() === null) {
         workbench.view.createWindow(mainView, defaultViewSize);
     }
-})
-
-// 在这个文件中，你可以续写应用剩下主进程代码。
-// 也可以拆分成几个文件，然后用 require 导入。
-workbench.Shell.initialize();
+});
