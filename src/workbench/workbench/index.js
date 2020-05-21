@@ -255,7 +255,11 @@ var workbench;
 /// <reference path="node_modules/electron/electron.d.ts" />
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
-const mainView = "./views/index.html";
+// import { app, BrowserWindow, Menu, Notification } from "electron";
+// import * as path from "path";
+// import * as url from "url";
+// const { path } = require('path');
+const mainView = require('path').join(__dirname, "views", "index.html");
 // start the R# backend environment
 const backend = workbench.Shell.Rweb();
 const defaultViewSize = [1440, 900];
@@ -270,20 +274,20 @@ app.on("ready", () => {
     const windowOptions = {
         width: defaultViewSize[0],
         height: defaultViewSize[1],
-        show: true,
+        show: false,
     };
     mainWindow = workbench.view.initSplashScreen({
         windowOpts: windowOptions,
-        templateUrl: "./assets/images/logo.png",
+        templateUrl: require('path').join(__dirname, "assets/images/logo.png"),
         delay: 0,
-        minVisible: 1500,
+        minVisible: 2500,
         splashScreenOpts: {
             height: 500,
             width: 500,
-            transparent: true,
+            transparent: false,
         },
     });
-    mainWindow.loadURL(mainView);
+    mainWindow.loadURL(`file://${mainView}`);
     menu = workbench.view.renderAppMenu(template);
     // 在这个文件中，你可以续写应用剩下主进程代码。
     // 也可以拆分成几个文件，然后用 require 导入。

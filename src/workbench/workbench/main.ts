@@ -9,7 +9,12 @@
 // load framework
 const { app, BrowserWindow, Menu, Notification } = require('electron');
 
-const mainView: string = "./views/index.html";
+// import { app, BrowserWindow, Menu, Notification } from "electron";
+// import * as path from "path";
+// import * as url from "url";
+// const { path } = require('path');
+
+const mainView: string = require('path').join(__dirname, "views", "index.html");
 // start the R# backend environment
 const backend = workbench.Shell.Rweb();
 const defaultViewSize = [1440, 900];
@@ -26,21 +31,21 @@ app.on("ready", () => {
     const windowOptions = {
         width: defaultViewSize[0],
         height: defaultViewSize[1],
-        show: true,
+        show: false,
     };
     mainWindow = workbench.view.initSplashScreen({
         windowOpts: windowOptions,
-        templateUrl: "./assets/images/logo.png",
+        templateUrl: require('path').join(__dirname, "assets/images/logo.png"),
         delay: 0, // force show immediately since example will load fast
-        minVisible: 1500, // show for 1.5s so example is obvious
+        minVisible: 2500, // show for 1.5s so example is obvious
         splashScreenOpts: {
             height: 500,
             width: 500,
-            transparent: true,
+            transparent: false,
         },
     });
 
-    mainWindow.loadURL(mainView);
+    mainWindow.loadURL(`file://${mainView}`);
     menu = workbench.view.renderAppMenu(template);
 
     // 在这个文件中，你可以续写应用剩下主进程代码。
