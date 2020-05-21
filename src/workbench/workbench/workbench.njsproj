@@ -39,6 +39,9 @@
     <TypeScriptCompile Include="dev\splash.ts" />
     <TypeScriptCompile Include="main.ts" />
     <TypeScriptCompile Include="dev\view.ts" />
+    <TypeScriptCompile Include="splash.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dev\" />
