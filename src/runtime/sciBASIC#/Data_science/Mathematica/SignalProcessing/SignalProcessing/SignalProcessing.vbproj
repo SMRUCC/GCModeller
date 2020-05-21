@@ -331,10 +331,10 @@
     <Compile Include="Source\ArithmeticSignal.vb" />
     <Compile Include="Source\Providers.vb" />
     <Compile Include="Source\Signal.vb" />
-    <Compile Include="DFT.vb" />
-    <Compile Include="FourierTransform.vb" />
+    <Compile Include="WaveletTransform\DFT.vb" />
+    <Compile Include="WaveletTransform\FourierTransform.vb" />
     <Compile Include="Source\DumpsSignal.vb" />
-    <Compile Include="WaveletTransform.vb" />
+    <Compile Include="WaveletTransform\WaveletTransform.vb" />
     <Compile Include="TimeSignals.vb" />
     <Compile Include="WaveletTransform\Constructors\Coiflets.vb" />
     <Compile Include="WaveletTransform\Constructors\Symlets.vb" />
