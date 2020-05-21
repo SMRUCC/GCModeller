@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports stdNum = System.Math
 
@@ -34,7 +35,18 @@ Namespace PeakFinding
             ' 剩下所有递增的坡度片段
             Dim slopes As SeqValue(Of PointF())() = filterByCosAngles(angles).ToArray
             Dim rawSignals As IVector(Of ITimeSignal) = data.Shadows
+            Dim rtmin, rtmax As Double
+            Dim time As Vector = rawSignals.Select(Function(t) t.time).AsVector
 
+            For Each region As SeqValue(Of PointF()) In slopes
+                rtmin = region.value.First.X
+                rtmax = region.value.Last.X
+
+                Yield New SeqValue(Of ITimeSignal()) With {
+                    .i = region.i,
+                    .value = rawSignals((time >= rtmin) & (time <= rtmax))
+                }
+            Next
         End Function
 
         Private Iterator Function filterByCosAngles(angles As PointF()) As IEnumerable(Of SeqValue(Of PointF()))

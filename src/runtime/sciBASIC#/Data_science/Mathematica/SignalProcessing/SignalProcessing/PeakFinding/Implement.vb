@@ -27,6 +27,7 @@ Namespace PeakFinding
                           Into Sum(x)
             Dim ay As Func(Of Double, Double) =
                 Function(into As Double) As Double
+                    ' 在这里已经消除了本底噪声的影响了
                     into -= baseline
                     accumulate += If(into < 0, 0, into)
                     Return (accumulate / sumALL) * 100
