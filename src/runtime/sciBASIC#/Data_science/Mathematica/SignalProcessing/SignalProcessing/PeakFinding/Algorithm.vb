@@ -17,7 +17,7 @@ Namespace PeakFinding
     ''' </summary>
     Public Class ElevationAlgorithm
 
-        ReadOnly cos_angle As Double
+        ReadOnly sin_angle As Double
         ReadOnly baseline_quantile As Double
 
         ''' <summary>
@@ -26,7 +26,7 @@ Namespace PeakFinding
         ''' <param name="angle">这个是一个角度值，取值区间为[0,90]</param>
         ''' <param name="baselineQuantile"></param>
         Sub New(angle As Double, baselineQuantile As Double)
-            Me.cos_angle = stdNum.Cos((90 - angle) / 90 * (1 / 2 * stdNum.PI))
+            Me.sin_angle = stdNum.Sin((angle / 90) * (1 / 2 * stdNum.PI))
             Me.baseline_quantile = baselineQuantile
         End Sub
 
@@ -35,7 +35,7 @@ Namespace PeakFinding
             Dim baseline As Double = data.SignalBaseline(baseline_quantile)
             Dim line As IVector(Of PointF) = data.AccumulateLine(baseline).Shadows
             ' 计算出角度
-            Dim angles As PointF() = cos(line.Array).ToArray
+            Dim angles As PointF() = sin(line.Array).ToArray
             ' 删掉所有角度低于阈值的片段
             ' 剩下所有递增的坡度片段
             Dim slopes As SeqValue(Of PointF())() = filterByCosAngles(angles).ToArray
@@ -63,7 +63,7 @@ Namespace PeakFinding
             Dim i As i32 = 0
 
             For Each a As PointF In angles
-                If a.Y <= cos_angle Then
+                If a.Y < sin_angle Then
                     If buffer > 0 Then
                         Yield New SeqValue(Of PointF()) With {
                             .i = ++i,
@@ -83,17 +83,17 @@ Namespace PeakFinding
             End If
         End Function
 
-        Private Iterator Function cos(line As PointF()) As IEnumerable(Of PointF)
+        Private Iterator Function sin(line As PointF()) As IEnumerable(Of PointF)
             Dim A As PointF
             Dim B As PointF
-            Dim cosB, cosC As Double
+            Dim sinA, sinC As Double
 
             For Each con As SlideWindow(Of PointF) In line.SlideWindows(winSize:=2, offset:=1)
                 If con.Length = 2 Then
                     A = con.First
                     B = con.Last
-                    cosB = B.X - A.X
-                    cosC = EuclideanDistance(New Double() {A.X, A.Y}, New Double() {B.X, B.Y})
+                    sinA = B.Y - A.Y
+                    sinC = EuclideanDistance(New Double() {A.X, A.Y}, New Double() {B.X, B.Y})
 
                     '      B
                     '     /|
@@ -101,7 +101,7 @@ Namespace PeakFinding
                     '   /  |
                     ' A ---- X
 
-                    Yield New PointF(A.X, cosB / cosC)
+                    Yield New PointF(A.X, sinA / sinC)
                 End If
             Next
         End Function
