@@ -50,10 +50,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 
-Public Class TimeSignal
+Public Structure TimeSignal
 
-    Public Property time As Double
-    Public Property intensity As Double
+    Dim time As Double
+    Dim intensity As Double
 
     Public Overrides Function ToString() As String
         Return $"[{time}, {intensity}]"
@@ -67,7 +67,7 @@ Public Class TimeSignal
             }
         Next
     End Function
-End Class
+End Structure
 
 Public Class Signal : Inherits Vector(Of TimeSignal)
 
