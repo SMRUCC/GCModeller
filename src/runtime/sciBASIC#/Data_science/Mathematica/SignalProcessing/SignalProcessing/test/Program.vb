@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.SignalProcessing
 Imports Microsoft.VisualBasic.Math.SignalProcessing.PeakFinding
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Module Program
 
@@ -61,8 +62,8 @@ Module Program
     End Sub
 
     Sub peakFinding()
-        Dim signals = File.Load("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematica\SignalProcessing\GUCA_subset.csv").Skip(1).Select(Function(r) New TimeSignal With {.time = r(0), .intensity = r(1)}).ToArray
-        Dim peaks = New ElevationAlgorithm(3, 0.65).FindAllSignalPeaks(signals).ToArray
+        Dim signals = File.Load("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematica\SignalProcessing\GUCA.csv").Skip(1).Select(Function(r) New TimeSignal With {.time = r(0), .intensity = r(1)}).ToArray
+        Dim peaks = New ElevationAlgorithm(3, 0.65).FindAllSignalPeaks(signals.As(Of ITimeSignal)).ToArray
 
         Pause()
     End Sub

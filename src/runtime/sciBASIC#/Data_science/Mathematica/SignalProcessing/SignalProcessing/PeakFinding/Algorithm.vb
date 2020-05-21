@@ -45,6 +45,15 @@ Namespace PeakFinding
             Dim area As PointF()
 
             For Each region As SeqValue(Of PointF()) In slopes
+                If region.value.Length = 1 Then
+                    Dim t As Single = region.value(Scan0).X
+                    Dim i As Integer = Which(angles.Select(Function(a) a.X = t)).First
+
+                    region = New SeqValue(Of PointF()) With {
+                        .value = {angles(i - 1), region.value(Scan0), angles(i + 1)}
+                    }
+                End If
+
                 rtmin = region.value.First.X
                 rtmax = region.value.Last.X
                 area = line((time >= rtmin) & (time <= rtmax))

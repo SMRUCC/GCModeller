@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Linq.Which
+Imports Microsoft.VisualBasic.Linq.WhichIndex
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports stdNum = System.Math
 
