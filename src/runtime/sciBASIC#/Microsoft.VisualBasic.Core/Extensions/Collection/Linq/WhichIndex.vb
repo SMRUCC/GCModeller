@@ -62,6 +62,12 @@ Namespace Linq
     ''' </summary>
     Public NotInheritable Class WhichIndex
 
+        Public Shared ReadOnly Property Symbol As WhichIndex
+            Get
+                Return Which
+            End Get
+        End Property
+
         Default Public ReadOnly Property Items(booleans As IEnumerable(Of Boolean)) As IEnumerable(Of Integer)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
