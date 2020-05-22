@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "module": "amd",
-    "target": "es6",
+    "target": "es5",
     "lib": [
-      "es6"
+      "es5"
     ],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
@@ -15,8 +15,8 @@
     "node_modules",
     "index.d.ts",
     "index.js",
-	"vendor",
-	"lib",
-	"views"
+    "vendor",
+    "lib",
+    "views"
   ]
 }

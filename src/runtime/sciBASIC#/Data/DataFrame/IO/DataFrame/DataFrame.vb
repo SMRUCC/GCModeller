@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bf7a898388392d16b7610476f53f896, Data\DataFrame\IO\DataFrame\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::e7b60601ab13e51298cdf4e285952ed3, Data\DataFrame\IO\DataFrame\DataFrame.vb"
 
     ' Author:
     ' 
@@ -437,7 +437,7 @@ Namespace IO
             If index = -1 AndAlso caseSensitive Then
                 Return Function(r) Nothing
             ElseIf index = -1 Then
-                With Which.IsTrue(columnList.Headers.Select(Function(c) c.TextEquals(columnName)))
+                With Which(columnList.Headers.Select(Function(c) c.TextEquals(columnName))).ToArray
                     If .IsNullOrEmpty Then
                         Return Function(r) Nothing
                     Else

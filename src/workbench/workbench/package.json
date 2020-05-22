@@ -16,6 +16,7 @@
     "electron": "^4.2.12"
   },
   "dependencies": {
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "tslint": "^6.1.2"
   }
 }

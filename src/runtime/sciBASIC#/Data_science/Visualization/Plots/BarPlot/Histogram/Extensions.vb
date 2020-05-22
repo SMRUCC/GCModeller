@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73842ac21d22eeb237e89734afd3d8d1, Data_science\Visualization\Plots\BarPlot\Histogram\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0d483779ffb9e360653fd14ef16a4226, Data_science\Visualization\Plots\BarPlot\Histogram\Extensions.vb"
 
     ' Author:
     ' 
@@ -61,8 +61,17 @@ Namespace BarPlot.Histogram
         <Extension>
         Public Function NewModel(hist As IEnumerable(Of DataBinBox(Of Double)), step!, legend As Legend) As HistProfile
             Dim data As DataBinBox(Of Double)() = hist.ToArray
-            Dim min = data(Scan0).Raw.Min
+            Dim min As Double
             Dim boxes As New List(Of HistogramData)
+
+            If data.Length = 0 Then
+                Return New HistProfile With {
+                    .legend = legend,
+                    .data = {}
+                }
+            Else
+                min = data(Scan0).Raw.Min
+            End If
 
             For Each box In data
                 boxes += New HistogramData With {

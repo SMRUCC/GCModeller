@@ -1,3 +1,4 @@
+/// <reference path="../vendor/common.d.ts" />
 /// <reference path="../../typescript/build/linq.d.ts" />
 /// <reference path="../vendor/console/simple-console.d.ts" />
 interface RInvoke {

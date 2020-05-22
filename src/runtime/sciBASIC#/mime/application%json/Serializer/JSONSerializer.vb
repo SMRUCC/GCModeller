@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::41449521f9873c61634511f298b05050, mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::f19781cbea8a848c8bd4ec4a1c33b4af, mime\application%json\Serializer\JSONSerializer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module JSONSerializer
-' 
-'     Function: (+2 Overloads) GetJson, populateArrayJson, populateObjectJson, populateTableJson
-' 
-' /********************************************************************************/
+    ' Module JSONSerializer
+    ' 
+    '     Function: (+2 Overloads) GetJson, populateArrayJson, populateObjectJson, populateTableJson
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -162,7 +162,11 @@ Public Module JSONSerializer
     Public Function GetJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As String
         If obj Is Nothing Then
             Return "null"
-        ElseIf schema.IsArray OrElse schema.IsInheritsFrom(GetType(List(Of )), strict:=False) Then
+        ElseIf schema.IsAbstract OrElse schema Is GetType(Object) AndAlso Not obj Is Nothing Then
+            schema = obj.GetType
+        End If
+
+        If schema.IsArray OrElse schema.IsInheritsFrom(GetType(List(Of )), strict:=False) Then
             Dim elementJSON = schema.populateArrayJson(obj, opt).ToArray
 
             If opt.indent Then
@@ -198,11 +202,15 @@ Public Module JSONSerializer
 
             Return DirectCast(obj, IDictionary).populateTableJson(valueType, opt)
         Else
-            If schema.IsAbstract AndAlso Not obj Is Nothing Then
+            If Not opt.digest Is Nothing AndAlso opt.digest.ContainsKey(schema) Then
+                obj = opt.digest(schema)(obj)
                 schema = obj.GetType
+
+                Return GetJson(schema, obj, opt)
+            Else
+                ' isObject
+                Return schema.populateObjectJson(obj, opt)
             End If
-            ' isObject
-            Return schema.populateObjectJson(obj, opt)
         End If
     End Function
 End Module

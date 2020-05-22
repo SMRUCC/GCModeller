@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20fe4e33b60f4c9268c4319059fc3be0, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::c6714e5a9244d73bb1d292776f27c032, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
 
     ' Author:
     ' 
@@ -208,6 +208,10 @@ Namespace BarPlot.Histogram
             Dim margin As Padding = padding
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                    If groups.Samples.Length = 1 AndAlso groups.Samples.First.data.Length = 0 Then
+                        Call "No content data for plot histogram chart...".Warning
+                        Return
+                    End If
 
                     Dim scalerData As New Scaling(groups, False)
                     Dim annotations As Dictionary(Of NamedValue(Of Color)) = groups.Serials.ToDictionary

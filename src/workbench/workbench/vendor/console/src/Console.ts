@@ -48,7 +48,7 @@
 
             ConsoleUI.add_chevron(this.input_wrapper);
 
-            this.input = <any>$ts("<input>", {
+            this.input = <any>$ts("<textarea>", {
                 class: "simple-console-input",
                 autofocus: autofocus,
                 placeholder: placeholder,
