@@ -10,22 +10,7 @@ var RWeb;
                 var result = data;
                 if (result.code == 0) {
                     if (!Strings.Empty(result.info)) {
-                        if (result.content_type.startsWith("text/html")) {
-                            RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
-                        }
-                        else if (result.content_type == "inspector/json") {
-                            var win = openView("views/inspector.html");
-                            // ipc_sendData("inspect_json", result.info, win);
-                            localStorage.setItem("inspect_json", result.info);
-                        }
-                        else if (result.content_type == "inspector/csv") {
-                            var win = openView("views/inspector.table.html");
-                            // ipc_sendData("inspect_json", result.info, win);
-                            localStorage.setItem("inspect_table", result.info);
-                        }
-                        else {
-                            RWeb.console.log(image(result.info)).classList.add("result");
-                        }
+                        handleSuccessMessage(result);
                     }
                 }
                 else {
@@ -43,6 +28,26 @@ var RWeb;
         }
         shell.handle_command = handle_command;
         ;
+        function handleSuccessMessage(result) {
+            if (result.content_type.startsWith("text/html")) {
+                RWeb.console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
+            }
+            else if (result.content_type == "inspector/json") {
+                openView("views/inspector.html");
+                localStorage.setItem("inspect_json", result.info);
+            }
+            else if (result.content_type == "inspector/csv") {
+                openView("views/inspector.table.html");
+                localStorage.setItem("inspect_table", result.info);
+            }
+            else if (result.content_type == "inspector/api") {
+                openView("views/inspector.api.html");
+                localStorage.setItem("inspect_api", result.info);
+            }
+            else {
+                RWeb.console.log(image(result.info)).classList.add("result");
+            }
+        }
         function image(base64) {
             var link = $ts("<a>", {
                 id: "image_fancybox",
