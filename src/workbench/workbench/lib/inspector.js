@@ -7,4 +7,10 @@ function inspect_table(id) {
         $ts.appendTable(objects, id, null, { class: "table" });
     });
 }
+function inspect_api(id) {
+    var $obj = localStorage.getItem("inspect_api");
+    $ts.getText("http://127.0.0.1:7452/inspect?guid=" + $obj, function (html) {
+        $ts(id).display(html);
+    });
+}
 //# sourceMappingURL=inspector.js.map
