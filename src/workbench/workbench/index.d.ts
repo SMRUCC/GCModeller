@@ -1,3 +1,4 @@
+/// <reference path="node_modules/electron/electron.d.ts" />
 /**
  * Module handles configurable splashscreen to show while app is loading.
  */
@@ -62,10 +63,10 @@ declare module workbench.Shell {
 declare module workbench {
     function osd(): Electron.Notification;
 }
-declare function startup(): void;
 declare const app: Electron.App, BrowserWindow: typeof Electron.BrowserWindow, Menu: typeof Electron.Menu, Notification: typeof Electron.Notification;
 declare const mainView: string;
 declare const backend: any;
 declare const defaultViewSize: number[];
 declare let template: Electron.MenuItemConstructorOptions[];
 declare let menu: Electron.Menu;
+declare let mainWindow: Electron.BrowserWindow;

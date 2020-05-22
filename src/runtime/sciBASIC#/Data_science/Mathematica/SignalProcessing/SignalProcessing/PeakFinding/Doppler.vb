@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5a79a4de02f81bfde8fb54488d60b1, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Paths\Star.vb"
+﻿#Region "Microsoft.VisualBasic::f5c734a53e8b2db35559e389ab1e6dfe, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Doppler.vb"
 
     ' Author:
     ' 
@@ -31,37 +31,42 @@
 
     ' Summaries:
 
-    '     Class Star
+    ' Module Doppler
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
+    '     Function: Calculate
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Math
+Imports Microsoft.VisualBasic.Math.SignalProcessing.PeakFinding
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
 
-Namespace Drawing3D.Models.Isometric.Paths
+Public Module Doppler
 
-    ''' <summary>
-    ''' Created by fabianterhorst on 01.04.17.
-    ''' </summary>
-    Public Class Star : Inherits Path3D
+    Public Function Calculate(signals As IEnumerable(Of ITimeSignal))
+        ' 首先平移到最低点
+        Dim raw = signals.ToArray
+        Dim into = raw.Min(Function(x) x.intensity)
 
-        Public Sub New(origin As Point3D, outerRadius#, innerRadius#, points%)
-            MyBase.New()
+        If into < 0 Then
+            into = stdNum.Abs(into)
+            raw = raw _
+                .Select(Function(a)
+                            Return New TimeSignal With {
+                                .time = a.time,
+                                .intensity = a.intensity + into
+                            }
+                        End Function) _
+                .As(Of ITimeSignal) _
+                .ToArray
+        End If
 
-            For i As Integer = 0 To points * 2 - 1
-                Dim r As Double = If(i Mod 2 = 0, outerRadius, innerRadius)
-                Dim p As New Point3D(
-                    (r * Cos(i * stdNum.PI / points)) + origin.X,
-                    (r * Sin(i * stdNum.PI / points)) + origin.Y,
-                    origin.Z)
+        ' 查找出所有的peaks
+        Dim allPeaks = New ElevationAlgorithm(5, 0.65).FindAllSignalPeaks(raw).ToArray
+        ' 计算出频率的变化趋势
+        Throw New NotImplementedException
+    End Function
+End Module
 
-                Call Push(p)
-            Next
-        End Sub
-    End Class
-End Namespace
