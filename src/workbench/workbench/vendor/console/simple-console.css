@@ -3,7 +3,7 @@
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	font-family: sans-serif;
+	font-family: Consolas;
 }
 
 .simple-console-output {

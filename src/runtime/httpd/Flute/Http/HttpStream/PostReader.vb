@@ -109,6 +109,7 @@ Namespace Core.HttpStream
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Form As New NameValueCollection
+        Public ReadOnly Property Objects As Dictionary(Of String, Object)
         Public ReadOnly Property files As New Dictionary(Of String, List(Of HttpPostedFile))
 
         ''' <summary>
@@ -142,27 +143,39 @@ Namespace Core.HttpStream
                 ' 一种是jquery POST
                 ' 另外的一种就是只有单独的一个文件的POST上传，
                 ' 现在我们假设jquery POST的长度很小， 而文件上传的长度很大，则在这里目前就只通过stream的长度来进行分别处理
+                If ContentType = "application/json" Then
+                    Dim json = New StreamReader(inputStream).ReadToEnd
+                    Dim knows As Type() = {
+                        GetType(Dictionary(Of String, Object)),
+                        GetType(String()),
+                        GetType(Double()),
+                        GetType(Double),
+                        GetType(String)
+                    }
 
-                If inputStream.Length >= 2048 Then
-                    ' 是一个单独的文件
-                    Dim [sub] As New HttpPostedFile(
-                        fileName,
-                        ContentType,
-                        inputStream,
-                        Scan0,
-                        inputStream.Length
-                    )
-
-                    files("file") = New List(Of HttpPostedFile) From {[sub]}
+                    _Objects = json.LoadJSON(Of Dictionary(Of String, Object))(knownTypes:=knows)
                 Else
-                    ' probably is a jquery post
-                    Dim byts As Byte() = inputStream _
-                        .PopulateBlocks _
-                        .IteratesALL _
-                        .ToArray
-                    Dim s As String = ContentEncoding.GetString(byts)
+                    If inputStream.Length >= 2048 Then
+                        ' 是一个单独的文件
+                        Dim [sub] As New HttpPostedFile(
+                            fileName,
+                            ContentType,
+                            inputStream,
+                            Scan0,
+                            inputStream.Length
+                        )
 
-                    _Form = s.PostUrlDataParser
+                        files("file") = New List(Of HttpPostedFile) From {[sub]}
+                    Else
+                        ' probably is a jquery post
+                        Dim byts As Byte() = inputStream _
+                            .PopulateBlocks _
+                            .IteratesALL _
+                            .ToArray
+                        Dim s As String = ContentEncoding.GetString(byts)
+
+                        _Form = s.PostUrlDataParser
+                    End If
                 End If
             End Using
         End Sub
@@ -180,16 +193,6 @@ Namespace Core.HttpStream
                     Call loadMultiPart(boundary, input)
                 End Using
             End If
-
-            Call files _
-                .ToDictionary(Function(f) f.Key,
-                              Function(names)
-                                  Return names.Value _
-                                      .Select(Function(file) file.Summary) _
-                                      .ToArray
-                              End Function) _
-                .GetJson(indent:=True) _
-                .Warning
         End Sub
 
         Private Sub loadMultiPart(boundary$, input As Stream)

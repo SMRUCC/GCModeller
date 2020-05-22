@@ -2,73 +2,114 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2019" />
+    <meta name="theme-color" content="#333" />
+
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
 
     <title>GCModeller Workbench</title>
 
-    <script src="../vendor/linq.js"></script>
-    <script src="./common.js"></script>
+    <!-- Insert this line above script imports  -->
+    <script>
+        if (typeof module === 'object') {
+            window.module = module; module = undefined;
+        }
+    </script>
 
+    <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../vendor/linq.js"></script>
+    <script type="text/javascript" src="../vendor/common.js"></script>
+
+    <link rel="shortcut icon" href="../assets/images/logo.png" />
     <link rel="stylesheet" href="../vendor/console/simple-console.css">
+    <link rel="stylesheet" href="../assets/index.css">
+    <link rel="stylesheet" href="../vendor/bootstrap_v3/css/bootstrap.min.css">
 
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex: 1;
+    <!-- Add fancyBox main JS and CSS files -->
+    <link href="../vendor/fancybox_v3/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .fancybox-custom .fancybox-skin {
+            box-shadow: 0 0 50px #222;
         }
 
-        h1,
-        p {
-            margin: 0.5rem 0;
+        .mirror-tip {
+            border: 1px solid gray;
+            background: #EEEEEE;
+            padding: 5px;
         }
 
-        h1,
-        h2 {
-            font-family: "Open Sans", sans-serif;
-        }
-
-        h1 {
-            font-weight: normal;
-        }
-
-        a {
-            color: #4078c0;
-        }
-
-        a:not(:hover) {
-            text-decoration: none;
-        }
-
-        code {
-            font-family: inherit;
-            padding: 0.1em 0.2em;
-            border: 1px solid rgba(128, 128, 128, 0.5);
-            border-radius: 0.1em;
+        .fancybox-image {
+            background-color: white;
         }
     </style>
-
 </head>
 
 <body>
-    <!--
-    <h1>Hello World!</h1>
-    We are using node
-    <script>document.write(process.versions.node)</script>,
-    Chrome
-    <script>document.write(process.versions.chrome)</script>,
-    and Electron
-    <script>document.write(process.versions.electron)</script>.
 
-    <a href="javascript:void(0);" id="open_motif" onclick="openView('./views/motifLogo.html');">Motif Logo Viewer</a>
-    -->
-    <div id="Rconsole">
+    <div class="container" style="width:98%;">
 
+        <div class="row">
+
+            <h1 style="padding-left: 2%; font-size: 3em;">
+                <a href='https://github.com/SMRUCC/GCModeller-workbench' target="__blank">GCModeller Workbench</a>
+            </h1>
+
+            <div class="col-lg-2">
+                <img src="../assets/images/R-sharp.png" style="width: 100%; max-width: 200px;" />
+            </div>
+
+            <div class="col-lg-5">
+                <br />
+                <p>
+                    <strong style="font-size: 2em;">Welcome to the <code>R#</code> language</strong><br />
+                </p>
+                <p>
+                    Type '<code>demo()</code>' for some demos, '<code>help()</code>' for on-line help, or<br />
+                    '<code>help.start()</code>' for an HTML browser interface to help.<br />
+                    Type '<code>q()</code>' to quit R.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="Rconsole">
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../vendor/console/simple-console.js"></script>
     <script src="../lib/Rconsole.js"></script>
+
+    <script type="text/javascript" src="../vendor/bootstrap_v3/js/bootstrap.min.js"></script>
+    <!-- jQuery的js引用必须要先于fancybox定义，否则会出现找不到jquery的错误 -->
+    <script type="text/javascript" src="../vendor/fancybox_v3/dist/jquery.fancybox.min.js"></script>
+
+    <script type="text/javascript">
+        $ts(function () {
+            // Customize buttons
+            $('[data-fancybox]').fancybox({
+                buttons: ['close']
+            });
+        });
+    </script>
+
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
 </body>

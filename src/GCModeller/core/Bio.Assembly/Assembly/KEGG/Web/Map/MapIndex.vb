@@ -215,6 +215,10 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
+        ''' <summary>
+        ''' 因为<see cref="MapIndex"/>是直接继承至<see cref="Map"/>对象类型的，所以在这里可以直接返回这个序列
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Map) Implements Enumeration(Of Map).GenericEnumerator
             For Each index In Maps
                 Yield index

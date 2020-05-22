@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::bff869db516e52f3135776ad90f355b5, CLI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __exportBBH, __orderEntry, BashShell, ExportBBH, XmlToExcel
-    '               XmlToExcelBatch
-    '     Delegate Function
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __assignAddition, Copys, ExportProt, ParseAllbbhhits, ParsebbhBesthit
-    '                   SelfBlast
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __exportBBH, __orderEntry, BashShell, ExportBBH, XmlToExcel
+'               XmlToExcelBatch
+'     Delegate Function
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __assignAddition, Copys, ExportProt, ParseAllbbhhits, ParsebbhBesthit
+'                   SelfBlast
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
@@ -274,7 +275,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     Private Function __assignAddition(bbh As BiDirectionalBesthit, descri As Dictionary(Of String, String)) As BiDirectionalBesthit
         Dim ID As String = bbh.QueryName.Split.First
         bbh.QueryName = ID
-        bbh.Description = descri(ID)
+        bbh.description = descri(ID)
         Return bbh
     End Function
 
@@ -305,18 +306,6 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         out = args.GetValue("/out", out.TrimSuffix & ".Csv")
 
         Return hits.SaveTo(out).CLICode
-    End Function
-
-    <ExportAPI("/Export.Protein",
-               Info:="Export all of the protein sequence from the genbank database file.",
-               Usage:="/Export.Protein /gb <genome.gb> [/out <out.fasta>]")>
-    <Group(CLIGrouping.GenbankTools)>
-    Public Function ExportProt(args As CommandLine) As Integer
-        Dim gb As String = args("/gb")
-        Dim out As String = args.GetValue("/out", gb.TrimSuffix & "-protein.fasta")
-        Dim gbk As GBFF.File = GBFF.File.Load(gb)
-        Dim prot As FASTA.FastaFile = gbk.ExportProteins_Short
-        Return prot.Save(out).CLICode
     End Function
 
     <ExportAPI("/Copys", Usage:="/Copys /imports <DIR> [/out <outDIR>]")>

@@ -117,6 +117,8 @@ namespace TypeExtensions {
             } else {
                 node.style.pointerEvents = "none";
                 node.style.opacity = "0.4";
+                node.style.filter = "grayscale(100%)";
+                node.style.webkitFilter = "grayscale(100%)";
             }
         };
 

@@ -297,11 +297,11 @@ Namespace Assembly.NCBI.GenBank
         '''
         <Extension> Public Function ExportProteins_Short(gb As NCBI.GenBank.GBFF.File,
                                                          <Parameter("locusId.Only")>
-                                                         Optional OnlyLocusTag As Boolean = False) As FastaFile
+                                                         Optional onlyLocusTag As Boolean = False) As FastaFile
             Dim LQuery = From feature As gbffFeature
                          In gb.Features
                          Where String.Equals(feature.KeyName, "CDS")
-                         Select feature.__protShort(OnlyLocusTag)
+                         Select feature.__protShort(onlyLocusTag)
             Dim Fasta As New FastaFile(LQuery)
             Return Fasta
         End Function
@@ -318,15 +318,20 @@ Namespace Assembly.NCBI.GenBank
                 product = ""
             End If
             Dim locusId As String = feature.Query("locus_tag")
-            If locusId Is Nothing Then
+            If locusId.StringEmpty Then
+                locusId = feature.QueryDuplicated("db_xref").FirstOrDefault
+            End If
+            If locusId.StringEmpty Then
                 locusId = feature.Location.UniqueId
             End If
+
             Dim ORF_transl As String = feature.Query("translation")
             Dim attrs As String() = If(Not onlyLocusTag, {locusId & " " & product}, {locusId})
             Dim fa As New FastaSeq With {
                 .Headers = attrs,
                 .SequenceData = ORF_transl
-            } '
+            }
+
             Return fa
         End Function
 

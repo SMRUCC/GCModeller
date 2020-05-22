@@ -17,12 +17,17 @@ module Strings {
     export const Z: number = "Z".charCodeAt(0);
 
     export const numericPattern: RegExp = /[-]?\d+(\.\d+)?/g;
+    export const integerPattern: RegExp = /[0-9]+/g;
 
     /**
      * 判断所给定的字符串文本是否是任意实数的正则表达式模式
     */
     export function isNumericPattern(text: string): boolean {
         return IsPattern(text, Strings.numericPattern);
+    }
+
+    export function isIntegerPattern(text: string): boolean {
+        return IsPattern(text, Strings.integerPattern);
     }
 
     /**

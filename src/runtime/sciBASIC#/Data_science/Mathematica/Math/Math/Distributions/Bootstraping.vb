@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::030388449584208148cde38cfa67a563, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::f03ccd239839760104d044fd42c296e3, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -186,13 +186,17 @@ Namespace Distributions
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Hist(data As Double(), Optional step! = 1) As IEnumerable(Of DataBinBox(Of Double))
-            Return CutBins.FixedWidthBins(Of Double)(
-                v:=data.OrderBy(Function(x) x).ToArray,
-                width:=[step],
-                eval:=Function(x) x,
-                min:=data.Min,
-                max:=data.Max
-            )
+            If data.Length = 0 Then
+                Return {}
+            Else
+                Return CutBins.FixedWidthBins(Of Double)(
+                    v:=data.OrderBy(Function(x) x).ToArray,
+                    width:=[step],
+                    eval:=Function(x) x,
+                    min:=data.Min,
+                    max:=data.Max
+                )
+            End If
         End Function
 
         <Extension>

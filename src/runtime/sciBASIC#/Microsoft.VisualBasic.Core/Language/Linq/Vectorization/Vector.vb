@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b502a059911a659bdf389ab0a38f827, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::e3d477e7955efde5f83ed74c04666bab, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\Vector.vb"
 
     ' Author:
     ' 
@@ -312,7 +312,7 @@ Namespace Language.Vectorization
         Default Public Overridable Overloads Property Item(booleans As IEnumerable(Of Boolean)) As Vector(Of T)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New Vector(Of T)(Me(indices:=Linq.Which.IsTrue(booleans)))
+                Return New Vector(Of T)(Me(indices:=Linq.Which(booleans)))
             End Get
             Set(value As Vector(Of T))
                 For Each i In booleans.SeqIterator
@@ -364,7 +364,7 @@ Namespace Language.Vectorization
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Which(assert As Func(Of T, Boolean)) As Integer()
-            Return Linq.Which.IsTrue(Me.Select(assert))
+            Return Linq.Which(Me.Select(assert))
         End Function
 
         ''' <summary>
