@@ -37,11 +37,11 @@ app.on("ready", () => {
         windowOpts: windowOptions,
         templateUrl: require('path').join(__dirname, "views/startup.html"),
         delay: 0, // force show immediately since example will load fast
-        minVisible: 25000, // show for 1.5s so example is obvious
+        minVisible: 2500, // show for 1.5s so example is obvious
         splashScreenOpts: {
-            height: 800,
-            width: 1200,
-            transparent: true,
+            height: 500,
+            width: 800,
+            transparent: false
         },
     });
 

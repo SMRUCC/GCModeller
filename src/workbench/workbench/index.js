@@ -285,11 +285,11 @@ app.on("ready", function () {
         windowOpts: windowOptions,
         templateUrl: require('path').join(__dirname, "views/startup.html"),
         delay: 0,
-        minVisible: 25000,
+        minVisible: 2500,
         splashScreenOpts: {
-            height: 800,
-            width: 1200,
-            transparent: true,
+            height: 500,
+            width: 800,
+            transparent: false
         },
     });
     mainWindow.loadURL("file://" + mainView);
