@@ -14,7 +14,7 @@ const { app, BrowserWindow, Menu, Notification } = require('electron');
 // import * as url from "url";
 // const { path } = require('path');
 
-const mainView: string = require('path').join(__dirname, "views", "index.html");
+const mainView: string = require('path').join(__dirname, "views/index.html");
 // start the R# backend environment
 const backend = workbench.Shell.Rweb();
 const defaultViewSize = [1440, 900];
@@ -35,13 +35,13 @@ app.on("ready", () => {
     };
     mainWindow = workbench.view.initSplashScreen({
         windowOpts: windowOptions,
-        templateUrl: require('path').join(__dirname, "assets/images/logo.png"),
+        templateUrl: require('path').join(__dirname, "views/startup.html"),
         delay: 0, // force show immediately since example will load fast
-        minVisible: 2500, // show for 1.5s so example is obvious
+        minVisible: 25000, // show for 1.5s so example is obvious
         splashScreenOpts: {
-            height: 500,
-            width: 500,
-            transparent: false,
+            height: 800,
+            width: 1200,
+            transparent: true,
         },
     });
 
