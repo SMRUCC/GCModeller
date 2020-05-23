@@ -264,7 +264,7 @@ var _a = require('electron'), app = _a.app, BrowserWindow = _a.BrowserWindow, Me
 // import * as path from "path";
 // import * as url from "url";
 // const { path } = require('path');
-var mainView = require('path').join(__dirname, "views", "index.html");
+var mainView = require('path').join(__dirname, "views/index.html");
 // start the R# backend environment
 var backend = workbench.Shell.Rweb();
 var defaultViewSize = [1440, 900];
@@ -283,13 +283,13 @@ app.on("ready", function () {
     };
     mainWindow = workbench.view.initSplashScreen({
         windowOpts: windowOptions,
-        templateUrl: require('path').join(__dirname, "assets/images/logo.png"),
+        templateUrl: require('path').join(__dirname, "views/startup.html"),
         delay: 0,
         minVisible: 2500,
         splashScreenOpts: {
             height: 500,
-            width: 500,
-            transparent: false,
+            width: 800,
+            transparent: false
         },
     });
     mainWindow.loadURL("file://" + mainView);
