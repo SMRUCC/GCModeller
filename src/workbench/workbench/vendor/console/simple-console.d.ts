@@ -14,7 +14,7 @@ declare namespace System {
         element: IHTMLElement;
         private last_entry;
         private history;
-        get get_last_entry(): any;
+        readonly get_last_entry: any;
         constructor(options: ConsoleConfig);
         addPopupButton(update: Delegate.Sub): ConsoleUI.add_popup_button;
         addPopupMenuButton(getHistories: ConsoleDevice.get_historyItems): ConsoleUI.add_popup_menu_button;
@@ -107,7 +107,7 @@ declare namespace System.ConsoleDevice {
         command_history_key: string;
         command_history: (historyItem | string)[];
         private command_index;
-        get current_command_history(): historyItem | string;
+        readonly current_command_history: historyItem | string;
         constructor(command_history_key: string, command_history?: (historyItem | string)[]);
         get_last_command(): string;
         get_next_command(): string | historyItem;
