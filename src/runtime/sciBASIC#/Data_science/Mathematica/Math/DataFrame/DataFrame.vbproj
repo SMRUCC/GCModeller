@@ -417,6 +417,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correlation\DistanceMatrix.vb" />
+    <Compile Include="Correlation\Builder.vb" />
+    <Compile Include="Correlation\Module1.vb" />
     <Compile Include="Impute.vb" />
     <Compile Include="Correlation\Correlation.vb" />
     <Compile Include="MatrixVisit.vb" />
