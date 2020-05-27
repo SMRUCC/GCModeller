@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Linq
 Public Module Builder
 
     <Extension>
-    Public Function MatrixBuilder(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), eval As Func(Of Double(), Double(), Double)) As DistanceMatrix
+    Public Function MatrixBuilder(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), eval As Func(Of Double(), Double(), Double), isDistance As Boolean) As DistanceMatrix
         Dim allData = data.ToArray
         Dim names = allData.PropertyNames
         Dim keys As String() = allData.Keys
@@ -31,14 +31,15 @@ Public Module Builder
             .Select(Function(d) d.Item2) _
             .ToArray
 
-        Return New DistanceMatrix(keys.Indexing, matrix)
+        Return New DistanceMatrix(keys.Indexing, matrix, isDistance)
     End Function
 
     <Extension>
     Public Function FromTabular(Of DataSet As {INamedValue, DynamicPropertyBase(Of String)})(data As IEnumerable(Of DataSet),
                                                                                              Optional item1$ = "A",
                                                                                              Optional item2$ = "B",
-                                                                                             Optional correlation$ = "correlation") As DistanceMatrix
+                                                                                             Optional correlation$ = "correlation",
+                                                                                             Optional isDistance As Boolean = False) As DistanceMatrix
         Dim allData As DataSet() = data.ToArray
         Dim names As New List(Of String)
         Dim hash As New Dictionary(Of String, Dictionary(Of String, Double))
@@ -83,7 +84,7 @@ Public Module Builder
                                           End Function) _
                                   .ToArray
 
-                               Return New DistanceMatrix(index, matrix)
+                               Return New DistanceMatrix(index, matrix, isDistance)
                            End Function)
         End With
     End Function

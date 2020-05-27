@@ -43,6 +43,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -69,7 +70,7 @@ Namespace Heatmap
         ''' 
         <Extension>
         Public Function Plot(data As DistanceMatrix,
-                             Optional mapLevels% = 40,
+                             Optional mapLevels% = 30,
                              Optional mapName$ = "lighter(" & ColorBrewer.DivergingSchemes.RdBu11 & ",0.05)",
                              Optional size$ = "1600,1600",
                              Optional padding$ = g.SmallPadding,
@@ -77,10 +78,10 @@ Namespace Heatmap
                              Optional logScale# = 0,
                              Optional rowDendrogramHeight% = 200,
                              Optional rowDendrogramClass As Dictionary(Of String, String) = Nothing,
-                             Optional rowLabelFontStyle$ = CSSFont.Win10Normal,
-                             Optional legendTitle$ = "Heatmap Color Legend",
-                             Optional legendFont$ = CSSFont.Win7Large,
-                             Optional legendLabelFont$ = CSSFont.PlotSubTitle,
+                             Optional rowLabelFontStyle$ = CSSFont.PlotTitle,
+                             Optional legendTitle$ = "Correlation Colors",
+                             Optional legendFont$ = CSSFont.Win7VeryLarge,
+                             Optional legendLabelFont$ = CSSFont.PlotTitle,
                              Optional range As DoubleRange = Nothing,
                              Optional mainTitle$ = "heatmap",
                              Optional titleFont$ = CSSFont.Win7VeryVeryLarge,
@@ -88,14 +89,15 @@ Namespace Heatmap
                              Optional drawValueLabel As Boolean = False,
                              Optional valuelabelFontCSS$ = CSSFont.PlotLabelNormal,
                              Optional variantSize As Boolean = True,
-                             Optional gridCSS$ = Stroke.HighlightStroke) As GraphicsData
+                             Optional gridCSS$ = "stroke: lightgray; stroke-width: 1px; stroke-dash: solid;",
+                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim margin As Padding = padding
             Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS)
             Dim min#, max#
             Dim gridBrush As Pen = Stroke.TryParse(gridCSS).GDIObject
             Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelFontStyle).GDIObject
-            Dim keys$() = data.Keys
+            Dim keys$() = data.keys
             Dim leftOffSet% = margin.Left / 1.5
 
             With range Or data _
@@ -111,16 +113,18 @@ Namespace Heatmap
                 range = {0, .Max}
             End With
 
-            Dim colors = Designer.GetColors(mapName, mapLevels).GetBrushes
+            Dim colors = Designer.GetColors(mapName, mapLevels).Reverse.GetBrushes
             Dim plotInternal = Sub(ByRef g As IGraphics, region As GraphicsRegion)
                                    Dim dStep As New SizeF With {
-                                        .Width = region.Width / data.size,
-                                        .Height = region.Height / data.size
+                                        .Width = region.PlotRegion.Width / data.size,
+                                        .Height = region.PlotRegion.Height / data.size
                                    }
                                    ' 在绘制上三角的时候假设每一个对象的keys的顺序都是相同的
-                                   Dim dw! = dStep.Width - gridBrush.Width * 2
-                                   Dim dh! = dStep.Height - gridBrush.Width * 2
-                                   Dim blockSize As New SizeF(dw, dw)  ' 每一个方格的大小是不变的
+                                   Dim dw! = dStep.Width - gridBrush.Width
+                                   Dim dh! = dStep.Height - gridBrush.Width
+                                   Dim legendSize = region.PlotRegion.Width / 4
+                                   ' 每一个方格的大小是不变的
+                                   Dim blockSize As New SizeF(stdNum.Min(dw, dh), stdNum.Min(dw, dh))
                                    Dim i% = 1
                                    Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
                                    Dim radius As DoubleRange = {0R, dw}
@@ -133,12 +137,24 @@ Namespace Heatmap
                                                    End Function
                                    Dim r!
                                    Dim dr!
-                                   Dim rawLeft! = region.Padding.Left
-                                   Dim top = region.Padding.Top * 1.5
+                                   Dim rawLeft! = region.PlotRegion.Left
+                                   Dim top = region.Padding.Top + g.MeasureString(data.keys.First, rowLabelFont).Width
                                    Dim levels = data.PopulateRowObjects(Of DataSet).ToArray.DataScaleLevels(data.keys, -1, DrawElements.None, mapLevels)
+                                   Dim llayout As New Rectangle With {
+                        .Location = New Point(region.PlotRegion.Right - legendSize, top),
+                        .Size = New Size(legendSize, legendSize * 2)
+                    }
+
+                                   ' legend位于整个图片的右上角
+                                   Call Legends.ColorMapLegend(g, llayout, colors, AxisScalling.CreateAxisTicks(data:={-1, 1}),
+                                                 titleFont:=CSSFont.TryParse(legendFont),
+                                                   title:=legendTitle,
+                                                 tickFont:=CSSFont.TryParse(legendLabelFont),
+                                                    Stroke.TryParse(Stroke.StrongHighlightStroke))
+
 
                                    ' 在这里绘制具体的矩阵
-                                   For Each x As SeqValue(Of String) In data.Keys.SeqIterator(offset:=1)
+                                   For Each x As SeqValue(Of String) In data.keys.SeqIterator(offset:=1)
                                        Dim levelRow As DataSet = levels(x.value)
                                        Dim left = rawLeft
 
@@ -153,19 +169,22 @@ Namespace Heatmap
                                 .Size = blockSize
                             }
 
-                                           If i > x.i Then ' 上三角部分不绘制任何图形
+                                           If i > x.i Then
+                                               ' 上三角部分不绘制任何图形
                                                gridDraw = False
                                                ' 绘制标签
                                                If i = x.i + 1 Then
                                                    Call text.DrawString(key, rowLabelFont, Brushes.Black, rect.Location, angle:=-45)
                                                End If
                                            Else
-                                               Dim level% = levelRow(key)          ' 得到等级
+                                               ' 得到等级
+                                               Dim level% = levelRow(key)
                                                Dim index% = If(
                                     level% > colors.Length - 1,
                                     colors.Length - 1,
                                     level)
-                                               Dim b As SolidBrush = colors(index) ' 得到当前的方格的颜色
+                                               ' 得到当前的方格的颜色
+                                               Dim b As SolidBrush = colors(index)
 
                                                If drawValueLabel Then
                                                    labelbrush = Brushes.White
@@ -212,38 +231,7 @@ Namespace Heatmap
                                    rawLeft -= dw / 1.5
                                End Sub
 
-            With margin
-                .Left = data _
-                    .Keys _
-                    .MaxLengthString _
-                    .MeasureSize(New Size(1, 1).CreateGDIDevice, rowLabelFont) _
-                    .Width * 1.5
-                .Bottom = 50
-            End With
-
-            Dim gSize As Size = size.SizeParser
-            Dim llayout As New Size With {
-                .Width = gSize.Width / 2,
-                .Height = gSize.Height / 20
-            }
-            Dim array As DataSet() = data.PopulateRowObjects(Of DataSet).ToArray
-
-            '           Return Internal.doPlot(
-            '               plotInternal, array,
-            '               rowLabelFont, rowLabelFont, logScale,
-            '               scaleMethod:=DrawElements.None, drawLabels:=DrawElements.Both, drawDendrograms:=DrawElements.None, drawClass:=(rowDendrogramClass, Nothing), dendrogramLayout:=(rowDendrogramHeight, 0),
-            '               reverseClrSeq:=True, mapLevels:=mapLevels, mapName:=mapName,
-            '               size:=gSize, padding:=margin, bg:=bg,
-            '               legendTitle:=legendTitle,
-            '               legendFont:=CSSFont.TryParse(legendFont), legendLabelFont:=CSSFont.TryParse(legendLabelFont), min:=min, max:=max,
-            '               mainTitle:=mainTitle, titleFont:=CSSFont.TryParse(titleFont).GDIObject,
-            '               legendWidth:=120, legendSize:=llayout,
-            '               rowXOffset:=leftOffSet) _
-            '_
-            '               .AsGDIImage _
-            '               .CorpBlank(margin.Left / 2)
-
-            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
+            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal, driver:=driver)
         End Function
     End Module
 

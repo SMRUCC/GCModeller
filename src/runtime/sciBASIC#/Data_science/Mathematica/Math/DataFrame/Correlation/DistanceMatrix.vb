@@ -10,6 +10,11 @@ Public Class DistanceMatrix
     ReadOnly names As Index(Of String)
     ReadOnly matrix As Double()()
 
+    ''' <summary>
+    ''' is correlation matrix or distance matrix
+    ''' </summary>
+    ReadOnly is_dist As Boolean = True
+
     Default Public Property dist(a$, b$) As Double
         Get
             Return Me(names(a), names(b))
@@ -21,7 +26,17 @@ Public Class DistanceMatrix
 
     Default Public Property dist(i%, j%) As Double
         Get
-            Return matrix(j)(i)
+            Dim x As Double = matrix(j)(i)
+
+            ' 这个主要是为了解决from tabular建立矩阵的时候
+            ' 丢失自身相关度比较的结果的bug
+            If i = j AndAlso x = 0.0 Then
+                If Not is_dist Then
+                    x = 1
+                End If
+            End If
+
+            Return x
         End Get
         Set(value As Double)
             matrix(j)(i) = value
@@ -45,7 +60,8 @@ Public Class DistanceMatrix
         Me.matrix = MAT(Of Double)(Me.names.Count, Me.names.Count)
     End Sub
 
-    Sub New(names As Index(Of String), matrix As Double()())
+    Sub New(names As Index(Of String), matrix As Double()(), isDistance As Boolean)
+        Me.is_dist = isDistance
         Me.names = names
         Me.matrix = matrix
 
@@ -100,7 +116,7 @@ Public Class DistanceMatrix
         End If
     End Function
 
-    Public Shared Function CreateMatrix(Of T As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of T)) As DistanceMatrix
+    Public Shared Function CreateMatrix(Of T As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of T), isDistance As Boolean) As DistanceMatrix
         Dim matrix As New List(Of Double())
         Dim dataVec As T() = data.SafeQuery.ToArray
         Dim names = dataVec.Keys
@@ -113,7 +129,7 @@ Public Class DistanceMatrix
                 .ToArray
         Next
 
-        Return New DistanceMatrix(names, matrix)
+        Return New DistanceMatrix(names, matrix, isDistance)
     End Function
 
 End Class
