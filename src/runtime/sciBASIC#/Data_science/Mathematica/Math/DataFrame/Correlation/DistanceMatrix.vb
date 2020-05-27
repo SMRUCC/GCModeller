@@ -28,6 +28,12 @@ Public Class DistanceMatrix
         End Set
     End Property
 
+    Public ReadOnly Property Keys As String()
+        Get
+            Return names.Objects
+        End Get
+    End Property
+
     Sub New(names As IEnumerable(Of String))
         Me.names = names.Indexing
         Me.matrix = MAT(Of Double)(Me.names.Count, Me.names.Count)
@@ -57,6 +63,12 @@ Public Class DistanceMatrix
         End If
 
         Return v
+    End Function
+
+    Public Iterator Function PopulateRows() As IEnumerable(Of IReadOnlyCollection(Of Double))
+        For Each row As Double() In matrix
+            Yield DirectCast(row, IReadOnlyCollection(Of Double))
+        Next
     End Function
 
     Public Overrides Function ToString() As String

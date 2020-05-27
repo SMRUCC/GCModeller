@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::a862fa266963ae182346e35f9d6898d8, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationHeatmap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CorrelationHeatmap
-    ' 
-    '         Function: Plot
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CorrelationHeatmap
+' 
+'         Function: Plot
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports stdNum = System.Math
@@ -65,7 +65,7 @@ Namespace Heatmap
         ''' <param name="rowLabelFontStyle">因为是三角形的矩阵，所以行和列的字体都使用相同的值了</param>
         ''' <param name="variantSize">热图之中的圆圈的半径大小是否随着相关度的值而发生改变？</param>
         ''' <returns></returns>
-        Public Function Plot(data As IEnumerable(Of DataSet),
+        Public Function Plot(data As DistanceMatrix,
                              Optional mapLevels% = 40,
                              Optional mapName$ = "lighter(" & ColorBrewer.DivergingSchemes.RdBu11 & ",0.05)",
                              Optional size$ = "1600,1600",
@@ -89,18 +89,14 @@ Namespace Heatmap
 
             Dim margin As Padding = padding
             Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS)
-            Dim array = data.ToArray
             Dim min#, max#
             Dim gridBrush As Pen = Stroke.TryParse(gridCSS).GDIObject
             Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelFontStyle).GDIObject
-            Dim keys$() = array(Scan0) _
-                .Properties _
-                .Keys _
-                .ToArray
+            Dim keys$() = data.Keys
             Dim leftOffSet% = margin.Left / 1.5
 
-            With range Or array _
-                .Select(Function(x) x.Properties.Values) _
+            With range Or data _
+                .PopulateRows _
                 .IteratesALL _
                 .ToArray _
                 .Range _
@@ -136,15 +132,15 @@ Namespace Heatmap
 
                     args.top += region.Padding.Top / 2
 
-                    For Each x As SeqValue(Of DataSet) In array.SeqIterator(offset:=1)  ' 在这里绘制具体的矩阵
-                        Dim levelRow As DataSet = args.levels(x.value.ID)
-
+                    ' 在这里绘制具体的矩阵
+                    For Each x As SeqValue(Of String) In data.Keys.SeqIterator(offset:=1)
+                        Dim levelRow As DataSet = args.levels(x.value)
                         left = args.left
 
                         ' X为矩阵之中的行数据
                         ' 下面的循环为横向绘制出三角形的每一行的图形
                         For Each key As String In keys
-                            Dim c# = (+x)(key)
+                            Dim c# = data(x.value, key)
                             Dim labelbrush As SolidBrush = Nothing
                             Dim gridDraw As Boolean = drawGrid
                             Dim rect As New RectangleF With {
@@ -199,18 +195,18 @@ Namespace Heatmap
                         args.top += dw!
                         i = 1
 
-                        Dim sz As SizeF = g.MeasureString((+x).ID, rowLabelFont)
+                        Dim sz As SizeF = g.MeasureString(x.value, rowLabelFont)
                         Dim y As Single = args.top - dw - (sz.Height - dw) / 2
                         Dim lx! = args.left - sz.Width - margin.Horizontal * 0.1
 
-                        Call g.DrawString((+x).ID, rowLabelFont, Brushes.Black, New PointF(lx, y))
+                        Call g.DrawString(x.value, rowLabelFont, Brushes.Black, New PointF(lx, y))
                     Next
 
                     args.left -= dw / 1.5
                 End Sub
 
             With margin
-                .Left = array _
+                .Left = data _
                     .Keys _
                     .MaxLengthString _
                     .MeasureSize(New Size(1, 1).CreateGDIDevice, rowLabelFont) _
@@ -225,7 +221,7 @@ Namespace Heatmap
             }
 
             Return Internal.doPlot(
-                plotInternal, data.ToArray,
+                plotInternal, Nothing,' data.ToArray,
                 rowLabelFont, rowLabelFont, logScale,
                 scaleMethod:=DrawElements.None, drawLabels:=DrawElements.Both, drawDendrograms:=DrawElements.None, drawClass:=(rowDendrogramClass, Nothing), dendrogramLayout:=(rowDendrogramHeight, 0),
                 reverseClrSeq:=True, mapLevels:=mapLevels, mapName:=mapName,
