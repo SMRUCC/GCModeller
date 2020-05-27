@@ -71,6 +71,21 @@ Public Class DistanceMatrix
         Next
     End Function
 
+    Public Iterator Function PopulateRowObjects(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})() As IEnumerable(Of DataSet)
+        Dim names As String() = Me.names.Objects
+
+        For Each item As SeqValue(Of String) In names.SeqIterator
+            Yield New DataSet With {
+                .Key = item,
+                .Properties = names _
+                    .ToDictionary(Function(a) a,
+                                  Function(a)
+                                      Return Me(a, item.value)
+                                  End Function)
+            }
+        Next
+    End Function
+
     Public Overrides Function ToString() As String
         If names.Count <= 6 Then
             Return names.Objects.GetJson

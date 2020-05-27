@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
@@ -105,10 +106,10 @@ Partial Module CLI
 
         ' 需要转换一次csv再转换回来，从而才能进行排序和填充零，进行相似度矩阵运算
         Dim csv = objects.ToCsvDoc(False, metaBlank:="0")
-        Dim matrix = csv.AsDataSource(Of DataSet).CorrelationMatrix
+        Dim matrix = csv.AsDataSource(Of DataSet).MatrixBuilder(AddressOf Correlations.GetPearson)
 
         Call objects.SaveTo(out & "/links.csv")
-        Call matrix.SaveTo(out & "/matrix.csv")
+        Call matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")
         Call CorrelationHeatmap _
             .Plot(matrix, size:=size, mapName:=colors) _
             .Save(out & "/heatmap.png")
