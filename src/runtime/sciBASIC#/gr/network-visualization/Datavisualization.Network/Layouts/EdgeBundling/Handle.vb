@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::248a39b15bd2d7d403929814eabb921c, gr\network-visualization\Datavisualization.Network\Layouts\EdgeBundling\Handle.vb"
+﻿#Region "Microsoft.VisualBasic::f5367ca3557b887bc063a200f7d26c30, gr\network-visualization\Datavisualization.Network\Layouts\EdgeBundling\Handle.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,8 @@
     '         Properties: isDirectPoint, originalLocation
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: convert, getSerializableString, parseHandle, ParseHandles, ToString
+    '         Function: convert, getSerializableString, ParseHandle, ParseHandles, pointAuto
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,20 +50,20 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Layouts.EdgeBundling
 
     ''' <summary>
-    ''' 进行网络之中的边连接的布局走向的拐点的矢量化描述
+    ''' 进行网络之中的边连接的布局走向的``拐点``的矢量化描述
     ''' </summary>
     ''' <remarks>
     ''' https://github.com/cytoscape/cytoscape-impl/blob/93530ef3b35511d9b1fe0d0eb913ecdcd3b456a8/ding-impl/ding-presentation-impl/src/main/java/org/cytoscape/ding/impl/HandleImpl.java#L247
     ''' </remarks>
     Public Class Handle
 
-        Dim cosTheta# = Double.NaN
-        Dim sinTheta# = Double.NaN
-        Dim ratio# = Double.NaN
+        Friend cosTheta# = Double.NaN
+        Friend sinTheta# = Double.NaN
+        Friend ratio# = Double.NaN
 
         ' Original handle location
-        Dim x# = 0
-        Dim y# = 0
+        Friend x# = 0
+        Friend y# = 0
 
         Const DELIMITER As Char = ","c
 
@@ -72,6 +73,10 @@ Namespace Layouts.EdgeBundling
             End Get
         End Property
 
+        ''' <summary>
+        ''' 当前的这个位置是一个绝对位置，并非矢量描述位置
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property originalLocation As PointF
             Get
                 Return New PointF(x, y)
@@ -85,6 +90,22 @@ Namespace Layouts.EdgeBundling
             x = location.X
             y = location.Y
         End Sub
+
+        ''' <summary>
+        ''' Rotate And scale the vector to the handle position
+        ''' </summary>
+        ''' <param name="sX">x of source node</param>
+        ''' <param name="sY">y of source node</param>
+        ''' <param name="tX">x of target node</param>
+        ''' <param name="tY">y of target node</param>
+        ''' <returns></returns>
+        Public Function pointAuto(sX As Double, sY As Double, tX As Double, tY As Double) As PointF
+            If isDirectPoint Then
+                Return originalLocation
+            Else
+                Return convert(sX, sY, tX, tY)
+            End If
+        End Function
 
         ''' <summary>
         ''' Rotate And scale the vector to the handle position
@@ -146,11 +167,11 @@ Namespace Layouts.EdgeBundling
             Else
                 Return strRepresentation _
                     .Split("|"c) _
-                    .Select(AddressOf parseHandle)
+                    .Select(AddressOf ParseHandle)
             End If
         End Function
 
-        Private Shared Function parseHandle(str As String) As Handle
+        Private Shared Function ParseHandle(str As String) As Handle
             Dim parts As Double() = str _
                 .Split(DELIMITER) _
                 .Select(AddressOf Double.Parse) _

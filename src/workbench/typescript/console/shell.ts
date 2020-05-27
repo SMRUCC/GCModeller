@@ -1,4 +1,5 @@
 /// <reference path="../../../R-sharp/studio/RMessage.ts" />
+/// <reference path="../../workbench/vendor/common.d.ts" />
 
 namespace RWeb.shell {
 
@@ -10,11 +11,7 @@ namespace RWeb.shell {
 
             if (result.code == 0) {
                 if (!Strings.Empty(result.info)) {
-                    if (result.content_type.startsWith("text/html")) {
-                        console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
-                    } else {
-                        console.log(image(result.info)).classList.add("result");
-                    }
+                    handleSuccessMessage(result);
                 }
             } else {
                 console.error($ts("<h5>").display(" Error in:"));
@@ -30,6 +27,27 @@ namespace RWeb.shell {
             }
         });
     };
+
+    function handleSuccessMessage(result: RInvoke) {
+        if (result.content_type.startsWith("text/html")) {
+            console.log($ts("<pre>").display(base64_decode(result.info))).classList.add("result");
+
+        } else if (result.content_type == "inspector/json") {
+            openView("views/inspector.html");         
+            localStorage.setItem("inspect_json", result.info);
+
+        } else if (result.content_type == "inspector/csv") {
+            openView("views/inspector.table.html");           
+            localStorage.setItem("inspect_table", result.info);
+
+        } else if (result.content_type == "inspector/api") {
+            openView("views/inspector.api.html");
+            localStorage.setItem("inspect_api", result.info);
+
+        } else {
+            console.log(image(result.info)).classList.add("result");
+        }
+    }
 
     function image(base64: string): HTMLElement {
         let link = $ts("<a>", {

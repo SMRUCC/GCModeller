@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc40206759ca6caac1a3b5a682cef17b, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::00708856fe463057ebb3906b2120a42e, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module GeomTransform
     ' 
     '         Function: Angle, Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset
-    '                   (+4 Overloads) Centre, CircleRectangle, (+4 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter
+    '                   (+4 Overloads) Centre, CircleRectangle, (+5 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter
     '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+8 Overloads) OffSet2D, Offsets
     '                   (+5 Overloads) Scale, ShapePoints, SquareSize
     ' 
@@ -286,7 +286,20 @@ Namespace Imaging.Math2D
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Distance(x1#, y1#, x2#, y2#) As Double
-            Return stdNum.Sqrt((x1 - x2) ^ 2 + (y1 - y2) ^ 2)
+            Return stdNum.Sqrt(stdNum.Pow(x1 - x2, 2) + stdNum.Pow(y1 - y2, 2))
+        End Function
+
+        ''' <summary>
+        ''' 计算两个二维坐标的欧几里得距离
+        ''' </summary>
+        ''' <param name="x1#"></param>
+        ''' <param name="y1#"></param>
+        ''' <param name="x2#"></param>
+        ''' <param name="y2#"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Distance(x1 As Decimal, y1 As Decimal, x2 As Decimal, y2 As Decimal) As Double
+            Return stdNum.Sqrt(stdNum.Pow(x1 - x2, 2) + stdNum.Pow(y1 - y2, 2))
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dba5ba95a22a740945e28474f9756840, Microsoft.VisualBasic.Core\Text\TextEncodings.vb"
+﻿#Region "Microsoft.VisualBasic::0128cf4ebfe4aa83b17f4347c0fe1146, Microsoft.VisualBasic.Core\Text\IO\TextEncodings.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,6 @@
 
     ' Summaries:
 
-    '     Enum Encodings
-    ' 
-    '         GB2312, Unicode, UTF16, UTF32, UTF7
-    '         UTF8, UTF8WithoutBOM
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
     '     Module TextEncodings
     ' 
     '         Properties: DefaultEncoding, TextEncodings, UTF8, UTF8WithoutBOM
@@ -70,7 +61,9 @@ Namespace Text
         Public ReadOnly Property UTF8WithoutBOM As New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False)
 
         ''' <summary>
-        ''' 获取操作系统的当前 ANSI 代码页的编码。这个属性可以通过``default_encoding``环境参数来设置
+        ''' <see cref="Encoding.Default"/>
+        ''' 
+        ''' (获取操作系统的当前 ANSI 代码页的编码。这个属性可以通过``default_encoding``环境参数来设置)
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property DefaultEncoding As defaultEncoding = Encoding.Default

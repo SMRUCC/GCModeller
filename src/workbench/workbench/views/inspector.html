@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <!-- Insert this line above script imports  -->
+  <script type="text/javascript">
+    if (typeof module === 'object') {
+      window.module = module; module = undefined;
+    }
+  </script>
+
+  <script type="text/javascript" src="../vendor/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="../vendor/common.js"></script>
+  <script type="text/javascript" src="../vendor/linq.js"></script>
+  <script type="text/javascript" src="../vendor/json/jquery.jsonview.min.js"></script>
+
+  <link href="../vendor/json/jquery.jsonview.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <div class='jsonview-container' id='jsonwcJrPG'></div>
+  <script type='text/javascript'>
+    $ts(function () {
+      let $obj = localStorage.getItem("inspect_json");
+
+      $ts.getText("http://127.0.0.1:7452/inspect?guid=" + $obj, function (str) {
+        localStorage.removeItem("inspect_json");
+        $('#jsonwcJrPG').JSONView(JSON.parse(str), { collapsed: true });
+      })
+    });
+  </script>
+
+</body>
+
+<!-- Insert this line after script imports -->
+<script type="text/javascript">if (window.module) module = window.module;</script>
+
+<html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4518226088c46e260c88300fa0027578, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f14cc7bab4145689fa5d22e7bf35812d, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module CorrelationNetwork
     ' 
-    '     Function: BuildNetwork, CorrelationMatrix, HowStrong
+    '     Function: BuildNetwork, HowStrong
     ' 
     ' /********************************************************************************/
 
@@ -41,11 +41,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Math.Correlations.Correlations
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports stdNum = System.Math
 
 ''' <summary>
@@ -53,50 +52,38 @@ Imports stdNum = System.Math
 ''' </summary>
 Public Module CorrelationNetwork
 
+    ''' <summary>
+    ''' 关联网络是没有方向的
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function CorrelationMatrix(data As IEnumerable(Of DataSet), Optional compute As ICorrelation = Nothing) As DataSet()
-        Dim vectors As NamedValue(Of Double())() = data _
-            .NamedMatrix _
-            .Select(Function(x)
-                        Return New NamedValue(Of Double()) With {
-                            .Name = x.Name,
-                            .Value = x.Value.Values.ToArray
-                        }
-                    End Function) _
-            .ToArray
-        Dim matrix = vectors _
-            .CorrelationMatrix(compute) _
-            .AsDataSet _
-            .ToArray
-
-        Return matrix
-    End Function
-
-    <Extension>
-    Public Function BuildNetwork(data As IEnumerable(Of DataSet), cutoff#) As (net As NetworkTables, matrix As DataSet())
-        Dim matrix As DataSet() = data.CorrelationMatrix.ToArray
+    Public Function BuildNetwork(data As IEnumerable(Of DataSet), cutoff#) As (net As NetworkTables, matrix As DistanceMatrix)
+        Dim matrix As DistanceMatrix = data.MatrixBuilder(AddressOf Correlations.GetPearson, False)
         Dim nodes As New Dictionary(Of Node)
-        Dim edges As New Dictionary(Of String, NetworkEdge) ' 关联网络是没有方向的
+        Dim edges As New Dictionary(Of String, NetworkEdge)
+        Dim cor As Double
 
-        For Each row As DataSet In matrix
+        For Each id As String In matrix.Keys
             nodes += New Node With {
-                .ID = row.ID
+                .ID = id
             }
         Next
 
-        For Each row As DataSet In matrix
-            Dim ID$ = row.ID
+        For Each id As String In matrix.Keys
+            For Each partner As String In matrix.Keys
+                cor = matrix(id, partner)
 
-            For Each partner In row.Properties
-                If stdNum.Abs(partner.Value) >= cutoff Then
-                    Dim uid$ = {partner.Key, ID}.OrderBy(Function(s) s).JoinBy(" - ")
+                If stdNum.Abs(cor) >= cutoff Then
+                    Dim uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
 
                     If Not edges.ContainsKey(uid) Then
                         edges(uid) = New NetworkEdge With {
-                            .fromNode = ID,
-                            .toNode = partner.Key,
-                            .value = partner.Value,
-                            .interaction = HowStrong(partner.Value)
+                            .fromNode = id,
+                            .toNode = partner,
+                            .value = cor,
+                            .interaction = HowStrong(cor)
                         }
                     End If
                 End If

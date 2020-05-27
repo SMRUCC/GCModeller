@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::229b06bdc4cb48481c6241bd7746c383, Data_science\Mathematica\Math\DataFrame\Impute.vb"
+﻿#Region "Microsoft.VisualBasic::4a9196b958a38cc76530fc94499a197e, Data_science\Mathematica\Math\DataFrame\Impute.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -64,7 +65,7 @@ Public Module Impute
     End Enum
 
     <Extension>
-    Public Function SimulateMissingValues(rawMatrix As IEnumerable(Of DataSet), Optional byRow As Boolean = True, Optional infer As InferMethods = InferMethods.Average) As IEnumerable(Of DataSet)
+    Public Function SimulateMissingValues(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet), Optional byRow As Boolean = True, Optional infer As InferMethods = InferMethods.Average) As IEnumerable(Of DataSet)
         Dim method As Func(Of Vector, Double)
 
         If infer = InferMethods.Average Then
@@ -102,9 +103,9 @@ Public Module Impute
     End Function
 
     <Extension>
-    Public Iterator Function SimulateMissingValuesByProtein(rawMatrix As IEnumerable(Of DataSet), infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
+    Public Iterator Function SimulateMissingValuesByProtein(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet), infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
         For Each protein As DataSet In rawMatrix
-            Dim iBAQ As Vector = protein.Vector
+            Dim iBAQ As Vector = protein.Properties.Values.AsVector
 
             If iBAQ.Min = 0R Then
                 ' 有缺失值
@@ -123,12 +124,12 @@ Public Module Impute
     End Function
 
     <Extension>
-    Public Function SimulateMissingValuesBySample(rawMatrix As IEnumerable(Of DataSet), infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
+    Public Function SimulateMissingValuesBySample(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet), infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
         Dim data As DataSet() = rawMatrix.ToArray
         Dim sampleNames$() = data.PropertyNames
 
         For Each sampleName As String In sampleNames
-            Dim iBAQ As Vector = data.Vector(sampleName)
+            Dim iBAQ As Vector = data.Vector(sampleName).AsVector
 
             If iBAQ.Min = 0R Then
                 ' 有缺失值

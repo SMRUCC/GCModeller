@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d136e9d97b2464feb7305778e2adca7, Microsoft.VisualBasic.Core\Extensions\Reflection\Marshal\Pointer(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::02518b322885f84096c5ed219b6d744c, Microsoft.VisualBasic.Core\Extensions\Reflection\Marshal\Pointer(Of T).vb"
 
     ' Author:
     ' 
@@ -39,7 +39,8 @@
     '         Constructor: (+4 Overloads) Sub New
     '         Function: GetLeftsAll, MoveNext, PeekNext, stackalloc, ToString
     '         Operators: (+2 Overloads) -, (+2 Overloads) +, <<, (+2 Overloads) <=, <>
-    '                    =, (+2 Overloads) >=, >>
+    '                    =, (+2 Overloads) >=, >>, (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+    '                    (+2 Overloads) Not
     ' 
     '     Structure SwapHelper
     ' 
@@ -246,6 +247,18 @@ Namespace Emit.Marshal
         'Public Overloads Shared Operator >=(p As Pointer(Of T), offset As Integer) As T
         '    Return p(offset)
         'End Operator
+
+        Public Overloads Shared Operator IsTrue(p As Pointer(Of T)) As Boolean
+            Return Not p.EndRead
+        End Operator
+
+        Public Overloads Shared Operator IsFalse(p As Pointer(Of T)) As Boolean
+            Return p.EndRead
+        End Operator
+
+        Public Overloads Shared Operator Not(p As Pointer(Of T)) As Boolean
+            Return Not p.EndRead
+        End Operator
 
         ''' <summary>
         ''' 获取得到当前的元素

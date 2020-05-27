@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa98facceec371ef456c350f24dcce1e, Microsoft.VisualBasic.Core\Language\Linq\List.vb"
+﻿#Region "Microsoft.VisualBasic::97da8365fa96ed7542d9b3a0afc0ccf3, Microsoft.VisualBasic.Core\Language\Linq\List.vb"
 
     ' Author:
     ' 
@@ -256,7 +256,7 @@ Namespace Language
         Default Public Overloads Property Item(booleans As IEnumerable(Of Boolean)) As T()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Me(Which.IsTrue(booleans))
+                Return Me(Which(booleans))
             End Get
             Set(value As T())
                 For Each i In booleans.SeqIterator

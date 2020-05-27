@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd5c2e237b4aee3d73b1e2079954be6d, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Math.vb"
+﻿#Region "Microsoft.VisualBasic::b63cce605f44a24371200da47f0df874, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Math.vb"
 
     ' Author:
     ' 
@@ -101,7 +101,15 @@ Namespace Layouts.Orthogonal
         Public Function GridCellSize(nodes As IEnumerable(Of Node)) As Double
             Dim nodeVector = nodes.ToArray
             Dim w = nodeVector.Select(Function(n) n.data.size(0)).ToArray
-            Dim h = nodeVector.Select(Function(n) n.data.size(1)).ToArray
+            Dim h As Double() = nodeVector _
+                .Select(Function(n)
+                            If n.data.size.Length < 2 Then
+                                Return n.data.size(Scan0)
+                            Else
+                                Return n.data.size(1)
+                            End If
+                        End Function) _
+                .ToArray
             Dim Lmin = stdNum.Min(w.Min, h.Min)
             Dim Lmax = stdNum.Max(w.Max, h.Max)
 

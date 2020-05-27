@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55d4e45d4c2aef7ecef6295879546645, Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\DynamicProperty.vb"
+﻿#Region "Microsoft.VisualBasic::ff183f829056bd9d3e85dd40eb94c431, Microsoft.VisualBasic.Core\ComponentModel\DataSource\Property\DynamicProperty.vb"
 
     ' Author:
     ' 
@@ -67,7 +67,8 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>Can not serialize the dictionary object in to xml document.</remarks>
-        <XmlIgnore> Public Overridable Property Properties As Dictionary(Of String, T) Implements IDynamicMeta(Of T).Properties
+        <XmlIgnore>
+        Public Overridable Property Properties As Dictionary(Of String, T) Implements IDynamicMeta(Of T).Properties
             Get
                 If propertyTable Is Nothing Then
                     propertyTable = New Dictionary(Of String, T)

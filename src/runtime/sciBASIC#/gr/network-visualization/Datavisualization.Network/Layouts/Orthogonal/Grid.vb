@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33214fe60774c362417d2d85dbcbc1b0, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Grid.vb"
+﻿#Region "Microsoft.VisualBasic::2704b38dd7d42f0e6e52235b117121a7, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Grid.vb"
 
     ' Author:
     ' 
@@ -57,11 +57,13 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Linq
 Imports GridIndex = Microsoft.VisualBasic.Data.GraphTheory.Grid
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Layouts.Orthogonal
 
@@ -303,27 +305,27 @@ Namespace Layouts.Orthogonal
             Dim y As Integer() = size.Height.SeqRandom
             Dim cell As GridCell
             Dim V As New Pointer(Of Node)(network.vertex)
-            Dim break As Boolean = False
+            Dim used As New Index(Of String)
+            Dim i, j As Integer
 
             g = network
 
-            For Each i As Integer In x
-                For Each j As Integer In y
-                    cell = gridCells(j)(i)
+            Do While Not V
+RE_SEED:
+                i = randf.seeds.Next(0, x.Length)
+                j = randf.seeds.Next(0, y.Length)
 
-                    If Not V.EndRead Then
-                        Call cell.PutNode(++V)
-                        Call nodes.Add(cell.data.label, cell)
-                    Else
-                        break = True
-                        Exit For
-                    End If
-                Next
-
-                If break Then
-                    Exit For
+                If $"{i}-{j}" Like used Then
+                    GoTo RE_SEED
+                Else
+                    used += $"{i}-{j}"
                 End If
-            Next
+
+                cell = gridCells(y(j))(x(i))
+
+                Call cell.PutNode(++V)
+                Call nodes.Add(cell.data.label, cell)
+            Loop
 
             Return Me
         End Function

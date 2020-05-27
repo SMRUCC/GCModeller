@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::762057bb24b9b0d42da13d387cd719cf, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Vectors\AbstractVector.vb"
+﻿#Region "Microsoft.VisualBasic::5a149211b66aa62214d27e2f735e1b59, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Vectors\AbstractVector.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Point2D, x, y, z
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Equals, GetHashCode, ToString
+    '         Function: Equals, GetHashCode, ToString, Vector2D
     '         Operators: -, (+2 Overloads) *, /, +, <>
     '                    =
     ' 
@@ -97,7 +97,7 @@ Namespace Layouts
 
         Const MaxGdiDimensionPixels = 20000
 
-        Public Property Point2D As Point
+        Public Property Point2D As PointF
             Get
                 If x.IsNaNImaginary OrElse x > MaxGdiDimensionPixels Then
                     x = MaxGdiDimensionPixels
@@ -110,11 +110,11 @@ Namespace Layouts
                     y = -MaxGdiDimensionPixels
                 End If
 
-                Return New Point(x, y)
+                Return New PointF(x, y)
             End Get
-            Set(value As Point)
-                x = value.X
-                y = value.Y
+            Set
+                x = Value.X
+                y = Value.Y
             End Set
         End Property
 
@@ -123,6 +123,10 @@ Namespace Layouts
 
         Public Overrides Function ToString() As String
             Return $"x={x}, y={y}, z={z}"
+        End Function
+
+        Public Shared Function Vector2D(x#, y#) As FDGVector2
+            Return New FDGVector2(x, y)
         End Function
 
         Public MustOverride Function Add(v2 As AbstractVector) As AbstractVector Implements IVector.Add
