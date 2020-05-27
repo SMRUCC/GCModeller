@@ -54,12 +54,12 @@ Public Module Correlation
     ''' 
     <Extension>
     Public Function CorrelationMatrix(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), Optional doCor As ICorrelation = Nothing) As IEnumerable(Of DataSet)
-        Dim dataset As DataSet() = data.ToArray
-        Dim columns = dataset.PropertyNames _
+        Dim dataVals As DataSet() = data.ToArray
+        Dim columns = dataVals.PropertyNames _
             .Select(Function(colName)
                         Return New NamedValue(Of Double()) With {
                             .Name = colName,
-                            .Value = dataset _
+                            .Value = dataVals _
                                 .Select(Function(d) d(colName)) _
                                 .ToArray
                         }
@@ -83,8 +83,8 @@ Public Module Correlation
     ''' <returns></returns>
     <Extension>
     Public Iterator Function CorrelatesNormalized(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), Optional doCor As ICorrelation = Nothing) As IEnumerable(Of NamedValue(Of Dictionary(Of String, Double)))
-        Dim dataset As DataSet() = data.ToArray
-        Dim keys$() = dataset(Scan0) _
+        Dim dataVals As DataSet() = data.ToArray
+        Dim keys$() = dataVals(Scan0) _
             .Properties _
             .Keys _
             .ToArray
@@ -92,13 +92,13 @@ Public Module Correlation
 
         doCor = doCor Or PearsonDefault
 
-        For Each x As DataSet In dataset
+        For Each x As DataSet In dataVals
             Dim out As New Dictionary(Of String, Double)
             Dim array#() = keys _
                 .Select(Of Double)(x) _
                 .ToArray
 
-            For Each y As DataSet In dataset
+            For Each y As DataSet In dataVals
                 b = keys.Select(Of Double)(y).ToArray
                 out(y.Key) = doCor(X:=array, Y:=b)
             Next

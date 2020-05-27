@@ -33,9 +33,13 @@ Public Class DistanceMatrix
         Me.matrix = MAT(Of Double)(Me.names.Count, Me.names.Count)
     End Sub
 
-    Private Sub New(names As Index(Of String), matrix As Double()())
+    Sub New(names As Index(Of String), matrix As Double()())
         Me.names = names
         Me.matrix = matrix
+
+        If Me.names.Count <> matrix.Length Then
+            Throw New InvalidConstraintException("the given member names is not equals to the matrix size!")
+        End If
     End Sub
 
     Public Function Visit(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(projectName As String, direction As MatrixVisit) As DataSet
