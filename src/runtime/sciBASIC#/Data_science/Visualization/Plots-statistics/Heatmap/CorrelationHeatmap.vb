@@ -115,14 +115,20 @@ Namespace Heatmap
 
             Dim colors = Designer.GetColors(mapName, mapLevels).Reverse.GetBrushes
             Dim plotInternal = Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                                   Dim maxLabelSize = data _
+                                        .keys _
+                                        .MaxLengthString _
+                                        .MeasureSize(g, rowLabelFont) _
+                                        .Width
+
                                    Dim dStep As New SizeF With {
-                                        .Width = region.PlotRegion.Width / data.size,
+                                        .Width = (region.PlotRegion.Width - maxLabelSize) / data.size,
                                         .Height = region.PlotRegion.Height / data.size
                                    }
                                    ' 在绘制上三角的时候假设每一个对象的keys的顺序都是相同的
                                    Dim dw! = dStep.Width - gridBrush.Width
                                    Dim dh! = dStep.Height - gridBrush.Width
-                                   Dim legendSize = region.PlotRegion.Width / 4
+                                   Dim legendSize = region.PlotRegion.Width / 5
                                    ' 每一个方格的大小是不变的
                                    Dim blockSize As New SizeF(stdNum.Min(dw, dh), stdNum.Min(dw, dh))
                                    Dim i% = 1
@@ -137,11 +143,11 @@ Namespace Heatmap
                                                    End Function
                                    Dim r!
                                    Dim dr!
-                                   Dim rawLeft! = region.PlotRegion.Left
+                                   Dim rawLeft! = region.PlotRegion.Left + maxLabelSize
                                    Dim top = region.Padding.Top + g.MeasureString(data.keys.First, rowLabelFont).Width
                                    Dim levels = data.PopulateRowObjects(Of DataSet).ToArray.DataScaleLevels(data.keys, -1, DrawElements.None, mapLevels)
                                    Dim llayout As New Rectangle With {
-                        .Location = New Point(region.PlotRegion.Right - legendSize, top),
+                        .Location = New Point(region.PlotRegion.Right - legendSize, region.Padding.Top),
                         .Size = New Size(legendSize, legendSize * 2)
                     }
 
@@ -223,7 +229,7 @@ Namespace Heatmap
 
                                        Dim sz As SizeF = g.MeasureString(x.value, rowLabelFont)
                                        Dim y As Single = top - dw - (sz.Height - dw) / 2
-                                       Dim lx! = rawLeft - sz.Width - margin.Horizontal * 0.1
+                                       Dim lx! = rawLeft - sz.Width - stdNum.Min(dw, dh)
 
                                        Call g.DrawString(x.value, rowLabelFont, Brushes.Black, New PointF(lx, y))
                                    Next
