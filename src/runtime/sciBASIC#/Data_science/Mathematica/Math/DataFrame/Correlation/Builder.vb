@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.Linq
 Public Module Builder
 
     <Extension>
-    Public Function MatrixBuilder(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), eval As Func(Of Double(), Double(), Double)) As DistanceMatrix
+    Public Function MatrixBuilder(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet), eval As Func(Of Double(), Double(), Double)) As DistanceMatrix
         Dim allData = data.ToArray
         Dim names = allData.PropertyNames
         Dim keys As String() = allData.Keys

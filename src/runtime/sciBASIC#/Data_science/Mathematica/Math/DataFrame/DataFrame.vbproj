@@ -398,6 +398,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -418,7 +419,7 @@
   <ItemGroup>
     <Compile Include="Correlation\DistanceMatrix.vb" />
     <Compile Include="Correlation\Builder.vb" />
-    <Compile Include="Correlation\Module1.vb" />
+    <Compile Include="Correlation\Distance.vb" />
     <Compile Include="Impute.vb" />
     <Compile Include="Correlation\Correlation.vb" />
     <Compile Include="MatrixVisit.vb" />
