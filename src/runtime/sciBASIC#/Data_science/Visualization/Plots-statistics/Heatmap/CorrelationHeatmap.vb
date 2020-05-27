@@ -83,7 +83,7 @@ Namespace Heatmap
                              Optional legendLabelFont$ = CSSFont.PlotSubTitle,
                              Optional range As DoubleRange = Nothing,
                              Optional mainTitle$ = "heatmap",
-                             Optional titleFont As Font = Nothing,
+                             Optional titleFont$ = CSSFont.Win7VeryVeryLarge,
                              Optional drawGrid As Boolean = False,
                              Optional drawValueLabel As Boolean = False,
                              Optional valuelabelFontCSS$ = CSSFont.PlotLabelNormal,
@@ -143,7 +143,7 @@ Namespace Heatmap
                         ' X为矩阵之中的行数据
                         ' 下面的循环为横向绘制出三角形的每一行的图形
                         For Each key As String In keys
-                            Dim c# = data(x.value, key)
+                            Dim c# = If(x.value = key, 1, data(x.value, key))
                             Dim labelbrush As SolidBrush = Nothing
                             Dim gridDraw As Boolean = drawGrid
                             Dim rect As New RectangleF With {
@@ -155,7 +155,7 @@ Namespace Heatmap
                                 gridDraw = False
                                 ' 绘制标签
                                 If i = x.i + 1 Then
-                                    ' Call text.DrawString(key, rowLabelFont, Brushes.Black, rect.Location, angle:=-45)
+                                    Call text.DrawString(key, rowLabelFont, Brushes.Black, rect.Location, angle:=-45)
                                 End If
                             Else
                                 Dim level% = levelRow(key)          ' 得到等级
@@ -172,7 +172,9 @@ Namespace Heatmap
                                 r = getRadius(corr:=c)
                                 dr = (dw - r) / 2
 
-                                Call g.FillPie(b, rect.Left + dr, rect.Top + dr, r, r, 0, 360)
+                                If r <> 0! Then
+                                    Call g.FillPie(b, rect.Left + dr, rect.Top + dr, r, r, 0, 360)
+                                End If
                             End If
 
                             If gridDraw Then
@@ -222,16 +224,17 @@ Namespace Heatmap
                 .Width = gSize.Width / 2,
                 .Height = gSize.Height / 20
             }
+            Dim array As DataSet() = data.PopulateRowObjects(Of DataSet).ToArray
 
             Return Internal.doPlot(
-                plotInternal, Nothing,' data.ToArray,
+                plotInternal, array,
                 rowLabelFont, rowLabelFont, logScale,
                 scaleMethod:=DrawElements.None, drawLabels:=DrawElements.Both, drawDendrograms:=DrawElements.None, drawClass:=(rowDendrogramClass, Nothing), dendrogramLayout:=(rowDendrogramHeight, 0),
                 reverseClrSeq:=True, mapLevels:=mapLevels, mapName:=mapName,
                 size:=gSize, padding:=margin, bg:=bg,
                 legendTitle:=legendTitle,
                 legendFont:=CSSFont.TryParse(legendFont), legendLabelFont:=CSSFont.TryParse(legendLabelFont), min:=min, max:=max,
-                mainTitle:=mainTitle, titleFont:=titleFont,
+                mainTitle:=mainTitle, titleFont:=CSSFont.TryParse(titleFont).GDIObject,
                 legendWidth:=120, legendSize:=llayout,
                 rowXOffset:=leftOffSet) _
  _
