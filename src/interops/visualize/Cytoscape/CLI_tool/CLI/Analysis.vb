@@ -63,13 +63,13 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Analysis.Node.Clusters",
-               Usage:="/Analysis.Node.Clusters /in <network.DIR> [/spcc /size ""10000,10000"" /schema <YlGn:c8> /out <DIR>]")>
+    <ExportAPI("/Analysis.Node.Clusters")>
+    <Usage("/Analysis.Node.Clusters /in <network.DIR> [/spcc /size ""10000,10000"" /schema <YlGn:c8> /out <DIR>]")>
     Public Function NodeCluster(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
         Dim net As NetGraph = NetworkFileIO.Load([in])
-        Dim nodes$() = net.nodes.Keys
+        Dim nodes$() = net.nodes.Keys.ToArray
         Dim from = net.SearchIndex(from:=True)
         Dim [to] = net.SearchIndex(from:=False)
         Dim objects As New List(Of DataSet)
@@ -104,7 +104,7 @@ Partial Module CLI
         Next
 
         ' 需要转换一次csv再转换回来，从而才能进行排序和填充零，进行相似度矩阵运算
-        Dim csv = objects.ToCsvDoc(False, metaBlank:=0)
+        Dim csv = objects.ToCsvDoc(False, metaBlank:="0")
         Dim matrix = csv.AsDataSource(Of DataSet).CorrelationMatrix
 
         Call objects.SaveTo(out & "/links.csv")
@@ -116,8 +116,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Analysis.Graph.Properties",
-               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /ignores <fields> /tick 5 /out <out.DIR>]")>
+    <ExportAPI("/Analysis.Graph.Properties")>
+    <Usage("/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /ignores <fields> /tick 5 /out <out.DIR>]")>
     Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
