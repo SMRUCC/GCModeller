@@ -38,6 +38,23 @@ Public Class DistanceMatrix
         Me.matrix = matrix
     End Sub
 
+    Public Function Visit(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(projectName As String, direction As MatrixVisit) As DataSet
+        Dim v As New DataSet With {.Key = projectName}
+        Dim i As Integer = names(projectName)
+
+        If direction = MatrixVisit.ByRow Then
+            For Each name As SeqValue(Of String) In names
+                Call v.Add(name.value, matrix(i)(name.i))
+            Next
+        Else
+            For Each name As SeqValue(Of String) In names
+                Call v.Add(name.value, matrix(name.i)(i))
+            Next
+        End If
+
+        Return v
+    End Function
+
     Public Overrides Function ToString() As String
         If names.Count <= 6 Then
             Return names.Objects.GetJson
