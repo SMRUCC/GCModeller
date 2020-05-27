@@ -416,8 +416,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correlation\DistanceMatrix.vb" />
     <Compile Include="Impute.vb" />
-    <Compile Include="Correlation.vb" />
+    <Compile Include="Correlation\Correlation.vb" />
     <Compile Include="MatrixVisit.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
