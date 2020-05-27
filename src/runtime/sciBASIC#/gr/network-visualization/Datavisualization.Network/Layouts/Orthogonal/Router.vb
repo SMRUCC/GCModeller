@@ -1,5 +1,4 @@
-﻿Imports System.Drawing
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Language
@@ -15,17 +14,17 @@ Namespace Layouts.Orthogonal
         ''' <returns></returns>
         <Extension>
         Public Function DoEdgeLayout(g As NetworkGraph) As NetworkGraph
-            Dim x, y As Double
-
             ' 初始化基本布局
             For Each edge As Edge In g.graphEdges
                 Dim a = edge.U.data.initialPostion.Point2D
                 Dim b = edge.V.data.initialPostion.Point2D
                 Dim points As New List(Of Handle)
 
-                points += New Handle(a)
-                points += New Handle(New PointF(b.X, a.Y))
-                points += New Handle(b)
+                points += HandleCreator.defineHandle(a, b, a.X, a.Y)
+                points += HandleCreator.defineHandle(a, b, a.X, (a.Y + b.Y) / 2)
+                points += HandleCreator.defineHandle(a, b, a.X, b.Y)
+                points += HandleCreator.defineHandle(a, b, (a.X + b.X) / 2, b.Y)
+                points += HandleCreator.defineHandle(a, b, b.X, b.Y)
 
                 edge.data.bends = points.ToArray
             Next

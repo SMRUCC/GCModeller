@@ -82,7 +82,7 @@ Namespace CytoscapeGraphView.XGMML.File
                 If attr Is Nothing Then
                     Return 10
                 Else
-                    Return Val(attr.Value)
+                    Return CInt(Val(attr.Value))
                 End If
             End Get
         End Property
