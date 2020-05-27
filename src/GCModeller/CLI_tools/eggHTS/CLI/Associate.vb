@@ -64,7 +64,7 @@ Partial Module CLI
         Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
 
         With CorrelationNetwork.BuildNetwork(matrix, cut)
-            Call .matrix.SaveTo(out & "/matrix.csv")
+            Call .matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")
 
             Return .net _
                    .Save(out) _
