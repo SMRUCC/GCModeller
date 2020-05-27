@@ -41,8 +41,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -62,7 +60,7 @@ Public Module CorrelationNetwork
     ''' <returns></returns>
     <Extension>
     Public Function BuildNetwork(data As IEnumerable(Of DataSet), cutoff#) As (net As NetworkTables, matrix As DistanceMatrix)
-        Dim matrix As DistanceMatrix = data.MatrixBuilder(AddressOf Correlations.GetPearson)
+        Dim matrix As DistanceMatrix = data.MatrixBuilder(AddressOf Correlations.GetPearson, False)
         Dim nodes As New Dictionary(Of Node)
         Dim edges As New Dictionary(Of String, NetworkEdge)
         Dim cor As Double
