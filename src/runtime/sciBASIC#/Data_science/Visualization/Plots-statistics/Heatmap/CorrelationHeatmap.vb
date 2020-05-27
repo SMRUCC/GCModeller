@@ -45,10 +45,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
@@ -88,7 +88,7 @@ Namespace Heatmap
                              Optional drawValueLabel As Boolean = False,
                              Optional valuelabelFontCSS$ = CSSFont.PlotLabelNormal,
                              Optional variantSize As Boolean = True,
-                             Optional gridCSS$ = Stroke.HighlightStroke) As Image
+                             Optional gridCSS$ = Stroke.HighlightStroke) As GraphicsData
 
             Dim margin As Padding = padding
             Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS)
@@ -111,104 +111,106 @@ Namespace Heatmap
                 range = {0, .Max}
             End With
 
-            Dim plotInternal =
-                Sub(g As IGraphics, region As GraphicsRegion, args As PlotArguments)
+            Dim colors = Designer.GetColors(mapName, mapLevels).GetBrushes
+            Dim plotInternal = Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                                   Dim dStep As New SizeF With {
+                                        .Width = region.Width / data.size,
+                                        .Height = region.Height / data.size
+                                   }
+                                   ' 在绘制上三角的时候假设每一个对象的keys的顺序都是相同的
+                                   Dim dw! = dStep.Width - gridBrush.Width * 2
+                                   Dim dh! = dStep.Height - gridBrush.Width * 2
+                                   Dim blockSize As New SizeF(dw, dw)  ' 每一个方格的大小是不变的
+                                   Dim i% = 1
+                                   Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+                                   Dim radius As DoubleRange = {0R, dw}
+                                   Dim getRadius = Function(corr#) As Double
+                                                       If variantSize Then
+                                                           Return range.ScaleMapping(stdNum.Abs(corr), radius)
+                                                       Else
+                                                           Return dw
+                                                       End If
+                                                   End Function
+                                   Dim r!
+                                   Dim dr!
+                                   Dim rawLeft! = region.Padding.Left
+                                   Dim top = region.Padding.Top * 1.5
+                                   Dim levels = data.PopulateRowObjects(Of DataSet).ToArray.DataScaleLevels(data.keys, -1, DrawElements.None, mapLevels)
 
-                    ' 在绘制上三角的时候假设每一个对象的keys的顺序都是相同的
-                    Dim dw! = args.dStep.Width - gridBrush.Width * 2
-                    Dim dh! = args.dStep.Height - gridBrush.Width * 2
-                    Dim blockSize As New SizeF(dw, dw)  ' 每一个方格的大小是不变的
-                    Dim i% = 1
-                    Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
-                    Dim colors = args.colors
-                    Dim radius As DoubleRange = {0R, dw}
-                    Dim getRadius = Function(corr#) As Double
-                                        If variantSize Then
-                                            Return range.ScaleMapping(stdNum.Abs(corr), radius)
-                                        Else
-                                            Return dw
-                                        End If
-                                    End Function
-                    Dim r!
-                    Dim dr!
-                    Dim left!
+                                   ' 在这里绘制具体的矩阵
+                                   For Each x As SeqValue(Of String) In data.Keys.SeqIterator(offset:=1)
+                                       Dim levelRow As DataSet = levels(x.value)
+                                       Dim left = rawLeft
 
-                    args.top += region.Padding.Top / 2
-
-                    ' 在这里绘制具体的矩阵
-                    For Each x As SeqValue(Of String) In data.Keys.SeqIterator(offset:=1)
-                        Dim levelRow As DataSet = args.levels(x.value)
-                        left = args.left
-
-                        ' X为矩阵之中的行数据
-                        ' 下面的循环为横向绘制出三角形的每一行的图形
-                        For Each key As String In keys
-                            Dim c# = If(x.value = key, 1, data(x.value, key))
-                            Dim labelbrush As SolidBrush = Nothing
-                            Dim gridDraw As Boolean = drawGrid
-                            Dim rect As New RectangleF With {
-                                .Location = New PointF(left, args.top),
+                                       ' X为矩阵之中的行数据
+                                       ' 下面的循环为横向绘制出三角形的每一行的图形
+                                       For Each key As String In keys
+                                           Dim c# = If(x.value = key, 1, data(x.value, key))
+                                           Dim labelbrush As SolidBrush = Nothing
+                                           Dim gridDraw As Boolean = drawGrid
+                                           Dim rect As New RectangleF With {
+                                .Location = New PointF(left, top),
                                 .Size = blockSize
                             }
 
-                            If i > x.i Then ' 上三角部分不绘制任何图形
-                                gridDraw = False
-                                ' 绘制标签
-                                If i = x.i + 1 Then
-                                    Call text.DrawString(key, rowLabelFont, Brushes.Black, rect.Location, angle:=-45)
-                                End If
-                            Else
-                                Dim level% = levelRow(key)          ' 得到等级
-                                Dim index% = If(
+                                           If i > x.i Then ' 上三角部分不绘制任何图形
+                                               gridDraw = False
+                                               ' 绘制标签
+                                               If i = x.i + 1 Then
+                                                   Call text.DrawString(key, rowLabelFont, Brushes.Black, rect.Location, angle:=-45)
+                                               End If
+                                           Else
+                                               Dim level% = levelRow(key)          ' 得到等级
+                                               Dim index% = If(
                                     level% > colors.Length - 1,
                                     colors.Length - 1,
                                     level)
-                                Dim b As SolidBrush = colors(index) ' 得到当前的方格的颜色
+                                               Dim b As SolidBrush = colors(index) ' 得到当前的方格的颜色
 
-                                If drawValueLabel Then
-                                    labelbrush = Brushes.White
-                                End If
+                                               If drawValueLabel Then
+                                                   labelbrush = Brushes.White
+                                               End If
 
-                                r = getRadius(corr:=c)
-                                dr = (dw - r) / 2
+                                               r = getRadius(corr:=c)
+                                               dr = (dw - r) / 2
 
-                                If r <> 0! Then
-                                    Call g.FillPie(b, rect.Left + dr, rect.Top + dr, r, r, 0, 360)
-                                End If
-                            End If
+                                               If r <> 0! Then
+                                                   Call g.FillPie(b, rect.Left + dr, rect.Top + dr, r, r, 0, 360)
+                                               End If
+                                           End If
 
-                            If gridDraw Then
-                                Call g.DrawRectangle(gridBrush, rect)
-                            End If
-                            If Not labelbrush Is Nothing Then
+                                           If gridDraw Then
+                                               Call g.DrawRectangle(gridBrush, rect)
+                                           End If
+                                           If Not labelbrush Is Nothing Then
 
-                                With c.ToString("F2")
-                                    Dim ksz As SizeF = g.MeasureString(.ByRef, valuelabelFont)
-                                    Dim kpos As New PointF With {
+                                               With c.ToString("F2")
+                                                   Dim ksz As SizeF = g.MeasureString(.ByRef, valuelabelFont)
+                                                   Dim kpos As New PointF With {
                                         .X = rect.Left + (rect.Width - ksz.Width) / 2,
                                         .Y = rect.Top + (rect.Height - ksz.Height) / 2
                                     }
-                                    Call g.DrawString(.ByRef, valuelabelFont, labelbrush, kpos)
-                                End With
-                            End If
+                                                   Call g.DrawString(.ByRef, valuelabelFont, labelbrush, kpos)
+                                               End With
+                                           End If
 
-                            left += dw!
-                            i += 1
-                        Next
+                                           left += dw!
+                                           i += 1
+                                       Next
 
-                        left = args.left
-                        args.top += dw!
-                        i = 1
+                                       left = rawLeft
+                                       top += dw!
+                                       i = 1
 
-                        Dim sz As SizeF = g.MeasureString(x.value, rowLabelFont)
-                        Dim y As Single = args.top - dw - (sz.Height - dw) / 2
-                        Dim lx! = args.left - sz.Width - margin.Horizontal * 0.1
+                                       Dim sz As SizeF = g.MeasureString(x.value, rowLabelFont)
+                                       Dim y As Single = top - dw - (sz.Height - dw) / 2
+                                       Dim lx! = rawLeft - sz.Width - margin.Horizontal * 0.1
 
-                        Call g.DrawString(x.value, rowLabelFont, Brushes.Black, New PointF(lx, y))
-                    Next
+                                       Call g.DrawString(x.value, rowLabelFont, Brushes.Black, New PointF(lx, y))
+                                   Next
 
-                    args.left -= dw / 1.5
-                End Sub
+                                   rawLeft -= dw / 1.5
+                               End Sub
 
             With margin
                 .Left = data _
@@ -226,21 +228,22 @@ Namespace Heatmap
             }
             Dim array As DataSet() = data.PopulateRowObjects(Of DataSet).ToArray
 
-            Return Internal.doPlot(
-                plotInternal, array,
-                rowLabelFont, rowLabelFont, logScale,
-                scaleMethod:=DrawElements.None, drawLabels:=DrawElements.Both, drawDendrograms:=DrawElements.None, drawClass:=(rowDendrogramClass, Nothing), dendrogramLayout:=(rowDendrogramHeight, 0),
-                reverseClrSeq:=True, mapLevels:=mapLevels, mapName:=mapName,
-                size:=gSize, padding:=margin, bg:=bg,
-                legendTitle:=legendTitle,
-                legendFont:=CSSFont.TryParse(legendFont), legendLabelFont:=CSSFont.TryParse(legendLabelFont), min:=min, max:=max,
-                mainTitle:=mainTitle, titleFont:=CSSFont.TryParse(titleFont).GDIObject,
-                legendWidth:=120, legendSize:=llayout,
-                rowXOffset:=leftOffSet) _
- _
-                .AsGDIImage _
-                .CorpBlank(margin.Left / 2)
+            '           Return Internal.doPlot(
+            '               plotInternal, array,
+            '               rowLabelFont, rowLabelFont, logScale,
+            '               scaleMethod:=DrawElements.None, drawLabels:=DrawElements.Both, drawDendrograms:=DrawElements.None, drawClass:=(rowDendrogramClass, Nothing), dendrogramLayout:=(rowDendrogramHeight, 0),
+            '               reverseClrSeq:=True, mapLevels:=mapLevels, mapName:=mapName,
+            '               size:=gSize, padding:=margin, bg:=bg,
+            '               legendTitle:=legendTitle,
+            '               legendFont:=CSSFont.TryParse(legendFont), legendLabelFont:=CSSFont.TryParse(legendLabelFont), min:=min, max:=max,
+            '               mainTitle:=mainTitle, titleFont:=CSSFont.TryParse(titleFont).GDIObject,
+            '               legendWidth:=120, legendSize:=llayout,
+            '               rowXOffset:=leftOffSet) _
+            '_
+            '               .AsGDIImage _
+            '               .CorpBlank(margin.Left / 2)
 
+            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
         End Function
     End Module
 

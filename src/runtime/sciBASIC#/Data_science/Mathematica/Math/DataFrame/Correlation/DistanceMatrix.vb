@@ -28,9 +28,15 @@ Public Class DistanceMatrix
         End Set
     End Property
 
-    Public ReadOnly Property Keys As String()
+    Public ReadOnly Property keys As String()
         Get
             Return names.Objects
+        End Get
+    End Property
+
+    Public ReadOnly Property size As Integer
+        Get
+            Return matrix.Length
         End Get
     End Property
 
