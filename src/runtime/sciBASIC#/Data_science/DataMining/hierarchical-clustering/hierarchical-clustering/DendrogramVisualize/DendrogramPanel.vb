@@ -113,7 +113,10 @@ Namespace DendrogramVisualize
         End Property
 
         ''' <summary>
-        ''' ``<see cref="Cluster.Name"/> --> class color expression``
+        ''' 对象的分类信息和颜色，假设这个属性存在值的话，会额外绘制一个表示对象类别的条带
+        ''' 反之则不进行绘制
+        ''' 
+        ''' (``<see cref="Cluster.Name"/> --> class color expression``)
         ''' </summary>
         ''' <returns></returns>
         Public Property ClassTable As Dictionary(Of String, String)
