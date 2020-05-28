@@ -66,7 +66,7 @@ Public Module PrintHelper
     End Sub
 
     <Extension>
-    Private Function ToConsoleLine(c As Cluster, Optional indent% = Scan0) As String
+    Public Function ToConsoleLine(c As Cluster, Optional indent% = Scan0) As String
         Dim sb As New StringBuilder
         Call c.consoleLine(sb, indent)
         Return sb.ToString
