@@ -219,7 +219,7 @@ Namespace DendrogramVisualize
 
             ' 如果cluster的结果不为空
             If component IsNot Nothing Then
-                Return __draw(g2,
+                Return drawTree(g2,
                               wDisplay, hDisplay, xDisplayOrigin, yDisplayOrigin,
                               stroke:=Stroke.TryParse(branchStrokeCSS),
                               classLegendWidth:=classLegendWidth,
@@ -238,13 +238,13 @@ Namespace DendrogramVisualize
             End If
         End Function
 
-        Private Function __draw(g2 As Graphics2D,
-                                wDisplay%, hDisplay%,
-                                xDisplayOrigin%, yDisplayOrigin%,
-                                stroke As Stroke,
-                                classLegendWidth%,
-                                layout As Layouts,
-                                padding!) As NamedValue(Of PointF)()
+        Private Function drawTree(g2 As Graphics2D,
+                                  wDisplay%, hDisplay%,
+                                  xDisplayOrigin%, yDisplayOrigin%,
+                                  stroke As Stroke,
+                                  classLegendWidth%,
+                                  layout As Layouts,
+                                  padding!) As NamedValue(Of PointF)()
 
             If ShowLeafLabel Then
                 Dim nameGutterWidth% = component.GetMaxNameWidth(g2, False) + component.NamePadding
