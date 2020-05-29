@@ -116,6 +116,7 @@ Module visualPlot
     Private Function doKeggProfiles(profiles As Dictionary(Of String, Double), displays%) As Dictionary(Of String, NamedValue(Of Double)())
         Return profiles _
             .KEGGCategoryProfiles _
+            .Where(Function(cls) Not cls.Value.IsNullOrEmpty) _
             .ToDictionary(Function(p) p.Key,
                           Function(group)
                               Return group.Value _

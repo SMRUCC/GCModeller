@@ -18,7 +18,8 @@ str(profiles);
 profiles 
 :> kegg.category_profiles.plot(
 	title = "KEGG pathway enrichment",
-	 axisTitle = "-log10(Raw p)"
+	 axisTitle = "-log10(Raw p)",
+	 size= [2000,1800]
 )
 :> save.graphics(file = "./barplot.png")
 ;
