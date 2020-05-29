@@ -118,7 +118,7 @@ Namespace Drawing2D.Text
         Public Function FontMetrics(g As IGraphics, font As Font) As FontMetrics
             Select Case g.GetType
                 Case GetType(Graphics2D)
-                    Return DirectCast(g, Graphics2D).FontMetrics()
+                    Return New FontMetrics(font, DirectCast(g, Graphics2D).Graphics)
                 Case GetType(GraphicsSVG)
                     Return DirectCast(g, GraphicsSVG).FontMetrics(font)
                 Case Else
