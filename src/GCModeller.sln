@@ -703,6 +703,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		runtime\mysqli\mysqliHelper\mysqliHelper.projitems*{b1de5562-91d6-4aee-aa26-72ef2dfc7c75}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{b7443b2b-50e1-4a0e-a3d0-e36f803a76ad}*SharedItemsImports = 4
 		GCModeller\shared\api\Shared.CommonMethods.projitems*{bfdf175b-bdcb-4fb3-8c59-3b2b37395445}*SharedItemsImports = 13
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{c54031f0-8bf6-4a21-8598-b88c80a48473}*SharedItemsImports = 4
 		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{c5c3428c-d64c-4e79-b239-77adc66b1156}*SharedItemsImports = 4
