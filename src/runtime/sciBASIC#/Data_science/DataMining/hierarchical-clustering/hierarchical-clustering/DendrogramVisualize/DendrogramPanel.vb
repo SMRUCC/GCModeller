@@ -276,10 +276,12 @@ Namespace DendrogramVisualize
             Dim colorLegendSize As Size
 
             If layout = Layouts.Vertical Then
-                Dim legendHeight% = hDisplay / If(ClassTable.IsNullOrEmpty, 1, ClassTable.Count - 1) ' 绘图区域的高度除以个数
+                ' 绘图区域的高度除以个数
+                Dim legendHeight% = hDisplay / If(ClassTable.IsNullOrEmpty, 1, ClassTable.Count - 1)
                 colorLegendSize = New Size(classLegendWidth, legendHeight)
             Else
-                Dim legendWidth% = wDisplay / If(ClassTable.IsNullOrEmpty, 1, ClassTable.Count - 1) ' 绘图区域的高度除以个数
+                ' 绘图区域的高度除以个数
+                Dim legendWidth% = wDisplay / If(ClassTable.IsNullOrEmpty, 1, ClassTable.Count - 1)
                 Dim lheight = classLegendWidth
 
                 colorLegendSize = New Size(legendWidth, lheight)
@@ -308,42 +310,46 @@ Namespace DendrogramVisualize
 
             ' 在这里进行标尺的绘制
             If ShowScale Then
-                Dim x1 As Integer = xDisplayOrigin
-                Dim y1 As Integer = yDisplayOrigin - ScalePadding
-                Dim x2 As Integer = x1 + wDisplay
-                Dim y2 As Integer = y1
-
-                Call g2.DrawLine(g2Stroke, x1, y1, x2, y2)
-
-                Dim totalDistance As Double = component.Cluster.TotalDistance
-                Dim xModelInterval As Double
-
-                If ScaleValueInterval <= 0 Then
-                    xModelInterval = totalDistance / 10.0
-                Else
-                    xModelInterval = ScaleValueInterval
-                End If
-
-                Dim xTick As Integer = xDisplayOrigin + wDisplay
-                y1 = yDisplayOrigin - ScalePadding
-                y2 = yDisplayOrigin - ScalePadding - ScaleTickLength
-                Dim distanceValue As Double = 0
-                Dim xDisplayInterval As Double = xModelInterval * xFactor
-
-                Do While xTick >= xDisplayOrigin
-
-                    ' 绘制坐标轴的Tick竖线
-                    Call g2.DrawLine(g2Stroke, xTick, y1, xTick, y2)
-
-                    Dim distanceValueStr As String = sprintf("%." & ScaleValueDecimals & "f", distanceValue)
-                    Dim rect As RectangleF = g2.FontMetrics(labelFont).GetStringBounds(distanceValueStr)
-                    g2.DrawString(distanceValueStr, labelFont, Brushes.Black, CInt(Fix(xTick - (rect.Width / 2))), y2 - scaleTickLabelPadding - rect.Height)
-                    xTick -= xDisplayInterval
-                    distanceValue += xModelInterval
-                Loop
+                Call drawScale(g2, g2Stroke, labelFont, xDisplayOrigin%, yDisplayOrigin%, wDisplay, xFactor)
             End If
 
             Return labels
         End Function
+
+        Private Sub drawScale(g2 As IGraphics, g2Stroke As Pen, labelFont As Font, xDisplayOrigin%, yDisplayOrigin%, wDisplay!, xFactor!)
+            Dim x1 As Integer = xDisplayOrigin
+            Dim y1 As Integer = yDisplayOrigin - ScalePadding
+            Dim x2 As Integer = x1 + wDisplay
+            Dim y2 As Integer = y1
+
+            Call g2.DrawLine(g2Stroke, x1, y1, x2, y2)
+
+            Dim totalDistance As Double = component.Cluster.TotalDistance
+            Dim xModelInterval As Double
+
+            If ScaleValueInterval <= 0 Then
+                xModelInterval = totalDistance / 10.0
+            Else
+                xModelInterval = ScaleValueInterval
+            End If
+
+            Dim xTick As Integer = xDisplayOrigin + wDisplay
+            y1 = yDisplayOrigin - ScalePadding
+            y2 = yDisplayOrigin - ScalePadding - ScaleTickLength
+            Dim distanceValue As Double = 0
+            Dim xDisplayInterval As Double = xModelInterval * xFactor
+
+            Do While xTick >= xDisplayOrigin
+
+                ' 绘制坐标轴的Tick竖线
+                Call g2.DrawLine(g2Stroke, xTick, y1, xTick, y2)
+
+                Dim distanceValueStr As String = sprintf("%." & ScaleValueDecimals & "f", distanceValue)
+                Dim rect As RectangleF = g2.FontMetrics(labelFont).GetStringBounds(distanceValueStr)
+                g2.DrawString(distanceValueStr, labelFont, Brushes.Black, CInt(Fix(xTick - (rect.Width / 2))), y2 - scaleTickLabelPadding - rect.Height)
+                xTick -= xDisplayInterval
+                distanceValue += xModelInterval
+            Loop
+        End Sub
     End Class
 End Namespace

@@ -162,15 +162,17 @@ Namespace DendrogramVisualize
             With args
 
                 If .layout = Layouts.Vertical Then
+                    ' 只变化X，Y不变，表示树枝在竖直布局下的水平延伸
                     x1 = CInt(Fix(InitPoint.X * .xDisplayFactor + .xDisplayOffset))
                     y1 = CInt(Fix(InitPoint.Y * .yDisplayFactor + .yDisplayOffset))
                     x2 = CInt(Fix(LinkPoint.X * .xDisplayFactor + .xDisplayOffset))
-                    y2 = y1  ' 只变化X，Y不变，表示树枝在竖直布局下的水平延伸
+                    y2 = y1
                 Else
+                    ' 只变化Y，X不变，表示树枝在水平布局下的竖直延伸
                     y1 = CInt(Fix(InitPoint.X * .xDisplayFactor + .yDisplayOffset))
                     x1 = CInt(Fix(InitPoint.Y * .yDisplayFactor + .xDisplayOffset))
                     y2 = CInt(Fix(LinkPoint.X * .xDisplayFactor + .yDisplayOffset))
-                    x2 = x1  ' 只变化Y，X不变，表示树枝在水平布局下的竖直延伸
+                    x2 = x1
                 End If
 
                 If .LinkDotRadius > 0 Then
