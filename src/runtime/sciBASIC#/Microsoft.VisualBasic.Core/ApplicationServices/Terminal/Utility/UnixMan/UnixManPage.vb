@@ -131,6 +131,12 @@ Namespace ApplicationServices.Terminal.Utility
                 Call text.AppendLine(".SH SEE ALSO")
                 Call text.AppendLine(man.SEE_ALSO)
             End If
+            If Not man.FILES.StringEmpty Then
+                Call text.AppendLine(".SH FILES")
+                Call text.AppendLine(".PP")
+                Call text.AppendLine(man.FILES)
+                Call text.AppendLine(".PP")
+            End If
             If Not man.AUTHOR.StringEmpty Then
                 Call text.AppendLine(".SH AUTHOR")
                 Call text.AppendLine($"Written by {man.AUTHOR}")
