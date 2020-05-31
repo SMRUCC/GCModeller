@@ -1,0 +1,73 @@
+.\" man page create by R# package system.
+.TH UTILS 4 2020-05-31 "read.csv" "read.csv"
+.SH NAME
+read.csv \- Data Input
+.SH SYNOPSIS
+\fIread.csv(\fBfile\fR as <generic> Object, 
+\fBrow_names\fR as <generic> Object = \fB<NULL>\fR, 
+\fBencoding\fR as <generic> Object = "unknown", 
+\fBtsv\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Data Input
+ 
+ Reads a file in table format and creates a data frame from it, 
+ with cases corresponding to lines and variables to fields in 
+ the file.
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the name of the file which the data are to be read from. Each 
+ row of the table appears as one line of the file. If it does 
+ not contain an absolute path, the file name is relative to the 
+ current working directory, getwd(). Tilde-expansion is performed 
+ where supported. This can be a compressed file (see file).
+ 
+ Alternatively, file can be a readable text-mode connection (which 
+ will be opened for reading if necessary, And if so closed (And 
+ hence destroyed) at the end of the function call). (If \fBstdin()\fR
+ Is used, the prompts for lines may be somewhat confusing. 
+ Terminate input with a blank line Or an EOF signal, Ctrl-D on Unix 
+ And Ctrl-Z on Windows. Any pushback on stdin() will be cleared 
+ before return.)
+ 
+ file can also be a complete URL. (For the supported URL schemes, 
+ see the 'URLs’ section of the help for \fBurl\fR.)
+
+.PP
+.PP
+\fBencoding\fB \fR\- 
+ encoding to be assumed for input strings. It is used to mark character 
+ strings as known to be in Latin-1 or UTF-8 (see Encoding): it is not 
+ used to re-encode the input, but allows R to handle encoded strings in 
+ their native encoding (if one of those two). 
+ 
+ use @\fBP:System.Text.Encoding.Default\fR by default.
+
+.PP
+.PP
+\fBrow_names\fB \fR\- 
+ a vector of row names. This can be a vector giving the actual row names, 
+ or a single number giving the column of the table which contains the 
+ row names, or character string giving the name of the table column 
+ containing the row names.
+
+ If there Is a header And the first row contains one fewer field than the 
+ number Of columns, the first column In the input Is used For the row 
+ names. Otherwise If row.names Is missing, the rows are numbered.
+
+ Using row.names = NULL forces row numbering. Missing Or NULL row.names 
+ generate row names that are considered To be 'automatic’ (and not 
+ preserved by as.matrix).
+
+.PP
+.SH SEE ALSO
+utils
+.SH FILES
+.PP
+R.base.dll
+.PP
+.SH COPYRIGHT
+Copyright © SMRUCC 2019

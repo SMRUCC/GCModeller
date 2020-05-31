@@ -1,0 +1,40 @@
+.\" man page create by R# package system.
+.TH BASE 4 2020-05-31 "save" "save"
+.SH NAME
+save \- Save R Objects
+.SH SYNOPSIS
+\fIsave(..., 
+\fBfile\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Save R Objects
+ 
+ writes an external representation of R objects to the specified file. 
+ The objects can be read back from the file at a later date by using 
+ the function load or attach (or data in some cases).
+.PP
+.SH OPTIONS
+.PP
+\fBobjects\fB \fR\- the names of the objects to be saved (as symbols or character strings).
+.PP
+.PP
+\fBfile\fB \fR\- 
+ a (writable binary-mode) connection or the name of the file where 
+ the data will be saved (when tilde expansion is done). Must be a 
+ file name for save.image or version = 1.
+
+.PP
+.PP
+\fBenvir\fB \fR\- environment to search for objects to be saved.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+R.base.dll
+.PP
+.SH AUTHOR
+Written by xie.guigang@gcmodeller.org
+.SH COPYRIGHT
+Copyright © SMRUCC 2019
