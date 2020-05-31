@@ -15,6 +15,9 @@ R# install.packages('%lib%/R.plot.dll');
 R# install.packages('%lib%/R.web.dll');
 R# install.packages('%lib%/R.math.dll');
 
+R# --install.packages /module scan=./
+R# --install.packages /module scan=%lib%
+
 REM finally, view of the summary information about the installed
 REM libraries.
 R# installed.packages();

@@ -1,0 +1,64 @@
+.\" man page create by R# package system.
+.TH STATS 1 2020-05-31 "prcomp" "prcomp"
+.SH NAME
+prcomp \- Principal Components Analysis
+.SH SYNOPSIS
+\fIprcomp(\fBx\fR as <generic> Object, 
+\fBscale\fR as boolean = FALSE, 
+\fBcenter\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Principal Components Analysis
+ 
+ Performs a principal components analysis on the given data matrix 
+ and returns the results as an object of class \fBprcomp\fR.
+ 
+ The calculation is done by a singular value decomposition of the 
+ (centered and possibly scaled) data matrix, not by using eigen on 
+ the covariance matrix. This is generally the preferred method for 
+ numerical accuracy. The print method for these objects prints the 
+ results in a nice format and the plot method produces a scree 
+ plot.
+
+ Unlike princomp, variances are computed With the usual divisor N - 1.
+ Note that scale = True cannot be used If there are zero Or constant 
+ (For center = True) variables.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a numeric or complex matrix (or data frame) which provides the 
+ data for the principal components analysis.
+
+.PP
+.PP
+\fBcenter\fB \fR\- 
+ a logical value indicating whether the variables should be shifted 
+ to be zero centered. Alternately, a vector of length equal the 
+ number of columns of x can be supplied. The value is passed to scale.
+
+.PP
+.PP
+\fBscale\fB \fR\- 
+ a logical value indicating whether the variables should be scaled to 
+ have unit variance before the analysis takes place. The default is 
+ FALSE for consistency with S, but in general scaling is advisable. 
+ Alternatively, a vector of length equal the number of columns of x 
+ can be supplied. The value is passed to scale.
+
+.PP
+.SH DETAILS
+.PP
+The signs of the columns of the rotation matrix are arbitrary, and 
+ so may differ between different programs for PCA, and even between 
+ different builds of R.
+.PP
+.SH SEE ALSO
+stats
+.SH FILES
+.PP
+R.math.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2020
