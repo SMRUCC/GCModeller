@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./bin/GCModeller /init.manuals /out ../manual/CLI_tools/
+R# --man.1 --out ./man

@@ -1,0 +1,61 @@
+.\" man page create by R# package system.
+.TH BASE 4 2020-05-31 "save.image" "save.image"
+.SH NAME
+save.image \- Save R Objects
+.SH SYNOPSIS
+\fIsave.image(\fBfile\fR as string = ".RData", 
+\fBversion\fR as string = \fB<NULL>\fR, 
+\fBascii\fR as boolean = FALSE, 
+\fBcompress\fR as <generic> Object = "!ascii", 
+\fBsafe\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Save R Objects
+ 
+ \fBsave.image()\fR is just a short-cut for ‘save my current workspace’, 
+ i.e., save(list = ls(all.names = TRUE), file = ".RData", envir = .GlobalEnv). 
+ It is also what happens with q("yes").
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- a (writable binary-mode) connection or the name of the file 
+ where the data will be saved (when tilde expansion is done). Must be a file 
+ name for save.image or version = 1.
+.PP
+.PP
+\fBversion\fB \fR\- the workspace format version to use. NULL specifies the 
+ current default format (2). Version 1 was the default from R 0.99.0 to R 1.3.1 
+ and version 2 from R 1.4.0. Version 3 is supported from R 3.5.0.
+.PP
+.PP
+\fBascii\fB \fR\- if TRUE, an ASCII representation of the data is written. 
+ The default value of ascii is FALSE which leads to a binary file being written. 
+ If NA and version >= 2, a different ASCII representation is used which writes 
+ double/complex numbers as binary fractions.
+.PP
+.PP
+\fBcompress\fB \fR\- logical Or character string specifying whether saving to 
+ a named file Is to use compression. TRUE corresponds to gzip compression, And 
+ character strings "gzip", "bzip2" Or "xz" specify the type of compression. Ignored 
+ when file Is a connection And for workspace format version 1.
+.PP
+.PP
+\fBsafe\fB \fR\- logical. If TRUE, a temporary file is used for creating the 
+ saved workspace. The temporary file is renamed to file if the save succeeds. This 
+ preserves an existing workspace file if the save fails, but at the cost of using 
+ extra disk space during the save.
+.PP
+.PP
+\fBenvir\fB \fR\- environment to search for objects to be saved.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+R.base.dll
+.PP
+.SH AUTHOR
+Written by xie.guigang@gcmodeller.org
+.SH COPYRIGHT
+Copyright © SMRUCC 2019

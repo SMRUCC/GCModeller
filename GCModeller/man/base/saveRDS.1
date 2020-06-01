@@ -1,0 +1,54 @@
+.\" man page create by R# package system.
+.TH BASE 4 2020-05-31 "saveRDS" "saveRDS"
+.SH NAME
+saveRDS \- Serialization Interface for Single Objects
+.SH SYNOPSIS
+\fIsaveRDS(\fBobject\fR as <generic> Object, 
+\fBfile\fR as string, 
+\fBascii\fR as boolean = FALSE, 
+\fBversion\fR as string = "classic", 
+\fBcompress\fR as boolean = TRUE, 
+\fBrefhook\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Serialization Interface for Single Objects
+ 
+ Functions to write a single R object to a file, and to restore it.
+.PP
+.SH OPTIONS
+.PP
+\fBobject\fB \fR\- R object to serialize.
+.PP
+.PP
+\fBfile\fB \fR\- 
+ a connection Or the name Of the file where the R Object 
+ Is saved To Or read from.
+.PP
+.PP
+\fBascii\fB \fR\- -
+.PP
+.PP
+\fBversion\fB \fR\- -
+.PP
+.PP
+\fBcompress\fB \fR\- -
+.PP
+.PP
+\fBrefhook\fB \fR\- 
+ a hook function for handling reference objects.
+
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+R.base.dll
+.PP
+.SH AUTHOR
+Written by xie.guigang@gcmodeller.org
+.SH COPYRIGHT
+Copyright © SMRUCC 2019
