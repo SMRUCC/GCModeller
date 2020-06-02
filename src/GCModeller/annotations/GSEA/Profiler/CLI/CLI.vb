@@ -81,7 +81,7 @@ Public Module CLI
         Dim background$ = args <= "/background"
         Dim maps$ = args <= "/maps"
         Dim out$ = args("/out") Or $"{background.TrimSuffix}_KO.XML"
-        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps)
+        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps).ToArray
         Dim model As Background
 
         If background.ExtensionSuffix("txt") Then
