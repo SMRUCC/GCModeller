@@ -56,7 +56,7 @@ Public Class log
     ''' <summary>
     ''' parse git log text
     ''' </summary>
-    ''' <param name="text"></param>
+    ''' <param name="text">``git log [fileName]``</param>
     ''' <returns></returns>
     Public Shared Iterator Function ParseGitLogText(text As String) As IEnumerable(Of log)
         For Each block As String() In text.LineIterators.Split(Function(line) line.StartsWith("commit "), DelimiterLocation.NextFirst)
@@ -73,6 +73,11 @@ Public Class log
         Next
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="text">``svn log [fileName]``</param>
+    ''' <returns></returns>
     Public Shared Iterator Function ParseSvnLogText(text As String) As IEnumerable(Of log)
         For Each block As String() In text.LineIterators.Split(Function(line) line.IsPattern("[-]+"), DelimiterLocation.NotIncludes)
             Dim tokens As String() = block(Scan0) _
