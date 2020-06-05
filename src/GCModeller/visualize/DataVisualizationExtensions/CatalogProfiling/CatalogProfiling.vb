@@ -258,11 +258,11 @@ Namespace CatalogProfiling
             Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
 
             ' barPlot的最左边的坐标
-            Dim maxLabeLength% = Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width)
-            Dim barRect As New Rectangle With {
-                .X = padding.Left * 1.5 + maxLabeLength,
+            Dim maxLabeLength% = CInt(Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width))
+            Dim barRect As New RectangleF With {
+                .X = CSng(padding.Left * 1.5 + maxLabeLength),
                 .Y = y,
-                .Width = size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2,
+                .Width = CSng(size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2),
                 .Height = totalHeight
             }
 
@@ -315,7 +315,7 @@ Namespace CatalogProfiling
                     Dim label$
 
                     If gray Then
-                        color = "rgb(30,30,30)".GetBrush
+                        color = New SolidBrush("rgb(30,30,30)".TranslateColor)
                     End If
 
                     If labelTrimLength > 0 AndAlso term.Name.Length > labelTrimLength Then
@@ -326,7 +326,7 @@ Namespace CatalogProfiling
 
                     If labelAlignmentRight Then
                         ' 重新计算位置进行右对齐操作
-                        offset! = label.Length / (region.Width / 20) * catalogCharWidth
+                        offset! = CSng(label.Length / (region.Width / 20) * catalogCharWidth)
                         offset! = barRect.Left - 25 - g.MeasureString(label, catalogFont).Width + offset
                         pos = New PointF With {
                             .X = offset,
