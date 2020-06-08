@@ -47,10 +47,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Text
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace HTML
 
@@ -74,27 +72,7 @@ Namespace HTML
             ' 可能在将报告写入硬盘文件之前，文件系统的上下文已经变了
             ' 所以需要在这里获取得到全路径
             path = file.GetFullPath
-            builder = New ScriptBuilder(path.ReadAllText)
-
-            Call HtmlInterpolate()
-        End Sub
-
-        Const InterpolateRef As String = "[$]\{.+?\}"
-
-        ''' <summary>
-        ''' 在模板之中可能还会存在html碎片的插值
-        ''' 在这里进行模板的html碎片的加载
-        ''' </summary>
-        Private Sub HtmlInterpolate()
-            ' 模板的插值格式为${relpath}
-            Dim relpath = r.Matches(builder.ToString, InterpolateRef, RegexICSng).ToArray
-            Dim dir As String = path.ParentPath
-
-            For Each refpath As String In relpath
-                With refpath.GetStackValue("{", "}")
-                    Call builder.Replace(refpath, $"{dir}/{ .ByRef}".ReadAllText)
-                End With
-            Next
+            builder = New ScriptBuilder(Interpolation.Interpolate(path))
         End Sub
 
         ''' <summary>
