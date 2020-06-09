@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -81,8 +82,8 @@ Module GSEA
     ''' <param name="geneSet">a given geneset id list</param>
     ''' <returns></returns>
     <ExportAPI("enrichment")>
-    Public Function Enrichment(background As Background, geneSet$()) As EnrichmentResult()
-        Return background.Enrichment(geneSet, False).ToArray
+    Public Function Enrichment(background As Background, geneSet$(), Optional showProgress As Boolean = True) As EnrichmentResult()
+        Return background.Enrichment(geneSet, False, showProgress:=showProgress).ToArray
     End Function
 
     ''' <summary>
@@ -94,17 +95,23 @@ Module GSEA
     ''' <returns></returns>
     <ExportAPI("enrichment.go")>
     <RApiReturn(GetType(EnrichmentResult))>
-    Public Function GOEnrichment(background As Background, geneSet$(), go As Object, Optional env As Environment = Nothing) As Object
+    Public Function GOEnrichment(background As Background,
+                                 geneSet$(),
+                                 go As Object,
+                                 Optional showProgress As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
         If go Is Nothing Then
             Return Internal.debug.stop(New ArgumentNullException("Missing the required GO database!"), env)
+        ElseIf TypeOf go Is vbObject Then
+            go = DirectCast(go, vbObject).target
         End If
 
         If go.GetType() Is GetType(GO_OBO) Then
-            Return background.Enrichment(geneSet, DirectCast(go, GO_OBO)).ToArray
+            Return background.Enrichment(geneSet, DirectCast(go, GO_OBO), showProgress:=showProgress).ToArray
         ElseIf go.GetType Is GetType(DAG.Graph) Then
-            Return background.Enrichment(geneSet, DirectCast(go, DAG.Graph)).ToArray
+            Return background.Enrichment(geneSet, DirectCast(go, DAG.Graph), showProgress:=showProgress).ToArray
         Else
-            Throw New InvalidProgramException(go.GetType.FullName)
+            Return Internal.debug.stop(New InvalidProgramException(go.GetType.FullName), env)
         End If
     End Function
 
@@ -127,16 +134,18 @@ Module GSEA
             Return Internal.debug.stop(New ArgumentNullException(NameOf(enrichment)), env)
         End If
 
+        Dim verbose As Boolean = env.globalEnvironment.options.verbose
+
         If REnv.isVector(Of EnrichmentResult)(enrichment) Then
             If format = "GCModeller" Then
-                Return DirectCast(enrichment, EnrichmentResult()).SaveTo(file)
+                Return DirectCast(enrichment, EnrichmentResult()).SaveTo(file, silent:=Not verbose)
             ElseIf format = "KOBAS" Then
-                Return KOBASFormat(enrichment).SaveTo(file)
+                Return KOBASFormat(enrichment).SaveTo(file, silent:=Not verbose)
             Else
-                Throw New NotImplementedException(format)
+                Return Internal.debug.stop(New NotImplementedException(format), env)
             End If
         ElseIf REnv.isVector(Of EnrichmentTerm)(enrichment) Then
-            Return DirectCast(enrichment, EnrichmentTerm()).SaveTo(file)
+            Return DirectCast(enrichment, EnrichmentTerm()).SaveTo(file, silent:=Not verbose)
         Else
             Return Internal.debug.stop(New InvalidProgramException(enrichment.GetType.FullName), env)
         End If
