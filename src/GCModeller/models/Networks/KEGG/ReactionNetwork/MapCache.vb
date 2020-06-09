@@ -5,15 +5,27 @@ Imports stdNum = System.Math
 Namespace ReactionNetwork
 
     ''' <summary>
-    ''' id1|id2 rxn,....
+    ''' Mapping between the kegg compound tuple and reaction id, KO id, etc.
+    ''' 
+    ''' ``id1|id2 rxn,....``
     ''' </summary>
     Public Class MapCache
 
+        ''' <summary>
+        ''' the key in this hash table is the kegg compound id tuple in format like: ``id1|id2``
+        ''' the values of the corresponding index hash key is the kegg reaction id and KO id list. 
+        ''' </summary>
         Dim index As Dictionary(Of String, String())
 
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' found the related reaction id and KO id by given kegg compound tuple.
+        ''' </summary>
+        ''' <param name="c1$"></param>
+        ''' <param name="c2$"></param>
+        ''' <returns></returns>
         Public Function FindPoints(c1$, c2$) As String()
             Dim key = indexKey(c1, c2)
 
@@ -40,6 +52,12 @@ Namespace ReactionNetwork
             Return result
         End Function
 
+        ''' <summary>
+        ''' Create index key from a given kegg compound id tuple
+        ''' </summary>
+        ''' <param name="c1">the kegg compound id</param>
+        ''' <param name="c2">the kegg compound id</param>
+        ''' <returns></returns>
         Private Shared Function indexKey(c1$, c2$) As String
             Dim i1 = Integer.Parse(c1.Substring(1))
             Dim i2 = Integer.Parse(c2.Substring(1))
@@ -58,6 +76,11 @@ Namespace ReactionNetwork
             Return sb.ToString
         End Function
 
+        ''' <summary>
+        ''' Parse cached index data from a text file readLines data result.
+        ''' </summary>
+        ''' <param name="text">the text lines</param>
+        ''' <returns></returns>
         Public Shared Function ParseText(text As String()) As MapCache
             Dim cache As New Dictionary(Of String, String())
             Dim values As String()
