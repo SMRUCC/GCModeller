@@ -43,8 +43,12 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -53,6 +57,45 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("visualkit.plots")>
 Module visualPlot
+
+    <ExportAPI("GO.enrichment.profile")>
+    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As Object
+        Dim GO_terms = goDb.AsEnumerable.ToDictionary
+        ' 在这里是不进行筛选的
+        ' 筛选应该是发生在脚本之中
+        Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, 1)
+
+        Return profiles
+    End Function
+
+    <ExportAPI("kegg.category_profile")>
+    Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
+        Dim profile As Dictionary(Of String, NamedValue(Of Double)())
+
+        If TypeOf profiles Is Dictionary(Of String, Integer) Then
+            profile = DirectCast(profiles, Dictionary(Of String, Integer)) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CDbl(a.Value)
+                              End Function) _
+                .doKeggProfiles(top)
+        ElseIf TypeOf profiles Is Dictionary(Of String, NamedValue(Of Double)()) Then
+            profile = DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)()))
+        ElseIf TypeOf profiles Is Dictionary(Of String, Double) Then
+            profile = DirectCast(profiles, Dictionary(Of String, Double)).doKeggProfiles(top)
+        ElseIf TypeOf profiles Is list Then
+            profile = DirectCast(profiles, list).slots _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
+                              End Function) _
+                .doKeggProfiles(top)
+        Else
+            Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
+        End If
+
+        Return profile
+    End Function
 
     ''' <summary>
     ''' Do plot of the given kegg pathway profiles data
@@ -63,9 +106,8 @@ Module visualPlot
     ''' <param name="size"></param>
     ''' <param name="tick"></param>
     ''' <param name="colors"></param>
-    ''' <param name="displays"></param>
     ''' <returns></returns>
-    <ExportAPI("kegg.category_profiles.plot")>
+    <ExportAPI("category_profiles.plot")>
     <RApiReturn(GetType(GraphicsData))>
     Public Function KEGGCategoryProfilePlots(profiles As Object,
                                              Optional title$ = "KEGG Orthology Profiling",
@@ -75,32 +117,9 @@ Module visualPlot
                                              Optional tick# = -1,
                                              <RRawVectorArgument>
                                              Optional colors As Object = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00",
-                                             Optional displays% = 10,
                                              Optional env As Environment = Nothing) As Object
 
-        Dim profile As Dictionary(Of String, NamedValue(Of Double)())
-
-        If TypeOf profiles Is Dictionary(Of String, Integer) Then
-            profile = DirectCast(profiles, Dictionary(Of String, Integer)) _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return CDbl(a.Value)
-                              End Function) _
-                .doKeggProfiles(displays)
-        ElseIf TypeOf profiles Is Dictionary(Of String, NamedValue(Of Double)()) Then
-            profile = DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)()))
-        ElseIf TypeOf profiles Is Dictionary(Of String, Double) Then
-            profile = DirectCast(profiles, Dictionary(Of String, Double)).doKeggProfiles(displays)
-        ElseIf TypeOf profiles Is list Then
-            profile = DirectCast(profiles, list).slots _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
-                              End Function) _
-                .doKeggProfiles(displays)
-        Else
-            Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
-        End If
+        Dim profile As Dictionary(Of String, NamedValue(Of Double)()) = profiles
 
         Return profile.ProfilesPlot(title,
             size:=InteropArgumentHelper.getSize(size),
