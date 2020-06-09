@@ -3,6 +3,8 @@ imports "kegg.metabolism" from "kegg_kit";
 imports ["gseakit.background", "GSEA"] from "gseakit";
 imports "gokit.file" from "gokit";
 
+options(verbose = FALSE);
+
 const kegg2go = "D:\human\human\human_kegg2go.txt";
 const compounds2kegg = "D:\biodeep\biodeepdb_v3\KEGG\br08201.cacheIndex.txt";
 

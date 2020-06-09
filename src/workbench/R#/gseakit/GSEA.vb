@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Microarray
@@ -107,7 +108,11 @@ Module GSEA
         End If
 
         If go.GetType() Is GetType(GO_OBO) Then
-            Return background.Enrichment(geneSet, DirectCast(go, GO_OBO), showProgress:=showProgress).ToArray
+            Return background.Enrichment(
+                list:=geneSet,
+                goClusters:=New DAG.Graph(DirectCast(go, GO_OBO).AsEnumerable),
+                showProgress:=showProgress
+            ).ToArray
         ElseIf go.GetType Is GetType(DAG.Graph) Then
             Return background.Enrichment(geneSet, DirectCast(go, DAG.Graph), showProgress:=showProgress).ToArray
         Else
