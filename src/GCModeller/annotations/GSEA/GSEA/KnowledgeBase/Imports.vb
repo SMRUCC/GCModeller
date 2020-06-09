@@ -148,32 +148,41 @@ Public Module [Imports]
                End Function
     End Function
 
+    ''' <summary>
+    ''' 一个Go term就是一个cluster
+    ''' </summary>
+    ''' <param name="GO_terms"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GOClusters(GO_terms As IEnumerable(Of Term)) As GetClusterTerms
         Dim table As Dictionary(Of String, Term) = GO_terms.ToDictionary(Function(t) t.id)
-        Dim parentPopulator =
-            Iterator Function(termID As String) As IEnumerable(Of NamedValue(Of String))
+        Dim parentPopulator As Func(Of String, NamedValue(Of String)) =
+            Function(termID As String) As NamedValue(Of String)
                 Dim GO_term = table.TryGetValue(termID)
 
                 If GO_term Is Nothing Then
-                    Call $"Missing GO term: {termID}, this go term may be obsolete or you needs update the GO obo database to the latest version.".Warning
+                    Call missingGoTermWarnings(termID).Warning
                 Else
                     Dim info As Definition = Definition.Parse(GO_term)
 
                     ' 一个GO term类似于一个cluster
                     ' 其所有基于is_a关系派生出来的子类型都是当前的这个term的cluster成员
                     ' 在计算的时候会需要根据这个关系来展开计算
-                    Yield New NamedValue(Of String) With {
+                    Return New NamedValue(Of String) With {
                         .Name = GO_term.id,
                         .Value = GO_term.name,
                         .Description = info.definition
                     }
                 End If
+
+                Return Nothing
             End Function
 
-        Return Function(termID)
-                   Return parentPopulator(termID).ToArray
-               End Function
+        Return Function(termID) {parentPopulator(termID)}
+    End Function
+
+    Private Function missingGoTermWarnings(termId As String) As String
+        Return $"Missing GO term: {termId}, this go term may be obsolete or you needs update the GO obo database to the latest version."
     End Function
 
     ''' <summary>
