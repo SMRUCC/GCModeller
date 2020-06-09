@@ -12,7 +12,7 @@ let compounds as string = readLines("D:\GCModeller\src\GCModeller\annotations\GS
 # print(maps);
 
 # print(mapKO);
-print(compounds);
+# print(compounds);
 
 let KO = mapKO$FindAllPoints(compounds);
 
@@ -20,6 +20,6 @@ KO = KO[KO == $"K\d+"];
 
 print(KO);
 
-let GO = [idmap = maps] :> synonym(KO, excludeNull = TRUE) :> sapply(a -> as.object(a)$alias) :> unlist :> unique;
+let GO = synonym(KO, maps, excludeNull = TRUE) :> lapply(a -> as.object(a)$alias) :> unlist :> unique;
 
 print(GO); 
