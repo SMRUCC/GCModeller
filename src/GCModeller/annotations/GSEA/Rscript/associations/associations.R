@@ -23,3 +23,4 @@ print(KO);
 let GO = synonym(KO, maps, excludeNull = TRUE) :> lapply(a -> as.object(a)$alias) :> unlist :> unique;
 
 print(GO); 
+
