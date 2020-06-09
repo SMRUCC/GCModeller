@@ -189,6 +189,20 @@ Namespace ComponentModel.DBLinkBuilder
             End If
         End Function
 
+        Public Iterator Function PopulateSynonyms(list As IEnumerable(Of String), Optional excludeNull As Boolean = False) As IEnumerable(Of Synonym)
+            Dim synonym As New Value(Of Synonym)
+
+            For Each id As String In list.SafeQuery
+                If synonym = GetSynonym(id) Is Nothing Then
+                    If Not excludeNull Then
+                        Yield Nothing
+                    End If
+                Else
+                    Yield synonym
+                End If
+            Next
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"Has {mainID.Count} main IDs, ALL {ALL.Length} in total."
         End Function

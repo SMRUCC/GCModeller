@@ -124,5 +124,10 @@ Module terms
     Public Function readIdMappings(file As String, Optional skip2ndMaps As Boolean = False) As SecondaryIDSolver
         Return DBLinkBuilder.LoadMappingText(file, skip2ndMaps)
     End Function
+
+    <ExportAPI("synonym")>
+    Public Function Synonyms(idlist As String(), idmap As SecondaryIDSolver, Optional excludeNull As Boolean = False) As Synonym()
+        Return idmap.PopulateSynonyms(idlist, excludeNull:=excludeNull).ToArray()
+    End Function
 End Module
 
