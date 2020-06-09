@@ -278,6 +278,7 @@
     <Compile Include="HTML\TemplateHandler.vb" />
     <Compile Include="HTML\HTMLReport.vb" />
     <Compile Include="EMailMsg.vb" />
+    <Compile Include="Interpolation\Interpolation.vb" />
     <Compile Include="Navigation.vb" />
     <Compile Include="HTML\HTMLExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

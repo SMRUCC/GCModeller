@@ -54,6 +54,10 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 <Package("kegg.metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
+    Sub New()
+
+    End Sub
+
     <ExportAPI("load.reaction.cacheIndex")>
     Public Function loadReactionCacheIndex(file As String) As MapCache
         Return MapCache.ParseText(file.SolveStream.LineTokens)

@@ -148,32 +148,41 @@ Public Module [Imports]
                End Function
     End Function
 
+    ''' <summary>
+    ''' 一个Go term就是一个cluster
+    ''' </summary>
+    ''' <param name="GO_terms"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GOClusters(GO_terms As IEnumerable(Of Term)) As GetClusterTerms
         Dim table As Dictionary(Of String, Term) = GO_terms.ToDictionary(Function(t) t.id)
-        Dim parentPopulator =
-            Iterator Function(termID As String) As IEnumerable(Of NamedValue(Of String))
+        Dim parentPopulator As Func(Of String, NamedValue(Of String)) =
+            Function(termID As String) As NamedValue(Of String)
                 Dim GO_term = table.TryGetValue(termID)
 
                 If GO_term Is Nothing Then
-                    Call $"Missing GO term: {termID}, this go term may be obsolete or you needs update the GO obo database to the latest version.".Warning
+                    Call missingGoTermWarnings(termID).Warning
                 Else
                     Dim info As Definition = Definition.Parse(GO_term)
 
                     ' 一个GO term类似于一个cluster
                     ' 其所有基于is_a关系派生出来的子类型都是当前的这个term的cluster成员
                     ' 在计算的时候会需要根据这个关系来展开计算
-                    Yield New NamedValue(Of String) With {
+                    Return New NamedValue(Of String) With {
                         .Name = GO_term.id,
                         .Value = GO_term.name,
                         .Description = info.definition
                     }
                 End If
+
+                Return Nothing
             End Function
 
-        Return Function(termID)
-                   Return parentPopulator(termID).ToArray
-               End Function
+        Return Function(termID) {parentPopulator(termID)}
+    End Function
+
+    Private Function missingGoTermWarnings(termId As String) As String
+        Return $"Missing GO term: {termId}, this go term may be obsolete or you needs update the GO obo database to the latest version."
     End Function
 
     ''' <summary>
@@ -192,27 +201,6 @@ Public Module [Imports]
 
         With db.ToArray
             Dim taxonomy As String = Nothing
-            Dim createGene As Func(Of entry, String(), BackgroundGene) =
-                Function(protein As entry, terms As String())
-                    Return New BackgroundGene With {
-                        .accessionID = protein.accessions(Scan0),
-                        .[alias] = protein.accessions,
-                        .name = protein.name,
-                        .locus_tag = Function() As NamedValue
-                                         Dim tag$ = .accessionID
-
-                                         If protein.xrefs.ContainsKey("KEGG") Then
-                                             tag = protein.xrefs("KEGG").First.id
-                                         End If
-
-                                         Return New NamedValue With {
-                                             .name = tag,
-                                             .text = protein.protein.fullName
-                                         }
-                                     End Function(),
-                        .term_id = terms
-                    }
-                End Function
 
             For Each protein As entry In .AsEnumerable
                 taxonomy = protein.organism?.lineage?.taxonlist.JoinBy("; ")
@@ -225,12 +213,36 @@ Public Module [Imports]
             Return .CreateBackground(
                 getTerms:=getTerm,
                 define:=define,
-                createGene:=createGene,
+                createGene:=AddressOf createGene,
                 genomeName:=genomeName,
                 taxonomy:=taxonomy,
                 outputAll:=outputAll
             )
         End With
+    End Function
+
+    Private Function createGene(protein As entry, terms As String()) As BackgroundGene
+        Return New BackgroundGene With {
+            .accessionID = protein.accessions(Scan0),
+            .[alias] = protein.accessions,
+            .name = protein.name,
+            .locus_tag = protein.proteinLocusTag(.accessionID),
+            .term_id = terms
+        }
+    End Function
+
+    <Extension>
+    Private Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
+        Dim tag$ = accessionID
+
+        If protein.xrefs.ContainsKey("KEGG") Then
+            tag = protein.xrefs("KEGG").First.id
+        End If
+
+        Return New NamedValue With {
+            .name = tag,
+            .text = protein.protein.fullName
+        }
     End Function
 
     <Extension>
@@ -261,6 +273,10 @@ Public Module [Imports]
             End If
 
             For Each clusterID As NamedValue(Of String) In clusterNames
+                If clusterID.Name.StringEmpty Then
+                    Continue For
+                End If
+
                 If Not clusters.ContainsKey(clusterID.Name) Then
                     Call clusters.Add(clusterID.Name, New List(Of BackgroundGene))
                     Call clusterNotes.Add(clusterID.Name, clusterID)
