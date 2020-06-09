@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH BASE 4 2020-06-09 "readRDS" "readRDS"
+.SH NAME
+readRDS \- Serialization Interface for Single Objects
+.SH SYNOPSIS
+\fIreadRDS(\fBfile\fR as string, 
+\fBrefhook\fR as <generic> Object = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Serialization Interface for Single Objects
+ 
+ Functions to write a single R object to a file, and to restore it.
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ a connection Or the name Of the file where the R Object 
+ Is saved To Or read from.
+.PP
+.PP
+\fBrefhook\fB \fR\- 
+ a hook function for handling reference objects.
+
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+R.base.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
+.SH COPYRIGHT
+Copyright © SMRUCC 2019

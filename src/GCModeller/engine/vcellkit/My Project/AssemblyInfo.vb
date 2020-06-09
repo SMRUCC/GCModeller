@@ -1,6 +1,7 @@
 ﻿Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ' General Information about an assembly is controlled through the following
 ' set of attributes. Change these attribute values to modify the information
@@ -33,3 +34,5 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.50.*")>
 <Assembly: AssemblyFileVersion("2.3421.*")>
+
+<Assembly: RPackageModule>

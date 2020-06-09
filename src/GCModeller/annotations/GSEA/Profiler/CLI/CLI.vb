@@ -65,7 +65,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Public Module CLI
 
     <ExportAPI("/KO.clusters")>
-    <Usage("/KO.clusters /background <KO.txt/uniprot.XML> /maps <kegg_maps.XML/directory> [/out <clusters.XML>]")>
+    <Usage("/KO.clusters /background <KO.txt/uniprot.XML> /maps <kegg_maps.XML/directory> [/generic /out <clusters.XML>]")>
     <Description("Create KEGG pathway map background for a given genome data or a reference KO list.")>
     <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(UniProtXML)},
@@ -80,39 +80,30 @@ Public Module CLI
     Public Function CreateKOCluster(args As CommandLine) As Integer
         Dim background$ = args <= "/background"
         Dim maps$ = args <= "/maps"
-        Dim out$ = args("/out") Or $"{background.TrimSuffix}_KO.XML"
-        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps)
+        Dim isGeneric As Boolean = args("/generic")
+        Dim out$ = args("/out") Or $"{background.TrimSuffix}_KO{If(isGeneric, ".generic", "")}.XML"
+        Dim kegg As IEnumerable(Of Map) = MapRepository.GetMapsAuto(maps).ToArray
         Dim model As Background
 
         If background.ExtensionSuffix("txt") Then
+            ' create the KO generic background
             Dim KO_terms As String() = background _
                 .ReadAllLines _
                 .Where(Function(line) line.IsPattern("K\d+")) _
                 .Distinct _
                 .ToArray
-            Dim createGene As Func(Of String, String(), BackgroundGene) =
-                Function(KO, terms)
-                    Return New BackgroundGene With {
-                        .accessionID = KO,
-                        .[alias] = terms,
-                        .locus_tag = New NamedValue With {
-                            .name = KO,
-                            .text = KO
-                        },
-                        .name = KO,
-                        .term_id = terms
-                    }
-                End Function
 
-            model = GSEA.CreateBackground(
-                db:=KO_terms,
-                createGene:=createGene,
-                getTerms:=Function(term) {term},
-                define:=GSEA.KEGGClusters(kegg),
-                genomeName:="",
-                taxonomy:="",
-                outputAll:=False
-            )
+            model = KO_terms.CreateKOGeneric(kegg, nsize:=background.ReadAllLines.Length)
+        ElseIf isGeneric Then
+            Dim proteins = UniProtXML.EnumerateEntries(background).ToArray
+            Dim KO_terms As String() = proteins _
+                .Select(Function(a) a.xrefs.TryGetValue("KO")) _
+                .IteratesALL _
+                .Select(Function(a) a.id) _
+                .Distinct _
+                .ToArray
+
+            model = KO_terms.CreateKOGeneric(kegg, nsize:=proteins.Length)
         Else
             model = GSEA.ImportsUniProt(
                 db:=UniProtXML.EnumerateEntries(background),
@@ -148,7 +139,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/GO.clusters")>
-    <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/out <clusters.XML>]")>
+    <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/generic /out <clusters.XML>]")>
     <Description("Create GO enrichment background model from uniprot database.")>
     <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
@@ -156,14 +147,26 @@ Public Module CLI
     Public Function CreateGOClusters(args As CommandLine) As Integer
         Dim uniprot$ = args <= "/uniprot"
         Dim obo$ = args <= "/go"
-        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO.XML"
-        Dim go = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
-        Dim entries = UniProtXML.EnumerateEntries(uniprot)
-        Dim model As Background = GSEA.Imports.ImportsUniProt(
-            entries,
-            getTerm:=GSEA.UniProtGetGOTerms,
-            define:=go
-        )
+        Dim isGeneric As Boolean = args("/generic")
+        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO{If(isGeneric, ".generic", "")}.XML"
+        Dim go As GetClusterTerms = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
+        Dim entries As entry() = UniProtXML.EnumerateEntries(uniprot).ToArray
+        Dim model As Background
+
+        If isGeneric Then
+            model = entries _
+                .Select(Function(a) a.xrefs.TryGetValue("GO")) _
+                .IteratesALL _
+                .Select(Function(a) a.id) _
+                .Distinct _
+                .CreateGOGeneric(go, nsize:=entries.Length)
+        Else
+            model = GSEA.Imports.ImportsUniProt(
+                entries,
+                getTerm:=GSEA.UniProtGetGOTerms,
+                define:=go
+            )
+        End If
 
         Return model.GetXml.SaveTo(out).CLICode
     End Function

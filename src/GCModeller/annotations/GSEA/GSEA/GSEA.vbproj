@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KnowledgeBase\Background.vb" />
+    <Compile Include="KnowledgeBase\GenericBackground.vb" />
     <Compile Include="KOBAS\Formats\CLS.vb" />
     <Compile Include="KOBAS\Formats\Gct.vb" />
     <Compile Include="KOBAS\Formats\Gmt.vb" />

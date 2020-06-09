@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH IGRAPH.COMPARISON 1 2020-06-09 "graph.jaccard" "graph.jaccard"
+.SH NAME
+graph.jaccard \- Graph Jaccard Similarity
+.SH SYNOPSIS
+\fIgraph.jaccard(\fBa\fR as <generic> NetworkGraph, 
+\fBb\fR as <generic> NetworkGraph, 
+\fBcutoff\fR as double = 0.85, 
+\fBclassEquivalent\fR as <generic> Func`3 = \fB<NULL>\fR, 
+\fBtopologyCos\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+Graph Jaccard Similarity
+ 
+ calculate graph jaccard similarity based on the nodes' cos score.
+.PP
+.SH OPTIONS
+.PP
+\fBa\fB \fR\- A network graph model
+.PP
+.PP
+\fBb\fB \fR\- Another network graph model
+.PP
+.PP
+\fBcutoff\fB \fR\- The similarity cutoff value of the node cos silimarity compares.
+.PP
+.SH VALUE
+.PP
+The graph similarity value.
+.PP
+.SH SEE ALSO
+igraph.comparison
+.SH FILES
+.PP
+R.graph.dll
+.PP
+.SH COPYRIGHT
+Copyright © SMRUCC 2019

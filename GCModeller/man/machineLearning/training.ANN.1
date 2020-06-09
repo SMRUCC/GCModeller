@@ -1,0 +1,80 @@
+.\" man page create by R# package system.
+.TH MACHINELEARNING 2 2020-06-09 "training.ANN" "training.ANN"
+.SH NAME
+training.ANN \- do ANN model training
+.SH SYNOPSIS
+\fItraining.ANN(\fBtrainSet\fR as <generic> DataSet, 
+\fBhiddenSize\fR as <generic> Object = [25,100,30], 
+\fBlearnRate\fR as double = 0.1, 
+\fBmomentum\fR as double = 0.9, 
+\fBweight0\fR as <generic> Object = "random", 
+\fBactive\fR as <generic> activation = 'hidden: Sigmoid(alpha:=2.0); output: Sigmoid(alpha:=2.0)', 
+\fBnormalMethod\fR as <integer> Methods = [RelativeScaler], 
+\fBlearnRateDecay\fR as double = 1E-10, 
+\fBtruncate\fR as double = -1, 
+\fBselectiveMode\fR as boolean = FALSE, 
+\fBmaxIterations\fR as integer = 10000, 
+\fBminErr\fR as double = 0.01, 
+\fBparallel\fR as boolean = TRUE, 
+\fBoutputSnapshot\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+do ANN model training
+.PP
+.SH OPTIONS
+.PP
+\fBtrainSet\fB \fR\- A dataset object that used for ANN model training.
+.PP
+.PP
+\fBhiddenSize\fB \fR\- An integer vector for indicates the network size of the hidden layers in the ANN network.
+.PP
+.PP
+\fBlearnRate\fB \fR\- -
+.PP
+.PP
+\fBmomentum\fB \fR\- -
+.PP
+.PP
+\fBweight0\fB \fR\- weight method for initialize the ANN network model.
+.PP
+.PP
+\fBactive\fB \fR\- -
+.PP
+.PP
+\fBnormalMethod\fB \fR\- -
+.PP
+.PP
+\fBlearnRateDecay\fB \fR\- -
+.PP
+.PP
+\fBtruncate\fB \fR\- -
+.PP
+.PP
+\fBselectiveMode\fB \fR\- -
+.PP
+.PP
+\fBmaxIterations\fB \fR\- -
+.PP
+.PP
+\fBminErr\fB \fR\- -
+.PP
+.PP
+\fBparallel\fB \fR\- -
+.PP
+.PP
+\fBoutputSnapshot\fB \fR\- 
+ this parameter will config the output object type. this function is returns the raw ANN model 
+ by default, and you can change the output type to file model by set this parameter value to 
+ \fBTRUE\fR. 
+
+.PP
+.SH SEE ALSO
+machineLearning
+.SH FILES
+.PP
+R.math.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2020
