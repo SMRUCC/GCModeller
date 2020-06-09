@@ -85,6 +85,10 @@ Namespace ComponentModel.DBLinkBuilder
         ''' [secondary => main]的映射转换表
         ''' </summary>
         Dim secondaryIDs As Dictionary(Of String, String)
+        ''' <summary>
+        ''' key is the <see cref="mainID"/>
+        ''' </summary>
+        Dim idMapping As Dictionary(Of String, String())
 
         ''' <summary>
         ''' 获取得到当前的数据库之中的所有的编号列表, 包括主编号以及次级编号
@@ -103,6 +107,7 @@ Namespace ComponentModel.DBLinkBuilder
         Sub New()
             mainID = New Index(Of String)
             secondaryIDs = New Dictionary(Of String, String)
+            idMapping = New Dictionary(Of String, String())
         End Sub
 
         ''' <summary>
@@ -139,21 +144,43 @@ Namespace ComponentModel.DBLinkBuilder
         ''' 为了方便直接进行查询, 在这里编号都被自动转换为小写形式了
         ''' </remarks>
         Public Sub Add(main$, secondary As IEnumerable(Of String))
+            Dim mainAccession As String = main
+            Dim sndlist As String() = secondary.SafeQuery.ToArray
+
             main = main.ToLower
 
             If mainID.IndexOf(main) = -1 Then
                 mainID.Add(main)
             End If
 
-            For Each id As String In secondary _
-                .SafeQuery _
-                .Select(Function(s) s.ToLower)
-
+            For Each id As String In sndlist.Select(Function(s) s.ToLower)
                 If Not secondaryIDs.ContainsKey(id) Then
-                    Call secondaryIDs.Add(id, main)
+                    Call secondaryIDs.Add(id, mainAccession)
                 End If
             Next
+
+            If idMapping.ContainsKey(mainAccession) Then
+                idMapping(mainAccession) = idMapping(mainAccession) _
+                    .JoinIterates(sndlist) _
+                    .Distinct _
+                    .ToArray
+            End If
         End Sub
+
+        Public Function GetSynonym(id As String) As Synonym
+            Dim mainId As String = SolveIDMapping(id)
+
+            If mainId.StringEmpty Then
+                Return Nothing
+            ElseIf Not idMapping.ContainsKey(mainId) Then
+                Return Nothing
+            Else
+                Return New Synonym With {
+                    .accessionID = mainId,
+                    .[alias] = idMapping(mainId).ToArray
+                }
+            End If
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"Has {mainID.Count} main IDs, ALL {ALL.Length} in total."
@@ -168,6 +195,7 @@ Namespace ComponentModel.DBLinkBuilder
             Dim secondaryIDs As New Dictionary(Of String, String)
             Dim accession$
             Dim list2nd$()
+            Dim mappings As New Dictionary(Of String, String())
 
             For Each element As T In source
                 accession = mainID(element)
@@ -181,11 +209,13 @@ Namespace ComponentModel.DBLinkBuilder
                 ' secondaryIDs index will not insert current element new data
                 ' solve this problem by add main id at the code above
                 Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
+                Call mappings.Add(accession, list2nd)
             Next
 
             Return New SecondaryIDSolver With {
                 .mainID = mainIDs.Indexing,
-                .secondaryIDs = secondaryIDs
+                .secondaryIDs = secondaryIDs,
+                .idMapping = mappings
             }
         End Function
 

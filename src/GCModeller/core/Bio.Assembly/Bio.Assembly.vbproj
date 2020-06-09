@@ -787,11 +787,10 @@
     <Compile Include="ComponentModel\Annotation\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
-    <Compile Include="ComponentModel\Annotation\IDMapping.vb" />
-    <Compile Include="ComponentModel\DBLinkBuilder\Synonym.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
-    <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\IdMapping\SecondaryIDSolver.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\Extensions.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\MotifSite.vb" />
     <Compile Include="ComponentModel\Locus\Position.vb" />
