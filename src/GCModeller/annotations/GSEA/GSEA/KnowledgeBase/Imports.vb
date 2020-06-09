@@ -273,6 +273,10 @@ Public Module [Imports]
             End If
 
             For Each clusterID As NamedValue(Of String) In clusterNames
+                If clusterID.Name.StringEmpty Then
+                    Continue For
+                End If
+
                 If Not clusters.ContainsKey(clusterID.Name) Then
                     Call clusters.Add(clusterID.Name, New List(Of BackgroundGene))
                     Call clusterNotes.Add(clusterID.Name, clusterID)
