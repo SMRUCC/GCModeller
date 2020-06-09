@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::0e419422a87963eb880560ae8b4450a9, R#\gseakit\GSEA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module GSEA
-    ' 
-    '     Function: CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, FDR, GOEnrichment
-    '               KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module GSEA
+' 
+'     Function: CreateGOEnrichmentGraph, DrawGOEnrichmentGraph, Enrichment, FDR, GOEnrichment
+'               KOBASFormat, ReadEnrichmentTerms, SaveEnrichment
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,26 +54,49 @@ Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
+''' <summary>
+''' The GCModeller GSEA toolkit
+''' </summary>
 <Package("GSEA", Category:=APICategories.ResearchTools)>
 Module GSEA
 
+    ''' <summary>
+    ''' read the enrichment result table
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.enrichment")>
     Public Function ReadEnrichmentTerms(file As String) As EnrichmentResult()
         Return file.LoadCsv(Of EnrichmentResult)
     End Function
 
+    ''' <summary>
+    ''' do GSEA enrichment analysis
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="geneSet">a given geneset id list</param>
+    ''' <returns></returns>
     <ExportAPI("enrichment")>
     Public Function Enrichment(background As Background, geneSet$()) As EnrichmentResult()
         Return background.Enrichment(geneSet, False).ToArray
     End Function
 
+    ''' <summary>
+    ''' do GO GSEA enrichment analysis
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="geneSet"></param>
+    ''' <param name="go">the go database object can be the raw go obo data or the DAG graph model.</param>
+    ''' <returns></returns>
     <ExportAPI("enrichment.go")>
-    Public Function GOEnrichment(background As Background, geneSet$(), go As Object) As EnrichmentResult()
+    <RApiReturn(GetType(EnrichmentResult))>
+    Public Function GOEnrichment(background As Background, geneSet$(), go As Object, Optional env As Environment = Nothing) As Object
         If go Is Nothing Then
-            Throw New ArgumentNullException("GO database is missing!")
+            Return Internal.debug.stop(New ArgumentNullException("Missing the required GO database!"), env)
         End If
 
         If go.GetType() Is GetType(GO_OBO) Then
@@ -85,10 +108,23 @@ Module GSEA
         End If
     End Function
 
+    ''' <summary>
+    ''' save the enrichment analysis result
+    ''' </summary>
+    ''' <param name="enrichment"></param>
+    ''' <param name="file"></param>
+    ''' <param name="format"></param>
+    ''' <returns></returns>
     <ExportAPI("write.enrichment")>
-    Public Function SaveEnrichment(<RRawVectorArgument> enrichment As Object, file$, Optional format$ = "GCModeller") As Boolean
+    <RApiReturn(GetType(Boolean))>
+    Public Function SaveEnrichment(<RRawVectorArgument>
+                                   enrichment As Object,
+                                   file$,
+                                   Optional format As EnrichmentTableFormat = EnrichmentTableFormat.GCModeller,
+                                   Optional env As Environment = Nothing) As Object
+
         If enrichment Is Nothing Then
-            Throw New ArgumentNullException(NameOf(enrichment))
+            Return Internal.debug.stop(New ArgumentNullException(NameOf(enrichment)), env)
         End If
 
         If REnv.isVector(Of EnrichmentResult)(enrichment) Then
@@ -102,7 +138,7 @@ Module GSEA
         ElseIf REnv.isVector(Of EnrichmentTerm)(enrichment) Then
             Return DirectCast(enrichment, EnrichmentTerm()).SaveTo(file)
         Else
-            Throw New InvalidProgramException(enrichment.GetType.FullName)
+            Return Internal.debug.stop(New InvalidProgramException(enrichment.GetType.FullName), env)
         End If
     End Function
 
@@ -161,4 +197,7 @@ Module GSEA
     End Function
 End Module
 
-
+Public Enum EnrichmentTableFormat
+    GCModeller
+    KOBAS
+End Enum
