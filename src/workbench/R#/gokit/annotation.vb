@@ -44,14 +44,14 @@ Module annotation
 
     <Extension>
     Private Function mapTop(groups As IEnumerable(Of String())) As String()
+        Dim allMatrix As String()() = groups.ToArray
         Dim counts = From go_id As String
-                     In groups.IteratesALL
+                     In allMatrix.IteratesALL
                      Group By go_id
                      Into Count
 
         Return counts _
-            .OrderByDescending(Function(a) a.Count) _
-            .Take(3) _
+            .Where(Function(a) (a.Count / allMatrix.Length) >= 0.65) _
             .Select(Function(a) a.go_id) _
             .ToArray
     End Function
