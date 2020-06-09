@@ -209,6 +209,10 @@ Namespace ComponentModel.DBLinkBuilder
                 ' if the list2ND is empty, then
                 ' secondaryIDs index will not insert current element new data
                 ' solve this problem by add main id at the code above
+                '
+                ' 20200609
+                ' 因为不同的KO编号之间可能存在相同的GO编号
+                ' 所以kegg2go没有办法使用这个模型来进行表示
                 Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
                 Call mappings.Add(accession, list2nd)
             Next

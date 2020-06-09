@@ -29,8 +29,7 @@ Module annotation
 
         Dim idmaps = uniprot.populates(Of entry) _
             .PopulateMappings _
-            .GroupBy(Function(a) a.KO) _
-            .ToArray
+            .GroupBy(Function(a) a.KO)
         Dim mapper As SecondaryIDSolver = SecondaryIDSolver.Create(
             source:=idmaps,
             mainID:=Function(a) a.Key,
