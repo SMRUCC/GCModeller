@@ -157,8 +157,8 @@ Public Module CLI
         Dim uniprot$ = args <= "/uniprot"
         Dim obo$ = args <= "/go"
         Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO.XML"
-        Dim go = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
-        Dim entries = UniProtXML.EnumerateEntries(uniprot)
+        Dim go As GetClusterTerms = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
+        Dim entries As IEnumerable(Of entry) = UniProtXML.EnumerateEntries(uniprot)
         Dim model As Background = GSEA.Imports.ImportsUniProt(
             entries,
             getTerm:=GSEA.UniProtGetGOTerms,

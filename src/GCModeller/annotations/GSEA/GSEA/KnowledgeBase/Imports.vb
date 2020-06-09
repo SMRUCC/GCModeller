@@ -192,27 +192,6 @@ Public Module [Imports]
 
         With db.ToArray
             Dim taxonomy As String = Nothing
-            Dim createGene As Func(Of entry, String(), BackgroundGene) =
-                Function(protein As entry, terms As String())
-                    Return New BackgroundGene With {
-                        .accessionID = protein.accessions(Scan0),
-                        .[alias] = protein.accessions,
-                        .name = protein.name,
-                        .locus_tag = Function() As NamedValue
-                                         Dim tag$ = .accessionID
-
-                                         If protein.xrefs.ContainsKey("KEGG") Then
-                                             tag = protein.xrefs("KEGG").First.id
-                                         End If
-
-                                         Return New NamedValue With {
-                                             .name = tag,
-                                             .text = protein.protein.fullName
-                                         }
-                                     End Function(),
-                        .term_id = terms
-                    }
-                End Function
 
             For Each protein As entry In .AsEnumerable
                 taxonomy = protein.organism?.lineage?.taxonlist.JoinBy("; ")
@@ -225,12 +204,36 @@ Public Module [Imports]
             Return .CreateBackground(
                 getTerms:=getTerm,
                 define:=define,
-                createGene:=createGene,
+                createGene:=AddressOf createGene,
                 genomeName:=genomeName,
                 taxonomy:=taxonomy,
                 outputAll:=outputAll
             )
         End With
+    End Function
+
+    Private Function createGene(protein As entry, terms As String()) As BackgroundGene
+        Return New BackgroundGene With {
+            .accessionID = protein.accessions(Scan0),
+            .[alias] = protein.accessions,
+            .name = protein.name,
+            .locus_tag = protein.proteinLocusTag(.accessionID),
+            .term_id = terms
+        }
+    End Function
+
+    <Extension>
+    Private Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
+        Dim tag$ = accessionID
+
+        If protein.xrefs.ContainsKey("KEGG") Then
+            tag = protein.xrefs("KEGG").First.id
+        End If
+
+        Return New NamedValue With {
+            .name = tag,
+            .text = protein.protein.fullName
+        }
     End Function
 
     <Extension>
