@@ -139,7 +139,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/GO.clusters")>
-    <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/out <clusters.XML>]")>
+    <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/generic /out <clusters.XML>]")>
     <Description("Create GO enrichment background model from uniprot database.")>
     <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
@@ -147,14 +147,26 @@ Public Module CLI
     Public Function CreateGOClusters(args As CommandLine) As Integer
         Dim uniprot$ = args <= "/uniprot"
         Dim obo$ = args <= "/go"
-        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO.XML"
+        Dim isGeneric As Boolean = args("/generic")
+        Dim out$ = args("/out") Or $"{uniprot.TrimSuffix}_GO{If(isGeneric, ".generic", "")}.XML"
         Dim go As GetClusterTerms = GSEA.Imports.GOClusters(GO_OBO.Open(obo))
-        Dim entries As IEnumerable(Of entry) = UniProtXML.EnumerateEntries(uniprot)
-        Dim model As Background = GSEA.Imports.ImportsUniProt(
-            entries,
-            getTerm:=GSEA.UniProtGetGOTerms,
-            define:=go
-        )
+        Dim entries As entry() = UniProtXML.EnumerateEntries(uniprot).ToArray
+        Dim model As Background
+
+        If isGeneric Then
+            model = entries _
+                .Select(Function(a) a.xrefs.TryGetValue("GO")) _
+                .IteratesALL _
+                .Select(Function(a) a.id) _
+                .Distinct _
+                .CreateGOGeneric(go, nsize:=entries.Length)
+        Else
+            model = GSEA.Imports.ImportsUniProt(
+                entries,
+                getTerm:=GSEA.UniProtGetGOTerms,
+                define:=go
+            )
+        End If
 
         Return model.GetXml.SaveTo(out).CLICode
     End Function

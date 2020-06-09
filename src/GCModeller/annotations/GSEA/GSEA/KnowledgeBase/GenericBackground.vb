@@ -15,7 +15,7 @@ Public Module GenericBackground
     Public Function CreateKOGeneric(KO_terms As String(), kegg As IEnumerable(Of Map), nsize As Integer) As Background
         Return GSEA.CreateBackground(
             db:=KO_terms,
-            createGene:=AddressOf createKOGenericGene,
+            createGene:=AddressOf createTermGenericGene,
             getTerms:=Function(term) {term},
             define:=GSEA.KEGGClusters(kegg),
             genomeName:="generic",
@@ -26,16 +26,31 @@ Public Module GenericBackground
                End Sub)
     End Function
 
-    Private Function createKOGenericGene(KO As String, terms As String()) As BackgroundGene
+    Private Function createTermGenericGene(term As String, terms As String()) As BackgroundGene
         Return New BackgroundGene With {
-            .accessionID = KO,
+            .accessionID = term,
             .[alias] = terms,
             .locus_tag = New NamedValue With {
-                .name = KO,
-                .text = KO
+                .name = term,
+                .text = term
             },
-            .name = KO,
+            .name = term,
             .term_id = terms
         }
+    End Function
+
+    <Extension>
+    Public Function CreateGOGeneric(GO_terms As IEnumerable(Of String), go As GetClusterTerms, nsize As Integer) As Background
+        Return GSEA.CreateBackground(
+            db:=GO_terms,
+            createGene:=AddressOf createTermGenericGene,
+            getTerms:=Function(term) {term},
+            define:=go,
+            genomeName:="generic",
+            taxonomy:="generic",
+            outputAll:=False
+        ).With(Sub(background)
+                   background.size = nsize
+               End Sub)
     End Function
 End Module
