@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::16f9b59db1289a4cb0a81d9af652b8c8, core\Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class IdMapping
-    ' 
-    '         Properties: Additional_PubMed, EMBL, EMBL_CDS, Ensembl, Ensembl_PRO
-    '                     Ensembl_TRS, GeneID_EntrezGene, GI, GO, MIM
-    '                     NCBI_Taxon, PDB, PIR, PubMed, RefSeq
-    '                     UniGene, UniParc, UniProtKB_AC, UniProtKB_ID, UniRef100
-    '                     UniRef50, UniRef90
-    ' 
-    '         Function: __createObject, LoadDoc
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class IdMapping
+' 
+'         Properties: Additional_PubMed, EMBL, EMBL_CDS, Ensembl, Ensembl_PRO
+'                     Ensembl_TRS, GeneID_EntrezGene, GI, GO, MIM
+'                     NCBI_Taxon, PDB, PIR, PubMed, RefSeq
+'                     UniGene, UniParc, UniProtKB_AC, UniProtKB_ID, UniRef100
+'                     UniRef50, UniRef90
+' 
+'         Function: __createObject, LoadDoc
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.Uniprot
 
@@ -105,6 +106,39 @@ Namespace Assembly.Uniprot
         Public Property Ensembl_PRO As String
         Public Property Additional_PubMed As String
 
+        Public Function Synonym() As Synonym
+            Return New Synonym With {
+                .accessionID = UniProtKB_ID,
+                .[alias] = {
+                    UniProtKB_ID,
+                    GeneID_EntrezGene,
+                    RefSeq,
+                    GI,
+                    PDB,
+                    GO,
+                    UniRef100,
+                    UniRef90,
+                    UniRef50,
+                    UniParc,
+                    PIR,
+                    NCBI_Taxon,
+                    MIM,
+                    UniGene,
+                    PubMed,
+                    EMBL,
+                    EMBL_CDS,
+                    Ensembl,
+                    Ensembl_TRS,
+                    Ensembl_PRO,
+                    Additional_PubMed
+                }
+            }
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return UniProtKB_ID
+        End Function
+
         Public Shared Function LoadDoc(path As String) As LinkedList(Of IdMapping)
             Dim Reader As New PartitionedStream(path, 1024)
             Dim list As New LinkedList(Of IdMapping)
@@ -114,44 +148,44 @@ Namespace Assembly.Uniprot
                 If lines.IsNullOrEmpty Then
                     Continue Do
                 End If
-                Dim data As IdMapping() = lines.Select(Function(line) __createObject(line)).ToArray
+                Dim data As IdMapping() = lines.Select(Function(line) mapObjectParser(line)).ToArray
                 Call list.AddRange(data)
             Loop
 
             Return list
         End Function
 
-        Private Shared Function __createObject(line As String) As IdMapping
-            Dim Tokens As String() = Strings.Split(line, vbTab)
+        Private Shared Function mapObjectParser(line As String) As IdMapping
+            Dim tokens As String() = Strings.Split(line, vbTab)
             Dim p As i32 = 0
-            Dim Maps As New IdMapping
+            Dim maps As New IdMapping
 
-            With Maps
-                .UniProtKB_AC = Tokens.ElementAtOrDefault(++p)
-                .UniProtKB_ID = Tokens.ElementAtOrDefault(++p)
-                .GeneID_EntrezGene = Tokens.ElementAtOrDefault(++p)
-                .RefSeq = Tokens.ElementAtOrDefault(++p)
-                .GI = Tokens.ElementAtOrDefault(++p)
-                .PDB = Tokens.ElementAtOrDefault(++p)
-                .GO = Tokens.ElementAtOrDefault(++p)
-                .UniRef100 = Tokens.ElementAtOrDefault(++p)
-                .UniRef90 = Tokens.ElementAtOrDefault(++p)
-                .UniRef50 = Tokens.ElementAtOrDefault(++p)
-                .UniParc = Tokens.ElementAtOrDefault(++p)
-                .PIR = Tokens.ElementAtOrDefault(++p)
-                .NCBI_Taxon = Tokens.ElementAtOrDefault(++p)
-                .MIM = Tokens.ElementAtOrDefault(++p)
-                .UniGene = Tokens.ElementAtOrDefault(++p)
-                .PubMed = Tokens.ElementAtOrDefault(++p)
-                .EMBL = Tokens.ElementAtOrDefault(++p)
-                .EMBL_CDS = Tokens.ElementAtOrDefault(++p)
-                .Ensembl = Tokens.ElementAtOrDefault(++p)
-                .Ensembl_TRS = Tokens.ElementAtOrDefault(++p)
-                .Ensembl_PRO = Tokens.ElementAtOrDefault(++p)
-                .Additional_PubMed = Tokens.ElementAtOrDefault(++p)
+            With maps
+                .UniProtKB_AC = tokens.ElementAtOrDefault(++p)
+                .UniProtKB_ID = tokens.ElementAtOrDefault(++p)
+                .GeneID_EntrezGene = tokens.ElementAtOrDefault(++p)
+                .RefSeq = tokens.ElementAtOrDefault(++p)
+                .GI = tokens.ElementAtOrDefault(++p)
+                .PDB = tokens.ElementAtOrDefault(++p)
+                .GO = tokens.ElementAtOrDefault(++p)
+                .UniRef100 = tokens.ElementAtOrDefault(++p)
+                .UniRef90 = tokens.ElementAtOrDefault(++p)
+                .UniRef50 = tokens.ElementAtOrDefault(++p)
+                .UniParc = tokens.ElementAtOrDefault(++p)
+                .PIR = tokens.ElementAtOrDefault(++p)
+                .NCBI_Taxon = tokens.ElementAtOrDefault(++p)
+                .MIM = tokens.ElementAtOrDefault(++p)
+                .UniGene = tokens.ElementAtOrDefault(++p)
+                .PubMed = tokens.ElementAtOrDefault(++p)
+                .EMBL = tokens.ElementAtOrDefault(++p)
+                .EMBL_CDS = tokens.ElementAtOrDefault(++p)
+                .Ensembl = tokens.ElementAtOrDefault(++p)
+                .Ensembl_TRS = tokens.ElementAtOrDefault(++p)
+                .Ensembl_PRO = tokens.ElementAtOrDefault(++p)
+                .Additional_PubMed = tokens.ElementAtOrDefault(++p)
             End With
 
-            Return Maps
+            Return maps
         End Function
     End Class
 End Namespace
