@@ -85,10 +85,11 @@ Namespace ComponentModel.DBLinkBuilder
         ''' [secondary => main]的映射转换表
         ''' </summary>
         Dim secondaryIDs As Dictionary(Of String, String)
+
         ''' <summary>
         ''' key is the <see cref="mainID"/>
         ''' </summary>
-        Dim idMapping As Dictionary(Of String, String())
+        Friend idMapping As Dictionary(Of String, String())
 
         ''' <summary>
         ''' 获取得到当前的数据库之中的所有的编号列表, 包括主编号以及次级编号
