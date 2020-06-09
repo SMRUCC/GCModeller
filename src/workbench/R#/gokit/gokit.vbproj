@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="file.vb" />
+    <Compile Include="annotation.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -163,9 +164,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
       <Name>GO_OWL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GO_Annotation\GO_Annotation.vbproj">
+      <Project>{A0870A07-8513-4B44-8886-6243A6BFC255}</Project>
+      <Name>GO_Annotation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
