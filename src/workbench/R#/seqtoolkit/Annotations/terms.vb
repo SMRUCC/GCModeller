@@ -87,9 +87,17 @@ Module terms
         Return maps.Save(path:=file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="skip2ndMaps">
+    ''' set this parameter value to ``true`` for fixed for build the ``kegg2go`` mapping model.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("read.id_maps")>
-    Public Function readIdMappings(file As String) As SecondaryIDSolver
-        Return DBLinkBuilder.LoadMappingText(file)
+    Public Function readIdMappings(file As String, Optional skip2ndMaps As Boolean = False) As SecondaryIDSolver
+        Return DBLinkBuilder.LoadMappingText(file, skip2ndMaps)
     End Function
 End Module
 

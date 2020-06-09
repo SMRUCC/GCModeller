@@ -35,7 +35,8 @@ Module annotation
             mainID:=Function(a) a.Key,
             secondaryID:=Function(a)
                              Return a.Select(Function(m) m.GO).mapTop
-                         End Function
+                         End Function,
+            skip2ndMaps:=True
         )
 
         Return mapper

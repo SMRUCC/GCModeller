@@ -20,14 +20,15 @@ Namespace ComponentModel.DBLinkBuilder
             Return True
         End Function
 
-        Public Function LoadMappingText(handle As String) As SecondaryIDSolver
+        Public Function LoadMappingText(handle As String, Optional skip2ndMaps As Boolean = False) As SecondaryIDSolver
             Return handle _
                 .LineIterators _
                 .DoCall(Function(mapLines)
                             Return SecondaryIDSolver.Create(
                                 source:=mapLines.Select(Function(l) l.Split(" "c)),
                                 mainID:=Function(a) a(Scan0),
-                                secondaryID:=Function(a) a(1).Split(","c)
+                                secondaryID:=Function(a) a(1).Split(","c),
+                                skip2ndMaps:=skip2ndMaps
                             )
                         End Function)
         End Function
