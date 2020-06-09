@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -51,6 +52,26 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module terms
+
+    Sub New()
+        Call Internal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
+    End Sub
+
+    Private Function printIDSolver(solver As SecondaryIDSolver) As String
+        Dim sb As New StringBuilder
+
+        Call sb.AppendLine($"{NameOf(SecondaryIDSolver)} for {solver.Count} id entities:")
+        Call sb.AppendLine($"[{solver.Count}] {solver.ALL.Take(10).JoinBy(" ")}...")
+        Call sb.AppendLine()
+
+        For Each id As String In solver.ALL.Take(6)
+            Call sb.AppendLine($"${id}: {solver.GetSynonym(id).alias.JoinBy(vbTab)}")
+        Next
+
+        Call sb.AppendLine("...")
+
+        Return sb.ToString
+    End Function
 
     <ExportAPI("assign.KO")>
     Public Function KOannotations(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline

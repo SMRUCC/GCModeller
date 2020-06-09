@@ -91,6 +91,12 @@ Namespace ComponentModel.DBLinkBuilder
         ''' </summary>
         Friend idMapping As Dictionary(Of String, String())
 
+        Public ReadOnly Property Count As Integer
+            Get
+                Return mainID.Count
+            End Get
+        End Property
+
         ''' <summary>
         ''' 获取得到当前的数据库之中的所有的编号列表, 包括主编号以及次级编号
         ''' </summary>
