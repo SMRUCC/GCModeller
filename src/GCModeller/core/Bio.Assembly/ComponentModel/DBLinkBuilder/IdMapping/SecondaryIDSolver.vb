@@ -103,8 +103,8 @@ Namespace ComponentModel.DBLinkBuilder
         ''' <returns></returns>
         Public ReadOnly Property ALL As String()
             Get
-                Return mainID.Objects _
-                    .JoinIterates(secondaryIDs.Keys) _
+                Return idMapping.Keys _
+                    .JoinIterates(idMapping.Values.IteratesALL) _
                     .Distinct _
                     .ToArray
             End Get
