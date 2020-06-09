@@ -87,13 +87,24 @@ Namespace ComponentModel.DBLinkBuilder
         Dim secondaryIDs As Dictionary(Of String, String)
 
         ''' <summary>
+        ''' key is the <see cref="mainID"/>
+        ''' </summary>
+        Friend idMapping As Dictionary(Of String, String())
+
+        Public ReadOnly Property Count As Integer
+            Get
+                Return mainID.Count
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 获取得到当前的数据库之中的所有的编号列表, 包括主编号以及次级编号
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ALL As String()
             Get
-                Return mainID.Objects _
-                    .JoinIterates(secondaryIDs.Keys) _
+                Return idMapping.Keys _
+                    .JoinIterates(idMapping.Values.IteratesALL) _
                     .Distinct _
                     .ToArray
             End Get
@@ -103,6 +114,7 @@ Namespace ComponentModel.DBLinkBuilder
         Sub New()
             mainID = New Index(Of String)
             secondaryIDs = New Dictionary(Of String, String)
+            idMapping = New Dictionary(Of String, String())
         End Sub
 
         ''' <summary>
@@ -139,21 +151,57 @@ Namespace ComponentModel.DBLinkBuilder
         ''' 为了方便直接进行查询, 在这里编号都被自动转换为小写形式了
         ''' </remarks>
         Public Sub Add(main$, secondary As IEnumerable(Of String))
+            Dim mainAccession As String = main
+            Dim sndlist As String() = secondary.SafeQuery.ToArray
+
             main = main.ToLower
 
             If mainID.IndexOf(main) = -1 Then
                 mainID.Add(main)
             End If
 
-            For Each id As String In secondary _
-                .SafeQuery _
-                .Select(Function(s) s.ToLower)
-
+            For Each id As String In sndlist.Select(Function(s) s.ToLower)
                 If Not secondaryIDs.ContainsKey(id) Then
-                    Call secondaryIDs.Add(id, main)
+                    Call secondaryIDs.Add(id, mainAccession)
                 End If
             Next
+
+            If idMapping.ContainsKey(mainAccession) Then
+                idMapping(mainAccession) = idMapping(mainAccession) _
+                    .JoinIterates(sndlist) _
+                    .Distinct _
+                    .ToArray
+            End If
         End Sub
+
+        Public Function GetSynonym(id As String) As Synonym
+            Dim mainId As String = SolveIDMapping(id)
+
+            If mainId.StringEmpty Then
+                Return Nothing
+            ElseIf Not idMapping.ContainsKey(mainId) Then
+                Return Nothing
+            Else
+                Return New Synonym With {
+                    .accessionID = mainId,
+                    .[alias] = idMapping(mainId).ToArray
+                }
+            End If
+        End Function
+
+        Public Iterator Function PopulateSynonyms(list As IEnumerable(Of String), Optional excludeNull As Boolean = False) As IEnumerable(Of Synonym)
+            Dim synonym As New Value(Of Synonym)
+
+            For Each id As String In list.SafeQuery
+                If synonym = GetSynonym(id) Is Nothing Then
+                    If Not excludeNull Then
+                        Yield Nothing
+                    End If
+                Else
+                    Yield synonym
+                End If
+            Next
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"Has {mainID.Count} main IDs, ALL {ALL.Length} in total."
@@ -162,12 +210,28 @@ Namespace ComponentModel.DBLinkBuilder
         Public Delegate Function GetKey(Of T)(o As T) As String
         Public Delegate Function GetAllKeys(Of T)(o As T) As String()
 
-        Public Shared Function Create(Of T)(source As IEnumerable(Of T), mainID As GetKey(Of T), secondaryID As GetAllKeys(Of T)) As SecondaryIDSolver
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="source"></param>
+        ''' <param name="mainID"></param>
+        ''' <param name="secondaryID"></param>
+        ''' <param name="skip2ndMaps">
+        ''' solve for kegg2go, which the mapping id list have duplicated items between the main id mapping result.
+        ''' </param>
+        ''' <returns></returns>
+        Public Shared Function Create(Of T)(source As IEnumerable(Of T),
+                                            mainID As GetKey(Of T),
+                                            secondaryID As GetAllKeys(Of T),
+                                            Optional skip2ndMaps As Boolean = False) As SecondaryIDSolver
+
             Dim mainIDs As New List(Of String)
             ' 2nd -> main
             Dim secondaryIDs As New Dictionary(Of String, String)
             Dim accession$
             Dim list2nd$()
+            Dim mappings As New Dictionary(Of String, String())
 
             For Each element As T In source
                 accession = mainID(element)
@@ -177,15 +241,25 @@ Namespace ComponentModel.DBLinkBuilder
                 ' for ensure that there is always a value comes
                 ' from the secondary id index
                 Call secondaryIDs.Add(accession.ToLower, accession)
-                ' if the list2ND is empty, then
-                ' secondaryIDs index will not insert current element new data
-                ' solve this problem by add main id at the code above
-                Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
+
+                If Not skip2ndMaps Then
+                    ' if the list2ND is empty, then
+                    ' secondaryIDs index will not insert current element new data
+                    ' solve this problem by add main id at the code above
+                    '
+                    ' 20200609
+                    ' 因为不同的KO编号之间可能存在相同的GO编号
+                    ' 所以kegg2go没有办法使用这个模型来进行表示
+                    Call list2nd.DoEach(Sub(id) secondaryIDs.Add(id.ToLower, accession))
+                End If
+
+                Call mappings.Add(accession, list2nd)
             Next
 
             Return New SecondaryIDSolver With {
                 .mainID = mainIDs.Indexing,
-                .secondaryIDs = secondaryIDs
+                .secondaryIDs = secondaryIDs,
+                .idMapping = mappings
             }
         End Function
 
