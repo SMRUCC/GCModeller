@@ -59,13 +59,17 @@ Module terms
 
     Private Function printIDSolver(solver As SecondaryIDSolver) As String
         Dim sb As New StringBuilder
+        Dim synonym As String()
+        Dim summary As String
 
         Call sb.AppendLine($"{NameOf(SecondaryIDSolver)} for {solver.Count} id entities:")
         Call sb.AppendLine($"[{solver.Count}] {solver.ALL.Take(10).JoinBy(" ")}...")
         Call sb.AppendLine()
 
         For Each id As String In solver.ALL.Take(6)
-            Call sb.AppendLine($"${id}: {solver.GetSynonym(id).alias.JoinBy(vbTab)}")
+            synonym = solver.GetSynonym(id).alias
+            summary = If(synonym.Length <= 5, synonym.JoinBy(vbTab), synonym.Take(5).JoinBy(vbTab) & "...")
+            sb.AppendLine($"${id}: {summary}")
         Next
 
         Call sb.AppendLine("...")

@@ -16,7 +16,7 @@ Module annotation
 
     <ExportAPI("uniprot.ko2go")>
     <RApiReturn(GetType(SecondaryIDSolver))>
-    Public Function CreateKO2GO(uniprot As pipeline, Optional env As Environment = Nothing) As Object
+    Public Function CreateKO2GO(uniprot As pipeline, Optional threshold# = 0.8, Optional env As Environment = Nothing) As Object
         If uniprot Is Nothing Then
             Return debug.stop("the uniprot annotation source can not be nothing!", env)
         ElseIf Not uniprot.elementType Like GetType(entry) Then
@@ -34,7 +34,7 @@ Module annotation
             source:=idmaps,
             mainID:=Function(a) a.Key,
             secondaryID:=Function(a)
-                             Return a.Select(Function(m) m.GO).mapTop
+                             Return a.Select(Function(m) m.GO).mapTop(threshold)
                          End Function,
             skip2ndMaps:=True
         )
@@ -43,7 +43,7 @@ Module annotation
     End Function
 
     <Extension>
-    Private Function mapTop(groups As IEnumerable(Of String())) As String()
+    Private Function mapTop(groups As IEnumerable(Of String()), threshold#) As String()
         Dim allMatrix As String()() = groups.ToArray
         Dim counts = From go_id As String
                      In allMatrix.IteratesALL
@@ -51,7 +51,7 @@ Module annotation
                      Into Count
 
         Return counts _
-            .Where(Function(a) (a.Count / allMatrix.Length) >= 0.65) _
+            .Where(Function(a) (a.Count / allMatrix.Length) >= threshold) _
             .Select(Function(a) a.go_id) _
             .ToArray
     End Function
