@@ -40,9 +40,11 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -84,8 +86,8 @@ Namespace CytoscapeGraphView
                         .label = xgmmlNode.label,
                         .origID = xgmmlNode.label,
                         .initialPostion = New FDGVector2 With {
-                            .x = xgmmlNode.graphics.x,
-                            .y = xgmmlNode.graphics.y
+                            .x = CSng(xgmmlNode.graphics.x),
+                            .y = CSng(xgmmlNode.graphics.y)
                         },
                         .Properties = xgmmlNode.createProperties(propertyNames),
                         .size = {xgmmlNode.graphics.w, xgmmlNode.graphics.h}
@@ -108,14 +110,24 @@ Namespace CytoscapeGraphView
                 Dim sy = s.graphics.y
                 Dim tx = t.graphics.x
                 Dim ty = t.graphics.y
+                Dim ps As New PointF(CSng(sx), CSng(sy))
+                Dim pt As New PointF(CSng(tx), CSng(ty))
 
                 edge = New Edge With {
                     .U = u,
                     .V = v,
-                    .ID = xgmmlEdge.id,
+                    .ID = xgmmlEdge.id.ToString,
                     .data = New EdgeData With {
                         .label = xgmmlEdge.label,
-                        .bends = xgmmlEdge.graphics.edgeBendHandles,
+                        .bends = xgmmlEdge.graphics _
+                            .edgeBendHandles _
+                            .Select(Function(a)
+                                        Dim raw As PointF = a.pointAuto(sx, sy, tx, ty)
+                                        Dim xy As XYMetaHandle = XYMetaHandle.CreateVector(ps, pt, raw)
+
+                                        Return xy
+                                    End Function) _
+                            .ToArray,
                         .Properties = xgmmlEdge.createProperties(propertyNames)
                     }
                 }
