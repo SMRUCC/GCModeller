@@ -68,7 +68,7 @@ Public Module DataVisualization
                               ReadIndex As Integer) As Edge()
 
         Dim dict As Dictionary(Of String, Double()) =
-            data.ToDictionary(Function(x) x.locusId, Function(x) x.Values)
+            data.ToDictionary(Function(x) x.locusId, Function(x) x.data)
         Dim LQuery As Edge() =
             LinqAPI.Exec(Of Edge) <= From node As T
                                      In Network

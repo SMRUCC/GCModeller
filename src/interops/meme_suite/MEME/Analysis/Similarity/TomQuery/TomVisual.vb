@@ -96,7 +96,7 @@ Namespace Analysis.Similarity.TOMQuery
             For j As Integer = 0 To subject.PWM.Length   ' 参照subject画列
 
                 For i As Integer = -1 To query.PWM.Length - 1 ' 参照query画行
-                    Dim value As String = CStr(edits.DistTable(i + 1).value(j))
+                    Dim value As String = CStr(edits.DistTable(i + 1)(j))
                     Dim size = gr.Graphics.MeasureString(value, matFONT)
 
                     Dim left = x + (SequenceLogo.WordSize - size.Width) / 2
