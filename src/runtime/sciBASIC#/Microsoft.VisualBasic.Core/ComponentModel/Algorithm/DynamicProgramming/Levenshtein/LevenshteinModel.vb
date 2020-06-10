@@ -47,7 +47,6 @@
 Imports System.Drawing
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports stdNum = System.Math
@@ -56,7 +55,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
     Public Class ArrayRow
 
-        Public Property data As Double()
+        Public Overridable Property data As Double()
 
         Default Public Property Item(index As Integer) As Double
             Get

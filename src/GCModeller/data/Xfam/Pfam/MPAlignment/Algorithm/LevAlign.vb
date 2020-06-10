@@ -135,9 +135,9 @@ Namespace ProteinDomainArchitecture.MPAlignment
                 Dim distTable As Double(,) = New Double(domainA.Length, domainB.Length) {}
 
                 Me.DistEdits = result.AlignmentResult.Edits
-                Me.DistTable = distTable.ToVectorList.Select(Function(x) New Streams.Array.[Double](x)).ToArray
+                Me.DistTable = distTable.ToVectorList.Select(Function(x) New ArrayRow(x)).ToArray
                 Me.Matches = DistEdits
-                Me.DistTable(domainA.Length).Values(domainB.Length) = result.FullScore - result.Score
+                Me.DistTable(domainA.Length)(domainB.Length) = result.FullScore - result.Score
             Else
                 Call align.CopyTo(Me)
             End If
