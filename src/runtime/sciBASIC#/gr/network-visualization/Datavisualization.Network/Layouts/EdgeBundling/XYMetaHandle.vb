@@ -28,8 +28,8 @@ Namespace Layouts.EdgeBundling
         Public Shared Function CreateVector(ps As PointF, pt As PointF, hx!, hy!) As XYMetaHandle
             Dim dx = pt.X - ps.X
             Dim dy = pt.Y - ps.Y
-            Dim offsetX = hx - pt.X
-            Dim offsetY = hy - pt.Y
+            Dim offsetX = hx - ps.X
+            Dim offsetY = hy - ps.Y
 
             Return New XYMetaHandle With {
                 .xoffsetscale = offsetX / dx,
