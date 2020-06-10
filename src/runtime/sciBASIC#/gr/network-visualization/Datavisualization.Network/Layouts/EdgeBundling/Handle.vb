@@ -49,6 +49,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Layouts.EdgeBundling
 
+    ' 20200610
+    ' 在计算三角函数的时候似乎误差非常大
+
     ''' <summary>
     ''' 进行网络之中的边连接的布局走向的``拐点``的矢量化描述
     ''' </summary>
