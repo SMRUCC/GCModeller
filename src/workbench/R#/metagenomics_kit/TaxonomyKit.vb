@@ -44,10 +44,10 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
-<Package("taxonomy_kit")>
+<Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module TaxonomyKit
 
     Sub New()
@@ -63,5 +63,9 @@ Module TaxonomyKit
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    <ExportAPI("lineage")>
+    Public Function Lineage(tree As NcbiTaxonomyTree, taxid As Integer, Optional fullName As Boolean = False)
+        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=Not fullName))
+    End Function
 End Module
 
