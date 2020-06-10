@@ -70,7 +70,7 @@ Namespace dataExprMAT
         Public Function ToSample() As ExprSamples
             Return New ExprSamples With {
                 .locusId = LocusId,
-                .Values = dataExpr0.Values.ToArray
+                .data = dataExpr0.Values.ToArray
             }
         End Function
 
@@ -82,7 +82,7 @@ Namespace dataExprMAT
         Public Function LoadMatrix(path As String) As ExprMAT()
             Dim File As IO.File = IO.File.Load(path)
             File(Scan0, Scan0) = NameOf(LocusId)
-            Dim MAT As ExprMAT() = File.AsDataSource(Of ExprMAT)(False)
+            Dim MAT As ExprMAT() = File.AsDataSource(Of ExprMAT)(False).ToArray
             Return MAT
         End Function
     End Class
