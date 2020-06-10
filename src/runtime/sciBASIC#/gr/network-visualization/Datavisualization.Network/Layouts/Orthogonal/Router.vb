@@ -69,11 +69,11 @@ Namespace Layouts.Orthogonal
                 'points += HandleCreator.defineHandle(a, b, (a.X + b.X) / 2, b.Y)
                 'points += HandleCreator.defineHandle(a, b, b.X, b.Y)
 
-                points += XYMetaHandle.CreateVector(a, b, a.X, a.Y)
-                points += XYMetaHandle.CreateVector(a, b, a.X, (a.Y + b.Y) / 2)
+                ' points += XYMetaHandle.CreateVector(a, b, a.X, a.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, a.X, (a.Y + b.Y) / 2)
                 points += XYMetaHandle.CreateVector(a, b, a.X, b.Y)
-                points += XYMetaHandle.CreateVector(a, b, (a.X + b.X) / 2, b.Y)
-                points += XYMetaHandle.CreateVector(a, b, b.X, b.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, (a.X + b.X) / 2, b.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, b.X, b.Y)
 
                 edge.data.bends = points.ToArray
             Next
