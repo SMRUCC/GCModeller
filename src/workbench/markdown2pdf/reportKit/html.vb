@@ -1,9 +1,10 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.HTML
 
-<Package("html")>
+<Package("html", Category:=APICategories.UtilityTools)>
 Public Module html
 
     ''' <summary>
@@ -14,5 +15,16 @@ Public Module html
     <ExportAPI("template")>
     Public Function template(url As String) As TemplateHandler
         Return New TemplateHandler(file:=url)
+    End Function
+
+    ''' <summary>
+    ''' Render markdown to html text
+    ''' </summary>
+    ''' <param name="markdown"></param>
+    ''' <returns></returns>
+    <ExportAPI("markdown.html")>
+    Public Function markdownToHtml(markdown As String) As String
+        Static render As New MarkdownHTML
+        Return render.Transform(markdown)
     End Function
 End Module
