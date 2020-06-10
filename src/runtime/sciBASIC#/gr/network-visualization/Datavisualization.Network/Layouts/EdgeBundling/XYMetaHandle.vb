@@ -25,6 +25,18 @@ Namespace Layouts.EdgeBundling
             Return New PointF(sx + dx, sy + dy)
         End Function
 
+        Public Shared Function CreateVector(ps As PointF, pt As PointF, hx!, hy!) As XYMetaHandle
+            Dim dx = pt.X - ps.X
+            Dim dy = pt.Y - ps.Y
+            Dim offsetX = hx - pt.X
+            Dim offsetY = hy - pt.Y
+
+            Return New XYMetaHandle With {
+                .xoffsetscale = offsetX / dx,
+                .yoffsetscale = offsetY / dy
+            }
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -33,15 +45,7 @@ Namespace Layouts.EdgeBundling
         ''' <param name="handle">当前的这个需要进行矢量化描述的未知点坐标数据</param>
         ''' <returns></returns>
         Public Shared Function CreateVector(ps As PointF, pt As PointF, [handle] As PointF) As XYMetaHandle
-            Dim dx = pt.X - ps.X
-            Dim dy = pt.Y - ps.Y
-            Dim offsetX = handle.X - pt.X
-            Dim offsetY = handle.Y - pt.Y
-
-            Return New XYMetaHandle With {
-                .xoffsetscale = offsetX / dx,
-                .yoffsetscale = offsetY / dy
-            }
+            Return CreateVector(ps, pt, handle.X, handle.Y)
         End Function
 
         Public Overrides Function ToString() As String
