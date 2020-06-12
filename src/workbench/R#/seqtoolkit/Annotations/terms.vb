@@ -77,6 +77,13 @@ Module terms
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' do KO number assign based on the bbh alignment result.
+    ''' </summary>
+    ''' <param name="forward"></param>
+    ''' <param name="reverse"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("assign.KO")>
     Public Function KOannotations(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline
         If forward Is Nothing Then

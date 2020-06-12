@@ -48,9 +48,15 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
-<Package("uniprot")>
+<Package("uniprot", Category:=APICategories.UtilityTools)>
 Module uniprot
 
+    ''' <summary>
+    ''' open a uniprot database file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="isUniParc"></param>
+    ''' <returns></returns>
     <ExportAPI("open.uniprot")>
     Public Function openUniprotXmlAssembly(file As String, Optional isUniParc As Boolean = False) As pipeline
         Return UniProtXML _
@@ -58,6 +64,13 @@ Module uniprot
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' populate all protein fasta sequence from the given uniprot database reader
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="extractAll"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("protein.seqs")>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,

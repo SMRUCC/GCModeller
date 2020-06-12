@@ -53,16 +53,44 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("xgmml")>
 Module xgmmlToolkit
 
+    ''' <summary>
+    ''' read cytoscape xgmml file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.xgmml")>
     Public Function loadXgmml(file As String) As XGMMLgraph
         Return XGMML.RDFXml.Load(path:=file)
     End Function
 
+    ''' <summary>
+    ''' convert the cytoscape xgmml file to network graph model.
+    ''' </summary>
+    ''' <param name="xgmml"></param>
+    ''' <param name="propertyNames"></param>
+    ''' <returns></returns>
     <ExportAPI("xgmml.graph")>
-    Public Function createGraph(xgmml As XGMMLgraph, <RRawVectorArgument(GetType(String))> Optional propertyNames As Object = "label|class|group.category|group.category.color") As NetworkGraph
+    Public Function createGraph(xgmml As XGMMLgraph,
+                                <RRawVectorArgument(GetType(String))>
+                                Optional propertyNames As Object = "label|class|group.category|group.category.color") As NetworkGraph
+
         Return xgmml.ToNetworkGraph(DirectCast(propertyNames, String()))
     End Function
 
+    ''' <summary>
+    ''' render the cytoscape network graph model as image
+    ''' </summary>
+    ''' <param name="model">the network graph object or the cytoscape network model</param>
+    ''' <param name="size">the size of the output image</param>
+    ''' <param name="convexHull$"></param>
+    ''' <param name="edgeBends"></param>
+    ''' <param name="altStyle"></param>
+    ''' <param name="rewriteGroupCategoryColors$"></param>
+    ''' <param name="enzymeColorSchema$"></param>
+    ''' <param name="compoundColorSchema$"></param>
+    ''' <param name="reactionKOMapping"></param>
+    ''' <param name="compoundNames"></param>
+    ''' <returns></returns>
     <ExportAPI("xgmml.render")>
     Public Function XgmmlRender(model As Object,
                                 Optional size$ = "10(A0)",

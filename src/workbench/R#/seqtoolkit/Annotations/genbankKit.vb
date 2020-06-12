@@ -163,6 +163,11 @@ Module genbankKit
         Return gb
     End Function
 
+    ''' <summary>
+    ''' enumerate all features in the given NCBI genbank database object
+    ''' </summary>
+    ''' <param name="gb">a NCBI genbank database object</param>
+    ''' <returns></returns>
     <ExportAPI("enumerateFeatures")>
     Public Function enumerateFeatures(gb As GBFF.File) As Feature()
         Return gb.Features.ToArray

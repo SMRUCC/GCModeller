@@ -61,8 +61,20 @@ Module TaxonomyKit
     ''' <summary>
     ''' load ncbi taxonomy tree model from the given data files
     ''' </summary>
-    ''' <param name="repo$"></param>
+    ''' <param name="repo">a directory folder path which contains the NCBI taxonomy 
+    ''' tree data files: ``nodes.dmp`` and ``names.dmp``.</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and ``names.dmp``
+    ''' files 
+    ''' 
+    ''' ```json 
+    ''' { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
+    '''     } 
+    ''' ``` 
+    ''' + https://www.biostars.org/p/13452/ 
+    ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+    ''' </remarks>
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo$) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)

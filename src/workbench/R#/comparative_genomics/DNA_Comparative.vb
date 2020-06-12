@@ -47,7 +47,9 @@ Public Module DNA_Comparative
     ''' <summary>
     ''' Using the DNA segment between the ``dnaA`` and ``gyrB`` as the reference rule.
     ''' </summary>
-    ''' <param name="nt"></param>
+    ''' <param name="nt">
+    ''' a fasta sequence object or NCBI genbank database object.
+    ''' </param>
     ''' <param name="context"></param>
     ''' <returns></returns>
     <ExportAPI("dnaA_gyrB")>
