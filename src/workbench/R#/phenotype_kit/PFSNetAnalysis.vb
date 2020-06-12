@@ -6,6 +6,16 @@ Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
 Module PFSNetAnalysis
 
+    <ExportAPI("load.expr")>
+    Public Function loadExpression(file As String) As DataFrameRow()
+        Return DataFrameRow.LoadData(file)
+    End Function
+
+    <ExportAPI("load.pathway_network")>
+    Public Function loadPathwayNetwork(file As String) As GraphEdge()
+        Return GraphEdge.LoadData(file)
+    End Function
+
     ''' <summary>
     ''' Finding consistent disease subnetworks using PFSNet
     ''' </summary>
