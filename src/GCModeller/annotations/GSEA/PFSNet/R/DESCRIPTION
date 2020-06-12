@@ -3,8 +3,8 @@ Type: Package
 Title: Finding consistent disease subnetworks using PFSNet
 Version: 1.0.0.1
 Date: 2019-09-20
-Author: na
-Maintainer: na <na>
+Author: Kevin Lim
+Maintainer: xieguigang <gg.xie@bionovogene.com>
 Description: Finding consistent disease subnetworks using PFSNet
 License: gpl
 RoxygenNote: 7.1.0
