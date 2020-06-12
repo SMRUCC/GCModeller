@@ -1,3 +1,6 @@
+
+#' compute the gene expression weight matrix
+#'
 computew1<-function(expr,theta1,theta2){
     ranks<-apply(expr,2,function(x){
         rank(x)/length(x)
