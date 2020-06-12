@@ -58,6 +58,13 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualkit.plots")>
 Module visualPlot
 
+    ''' <summary>
+    ''' Create catalog profiles data for GO enrichment result its data visualization.
+    ''' </summary>
+    ''' <param name="enrichments"></param>
+    ''' <param name="goDb"></param>
+    ''' <param name="top">display the top n enriched GO terms.</param>
+    ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
     Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As Object
         Dim GO_terms = goDb.AsEnumerable.ToDictionary
@@ -68,6 +75,13 @@ Module visualPlot
         Return profiles
     End Function
 
+    ''' <summary>
+    ''' Create catalog profiles data for KEGG pathway enrichment result its data visualization.
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="top"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
     Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
         Dim profile As Dictionary(Of String, NamedValue(Of Double)())
@@ -98,14 +112,14 @@ Module visualPlot
     End Function
 
     ''' <summary>
-    ''' Do plot of the given kegg pathway profiles data
+    ''' Do plot of the given catalog profiles data
     ''' </summary>
     ''' <param name="profiles"></param>
     ''' <param name="title"></param>
     ''' <param name="axisTitle"></param>
-    ''' <param name="size"></param>
-    ''' <param name="tick"></param>
-    ''' <param name="colors"></param>
+    ''' <param name="size">the size of the image</param>
+    ''' <param name="tick">axis ticks, default value -1 for auto generated.</param>
+    ''' <param name="colors">the color schema name</param>
     ''' <returns></returns>
     <ExportAPI("category_profiles.plot")>
     <RApiReturn(GetType(GraphicsData))>
