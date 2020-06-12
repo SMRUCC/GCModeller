@@ -1,0 +1,63 @@
+.\" man page create by R# package system.
+.TH STATS 1 2020-06-11 "t.test" "t.test"
+.SH NAME
+t.test \- Student's t-Test
+.SH SYNOPSIS
+\fIt.test(\fBx\fR as <generic> Object, 
+\fBy\fR as <generic> Object = \fB<NULL>\fR, 
+\fBalternative\fR as <integer> Hypothesis = [TwoSided], 
+\fBmu\fR as double = 0, 
+\fBpaired\fR as boolean = FALSE, 
+\fBvar_equal\fR as boolean = FALSE, 
+\fBconf_level\fR as double = 0.95);\fR
+.SH DESCRIPTION
+.PP
+Student's t-Test
+ 
+ Performs one and two sample t-tests on vectors of data.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a (non-empty) numeric vector of data values.
+.PP
+.PP
+\fBy\fB \fR\- an optional (non-empty) numeric vector of data values.
+
+.PP
+.PP
+\fBalternative\fB \fR\- 
+ a character string specifying the alternative hypothesis, must be one of 
+ "two.sided" (default), "greater" or "less". You can specify just the initial 
+ letter.
+
+.PP
+.PP
+\fBmu\fB \fR\- 
+ a number indicating the true value of the mean (or difference in means if you 
+ are performing a two sample test).
+
+.PP
+.PP
+\fBpaired\fB \fR\- 	
+ a logical indicating whether you want a paired t-test.
+.PP
+.PP
+\fBvar_equal\fB \fR\- 
+ a logical variable indicating whether to treat the two variances as being equal. 
+ If TRUE then the pooled variance is used to estimate the variance otherwise the 
+ Welch (or Satterthwaite) approximation to the degrees of freedom is used.
+
+.PP
+.PP
+\fBconf_level\fB \fR\- 
+ confidence level of the interval.
+
+.PP
+.SH SEE ALSO
+stats
+.SH FILES
+.PP
+R.math.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2020
