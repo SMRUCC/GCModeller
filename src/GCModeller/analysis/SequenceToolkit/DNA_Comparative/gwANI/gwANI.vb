@@ -296,7 +296,7 @@ Namespace gwANI
 
             ' store all sequences in a giant array - eek
             For Each seq As FastaSeq In multipleSeq
-                comparison_sequence(i) = seq.SequenceData
+                comparison_sequence(i) = seq.SequenceData.ToArray
                 i += 1
             Next
 
