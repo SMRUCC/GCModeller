@@ -94,7 +94,7 @@ Module patterns
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
-    <RApiReturn(GetType(SimpleSegment()))>
+    <RApiReturn(GetType(SimpleSegment))>
     Public Function matchSites(motif As SequenceMotif,
                                <RRawVectorArgument>
                                target As Object,
@@ -141,11 +141,26 @@ Module patterns
         Return Palindrome.FindMirrorPalindromes(seed, sequence)
     End Function
 
+    ''' <summary>
+    ''' Create seeds
+    ''' </summary>
+    ''' <param name="size"></param>
+    ''' <param name="base"></param>
+    ''' <returns></returns>
     <ExportAPI("seeds")>
-    Public Function GetSeeds(size As Integer, base As String()) As String()
-        Return Seeds.InitializeSeeds(base.Select(Function(s) CChar(s)).ToArray, size)
+    Public Function GetSeeds(size As Integer, base As String) As String()
+        Return Seeds.InitializeSeeds(base.ToArray, size)
     End Function
 
+    ''' <summary>
+    ''' find possible motifs of the given sequence collection
+    ''' </summary>
+    ''' <param name="fasta"></param>
+    ''' <param name="minw%"></param>
+    ''' <param name="maxw%"></param>
+    ''' <param name="nmotifs%"></param>
+    ''' <param name="noccurs%"></param>
+    ''' <returns></returns>
     <ExportAPI("find_motifs")>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
                               Optional minw% = 6,
