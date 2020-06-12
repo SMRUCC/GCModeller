@@ -45,7 +45,7 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
-Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
 <HideModuleName> Module computew1Function

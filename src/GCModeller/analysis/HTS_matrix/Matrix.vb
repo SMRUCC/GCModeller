@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Public Class Matrix
 
@@ -25,6 +26,11 @@ Public Class Matrix
                 .experiments = samples
             }
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function LoadData(file As String) As Matrix
+        Return Document.LoadMatrixDocument(file)
     End Function
 End Class
 
