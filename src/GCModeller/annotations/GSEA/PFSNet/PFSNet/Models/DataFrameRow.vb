@@ -76,7 +76,7 @@ Namespace DataStructure
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}   ==> {1}", geneID, String.Join(", ", experiments))
+            Return String.Format("{0} -> {1}", geneID, String.Join(", ", experiments))
         End Function
 
         ''' <summary>
