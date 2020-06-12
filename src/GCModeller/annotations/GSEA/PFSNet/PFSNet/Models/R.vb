@@ -72,7 +72,7 @@ Namespace R
         End Function
 
         Public Function Sample(n As Integer, size As Integer) As Integer()
-            Return Sample(Of Integer)(x:=n.Sequence, size:=size)
+            Return Sample(Of Integer)(x:=n.Sequence.ToArray, size:=size)
         End Function
 
         Public Iterator Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As IEnumerable(Of DataFrameRow)
