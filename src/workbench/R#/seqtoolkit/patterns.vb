@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::b6f369ab1b63c511a2a59f9248184083, R#\seqtoolkit\patterns.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module patterns
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
-    '               PalindromeToString, readMotifs
-    ' 
-    ' /********************************************************************************/
+' Module patterns
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
+'               PalindromeToString, readMotifs
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.DNAOrigami
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -199,6 +200,53 @@ Module patterns
         End If
 
         Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+    End Function
+
+    ''' <summary>
+    ''' analyses orthogonality of two DNA-Origami scaffold strands.
+    ''' Multiple criteria For orthogonality Of the two sequences can be specified
+    ''' to determine the level of orthogonality.
+    ''' </summary>
+    ''' <param name="scaffolds"></param>
+    ''' <param name="segment_len">segment length</param>
+    ''' <param name="is_linear">scaffolds are not circular</param>
+    ''' <param name="rev_compl">also count reverse complementary sequences</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("scaffold.orthogonality")>
+    <RApiReturn(GetType(Output))>
+    Public Function ScaffoldOrthogonality(<RRawVectorArgument>
+                                          scaffolds As Object,
+                                          Optional segment_len% = 7,
+                                          Optional is_linear As Boolean = False,
+                                          Optional rev_compl As Boolean = False,
+                                          Optional env As Environment = Nothing) As Object
+
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds)
+
+        If data Is Nothing Then
+            Return Internal.debug.stop({
+                "invalid data type for sequence data input!",
+               $"required: fasta",
+               $"given: {scaffolds.GetType.FullName}"
+            }, env)
+        End If
+
+        Dim seqs As FastaSeq() = data.ToArray
+        Dim outputs As New List(Of Output)
+        Dim args As New Project With {
+            .n = segment_len,
+            .is_linear = is_linear,
+            .get_rev_compl = rev_compl
+        }
+
+        For Each x As FastaSeq In seqs
+            For Each y As FastaSeq In seqs.Where(Function(a) Not a Is x)
+                CheckOrthogonality(x, y, project:=args).DoCall(AddressOf outputs.Add)
+            Next
+        Next
+
+        Return outputs.ToArray
     End Function
 End Module
 

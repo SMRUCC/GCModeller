@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace DNAOrigami
@@ -18,24 +19,24 @@ Namespace DNAOrigami
         ''' <summary>
         ''' Check orthogonality of 2 dna-sequences and output relevant data.
         ''' </summary>
-        ''' <param name="sc1"></param>
-        ''' <param name="sc2"></param>
+        ''' <param name="scaffold1"></param>
+        ''' <param name="scaffold2"></param>
         ''' <param name="project"></param>
         ''' <returns></returns>
-        Public Function CheckOrtho(sc1 As String, sc2 As String, Optional project As Project = Nothing) As Output
+        Public Function CheckOrthogonality(scaffold1 As IAbstractFastaToken, scaffold2 As IAbstractFastaToken, Optional project As Project = Nothing) As Output
             Dim count As Double
             Dim count_RC As Double
             Dim n_count As New List(Of Double)
             Dim n_count_RC As New List(Of Double)
             Dim sc1Full As String
             Dim sc2Full As String
+            Dim sc1 = scaffold1.SequenceData.ToUpper
+            Dim sc2 = scaffold2.SequenceData.ToUpper
 
             Static defaultArguments As [Default](Of Project) = New Project()
 
             project = project Or defaultArguments
             count_RC = If(project.get_rev_compl, 0, Double.NaN)
-            sc1 = sc1.ToUpper
-            sc2 = sc2.ToUpper
 
             With circulariseScaffold(project, sc1, sc2)
                 sc1Full = .Item1
@@ -82,7 +83,11 @@ Namespace DNAOrigami
                 .count_revcompl = count_RC,
                 .count_revcompl_corrected = count_revcompl_corrected,
                 .n_count = n_count.ToArray,
-                .n_count_revcompl = n_count_RC.ToArray
+                .n_count_revcompl = n_count_RC.ToArray,
+                .tuple = {
+                    scaffold1.title,
+                    scaffold2.title
+                }
             }
         End Function
 
