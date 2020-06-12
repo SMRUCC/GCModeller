@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eeaba0e030643b907daf746f8fa9acd7, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\IO.vb"
+﻿#Region "Microsoft.VisualBasic::ba46bb7834509df4e42dda2f282554e3, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\IO.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
@@ -257,7 +258,7 @@ Public Module IOExtensions
     End Function
 
     <ExportAPI("FlushStream")>
-    <Extension> Public Function FlushStream(stream As Net.Protocols.ISerializable, savePath$) As Boolean
+    <Extension> Public Function FlushStream(stream As ISerializable, savePath$) As Boolean
         Dim rawStream As Byte() = stream.Serialize
         If rawStream Is Nothing Then
             rawStream = New Byte() {}

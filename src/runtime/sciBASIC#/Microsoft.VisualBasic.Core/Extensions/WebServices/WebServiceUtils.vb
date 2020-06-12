@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88ab8d732ac7df6cf7ded92a647665e8, Microsoft.VisualBasic.Core\Extensions\WebServices\WebServiceUtils.vb"
+﻿#Region "Microsoft.VisualBasic::44925dd7bfcfeeaf290facfd4c51af75, Microsoft.VisualBasic.Core\Extensions\WebServices\WebServiceUtils.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module WebServiceUtils
     ' 
-    '     Properties: DefaultUA, Protocols, Proxy
+    '     Properties: DefaultUA, LocalIPAddress, Protocols, Proxy
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -771,9 +771,27 @@ RE0:
             Return getIPAddressInternal()
         Else
             ' IPAddress in LAN
-            Return TcpRequest.LocalIPAddress
+            Return LocalIPAddress
         End If
     End Function
+
+    ''' <summary>
+    ''' Gets the IP address of this local machine.
+    ''' (获取本机对象的IP地址，请注意这个属性获取得到的仅仅是本机在局域网内的ip地址，
+    ''' 假若需要获取得到公网IP地址，还需要外部服务器的帮助才行)
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property LocalIPAddress As String
+        Get
+#Disable Warning
+            Dim IP As System.Net.IPAddress = Dns.Resolve(Dns.GetHostName).AddressList(0)
+            Dim IPAddr As String = IP.ToString
+#Enable Warning
+            Return IPAddr
+        End Get
+    End Property
 
     ''' <summary>
     ''' Request an external server and then returns the ip address from the server side.

@@ -170,10 +170,10 @@ Public Module GenesCOExpr
                       In object_HANDLES.AsParallel  ' 在后面会通过排序的方法回复原有的顺序，所以这里也可以使用并行化拓展
                       Let currentItem = obj.item_data
                       Let i = obj.handle
-                      Let sv = (From hwnd In DataSet Select correlations(X:=currentItem.Values, Y:=hwnd.Values)).ToArray
+                      Let sv = (From hwnd In DataSet Select correlations(X:=currentItem.data, Y:=hwnd.data)).ToArray
                       Let Pccvalue = New ExprSamples With {
                           .locusId = currentItem.locusId,
-                          .Values = sv
+                          .data = sv
                           }
                       Let value = New With {.Handle = i, .PccValue = Pccvalue}
                       Select value
@@ -189,16 +189,16 @@ Public Module GenesCOExpr
                       Let tokens = line.Split(CChar(","))
                       Select New ExprSamples With {
                           .locusId = tokens(0),
-                          .Values = (From str As String
+                          .data = (From str As String
                                            In tokens.Skip(1)
-                                     Select Val(str)).ToArray}).ToArray
+                                   Select Val(str)).ToArray}).ToArray
         Return LQuery
     End Function
 
     Public Function Find(rowId As String, colId As String, pccData As ExprSamples()) As Double
         Dim GeneList = (From item As ExprSamples In pccData Select item.locusId).ToArray
         Dim row = pccData(Array.IndexOf(GeneList, rowId))
-        Dim result = row.Values(Array.IndexOf(GeneList, colId))
+        Dim result = row(Array.IndexOf(GeneList, colId))
         Return result
     End Function
 
@@ -220,8 +220,8 @@ Public Module GenesCOExpr
             Return New KeyValuePair(Of String, Double)() {}
         End If
         Dim row = pccData(idx)
-        Dim LQuery = (From i As Integer In row.Values.Sequence
-                      Let item = New KeyValuePair(Of Integer, Double)(i, row.Values(i))
+        Dim LQuery = (From i As Integer In row.data.Sequence
+                      Let item = New KeyValuePair(Of Integer, Double)(i, row(i))
                       Select item
                       Order By item.Value Descending).ToArray
         If AbsolutelyCutOff Then
@@ -350,7 +350,7 @@ Public Module GenesCOExpr
         For Each item In Data
             Dim list = (From i As Integer
                         In Sequence
-                        Let val = item.Values(i)
+                        Let val = item(i)
                         Where System.Math.Abs(val) >= CutOffValue
                         Let regulation = If(val < 0, "repression", "activation")
                         Select New Interaction(Of ExprSamples) With {

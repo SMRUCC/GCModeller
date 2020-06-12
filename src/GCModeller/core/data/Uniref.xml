@@ -1,0 +1,457 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns="http://purl.uniprot.org/core/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:bibo="http://purl.org/ontology/bibo/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:void="http://rdfs.org/ns/void#" xmlns:sd="http://www.w3.org/ns/sparql-service-description#" xmlns:faldo="http://biohackathon.org/resource/faldo#">
+<owl:Ontology rdf:about="">
+<owl:imports rdf:resource="http://purl.uniprot.org/core/"/>
+</owl:Ontology>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A001">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: MoeD5</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-04-22</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1883"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0005524"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0016021"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0000E5B23D"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI000D0AA7E5"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI000D6827DC"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0001AEFAB2"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0007ED7A2A"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0006E240A1"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0005AF715B"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0009BFFE6C"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0006EB640E"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0000E5B23D">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">591</length>
+<rdf:value>MLRGSARTYWTLTGLWVLLRAGTLVVGLLFQRLFDALGAGGGVWLIIALVAAIEAGRLFLQFGVMINRLEPRVQYGTTARLRHALLGSALRGSEVTARTSPGESLRTVGEDVDETGFFVAWAPTNLAHWLFVAASVTVMMRIDAVVTGALLALLVLLTLVTALAHSRFLRHRRATRAASGEVAGALREMVGAVGAVQAAAAEPQVAAHVAGLNGARAEAAVREELYAVVQRTVIGNPAPIGVGVVLLLVAGRMDEGTFSVGDLALFAFYLQILTEALGSIGMLSVRLQRVSVALGRITNNLGCRLRRSLERASPPIASDAPGGTGEGAAAPDAGPEPAPPLRELAVRGLTARHPGAGHGIEDVDLVVERHTVTVVTGRVGSGKSTLVRAVLGLLPHERGTVLWNGEPIADPASFLVAPRCGYTPQVPCLFSGTVRENVLLGRDGAAFDEAVRLAVAEPDLAAMQDGPDTVVGPRGLRLSGGQIQRVAIARMLVGDPELVVLDDVSSALDPETEHLLWERLLDGTRTVLAVSHRPALLRAADRVVVLEGGRVEASGTFEEVMAVSAEMGRIWTGAGPGGGDAGPAPQSPPAG</rdf:value>
+<rdfs:label>MoeD5</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A001"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A001"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_D5SLG9"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A001">
+<rdfs:label>MoeD5</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A001"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A001"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A001_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI000D0AA7E5">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">591</length>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A5J6G3N2"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A5J6G3N2"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A5J6G3N2">
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A5J6G3N2_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/665577"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI000D6827DC">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">591</length>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A2U3H5U7"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A2U3H5U7"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A2U3H5U7">
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A2U3H5U7_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/2201153"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0001AEFAB2">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">591</length>
+<rdfs:label>Uncharacterized protein</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/D6A7F5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_D6A7F5"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/D6A7F5">
+<rdfs:label>Uncharacterized protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>D6A7F5_STRV1</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/566461"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0007ED7A2A">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">590</length>
+<rdfs:label>ABC transporter</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A1A5PGE5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A1A5PGE5"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A1A5PGE5">
+<rdfs:label>ABC transporter</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A1A5PGE5_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1727216"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0006E240A1">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">590</length>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A5J6HB64"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A5J6HB64"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A5J6HB64">
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A5J6HB64_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67345"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0005AF715B">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">296</length>
+<rdfs:label>Putative ABC transporter (Fragment)</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A0C4Y377"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A5J6HB64"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A0C4Y377">
+<rdfs:label>Putative ABC transporter (Fragment)</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A0C4Y377_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67345"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0009BFFE6C">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">591</length>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_UPI0009BFFE6C"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0006EB640E">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">590</length>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_UPI0006EB640E"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67345"/>
+<rdfs:label>ABC transporter ATP-binding protein</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A003">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: MoeE5</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-12-18</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1883"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0000E5B23F"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0001CE738C"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI001298EA76"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0009BFC4AC"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0000E5B23F">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">340</length>
+<rdf:value>MSSDTHGTDLADGDVLVTGAAGFIGSHLVTELRNSGRNVVAVDRRPLPDDLESTSPPFTGSLREIRGDLNSLNLVDCLKNISTVFHLAALPGVRPSWTQFPEYLRCNVLATQRLMEACVQAGVERVVVASSSSVYGGADGVMSEDDLPRPLSPYGVTKLAAERLALAFAARGDAELSVGALRFFTVYGPGQRPDMFISRLIRATLRGEPVEIYGDGTQLRDFTHVSDVVRALMLTASVRDRGSAVLNIGTGSAVSVNEVVSMTAELTGLRPCTAYGSARIGDVRSTTADVRQAQSVLGFTARTGLREGLATQIEWTRRSLSGAEQDTVPVGGSSVSVPRL</rdf:value>
+<rdfs:label>MoeE5</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A003"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A003"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A1A9J849"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A003">
+<rdfs:label>MoeE5</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A003"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A003_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0001CE738C">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">325</length>
+<rdfs:label>UDP-glucose 4-epimerase</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/D6A7F7"/>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A5J6G5P9"/>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A2U3H5A0"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_D6A7F7"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/D6A7F7">
+<rdfs:label>UDP-glucose 4-epimerase</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>D6A7F7_STRV1</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/566461"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A5J6G5P9">
+<rdfs:label>NAD-dependent epimerase/dehydratase family protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A5J6G5P9_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/665577"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A2U3H5A0">
+<rdfs:label>UDP-glucose 4-epimerase</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A2U3H5A0_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/2201153"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI001298EA76">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">346</length>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A003"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A003"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0009BFC4AC">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">325</length>
+<rdfs:label>NAD-dependent epimerase/dehydratase family protein</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_UPI0009BFC4AC"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+<rdfs:label>NAD-dependent epimerase/dehydratase family protein</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A006">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: MoeH5</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-04-22</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1883"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0000E5B242"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI000D680015"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0009BCF88F"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0000E5B242">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">513</length>
+<rdf:value>MTVRRPAASAPRVLLTAGPDGVRVEGDGEARLGHPLTGDHLDPGPPAEGVFAGWRWDGERLVARNDRYGVCPLFYRAGGGSLALSPDPLALLPEDGPVELDHDALAVFLRTGFFLAEDTAFAQVRALPPAATLTWDTGGLRLRSDGPPRPGAAAMTEAQAVDGFVDLFRASVARRLPGEPYDLPLSGGRDSRHILLELCRRGAPPRRCVSGAKFPPDPGADARVAAALAGRLGLPHTVVPRPRSQFRAELAALPAQGMTTLDGAWTQPVLAHLRRHSRISYDGLGGGELVQNPSVEFIRANPYDPADLPGLADRLLAASRTGPHVEHLLSPRTNALWSRQAARRRLVTELARHADSASPLSSFFFWNRTRRSISAAPFALGDGRVLTHTPYLDHALFDHLASVPHRFLVDGTFHDRALHRAFPEHADLGFASSVPQRHGPVLVAHRLAYLLRFLAHATVVEPGWWRGPDRFLQRLLAAGRGPGAPQRVSRLQPLALYLLQLEDLAVRRARRRP</rdf:value>
+<rdfs:label>MoeH5</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A006"/>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A5J6G0T8"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A006"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_D5SLH4"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A006">
+<rdfs:label>MoeH5</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A006"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A006"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A006_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A5J6G0T8">
+<rdfs:label>Asparagine synthetase B family protein</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A5J6G0T8_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/665577"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI000D680015">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">513</length>
+<rdfs:label>Asparagine synthase</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A2U3H5A9"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A2U3H5A9"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A2U3H5A9">
+<rdfs:label>Asparagine synthase</rdfs:label>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A2U3H5A9_9ACTN</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/2201153"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0009BCF88F">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">513</length>
+<rdfs:label>asparagine synthase</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_UPI0009BCF88F"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+<rdfs:label>asparagine synthase</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A007">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: MoeK5</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2018-09-12</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0003824"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0031419"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0051536"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0046872"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0000E5B243"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0000E5B243">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">407</length>
+<rdf:value>MGYIHTALKSAGFHHVIQVDTPALGLDSEGLRKLLADFEPDLVGVSTTTPGLPGAIEACEAAKSTGAKVILGGPHTEVYAHENLVHESIDYVGVGEGVTIMPELAEAMERGEEPEGIRGLVTRKHDGGAAPMVNLEEVGWPERAGLPMDRYYSIMAPRPFATMISSRGCPFKCSFCFKQAVDKKSMYRSPEDVVGEMTELKERWGVKEIMFYDDVFTLHRGRVREICGLIGETGLKVRWEAPTRVDLVPEPLLEAMAGAGCVRLRFGIEHGDSEILERMRKESDIQKIEKAVTSAHEAGIKGFGYFIVGWLGETREQFRRTVDLACRLPLDYASFYTATPLPGTPLHTESVAAGQIPPDYWDRFSCGASSTRGSGTWCRTRRSAPSGRTAPSSCAAPWSSRCCRTWR</rdf:value>
+<rdfs:label>MoeK5</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A007"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A007"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A007"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A007">
+<rdfs:label>MoeK5</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A007"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A007"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A007_STRVD</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/67581"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DWD5">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Uncharacterized protein (Fragment)</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-13</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0004460698"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0004460698">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">39</length>
+<rdf:value>MGAKLTNHDPNKMALIESINYFNKYYQQDIKIYEAVLKP</rdf:value>
+<rdfs:label>Uncharacterized protein (Fragment)</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DWD5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DWD5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A009DWD5"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DWD5">
+<rdfs:label>Uncharacterized protein (Fragment)</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWD5"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWD5"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DWD5_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DWI3">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Transposase DDE domain protein (Fragment)</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-12-18</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/470"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI00044A2002"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0005529810"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI00044A2002">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">113</length>
+<rdf:value>MGWFYGCKLHIVMNQFGEIACSALSNGHLADIKMVERLVKEMEAKLYGDRGYISQELKSRLKKQGIDLIIYHRKNMQAIQLSESDKYHLKQRNKIETLFSLLKGQYNLVTSKA</rdf:value>
+<rdfs:label>Transposase DDE domain protein (Fragment)</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DWI3"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DWI3"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_N9A0S3"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DWI3">
+<rdfs:label>Transposase DDE domain protein (Fragment)</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWI3"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DWI3_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0005529810">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">148</length>
+<rdfs:label>IS982 family transposase</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DWI3"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/470"/>
+<rdfs:label>IS982 family transposase</rdfs:label>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWI3"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DWJ5">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Putative transposase (Fragment)</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2014-06-11</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI0004527F85"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI0004527F85">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">47</length>
+<rdf:value>MAMQHVTDRATRMIHHSGRGSQYCSELYQSALRHYGVCPSMTDGGDC</rdf:value>
+<rdfs:label>Putative transposase (Fragment)</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DWJ5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DWJ5"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A009DWJ5"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DWJ5">
+<rdfs:label>Putative transposase (Fragment)</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWJ5"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWJ5"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DWJ5_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DWL0">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Putative iSRSO8-transposase orfB protein</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-04-22</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0032196"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI00044D1CC6"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI00044D1CC6">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">76</length>
+<rdf:value>MIHHSDRGVQYLSIRYTNRLEAANLRASVGTTGDSYDNALAETVNGLYKTEVIFKSRLARFSRCTTCDTKLGRLVQ</rdf:value>
+<rdfs:label>Putative iSRSO8-transposase orfB protein</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DWL0"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DWL0"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A009DWL0"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DWL0">
+<rdfs:label>Putative iSRSO8-transposase orfB protein</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWL0"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DWL0"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DWL0_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DXK7">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Uncharacterized protein (Fragment)</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-02-26</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/470"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI00045287A1"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI00129D10D1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI00045287A1">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">82</length>
+<rdf:value>MPRTMLTDQHWQKLKTILRNLSIHHNSNLRNFIEAILYRIRTGCPWRYIPSYFGQSNSIFKRFNCWSSSGKLLRLFKLLASC</rdf:value>
+<rdfs:label>Uncharacterized protein (Fragment)</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DXK7"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DXK7"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_N9HCH2"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DXK7">
+<rdfs:label>Uncharacterized protein (Fragment)</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DXK7"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DXK7"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DXK7_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI00129D10D1">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">82</length>
+<rdfs:label>transposase</rdfs:label>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_UPI00129D10D1"/>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/470"/>
+<rdfs:label>transposase</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniref/UniRef90_A0A009DY31">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Cluster"/>
+<rdfs:label>Cluster: Putative transposase</rdfs:label>
+<identity rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</identity>
+<modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-09-18</modified>
+<commonTaxon rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+<someMembersClassifiedWith rdf:resource="http://purl.obolibrary.org/obo/GO_0043565"/>
+<member rdf:resource="http://purl.uniprot.org/uniparc/UPI00044FEFC0"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniparc/UPI00044FEFC0">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/Sequence"/>
+<length rdf:datatype="http://www.w3.org/2001/XMLSchema#int">48</length>
+<rdf:value>MEHAREQRVKRTQRDYSFAFKMMVVHEVEKGQITYKQAQAKYGNLSSI</rdf:value>
+<rdfs:label>Putative transposase</rdfs:label>
+<sequenceFor rdf:resource="http://purl.uniprot.org/uniprot/A0A009DY31"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef100_A0A009DY31"/>
+<memberOf rdf:resource="http://purl.uniprot.org/uniref/UniRef50_A0A009DY31"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.uniprot.org/uniprot/A0A009DY31">
+<rdfs:label>Putative transposase</rdfs:label>
+<representativeFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DY31"/>
+<seedFor rdf:resource="http://purl.uniprot.org/uniref/UniRef90_A0A009DY31"/>
+<reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</reviewed>
+<mnemonic>A0A009DY31_ACIBA</mnemonic>
+<organism rdf:resource="http://purl.uniprot.org/taxonomy/1310605"/>
+</rdf:Description>
+</rdf:RDF>

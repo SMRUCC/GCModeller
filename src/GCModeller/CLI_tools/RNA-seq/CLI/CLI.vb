@@ -112,63 +112,63 @@ Module CLI
         End Try
     End Sub
 
-    <ExportAPI("/DOOR.Corrects", Usage:="/DOOR.Corrects /DOOR <genome.opr> /pcc <pcc.dat> [/out <out.opr> /pcc-cut <0.45>]")>
-    Public Function DOORCorrects(args As CommandLine) As Integer
-        Dim doorFile As String = args("/door")
-        Dim pccDat As String = args("/pcc")
-        Dim pccCut As Double = args.GetValue("/pcc-cut", 0.45)
-        Dim out As String = args.GetValue("/out", doorFile.TrimSuffix & $".PCC={pccCut}.opr")
-        Dim PCC As PccMatrix = MatrixSerialization.Load(from:=pccDat)
-        Dim DOOR = DOOR_API.Load(doorFile)
-        Dim corrects As Operon() = CorrectDoorOperon(PCC, DOOR, pccCut)
+    '<ExportAPI("/DOOR.Corrects", Usage:="/DOOR.Corrects /DOOR <genome.opr> /pcc <pcc.dat> [/out <out.opr> /pcc-cut <0.45>]")>
+    'Public Function DOORCorrects(args As CommandLine) As Integer
+    '    Dim doorFile As String = args("/door")
+    '    Dim pccDat As String = args("/pcc")
+    '    Dim pccCut As Double = args.GetValue("/pcc-cut", 0.45)
+    '    Dim out As String = args.GetValue("/out", doorFile.TrimSuffix & $".PCC={pccCut}.opr")
+    '    Dim PCC As PccMatrix = MatrixSerialization.Load(from:=pccDat)
+    '    Dim DOOR = DOOR_API.Load(doorFile)
+    '    Dim corrects As Operon() = CorrectDoorOperon(PCC, DOOR, pccCut)
 
-        Dim MAT As New IO.File
-        Call MAT.Add({"DOOR", "locus_id", "Strand"})
+    '    Dim MAT As New IO.File
+    '    Call MAT.Add({"DOOR", "locus_id", "Strand"})
 
-        For Each operon As Operon In corrects
-            Dim row As New RowObject
-            Dim initX = operon.InitialX
-            Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
-            Call MAT.Add(row)
+    '    For Each operon As Operon In corrects
+    '        Dim row As New RowObject
+    '        Dim initX = operon.InitialX
+    '        Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
+    '        Call MAT.Add(row)
 
-            If operon.NumOfGenes = 1 Then
-                Continue For
-            End If
+    '        If operon.NumOfGenes = 1 Then
+    '            Continue For
+    '        End If
 
-            Dim pre As New List(Of String)
+    '        Dim pre As New List(Of String)
 
-            For Each gene As OperonGene In (From x In operon Where Not x.Value Is initX Select x.Value)
-                row = New RowObject
-                Call row.AddRange({operon.OperonID, gene.Synonym, gene.Location.Strand.GetBriefCode})
-                Call row.Add(PCC.GetValue(initX.Synonym, gene.Synonym))
+    '        For Each gene As OperonGene In (From x In operon Where Not x.Value Is initX Select x.Value)
+    '            row = New RowObject
+    '            Call row.AddRange({operon.OperonID, gene.Synonym, gene.Location.Strand.GetBriefCode})
+    '            Call row.Add(PCC.GetValue(initX.Synonym, gene.Synonym))
 
-                For Each sId As String In pre
-                    Call row.Add(PCC.GetValue(sId, gene.Synonym))
-                Next
+    '            For Each sId As String In pre
+    '                Call row.Add(PCC.GetValue(sId, gene.Synonym))
+    '            Next
 
-                Call pre.Add(gene.Synonym)
-                Call MAT.Add(row)
-            Next
-        Next
-        Call MAT.Save(out & ".Views.Csv", Encodings.ASCII)
-        Return DOOR_API.SaveFile(corrects, out).CLICode
-    End Function
+    '            Call pre.Add(gene.Synonym)
+    '            Call MAT.Add(row)
+    '        Next
+    '    Next
+    '    Call MAT.Save(out & ".Views.Csv", Encodings.ASCII)
+    '    Return DOOR_API.SaveFile(corrects, out).CLICode
+    'End Function
 
-    <ExportAPI("/PCC", Usage:="/PCC /expr <expr.matrix.csv> [/out <out.dat>]")>
-    Public Function PCC(args As CommandLine) As Integer
-        Dim expr As String = args("/expr")
-        Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(IO.File.Load(expr))
-        Return MatrixSerialization.SaveBin(MAT, out).CLICode
-    End Function
+    '<ExportAPI("/PCC", Usage:="/PCC /expr <expr.matrix.csv> [/out <out.dat>]")>
+    'Public Function PCC(args As CommandLine) As Integer
+    '    Dim expr As String = args("/expr")
+    '    Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
+    '    Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(IO.File.Load(expr))
+    '    Return MatrixSerialization.SaveBin(MAT, out).CLICode
+    'End Function
 
-    <ExportAPI("/SPCC", Usage:="/SPCC /expr <expr.matrix.csv> [/out <out.dat>]")>
-    Public Function SPCC(args As CommandLine) As Integer
-        Dim expr As String = args("/expr")
-        Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(IO.File.Load(expr))
-        Return MatrixSerialization.SaveBin(MAT, out).CLICode
-    End Function
+    '<ExportAPI("/SPCC", Usage:="/SPCC /expr <expr.matrix.csv> [/out <out.dat>]")>
+    'Public Function SPCC(args As CommandLine) As Integer
+    '    Dim expr As String = args("/expr")
+    '    Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
+    '    Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(IO.File.Load(expr))
+    '    Return MatrixSerialization.SaveBin(MAT, out).CLICode
+    'End Function
 
     <ExportAPI("/HT-seq", Info:="Count raw reads for DESeq2 analysis.",
                Usage:="/Ht-seq /in <in.sam> /gff <genome.gff> [/out <out.txt> /mode <union, intersection_strict, intersection_nonempty; default:intersection_nonempty> /rpkm /feature <CDS>]")>

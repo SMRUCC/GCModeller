@@ -60,6 +60,11 @@ Namespace ContextModel.Operon
     ''' + (iv)  the ratio between the lengths of two adjacent genes And 
     ''' + (v)   frequencies Of specific DNA motifs in the intergenic regions.
     ''' </summary>
+    ''' <remarks>
+    ''' Operon prediction using both genome-specific and general genomic information 
+    ''' 
+    ''' https://academic.oup.com/nar/article/35/1/288/2401876
+    ''' </remarks>
     Public Module FeatureScores
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

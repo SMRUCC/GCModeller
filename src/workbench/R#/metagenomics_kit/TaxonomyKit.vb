@@ -44,10 +44,10 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
-<Package("taxonomy_kit")>
+<Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module TaxonomyKit
 
     Sub New()
@@ -58,10 +58,26 @@ Module TaxonomyKit
         Return $"<{taxonomy.lowestLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
     End Function
 
+    ''' <summary>
+    ''' load ncbi taxonomy tree model from the given data files
+    ''' </summary>
+    ''' <param name="repo$"></param>
+    ''' <returns></returns>
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo$) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    ''' <summary>
+    ''' get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
+    ''' </summary>
+    ''' <param name="tree">the ncbi taxonomy tree model</param>
+    ''' <param name="taxid">the ncbi taxonomy id</param>
+    ''' <param name="fullName"></param>
+    ''' <returns></returns>
+    <ExportAPI("lineage")>
+    Public Function Lineage(tree As NcbiTaxonomyTree, taxid As Integer, Optional fullName As Boolean = False) As Taxonomy
+        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=Not fullName))
+    End Function
 End Module
 

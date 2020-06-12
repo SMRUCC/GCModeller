@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac78e0e3b6b7dba2c2fa4a4acad57024, Microsoft.VisualBasic.Core\Net\Tcp\TCPExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9b9dd98c459e4e3b744bd09868859621, Microsoft.VisualBasic.Core\Net\Tcp\TCPExtensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module TCPExtensions
     ' 
-    '         Function: ConnectSocket, GetFirstAvailablePort, (+2 Overloads) Ping, PortIsAvailable, PortIsUsed
+    '         Function: ConnectSocket, GetFirstAvailablePort, PortIsAvailable, PortIsUsed
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,36 +51,6 @@ Imports Microsoft.VisualBasic.Net.Protocols
 Namespace Net.Tcp
 
     Public Module TCPExtensions
-
-        ''' <summary>
-        ''' -1标识Ping不通
-        ''' </summary>
-        ''' <param name="operationTimeOut">ms</param>
-        ''' <returns></returns>
-        Public Function Ping(ep As System.Net.IPEndPoint, Optional operationTimeOut As Integer = 3 * 1000) As Double
-            Return New TcpRequest(ep).Ping(operationTimeOut)
-        End Function
-
-        ''' <summary>
-        ''' -1 ping failure
-        ''' </summary>
-        ''' <param name="invoke"></param>
-        ''' <param name="timeout"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function Ping(invoke As TcpRequest, Optional timeout As Integer = 3 * 1000) As Double
-            Dim sw As Stopwatch = Stopwatch.StartNew
-            Dim request As RequestStream = RequestStream.SystemProtocol(RequestStream.Protocols.Ping, PING_REQUEST)
-            Dim response As RequestStream = invoke.SendMessage(request, timeout:=timeout)
-
-            If HTTP_RFC.RFC_REQUEST_TIMEOUT = response.Protocol Then
-                Return -1
-            End If
-
-            Return sw.ElapsedMilliseconds
-        End Function
-
-        Public Const PING_REQUEST As String = "PING/TTL-78973"
 
         ''' <summary>
         ''' 假若不能成功的建立起连接的话，则会抛出错误

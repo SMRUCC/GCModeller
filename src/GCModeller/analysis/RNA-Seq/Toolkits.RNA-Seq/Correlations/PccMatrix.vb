@@ -195,7 +195,7 @@ Public Class PccMatrix
 
         If __ordinalHash.ContainsKey(Id2) Then
             Dim idx As Integer = __ordinalHash(Id2)
-            Dim value As Double = _pccValues(key1).Values(idx)
+            Dim value As Double = _pccValues(key1)(idx)
             Return value
         Else
             Return 0

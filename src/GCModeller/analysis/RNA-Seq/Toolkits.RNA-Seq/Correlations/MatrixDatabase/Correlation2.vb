@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::a6fa9699c06fdd87e1b31ff7e6039641, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\Correlation2.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Correlation2
-    ' 
-    '     Properties: Pcc, SPcc, WGCNA
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: CreateFromName, GetPcc, GetPccGreaterThan, GetPccSignificantThan, GetSPcc
-    '               GetWGCNAWeight, LoadAuto
-    ' 
-    ' /********************************************************************************/
+' Class Correlation2
+' 
+'     Properties: Pcc, SPcc, WGCNA
+' 
+'     Constructor: (+2 Overloads) Sub New
+'     Function: CreateFromName, GetPcc, GetPccGreaterThan, GetPccSignificantThan, GetSPcc
+'               GetWGCNAWeight, LoadAuto
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,17 +56,18 @@ Public Class Correlation2 : Implements ICorrelations
     Public ReadOnly Property SPcc As PccMatrix
 
     Sub New(Pcc As String, SPcc As String, WGCNA As String)
-        Call $"Load WGCNA data from {WGCNA.ToFileURL}".__DEBUG_ECHO
-        Dim WGCNAar = Function() FastImports(WGCNA)
-        Dim loadWGCNA = WGCNAar.BeginInvoke(Nothing, Nothing)
+        '    Call $"Load WGCNA data from {WGCNA.ToFileURL}".__DEBUG_ECHO
+        '    Dim WGCNAar = Function() FastImports(WGCNA)
+        '    Dim loadWGCNA = WGCNAar.BeginInvoke(Nothing, Nothing)
 
-        Call $"Load pcc data from {Pcc.ToFileURL}".__DEBUG_ECHO
-        Me.Pcc = MatrixSerialization.Load(from:=Pcc)
-        Call $"Load spcc data from {SPcc.ToFileURL}".__DEBUG_ECHO
-        Me.SPcc = MatrixSerialization.Load(from:=SPcc)
-        Me.WGCNA = WGCNAar.EndInvoke(loadWGCNA)
+        '    Call $"Load pcc data from {Pcc.ToFileURL}".__DEBUG_ECHO
+        '    Me.Pcc = MatrixSerialization.Load(from:=Pcc)
+        '    Call $"Load spcc data from {SPcc.ToFileURL}".__DEBUG_ECHO
+        '    Me.SPcc = MatrixSerialization.Load(from:=SPcc)
+        '    Me.WGCNA = WGCNAar.EndInvoke(loadWGCNA)
 
-        Call "OK!".__DEBUG_ECHO
+        '    Call "OK!".__DEBUG_ECHO
+        Throw New NotImplementedException
     End Sub
 
     Sub New(dumpDir As String)
@@ -91,8 +92,8 @@ Public Class Correlation2 : Implements ICorrelations
         Dim dict As New Dictionary(Of String, Double)
 
         For i As Integer = 0 To array.Length - 1
-            If sample.Values(i) >= cutoff Then
-                Call dict.Add(array(i), sample.Values(i))
+            If sample(i) >= cutoff Then
+                Call dict.Add(array(i), sample(i))
             End If
         Next
 
@@ -105,8 +106,8 @@ Public Class Correlation2 : Implements ICorrelations
         Dim dict As New Dictionary(Of String, Double)
 
         For i As Integer = 0 To array.Length - 1
-            If Math.Abs(sample.Values(i)) >= cutoff Then
-                Call dict.Add(array(i), sample.Values(i))
+            If Math.Abs(sample(i)) >= cutoff Then
+                Call dict.Add(array(i), sample(i))
             End If
         Next
 
@@ -119,16 +120,17 @@ Public Class Correlation2 : Implements ICorrelations
     ''' <param name="codeName">这个一般是KEGG之中的物种编号</param>
     ''' <returns></returns>
     Public Shared Function CreateFromName(codeName As String) As Correlation2
-        Call Settings.Session.Initialize()
+        'Call Settings.Session.Initialize()
 
-        Dim DIR As String = GCModeller.FileSystem.Correlations & $"/{codeName}/"
-        If Not DIR.DirectoryExists OrElse String.IsNullOrEmpty(codeName) Then
-            Call $"{codeName} is not exists in the repository...".__DEBUG_ECHO
-            Return Nothing
-        End If
+        'Dim DIR As String = GCModeller.FileSystem.Correlations & $"/{codeName}/"
+        'If Not DIR.DirectoryExists OrElse String.IsNullOrEmpty(codeName) Then
+        '    Call $"{codeName} is not exists in the repository...".__DEBUG_ECHO
+        '    Return Nothing
+        'End If
 
-        Dim corr As New Correlation2(DIR)
-        Return corr
+        'Dim corr As New Correlation2(DIR)
+        'Return corr
+        Throw New NotImplementedException
     End Function
 
     ''' <summary>
@@ -137,10 +139,11 @@ Public Class Correlation2 : Implements ICorrelations
     ''' <param name="SpNameOrDIR"></param>
     ''' <returns></returns>
     Public Shared Function LoadAuto(SpNameOrDIR As String) As Correlation2
-        If SpNameOrDIR.DirectoryExists Then
-            Return New Correlation2(SpNameOrDIR)
-        Else
-            Return CreateFromName(SpNameOrDIR)
-        End If
+        'If SpNameOrDIR.DirectoryExists Then
+        '    Return New Correlation2(SpNameOrDIR)
+        'Else
+        '    Return CreateFromName(SpNameOrDIR)
+        'End If
+        Throw New NotImplementedException
     End Function
 End Class
