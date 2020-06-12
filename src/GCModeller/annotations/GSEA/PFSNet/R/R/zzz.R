@@ -3,6 +3,4 @@
 	require(igraph);
 }
 
-
-
 .flashLoad <- function() .onLoad(NULL, NULL);

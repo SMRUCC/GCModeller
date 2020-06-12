@@ -74,69 +74,11 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     cat(".")
     cat("\t[DONE]\n")
     cat("computing subnetwork scores")
-    pscore<-sapply(ccs,function(x){
-        vertices<-get.vertex.attribute(x,name="name")
-        ws<-w1matrix1[vertices,,drop=FALSE]
-        ws[is.na(ws)]<-0
-        v<-c()
-        for(i in 1:ncol(ws)){
-            v<-c(v,sum(
-                (V(x)$weight*ws[,i])
-            ))
-        }
-        v
-        #apply(ss,2,function(y){
-        #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr1o))
-        #	})
-
-    })
-    pscore2<-sapply(ccs2,function(x){
-        vertices<-get.vertex.attribute(x,name="name")
-        ws<-w1matrix2[vertices,,drop=FALSE]
-        ws[is.na(ws)]<-0
-        v<-c()
-        for(i in 1:ncol(ws)){
-            v<-c(v,sum(
-                (V(x)$weight*ws[,i])
-            ))
-        }
-        v
-        #apply(ss,2,function(y){
-        #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr1o))
-        #	})
-
-    })
+    pscore<-compute_npscore(ccs,w1matrix1);
+    pscore2<-compute_npscore(ccs2,w1matrix2);
     cat(".")
-    nscore<-sapply(ccs,function(x){
-        vertices<-get.vertex.attribute(x,name="name")
-        ws<-w1matrix1[vertices,,drop=FALSE]
-        ws[is.na(ws)]<-0
-        v<-c()
-        for(i in 1:ncol(ws)){
-            v<-c(v,sum(
-                (V(x)$weight2*ws[,i])
-            ))
-        }
-        v
-        #apply(ss,2,function(y){
-        #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr2o))
-        #	})
-    })
-    nscore2<-sapply(ccs2,function(x){
-        vertices<-get.vertex.attribute(x,name="name")
-        ws<-w1matrix2[vertices,,drop=FALSE]
-        ws[is.na(ws)]<-0
-        v<-c()
-        for(i in 1:ncol(ws)){
-            v<-c(v,sum(
-                (V(x)$weight2*ws[,i])
-            ))
-        }
-        v
-        #apply(ss,2,function(y){
-        #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr2o))
-        #	})
-    })
+    nscore<-compute_npscore(ccs,w1matrix1, pscore = FALSE);
+    nscore2<-compute_npscore(ccs2,w1matrix2, pscore = FALSE);
     cat(".")
     cat(".\t[DONE]\n")
     cat("computing permuation tests")
