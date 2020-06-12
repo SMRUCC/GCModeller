@@ -184,9 +184,12 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat("\t[DONE]\n")
         cat("total time elapsed: ", proc.ElapsedMilliseconds / 1000, " seconds\n")
 
+        Dim class1 = (From item In ccs Where item.masked Select item).ToArray
+        Dim class2 = (From item In ccs2 Where item.masked Select item).ToArray
+
         Return New PFSNetResultOut With {
-            .phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
-            .phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
+            .phenotype1 = class1,
+            .phenotype2 = class2
         }
     End Function
 End Module
