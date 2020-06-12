@@ -128,6 +128,11 @@ Module Fasta
         End Select
     End Function
 
+    ''' <summary>
+    ''' 返回空值表示类型错误
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <returns></returns>
     Public Function GetFastaSeq(a As Object) As IEnumerable(Of FastaSeq)
         If a Is Nothing Then
             Return {}
@@ -185,13 +190,18 @@ Module Fasta
         End If
     End Function
 
+    ''' <summary>
+    ''' read a fasta sequence collection file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.fasta")>
     Public Function readFasta(file As String) As FastaFile
         Return FastaFile.Read(file)
     End Function
 
     ''' <summary>
-    ''' 
+    ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
     ''' <param name="seq"></param>
     ''' <param name="file"></param>
@@ -289,7 +299,7 @@ Module Fasta
     ''' <summary>
     ''' Do multiple sequence alignment
     ''' </summary>
-    ''' <param name="seqs"></param>
+    ''' <param name="seqs">A fasta sequence collection</param>
     ''' <returns></returns>
     <ExportAPI("MSA.of")>
     Public Function MSA(<RRawVectorArgument> seqs As Object) As MSAOutput
@@ -299,7 +309,7 @@ Module Fasta
     ''' <summary>
     ''' Create a fasta sequence collection object from any given sequence collection.
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">any type of sequence collection</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.fasta")>

@@ -14,6 +14,13 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("go.annotation")>
 Module annotation
 
+    ''' <summary>
+    ''' export ko to go mapping data from the uniprot database.
+    ''' </summary>
+    ''' <param name="uniprot">the data reader of the uniprot xml database file.</param>
+    ''' <param name="threshold">the supports coverage threshold value.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("uniprot.ko2go")>
     <RApiReturn(GetType(SecondaryIDSolver))>
     Public Function CreateKO2GO(uniprot As pipeline, Optional threshold# = 0.8, Optional env As Environment = Nothing) As Object
