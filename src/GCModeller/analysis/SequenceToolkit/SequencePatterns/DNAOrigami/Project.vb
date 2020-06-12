@@ -24,6 +24,8 @@ Namespace DNAOrigami
 
     Public Class Output
 
+        Public Property tuple As String()
+
         Public Property count As Double
         Public Property count_revcompl As Double
         Public Property count_corrected As Double

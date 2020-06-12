@@ -1,4 +1,7 @@
-﻿Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace DNAOrigami
 
@@ -16,43 +19,47 @@ Namespace DNAOrigami
         ''' <summary>
         ''' Check orthogonality of 2 dna-sequences and output relevant data.
         ''' </summary>
-        ''' <param name="sc1"></param>
-        ''' <param name="sc2"></param>
+        ''' <param name="scaffold1"></param>
+        ''' <param name="scaffold2"></param>
         ''' <param name="project"></param>
         ''' <returns></returns>
-        Public Function check_ortho(sc1 As String, sc2 As String, project As Project) As Output
-            Dim count As Double = 0
-            Dim count_RC = If(project.get_rev_compl, 0, Double.NaN)
+        Public Function CheckOrthogonality(scaffold1 As IAbstractFastaToken, scaffold2 As IAbstractFastaToken, Optional project As Project = Nothing) As Output
+            Dim count As Double
+            Dim count_RC As Double
             Dim n_count As New List(Of Double)
             Dim n_count_RC As New List(Of Double)
-            Dim sc1_full As String
-            Dim sc2_full As String
+            Dim sc1Full As String
+            Dim sc2Full As String
+            Dim sc1 = scaffold1.SequenceData.ToUpper
+            Dim sc2 = scaffold2.SequenceData.ToUpper
 
-            sc1 = sc1.ToUpper
-            sc2 = sc2.ToUpper
+            Static defaultArguments As [Default](Of Project) = New Project()
 
-            With circularise_sc(project, sc1, sc2)
-                sc1_full = .Item1
-                sc2_full = .Item2
+            project = project Or defaultArguments
+            count_RC = If(project.get_rev_compl, 0, Double.NaN)
+
+            With circulariseScaffold(project, sc1, sc2)
+                sc1Full = .Item1
+                sc2Full = .Item2
             End With
 
             For i As Integer = 0 To sc1.Length - 1
                 Dim repeat_count = 0
                 Dim repeat_count_RC = 0
-                Dim sc1_seg = sc1_full.Substring(i, project.n)
+                Dim sc1_seg = sc1Full.Substring(i, project.n)
 
                 For j As Integer = 0 To sc2.Length - 1
-                    Dim sc2_seg = sc2_full.Substring(j, project.n)
+                    Dim sc2_seg = sc2Full.Substring(j, project.n)
 
-                    If is_match(sc1_seg, sc2_seg, project) Then
+                    If isMatch(sc1_seg, sc2_seg, project) Then
                         count += 1
                         repeat_count += 1
                     End If
 
                     If project.get_rev_compl Then
-                        Dim sc2_seg_RC = NucleicAcid.Complement(sc2_full.Substring(i, project.n).Reverse.CharString)
+                        Dim sc2_seg_RC = NucleicAcid.Complement(sc2Full.Substring(i, project.n).Reverse.CharString)
 
-                        If is_match(sc1_seg, sc2_seg_RC, project) Then
+                        If isMatch(sc1_seg, sc2_seg_RC, project) Then
                             count_RC += 1
                             repeat_count_RC += 1
                         End If
@@ -76,11 +83,15 @@ Namespace DNAOrigami
                 .count_revcompl = count_RC,
                 .count_revcompl_corrected = count_revcompl_corrected,
                 .n_count = n_count.ToArray,
-                .n_count_revcompl = n_count_RC.ToArray
+                .n_count_revcompl = n_count_RC.ToArray,
+                .tuple = {
+                    scaffold1.title,
+                    scaffold2.title
+                }
             }
         End Function
 
-        Private Function circularise_sc(project As Project, sc1 As String, sc2 As String) As (String, String)
+        Private Function circulariseScaffold(project As Project, sc1 As String, sc2 As String) As (String, String)
             If project.is_linear Then
                 Return (sc1, sc2)
             Else
@@ -91,7 +102,7 @@ Namespace DNAOrigami
             End If
         End Function
 
-        Private Function is_match(seg1 As String, seg2 As String, project As Project) As Boolean
+        Private Function isMatch(seg1 As String, seg2 As String, project As Project) As Boolean
             Return seg1 = seg2 And Len(seg1) = project.n
         End Function
     End Module

@@ -128,6 +128,11 @@ Module Fasta
         End Select
     End Function
 
+    ''' <summary>
+    ''' 返回空值表示类型错误
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <returns></returns>
     Public Function GetFastaSeq(a As Object) As IEnumerable(Of FastaSeq)
         If a Is Nothing Then
             Return {}
