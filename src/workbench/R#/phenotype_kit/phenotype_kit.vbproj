@@ -130,6 +130,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PFSNetAnalysis.vb" />
     <Compile Include="TRNBuilder.vb" />
     <Compile Include="multiOmics.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -175,6 +176,10 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
       <Name>MotifScanner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.vbproj">
+      <Project>{8F90DA49-5D2B-463D-9B36-5CD64B7846AA}</Project>
+      <Name>PFSNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
