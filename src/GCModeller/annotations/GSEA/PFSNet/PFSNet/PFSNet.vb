@@ -130,7 +130,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                            Optional b As Double = 0.5,
                            Optional t1 As Double = 0.95,
                            Optional t2 As Double = 0.85,
-                           Optional n As Double = 1000) As PFSNetResultOut
+                           Optional n As Integer = 1000) As PFSNetResultOut
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 
