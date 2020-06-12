@@ -4,13 +4,13 @@
 #' @param nscore a logical value for switch evaluate the 
 #' \code{pscore} or \code{nscore}.
 #'
-compute_npscore <- function(ccs, w1matrix1, nscore = FALSE) {
+compute_npscore <- function(ccs, w1matrix1, pscore = TRUE) {
 	sapply(ccs,function(x){
         vertices<-get.vertex.attribute(x,name="name")
         ws<-w1matrix1[vertices,,drop=FALSE]
         ws[is.na(ws)]<-0
         v<-c();
-		weight.n <- if (nscore) {
+		weight.n <- if (pscore) {
 			V(x)$weight;
 		} else {
 			V(x)$weight2;
@@ -31,9 +31,9 @@ pfsnet.compute.sample.score<-function(ccs,ccs2,file1,file2,t1=0.95,t2=0.85){
     rownames(w1matrix1)<-rownames(expr1o)
     rownames(w1matrix2)<-rownames(expr2o)
     pscore<-compute_npscore(ccs, w1matrix1);
-    nscore<-compute_npscore(ccs, w1matrix1, nscore = TRUE);
+    nscore<-compute_npscore(ccs, w1matrix1, pscore = FALSE);
     pscore2<-compute_npscore(ccs2,w1matrix2);
-    nscore2<-compute_npscore(ccs2,w1matrix2, nscore = TRUE);
+    nscore2<-compute_npscore(ccs2,w1matrix2, pscore = FALSE);
 	
     list(pscore=as.data.frame(pscore),nscore=as.data.frame(nscore),pscore2=as.data.frame(pscore2),nscore2=as.data.frame(nscore2))
 }

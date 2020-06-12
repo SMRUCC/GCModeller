@@ -42,38 +42,8 @@ pfsnet.estimatetdist<-function(obj,d1,d2,ggi,b,t1,t2,n){
 
         ccs <- unlist(ccs, recursive=FALSE)
 
-        pscore<-sapply(ccs,function(x){
-            vertices<-get.vertex.attribute(x,name="name")
-            ws<-w1matrix1[vertices,,drop=FALSE]
-            ws[is.na(ws)]<-0
-            v<-c()
-            for(i in 1:ncol(ws)){
-                v<-c(v,sum(
-                    (V(x)$weight*ws[,i])
-                ))
-            }
-            v
-            #apply(ss,2,function(y){
-            #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr1o))
-            #	})
-
-        })
-
-        nscore<-sapply(ccs,function(x){
-            vertices<-get.vertex.attribute(x,name="name")
-            ws<-w1matrix1[vertices,,drop=FALSE]
-            ws[is.na(ws)]<-0
-            v<-c()
-            for(i in 1:ncol(ws)){
-                v<-c(v,sum(
-                    (V(x)$weight2*ws[,i])
-                ))
-            }
-            v
-            #apply(ss,2,function(y){
-            #		sum(apply(ss[y,,drop=FALSE],1,sum)/ncol(expr2o))
-            #	})
-        })
+        pscore<-compute_npscore(ccs,w1matrix1);
+        nscore<-compute_npscore(ccs,w1matrix1, pscore = FALSE);
 
         statistics<-rep(NA,length(ccs))
         for(i in 1:length(ccs)){
