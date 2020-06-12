@@ -1,7 +1,4 @@
-loaddata<-function(file){
-    a<-read.table(file,row.names=1)
-    a
-}
+
 
 computew1<-function(expr,theta1,theta2){
     ranks<-apply(expr,2,function(x){
