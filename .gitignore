@@ -252,3 +252,4 @@ pip-log.txt
 /GCModeller/bin_unix64
 src/workbench/R#/demo/kegg/kegg_maps.zip
 /src/workbench/R#/demo/kegg/output
+.Rproj.user
