@@ -1,6 +1,3 @@
-require(igraph)
-#require(rJava)
-
 loaddata<-function(file){
     a<-read.table(file,row.names=1)
     a
