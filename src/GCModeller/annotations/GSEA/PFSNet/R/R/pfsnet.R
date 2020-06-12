@@ -1,15 +1,3 @@
-pfsnet.computegenelist<-function(w,beta){
-    # within.mask<-apply(w,1,function(x){
-    # 	m<-median(x)
-    # 	(x>m-delta)
-    # })
-    # within.mask<-t(within.mask)
-    list.mask<-apply(w,1,function(x){
-        sum(x,na.rm=T)/sum(!is.na(x)) >= beta
-    })
-    list(gl=rownames(w)[list.mask])
-}
-
 pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     #obj<-.jnew("filter")
     ptm<-proc.time()
