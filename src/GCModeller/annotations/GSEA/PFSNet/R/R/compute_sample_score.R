@@ -1,6 +1,9 @@
 
 #' compute nscore or pscore matrix
 #'
+#' @param nscore a logical value for switch evaluate the 
+#' \code{pscore} or \code{nscore}.
+#'
 compute_npscore <- function(ccs, w1matrix1, nscore = FALSE) {
 	sapply(ccs,function(x){
         vertices<-get.vertex.attribute(x,name="name")

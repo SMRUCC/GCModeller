@@ -6,6 +6,10 @@
 \usage{
 compute_npscore(ccs, w1matrix1, nscore = FALSE)
 }
+\arguments{
+\item{nscore}{a logical value for switch evaluate the 
+\code{pscore} or \code{nscore}.}
+}
 \description{
 compute nscore or pscore matrix
 }
