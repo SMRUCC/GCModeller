@@ -4,7 +4,7 @@
 \alias{compute_npscore}
 \title{compute nscore or pscore matrix}
 \usage{
-compute_npscore(ccs, w1matrix1, nscore = FALSE)
+compute_npscore(ccs, w1matrix1, pscore = TRUE)
 }
 \arguments{
 \item{nscore}{a logical value for switch evaluate the 
