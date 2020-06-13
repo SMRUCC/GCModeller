@@ -1153,6 +1153,12 @@
     <Compile Include="CommandLine\Reflection\ExportApiInformation.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
     <Compile Include="ComponentModel\DataSource\Property\Extensions.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\Data.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\Deque.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\Enumerator.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\IDeque.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\ReversedEnumerator.vb" />
+    <Compile Include="ComponentModel\DataStructures\Deque\ReverseQueue.vb" />
     <Compile Include="ComponentModel\File\IOWorkModes.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="Data\NamespaceDoc.vb" />
