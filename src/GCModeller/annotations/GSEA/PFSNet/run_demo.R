@@ -11,5 +11,6 @@ t2=0.8,
 n=10
 )
 
-:> print
+:> xml
+:> writeLines(con = "./data/demo.xml")
 ;
