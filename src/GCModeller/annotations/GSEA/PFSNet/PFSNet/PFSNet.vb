@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
@@ -114,9 +115,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
         cat(".")
-        Dim expr1o As DataFrameRow() = DataFrameRow.LoadData(file1)
+        Dim expr1o As DataFrameRow() = Matrix.LoadData(file1).expression
         cat(".")
-        Dim expr2o As DataFrameRow() = DataFrameRow.LoadData(file2)
+        Dim expr2o As DataFrameRow() = Matrix.LoadData(file2).expression
         cat(".")
         cat("\t[DONE]\n")
 

@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::64d4d4859aa51c5fb68182939319b757, annotations\GSEA\PFSNet\PFSNet\Algorithm\estimatetdist.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module estimatetdistFunction
-    ' 
-    '     Function: estimatetdist, estimatetdistLoop
-    ' 
-    ' /********************************************************************************/
+' Module estimatetdistFunction
+' 
+'     Function: estimatetdist, estimatetdistLoop
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
@@ -76,8 +77,8 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     <Extension>
     Private Function estimatetdistLoop(total As DataFrameRow(), ggi As GraphEdge(), d1 As DataFrameRow(), d2 As DataFrameRow(), t1#, t2#, b#) As Double()
         Dim samplevector = Sample(total.First.samples - 1, d1.First.samples - 1)
-        Dim expr1o = DataFrameRow.TakeSamples(total, samplevector, False)
-        Dim expr2o = DataFrameRow.TakeSamples(total, samplevector, True)
+        Dim expr1o = Matrix.TakeSamples(total, samplevector, False).ToArray
+        Dim expr2o = Matrix.TakeSamples(total, samplevector, True).ToArray
         Dim w1matrix1 = computew1(expr1o, theta1:=t1, theta2:=t2)
         Dim w1matrix2 = computew1(expr2o, theta1:=t1, theta2:=t2)
 

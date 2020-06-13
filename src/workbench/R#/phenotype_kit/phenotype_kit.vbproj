@@ -169,6 +169,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
@@ -178,7 +182,7 @@
       <Name>MotifScanner</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.vbproj">
-      <Project>{8F90DA49-5D2B-463D-9B36-5CD64B7846AA}</Project>
+      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
       <Name>PFSNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">

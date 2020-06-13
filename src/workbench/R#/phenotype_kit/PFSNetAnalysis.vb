@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 
@@ -8,7 +9,7 @@ Module PFSNetAnalysis
 
     <ExportAPI("load.expr")>
     Public Function loadExpression(file As String) As DataFrameRow()
-        Return DataFrameRow.LoadData(file)
+        Return Matrix.LoadData(file).expression
     End Function
 
     <ExportAPI("load.pathway_network")>

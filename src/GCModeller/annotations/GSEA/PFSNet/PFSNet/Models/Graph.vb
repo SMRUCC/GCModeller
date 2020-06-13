@@ -1,46 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::4bafff220e398befbacfdb7e596b4654, annotations\GSEA\PFSNet\PFSNet\Models\Graph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Data
-    ' 
-    '         Function: Frame, simplify
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Data
+' 
+'         Function: Frame, simplify
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
@@ -104,5 +106,54 @@ Namespace R.Graph
                 .Id = graph.edges.First.pathwayID
             }
         End Function
+
+        Public Iterator Function decompose_graph(g As PFSNetGraph, min_vertices As Integer) As IEnumerable(Of PFSNetGraph)
+            Dim graph As New NetworkGraph
+
+            For Each node As PFSNetGraphNode In g.nodes
+                graph.CreateNode(node.name)
+                graph.GetElementByID(node.name).data.weights = {
+                    node.weight,
+                    node.weight2
+                }
+            Next
+
+            For Each ggi As GraphEdge In g.edges
+                Call graph.CreateEdge(ggi.g1, ggi.g2, New EdgeData With {.label = ggi.pathwayID})
+            Next
+
+            Dim subnetworks = graph.DecomposeGraph(minVertices:=min_vertices).ToArray
+            Dim pfsnet As PFSNetGraph
+
+            For Each part In subnetworks
+                pfsnet = New PFSNetGraph With {
+                    .Id = g.Id,
+                    .masked = g.masked,
+                    .pvalue = 1,
+                    .statistics = 0,
+                    .edges = part.graphEdges _
+                        .Select(Function(a)
+                                    Return New GraphEdge With {
+                                        .g1 = a.U.label,
+                                        .g2 = a.V.label,
+                                        .pathwayID = a.data.label
+                                    }
+                                End Function) _
+                        .ToArray,
+                    .nodes = part.vertex _
+                        .Select(Function(a)
+                                    Return New PFSNetGraphNode With {
+                                        .name = a.label,
+                                        .weight = a.data.weights(Scan0),
+                                        .weight2 = a.data.weights(1)
+                                    }
+                                End Function) _
+                        .ToArray
+                }
+
+                Yield pfsnet
+            Next
+        End Function
+
     End Module
 End Namespace

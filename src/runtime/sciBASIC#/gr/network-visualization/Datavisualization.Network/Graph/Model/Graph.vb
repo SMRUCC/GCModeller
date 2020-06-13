@@ -153,6 +153,9 @@ Namespace Graph
                 If node.adjacencies Is Nothing Then
                     node.adjacencies = _index.CreateNodeAdjacencySet(node)
                 End If
+                If node.directedVertex Is Nothing Then
+                    node.directedVertex = New DirectedVertex(node.label)
+                End If
             Next
         End Sub
 
@@ -179,7 +182,10 @@ Namespace Graph
             End If
 
             _index(node.label) = node
-            notify()
+            _index(node.label).directedVertex = New DirectedVertex(node.label)
+
+            Call notify()
+
             Return node
         End Function
 
@@ -231,8 +237,14 @@ Namespace Graph
 
             Dim tuple = _index.AddEdge(edge)
 
+            ' gr.addEdge(edge)
+            ' tail.addOutgoingEdge(edge)
+            ' head.addIncomingEdge(edge)
+
             edge.U.adjacencies = tuple.U
             edge.V.adjacencies = tuple.V
+            edge.U.directedVertex.addEdge(edge)
+            edge.V.directedVertex.addEdge(edge)
 
             Call notify()
 

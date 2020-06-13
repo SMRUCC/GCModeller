@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-16"?>
+<PFSNetResultOut xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <phenotype1 Id="Parkinsons disease - Homo sapiens (human)" statistics="-15.65035531816739" pvalue="0.044890162368672396" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="27429" weight="1" weight2="1" />
+      <PFSNetGraphNode name="292" weight="1.2222222222222223" weight2="1.7391304347826086" />
+      <PFSNetGraphNode name="293" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="54205" weight="0.88888888888888884" weight2="1.2173913043478262" />
+      <PFSNetGraphNode name="7314" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7317" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7318" weight="1.2222222222222223" weight2="1.3913043478260869" />
+      <PFSNetGraphNode name="7332" weight="1.3333333333333333" weight2="1.7826086956521738" />
+      <PFSNetGraphNode name="7416" weight="1.3333333333333333" weight2="1.5652173913043479" />
+      <PFSNetGraphNode name="7417" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7419" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="9246" weight="1.2222222222222223" weight2="1.7826086956521738" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7317" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7318" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="27429" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7332" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="9246" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="27429" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="292" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="293" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7416" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7417" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7419" gene2="54205" />
+    </edges>
+  </phenotype1>
+  <phenotype1 Id="Synaptic Long Term Potentiation" statistics="-12.665597854134486" pvalue="0.048710601719197708" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="2907" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3708" weight="0.875" weight2="1.411764705882353" />
+      <PFSNetGraphNode name="3845" weight="0.875" weight2="0.70588235294117652" />
+      <PFSNetGraphNode name="468" weight="1.5" weight2="2.4705882352941178" />
+      <PFSNetGraphNode name="5573" weight="1.375" weight2="2.4705882352941178" />
+      <PFSNetGraphNode name="5579" weight="1.5" weight2="2.3529411764705883" />
+      <PFSNetGraphNode name="5605" weight="1" weight2="0.94117647058823528" />
+      <PFSNetGraphNode name="5894" weight="1.125" weight2="1.6470588235294117" />
+      <PFSNetGraphNode name="5908" weight="1.5" weight2="2.4705882352941178" />
+      <PFSNetGraphNode name="6195" weight="1.375" weight2="2.2352941176470589" />
+      <PFSNetGraphNode name="801" weight="1.5" weight2="2.4705882352941178" />
+      <PFSNetGraphNode name="805" weight="1.5" weight2="2.4705882352941178" />
+      <PFSNetGraphNode name="808" weight="1.5" weight2="2.4705882352941178" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="6195" gene2="468" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5894" gene2="5605" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5579" gene2="808" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="805" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="3708" gene2="805" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5579" gene2="805" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="801" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="3708" gene2="801" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5579" gene2="801" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="801" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="805" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="808" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5573" gene2="5908" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="3845" gene2="5894" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="5908" gene2="5894" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="801" gene2="3845" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="805" gene2="3845" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="808" gene2="3845" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="2907" gene2="808" />
+      <GraphEdge pathwayID="Synaptic Long Term Potentiation" gene1="3708" gene2="808" />
+    </edges>
+  </phenotype1>
+  <phenotype2 Id="Fatty acid metabolism - Homo sapiens (human)" statistics="21.471852850190707" pvalue="0.00974313551815766" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="10449" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3028" weight="1" weight2="1.173913043478261" />
+      <PFSNetGraphNode name="3030" weight="12" weight2="1.6086956521739131" />
+      <PFSNetGraphNode name="3032" weight="12" weight2="1.6956521739130435" />
+      <PFSNetGraphNode name="34" weight="10" weight2="1.5652173913043479" />
+      <PFSNetGraphNode name="37" weight="10" weight2="1.4347826086956521" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3030" gene2="37" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3030" gene2="34" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3028" gene2="10449" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="34" gene2="10449" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="10449" gene2="3028" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="10449" gene2="3030" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3028" gene2="3032" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="34" gene2="3032" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="10449" gene2="3030" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3028" gene2="3030" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3032" gene2="3030" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="10449" gene2="3028" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3030" gene2="3028" />
+      <GraphEdge pathwayID="Fatty acid metabolism - Homo sapiens (human)" gene1="3032" gene2="3028" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Purine metabolism - Homo sapiens (human)" statistics="-9.4564068820967524" pvalue="0.046944198405668734" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="22978" weight="0.58333333333333337" weight2="0.7142857142857143" />
+      <PFSNetGraphNode name="2987" weight="1" weight2="0.9285714285714286" />
+      <PFSNetGraphNode name="3251" weight="0.33333333333333331" weight2="0.9285714285714286" />
+      <PFSNetGraphNode name="4860" weight="0.83333333333333337" weight2="1" />
+      <PFSNetGraphNode name="5142" weight="0.25" weight2="0.52380952380952384" />
+      <PFSNetGraphNode name="9583" weight="0.41666666666666669" weight2="0.80952380952380953" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Purine metabolism - Homo sapiens (human)" gene1="3251" gene2="22978" />
+      <GraphEdge pathwayID="Purine metabolism - Homo sapiens (human)" gene1="3251" gene2="2987" />
+      <GraphEdge pathwayID="Purine metabolism - Homo sapiens (human)" gene1="3251" gene2="4860" />
+      <GraphEdge pathwayID="Purine metabolism - Homo sapiens (human)" gene1="3251" gene2="5142" />
+      <GraphEdge pathwayID="Purine metabolism - Homo sapiens (human)" gene1="3251" gene2="9583" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Valine, leucine and isoleucine degradation - Homo sapiens (human)" statistics="22.631714378739094" pvalue="0.00974313551815766" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="10449" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3028" weight="1" weight2="1.173913043478261" />
+      <PFSNetGraphNode name="3030" weight="12" weight2="1.6086956521739131" />
+      <PFSNetGraphNode name="3032" weight="12" weight2="1.6956521739130435" />
+      <PFSNetGraphNode name="34" weight="10" weight2="1.5652173913043479" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Valine, leucine and isoleucine degradation - Homo sapiens (human)" gene1="3030" gene2="34" />
+      <GraphEdge pathwayID="Valine, leucine and isoleucine degradation - Homo sapiens (human)" gene1="10449" gene2="3028" />
+      <GraphEdge pathwayID="Valine, leucine and isoleucine degradation - Homo sapiens (human)" gene1="3030" gene2="3028" />
+      <GraphEdge pathwayID="Valine, leucine and isoleucine degradation - Homo sapiens (human)" gene1="3032" gene2="3028" />
+      <GraphEdge pathwayID="Valine, leucine and isoleucine degradation - Homo sapiens (human)" gene1="10449" gene2="3028" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Wnt signaling pathway - Homo sapiens (human)" statistics="-15.635992479137924" pvalue="0.025686448184233834" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1452" weight="1" weight2="1" />
+      <PFSNetGraphNode name="1487" weight="1.3333333333333333" weight2="1.7826086956521738" />
+      <PFSNetGraphNode name="1488" weight="1.1111111111111112" weight2="1.7391304347826086" />
+      <PFSNetGraphNode name="1499" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="387" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="4609" weight="1" weight2="1.3043478260869565" />
+      <PFSNetGraphNode name="51176" weight="1.2222222222222223" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="5616" weight="0.77777777777777779" weight2="1.4347826086956521" />
+      <PFSNetGraphNode name="5663" weight="0.55555555555555558" weight2="1.4347826086956521" />
+      <PFSNetGraphNode name="57680" weight="1" weight2="1.4347826086956521" />
+      <PFSNetGraphNode name="6093" weight="1" weight2="1.5652173913043479" />
+      <PFSNetGraphNode name="894" weight="0.66666666666666663" weight2="1.6521739130434783" />
+      <PFSNetGraphNode name="896" weight="1.3333333333333333" weight2="1.826086956521739" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="5616" gene2="5663" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="51176" gene2="896" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="5663" gene2="1499" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="57680" gene2="1499" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="1452" gene2="1499" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="51176" gene2="894" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="51176" gene2="4609" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="387" gene2="6093" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="1487" gene2="51176" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="1488" gene2="51176" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="1499" gene2="51176" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="1452" gene2="1499" />
+      <GraphEdge pathwayID="Wnt signaling pathway - Homo sapiens (human)" gene1="5616" gene2="1499" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Adherens junction - Homo sapiens (human)" statistics="-12.285481667421093" pvalue="0.036315323294951282" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1460" weight="1" weight2="1" />
+      <PFSNetGraphNode name="1495" weight="0.75" weight2="0.975609756097561" />
+      <PFSNetGraphNode name="1499" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="2534" weight="0.41666666666666669" weight2="0.975609756097561" />
+      <PFSNetGraphNode name="387" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="51176" weight="0.91666666666666663" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="52" weight="0.91666666666666663" weight2="1" />
+      <PFSNetGraphNode name="5879" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="5880" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="60" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="71" weight="1" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="7414" weight="0.75" weight2="0.82926829268292679" />
+      <PFSNetGraphNode name="7454" weight="0.75" weight2="0.95121951219512191" />
+      <PFSNetGraphNode name="81" weight="0.75" weight2="0.975609756097561" />
+      <PFSNetGraphNode name="87" weight="0.33333333333333331" weight2="0.65853658536585369" />
+      <PFSNetGraphNode name="8826" weight="0.5" weight2="0.95121951219512191" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="5879" gene2="8826" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="5880" gene2="8826" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="71" gene2="7414" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="71" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="387" gene2="71" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="7454" gene2="71" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="8826" gene2="71" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="60" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="387" gene2="60" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="7454" gene2="60" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="8826" gene2="60" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="60" gene2="1495" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="87" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="71" gene2="1495" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1460" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="2534" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="51176" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="52" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="8826" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1460" gene2="1499" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="60" gene2="87" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="71" gene2="87" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="81" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="60" gene2="81" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="71" gene2="81" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="1495" gene2="7414" />
+      <GraphEdge pathwayID="Adherens junction - Homo sapiens (human)" gene1="60" gene2="7414" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Tight junction - Homo sapiens (human)" statistics="28.289524455332572" pvalue="0.0079716563330380873" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1019" weight="1" weight2="1" />
+      <PFSNetGraphNode name="103910" weight="2.2" weight2="1.68" />
+      <PFSNetGraphNode name="10627" weight="2.4" weight2="1.68" />
+      <PFSNetGraphNode name="387" weight="2.4" weight2="1.68" />
+      <PFSNetGraphNode name="4627" weight="2.4" weight2="1.64" />
+      <PFSNetGraphNode name="5579" weight="2.4" weight2="1.6" />
+      <PFSNetGraphNode name="5583" weight="0.2" weight2="0.84" />
+      <PFSNetGraphNode name="60" weight="2.4" weight2="1.68" />
+      <PFSNetGraphNode name="71" weight="2.4" weight2="1.68" />
+      <PFSNetGraphNode name="8531" weight="2.4" weight2="1.68" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5579" gene2="71" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5583" gene2="71" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="387" gene2="103910" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="60" gene2="103910" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="71" gene2="103910" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5579" gene2="387" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5583" gene2="387" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="1019" gene2="8531" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="1019" gene2="8531" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5579" gene2="60" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="5583" gene2="60" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="387" gene2="4627" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="60" gene2="4627" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="71" gene2="4627" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="387" gene2="10627" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="60" gene2="10627" />
+      <GraphEdge pathwayID="Tight junction - Homo sapiens (human)" gene1="71" gene2="10627" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Gap junction - Homo sapiens (human)" statistics="12.157293926061602" pvalue="0.036315323294951282" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="112" weight="1" weight2="1" />
+      <PFSNetGraphNode name="2771" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="2778" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="3708" weight="1.75" weight2="1.0434782608695652" />
+      <PFSNetGraphNode name="5579" weight="3" weight2="1.7391304347826086" />
+      <PFSNetGraphNode name="5604" weight="1" weight2="0.91304347826086951" />
+      <PFSNetGraphNode name="5616" weight="1.75" weight2="1.4347826086956521" />
+      <PFSNetGraphNode name="5894" weight="2.25" weight2="1.2173913043478262" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="3708" gene2="5579" />
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="112" gene2="5616" />
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="2771" gene2="112" />
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="2778" gene2="112" />
+      <GraphEdge pathwayID="Gap junction - Homo sapiens (human)" gene1="112" gene2="5616" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Antigen processing and presentation - Homo sapiens (human)" statistics="-150193270467244.81" pvalue="0" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="3105" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3106" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3107" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3133" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3134" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3135" weight="0.91666666666666663" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3106" gene2="3105" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3106" gene2="3107" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3106" gene2="3133" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3106" gene2="3134" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3106" gene2="3135" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Antigen processing and presentation - Homo sapiens (human)" statistics="-150193270467244.81" pvalue="0" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="3105" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3106" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3107" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3133" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3134" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3135" weight="0.91666666666666663" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3107" gene2="3105" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3107" gene2="3106" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3107" gene2="3133" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3107" gene2="3134" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3107" gene2="3135" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Antigen processing and presentation - Homo sapiens (human)" statistics="-150193270467244.81" pvalue="0" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="3105" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3106" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3107" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3133" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3134" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3135" weight="0.91666666666666663" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3133" gene2="3105" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3133" gene2="3106" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3133" gene2="3107" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3133" gene2="3134" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3133" gene2="3135" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Antigen processing and presentation - Homo sapiens (human)" statistics="-150193270467244.81" pvalue="0" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="3105" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3106" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3107" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3133" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3134" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3135" weight="0.91666666666666663" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3134" gene2="3105" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3134" gene2="3106" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3134" gene2="3107" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3134" gene2="3133" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3134" gene2="3135" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Antigen processing and presentation - Homo sapiens (human)" statistics="-150193270467244.81" pvalue="0" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="3105" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3106" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3107" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3133" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3134" weight="1" weight2="1" />
+      <PFSNetGraphNode name="3135" weight="0.91666666666666663" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3135" gene2="3105" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3135" gene2="3106" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3135" gene2="3107" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3135" gene2="3133" />
+      <GraphEdge pathwayID="Antigen processing and presentation - Homo sapiens (human)" gene1="3135" gene2="3134" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Jak-STAT signaling pathway - Homo sapiens (human)" statistics="9.750964720882358" pvalue="0.045172719220549155" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="10379" weight="1" weight2="1" />
+      <PFSNetGraphNode name="2057" weight="1" weight2="0.78378378378378377" />
+      <PFSNetGraphNode name="3561" weight="1.4285714285714286" weight2="1.1081081081081081" />
+      <PFSNetGraphNode name="3563" weight="0.7142857142857143" weight2="0.78378378378378377" />
+      <PFSNetGraphNode name="3575" weight="1" weight2="0.6216216216216216" />
+      <PFSNetGraphNode name="3716" weight="1.5714285714285714" weight2="1.1351351351351351" />
+      <PFSNetGraphNode name="4609" weight="1.2857142857142858" weight2="0.81081081081081086" />
+      <PFSNetGraphNode name="5292" weight="1.2857142857142858" weight2="1.1351351351351351" />
+      <PFSNetGraphNode name="5296" weight="0.8571428571428571" weight2="0.89189189189189189" />
+      <PFSNetGraphNode name="5781" weight="0.8571428571428571" weight2="0.64864864864864868" />
+      <PFSNetGraphNode name="6772" weight="1.4285714285714286" weight2="0.972972972972973" />
+      <PFSNetGraphNode name="6777" weight="0.5714285714285714" weight2="0.59459459459459463" />
+      <PFSNetGraphNode name="6778" weight="1.4285714285714286" weight2="0.81081081081081086" />
+      <PFSNetGraphNode name="8835" weight="1.5714285714285714" weight2="1" />
+      <PFSNetGraphNode name="894" weight="0.8571428571428571" weight2="1.027027027027027" />
+      <PFSNetGraphNode name="896" weight="1.7142857142857142" weight2="1.1351351351351351" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="896" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6777" gene2="896" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6777" gene2="5292" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6778" gene2="5292" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="4609" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6777" gene2="4609" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6778" gene2="4609" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3716" gene2="5781" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3716" gene2="5296" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="8835" gene2="3575" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="8835" gene2="3563" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="8835" gene2="3561" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6778" gene2="896" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="2057" gene2="3716" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3561" gene2="3716" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3563" gene2="3716" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3575" gene2="3716" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="8835" gene2="3716" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="8835" gene2="2057" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6778" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3716" gene2="6778" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6777" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3716" gene2="6777" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="894" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6772" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="3716" gene2="6772" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6772" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6777" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="10379" gene2="6778" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6777" gene2="894" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6778" gene2="894" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="8835" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6777" gene2="8835" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6778" gene2="8835" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="5292" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Jak-STAT signaling pathway - Homo sapiens (human)" statistics="9.4598257062800126" pvalue="0.046944198405668734" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="4609" weight="1.2857142857142858" weight2="0.81081081081081086" />
+      <PFSNetGraphNode name="5292" weight="1.2857142857142858" weight2="1.1351351351351351" />
+      <PFSNetGraphNode name="6772" weight="1.4285714285714286" weight2="0.972972972972973" />
+      <PFSNetGraphNode name="8835" weight="1.5714285714285714" weight2="1" />
+      <PFSNetGraphNode name="894" weight="0.8571428571428571" weight2="1.027027027027027" />
+      <PFSNetGraphNode name="896" weight="1.7142857142857142" weight2="1.1351351351351351" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="4609" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="5292" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="8835" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="894" />
+      <GraphEdge pathwayID="Jak-STAT signaling pathway - Homo sapiens (human)" gene1="6772" gene2="896" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" statistics="11.120900410503383" pvalue="0.038086802480070861" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="2185" weight="1" weight2="1" />
+      <PFSNetGraphNode name="369" weight="1.375" weight2="0.82926829268292679" />
+      <PFSNetGraphNode name="5296" weight="0.75" weight2="0.80487804878048785" />
+      <PFSNetGraphNode name="5336" weight="1.375" weight2="1" />
+      <PFSNetGraphNode name="5579" weight="1.5" weight2="0.975609756097561" />
+      <PFSNetGraphNode name="5604" weight="0.5" weight2="0.51219512195121952" />
+      <PFSNetGraphNode name="5781" weight="0.75" weight2="0.58536585365853655" />
+      <PFSNetGraphNode name="5879" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="5880" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="5894" weight="1.125" weight2="0.68292682926829273" />
+      <PFSNetGraphNode name="7409" weight="1.375" weight2="1" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5336" gene2="5579" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5296" gene2="7409" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5296" gene2="5879" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="7409" gene2="5879" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="2185" gene2="5879" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="2185" gene2="5880" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5336" gene2="7409" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5781" gene2="7409" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="369" gene2="5604" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="2185" gene2="5880" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="5296" gene2="5880" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="7409" gene2="5880" />
+      <GraphEdge pathwayID="Natural killer cell mediated cytotoxicity - Homo sapiens (human)" gene1="2185" gene2="5879" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Fc epsilon RI signaling pathway - Homo sapiens (human)" statistics="24.907124906803929" pvalue="0.00974313551815766" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1432" weight="1.2" weight2="0.6" />
+      <PFSNetGraphNode name="2534" weight="1" weight2="1" />
+      <PFSNetGraphNode name="5296" weight="1.2" weight2="0.825" />
+      <PFSNetGraphNode name="5336" weight="2.2" weight2="1.025" />
+      <PFSNetGraphNode name="5579" weight="2.4" weight2="1" />
+      <PFSNetGraphNode name="5604" weight="0.8" weight2="0.525" />
+      <PFSNetGraphNode name="5606" weight="1.2" weight2="0.675" />
+      <PFSNetGraphNode name="5879" weight="2.4" weight2="1.05" />
+      <PFSNetGraphNode name="5880" weight="2.4" weight2="1.05" />
+      <PFSNetGraphNode name="5894" weight="1.8" weight2="0.7" />
+      <PFSNetGraphNode name="695" weight="1.8" weight2="0.9" />
+      <PFSNetGraphNode name="7409" weight="2.2" weight2="1.025" />
+      <PFSNetGraphNode name="9846" weight="2" weight2="0.55" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5606" gene2="1432" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5336" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="695" gene2="5336" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="2534" gene2="9846" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="2534" gene2="9846" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5879" gene2="5606" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5880" gene2="5606" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5336" gene2="5579" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="695" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5880" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="7409" gene2="5880" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5879" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="7409" gene2="5879" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Fc epsilon RI signaling pathway - Homo sapiens (human)" statistics="27.340135006085493" pvalue="0.0079716563330380873" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="5296" weight="1.2" weight2="0.825" />
+      <PFSNetGraphNode name="5336" weight="2.2" weight2="1.025" />
+      <PFSNetGraphNode name="5879" weight="2.4" weight2="1.05" />
+      <PFSNetGraphNode name="5880" weight="2.4" weight2="1.05" />
+      <PFSNetGraphNode name="695" weight="1.8" weight2="0.9" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5336" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5879" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="5880" />
+      <GraphEdge pathwayID="Fc epsilon RI signaling pathway - Homo sapiens (human)" gene1="5296" gene2="695" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="GnRH signaling pathway - Homo sapiens (human)" statistics="21.389723417230762" pvalue="0.00974313551815766" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="112" weight="1" weight2="1" />
+      <PFSNetGraphNode name="1432" weight="1.5" weight2="1.0434782608695652" />
+      <PFSNetGraphNode name="2185" weight="2" weight2="1.7826086956521738" />
+      <PFSNetGraphNode name="2778" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="3708" weight="1.75" weight2="1.0434782608695652" />
+      <PFSNetGraphNode name="468" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="5579" weight="3" weight2="1.7391304347826086" />
+      <PFSNetGraphNode name="5604" weight="1" weight2="0.91304347826086951" />
+      <PFSNetGraphNode name="5606" weight="1.5" weight2="1.173913043478261" />
+      <PFSNetGraphNode name="5616" weight="1.75" weight2="1.4347826086956521" />
+      <PFSNetGraphNode name="5894" weight="2.25" weight2="1.2173913043478262" />
+      <PFSNetGraphNode name="801" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="805" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="808" weight="3" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="818" weight="2.5" weight2="1.3913043478260869" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="801" gene2="818" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="805" gene2="818" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="3708" gene2="801" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="112" gene2="5616" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="2778" gene2="112" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="112" gene2="5616" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="808" gene2="818" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="5616" gene2="468" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="5606" gene2="1432" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="5579" gene2="5894" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="5579" gene2="2185" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="3708" gene2="808" />
+      <GraphEdge pathwayID="GnRH signaling pathway - Homo sapiens (human)" gene1="3708" gene2="805" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Parkinsons disease - Homo sapiens (human)" statistics="-13.249039406296887" pvalue="0.033658104517271921" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="27429" weight="1" weight2="1" />
+      <PFSNetGraphNode name="292" weight="1.2222222222222223" weight2="1.7391304347826086" />
+      <PFSNetGraphNode name="293" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="54205" weight="0.88888888888888884" weight2="1.2173913043478262" />
+      <PFSNetGraphNode name="7314" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7317" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7318" weight="1.2222222222222223" weight2="1.3913043478260869" />
+      <PFSNetGraphNode name="7332" weight="1.3333333333333333" weight2="1.7826086956521738" />
+      <PFSNetGraphNode name="7416" weight="1.3333333333333333" weight2="1.5652173913043479" />
+      <PFSNetGraphNode name="7417" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="7419" weight="1.3333333333333333" weight2="1.826086956521739" />
+      <PFSNetGraphNode name="9246" weight="1.2222222222222223" weight2="1.7826086956521738" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7317" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7318" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="27429" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7332" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="9246" gene2="7314" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="27429" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="292" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="293" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7416" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7417" gene2="54205" />
+      <GraphEdge pathwayID="Parkinsons disease - Homo sapiens (human)" gene1="7419" gene2="54205" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Pancreatic cancer - Homo sapiens (human)" statistics="17.711946394460963" pvalue="0.01771479185119575" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="10928" weight="1" weight2="1" />
+      <PFSNetGraphNode name="1147" weight="1.5714285714285714" weight2="1.1111111111111112" />
+      <PFSNetGraphNode name="369" weight="1.5714285714285714" weight2="0.94444444444444442" />
+      <PFSNetGraphNode name="3716" weight="1.5714285714285714" weight2="1.1666666666666667" />
+      <PFSNetGraphNode name="4790" weight="1.4285714285714286" weight2="1.1111111111111112" />
+      <PFSNetGraphNode name="5604" weight="0.5714285714285714" weight2="0.58333333333333337" />
+      <PFSNetGraphNode name="5879" weight="1.7142857142857142" weight2="1.1666666666666667" />
+      <PFSNetGraphNode name="5880" weight="1.7142857142857142" weight2="1.1666666666666667" />
+      <PFSNetGraphNode name="5894" weight="1.2857142857142858" weight2="0.77777777777777779" />
+      <PFSNetGraphNode name="5970" weight="1.5714285714285714" weight2="1" />
+      <PFSNetGraphNode name="6772" weight="1.4285714285714286" weight2="1" />
+      <PFSNetGraphNode name="7423" weight="1.4285714285714286" weight2="0.69444444444444442" />
+      <PFSNetGraphNode name="8517" weight="0.7142857142857143" weight2="0.61111111111111116" />
+      <PFSNetGraphNode name="9459" weight="1.5714285714285714" weight2="1.1666666666666667" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="4790" gene2="7423" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5970" gene2="7423" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="1147" gene2="4790" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5879" gene2="4790" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5880" gene2="4790" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="8517" gene2="4790" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="10928" gene2="5880" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="9459" gene2="5880" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="10928" gene2="5879" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="9459" gene2="5879" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="10928" gene2="5879" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="10928" gene2="5880" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="6772" gene2="7423" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="3716" gene2="6772" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="369" gene2="5604" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="1147" gene2="5970" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5879" gene2="5970" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="5880" gene2="5970" />
+      <GraphEdge pathwayID="Pancreatic cancer - Homo sapiens (human)" gene1="8517" gene2="5970" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Cell Cycle: G1/S Check point Regulation" statistics="23.252685261296076" pvalue="0.00974313551815766" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1017" weight="5.5" weight2="1.3103448275862069" />
+      <PFSNetGraphNode name="1019" weight="2.5" weight2="0.86206896551724133" />
+      <PFSNetGraphNode name="1026" weight="1" weight2="1" />
+      <PFSNetGraphNode name="894" weight="3" weight2="1.3103448275862069" />
+      <PFSNetGraphNode name="896" weight="6" weight2="1.4482758620689655" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Cell Cycle: G1/S Check point Regulation" gene1="894" gene2="1019" />
+      <GraphEdge pathwayID="Cell Cycle: G1/S Check point Regulation" gene1="896" gene2="1019" />
+      <GraphEdge pathwayID="Cell Cycle: G1/S Check point Regulation" gene1="1026" gene2="1017" />
+      <GraphEdge pathwayID="Cell Cycle: G1/S Check point Regulation" gene1="1026" gene2="1017" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Fc Epsilon RI Signaling" statistics="-9.7343229937055238" pvalue="0.045172719220549155" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1432" weight="0.54545454545454541" weight2="0.82758620689655171" />
+      <PFSNetGraphNode name="3635" weight="1.0909090909090908" weight2="1.4137931034482758" />
+      <PFSNetGraphNode name="5287" weight="1" weight2="1" />
+      <PFSNetGraphNode name="5296" weight="0.54545454545454541" weight2="1.1379310344827587" />
+      <PFSNetGraphNode name="5604" weight="0.36363636363636365" weight2="0.72413793103448276" />
+      <PFSNetGraphNode name="5606" weight="0.54545454545454541" weight2="0.93103448275862066" />
+      <PFSNetGraphNode name="5781" weight="0.54545454545454541" weight2="0.82758620689655171" />
+      <PFSNetGraphNode name="5879" weight="1.0909090909090908" weight2="1.4482758620689655" />
+      <PFSNetGraphNode name="5880" weight="1.0909090909090908" weight2="1.4482758620689655" />
+      <PFSNetGraphNode name="5894" weight="0.81818181818181823" weight2="0.96551724137931039" />
+      <PFSNetGraphNode name="7409" weight="1" weight2="1.4137931034482758" />
+      <PFSNetGraphNode name="9846" weight="0.90909090909090906" weight2="0.75862068965517238" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5781" gene2="3635" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="7409" gene2="5880" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5287" gene2="5879" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5296" gene2="5879" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="7409" gene2="5879" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="9846" gene2="5287" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5287" gene2="5879" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5287" gene2="5880" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="9846" gene2="3635" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="9846" gene2="5781" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5606" gene2="1432" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5879" gene2="5606" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5880" gene2="5606" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="9846" gene2="5296" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5287" gene2="5880" />
+      <GraphEdge pathwayID="Fc Epsilon RI Signaling" gene1="5296" gene2="5880" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Cell cycle" statistics="27.28496022258005" pvalue="0.0088573959255978749" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="1017" weight="5.5" weight2="1.3103448275862069" />
+      <PFSNetGraphNode name="1019" weight="2.5" weight2="0.86206896551724133" />
+      <PFSNetGraphNode name="1026" weight="1" weight2="1" />
+      <PFSNetGraphNode name="5111" weight="5" weight2="1.4137931034482758" />
+      <PFSNetGraphNode name="894" weight="3" weight2="1.3103448275862069" />
+      <PFSNetGraphNode name="896" weight="6" weight2="1.4482758620689655" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Cell cycle" gene1="5111" gene2="896" />
+      <GraphEdge pathwayID="Cell cycle" gene1="5111" gene2="894" />
+      <GraphEdge pathwayID="Cell cycle" gene1="5111" gene2="1019" />
+      <GraphEdge pathwayID="Cell cycle" gene1="1026" gene2="1017" />
+      <GraphEdge pathwayID="Cell cycle" gene1="1026" gene2="1017" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="IL-6 Signaling Pathway" statistics="14.041982962033144" pvalue="0.030115146147032774" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="2185" weight="1" weight2="1" />
+      <PFSNetGraphNode name="2353" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="3065" weight="1.375" weight2="0.85365853658536583" />
+      <PFSNetGraphNode name="3315" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="3320" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="3635" weight="1.5" weight2="1" />
+      <PFSNetGraphNode name="3716" weight="1.375" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="5296" weight="0.75" weight2="0.80487804878048785" />
+      <PFSNetGraphNode name="5518" weight="1.5" weight2="1" />
+      <PFSNetGraphNode name="5520" weight="0.875" weight2="0.53658536585365857" />
+      <PFSNetGraphNode name="5527" weight="1" weight2="0.95121951219512191" />
+      <PFSNetGraphNode name="5781" weight="0.75" weight2="0.58536585365853655" />
+      <PFSNetGraphNode name="5879" weight="1.5" weight2="1.024390243902439" />
+      <PFSNetGraphNode name="5894" weight="1.125" weight2="0.68292682926829273" />
+      <PFSNetGraphNode name="6772" weight="1.25" weight2="0.87804878048780488" />
+      <PFSNetGraphNode name="695" weight="1.125" weight2="0.87804878048780488" />
+      <PFSNetGraphNode name="7409" weight="1.375" weight2="1" />
+      <PFSNetGraphNode name="9261" weight="1.125" weight2="1" />
+      <PFSNetGraphNode name="9846" weight="1.25" weight2="0.53658536585365857" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="9261" gene2="3315" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="7409" gene2="5894" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="3716" gene2="695" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="2185" gene2="5781" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="3716" gene2="5781" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5781" gene2="2185" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="2185" gene2="5781" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="6772" gene2="3065" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="6772" gene2="2353" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5879" gene2="7409" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5781" gene2="9846" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5518" gene2="3320" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5520" gene2="3320" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5527" gene2="3320" />
+      <GraphEdge pathwayID="IL-6 Signaling Pathway" gene1="5296" gene2="3635" />
+    </edges>
+  </phenotype2>
+  <phenotype2 Id="Regulation of Actin Cytoskeleton" statistics="31.001556589033292" pvalue="0.0079716563330380873" masked="true">
+    <nodes>
+      <PFSNetGraphNode name="10092" weight="1.8333333333333333" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="26999" weight="2" weight2="1.2058823529411764" />
+      <PFSNetGraphNode name="2934" weight="1" weight2="1" />
+      <PFSNetGraphNode name="387" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="4478" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="5216" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="5604" weight="0.66666666666666663" weight2="0.61764705882352944" />
+      <PFSNetGraphNode name="5879" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="5880" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="5894" weight="1.5" weight2="0.82352941176470584" />
+      <PFSNetGraphNode name="6093" weight="1.5" weight2="1.0588235294117647" />
+      <PFSNetGraphNode name="6548" weight="0.66666666666666663" weight2="0.76470588235294112" />
+      <PFSNetGraphNode name="7409" weight="1.8333333333333333" weight2="1.2058823529411764" />
+      <PFSNetGraphNode name="7414" weight="1.5" weight2="1" />
+      <PFSNetGraphNode name="7430" weight="2" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="7454" weight="1.5" weight2="1.1470588235294117" />
+      <PFSNetGraphNode name="8396" weight="1.6666666666666667" weight2="1.2352941176470589" />
+      <PFSNetGraphNode name="87" weight="0.66666666666666663" weight2="0.79411764705882348" />
+      <PFSNetGraphNode name="8874" weight="2" weight2="1.2058823529411764" />
+      <PFSNetGraphNode name="9138" weight="1.6666666666666667" weight2="0.73529411764705888" />
+      <PFSNetGraphNode name="9459" weight="1.8333333333333333" weight2="1.2352941176470589" />
+    </nodes>
+    <edges>
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="8874" gene2="9138" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="9459" gene2="9138" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="7430" gene2="87" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="4478" gene2="7414" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="7430" gene2="7414" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="387" gene2="5880" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="7409" gene2="5880" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="8874" gene2="5880" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="9459" gene2="5880" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="387" gene2="5879" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="7409" gene2="5879" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="8874" gene2="5879" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="5894" gene2="5604" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="9459" gene2="5879" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="9138" gene2="387" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="2934" gene2="10092" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="7454" gene2="10092" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="2934" gene2="10092" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="5879" gene2="26999" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="5880" gene2="26999" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="5216" gene2="8396" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="6093" gene2="8396" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="5216" gene2="6548" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="6093" gene2="6548" />
+      <GraphEdge pathwayID="Regulation of Actin Cytoskeleton" gene1="4478" gene2="87" />
+    </edges>
+  </phenotype2>
+</PFSNetResultOut>
