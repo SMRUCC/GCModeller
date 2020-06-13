@@ -1,4 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Deque
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
 Namespace Analysis
 
@@ -23,14 +26,84 @@ Namespace Analysis
     '''  
     ''' > https://github.com/awadalaa/kosaraju
     ''' </summary>
-    Public Class Kosaraju
+    Public NotInheritable Class Kosaraju
 
         Dim t As Integer
         ''' <summary>
         ''' the strong connected components
         ''' </summary>
-        Dim scc As System.Collections.Generic.List(Of Integer?) = New System.Collections.Generic.List(Of Integer?)()
+        Dim scc As New List(Of Integer?)()
         Dim pass As Integer = 0
-        Dim deque As IDeque(Of Node)
+        Dim deque As New Deque(Of Node)
+
+        Shared ReadOnly FORWARD_TRAVERSAL As New ForwardTraversal()
+        Shared ReadOnly BACKWARD_TRAVERSAL As New BackwardTraversal()
+
+        Private Class NodeCompares : Implements IComparer(Of Node)
+
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Public Function Compare(v1 As Node, v2 As Node) As Integer Implements IComparer(Of Node).Compare
+                Return v2.data.mass.CompareTo(v1.data.mass)
+            End Function
+        End Class
+
+        Public Shared Function StronglyConnectedComponents(gr As NetworkGraph, Optional forwardTraversal As Boolean = True) As Kosaraju
+            Dim search As New Kosaraju
+            search.dfsLoop(gr, If(forwardTraversal, FORWARD_TRAVERSAL, BACKWARD_TRAVERSAL))
+            Return search
+        End Function
+
+        Friend Sub dfsLoop(ByVal gr As NetworkGraph, tp As EdgeTraversalPolicy)
+            Dim vs As ICollection(Of Node)
+
+            If pass = 0 Then
+                ' 这里是按照id降序
+                vs = gr.vertex _
+                    .OrderByDescending(Function(a) a.ID) _
+                    .ToArray
+            Else
+                ' 这里是按照结果值升序
+                vs = New SortedSet(Of Node)(gr.vertex, New NodeCompares)
+            End If
+
+            For Each v As Node In vs
+                If Not v.visited Then
+                    v.visited = True
+                    deque.AddHead(v)
+
+                    While Not deque.Empty
+                        v = deque.Peek()
+                        dfs(tp, v)
+                    End While
+
+                    If pass = 1 Then
+                        scc.Add(t)
+                        t = 0
+                    End If
+                End If
+            Next
+
+            pass += 1
+        End Sub
+
+        Private Sub dfs(ByVal tp As EdgeTraversalPolicy, ByVal v As Node)
+            For Each edge As Edge In tp.edges(v.directedVertex)
+                Dim [next] As Node = tp.vertex(edge)
+
+                If Not [next].visited Then
+                    [next].visited = True
+                    deque.AddHead([next])
+                    Return
+                End If
+            Next
+
+            t += 1
+
+            If pass = 0 Then
+                v.data.mass = t
+            End If
+
+            deque.RemoveHead()
+        End Sub
     End Class
 End Namespace
