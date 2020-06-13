@@ -3,5 +3,5 @@
 #' @param file a tsv text file
 #'
 loaddata <- function(file){
-    read.table(file, row.names=1);
+    read.table(file, row.names=1, header = TRUE);
 }

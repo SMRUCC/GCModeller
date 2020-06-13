@@ -2,7 +2,7 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     #obj<-.jnew("filter")
     ptm<-proc.time()
     cat("reading data files")
-    ggi<-read.table(file3, header=FALSE, sep="\t", colClasses="character")
+    ggi<-read.table(file3, header=TRUE, sep="\t", colClasses="character")
     cat(".")
     expr1o<-loaddata(file1)
     cat(".")
