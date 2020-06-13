@@ -104,5 +104,10 @@ Namespace R.Graph
                 .Id = graph.edges.First.pathwayID
             }
         End Function
+
+        Public Iterator Function decompose_graph(g As PFSNetGraph, Optional min_vertices As Integer = 5) As IEnumerable(Of PFSNetGraph)
+
+        End Function
+
     End Module
 End Namespace

@@ -89,6 +89,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim masked_ggi As GraphEdge() = ggi _
             .Takes(ggi_mask) _
             .ToArray
+
+        ' 会需要过滤掉自身连接的网络边
+        ' masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
         masked_ggi = masked_ggi _
             .Where(Function(i) i.g1 <> i.g2) _
             .ToArray
@@ -131,11 +134,10 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                               Return genes.Group.ToArray
                           End Function)
 
-        Return From pathway In pathwayList
-               Let genes As GraphEdge() = pathway.Value
-               Let V = InternalVg(genes, w1matrix1, w1matrix2)
-               Where Not V Is Nothing
-               Select V
+        Return (From pathway In pathwayList
+                Let genes As GraphEdge() = pathway.Value
+                Let V = InternalVg(genes, w1matrix1, w1matrix2)
+                Select V).IteratesALL
     End Function
 
     ''' <summary>
@@ -146,7 +148,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <param name="w1matrix2"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As PFSNetGraph
+    Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As IEnumerable(Of PFSNetGraph)
         ' 总的网络
         Dim g As PFSNetGraph = Graph.Data.Frame(data)
 
@@ -157,6 +159,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
         ' 计算出总的网络之后再将总的网络分解为小得网络对象
         g = Graph.simplify(g)
-        Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
+        ' create sub-network
+        Return Graph.decompose_graph(g, min_vertices:=5)
     End Function
 End Module
