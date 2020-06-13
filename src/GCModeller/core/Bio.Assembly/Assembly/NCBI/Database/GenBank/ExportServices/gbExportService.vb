@@ -256,7 +256,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function GbffToPTT(genbank As GBFF.File, Optional ORF As Boolean = True) As TabularFormat.PTT
-            Dim assert As Assert(Of Feature)
+            Dim assert As Predicate(Of Feature)
 
             If ORF Then
                 assert = Function(feature)
