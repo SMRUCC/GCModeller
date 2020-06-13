@@ -73,7 +73,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
             .Select(Function(r) r.experiments.AsVector) _
             .Apply(math:=Function(x)
                              Dim data As Double() = x.ToArray
-                             Dim rankVec As Vector = data.Ranking(Strategies.DenseRanking).AsVector
+                             Dim rankVec As Vector = data.Ranking(Strategies.OrdinalRanking).AsVector
                              Return rankVec / data.Length
                          End Function,
                    axis:=ApplyOnAxis.Column,
@@ -89,10 +89,11 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
                              Return x.Select(Function(y) getFuzzyWeight(y, q1, q2, delta_q12))
                          End Function,
-                   axis:=ApplyOnAxis.Column,
+                   axis:=ApplyOnAxis.Row,
                    aggregate:=Function(x)
-                                  Return x.Select(Function(v) v.AsVector)
+                                  Return x.Select(Function(v) v.ToArray)
                               End Function) _
+            .MatrixTranspose _
             .ToArray
 
         Return expr _
