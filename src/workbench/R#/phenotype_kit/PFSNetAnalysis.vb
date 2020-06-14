@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -6,10 +7,42 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
 Module PFSNetAnalysis
+
+    Sub New()
+        Internal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
+    End Sub
+
+    Private Function makeDataFrame(x As Object, args As list, env As Environment) As dataframe
+        Dim result As PFSNetResultOut = DirectCast(x, PFSNetResultOut)
+        Dim subnetwork As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.Id).ToArray
+        Dim phenotype As Array = result.phenotype1.Select(Function(a) "A").JoinIterates(result.phenotype2.Select(Function(a) "B")).ToArray
+        Dim statistics As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.statistics).ToArray
+        Dim pvalue As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.pvalue).ToArray
+        Dim nodes As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.nodes.Length).ToArray
+        Dim edges As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.edges.Length).ToArray
+        Dim weight1 As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.nodes.Average(Function(n) n.weight)).ToArray
+        Dim weight2 As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.nodes.Average(Function(n) n.weight2)).ToArray
+        Dim genes As Array = result.phenotype1.JoinIterates(result.phenotype2).Select(Function(a) a.nodes.Select(Function(n) n.name).JoinBy("; ")).ToArray
+
+        Return New dataframe With {
+            .columns = New Dictionary(Of String, Array) From {
+                {NameOf(subnetwork), subnetwork},
+                {NameOf(phenotype), phenotype},
+                {NameOf(statistics), statistics},
+                {NameOf(pvalue), pvalue},
+                {NameOf(nodes), nodes},
+                {NameOf(edges), edges},
+                {NameOf(weight1), weight1},
+                {NameOf(weight2), weight2},
+                {NameOf(genes), genes}
+            }
+        }
+    End Function
 
     <ExportAPI("load.expr")>
     Public Function loadExpression(file As String) As DataFrameRow()
