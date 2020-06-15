@@ -36,7 +36,9 @@ Public Module BubblePlot
             .pointSize = ptSize,
             .pts = classResult _
                 .Select(Function(a)
-                            Return New PointData(a.statistics, -stdNum.Log10(a.pvalue)) With {
+                            Dim y As Double = -stdNum.Log10(a.pvalue)
+
+                            Return New PointData(a.statistics, If(y.IsNaNImaginary, 10, y)) With {
                                 .Tag = a.Id,
                                 .value = a.nodes.Length
                             }

@@ -185,6 +185,10 @@
       <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
       <Name>PFSNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\PFSNet_visual.vbproj">
+      <Project>{bceb9332-2cba-45a1-8b3c-0d1e3b8989de}</Project>
+      <Name>PFSNet_visual</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>

@@ -7,3 +7,9 @@ setwd(!script$dir);
 :> as.data.frame
 :> write.csv(file = "./demo.csv", row_names = FALSE)
 ;
+
+"demo.xml"
+:> read.pfsnet_result
+:> plot
+:> save.graphics(file = "demo_bubbles.png")
+;

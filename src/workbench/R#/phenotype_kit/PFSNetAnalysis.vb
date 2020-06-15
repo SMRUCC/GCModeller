@@ -15,7 +15,12 @@ Module PFSNetAnalysis
 
     Sub New()
         Internal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
+        Internal.generic.add("plot", GetType(PFSNetResultOut), AddressOf plotPFSNet)
     End Sub
+
+    Private Function plotPFSNet(result As PFSNetResultOut, args As list, env As Environment) As Object
+        Return BubblePlot.Plot(result)
+    End Function
 
     Private Function makeDataFrame(x As Object, args As list, env As Environment) As dataframe
         Dim result As PFSNetResultOut = DirectCast(x, PFSNetResultOut)
@@ -66,11 +71,11 @@ Module PFSNetAnalysis
     ''' <param name="n"></param>
     ''' <returns></returns>
     <ExportAPI("pfsnet")>
-    Public Function pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(),
-                           Optional b# = 0.5,
-                           Optional t1# = 0.95,
-                           Optional t2# = 0.85,
-                           Optional n% = 1000) As PFSNetResultOut
+    Public Function run_pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(),
+                               Optional b# = 0.5,
+                               Optional t1# = 0.95,
+                               Optional t2# = 0.85,
+                               Optional n% = 1000) As PFSNetResultOut
 
         Return PFSNetAlgorithm.pfsnet(expr1o, expr2o, ggi, b, t1, t2, n)
     End Function
