@@ -112,6 +112,16 @@ Module visualPlot
         Return profile
     End Function
 
+    ''' <summary>
+    ''' plot of the Go enrichment in bubble plot style
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="goDb"></param>
+    ''' <param name="size"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="topN"></param>
+    ''' <param name="R"></param>
+    ''' <returns></returns>
     <ExportAPI("go.enrichment.bubbles")>
     Public Function GoEnrichBubbles(profiles As EnrichmentTerm(), goDb As GO_OBO,
                                     Optional size$ = "2000,1600",
