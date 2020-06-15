@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
@@ -109,6 +110,24 @@ Module visualPlot
         End If
 
         Return profile
+    End Function
+
+    <ExportAPI("go.enrichment.bubbles")>
+    Public Function GoEnrichBubbles(profiles As EnrichmentTerm(), goDb As GO_OBO,
+                                    Optional size$ = "2000,1600",
+                                    Optional pvalue# = 0.05,
+                                    Optional topN% = 10,
+                                    Optional R$ = "log(x,1.5)") As Object
+
+        Dim terms As Dictionary(Of Term) = goDb.AsEnumerable.ToDictionary
+
+        Return profiles.BubblePlot(
+            GO_terms:=terms,
+            pvalue:=pvalue,
+            R:=R,
+            size:=size,
+            displays:=topN
+        )
     End Function
 
     ''' <summary>
