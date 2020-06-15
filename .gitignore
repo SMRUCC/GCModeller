@@ -252,3 +252,5 @@ pip-log.txt
 /GCModeller/bin_unix64
 src/workbench/R#/demo/kegg/kegg_maps.zip
 /src/workbench/R#/demo/kegg/output
+.Rproj.user
+src/GCModeller/annotations/GSEA/PFSNet/PFSNet_1.0.0.1.tar.gz

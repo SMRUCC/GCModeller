@@ -51,6 +51,13 @@ Module context
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' create a new nucleotide location object
+    ''' </summary>
+    ''' <param name="left"></param>
+    ''' <param name="right"></param>
+    ''' <param name="strand"></param>
+    ''' <returns></returns>
     <ExportAPI("location")>
     Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object
         Dim strVal As Strands
@@ -66,16 +73,35 @@ Module context
         Return New NucleotideLocation(left, right, strVal)
     End Function
 
+    ''' <summary>
+    ''' the given nucleotide location is in forward direction
+    ''' </summary>
+    ''' <param name="loci"></param>
+    ''' <returns></returns>
     <ExportAPI("is.forward")>
     Public Function isForward(loci As NucleotideLocation) As Boolean
         Return loci.Strand = Strands.Forward
     End Function
 
+    ''' <summary>
+    ''' do offset of the given location
+    ''' </summary>
+    ''' <param name="loci"></param>
+    ''' <param name="offset"></param>
+    ''' <returns></returns>
     <ExportAPI("offset")>
     Public Function offsetLocation(loci As NucleotideLocation, offset As Integer) As NucleotideLocation
         Return loci + offset
     End Function
 
+    ''' <summary>
+    ''' Create a new context model of a specific genomics feature site.
+    ''' </summary>
+    ''' <param name="loci"></param>
+    ''' <param name="distance"></param>
+    ''' <param name="note"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("context")>
     <RApiReturn(GetType(IContext))>
     Public Function context(loci As Object, distance As Integer, Optional note As String = Nothing, Optional env As Environment = Nothing) As Object
@@ -112,6 +138,13 @@ Module context
         End If
     End Function
 
+    ''' <summary>
+    ''' get the segment relationship of two location
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("relationship")>
     <RApiReturn(GetType(SegmentRelationships))>
     Public Function relationship(a As Object, b As Object, Optional env As Environment = Nothing) As Object

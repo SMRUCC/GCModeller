@@ -109,6 +109,11 @@ Module profiles
         Return profiles
     End Function
 
+    ''' <summary>
+    ''' create kegg catalog profiles data table
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <returns></returns>
     <ExportAPI("kegg.category_profiles")>
     Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Integer)) As EntityObject()
         Return profiles _

@@ -71,6 +71,11 @@ Public Module kegg_repository
         Return CompoundRepository.ScanModels(repository, ignoreGlycan:=False)
     End Function
 
+    ''' <summary>
+    ''' load reaction data from the given kegg reaction data repository
+    ''' </summary>
+    ''' <param name="repository"></param>
+    ''' <returns></returns>
     <ExportAPI("load.reactions")>
     Public Function LoadReactionRepo(repository As String) As ReactionRepository
         Return ReactionRepository.LoadAuto(repository)
@@ -97,6 +102,11 @@ Public Module kegg_repository
         End If
     End Function
 
+    ''' <summary>
+    ''' load kegg pathway maps from a given repository data directory.
+    ''' </summary>
+    ''' <param name="repository"></param>
+    ''' <returns></returns>
     <ExportAPI("load.pathways")>
     Public Function LoadPathways(repository As String) As PathwayMap()
         Dim maps = ls - l - r - "*.Xml" <= repository
@@ -121,9 +131,9 @@ Public Module kegg_repository
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Fetch the kegg organism table data from a given resource
     ''' </summary>
-    ''' <param name="resource$"></param>
+    ''' <param name="resource">the kegg organism data resource, by default is the kegg online page data.</param>
     ''' <param name="type">
     ''' 0. all
     ''' 1. prokaryote
@@ -131,7 +141,9 @@ Public Module kegg_repository
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("fetch.kegg_organism")>
-    Public Function FetchKEGGOrganism(Optional resource$ = "http://www.kegg.jp/kegg/catalog/org_list.html", Optional type As Integer = 0) As Prokaryote()
+    Public Function FetchKEGGOrganism(Optional resource$ = "http://www.kegg.jp/kegg/catalog/org_list.html",
+                                      Optional type As OrganismTypes = OrganismTypes.all) As Prokaryote()
+
         Dim result As KEGGOrganism = EntryAPI.FromResource(resource)
         Dim eukaryotes As List(Of Prokaryote) = result.Eukaryotes _
             .Select(Function(x)
@@ -139,20 +151,27 @@ Public Module kegg_repository
                     End Function) _
             .AsList
 
-        If type = 0 Then
+        If type = OrganismTypes.all Then
             Return result.Prokaryote + eukaryotes
-        ElseIf type = 1 Then
+        ElseIf type = OrganismTypes.prokaryote Then
             Return result.Prokaryote
-        ElseIf type = 2 Then
+        ElseIf type = OrganismTypes.eukaryotes Then
             Return eukaryotes
         Else
             Return {}
         End If
     End Function
 
+    ''' <summary>
+    ''' save the kegg organism data as data table file.
+    ''' </summary>
+    ''' <param name="organism"></param>
+    ''' <param name="file$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("save.kegg_organism")>
-    Public Function SaveKEGGOrganism(organism As Prokaryote(), file$) As Boolean
-        Return organism.SaveTo(file)
+    Public Function SaveKEGGOrganism(organism As Prokaryote(), file$, Optional env As Environment = Nothing) As Boolean
+        Return organism.SaveTo(file, silent:=Not env.globalEnvironment.options.verbose)
     End Function
 
     <ExportAPI("read.kegg_organism")>
@@ -161,3 +180,8 @@ Public Module kegg_repository
     End Function
 End Module
 
+Public Enum OrganismTypes
+    all
+    prokaryote
+    eukaryotes
+End Enum

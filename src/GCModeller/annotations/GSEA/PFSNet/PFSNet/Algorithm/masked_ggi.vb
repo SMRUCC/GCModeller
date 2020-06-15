@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::597ee19decf8961c97e7cfca1cac5666, annotations\GSEA\PFSNet\PFSNet\Algorithm\masked_ggi.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module masked_ggi
-    ' 
-    '     Function: ccs, getMasked_ggi, ggi_mask, InternalVg
-    ' 
-    ' /********************************************************************************/
+' Module masked_ggi
+' 
+'     Function: ccs, getMasked_ggi, ggi_mask, InternalVg
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
@@ -88,6 +89,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         Dim masked_ggi As GraphEdge() = ggi _
             .Takes(ggi_mask) _
             .ToArray
+
+        ' 会需要过滤掉自身连接的网络边
+        ' masked.ggi <- masked.ggi[(masked.ggi[, "g1"] != masked.ggi[, "g2"]), ]
         masked_ggi = masked_ggi _
             .Where(Function(i) i.g1 <> i.g2) _
             .ToArray
@@ -125,16 +129,15 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                            In masked_ggi
                            Select gene
                            Group gene By gene.pathwayID Into Group) _
-            .ToDictionary(Function(g) g.PathwayID,
+            .ToDictionary(Function(g) g.pathwayID,
                           Function(genes)
                               Return genes.Group.ToArray
                           End Function)
 
-        Return From pathway In pathwayList
-               Let genes As GraphEdge() = pathway.Value
-               Let V = InternalVg(genes, w1matrix1, w1matrix2)
-               Where Not V Is Nothing
-               Select V
+        Return (From pathway In pathwayList
+                Let genes As GraphEdge() = pathway.Value
+                Let V = InternalVg(genes, w1matrix1, w1matrix2)
+                Select V).IteratesALL
     End Function
 
     ''' <summary>
@@ -145,7 +148,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
     ''' <param name="w1matrix2"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As PFSNetGraph
+    Private Function InternalVg(data As GraphEdge(), w1matrix1 As DataFrameRow(), w1matrix2 As DataFrameRow()) As IEnumerable(Of PFSNetGraph)
         ' 总的网络
         Dim g As PFSNetGraph = Graph.Data.Frame(data)
 
@@ -156,6 +159,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 
         ' 计算出总的网络之后再将总的网络分解为小得网络对象
         g = Graph.simplify(g)
-        Return g  '   Return Graph.decompose_graph(g, min_vertices:=5)
+        ' create sub-network
+        Return Graph.decompose_graph(g, min_vertices:=5)
     End Function
 End Module

@@ -58,17 +58,17 @@ Module britekit
     ''' <summary>
     ''' Convert the kegg brite htext tree to plant table
     ''' </summary>
-    ''' <param name="htext"></param>
-    ''' <param name="entryIDPattern$"></param>
+    ''' <param name="htext">a htex object</param>
+    ''' <param name="entryId_pattern"></param>
     ''' <returns></returns>
     <ExportAPI("brite.as.table")>
-    Public Function BriteTable(htext As Object, Optional entryIDPattern$ = "[a-z]+\d+", Optional env As Environment = Nothing) As Object
+    Public Function BriteTable(htext As Object, Optional entryId_pattern$ = "[a-z]+\d+", Optional env As Environment = Nothing) As Object
         Dim terms As IEnumerable(Of BriteTerm)
 
         If htext Is Nothing Then
             Return REnv.debug.stop("htext object is nothing!", env)
         ElseIf htext.GetType Is GetType(htext) Then
-            terms = DirectCast(htext, htext).Deflate(entryIDPattern)
+            terms = DirectCast(htext, htext).Deflate(entryId_pattern)
         ElseIf htext.GetType Is GetType(htextJSON) Then
             terms = DirectCast(htext, htextJSON).DeflateTerms
         Else
@@ -132,7 +132,7 @@ Module britekit
     ''' <summary>
     ''' Do parse of the kegg brite json file.
     ''' </summary>
-    ''' <param name="file$"></param>
+    ''' <param name="file">the htext json file path</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("brite.parseJSON")>
@@ -140,6 +140,10 @@ Module britekit
         Return htextJSON.parseJSON(file)
     End Function
 
+    ''' <summary>
+    ''' Parse gene names for each KO number from the default internal htext resource.
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("KO.geneNames")>
     Public Function KOgeneNames() As Dictionary(Of String, String)
         Dim brites = PathwayMapping.DefaultKOTable

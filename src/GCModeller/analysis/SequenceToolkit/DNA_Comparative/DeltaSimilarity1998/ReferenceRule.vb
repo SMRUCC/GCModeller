@@ -104,7 +104,10 @@ Namespace DeltaSimilarity1998
         End Function
 
         ''' <summary>
-        ''' 获取默认的外标尺：基因组之中的dnaA-gyrB之间的序列
+        ''' Gets the segment betweens the dnaA and gyrB nucleotide sequence as 
+        ''' the default reference rule for the homogeneity measuring.
+        ''' 
+        ''' (获取默认的外标尺：基因组之中的dnaA-gyrB之间的序列)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>

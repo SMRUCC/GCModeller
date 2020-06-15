@@ -181,12 +181,12 @@ Namespace DataStructure
         ''' The geneID of a gene node in current pathway
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute("GeneObject1")> Public Property g1 As String
+        <XmlAttribute("gene1")> Public Property g1 As String
         ''' <summary>
         ''' Another partner gene node its id in current pathway
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute("GeneObject2")> Public Property g2 As String
+        <XmlAttribute("gene2")> Public Property g2 As String
 
         ''' <summary>
         ''' Does <see cref="g1"/> is equals to <see cref="g2"/>?

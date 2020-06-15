@@ -209,8 +209,13 @@ Namespace dataExprMAT
             Return DataFrame
         End Function
 
-        <ExportAPI("Associate.PathwayInfo",
-               Info:="Assign the pathway information in to the genes to study which pathway was affect by the gene mutation from the chipdata log2 value.")>
+        ''' <summary>
+        ''' Assign the pathway information in to the genes to study which pathway was affect by the gene mutation from the chipdata log2 value.
+        ''' </summary>
+        ''' <param name="ChipData"></param>
+        ''' <param name="Pathways"></param>
+        ''' <param name="head"></param>
+        ''' <returns></returns>
         Public Function AssociatesPathwaysInfo(ChipData As IO.File,
                                                Pathways As IEnumerable(Of PathwayBrief),
                                                head As String) As IO.File

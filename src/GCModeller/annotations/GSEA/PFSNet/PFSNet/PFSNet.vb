@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports SMRUCC.genomics.Analysis.PFSNet.R
 
@@ -114,9 +115,9 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
         cat(".")
-        Dim expr1o As DataFrameRow() = DataFrameRow.LoadData(file1)
+        Dim expr1o As DataFrameRow() = Matrix.LoadData(file1).expression
         cat(".")
-        Dim expr2o As DataFrameRow() = DataFrameRow.LoadData(file2)
+        Dim expr2o As DataFrameRow() = Matrix.LoadData(file2).expression
         cat(".")
         cat("\t[DONE]\n")
 
@@ -130,7 +131,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
                            Optional b As Double = 0.5,
                            Optional t1 As Double = 0.95,
                            Optional t2 As Double = 0.85,
-                           Optional n As Double = 1000) As PFSNetResultOut
+                           Optional n As Integer = 1000) As PFSNetResultOut
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 
@@ -184,9 +185,12 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
         cat("\t[DONE]\n")
         cat("total time elapsed: ", proc.ElapsedMilliseconds / 1000, " seconds\n")
 
+        Dim class1 = (From item In ccs Where item.masked Select item).ToArray
+        Dim class2 = (From item In ccs2 Where item.masked Select item).ToArray
+
         Return New PFSNetResultOut With {
-            .phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
-            .phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
+            .phenotype1 = class1,
+            .phenotype2 = class2
         }
     End Function
 End Module
