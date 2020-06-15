@@ -212,7 +212,7 @@ Public Module EnrichBubbles
         Dim plot As GraphicsData = Bubble.Plot(
             serials,
             padding:=padding,
-            size:=region.Size,
+            size:=$"{region.Size.Width},{region.Size.Height}",
             legend:=False,
             xlabel:="richFactor=(n/background)",
             ylabel:="-log10(p.value)",
