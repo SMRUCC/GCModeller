@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports stdNum = System.Math
@@ -22,16 +23,17 @@ Public Module BubblePlot
     ReadOnly class2 As [Default](Of String) = NameOf(class2)
 
     Public Function Plot(data As PFSNetResultOut,
-                         Optional size$ = "1400,1400",
-                         Optional padding$ = "padding:100px 200px 150px 150px;",
+                         Optional size$ = "2800,2800",
+                         Optional padding$ = "padding:100px 300px 250px 250px;",
                          Optional colorA$ = "blue",
                          Optional colorB$ = "green",
                          Optional ptSize! = 10,
-                         Optional topN% = 8) As GraphicsData
+                         Optional topN% = 8,
+                         Optional alpha% = 220) As GraphicsData
 
         Dim bubbles As SerialData() = {
-            data.phenotype1.CreateSerial(colorA.TranslateColor, ptSize, data.class1 Or class1, topN),
-            data.phenotype2.CreateSerial(colorB.TranslateColor, ptSize, data.class2 Or class2, topN)
+            data.phenotype1.CreateSerial(colorA.TranslateColor.Alpha(alpha), ptSize, data.class1 Or class1, topN),
+            data.phenotype2.CreateSerial(colorB.TranslateColor.Alpha(alpha), ptSize, data.class2 Or class2, topN)
         }
 
         Return Bubble.Plot(
@@ -42,7 +44,8 @@ Public Module BubblePlot
             ylabel:="-log10(pvalue)",
             xAxis:="(-40,40),n=11",
             ylayout:=YAxisLayoutStyles.Centra,
-            title:="Consist Subnetwork Enrichment"
+            title:="Consist Subnetwork Enrichment",
+            tagFontCSS:="font-style: normal; font-size: 10; font-family: " & FontFace.SegoeUI & ";"
         )
     End Function
 
@@ -72,24 +75,35 @@ Public Module BubblePlot
             .Max
         Dim i As i32 = Scan0
 
-        For Each subnetwork As PFSNetGraph In classResult.OrderBy(Function(a) a.pvalue)
-            Dim y As Double = -stdNum.Log10(subnetwork.pvalue)
-            Dim x As Double
+        For Each group As IGrouping(Of String, PFSNetGraph) In classResult.GroupBy(Function(a) a.Id).OrderBy(Function(a) a.Min(Function(n) n.pvalue))
+            Dim takes As PFSNetGraph()
 
-            If y.IsNaNImaginary Then
-                If subnetwork.statistics > 0 Then
-                    x = xrange.Max * 1.25
-                Else
-                    x = xrange.Min * 1.25
-                End If
+            If group.All(Function(a) a.pvalue = group.First.pvalue) Then
+                takes = {group.First}
             Else
-                x = subnetwork.statistics
+                takes = group.ToArray
             End If
 
-            Yield New PointData(x, If(y.IsNaNImaginary, yMax * 1.25, y)) With {
-                .tag = If(++i > topN, Nothing, subnetwork.Id),
-                .value = subnetwork.nodes.Length
-            }
+            For Each subnetwork As PFSNetGraph In takes
+                Dim y As Double = -stdNum.Log10(subnetwork.pvalue)
+                Dim x As Double
+
+                If y.IsNaNImaginary Then
+                    If subnetwork.statistics > 0 Then
+                        x = xrange.Max * 1.25
+                    Else
+                        x = xrange.Min * 1.25
+                    End If
+                Else
+                    x = subnetwork.statistics
+                End If
+
+                Yield New PointData(x, If(y.IsNaNImaginary, yMax * 1.25, y)) With {
+                    .tag = If(++i > topN, Nothing, subnetwork.Id),
+                    .value = subnetwork.nodes.Length * 3,
+                    .stroke = Stroke.StrongHighlightStroke
+                }
+            Next
         Next
     End Function
 End Module
