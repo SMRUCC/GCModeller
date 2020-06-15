@@ -117,7 +117,8 @@ Public Module EnrichBubbles
                         legendFont,
                         r:=calcR,
                         displays:=displays,
-                        showBubbleBorder:=bubbleBorder
+                        showBubbleBorder:=bubbleBorder,
+                        padding:=padding
                     )
 
                     Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
@@ -177,7 +178,8 @@ Public Module EnrichBubbles
                              legendFontStyle$,
                              r As Func(Of Double, Double),
                              displays%,
-                             showBubbleBorder As Boolean)
+                             showBubbleBorder As Boolean,
+                             padding$)
 
         Dim serials As SerialData() = result _
             .Keys _
@@ -209,8 +211,8 @@ Public Module EnrichBubbles
 
         Dim plot As GraphicsData = Bubble.Plot(
             serials,
-            padding:="padding: 100 100 150 150",
-            size:=New Size(region.Size.Width * 0.85, region.Size.Height),
+            padding:=padding,
+            size:=region.Size,
             legend:=False,
             xlabel:="richFactor=(n/background)",
             ylabel:="-log10(p.value)",
@@ -232,9 +234,15 @@ Public Module EnrichBubbles
                         }
                     End Function) _
             .ToArray
+        Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+        Dim maxWidth As Single = legends _
+            .Select(Function(l)
+                        Return g.MeasureString(l.title, legendFont).Width
+                    End Function) _
+            .Max
         Dim ltopLeft As New Point With {
-            .X = plot.Width - 65,
-            .Y = region.Size.Height * 0.3
+            .X = plot.Width - maxWidth - 65,
+            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (g.MeasureString("0", legendFont).Height + 10) * 3) / 2
         }
 
         Call g.DrawLegends(
