@@ -62,6 +62,9 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Public Property tag As String
 
+        Public Property class1 As String
+        Public Property class2 As String
+
         ''' <summary>
         ''' The mutation phenotype 1 evaluation data for the significant sub network.(Class1)
         ''' </summary>
