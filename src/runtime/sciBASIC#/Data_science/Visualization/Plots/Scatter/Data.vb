@@ -178,6 +178,6 @@ Public Structure PointData
     End Sub
 
     Public Overrides Function ToString() As String
-        Return Me.GetJson
+        Return $"[{pt.ToString}] {value} {color} {Tag}"
     End Function
 End Structure

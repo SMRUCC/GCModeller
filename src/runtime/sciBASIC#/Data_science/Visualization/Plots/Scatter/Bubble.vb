@@ -118,8 +118,8 @@ Public Module Bubble
 
                 Dim scale As Func(Of Double, Double) = New Func(Of Double, Double)(Function(r) r) Or usingLogRadius.When(usingLogScaleRadius)
                 Dim x, y As d3js.scale.LinearScale
-                Dim xTicks = array.Select(Function(sr) sr.Select(Function(p) CDbl(p.pt.X))).IteratesALL.CreateAxisTicks
-                Dim yTicks = array.Select(Function(sr) sr.Select(Function(p) CDbl(p.pt.Y))).IteratesALL.CreateAxisTicks
+                Dim xTicks = mapper.xAxis.CreateAxisTicks  'array.Select(Function(sr) sr.Select(Function(p) CDbl(p.pt.X))).IteratesALL.CreateAxisTicks
+                Dim yTicks = mapper.yAxis.CreateAxisTicks  'array.Select(Function(sr) sr.Select(Function(p) CDbl(p.pt.Y))).IteratesALL.CreateAxisTicks
                 Dim canvas = g
                 Dim labels As New List(Of Label)
                 Dim anchors As New List(Of Anchor)

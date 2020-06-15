@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 Imports stdNum = System.Math
@@ -16,15 +17,18 @@ Imports stdNum = System.Math
 ''' </summary>
 Public Module BubblePlot
 
+    ReadOnly class1 As [Default](Of String) = NameOf(class1)
+    ReadOnly class2 As [Default](Of String) = NameOf(class2)
+
     Public Function Plot(data As PFSNetResultOut,
-                         Optional size$ = "1800,2100",
+                         Optional size$ = "1400,1400",
                          Optional colorA$ = "blue",
                          Optional colorB$ = "green",
                          Optional ptSize! = 10) As GraphicsData
 
         Dim bubbles As SerialData() = {
-            data.phenotype1.CreateSerial(colorA.TranslateColor, ptSize, data.class1),
-            data.phenotype2.CreateSerial(colorB.TranslateColor, ptSize, data.class2)
+            data.phenotype1.CreateSerial(colorA.TranslateColor, ptSize, data.class1 Or class1),
+            data.phenotype2.CreateSerial(colorB.TranslateColor, ptSize, data.class2 Or class2)
         }
 
         Return Bubble.Plot(
@@ -33,7 +37,7 @@ Public Module BubblePlot
             padding:=g.DefaultPadding,
             xlabel:="subnetwork statistics",
             ylabel:="-log10(pvalue)",
-            xAxis:="(-40,40),n=10"
+            xAxis:="(-40,40),n=11"
         )
     End Function
 
@@ -68,7 +72,7 @@ Public Module BubblePlot
                                 x = a.statistics
                             End If
 
-                            Return New PointData(x, If(y.IsNaNImaginary, yMax, y)) With {
+                            Return New PointData(x, If(y.IsNaNImaginary, yMax * 1.25, y)) With {
                                 .Tag = a.Id,
                                 .value = a.nodes.Length
                             }
