@@ -292,6 +292,6 @@ Public Module Bubble
                 End If
             End Sub
 
-        Return g.GraphicsPlots(size, margin, bg, plotInternal)
+        Return g.GraphicsPlots(size, margin, bg, plotInternal,, "300,300")
     End Function
 End Module

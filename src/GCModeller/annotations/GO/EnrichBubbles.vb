@@ -127,7 +127,8 @@ Public Module EnrichBubbles
                         (region.Padding.Top - fsize.Height) / 2)
 
                     Call g.DrawString(title, titleFont, Brushes.Black, tloc)
-                End Sub)
+                End Sub,
+                dpi:="300,300")
         End With
     End Function
 
@@ -283,7 +284,7 @@ Public Module EnrichBubbles
             .RangeTransform($"0,{color.Length - 1}") _
             .Select(Function(i) CInt(i)) _
             .ToArray
-        Dim pt As PointData
+        Dim pt As PointData = Nothing
         Dim s As New SerialData With {
             .color = color.Last,
             .title = ns,
@@ -291,7 +292,8 @@ Public Module EnrichBubbles
                 .SeqIterator _
                 .Select(Function(obj)
                             Dim gene As EnrichmentTerm = obj
-                            Dim c As Color = color(colorIndex(obj))
+                            Dim i As Integer = colorIndex(obj)
+                            Dim c As Color = color(i)
 
                             Return New PointData With {
                                 .value = r(gene.number) + 1,
