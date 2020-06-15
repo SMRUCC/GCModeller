@@ -1,4 +1,8 @@
-﻿Namespace Graphic.Axis
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.d3js.scale
+
+Namespace Graphic.Axis
 
     Public Class YScaler
 

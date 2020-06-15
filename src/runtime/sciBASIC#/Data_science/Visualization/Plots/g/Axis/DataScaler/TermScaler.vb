@@ -1,4 +1,9 @@
-﻿Namespace Graphic.Axis
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.d3js.scale
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+Namespace Graphic.Axis
 
     Public Class TermScaler : Inherits YScaler
 
