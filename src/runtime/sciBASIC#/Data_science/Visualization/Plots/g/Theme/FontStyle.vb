@@ -1,6 +1,4 @@
-﻿Imports System.Drawing
-
-Namespace Graphic.Canvas
+﻿Namespace Graphic.Canvas
 
     Public Class FontStyle
 
@@ -10,7 +8,7 @@ Namespace Graphic.Canvas
         ''' 这个是按照百分比进行定位的
         ''' </summary>
         ''' <returns></returns>
-        Public Property layout As PointF
+        Public Property layout As Layout
 
     End Class
 End Namespace
