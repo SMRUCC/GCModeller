@@ -87,15 +87,19 @@ Public Module Bubble
                          Optional yAxis$ = Nothing,
                          Optional xlabel$ = "",
                          Optional ylabel$ = "",
+                         Optional title$ = Nothing,
                          Optional axisLabelFontCSS$ = CSSFont.Win7LargeBold,
                          Optional tagFontCSS$ = CSSFont.Win10Normal,
+                         Optional titleFontCSS$ = CSSFont.PlotTitle,
                          Optional strokeColorAsMainColor As Boolean = False,
                          Optional positiveRangeY As Boolean = False,
                          Optional legendLabelFontCSS$ = CSSFont.Win10NormalLarge,
-                         Optional legendAnchor As PointF = Nothing) As GraphicsData
+                         Optional legendAnchor As PointF = Nothing,
+                         Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left) As GraphicsData
 
         Dim margin As Padding = padding
         Dim tagLabelFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
+        Dim titleFont As Font = CSSFont.TryParse(titleFontCSS)
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, grect As GraphicsRegion)
@@ -149,7 +153,8 @@ Public Module Bubble
                     xlabel:=xlabel,
                     ylabel:=ylabel,
                     labelFont:=axisLabelFontCSS,
-                    htmlLabel:=False
+                    htmlLabel:=False,
+                    ylayout:=ylayout
                 )
 
                 Dim bubblePen As Pen = Nothing
@@ -200,10 +205,10 @@ Public Module Bubble
 
                         End If
 
-                        If Not pt.Tag.StringEmpty Then
-                            labelSize = g.MeasureString(pt.Tag, tagLabelFont)
+                        If Not pt.tag.StringEmpty Then
+                            labelSize = g.MeasureString(pt.tag, tagLabelFont)
                             labels += New Label With {
-                                .text = pt.Tag,
+                                .text = pt.tag,
                                 .X = rect.Right,
                                 .Y = rect.Top,
                                 .width = labelSize.Width,

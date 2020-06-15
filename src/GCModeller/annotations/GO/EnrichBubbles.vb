@@ -296,7 +296,7 @@ Public Module EnrichBubbles
                             Return New PointData With {
                                 .value = r(gene.number) + 1,
                                 .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                                .Tag = gene.Term,
+                                .tag = gene.Term,
                                 .color = c.ARGBExpression
                             }
                         End Function) _
@@ -313,7 +313,7 @@ Public Module EnrichBubbles
             pt = s.pts(i)
             s.pts(i) = New PointData With {
                 .pt = pt.pt,
-                .Tag = Nothing,
+                .tag = Nothing,
                 .value = pt.value,
                 .color = pt.color
             }
