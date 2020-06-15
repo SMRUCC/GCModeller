@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::5e3a146b2c3c5515f2171b3c1b1d8bf9, Data_science\Visualization\Plots\Scatter\Bubble.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Bubble
-    ' 
-    '     Function: logRadius, Plot
-    ' 
-    ' /********************************************************************************/
+' Module Bubble
+' 
+'     Function: logRadius, Plot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,6 +71,7 @@ Public Class Bubble : Inherits Plot
     Dim usingLogScaleRadius As Boolean
     Dim positiveRangeY As Boolean
     Dim bubbleBorder As Stroke
+    Dim strokeColorAsMainColor As Boolean
 
     Friend Sub New(theme As Theme)
         Call MyBase.New(theme)
@@ -103,7 +104,6 @@ Public Class Bubble : Inherits Plot
                                           Optional titleFontCSS$ = CSSFont.PlotTitle,
                                           Optional strokeColorAsMainColor As Boolean = False,
                                           Optional positiveRangeY As Boolean = False,
-                                          Optional legendLabelFontCSS$ = CSSFont.Win10NormalLarge,
                                           Optional legendTitleFontCSS$ = CSSFont.PlotSubTitle,
                                           Optional legendAnchor As PointF = Nothing,
                                           Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left) As GraphicsData
@@ -115,10 +115,11 @@ Public Class Bubble : Inherits Plot
             .legendTitleCSS = legendTitleFontCSS,
             .tagCSS = tagFontCSS,
             .xAxisLayout = XAxisLayoutStyles.Bottom,
-            .yAxisLayout = ylabel,
+            .yAxisLayout = ylayout,
             .drawLegend = legend,
             .legendLayout = New Absolute(legendAnchor),
-            .legendBoxStroke = legendBorder.ToString
+            .legendBoxStroke = legendBorder.ToString,
+            .axisLabelCSS = axisLabelFontCSS
         }
 
         Return New Bubble(theme) With {
@@ -130,7 +131,8 @@ Public Class Bubble : Inherits Plot
             .bubbleBorder = bubbleBorder,
             .xlabel = xlabel,
             .ylabel = ylabel,
-            .main = title
+            .main = title,
+            .strokeColorAsMainColor = strokeColorAsMainColor
         }.Plot(size)
     End Function
 
@@ -171,6 +173,7 @@ Public Class Bubble : Inherits Plot
             y = d3js.scale.linear.domain(yTicks).range(integers:={ .Top, .Bottom})
         End With
 
+        Dim device = g
         Dim scaler As New DataScaler With {
             .AxisTicks = (xTicks, yTicks),
             .region = canvas.PlotRegion,
@@ -230,10 +233,10 @@ Public Class Bubble : Inherits Plot
                     End If
                 Else
                     Call Stroke.TryParse(pt.stroke) _
-                                .GDIObject _
-                                .DoCall(Sub(pen)
-                                            Call g.DrawCircle(pt.pt, r, pen, fill:=False)
-                                        End Sub)
+                        .GDIObject _
+                        .DoCall(Sub(pen)
+                                    Call device.DrawCircle(pt.pt, r, pen, fill:=False)
+                                End Sub)
 
                 End If
 
@@ -287,7 +290,7 @@ Public Class Bubble : Inherits Plot
         Dim topLeft As Point
         Dim grect = canvas.PlotRegion
 
-        If theme.legendLayout.isnullorempty Then
+        If theme.legendLayout.IsNullOrEmpty Then
             topLeft = New Point With {
                 .X = grect.Right - maxSize * 1.5,
                 .Y = grect.Top + grect.Height * 0.05
@@ -295,6 +298,7 @@ Public Class Bubble : Inherits Plot
         Else
             Dim px As Double
             Dim py As Double
+            Dim legendAnchor As PointF = theme.legendLayout.GetLocation(canvas, New LayoutDependency(canvas))
 
             If legendAnchor.X < 1 Then
                 px = grect.Right - grect.Width * legendAnchor.X
