@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.Mappings
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
@@ -277,6 +278,10 @@ Partial Module CLI
         Dim result As EnrichmentTerm()
 
         If DAVID2KOBAS Then
+            result = [in] _
+                .LoadCsv(Of FunctionCluster) _
+                .Converts _
+                .ToArray
         Else
             result = [in] _
                 .LoadCsv(Of EnrichmentResult) _
