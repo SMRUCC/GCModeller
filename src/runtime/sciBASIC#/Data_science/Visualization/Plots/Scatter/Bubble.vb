@@ -54,6 +54,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports stdNum = System.Math
 
+''' <summary>
+''' the bubble plots
+''' </summary>
 Public Module Bubble
 
     Private Function logRadius(R#) As Double
@@ -284,6 +287,6 @@ Public Module Bubble
                 End If
             End Sub
 
-        Return GraphicsPlots(size, margin, bg, plotInternal)
+        Return g.GraphicsPlots(size, margin, bg, plotInternal)
     End Function
 End Module
