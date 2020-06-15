@@ -36,7 +36,7 @@ Public Module BubblePlot
 
         Return Bubble.Plot(
             data:=bubbles,
-            size:=size.SizeParser,
+            size:=size,
             padding:=padding,
             xlabel:="subnetwork statistics",
             ylabel:="-log10(pvalue)",
