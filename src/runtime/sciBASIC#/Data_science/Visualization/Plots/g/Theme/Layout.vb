@@ -60,6 +60,14 @@ Namespace Graphic.Canvas
         Public Property x As Double
         Public Property y As Double
 
+        Sub New()
+        End Sub
+
+        Sub New(location As PointF)
+            x = location.X
+            y = location.Y
+        End Sub
+
         Public Overrides Function GetLocation(canvas As GraphicsRegion, dependency As LayoutDependency) As PointF
             Return New PointF(x, y)
         End Function
