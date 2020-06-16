@@ -88,12 +88,20 @@ Module kegg
         Next
 
         For Each map As Map In maps
+            ' map011xx
+
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
                     assignments(id).Add(map.id)
                 End If
             Next
         Next
+
+        For Each node In compounds
+            node.data("maps") = assignments(node.label).JoinBy(",")
+        Next
+
+        ' Dim mapHits = assignments.Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))).IteratesALL.GroupBy(Function(a) a.mapId).OrderByDescending(Function(m) m.Count).ToDictionary(Function(a) a.Key, Function(a) a.Select(Function(t) t.cid).ToArray)
 
         Return graph
     End Function
