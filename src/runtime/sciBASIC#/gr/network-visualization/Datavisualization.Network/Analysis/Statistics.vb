@@ -81,7 +81,7 @@ Namespace Analysis
 
             For Each node In graph.vertex
                 node.data.betweennessCentrality = data(node.label)
-                node.data("betweennessCentrality") = data(node.label)
+                node.data(names.REFLECTION_ID_MAPPING_BETWEENESS_CENTRALITY) = data(node.label)
             Next
 
             Return data

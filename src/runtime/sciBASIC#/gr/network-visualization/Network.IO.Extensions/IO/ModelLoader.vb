@@ -102,7 +102,8 @@ Namespace FileStream
                 For Each key As String In {
                     names.REFLECTION_ID_MAPPING_DEGREE,
                     names.REFLECTION_ID_MAPPING_DEGREE_IN,
-                    names.REFLECTION_ID_MAPPING_DEGREE_OUT
+                    names.REFLECTION_ID_MAPPING_DEGREE_OUT,
+                    names.REFLECTION_ID_MAPPING_BETWEENESS_CENTRALITY
                 }.Where(Function(p) n.data.HasProperty(p))
 
                     data(key) = n.data(key)
