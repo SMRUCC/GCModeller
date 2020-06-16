@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
@@ -60,6 +61,14 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 ''' </summary>
 <Package("kegg.repository", Category:=APICategories.SoftwareTools)>
 Public Module kegg_repository
+
+    Sub New()
+        Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
+    End Sub
+
+    Private Function showTable(table As ReactionTable()) As String
+        Return table.Take(6).ToCsvDoc.AsMatrix.Print()
+    End Function
 
     ''' <summary>
     ''' load repository of kegg <see cref="Compound"/>.
