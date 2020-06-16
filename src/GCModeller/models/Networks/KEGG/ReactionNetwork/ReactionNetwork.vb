@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::a3f6ca1695e53d285626750bddb8c410, Networks\KEGG\ReactionNetwork\ReactionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReactionNetworkBuilder
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: BuildModel, doNetworkExpansion
-    ' 
-    '         Sub: addNewEdge, createEdges
-    ' 
-    '     Module Extensions
-    ' 
-    '         Function: BuildModel
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReactionNetworkBuilder
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: BuildModel, doNetworkExpansion
+' 
+'         Sub: addNewEdge, createEdges
+' 
+'     Module Extensions
+' 
+'         Function: BuildModel
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -143,51 +143,84 @@ Namespace ReactionNetwork
             End With
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="commons">a list of reaction id</param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
         Friend Sub createEdges(commons As String(), a As Node, b As Node)
-            ' each enzyme is an edge
-            For Each rid As String In commons
-                Dim geneNames = networkBase(rid)
-                Dim rNode As Node
+            Dim models = commons.Select(Function(id) networkBase(id)).Select(Function(r) r.geneNames.JoinIterates(r.KO).JoinIterates(r.EC)).IteratesALL.Select(Function(s) s.StringSplit("[;,]")).IteratesALL.Select(AddressOf Strings.Trim).Where(Function(s) Not s.StringEmpty).ToArray
+            Dim KO = models.Where(Function(id) id.IsPattern("K\d+")).ToArray
+            Dim EC = models.Select(Function(id) id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+)))+")).Where(Function(id) Not id.StringEmpty).ToArray
+            Dim keggRid = models.Select(Function(id) id.Match("R\d+")).Where(Function(id) Not id.StringEmpty).ToArray
+            Dim allId As String() = KO.JoinIterates(EC).JoinIterates(keggRid).ToArray
+            Dim geneSymbols = models.AsParallel.Where(Function(line) line.InStrAny(allId) = -1).ToArray
+            Dim middleNode As String
 
-                If Not nodes.containsKey(rid) Then
-                    rNode = New Node With {
-                        .label = rid,
-                        .data = New NodeData With {
-                            .label = geneNames.geneNames.JoinBy(", "),
-                            .origID = rid,
-                            .Properties = New Dictionary(Of String, String) From {
-                                {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
-                            }
+            If models.Length = 1 Then
+                middleNode = models(Scan0)
+            Else
+                If geneSymbols.IsNullOrEmpty Then
+                    If EC.IsNullOrEmpty Then
+                        If KO.IsNullOrEmpty Then
+                            middleNode = keggRid.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
+                        Else
+                            middleNode = KO.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
+                        End If
+                    Else
+                        middleNode = EC.GroupBy(Function(id) id.Split("."c).Take(2).JoinBy(".")).OrderByDescending(Function(g) g.Count).First.Key & ".-.-"
+                    End If
+                Else
+                    middleNode = geneSymbols.GroupBy(Function(name) name.ToLower).OrderByDescending(Function(g) g.Count).First.First
+                End If
+            End If
+
+            ' each enzyme is an edge
+            ' For Each rid As String In commons
+            ' Dim geneNames = networkBase(rid)
+            Dim rNode As Node
+            Dim rid = middleNode
+
+            If Not nodes.containsKey(rid) Then
+                rNode = New Node With {
+                    .label = rid,
+                    .data = New NodeData With {
+                        .label = geneSymbols.Distinct.JoinBy(", "),
+                        .origID = rid,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
                         }
                     }
+                }
 
-                    Call nodes.add(rNode)
-                Else
-                    rNode = nodes(rid)
-                End If
+                Call nodes.add(rNode)
+            Else
+                rNode = nodes(rid)
+            End If
 
-                Call New Edge With {
-                    .U = a,
-                    .V = rNode,
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
-                        }
-                    },
-                    .weight = geneNames.geneNames.TryCount
-                }.DoCall(AddressOf addNewEdge)
+            Call New Edge With {
+                .U = a,
+                .V = rNode,
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")}
+                    }
+                },
+                .weight = geneSymbols.TryCount
+            }.DoCall(AddressOf addNewEdge)
 
-                Call New Edge With {
-                    .U = rNode,
-                    .V = b,
-                    .data = New EdgeData With {
-                        .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
-                        }
-                    },
-                    .weight = geneNames.geneNames.TryCount
-                }.DoCall(AddressOf addNewEdge)
-            Next
+            Call New Edge With {
+                .U = rNode,
+                .V = b,
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")}
+                    }
+                },
+                .weight = geneSymbols.TryCount
+            }.DoCall(AddressOf addNewEdge)
+            ' Next
         End Sub
 
         ''' <summary>
