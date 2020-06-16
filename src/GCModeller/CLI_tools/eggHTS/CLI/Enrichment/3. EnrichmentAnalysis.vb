@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.Mappings
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
@@ -263,7 +264,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Converts")>
-    <Usage("/Converts /in <GSEA.terms.csv> [/out <result.terms.csv>]")>
+    <Usage("/Converts /in <GSEA.terms.csv> [/DAVID2KOBAS /out <result.terms.csv>]")>
     <Description("Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(EnrichmentResult)},
@@ -272,11 +273,21 @@ Partial Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Converts(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
+        Dim DAVID2KOBAS As Boolean = args("/DAVID2KOBAS")
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}_converts.csv"
-        Dim result As EnrichmentTerm() = [in] _
-            .LoadCsv(Of EnrichmentResult) _
-            .Converts() _
-            .ToArray
+        Dim result As EnrichmentTerm()
+
+        If DAVID2KOBAS Then
+            result = [in] _
+                .LoadCsv(Of FunctionCluster) _
+                .Converts _
+                .ToArray
+        Else
+            result = [in] _
+                .LoadCsv(Of EnrichmentResult) _
+                .Converts() _
+                .ToArray
+        End If
 
         Return result.SaveTo(out).CLICode
     End Function
