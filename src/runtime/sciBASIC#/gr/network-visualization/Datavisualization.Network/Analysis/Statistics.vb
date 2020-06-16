@@ -75,6 +75,18 @@ Namespace Analysis
             Return DijkstraRouter.FromNetwork(graph, undirected).BetweennessCentrality
         End Function
 
+        <Extension>
+        Public Function ComputeBetweennessCentrality(graph As NetworkGraph) As Dictionary(Of String, Integer)
+            Dim data = graph.BetweennessCentrality
+
+            For Each node In graph.vertex
+                node.data.betweennessCentrality = data(node.label)
+                node.data("betweennessCentrality") = data(node.label)
+            Next
+
+            Return data
+        End Function
+
         ''' <summary>
         ''' 这个函数计算网络的节点的degree，然后将degree数据写入节点的同时，通过字典返回给用户
         ''' </summary>
