@@ -160,9 +160,15 @@ Namespace FileStream
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function CreateGraph(net As NetworkTables,
                                                 Optional nodeColor As Func(Of Node, Brush) = Nothing,
+                                                Optional defaultBrush$ = "black",
                                                 Optional defaultNodeSize$ = "20,20") As NetworkGraph
 
-            Return CreateGraph(Of Node, NetworkEdge)(net, nodeColor, defaultNodeSize:=defaultNodeSize)
+            Return CreateGraph(Of Node, NetworkEdge)(
+                net,
+                nodeColor,
+                defaultBrush:=defaultBrush,
+                defaultNodeSize:=defaultNodeSize
+            )
         End Function
 
         ''' <summary>
