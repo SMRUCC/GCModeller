@@ -98,21 +98,20 @@ Namespace Analysis
 
                     If Not connectNodes.ContainsKey(node.label) Then
                         ' 这个节点是孤立的节点，度为零
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, 0)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
-
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, 0)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
                     Else
                         d = connectNodes(node.label)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, d)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, d)
 
                         If .in.ContainsKey(node.label) Then
                             d = .in(node.label)
-                            node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
+                            node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
                         End If
                         If .out.ContainsKey(node.label) Then
                             d = .out(node.label)
-                            node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
+                            node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
                         End If
                     End If
                 Next
