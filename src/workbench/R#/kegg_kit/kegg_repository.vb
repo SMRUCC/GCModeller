@@ -117,12 +117,29 @@ Public Module kegg_repository
         Return pathwayMaps
     End Function
 
+    ''' <summary>
+    ''' load kegg reaction table from a given repository model or resource file on your filesystem.
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("reactions.table")>
     Public Function TableOfReactions(repo As Object, Optional env As Environment = Nothing) As Object
         If repo Is Nothing Then
             Return Nothing
         ElseIf repo.GetType Is GetType(String) Then
-            Return ReactionTable.Load(CStr(repo)).ToArray
+            Dim resource As String = DirectCast(repo, String)
+
+            If resource.DirectoryExists Then
+                Return ReactionTable.Load(resource).ToArray
+            ElseIf resource.FileExists Then
+                Return resource.LoadCsv(Of ReactionTable).ToArray
+            Else
+                Return REnv.debug.stop({
+                    "invalid resource handle for load kegg reaction table!",
+                    "resource: " & resource
+                }, env)
+            End If
         ElseIf repo.GetType Is GetType(ReactionRepository) Then
             Return ReactionTable.Load(DirectCast(repo, ReactionRepository)).ToArray
         Else
