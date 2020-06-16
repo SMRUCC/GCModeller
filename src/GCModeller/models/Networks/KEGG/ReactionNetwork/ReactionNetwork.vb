@@ -174,7 +174,7 @@ Namespace ReactionNetwork
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
                     },
-                    .weight = geneNames.geneNames.Length
+                    .weight = geneNames.geneNames.TryCount
                 }.DoCall(AddressOf addNewEdge)
 
                 Call New Edge With {
@@ -185,7 +185,7 @@ Namespace ReactionNetwork
                             {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, geneNames.EC.JoinBy(", ")}
                         }
                     },
-                    .weight = geneNames.geneNames.Length
+                    .weight = geneNames.geneNames.TryCount
                 }.DoCall(AddressOf addNewEdge)
             Next
         End Sub
