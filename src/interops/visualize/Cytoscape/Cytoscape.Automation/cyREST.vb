@@ -100,44 +100,44 @@ Namespace Upload
 
     Public Class CyjsUpload
 
-        Public Property data As data
+        Public Property data As cyjsdata
         Public Property elements As networkElement
 
         Sub New(cyjs As Cyjs)
-            data = New data
+            data = New cyjsdata
             elements = New networkElement With {
-                .edges = cyjs.elements.edges.Select(Function(a) New edge With {.data = New edgeData With {.interaction = a.data.interaction, .source = a.data.source, .target = a.data.target}}).ToArray,
-                .nodes = cyjs.elements.edges.Select(Function(a) New Node With {.data = New nodeData With {.common = a.data.shared_name, .id = a.data.id}}).ToArray
+                .edges = cyjs.elements.edges.Select(Function(a) New cyjsedge With {.data = New edgeData2 With {.interaction = a.data.interaction, .source = a.data.source, .target = a.data.target}}).ToArray,
+                .nodes = cyjs.elements.edges.Select(Function(a) New cyjsNode With {.data = New nodeData2 With {.common = a.data.shared_name, .id = a.data.id}}).ToArray
             }
         End Sub
 
     End Class
 
     Public Class networkElement
-        Public Property nodes As Node()
-        Public Property edges As edge()
+        Public Property nodes As cyjsNode()
+        Public Property edges As cyjsedge()
     End Class
 
-    Public Class Node
-        Public Property data As nodeData
+    Public Class cyjsNode
+        Public Property data As nodeData2
     End Class
 
-    Public Class edge
-        Public Property data As edgeData
+    Public Class cyjsedge
+        Public Property data As edgeData2
     End Class
 
-    Public Class edgeData
+    Public Class edgeData2
         Public Property source As Integer
         Public Property target As Integer
         Public Property interaction As String
     End Class
 
-    Public Class nodeData
+    Public Class nodeData2
         Public Property id As Integer
         Public Property common As String
     End Class
 
-    Public Class data
+    Public Class cyjsdata
         Public Property name As String = App.NextTempName
     End Class
 End Namespace
