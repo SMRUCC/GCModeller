@@ -241,7 +241,7 @@ Public Module EnrichBubbles
                     End Function) _
             .Max
         Dim ltopLeft As New Point With {
-            .X = plot.Width - maxWidth - 65,
+            .X = plot.Width - maxWidth * 1.2,
             .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (g.MeasureString("0", legendFont).Height + 10) * 3) / 2
         }
 

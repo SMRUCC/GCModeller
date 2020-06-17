@@ -71,6 +71,8 @@ Namespace ReactionNetwork
         Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), g As NetworkGraph, color As Brush)
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ReactionNetworkBuilder.commonIgnores) _
+                .GroupBy(Function(a) a.Name) _
+                .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
                             Return createCompoundNode(cpd, cpdGroups, color)
                         End Function) _

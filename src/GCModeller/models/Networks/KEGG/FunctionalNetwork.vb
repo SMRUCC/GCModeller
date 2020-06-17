@@ -116,7 +116,7 @@ Public Module FunctionalNetwork
             Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
 
             For Each node In graph.vertex
-                With layoutTable(node.ID)
+                With layoutTable(node.label)
                     Dim point As New FDGVector2(.X * 1000, .Y * 1000)
                     node.data.initialPostion = point
                 End With

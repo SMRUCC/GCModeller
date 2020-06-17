@@ -62,16 +62,17 @@ Public Module FunctionalEnrichmentNetwork
     ''' </summary>
     ''' <param name="uniprot"></param>
     ''' <returns></returns>
-    <Extension> Public Function StringUniprot(uniprot As UniProtXML) As Dictionary(Of String, entry)
+    <Extension> Public Function StringUniprot(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, entry)
         Return uniprot _
-            .entries _
-            .Where(Function(protein) protein.Xrefs.ContainsKey(InteractExports.STRING)) _
-            .Select(Function(protein) protein.Xrefs(InteractExports.STRING) _
+            .Where(Function(protein) protein.xrefs.ContainsKey(InteractExports.STRING)) _
+            .Select(Function(protein) protein.xrefs(InteractExports.STRING) _
             .Select(Function(id) (id, protein))) _
             .IteratesALL _
             .GroupBy(Function(id) id.Item1.id) _
             .ToDictionary(Function(x) x.Key,
-                          Function(proteins) proteins.First.Item2)
+                          Function(proteins)
+                              Return proteins.First.Item2
+                          End Function)
     End Function
 
     Const delimiter$ = " === "
