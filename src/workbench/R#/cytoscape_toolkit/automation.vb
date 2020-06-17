@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape.Automation
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
@@ -11,6 +12,14 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("automation")>
 Module automation
+
+    Sub New()
+        Call Internal.ConsolePrinter.AttachConsoleFormatter(Of NetworkReference())(AddressOf printNetworkReference)
+    End Sub
+
+    Private Function printNetworkReference(ref As NetworkReference()) As String
+        Return ref.ToDictionary(Function(a) a.source, Function(a) a.networkSUID(Scan0)).GetJson
+    End Function
 
     Private Function createContainer(version$, port%, host$) As cyREST
         Select Case version.ToLower
@@ -31,7 +40,7 @@ Module automation
 
     <ExportAPI("cache")>
     Public Function cacheFile(file As String) As String
-        Return getContainer("v1", 1234, "localhost").addUploadFile(file)
+        Return cyREST.addUploadFile(file)
     End Function
 
     ''' <summary>
@@ -62,4 +71,15 @@ Module automation
 
         Return container.putNetwork(model)
     End Function
+
+    <ExportAPI("layout")>
+    Public Function applyLayout(networkId As Integer, Optional algorithmName As String = "force-directed", Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As String
+        Dim container As cyREST = automation.getContainer(version, port, host)
+        Return container.applyLayout(networkId, algorithmName)
+    End Function
+
+    <ExportAPI("finalize")>
+    Public Sub close()
+        Call cyREST.Close()
+    End Sub
 End Module

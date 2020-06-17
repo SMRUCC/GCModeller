@@ -21,4 +21,6 @@ network = put_network(network);
 print(network);
 
 
-@stop;
+print(layouts());
+
+finalize();
