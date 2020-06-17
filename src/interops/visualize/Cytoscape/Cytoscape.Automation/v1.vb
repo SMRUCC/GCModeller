@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class v1
+Public Class v1 : Inherits cyREST
 
     ReadOnly api$
 
@@ -12,7 +12,7 @@ Public Class v1
     ''' GET list of layout algorithms
     ''' </summary>
     ''' <returns></returns>
-    Public Function layouts() As String()
+    Public Overrides Function layouts() As String()
         Dim url As String = $"{api}/apply/layouts"
         Dim json As String = url.GET
 
