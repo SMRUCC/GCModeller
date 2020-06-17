@@ -110,7 +110,7 @@ Namespace FileSystem
             Else
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
-                    Return virtualMaps(pathRelative).mime
+                    Return virtualMaps(pathRelative).ContentLength
                 End If
             End If
 
