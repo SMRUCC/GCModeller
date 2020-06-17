@@ -19,3 +19,6 @@ print(toString(network));
 network = put_network(network);
 
 print(network);
+
+
+@stop;
