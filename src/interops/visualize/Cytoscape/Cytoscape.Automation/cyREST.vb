@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
+﻿Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 
 Public MustInherit Class cyREST
 
@@ -14,7 +14,7 @@ Public MustInherit Class cyREST
     ''' Creates a new network in the current session from a file or URL source.
     ''' </summary>
     ''' <returns></returns>
-    Public MustOverride Function putNetwork(network As IEnumerable(Of SIF), Optional collection$ = Nothing, Optional title$ = Nothing, Optional source$ = Nothing, Optional format As formats = formats.egdeList)
+    Public MustOverride Function putNetwork(network As Cyjs, Optional collection$ = Nothing, Optional title$ = Nothing, Optional source$ = Nothing, Optional format As formats = formats.json)
 
 
 End Class

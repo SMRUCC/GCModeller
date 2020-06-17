@@ -12,7 +12,9 @@ let u = network[, "fromNode"];
 let v = network[, "toNode"];
 let interact = network[, "interaction_type"];
 
-network = sif(u, interact, v);
+network = sif(u, interact, v) :> cyjs;
+
+print(json(network));
 
 network = put_network(network);
 

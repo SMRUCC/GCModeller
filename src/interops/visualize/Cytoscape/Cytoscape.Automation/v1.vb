@@ -1,7 +1,6 @@
-﻿Imports System.Collections.Specialized
-Imports System.Net
+﻿Imports System.Net
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Public Class v1 : Inherits cyREST
@@ -27,8 +26,7 @@ Public Class v1 : Inherits cyREST
         Throw New NotImplementedException()
     End Function
 
-    Public Overrides Function putNetwork(network As IEnumerable(Of SIF), Optional collection As String = Nothing, Optional title As String = Nothing, Optional source As String = Nothing, Optional format As formats = formats.egdeList) As Object
-        Dim text As String = SIF.ToText(network)
+    Public Overrides Function putNetwork(network As Cyjs, Optional collection As String = Nothing, Optional title As String = Nothing, Optional source As String = Nothing, Optional format As formats = formats.json) As Object
         Dim query As New Dictionary(Of String, String) From {
             {"collection", collection},
             {"title", title},
@@ -36,11 +34,11 @@ Public Class v1 : Inherits cyREST
             {"format", format.ToString}
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
-        Dim json As String
+        Dim json As String = network.ToString
 
         Using request As New WebClient
             request.Headers.Add("Content-Type", "application/json")
-            json = request.UploadString(url, "POST", JsonContract.GetJson(text))
+            json = request.UploadString(url, "POST", json)
         End Using
 
         Return json
