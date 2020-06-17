@@ -218,8 +218,22 @@ Public Module WebServiceUtils
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function BuildUrlData(data As IEnumerable(Of KeyValuePair(Of String, String)), Optional escaping As Boolean = False) As String
-        Return data.Select(Function(x) $"{x.Key}={(noEscaping Or urlEscaping.When(escaping))(x.Value) }").JoinBy("&")
+    <Extension> Public Function BuildUrlData(data As IEnumerable(Of KeyValuePair(Of String, String)),
+                                             Optional escaping As Boolean = False,
+                                             Optional stripNull As Boolean = True) As String
+        If stripNull Then
+            data = data _
+                .Where(Function(a)
+                           Return (Not a.Key.StringEmpty) AndAlso (Not a.Value = Nothing)
+                       End Function) _
+                .ToArray
+        End If
+
+        Return data _
+            .Select(Function(x)
+                        Return $"{x.Key}={(noEscaping Or urlEscaping.When(escaping))(x.Value)}"
+                    End Function) _
+            .JoinBy("&")
     End Function
 
     <ExportAPI("Build.Args")>

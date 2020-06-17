@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Specialized
+Imports System.Net
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
@@ -34,8 +35,12 @@ Public Class v1 : Inherits cyREST
             {"source", source},
             {"format", format.ToString}
         }
-        Dim url As String = $"{api}/networks?{query.BuildUrlData}"
-        Dim json As String = url.POST(New NameValueCollection From {{"body", text}})
+        Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
+        Dim json As String
+
+        Using request As New WebClient
+            json = request.UploadString(url, "POST", text)
+        End Using
 
         Return json
     End Function
