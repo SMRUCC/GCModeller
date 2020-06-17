@@ -203,7 +203,7 @@ Namespace CytoscapeGraphView.Cyjs
 
     Public Class Data : Implements IDynamicsProperty
 
-        Public Property selected As Boolean
+        Public Property selected As Boolean?
         Public Property __Annotations As String()
         Public Property shared_name As String = ""
         Public Property SUID As String
@@ -242,7 +242,7 @@ Namespace CytoscapeGraphView.Cyjs
 
     Public Class Edge
         Public Property data As EdgeData
-        Public Property selected As Boolean
+        Public Property selected As Boolean?
     End Class
 
     Public Class EdgeData : Inherits Data
@@ -251,16 +251,16 @@ Namespace CytoscapeGraphView.Cyjs
         Public Property source As String Implements IInteraction.source
         Public Property target As String Implements IInteraction.target
         Public Property Confidence As Double Implements INetworkEdge.value
-        Public Property EdgeBetweenness As Double
+        Public Property EdgeBetweenness As Double?
         Public Property interaction As String Implements INetworkEdge.Interaction
         Public Property shared_interaction As String
-        Public Property SelfLoop As Boolean
+        Public Property SelfLoop As Boolean?
     End Class
 
     Public Class Node
         Public Property data As NodeData
         Public Property position As position
-        Public Property selected As Boolean
+        Public Property selected As Boolean?
     End Class
 
     Public Class NodeData : Inherits Data
@@ -268,23 +268,23 @@ Namespace CytoscapeGraphView.Cyjs
         Implements IDynamicsProperty
 
         Public Property common As String
-        Public Property NeighborhoodConnectivity As Double
-        Public Property NumberOfDirectedEdges As Integer
-        Public Property Stress As Integer
-        Public Property SelfLoops As Integer
-        Public Property IsSingleNode As Boolean
-        Public Property PartnerOfMultiEdgedNodePairs As Integer
+        Public Property NeighborhoodConnectivity As Double?
+        Public Property NumberOfDirectedEdges As Integer?
+        Public Property Stress As Integer?
+        Public Property SelfLoops As Integer?
+        Public Property IsSingleNode As Boolean?
+        Public Property PartnerOfMultiEdgedNodePairs As Integer?
         Public Property NodeType As String Implements INode.NodeType
-        Public Property Degree As Integer
-        Public Property TopologicalCoefficient As Double
-        Public Property BetweennessCentrality As Double
-        Public Property Radiality As Double
-        Public Property Eccentricity As Integer
-        Public Property NumberOfUndirectedEdges As Integer
-        Public Property ClosenessCentrality As Double
-        Public Property AverageShortestPathLength As Double
-        Public Property ClusteringCoefficient As Double
-        Public Property Size As Integer
+        Public Property Degree As Integer?
+        Public Property TopologicalCoefficient As Double?
+        Public Property BetweennessCentrality As Double?
+        Public Property Radiality As Double?
+        Public Property Eccentricity As Integer?
+        Public Property NumberOfUndirectedEdges As Integer?
+        Public Property ClosenessCentrality As Double?
+        Public Property AverageShortestPathLength As Double?
+        Public Property ClusteringCoefficient As Double?
+        Public Property Size As Integer?
 
         Public Property Identifer As String Implements INode.Id
             Get

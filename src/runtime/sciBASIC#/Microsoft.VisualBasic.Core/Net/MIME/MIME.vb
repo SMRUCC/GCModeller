@@ -74,6 +74,10 @@ Namespace Net.Protocols.ContentTypes
         Public Const ZIP As String = "application/zip"
         Public Const Png As String = "image/png"
 
+        ''' <summary>
+        ''' ``application/octet-stream``
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property UnknownType As New ContentType With {
             .FileExt = "*.*",
             .MIMEType = Unknown,
