@@ -97,6 +97,12 @@ Namespace Layouts
 
         Const MaxGdiDimensionPixels = 20000
 
+        Public ReadOnly Property isNaN As Boolean
+            Get
+                Return x.IsNaNImaginary OrElse y.IsNaNImaginary
+            End Get
+        End Property
+
         Public Property Point2D As PointF
             Get
                 If x.IsNaNImaginary OrElse x > MaxGdiDimensionPixels Then
