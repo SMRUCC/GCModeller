@@ -34,7 +34,7 @@ Public Class v1 : Inherits cyREST
             {"format", format.ToString}
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
-        Dim json As String = network.ToString
+        Dim json As String = network.GetJson
 
         Using request As New WebClient
             request.Headers.Add("Content-Type", "application/json")

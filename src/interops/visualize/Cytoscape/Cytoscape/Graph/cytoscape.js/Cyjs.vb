@@ -111,21 +111,27 @@ Namespace CytoscapeGraphView.Cyjs
 
         Sub New(network As IEnumerable(Of SIF))
             Dim inputs = network.ToArray
+            Dim nodesIndex As New Dictionary(Of String, String)
 
-            elements = New Network
-            elements.nodes = inputs _
+            Call inputs _
                 .Select(Function(a)
                             Return {a.source, a.target}
                         End Function) _
                 .IteratesALL _
                 .Where(Function(id) Not id.StringEmpty) _
                 .Distinct _
+                .ForEach(Sub(id, i)
+                             nodesIndex.Add(id, CStr(i + 1))
+                         End Sub)
+
+            elements = New Network
+            elements.nodes = nodesIndex _
                 .Select(Function(id)
                             Return New Node With {
                                 .data = New NodeData With {
-                                    .id = id,
-                                    .common = id,
-                                    .shared_name = id
+                                    .id = id.Value,
+                                    .common = id.Key,
+                                    .shared_name = id.Key
                                 }
                             }
                         End Function) _
@@ -134,8 +140,8 @@ Namespace CytoscapeGraphView.Cyjs
                 .Select(Function(a)
                             Return New Edge With {
                                 .data = New EdgeData With {
-                                    .source = a.source,
-                                    .target = a.target,
+                                    .source = nodesIndex(a.source),
+                                    .target = nodesIndex(a.target),
                                     .interaction = a.interaction
                                 }
                             }

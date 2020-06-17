@@ -54,6 +54,6 @@ Module automation
             Return Internal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
         End If
 
-        Return container.putNetwork(network)
+        Return container.putNetwork(model)
     End Function
 End Module

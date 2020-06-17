@@ -14,7 +14,7 @@ let interact = network[, "interaction_type"];
 
 network = sif(u, interact, v) :> cyjs;
 
-print(json(network));
+print(toString(network));
 
 network = put_network(network);
 
