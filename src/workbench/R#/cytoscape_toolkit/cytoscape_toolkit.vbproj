@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="kegg.vb" />
     <Compile Include="automation.vb" />
+    <Compile Include="models.vb" />
     <Compile Include="TRN.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

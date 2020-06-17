@@ -148,6 +148,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cytoscape\Cytoscape.vbproj">
+      <Project>{9C7DD64A-E4C0-4011-8994-C842702C6ED4}</Project>
+      <Name>Cytoscape</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
