@@ -125,43 +125,49 @@ Namespace Layouts
 
         Public Function GetSpring(iEdge As Edge) As Spring
             If Not (edgeSprings.ContainsKey(iEdge.ID)) Then
-                Dim length As Single = iEdge.data.length
-                Dim existingSpring As Spring = Nothing
-                Dim fromEdges As IEnumerable(Of Edge) = graph.GetEdges(iEdge.U, iEdge.V)
+                Return createSpring(iEdge)
+            Else
+                Return edgeSprings(iEdge.ID)
+            End If
+        End Function
 
-                If fromEdges IsNot Nothing Then
-                    For Each e As Edge In fromEdges
-                        If existingSpring Is Nothing AndAlso edgeSprings.ContainsKey(e.ID) Then
-                            existingSpring = edgeSprings(e.ID)
-                            Exit For
-                        End If
+        Private Function createSpring(iedge As Edge) As Spring
+            Dim length As Single = iedge.data.length
+            Dim existingSpring As Spring = Nothing
+            Dim fromEdges As IEnumerable(Of Edge) = graph.GetEdges(iedge.U, iedge.V)
 
-                    Next
-                End If
+            If fromEdges IsNot Nothing Then
+                For Each e As Edge In fromEdges
+                    If existingSpring Is Nothing AndAlso edgeSprings.ContainsKey(e.ID) Then
+                        existingSpring = edgeSprings(e.ID)
+                        Exit For
+                    End If
 
-                If existingSpring IsNot Nothing Then
-                    Return New Spring(existingSpring.point1, existingSpring.point2, 0F, 0F)
-                End If
-
-                Dim toEdges As IEnumerable(Of Edge) = graph.GetEdges(iEdge.V, iEdge.U)
-
-                If toEdges IsNot Nothing Then
-                    For Each e As Edge In toEdges
-                        If existingSpring Is Nothing AndAlso edgeSprings.ContainsKey(e.ID) Then
-                            existingSpring = edgeSprings(e.ID)
-                            Exit For
-                        End If
-                    Next
-                End If
-
-                If existingSpring IsNot Nothing Then
-                    Return New Spring(existingSpring.point2, existingSpring.point1, 0F, 0F)
-                End If
-
-                edgeSprings(iEdge.ID) = New Spring(GetPoint(iEdge.U), GetPoint(iEdge.V), length, stiffness)
+                Next
             End If
 
-            Return edgeSprings(iEdge.ID)
+            If existingSpring IsNot Nothing Then
+                Return New Spring(existingSpring.point1, existingSpring.point2, 0F, 0F)
+            End If
+
+            Dim toEdges As IEnumerable(Of Edge) = graph.GetEdges(iedge.V, iedge.U)
+
+            If toEdges IsNot Nothing Then
+                For Each e As Edge In toEdges
+                    If existingSpring Is Nothing AndAlso edgeSprings.ContainsKey(e.ID) Then
+                        existingSpring = edgeSprings(e.ID)
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If existingSpring IsNot Nothing Then
+                Return New Spring(existingSpring.point2, existingSpring.point1, 0F, 0F)
+            End If
+
+            edgeSprings(iedge.ID) = New Spring(GetPoint(iedge.U), GetPoint(iedge.V), length, stiffness)
+
+            Return edgeSprings(iedge.ID)
         End Function
 
         ''' <summary>
