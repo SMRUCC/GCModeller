@@ -1,6 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
@@ -28,5 +31,15 @@ Module models
                        }
                    Next
                End Function().ToArray
+    End Function
+
+    <ExportAPI("cyjs")>
+    <RApiReturn(GetType(Cyjs))>
+    Public Function cyjs(<RRawVectorArgument> network As Object, Optional env As Environment = Nothing) As Object
+        Select Case network.GetType
+            Case GetType(SIF()) : Return New Cyjs(DirectCast(network, SIF()))
+            Case Else
+                Return Internal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
+        End Select
     End Function
 End Module

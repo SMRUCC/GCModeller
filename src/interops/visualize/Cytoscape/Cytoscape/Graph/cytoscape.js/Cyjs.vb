@@ -1,84 +1,84 @@
 ﻿#Region "Microsoft.VisualBasic::bf0db0a2083273f0d9192ac428a3881f, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Cyjs
-    ' 
-    '         Properties: data, elements, format_version, generated_by, target_cytoscapejs_version
-    ' 
-    '         Function: __json, (+2 Overloads) Save, ToGraphModel, ToNetworkGraph, ToString
-    ' 
-    '     Class Data
-    ' 
-    '         Properties: __Annotations, attributes, DynamicsSlot, id, name
-    '                     selected, shared_name, SUID
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetAttrJson, Replace
-    ' 
-    '     Class Network
-    ' 
-    '         Properties: edges, nodes
-    ' 
-    '     Class Edge
-    ' 
-    '         Properties: data, selected
-    ' 
-    '     Class EdgeData
-    ' 
-    '         Properties: Confidence, EdgeBetweenness, interaction, SelfLoop, shared_interaction
-    '                     source, target
-    ' 
-    '     Class Node
-    ' 
-    '         Properties: data, position, selected
-    ' 
-    '     Class NodeData
-    ' 
-    '         Properties: AverageShortestPathLength, BetweennessCentrality, ClosenessCentrality, ClusteringCoefficient, Degree
-    '                     Eccentricity, Identifer, IsSingleNode, NeighborhoodConnectivity, NodeType
-    '                     NumberOfDirectedEdges, NumberOfUndirectedEdges, PartnerOfMultiEdgedNodePairs, Radiality, SelfLoops
-    '                     Size, Stress, TopologicalCoefficient
-    ' 
-    '     Class position
-    ' 
-    '         Properties: x, y
-    ' 
-    '     Interface IDynamicsProperty
-    ' 
-    '         Properties: attributes, DynamicsSlot
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Cyjs
+' 
+'         Properties: data, elements, format_version, generated_by, target_cytoscapejs_version
+' 
+'         Function: __json, (+2 Overloads) Save, ToGraphModel, ToNetworkGraph, ToString
+' 
+'     Class Data
+' 
+'         Properties: __Annotations, attributes, DynamicsSlot, id, name
+'                     selected, shared_name, SUID
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetAttrJson, Replace
+' 
+'     Class Network
+' 
+'         Properties: edges, nodes
+' 
+'     Class Edge
+' 
+'         Properties: data, selected
+' 
+'     Class EdgeData
+' 
+'         Properties: Confidence, EdgeBetweenness, interaction, SelfLoop, shared_interaction
+'                     source, target
+' 
+'     Class Node
+' 
+'         Properties: data, position, selected
+' 
+'     Class NodeData
+' 
+'         Properties: AverageShortestPathLength, BetweennessCentrality, ClosenessCentrality, ClusteringCoefficient, Degree
+'                     Eccentricity, Identifer, IsSingleNode, NeighborhoodConnectivity, NodeType
+'                     NumberOfDirectedEdges, NumberOfUndirectedEdges, PartnerOfMultiEdgedNodePairs, Radiality, SelfLoops
+'                     Size, Stress, TopologicalCoefficient
+' 
+'     Class position
+' 
+'         Properties: x, y
+' 
+'     Interface IDynamicsProperty
+' 
+'         Properties: attributes, DynamicsSlot
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -87,9 +87,11 @@ Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Namespace CytoscapeGraphView.Cyjs
 
@@ -103,6 +105,43 @@ Namespace CytoscapeGraphView.Cyjs
         Public Property target_cytoscapejs_version As String = "~2.1"
         Public Property data As Data
         Public Property elements As Network
+
+        Sub New()
+        End Sub
+
+        Sub New(network As IEnumerable(Of SIF))
+            Dim inputs = network.ToArray
+
+            elements = New Network
+            elements.nodes = inputs _
+                .Select(Function(a)
+                            Return {a.source, a.target}
+                        End Function) _
+                .IteratesALL _
+                .Where(Function(id) Not id.StringEmpty) _
+                .Distinct _
+                .Select(Function(id)
+                            Return New Node With {
+                                .data = New NodeData With {
+                                    .id = id,
+                                    .common = id,
+                                    .shared_name = id
+                                }
+                            }
+                        End Function) _
+                .ToArray
+            elements.edges = inputs _
+                .Select(Function(a)
+                            Return New Edge With {
+                                .data = New EdgeData With {
+                                    .source = a.source,
+                                    .target = a.target,
+                                    .interaction = a.interaction
+                                }
+                            }
+                        End Function) _
+                .ToArray
+        End Sub
 
         Public Function ToGraphModel() As XGMMLgraph
             If elements Is Nothing Then
@@ -222,6 +261,7 @@ Namespace CytoscapeGraphView.Cyjs
         Implements INode
         Implements IDynamicsProperty
 
+        Public Property common As String
         Public Property NeighborhoodConnectivity As Double
         Public Property NumberOfDirectedEdges As Integer
         Public Property Stress As Integer
@@ -240,7 +280,7 @@ Namespace CytoscapeGraphView.Cyjs
         Public Property ClusteringCoefficient As Double
         Public Property Size As Integer
 
-        Public Property Identifer As String Implements INode.ID
+        Public Property Identifer As String Implements INode.Id
             Get
                 Return name
             End Get

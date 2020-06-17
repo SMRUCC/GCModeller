@@ -39,7 +39,8 @@ Public Class v1 : Inherits cyREST
         Dim json As String
 
         Using request As New WebClient
-            json = request.UploadString(url, "POST", text)
+            request.Headers.Add("Content-Type", "application/json")
+            json = request.UploadString(url, "POST", JsonContract.GetJson(text))
         End Using
 
         Return json
