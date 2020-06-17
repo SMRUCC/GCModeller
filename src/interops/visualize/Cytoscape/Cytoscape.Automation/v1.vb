@@ -19,4 +19,11 @@ Public Class v1 : Inherits cyREST
         Return json.LoadJSON(Of String())
     End Function
 
+    Public Overrides Function networksNames() As String()
+        Throw New NotImplementedException()
+    End Function
+
+    Public Overrides Function putNetwork() As Object
+        Throw New NotImplementedException()
+    End Function
 End Class

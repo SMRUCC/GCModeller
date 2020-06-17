@@ -16,6 +16,13 @@ Module automation
         End Select
     End Function
 
+    ''' <summary>
+    ''' GET list of layout algorithms
+    ''' </summary>
+    ''' <param name="version$"></param>
+    ''' <param name="port%"></param>
+    ''' <param name="host$"></param>
+    ''' <returns></returns>
     <ExportAPI("layouts")>
     Public Function layouts(Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As String()
         Dim key As String = $"{host}:{port}/{version}"
