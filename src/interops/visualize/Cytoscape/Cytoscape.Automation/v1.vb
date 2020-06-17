@@ -1,4 +1,5 @@
 ﻿Imports System.Net
+Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
@@ -14,6 +15,7 @@ Public Class v1 : Inherits cyREST
         api = $"http://{host}:{port}/v1"
 
         Call MyBase.virtualFilesystem.DriverRun
+        Call Thread.Sleep(500)
     End Sub
 
     ''' <summary>
@@ -40,16 +42,20 @@ Public Class v1 : Inherits cyREST
             {"format", format.ToString}
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
-        Dim text As String = If(format = formats.json, network.VA.GetJson, SIF.ToText(network.VB))
+        Dim text As String = If(format = formats.json, New Upload.CyjsUpload(network.VA).GetJson, SIF.ToText(network.VB))
         Dim file As New FileReference With {
             .ndex_uuid = 12345,
             .source_location = virtualFilesystem.addUploadData(text, If(format = formats.json, "json", "txt")),
             .source_method = "GET"
         }
+        Dim refJson As String = {file}.GetJson
+
+        Console.WriteLine(refJson)
+        Pause()
 
         Using request As New WebClient
             request.Headers.Add("Content-Type", "application/json")
-            text = request.UploadString(url, "POST", {file}.GetJson)
+            text = request.UploadString(url, "POST", refJson)
         End Using
 
         Return text

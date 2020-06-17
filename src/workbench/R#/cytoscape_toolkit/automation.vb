@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.Automation
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
@@ -49,12 +50,12 @@ Module automation
     <ExportAPI("put_network")>
     Public Function createNetwork(<RRawVectorArgument> network As Object, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost", Optional env As Environment = Nothing)
         Dim container As cyREST = automation.getContainer(version, port, host)
-        Dim model As Cyjs
+        Dim model As [Variant](Of Cyjs, SIF())
 
         If network.GetType Is GetType(Cyjs) Then
-            model = network
+            model = DirectCast(network, Cyjs)
         ElseIf network.GetType Is GetType(SIF()) Then
-            model = New Cyjs(DirectCast(network, SIF()))
+            model = DirectCast(network, SIF())
         Else
             Return Internal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
         End If

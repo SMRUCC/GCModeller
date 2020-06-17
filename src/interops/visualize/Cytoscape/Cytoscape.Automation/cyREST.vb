@@ -51,7 +51,7 @@ Public Class FileHost : Inherits HttpServer
     Public Function addUploadFile(file As String) As String
         Dim res As String = "/" & file.GetFullPath.Replace(":/", "/").Split("/"c).Select(AddressOf UrlEncode).JoinBy("/")
         Call virtual.AddMapping(res, file)
-        Return $"http://localhost:{localPort}/{res}".Replace("//", "/")
+        Return $"http://localhost:{localPort}{res}"
     End Function
 
     Public Function addUploadData(data As String, ext$) As String
@@ -68,7 +68,7 @@ Public Class FileHost : Inherits HttpServer
         End Select
 
         Call virtual.AddCache(res, Encodings.UTF8WithoutBOM.CodePage.GetBytes(data), type)
-        Return $"http://localhost:{localPort}/{res}".Replace("//", "/")
+        Return $"http://localhost:{localPort}/{res}"
     End Function
 
     Public Overrides Sub handleGETRequest(p As HttpProcessor)
@@ -95,6 +95,52 @@ Public Class FileHost : Inherits HttpServer
         Return New HttpProcessor(client, Me, bufferSize)
     End Function
 End Class
+
+Namespace Upload
+
+    Public Class CyjsUpload
+
+        Public Property data As data
+        Public Property elements As networkElement
+
+        Sub New(cyjs As Cyjs)
+            data = New data
+            elements = New networkElement With {
+                .edges = cyjs.elements.edges.Select(Function(a) New edge With {.data = New edgeData With {.interaction = a.data.interaction, .source = a.data.source, .target = a.data.target}}).ToArray,
+                .nodes = cyjs.elements.edges.Select(Function(a) New Node With {.data = New nodeData With {.common = a.data.shared_name, .id = a.data.id}}).ToArray
+            }
+        End Sub
+
+    End Class
+
+    Public Class networkElement
+        Public Property nodes As Node()
+        Public Property edges As edge()
+    End Class
+
+    Public Class Node
+        Public Property data As nodeData
+    End Class
+
+    Public Class edge
+        Public Property data As edgeData
+    End Class
+
+    Public Class edgeData
+        Public Property source As Integer
+        Public Property target As Integer
+        Public Property interaction As String
+    End Class
+
+    Public Class nodeData
+        Public Property id As Integer
+        Public Property common As String
+    End Class
+
+    Public Class data
+        Public Property name As String = App.NextTempName
+    End Class
+End Namespace
 
 Public Enum formats
     ''' <summary>
