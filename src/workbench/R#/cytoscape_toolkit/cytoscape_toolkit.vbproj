@@ -130,6 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="kegg.vb" />
+    <Compile Include="automation.vb" />
+    <Compile Include="models.vb" />
     <Compile Include="TRN.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -183,6 +185,10 @@
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj">
       <Project>{05C0D4B3-D9DF-43AB-9781-FDFDBEE86729}</Project>
       <Name>Network.Regulons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.Automation\Cytoscape.Automation.vbproj">
+      <Project>{DEC3B6DF-0C03-40F5-938F-05F7A4FFC158}</Project>
+      <Name>Cytoscape.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
       <Project>{9C7DD64A-E4C0-4011-8994-C842702C6ED4}</Project>

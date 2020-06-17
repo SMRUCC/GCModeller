@@ -222,6 +222,7 @@
     <Compile Include="API\ImportantNodes\Models.vb" />
     <Compile Include="API\ImportantNodes\ImportantNodes.vb" />
     <Compile Include="API\GraphExtensions.vb" />
+    <Compile Include="csv\SIF.vb" />
     <Compile Include="csv\LinkageNetwork.vb" />
     <Compile Include="csv\csv.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\Expression.vb" />
