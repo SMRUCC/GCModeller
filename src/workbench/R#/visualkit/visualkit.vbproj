@@ -185,6 +185,10 @@
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\ChromosomeMap\ChromosomeMap.vbproj">
+      <Project>{504B1328-D282-4EC3-AC61-786B9735EBA8}</Project>
+      <Name>ChromosomeMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
