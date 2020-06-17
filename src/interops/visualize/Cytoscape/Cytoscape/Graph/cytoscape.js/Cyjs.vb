@@ -87,6 +87,7 @@ Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -112,17 +113,18 @@ Namespace CytoscapeGraphView.Cyjs
         Sub New(network As IEnumerable(Of SIF))
             Dim inputs = network.ToArray
             Dim nodesIndex As New Dictionary(Of String, String)
+            Dim i As i32 = 1
 
-            Call inputs _
+            For Each name As String In inputs _
                 .Select(Function(a)
                             Return {a.source, a.target}
                         End Function) _
                 .IteratesALL _
                 .Where(Function(id) Not id.StringEmpty) _
-                .Distinct _
-                .ForEach(Sub(id, i)
-                             nodesIndex.Add(id, CStr(i + 1))
-                         End Sub)
+                .Distinct
+
+                Call nodesIndex.Add(name, (++i).ToString)
+            Next
 
             elements = New Network
             elements.nodes = nodesIndex _

@@ -1,6 +1,7 @@
 ﻿Imports System.Net
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
@@ -42,13 +43,13 @@ Public Class v1 : Inherits cyREST
             {"format", format.ToString}
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
-        Dim text As String = If(format = formats.json, New Upload.CyjsUpload(network.VA).GetJson, SIF.ToText(network.VB))
+        Dim text As String = If(format = formats.json, JSONSerializer.GetJson(New Upload.CyjsUpload(network.VA)), SIF.ToText(network.VB))
         Dim file As New FileReference With {
             .ndex_uuid = 12345,
             .source_location = virtualFilesystem.addUploadData(text, If(format = formats.json, "json", "txt")),
             .source_method = "GET"
         }
-        Dim refJson As String = {file}.GetJson
+        Dim refJson As String = JSONSerializer.GetJson({file})
 
         Console.WriteLine(refJson)
         Pause()
