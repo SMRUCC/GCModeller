@@ -21,6 +21,12 @@ network = put_network(network);
 print(network);
 
 
+layout(network);
+
 print(layouts());
 
+session.save(file = normalizePath("./result.cys"));
+
+
 finalize();
+

@@ -73,9 +73,24 @@ Module automation
     End Function
 
     <ExportAPI("layout")>
-    Public Function applyLayout(networkId As Integer, Optional algorithmName As String = "force-directed", Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As String
+    Public Function applyLayout(networkId As Object,
+                                Optional algorithmName As String = "force-directed",
+                                Optional version$ = "v1",
+                                Optional port% = 1234,
+                                Optional host$ = "localhost",
+                                Optional env As Environment = Nothing) As Object
+
         Dim container As cyREST = automation.getContainer(version, port, host)
-        Return container.applyLayout(networkId, algorithmName)
+
+        If networkId Is Nothing Then
+            Return Internal.debug.stop("no network specified!", env)
+        ElseIf TypeOf networkId Is Integer OrElse TypeOf networkId Is Long Then
+            Return container.applyLayout(networkId, algorithmName)
+        ElseIf TypeOf networkId Is NetworkReference Then
+            Return container.applyLayout(DirectCast(networkId, NetworkReference).networkSUID(Scan0), algorithmName)
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
+        End If
     End Function
 
     <ExportAPI("session.save")>
