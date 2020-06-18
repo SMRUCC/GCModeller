@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ReactionNetwork
 
@@ -134,7 +135,8 @@ Namespace ReactionNetwork
                 .V = rNode,
                 .data = New EdgeData With {
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")}
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")},
+                        {"kegg", commons.GetJson}
                     }
                 },
                 .weight = geneSymbols.TryCount
@@ -145,7 +147,8 @@ Namespace ReactionNetwork
                 .V = b,
                 .data = New EdgeData With {
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")}
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")},
+                        {"kegg", commons.GetJson}
                     }
                 },
                 .weight = geneSymbols.TryCount
