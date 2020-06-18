@@ -160,6 +160,9 @@ Namespace Session
             Dim graphId As String = graph.id
             Dim view = GetViewKey(name, graphId)
             Dim g As New NetworkGraph
+            Dim info = GetSessionInfo().GroupBy(Function(a) a.name).ToDictionary(Function(a) a.Key, Function(a) a.ToArray)
+            Dim sharedName = info("shared name").FirstOrDefault(Function(a) a.sourceTable.BaseName.StartsWith("SHARED_ATTRS-org.cytoscape.model.CyNode"))
+            Dim nodeNames = cyTable.LoadTable($"{tempDir}/tables/{sharedName.sourceTable}")
 
             For Each node As XmlElement In graph.getElementsByTagName("node")
 

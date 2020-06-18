@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Data.csv.IO
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Session
 
@@ -6,6 +8,10 @@ Namespace Session
 
         Public Property CyCSVVersion As String
         Public Property fields As cyField()
+
+        Public Overrides Function ToString() As String
+            Return fields.Keys().GetJson
+        End Function
 
         Public Shared Function LoadTable(path As String) As cyTable
             Dim table = File.Load(path)
@@ -36,8 +42,8 @@ Namespace Session
         End Function
     End Class
 
-    Public Class cyField
-        Public Property name As String
+    Public Class cyField : Implements INamedValue
+        Public Property name As String Implements INamedValue.Key
         Public Property type As String
         Public Property mutable As Boolean
         Public Property note As String

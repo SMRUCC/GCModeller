@@ -28,5 +28,9 @@ Namespace Session
         <XmlAttribute> Public Property targetJoinKey As String
         <XmlAttribute> Public Property immutable As Boolean
 
+        Public Overrides Function ToString() As String
+            Return sourceTable
+        End Function
+
     End Class
 End Namespace
