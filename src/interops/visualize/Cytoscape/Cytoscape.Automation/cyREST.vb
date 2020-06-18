@@ -5,7 +5,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Public MustInherit Class cyREST : Implements IDisposable
 
-    Protected Shared ReadOnly virtualFilesystem As New FileHost(8887)
+    Protected Shared ReadOnly virtualFilesystem As New FileHost(Net.Tcp.GetFirstAvailablePort(-1))
 
     Shared Sub New()
         Call virtualFilesystem.DriverRun
