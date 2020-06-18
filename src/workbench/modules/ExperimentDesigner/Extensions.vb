@@ -116,18 +116,18 @@ Public Module Extensions
     ''' 从所给定的样本信息列表之中,取出指定组别编号的所有的样本信息
     ''' </summary>
     ''' <param name="sampleInfo"></param>
-    ''' <param name="groupLabel"><see cref="SampleInfo.sample_group"/></param>
+    ''' <param name="groupLabel"><see cref="SampleInfo.sample_info"/></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TakeGroup(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T), groupLabel$) As T()
         Return sampleInfo _
-            .Where(Function(sample) sample.sample_group = groupLabel) _
+            .Where(Function(sample) sample.sample_info = groupLabel) _
             .ToArray
     End Function
 
     ''' <summary>
-    ''' 按照<see cref="SampleGroup.sample_group"/>进行分组，读取出每一个分组之中的
+    ''' 按照<see cref="SampleGroup.sample_info"/>进行分组，读取出每一个分组之中的
     ''' <see cref="SampleGroup.sample_name"/>
     ''' </summary>
     ''' <param name="sampleInfo"></param>
@@ -136,11 +136,11 @@ Public Module Extensions
     <Extension>
     Public Function ToCategory(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T)) As Dictionary(Of NamedCollection(Of String))
         Return sampleInfo _
-            .GroupBy(Function(sample) sample.sample_group) _
+            .GroupBy(Function(sample) sample.sample_info) _
             .Select(Function(group)
                         Return New NamedCollection(Of String) With {
-                            .Name = group.Key,
-                            .Value = group.SampleNames
+                            .name = group.Key,
+                            .value = group.SampleNames
                         }
                     End Function) _
             .ToDictionary
@@ -172,7 +172,7 @@ Public Module Extensions
                        If group.StringEmpty Then
                            Return True
                        Else
-                           Return sample.sample_group = group
+                           Return sample.sample_info = group
                        End If
                    End Function) _
             .Select(Function(sample) sample.ID) _
@@ -180,7 +180,7 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' ``<see cref="SampleInfo.ID"/> -> <see cref="SampleInfo.sample_group"/>``
+    ''' ``<see cref="SampleInfo.ID"/> -> <see cref="SampleInfo.sample_info"/>``
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
@@ -190,7 +190,7 @@ Public Module Extensions
         Return sampleInfo.ToDictionary(
             Function(sample) sample.ID,
             Function(sample)
-                Return sample.sample_group
+                Return sample.sample_info
             End Function)
     End Function
 
@@ -199,14 +199,14 @@ Public Module Extensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="sampleInfo"></param>
-    ''' <param name="colors">Color for <see cref="SampleGroup.sample_group"/></param>
+    ''' <param name="colors">Color for <see cref="SampleGroup.sample_info"/></param>
     ''' <returns></returns>
     <Extension>
     Public Function SampleGroupColor(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T), colors As Color()) As Dictionary(Of String, Color)
         With sampleInfo.ToArray
             Dim colorList As New LoopArray(Of Color)(colors)
             Dim groups = .Select(Function(sample)
-                                     Return sample.sample_group
+                                     Return sample.sample_info
                                  End Function) _
                 .Distinct _
                 .ToArray
@@ -217,7 +217,7 @@ Public Module Extensions
 
             Return .ToDictionary(Function(sample) sample.sample_name,
                                  Function(sample)
-                                     Return groupColors(sample.sample_group)
+                                     Return groupColors(sample.sample_info)
                                  End Function)
         End With
     End Function
@@ -253,7 +253,7 @@ Public Module Extensions
     <Extension>
     Public Function DataAnalysisDesign(sampleInfo As IEnumerable(Of SampleInfo), analysis As IEnumerable(Of AnalysisDesigner)) As Dictionary(Of String, AnalysisDesigner())
         Dim sampleGroups = sampleInfo _
-            .GroupBy(Function(label) label.sample_group) _
+            .GroupBy(Function(label) label.sample_info) _
             .ToDictionary(Function(x) x.Key,
                           Function(g)
                               Return g.ToArray
@@ -296,11 +296,11 @@ Public Module Extensions
     Public Function EnsureGroupPaired(Of T As {New, SampleGroup})(sampleInfo As IEnumerable(Of T), allSamples$(), Optional groupCreated$ = "Control") As NamedCollection(Of T)()
         Dim vector = sampleInfo.ToArray
         Dim groups = vector _
-            .GroupBy(Function(s) s.sample_group) _
+            .GroupBy(Function(s) s.sample_info) _
             .Select(Function(g)
                         Return New NamedCollection(Of T) With {
-                            .Name = g.Key,
-                            .Value = g.ToArray
+                            .name = g.Key,
+                            .value = g.ToArray
                         }
                     End Function) _
             .ToArray
@@ -315,7 +315,7 @@ Public Module Extensions
                     .Select(Function(name)
                                 Return New T With {
                                     .sample_name = name,
-                                    .sample_group = groupCreated
+                                    .sample_info = groupCreated
                                 }
                             End Function) _
                     .ToArray
