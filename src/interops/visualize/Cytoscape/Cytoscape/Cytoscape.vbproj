@@ -271,6 +271,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Session\cyTable.vb" />
     <Compile Include="Session\cyTables.vb" />
     <Compile Include="Session\CysSessionFile.vb" />
     <Compile Include="Session\NamespaceDoc.vb" />

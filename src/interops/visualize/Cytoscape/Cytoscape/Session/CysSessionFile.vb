@@ -150,10 +150,6 @@ Namespace Session
         ''' </summary>
         ''' <returns></returns>
         Public Function GetLayoutedGraph(Optional collection$ = Nothing, Optional name$ = Nothing) As NetworkGraph
-            Dim network As XGMMLgraph = combineViewAndNetwork(collection, name)
-        End Function
-
-        Private Function combineViewAndNetwork(collection$, name$) As XGMMLgraph
             Dim network = GetCollectionKey(collection).Description.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
             Dim graph = network.getElementsByTagName("att").First.getElementsByTagName("graph").FirstOrDefault(Function(a) a.attributes("label") = name)
 
@@ -163,7 +159,13 @@ Namespace Session
 
             Dim graphId As String = graph.id
             Dim view = GetViewKey(name, graphId)
+            Dim g As New NetworkGraph
 
+            For Each node As XmlElement In graph.getElementsByTagName("node")
+
+            Next
+
+            Return g
         End Function
 
         Public Shared Function Open(cys As String) As CysSessionFile
