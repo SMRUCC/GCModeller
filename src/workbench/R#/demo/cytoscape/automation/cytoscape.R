@@ -28,5 +28,5 @@ print(layouts());
 session.save(file = normalizePath("./result.cys"));
 
 
-finalize();
+exit(0);
 
