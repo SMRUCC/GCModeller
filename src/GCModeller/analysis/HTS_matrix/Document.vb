@@ -3,9 +3,18 @@ Imports Microsoft.VisualBasic.Text
 
 Public Module Document
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="excludes"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 因为矩阵文档是由数字构成的，所以在这里不再使用csv文件解析器来完成，直接通过分隔符进行解析来获取最好的解析性能
+    ''' </remarks>
     Public Function LoadMatrixDocument(file As String, excludes As Index(Of String)) As Matrix
         Dim text As String() = file.LineIterators.ToArray
-        Dim sampleIds As String() = text(Scan0).Split(ASCII.TAB).Skip(1).ToArray
+        Dim sampleIds As String() = text(Scan0).Split(ASCII.TAB, ","c).Skip(1).ToArray
         Dim takeIndex As Integer()
 
         If excludes Is Nothing Then
@@ -21,7 +30,7 @@ Public Module Document
         Dim matrix As DataFrameRow() = text _
             .Skip(1) _
             .Select(Function(line)
-                        Dim tokens = line.Split(ASCII.TAB)
+                        Dim tokens = line.Split(ASCII.TAB, ","c)
                         Dim data As Double() = tokens _
                             .Skip(1) _
                             .Select(AddressOf Val) _
