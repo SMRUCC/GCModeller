@@ -62,7 +62,7 @@ Module DEGSample
     End Sub
 
     Private Function print(sample As SampleInfo) As String
-        Return $" ({sample.sample_group}) {sample.sample_name}"
+        Return $" ({sample.sample_info}) {sample.sample_name}"
     End Function
 
     <ExportAPI("guess.sample_groups")>
@@ -111,7 +111,7 @@ Module DEGSample
                             Return New SampleInfo With {
                                 .ID = id,
                                 .sample_name = id,
-                                .sample_group = groupName,
+                                .sample_info = groupName,
                                 .injectionOrder = ++index
                             }
                         End Function)
