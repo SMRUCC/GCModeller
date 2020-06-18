@@ -1,5 +1,6 @@
 ﻿Imports System.Net
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -75,5 +76,19 @@ Public Class v1 : Inherits cyREST
 
     Public Overrides Function networksNames() As String()
         Throw New NotImplementedException()
+    End Function
+
+    Public Overrides Function getViewReference() As Integer
+        Dim url = $"{api}/networks/views/currentNetworkView"
+        Dim json = url.GET
+
+        Return json.LoadJSON(Of view).data("networkViewSUID").DoCall(AddressOf Integer.Parse)
+    End Function
+
+    Public Overrides Function getView(networkId As Integer, viewId As Integer) As Cyjs
+        Dim url$ = $"{api}/networks/{networkId}/views/{viewId}"
+        Dim json As String = url.GET
+
+        Return json.LoadJSON(Of Cyjs)
     End Function
 End Class

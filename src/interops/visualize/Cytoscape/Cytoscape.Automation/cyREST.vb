@@ -22,6 +22,19 @@ Public MustInherit Class cyREST : Implements IDisposable
     Public MustOverride Function applyLayout(network As Integer, Optional algorithm As String = "force-directed") As String
 
     ''' <summary>
+    ''' Returns the current Network View.
+    ''' </summary>
+    ''' <returns></returns>
+    Public MustOverride Function getViewReference() As Integer
+    ''' <summary>
+    ''' Gets the Network View specified by the viewId and networkId parameters.
+    ''' </summary>
+    ''' <param name="networkId">SUID of the Network</param>
+    ''' <param name="viewId">SUID of the Network View</param>
+    ''' <returns></returns>
+    Public MustOverride Function getView(networkId As Integer, viewId As Integer) As Cyjs
+
+    ''' <summary>
     ''' Saves the current session to a file. If successful, the session file location will be returned.
     ''' </summary>
     ''' <param name="file">
@@ -55,4 +68,8 @@ Public MustInherit Class cyREST : Implements IDisposable
         Dispose(disposing:=True)
         GC.SuppressFinalize(Me)
     End Sub
+End Class
+
+Public Class view
+    Public Property data As Dictionary(Of String, String)
 End Class
