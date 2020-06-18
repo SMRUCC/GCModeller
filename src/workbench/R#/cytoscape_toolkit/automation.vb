@@ -78,6 +78,12 @@ Module automation
         Return container.applyLayout(networkId, algorithmName)
     End Function
 
+    <ExportAPI("session.save")>
+    Public Function saveSession(file As String, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As Object
+        Dim container As cyREST = automation.getContainer(version, port, host)
+        Return container.saveSession(file)
+    End Function
+
     <ExportAPI("finalize")>
     Public Sub close()
         Call cyREST.Close()
