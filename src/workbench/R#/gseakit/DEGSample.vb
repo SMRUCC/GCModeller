@@ -112,7 +112,7 @@ Module DEGSample
                                 .ID = id,
                                 .sample_name = id,
                                 .sample_group = groupName,
-                                .Order = ++index
+                                .injectionOrder = ++index
                             }
                         End Function)
         Next

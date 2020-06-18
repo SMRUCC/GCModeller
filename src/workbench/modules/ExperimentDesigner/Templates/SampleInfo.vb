@@ -55,23 +55,27 @@ Imports Microsoft.VisualBasic.Language
 ''' </summary>
 <Template(ExperimentDesigner)>
 Public Class SampleInfo : Inherits SampleGroup
+    Implements INamedValue
 
     ''' <summary>
     ''' 样品的标记符号，符合VisualBasic标识符语法的目标样品标识符
     ''' </summary>
     ''' <returns></returns>
-    Public Property ID As String
+    Public Property ID As String Implements INamedValue.Key
 
     ''' <summary>
     ''' index编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property Order As Integer
+    Public Property injectionOrder As Integer
+    Public Property batch As Integer
+
     ''' <summary>
     ''' 绘图可视化的时候的颜色
     ''' </summary>
     ''' <returns></returns>
     Public Property color As String
+
     ''' <summary>
     ''' legend的形状
     ''' </summary>
@@ -92,13 +96,16 @@ End Class
     ''' </summary>
     ''' <returns></returns>
     Public Property sample_name As String Implements IKeyedEntity(Of String).Key
+
     ''' <summary>
-    ''' 样品的实验设计分组信息
+    ''' the sample info.
+    ''' 
+    ''' (样品的实验设计分组信息)
     ''' </summary>
     ''' <returns></returns>
-    Public Property sample_group As String Implements Value(Of String).IValueOf.Value
+    Public Property sample_info As String Implements Value(Of String).IValueOf.Value
 
     Public Overrides Function ToString() As String
-        Return $"[{sample_group}] {sample_name}"
+        Return $"[{sample_info}] {sample_name}"
     End Function
 End Class
