@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace Session
 
@@ -33,6 +35,10 @@ Namespace Session
         ''' </summary>
         ''' <returns></returns>
         Public Function GetLayoutedGraph(Optional collection$ = Nothing, Optional name$ = Nothing) As NetworkGraph
+            Dim network As XGMMLgraph = combineViewAndNetwork(collection, name)
+        End Function
+
+        Private Function combineViewAndNetwork(collection$, name$) As XGMMLgraph
 
         End Function
 

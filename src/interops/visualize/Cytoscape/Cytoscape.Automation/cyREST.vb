@@ -98,8 +98,10 @@ Namespace Upload
         Public Property data As cyjsdata
         Public Property elements As networkElement
 
-        Sub New(cyjs As Cyjs)
-            data = New cyjsdata
+        Sub New(cyjs As Cyjs, title As String)
+            data = New cyjsdata With {
+                .name = If(title, App.NextTempName)
+            }
             elements = New networkElement With {
                 .edges = cyjs.elements.edges.Select(Function(a) New cyjsedge With {.data = New edgeData2 With {.interaction = a.data.interaction, .source = a.data.source, .target = a.data.target}}).ToArray,
                 .nodes = cyjs.elements.nodes.Select(Function(a) New cyjsNode With {.data = New nodeData2 With {.common = a.data.common, .id = a.data.id}}).ToArray

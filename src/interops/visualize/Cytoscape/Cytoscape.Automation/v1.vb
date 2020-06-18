@@ -35,7 +35,7 @@ Public Class v1 : Inherits cyREST
             {"format", format.ToString}
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
-        Dim text As String = If(format = formats.json, JSONSerializer.GetJson(New Upload.CyjsUpload(network.VA)), SIF.ToText(network.VB))
+        Dim text As String = If(format = formats.json, JSONSerializer.GetJson(New Upload.CyjsUpload(network.VA, title)), SIF.ToText(network.VB))
         Dim file As New FileReference With {
             .ndex_uuid = 12345,
             .source_location = virtualFilesystem.addUploadData(text, If(format = formats.json, "json", "txt")),
