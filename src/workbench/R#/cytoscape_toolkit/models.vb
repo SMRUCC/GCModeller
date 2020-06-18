@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
+Imports SMRUCC.genomics.Visualize.Cytoscape.Session
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -41,5 +42,15 @@ Module models
             Case Else
                 Return Internal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
         End Select
+    End Function
+
+    ''' <summary>
+    ''' open a new cytoscape session file reader
+    ''' </summary>
+    ''' <param name="cys"></param>
+    ''' <returns></returns>
+    <ExportAPI("open.cys")>
+    Public Function openSessionFile(cys As String) As CysSessionFile
+        Return CysSessionFile.Open(cys)
     End Function
 End Module
