@@ -1,6 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ReactionNetwork
 
@@ -33,7 +36,19 @@ Namespace ReactionNetwork
                 Return
             End If
 
+            Dim rid = commonsReactionId.Select(Function(id) networkBase(id)).GetGeneSymbols
 
+            Call New Edge With {
+               .U = a,
+               .V = b,
+               .data = New EdgeData With {
+                   .Properties = New Dictionary(Of String, String) From {
+                       {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, rid.EC.Distinct.JoinBy(", ")},
+                       {"kegg", commonsReactionId.GetJson}
+                   }
+               },
+               .weight = rid.geneSymbols.TryCount
+           }.DoCall(AddressOf addNewEdge)
         End Sub
     End Class
 End Namespace
