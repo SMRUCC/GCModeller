@@ -39,17 +39,22 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -188,5 +193,32 @@ Module visualPlot
                           End Function)
     End Function
 
+    <ExportAPI("sample.color_bend")>
+    Public Sub DrawSampleColorBend(g As IGraphics, layout As RectangleF, geneExpression As Color(),
+                                   Optional horizontal As Boolean = True,
+                                   Optional sampleNames As String() = Nothing,
+                                   Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
+
+        Call SampleColorBend.Draw(g, layout, geneExpression, horizontal, sampleNames, labelFontCSS)
+    End Sub
+
+    ''' <summary>
+    ''' map gene expressin data to color bends
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="colorSet$"></param>
+    ''' <param name="levels"></param>
+    ''' <returns></returns>
+    <ExportAPI("color_bends")>
+    Public Function colorBends(matrix As Matrix, Optional colorSet$ = "RdYlGn:c8", Optional levels As Integer = 25) As list
+        Return New list With {
+            .slots = SampleColorBend _
+                .GetColors(matrix, colorSet, levels) _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return CObj(a.value)
+                              End Function)
+        }
+    End Function
 End Module
 

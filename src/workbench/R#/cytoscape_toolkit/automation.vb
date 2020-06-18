@@ -38,11 +38,6 @@ Module automation
         Return container
     End Function
 
-    <ExportAPI("cache")>
-    Public Function cacheFile(file As String) As String
-        Return cyREST.addUploadFile(file)
-    End Function
-
     ''' <summary>
     ''' GET list of layout algorithms
     ''' </summary>
@@ -57,7 +52,16 @@ Module automation
     End Function
 
     <ExportAPI("put_network")>
-    Public Function createNetwork(<RRawVectorArgument> network As Object, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost", Optional env As Environment = Nothing)
+    <RApiReturn(GetType(NetworkReference))>
+    Public Function createNetwork(<RRawVectorArgument>
+                                  network As Object,
+                                  Optional collection$ = Nothing,
+                                  Optional title$ = Nothing,
+                                  Optional version$ = "v1",
+                                  Optional port% = 1234,
+                                  Optional host$ = "localhost",
+                                  Optional env As Environment = Nothing) As Object
+
         Dim container As cyREST = automation.getContainer(version, port, host)
         Dim model As [Variant](Of Cyjs, SIF())
 
@@ -69,17 +73,38 @@ Module automation
             Return Internal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
         End If
 
-        Return container.putNetwork(model)
+        Return container.putNetwork(model, collection, title)
     End Function
 
     <ExportAPI("layout")>
-    Public Function applyLayout(networkId As Integer, Optional algorithmName As String = "force-directed", Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As String
+    Public Function applyLayout(networkId As Object,
+                                Optional algorithmName As String = "force-directed",
+                                Optional version$ = "v1",
+                                Optional port% = 1234,
+                                Optional host$ = "localhost",
+                                Optional env As Environment = Nothing) As Object
+
         Dim container As cyREST = automation.getContainer(version, port, host)
-        Return container.applyLayout(networkId, algorithmName)
+
+        If networkId Is Nothing Then
+            Return Internal.debug.stop("no network specified!", env)
+        ElseIf TypeOf networkId Is Integer OrElse TypeOf networkId Is Long Then
+            Return container.applyLayout(networkId, algorithmName)
+        ElseIf TypeOf networkId Is NetworkReference Then
+            Return container.applyLayout(DirectCast(networkId, NetworkReference).networkSUID, algorithmName)
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
+        End If
+    End Function
+
+    <ExportAPI("session.save")>
+    Public Function saveSession(file As String, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As Object
+        Dim container As cyREST = automation.getContainer(version, port, host)
+        Return container.saveSession(file)
     End Function
 
     <ExportAPI("finalize")>
-    Public Sub close()
-        Call cyREST.Close()
+    Public Sub destroySession(Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost")
+        Call automation.getContainer(version, port, host).destroySession()
     End Sub
 End Module

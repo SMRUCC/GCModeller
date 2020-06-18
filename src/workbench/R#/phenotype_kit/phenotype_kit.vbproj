@@ -130,6 +130,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="sampleInfo.vb" />
+    <Compile Include="geneExpression.vb" />
     <Compile Include="PFSNetAnalysis.vb" />
     <Compile Include="TRNBuilder.vb" />
     <Compile Include="multiOmics.vb" />
@@ -220,6 +222,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}</Project>
+      <Name>ExperimentDesigner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />

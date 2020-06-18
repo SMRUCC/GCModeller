@@ -49,11 +49,6 @@ Module PFSNetAnalysis
         }
     End Function
 
-    <ExportAPI("load.expr")>
-    Public Function loadExpression(file As String) As DataFrameRow()
-        Return Matrix.LoadData(file).expression
-    End Function
-
     <ExportAPI("load.pathway_network")>
     Public Function loadPathwayNetwork(file As String) As GraphEdge()
         Return GraphEdge.LoadData(file)
@@ -71,11 +66,18 @@ Module PFSNetAnalysis
     ''' <param name="n"></param>
     ''' <returns></returns>
     <ExportAPI("pfsnet")>
-    Public Function run_pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(),
+    Public Function run_pfsnet(<RRawVectorArgument> expr1o As Object, <RRawVectorArgument> expr2o As Object, ggi As GraphEdge(),
                                Optional b# = 0.5,
                                Optional t1# = 0.95,
                                Optional t2# = 0.85,
                                Optional n% = 1000) As PFSNetResultOut
+
+        If TypeOf expr1o Is Matrix Then
+            expr1o = DirectCast(expr1o, Matrix).expression
+        End If
+        If TypeOf expr2o Is Matrix Then
+            expr2o = DirectCast(expr2o, Matrix).expression
+        End If
 
         Return PFSNetAlgorithm.pfsnet(expr1o, expr2o, ggi, b, t1, t2, n)
     End Function

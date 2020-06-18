@@ -170,7 +170,7 @@ Public Module FoldChangeMatrix
                                          analysisDesigners As AnalysisDesigner(),
                                          Optional normalize As Boolean = False) As IEnumerable(Of NamedCollection(Of DataSet))
         Dim groups = sampleInfo _
-            .GroupBy(Function(s) s.sample_group) _
+            .GroupBy(Function(s) s.sample_info) _
             .ToDictionary(Function(g) g.Key,
                           Function(g)
                               Return g.Select(Function(s) s.sample_name).ToArray

@@ -90,77 +90,77 @@ get_significance <- function(ratio){
 
     Sub Main()
         ' Call ptest()
-        Call matrixSplitTest()
+        '  Call matrixSplitTest()
 
         Pause()
     End Sub
 
-    Sub matrixSplitTest()
+    '   Sub matrixSplitTest()
 
-        Dim maps = EntityObject.LoadDataSet("D:\Resources\sampleinfo.txt", tsv:=True).ToDictionary(Function(r) r.ID, Function(r) r!sample_name)
-        Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\DOG_proteinGroups20190129.csv", fieldNameMaps:=maps).SimulateMissingValuesBySample(Function(v) v.Average).TotalSumNormalize.ToArray
-        Dim sampleInfo = {
-            New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
-            New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},
-            New SampleGroup With {.sample_group = "0d", .sample_name = "dog3-0"},
-            New SampleGroup With {.sample_group = "0d", .sample_name = "dog4-0"},
-            New SampleGroup With {.sample_group = "0d", .sample_name = "dog5-0"},
- _
-            New SampleGroup With {.sample_group = "1d", .sample_name = "dog1-1"},
-            New SampleGroup With {.sample_group = "1d", .sample_name = "dog2-1"},
-            New SampleGroup With {.sample_group = "1d", .sample_name = "dog3-1"},
-            New SampleGroup With {.sample_group = "1d", .sample_name = "dog4-1"},
-            New SampleGroup With {.sample_group = "1d", .sample_name = "dog5-1"},
- _
-            New SampleGroup With {.sample_group = "3d", .sample_name = "dog1-3"},
-            New SampleGroup With {.sample_group = "3d", .sample_name = "dog2-3"},
-            New SampleGroup With {.sample_group = "3d", .sample_name = "dog3-3"},
-            New SampleGroup With {.sample_group = "3d", .sample_name = "dog4-3"},
-            New SampleGroup With {.sample_group = "3d", .sample_name = "dog5-3"},
- _
-            New SampleGroup With {.sample_group = "7d", .sample_name = "dog1-7"},
-            New SampleGroup With {.sample_group = "7d", .sample_name = "dog2-7"},
-            New SampleGroup With {.sample_group = "7d", .sample_name = "dog3-7"},
-            New SampleGroup With {.sample_group = "7d", .sample_name = "dog4-7"},
-            New SampleGroup With {.sample_group = "7d", .sample_name = "dog5-7"},
- _
-            New SampleGroup With {.sample_group = "10d", .sample_name = "dog1-10"},
-            New SampleGroup With {.sample_group = "10d", .sample_name = "dog2-10"},
-            New SampleGroup With {.sample_group = "10d", .sample_name = "dog3-10"},
-            New SampleGroup With {.sample_group = "10d", .sample_name = "dog4-10"},
-            New SampleGroup With {.sample_group = "10d", .sample_name = "dog5-10"},
- _
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog1-14d"},
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog3-14d"},
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog4-14d"},
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog5-14d"},
-            New SampleGroup With {.sample_group = "14d", .sample_name = "dog2-14d"},
- _
-            New SampleGroup With {.sample_group = "21d", .sample_name = "dog1-21d"},
-            New SampleGroup With {.sample_group = "21d", .sample_name = "dog2-21d"},
-            New SampleGroup With {.sample_group = "21d", .sample_name = "dog3-21d"},
-            New SampleGroup With {.sample_group = "21d", .sample_name = "dog4-21d"},
-            New SampleGroup With {.sample_group = "21d", .sample_name = "dog5-21d"}
-        }
+    '       Dim maps = EntityObject.LoadDataSet("D:\Resources\sampleinfo.txt", tsv:=True).ToDictionary(Function(r) r.ID, Function(r) r!sample_name)
+    '       Dim rawMatrix = DataSet.LoadDataSet("D:\Resources\DOG_proteinGroups20190129.csv", fieldNameMaps:=maps).SimulateMissingValuesBySample(Function(v) v.Average).TotalSumNormalize.ToArray
+    '       Dim sampleInfo = {
+    '           New SampleGroup With {.sample_group = "0d", .sample_name = "dog1-0"},
+    '           New SampleGroup With {.sample_group = "0d", .sample_name = "dog2-0"},
+    '           New SampleGroup With {.sample_group = "0d", .sample_name = "dog3-0"},
+    '           New SampleGroup With {.sample_group = "0d", .sample_name = "dog4-0"},
+    '           New SampleGroup With {.sample_group = "0d", .sample_name = "dog5-0"},
+    '_
+    '           New SampleGroup With {.sample_group = "1d", .sample_name = "dog1-1"},
+    '           New SampleGroup With {.sample_group = "1d", .sample_name = "dog2-1"},
+    '           New SampleGroup With {.sample_group = "1d", .sample_name = "dog3-1"},
+    '           New SampleGroup With {.sample_group = "1d", .sample_name = "dog4-1"},
+    '           New SampleGroup With {.sample_group = "1d", .sample_name = "dog5-1"},
+    '_
+    '           New SampleGroup With {.sample_group = "3d", .sample_name = "dog1-3"},
+    '           New SampleGroup With {.sample_group = "3d", .sample_name = "dog2-3"},
+    '           New SampleGroup With {.sample_group = "3d", .sample_name = "dog3-3"},
+    '           New SampleGroup With {.sample_group = "3d", .sample_name = "dog4-3"},
+    '           New SampleGroup With {.sample_group = "3d", .sample_name = "dog5-3"},
+    '_
+    '           New SampleGroup With {.sample_group = "7d", .sample_name = "dog1-7"},
+    '           New SampleGroup With {.sample_group = "7d", .sample_name = "dog2-7"},
+    '           New SampleGroup With {.sample_group = "7d", .sample_name = "dog3-7"},
+    '           New SampleGroup With {.sample_group = "7d", .sample_name = "dog4-7"},
+    '           New SampleGroup With {.sample_group = "7d", .sample_name = "dog5-7"},
+    '_
+    '           New SampleGroup With {.sample_group = "10d", .sample_name = "dog1-10"},
+    '           New SampleGroup With {.sample_group = "10d", .sample_name = "dog2-10"},
+    '           New SampleGroup With {.sample_group = "10d", .sample_name = "dog3-10"},
+    '           New SampleGroup With {.sample_group = "10d", .sample_name = "dog4-10"},
+    '           New SampleGroup With {.sample_group = "10d", .sample_name = "dog5-10"},
+    '_
+    '           New SampleGroup With {.sample_group = "14d", .sample_name = "dog1-14d"},
+    '           New SampleGroup With {.sample_group = "14d", .sample_name = "dog3-14d"},
+    '           New SampleGroup With {.sample_group = "14d", .sample_name = "dog4-14d"},
+    '           New SampleGroup With {.sample_group = "14d", .sample_name = "dog5-14d"},
+    '           New SampleGroup With {.sample_group = "14d", .sample_name = "dog2-14d"},
+    '_
+    '           New SampleGroup With {.sample_group = "21d", .sample_name = "dog1-21d"},
+    '           New SampleGroup With {.sample_group = "21d", .sample_name = "dog2-21d"},
+    '           New SampleGroup With {.sample_group = "21d", .sample_name = "dog3-21d"},
+    '           New SampleGroup With {.sample_group = "21d", .sample_name = "dog4-21d"},
+    '           New SampleGroup With {.sample_group = "21d", .sample_name = "dog5-21d"}
+    '       }
 
-        Dim analysis = {
-         New AnalysisDesigner With {.Controls = "0d", .Treatment = "1d"},
-          New AnalysisDesigner With {.Controls = "0d", .Treatment = "10d"},
-           New AnalysisDesigner With {.Controls = "0d", .Treatment = "3d"},
-            New AnalysisDesigner With {.Controls = "0d", .Treatment = "7d"},
-             New AnalysisDesigner With {.Controls = "0d", .Treatment = "14d"},
-              New AnalysisDesigner With {.Controls = "0d", .Treatment = "21d"}
-       }
+    '       Dim analysis = {
+    '        New AnalysisDesigner With {.Controls = "0d", .Treatment = "1d"},
+    '         New AnalysisDesigner With {.Controls = "0d", .Treatment = "10d"},
+    '          New AnalysisDesigner With {.Controls = "0d", .Treatment = "3d"},
+    '           New AnalysisDesigner With {.Controls = "0d", .Treatment = "7d"},
+    '            New AnalysisDesigner With {.Controls = "0d", .Treatment = "14d"},
+    '             New AnalysisDesigner With {.Controls = "0d", .Treatment = "21d"}
+    '      }
 
-        For Each design In analysis
-            Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True, level:=1.25).SaveTo($"D:\Resources\{design.Title}.csv", Encodings.UTF8)
-        Next
+    '       For Each design In analysis
+    '           Call Proteomics.LabelFreeTtest.logFCtest(rawMatrix, design, sampleInfo, significantA:=True, level:=1.25).SaveTo($"D:\Resources\{design.Title}.csv", Encodings.UTF8)
+    '       Next
 
 
-        'For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
-        '    Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
-        'Next
-    End Sub
+    '       'For Each analysisDesign In FoldChangeMatrix.iTraqMatrix(rawMatrix, sampleInfo, analysis, True)
+    '       '    Call analysisDesign.SaveTo($"D:\test\HXB\{analysisDesign.Name}.csv")
+    '       'Next
+    '   End Sub
 
     Sub plotTest()
         Dim sample = EntityObject.LoadDataSet("G:\GCModeller\GCModeller\R\vocano\qlfTable.csv")
