@@ -162,13 +162,25 @@ Namespace Session
             Dim g As New NetworkGraph
             Dim info = GetSessionInfo().GroupBy(Function(a) a.name).ToDictionary(Function(a) a.Key, Function(a) a.ToArray)
             Dim sharedName = info("shared name").FirstOrDefault(Function(a) a.sourceTable.BaseName.StartsWith("SHARED_ATTRS-org.cytoscape.model.CyNode"))
-            Dim nodeNames = cyTable.LoadTable($"{tempDir}/tables/{sharedName.sourceTable}")
+            Dim nodeNames = cyTable.LoadTable($"{tempDir}/tables/{sharedName.sourceTable}").DoCall(AddressOf nodeLabels)
 
             For Each node As XmlElement In graph.getElementsByTagName("node")
 
             Next
 
             Return g
+        End Function
+
+        Private Shared Function nodeLabels(nodeNames As cyTable) As Dictionary(Of String, String)
+            Dim labels As New Dictionary(Of String, String)
+            Dim SUID As cyField
+            Dim common As cyField
+
+            For i As Integer = 0 To nodeNames.fields(Scan0).data.Length
+
+            Next
+
+            Return labels
         End Function
 
         Public Shared Function Open(cys As String) As CysSessionFile

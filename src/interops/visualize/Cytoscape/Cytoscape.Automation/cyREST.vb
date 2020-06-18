@@ -5,18 +5,18 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Public MustInherit Class cyREST : Implements IDisposable
 
-    Protected Shared ReadOnly virtualFilesystem As New FileHost(Net.Tcp.GetFirstAvailablePort(-1))
-    Protected Shared ReadOnly fsThread As Thread
+    ' Protected Shared ReadOnly virtualFilesystem As New FileHost(Net.Tcp.GetFirstAvailablePort(-1))
+    ' Protected Shared ReadOnly fsThread As Thread
 
     Shared Sub New()
-        fsThread = virtualFilesystem.DriverRun
-        Thread.Sleep(500)
+        '  fsThread = virtualFilesystem.DriverRun
+        ' Thread.Sleep(500)
     End Sub
 
     Private disposedValue As Boolean
 
     Public Shared Function addUploadFile(file As String) As String
-        Return virtualFilesystem.addUploadFile(file)
+        '   Return virtualFilesystem.addUploadFile(file)
     End Function
 
     Public MustOverride Function layouts() As String()
@@ -69,8 +69,8 @@ Public MustInherit Class cyREST : Implements IDisposable
     End Sub
 
     Public Shared Sub Close()
-        Call virtualFilesystem.Dispose()
-        Call fsThread.Abort()
+        ' Call virtualFilesystem.Dispose()
+        ' Call fsThread.Abort()
     End Sub
 End Class
 
