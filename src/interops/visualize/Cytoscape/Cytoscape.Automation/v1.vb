@@ -47,12 +47,6 @@ Public Class v1 : Inherits cyREST
         }
         Dim url As String = $"{api}/networks?{query.BuildUrlData(escaping:=True, stripNull:=True)}"
         Dim text As String = If(format = formats.json, JSONSerializer.GetJson(New Upload.CyjsUpload(network.VA, title)), SIF.ToText(network.VB))
-        'Dim file As New FileReference With {
-        '    .ndex_uuid = 12345,
-        '    .source_location = virtualFilesystem.addUploadData(text, If(format = formats.json, "json", "txt")),
-        '    .source_method = "GET"
-        '}
-        ' Dim refJson As String = JSONSerializer.GetJson({file})
 
         Using request As New WebClient
             request.Headers.Add("Content-Type", If(format = formats.json, "application/json", "plain/text"))

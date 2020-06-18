@@ -38,11 +38,6 @@ Module automation
         Return container
     End Function
 
-    <ExportAPI("cache")>
-    Public Function cacheFile(file As String) As String
-        Return cyREST.addUploadFile(file)
-    End Function
-
     ''' <summary>
     ''' GET list of layout algorithms
     ''' </summary>
