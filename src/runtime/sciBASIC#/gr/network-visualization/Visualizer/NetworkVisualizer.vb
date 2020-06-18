@@ -162,6 +162,7 @@ Public Module NetworkVisualizer
                               Optional edgeDashTypes As [Variant](Of Dictionary(Of String, DashStyle), DashStyle) = Nothing,
                               Optional edgeShadowDistance As Single = 0,
                               Optional drawNodeShape As DrawNodeShape = Nothing,
+                              Optional nodeWidget As Action(Of IGraphics, PointF, Double, Node) = Nothing,
                               Optional getNodeLabel As Func(Of Node, String) = Nothing,
                               Optional getLabelPosition As GetLabelPosition = Nothing,
                               Optional getLabelColor As Func(Of Node, Color) = Nothing,
@@ -334,7 +335,8 @@ Public Module NetworkVisualizer
                     drawNodeShape:=drawNodeShape,
                     getLabelPosition:=getLabelPosition,
                     labelWordWrapWidth:=labelWordWrapWidth,
-                    isLabelPinned:=isLabelPinned
+                    isLabelPinned:=isLabelPinned,
+                    nodeWidget:=nodeWidget
                 )
 
                 If displayId AndAlso labels = 0 Then
@@ -389,7 +391,8 @@ Public Module NetworkVisualizer
                                               drawNodeShape As DrawNodeShape,
                                               getLabelPosition As GetLabelPosition,
                                               labelWordWrapWidth As Integer,
-                                              isLabelPinned As Func(Of Node, String, Boolean)) As IEnumerable(Of LayoutLabel)
+                                              isLabelPinned As Func(Of Node, String, Boolean),
+                                              nodeWidget As Action(Of IGraphics, PointF, Double, Node)) As IEnumerable(Of LayoutLabel)
         Dim pt As Point
         Dim br As Brush
         Dim rect As RectangleF
@@ -436,6 +439,10 @@ Public Module NetworkVisualizer
                 End If
             Else
                 rect = drawNodeShape(n.label, g, br, r, center)
+            End If
+
+            If Not nodeWidget Is Nothing Then
+                Call nodeWidget(g, center, r, n)
             End If
 
             ' 如果当前的节点没有超出有效的视图范围,并且参数设置为显示id编号
