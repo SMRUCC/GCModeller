@@ -130,6 +130,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="geneExpression.vb" />
     <Compile Include="PFSNetAnalysis.vb" />
     <Compile Include="TRNBuilder.vb" />
     <Compile Include="multiOmics.vb" />

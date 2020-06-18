@@ -49,11 +49,6 @@ Module PFSNetAnalysis
         }
     End Function
 
-    <ExportAPI("load.expr")>
-    Public Function loadExpression(file As String) As DataFrameRow()
-        Return Matrix.LoadData(file).expression
-    End Function
-
     <ExportAPI("load.pathway_network")>
     Public Function loadPathwayNetwork(file As String) As GraphEdge()
         Return GraphEdge.LoadData(file)
