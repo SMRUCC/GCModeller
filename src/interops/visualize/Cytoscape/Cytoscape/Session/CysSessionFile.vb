@@ -1,9 +1,8 @@
-﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ApplicationServices.Zip
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.MIME.application.xml
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -62,11 +61,21 @@ Namespace Session
         Public Iterator Function GetNetworks() As IEnumerable(Of NamedCollection(Of String))
             Dim xml As XmlElement
             Dim collection As String
+            Dim networkNames As New List(Of String)
 
             For Each file As String In $"{tempDir}/networks".ListFiles("*.xgmml")
                 xml = file.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
                 collection = xml.attributes("label")
+                xml = xml.getElementsByTagName("att").First
 
+                For Each graph In xml.getElementsByTagName("graph")
+                    networkNames.Add(graph.attributes("label"))
+                Next
+
+                Yield New NamedCollection(Of String) With {
+                    .name = collection,
+                    .value = networkNames.PopAll
+                }
             Next
         End Function
 
