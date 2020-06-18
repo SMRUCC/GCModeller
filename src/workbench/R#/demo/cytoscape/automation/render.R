@@ -1,5 +1,6 @@
 imports "models" from "cytoscape_toolkit";
 
+require(igraph);
 require(igraph.render);
 
 setwd(!script$dir);
@@ -17,6 +18,11 @@ session
 
 session
 :> get.network_graph("automation", "pathway_enrich")
-:> render.Plot()
-:> save.graphics(canvasSize = [1600,1200], file = "./render.svg", driver = "SVG")
+:> render.Plot(canvasSize = [1600,1200], driver = "SVG")
+:> save.graphics(file = "./render.svg")
+;
+
+session
+:> get.network_graph("automation", "pathway_enrich")
+:> save.network(file = "./cytoscape_result/")
 ;

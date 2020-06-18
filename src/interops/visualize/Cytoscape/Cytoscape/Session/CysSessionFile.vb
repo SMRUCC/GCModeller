@@ -181,7 +181,7 @@ Namespace Session
                 graphId = node.attributes("{http://www.cytoscape.org}nodeId")
                 graphics = node.getElementsByTagName("graphics").First
 
-                g.GetElementByID(graphId).data.initialPostion = New FDGVector3(
+                g.GetElementByID(nodeNames(graphId)).data.initialPostion = New FDGVector3(
                     x:=Single.Parse(graphics.attributes("x")),
                     y:=Single.Parse(graphics.attributes("y")),
                     z:=Single.Parse(graphics.attributes("z"))
