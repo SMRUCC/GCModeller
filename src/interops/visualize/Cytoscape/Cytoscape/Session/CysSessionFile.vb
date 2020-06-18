@@ -79,6 +79,72 @@ Namespace Session
             Next
         End Function
 
+        Public Function GetCollectionKey(collection As String) As NamedValue(Of String)
+            Dim find As String = $"*{collection}.xgmml"
+            Dim xml As XmlElement
+
+            find = $"{tempDir}/networks".ListFiles(find).FirstOrDefault
+
+            If Not find Is Nothing Then
+                xml = XmlElement.ParseXmlText(find.ReadAllText)
+
+                If xml.attributes("label") = collection Then
+                    Return New NamedValue(Of String) With {
+                        .Name = collection,
+                        .Value = xml.id,
+                        .Description = find
+                    }
+                End If
+            End If
+
+            For Each file As String In $"{tempDir}/networks".ListFiles("*.xgmml")
+                xml = file.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
+
+                If xml.attributes("label") = collection Then
+                    Return New NamedValue(Of String) With {
+                        .Name = collection,
+                        .Value = xml.id,
+                        .Description = find
+                    }
+                End If
+            Next
+
+            Return Nothing
+        End Function
+
+        Public Function GetViewKey(name As String, id As String) As NamedValue(Of String)
+            Dim find As String = $"{id}*{name}.xgmml"
+            Dim xml As XmlElement
+
+            find = $"{tempDir}/views".ListFiles(find).FirstOrDefault
+
+            If Not find Is Nothing Then
+                xml = XmlElement.ParseXmlText(find.ReadAllText)
+
+                If xml.attributes("{http://www.cytoscape.org}networkId") = id Then
+                    Return New NamedValue(Of String) With {
+                        .Name = name,
+                        .Value = xml.id,
+                        .Description = find
+                    }
+                End If
+            End If
+
+            For Each file As String In $"{tempDir}/views".ListFiles("*.xgmml")
+                xml = file.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
+
+                If xml.attributes("{http://www.cytoscape.org}networkId") = id Then
+                    Return New NamedValue(Of String) With {
+                        .Name = name,
+                        .Value = xml.id,
+                        .Description = find
+                    }
+                End If
+            Next
+
+            Return Nothing
+        End Function
+
         ''' <summary>
         ''' 加载一个已经具有网络布局信息的网络模型
         ''' </summary>
@@ -88,6 +154,15 @@ Namespace Session
         End Function
 
         Private Function combineViewAndNetwork(collection$, name$) As XGMMLgraph
+            Dim network = GetCollectionKey(collection).Description.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
+            Dim graph = network.getElementsByTagName("att").First.getElementsByTagName("graph").FirstOrDefault(Function(a) a.attributes("label") = name)
+
+            If graph Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim graphId As String = graph.id
+            Dim view = GetViewKey(name, graphId)
 
         End Function
 

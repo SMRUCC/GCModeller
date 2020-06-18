@@ -16,7 +16,7 @@ session
 ;
 
 session
-:> get.network_graph
+:> get.network_graph("automation", "pathway_enrich")
 :> render.Plot()
 :> save.graphics(canvasSize = [1600,1200], file = "./render.svg", driver = "SVG")
 ;
