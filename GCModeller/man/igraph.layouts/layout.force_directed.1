@@ -1,12 +1,16 @@
 .\" man page create by R# package system.
-.TH IGRAPH.LAYOUTS 4 2020-06-11 "layout.force_directed" "layout.force_directed"
+.TH IGRAPH.LAYOUTS 4 2020-06-16 "layout.force_directed" "layout.force_directed"
 .SH NAME
 layout.force_directed \- Do force directed layout
 .SH SYNOPSIS
 \fIlayout.force_directed(\fBg\fR as <generic> NetworkGraph, 
+\fBstiffness\fR as double = 80, 
+\fBrepulsion\fR as double = 4000, 
+\fBdamping\fR as double = 0.83, 
 \fBiterations\fR as integer = 1000, 
 \fBclearScreen\fR as boolean = FALSE, 
-\fBshowProgress\fR as boolean = TRUE);\fR
+\fBshowProgress\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Do force directed layout

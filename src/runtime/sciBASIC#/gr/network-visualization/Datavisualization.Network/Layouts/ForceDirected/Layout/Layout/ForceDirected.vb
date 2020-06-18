@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99e5cdb2521d6f3bfac5d6729a71ad9d, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Layout\ForceDirected.vb"
+﻿#Region "Microsoft.VisualBasic::bb5be0ffe70427a025f543eed2f2beaa, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Layout\ForceDirected.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetSpring, getTotalEnergy, Nearest
+    '         Function: createSpring, GetSpring, getTotalEnergy, Nearest
     ' 
     '         Sub: (+2 Overloads) applyCoulombsLaw, applyHookesLaw, attractToCentre, Calculate, Clear
     '              EachEdge, EachNode, SetPhysics, updatePosition, updateVelocity

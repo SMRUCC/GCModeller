@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a149211b66aa62214d27e2f735e1b59, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Vectors\AbstractVector.vb"
+﻿#Region "Microsoft.VisualBasic::276f57cb741acc47e75092306b4edc34, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Vectors\AbstractVector.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class AbstractVector
     ' 
-    '         Properties: Point2D, x, y, z
+    '         Properties: isNaN, Point2D, x, y, z
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals, GetHashCode, ToString, Vector2D

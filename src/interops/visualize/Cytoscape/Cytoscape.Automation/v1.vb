@@ -34,7 +34,7 @@ Public Class v1 : Inherits cyREST
         Throw New NotImplementedException()
     End Function
 
-    Public Overrides Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection As String = Nothing, Optional title As String = Nothing) As Object
+    Public Overrides Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection As String = Nothing, Optional title As String = Nothing) As NetworkReference()
         Dim format As formats = If(network Like GetType(Cyjs), formats.json, formats.egdeList)
         Dim query As New Dictionary(Of String, String) From {
             {"collection", collection},
@@ -56,7 +56,12 @@ Public Class v1 : Inherits cyREST
             text = request.UploadString(url, "POST", refJson)
         End Using
 
-        Return text
+        Return text.LoadJSON(Of NetworkReference())
+    End Function
+
+    Public Overrides Function applyLayout(networkId As Integer, Optional algorithmName As String = "force-directed") As String
+        Dim url = $"{api}/v1/apply/layouts/{algorithmName}/{networkId}"
+        Return url.GET
     End Function
 
     Public Overrides Function saveSession(file As String) As Object
