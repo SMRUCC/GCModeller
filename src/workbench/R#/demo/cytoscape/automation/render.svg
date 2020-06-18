@@ -8,11 +8,11 @@
 
       
            model:     Microsoft.VisualBasic.Imaging.SVG.XML.SVGXml
-           assembly:  Microsoft.VisualBasic.Imaging, Version=4.7.7474.24736, Culture=neutral, PublicKeyToken=null
-           version:   4.7.7474.24736
-           built:     2020/6/18 星期四 下午 1:44:32
-           md5:       3b8678526ed69b36e816a7b1be0cee90
-           timestamp: 2020/6/18 星期四 下午 1:44:33
+           assembly:  Microsoft.VisualBasic.Imaging, Version=4.7.7474.25035, Culture=neutral, PublicKeyToken=null
+           version:   4.7.7474.25035
+           built:     2020/6/18 星期四 下午 1:54:30
+           md5:       f14b4313656cc13471d588720429e424
+           timestamp: 2020/6/18 星期四 下午 1:54:31
         
       
   -->
@@ -344,150 +344,150 @@
     <circle style="stroke: #FFFFFF; stroke-width: 2px; stroke-dash: solid;" fill="#87CEEB" stroke="stroke: #FFFFFF; stroke-width: 2px; stroke-dash: solid;" z-index="0" cy="177.874084" cx="481.672852" r="10" />
   </g>
   <g z-index="109">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="349.6827" x="826.7873">1.5.-.-</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="340.5522" x="832.0146">1.5.-.-</text>
   </g>
   <g z-index="110">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="92.91153" x="818.2682">2.1.-.-</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="83.40656" x="803.8156">2.1.-.-</text>
   </g>
   <g z-index="111">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="565.4349" x="184.3888">2.6.-.-</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="589.692" x="198.9471">2.6.-.-</text>
   </g>
   <g z-index="112">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="411.825" x="724.8067">4.1.-.-</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="390.0457" x="704.9963">4.1.-.-</text>
   </g>
   <g z-index="113">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="487.3013" x="1253.27">4.3.-.-</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="460.7012" x="1279.62">4.3.-.-</text>
   </g>
   <g z-index="114">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="660.9812" x="663.6353">AADAT</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="682.81" x="722.7906">AADAT</text>
   </g>
   <g z-index="115">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="982.0206" x="752.8814">AANAT</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="964.7082" x="742.7637">AANAT</text>
   </g>
   <g z-index="116">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="349.4819" x="376.0671">avtA</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="356.054" x="348.1008">avtA</text>
   </g>
   <g z-index="117">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="275.5259" x="602.1163">C00022</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="298.3918" x="628.8259">C00022</text>
   </g>
   <g z-index="118">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="565.787" x="753.9623">C00026</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="568.5125" x="735.0479">C00026</text>
   </g>
   <g z-index="119">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="416.6295" x="1042.123">C00047</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="398.5709" x="1046.345">C00047</text>
   </g>
   <g z-index="120">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="180.9267" x="930.962">C00062</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="211.0504" x="951.561">C00062</text>
   </g>
   <g z-index="121">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="473.388" x="833.3353">C00073</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="507.6724" x="852.5997">C00073</text>
   </g>
   <g z-index="122">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="352.314" x="1109.673">C00099</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="331.0803" x="1101.48">C00099</text>
   </g>
   <g z-index="123">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="467.3035" x="312.52">C00141</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="493.111" x="334.1364">C00141</text>
   </g>
   <g z-index="124">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="146.3282" x="231.7379">C00149</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="152.7374" x="193.2659">C00149</text>
   </g>
   <g z-index="125">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="968.2725" x="425.2463">C00153</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="976.3432" x="467.128">C00153</text>
   </g>
   <g z-index="126">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="257.3905" x="917.1635">C00232</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="276.4255" x="938.4105">C00232</text>
   </g>
   <g z-index="127">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="178.0435" x="609.3116">C00245</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="189.1167" x="606.55">C00245</text>
   </g>
   <g z-index="128">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="758.4871" x="544.4933">C00322</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="758.9638" x="545.936">C00322</text>
   </g>
   <g z-index="129">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="468.5784" x="497.9102">C00331</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="499.8909" x="526.4427">C00331</text>
   </g>
   <g z-index="130">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="897.2628" x="133.8116">C00385</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="882.2051" x="183.8145">C00385</text>
   </g>
   <g z-index="131">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="626.7736" x="334.7666">C00407</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="613.6849" x="321.7345">C00407</text>
   </g>
   <g z-index="132">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="494.5186" x="1507.824">C00408</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="463.4327" x="1490.561">C00408</text>
   </g>
   <g z-index="133">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="1090.719" x="289.6898">C00620</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="1070.648" x="259.8213">C00620</text>
   </g>
   <g z-index="134">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="1021.45" x="845.5899">C00780</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="1035.866" x="867.868">C00780</text>
   </g>
   <g z-index="135">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="793.3281" x="682.4859">C00956</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="795.2324" x="749.5963">C00956</text>
   </g>
   <g z-index="136">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="919.4276" x="627.4816">C00978</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="894.5021" x="614.2653">C00978</text>
   </g>
   <g z-index="137">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="767.8961" x="982.863">C01005</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="741.5906" x="967.7069">C01005</text>
   </g>
   <g z-index="138">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="556.9611" x="1389.495">C01879</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="568.2959" x="1410.669">C01879</text>
   </g>
   <g z-index="139">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="209.2112" x="1455.455">C02642</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="231.6825" x="1464.702">C02642</text>
   </g>
   <g z-index="140">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="234.0826" x="1107.816">CRNS1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="227.4378" x="1094.231">CRNS1</text>
   </g>
   <g z-index="141">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="405.569" x="600.7267">DLD3</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="403.4305" x="587.5988">DLD3</text>
   </g>
   <g z-index="142">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="397.3311" x="836.5324">gabT</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="404.1488" x="821.6603">gabT</text>
   </g>
   <g z-index="143">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="249.475" x="760.4967">hpaI</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="244.1176" x="758.5203">hpaI</text>
   </g>
   <g z-index="144">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="576.5627" x="492.6355">ilvE</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="556.1398" x="477.3932">ilvE</text>
   </g>
   <g z-index="145">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="537.1598" x="668.6606">ISS1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="537.7324" x="669.7114">ISS1</text>
   </g>
   <g z-index="146">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="499.1145" x="980.9634">LYS1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="516.5713" x="941.4886">LYS1</text>
   </g>
   <g z-index="147">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="214.059" x="393.122">ME2</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="215.2822" x="386.5835">ME2</text>
   </g>
   <g z-index="148">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="170.2038" x="719.877">ODH1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="182.073" x="764.542">ODH1</text>
   </g>
   <g z-index="149">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="1002.357" x="304.0345">punA</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="986.6147" x="301.0744">punA</text>
   </g>
   <g z-index="150">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="429.6979" x="962.8547">puuE</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="465.2492" x="977.808">puuE</text>
   </g>
   <g z-index="151">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="259.8926" x="1274.849">pydC</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="258.7011" x="1266.475">pydC</text>
   </g>
   <g z-index="152">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="640.143" x="838.2858">serC</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="675.6233" x="861.3176">serC</text>
   </g>
   <g z-index="153">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="361.6878" x="456.3937">TAA1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="379.589" x="434.1597">TAA1</text>
   </g>
   <g z-index="154">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="577.3179" x="572.5711">Tam1</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="578.6334" x="574.8898">Tam1</text>
   </g>
   <g z-index="155">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="577.7986" x="891.9199">TAT</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="586.4285" x="908.8939">TAT</text>
   </g>
   <g z-index="156">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="340.4681" x="708.4606">toa</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="341.1546" x="708.4933">toa</text>
   </g>
   <g z-index="157">
-    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="181.6829" x="520.9906">tpa</text>
+    <text style="font-style: normal;font-size: 16px;font-family: 微软雅黑;fill: #000000" z-index="0" y="172.8963" x="500.8668">tpa</text>
   </g>
 </svg>
