@@ -11,7 +11,13 @@ Namespace ReactionNetwork
 
     Public MustInherit Class BuilderBase
 
+        ''' <summary>
+        ''' 正常的通过这个模型对象的构造函数创建的代谢物节点的颜色为蓝色
+        ''' </summary>
         Protected Shared ReadOnly blue As New SolidBrush(Color.CornflowerBlue)
+        ''' <summary>
+        ''' 通过expansion操作添加的额外的代谢物的节点的颜色为灰色
+        ''' </summary>
         Protected Shared ReadOnly gray As New SolidBrush(Color.LightGray)
 
         Friend Shared ReadOnly commonIgnores As Index(Of String) = My.Resources _

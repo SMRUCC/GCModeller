@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
+    <Compile Include="ReactionNetwork\Builder\ReactionClassNetwork.vb" />
     <Compile Include="ReactionNetwork\CompoundNodeTable.vb" />
     <Compile Include="KEGGMap\PathwayNetwork.vb" />
     <Compile Include="KOLinks.vb" />

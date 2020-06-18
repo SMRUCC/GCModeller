@@ -74,7 +74,7 @@ Namespace ReactionNetwork
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' 两个代谢物之间直接创建一条边
         ''' </summary>
         ''' <param name="commons">a list of reaction id</param>
         ''' <param name="a"></param>
