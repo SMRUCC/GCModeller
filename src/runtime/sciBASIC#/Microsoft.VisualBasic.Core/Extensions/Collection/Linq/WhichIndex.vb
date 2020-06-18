@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f63f4ce7c384e92a6a8ca0c8f2bc7d29, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\WhichIndex.vb"
+﻿#Region "Microsoft.VisualBasic::2adad843e310bacc9d139e6efefa0b4e, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\WhichIndex.vb"
 
     ' Author:
     ' 
@@ -217,7 +217,7 @@ Namespace Linq
         ''' <param name="array"></param>
         ''' <param name="condi"></param>
         ''' <returns></returns>
-        Public Iterator Function [True](Of T)(array As IEnumerable(Of T), condi As Assert(Of T)) As IEnumerable(Of Integer)
+        Public Iterator Function [True](Of T)(array As IEnumerable(Of T), condi As Predicate(Of T)) As IEnumerable(Of Integer)
             Dim i%
 
             For Each x As T In array

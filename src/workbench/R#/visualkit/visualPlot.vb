@@ -39,16 +39,22 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -58,6 +64,13 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualkit.plots")>
 Module visualPlot
 
+    ''' <summary>
+    ''' Create catalog profiles data for GO enrichment result its data visualization.
+    ''' </summary>
+    ''' <param name="enrichments"></param>
+    ''' <param name="goDb"></param>
+    ''' <param name="top">display the top n enriched GO terms.</param>
+    ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
     Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As Object
         Dim GO_terms = goDb.AsEnumerable.ToDictionary
@@ -68,6 +81,13 @@ Module visualPlot
         Return profiles
     End Function
 
+    ''' <summary>
+    ''' Create catalog profiles data for KEGG pathway enrichment result its data visualization.
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="top"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
     Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
         Dim profile As Dictionary(Of String, NamedValue(Of Double)())
@@ -98,14 +118,42 @@ Module visualPlot
     End Function
 
     ''' <summary>
-    ''' Do plot of the given kegg pathway profiles data
+    ''' plot of the Go enrichment in bubble plot style
+    ''' </summary>
+    ''' <param name="profiles"></param>
+    ''' <param name="goDb"></param>
+    ''' <param name="size"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="topN"></param>
+    ''' <param name="R"></param>
+    ''' <returns></returns>
+    <ExportAPI("go.enrichment.bubbles")>
+    Public Function GoEnrichBubbles(profiles As EnrichmentTerm(), goDb As GO_OBO,
+                                    Optional size$ = "2000,1600",
+                                    Optional pvalue# = 0.05,
+                                    Optional topN% = 10,
+                                    Optional R$ = "log(x,1.5)") As Object
+
+        Dim terms As Dictionary(Of Term) = goDb.AsEnumerable.ToDictionary
+
+        Return profiles.BubblePlot(
+            GO_terms:=terms,
+            pvalue:=pvalue,
+            R:=R,
+            size:=size,
+            displays:=topN
+        )
+    End Function
+
+    ''' <summary>
+    ''' Do plot of the given catalog profiles data
     ''' </summary>
     ''' <param name="profiles"></param>
     ''' <param name="title"></param>
     ''' <param name="axisTitle"></param>
-    ''' <param name="size"></param>
-    ''' <param name="tick"></param>
-    ''' <param name="colors"></param>
+    ''' <param name="size">the size of the image</param>
+    ''' <param name="tick">axis ticks, default value -1 for auto generated.</param>
+    ''' <param name="colors">the color schema name</param>
     ''' <returns></returns>
     <ExportAPI("category_profiles.plot")>
     <RApiReturn(GetType(GraphicsData))>
@@ -145,5 +193,32 @@ Module visualPlot
                           End Function)
     End Function
 
+    <ExportAPI("sample.color_bend")>
+    Public Sub DrawSampleColorBend(g As IGraphics, layout As RectangleF, geneExpression As Color(),
+                                   Optional horizontal As Boolean = True,
+                                   Optional sampleNames As String() = Nothing,
+                                   Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
+
+        Call SampleColorBend.Draw(g, layout, geneExpression, horizontal, sampleNames, labelFontCSS)
+    End Sub
+
+    ''' <summary>
+    ''' map gene expressin data to color bends
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="colorSet$"></param>
+    ''' <param name="levels"></param>
+    ''' <returns></returns>
+    <ExportAPI("color_bends")>
+    Public Function colorBends(matrix As Matrix, Optional colorSet$ = "RdYlGn:c8", Optional levels As Integer = 25) As list
+        Return New list With {
+            .slots = SampleColorBend _
+                .GetColors(matrix, colorSet, levels) _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return CObj(a.value)
+                              End Function)
+        }
+    End Function
 End Module
 

@@ -55,7 +55,6 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -118,7 +117,8 @@ Public Module EnrichBubbles
                         legendFont,
                         r:=calcR,
                         displays:=displays,
-                        showBubbleBorder:=bubbleBorder
+                        showBubbleBorder:=bubbleBorder,
+                        padding:=padding
                     )
 
                     Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
@@ -128,7 +128,8 @@ Public Module EnrichBubbles
                         (region.Padding.Top - fsize.Height) / 2)
 
                     Call g.DrawString(title, titleFont, Brushes.Black, tloc)
-                End Sub)
+                End Sub,
+                dpi:="300,300")
         End With
     End Function
 
@@ -177,7 +178,8 @@ Public Module EnrichBubbles
                              legendFontStyle$,
                              r As Func(Of Double, Double),
                              displays%,
-                             showBubbleBorder As Boolean)
+                             showBubbleBorder As Boolean,
+                             padding$)
 
         Dim serials As SerialData() = result _
             .Keys _
@@ -209,8 +211,8 @@ Public Module EnrichBubbles
 
         Dim plot As GraphicsData = Bubble.Plot(
             serials,
-            padding:="padding: 100 100 150 150",
-            size:=New Size(region.Size.Width * 0.85, region.Size.Height),
+            padding:=padding,
+            size:=$"{region.Size.Width},{region.Size.Height}",
             legend:=False,
             xlabel:="richFactor=(n/background)",
             ylabel:="-log10(p.value)",
@@ -232,9 +234,15 @@ Public Module EnrichBubbles
                         }
                     End Function) _
             .ToArray
+        Dim legendFont As Font = CSSFont.TryParse(legendFontStyle)
+        Dim maxWidth As Single = legends _
+            .Select(Function(l)
+                        Return g.MeasureString(l.title, legendFont).Width
+                    End Function) _
+            .Max
         Dim ltopLeft As New Point With {
-            .X = plot.Width - 65,
-            .Y = region.Size.Height * 0.3
+            .X = plot.Width - maxWidth * 1.2,
+            .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (g.MeasureString("0", legendFont).Height + 10) * 3) / 2
         }
 
         Call g.DrawLegends(
@@ -284,7 +292,7 @@ Public Module EnrichBubbles
             .RangeTransform($"0,{color.Length - 1}") _
             .Select(Function(i) CInt(i)) _
             .ToArray
-        Dim pt As PointData
+        Dim pt As PointData = Nothing
         Dim s As New SerialData With {
             .color = color.Last,
             .title = ns,
@@ -292,12 +300,13 @@ Public Module EnrichBubbles
                 .SeqIterator _
                 .Select(Function(obj)
                             Dim gene As EnrichmentTerm = obj
-                            Dim c As Color = color(colorIndex(obj))
+                            Dim i As Integer = colorIndex(obj)
+                            Dim c As Color = color(i)
 
                             Return New PointData With {
                                 .value = r(gene.number) + 1,
                                 .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                                .Tag = gene.Term,
+                                .tag = gene.Term,
                                 .color = c.ARGBExpression
                             }
                         End Function) _
@@ -314,7 +323,7 @@ Public Module EnrichBubbles
             pt = s.pts(i)
             s.pts(i) = New PointData With {
                 .pt = pt.pt,
-                .Tag = Nothing,
+                .tag = Nothing,
                 .value = pt.value,
                 .color = pt.color
             }

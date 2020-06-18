@@ -1,5 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Net.Protocols
-Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+﻿Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports TcpEndPoint = System.Net.IPEndPoint
 

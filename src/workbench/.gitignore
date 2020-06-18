@@ -17,3 +17,4 @@ node_modules
 *.ide-wal
 *.sqlite-journal
 /R#/demo/kegg/KEGG_maps.zip
+R#/demo/cytoscape/automation/result.cys

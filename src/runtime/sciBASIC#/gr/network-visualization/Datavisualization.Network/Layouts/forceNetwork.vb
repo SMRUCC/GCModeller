@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa4042b45a94ab9d675007c7334b0012, gr\network-visualization\Datavisualization.Network\Layouts\forceNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::1bf005724b66dab1f77de93dfa2faffb, gr\network-visualization\Datavisualization.Network\Layouts\forceNetwork.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module forceNetwork
     ' 
-    '         Function: (+2 Overloads) doForceLayout, doRandomLayout
+    '         Function: CheckZero, (+2 Overloads) doForceLayout, doRandomLayout
     ' 
     ' 
     ' /********************************************************************************/
@@ -63,6 +63,33 @@ Namespace Layouts
             With parameters
                 Return net.doForceLayout(.Stiffness, .Repulsion, .Damping, .Iterations, showProgress:=showProgress)
             End With
+        End Function
+
+        ''' <summary>
+        ''' 这个函数用来检查所有的节点是否都是处于零位置
+        ''' 
+        ''' #### 20200616
+        ''' 
+        ''' **假若所有的节点都是处于零位置，则<see cref="doForceLayout"/>函数无法正常工作**
+        ''' 
+        ''' 因为布局引擎会自动使用随机位置初始化位置为空值的节点
+        ''' 所以在这里只需要检查非空位置的节点即可
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CheckZero(g As NetworkGraph) As Boolean
+            For Each v As Node In g.vertex
+                If Not v.data?.initialPostion Is Nothing Then
+                    Dim p As AbstractVector = v.data.initialPostion
+
+                    If p.x <> 0 OrElse p.y <> 0 OrElse p.z <> 0 Then
+                        Return False
+                    End If
+                End If
+            Next
+
+            Return True
         End Function
 
         ''' <summary>
@@ -124,7 +151,7 @@ Namespace Layouts
             Next
 
             Call physicsEngine.EachNode(
-                Sub(node, point)
+                Sub(node As Node, point As LayoutPoint)
                     node.data.initialPostion = point.position
                 End Sub)
 

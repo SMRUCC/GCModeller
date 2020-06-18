@@ -130,6 +130,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="sampleInfo.vb" />
+    <Compile Include="geneExpression.vb" />
+    <Compile Include="PFSNetAnalysis.vb" />
     <Compile Include="TRNBuilder.vb" />
     <Compile Include="multiOmics.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -168,6 +171,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
@@ -175,6 +182,14 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
       <Name>MotifScanner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet\PFSNet.vbproj">
+      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
+      <Name>PFSNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\PFSNet_visual.vbproj">
+      <Project>{bceb9332-2cba-45a1-8b3c-0d1e3b8989de}</Project>
+      <Name>PFSNet_visual</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
@@ -207,6 +222,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}</Project>
+      <Name>ExperimentDesigner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />

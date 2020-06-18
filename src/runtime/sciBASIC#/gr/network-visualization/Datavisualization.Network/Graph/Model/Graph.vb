@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab10397d9b75f6ec596ee565c432ad2e, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::76b40d07bfda163b9382428a00aac8d5, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
 
     ' Author:
     ' 
@@ -153,6 +153,9 @@ Namespace Graph
                 If node.adjacencies Is Nothing Then
                     node.adjacencies = _index.CreateNodeAdjacencySet(node)
                 End If
+                If node.directedVertex Is Nothing Then
+                    node.directedVertex = New DirectedVertex(node.label)
+                End If
             Next
         End Sub
 
@@ -179,7 +182,10 @@ Namespace Graph
             End If
 
             _index(node.label) = node
-            notify()
+            _index(node.label).directedVertex = New DirectedVertex(node.label)
+
+            Call notify()
+
             Return node
         End Function
 
@@ -231,8 +237,14 @@ Namespace Graph
 
             Dim tuple = _index.AddEdge(edge)
 
+            ' gr.addEdge(edge)
+            ' tail.addOutgoingEdge(edge)
+            ' head.addIncomingEdge(edge)
+
             edge.U.adjacencies = tuple.U
             edge.V.adjacencies = tuple.V
+            edge.U.directedVertex.addEdge(edge)
+            edge.V.directedVertex.addEdge(edge)
 
             Call notify()
 
@@ -300,8 +312,11 @@ Namespace Graph
         ''' <remarks>
         ''' 使用这个函数所构建的节点对象的<see cref="Node.ID"/>是自增的，<paramref name="label"/>则会赋值给<see cref="Node.Label"/>属性
         ''' </remarks>
-        Public Function CreateNode(label As String) As Node
-            Dim data As New NodeData With {.label = label}
+        Public Function CreateNode(label As String, Optional data As NodeData = Nothing) As Node
+            If data Is Nothing Then
+                data = New NodeData With {.label = label}
+            End If
+
             Dim tNewNode As New Node(label, data) With {
                 .ID = _nextNodeId
             }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f76668aada9606ad80bc963381f29fbd, mime\application%rdf+xml\RDFEntity.vb"
+﻿#Region "Microsoft.VisualBasic::289bd077cc0adcd7e3371ebc6f810714, mime\application%rdf+xml\RDFEntity.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ''' <summary>
 ''' 在rdf之中被描述的对象实体

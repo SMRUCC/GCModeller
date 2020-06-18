@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af756dd8c22c80dfa05a01a68671b7e4, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::ed76a84a95bf299d20c08e35743be554, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -592,7 +592,7 @@ Public Module Scatter
                         lineWidth!,
                         ptSize!,
                         lineType)
-        Return {s}.Plot(size:=size, padding:=padding, bg:=bg)
+        Return Bubble.Plot({s}, size:=$"{size.Width},{size.Height}", padding:=padding, bg:=bg)
     End Function
 
     <Extension>
@@ -611,7 +611,7 @@ Public Module Scatter
                         lineWidth!,
                         ptSize!,
                         lineType)
-        Return {s}.Plot(size:=size, padding:=padding, bg:=bg)
+        Return Bubble.Plot({s}, size:=$"{size.Width},{size.Height}", padding:=padding, bg:=bg)
     End Function
 
     <Extension>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9573bd7d6718426009939bf153132eb, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
+﻿#Region "Microsoft.VisualBasic::2f793f3aecf60bf74954d52696547467, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class Node
     ' 
-    '         Properties: adjacencies, data, pinned
+    '         Properties: adjacencies, data, directedVertex, pinned, visited
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: adjacentTo, Clone, EnumerateAdjacencies, (+2 Overloads) Equals, GetHashCode
@@ -86,6 +86,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace Graph
@@ -97,6 +98,18 @@ Namespace Graph
         Implements INamedValue
         Implements IGraphValueContainer(Of NodeData)
         Implements ICloneable(Of Node)
+
+        Public Property data As NodeData Implements IGraphValueContainer(Of NodeData).data
+
+        ''' <summary>
+        ''' Get all of the edge collection that connect to current node object
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property adjacencies As AdjacencySet(Of Edge)
+        Public Property directedVertex As DirectedVertex
+
+        Public Property pinned As Boolean
+        Public Property visited As Boolean
 
         ''' <summary>
         ''' 在这里是用的是unique id进行初始化，对于Display title则可以在<see cref="NodeData.label"/>属性上面设置
@@ -115,15 +128,6 @@ Namespace Graph
         Sub New()
             Call Me.New(Nothing, Nothing)
         End Sub
-
-        Public Property data As NodeData Implements IGraphValueContainer(Of NodeData).data
-
-        ''' <summary>
-        ''' Get all of the edge collection that connect to current node object
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property adjacencies As AdjacencySet(Of Edge)
-        Public Property pinned As Boolean
 
         Public Overrides Function GetHashCode() As Integer
             Return label.GetHashCode()
@@ -202,7 +206,9 @@ Namespace Graph
                 .label = label,
                 .degree = degree,
                 .pinned = pinned,
+                .visited = visited,
                 .adjacencies = adjacencies.Clone,
+                .directedVertex = New DirectedVertex(label),
                 .data = New NodeData With {
                     .color = data.color,
                     .label = data.label,
@@ -211,8 +217,8 @@ Namespace Graph
                     .mass = data.mass,
                     .neighbours = data.neighbours,
                     .origID = data.origID,
-                    .size = data.size.ToArray,
-                    .weights = data.weights,
+                    .size = data.size.SafeQuery.ToArray,
+                    .weights = data.weights.SafeQuery.ToArray,
                     .Properties = New Dictionary(Of String, String)(data.Properties)
                 }
             }

@@ -554,6 +554,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualC.STLCLR" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -579,15 +580,21 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Model\DirectedVertex.vb" />
     <Compile Include="Analysis\Model\EdgeSet.vb" />
     <Compile Include="Analysis\Model\GraphIndex.vb" />
+    <Compile Include="Analysis\Kosaraju.vb" />
+    <Compile Include="Analysis\Model\EdgeTraversalPolicy.vb" />
     <Compile Include="Analysis\Similarity\ClassConnectivity.vb" />
     <Compile Include="Analysis\Similarity\GraphTopology.vb" />
     <Compile Include="Analysis\Similarity\Similarity.vb" />
     <Compile Include="Graph\GraphTree.vb" />
     <Compile Include="Analysis\Model\AdjacencySet.vb" />
-    <Compile Include="Graph\Model\NameOf.vb" />
+    <Compile Include="Graph\Model\data\NodeData.vb" />
+    <Compile Include="Graph\Model\data\EdgeData.vb" />
+    <Compile Include="Graph\Model\data\NameOf.vb" />
     <Compile Include="IDynamicsTable.vb" />
+    <Compile Include="Layouts\Circular\CircularLayout.vb" />
     <Compile Include="Layouts\Cola\batch.vb" />
     <Compile Include="Layouts\Cola\descent.vb" />
     <Compile Include="Layouts\Cola\Layout\Group.vb" />
@@ -632,6 +639,7 @@
     <Compile Include="Layouts\EdgeBundling\Barycentre.vb" />
     <Compile Include="Layouts\EdgeBundling\Handle.vb" />
     <Compile Include="Layouts\EdgeBundling\HandleCreator.vb" />
+    <Compile Include="Layouts\EdgeBundling\XYMetaHandle.vb" />
     <Compile Include="Layouts\ForceDirected\Layout\Layout\ForceDirected3D.vb" />
     <Compile Include="Layouts\ForceDirected\Layout\Layout\ForceDirected2D.vb" />
     <Compile Include="Layouts\ForceDirected\Layout\Vectors\FDGVectorExtensions.vb" />
@@ -649,7 +657,7 @@
     <Compile Include="Graph\Extensions.vb" />
     <Compile Include="Graph\Model\Edge.vb" />
     <Compile Include="Graph\Model\Graph.vb" />
-    <Compile Include="Graph\Model\GraphData.vb" />
+    <Compile Include="Graph\Model\data\GraphData.vb" />
     <Compile Include="Graph\Model\Node.vb" />
     <Compile Include="Layouts\ForceDirected\Interfaces\IForceDirected.vb" />
     <Compile Include="Layouts\ForceDirected\Interfaces\IGraph.vb" />

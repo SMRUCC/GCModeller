@@ -84,8 +84,8 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
         Dim proteins As protein() = protein.LoadDataSet(DEP).UserCustomMaps(args <= "/map")
         Dim stringNetwork = [in].LoadTsv(Of InteractExports)
-        Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
-        Dim annotations = UniProtXML.Load(uniprot).StringUniprot ' STRING -> uniprot
+        Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates).ToArray
+        Dim annotations = UniProtXML.EnumerateEntries(uniprot).StringUniprot ' STRING -> uniprot
         Dim DEGs = proteins.GetDEGs(
             Function(gene)
                 Return gene("is.DEP").TextEquals("TRUE")

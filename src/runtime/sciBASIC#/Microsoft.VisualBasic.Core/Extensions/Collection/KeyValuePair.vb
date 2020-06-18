@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e00dffb66b8f0c79cd6e421056f30727, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::79b4702381659e874d7c3b9e6ad6c073, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,14 @@
     ' Module KeyValuePairExtensions
     ' 
     '     Function: (+2 Overloads) [Select], (+2 Overloads) Add, AsEnumerable, AsNamedValueTuples, AsTable
-    '               ComputeIfAbsent, (+3 Overloads) ContainsKey, DictionaryData, (+2 Overloads) EnumerateTuples, EnumParser
-    '               FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault, GroupByKey, HaveData
-    '               IterateNameCollections, IterateNameValues, IteratesAll, Join, KeyItem
-    '               (+2 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary, Popout
-    '               RemoveAndGet, ReverseMaps, (+2 Overloads) Selects, SetOfKeyValuePairs, (+2 Overloads) Subset
-    '               tableInternal, (+2 Overloads) Takes, (+3 Overloads) ToDictionary, ToLower, ToUpper
-    '               Tsv, Tuple, TupleTable, (+2 Overloads) Values, XMLModel
+    '               ComputeIfAbsent, (+3 Overloads) ContainsKey, (+2 Overloads) DescendingMap, DictionaryData, (+2 Overloads) EnumerateTuples
+    '               EnumParser, FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault, GroupByKey
+    '               HaveData, IterateNameCollections, IterateNameValues, IteratesAll, Join
+    '               KeyItem, (+2 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary
+    '               Popout, RemoveAndGet, ReverseMaps, (+2 Overloads) Selects, SetOfKeyValuePairs
+    '               (+2 Overloads) Subset, tableInternal, (+2 Overloads) Takes, (+3 Overloads) ToDictionary, ToLower
+    '               ToUpper, Tsv, Tuple, TupleTable, (+2 Overloads) Values
+    '               XMLModel
     ' 
     '     Sub: SortByKey, SortByValue
     ' 
@@ -168,6 +169,22 @@ Public Module KeyValuePairExtensions
         Return entries
     End Function
 #End Region
+
+    <Extension>
+    Public Function DescendingMap(Of T As INamedValue)(data As IEnumerable(Of T)) As Dictionary(Of String, T)
+        Return data.OrderByDescending(Function(a) a.Key).ToDictionary(Function(a) a.Key)
+    End Function
+
+    <Extension>
+    Public Function DescendingMap(Of Key As IComparable(Of Key), T)(data As IEnumerable(Of KeyValuePair(Of Key, T))) As Dictionary(Of Key, T)
+        Dim map As New Dictionary(Of Key, T)
+
+        For Each item In data.OrderByDescending(Function(a) a.Key)
+            Call map.Add(item.Key, item.Value)
+        Next
+
+        Return map
+    End Function
 
     ''' <summary>
     ''' Create a tuple for two elements

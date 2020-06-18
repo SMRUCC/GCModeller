@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1d2d4a8de2b23e3d0254d3ddd3fe339, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::d00d41e1901ee5456469b2d421305430, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
 
     ' Author:
     ' 
@@ -594,7 +594,7 @@ Public Module VectorExtensions
     ''' <param name="deliPosition">是否还应该在分区的结果之中包含有分隔符对象？默认不包含</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function Split(Of T)(source As IEnumerable(Of T), delimiter As Assert(Of T), Optional deliPosition As DelimiterLocation = DelimiterLocation.NotIncludes) As IEnumerable(Of T())
+    Public Iterator Function Split(Of T)(source As IEnumerable(Of T), delimiter As Predicate(Of T), Optional deliPosition As DelimiterLocation = DelimiterLocation.NotIncludes) As IEnumerable(Of T())
         Dim tmp As New List(Of T)
 
         For Each x As T In source.SafeQuery

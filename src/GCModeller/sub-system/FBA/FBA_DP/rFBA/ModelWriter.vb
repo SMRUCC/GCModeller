@@ -147,7 +147,7 @@ Public Module ModelWriter
                                  Let rPcc As Double() = (From pccitem In PccValues
                                                          Let idx As Integer = Array.IndexOf(pccIdList, item.Regulator)
                                                          Where String.Equals(pccitem.locusId, strId) AndAlso idx > -1
-                                                         Select pccitem.Values(idx)).ToArray
+                                                         Select pccitem(idx)).ToArray
                                  Let Effectors As String = item.__getEffectors(EffectorMappings)
                                  Let valuePcc As Double = If(rPcc.IsNullOrEmpty, 0, rPcc.First)
                                  Let strData As String = String.Format("{0}|{1}|{2}", item.Regulator, valuePcc, Effectors)

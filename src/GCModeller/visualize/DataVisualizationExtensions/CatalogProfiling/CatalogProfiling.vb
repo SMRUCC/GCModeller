@@ -174,7 +174,7 @@ Namespace CatalogProfiling
                     )
                 End Sub
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal)
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal,, "300,300")
         End Function
 
         ''' <summary>
@@ -417,7 +417,7 @@ Namespace CatalogProfiling
                 Call g.DrawString(tick, tickFont, Brushes.Black, anchor)
             Next
 
-            y += 75
+            y += d + 10 + g.MeasureString("0", tickFont).Height
 
             titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
             titleSize = g.MeasureString(title, titleFont)

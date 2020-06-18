@@ -40,9 +40,11 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -64,6 +66,27 @@ Namespace CytoscapeGraphView
                               End Function)
         End Function
 
+        <Extension>
+        Private Function getCommonOrSharedName(xgmmlNode As XGMMLnode) As String
+            Dim sharedName = xgmmlNode.attributes.FirstOrDefault(Function(a) a.name = "shared name")
+            Dim common = xgmmlNode.attributes.FirstOrDefault(Function(a) a.name = "common")
+
+            If sharedName Is Nothing AndAlso common Is Nothing Then
+                Return xgmmlNode.label
+            End If
+            If sharedName Is Nothing Then
+                Return common.Value
+            ElseIf common Is Nothing Then
+                Return sharedName.Value
+            Else
+                If common.Value.IsPattern("\d+") Then
+                    Return sharedName.Value
+                Else
+                    Return common.Value
+                End If
+            End If
+        End Function
+
         ''' <summary>
         ''' 请注意，这个函数只会产生最基本的网络模型数据，以及布局信息，个性化的样式调整需要在外部函数调用之中自行添加完成
         ''' </summary>
@@ -77,6 +100,10 @@ Namespace CytoscapeGraphView
             Dim nodeIndex As New Dictionary(Of String, Node)
 
             For Each xgmmlNode As XGMMLnode In graph.nodes
+                If xgmmlNode.label.IsPattern("\d+") Then
+                    xgmmlNode.label = xgmmlNode.getCommonOrSharedName
+                End If
+
                 node = New Node With {
                     .ID = xgmmlNode.id,
                     .label = xgmmlNode.label,
@@ -84,15 +111,15 @@ Namespace CytoscapeGraphView
                         .label = xgmmlNode.label,
                         .origID = xgmmlNode.label,
                         .initialPostion = New FDGVector2 With {
-                            .x = xgmmlNode.graphics.x,
-                            .y = xgmmlNode.graphics.y
+                            .x = CSng(xgmmlNode.graphics.x),
+                            .y = CSng(xgmmlNode.graphics.y)
                         },
                         .Properties = xgmmlNode.createProperties(propertyNames),
                         .size = {xgmmlNode.graphics.w, xgmmlNode.graphics.h}
                     }
                 }
 
-                Call nodeIndex.Add(node.label, node)
+                Call nodeIndex.Add(xgmmlNode.label, node)
                 Call g.AddNode(node)
             Next
 
@@ -108,14 +135,24 @@ Namespace CytoscapeGraphView
                 Dim sy = s.graphics.y
                 Dim tx = t.graphics.x
                 Dim ty = t.graphics.y
+                Dim ps As New PointF(CSng(sx), CSng(sy))
+                Dim pt As New PointF(CSng(tx), CSng(ty))
 
                 edge = New Edge With {
                     .U = u,
                     .V = v,
-                    .ID = xgmmlEdge.id,
+                    .ID = xgmmlEdge.id.ToString,
                     .data = New EdgeData With {
                         .label = xgmmlEdge.label,
-                        .bends = xgmmlEdge.graphics.edgeBendHandles,
+                        .bends = xgmmlEdge.graphics _
+                            .edgeBendHandles _
+                            .Select(Function(a)
+                                        Dim raw As PointF = a.pointAuto(sx, sy, tx, ty)
+                                        Dim xy As XYMetaHandle = XYMetaHandle.CreateVector(ps, pt, raw)
+
+                                        Return xy
+                                    End Function) _
+                            .ToArray,
                         .Properties = xgmmlEdge.createProperties(propertyNames)
                     }
                 }

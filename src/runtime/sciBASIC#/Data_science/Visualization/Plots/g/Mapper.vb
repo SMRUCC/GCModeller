@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56b3aead85af8ed7bfa85a679d0c8d5a, Data_science\Visualization\Plots\g\Mapper.vb"
+﻿#Region "Microsoft.VisualBasic::f9b4ae01ab7fff1f24faaa776aeafe00, Data_science\Visualization\Plots\g\Mapper.vb"
 
     ' Author:
     ' 
@@ -199,7 +199,7 @@ Namespace Graphic
                 Select New PointData(px, py) With {
                     .errMinus = p.errMinus,
                     .errPlus = p.errPlus,
-                    .Tag = p.Tag,
+                    .tag = p.tag,
                     .value = p.value,
                     .Statics = p.Statics,
                     .color = p.color,

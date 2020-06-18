@@ -203,6 +203,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\FileHost.vb" />
     <Compile Include="IPC\ProtocolRouter.vb" />
     <Compile Include="IPC\IPCProtocol.vb" />
     <Compile Include="IPC\Protocols.vb" />
@@ -246,6 +247,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\runtime\httpd\Flute\Flute.vbproj">
+      <Project>{05db9b3d-3456-4005-8e95-7d854cdc6c69}</Project>
+      <Name>Flute</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
       <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
       <Name>BinaryData</Name>
@@ -257,6 +262,10 @@
     <ProjectReference Include="..\..\runtime\sciBASIC#\mime\application%25JSON\application.JSON.vbproj">
       <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
       <Name>application.JSON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\Microsoft.VisualBasic.Network.vbproj">
+      <Project>{a60240d1-e78b-4b96-85e3-45256571c2cb}</Project>
+      <Name>Microsoft.VisualBasic.Network</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

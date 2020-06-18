@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66f826a4ce8cca0ba110bcf469583003, gr\network-visualization\Visualizer\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8d20631774732ad993085b4270173581, gr\network-visualization\Visualizer\Extensions.vb"
 
     ' Author:
     ' 
@@ -41,16 +41,15 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Language.Default
 
 <HideModuleName> Module Extensions
 
     <Extension>
-    Public Function NodeBrushAssert(node As Node) As Assert(Of Object)
+    Public Function NodeBrushAssert(node As Node) As Predicate(Of Object)
         Return Function(null)
                    Return node Is Nothing OrElse
-                          node.Data Is Nothing OrElse
-                          node.Data.Color Is Nothing
+                          node.data Is Nothing OrElse
+                          node.data.color Is Nothing
                End Function
     End Function
 

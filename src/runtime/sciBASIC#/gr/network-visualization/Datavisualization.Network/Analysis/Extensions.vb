@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce010c268042d74d3fcc028dc7574ea1, gr\network-visualization\Datavisualization.Network\Analysis\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0a6ceb9f4b477c99766be2864c257541, gr\network-visualization\Datavisualization.Network\Analysis\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: isTupleEdge
+    '         Function: DecomposeGraph, isTupleEdge
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,7 +43,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis
 
@@ -68,6 +70,47 @@ Namespace Analysis
             Else
                 Return False
             End If
+        End Function
+
+        ''' <summary>
+        ''' Decompose a graph into components, Creates a separate graph for each component of a graph.
+        ''' 
+        ''' 与<see cref="GraphTheory.Network.IteratesSubNetworks"/>所不同的是，IteratesSubNetworks是分离出独立的子网络
+        ''' 而这个函数则是根据连接强度进行子网络的分割
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="minVertices"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function DecomposeGraph(g As NetworkGraph,
+                                                Optional weakMode As Boolean = True,
+                                                Optional minVertices As Integer = 5) As IEnumerable(Of NetworkGraph)
+
+            Dim analysis As Kosaraju = Kosaraju.StronglyConnectedComponents(g)
+            Dim subnetwork As NetworkGraph
+            Dim nodes As Node()
+
+            For Each part As Edge() In analysis.GetComponents.Where(Function(a) a.Length <> g.size.edges)
+                subnetwork = New NetworkGraph
+                nodes = part _
+                    .Select(Function(a) {a.U, a.V}) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+
+                If nodes.Length < minVertices Then
+                    Continue For
+                End If
+
+                For Each v As Node In nodes.Select(Function(a) a.Clone)
+                    Call subnetwork.AddNode(v)
+                Next
+                For Each edge As Edge In part.Select(Function(a) a.Clone)
+                    Call subnetwork.CreateEdge(edge.U, edge.V, 0, edge.data)
+                Next
+
+                Yield subnetwork
+            Next
         End Function
     End Module
 End Namespace

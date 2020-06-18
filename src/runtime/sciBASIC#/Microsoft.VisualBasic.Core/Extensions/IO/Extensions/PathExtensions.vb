@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e80a9874399e8b3adabf66cdb176b3cd, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b7b20d42301d15ef825b039a664f7c65, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -872,10 +872,10 @@ Public Module PathExtensions
     <ExportAPI("Dir.FullPath")>
     <Extension> Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
         Try
-            Return FileIO.FileSystem _
-                .GetDirectoryInfo(dir) _
-                .FullName _
-                .Replace("\", "/")
+            Dim dirInfo As New DirectoryInfo(dir)
+            Dim fullName As String = dirInfo.FullName.Replace("\", "/")
+
+            Return fullName
         Catch ex As Exception
             stack = stack & " --> " & NameOf(GetDirectoryFullPath)
 

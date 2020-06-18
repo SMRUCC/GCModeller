@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db92b88681219765262b68ce3359ac7c, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Router.vb"
+﻿#Region "Microsoft.VisualBasic::905db0976cd26f4a77eb621287c91b09, gr\network-visualization\Datavisualization.Network\Layouts\Orthogonal\Router.vb"
 
     ' Author:
     ' 
@@ -60,13 +60,20 @@ Namespace Layouts.Orthogonal
             For Each edge As Edge In g.graphEdges
                 Dim a = edge.U.data.initialPostion.Point2D
                 Dim b = edge.V.data.initialPostion.Point2D
-                Dim points As New List(Of Handle)
+                Dim points As New List(Of XYMetaHandle)
+                'Dim points As New List(Of Handle)
 
-                points += HandleCreator.defineHandle(a, b, a.X, a.Y)
-                points += HandleCreator.defineHandle(a, b, a.X, (a.Y + b.Y) / 2)
-                points += HandleCreator.defineHandle(a, b, a.X, b.Y)
-                points += HandleCreator.defineHandle(a, b, (a.X + b.X) / 2, b.Y)
-                points += HandleCreator.defineHandle(a, b, b.X, b.Y)
+                'points += HandleCreator.defineHandle(a, b, a.X, a.Y)
+                'points += HandleCreator.defineHandle(a, b, a.X, (a.Y + b.Y) / 2)
+                'points += HandleCreator.defineHandle(a, b, a.X, b.Y)
+                'points += HandleCreator.defineHandle(a, b, (a.X + b.X) / 2, b.Y)
+                'points += HandleCreator.defineHandle(a, b, b.X, b.Y)
+
+                ' points += XYMetaHandle.CreateVector(a, b, a.X, a.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, a.X, (a.Y + b.Y) / 2)
+                points += XYMetaHandle.CreateVector(a, b, a.X, b.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, (a.X + b.X) / 2, b.Y)
+                ' points += XYMetaHandle.CreateVector(a, b, b.X, b.Y)
 
                 edge.data.bends = points.ToArray
             Next

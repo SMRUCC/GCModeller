@@ -117,7 +117,7 @@ Namespace dataExprMAT
 
         Private Shared Function __createRow(LQuery As ExprSamples(), GeneId As String, i As Integer) As IO.RowObject
             Dim row As IO.RowObject =
-                New IO.RowObject(GeneId + LQuery.ToList(Function(x) x.Values(i).ToString))
+                New IO.RowObject(GeneId + LQuery.ToList(Function(x) x(i).ToString))
             Return row
         End Function
 
@@ -250,8 +250,7 @@ Namespace dataExprMAT
         ''' <remarks></remarks>
         Public Function ToDictionary() As Dictionary(Of String, Double())
             Dim dat As ExprSamples() = MatrixAPI.ToSamples(Me.GetOriginalMatrix, True)
-            Return dat.ToDictionary(Function(x) x.locusId,
-                                Function(x) x.Values)
+            Return dat.ToDictionary(Function(x) x.locusId, Function(x) x.data)
         End Function
     End Class
 End Namespace

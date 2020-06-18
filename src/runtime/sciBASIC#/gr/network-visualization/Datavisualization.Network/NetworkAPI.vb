@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b15e4b7ab4720fae067855a240dad8f9, gr\network-visualization\Datavisualization.Network\NetworkAPI.vb"
+﻿#Region "Microsoft.VisualBasic::cc74e03f54d89983b3a14779c6b41fa5, gr\network-visualization\Datavisualization.Network\NetworkAPI.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Public Module NetworkAPI
 

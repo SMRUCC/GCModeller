@@ -47,6 +47,11 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 <Package("gokit.file")>
 Public Module file
 
+    ''' <summary>
+    ''' read the GO database file
+    ''' </summary>
+    ''' <param name="goDb"></param>
+    ''' <returns></returns>
     <ExportAPI("read.go_obo")>
     Public Function ReadGoObo(goDb As String) As GO_OBO
         Return GO_OBO.LoadDocument(path:=goDb)

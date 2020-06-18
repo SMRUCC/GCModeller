@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f2f80fd4bd8364765e05a76063b428b, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
+﻿#Region "Microsoft.VisualBasic::842ede966f066ef8c19a778a952cc508, Microsoft.VisualBasic.Core\ApplicationServices\Terminal\STDIO__\STDIO.vb"
 
     ' Author:
     ' 
@@ -125,7 +125,7 @@ Namespace ApplicationServices.Terminal
         ''' <remarks></remarks>
         Public Sub cat(ParamArray out As String())
             Dim s As String = String.Join("", out)
-            Call Console.Write(s)
+            Call Console.Write(sprintf(s))
         End Sub
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c930a6c8fe1ca8a11c2fcacd92e9813, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
+﻿#Region "Microsoft.VisualBasic::669c9332bc99b62fae36f7d873d053bf, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Statistics
     ' 
-    '         Function: ComputeDegreeData, ComputeNodeDegrees, Sum
+    '         Function: BetweennessCentrality, ComputeBetweennessCentrality, ComputeDegreeData, ComputeNodeDegrees, Sum
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +41,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Dijkstra
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
@@ -68,6 +70,23 @@ Namespace Analysis
             Return degreeValue
         End Function
 
+        <Extension>
+        Public Function BetweennessCentrality(graph As NetworkGraph, Optional undirected As Boolean = False) As Dictionary(Of String, Integer)
+            Return DijkstraRouter.FromNetwork(graph, undirected).BetweennessCentrality
+        End Function
+
+        <Extension>
+        Public Function ComputeBetweennessCentrality(graph As NetworkGraph) As Dictionary(Of String, Integer)
+            Dim data = graph.BetweennessCentrality
+
+            For Each node In graph.vertex
+                node.data.betweennessCentrality = data(node.label)
+                node.data(names.REFLECTION_ID_MAPPING_BETWEENESS_CENTRALITY) = data(node.label)
+            Next
+
+            Return data
+        End Function
+
         ''' <summary>
         ''' 这个函数计算网络的节点的degree，然后将degree数据写入节点的同时，通过字典返回给用户
         ''' </summary>
@@ -91,21 +110,20 @@ Namespace Analysis
 
                     If Not connectNodes.ContainsKey(node.label) Then
                         ' 这个节点是孤立的节点，度为零
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, 0)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
-
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, 0)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
                     Else
                         d = connectNodes(node.label)
-                        node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE, d)
+                        node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, d)
 
                         If .in.ContainsKey(node.label) Then
                             d = .in(node.label)
-                            node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
+                            node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
                         End If
                         If .out.ContainsKey(node.label) Then
                             d = .out(node.label)
-                            node.data.Add(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
+                            node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
                         End If
                     End If
                 Next

@@ -1,15 +1,32 @@
 .\" man page create by R# package system.
-.TH IGRAPH 1 2020-06-09 "read.network" "read.network"
+.TH IGRAPH 2 2020-06-17 "read.network" "read.network"
 .SH NAME
-read.network \- 
+read.network \- load network graph object from a given file location
 .SH SYNOPSIS
 \fIread.network(\fBdirectory\fR as string, 
-\fBdefaultNodeSize\fR as <generic> Object = "20,20");\fR
+\fBdefaultNodeSize\fR as <generic> Object = "20,20", 
+\fBdefaultBrush\fR as string = "black");\fR
+.SH DESCRIPTION
+.PP
+load network graph object from a given file location
+.PP
+.SH OPTIONS
+.PP
+\fBdirectory\fB \fR\- a directory which contains two data table: nodes and network edges
+.PP
+.PP
+\fBdefaultNodeSize\fB \fR\- default node size in width and height
+.PP
+.PP
+\fBdefaultBrush\fB \fR\- default brush texture descriptor string
+.PP
 .SH SEE ALSO
 igraph
 .SH FILES
 .PP
 R.graph.dll
 .PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
 .SH COPYRIGHT
 Copyright © SMRUCC 2019

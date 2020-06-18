@@ -154,8 +154,13 @@
     <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <OutputPath>./bin</OutputPath>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineTrace>true</DefineTrace>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
     <OutputPath>./bin</OutputPath>
@@ -222,6 +227,7 @@
     <Compile Include="API\ImportantNodes\Models.vb" />
     <Compile Include="API\ImportantNodes\ImportantNodes.vb" />
     <Compile Include="API\GraphExtensions.vb" />
+    <Compile Include="csv\SIF.vb" />
     <Compile Include="csv\LinkageNetwork.vb" />
     <Compile Include="csv\csv.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\Expression.vb" />
@@ -265,6 +271,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Session\cyTable.vb" />
+    <Compile Include="Session\cyTables.vb" />
+    <Compile Include="Session\CysSessionFile.vb" />
+    <Compile Include="Session\NamespaceDoc.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -353,6 +363,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
       <Name>application.RDF_xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25xml\application_xml.vbproj">
+      <Project>{25af39f4-76af-411f-ac19-0dd1e128d801}</Project>
+      <Name>application_xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>

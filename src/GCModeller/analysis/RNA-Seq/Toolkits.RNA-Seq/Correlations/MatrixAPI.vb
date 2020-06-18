@@ -101,7 +101,7 @@ Public Module MatrixAPI
                       sample2 As ExprSamples,
                       <Parameter("C", "Cut-off threshold, We used 0.4 for this threshold, which is roughly optimized")>
                       Optional C As Double = 0.4) As Double
-        Dim pcc As Double = Correlations.GetPearson(sample1.Values, sample2.Values)
+        Dim pcc As Double = Correlations.GetPearson(sample1.data, sample2.data)
         Return Math.Max(0, pcc - C) / (1 - C)
     End Function
 
@@ -216,7 +216,7 @@ Public Module MatrixAPI
                                       spcc_th1 As Double,
                                       spcc_th2 As Double) As ExprSamples
         For i As Integer = 0 To Pcc.Count - 1
-            Dim n As Double = Pcc.Values(i)
+            Dim n As Double = Pcc(i)
             If n >= pcc_th1 OrElse n <= pcc_th2 Then
                 Continue For
             End If
@@ -258,7 +258,7 @@ Public Module MatrixAPI
 
             Dim newSample As New ExprSamples With {
                 .locusId = strid,
-                .Values = PccDeviationVector.ToArray
+                .data = PccDeviationVector.ToArray
             }
 
             Call NewMatrix.Add(newSample)
@@ -268,7 +268,7 @@ Public Module MatrixAPI
 
         Dim ChunkBuffer As List(Of Double) = New List(Of Double)
         For Each Line In NewMatrix
-            Call ChunkBuffer.AddRange(Line.Values)
+            Call ChunkBuffer.AddRange(Line.data)
         Next
         Dim avg = ChunkBuffer.Average
         Dim std = ChunkBuffer.StdError

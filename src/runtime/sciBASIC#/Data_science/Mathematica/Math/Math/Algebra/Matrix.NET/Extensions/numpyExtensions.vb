@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7621943edf71d9db719907c951a86954, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\numpyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::596acacf3814702ed98d4f5066c86926, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\numpyExtensions.vb"
 
     ' Author:
     ' 
@@ -117,8 +117,14 @@ Namespace LinearAlgebra.Matrix
                        End Function().DoCall(aggregate)
             ElseIf axis = 1 Then
                 Return matrix _
-                .Select(Function(r) math(r)) _
-                .DoCall(aggregate)
+                    .SeqIterator _
+                    .AsParallel _
+                    .Select(Function(r)
+                                Return (r.i, math(r.value))
+                            End Function) _
+                    .OrderBy(Function(a) a.i) _
+                    .Select(Function(a) a.Item2) _
+                    .DoCall(aggregate)
             Else
                 Throw New NotImplementedException
             End If

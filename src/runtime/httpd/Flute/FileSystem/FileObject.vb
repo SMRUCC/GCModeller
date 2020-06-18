@@ -13,6 +13,8 @@ Namespace FileSystem
         Public ReadOnly Property mime As ContentType
         Public ReadOnly Property fileName As String
 
+        Public MustOverride ReadOnly Property ContentLength As Long
+
         Sub New(fileName$, Optional mime As ContentType = Nothing)
             Me.fileName = fileName
             Me.mime = mime
@@ -23,6 +25,7 @@ Namespace FileSystem
         End Sub
 
         Public MustOverride Function GetResource() As Stream
+        Public MustOverride Function GetByteBuffer() As Byte()
 
         Public Overrides Function ToString() As String
             Return fileName
@@ -33,6 +36,12 @@ Namespace FileSystem
 
         ReadOnly cache As MemoryStream
 
+        Public Overrides ReadOnly Property ContentLength As Long
+            Get
+                Return cache.Length
+            End Get
+        End Property
+
         Sub New(fileName$, data As Byte(), Optional mime As ContentType = Nothing)
             Call MyBase.New(fileName, mime)
 
@@ -42,6 +51,10 @@ Namespace FileSystem
 
         Public Overrides Function GetResource() As Stream
             Return cache
+        End Function
+
+        Public Overrides Function GetByteBuffer() As Byte()
+            Return cache.ToArray
         End Function
     End Class
 
@@ -55,6 +68,12 @@ Namespace FileSystem
             End Get
         End Property
 
+        Public Overrides ReadOnly Property ContentLength As Long
+            Get
+                Return mappedPath.FileLength
+            End Get
+        End Property
+
         Sub New(fileName$, mappedPath$, Optional mime As ContentType = Nothing)
             Call MyBase.New(fileName, mime)
 
@@ -63,6 +82,10 @@ Namespace FileSystem
 
         Public Overrides Function GetResource() As Stream
             Return mappedPath.Open(FileMode.Open, doClear:=False)
+        End Function
+
+        Public Overrides Function GetByteBuffer() As Byte()
+            Return mappedPath.ReadBinary
         End Function
     End Class
 End Namespace

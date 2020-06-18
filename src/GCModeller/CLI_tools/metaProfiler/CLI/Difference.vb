@@ -231,7 +231,7 @@ Partial Module CLI
         End If
 
         Dim groups = sampleGroup _
-            .GroupBy(Function(sample) sample.sample_group) _
+            .GroupBy(Function(sample) sample.sample_info) _
             .ToDictionary(Function(g) g.Key,
                           Function(list)
                               Return list _

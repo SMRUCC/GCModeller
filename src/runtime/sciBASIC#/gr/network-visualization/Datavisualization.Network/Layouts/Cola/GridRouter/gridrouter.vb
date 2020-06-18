@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a0424a33c4a6e21784b6648e3138d8a, gr\network-visualization\Datavisualization.Network\Layouts\Cola\GridRouter\gridrouter.vb"
+﻿#Region "Microsoft.VisualBasic::83723fdb842462229921cea905e8ea9f, gr\network-visualization\Datavisualization.Network\Layouts\Cola\GridRouter\gridrouter.vb"
 
     ' Author:
     ' 
@@ -58,6 +58,7 @@
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D

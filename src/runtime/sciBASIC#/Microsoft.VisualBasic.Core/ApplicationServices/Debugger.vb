@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::184c3312c24152d973e8cae713384c28, Microsoft.VisualBasic.Core\ApplicationServices\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::bb153f0723a1135e6b6d708eda664ba3, Microsoft.VisualBasic.Core\ApplicationServices\Debugger.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -95,7 +94,7 @@ Public Module VBDebugger
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function die(message$, Optional failure As Assert(Of Object) = Nothing, <CallerMemberName> Optional caller$ = Nothing) As ExceptionHandle
+    Public Function die(message$, Optional failure As Predicate(Of Object) = Nothing, <CallerMemberName> Optional caller$ = Nothing) As ExceptionHandle
         Return New ExceptionHandle With {
             .message = message,
             .failure = failure Or defaultAssert

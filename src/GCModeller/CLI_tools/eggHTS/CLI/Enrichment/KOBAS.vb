@@ -233,7 +233,9 @@ Partial Module CLI
                                               pvalue:=pvalue,
                                               R:=R,
                                               size:=size,
-                                              displays:=displays)
+                                              displays:=displays,
+                                              padding:="padding:200px 900px 250px 300px;"
+                )
             Else
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size,

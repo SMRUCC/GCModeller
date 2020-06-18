@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2b20fa9a0489abdd0c9398be8252dd7, Data_science\Visualization\Plots\Scatter\Annotation.vb"
+﻿#Region "Microsoft.VisualBasic::c72a96d9ff892f084d52df9e2c326f92, Data_science\Visualization\Plots\Scatter\Annotation.vb"
 
     ' Author:
     ' 
@@ -44,6 +44,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D

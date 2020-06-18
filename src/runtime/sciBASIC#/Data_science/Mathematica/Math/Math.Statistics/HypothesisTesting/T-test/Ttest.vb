@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::deaaf712d4de261c9801360ceffffa18, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Ttest.vb"
+﻿#Region "Microsoft.VisualBasic::076d18482231d90c4b0c11633370efef, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Ttest.vb"
 
     ' Author:
     ' 
@@ -71,11 +71,12 @@ Namespace Hypothesis
             Return New TtestResult With {
                 .alpha = alpha,
                 .DegreeFreedom = sample.SampleSize - 1,
-                .StdErr = stdNum.Sqrt(x.Variance / sample.SampleSize),
+                .StdErr = stdNum.Sqrt(sample.Variance / sample.SampleSize),
                 .TestValue = (sample.Mean - mu) / .StdErr,
                 .Pvalue = Pvalue(.TestValue, .DegreeFreedom, alternative),
                 .Mean = sample.Mean,
-                .Alternative = alternative
+                .alternative = alternative,
+                .x = sample.ToArray
             }
         End Function
 
@@ -129,9 +130,11 @@ Namespace Hypothesis
                 .StdErr = stdErr,
                 .TestValue = testVal,
                 .Pvalue = pvalue,
-                .Alternative = alternative,
+                .alternative = alternative,
                 .MeanX = left.Mean,
-                .MeanY = right.Mean
+                .MeanY = right.Mean,
+                .x = va,
+                .y = vb
             }
         End Function
 

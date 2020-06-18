@@ -44,10 +44,10 @@
 
 Imports System.Linq
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein.LevenshteinDistance
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <XmlType("GSW", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
@@ -68,7 +68,7 @@ Public Class Output
     ''' Dynmaic programming matrix.(也可以看作为得分矩阵)
     ''' </summary>
     ''' <returns></returns>
-    Public Property DP As Streams.Array.Double()
+    Public Property DP As ArrayRow()
     ''' <summary>
     ''' The directions pointing to the cells that
     ''' give the maximum score at the current cell.
@@ -76,7 +76,7 @@ Public Class Output
     ''' The second index is the row index.
     ''' </summary>
     ''' <returns></returns>
-    Public Property Directions As Streams.Array.Integer()
+    Public Property Directions As ArrayRow()
 
     Public Property Query As String
     Public Property Subject As String
@@ -119,8 +119,8 @@ Public Class Output
     Public Shared Function CreateObject(Of T)(sw As GSW(Of T), toChar As ToChar(Of T), threshold As Double, minW As Integer) As Output
         Dim best As HSP = Nothing
         Dim hsp = SequenceTools.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
-        Dim direction = sw.prevCells.Select(Function(x) New Streams.Array.Integer(x)).ToArray
-        Dim dp = sw.GetDPMAT.Select(Function(x) New Streams.Array.Double(x)).ToArray
+        Dim direction = sw.prevCells.Select(Function(x) New ArrayRow(x)).ToArray
+        Dim dp = sw.GetDPMAT.Select(Function(x) New ArrayRow(x)).ToArray
         Dim query = sw.query.Select(Function(x) toChar(x)).CharString
         Dim subject = sw.subject.Select(Function(x) toChar(x)).CharString
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fa812db241429ab9116d5db122ecd75, Data_science\Visualization\Plots\Scatter\Data.vb"
+﻿#Region "Microsoft.VisualBasic::35234f42f08031ad85290f75dae2f352, Data_science\Visualization\Plots\Scatter\Data.vb"
 
     ' Author:
     ' 
@@ -157,7 +157,7 @@ Public Structure PointData
     ''' <summary>
     ''' 正负误差
     ''' </summary>
-    Public errPlus#, errMinus#, Tag$, value#
+    Public errPlus#, errMinus#, tag$, value#
     ''' <summary>
     ''' 可能会有数据点在<see cref="errPlus"/>或者<see cref="errMinus"/>范围内，或者范围外
     ''' </summary>
@@ -178,6 +178,6 @@ Public Structure PointData
     End Sub
 
     Public Overrides Function ToString() As String
-        Return Me.GetJson
+        Return $"[{pt.ToString}] {value} {color} {tag}"
     End Function
 End Structure

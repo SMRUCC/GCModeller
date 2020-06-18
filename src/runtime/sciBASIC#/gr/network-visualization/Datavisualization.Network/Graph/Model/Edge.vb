@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a119d823da1f9e8e3aa9eb875d0d242, gr\network-visualization\Datavisualization.Network\Graph\Model\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::ace8adb5f7072e27eda5db1369aab763, gr\network-visualization\Datavisualization.Network\Graph\Model\Edge.vb"
 
     ' Author:
     ' 
@@ -84,9 +84,10 @@
 '
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Graph
 
@@ -232,7 +233,9 @@ Namespace Graph
                 .data = New EdgeData With {
                     .label = data.label,
                     .length = data.length,
-                    .Properties = New Dictionary(Of String, String)(data.Properties)
+                    .Properties = New Dictionary(Of String, String)(data.Properties),
+                    .bends = data.bends.SafeQuery.ToArray,
+                    .color = data.color
                 }
             }
         End Function

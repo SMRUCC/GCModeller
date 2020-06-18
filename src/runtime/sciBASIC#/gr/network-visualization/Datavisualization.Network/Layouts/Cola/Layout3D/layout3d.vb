@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9f9cc7f30bac6340e4baa383a24e604, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout3D\layout3d.vb"
+﻿#Region "Microsoft.VisualBasic::cccbe17d9725c93141738c46381820ca, gr\network-visualization\Datavisualization.Network\Layouts\Cola\Layout3D\layout3d.vb"
 
     ' Author:
     ' 
@@ -43,10 +43,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Cola.GridRouter
 Imports any = System.Object
 Imports number = System.Double
-Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Layouts.Cola

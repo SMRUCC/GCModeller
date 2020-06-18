@@ -1,11 +1,31 @@
 .\" man page create by R# package system.
-.TH IGRAPH.LAYOUTS 4 2020-06-09 "layout.orthogonal" "layout.orthogonal"
+.TH IGRAPH.LAYOUTS 4 2020-06-17 "layout.orthogonal" "layout.orthogonal"
 .SH NAME
-layout.orthogonal \- 
+layout.orthogonal \- do orthogonal layout for the network graph input
 .SH SYNOPSIS
 \fIlayout.orthogonal(\fBg\fR as <generic> NetworkGraph, 
 \fBgridSize\fR as <generic> Object = "1000,1000", 
-\fBdelta\fR as double = 13);\fR
+\fBdelta\fR as double = 13, 
+\fBlayoutIteration\fR as integer = -1);\fR
+.SH DESCRIPTION
+.PP
+do orthogonal layout for the network graph input
+.PP
+.SH OPTIONS
+.PP
+\fBg\fB \fR\- -
+.PP
+.PP
+\fBgridSize\fB \fR\- -
+.PP
+.PP
+\fBdelta\fB \fR\- the node movement delta
+.PP
+.PP
+\fBlayoutIteration\fB \fR\- 
+ the iteration number for run the layout process, \fB-1\fR means auto calculation.
+
+.PP
 .SH SEE ALSO
 igraph.layouts
 .SH FILES
