@@ -47,11 +47,11 @@ Namespace CytoscapeGraphView.XGMML
 
     Public NotInheritable Class RDFXml
 
-        Const XGMML As String = "http://www.cs.rpi.edu/XGMML"
-        Const dc As String = "http://purl.org/dc/elements/1.1/"
-        Const xlink As String = "http://www.w3.org/1999/xlink"
-        Const rdf As String = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        Const cy As String = "http://www.cytoscape.org"
+        Public Const XGMML As String = "http://www.cs.rpi.edu/XGMML"
+        Public Const dc As String = "http://purl.org/dc/elements/1.1/"
+        Public Const xlink As String = "http://www.w3.org/1999/xlink"
+        Public Const rdf As String = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        Public Const cy As String = "http://www.cytoscape.org"
 
         Public Shared Function WriteXml(graph As XGMMLgraph, encoding As Encoding, path As String) As Boolean
             If graph.networkMetadata Is Nothing Then

@@ -69,7 +69,7 @@ Module xgmmlToolkit
     ''' <param name="xgmml"></param>
     ''' <param name="propertyNames"></param>
     ''' <returns></returns>
-    <ExportAPI("xgmml.graph")>
+    <ExportAPI("as.graph")>
     Public Function createGraph(xgmml As XGMMLgraph,
                                 <RRawVectorArgument(GetType(String))>
                                 Optional propertyNames As Object = "label|class|group.category|group.category.color") As NetworkGraph
