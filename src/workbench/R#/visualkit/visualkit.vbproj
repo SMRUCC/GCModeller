@@ -169,6 +169,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>

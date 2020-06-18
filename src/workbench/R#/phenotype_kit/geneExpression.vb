@@ -8,6 +8,10 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 <Package("geneExpression")>
 Module geneExpression
 
+    Sub New()
+
+    End Sub
+
     ''' <summary>
     ''' load an expressin matrix data
     ''' </summary>
