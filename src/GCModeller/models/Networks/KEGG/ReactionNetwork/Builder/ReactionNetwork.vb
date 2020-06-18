@@ -81,44 +81,18 @@ Namespace ReactionNetwork
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         Protected Overrides Sub createEdges(commons As String(), a As Node, b As Node)
-            Dim models = commons.Select(Function(id) networkBase(id)).Select(Function(r) r.geneNames.JoinIterates(r.KO).JoinIterates(r.EC)).IteratesALL.Select(Function(s) s.StringSplit("[;,]")).IteratesALL.Select(AddressOf Strings.Trim).Where(Function(s) Not s.StringEmpty).ToArray
-            Dim KO = models.Where(Function(id) id.IsPattern("K\d+")).ToArray
-            Dim EC = models.Select(Function(id) id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+)))+")).Where(Function(id) Not id.StringEmpty).ToArray
-            Dim keggRid = models.Select(Function(id) id.Match("R\d+")).Where(Function(id) Not id.StringEmpty).ToArray
-            Dim allId As String() = KO.JoinIterates(EC).JoinIterates(keggRid).ToArray
-            Dim geneSymbols = models.AsParallel.Where(Function(line) line.InStrAny(allId) = -1).ToArray
-            Dim middleNode As String
-
-            If models.Length = 1 Then
-                middleNode = models(Scan0)
-            Else
-                If geneSymbols.IsNullOrEmpty Then
-                    If EC.IsNullOrEmpty Then
-                        If KO.IsNullOrEmpty Then
-                            middleNode = keggRid.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
-                        Else
-                            middleNode = KO.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
-                        End If
-                    Else
-                        middleNode = EC.GroupBy(Function(id) id.Split("."c).Take(2).JoinBy(".")).OrderByDescending(Function(g) g.Count).First.Key & ".-.-"
-                    End If
-                Else
-                    middleNode = geneSymbols.GroupBy(Function(name) name.ToLower).OrderByDescending(Function(g) g.Count).First.First
-                End If
-            End If
-
             ' each enzyme is an edge
             ' For Each rid As String In commons
             ' Dim geneNames = networkBase(rid)
             Dim rNode As Node
-            Dim rid = middleNode
+            Dim rid = commons.Select(Function(id) networkBase(id)).GetGeneSymbols
 
-            If Not nodes.containsKey(rid) Then
+            If Not nodes.containsKey(rid.label) Then
                 rNode = New Node With {
-                    .label = rid,
+                    .label = rid.label,
                     .data = New NodeData With {
-                        .label = geneSymbols.Distinct.JoinBy(", "),
-                        .origID = rid,
+                        .label = rid.geneSymbols.Distinct.JoinBy(", "),
+                        .origID = rid.label,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
                         }
@@ -127,7 +101,7 @@ Namespace ReactionNetwork
 
                 Call nodes.add(rNode)
             Else
-                rNode = nodes(rid)
+                rNode = nodes(rid.label)
             End If
 
             Call New Edge With {
@@ -135,11 +109,11 @@ Namespace ReactionNetwork
                 .V = rNode,
                 .data = New EdgeData With {
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")},
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, rid.EC.Distinct.JoinBy(", ")},
                         {"kegg", commons.GetJson}
                     }
                 },
-                .weight = geneSymbols.TryCount
+                .weight = rid.geneSymbols.TryCount
             }.DoCall(AddressOf addNewEdge)
 
             Call New Edge With {
@@ -147,13 +121,12 @@ Namespace ReactionNetwork
                 .V = b,
                 .data = New EdgeData With {
                     .Properties = New Dictionary(Of String, String) From {
-                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, EC.Distinct.JoinBy(", ")},
+                        {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, rid.EC.Distinct.JoinBy(", ")},
                         {"kegg", commons.GetJson}
                     }
                 },
-                .weight = geneSymbols.TryCount
+                .weight = rid.geneSymbols.TryCount
             }.DoCall(AddressOf addNewEdge)
-            ' Next
         End Sub
     End Class
 
