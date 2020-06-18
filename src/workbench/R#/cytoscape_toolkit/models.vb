@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Session
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports stdNum = System.Math
@@ -68,6 +69,18 @@ Module models
     <ExportAPI("get.sessionInfo")>
     Public Function getSessionInfo(cys As CysSessionFile) As virtualColumn()
         Return cys.GetSessionInfo
+    End Function
+
+    <ExportAPI("list.networks")>
+    Public Function getNetworks(cys As CysSessionFile) As list
+        Return New list With {
+            .slots = cys _
+                .GetNetworks _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return CObj(a.ToArray)
+                              End Function)
+        }
     End Function
 
     <ExportAPI("get.network_graph")>

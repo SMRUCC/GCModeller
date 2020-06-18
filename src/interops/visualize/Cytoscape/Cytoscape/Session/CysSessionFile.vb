@@ -1,10 +1,39 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ApplicationServices.Zip
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.MIME.application.xml
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
 Namespace Session
+
+    '<XmlRoot("graph", [Namespace]:="http://www.cs.rpi.edu/XGMML")>
+    'Public Class NetworkCollection
+
+    '    <XmlAttribute> Public Property id As String
+    '    <XmlAttribute> Public Property label As String
+
+    '    Public Property att As att
+
+    '    <XmlNamespaceDeclarations()>
+    '    Public xmlns As XmlSerializerNamespaces
+
+    '    Sub New()
+    '        xmlns = New XmlSerializerNamespaces
+
+    '        xmlns.Add("cy", XGMMLgraph.xmlnsCytoscape)
+    '        xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+    '        xmlns.Add("xlink", "http://www.w3.org/1999/xlink")
+    '        xmlns.Add("dc", XGMMLgraph.xmlns_dc)
+    '    End Sub
+    'End Class
+
+    'Public Class att
+    '    <XmlElement("graph")>
+    '    Public Property graphs As XGMMLgraph()
+    'End Class
 
     ''' <summary>
     ''' ``*.cys`` cytoscape session file reader model
@@ -28,6 +57,17 @@ Namespace Session
                 .LoadXml(Of cyTables) _
                 .AsEnumerable _
                 .ToArray
+        End Function
+
+        Public Iterator Function GetNetworks() As IEnumerable(Of NamedCollection(Of String))
+            Dim xml As XmlElement
+            Dim collection As String
+
+            For Each file As String In $"{tempDir}/networks".ListFiles("*.xgmml")
+                xml = file.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
+                collection = xml.attributes("label")
+
+            Next
         End Function
 
         ''' <summary>

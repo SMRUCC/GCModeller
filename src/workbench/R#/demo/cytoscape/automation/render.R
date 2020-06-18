@@ -8,6 +8,8 @@ let session = "result.cys"
 :> open.cys
 ;
 
+str(session :> list.networks);
+
 session 
 :> get.sessionInfo 
 :> print

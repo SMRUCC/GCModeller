@@ -96,7 +96,7 @@ Namespace CytoscapeGraphView.XGMML.File
             End Get
         End Property
 
-        <XmlElement("att")> Public Property attributes As GraphAttribute()
+        <XmlElement("att", [Namespace]:=xmlnsCytoscape)> Public Property attributes As GraphAttribute()
         <XmlElement("graphics")> Public Property graphics As Graphics
         <XmlElement("node")> Public Property nodes As XGMMLnode()
         <XmlElement("edge")> Public Property edges As XGMMLedge()
