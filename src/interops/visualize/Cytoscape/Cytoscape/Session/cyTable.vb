@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -8,6 +9,18 @@ Namespace Session
 
         Public Property CyCSVVersion As String
         Public Property fields As cyField()
+
+        Public ReadOnly Property [Dim] As Size
+            Get
+                Return New Size(fields.Length, fields(Scan0).data.Length)
+            End Get
+        End Property
+
+        Default Public ReadOnly Property getField(name As String) As cyField
+            Get
+                Return fields.FirstOrDefault(Function(a) a.name = name)
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Return fields.Keys().GetJson
@@ -43,11 +56,18 @@ Namespace Session
     End Class
 
     Public Class cyField : Implements INamedValue
+
         Public Property name As String Implements INamedValue.Key
         Public Property type As String
         Public Property mutable As Boolean
         Public Property note As String
         Public Property data As String()
+
+        Default Public ReadOnly Property Value(index As Integer) As String
+            Get
+                Return data(index)
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Dim prefix = If(mutable, "Dim", "Const")

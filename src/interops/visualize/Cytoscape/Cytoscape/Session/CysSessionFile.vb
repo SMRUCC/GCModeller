@@ -1,6 +1,8 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml
@@ -158,14 +160,32 @@ Namespace Session
             End If
 
             Dim graphId As String = graph.id
-            Dim view = GetViewKey(name, graphId)
+            Dim view = GetViewKey(name, graphId).Description.ReadAllText.DoCall(AddressOf XmlElement.ParseXmlText)
             Dim g As New NetworkGraph
             Dim info = GetSessionInfo().GroupBy(Function(a) a.name).ToDictionary(Function(a) a.Key, Function(a) a.ToArray)
             Dim sharedName = info("shared name").FirstOrDefault(Function(a) a.sourceTable.BaseName.StartsWith("SHARED_ATTRS-org.cytoscape.model.CyNode"))
             Dim nodeNames = cyTable.LoadTable($"{tempDir}/tables/{sharedName.sourceTable}").DoCall(AddressOf nodeLabels)
+            Dim nodeIndex As New Dictionary(Of String, Node)
 
             For Each node As XmlElement In graph.getElementsByTagName("node")
+                Call nodeIndex.Add(node.id, g.CreateNode(nodeNames(node.id)))
+            Next
 
+            For Each edge As XmlElement In graph.getElementsByTagName("edge")
+                Call g.AddEdge(nodeIndex(edge.attributes("source")), nodeIndex(edge.attributes("target")))
+            Next
+
+            Dim graphics As XmlElement
+
+            For Each node As XmlElement In view.getElementsByTagName("node")
+                graphId = node.attributes("{http://www.cytoscape.org}nodeId")
+                graphics = node.getElementsByTagName("graphics").First
+
+                g.GetElementByID(graphId).data.initialPostion = New FDGVector3(
+                    x:=Single.Parse(graphics.attributes("x")),
+                    y:=Single.Parse(graphics.attributes("y")),
+                    z:=Single.Parse(graphics.attributes("z"))
+                )
             Next
 
             Return g
@@ -173,11 +193,12 @@ Namespace Session
 
         Private Shared Function nodeLabels(nodeNames As cyTable) As Dictionary(Of String, String)
             Dim labels As New Dictionary(Of String, String)
-            Dim SUID As cyField
-            Dim common As cyField
+            Dim SUID As cyField = nodeNames!SUID
+            Dim common As cyField = nodeNames!common
+            Dim size As Size = nodeNames.Dim
 
-            For i As Integer = 0 To nodeNames.fields(Scan0).data.Length
-
+            For i As Integer = 0 To size.Height - 1
+                labels.Add(SUID(i), common(i))
             Next
 
             Return labels
