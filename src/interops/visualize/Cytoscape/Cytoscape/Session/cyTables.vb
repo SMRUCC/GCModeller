@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Session
 
@@ -19,13 +20,13 @@ Namespace Session
 
     Public Class virtualColumn
 
-        Public Property name As String
-        Public Property sourceColumn As String
-        Public Property sourceTable As String
-        Public Property sourceJoinKey As String
-        Public Property targetTable As String
-        Public Property targetJoinKey As String
-        Public Property immutable As Boolean
+        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property sourceColumn As String
+        <XmlAttribute> Public Property sourceTable As String
+        <XmlAttribute> Public Property sourceJoinKey As String
+        <XmlAttribute> Public Property targetTable As String
+        <XmlAttribute> Public Property targetJoinKey As String
+        <XmlAttribute> Public Property immutable As Boolean
 
     End Class
 End Namespace
