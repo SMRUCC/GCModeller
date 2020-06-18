@@ -4,7 +4,7 @@ imports ["models", "automation"] from "cytoscape_toolkit";
 
 setwd(!script$dir);
 
-const cytoscape.servicesHost = "192.168.1.247";
+const cytoscape.servicesHost = "localhost";
 
 let network = read.csv("./network-edges.csv");
 
