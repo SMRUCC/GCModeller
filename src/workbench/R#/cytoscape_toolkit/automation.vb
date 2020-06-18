@@ -57,7 +57,16 @@ Module automation
     End Function
 
     <ExportAPI("put_network")>
-    Public Function createNetwork(<RRawVectorArgument> network As Object, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost", Optional env As Environment = Nothing)
+    <RApiReturn(GetType(NetworkReference))>
+    Public Function createNetwork(<RRawVectorArgument>
+                                  network As Object,
+                                  Optional collection$ = Nothing,
+                                  Optional title$ = Nothing,
+                                  Optional version$ = "v1",
+                                  Optional port% = 1234,
+                                  Optional host$ = "localhost",
+                                  Optional env As Environment = Nothing) As Object
+
         Dim container As cyREST = automation.getContainer(version, port, host)
         Dim model As [Variant](Of Cyjs, SIF())
 
@@ -69,7 +78,7 @@ Module automation
             Return Internal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
         End If
 
-        Return container.putNetwork(model)
+        Return container.putNetwork(model, collection, title)
     End Function
 
     <ExportAPI("layout")>

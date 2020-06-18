@@ -16,7 +16,7 @@ network = sif(u, interact, v) :> cyjs;
 
 print(toString(network));
 
-network = put_network(network);
+network = put_network(network, collection = "automation", title = "pathway_enrich");
 
 print(network);
 
