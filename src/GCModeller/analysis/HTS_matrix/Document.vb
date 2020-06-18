@@ -48,7 +48,7 @@ Public Module Document
 
                         Return New DataFrameRow With {
                             .experiments = data,
-                            .geneID = tokens(Scan0)
+                            .geneID = tokens(Scan0).Trim(""""c, " "c)
                         }
                     End Function) _
             .ToArray
