@@ -23,7 +23,7 @@ Namespace Session
                         Dim type As String = col(2)
                         Dim mutable As String = col(3)
                         Dim note As String = col(4)
-                        Dim data As String() = col.Skip(4).ToArray
+                        Dim data As String() = col.Skip(5).ToArray
 
                         Yield New cyField With {
                             .name = name,
@@ -48,6 +48,12 @@ Namespace Session
         Public Property mutable As Boolean
         Public Property note As String
         Public Property data As String()
+
+        Public Overrides Function ToString() As String
+            Dim prefix = If(mutable, "Dim", "Const")
+
+            Return $"{prefix} {name} As {type}[{note}] = {data.GetJson.Substring(0, 60)}..."
+        End Function
     End Class
 End Namespace
 
