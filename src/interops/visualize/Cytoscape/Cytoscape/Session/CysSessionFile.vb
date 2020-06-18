@@ -41,7 +41,7 @@ Namespace Session
 
             Call UnZip.ImprovedExtractToDirectory(cys, temp, Overwrite.Always, extractToFlat:=False)
 
-            Return New CysSessionFile(temp, cys)
+            Return New CysSessionFile(temp.ListDirectory.First, cys)
         End Function
     End Class
 End Namespace
