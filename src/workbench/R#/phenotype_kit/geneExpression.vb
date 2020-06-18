@@ -19,8 +19,8 @@ Module geneExpression
     ''' <param name="exclude_samples"></param>
     ''' <returns></returns>
     <ExportAPI("load.expr")>
-    Public Function loadExpression(file$, Optional exclude_samples As String() = Nothing) As DataFrameRow()
-        Return Matrix.LoadData(file, If(exclude_samples Is Nothing, Nothing, New Index(Of String)(exclude_samples))).expression
+    Public Function loadExpression(file$, Optional exclude_samples As String() = Nothing) As Matrix
+        Return Matrix.LoadData(file, If(exclude_samples Is Nothing, Nothing, New Index(Of String)(exclude_samples)))
     End Function
 
     <ExportAPI("average")>
