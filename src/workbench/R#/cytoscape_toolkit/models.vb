@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Session
@@ -52,5 +53,10 @@ Module models
     <ExportAPI("open.cys")>
     Public Function openSessionFile(cys As String) As CysSessionFile
         Return CysSessionFile.Open(cys)
+    End Function
+
+    <ExportAPI("get.network_graph")>
+    Public Function GetLayoutedGraph(cys As CysSessionFile, Optional collection$ = Nothing, Optional name$ = Nothing) As NetworkGraph
+        Return cys.GetLayoutedGraph(collection, name)
     End Function
 End Module

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
 Namespace Session
 
@@ -18,6 +19,14 @@ Namespace Session
             Me.tempDir = tempDir
             Me.source = cys
         End Sub
+
+        ''' <summary>
+        ''' 加载一个已经具有网络布局信息的网络模型
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetLayoutedGraph(Optional collection$ = Nothing, Optional name$ = Nothing) As NetworkGraph
+
+        End Function
 
         Public Shared Function Open(cys As String) As CysSessionFile
             Dim temp As String = App.GetAppSysTempFile(".zip", App.PID, "cytoscape_")
