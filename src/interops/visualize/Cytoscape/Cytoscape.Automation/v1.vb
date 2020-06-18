@@ -51,14 +51,23 @@ Public Class v1 : Inherits cyREST
         }
         Dim refJson As String = JSONSerializer.GetJson({file})
 
-        Console.WriteLine(refJson)
-        Pause()
-
         Using request As New WebClient
             request.Headers.Add("Content-Type", "application/json")
             text = request.UploadString(url, "POST", refJson)
         End Using
 
         Return text
+    End Function
+
+    Public Overrides Function saveSession(file As String) As Object
+        Dim url As String = $"{api}/session?file={file.UrlEncode}"
+        Dim result As String
+
+        Using request As New WebClient
+            request.Headers.Add("Content-Type", "application/json")
+            result = request.UploadString(url, "POST", "")
+        End Using
+
+        Return result
     End Function
 End Class

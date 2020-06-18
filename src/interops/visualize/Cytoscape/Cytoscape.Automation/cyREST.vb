@@ -29,6 +29,15 @@ Public MustInherit Class cyREST
     ''' <returns></returns>
     Public MustOverride Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection$ = Nothing, Optional title$ = Nothing) As Object
 
+    ''' <summary>
+    ''' Saves the current session to a file. If successful, the session file location will be returned.
+    ''' </summary>
+    ''' <param name="file">
+    ''' Session file location as an absolute path.(``*.cys``)
+    ''' </param>
+    ''' <returns></returns>
+    Public MustOverride Function saveSession(file As String)
+
 End Class
 
 ''' <summary>
