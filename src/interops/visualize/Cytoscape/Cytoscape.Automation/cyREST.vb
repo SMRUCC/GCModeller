@@ -1,5 +1,4 @@
-﻿Imports System.Threading
-Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
@@ -31,7 +30,7 @@ Public MustInherit Class cyREST : Implements IDisposable
     ''' Creates a new network in the current session from a file or URL source.
     ''' </summary>
     ''' <returns></returns>
-    Public MustOverride Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection$ = Nothing, Optional title$ = Nothing) As NetworkReference()
+    Public MustOverride Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection$ = Nothing, Optional title$ = Nothing) As NetworkReference
     Public MustOverride Function applyLayout(network As Integer, Optional algorithm As String = "force-directed") As String
 
     ''' <summary>
@@ -42,6 +41,7 @@ Public MustInherit Class cyREST : Implements IDisposable
     ''' </param>
     ''' <returns></returns>
     Public MustOverride Function saveSession(file As String)
+    Public MustOverride Sub destroySession()
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
@@ -78,7 +78,7 @@ End Class
 
 Public Class NetworkReference
     Public Property source As String
-    Public Property networkSUID As String()
+    Public Property networkSUID As String
 End Class
 
 ''' <summary>

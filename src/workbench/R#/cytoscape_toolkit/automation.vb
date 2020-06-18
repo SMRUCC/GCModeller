@@ -96,7 +96,7 @@ Module automation
         ElseIf TypeOf networkId Is Integer OrElse TypeOf networkId Is Long Then
             Return container.applyLayout(networkId, algorithmName)
         ElseIf TypeOf networkId Is NetworkReference Then
-            Return container.applyLayout(DirectCast(networkId, NetworkReference).networkSUID(Scan0), algorithmName)
+            Return container.applyLayout(DirectCast(networkId, NetworkReference).networkSUID, algorithmName)
         Else
             Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
         End If
@@ -109,7 +109,7 @@ Module automation
     End Function
 
     <ExportAPI("finalize")>
-    Public Sub close()
-        Call cyREST.Close()
+    Public Sub destroySession(Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost")
+        Call automation.getContainer(version, port, host).destroySession()
     End Sub
 End Module
