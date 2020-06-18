@@ -151,6 +151,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
+      <Name>ExperimentDesigner</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
