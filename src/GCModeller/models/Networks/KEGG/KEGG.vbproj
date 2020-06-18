@@ -243,6 +243,7 @@
     <Compile Include="PathwayMaps\Styles\RenderStyle.vb" />
     <Compile Include="PathwayMaps\Styles\PlainStyle.vb" />
     <Compile Include="ReactionNetwork\EnzymaticInformation.vb" />
+    <Compile Include="ReactionNetwork\Models\ReactionClassTable.vb" />
     <Compile Include="ReactionNetwork\Models\MapCache.vb" />
     <Compile Include="ReactionNetwork\NetworkExpansion.vb" />
     <Compile Include="ReactionNetwork\Styles.vb" />
