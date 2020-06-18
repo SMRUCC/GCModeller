@@ -64,7 +64,7 @@ Public Class v1 : Inherits cyREST
     End Function
 
     Public Overrides Function applyLayout(networkId As Integer, Optional algorithmName$ = "force-directed") As String
-        Dim url = $"{api}/v1/apply/layouts/{algorithmName}/{networkId}"
+        Dim url = $"{api}/apply/layouts/{algorithmName}/{networkId}"
         Return url.GET
     End Function
 
