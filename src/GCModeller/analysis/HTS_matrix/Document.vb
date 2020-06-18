@@ -14,7 +14,11 @@ Public Module Document
     ''' </remarks>
     Public Function LoadMatrixDocument(file As String, excludes As Index(Of String)) As Matrix
         Dim text As String() = file.LineIterators.ToArray
-        Dim sampleIds As String() = text(Scan0).Split(ASCII.TAB, ","c).Skip(1).ToArray
+        Dim sampleIds As String() = text(Scan0) _
+            .Split(ASCII.TAB, ","c) _
+            .Skip(1) _
+            .Select(Function(s) s.Trim(""""c, " "c)) _
+            .ToArray
         Dim takeIndex As Integer()
 
         If excludes Is Nothing Then
