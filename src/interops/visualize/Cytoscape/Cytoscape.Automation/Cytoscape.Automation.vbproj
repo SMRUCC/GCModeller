@@ -107,6 +107,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHost.vb" />
     <Compile Include="cyREST.vb" />
     <Compile Include="v1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

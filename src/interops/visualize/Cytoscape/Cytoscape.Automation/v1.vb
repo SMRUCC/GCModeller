@@ -1,5 +1,4 @@
 ﻿Imports System.Net
-Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -14,9 +13,6 @@ Public Class v1 : Inherits cyREST
         Call MyBase.New
 
         api = $"http://{host}:{port}/v1"
-
-        Call MyBase.virtualFilesystem.DriverRun
-        Call Thread.Sleep(500)
     End Sub
 
     ''' <summary>
@@ -28,10 +24,6 @@ Public Class v1 : Inherits cyREST
         Dim json As String = url.GET
 
         Return json.LoadJSON(Of String())
-    End Function
-
-    Public Overrides Function networksNames() As String()
-        Throw New NotImplementedException()
     End Function
 
     Public Overrides Function putNetwork(network As [Variant](Of Cyjs, SIF()), Optional collection As String = Nothing, Optional title As String = Nothing) As NetworkReference()
@@ -59,11 +51,6 @@ Public Class v1 : Inherits cyREST
         Return text.LoadJSON(Of NetworkReference())
     End Function
 
-    Public Overrides Function applyLayout(networkId As Integer, Optional algorithmName As String = "force-directed") As String
-        Dim url = $"{api}/v1/apply/layouts/{algorithmName}/{networkId}"
-        Return url.GET
-    End Function
-
     Public Overrides Function saveSession(file As String) As Object
         Dim url As String = $"{api}/session?file={file.UrlEncode}"
         Dim result As String
@@ -74,5 +61,14 @@ Public Class v1 : Inherits cyREST
         End Using
 
         Return result
+    End Function
+
+    Public Overrides Function applyLayout(networkId As Integer, Optional algorithmName$ = "force-directed") As String
+        Dim url = $"{api}/v1/apply/layouts/{algorithmName}/{networkId}"
+        Return url.GET
+    End Function
+
+    Public Overrides Function networksNames() As String()
+        Throw New NotImplementedException()
     End Function
 End Class
