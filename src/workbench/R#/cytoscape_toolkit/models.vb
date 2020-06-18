@@ -3,7 +3,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Imports SMRUCC.genomics.Visualize.Cytoscape.Session
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 Imports SMRUCC.Rsharp.Runtime
@@ -54,6 +56,30 @@ Module models
             Case Else
                 Return Internal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
         End Select
+    End Function
+
+    ''' <summary>
+    ''' convert the cytoscape cyjs/xgmml file to network graph model.
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="propertyNames"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.graph")>
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function createGraph(model As Object,
+                                <RRawVectorArgument(GetType(String))>
+                                Optional propertyNames As Object = "label|class|group.category|group.category.color",
+                                Optional env As Environment = Nothing) As Object
+
+        If model Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf model Is XGMMLgraph Then
+            Return DirectCast(model, XGMMLgraph).ToNetworkGraph(DirectCast(propertyNames, String()))
+        ElseIf TypeOf model Is Cyjs Then
+            Return DirectCast(model, Cyjs).ToNetworkGraph
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(XGMMLgraph), model.GetType, env), env)
+        End If
     End Function
 
     ''' <summary>
