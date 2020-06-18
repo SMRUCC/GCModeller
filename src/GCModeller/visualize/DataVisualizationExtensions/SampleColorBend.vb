@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Public Module SampleColorBend
@@ -36,7 +38,49 @@ Public Module SampleColorBend
         Next
     End Function
 
-    Public Sub Draw(g As IGraphics, layout As RectangleF, Optional horizontal As Boolean = True）
+    ' drawing layout
+    '
+    '                A  B  C  D
+    ' horizontal:   [ ][ ][ ][ ]
+    '
+    ' vertical:     [ ] A
+    '               [ ] B
+    '               [ ] C
 
+    Public Sub Draw(g As IGraphics, layout As RectangleF, geneExpression As Color(),
+                    Optional horizontal As Boolean = True,
+                    Optional sampleNames As String() = Nothing,
+                    Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
+
+        Dim boxSize As Single
+        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject
+
+        If horizontal Then
+            boxSize = layout.Width / geneExpression.Length
+        Else
+            boxSize = layout.Height / geneExpression.Length
+        End If
+
+        Dim x = layout.Left
+        Dim y = layout.Top
+        Dim textDraw As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+
+        For i As Integer = 0 To geneExpression.Length - 1
+            Call g.FillRectangle(New SolidBrush(geneExpression(i)), New RectangleF(x, y, boxSize, boxSize))
+
+            If Not sampleNames.IsNullOrEmpty Then
+                If horizontal Then
+                    Call textDraw.DrawString(sampleNames(i), labelFont, Brushes.Black, New PointF(x, y - labelFont.Height), -90)
+                Else
+                    Call g.DrawString(sampleNames(i), labelFont, Brushes.Black, New PointF(x + boxSize + 5, y))
+                End If
+            End If
+
+            If horizontal Then
+                x += boxSize
+            Else
+                y += boxSize
+            End If
+        Next
     End Sub
 End Module
