@@ -23,12 +23,12 @@ network = put_network(network, collection = "automation", title = "pathway_enric
 # print(network);
 
 
-layout(network, "circular", host = cytoscape.servicesHost);
+layout(network, "hierarchical", host = cytoscape.servicesHost);
 
 print(layouts(host = cytoscape.servicesHost));
 
 session.save(file = normalizePath("./result.cys"), host = cytoscape.servicesHost);
 
 # close current session
-finalize(host = cytoscape.servicesHost);
+# finalize(host = cytoscape.servicesHost);
 
