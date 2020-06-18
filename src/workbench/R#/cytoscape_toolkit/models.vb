@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs
@@ -15,6 +17,14 @@ Imports stdNum = System.Math
 ''' </summary>
 <Package("models", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module models
+
+    Sub New()
+        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of virtualColumn())(AddressOf printSessionInfo)
+    End Sub
+
+    Private Function printSessionInfo(table As virtualColumn()) As String
+        Return table.ToCsvDoc.AsMatrix.Print
+    End Function
 
     <ExportAPI("sif")>
     Public Function sif(<RRawVectorArgument> source As Object, <RRawVectorArgument> interaction As Object, <RRawVectorArgument> target As Object) As SIF()
@@ -53,6 +63,11 @@ Module models
     <ExportAPI("open.cys")>
     Public Function openSessionFile(cys As String) As CysSessionFile
         Return CysSessionFile.Open(cys)
+    End Function
+
+    <ExportAPI("get.sessionInfo")>
+    Public Function getSessionInfo(cys As CysSessionFile) As virtualColumn()
+        Return cys.GetSessionInfo
     End Function
 
     <ExportAPI("get.network_graph")>

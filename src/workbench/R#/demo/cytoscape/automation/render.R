@@ -4,8 +4,16 @@ require(igraph.render);
 
 setwd(!script$dir);
 
-"result.cys"
+let session = "result.cys"
 :> open.cys
+;
+
+session 
+:> get.sessionInfo 
+:> print
+;
+
+session
 :> get.network_graph
 :> render.Plot()
 :> save.graphics(canvasSize = [1600,1200], file = "./render.svg", driver = "SVG")

@@ -191,7 +191,7 @@
       <Name>Cytoscape.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
-      <Project>{9C7DD64A-E4C0-4011-8994-C842702C6ED4}</Project>
+      <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
       <Name>Cytoscape</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
