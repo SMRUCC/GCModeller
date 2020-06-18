@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Session
 
@@ -19,6 +20,13 @@ Namespace Session
             Me.tempDir = tempDir
             Me.source = cys
         End Sub
+
+        Public Function GetSessionInfo() As virtualColumn()
+            Return ($"{tempDir}/tables/cytables.xml") _
+                .LoadXml(Of cyTables) _
+                .AsEnumerable _
+                .ToArray
+        End Function
 
         ''' <summary>
         ''' 加载一个已经具有网络布局信息的网络模型
