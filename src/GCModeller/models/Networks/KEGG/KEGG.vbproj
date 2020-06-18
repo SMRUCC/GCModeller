@@ -243,12 +243,12 @@
     <Compile Include="PathwayMaps\Styles\RenderStyle.vb" />
     <Compile Include="PathwayMaps\Styles\PlainStyle.vb" />
     <Compile Include="ReactionNetwork\EnzymaticInformation.vb" />
-    <Compile Include="ReactionNetwork\MapCache.vb" />
+    <Compile Include="ReactionNetwork\Models\MapCache.vb" />
     <Compile Include="ReactionNetwork\NetworkExpansion.vb" />
     <Compile Include="ReactionNetwork\Styles.vb" />
     <Compile Include="ReactionNetwork\NamespaceDoc.vb" />
     <Compile Include="ReactionNetwork\ReactionNetwork.vb" />
-    <Compile Include="ReactionNetwork\ReactionTable.vb" />
+    <Compile Include="ReactionNetwork\Models\ReactionTable.vb" />
     <Compile Include="KEGGMap\PathwayMapNetwork.vb" />
     <Compile Include="FunctionalNetwork.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
