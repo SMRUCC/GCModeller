@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH IGRAPH.RENDER 1 2020-06-11 "render.Plot" "render.Plot"
+.TH IGRAPH.RENDER 1 2020-06-16 "render.Plot" "render.Plot"
 .SH NAME
 render.Plot \- Rendering png or svg image from a given network graph model.
 .SH SYNOPSIS
@@ -10,8 +10,13 @@ render.Plot \- Rendering png or svg image from a given network graph model.
 \fBminNodeSize\fR as double = 10, 
 \fBminLinkWidth\fR as double = 2, 
 \fBnodeSize\fR as <generic> Object = \fB<NULL>\fR, 
+\fBnodeLabel\fR as <generic> Object = \fB<NULL>\fR, 
 \fBlabelerIterations\fR as integer = 100, 
+\fBtexture\fR as <generic> Object = \fB<NULL>\fR, 
 \fBshowLabelerProgress\fR as boolean = FALSE, 
+\fBshowUntexture\fR as boolean = TRUE, 
+\fBdefaultEdgeColor\fR as string = "gray", 
+\fBdefaultLabelColor\fR as string = "black", 
 \fBdriver\fR as <integer> Drivers = [GDI], 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
