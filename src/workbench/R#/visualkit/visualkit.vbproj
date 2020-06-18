@@ -190,7 +190,7 @@
       <Name>ChromosomeMap</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
-      <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
