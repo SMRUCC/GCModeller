@@ -42,6 +42,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
@@ -84,17 +85,30 @@ Module DEGSample
     End Function
 
     <ExportAPI("read.sampleinfo")>
-    Public Function ReadSampleInfo(file As String, Optional tsv As Boolean = False) As SampleInfo()
+    Public Function ReadSampleInfo(file As String, Optional tsv As Boolean = False, Optional exclude_groups As String() = Nothing) As SampleInfo()
         Dim firstLine As String() = New RowObject(file.ReadFirstLine, tsv).ToArray
         Dim nameMaps As New NameMapping(New Dictionary(Of String, String) From {
             {firstLine(Scan0), NameOf(SampleInfo.ID)}
         })
+        Dim samples As SampleInfo()
 
         If tsv Then
-            Return file.LoadTsv(Of SampleInfo)(nameMaps:=nameMaps).ToArray
+            samples = file.LoadTsv(Of SampleInfo)(nameMaps:=nameMaps).ToArray
         Else
-            Return file.LoadCsv(Of SampleInfo)(maps:=nameMaps).ToArray
+            samples = file.LoadCsv(Of SampleInfo)(maps:=nameMaps).ToArray
         End If
+
+        If Not exclude_groups Is Nothing Then
+            With New Index(Of String)(exclude_groups)
+                samples = samples _
+                    .Where(Function(sample)
+                               Return .IndexOf(sample.sample_info) = -1
+                           End Function) _
+                    .ToArray
+            End With
+        End If
+
+        Return samples
     End Function
 
     <ExportAPI("write.sampleinfo")>
