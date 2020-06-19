@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape.Automation
@@ -101,6 +102,35 @@ Module automation
     Public Function saveSession(file As String, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As Object
         Dim container As cyREST = automation.getContainer(version, port, host)
         Return container.saveSession(file)
+    End Function
+
+    <ExportAPI("view")>
+    Public Function getCurrentViewReference(Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost") As Integer
+        Return automation.getContainer(version, port, host).getViewReference
+    End Function
+
+    <ExportAPI("networkView")>
+    <RApiReturn(GetType(Cyjs))>
+    Public Function networkView(networkId As Object, viewId As Object, Optional version$ = "v1", Optional port% = 1234, Optional host$ = "localhost", Optional env As Environment = Nothing) As Object
+        If networkId Is Nothing Then
+            Return Internal.debug.stop("the network reference id can not be nothing!", env)
+        ElseIf TypeOf networkId Is Long Then
+            networkId = CType(networkId, Integer)
+        ElseIf TypeOf networkId Is NetworkReference Then
+            networkId = DirectCast(networkId, NetworkReference).networkSUID.DoCall(AddressOf Integer.Parse)
+        ElseIf Not TypeOf networkId Is Integer Then
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
+        End If
+
+        If viewId Is Nothing Then
+            Return Internal.debug.stop("the network viewer reference id can not be nothing!", env)
+        ElseIf TypeOf viewId Is Long Then
+            viewId = CType(viewId, Integer)
+        ElseIf Not TypeOf viewId Is Integer Then
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), viewId.GetType, env), env)
+        End If
+
+        Return automation.getContainer(version, port, host).getView(networkId, viewId)
     End Function
 
     <ExportAPI("finalize")>
