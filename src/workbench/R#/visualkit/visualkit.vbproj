@@ -169,6 +169,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.vbproj">
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
@@ -185,8 +189,12 @@
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\ChromosomeMap\ChromosomeMap.vbproj">
+      <Project>{504B1328-D282-4EC3-AC61-786B9735EBA8}</Project>
+      <Name>ChromosomeMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
-      <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">

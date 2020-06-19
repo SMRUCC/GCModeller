@@ -87,12 +87,14 @@ Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
+Imports graphNode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
 Namespace CytoscapeGraphView.Cyjs
 
@@ -156,15 +158,31 @@ Namespace CytoscapeGraphView.Cyjs
                 elements = New Network
             End If
 
-            Dim Graph = Serialization.Export(Of NodeData, EdgeData)(
-                elements.nodes.Select(Function(x) x.data),
-                elements.edges.Select(Function(x) x.data),
-                data.shared_name)
-            Return Graph
+            Dim nodes = elements.nodes.Select(Function(x) x.data).ToArray
+            Dim edges = elements.edges.Select(Function(x) x.data).ToArray
+            Dim graph = Serialization.Export(Of NodeData, EdgeData)(nodes, edges, data.shared_name)
+            Return graph
         End Function
 
         Public Function ToNetworkGraph() As NetworkGraph
+            Dim g As New NetworkGraph
+            Dim nodeIndex As New Dictionary(Of String, graphNode)
 
+            If elements Is Nothing Then
+                elements = New Network
+            End If
+
+            For Each node In elements.nodes
+                g.CreateNode(node.data.common)
+                g.GetElementByID(node.data.common).data.initialPostion = New FDGVector2(node.position.x, node.position.y)
+                g.GetElementByID(node.data.common).DoCall(Sub(n) nodeIndex.Add(node.data.SUID, n))
+            Next
+
+            For Each edge In elements.edges
+                Call g.CreateEdge(nodeIndex(edge.data.source), nodeIndex(edge.data.target))
+            Next
+
+            Return g
         End Function
 
         Public Overrides Function ToString() As String

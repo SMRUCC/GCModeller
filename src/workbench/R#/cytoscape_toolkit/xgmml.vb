@@ -48,7 +48,6 @@ Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
-Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("xgmml")>
 Module xgmmlToolkit
@@ -61,20 +60,6 @@ Module xgmmlToolkit
     <ExportAPI("read.xgmml")>
     Public Function loadXgmml(file As String) As XGMMLgraph
         Return XGMML.RDFXml.Load(path:=file)
-    End Function
-
-    ''' <summary>
-    ''' convert the cytoscape xgmml file to network graph model.
-    ''' </summary>
-    ''' <param name="xgmml"></param>
-    ''' <param name="propertyNames"></param>
-    ''' <returns></returns>
-    <ExportAPI("xgmml.graph")>
-    Public Function createGraph(xgmml As XGMMLgraph,
-                                <RRawVectorArgument(GetType(String))>
-                                Optional propertyNames As Object = "label|class|group.category|group.category.color") As NetworkGraph
-
-        Return xgmml.ToNetworkGraph(DirectCast(propertyNames, String()))
     End Function
 
     ''' <summary>

@@ -96,6 +96,10 @@ Namespace CytoscapeGraphView.XGMML.File
             End Get
         End Property
 
+        ''' <summary>
+        ''' the graph attributes
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("att")> Public Property attributes As GraphAttribute()
         <XmlElement("graphics")> Public Property graphics As Graphics
         <XmlElement("node")> Public Property nodes As XGMMLnode()
