@@ -7,6 +7,20 @@ Namespace ReactionNetwork
     Module GetGeneSymbols
 
         <Extension>
+        Private Function IdDesc(src As IEnumerable(Of String)) As String()
+            Return src _
+                .GroupBy(Function(id) id) _
+                .OrderByDescending(Function(g) g.Count) _
+                .Keys _
+                .ToArray
+        End Function
+
+        ''' <summary>
+        ''' 返回的id列表已经是经过降序排序之后的结果，可以直接取第一个得到最多的id
+        ''' </summary>
+        ''' <param name="reactions"></param>
+        ''' <returns></returns>
+        <Extension>
         Public Function GetGeneSymbols(reactions As IEnumerable(Of ReactionTable)) As (label As String, KO As String(), EC As String(), keggRid As String(), geneSymbols As String())
             Dim models As String() = reactions _
                 .Select(Function(r)
@@ -18,9 +32,15 @@ Namespace ReactionNetwork
                 .Select(AddressOf Strings.Trim) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .ToArray
-            Dim KO = models.Where(Function(id) id.IsPattern("K\d+")).ToArray
-            Dim EC = models.Select(Function(id) id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+))){3}")).Where(Function(id) Not id.StringEmpty).ToArray
-            Dim keggRid = models.Select(Function(id) id.Match("R\d+")).Where(Function(id) Not id.StringEmpty).ToArray
+            Dim KO = models.Where(Function(id) id.IsPattern("K\d+")).IdDesc
+            Dim EC = models _
+                .Select(Function(id) id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+))){3}")) _
+                .Where(Function(id) Not id.StringEmpty) _
+                .IdDesc
+            Dim keggRid As String() = models _
+                .Select(Function(id) id.Match("R\d+")) _
+                .Where(Function(id) Not id.StringEmpty) _
+                .ToArray
             Dim allId As String() = KO.JoinIterates(EC).JoinIterates(keggRid).ToArray
             Dim geneSymbols = models _
                 .AsParallel _
@@ -35,15 +55,25 @@ Namespace ReactionNetwork
                 If geneSymbols.IsNullOrEmpty Then
                     If EC.IsNullOrEmpty Then
                         If KO.IsNullOrEmpty Then
-                            middleNode = keggRid.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
+                            middleNode = keggRid.First
                         Else
-                            middleNode = KO.GroupBy(Function(id) id).OrderByDescending(Function(g) g.Count).First.Key
+                            middleNode = KO.First
                         End If
                     Else
-                        middleNode = EC.GroupBy(Function(id) id.Split("."c).Take(2).JoinBy(".")).OrderByDescending(Function(g) g.Count).First.Key & ".-.-"
+                        middleNode = EC _
+                            .GroupBy(Function(id)
+                                         Return id.Split("."c).Take(3).JoinBy(".")
+                                     End Function) _
+                            .OrderByDescending(Function(g) g.Count) _
+                            .First _
+                            .Key & ".-"
                     End If
                 Else
-                    middleNode = geneSymbols.GroupBy(Function(name) name.ToLower).OrderByDescending(Function(g) g.Count).First.First
+                    middleNode = geneSymbols _
+                        .GroupBy(Function(name) name.ToLower) _
+                        .OrderByDescending(Function(g) g.Count) _
+                        .First _
+                        .First
                 End If
             End If
 

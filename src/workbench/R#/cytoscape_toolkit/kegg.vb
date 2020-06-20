@@ -89,12 +89,12 @@ Module kegg
     ''' could be one of: glycan, compound, kegg ortholog or reaction id 
     ''' </param>
     ''' <param name="maps"></param>
-    ''' <param name="topFirst"></param>
+    ''' <param name="top3"></param>
     ''' <returns></returns>
     <ExportAPI("pathway_class")>
     Public Function assignPathwayClass(graph As NetworkGraph,
                                        maps As Map(),
-                                       Optional topFirst As Boolean = True,
+                                       Optional top3 As Boolean = True,
                                        Optional excludesGlobalAndOverviewMaps As Boolean = True) As NetworkGraph
 
         Dim compounds As Node() = graph.vertex.Where(Function(a) a.label.IsPattern("[GCKR]\d+")).ToArray
@@ -123,18 +123,24 @@ Module kegg
             Next
         Next
 
-        If topFirst Then
+        If top3 Then
             Dim firstMapHits = assignments _
                 .Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))) _
                 .IteratesALL _
                 .GroupBy(Function(a) a.mapId) _
                 .OrderByDescending(Function(m) m.Count) _
-                .First
-            Dim mapHit As Map = maps.First(Function(a) a.id = firstMapHits.Key)
+                .Take(3) _
+                .ToArray
 
-            For Each id As String In firstMapHits.Select(Function(a) a.cid)
-                graph.GetElementByID(id).data("map") = mapHit.id
-                graph.GetElementByID(id).data("mapName") = mapHit.Name
+            For Each block In firstMapHits
+                Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
+
+                For Each id As String In block.Select(Function(a) a.cid)
+                    If Not graph.GetElementByID(id).data.HasProperty("map") Then
+                        graph.GetElementByID(id).data("map") = mapHit.id
+                        graph.GetElementByID(id).data("mapName") = mapHit.Name
+                    End If
+                Next
             Next
         Else
             For Each node In compounds

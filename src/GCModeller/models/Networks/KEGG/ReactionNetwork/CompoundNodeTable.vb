@@ -103,7 +103,8 @@ Namespace ReactionNetwork
                     .Properties = New Dictionary(Of String, String) From {
                         {"common_name", cpd.Value},
                         {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
-                        {"related", type}
+                        {"related", type},
+                        {"kegg", cpd.Name}
                     }
                 }
             }
