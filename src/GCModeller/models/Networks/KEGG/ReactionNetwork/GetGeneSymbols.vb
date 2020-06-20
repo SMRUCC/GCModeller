@@ -24,7 +24,7 @@ Namespace ReactionNetwork
         Public Function GetGeneSymbols(reactions As IEnumerable(Of ReactionTable)) As (label As String, KO As String(), EC As String(), keggRid As String(), geneSymbols As String())
             Dim models As String() = reactions _
                 .Select(Function(r)
-                            Return r.geneNames.JoinIterates(r.KO).JoinIterates(r.EC)
+                            Return r.geneNames.JoinIterates(r.KO).JoinIterates(r.EC).JoinIterates(r.entry)
                         End Function) _
                 .IteratesALL _
                 .Select(Function(s) s.StringSplit("[;,]")) _
