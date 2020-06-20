@@ -110,8 +110,77 @@ Module kegg
         End If
 
         Call graph.assignNodeClass(top3, maps)
+        Call graph.assignEdgeClass(top3, maps)
 
         Return graph
+    End Function
+
+    <Extension>
+    Private Sub assignEdgeClass(graph As NetworkGraph, top3 As Boolean, maps As Map())
+        Dim edges = graph.graphEdges _
+            .Where(Function(e) e.data.HasProperty("kegg")) _
+            .ToArray
+        Dim assignments As New Dictionary(Of String, List(Of String))
+        Dim edgeIndex As New Dictionary(Of String, List(Of Edge))
+
+        For Each edge As Edge In edges
+            For Each id As String In edge.data("kegg").LoadJSON(Of String())
+                If Not edgeIndex.ContainsKey(id) Then
+                    edgeIndex(id) = New List(Of Edge)
+                End If
+
+                edgeIndex(id).Add(edge)
+                assignments.Add(id, New List(Of String))
+            Next
+        Next
+
+        For Each map As Map In maps
+            For Each id As String In map.GetMembers
+                If assignments.ContainsKey(id) Then
+                    assignments(id).Add(map.id)
+                End If
+            Next
+        Next
+
+        If top3 Then
+            Dim firstMapHits = assignments.topMaps
+
+            For Each block In firstMapHits
+                Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
+
+                For Each id As String In block.Select(Function(a) a.cid)
+                    For Each edge In edgeIndex(id)
+                        If Not edge.data.HasProperty("map") Then
+                            edge.data("map") = mapHit.id
+                            edge.data("mapName") = mapHit.Name
+                        End If
+                    Next
+                Next
+            Next
+        Else
+            For Each edge In edges
+                edge.data("maps") = edge.data("kegg") _
+                    .LoadJSON(Of String()) _
+                    .Select(Function(label) assignments(label)) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray _
+                    .GetJson
+            Next
+        End If
+    End Sub
+
+    <Extension>
+    Private Function topMaps(assignments As Dictionary(Of String, List(Of String))) As IGrouping(Of String, (cid$, mapId$))()
+        Return assignments _
+            .Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))) _
+            .IteratesALL _
+            .GroupBy(Function(a) a.mapId) _
+            .OrderByDescending(Function(m)
+                                   Return m.Select(Function(a) a.cid).Distinct.Count
+                               End Function) _
+            .Take(3) _
+            .ToArray
     End Function
 
     <Extension>
@@ -148,13 +217,7 @@ Module kegg
         Next
 
         If top3 Then
-            Dim firstMapHits = assignments _
-                .Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))) _
-                .IteratesALL _
-                .GroupBy(Function(a) a.mapId) _
-                .OrderByDescending(Function(m) m.Count) _
-                .Take(3) _
-                .ToArray
+            Dim firstMapHits = assignments.topMaps
 
             For Each block In firstMapHits
                 Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
