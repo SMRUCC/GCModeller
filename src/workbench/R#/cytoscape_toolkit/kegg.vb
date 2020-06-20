@@ -39,6 +39,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -96,17 +97,31 @@ Module kegg
                                        maps As Map(),
                                        Optional top3 As Boolean = True,
                                        Optional excludesGlobalAndOverviewMaps As Boolean = True) As NetworkGraph
-
-        Dim compounds As Node() = graph.vertex _
-            .Where(Function(a)
-                       Return a.label.IsPattern("[GCKR]\d+") OrElse a.data.HasProperty("kegg")
-                   End Function) _
-            .ToArray
-        Dim assignments As New Dictionary(Of String, List(Of String))
+        ' map011xx
         Dim overviews As Index(Of String) = BriteHEntry.Pathway _
             .GetGlobalAndOverviewMaps _
             .Select(Function(a) a.name.Match("\d+")) _
             .Indexing
+
+        If excludesGlobalAndOverviewMaps Then
+            maps = maps _
+                .Where(Function(a) Not a.id.Match("\d+") Like overviews) _
+                .ToArray
+        End If
+
+        Call graph.assignNodeClass(top3, maps)
+
+        Return graph
+    End Function
+
+    <Extension>
+    Private Sub assignNodeClass(graph As NetworkGraph, top3 As Boolean, maps As Map())
+        Dim compounds As Node() = graph.vertex _
+             .Where(Function(a)
+                        Return a.label.IsPattern("[GCKR]\d+") OrElse a.data.HasProperty("kegg")
+                    End Function) _
+             .ToArray
+        Dim assignments As New Dictionary(Of String, List(Of String))
         Dim nodeIndex As New Dictionary(Of String, Node)
 
         For Each id As Node In compounds
@@ -125,13 +140,6 @@ Module kegg
         Next
 
         For Each map As Map In maps
-            ' map011xx
-            If excludesGlobalAndOverviewMaps Then
-                If map.id.Match("\d+") Like overviews Then
-                    Continue For
-                End If
-            End If
-
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
                     assignments(id).Add(map.id)
@@ -163,8 +171,6 @@ Module kegg
                 node.data("maps") = assignments(node.label).ToArray.GetJson
             Next
         End If
-
-        Return graph
-    End Function
+    End Sub
 End Module
 
