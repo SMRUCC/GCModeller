@@ -97,15 +97,31 @@ Module kegg
                                        Optional top3 As Boolean = True,
                                        Optional excludesGlobalAndOverviewMaps As Boolean = True) As NetworkGraph
 
-        Dim compounds As Node() = graph.vertex.Where(Function(a) a.label.IsPattern("[GCKR]\d+")).ToArray
+        Dim compounds As Node() = graph.vertex _
+            .Where(Function(a)
+                       Return a.label.IsPattern("[GCKR]\d+") OrElse a.data.HasProperty("kegg")
+                   End Function) _
+            .ToArray
         Dim assignments As New Dictionary(Of String, List(Of String))
         Dim overviews As Index(Of String) = BriteHEntry.Pathway _
             .GetGlobalAndOverviewMaps _
             .Select(Function(a) a.name.Match("\d+")) _
             .Indexing
+        Dim nodeIndex As New Dictionary(Of String, Node)
 
-        For Each id In compounds
-            assignments.Add(id.label, New List(Of String))
+        For Each id As Node In compounds
+            Call assignments.Add(id.label, New List(Of String))
+
+            If id.data.HasProperty("kegg") AndAlso Not assignments.ContainsKey(id.data("kegg")) Then
+                Call assignments.Add(id.data("kegg"), New List(Of String))
+            End If
+
+            If Not nodeIndex.ContainsKey(id.label) Then
+                Call nodeIndex.Add(id.label, id)
+            End If
+            If id.data.HasProperty("kegg") AndAlso Not nodeIndex.ContainsKey(id.data("kegg")) Then
+                Call nodeIndex.Add(id.data("kegg"), id)
+            End If
         Next
 
         For Each map As Map In maps
@@ -136,9 +152,9 @@ Module kegg
                 Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
 
                 For Each id As String In block.Select(Function(a) a.cid)
-                    If Not graph.GetElementByID(id).data.HasProperty("map") Then
-                        graph.GetElementByID(id).data("map") = mapHit.id
-                        graph.GetElementByID(id).data("mapName") = mapHit.Name
+                    If Not nodeIndex(id).data.HasProperty("map") Then
+                        nodeIndex(id).data("map") = mapHit.id
+                        nodeIndex(id).data("mapName") = mapHit.Name
                     End If
                 Next
             Next
