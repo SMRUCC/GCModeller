@@ -129,15 +129,18 @@ Module kegg
                     edgeIndex(id) = New List(Of Edge)
                 End If
 
-                edgeIndex(id).Add(edge)
-                assignments.Add(id, New List(Of String))
+                Call edgeIndex(id).Add(edge)
+
+                If Not assignments.ContainsKey(id) Then
+                    Call assignments.Add(id, New List(Of String))
+                End If
             Next
         Next
 
         For Each map As Map In maps
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
-                    assignments(id).Add(map.id)
+                    Call assignments(id).Add(map.id)
                 End If
             Next
         Next
