@@ -25,7 +25,7 @@ Namespace ReactionNetwork
             Dim geneSymbols = models _
                 .AsParallel _
                 .Where(Function(line) line.InStrAny(allId) = -1) _
-                .Where(Function(id) Not id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+)))*")) _
+                .Where(Function(id) id.Match("\d+\.([-]|(\d+))(\.([-]|(\d+)))*", RegexICSng).StringEmpty) _
                 .ToArray
             Dim middleNode As String
 

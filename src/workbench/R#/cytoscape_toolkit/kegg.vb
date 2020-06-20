@@ -40,11 +40,13 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
@@ -90,9 +92,17 @@ Module kegg
     ''' <param name="topFirst"></param>
     ''' <returns></returns>
     <ExportAPI("pathway_class")>
-    Public Function assignPathwayClass(graph As NetworkGraph, maps As Map(), Optional topFirst As Boolean = True) As NetworkGraph
+    Public Function assignPathwayClass(graph As NetworkGraph,
+                                       maps As Map(),
+                                       Optional topFirst As Boolean = True,
+                                       Optional excludesGlobalAndOverviewMaps As Boolean = True) As NetworkGraph
+
         Dim compounds As Node() = graph.vertex.Where(Function(a) a.label.IsPattern("[GCKR]\d+")).ToArray
         Dim assignments As New Dictionary(Of String, List(Of String))
+        Dim overviews As Index(Of String) = BriteHEntry.Pathway _
+            .GetGlobalAndOverviewMaps _
+            .Select(Function(a) a.name.Match("\d+")) _
+            .Indexing
 
         For Each id In compounds
             assignments.Add(id.label, New List(Of String))
@@ -100,6 +110,11 @@ Module kegg
 
         For Each map As Map In maps
             ' map011xx
+            If excludesGlobalAndOverviewMaps Then
+                If map.id.Match("\d+") Like overviews Then
+                    Continue For
+                End If
+            End If
 
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
