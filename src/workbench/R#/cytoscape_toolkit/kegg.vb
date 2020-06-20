@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
@@ -78,9 +79,19 @@ Module kegg
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' assign pathway map id to the nodes in the given network graph
+    ''' </summary>
+    ''' <param name="graph">
+    ''' the node vertex in this network graph object its label value 
+    ''' could be one of: glycan, compound, kegg ortholog or reaction id 
+    ''' </param>
+    ''' <param name="maps"></param>
+    ''' <param name="topFirst"></param>
+    ''' <returns></returns>
     <ExportAPI("pathway_class")>
-    Public Function assignPathwayClass(graph As NetworkGraph, maps As Map()) As NetworkGraph
-        Dim compounds = graph.vertex.Where(Function(a) a.label.IsPattern("[GC]\d+")).ToArray
+    Public Function assignPathwayClass(graph As NetworkGraph, maps As Map(), Optional topFirst As Boolean = True) As NetworkGraph
+        Dim compounds As Node() = graph.vertex.Where(Function(a) a.label.IsPattern("[GCKR]\d+")).ToArray
         Dim assignments As New Dictionary(Of String, List(Of String))
 
         For Each id In compounds
@@ -97,11 +108,24 @@ Module kegg
             Next
         Next
 
-        For Each node In compounds
-            node.data("maps") = assignments(node.label).JoinBy(",")
-        Next
+        If topFirst Then
+            Dim firstMapHits = assignments _
+                .Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))) _
+                .IteratesALL _
+                .GroupBy(Function(a) a.mapId) _
+                .OrderByDescending(Function(m) m.Count) _
+                .First
+            Dim mapHit As Map = maps.First(Function(a) a.id = firstMapHits.Key)
 
-        ' Dim mapHits = assignments.Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))).IteratesALL.GroupBy(Function(a) a.mapId).OrderByDescending(Function(m) m.Count).ToDictionary(Function(a) a.Key, Function(a) a.Select(Function(t) t.cid).ToArray)
+            For Each id As String In firstMapHits.Select(Function(a) a.cid)
+                graph.GetElementByID(id).data("map") = mapHit.id
+                graph.GetElementByID(id).data("mapName") = mapHit.Name
+            Next
+        Else
+            For Each node In compounds
+                node.data("maps") = assignments(node.label).ToArray.GetJson
+            Next
+        End If
 
         Return graph
     End Function
