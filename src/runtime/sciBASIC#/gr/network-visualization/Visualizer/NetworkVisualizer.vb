@@ -747,7 +747,9 @@ Public Module NetworkVisualizer
                    End If
 
                    If drawDir Then
-                       lineColor.EndCap = LineCap.ArrowAnchor
+                       Dim bigArrow As New AdjustableArrowCap(4, 4)
+
+                       lineColor.CustomEndCap = bigArrow ' LineCap.ArrowAnchor
                    End If
 
                    ' 直接画一条直线
@@ -757,7 +759,9 @@ Public Module NetworkVisualizer
                    Return New LayoutLabel With {
                        .anchor = New Anchor((line(Scan0).X + line(1).X) / 2, (line(Scan0).Y + line(1).Y) / 2, 5),
                        .color = Nothing,
-                       .label = New Label(Nothing, .anchor, New Size(stdNum.Abs(line(Scan0).X - line(1).X), stdNum.Abs(line(Scan0).Y - line(1).Y))),
+                       .label = New Label(Nothing, .anchor, New Size(stdNum.Abs(line(Scan0).X - line(1).X), stdNum.Abs(line(Scan0).Y - line(1).Y))) With {
+                           .pinned = True
+                       },
                        .node = Nothing,
                        .shapeRectangle = .label.rectangle,
                        .style = Nothing
