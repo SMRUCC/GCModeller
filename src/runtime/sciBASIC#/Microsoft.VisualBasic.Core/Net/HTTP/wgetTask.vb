@@ -96,6 +96,7 @@ Namespace Net.Http
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property isDownloading As Boolean
+        Public ReadOnly Property headers As Dictionary(Of String, String)
 
         ''' <summary>
         ''' 
@@ -104,10 +105,11 @@ Namespace Net.Http
         ''' <param name="saveFile">
         ''' Module will create a new <see cref="FileStream"/> that writes to this desired download path
         ''' </param>
-        Sub New(downloadUrl As String, saveFile As String)
+        Sub New(downloadUrl As String, saveFile As String, headers As Dictionary(Of String, String))
             Me.fs = saveFile.Open(doClear:=True)
             Me.url = downloadUrl
             Me.saveFile = saveFile
+            Me.headers = headers
         End Sub
 
         Public Function StartTask(Optional doRetry As Boolean = True, Optional bufferSize% = 1024) As Boolean
@@ -147,7 +149,7 @@ RE:
 
         Private Sub doTaskInternal(bufferSize As Integer)
             ' Make a request for the url of the file to be downloaded
-            Dim req As WebRequest = HttpGet.BuildWebRequest(url, Nothing, Nothing, UserAgent.GoogleChrome)
+            Dim req As WebRequest = HttpGet.BuildWebRequest(url, headers, Nothing, UserAgent.GoogleChrome)
             Dim remote$ = "NA"
 
             If TypeOf req Is HttpWebRequest Then
