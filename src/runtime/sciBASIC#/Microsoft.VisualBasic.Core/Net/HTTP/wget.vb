@@ -62,8 +62,8 @@ Namespace Net.Http
         ''' </summary>
         ''' <param name="url">The remote resource to download.</param>
         ''' <param name="save">The file save location</param>
-        Sub New(url$, save$)
-            task = New wgetTask(url, save)
+        Sub New(url$, save$, headers As Dictionary(Of String, String))
+            task = New wgetTask(url, save, headers)
             cursorTop = Console.CursorTop
         End Sub
 
@@ -136,9 +136,9 @@ Namespace Net.Http
         ''' <param name="url$"></param>
         ''' <param name="save$"></param>
         ''' <returns></returns>
-        Public Shared Function Download(url$, Optional save$ = Nothing) As Boolean
+        Public Shared Function Download(url$, Optional save$ = Nothing, Optional headers As Dictionary(Of String, String) = Nothing) As Boolean
             Dim local As New Value(Of String)
-            Dim task As New wget(url, local = save Or $"./{url.Split("?"c).First.FileName}".AsDefault)
+            Dim task As New wget(url, local = save Or $"./{url.Split("?"c).First.FileName}".AsDefault, headers)
 
             Call task.Run()
 
