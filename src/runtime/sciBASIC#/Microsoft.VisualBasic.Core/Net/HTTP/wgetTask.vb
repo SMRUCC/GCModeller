@@ -187,6 +187,7 @@ RE:
             Dim buffer(bufferSize - 1) As Byte
             Dim read As Integer = Integer.MaxValue
             Dim interval As Double
+            Dim secondAgo As Double
 
             Do While Not exitJob(read)
                 ' Read the buffer from the response the WebRequest gave you
@@ -203,7 +204,10 @@ RE:
                 ' by the total formatted seconds of the downloadedTime
                 Call (currentSize / interval).DoCall(AddressOf _speedSamples.Add)
 
-                RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
+                If interval - secondAgo > 1 Then
+                    secondAgo = interval
+                    RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
+                End If
             Loop
         End Sub
 
