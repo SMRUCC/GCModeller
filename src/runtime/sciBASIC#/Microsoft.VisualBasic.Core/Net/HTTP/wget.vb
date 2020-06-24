@@ -56,6 +56,7 @@ Namespace Net.Http
 
         Dim WithEvents task As wgetTask
         Dim cursorTop%
+        Dim originalTop%
 
         ''' <summary>
         ''' Create a new file download task
@@ -65,6 +66,7 @@ Namespace Net.Http
         Sub New(url$, save$, headers As Dictionary(Of String, String))
             task = New wgetTask(url, save, headers)
             cursorTop = Console.CursorTop
+            originalTop = Console.CursorTop
         End Sub
 
         ''' <summary>
@@ -129,6 +131,15 @@ Namespace Net.Http
             cursorTop = Console.CursorTop
         End Sub
 
+        Private Sub clearOutput()
+            Console.CursorTop = originalTop
+
+            For i As Integer = 0 To 13
+                Call ClearLine()
+                Call Console.WriteLine()
+            Next
+        End Sub
+
         ''' <summary>
         ''' 执行有详细进度信息显示的文件下载操作, 如果只需要调用一个单纯的文件下载函数, 
         ''' 请使用<see cref="DownloadFile(String, String, String, String, Integer, DownloadProgressChangedEventHandler, String, String)"/>拓展函数
@@ -136,11 +147,19 @@ Namespace Net.Http
         ''' <param name="url$"></param>
         ''' <param name="save$"></param>
         ''' <returns></returns>
-        Public Shared Function Download(url$, Optional save$ = Nothing, Optional headers As Dictionary(Of String, String) = Nothing) As Boolean
+        Public Shared Function Download(url$,
+                                        Optional save$ = Nothing,
+                                        Optional headers As Dictionary(Of String, String) = Nothing,
+                                        Optional clear As Boolean = False) As Boolean
+
             Dim local As New Value(Of String)
             Dim task As New wget(url, local = save Or $"./{url.Split("?"c).First.FileName}".AsDefault, headers)
 
             Call task.Run()
+
+            If clear Then
+                Call task.clearOutput()
+            End If
 
             Return local.Value.FileLength > 0
         End Function
