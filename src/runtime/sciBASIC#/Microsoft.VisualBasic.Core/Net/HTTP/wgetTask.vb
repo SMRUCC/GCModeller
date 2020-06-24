@@ -221,6 +221,13 @@ RE:
             End If
 
             Dim progress$
+            Dim ETA$
+
+            If totalSize > 0 Then
+                ETA = TimeSpan.FromSeconds((totalSize - currentSize) / downloadSpeed).FormatTime
+            Else
+                ETA = "n/a"
+            End If
 
             If _isUnknownContentSize Then
                 progress = $"<unknown>%, {StringFormats.Lanudry(downloadSpeed)}/sec"
@@ -231,7 +238,7 @@ RE:
             Dim elapsed$ = TimeSpan.FromMilliseconds(App.ElapsedMilliseconds - _startTime).FormatTime
             Dim busyStr As New String("."c, busy)
 
-            Return $"> '{saveFile.FileName}'{busyStr}  {StringFormats.Lanudry(currentSize)} [{progress}], elapsed {elapsed}"
+            Return $"> '{saveFile.FileName}'{busyStr}  {StringFormats.Lanudry(currentSize)} [{progress}], elapsed {elapsed}, [ETA {ETA}]"
         End Function
 
 #Region "IDisposable Support"
