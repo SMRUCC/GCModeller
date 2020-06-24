@@ -13,19 +13,21 @@ Public Class ProtocolRouter
     End Sub
 
     Public Function AllocateNewFile(request As RequestStream, remoteDevcie As TcpEndPoint) As RequestStream
-        Dim name$
+        Dim name$ = Nothing
         ' 请注意，这个大小是预分配的大小，数据的实际大小可能小于这个值
         Dim sizeOf As Long
-        Dim type As TypeInfo
+        Dim type As TypeInfo = Nothing
 
         Call services.Register(name, sizeOf, type)
+
+        Throw New NotImplementedException
     End Function
 
     Public Function ReleaseFile(request As RequestStream, remoteDevcie As TcpEndPoint) As RequestStream
-
+        Throw New NotImplementedException
     End Function
 
     Public Function Shutdown(request As RequestStream, remoteDevcie As TcpEndPoint) As RequestStream
-
+        Throw New NotImplementedException
     End Function
 End Class
