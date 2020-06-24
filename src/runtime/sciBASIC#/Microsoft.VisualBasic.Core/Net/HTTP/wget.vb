@@ -79,7 +79,7 @@ Namespace Net.Http
                 Call task.Dispose()
 
                 Call Console.WriteLine()
-                Call Console.WriteLine($"{Now.ToString} ({StringFormats.Lanudry(task.downloadSpeed)}/s) - '{task.saveFile.FileName}' saved [{task.saveFile.FileLength}]")
+                Call Console.WriteLine($"{Now} ({StringFormats.Lanudry(task.downloadSpeed)}/s) - '{task.saveFile.FileName}' saved [{task.saveFile.FileLength}]")
                 Call Console.WriteLine()
             End If
         End Sub
@@ -95,7 +95,8 @@ Namespace Net.Http
         End Sub
 
         Private Sub ClearLine()
-            Console.CursorLeft = 1
+            Console.CursorLeft = 0
+            Console.Write(" ")
             Console.Write(New String(" "c, Console.BufferWidth - 1))
             Console.CursorLeft = 1
             Console.CursorTop -= 1
@@ -117,7 +118,7 @@ Namespace Net.Http
 
             Call Console.WriteLine()
 
-            Call ClearLine() : Console.WriteLine($"--{Now.ToString}--  {task.url}")
+            Call ClearLine() : Console.WriteLine($"--{Now}--  {task.url}")
             Call ClearLine() : Console.WriteLine($"     => '{task.saveFile.FileName}'")
             Call ClearLine() : Console.WriteLine()
             Call ClearLine() : Console.WriteLine($"Resolving {resp.ResponseUri.Host} ({domain})... {remote}")
@@ -138,6 +139,8 @@ Namespace Net.Http
                 Call ClearLine()
                 Call Console.WriteLine()
             Next
+
+            Console.CursorTop = originalTop
         End Sub
 
         ''' <summary>

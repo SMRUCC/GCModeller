@@ -224,7 +224,11 @@ RE:
             Dim ETA$
 
             If totalSize > 0 Then
-                ETA = TimeSpan.FromSeconds((totalSize - currentSize) / downloadSpeed).FormatTime
+                If downloadSpeed <= 0 Then
+                    ETA = "n/a"
+                Else
+                    ETA = TimeSpan.FromSeconds((totalSize - currentSize) / downloadSpeed).FormatTime
+                End If
             Else
                 ETA = "n/a"
             End If
