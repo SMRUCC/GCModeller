@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH IGRAPH.RENDER 1 2020-06-18 "render.Plot" "render.Plot"
+.TH IGRAPH.RENDER 1 2020-06-25 "render.Plot" "render.Plot"
 .SH NAME
 render.Plot \- Rendering png or svg image from a given network graph model.
 .SH SYNOPSIS
@@ -11,12 +11,17 @@ render.Plot \- Rendering png or svg image from a given network graph model.
 \fBminLinkWidth\fR as double = 2, 
 \fBnodeSize\fR as <generic> Object = \fB<NULL>\fR, 
 \fBnodeLabel\fR as <generic> Object = \fB<NULL>\fR, 
+\fBnodeStroke\fR as <generic> Object = "stroke: black; stroke-width: 2px; stroke-dash: solid;", 
+\fBnodeVisual\fR as <generic> Object = \fB<NULL>\fR, 
+\fBhullPolygonGroups\fR as <generic> Object = \fB<NULL>\fR, 
+\fBlabelFontSize\fR as <generic> Object = 20, 
 \fBlabelerIterations\fR as integer = 100, 
+\fBlabelColor\fR as <generic> Object = \fB<NULL>\fR, 
 \fBtexture\fR as <generic> Object = \fB<NULL>\fR, 
 \fBwidget\fR as <generic> Object = \fB<NULL>\fR, 
 \fBshowLabelerProgress\fR as boolean = FALSE, 
 \fBshowUntexture\fR as boolean = TRUE, 
-\fBdefaultEdgeColor\fR as string = "gray", 
+\fBdefaultEdgeColor\fR as string = "lightgray", 
 \fBdefaultLabelColor\fR as string = "black", 
 \fBdrawEdgeDirection\fR as boolean = FALSE, 
 \fBdriver\fR as <integer> Drivers = [GDI], 
@@ -30,7 +35,12 @@ Rendering png or svg image from a given network graph model.
 \fBg\fB \fR\- -
 .PP
 .PP
-\fBcanvasSize$\fB \fR\- -
+\fBcanvasSize\fB \fR\- -
+.PP
+.PP
+\fBtexture\fB \fR\- 
+ get texture brush or color brush descriptor string.
+
 .PP
 .SH SEE ALSO
 igraph.render
