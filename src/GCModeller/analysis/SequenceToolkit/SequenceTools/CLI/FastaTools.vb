@@ -689,8 +689,8 @@ Partial Module Utilities
         Return fasta.Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/Gff.Sites",
-               Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
+    <ExportAPI("/Gff.Sites")>
+    <Usage("/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
     <Group(CLIGrouping.FastaTools)>
     Public Function GffSites(args As CommandLine) As Integer
         Dim [in] As String = args("/fna")
