@@ -455,8 +455,8 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
         Dim key As String = feature.ToString
         Dim features As Feature() = (From loci As Feature In gff.Features.AsParallel
                                      Where Not loci Is Nothing AndAlso
-                                             loci.Strand = direct AndAlso
-                                             String.Equals(key, loci.Feature, StringComparison.OrdinalIgnoreCase)
+                                             loci.strand = direct AndAlso
+                                             String.Equals(key, loci.feature, StringComparison.OrdinalIgnoreCase)
                                      Select loci).ToArray
         Return features
     End Function

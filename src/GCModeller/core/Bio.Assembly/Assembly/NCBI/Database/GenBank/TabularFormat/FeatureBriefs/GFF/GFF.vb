@@ -189,7 +189,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public ReadOnly Property Size As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return SeqRegion.Ends
+                Return SeqRegion.ends
             End Get
         End Property
 
@@ -409,10 +409,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Function ProtId2Locus() As Dictionary(Of String, String)
             Dim CDS As Feature() =
                 LinqAPI.Exec(Of Feature) <= From x In Features
-                                            Where String.Equals(x.Feature, "CDS", StringComparison.OrdinalIgnoreCase)
+                                            Where String.Equals(x.feature, "CDS", StringComparison.OrdinalIgnoreCase)
                                             Select x
             Dim gene As Dictionary(Of String, Feature) = (From x In Features
-                                                          Where String.Equals(x.Feature, "gene", StringComparison.OrdinalIgnoreCase)
+                                                          Where String.Equals(x.feature, "gene", StringComparison.OrdinalIgnoreCase)
                                                           Select x) _
                                                                 .ToDictionary(Function(x) x.attributes("id"))
             Dim transformHash As Dictionary(Of String, String) = (From x As Feature
@@ -436,7 +436,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         Private Function __getStrandFeatures(strand As Strands) As Feature()
-            Return (From x As Feature In Features Where x.Strand = strand Select x).ToArray
+            Return (From x As Feature In Features Where x.strand = strand Select x).ToArray
         End Function
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures

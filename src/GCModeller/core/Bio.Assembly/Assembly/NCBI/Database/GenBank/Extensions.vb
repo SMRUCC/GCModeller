@@ -182,9 +182,9 @@ Namespace Assembly.NCBI.GenBank
                 .Features = gb.Features.Select(Function(x) x.ToGff).ToArray,
                 .GffVersion = 3,
                 .SeqRegion = New SeqRegion With {
-                      .AccessId = gb.Accession.AccessionId,
-                      .Start = 1,
-                      .Ends = gb.Origin.SequenceData.Length
+                      .accessId = gb.Accession.AccessionId,
+                      .start = 1,
+                      .ends = gb.Origin.SequenceData.Length
                 },
                 .Type = "DNA"
             }

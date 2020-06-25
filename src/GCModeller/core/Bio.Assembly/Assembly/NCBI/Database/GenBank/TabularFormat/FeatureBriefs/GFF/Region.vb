@@ -54,29 +54,29 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
     ''' </summary>
     Public Class SeqRegion
 
-        <XmlAttribute> Public Property AccessId As String
-        <XmlAttribute> Public Property Start As Integer
-        <XmlAttribute> Public Property Ends As Integer
+        <XmlAttribute> Public Property accessId As String
+        <XmlAttribute> Public Property start As Integer
+        <XmlAttribute> Public Property ends As Integer
 
-        Public Shared Function Parser(s As String) As SeqRegion
+        Friend Shared Function Parser(s As String) As SeqRegion
             If String.IsNullOrWhiteSpace(s) Then
                 Return New SeqRegion
+            Else
+                Dim tokens As String() = s.Split
+                Dim acc As String = tokens(Scan0)
+                Dim start As Integer = CInt(Val(tokens(1)))
+                Dim ends As Integer = CInt(Val(tokens(2)))
+
+                Return New SeqRegion With {
+                    .accessId = acc,
+                    .start = start,
+                    .ends = ends
+                }
             End If
-
-            Dim Tokens As String() = s.Split
-            Dim acc As String = Tokens(Scan0)
-            Dim start As Integer = CInt(Val(Tokens(1)))
-            Dim ends As Integer = CInt(Val(Tokens(2)))
-
-            Return New SeqRegion With {
-                .AccessId = acc,
-                .Start = start,
-                .Ends = ends
-            }
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{AccessId} {Start} {Ends}"
+            Return $"{accessId} {start} {ends}"
         End Function
     End Class
 End Namespace

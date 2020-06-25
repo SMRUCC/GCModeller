@@ -47,6 +47,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
 Namespace Assembly.NCBI.GenBank.TabularFormat
 
+    <HideModuleName>
     Public Module Extensions
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

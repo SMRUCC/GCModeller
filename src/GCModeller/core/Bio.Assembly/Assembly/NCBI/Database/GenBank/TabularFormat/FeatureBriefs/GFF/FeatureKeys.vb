@@ -81,11 +81,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         <Extension>
         Public Function [GetFeatureType](x As Feature) As Features
-            If String.IsNullOrEmpty(x.Feature) OrElse
-                Not FeatureKeys.FeaturesHash.ContainsKey(x.Feature) Then
+            If String.IsNullOrEmpty(x.feature) OrElse
+                Not FeatureKeys.FeaturesHash.ContainsKey(x.feature) Then
                 Return Features.Undefine
             Else
-                Return FeatureKeys.FeaturesHash(x.Feature)
+                Return FeatureKeys.FeaturesHash(x.feature)
             End If
         End Function
 

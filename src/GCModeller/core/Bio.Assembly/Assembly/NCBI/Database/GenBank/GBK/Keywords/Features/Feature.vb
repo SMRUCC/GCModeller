@@ -142,11 +142,11 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
             gff.seqname = gb.Accession.AccessionId
             gff.source = "Genebank"
-            gff.Feature = Me.KeyName
+            gff.feature = Me.KeyName
             gff.Left = Me.Location.Location.left
             gff.Right = Me.Location.Location.right
             gff.score = "."
-            gff.Strand = Me.Location.ContiguousRegion.Strand
+            gff.strand = Me.Location.ContiguousRegion.Strand
             gff.frame = "."
             gff.attributes = attributes()
             gff.comments = Me.Query(FeatureQualifiers.note)

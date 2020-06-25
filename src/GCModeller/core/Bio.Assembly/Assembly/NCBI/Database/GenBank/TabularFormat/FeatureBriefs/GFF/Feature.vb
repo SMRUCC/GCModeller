@@ -93,7 +93,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' specifically, the DDBJ/EMBL/GenBank feature table documentation).
         ''' </summary>
         ''' <returns></returns>
-        Public Property Feature As String
+        Public Property feature As String
 
         ''' <summary>
         ''' Integers. &lt;start> must be less than or equal to &lt;end>. Sequence numbering starts at 1, so these numbers 
@@ -119,7 +119,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' files may need to clip for itself.)
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property [Ends] As Integer
+        Public ReadOnly Property ends As Integer
             Get
                 Return MappingLocation.Ends
             End Get
@@ -140,7 +140,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' Version 2 change: This field is left empty '.' for RNA and protein features.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Strand As Strands
+        Public Property strand As Strands
             Get
                 Return _strand
             End Get
@@ -268,9 +268,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 Return MappingLocation
             End Get
             Set(value As NucleotideLocation)
-                Left = value.Left
-                Right = value.Right
-                Strand = value.Strand
+                Left = value.left
+                Right = value.right
+                strand = value.Strand
             End Set
         End Property
 
@@ -341,7 +341,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         Protected Overrides Function __getMappingLoci() As NucleotideLocation
-            Return New NucleotideLocation(Left, Right, Strand)
+            Return New NucleotideLocation(Left, Right, strand)
         End Function
     End Class
 End Namespace
