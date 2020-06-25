@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
+    <HideModuleName>
     Public Module Extensions
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
