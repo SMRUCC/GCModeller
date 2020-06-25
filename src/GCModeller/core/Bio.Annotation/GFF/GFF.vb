@@ -108,7 +108,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' second to avoid any US/European bias. 
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="##date")> Public Property [Date] As String
+        <Column(Name:="##date")> Public Property [date] As String
 
         ''' <summary>
         ''' type   (##Type &lt;type> [&lt;seqname>])
@@ -122,7 +122,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' provided for a given GFF file, then the type is assumed to be DNA. 
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="##type")> Public Property Type As String
+        <Column(Name:="##type")> Public Property type As String
 
         <Column(Name:="##species")> Public Property species As String
         ''' <summary>
@@ -230,7 +230,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <param name="gff"></param>
         ''' <param name="type"></param>
         Sub New(gff As GFFTable, type As Features)
-            Me.Date = gff.Date
+            Me.date = gff.date
             Me.DNA = gff.DNA
             Me.Features = gff.GetsAllFeatures(type)
             Me.GffVersion = gff.GffVersion
@@ -238,7 +238,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Me.RNA = gff.RNA
             Me.SeqRegion = gff.SeqRegion
             Me.SrcVersion = gff.SrcVersion
-            Me.Type = gff.Type
+            Me.type = gff.type
         End Sub
 
         Public Overrides Function ToString() As String
@@ -349,9 +349,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
 
             Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
-            Gff.Date = TryGetValue(attrs, "##date")
+            Gff.date = TryGetValue(attrs, "##date")
             Gff.SrcVersion = TryGetValue(attrs, "##source-version")
-            Gff.Type = TryGetValue(attrs, "##type")
+            Gff.type = TryGetValue(attrs, "##type")
             Gff.SeqRegion = SeqRegion.Parser(TryGetValue(attrs, "##sequence-region"))
 
             ' 为零，则表示文本字符串为空值，则会使用默认的版本号
