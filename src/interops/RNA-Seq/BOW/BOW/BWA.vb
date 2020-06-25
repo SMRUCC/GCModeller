@@ -375,7 +375,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Bwasw()
+    Public Function Bwasw() As Object
         Throw New NotImplementedException
     End Function
 
@@ -384,7 +384,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Fastmap()
+    Public Function Fastmap() As Object
         Throw New NotImplementedException
     End Function
 
@@ -393,7 +393,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Fa2pac()
+    Public Function Fa2pac() As Object
         Throw New NotImplementedException
     End Function
 
@@ -402,7 +402,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Pac2bwt()
+    Public Function Pac2bwt() As Object
         Throw New NotImplementedException
     End Function
 
@@ -411,7 +411,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Pac2bwtgen()
+    Public Function Pac2bwtgen() As Object
         Throw New NotImplementedException
     End Function
 
@@ -420,7 +420,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Bwtupdate()
+    Public Function Bwtupdate() As Object
         Throw New NotImplementedException
     End Function
 
@@ -429,7 +429,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Bwt2sa()
+    Public Function Bwt2sa() As Object
         Throw New NotImplementedException
     End Function
 
@@ -438,7 +438,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Pac2cspac()
+    Public Function Pac2cspac() As Object
         Throw New NotImplementedException
     End Function
 
@@ -447,7 +447,7 @@ Public Module BWA
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Stdsw()
+    Public Function Stdsw() As Object
         Throw New NotImplementedException
     End Function
 

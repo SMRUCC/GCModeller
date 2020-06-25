@@ -153,6 +153,6 @@ Partial Module CLI
     <Argument("/KOBAS", Description:="The pvalue result in the enrichment term, will be using as the node radius size.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function KOBASNetwork(args As CommandLine) As Integer
-
+        Throw New NotImplementedException
     End Function
 End Module

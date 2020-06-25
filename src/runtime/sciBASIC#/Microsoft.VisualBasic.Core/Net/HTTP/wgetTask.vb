@@ -187,6 +187,7 @@ RE:
             Dim buffer(bufferSize - 1) As Byte
             Dim read As Integer = Integer.MaxValue
             Dim interval As Double
+            Dim secondAgo As Double
 
             Do While Not exitJob(read)
                 ' Read the buffer from the response the WebRequest gave you
@@ -203,7 +204,10 @@ RE:
                 ' by the total formatted seconds of the downloadedTime
                 Call (currentSize / interval).DoCall(AddressOf _speedSamples.Add)
 
-                RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
+                If interval - secondAgo > 1 Then
+                    secondAgo = interval
+                    RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
+                End If
             Loop
         End Sub
 
@@ -217,6 +221,17 @@ RE:
             End If
 
             Dim progress$
+            Dim ETA$
+
+            If totalSize > 0 Then
+                If downloadSpeed <= 0 Then
+                    ETA = "n/a"
+                Else
+                    ETA = TimeSpan.FromSeconds((totalSize - currentSize) / downloadSpeed).FormatTime
+                End If
+            Else
+                ETA = "n/a"
+            End If
 
             If _isUnknownContentSize Then
                 progress = $"<unknown>%, {StringFormats.Lanudry(downloadSpeed)}/sec"
@@ -227,7 +242,7 @@ RE:
             Dim elapsed$ = TimeSpan.FromMilliseconds(App.ElapsedMilliseconds - _startTime).FormatTime
             Dim busyStr As New String("."c, busy)
 
-            Return $"> '{saveFile.FileName}'{busyStr}  {StringFormats.Lanudry(currentSize)} [{progress}], elapsed {elapsed}"
+            Return $"> '{saveFile.FileName}'{busyStr}  {StringFormats.Lanudry(currentSize)} [{progress}], elapsed {elapsed}, [ETA {ETA}]"
         End Function
 
 #Region "IDisposable Support"

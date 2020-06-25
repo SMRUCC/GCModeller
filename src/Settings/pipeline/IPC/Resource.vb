@@ -106,10 +106,12 @@ Public Class Resource
         Using reader As New BinaryDataReader(CliPipeline.OpenForRead(fullName))
 
         End Using
+
+        Throw New NotImplementedException
     End Function
 
     Public Function GetObject(begin&, size&) As Object
-
+        Throw New NotImplementedException
     End Function
 
     Public Iterator Function GetCollectionOf() As IEnumerable(Of Object)
