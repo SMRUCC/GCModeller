@@ -276,7 +276,7 @@ Partial Module CLI
         Call bbh.SaveTo(qvs.TrimSuffix & ".bbh.csv")
 
         ' 从bbh结果之中匹配得到COG信息
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("/COG2014.result")>

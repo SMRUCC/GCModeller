@@ -194,7 +194,7 @@ Partial Module CLI
 
     <Extension>
     Private Function matrixByUniprot(table As EntityObject(), xml$, organism$, isIntensity As Boolean) As DataSet()
-
+        Throw New NotImplementedException
     End Function
 
     ''' <summary>

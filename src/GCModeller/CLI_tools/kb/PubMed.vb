@@ -56,5 +56,6 @@ Partial Module CLI
         Call idlist.GetJson.SaveTo($"{out}/id.json")
 
         ' 下载文献摘要数据
+        Throw New NotImplementedException
     End Function
 End Module

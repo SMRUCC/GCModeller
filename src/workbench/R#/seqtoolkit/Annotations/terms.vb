@@ -101,17 +101,17 @@ Module terms
 
     <ExportAPI("assign.COG")>
     Public Function COGannotations()
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("assign.Pfam")>
     Public Function Pfamannotations()
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("assign.GO")>
     Public Function GOannotations()
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("write.id_maps")>
