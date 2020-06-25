@@ -748,7 +748,6 @@
     <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Features.vb" />
     <Compile Include="ComponentModel\Annotation\CatalogProfiles.vb" />
     <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />
@@ -760,11 +759,8 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\ParserHelper.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\SOURCE\ORGANISM.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\GbkParser.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Extensions.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\Extensions.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinDescription.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
     <Compile Include="Assembly\NCBI\SeqDump\NTheader.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Accession2Taxid.vb" />
@@ -824,10 +820,7 @@
     <Compile Include="ComponentModel\Equations\Equation.vb" />
     <Compile Include="ComponentModel\Equations\Equivalence.vb" />
     <Compile Include="ComponentModel\Annotation\GeneBrief.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Region.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinTable.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Feature.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\GFF.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GeneBrief.vb" />
     <Compile Include="ContextModel\Algorithm\GenomicsContext.vb" />
     <Compile Include="ComponentModel\Locus\LociSites\TagSite.vb" />
