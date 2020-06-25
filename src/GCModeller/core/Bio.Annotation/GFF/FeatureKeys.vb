@@ -68,24 +68,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Const rRNA As String = "rRNA"
         Public Const region As String = "region"
 
-        Public Enum Features As Integer
-            Undefine = -1
-            CDS
-            gene
-            tRNA
-            exon
-            tmRNA
-            rRNA
-            region
-        End Enum
-
         <Extension>
         Public Function [GetFeatureType](x As Feature) As Features
-            If String.IsNullOrEmpty(x.Feature) OrElse
-                Not FeatureKeys.FeaturesHash.ContainsKey(x.Feature) Then
-                Return Features.Undefine
+            If String.IsNullOrEmpty(x.feature) OrElse Not FeatureKeys.featuresIndex.ContainsKey(x.feature) Then
+                Return Features.undefine
             Else
-                Return FeatureKeys.FeaturesHash(x.Feature)
+                Return FeatureKeys.featuresIndex(x.feature)
             End If
         End Function
 
@@ -102,17 +90,24 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return gff.Features.GetsAllFeatures(type)
         End Function
 
-        Public ReadOnly Property FeaturesHash As IReadOnlyDictionary(Of String, Features) =
-            New Dictionary(Of String, Features) From {
+        ''' <summary>
+        ''' string to <see cref="Features"/> enum values
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property featuresIndex As IReadOnlyDictionary(Of String, Features)
+
+        Sub New()
+            featuresIndex = New Dictionary(Of String, Features) From {
  _
-            {FeatureKeys.CDS, Features.CDS},
-            {FeatureKeys.exon, Features.exon},
-            {FeatureKeys.gene, Features.gene},
-            {FeatureKeys.region, Features.region},
-            {FeatureKeys.rRNA, Features.rRNA},
-            {FeatureKeys.tmRNA, Features.tmRNA},
-            {FeatureKeys.tRNA, Features.tRNA}
-        }
+                {FeatureKeys.CDS, Features.CDS},
+                {FeatureKeys.exon, Features.exon},
+                {FeatureKeys.gene, Features.gene},
+                {FeatureKeys.region, Features.region},
+                {FeatureKeys.rRNA, Features.rRNA},
+                {FeatureKeys.tmRNA, Features.tmRNA},
+                {FeatureKeys.tRNA, Features.tRNA}
+            }
+        End Sub
 
         ''' <summary>
         ''' 获取所有的CDS的基因编号列表
@@ -122,11 +117,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <returns></returns>
         ''' <remarks>这个函数似乎有问题，因为使用人类基因组的第一条染色体的GFF测试才2000多个基因</remarks>
         <Extension>
-        Public Function GetAllGeneIDs(gff As GFFTable, Optional feature As Features = Features.Undefine) As String()
-            Dim fs As Feature() = If(
-                feature = Features.Undefine,
-                gff.Features,
-                gff.GetsAllFeatures(feature))
+        Public Function GetAllGeneIDs(gff As GFFTable, Optional feature As Features = Features.undefine) As String()
+            Dim fs As Feature() = If(feature = Features.undefine, gff.Features, gff.GetsAllFeatures(feature))
             Dim geneIDs As String() = fs _
                 .Where(Function(f) f.attributes.ContainsKey("dbxref")) _
                 .Select(Function(f) f.attributes("dbxref")) _
@@ -151,8 +143,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         <Extension>
         Public Function DbXref(value$) As Dictionary(Of String, String())
             Dim t$() = value.Split(","c)
-            Dim d As Dictionary(Of String, String()) =
-                t _
+            Dim d As Dictionary(Of String, String()) = t _
                 .Select(Function(s) s.GetTagValue(":", trim:=True)) _
                 .GroupBy(Function(o) o.Name) _
                 .ToDictionary(Function(k) k.Key,

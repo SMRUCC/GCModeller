@@ -40,7 +40,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions

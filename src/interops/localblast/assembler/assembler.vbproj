@@ -96,7 +96,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Interops.NCBI.Localblast.Assembler.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -208,6 +208,10 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vbproj">
       <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
       <Name>SmithWaterman</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
+      <Name>Bio.Annotation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

@@ -85,6 +85,11 @@ Namespace KOBAS
         Public Property attributes As Dictionary(Of String, String)
         Public Property clusters As Cluster()
 
+        ''' <summary>
+        ''' parse gmt file
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Shared Function LoadFile(path As String) As Gmt
             Dim table = tsv.LoadTsv(path, Encodings.UTF8)
             Dim attrs As Dictionary(Of String, String) = table _

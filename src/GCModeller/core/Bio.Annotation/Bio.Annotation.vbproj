@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1AE6B8DA-1A79-4DC7-A291-A8AE75CE07BA}</ProjectGuid>
+    <ProjectGuid>{E5AD6940-D449-471D-9539-65B4E457E6E3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns</RootNamespace>
-    <AssemblyName>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Annotation</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Annotation</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -29,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -49,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -58,27 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -88,7 +67,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\GCModeller%28UNIX-Release_X64%29\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -97,8 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequenceLogo.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Annotation.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -108,7 +87,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -127,11 +106,20 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClustalVisual.vb" />
+    <Compile Include="GFF\Document\FileFormat.vb" />
+    <Compile Include="GFF\Extensions.vb" />
+    <Compile Include="GFF\Feature.vb" />
+    <Compile Include="GFF\FeatureKeys.vb" />
+    <Compile Include="GFF\Document\FeatureParser.vb" />
+    <Compile Include="GFF\Features.vb" />
+    <Compile Include="GFF\GFF.vb" />
+    <Compile Include="GFF\Region.vb" />
+    <Compile Include="PTF\PtfFile.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -143,12 +131,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SequenceLogo\Alphabet.vb" />
-    <Compile Include="SequenceLogo\ColorSchema.vb" />
-    <Compile Include="SequenceLogo\DrawingDevice.vb" />
-    <Compile Include="SequenceLogo\DrawingModel.vb" />
-    <Compile Include="SequenceLogo\Extensions.vb" />
-    <Compile Include="SequenceLogo\Residue.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -170,41 +152,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
-      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MotifScanner\MotifScanner.vbproj">
-      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
-      <Name>MotifScanner</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MSA\MSA.vbproj">
-      <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
-      <Name>MSA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
-      <Project>{49219b69-7958-4bdb-b72b-9b72d7902a28}</Project>
-      <Name>SequencePatterns.Abstract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencePatterns\SequencePatterns.vbproj">
-      <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
-      <Name>SequencePatterns</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
