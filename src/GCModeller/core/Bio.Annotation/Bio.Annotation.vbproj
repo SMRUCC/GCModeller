@@ -106,10 +106,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GFF\Document\FileFormat.vb" />
     <Compile Include="GFF\Extensions.vb" />
     <Compile Include="GFF\Feature.vb" />
     <Compile Include="GFF\FeatureKeys.vb" />
-    <Compile Include="GFF\FeatureParser.vb" />
+    <Compile Include="GFF\Document\FeatureParser.vb" />
     <Compile Include="GFF\Features.vb" />
     <Compile Include="GFF\GFF.vb" />
     <Compile Include="GFF\Region.vb" />
