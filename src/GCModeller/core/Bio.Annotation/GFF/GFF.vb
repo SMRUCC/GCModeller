@@ -318,26 +318,6 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return gff
         End Function
 
-        Public Function ProtId2Locus() As Dictionary(Of String, String)
-            Dim CDS As Feature() =
-                LinqAPI.Exec(Of Feature) <= From x In Features
-                                            Where String.Equals(x.feature, "CDS", StringComparison.OrdinalIgnoreCase)
-                                            Select x
-            Dim gene As Dictionary(Of String, Feature) = (From x In Features
-                                                          Where String.Equals(x.feature, "gene", StringComparison.OrdinalIgnoreCase)
-                                                          Select x) _
-                                                                .ToDictionary(Function(x) x.attributes("id"))
-            Dim transformHash As Dictionary(Of String, String) = (From x As Feature
-                                                                  In CDS
-                                                                  Let parent As String = x.attributes("parent")
-                                                                  Where gene.ContainsKey(parent)
-                                                                  Select x,
-                                                                      locus_tag = gene(parent).attributes("locus_tag")) _
-                                                                        .ToDictionary(Function(x) x.x.attributes("name"),
-                                                                                      Function(x) x.locus_tag)
-            Return transformHash
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelatedGenes(loci As NucleotideLocation,
                                         Optional unstrand As Boolean = False,
