@@ -114,6 +114,9 @@
     <Compile Include="GFF\Features.vb" />
     <Compile Include="GFF\GFF.vb" />
     <Compile Include="GFF\Region.vb" />
+    <Compile Include="PTF\Document\DocumentBuilder.vb" />
+    <Compile Include="PTF\ProteinAnnotation.vb" />
+    <Compile Include="PTF\Document\PtfParser.vb" />
     <Compile Include="PTF\PtfFile.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

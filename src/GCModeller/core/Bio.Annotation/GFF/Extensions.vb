@@ -151,13 +151,13 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return New GeneBrief With {
                 .Code = feature.ID,
                 .COG = feature.COG,
-                .Gene = feature.attributes.TryGetValue("locus_tag") Or feature.ProteinId.AsDefault,
+                .Gene = feature.attributes.TryGetValue("locus_tag") Or feature.proteinId.AsDefault,
                 .IsORF = True,
                 .Length = feature.Length,
                 .Location = feature.Location,
-                .PID = feature.ProteinId,
+                .PID = feature.proteinId,
                 .Product = feature.Product,
-                .Synonym = feature.Synonym
+                .Synonym = feature.synonym
             }
         End Function
 
