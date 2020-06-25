@@ -64,6 +64,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <param name="gb"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function ToGff(gb As GBFF.File) As GFFTable
             Dim Gff As New GFFTable With {
                 .date = gb.Locus.UpdateTime,
@@ -80,7 +82,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         <Extension>
-        Public Function ToGff(gb As GBFF.File, feature As gbffFeature) As GFF.Feature
+        Friend Function ToGff(gb As GBFF.File, feature As gbffFeature) As GFF.Feature
             Dim gff As New GFF.Feature
 
             ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
