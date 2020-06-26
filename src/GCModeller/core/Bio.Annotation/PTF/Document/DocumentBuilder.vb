@@ -12,7 +12,7 @@ Namespace Ptf.Document
         End Sub
 
         <Extension>
-        Private Function asLineText(protein As ProteinAnnotation) As String
+        Friend Function asLineText(protein As ProteinAnnotation) As String
             Dim attrsToStr = protein.attributes _
                 .Select(Function(a)
                             Return $"{a.Key}:{a.Value.JoinBy(",")}"
