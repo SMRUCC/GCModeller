@@ -1,9 +1,9 @@
 imports "uniprot" from "seqtoolkit";
 
-"K:\xanthomonas\uniprot-taxonomy-xanthomonas.xml"
+"K:\uniprot-taxonomy%3A2.xml"
 :> open.uniprot
 :> cache.ptf(
-	file = "K:\xanthomonas\xanthomonas.ptf", 
+	file = "K:\bacterials.ptf", 
 	cacheTaxonomy = TRUE
 )
 ;
