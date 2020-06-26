@@ -128,7 +128,26 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
-        <Extension> Public Function proteinFullName(protein As entry) As String
+        <Extension>
+        Public Function NCBITaxonomyId(protein As entry) As String
+            If protein.organism Is Nothing Then
+                Return Nothing
+            Else
+                Dim ncbi = protein.organism?.dbReference _
+                   .SafeQuery _
+                   .Where(Function(ref) ref.type = "NCBI Taxonomy") _
+                   .FirstOrDefault
+
+                If ncbi Is Nothing Then
+                    Return ncbi.id
+                Else
+                    Return Nothing
+                End If
+            End If
+        End Function
+
+        <Extension>
+        Public Function proteinFullName(protein As entry) As String
             If protein Is Nothing OrElse protein.protein Is Nothing Then
                 Return ""
             Else

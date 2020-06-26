@@ -1,13 +1,4 @@
 {
-  "ExpandedNodes": [
-    "\\src\\R.Bioconductor",
-    "\\src\\R.Bioconductor\\RDotNET.Extensions.VisualBasic",
-    "\\src\\runtime",
-    "\\src\\runtime\\sciBASIC#",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\CommandLine",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\CommandLine\\CLI",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\ComponentModel"
-  ],
+  "ExpandedNodes": [],
   "PreviewInSolutionExplorer": false
 }

@@ -52,7 +52,6 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -71,43 +70,6 @@ Namespace Assembly.NCBI.GenBank
            .ToDictionary(Function(gb)
                              Return gb.Locus.AccessionID
                          End Function)
-        End Function
-
-        <Extension>
-        Public Function GPFF2Feature(gb As GBFF.File, gff As Dictionary(Of String, GFF.Feature)) As GeneBrief
-            Dim prot As gbffFeature = gb.Features.ListFeatures("Protein").FirstOrDefault
-            If prot Is Nothing Then
-                Return Nothing
-            End If
-
-            Dim CDS As gbffFeature = gb.Features.ListFeatures("CDS").FirstOrDefault
-            Dim locus_tag As String = ""
-
-            If CDS Is Nothing Then
-                locus_tag = "-"
-            Else
-                locus_tag = CDS.Query("locus_tag")
-            End If
-
-            Dim uid As String = gb.Version.VersionString
-
-            If Not gff.ContainsKey(uid) Then
-                Throw New KeyNotFoundException(uid & " is not exists in the genomics feature table!")
-            End If
-
-            Dim ntLoci As NucleotideLocation = gff(uid).MappingLocation
-            Dim gene As New GeneBrief With {
-                .Code = gb.Version.GI,
-                .COG = "-",
-                .Gene = locus_tag,
-                .Location = ntLoci,
-                .PID = gb.Accession.AccessionId,
-                .Length = ntLoci.FragmentSize,
-                .Product = prot.Query("product"),
-                .Synonym = uid
-            }
-
-            Return gene
         End Function
 
         <Extension>
@@ -168,27 +130,6 @@ Namespace Assembly.NCBI.GenBank
             Next
 
             Return gb
-        End Function
-
-        ''' <summary>
-        ''' 将NCBI genbank数据库文件转换为GFF3文件
-        ''' </summary>
-        ''' <param name="gb"></param>
-        ''' <returns></returns>
-        <ExportAPI("ToGff"), Extension>
-        Public Function ToGff(gb As GBFF.File) As GFFTable
-            Dim Gff As New GFFTable With {
-                .Date = gb.Locus.UpdateTime,
-                .Features = gb.Features.Select(Function(x) x.ToGff).ToArray,
-                .GffVersion = 3,
-                .SeqRegion = New SeqRegion With {
-                      .AccessId = gb.Accession.AccessionId,
-                      .Start = 1,
-                      .Ends = gb.Origin.SequenceData.Length
-                },
-                .Type = "DNA"
-            }
-            Return Gff
         End Function
 
         <ExportAPI("Locus.Maps"), Extension>

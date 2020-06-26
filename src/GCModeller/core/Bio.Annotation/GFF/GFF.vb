@@ -108,7 +108,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' second to avoid any US/European bias. 
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="##date")> Public Property [Date] As String
+        <Column(Name:="##date")> Public Property [date] As String
 
         ''' <summary>
         ''' type   (##Type &lt;type> [&lt;seqname>])
@@ -122,7 +122,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' provided for a given GFF file, then the type is assumed to be DNA. 
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="##type")> Public Property Type As String
+        <Column(Name:="##type")> Public Property type As String
 
         <Column(Name:="##species")> Public Property species As String
         ''' <summary>
@@ -189,7 +189,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public ReadOnly Property Size As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return SeqRegion.Ends
+                Return SeqRegion.ends
             End Get
         End Property
 
@@ -197,7 +197,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 基因组上面的特性位点
         ''' </summary>
         ''' <returns></returns>
-        Public Property Features As Feature() Implements IGenomicsContextProvider(Of Feature).AllFeatures
+        Public Property features As Feature() Implements IGenomicsContextProvider(Of Feature).AllFeatures
             Get
                 Return _features
             End Get
@@ -230,7 +230,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <param name="gff"></param>
         ''' <param name="type"></param>
         Sub New(gff As GFFTable, type As Features)
-            Me.Date = gff.Date
+            Me.date = gff.date
             Me.DNA = gff.DNA
             Me.Features = gff.GetsAllFeatures(type)
             Me.GffVersion = gff.GffVersion
@@ -238,7 +238,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Me.RNA = gff.RNA
             Me.SeqRegion = gff.SeqRegion
             Me.SrcVersion = gff.SrcVersion
-            Me.Type = gff.Type
+            Me.type = gff.type
         End Sub
 
         Public Overrides Function ToString() As String
@@ -311,119 +311,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Dim text As String() = path.ReadAllLines
             Dim gff As New GFFTable
 
-            Call TrySetMetaData(text, gff, defaultVer:=defaultVersion)
-            Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.Features), TryGetFreaturesData(text, gff.GffVersion))
+            Call Document.TrySetMetaData(text, gff, defaultVer:=defaultVersion)
+            Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.features), Document.TryGetFreaturesData(text, gff.GffVersion))
             Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".__DEBUG_ECHO
 
             Return gff
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="data"></param>
-        ''' <param name="Gff"></param>
-        ''' <param name="defaultVer%">默认的文件格式版本号缺省值</param>
-        Private Shared Sub TrySetMetaData(data$(), ByRef Gff As GFFTable, defaultVer%)
-            data = TryGetMetaData(data)
-
-            Dim LQuery = From t As String
-                         In data
-                         Where Not t.IndexOf(" "c) = -1  ' ### 这种情况下mid函数会出错
-                         Let p As Integer = InStr(t, " ")
-                         Let Name As String = Mid(t, 1, p - 1)
-                         Let Value As String = Mid(t, p + 1)
-                         Select Name,
-                             Value
-                         Group By Name Into Group '
-            Dim attrs As Dictionary(Of String, String) = LQuery _
-                .ToDictionary(Function(obj)
-                                  Return obj.Name.ToLower
-                              End Function,
-                              Function(obj)
-                                  Return obj.Group _
-                                      .Select(Function(x) x.Value) _
-                                      .JoinBy("; ")
-                              End Function)
-
-            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
-
-            Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
-            Gff.Date = TryGetValue(attrs, "##date")
-            Gff.SrcVersion = TryGetValue(attrs, "##source-version")
-            Gff.Type = TryGetValue(attrs, "##type")
-            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(attrs, "##sequence-region"))
-
-            ' 为零，则表示文本字符串为空值，则会使用默认的版本号
-            If Gff.GffVersion = 0 Then
-                Gff.GffVersion = defaultVer
-            End If
-
-            Call $"The parser version of the gff file is version {Gff.GffVersion}...".__DEBUG_ECHO
-
-            If {1, 2, 3}.IndexOf(Gff.GffVersion) = -1 Then
-                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".Warning
-            End If
-        End Sub
-
-        Private Shared Function TryGetFreaturesData(data$(), version%) As Feature()
-            Dim loadBuffer As String() = (From s As String
-                                          In data
-                                          Where Not String.IsNullOrWhiteSpace(s) AndAlso
-                                              Not s.First = "#"c
-                                          Select s).ToArray
-            Dim helper As New parserHelper With {
-                .version = version
-            }
-            Dim features As Feature() = loadBuffer _
-                .Select(AddressOf helper.parse) _
-                .ToArray
-            Return features
-        End Function
-
-        Private Structure parserHelper
-            Public version As Integer
-
-            Public Function parse(s As String) As Feature
-                Return FeatureParser.CreateObject(s, version)
-            End Function
-
-            Public Shared Function IsMetaDataLine(line As String) As Boolean
-                Return Not String.IsNullOrEmpty(line) AndAlso Len(line) > 2 AndAlso String.Equals(Mid(line, 1, 2), "##")
-            End Function
-        End Structure
-
-        Private Shared Function TryGetMetaData(data As String()) As String()
-            Try
-                Dim LQuery = (From sLine As String
-                              In data
-                              Where parserHelper.IsMetaDataLine(sLine)
-                              Select sLine).ToArray
-                Return LQuery
-            Catch ex As Exception
-                Call App.LogException(New Exception(data.JoinBy(vbCrLf), ex))
-                Return New String() {}
-            End Try
-        End Function
-
-        Public Function ProtId2Locus() As Dictionary(Of String, String)
-            Dim CDS As Feature() =
-                LinqAPI.Exec(Of Feature) <= From x In Features
-                                            Where String.Equals(x.Feature, "CDS", StringComparison.OrdinalIgnoreCase)
-                                            Select x
-            Dim gene As Dictionary(Of String, Feature) = (From x In Features
-                                                          Where String.Equals(x.Feature, "gene", StringComparison.OrdinalIgnoreCase)
-                                                          Select x) _
-                                                                .ToDictionary(Function(x) x.attributes("id"))
-            Dim transformHash As Dictionary(Of String, String) = (From x As Feature
-                                                                  In CDS
-                                                                  Let parent As String = x.attributes("parent")
-                                                                  Where gene.ContainsKey(parent)
-                                                                  Select x,
-                                                                      locus_tag = gene(parent).attributes("locus_tag")) _
-                                                                        .ToDictionary(Function(x) x.x.attributes("name"),
-                                                                                      Function(x) x.locus_tag)
-            Return transformHash
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -436,7 +328,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         Private Function __getStrandFeatures(strand As Strands) As Feature()
-            Return (From x As Feature In Features Where x.Strand = strand Select x).ToArray
+            Return (From x As Feature In Features Where x.strand = strand Select x).ToArray
         End Function
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures
