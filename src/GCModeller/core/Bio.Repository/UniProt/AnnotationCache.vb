@@ -19,7 +19,7 @@ Public Module AnnotationCache
 
         dbxref.Add("synonym", protein.accessions)
 
-        For Each refDb As String In {"KEGG", "KO", "GO", "Pfam", "RefSeq", "EC", "InterPro", "BioCyc", "COG"}
+        For Each refDb As String In {"KEGG", "KO", "GO", "Pfam", "RefSeq", "EC", "InterPro", "BioCyc", "eggNOG"}
             If protein.xrefs.ContainsKey(refDb) Then
                 refList = protein.xrefs(refDb) _
                     .Select(Function(ref) ref.id) _
