@@ -115,11 +115,11 @@ Module uniprot
         End If
 
         If TypeOf uniprot Is entry() OrElse TypeOf uniprot Is IEnumerable(Of entry) Then
-            Return DirectCast(uniprot, IEnumerable(Of entry))
+            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, IEnumerable(Of entry)))
         ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Like GetType(entry) Then
-            Return DirectCast(uniprot, pipeline).populates(Of entry)
+            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, pipeline).populates(Of entry))
         ElseIf TypeOf uniprot Is vector AndAlso DirectCast(uniprot, vector).elementType Like GetType(entry) Then
-            Return DirectCast(uniprot, vector).data.AsObjectEnumerator(Of entry)
+            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, vector).data.AsObjectEnumerator(Of entry))
         Else
             Return Internal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
         End If
