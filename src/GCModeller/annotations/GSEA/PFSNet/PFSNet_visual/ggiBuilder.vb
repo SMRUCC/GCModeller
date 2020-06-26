@@ -5,6 +5,12 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module ggiBuilder
 
+    ''' <summary>
+    ''' apply for LC-MS data analysis
+    ''' </summary>
+    ''' <param name="maps"></param>
+    ''' <param name="reactions"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function ReferenceCompoundNetwork(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable)) As IEnumerable(Of GraphEdge)
         Dim fluxIndex As Dictionary(Of String, ReactionTable) = reactions.ToDictionary(Function(r) r.entry)
