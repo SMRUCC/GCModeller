@@ -1,6 +1,5 @@
-pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
+pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000) {
     #obj<-.jnew("filter")
-    ptm<-proc.time()
     cat("reading data files")
     ggi<-read.table(file3, header=TRUE, sep="\t", colClasses="character")
     cat(".")
@@ -8,7 +7,14 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     cat(".")
     expr2o<-loaddata(file2)
     cat(".")
-    cat("\t[DONE]\n")
+    cat("\t[DONE]\n");
+
+    pfsnet.run(expr1o, expr2o, ggi, b, t1, t2, n);
+}
+
+pfsnet.run = function(expr1o, expr2o, ggi, b=0.5,t1=0.95,t2=0.85,n=1000){
+    ptm<-proc.time();
+
     cat("computing fuzzy weights")
     w1matrix1<-computew1(expr1o,theta1=t1,theta2=t2)
     w1matrix2<-computew1(expr2o,theta1=t1,theta2=t2)
@@ -20,6 +26,7 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     genelist2<-pfsnet.computegenelist(w1matrix2,beta=b)
     cat(".")
     cat("\t[DONE]\n")
+
     cat("computing subnetworks")
     #ggi_mask<-.jcall(obj,"[Z","filter",.jarray(ggi[,2]),.jarray(ggi[,3]),.jarray(genelist1$gl))
     cat(".")
@@ -73,6 +80,7 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     ccs2 <- unlist(ccs2, recursive=FALSE)
     cat(".")
     cat("\t[DONE]\n")
+
     cat("computing subnetwork scores")
     pscore<-compute_npscore(ccs,w1matrix1);
     pscore2<-compute_npscore(ccs2,w1matrix2);
@@ -81,6 +89,7 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
     nscore2<-compute_npscore(ccs2,w1matrix2, pscore = FALSE);
     cat(".")
     cat(".\t[DONE]\n")
+
     cat("computing permuation tests")
     tdist<-pfsnet.estimatetdist(obj,expr1o,expr2o,ggi,b,t1,t2,n)
     tdist2<-pfsnet.estimatetdist(obj,expr2o,expr1o,ggi,b,t1,t2,n)
@@ -105,6 +114,7 @@ pfsnet<-function(file1,file2,file3,b=0.5,t1=0.95,t2=0.85,n=1000){
         try(if(ccs2[[i]]$p.value<0.05){ccs2.mask[i]<-TRUE},TRUE)
     }
     cat("\t[DONE]\n")
+
     cat("total time elapsed: ",(proc.time()-ptm)[3], "seconds\n")
 
     list(class1=list(subnets=ccs[ccs.mask]),class2=list(subnets=ccs2[ccs2.mask]))
