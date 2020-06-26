@@ -1,5 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Text
 
 Namespace DataStructure
 
@@ -15,5 +17,16 @@ Namespace DataStructure
                 }
             Next
         End Function
+
+        <Extension>
+        Public Sub SaveTabular(edges As IEnumerable(Of GraphEdge), file As Stream)
+            Using writer As New StreamWriter(file, Encodings.UTF8WithoutBOM.CodePage) With {
+                .NewLine = vbLf
+            }
+                For Each edge As GraphEdge In edges
+                    Call writer.WriteLine(edge.ToString)
+                Next
+            End Using
+        End Sub
     End Module
 End Namespace
