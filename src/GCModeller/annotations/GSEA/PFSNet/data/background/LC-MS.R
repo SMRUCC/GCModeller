@@ -5,7 +5,6 @@ imports "kegg.repository" from "kegg_kit";
 
 setwd(!script$dir);
 
-let maps = load.maps();
 let links = reactions.table("D:\biodeep\biodeepdb_v3\KEGG\br08201.csv");
 
 "D:\biodeep\biodeepdb_v3\KEGG\br08901_pathwayMaps"

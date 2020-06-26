@@ -108,11 +108,16 @@ Module PFSNetAnalysis
         End If
 
         Call GraphEdgeConnector.SaveTabular(network, stream)
-        Call stream.Flush()
 
-        If TypeOf file Is String Then
-            Call stream.Close()
-        End If
+        Try
+            Call stream.Flush()
+
+            If TypeOf file Is String Then
+                Call stream.Close()
+            End If
+        Catch ex As Exception
+
+        End Try
 
         Return True
     End Function
