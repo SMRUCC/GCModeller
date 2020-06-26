@@ -207,9 +207,17 @@
       <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
       <Name>SmithWaterman</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
+      <Name>Bio.Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>

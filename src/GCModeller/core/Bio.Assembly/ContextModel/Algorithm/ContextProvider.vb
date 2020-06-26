@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Namespace ContextModel
 
     ''' <summary>
-    ''' 基因组上下文计算工具，一般使用<see cref="PTT"/>或者<see cref="GFF"/>文件作为数据源.
+    ''' 基因组上下文计算工具，一般使用<see cref="PTT"/>或者``GFF``文件作为数据源.
     ''' 
     ''' ```vbnet
     ''' Dim PTT As <see cref="PTT"/> = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")

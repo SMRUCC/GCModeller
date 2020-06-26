@@ -96,7 +96,9 @@ Namespace Web
 
             Dim hits As New HitCollection With {
                 .QueryName = tag,
-                .Hits = LinqAPI.Exec(Of SSDB.Ortholog, Hit)(source) <= Function(x) KeggSSDB.__export(x)
+                .hits = source _
+                    .Select(AddressOf KeggSSDB.__export) _
+                    .ToArray
             }
             Return hits
         End Function

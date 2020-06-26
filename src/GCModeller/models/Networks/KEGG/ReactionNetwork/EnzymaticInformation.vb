@@ -121,7 +121,8 @@ Namespace ReactionNetwork
                             .origID = reaction.entry,
                             .Properties = New Dictionary(Of String, String) From {
                                 {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
-                                {"name", reaction.name}
+                                {"name", reaction.name},
+                                {"kegg", reaction.entry}
                             }
                         }
                     }.DoCall(AddressOf nodes.add)

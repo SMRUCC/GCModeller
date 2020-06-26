@@ -52,7 +52,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -136,25 +135,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Return Query(sKey)
         End Function
 
-        Public Function ToGff() As GFF.Feature
-            Dim gff As New GFF.Feature
-
-            ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
-            gff.seqname = gb.Accession.AccessionId
-            gff.source = "Genebank"
-            gff.Feature = Me.KeyName
-            gff.Left = Me.Location.Location.left
-            gff.Right = Me.Location.Location.right
-            gff.score = "."
-            gff.Strand = Me.Location.ContiguousRegion.Strand
-            gff.frame = "."
-            gff.attributes = attributes()
-            gff.comments = Me.Query(FeatureQualifiers.note)
-
-            Return gff
-        End Function
-
-        Private Function attributes() As Dictionary(Of String, String)
+        Public Function attributes() As Dictionary(Of String, String)
             Dim attrs As New List(Of (key$, val$))
 
             attrs += ("gbKey", KeyName)

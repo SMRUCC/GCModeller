@@ -74,6 +74,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <Group(Program.ServicesController)>
     Public Function [Stop](args As CommandLine) As Integer
         Dim port% = args("/port") Or defaultPort8833
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("/dispose")>
@@ -81,7 +82,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
     <Description("Delete an exists memory mapping file resource.")>
     <Group(Program.ResourceController)>
     Public Function Dispose(args As CommandLine) As Integer
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("/register")>

@@ -244,6 +244,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
+      <Name>Bio.Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

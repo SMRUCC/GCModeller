@@ -1,51 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::37e33b048eceb2618576256916338a60, visualize\SyntenyVisual\ComparativeGenomics\DrawingModel\Genome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GenomeModel
-    ' 
-    '         Properties: Count, genes, Length, SegmentOffset, Title
-    ' 
-    '         Function: FromGffTable, GetEnumerator, GetEnumerator1, Height, Reverse
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GenomeModel
+' 
+'         Properties: Count, genes, Length, SegmentOffset, Title
+' 
+'         Function: FromGffTable, GetEnumerator, GetEnumerator1, Height, Reverse
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 
 Namespace ComparativeGenomics
 
@@ -119,7 +118,7 @@ Namespace ComparativeGenomics
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromGffTable(genome As GFFTable) As GenomeModel
-            Return genome.Features _
+            Return genome.features _
                 .AsGenes _
                 .Where(Function(g)
                            ' 因为在gff之中还包含有整个基因组序列的feature
@@ -134,7 +133,7 @@ Namespace ComparativeGenomics
                             Return g.First
                         End Function) _
                 .ToArray _
-                .CreateSyntenyGenome(genome.Size, genome.SeqRegion.AccessId, Function(g) g.Gene)
+                .CreateSyntenyGenome(genome.Size, genome.SeqRegion.accessId, Function(g) g.Gene)
         End Function
     End Class
 End Namespace
