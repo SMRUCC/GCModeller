@@ -212,6 +212,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GraphEdge\GraphEdge.vb" />
+    <Compile Include="Models\GraphEdge\GraphEdgeConnector.vb" />
     <Compile Include="Models\PfsNet.vb" />
     <Compile Include="Models\Graph.vb" />
     <Compile Include="Models\PFSNetResultOut.vb" />
