@@ -58,13 +58,25 @@ Module uniprot
     ''' <summary>
     ''' open a uniprot database file
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="files"></param>
     ''' <param name="isUniParc"></param>
     ''' <returns></returns>
     <ExportAPI("open.uniprot")>
-    Public Function openUniprotXmlAssembly(file As String, Optional isUniParc As Boolean = False) As pipeline
+    Public Function openUniprotXmlAssembly(<RRawVectorArgument> files As Object, Optional isUniParc As Boolean = False, Optional env As Environment = Nothing) As pipeline
+        Dim fileList As String()
+
+        If files Is Nothing Then
+            Return Internal.debug.stop("the given file list can not be nothing!", env)
+        ElseIf TypeOf files Is String() Then
+            fileList = DirectCast(files, String())
+        ElseIf TypeOf files Is vector AndAlso DirectCast(files, vector).elementType Like GetType(String) Then
+            fileList = DirectCast(files, vector).data.AsObjectEnumerator(Of String).ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(String), files.GetType, env), env)
+        End If
+
         Return UniProtXML _
-            .EnumerateEntries(file, isUniParc) _
+            .EnumerateEntries(fileList, isUniParc) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
