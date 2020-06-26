@@ -30,12 +30,11 @@ Public Module AnnotationCache
         Next
 
         If includesNCBITaxonomy Then
-            Dim ncbi = protein.organism?.dbReference _
-                .SafeQuery _
-                .Where(Function(ref) ref.type = "NCBI Taxonomy") _
-                .FirstOrDefault
+            Dim ncbi_id As String = protein.NCBITaxonomyId
 
-            Call dbxref.Add("ncbi_taxonomy", {ncbi.id})
+            If Not ncbi_id.StringEmpty Then
+                Call dbxref.Add("ncbi_taxonomy", {ncbi_id})
+            End If
         End If
 
         Return New ProteinAnnotation With {

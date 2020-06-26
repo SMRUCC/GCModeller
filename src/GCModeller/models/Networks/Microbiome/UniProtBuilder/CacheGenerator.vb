@@ -124,7 +124,10 @@ Public Class CacheGenerator
                    End Function)
 
             Dim taxonomy As organism = protein.organism
-            Dim taxonID$ = taxonomy.dbReference.id
+            Dim taxonID$ = taxonomy.dbReference _
+                .Where(Function(a) a.type = "NCBI Taxonomy") _
+                .First _
+                .id
 
             ' 为了计算出覆盖度，需要知道基因组之中有多少个基因的记录
             ' 在这里直接记录下物种的编号，在后面分组计数就可以了解基因组
