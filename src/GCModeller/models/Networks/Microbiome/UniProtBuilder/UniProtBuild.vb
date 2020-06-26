@@ -157,7 +157,10 @@ Public Module UniProtBuild
                    End Function)
 
             Dim organism As organism = xml.LoadFromXml(Of organism)
-            Dim taxon$ = organism.dbReference.id
+            Dim taxon$ = organism.dbReference _
+                .Where(Function(a) a.type = "NCBI Taxonomy") _
+                .First _
+                .id
             Dim KO As IEnumerable(Of String)
             Dim proteins As IEnumerable(Of NamedValue(Of String()))
 

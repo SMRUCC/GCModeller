@@ -118,7 +118,7 @@ Partial Module CLI
         Dim CDSHash = (From x As Feature
                        In gff.GetsAllFeatures(Features.CDS)
                        Select x
-                       Group x By x.ProteinId Into Group) _
+                       Group x By x.proteinId Into Group) _
                             .ToDictionary(Function(x) x.ProteinId,
                                           Function(x) x.Group.First)
         Dim genes As GeneBrief() =

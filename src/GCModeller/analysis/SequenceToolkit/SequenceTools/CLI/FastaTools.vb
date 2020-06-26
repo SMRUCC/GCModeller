@@ -707,7 +707,7 @@ Partial Module Utilities
                      Let seq = nt.CutSequenceLinear(loci.MappingLocation)
                      Select New FastaSeq With {
                          .SequenceData = seq.SequenceData,
-                         .Headers = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}
+                         .Headers = {loci.synonym, loci.Product, loci.MappingLocation.ToString}
                      }
         Dim fasta As New FastaFile(result)
 

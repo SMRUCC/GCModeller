@@ -499,7 +499,7 @@ Partial Module CLI
                         End If
 
                         Dim c As New MotifLog(x)
-                        c.ID = g.Gene.Synonym
+                        c.ID = g.Gene.synonym
                         c.Location = g.ToString
                         c.ATGDist = ContextModel.GetATGDistance(c.MappingLocation, g.Gene)
                         temp += c

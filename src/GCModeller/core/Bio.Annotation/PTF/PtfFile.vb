@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
 
@@ -9,8 +10,20 @@ Namespace Ptf
     ''' </summary>
     Public Class PtfFile : Implements ISaveHandle
 
+        Public Property proteins As ProteinAnnotation()
+
+        Public Overloads Shared Function ToString(protein As ProteinAnnotation) As String
+            Return Document.asLineText(protein)
+        End Function
+
         Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Throw New NotImplementedException()
+            Using output As New StreamWriter(path.Open(doClear:=True), encoding) With {
+                .NewLine = ASCII.LF
+            }
+                Call Document.writeTabular(Me, output)
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

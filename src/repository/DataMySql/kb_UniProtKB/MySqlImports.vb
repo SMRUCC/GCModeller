@@ -557,12 +557,16 @@ Namespace kb_UniProtKB
                     .value
 
                 If Not organism.ContainsKey(organismScientificName) Then
-                    Call organism.Add(organismScientificName, protein.organism.dbReference.id)
+                    Dim ncbi_id As String = protein.NCBITaxonomyId
 
-                    Yield New mysql.organism_code With {
-                        .organism_name = organismScientificName.MySqlEscaping,
-                        .uid = organism(organismScientificName)
-                    }
+                    If Not ncbi_id.StringEmpty Then
+                        Call organism.Add(organismScientificName, Long.Parse(ncbi_id))
+
+                        Yield New mysql.organism_code With {
+                            .organism_name = organismScientificName.MySqlEscaping,
+                            .uid = organism(organismScientificName)
+                        }
+                    End If
                 End If
 
                 Dim proteomesInfo As dbReference = protein _
