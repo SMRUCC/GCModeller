@@ -22,7 +22,8 @@ Module gast
                                           taxonomy As list,
                                           Optional min_pct# = 0.97,
                                           Optional env As Environment = Nothing) As pipeline
-        Dim queries As pipeline
+
+        Dim queries As pipeline = pipeline.TryCreatePipeline(Of Query)(blastn, env)
 
         If queries.isError Then
             Return queries
