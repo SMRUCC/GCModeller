@@ -2,6 +2,7 @@
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports VB = Microsoft.VisualBasic.Language.Runtime
 
 Public Module Maps
@@ -38,5 +39,27 @@ Public Module Maps
                  End Function)
 
         Call base.saveRDS(mapList, file:=saveRds)
+    End Sub
+
+    <Extension>
+    Public Sub WriteReactions(reactions As IEnumerable(Of ReactionTable), saveRDS As String)
+        Dim reactionList = base.lapply(
+            x:=reactions,
+            FUN:=Function(reaction)
+                     With New VB
+                         Return base.list(
+                            !id = reaction.entry,
+                            !name = reaction.name,
+                            !formula = reaction.definition,
+                            !EC = reaction.EC,
+                            !KO = reaction.KO,
+                            !geneNames = reaction.geneNames,
+                            !substrates = reaction.substrates,
+                            !products = reaction.products
+                         )
+                     End With
+                 End Function)
+
+        Call base.saveRDS(reactionList, file:=saveRDS)
     End Sub
 End Module
