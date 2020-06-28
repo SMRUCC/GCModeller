@@ -7,6 +7,7 @@ Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' toolkit for handle ptf annotation data set
@@ -41,5 +42,27 @@ Module ptfKit
                             finalize:=tryClose
                         )
                     End Function)
+    End Function
+
+    <ExportAPI("save.ptf")>
+    <RApiReturn(GetType(Boolean))>
+    Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim stream = GetFileStream(file, FileAccess.Write, env)
+
+        If stream Like GetType(Message) Then
+            Return stream.TryCast(Of Message)
+        End If
+
+        Dim tryClose = Sub()
+                           If TypeOf file Is String Then
+                               Try
+                                   Call stream.TryCast(Of Stream).Close()
+                               Catch ex As Exception
+
+                               End Try
+                           End If
+                       End Sub
+
+
     End Function
 End Module

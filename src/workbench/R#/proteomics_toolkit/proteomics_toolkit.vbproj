@@ -171,6 +171,10 @@
       <Project>{61fe6226-7b01-4181-ae04-2eef599de96e}</Project>
       <Name>Proteomics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
+      <Name>Bio.Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>
