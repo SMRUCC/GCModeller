@@ -19,7 +19,7 @@ Public Module Maps
                             !KO = map.GetMembers.Where(Function(id) id.IsPattern("K\d+")).Distinct.ToArray,
                             !reactins = map.GetMembers.Where(Function(id) id.IsPattern("R\d+")).Distinct.ToArray,
                             !compounds = map.GetMembers.Where(Function(id) id.IsPattern("[CGD]\d+")).Distinct.ToArray,
-                            !shapes = base.lapply(
+                            !shapes = "&" & base.lapply(
                                 x:=map.shapes,
                                 key:=Function(a) a.href,
                                 FUN:=Function(a)
