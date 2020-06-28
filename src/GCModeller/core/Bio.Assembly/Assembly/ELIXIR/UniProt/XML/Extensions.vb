@@ -138,7 +138,7 @@ Namespace Assembly.Uniprot.XML
                    .Where(Function(ref) ref.type = "NCBI Taxonomy") _
                    .FirstOrDefault
 
-                If ncbi Is Nothing Then
+                If Not ncbi Is Nothing Then
                     Return ncbi.id
                 Else
                     Return Nothing
