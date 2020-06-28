@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
 ''' 
@@ -186,6 +187,22 @@ Public Module kegg_repository
         Else
             Return {}
         End If
+    End Function
+
+    <ExportAPI("save.KEGG_pathway")>
+    Public Function SaveKEGGPathway(pathway As Object, file$, Optional env As Environment = Nothing) As Object
+        Dim pathwayCollection As REnv.Object.pipeline = REnv.Object.pipeline.TryCreatePipeline(Of Pathway)(pathway, env)
+
+        If pathwayCollection.isError Then
+            Return pathwayCollection.getError
+        End If
+
+        Return New XmlList(Of Pathway) With {
+            .items = pathwayCollection _
+                .populates(Of Pathway) _
+                .ToArray
+        }.GetXml _
+         .SaveTo(file)
     End Function
 
     ''' <summary>
