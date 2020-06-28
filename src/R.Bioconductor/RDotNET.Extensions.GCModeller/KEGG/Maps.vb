@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports VB = Microsoft.VisualBasic.Language.Runtime
 

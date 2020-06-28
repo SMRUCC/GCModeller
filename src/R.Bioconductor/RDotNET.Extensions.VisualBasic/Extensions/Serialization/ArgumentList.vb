@@ -41,11 +41,12 @@ Public Module ArgumentList
             ' 所以会需要删除一下最末尾的0字节的字符
             Dim str As String = CStr(f.Value).Trim(ASCII.NUL)
 
-            If Not str.StringEmpty AndAlso str.Length <= 32 AndAlso base.exists(str) Then
+            ' &name means symbol reference, otherwise means a normal string value.
+            If Not str.StringEmpty AndAlso str.Length <= 32 AndAlso str.First = "&" Then
                 ' do variable value assign by variable name
                 Return New NamedValue(Of String) With {
                     .Name = f.Name,
-                    .Value = str
+                    .Value = str.Substring(1)
                 }
             Else
                 ' is string value
