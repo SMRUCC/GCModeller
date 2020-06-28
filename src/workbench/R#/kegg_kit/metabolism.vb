@@ -44,14 +44,15 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.GCModeller
+Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
-Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Annotation.Ptf
-Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' The kegg metabolism model toolkit
@@ -117,7 +118,9 @@ Module metabolism
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("kegg.reconstruction")>
-    Public Function KEGGReconstruction(reference As Object, reactions As Object, annotations As Object,
+    Public Function KEGGReconstruction(<RRawVectorArgument> reference As Object,
+                                       <RRawVectorArgument> reactions As Object,
+                                       <RRawVectorArgument> annotations As Object,
                                        Optional min_cov As Double = 0.3,
                                        Optional env As Environment = Nothing) As pipeline
 

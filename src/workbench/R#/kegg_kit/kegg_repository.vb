@@ -190,7 +190,7 @@ Public Module kegg_repository
     End Function
 
     <ExportAPI("save.KEGG_pathway")>
-    Public Function SaveKEGGPathway(pathway As Object, file$, Optional env As Environment = Nothing) As Object
+    Public Function SaveKEGGPathway(<RRawVectorArgument> pathway As Object, file$, Optional env As Environment = Nothing) As Object
         Dim pathwayCollection As REnv.Object.pipeline = REnv.Object.pipeline.TryCreatePipeline(Of Pathway)(pathway, env)
 
         If pathwayCollection.isError Then
