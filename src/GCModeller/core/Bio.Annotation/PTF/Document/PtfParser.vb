@@ -1,4 +1,7 @@
 ﻿Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Text
 
 Namespace Ptf.Document
@@ -36,14 +39,16 @@ Namespace Ptf.Document
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function IterateAnnotations(file As Stream) As IEnumerable(Of ProteinAnnotation)
-            Using reader As New StreamReader(file)
-                For Each line As String In reader.ReadLine
-                    If line.StartsWith("#") Then
+            Using reader As New StreamReader(file, Encoding.UTF8, False, App.BufferSize)
+                Dim line As Value(Of String) = ""
+
+                Do While Not reader.EndOfStream
+                    If (line = reader.ReadLine) = String.Empty OrElse line.StartsWith("#") Then
                         ' 跳过文件头
                     Else
                         Yield ParseAnnotation(line)
                     End If
-                Next
+                Loop
             End Using
         End Function
 
