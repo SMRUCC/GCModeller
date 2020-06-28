@@ -107,7 +107,7 @@ Namespace gast
             Return $"{lineage} ({rank.ToString}={hits})"
         End Function
 
-        Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+        Shared ReadOnly DescRanks$() = NcbiTaxonomyTree.stdranks.objects.Reverse.ToArray
 
         ''' <summary>
         ''' Alignment hits by blastn
