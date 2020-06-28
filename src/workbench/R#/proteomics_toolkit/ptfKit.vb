@@ -48,16 +48,18 @@ Module ptfKit
     <RApiReturn(GetType(Boolean))>
     Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional env As Environment = Nothing) As Object
         Dim stream = GetFileStream(file, FileAccess.Write, env)
+        Dim anno As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
 
+        If anno.isError Then
+            Return anno.getError
+        End If
         If stream Like GetType(Message) Then
             Return stream.TryCast(Of Message)
         End If
 
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
             Call PtfFile.WriteStream(
-                annotation:=pipeline _
-                    .TryCreatePipeline(Of ProteinAnnotation)(ptf, env) _
-                    .populates(Of ProteinAnnotation),
+                annotation:=anno.populates(Of ProteinAnnotation),
                 file:=writer
             )
         End Using
