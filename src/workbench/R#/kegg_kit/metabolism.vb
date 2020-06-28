@@ -51,6 +51,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Analysis.KEGG
 
 ''' <summary>
 ''' The kegg metabolism model toolkit
@@ -139,6 +140,12 @@ Module metabolism
         End If
 
         Dim rxnIndex = rxnList.populates(Of ReactionTable).CreateIndex
+        Dim genes As ProteinAnnotation() = proteins.populates(Of ProteinAnnotation).ToArray
+
+        Return maps _
+            .populates(Of Map) _
+            .KEGGReconstruction(genes, min_cov) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 End Module
 
