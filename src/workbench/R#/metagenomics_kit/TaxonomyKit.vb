@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
@@ -63,9 +64,7 @@ Module TaxonomyKit
 
     Private Function lineageTable(x As Object, args As list, env As Environment) As dataframe
         Dim tree As NcbiTaxonomyTree = DirectCast(x, NcbiTaxonomyTree)
-        Dim ncbi_id As Array = tree.Taxonomy.Keys.ToArray
-        Dim taxonomy = ncbi_id _
-            .AsObjectEnumerator(Of Integer) _
+        Dim taxonomy = tree.Taxonomy.Keys _
             .Select(Function(id)
                         Return tree _
                             .GetAscendantsWithRanksAndNames(id, True) _
@@ -76,11 +75,45 @@ Module TaxonomyKit
                                     End Function)
                     End Function) _
             .ToArray
+        Dim ncbi_taxid As Array = taxonomy.Select(Function(t) t.ncbi_taxid).ToArray
+        Dim kingdom As Array = taxonomy.Select(Function(t) t.kingdom).ToArray
+        Dim phylum As Array = taxonomy.Select(Function(t) t.phylum).ToArray
+        Dim [class] As Array = taxonomy.Select(Function(t) t.class).ToArray
+        Dim order As Array = taxonomy.Select(Function(t) t.order).ToArray
+        Dim family As Array = taxonomy.Select(Function(t) t.family).ToArray
+        Dim genus As Array = taxonomy.Select(Function(t) t.genus).ToArray
+        Dim species As Array = taxonomy.Select(Function(t) t.species).ToArray
 
+        Return New dataframe With {
+            .columns = New Dictionary(Of String, Array) From {
+                {NameOf(ncbi_taxid), ncbi_taxid},
+                {NameOf(kingdom), kingdom},
+                {NameOf(phylum), phylum},
+                {NameOf([class]), [class]},
+                {NameOf(order), order},
+                {NameOf(family), family},
+                {NameOf(genus), genus},
+                {NameOf(species), species}
+            }
+        }
     End Function
 
     Private Function printTaxonomy(taxonomy As Taxonomy) As String
         Return $"<{taxonomy.lowestLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
+    End Function
+
+    <ExportAPI("biom.string")>
+    <RApiReturn(GetType(String))>
+    Public Function TaxonomyBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
+
+        If list.isError Then
+            Return list.getError
+        Else
+            Return list.populates(Of Taxonomy) _
+                .Select(Function(tax) tax.ToString(BIOMstyle:=True)) _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>
