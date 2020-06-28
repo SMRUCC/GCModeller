@@ -44,6 +44,22 @@ Module ptfKit
                     End Function)
     End Function
 
+    <ExportAPI("filter")>
+    Public Function filterBykey(<RRawVectorArgument> ptf As Object, key$, Optional env As Environment = Nothing) As pipeline
+        Dim upstream As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+        If upstream.isError Then
+            Return upstream
+        End If
+
+        Return upstream _
+            .populates(Of ProteinAnnotation) _
+            .Where(Function(protein)
+                       Return protein.attributes.ContainsKey(key)
+                   End Function) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
     <ExportAPI("save.ptf")>
     <RApiReturn(GetType(Boolean))>
     Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional env As Environment = Nothing) As Object
