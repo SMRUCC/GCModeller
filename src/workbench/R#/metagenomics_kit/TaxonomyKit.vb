@@ -63,8 +63,20 @@ Module TaxonomyKit
 
     Private Function lineageTable(x As Object, args As list, env As Environment) As dataframe
         Dim tree As NcbiTaxonomyTree = DirectCast(x, NcbiTaxonomyTree)
-        Dim id As Array = tree.Taxonomy.Keys.ToArray
-        Dim taxonomy = id.AsObjectEnumerator(Of Integer)
+        Dim ncbi_id As Array = tree.Taxonomy.Keys.ToArray
+        Dim taxonomy = ncbi_id _
+            .AsObjectEnumerator(Of Integer) _
+            .Select(Function(id)
+                        Return tree _
+                            .GetAscendantsWithRanksAndNames(id, True) _
+                            .DoCall(Function(line)
+                                        Return New Taxonomy(line) With {
+                                            .ncbi_taxid = id
+                                        }
+                                    End Function)
+                    End Function) _
+            .ToArray
+
     End Function
 
     Private Function printTaxonomy(taxonomy As Taxonomy) As String

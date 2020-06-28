@@ -63,6 +63,7 @@ Namespace Metagenomics
     <XmlType("taxonomy", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
     Public Class Taxonomy
 
+        <XmlAttribute> Public Property ncbi_taxid As String
         <XmlAttribute> Public Property scientificName As String
 
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
