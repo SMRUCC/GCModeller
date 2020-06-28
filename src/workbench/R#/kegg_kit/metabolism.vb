@@ -145,6 +145,9 @@ Module metabolism
         Return maps _
             .populates(Of Map) _
             .KEGGReconstruction(genes, min_cov) _
+            .Select(Function(pathway)
+                        Return pathway.AssignCompounds(rxnIndex)
+                    End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 End Module
