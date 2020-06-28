@@ -130,6 +130,8 @@ Namespace Assembly.KEGG.WebServices
                     ' 查看这张pathway的分类信息
                     ' 不进行绘制
                     Return "null"
+                ElseIf title.StartsWith("PATH:") Then
+                    Return NameOf(BriteHEntry.Pathway)
                 Else
                     Throw New NotImplementedException(Me.GetXml)
                 End If
