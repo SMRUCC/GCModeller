@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D338A99B-7875-4778-99E3-20E6A2C8955C}</ProjectGuid>
+    <ProjectGuid>{553C17F9-D6A1-437B-B1D1-B15E848B5856}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>proteomics_toolkit</RootNamespace>
-    <AssemblyName>proteomics_toolkit</AssemblyName>
+    <RootNamespace>bioconductor</RootNamespace>
+    <AssemblyName>bioconductor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,17 +19,20 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU' ">
+    <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -49,36 +51,16 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64' ">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -88,21 +70,22 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\GCModeller%28UNIX-Release_X64%29\</OutputPath>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>proteomics_toolkit.xml</DocumentationFile>
+    <DocumentationFile>bioconductor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -129,12 +112,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ptfKit.vb" />
-    <Compile Include="labelFree.vb" />
+    <Compile Include="kegg.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -167,41 +150,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.vbproj">
-      <Project>{61fe6226-7b01-4181-ae04-2eef599de96e}</Project>
-      <Name>Proteomics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
-      <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
-      <Name>Bio.Annotation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
-      <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
+      <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
       <Name>R</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.GCModeller\RDotNET.Extensions.GCModeller.vbproj">
+      <Project>{45E1BC98-0D46-46BB-89A8-92E11EBE8798}</Project>
+      <Name>RDotNET.Extensions.GCModeller</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
-      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
-      <Name>ExperimentDesigner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

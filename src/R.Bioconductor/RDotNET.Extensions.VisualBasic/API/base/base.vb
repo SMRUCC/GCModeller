@@ -70,7 +70,7 @@ Namespace API
     ''' For a complete list of functions, use ``library(help = "base")``.
     ''' </summary>
     ''' 
-    <Package("R.base")>
+    <Package("Rinterop.base")>
     Public Module base
 
         <ExportAPI("assign")>
@@ -782,6 +782,57 @@ Namespace API
 
                 Return False
             End Try
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' Serialization Interface for Single Objects
+        ''' 
+        ''' Functions to write a single R object to a file, and to restore it.
+        ''' </summary>
+        ''' <param name="object">R object to serialize.</param>
+        ''' <param name="file">a connection or the name of the file where the 
+        ''' R object is saved to or read from.</param>
+        ''' <param name="ascii">a logical. If TRUE or NA, an ASCII representation 
+        ''' is written; otherwise (default), a binary one is used. See the 
+        ''' comments in the help for save.</param>
+        ''' <param name="version">the workspace format version to use. NULL 
+        ''' specifies the current default version (3). The only other supported 
+        ''' value is 2, the default from R 1.4.0 to R 3.5.0.</param>
+        ''' <param name="compress">a logical specifying whether saving to a named 
+        ''' file is to use "gzip" compression, or one of "gzip", "bzip2" or "xz" 
+        ''' to indicate the type of compression to be used. Ignored if file is a 
+        ''' connection.</param>
+        ''' <param name="refhook">a hook function for handling reference objects.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function saveRDS([object] As String,
+                                Optional file$ = "",
+                                Optional ascii As Boolean = False,
+                                Optional version$ = "NULL",
+                                Optional compress As Boolean = True,
+                                Optional refhook$ = "NULL") As Boolean
+
+            If file.DirectoryExists Then
+
+                ' 2018-6-21
+                ' 如果在指定的位置存在一个同名的文件夹，将会产生
+                ' can not open the connection的错误
+                '
+                ' 在这里给出错误信息
+                Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
+
+            Else
+                Call file.ParentPath.MkDIR
+            End If
+
+            SyncLock R
+                With R
+                    .call = $"saveRDS({[object]}, file = {Rstring(file.UnixPath)}, ascii = {ascii.λ}, version = {version},
+        compress = {compress.λ}, refhook = {refhook});"
+                End With
+            End SyncLock
 
             Return True
         End Function
