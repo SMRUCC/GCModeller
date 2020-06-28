@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -6,7 +7,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
@@ -52,6 +56,70 @@ Module PFSNetAnalysis
     <ExportAPI("load.pathway_network")>
     Public Function loadPathwayNetwork(file As String) As GraphEdge()
         Return GraphEdge.LoadData(file)
+    End Function
+
+    <ExportAPI("build.pathway_network")>
+    Public Function buildPathwayNetwork(maps As Map(), <RRawVectorArgument> reactions As Object, Optional env As Environment = Nothing) As pipeline
+        Dim reactionTable As ReactionTable()
+
+        If reactions Is Nothing Then
+            Return Internal.debug.stop({"the required KEGG reaction network data can not be nothing!"}, env)
+        ElseIf TypeOf reactions Is ReactionTable() Then
+            reactionTable = DirectCast(reactions, ReactionTable())
+        ElseIf TypeOf reactions Is pipeline AndAlso DirectCast(reactions, pipeline).elementType Like GetType(ReactionTable) Then
+            reactionTable = DirectCast(reactions, pipeline).populates(Of ReactionTable).ToArray
+        ElseIf TypeOf reactions Is vector AndAlso DirectCast(reactions, vector).elementType Like GetType(ReactionTable) Then
+            reactionTable = DirectCast(reactions, vector).data.AsObjectEnumerator(Of ReactionTable).ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(ReactionTable), reactions.GetType, env), env)
+        End If
+
+        Return maps _
+            .ReferenceCompoundNetwork(reactionTable) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    <ExportAPI("save.pathway_network")>
+    <RApiReturn(GetType(Boolean))>
+    Public Function savePathwayNetwork(<RRawVectorArgument> ggi As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim stream As Stream
+        Dim network As GraphEdge()
+
+        If file Is Nothing Then
+            Return Internal.debug.stop({"file output can not be nothing!"}, env)
+        ElseIf TypeOf file Is String Then
+            stream = DirectCast(file, String).Open(, doClear:=True)
+        ElseIf TypeOf file Is Stream Then
+            stream = DirectCast(file, Stream)
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
+        End If
+
+        If ggi Is Nothing Then
+            Return Internal.debug.stop("the required data source can not be nothing!", env)
+        ElseIf TypeOf ggi Is GraphEdge() Then
+            network = DirectCast(ggi, GraphEdge())
+        ElseIf TypeOf ggi Is pipeline Then
+            network = DirectCast(ggi, pipeline).populates(Of GraphEdge).ToArray
+        ElseIf TypeOf ggi Is vector Then
+            network = DirectCast(ggi, vector).data.AsObjectEnumerator(Of GraphEdge).ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(GraphEdge), ggi.GetType, env), env)
+        End If
+
+        Call GraphEdgeConnector.SaveTabular(network, stream)
+
+        Try
+            Call stream.Flush()
+
+            If TypeOf file Is String Then
+                Call stream.Close()
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Return True
     End Function
 
     ''' <summary>
