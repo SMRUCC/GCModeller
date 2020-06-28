@@ -41,11 +41,12 @@ Public Module ArgumentList
             ' 所以会需要删除一下最末尾的0字节的字符
             Dim str As String = CStr(f.Value).Trim(ASCII.NUL)
 
-            If Not str.StringEmpty AndAlso base.exists(str) Then
+            ' &name means symbol reference, otherwise means a normal string value.
+            If Not str.StringEmpty AndAlso str.Length <= 32 AndAlso str.First = "&" Then
                 ' do variable value assign by variable name
                 Return New NamedValue(Of String) With {
                     .Name = f.Name,
-                    .Value = str
+                    .Value = str.Substring(1)
                 }
             Else
                 ' is string value
@@ -60,6 +61,12 @@ Public Module ArgumentList
             Return New NamedValue(Of String) With {.Name = f.Name, .Value = f.Value.ToString.ToUpper}
         ElseIf f Like GetType(IEnumerable(Of Boolean)) Then
             Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Boolean)).ToArray)}
+        ElseIf f Like GetType(IEnumerable(Of Double)) Then
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Double)).ToArray)}
+        ElseIf f Like GetType(IEnumerable(Of Integer)) Then
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Integer)).ToArray)}
+        ElseIf f Like GetType(IEnumerable(Of Long)) Then
+            Return New NamedValue(Of String) With {.Name = f.Name, .Value = base.c(DirectCast(f.Value, IEnumerable(Of Long)).ToArray)}
         Else
             Return New NamedValue(Of String) With {.Name = f.Name, .Value = Scripting.ToString(f.Value, "NULL")}
         End If

@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::0f504e3ba190c9a3c7ec302dfc0e519c, core\Bio.Assembly\Assembly\KEGG\Web\Map\Area.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Area
-    ' 
-    '         Properties: coords, href, IDVector, Names, Rectangle
-    '                     shape, title, Type
-    ' 
-    '         Function: Parse, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Area
+' 
+'         Properties: coords, href, IDVector, Names, Rectangle
+'                     shape, title, Type
+' 
+'         Function: Parse, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -121,7 +121,7 @@ Namespace Assembly.KEGG.WebServices
                         ElseIf shape = "poly" Then
                             Return "Reaction"
                         Else
-                            Throw New NotImplementedException(Me.GetXml)
+                            Return "unknown"
                         End If
                     End With
                 ElseIf InStr(href, "/kegg-bin/show_pathway") = 1 Then
@@ -130,8 +130,10 @@ Namespace Assembly.KEGG.WebServices
                     ' 查看这张pathway的分类信息
                     ' 不进行绘制
                     Return "null"
+                ElseIf Not title.StringEmpty AndAlso title.StartsWith("PATH:") Then
+                    Return NameOf(BriteHEntry.Pathway)
                 Else
-                    Throw New NotImplementedException(Me.GetXml)
+                    Return "unknown"
                 End If
             End Get
         End Property

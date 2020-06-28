@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports VB = Microsoft.VisualBasic.Language.Runtime
 
 Public Module Maps
@@ -16,9 +18,9 @@ Public Module Maps
                             !name = map.Name,
                             !blank = map.PathwayImage.TrimNewLine.Replace(" ", ""),
                             !KO = map.GetMembers.Where(Function(id) id.IsPattern("K\d+")).Distinct.ToArray,
-                            !reactins = map.GetMembers.Where(Function(id) id.IsPattern("R\d+")).Distinct.ToArray,
+                            !reactions = map.GetMembers.Where(Function(id) id.IsPattern("R\d+")).Distinct.ToArray,
                             !compounds = map.GetMembers.Where(Function(id) id.IsPattern("[CGD]\d+")).Distinct.ToArray,
-                            !shapes = base.lapply(
+                            !shapes = "&" & base.lapply(
                                 x:=map.shapes,
                                 key:=Function(a) a.href,
                                 FUN:=Function(a)
@@ -37,5 +39,27 @@ Public Module Maps
                  End Function)
 
         Call base.saveRDS(mapList, file:=saveRds)
+    End Sub
+
+    <Extension>
+    Public Sub WriteReactions(reactions As IEnumerable(Of ReactionTable), saveRDS As String)
+        Dim reactionList = base.lapply(
+            x:=reactions,
+            FUN:=Function(reaction)
+                     With New VB
+                         Return base.list(
+                            !id = reaction.entry,
+                            !name = reaction.name,
+                            !formula = reaction.definition,
+                            !EC = reaction.EC,
+                            !KO = reaction.KO,
+                            !geneNames = reaction.geneNames,
+                            !substrates = reaction.substrates,
+                            !products = reaction.products
+                         )
+                     End With
+                 End Function)
+
+        Call base.saveRDS(reactionList, file:=saveRDS)
     End Sub
 End Module

@@ -70,7 +70,7 @@ Namespace API
     ''' For a complete list of functions, use ``library(help = "base")``.
     ''' </summary>
     ''' 
-    <Package("R.base")>
+    <Package("Rinterop.base")>
     Public Module base
 
         <ExportAPI("assign")>

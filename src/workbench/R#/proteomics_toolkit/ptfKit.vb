@@ -82,4 +82,15 @@ Module ptfKit
 
         Return True
     End Function
+
+    <ExportAPI("extract.taxonomy")>
+    Public Function NCBITaxonomy(<RRawVectorArgument> ptf As Object, Optional env As Environment = Nothing) As Object
+        Dim anno As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+        If anno.isError Then
+            Return anno.getError
+        End If
+
+        Return anno.populates(Of ProteinAnnotation).Where(Function(protein) protein.attributes.ContainsKey(""))
+    End Function
 End Module
