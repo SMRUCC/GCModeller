@@ -38,7 +38,7 @@ Namespace Ptf.Document
         Public Iterator Function IterateAnnotations(file As Stream) As IEnumerable(Of ProteinAnnotation)
             Using reader As New StreamReader(file)
                 For Each line As String In reader.ReadLine
-                    If line.StartsWith("#") Then
+                    If line = String.Empty OrElse line.StartsWith("#") Then
                         ' 跳过文件头
                     Else
                         Yield ParseAnnotation(line)
