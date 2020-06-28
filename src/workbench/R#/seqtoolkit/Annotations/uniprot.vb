@@ -58,13 +58,19 @@ Module uniprot
     ''' <summary>
     ''' open a uniprot database file
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="files"></param>
     ''' <param name="isUniParc"></param>
     ''' <returns></returns>
     <ExportAPI("open.uniprot")>
-    Public Function openUniprotXmlAssembly(file As String, Optional isUniParc As Boolean = False) As pipeline
+    Public Function openUniprotXmlAssembly(<RRawVectorArgument> files As Object, Optional isUniParc As Boolean = False, Optional env As Environment = Nothing) As pipeline
+        Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
+
+        If fileList.isError Then
+            Return fileList
+        End If
+
         Return UniProtXML _
-            .EnumerateEntries(file, isUniParc) _
+            .EnumerateEntries(fileList.populates(Of String).ToArray, isUniParc) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 

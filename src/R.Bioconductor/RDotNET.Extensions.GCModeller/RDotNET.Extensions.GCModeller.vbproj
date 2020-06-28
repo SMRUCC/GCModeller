@@ -139,11 +139,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>RDotNET.Extensions.GCModeller.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -228,6 +230,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KEGG\Maps.vb" />
     <Compile Include="KEGG\GSEABackground.vb" />
     <Compile Include="KEGG\OrganismCompounds.vb" />
     <Compile Include="KEGG\PathwayMap.vb" />
@@ -270,6 +273,10 @@
     <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>

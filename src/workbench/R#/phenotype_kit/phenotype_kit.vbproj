@@ -199,6 +199,10 @@
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
