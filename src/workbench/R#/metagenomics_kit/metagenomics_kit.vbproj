@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="metagenomicsKit.vb" />
+    <Compile Include="gast.vb" />
     <Compile Include="taxonomyKit.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -175,6 +176,10 @@
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98B68C31-EA5A-4B07-A748-3A009FABFA39}</Project>
       <Name>Microbiome</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
