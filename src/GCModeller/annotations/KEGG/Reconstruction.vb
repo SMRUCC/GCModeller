@@ -10,6 +10,22 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Public Module Reconstruction
 
     <Extension>
+    Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable)) As Dictionary(Of String, ReactionTable())
+        Return reactions _
+            .Select(Function(r)
+                        Return {r.entry} _
+                            .JoinIterates(r.KO) _
+                            .Select(Function(id) (id, r))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(obj) obj.id) _
+            .ToDictionary(Function(id) id.Key,
+                          Function(g)
+                              Return g.Select(Function(obj) obj.r).ToArray
+                          End Function)
+    End Function
+
+    <Extension>
     Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As Pathway
         Dim fluxInMap = pathway.modules _
             .Where(Function(id) reactions.ContainsKey(id.name)) _

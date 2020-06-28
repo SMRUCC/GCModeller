@@ -178,9 +178,9 @@
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj">
       <Project>{05C0D4B3-D9DF-43AB-9781-FDFDBEE86729}</Project>
