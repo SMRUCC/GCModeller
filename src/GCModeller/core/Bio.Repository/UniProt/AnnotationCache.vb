@@ -47,7 +47,7 @@ Public Module AnnotationCache
     <Extension>
     Public Sub SplitAnnotations(proteins As IEnumerable(Of ProteinAnnotation), key As String, outputdir As String)
         Dim [handles] As New Dictionary(Of String, StreamWriter) From {
-            {"na", $"{outputdir}/na.ptf".OpenWriter}
+            {"na", $"{outputdir}/na.ptf".OpenWriter(bufferSize:=1024)}
         }
 
         For Each protein As ProteinAnnotation In proteins
@@ -56,7 +56,7 @@ Public Module AnnotationCache
             Else
                 For Each name As String In protein.attributes(key)
                     If Not [handles].ContainsKey(name) Then
-                        [handles].Add(name, $"{outputdir}/{name.NormalizePathString}.ptf".OpenWriter)
+                        [handles].Add(name, $"{outputdir}/{name.NormalizePathString}.ptf".OpenWriter(bufferSize:=1024))
                     End If
 
                     [handles](name).WriteLine(PtfFile.ToString(protein))
