@@ -28,8 +28,8 @@ Module gast
             Return queries
         End If
 
-        Dim OTUTable = OTUs.slots.ToDictionary(Function(a) a.Key, Function(a) DirectCast(a.Value, NamedValue(Of Integer)))
-        Dim taxonomyTable = taxonomy.slots.ToDictionary(Function(a) a.Key, Function(a) DirectCast(a.Value, otu_taxonomy))
+        Dim OTUTable = OTUs.AsGeneric(Of NamedValue(Of Integer))(env)
+        Dim taxonomyTable = taxonomy.AsGeneric(Of otu_taxonomy)(env)
 
         Return queries _
             .populates(Of Query) _
