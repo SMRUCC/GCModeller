@@ -53,16 +53,15 @@ Module ptfKit
             Return stream.TryCast(Of Message)
         End If
 
-        Dim tryClose = Sub()
-                           If TypeOf file Is String Then
-                               Try
-                                   Call stream.TryCast(Of Stream).Close()
-                               Catch ex As Exception
+        Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
+            Call PtfFile.WriteStream(
+                annotation:=pipeline _
+                    .TryCreatePipeline(Of ProteinAnnotation)(ptf, env) _
+                    .populates(Of ProteinAnnotation),
+                file:=writer
+            )
+        End Using
 
-                               End Try
-                           End If
-                       End Sub
-
-
+        Return True
     End Function
 End Module
