@@ -228,6 +228,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KEGG\Maps.vb" />
     <Compile Include="KEGG\GSEABackground.vb" />
     <Compile Include="KEGG\OrganismCompounds.vb" />
     <Compile Include="KEGG\PathwayMap.vb" />
