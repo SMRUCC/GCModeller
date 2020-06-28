@@ -147,7 +147,7 @@ Namespace Metagenomics
             Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
         End Sub
 
-        Shared ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+        Shared ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Objects.Reverse.ToArray
 
         Sub New(lineage$())
             Call Me.New(
