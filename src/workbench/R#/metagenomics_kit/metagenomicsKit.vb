@@ -1,49 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::5ebb14ab9947fa842306517340211958, R#\metagenomics_kit\metagenomicsKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module metagenomicsKit
-    ' 
-    '     Function: createEmptyCompoundOriginProfile
-    ' 
-    ' /********************************************************************************/
+' Module metagenomicsKit
+' 
+'     Function: createEmptyCompoundOriginProfile
+' 
+' /********************************************************************************/
 
 #End Region
 
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Model.Network.Microbiome
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 <Package("metagenomics_kit")>
 Module metagenomicsKit
@@ -51,6 +56,31 @@ Module metagenomicsKit
     <ExportAPI("compounds.origin.profile")>
     Public Function createEmptyCompoundOriginProfile(taxonomy As NcbiTaxonomyTree, organism As String) As CompoundOrigins
         Return CompoundOrigins.CreateEmptyCompoundsProfile(taxonomy, organism)
+    End Function
+
+    <ExportAPI("compounds.origin")>
+    Public Function CompoundOrigin(annotations As list, Optional env As Environment = Nothing) As list
+        Dim compounds As New Dictionary(Of String, List(Of String))
+
+        For Each organism As KeyValuePair(Of String, Pathway()) In annotations.AsGeneric(Of Pathway())(env)
+            For Each map As Pathway In organism.Value
+                For Each compound As NamedValue In map.compound.SafeQuery
+                    If Not compounds.ContainsKey(compound.name) Then
+                        Call compounds.Add(compound.name, New List(Of String))
+                    End If
+
+                    Call compounds(compound.name).Add(organism.Key)
+                Next
+            Next
+        Next
+
+        Return New list With {
+            .slots = compounds _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.Distinct.ToArray)
+                              End Function)
+        }
     End Function
 End Module
 

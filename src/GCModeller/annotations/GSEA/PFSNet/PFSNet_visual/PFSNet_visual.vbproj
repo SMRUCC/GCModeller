@@ -212,9 +212,9 @@
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\..\..\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
     <ProjectReference Include="..\PFSNet\PFSNet.vbproj">
       <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>

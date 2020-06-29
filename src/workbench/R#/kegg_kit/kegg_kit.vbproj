@@ -171,6 +171,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\KEGG\KEGG.vbproj">
+      <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
+      <Name>Bio.Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
@@ -179,9 +187,9 @@
       <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
