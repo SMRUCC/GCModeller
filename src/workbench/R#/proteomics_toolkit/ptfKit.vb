@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -92,5 +93,18 @@ Module ptfKit
         End If
 
         Return anno.populates(Of ProteinAnnotation).Where(Function(protein) protein.attributes.ContainsKey(""))
+    End Function
+
+    <ExportAPI("ptf.split")>
+    Public Function split(<RRawVectorArgument> ptf As Object, key$, outputdir$, Optional env As Environment = Nothing) As Object
+        Dim anno As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+        If anno.isError Then
+            Return anno.getError
+        End If
+
+        Call anno.populates(Of ProteinAnnotation).SplitAnnotations(key, outputdir)
+
+        Return True
     End Function
 End Module

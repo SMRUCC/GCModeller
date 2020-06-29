@@ -693,7 +693,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim taxonomyTree = New NcbiTaxonomyTree(args <= "/taxonomy")
         Dim out$ = [in].TrimSuffix
         Dim headers As List(Of String) = {"title", "taxid"} _
-            .JoinIterates(NcbiTaxonomyTree.stdranks.Reverse) _
+            .JoinIterates(NcbiTaxonomyTree.stdranks.Objects.Reverse) _
             .AsList
         Dim grep As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args <= "/accid_grep")
         Dim accid_grep As TextGrepMethod = grep.PipelinePointer

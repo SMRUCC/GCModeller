@@ -43,4 +43,30 @@ Public Module AnnotationCache
             .attributes = dbxref
         }
     End Function
+
+    <Extension>
+    Public Sub SplitAnnotations(proteins As IEnumerable(Of ProteinAnnotation), key As String, outputdir As String)
+        Dim [handles] As New Dictionary(Of String, StreamWriter) From {
+            {"na", $"{outputdir}/na.ptf".OpenWriter(bufferSize:=1024)}
+        }
+
+        For Each protein As ProteinAnnotation In proteins
+            If Not protein.attributes.ContainsKey(key) Then
+                Call [handles]("na").WriteLine(PtfFile.ToString(protein))
+            Else
+                For Each name As String In protein.attributes(key)
+                    If Not [handles].ContainsKey(name) Then
+                        [handles].Add(name, $"{outputdir}/{name.NormalizePathString}.ptf".OpenWriter(bufferSize:=1024))
+                    End If
+
+                    [handles](name).WriteLine(PtfFile.ToString(protein))
+                Next
+            End If
+        Next
+
+        For Each key In [handles].Keys
+            Call [handles](key).Flush()
+            Call [handles](key).Dispose()
+        Next
+    End Sub
 End Module

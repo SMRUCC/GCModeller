@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::af933b9cfc7c0937122bcdee835c50b3, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class NcbiTaxonomyTree
-    ' 
-    '         Properties: Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
-    '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
-    '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
-    '                   preorderTraversal
-    ' 
-    '         Sub: loadTree
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class NcbiTaxonomyTree
+' 
+'         Properties: Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
+'                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
+'                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
+'                   preorderTraversal
+' 
+'         Sub: loadTree
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -95,7 +96,7 @@ Namespace Assembly.NCBI.Taxonomy
         ''' + phylum
         ''' + superkingdom
         ''' </summary>
-        Public Shared ReadOnly stdranks$() = {
+        Public Shared ReadOnly stdranks As Index(Of String) = {
             "species",
             "genus",
             "family",
@@ -398,27 +399,26 @@ Namespace Assembly.NCBI.Taxonomy
             Dim lineage As New List(Of TaxonomyNode) From {
                 New TaxonomyNode With {
                     .taxid = taxid,
-                    .rank = Taxonomy(taxid).rank,
-                    .name = Taxonomy(taxid).name
+                    .rank = _Taxonomy(taxid).rank,
+                    .name = _Taxonomy(taxid).name
                 }
             }
 
-            Do While Taxonomy(taxid).parent IsNot Nothing
-                taxid = Taxonomy(taxid).parent
+            Do While _Taxonomy(taxid).parent IsNot Nothing
+                taxid = _Taxonomy(taxid).parent
                 lineage += New TaxonomyNode With {
                     .taxid = taxid,
-                    .rank = Taxonomy(taxid).rank,
-                    .name = Taxonomy(taxid).name
+                    .rank = _Taxonomy(taxid).rank,
+                    .name = _Taxonomy(taxid).name
                 }
             Loop
 
             If only_std_ranks Then
-
                 Dim std_lineage = LinqAPI.MakeList(Of TaxonomyNode) _
  _
                     () <= From lvl As TaxonomyNode
                           In lineage
-                          Where Array.IndexOf(stdranks, lvl.rank) > -1
+                          Where lvl.rank Like stdranks
                           Select lvl
 
                 Dim lastlevel As Integer = 0

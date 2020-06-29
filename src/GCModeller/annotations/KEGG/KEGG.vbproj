@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DEPsKOHeatmap.vb" />
+    <Compile Include="Reconstruction.vb" />
     <Compile Include="PathwayMap.vb" />
     <Compile Include="KEGGOrthology.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -292,6 +293,10 @@
       <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>
       <Name>Microarray</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
+      <Name>Bio.Annotation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -300,9 +305,9 @@
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>

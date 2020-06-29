@@ -63,6 +63,7 @@ Namespace Metagenomics
     <XmlType("taxonomy", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
     Public Class Taxonomy
 
+        <XmlAttribute> Public Property ncbi_taxid As String
         <XmlAttribute> Public Property scientificName As String
 
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
@@ -146,7 +147,7 @@ Namespace Metagenomics
             Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
         End Sub
 
-        Shared ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+        Shared ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Objects.Reverse.ToArray
 
         Sub New(lineage$())
             Call Me.New(
