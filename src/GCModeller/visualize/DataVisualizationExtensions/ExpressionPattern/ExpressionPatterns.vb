@@ -1,7 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 ''' <summary>
@@ -15,6 +20,8 @@ Public Module ExpressionPatterns
     ''' <param name="matrix"></param>
     ''' <param name="dim">``[row, columns]``</param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function KMeansCluster(matrix As Matrix, [dim] As Integer()) As Matrix()()
         Dim nsize As Integer = [dim](Scan0) * [dim](1)
         Dim sampleNames = matrix.sampleID
@@ -64,5 +71,44 @@ Public Module ExpressionPatterns
         If row > 0 Then
             Yield row.PopAll
         End If
+    End Function
+
+    Public Function DrawMatrix(raw As Matrix,
+                               Optional dim$ = "3,3",
+                               Optional size$ = "2400,2100",
+                               Optional padding$ = g.DefaultPadding,
+                               Optional bg$ = "white") As GraphicsData
+
+        Dim matrix As Matrix()() = raw.KMeansCluster(dim$.SizeParser.ToArray)
+
+        Return g.GraphicsPlots(
+            size:=size.SizeParser,
+            padding:=padding,
+            bg:=bg,
+            plotAPI:=Sub(ByRef g As IGraphics, canvas As GraphicsRegion)
+
+                         Dim x!
+                         Dim y! = canvas.PlotRegion.Top
+                         Dim w = canvas.PlotRegion.Width / matrix(Scan0).Length
+                         Dim h = canvas.PlotRegion.Height / matrix.Length
+                         Dim scatterData As SerialData
+
+                         For Each row In matrix
+
+                             x = canvas.PlotRegion.Left
+
+                             For Each col In row
+
+                                 padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
+                                 x += w
+
+                                 Call Scatter.Plot()
+
+                             Next
+
+                             y += h
+                         Next
+
+                     End Sub)
     End Function
 End Module
