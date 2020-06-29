@@ -102,7 +102,7 @@ Public Module ExpressionPatterns
                                  padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
                                  x += w
 
-                                 Call Scatter.Plot()
+                                 Call Scatter.Plot({scatterData}, size, padding, bg)
 
                              Next
 
