@@ -44,6 +44,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Model.Network.Microbiome
@@ -59,7 +61,7 @@ Module metagenomicsKit
     End Function
 
     <ExportAPI("compounds.origin")>
-    Public Function CompoundOrigin(annotations As list, Optional env As Environment = Nothing) As list
+    Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As list
         Dim compounds As New Dictionary(Of String, List(Of String))
 
         For Each organism As KeyValuePair(Of String, Pathway()) In annotations.AsGeneric(Of Pathway())(env)
@@ -74,13 +76,26 @@ Module metagenomicsKit
             Next
         Next
 
-        Return New list With {
-            .slots = compounds _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return CObj(a.Value.Distinct.ToArray)
-                              End Function)
-        }
+        Dim origins As New Dictionary(Of String, Object)
+        Dim ncbi_taxid As String()
+        Dim taxonomyList As gast.Taxonomy()
+
+        For Each compound In compounds
+            ncbi_taxid = compound.Value.ToArray
+            taxonomyList = ncbi_taxid _
+                .Select(Function(id)
+                            Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True)))
+                        End Function) _
+                .ToArray
+
+            origins(compound.Key) = New Dictionary(Of String, Object) From {
+                {"kegg_id", compound.Key},
+                {"ncbi_taxid", ncbi_taxid},
+                {"taxonomy", Nothing}
+            }
+        Next
+
+        Return New list With {.slots = origins}
     End Function
 End Module
 
