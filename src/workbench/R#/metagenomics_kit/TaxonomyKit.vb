@@ -144,36 +144,54 @@ Module TaxonomyKit
     End Function
 
     <ExportAPI("taxonomy.filter")>
-    Public Function Filters(tree As NcbiTaxonomyTree, range As Integer(), taxid As Integer()) As Taxonomy()
+    <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
+    Public Function Filters(tree As NcbiTaxonomyTree, range As Integer(), Optional taxid As Integer() = Nothing) As Object
         Dim ranges As Taxonomy() = range _
             .Select(Function(id)
                         Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
                     End Function) _
             .Select(Function(nodes) New Taxonomy(nodes)) _
             .ToArray
-        Dim result As Taxonomy() = taxid _
-            .Select(Function(id)
-                        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True))
-                    End Function) _
-            .DoCall(AddressOf ranges.RangeFilter) _
-            .ToArray
 
-        Return result.ToArray
+        If taxid Is Nothing Then
+            Return ranges.filterLambda
+        Else
+            Dim result As Taxonomy() = taxid _
+                .Select(Function(id)
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True))
+                        End Function) _
+                .DoCall(AddressOf ranges.RangeFilter) _
+                .ToArray
+
+            Return result
+        End If
+    End Function
+
+    <Extension>
+    Private Function filterLambda(ranges As Taxonomy()) As Predicate(Of Object)
+        Return Function(target)
+                   Dim relation As Relations
+
+                   For Each limits As Taxonomy In ranges
+                       relation = limits.CompareWith(DirectCast(target, Taxonomy))
+
+                       If relation = Relations.Equals OrElse relation = Relations.Include Then
+                           Return True
+                       End If
+                   Next
+
+                   Return False
+               End Function
     End Function
 
     <Extension>
     Friend Iterator Function RangeFilter(Of T As Taxonomy)(ranges As Taxonomy(), targets As IEnumerable(Of T)) As IEnumerable(Of T)
-        Dim relation As Relations
+        Dim filter = ranges.filterLambda
 
         For Each target As T In targets
-            For Each limits In ranges
-                relation = limits.CompareWith(target)
-
-                If relation = Relations.Equals OrElse relation = Relations.Include Then
-                    Yield target
-                    Exit For
-                End If
-            Next
+            If filter(target) Then
+                Yield target
+            End If
         Next
     End Function
 
