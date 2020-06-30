@@ -50,7 +50,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports Microsoft.VisualBasic.My
 
 ''' <summary>
