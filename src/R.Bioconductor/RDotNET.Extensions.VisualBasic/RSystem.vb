@@ -89,9 +89,9 @@ Public Module RSystem
     Sub New()
         Dim R_HOME$ = App.GetVariable("R_HOME")
 
-        If Not SharedObject.GetObject(rdotnet_engine) Is Nothing Then
-            R = SharedObject.GetObject(rdotnet_engine)
-        End If
+        'If Not SharedObject.GetObject(rdotnet_engine) Is Nothing Then
+        '    R = SharedObject.GetObject(rdotnet_engine)
+        'End If
 
         Try
             If R_HOME.StringEmpty Then

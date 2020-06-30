@@ -107,8 +107,16 @@ Public Class ExtendedEngine : Inherits REngine
         Return var
     End Function
 
+    ' 20181211 将脚本日志文件放在系统数据文件夹, 会导致系统空间被过多占用
+    ' 现修改为将脚本日志放置于当前的工作区之中
+    Friend ReadOnly __logs As StreamWriter
+
     Sub New(id As String, dll As String)
         MyBase.New(id, dll)
+
+        Dim logfile As String = ($"{App.CurrentDirectory}/.R_logs/{Now.ToNormalizedPathString}_pid={App.PID}_logs.R")
+        __logs = logfile.OpenWriter(Encodings.UTF8)
+
         Call App.AddExitCleanHook(hook:=AddressOf __cleanHook)
     End Sub
 
@@ -124,12 +132,6 @@ Public Class ExtendedEngine : Inherits REngine
             Throw ex
         End Try
     End Function
-
-    ' 20181211 将脚本日志文件放在系统数据文件夹, 会导致系统空间被过多占用
-    ' 现修改为将脚本日志放置于当前的工作区之中
-    Friend ReadOnly __logs As StreamWriter =
-        ($"{App.CurrentDirectory}/.R_logs/{Now.ToNormalizedPathString}_pid={App.PID}_logs.R") _
-        .OpenWriter(Encodings.UTF8)
 
     Private Sub __cleanHook()
         Call __logs.WriteLine()
