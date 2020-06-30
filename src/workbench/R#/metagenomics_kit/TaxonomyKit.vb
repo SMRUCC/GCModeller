@@ -44,6 +44,8 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -146,8 +148,17 @@ Module TaxonomyKit
     ''' <param name="fullName"></param>
     ''' <returns></returns>
     <ExportAPI("lineage")>
-    Public Function Lineage(tree As NcbiTaxonomyTree, taxid As Integer, Optional fullName As Boolean = False) As Taxonomy
-        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=Not fullName))
+    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> taxid As Integer(), Optional fullName As Boolean = False) As Taxonomy()
+        Return taxid _
+            .Select(Function(ncbi_taxid)
+                        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(ncbi_taxid, only_std_ranks:=Not fullName))
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("as.taxonomy.tree")>
+    Public Function buildTree(taxonomy As Taxonomy()) As TaxonomyTree
+        Return TaxonomyTree.BuildTree(taxonomy.Select(Function(t) New gast.Taxonomy(t)), Nothing, Nothing)
     End Function
 End Module
 
