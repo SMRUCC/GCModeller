@@ -864,6 +864,7 @@ Namespace API
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(x As IEnumerable(Of Double)) As String
             Return base.c(list:=x _
+                .SafeQuery _
                 .Select(Function(d)
                             If d.IsNaNImaginary Then
                                 Return "NA"
