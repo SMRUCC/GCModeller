@@ -1,7 +1,9 @@
 imports "taxonomy_kit" from "metagenomics_kit";
 
 Ncbi.taxonomy_tree("S:\2020\biodeepdb\UniProt\xml\taxdmp")
-taxonomy.filter(range = 2, taxid = [
+:> taxonomy.filter(range = 2, taxid = [
+256224,
+2509793,
 8090,
 8187,
 8355,
