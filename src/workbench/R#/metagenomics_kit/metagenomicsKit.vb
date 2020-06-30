@@ -65,6 +65,7 @@ Module metagenomicsKit
     <ExportAPI("compounds.origin")>
     Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree,
                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Family,
+                                   Optional ranges As Integer() = Nothing,
                                    Optional env As Environment = Nothing) As list
 
         Dim compounds As New Dictionary(Of String, List(Of String))
@@ -86,6 +87,13 @@ Module metagenomicsKit
         Dim taxonomyList As gast.Taxonomy()
         Dim consensusTree As TaxonomyTree
         Dim consensus As TaxonomyTree()
+        Dim searchRanges As Metagenomics.Taxonomy() = ranges _
+            .SafeQuery _
+            .Select(Function(id)
+                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                    End Function) _
+            .Select(Function(nodes) New Metagenomics.Taxonomy(nodes)) _
+            .ToArray
 
         For Each compound In compounds
             ncbi_taxid = compound.Value.Distinct.ToArray
@@ -94,6 +102,11 @@ Module metagenomicsKit
                             Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True)))
                         End Function) _
                 .ToArray
+
+            If searchRanges.Length > 0 Then
+                taxonomyList = searchRanges.RangeFilter(taxonomyList).ToArray
+            End If
+
             'consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
             'consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
             'consensus = consensus.Take(3).ToArray

@@ -41,6 +41,7 @@
 #End Region
 
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
@@ -150,23 +151,30 @@ Module TaxonomyKit
                     End Function) _
             .Select(Function(nodes) New Taxonomy(nodes)) _
             .ToArray
-        Dim result As New List(Of Taxonomy)
+        Dim result As Taxonomy() = taxid _
+            .Select(Function(id)
+                        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True))
+                    End Function) _
+            .DoCall(AddressOf ranges.RangeFilter) _
+            .ToArray
+
+        Return result.ToArray
+    End Function
+
+    <Extension>
+    Friend Iterator Function RangeFilter(Of T As Taxonomy)(ranges As Taxonomy(), targets As IEnumerable(Of T)) As IEnumerable(Of T)
         Dim relation As Relations
 
-        For Each id As Integer In taxid
-            Dim target As New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, True))
-
+        For Each target As T In targets
             For Each limits In ranges
                 relation = limits.CompareWith(target)
 
                 If relation = Relations.Equals OrElse relation = Relations.Include Then
-                    result.Add(target)
+                    Yield target
                     Exit For
                 End If
             Next
         Next
-
-        Return result.ToArray
     End Function
 
     ''' <summary>
