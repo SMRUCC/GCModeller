@@ -807,6 +807,8 @@ Namespace API
         ''' <param name="refhook">a hook function for handling reference objects.
         ''' </param>
         ''' <returns></returns>
+        ''' 
+        <ExportAPI("saveRDS")>
         Public Function saveRDS([object] As String,
                                 Optional file$ = "",
                                 Optional ascii As Boolean = False,

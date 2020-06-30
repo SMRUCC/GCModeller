@@ -123,6 +123,8 @@ Namespace Serialization
                 End With
             End SyncLock
 
+            Dim properties = base.GetProperties(PublicProperty)
+
             ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
             ' 反之复杂的非基础类型写为一个list
             If DataFramework.IsComplexType(base) Then
@@ -153,7 +155,23 @@ Namespace Serialization
                         End SyncLock
                     Next
                 End If
+            ElseIf properties.Length = 2 AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "key" AndAlso p.PropertyType Is GetType(String) OrElse p.PropertyType Is GetType(Integer) OrElse p.PropertyType Is GetType(Long)) AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "value") Then
 
+                Dim key As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "key")
+                Dim value As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "value")
+
+                For Each x As Object In list
+                    Dim keyStr$ = Scripting.ToString(key.GetValue(x))
+                    Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
+
+                    SyncLock R
+                        With R
+                            .call = $"{var}[[{Rstring(keyStr)}]] <- {valStr};"
+                        End With
+                    End SyncLock
+                Next
             Else
                 ' write as dataframe
                 With App.GetAppSysTempFile(, App.PID)
