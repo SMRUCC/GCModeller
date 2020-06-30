@@ -170,7 +170,7 @@ Namespace Metagenomics
                 Me.genus = .genus
                 Me.kingdom = .kingdom
                 Me.order = .order
-                Me.phylum = phylum
+                Me.phylum = .phylum
                 Me.species = .species
             End With
         End Sub
@@ -189,12 +189,14 @@ Namespace Metagenomics
                 {NcbiTaxonomyTree.order, order},
                 {NcbiTaxonomyTree.phylum, phylum},
                 {NcbiTaxonomyTree.species, species},
-                {NcbiTaxonomyTree.superkingdom, kingdom}
+                {NcbiTaxonomyTree.superkingdom, kingdom},
+                {NameOf(Taxonomy.ncbi_taxid), ncbi_taxid}
             }
 
             Return New NamedValue(Of Dictionary(Of String, String)) With {
                 .Name = scientificName,
-                .Value = table
+                .Value = table,
+                .Description = ncbi_taxid
             }
         End Function
 

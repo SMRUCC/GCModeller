@@ -94,27 +94,44 @@ Module metagenomicsKit
                     End Function) _
             .Select(Function(nodes) New Metagenomics.Taxonomy(nodes)) _
             .ToArray
+        Dim Homo_sapiens As Boolean
+        Dim Mus_musculus As Boolean
+        Dim Rattus_norvegicus As Boolean
 
         For Each compound In compounds
             ncbi_taxid = compound.Value.Distinct.ToArray
             taxonomyList = ncbi_taxid _
                 .Select(Function(id)
-                            Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True)))
+                            Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True))) With {
+                                .ncbi_taxid = id
+                            }
                         End Function) _
                 .ToArray
+
+            Homo_sapiens = taxonomyList.Any(Function(t) t.species = "Homo sapiens")
+            Mus_musculus = taxonomyList.Any(Function(t) t.species = "Mus musculus")
+            Rattus_norvegicus = taxonomyList.Any(Function(t) t.species = "Rattus norvegicus")
 
             If searchRanges.Length > 0 Then
                 taxonomyList = searchRanges.RangeFilter(taxonomyList).ToArray
             End If
 
-            'consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
-            'consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
-            'consensus = consensus.Take(3).ToArray
+            consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
+            consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
+            consensus = consensus.Take(3).ToArray
+
+            taxonomyList = consensus _
+                .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species)) _
+                .IteratesALL _
+                .ToArray
 
             origins(compound.Key) = New Dictionary(Of String, Object) From {
                 {"kegg_id", compound.Key},
                 {"ncbi_taxid", ncbi_taxid},
-                {"taxonomy", taxonomyList.Select(Function(tax) tax.ToString(BIOMstyle:=True)).ToArray}
+                {"taxonomy", taxonomyList.Select(Function(tax) New Metagenomics.Taxonomy(tax) With {.ncbi_taxid = tax.ncbi_taxid}).ToArray},
+                {NameOf(Homo_sapiens), Homo_sapiens},
+                {NameOf(Mus_musculus), Mus_musculus},
+                {NameOf(Rattus_norvegicus), Rattus_norvegicus}
             }
         Next
 

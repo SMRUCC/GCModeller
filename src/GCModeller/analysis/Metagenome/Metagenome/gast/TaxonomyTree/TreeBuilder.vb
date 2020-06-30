@@ -67,6 +67,7 @@ Namespace gast
                         append(level) = .Key
                         append.lineage &= ";" & .Key
                         append.hits = .Count
+                        append.ncbi_taxid = hits.First(Function(a) a(rank) = .Key).TryGetValue(NameOf(Taxonomy.ncbi_taxid))
                     End With
 
                     walk.childs.Add(append)
