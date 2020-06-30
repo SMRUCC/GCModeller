@@ -154,7 +154,7 @@ Module TaxonomyKit
             .ToArray
 
         If taxid Is Nothing Then
-            Return ranges.filterLambda
+            Return tree.filterLambda(ranges)
         Else
             Dim result As Taxonomy() = taxid _
                 .Select(Function(id)
@@ -168,9 +168,21 @@ Module TaxonomyKit
     End Function
 
     <Extension>
-    Private Function filterLambda(ranges As Taxonomy()) As Predicate(Of Object)
+    Private Function filterLambda(tree As NcbiTaxonomyTree, ranges As Taxonomy()) As Predicate(Of Object)
         Return Function(target)
                    Dim relation As Relations
+
+                   If target Is Nothing Then
+                       Return False
+                   ElseIf TypeOf target Is Taxonomy Then
+                       ' do nothing 
+                   ElseIf TypeOf target Is Long OrElse TypeOf target Is Integer Then
+                       target = New Taxonomy(tree.GetAscendantsWithRanksAndNames(CInt(target), only_std_ranks:=True))
+                   ElseIf TypeOf target Is String AndAlso DirectCast(target, String).IsPattern("\d+") Then
+                       target = New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(CStr(target)), only_std_ranks:=True))
+                   Else
+                       Return False
+                   End If
 
                    For Each limits As Taxonomy In ranges
                        relation = limits.CompareWith(DirectCast(target, Taxonomy))
@@ -186,7 +198,7 @@ Module TaxonomyKit
 
     <Extension>
     Friend Iterator Function RangeFilter(Of T As Taxonomy)(ranges As Taxonomy(), targets As IEnumerable(Of T)) As IEnumerable(Of T)
-        Dim filter = ranges.filterLambda
+        Dim filter = filterLambda(Nothing, ranges)
 
         For Each target As T In targets
             If filter(target) Then
