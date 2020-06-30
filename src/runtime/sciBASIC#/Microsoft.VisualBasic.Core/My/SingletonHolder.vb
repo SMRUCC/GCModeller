@@ -122,4 +122,23 @@ Namespace My
         End Function
 
     End Class
+
+    Public NotInheritable Class SharedObject
+
+        Shared ReadOnly instances As New Dictionary(Of String, Object)
+
+        Public Shared ReadOnly Property GetObject(reference As String) As Object
+            Get
+                Return instances.TryGetValue(reference)
+            End Get
+        End Property
+
+        Private Sub New()
+        End Sub
+
+        Public Shared Sub SetObject(guid As String, obj As Object)
+            instances(guid) = obj
+        End Sub
+
+    End Class
 End Namespace

@@ -102,9 +102,9 @@ Public Module RSystem
             Call NativeLibrary.NativeUtility.SetEnvironmentVariablesLog.SaveTo("./R_inits.log")
         Finally
             If R Is Nothing Then
-                R = SharedObject(Of ExtendedEngine).Instance
+                R = SharedObject.GetObject("rdotnet_engine")
             Else
-                SharedObject(Of ExtendedEngine).Instance = R
+                Call SharedObject.SetObject("rdotnet_engine", R)
             End If
         End Try
     End Sub
