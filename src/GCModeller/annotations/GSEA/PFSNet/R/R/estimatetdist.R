@@ -50,10 +50,10 @@ pfsnet.estimatetdist<-function(obj,d1,d2,ggi,b,t1,t2,n){
             try(statistics[i]<-t.test(unlist(pscore[,i]),unlist(nscore[,i]),paired=TRUE)$statistic, TRUE)
         }
         tdistribution<-c(tdistribution,na.omit(statistics))
-        
-		cat(round(length(tdistribution)/100)*100, " permutations done.\n")
-        
-		if(length(tdistribution)>1000){
+
+        cat(round(length(tdistribution)/100)*100, " permutations done.\n")
+
+        if(length(tdistribution)>1000){
             break;
         }
     }

@@ -67,15 +67,17 @@ Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Feature = SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Feature
+Imports Features = SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Features
 
 Partial Module CLI
 
@@ -113,10 +115,10 @@ Partial Module CLI
 
         Dim gpff As IEnumerable(Of GBFF.File) = GBFF.File.LoadDatabase([in])
         Dim gff As GFFTable = GFFTable.LoadDocument(gffFile)
-        Dim CDSHash = (From x As GFF.Feature
-                       In gff.GetsAllFeatures(FeatureKeys.Features.CDS)
+        Dim CDSHash = (From x As Feature
+                       In gff.GetsAllFeatures(Features.CDS)
                        Select x
-                       Group x By x.ProteinId Into Group) _
+                       Group x By x.proteinId Into Group) _
                             .ToDictionary(Function(x) x.ProteinId,
                                           Function(x) x.Group.First)
         Dim genes As GeneBrief() =
@@ -435,8 +437,8 @@ Partial Module CLI
             Dim locusId As String =
                 $"{prefix}_{STDIO.ZeroFill(++idx, 4)}"
 
-            For Each feature In geneX.Group
-                feature.x.SetValue(FeatureQualifiers.locus_tag, locusId)
+            For Each gFeature In geneX.Group
+                gFeature.x.SetValue(FeatureQualifiers.locus_tag, locusId)
             Next
 
             Call Console.Write(".")

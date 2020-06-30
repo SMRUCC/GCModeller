@@ -143,10 +143,9 @@ Module RInit
             Call Environment.SetEnvironmentVariable("R_HOME", rHome)
         End If
 
-        With ExtendedEngine.__init("RDotNet_" & App.NextTempName)
-            Call .Initialize()
-            Return .ByRef
-        End With
+        Dim R = ExtendedEngine.__init("RDotNet_" & App.GetNextUniqueName("process_"))
+        Call R.Initialize()
+        Return R
     End Function
 
     ''' <summary>

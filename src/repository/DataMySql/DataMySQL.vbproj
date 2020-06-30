@@ -396,6 +396,10 @@
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GCModeller\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
@@ -411,10 +415,6 @@
     <ProjectReference Include="..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -39,11 +39,15 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
@@ -78,18 +82,124 @@ Module kegg
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' assign pathway map id to the nodes in the given network graph
+    ''' </summary>
+    ''' <param name="graph">
+    ''' the node vertex in this network graph object its label value 
+    ''' could be one of: glycan, compound, kegg ortholog or reaction id 
+    ''' </param>
+    ''' <param name="maps"></param>
+    ''' <param name="top3"></param>
+    ''' <returns></returns>
     <ExportAPI("pathway_class")>
-    Public Function assignPathwayClass(graph As NetworkGraph, maps As Map()) As NetworkGraph
-        Dim compounds = graph.vertex.Where(Function(a) a.label.IsPattern("[GC]\d+")).ToArray
-        Dim assignments As New Dictionary(Of String, List(Of String))
+    Public Function assignPathwayClass(graph As NetworkGraph,
+                                       maps As Map(),
+                                       Optional top3 As Boolean = True,
+                                       Optional excludesGlobalAndOverviewMaps As Boolean = True) As NetworkGraph
+        ' map011xx
+        Dim overviews As Index(Of String) = BriteHEntry.Pathway _
+            .GetGlobalAndOverviewMaps _
+            .Select(Function(a) a.name.Match("\d+")) _
+            .Indexing
 
-        For Each id In compounds
-            assignments.Add(id.label, New List(Of String))
+        If excludesGlobalAndOverviewMaps Then
+            maps = maps _
+                .Where(Function(a) Not a.id.Match("\d+") Like overviews) _
+                .ToArray
+        End If
+
+        Call graph.assignNodeClass(top3, maps)
+        Call graph.assignEdgeClass(maps)
+
+        Return graph
+    End Function
+
+    <Extension>
+    Private Sub assignEdgeClass(graph As NetworkGraph, maps As Map())
+        Dim edges = graph.graphEdges _
+            .Where(Function(e) e.data.HasProperty("kegg")) _
+            .ToArray
+        Dim assignments As New Dictionary(Of String, List(Of String))
+        Dim edgeIndex As New Dictionary(Of String, List(Of Edge))
+
+        For Each edge As Edge In edges
+            For Each id As String In edge.data("kegg").LoadJSON(Of String())
+                If Not edgeIndex.ContainsKey(id) Then
+                    edgeIndex(id) = New List(Of Edge)
+                End If
+
+                Call edgeIndex(id).Add(edge)
+
+                If Not assignments.ContainsKey(id) Then
+                    Call assignments.Add(id, New List(Of String))
+                End If
+            Next
         Next
 
         For Each map As Map In maps
-            ' map011xx
+            For Each id As String In map.GetMembers
+                If assignments.ContainsKey(id) Then
+                    Call assignments(id).Add(map.id)
+                End If
+            Next
+        Next
 
+        Dim firstMapHits = assignments.topMaps(1000)
+
+        For Each block In firstMapHits
+            Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
+
+            For Each id As String In block.Select(Function(a) a.cid)
+                For Each edge In edgeIndex(id)
+                    If Not edge.data.HasProperty("map") Then
+                        edge.data("map") = mapHit.id
+                        edge.data("mapName") = mapHit.Name
+                    End If
+                Next
+            Next
+        Next
+    End Sub
+
+    <Extension>
+    Private Function topMaps(assignments As Dictionary(Of String, List(Of String)), n As Integer) As IGrouping(Of String, (cid$, mapId$))()
+        Return assignments _
+            .Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))) _
+            .IteratesALL _
+            .GroupBy(Function(a) a.mapId) _
+            .OrderByDescending(Function(m)
+                                   Return m.Select(Function(a) a.cid).Distinct.Count
+                               End Function) _
+            .Take(n) _
+            .ToArray
+    End Function
+
+    <Extension>
+    Private Sub assignNodeClass(graph As NetworkGraph, top3 As Boolean, maps As Map())
+        Dim compounds As Node() = graph.vertex _
+             .Where(Function(a)
+                        Return a.label.IsPattern("[GCKR]\d+") OrElse a.data.HasProperty("kegg")
+                    End Function) _
+             .ToArray
+        Dim assignments As New Dictionary(Of String, List(Of String))
+        Dim nodeIndex As New Dictionary(Of String, Node)
+
+        For Each id As Node In compounds
+            Call assignments.Add(id.label, New List(Of String))
+
+            If id.data.HasProperty("kegg") AndAlso Not assignments.ContainsKey(id.data("kegg")) Then
+                Call assignments.Add(id.data("kegg"), New List(Of String))
+            End If
+
+            If Not nodeIndex.ContainsKey(id.label) Then
+                Call nodeIndex.Add(id.label, id)
+            End If
+            If id.data.HasProperty("kegg") AndAlso Not nodeIndex.ContainsKey(id.data("kegg")) Then
+                Call nodeIndex.Add(id.data("kegg"), id)
+            End If
+        Next
+
+        For Each map As Map In maps
             For Each id As String In map.GetMembers
                 If assignments.ContainsKey(id) Then
                     assignments(id).Add(map.id)
@@ -97,13 +207,24 @@ Module kegg
             Next
         Next
 
-        For Each node In compounds
-            node.data("maps") = assignments(node.label).JoinBy(",")
-        Next
+        If top3 Then
+            Dim firstMapHits = assignments.topMaps(3)
 
-        ' Dim mapHits = assignments.Select(Function(a) a.Value.Select(Function(mapId) (cid:=a.Key, mapId))).IteratesALL.GroupBy(Function(a) a.mapId).OrderByDescending(Function(m) m.Count).ToDictionary(Function(a) a.Key, Function(a) a.Select(Function(t) t.cid).ToArray)
+            For Each block In firstMapHits
+                Dim mapHit As Map = maps.First(Function(a) a.id = block.Key)
 
-        Return graph
-    End Function
+                For Each id As String In block.Select(Function(a) a.cid)
+                    If Not nodeIndex(id).data.HasProperty("map") Then
+                        nodeIndex(id).data("map") = mapHit.id
+                        nodeIndex(id).data("mapName") = mapHit.Name
+                    End If
+                Next
+            Next
+        Else
+            For Each node In compounds
+                node.data("maps") = assignments(node.label).ToArray.GetJson
+            Next
+        End If
+    End Sub
 End Module
 

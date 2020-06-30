@@ -149,7 +149,8 @@
     <OutputPath>./bin</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <OutputPath>./bin</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
     <OutputPath>./bin</OutputPath>

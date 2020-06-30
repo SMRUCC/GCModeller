@@ -73,5 +73,6 @@ Partial Module CLI
 
         Dim result = polysat.calcFst(name, null, null)
 
+        Throw New NotImplementedException
     End Function
 End Module

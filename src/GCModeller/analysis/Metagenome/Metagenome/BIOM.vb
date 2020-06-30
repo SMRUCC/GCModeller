@@ -193,6 +193,7 @@ Public Module BIOM
     ReadOnly descRanks As SeqValue(Of String)() = NCBI.Taxonomy _
         .NcbiTaxonomyTree _
         .stdranks _
+        .Objects _
         .Reverse _
         .SeqIterator _
         .ToArray

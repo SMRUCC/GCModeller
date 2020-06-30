@@ -317,9 +317,9 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

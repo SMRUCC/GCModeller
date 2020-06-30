@@ -20,7 +20,7 @@ Public Module DNA_Comparative
     ''' <returns></returns>
     <ExportAPI("seq.dist")>
     Public Function dist(<RRawVectorArgument> seqs As Object) As DistanceMatrix
-
+        Throw New NotImplementedException
     End Function
 
     ''' <summary>

@@ -210,13 +210,13 @@ Module visualPlot
     ''' <param name="levels"></param>
     ''' <returns></returns>
     <ExportAPI("color_bends")>
-    Public Function colorBends(matrix As Matrix, Optional colorSet$ = "RdYlGn:c8", Optional levels As Integer = 25) As list
+    Public Function colorBends(matrix As Matrix, Optional colorSet$ = "RdYlGn:c8", Optional levels As Integer = 25, Optional env As Environment = Nothing) As list
         Return New list With {
             .slots = SampleColorBend _
                 .GetColors(matrix, colorSet, levels) _
                 .ToDictionary(Function(a) a.name,
                               Function(a)
-                                  Return CObj(a.value)
+                                  Return CObj(New vector(matrix.sampleID, a.value, env))
                               End Function)
         }
     End Function

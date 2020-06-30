@@ -245,7 +245,8 @@ Namespace Assembly.Uniprot.XML
             End Set
         End Property
 
-        Public Property dbReference As value
+        <XmlElement>
+        Public Property dbReference As value()
         Public Property lineage As lineage
 
         <XmlIgnore>

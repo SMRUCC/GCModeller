@@ -6,7 +6,6 @@ B  Global and overview maps
 C    01100  Metabolic pathways
 C    01110  Biosynthesis of secondary metabolites
 C    01120  Microbial metabolism in diverse environments
-C    01130  Biosynthesis of antibiotics
 C    01200  Carbon metabolism
 C    01210  2-Oxocarboxylic acid metabolism
 C    01212  Fatty acid metabolism
@@ -160,13 +159,14 @@ C    00331  Clavulanic acid biosynthesis
 C    00521  Streptomycin biosynthesis
 C    00524  Neomycin, kanamycin and gentamicin biosynthesis
 C    00525  Acarbose and validamycin biosynthesis
-C    00231  Puromycin biosynthesis
 C    00401  Novobiocin biosynthesis
 C    00404  Staurosporine biosynthesis
 C    00405  Phenazine biosynthesis
 C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
-C    00999  Biosynthesis of secondary metabolites - unclassified
+C    00999  Biosynthesis of various secondary metabolites - part 1
+C    00998  Biosynthesis of various secondary metabolites - part 2
+C    00997  Biosynthesis of various secondary metabolites - part 3
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
 C    00627  Aminobenzoate degradation
@@ -270,6 +270,7 @@ C    04075  Plant hormone signal transduction
 B  Signaling molecules and interaction
 C    04080  Neuroactive ligand-receptor interaction
 C    04060  Cytokine-cytokine receptor interaction
+C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
 C    04514  Cell adhesion molecules (CAMs)
 #
@@ -343,6 +344,7 @@ C    04922  Glucagon signaling pathway
 C    04923  Regulation of lipolysis in adipocytes
 C    04920  Adipocytokine signaling pathway
 C    03320  PPAR signaling pathway
+C    04929  GnRH secretion
 C    04912  GnRH signaling pathway
 C    04913  Ovarian steroidogenesis
 C    04915  Estrogen signaling pathway
@@ -350,6 +352,7 @@ C    04914  Progesterone-mediated oocyte maturation
 C    04917  Prolactin signaling pathway
 C    04921  Oxytocin signaling pathway
 C    04926  Relaxin signaling pathway
+C    04935  Growth hormone synthesis, secretion and action
 C    04918  Thyroid hormone synthesis
 C    04919  Thyroid hormone signaling pathway
 C    04928  Parathyroid hormone synthesis, secretion and action
@@ -396,9 +399,10 @@ C    04745  Phototransduction - fly
 C    04740  Olfactory transduction
 C    04742  Taste transduction
 C    04750  Inflammatory mediator regulation of TRP channels
-B  Development
+B  Development and regeneration
 C    04320  Dorso-ventral axis formation
 C    04360  Axon guidance
+C    04361  Axon regeneration
 C    04380  Osteoclast differentiation
 B  Aging
 C    04211  Longevity regulating pathway
@@ -413,16 +417,17 @@ C    04714  Thermogenesis
 C    04626  Plant-pathogen interaction
 #
 A<b>Human Diseases</b>
-B  Cancers: Overview
+B  Cancer: overview
 C    05200  Pathways in cancer
-C    05230  Central carbon metabolism in cancer
-C    05231  Choline metabolism in cancer
 C    05202  Transcriptional misregulation in cancer
 C    05206  MicroRNAs in cancer
 C    05205  Proteoglycans in cancer
 C    05204  Chemical carcinogenesis
 C    05203  Viral carcinogenesis
-B  Cancers: Specific types
+C    05230  Central carbon metabolism in cancer
+C    05231  Choline metabolism in cancer
+C    05235  PD-L1 expression and PD-1 checkpoint pathway in cancer
+B  Cancer: specific types
 C    05210  Colorectal cancer
 C    05212  Pancreatic cancer
 C    05225  Hepatocellular carcinoma
@@ -440,7 +445,7 @@ C    05213  Endometrial cancer
 C    05224  Breast cancer
 C    05222  Small cell lung cancer
 C    05223  Non-small cell lung cancer
-B  Immune diseases
+B  Immune disease
 C    05310  Asthma
 C    05322  Systemic lupus erythematosus
 C    05323  Rheumatoid arthritis
@@ -449,11 +454,12 @@ C    05321  Inflammatory bowel disease (IBD)
 C    05330  Allograft rejection
 C    05332  Graft-versus-host disease
 C    05340  Primary immunodeficiency
-B  Neurodegenerative diseases
+B  Neurodegenerative disease
 C    05010  Alzheimer disease
 C    05012  Parkinson disease
 C    05014  Amyotrophic lateral sclerosis (ALS)
 C    05016  Huntington disease
+C    05017  Spinocerebellar ataxia
 C    05020  Prion diseases
 B  Substance dependence
 C    05030  Cocaine addiction
@@ -461,13 +467,13 @@ C    05031  Amphetamine addiction
 C    05032  Morphine addiction
 C    05033  Nicotine addiction
 C    05034  Alcoholism
-B  Cardiovascular diseases
+B  Cardiovascular disease
 C    05418  Fluid shear stress and atherosclerosis
 C    05410  Hypertrophic cardiomyopathy (HCM)
 C    05412  Arrhythmogenic right ventricular cardiomyopathy (ARVC)
 C    05414  Dilated cardiomyopathy (DCM)
 C    05416  Viral myocarditis
-B  Endocrine and metabolic diseases
+B  Endocrine and metabolic disease
 C    04930  Type II diabetes mellitus
 C    04940  Type I diabetes mellitus
 C    04950  Maturity onset diabetes of the young
@@ -475,41 +481,42 @@ C    04932  Non-alcoholic fatty liver disease (NAFLD)
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
 C    04934  Cushing syndrome
-B  Infectious diseases: Bacterial
+B  Infectious disease: bacterial
 C    05110  Vibrio cholerae infection
 C    05120  Epithelial cell signaling in Helicobacter pylori infection
 C    05130  Pathogenic Escherichia coli infection
 C    05132  Salmonella infection
 C    05131  Shigellosis
+C    05135  Yersinia infection
 C    05133  Pertussis
 C    05134  Legionellosis
 C    05150  Staphylococcus aureus infection
 C    05152  Tuberculosis
 C    05100  Bacterial invasion of epithelial cells
-B  Infectious diseases: Viral
+B  Infectious disease: viral
 C    05166  Human T-cell leukemia virus 1 infection
 C    05170  Human immunodeficiency virus 1 infection
 C    05162  Measles
 C    05164  Influenza A
 C    05161  Hepatitis B
 C    05160  Hepatitis C
-C    05168  Herpes simplex infection
+C    05168  Herpes simplex virus 1 infection
 C    05163  Human cytomegalovirus infection
 C    05167  Kaposi sarcoma-associated herpesvirus infection
 C    05169  Epstein-Barr virus infection
 C    05165  Human papillomavirus infection
-B  Infectious diseases: Parasitic
+B  Infectious disease: parasitic
 C    05146  Amoebiasis
 C    05144  Malaria
 C    05145  Toxoplasmosis
 C    05140  Leishmaniasis
 C    05142  Chagas disease (American trypanosomiasis)
 C    05143  African trypanosomiasis
-B  Drug resistance: Antimicrobial
+B  Drug resistance: antimicrobial
 C    01501  beta-Lactam resistance
 C    01502  Vancomycin resistance
 C    01503  Cationic antimicrobial peptide (CAMP) resistance
-B  Drug resistance: Antineoplastic
+B  Drug resistance: antineoplastic
 C    01521  EGFR tyrosine kinase inhibitor resistance
 C    01524  Platinum drug resistance
 C    01523  Antifolate resistance
@@ -605,5 +612,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: August 21, 2018
+#Last updated: March 10, 2020
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

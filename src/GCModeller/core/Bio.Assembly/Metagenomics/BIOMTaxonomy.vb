@@ -169,7 +169,7 @@ Namespace Metagenomics
                 .JoinBy(";")
         End Function
 
-        ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Reverse.ToArray
+        ReadOnly descRanks$() = NcbiTaxonomyTree.stdranks.Objects.Reverse.ToArray
 
         ''' <summary>
         ''' 这个函数不像<see cref="TaxonomyParser"/>和<see cref="TaxonomyParserAlt"/>这两个是专门针对

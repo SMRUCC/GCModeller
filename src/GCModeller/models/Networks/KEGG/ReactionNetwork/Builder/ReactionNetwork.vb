@@ -94,7 +94,8 @@ Namespace ReactionNetwork
                         .label = rid.geneSymbols.Distinct.JoinBy(", "),
                         .origID = rid.label,
                         .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"}
+                            {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
+                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)}
                         }
                     }
                 }

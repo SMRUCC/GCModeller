@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::c146b3e4154e220362f26d1a2488600b, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: CompareFile, Count, GetSegment, GetSegments, Merge
-    '               SelectByLocus, SimpleMerge, Sites2Fasta, SubsetFastaDb, ToFasta
-    '     Delegate Function
-    ' 
-    '         Function: __attrBrief, __attrFull, __fillSegment, Distinct, GetSimpleSegments
-    '                   GffSites, Split, SubSet, Trim
-    ' 
-    ' Class Loci
-    ' 
-    '     Properties: ID, SequenceData, sp, st
-    ' 
-    '     Function: __getMappingLoci, ToFasta, ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: CompareFile, Count, GetSegment, GetSegments, Merge
+'               SelectByLocus, SimpleMerge, Sites2Fasta, SubsetFastaDb, ToFasta
+'     Delegate Function
+' 
+'         Function: __attrBrief, __attrFull, __fillSegment, Distinct, GetSimpleSegments
+'                   GffSites, Split, SubSet, Trim
+' 
+' Class Loci
+' 
+'     Properties: ID, SequenceData, sp, st
+' 
+'     Function: __getMappingLoci, ToFasta, ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,9 +72,9 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -510,7 +510,7 @@ Partial Module Utilities
     End Function
 
     ReadOnly simpleAttributes As New attrDump(AddressOf __attrBrief)
-    ReadOnly fullAttributes As New [Default](Of  attrDump)(AddressOf __attrFull)
+    ReadOnly fullAttributes As New [Default](Of attrDump)(AddressOf __attrFull)
 
     Private Delegate Function attrDump(segment As SimpleSegment) As String()
 
@@ -527,8 +527,8 @@ Partial Module Utilities
                                    Complement As Boolean,
                                    Reversed As Boolean) As NucleotideModels.SimpleSegment
         Dim seq As String = reader _
-            .CutSequenceLinear(region.MappingLocation.Left + 1,
-                               region.MappingLocation.Right + 1).SequenceData
+            .CutSequenceLinear(region.MappingLocation.left + 1,
+                               region.MappingLocation.right + 1).SequenceData
 
         If region.MappingLocation.Strand = Strands.Reverse Then
             If Complement Then
@@ -603,11 +603,11 @@ Partial Module Utilities
         Dim fa As New FASTA.FastaFile(args("/fa"))
         Dim LQuery As FASTA.FastaSeq() = (From id As String
                                             In lstID
-                                            Where Not String.IsNullOrEmpty(id)
-                                            Select (From x As FASTA.FastaSeq
-                                                    In fa
-                                                    Where String.Equals(id, x.Title.Split.First, StringComparison.OrdinalIgnoreCase)
-                                                    Select x).FirstOrDefault).ToArray
+                                          Where Not String.IsNullOrEmpty(id)
+                                          Select (From x As FASTA.FastaSeq
+                                                  In fa
+                                                  Where String.Equals(id, x.Title.Split.First, StringComparison.OrdinalIgnoreCase)
+                                                  Select x).FirstOrDefault).ToArray
         fa = New FASTA.FastaFile(LQuery)
         Dim path As String = args("/lstID").TrimSuffix & ".subset.fasta"
         Return fa.Save(path).CLICode
@@ -689,8 +689,8 @@ Partial Module Utilities
         Return fasta.Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/Gff.Sites",
-               Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
+    <ExportAPI("/Gff.Sites")>
+    <Usage("/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
     <Group(CLIGrouping.FastaTools)>
     Public Function GffSites(args As CommandLine) As Integer
         Dim [in] As String = args("/fna")
@@ -700,14 +700,14 @@ Partial Module Utilities
         Dim fna = FastaSeq.LoadNucleotideData([in])
         Dim gff As GFFTable = GFFTable.LoadDocument(sites)
         Dim nt As IPolymerSequenceModel = fna
-        Dim result = From loci As GFF.Feature
-                     In gff.Features
+        Dim result = From loci As Feature
+                     In gff.features
                      Where (Not loci.attributes.ContainsKey("gbkey")) OrElse
                          (Not String.Equals(loci.attributes("gbkey"), "Src", StringComparison.OrdinalIgnoreCase))
                      Let seq = nt.CutSequenceLinear(loci.MappingLocation)
                      Select New FastaSeq With {
                          .SequenceData = seq.SequenceData,
-                         .Headers = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}
+                         .Headers = {loci.synonym, loci.Product, loci.MappingLocation.ToString}
                      }
         Dim fasta As New FastaFile(result)
 

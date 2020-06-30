@@ -79,11 +79,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -99,11 +101,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -126,7 +130,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BIOMkit.vb" />
     <Compile Include="metagenomicsKit.vb" />
+    <Compile Include="gast.vb" />
     <Compile Include="taxonomyKit.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -172,9 +178,17 @@
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.vbproj">
+      <Project>{EE17BE25-17E3-48F5-BEF2-A7D540AE09E1}</Project>
+      <Name>BIOM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98B68C31-EA5A-4B07-A748-3A009FABFA39}</Project>
       <Name>Microbiome</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>

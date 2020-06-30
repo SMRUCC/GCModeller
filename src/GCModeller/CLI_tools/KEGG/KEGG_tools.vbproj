@@ -390,9 +390,9 @@
       <Project>{68849e9f-359e-4844-a6db-0cae421594ad}</Project>
       <Name>jp_kegg2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />

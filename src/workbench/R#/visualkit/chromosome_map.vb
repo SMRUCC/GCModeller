@@ -86,6 +86,8 @@ Public Module chromosome_map
         If genome Is Nothing Then
             Return Internal.debug.stop("the plot data for target genome can not be nothing!", env)
         End If
+
+        Throw New NotImplementedException
     End Function
 End Module
 
