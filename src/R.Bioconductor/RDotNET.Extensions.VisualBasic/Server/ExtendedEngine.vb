@@ -118,6 +118,7 @@ Public Class ExtendedEngine : Inherits REngine
         __logs = logfile.OpenWriter(Encodings.UTF8)
 
         Call App.AddExitCleanHook(hook:=AddressOf __cleanHook)
+        Call Me.GetType.Assembly.Location.__DEBUG_ECHO
     End Sub
 
     Public Overrides Function Evaluate(statement As String) As SymbolicExpression
