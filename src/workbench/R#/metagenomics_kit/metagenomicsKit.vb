@@ -81,7 +81,7 @@ Module metagenomicsKit
         Dim taxonomyList As gast.Taxonomy()
 
         For Each compound In compounds
-            ncbi_taxid = compound.Value.ToArray
+            ncbi_taxid = compound.Value.Distinct.ToArray
             taxonomyList = ncbi_taxid _
                 .Select(Function(id)
                             Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True)))
