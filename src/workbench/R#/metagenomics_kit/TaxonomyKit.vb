@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -159,6 +160,14 @@ Module TaxonomyKit
     <ExportAPI("as.taxonomy.tree")>
     Public Function buildTree(taxonomy As Taxonomy()) As TaxonomyTree
         Return TaxonomyTree.BuildTree(taxonomy.Select(Function(t) New gast.Taxonomy(t)), Nothing, Nothing)
+    End Function
+
+    <ExportAPI("consensus")>
+    Public Function Consensus(tree As TaxonomyTree, level As TaxonomyRanks) As Taxonomy()
+        Return tree _
+            .PopulateTaxonomy(level) _
+            .Select(Function(t) DirectCast(t, Taxonomy)) _
+            .ToArray
     End Function
 End Module
 

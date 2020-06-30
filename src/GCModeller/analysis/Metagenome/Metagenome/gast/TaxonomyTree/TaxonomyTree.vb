@@ -98,6 +98,10 @@ Namespace gast
             parent = copy
         End Sub
 
+        Public Function PopulateTaxonomy(level As TaxonomyRanks) As IEnumerable(Of TaxonomyTree)
+            Return TreePopulator.PopulateTaxonomy(Me, level)
+        End Function
+
         Public Overrides Function ToString() As String
             Dim lineage$ = MyBase.ToString.Trim(";"c)
             Dim rank As TaxonomyRanks

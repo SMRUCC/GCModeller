@@ -55,4 +55,5 @@ let lineages = Ncbi.taxonomy_tree("S:\2020\biodeepdb\UniProt\xml\taxdmp")
 ])
 ;
 
-let tree = as.taxonomy.tree(lineages);
+print( as.taxonomy.tree(lineages) :> consensus("Family"));
+
