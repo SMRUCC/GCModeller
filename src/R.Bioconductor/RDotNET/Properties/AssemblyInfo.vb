@@ -24,6 +24,5 @@ Imports System.Runtime.InteropServices
 ' The following GUID is for the ID of the typelib if this project is exposed to COM
 
 <Assembly: Guid("9ecd1b81-67cd-417a-8b4d-77847c3353d4")>
-<Assembly: InternalsVisibleTo("RDotNet.Tests")>
 <Assembly: AssemblyVersion("3.5.0.3256")>
 <Assembly: AssemblyFileVersion("3.4.4.441")>

@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::3aae7d26a2fbdbf19b3c71cc10f7aef0, RDotNET.Extensions.VisualBasic\RSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module RSystem
-    ' 
-    '     Properties: R, RColors
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: ColorMaps, getwd, Library, packageVersion, params
-    '               Rvar, setwd
-    ' 
-    '     Sub: (+2 Overloads) TryInit
-    ' 
-    ' /********************************************************************************/
+' Module RSystem
+' 
+'     Properties: R, RColors
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: ColorMaps, getwd, Library, packageVersion, params
+'               Rvar, setwd
+' 
+'     Sub: (+2 Overloads) TryInit
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -81,12 +81,17 @@ Public Module RSystem
     ''' R server can not be initialized automatically, please manual set up init later.
     ''' </summary>
     Const UnableRunAutomatically As String = "R server can not be initialized automatically, please manual set up init later."
+    Const rdotnet_engine As String = "rdotnet_engine"
 
     ''' <summary>
     ''' Initialize the default R Engine.(可以通过在命令行之中使用``/@set``开关设置``R_HOME``参数来手动设置R的文件夹位置)
     ''' </summary>
     Sub New()
         Dim R_HOME$ = App.GetVariable("R_HOME")
+
+        If Not SharedObject.GetObject(rdotnet_engine) Is Nothing Then
+            R = SharedObject.GetObject(rdotnet_engine)
+        End If
 
         Try
             If R_HOME.StringEmpty Then
@@ -101,10 +106,8 @@ Public Module RSystem
             Call App.LogException(ex)
             Call NativeLibrary.NativeUtility.SetEnvironmentVariablesLog.SaveTo("./R_inits.log")
         Finally
-            If R Is Nothing Then
-                R = SharedObject.GetObject("rdotnet_engine")
-            Else
-                Call SharedObject.SetObject("rdotnet_engine", R)
+            If Not R Is Nothing Then
+                Call SharedObject.SetObject(rdotnet_engine, R)
             End If
         End Try
     End Sub
