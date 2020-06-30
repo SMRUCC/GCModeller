@@ -386,9 +386,9 @@
       <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\Networks\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
+      <Name>KEGGNetwork</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>

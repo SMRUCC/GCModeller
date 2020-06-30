@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::67bf5b9c3f5a7770e1af1f8d303b1e95, analysis\Metagenome\Metagenome\greengenes\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: OTUgreengenesTaxonomy, TreeAssign
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: OTUgreengenesTaxonomy, TreeAssign
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace greengenes
 
+    <HideModuleName>
     Public Module Extensions
 
         ''' <summary>
@@ -79,7 +80,7 @@ Namespace greengenes
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Iterator Public Function OTUgreengenesTaxonomyTreeAssign(blastn As IEnumerable(Of Query),
+        Public Iterator Function OTUgreengenesTaxonomyTreeAssign(blastn As IEnumerable(Of Query),
                                                                  OTUs As Dictionary(Of String, NamedValue(Of Integer)),
                                                                  taxonomy As Dictionary(Of String, otu_taxonomy),
                                                                  Optional min_pct# = 0.97,
@@ -131,7 +132,7 @@ Namespace greengenes
             Dim assign As TaxonomyTree = Nothing
 
             Do While True
-                If tree.Childs = 0 Then
+                If tree.childs = 0 Then
                     ' 物种的比对注释结果一直到最低端的species都还具有高于cutoff的支持度
                     ' 则assign此时仍然是空的，需要在这里判断一下，否则后面的代码会出现空引用错误
                     If assign Is Nothing Then
@@ -142,7 +143,7 @@ Namespace greengenes
 
                 ' 遍历整颗树，取hits最大的分支作为最终的赋值结果
                 tree = tree _
-                    .Childs _
+                    .childs _
                     .OrderByDescending(Function(t) t.hits) _
                     .First
                 n += tree.hits
@@ -150,7 +151,7 @@ Namespace greengenes
                 If tree.hits < cutoff AndAlso assign Is Nothing Then
                     ' 因为假若需要知道所有ranks的数量分布的话
                     ' 在这里达到cutoff之后还不能够立刻退出
-                    assign = tree.Parent
+                    assign = tree.parent
                 End If
             Loop
 
