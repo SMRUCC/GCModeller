@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -106,6 +107,30 @@ Namespace Serialization
             End If
         End Function
 
+        <Extension>
+        Private Function isKeyValueTuple(properties As PropertyInfo()) As Boolean
+            Return properties.Length = 2 AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "key" AndAlso p.PropertyType Is GetType(String) OrElse p.PropertyType Is GetType(Integer) OrElse p.PropertyType Is GetType(Long)) AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "value")
+        End Function
+
+        <Extension>
+        Private Sub writeKeyValueTuples(list As IEnumerable, var$, properties As PropertyInfo(), encoding As Encoding)
+            Dim key As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "key")
+            Dim value As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "value")
+
+            For Each x As Object In list
+                Dim keyStr$ = Scripting.ToString(key.GetValue(x))
+                Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
+
+                SyncLock R
+                    With R
+                        .call = $"{var}[[{Rstring(keyStr)}]] <- {valStr};"
+                    End With
+                End SyncLock
+            Next
+        End Sub
+
         Public Function PushList(list As IEnumerable, encoding As Encoding) As String
             Dim type As Type = CObj(list).GetType
             Dim base As Type = type.GetTypeElement(False)
@@ -125,9 +150,11 @@ Namespace Serialization
 
             Dim properties = base.GetProperties(PublicProperty)
 
-            ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
-            ' 反之复杂的非基础类型写为一个list
-            If DataFramework.IsComplexType(base) Then
+            If properties.isKeyValueTuple Then
+                Call list.writeKeyValueTuples(var, properties, encoding)
+            ElseIf DataFramework.IsComplexType(base) Then
+                ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
+                ' 反之复杂的非基础类型写为一个list
 
                 ' write as list
                 ' 如果实现了INamedValue接口，则使用key属性作为键名
@@ -155,23 +182,6 @@ Namespace Serialization
                         End SyncLock
                     Next
                 End If
-            ElseIf properties.Length = 2 AndAlso
-                properties.Any(Function(p) p.Name.ToLower = "key" AndAlso p.PropertyType Is GetType(String) OrElse p.PropertyType Is GetType(Integer) OrElse p.PropertyType Is GetType(Long)) AndAlso
-                properties.Any(Function(p) p.Name.ToLower = "value") Then
-
-                Dim key As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "key")
-                Dim value As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "value")
-
-                For Each x As Object In list
-                    Dim keyStr$ = Scripting.ToString(key.GetValue(x))
-                    Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
-
-                    SyncLock R
-                        With R
-                            .call = $"{var}[[{Rstring(keyStr)}]] <- {valStr};"
-                        End With
-                    End SyncLock
-                Next
             Else
                 ' write as dataframe
                 With App.GetAppSysTempFile(, App.PID)
