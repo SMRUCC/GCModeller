@@ -807,6 +807,8 @@ Namespace API
         ''' <param name="refhook">a hook function for handling reference objects.
         ''' </param>
         ''' <returns></returns>
+        ''' 
+        <ExportAPI("saveRDS")>
         Public Function saveRDS([object] As String,
                                 Optional file$ = "",
                                 Optional ascii As Boolean = False,
@@ -864,6 +866,7 @@ Namespace API
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(x As IEnumerable(Of Double)) As String
             Return base.c(list:=x _
+                .SafeQuery _
                 .Select(Function(d)
                             If d.IsNaNImaginary Then
                                 Return "NA"

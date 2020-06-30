@@ -189,6 +189,13 @@ Public Module kegg_repository
         End If
     End Function
 
+    ''' <summary>
+    ''' save the kegg pathway annotation result data.
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="file$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("save.KEGG_pathway")>
     Public Function SaveKEGGPathway(<RRawVectorArgument> pathway As Object, file$, Optional env As Environment = Nothing) As Object
         Dim pathwayCollection As REnv.Object.pipeline = REnv.Object.pipeline.TryCreatePipeline(Of Pathway)(pathway, env)
@@ -203,6 +210,22 @@ Public Module kegg_repository
                 .ToArray
         }.GetXml _
          .SaveTo(file)
+    End Function
+
+    ''' <summary>
+    ''' read the kegg pathway annotation result data.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.KEGG_pathway")>
+    <RApiReturn(GetType(Pathway))>
+    Public Function readKEGGpathway(file As String, Optional env As Environment = Nothing) As Object
+        If Not file.FileExists Then
+            Return Internal.debug.stop({"the given file is not exists on your filesystem!", $"file: " & file}, env)
+        Else
+            Return file.LoadXml(Of XmlList(Of Pathway)).items
+        End If
     End Function
 
     ''' <summary>

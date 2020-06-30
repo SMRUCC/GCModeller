@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -106,6 +107,27 @@ Namespace Serialization
             End If
         End Function
 
+        <Extension>
+        Private Function isKeyValueTuple(properties As PropertyInfo()) As Boolean
+            Return properties.Length = 2 AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "key" AndAlso p.PropertyType Is GetType(String) OrElse p.PropertyType Is GetType(Integer) OrElse p.PropertyType Is GetType(Long)) AndAlso
+                properties.Any(Function(p) p.Name.ToLower = "value")
+        End Function
+
+        <Extension>
+        Private Sub writeKeyValueTuples(list As IEnumerable, var$, key As PropertyInfo, value As PropertyInfo, encoding As Encoding)
+            SyncLock R
+                With R
+                    For Each x As Object In list
+                        Dim keyStr$ = Scripting.ToString(key.GetValue(x))
+                        Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
+
+                        .call = $"{var}[[{Rstring(keyStr)}]] <- {valStr};"
+                    Next
+                End With
+            End SyncLock
+        End Sub
+
         Public Function PushList(list As IEnumerable, encoding As Encoding) As String
             Dim type As Type = CObj(list).GetType
             Dim base As Type = type.GetTypeElement(False)
@@ -123,9 +145,23 @@ Namespace Serialization
                 End With
             End SyncLock
 
-            ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
-            ' 反之复杂的非基础类型写为一个list
-            If DataFramework.IsComplexType(base) Then
+            Static keyValTupleCache As New Dictionary(Of Type, (isTuple As Boolean, key As PropertyInfo, val As PropertyInfo))
+
+            If Not keyValTupleCache.ContainsKey(base) Then
+                Dim properties = base.GetProperties(PublicProperty)
+
+                If properties.isKeyValueTuple Then
+                    Call keyValTupleCache.Add(base, (True, properties.First(Function(p) p.Name.ToLower = "key"), properties.First(Function(p) p.Name.ToLower = "value")))
+                Else
+                    Call keyValTupleCache.Add(base, (False, Nothing, Nothing))
+                End If
+            End If
+
+            If keyValTupleCache(base).isTuple Then
+                Call list.writeKeyValueTuples(var, keyValTupleCache(base).key, keyValTupleCache(base).val, encoding)
+            ElseIf DataFramework.IsComplexType(base) Then
+                ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
+                ' 反之复杂的非基础类型写为一个list
 
                 ' write as list
                 ' 如果实现了INamedValue接口，则使用key属性作为键名
@@ -153,7 +189,6 @@ Namespace Serialization
                         End SyncLock
                     Next
                 End If
-
             Else
                 ' write as dataframe
                 With App.GetAppSysTempFile(, App.PID)
