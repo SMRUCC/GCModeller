@@ -42,6 +42,7 @@
 
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -139,6 +140,33 @@ Module TaxonomyKit
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo As String) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)
+    End Function
+
+    <ExportAPI("taxonomy.filter")>
+    Public Function Filters(tree As NcbiTaxonomyTree, range As Integer(), taxid As Integer()) As Taxonomy()
+        Dim ranges As Taxonomy() = range _
+            .Select(Function(id)
+                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                    End Function) _
+            .Select(Function(nodes) New Taxonomy(nodes)) _
+            .ToArray
+        Dim result As New List(Of Taxonomy)
+        Dim relation As Relations
+
+        For Each id As Integer In taxid
+            Dim target As New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, True))
+
+            For Each limits In ranges
+                relation = limits.CompareWith(target)
+
+                If relation = Relations.Equals OrElse relation = Relations.Include Then
+                    result.Add(target)
+                    Exit For
+                End If
+            Next
+        Next
+
+        Return result.ToArray
     End Function
 
     ''' <summary>
