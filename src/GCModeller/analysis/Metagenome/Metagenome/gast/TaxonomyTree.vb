@@ -58,21 +58,26 @@ Namespace gast
     ''' </summary>
     Public Class TaxonomyTree : Inherits Taxonomy
 
-        Public Property Childs As New List(Of TaxonomyTree)
-        Public Property Parent As TaxonomyTree
-        Public Property Lineage As String
+        Public Property childs As New List(Of TaxonomyTree)
+        Public Property parent As TaxonomyTree
+        Public Property lineage As String
+
         ''' <summary>
         ''' Count of the hits numbers on this node rank 
         ''' </summary>
         ''' <returns></returns>
         Public Property hits As Integer
 
-        Public ReadOnly Property TreeRoot As TaxonomyTree
+        ''' <summary>
+        ''' get the tree root
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property root As TaxonomyTree
             Get
-                If Parent Is Nothing OrElse Parent.Lineage = "*" Then
+                If parent Is Nothing OrElse parent.lineage = "*" Then
                     Return Me
                 Else
-                    Return Parent.TreeRoot
+                    Return parent.root
                 End If
             End Get
         End Property
@@ -90,8 +95,8 @@ Namespace gast
                 Me(i) = copy(i)
             Next
 
-            Lineage = copy.Lineage
-            Parent = copy
+            lineage = copy.lineage
+            parent = copy
         End Sub
 
         Public Overrides Function ToString() As String
@@ -100,7 +105,7 @@ Namespace gast
 
             Call GetDepth(rank)
 
-            If lineage.StringEmpty AndAlso Me.Lineage = "*" Then
+            If lineage.StringEmpty AndAlso Me.lineage = "*" Then
                 lineage = "*"
             End If
 
@@ -121,8 +126,8 @@ Namespace gast
                         End Function) _
                 .ToArray
             Dim root As New TaxonomyTree With {
-                .Lineage = "*",
-                .Childs = New List(Of TaxonomyTree),
+                .lineage = "*",
+                .childs = New List(Of TaxonomyTree),
                 .hits = array.Length
             }
 
@@ -161,28 +166,28 @@ Namespace gast
                 If g.Length = 1 Then
                     ' 继续延伸当前的树
                     Dim append As New TaxonomyTree(walk) With {
-                        .Childs = New List(Of TaxonomyTree)
+                        .childs = New List(Of TaxonomyTree)
                     }
 
                     With g.First
                         append(level) = .Key
-                        append.Lineage &= ";" & .Key
+                        append.lineage &= ";" & .Key
                         append.hits = .Count
                     End With
 
-                    walk.Childs.Add(append)
+                    walk.childs.Add(append)
                     walk = append
                 Else
                     ' 树分叉了，则添加新的节点
                     For Each subType As IGrouping(Of String, String) In g
                         Dim append As New TaxonomyTree(walk) With {
-                            .Childs = New List(Of TaxonomyTree)
+                            .childs = New List(Of TaxonomyTree)
                         }
                         append(level) = subType.Key
-                        append.Lineage &= ";" & subType.Key
+                        append.lineage &= ";" & subType.Key
                         append.hits = subType.Count
 
-                        walk.Childs.Add(append)
+                        walk.childs.Add(append)
 
                         Dim subHits = hits _
                             .Where(Function(tax)
