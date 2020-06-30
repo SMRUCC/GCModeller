@@ -46,8 +46,10 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -61,7 +63,10 @@ Module metagenomicsKit
     End Function
 
     <ExportAPI("compounds.origin")>
-    Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As list
+    Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree,
+                                   Optional rank As TaxonomyRanks = TaxonomyRanks.Family,
+                                   Optional env As Environment = Nothing) As list
+
         Dim compounds As New Dictionary(Of String, List(Of String))
 
         For Each organism As KeyValuePair(Of String, Pathway()) In annotations.AsGeneric(Of Pathway())(env)
@@ -79,6 +84,8 @@ Module metagenomicsKit
         Dim origins As New Dictionary(Of String, Object)
         Dim ncbi_taxid As String()
         Dim taxonomyList As gast.Taxonomy()
+        Dim consensusTree As TaxonomyTree
+        Dim consensus As TaxonomyTree()
 
         For Each compound In compounds
             ncbi_taxid = compound.Value.Distinct.ToArray
@@ -87,11 +94,14 @@ Module metagenomicsKit
                             Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True)))
                         End Function) _
                 .ToArray
+            'consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
+            'consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
+            'consensus = consensus.Take(3).ToArray
 
             origins(compound.Key) = New Dictionary(Of String, Object) From {
                 {"kegg_id", compound.Key},
                 {"ncbi_taxid", ncbi_taxid},
-                {"taxonomy", Nothing}
+                {"taxonomy", taxonomyList.Select(Function(tax) tax.ToString(BIOMstyle:=True)).ToArray}
             }
         Next
 

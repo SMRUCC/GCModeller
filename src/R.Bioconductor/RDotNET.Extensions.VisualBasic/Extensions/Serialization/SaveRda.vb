@@ -115,20 +115,17 @@ Namespace Serialization
         End Function
 
         <Extension>
-        Private Sub writeKeyValueTuples(list As IEnumerable, var$, properties As PropertyInfo(), encoding As Encoding)
-            Dim key As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "key")
-            Dim value As PropertyInfo = properties.First(Function(p) p.Name.ToLower = "value")
+        Private Sub writeKeyValueTuples(list As IEnumerable, var$, key As PropertyInfo, value As PropertyInfo, encoding As Encoding)
+            SyncLock R
+                With R
+                    For Each x As Object In list
+                        Dim keyStr$ = Scripting.ToString(key.GetValue(x))
+                        Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
 
-            For Each x As Object In list
-                Dim keyStr$ = Scripting.ToString(key.GetValue(x))
-                Dim valStr$ = SaveRda.Push(value.GetValue(x), encoding)
-
-                SyncLock R
-                    With R
                         .call = $"{var}[[{Rstring(keyStr)}]] <- {valStr};"
-                    End With
-                End SyncLock
-            Next
+                    Next
+                End With
+            End SyncLock
         End Sub
 
         Public Function PushList(list As IEnumerable, encoding As Encoding) As String
@@ -148,10 +145,20 @@ Namespace Serialization
                 End With
             End SyncLock
 
-            Dim properties = base.GetProperties(PublicProperty)
+            Static keyValTupleCache As New Dictionary(Of Type, (isTuple As Boolean, key As PropertyInfo, val As PropertyInfo))
 
-            If properties.isKeyValueTuple Then
-                Call list.writeKeyValueTuples(var, properties, encoding)
+            If Not keyValTupleCache.ContainsKey(base) Then
+                Dim properties = base.GetProperties(PublicProperty)
+
+                If properties.isKeyValueTuple Then
+                    Call keyValTupleCache.Add(base, (True, properties.First(Function(p) p.Name.ToLower = "key"), properties.First(Function(p) p.Name.ToLower = "value")))
+                Else
+                    Call keyValTupleCache.Add(base, (False, Nothing, Nothing))
+                End If
+            End If
+
+            If keyValTupleCache(base).isTuple Then
+                Call list.writeKeyValueTuples(var, keyValTupleCache(base).key, keyValTupleCache(base).val, encoding)
             ElseIf DataFramework.IsComplexType(base) Then
                 ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
                 ' 反之复杂的非基础类型写为一个list
