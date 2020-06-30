@@ -186,7 +186,7 @@ Namespace gast
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return TaxonomyString()
+            Return ToString(BIOMstyle:=True)
         End Function
 
         Public Function GetTree(rankLevel As Integer) As String
