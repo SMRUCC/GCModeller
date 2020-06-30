@@ -82,7 +82,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace ComponentModel
+Namespace My
 
     ''' <summary>
     ''' An Interface for the SingletonHolder Class.(存储单体模式的对象实例)
@@ -91,9 +91,6 @@ Namespace ComponentModel
     Public NotInheritable Class SingletonHolder(Of T As New)
 
         Shared _instance As T
-
-        Private Sub New()
-        End Sub
 
         ''' <summary>
         ''' 目标类型的唯一单个实例
@@ -108,5 +105,21 @@ Namespace ComponentModel
                 Return _instance
             End Get
         End Property
+
+        Private Sub New()
+        End Sub
+    End Class
+
+    Public NotInheritable Class SharedObject(Of T)
+
+        Public Shared Property Instance As T
+
+        Private Sub New()
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Instance.ToString
+        End Function
+
     End Class
 End Namespace

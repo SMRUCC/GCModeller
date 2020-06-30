@@ -51,6 +51,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports Microsoft.VisualBasic.My
 
 ''' <summary>
 ''' R Engine extensions.
@@ -100,6 +101,12 @@ Public Module RSystem
             Call ex.PrintException
             Call App.LogException(ex)
             Call NativeLibrary.NativeUtility.SetEnvironmentVariablesLog.SaveTo("./R_inits.log")
+        Finally
+            If R Is Nothing Then
+                R = SharedObject(Of ExtendedEngine).Instance
+            Else
+                SharedObject(Of ExtendedEngine).Instance = R
+            End If
         End Try
     End Sub
 
