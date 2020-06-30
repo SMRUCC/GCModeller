@@ -71,7 +71,7 @@ Module metagenomicsKit
         Dim compounds As New Dictionary(Of String, List(Of String))
 
         For Each organism As KeyValuePair(Of String, Pathway()) In annotations.AsGeneric(Of Pathway())(env)
-            For Each map As Pathway In organism.Value
+            For Each map As Pathway In organism.Value.SafeQuery
                 For Each compound As NamedValue In map.compound.SafeQuery
                     If Not compounds.ContainsKey(compound.name) Then
                         Call compounds.Add(compound.name, New List(Of String))
