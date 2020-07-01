@@ -79,11 +79,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\Library\</OutputPath>
     <DocumentationFile>metagenomics_kit.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
@@ -128,6 +130,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BIOMkit.vb" />
     <Compile Include="metagenomicsKit.vb" />
     <Compile Include="gast.vb" />
     <Compile Include="taxonomyKit.vb" />
@@ -174,6 +177,10 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.vbproj">
+      <Project>{EE17BE25-17E3-48F5-BEF2-A7D540AE09E1}</Project>
+      <Name>BIOM</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.vbproj">
       <Project>{98B68C31-EA5A-4B07-A748-3A009FABFA39}</Project>

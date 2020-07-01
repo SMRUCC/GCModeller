@@ -103,7 +103,10 @@ Namespace Metagenomics
                 rank.TextEquals("NA") OrElse
                 rank.TextEquals("unclassified") OrElse
                 rank.TextEquals("unknown") OrElse
-                rank.TextEquals("Unassigned")
+                rank.TextEquals("Unassigned") OrElse
+                rank = "-" OrElse
+                rank = "_" OrElse
+                rank = "."
         End Function
 
         ''' <summary>

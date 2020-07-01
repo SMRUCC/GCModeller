@@ -9,7 +9,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("gast")>
-Module gast
+Module gastTools
 
     ''' <summary>
     ''' assign OTU its taxonomy result

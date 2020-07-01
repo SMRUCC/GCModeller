@@ -44,8 +44,12 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Model.Network.Microbiome
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -59,11 +63,15 @@ Module metagenomicsKit
     End Function
 
     <ExportAPI("compounds.origin")>
-    Public Function CompoundOrigin(annotations As list, Optional env As Environment = Nothing) As list
+    Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree,
+                                   Optional rank As TaxonomyRanks = TaxonomyRanks.Family,
+                                   Optional ranges As Integer() = Nothing,
+                                   Optional env As Environment = Nothing) As list
+
         Dim compounds As New Dictionary(Of String, List(Of String))
 
         For Each organism As KeyValuePair(Of String, Pathway()) In annotations.AsGeneric(Of Pathway())(env)
-            For Each map As Pathway In organism.Value
+            For Each map As Pathway In organism.Value.SafeQuery
                 For Each compound As NamedValue In map.compound.SafeQuery
                     If Not compounds.ContainsKey(compound.name) Then
                         Call compounds.Add(compound.name, New List(Of String))
@@ -74,13 +82,60 @@ Module metagenomicsKit
             Next
         Next
 
-        Return New list With {
-            .slots = compounds _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return CObj(a.Value.Distinct.ToArray)
-                              End Function)
-        }
+        Dim origins As New Dictionary(Of String, Object)
+        Dim ncbi_taxid As String()
+        Dim taxonomyList As gast.Taxonomy()
+        Dim consensusTree As TaxonomyTree
+        Dim consensus As TaxonomyTree()
+        Dim searchRanges As Metagenomics.Taxonomy() = ranges _
+            .SafeQuery _
+            .Select(Function(id)
+                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                    End Function) _
+            .Select(Function(nodes) New Metagenomics.Taxonomy(nodes)) _
+            .ToArray
+        Dim Homo_sapiens As Boolean
+        Dim Mus_musculus As Boolean
+        Dim Rattus_norvegicus As Boolean
+
+        For Each compound In compounds
+            ncbi_taxid = compound.Value.Distinct.ToArray
+            taxonomyList = ncbi_taxid _
+                .Select(Function(id)
+                            Return New gast.Taxonomy(New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), True))) With {
+                                .ncbi_taxid = id
+                            }
+                        End Function) _
+                .ToArray
+
+            Homo_sapiens = taxonomyList.Any(Function(t) t.species = "Homo sapiens")
+            Mus_musculus = taxonomyList.Any(Function(t) t.species = "Mus musculus")
+            Rattus_norvegicus = taxonomyList.Any(Function(t) t.species = "Rattus norvegicus")
+
+            If searchRanges.Length > 0 Then
+                taxonomyList = searchRanges.RangeFilter(taxonomyList).ToArray
+            End If
+
+            consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
+            consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
+            consensus = consensus.Take(3).ToArray
+
+            taxonomyList = consensus _
+                .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species)) _
+                .IteratesALL _
+                .ToArray
+
+            origins(compound.Key) = New Dictionary(Of String, Object) From {
+                {"kegg_id", compound.Key},
+                {"ncbi_taxid", ncbi_taxid},
+                {"taxonomy", taxonomyList.Select(Function(tax) New Metagenomics.Taxonomy(tax) With {.ncbi_taxid = tax.ncbi_taxid}).ToArray},
+                {NameOf(Homo_sapiens), Homo_sapiens},
+                {NameOf(Mus_musculus), Mus_musculus},
+                {NameOf(Rattus_norvegicus), Rattus_norvegicus}
+            }
+        Next
+
+        Return New list With {.slots = origins}
     End Function
 End Module
 

@@ -41,10 +41,15 @@
 #End Region
 
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -116,6 +121,20 @@ Module TaxonomyKit
         End If
     End Function
 
+    <ExportAPI("unique_taxonomy")>
+    Public Function uniqueTaxonomy(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
+
+        If list.isError Then
+            Return list.getError
+        Else
+            Return list.populates(Of Taxonomy) _
+                .GroupBy(Function(t) t.ToString()) _
+                .Select(Function(sg) sg.First) _
+                .ToArray
+        End If
+    End Function
+
     ''' <summary>
     ''' load ncbi taxonomy tree model from the given data files
     ''' </summary>
@@ -138,16 +157,105 @@ Module TaxonomyKit
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    <ExportAPI("taxonomy.filter")>
+    <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
+    Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
+        Dim ranges As Taxonomy() = range _
+            .Select(Function(id)
+                        If id.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), only_std_ranks:=True))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
+                        End If
+                    End Function) _
+            .Where(Function(t) t.lowestLevel <> TaxonomyRanks.NA) _
+            .ToArray
+
+        If taxid Is Nothing Then
+            Return tree.filterLambda(ranges)
+        Else
+            Dim result As Taxonomy() = taxid _
+                .Select(Function(id)
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True))
+                        End Function) _
+                .DoCall(AddressOf ranges.RangeFilter) _
+                .ToArray
+
+            Return result
+        End If
+    End Function
+
+    <Extension>
+    Private Function filterLambda(tree As NcbiTaxonomyTree, ranges As Taxonomy()) As Predicate(Of Object)
+        Return Function(target)
+                   Dim relation As Relations
+
+                   If target Is Nothing Then
+                       Return False
+                   ElseIf TypeOf target Is Taxonomy Then
+                       ' do nothing 
+                   ElseIf TypeOf target Is Long OrElse TypeOf target Is Integer Then
+                       target = New Taxonomy(tree.GetAscendantsWithRanksAndNames(CInt(target), only_std_ranks:=True))
+                   ElseIf TypeOf target Is String AndAlso DirectCast(target, String).IsPattern("\d+") Then
+                       target = New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(CStr(target)), only_std_ranks:=True))
+                   Else
+                       Return False
+                   End If
+
+                   For Each limits As Taxonomy In ranges
+                       relation = limits.CompareWith(DirectCast(target, Taxonomy))
+
+                       If relation = Relations.Equals OrElse relation = Relations.Include Then
+                           Return True
+                       End If
+                   Next
+
+                   Return False
+               End Function
+    End Function
+
+    <Extension>
+    Friend Iterator Function RangeFilter(Of T As Taxonomy)(ranges As Taxonomy(), targets As IEnumerable(Of T)) As IEnumerable(Of T)
+        Dim filter = filterLambda(Nothing, ranges)
+
+        For Each target As T In targets
+            If filter(target) Then
+                Yield target
+            End If
+        Next
+    End Function
+
     ''' <summary>
     ''' get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
     ''' </summary>
     ''' <param name="tree">the ncbi taxonomy tree model</param>
-    ''' <param name="taxid">the ncbi taxonomy id</param>
+    ''' <param name="tax">the ncbi taxonomy id or taxonomy string in BIOM style.</param>
     ''' <param name="fullName"></param>
     ''' <returns></returns>
     <ExportAPI("lineage")>
-    Public Function Lineage(tree As NcbiTaxonomyTree, taxid As Integer, Optional fullName As Boolean = False) As Taxonomy
-        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=Not fullName))
+    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> tax As String(), Optional fullName As Boolean = False) As Taxonomy()
+        Return tax _
+            .Select(Function(ncbi_taxid)
+                        If ncbi_taxid.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=Not fullName))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
+                        End If
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("as.taxonomy.tree")>
+    Public Function buildTree(taxonomy As Taxonomy()) As TaxonomyTree
+        Return TaxonomyTree.BuildTree(taxonomy.Select(Function(t) New gast.Taxonomy(t)), Nothing, Nothing)
+    End Function
+
+    <ExportAPI("consensus")>
+    Public Function Consensus(tree As TaxonomyTree, level As TaxonomyRanks) As Taxonomy()
+        Return tree _
+            .PopulateTaxonomy(level) _
+            .Select(Function(t) DirectCast(t, Taxonomy)) _
+            .ToArray
     End Function
 End Module
 

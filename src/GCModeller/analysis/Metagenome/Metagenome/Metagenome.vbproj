@@ -301,7 +301,10 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
     <Compile Include="ACE.vb" />
-    <Compile Include="gast\TaxonomyTree.vb" />
+    <Compile Include="gast\TaxonomyTree\TaxonomyConsensus.vb" />
+    <Compile Include="gast\TaxonomyTree\TreePopulator.vb" />
+    <Compile Include="gast\TaxonomyTree\TreeBuilder.vb" />
+    <Compile Include="gast\TaxonomyTree\TaxonomyTree.vb" />
     <Compile Include="gast\Models.vb" />
     <Compile Include="greengenes\Extensions.vb" />
     <Compile Include="greengenes\otu_taxonomy.vb" />
