@@ -39,10 +39,9 @@
 
 #End Region
 
-Imports System.Net
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports ThinkVB.FileSystem.OSS
@@ -63,7 +62,6 @@ Public Module Download
     ''' <returns></returns>
     <Extension>
     Public Iterator Function HandleFileDownloads(manifests As IEnumerable(Of manifest), save$, Optional aspera As Aspera = Nothing) As IEnumerable(Of String)
-        Dim url As String
         Dim downloadAs As String
 
         If aspera Is Nothing Then
@@ -76,40 +74,33 @@ Public Module Download
             If file.md5 = downloadAs.GetFileMd5 Then
                 ' 已经下载过了，跳过
                 Continue For
-            End If
-
-            If aspera Is Nothing OrElse file.AsperaURL.StringEmpty Then
-                ' 只能够使用http协议下载
-HTTP:           url$ = file.HttpURL
-
-                If url.StringEmpty Then
-                    Yield "Empty resource: " & file.GetJson
-                Else
-                    Call httpRequest(url, downloadAs)
-                    Call Thread.Sleep(2000)
-                End If
             Else
-                Call aspera.Download(file.AsperaURL, downloadAs)
-                Call Thread.Sleep(1000)
+                Yield file.runFileDownloader(downloadAs, aspera)
             End If
         Next
     End Function
 
-    Private Function progressHandle(progress As ProgressBar) As DownloadProgressChangedEventHandler
-        Dim msg$
+    <Extension>
+    Private Function runFileDownloader(file As manifest, downloadAs$, aspera As Aspera) As String
+        If aspera Is Nothing OrElse file.AsperaURL.StringEmpty Then
+            ' 只能够使用http协议下载
+HTTP:       Dim url As String = file.HttpURL
 
-        Return Sub(sender, args)
-                   msg$ = $"{args.BytesReceived}/{args.TotalBytesToReceive} bytes"
-                   progress.SetProgress(args.ProgressPercentage, msg)
-               End Sub
+            If url.StringEmpty Then
+                Return "empty resource: " & file.GetJson
+            Else
+                Call wget.Download(url, save:=downloadAs)
+                Call Thread.Sleep(2000)
+            End If
+        Else
+            Call aspera.Download(file.AsperaURL, downloadAs)
+            Call Thread.Sleep(1000)
+        End If
+
+        If file.md5 = downloadAs.GetFileMd5 Then
+            Return $"{downloadAs} download success!"
+        Else
+            Return $"{downloadAs} download failure!"
+        End If
     End Function
-
-    Private Sub httpRequest(url$, downloadAs$)
-        Using progress As New ProgressBar(url, 1, True)
-            Call url.DownloadFile(
-                save:=downloadAs,
-                progressHandle:=progressHandle(progress)
-            )
-        End Using
-    End Sub
 End Module
