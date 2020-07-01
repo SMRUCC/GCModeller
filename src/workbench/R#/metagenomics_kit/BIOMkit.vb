@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.foundation
 Imports SMRUCC.genomics.foundation.BIOM.v10
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -40,6 +41,21 @@ Public Module BIOMkit
             End If
         Else
             Return Internal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
+        End If
+    End Function
+
+    <ExportAPI("biom.taxonomy")>
+    <RApiReturn(GetType(Taxonomy))>
+    Public Function getTaxonomy(biom As Object, Optional env As Environment = Nothing) As Object
+        If biom Is Nothing Then
+            Return Internal.debug.stop("the given biom matrix object can not be nothing!", env)
+        ElseIf TypeOf biom Is BIOMDataSet(Of Double) Then
+            Return DirectCast(biom, BIOMDataSet(Of Double)).rows _
+                .Where(Function(r) r.hasMetaInfo) _
+                .Select(Function(row) row.metadata.lineage) _
+                .ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(BIOMDataSet(Of Double)), biom.GetType, env), env)
         End If
     End Function
 
