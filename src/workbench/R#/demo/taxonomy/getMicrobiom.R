@@ -2,8 +2,12 @@ imports ["BIOM_kit", "taxonomy_kit"] from "metagenomics_kit";
 
 setwd(!script$dir);
 
-let bioms = list.files("./hmqcp") :> lapply(file => read.matrix(file) :> biom.taxonomy);
+let bioms = list.files("./hmqcp");
 let taxonomy = [];
+
+print(basename(bioms));
+
+bioms = bioms :> lapply(file => read.matrix(file) :> biom.taxonomy);
 
 for(list in bioms) {
 	taxonomy = taxonomy << list;
