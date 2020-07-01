@@ -121,6 +121,20 @@ Module TaxonomyKit
         End If
     End Function
 
+    <ExportAPI("unique_taxonomy")>
+    Public Function uniqueTaxonomy(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
+
+        If list.isError Then
+            Return list.getError
+        Else
+            Return list.populates(Of Taxonomy) _
+                .GroupBy(Function(t) t.ToString()) _
+                .Select(Function(sg) sg.First) _
+                .ToArray
+        End If
+    End Function
+
     ''' <summary>
     ''' load ncbi taxonomy tree model from the given data files
     ''' </summary>
