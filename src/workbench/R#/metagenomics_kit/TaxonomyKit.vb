@@ -225,14 +225,18 @@ Module TaxonomyKit
     ''' get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
     ''' </summary>
     ''' <param name="tree">the ncbi taxonomy tree model</param>
-    ''' <param name="taxid">the ncbi taxonomy id</param>
+    ''' <param name="tax">the ncbi taxonomy id or taxonomy string in BIOM style.</param>
     ''' <param name="fullName"></param>
     ''' <returns></returns>
     <ExportAPI("lineage")>
-    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> taxid As Integer(), Optional fullName As Boolean = False) As Taxonomy()
-        Return taxid _
+    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> tax As String(), Optional fullName As Boolean = False) As Taxonomy()
+        Return tax _
             .Select(Function(ncbi_taxid)
-                        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(ncbi_taxid, only_std_ranks:=Not fullName))
+                        If ncbi_taxid.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=Not fullName))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
+                        End If
                     End Function) _
             .ToArray
     End Function
