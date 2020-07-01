@@ -159,12 +159,15 @@ Module TaxonomyKit
 
     <ExportAPI("taxonomy.filter")>
     <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
-    Public Function Filters(tree As NcbiTaxonomyTree, range As Integer(), Optional taxid As Integer() = Nothing) As Object
+    Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
         Dim ranges As Taxonomy() = range _
             .Select(Function(id)
-                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                        If id.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), only_std_ranks:=True))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
+                        End If
                     End Function) _
-            .Select(Function(nodes) New Taxonomy(nodes)) _
             .ToArray
 
         If taxid Is Nothing Then
