@@ -168,6 +168,7 @@ Module TaxonomyKit
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
                         End If
                     End Function) _
+            .Where(Function(t) t.lowestLevel <> TaxonomyRanks.NA) _
             .ToArray
 
         If taxid Is Nothing Then
