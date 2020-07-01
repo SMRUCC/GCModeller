@@ -20,7 +20,7 @@ Module HMP
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("fetch")>
-    Public Function fetch(files As Object, outputdir As String, Optional env As Environment = Nothing) As Object
+    Public Function fetch(<RRawVectorArgument> files As Object, outputdir As String, Optional env As Environment = Nothing) As Object
         Dim filesManifest As pipeline = pipeline.TryCreatePipeline(Of manifest)(files, env)
 
         If filesManifest.isError Then
