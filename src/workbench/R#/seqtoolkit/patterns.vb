@@ -108,7 +108,7 @@ Module patterns
         ElseIf TypeOf target Is FastaSeq Then
             Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities)
         Else
-            Dim seqs = GetFastaSeq(target)
+            Dim seqs = GetFastaSeq(target, env)
 
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
@@ -166,7 +166,8 @@ Module patterns
                               Optional minw% = 6,
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
-                              Optional noccurs% = 6) As SequenceMotif()
+                              Optional noccurs% = 6,
+                              Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
@@ -175,7 +176,7 @@ Module patterns
             .ScanMinW = 6,
             .ScanCutoff = 0.8
         }
-        Dim motifs As SequenceMotif() = GetFastaSeq(fasta) _
+        Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param
@@ -201,7 +202,7 @@ Module patterns
             Return REnv.Internal.debug.stop("MSA is nothing!", env)
         End If
 
-        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA)
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA, env)
 
         If data Is Nothing Then
             Dim type As Type = MSA.GetType
@@ -237,7 +238,7 @@ Module patterns
                                           Optional rev_compl As Boolean = False,
                                           Optional env As Environment = Nothing) As Object
 
-        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds)
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds, env)
 
         If data Is Nothing Then
             Return Internal.debug.stop({
