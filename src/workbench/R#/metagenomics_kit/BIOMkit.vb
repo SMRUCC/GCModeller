@@ -72,7 +72,7 @@ Public Module BIOMkit
             Return raw.getError
         End If
 
-        Return raw.populates(Of BIOMDataSet(Of Double)).Union.ToArray
+        Return raw.populates(Of BIOMDataSet(Of Double))(env).Union.ToArray
     End Function
 
     Public Function asDataFrame(x As Object, args As list, env As Environment) As RDataframe

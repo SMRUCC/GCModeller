@@ -257,7 +257,7 @@ Module genbankKit
         If proteins Is Nothing Then
             Return gb.ExportProteins_Short
         Else
-            seqs = GetFastaSeq(proteins)
+            seqs = GetFastaSeq(proteins, env)
         End If
 
         If seqs Is Nothing Then
@@ -305,7 +305,7 @@ Module genbankKit
                               End Function)
         ElseIf TypeOf RNA Is pipeline AndAlso DirectCast(RNA, pipeline).elementType Like GetType(BlastnMapping) Then
             rnaMaps = DirectCast(RNA, pipeline) _
-                .populates(Of BlastnMapping) _
+                .populates(Of BlastnMapping)(env) _
                 .GroupBy(Function(map) map.Reference) _
                 .ToDictionary(Function(map) map.Key,
                               Function(map)
