@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.Metagenome.BIOMExtensions
 Imports SMRUCC.genomics.foundation
 Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports SMRUCC.genomics.Metagenomics
@@ -8,6 +10,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' the BIOM file toolkit
@@ -59,7 +62,19 @@ Public Module BIOMkit
         End If
     End Function
 
-    Public Function asDataFrame(x As Object, args As list, env As Environment) As dataframe
+    <ExportAPI("biom.union")>
+    <RApiReturn(GetType(DataSet))>
+    Public Function unionBIOM(tables As Object, Optional env As Environment = Nothing) As Object
+        Dim raw As pipeline = pipeline.TryCreatePipeline(Of BIOMDataSet(Of Double))(tables, env)
+
+        If raw.isError Then
+            Return raw.getError
+        End If
+
+        Return raw.populates(Of BIOMDataSet(Of Double)).Union.ToArray
+    End Function
+
+    Public Function asDataFrame(x As Object, args As list, env As Environment) As RDataframe
         Dim biomTable As BIOMDataSet(Of Double) = DirectCast(x, BIOMDataSet(Of Double))
         Dim columns As New Dictionary(Of String, List(Of Double))
         Dim taxonomyNames As New List(Of String)
@@ -76,7 +91,7 @@ Public Module BIOMkit
             Call taxonomyNames.Add(otu.Name)
         Next
 
-        Return New dataframe With {
+        Return New RDataframe With {
             .columns = columns _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
