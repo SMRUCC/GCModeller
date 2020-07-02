@@ -16,6 +16,7 @@ Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 ''' the BIOM file toolkit
 ''' </summary>
 <Package("BIOM_kit")>
+<RTypeExport("biom.matrix", GetType(BIOMDataSet(Of Double)))>
 Public Module BIOMkit
 
     Sub New()
