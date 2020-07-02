@@ -11,10 +11,12 @@ Public Module BIOMExtensions
         For Each table As BIOMDataSet(Of Double) In tables
             For Each otu In table.PopulateRows
                 If Not matrix.ContainsKey(otu.Name) Then
-                    matrix.Add(otu.Name, New DataSet With {.ID = otu.Name})
+                    matrix(otu.Name) = New DataSet With {
+                        .ID = otu.Name
+                    }
                 End If
 
-                matrix(otu.Name).Append(otu, AddressOf Math.Max)
+                Call matrix(otu.Name).Append(otu, AddressOf Math.Max)
             Next
         Next
 
