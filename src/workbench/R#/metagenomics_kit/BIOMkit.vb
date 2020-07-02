@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -33,13 +34,23 @@ Public Module BIOMkit
     <RApiReturn(GetType(BIOMDataSet(Of Double)))>
     Public Function readMatrix(file As Object,
                                Optional denseMatrix As Boolean = True,
+                               Optional suppressErr As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         If file Is Nothing Then
             Return Internal.debug.stop("the given file can not be nothing!", env)
         ElseIf TypeOf file Is String Then
             If DirectCast(file, String).FileExists Then
-                Return BIOM.ReadAuto(file, denseMatrix:=denseMatrix)
+                Try
+                    Return BIOM.ReadAuto(file, denseMatrix:=denseMatrix)
+                Catch ex As Exception
+                    If suppressErr Then
+                        Call env.AddMessage(New Exception("file read error on " & file, ex), MSG_TYPES.WRN)
+                        Return Nothing
+                    Else
+                        Throw ex
+                    End If
+                End Try
             Else
                 Return Internal.debug.stop("the given file is not found on your filesystem!", env)
             End If
@@ -72,7 +83,10 @@ Public Module BIOMkit
             Return raw.getError
         End If
 
-        Dim result = raw.populates(Of BIOMDataSet(Of Double))(env).Union.ToArray
+        Dim result As DataSet() = raw.populates(Of BIOMDataSet(Of Double))(env) _
+            .Where(Function(tbl) Not tbl Is Nothing) _
+            .Union _
+            .ToArray
 
         If raw.isError Then
             Return raw.getError
