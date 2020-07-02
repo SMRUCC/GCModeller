@@ -28,7 +28,7 @@ Module HMP
         End If
 
         Return filesManifest _
-            .populates(Of manifest) _
+            .populates(Of manifest)(env) _
             .HandleFileDownloads(save:=outputdir) _
             .ToArray
     End Function

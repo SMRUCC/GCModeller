@@ -34,7 +34,7 @@ Module annotation
             }, env)
         End If
 
-        Dim idmaps = uniprot.populates(Of entry) _
+        Dim idmaps = uniprot.populates(Of entry)(env) _
             .PopulateMappings _
             .GroupBy(Function(a) a.KO)
         Dim mapper As SecondaryIDSolver = SecondaryIDSolver.Create(

@@ -142,11 +142,11 @@ Module metabolism
             Return proteins
         End If
 
-        Dim rxnIndex = rxnList.populates(Of ReactionTable).CreateIndex
-        Dim genes As ProteinAnnotation() = proteins.populates(Of ProteinAnnotation).ToArray
+        Dim rxnIndex = rxnList.populates(Of ReactionTable)(env).CreateIndex
+        Dim genes As ProteinAnnotation() = proteins.populates(Of ProteinAnnotation)(env).ToArray
 
         Return maps _
-            .populates(Of Map) _
+            .populates(Of Map)(env) _
             .KEGGReconstruction(genes, min_cov) _
             .Select(Function(pathway)
                         Return pathway.AssignCompounds(rxnIndex)

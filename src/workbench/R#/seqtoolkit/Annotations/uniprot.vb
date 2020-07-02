@@ -70,7 +70,7 @@ Module uniprot
         End If
 
         Return UniProtXML _
-            .EnumerateEntries(fileList.populates(Of String).ToArray, isUniParc) _
+            .EnumerateEntries(fileList.populates(Of String)(env).ToArray, isUniParc) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
@@ -123,7 +123,7 @@ Module uniprot
         If TypeOf uniprot Is entry() OrElse TypeOf uniprot Is IEnumerable(Of entry) Then
             Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, IEnumerable(Of entry)))
         ElseIf TypeOf uniprot Is pipeline AndAlso DirectCast(uniprot, pipeline).elementType Like GetType(entry) Then
-            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, pipeline).populates(Of entry))
+            Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, pipeline).populates(Of entry)(env))
         ElseIf TypeOf uniprot Is vector AndAlso DirectCast(uniprot, vector).elementType Like GetType(entry) Then
             Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, vector).data.AsObjectEnumerator(Of entry))
         Else

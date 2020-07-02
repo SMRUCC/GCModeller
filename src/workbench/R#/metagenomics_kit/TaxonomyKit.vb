@@ -115,7 +115,7 @@ Module TaxonomyKit
         If list.isError Then
             Return list.getError
         Else
-            Return list.populates(Of Taxonomy) _
+            Return list.populates(Of Taxonomy)(env) _
                 .Select(Function(tax) tax.ToString(BIOMstyle:=True)) _
                 .ToArray
         End If
@@ -128,7 +128,7 @@ Module TaxonomyKit
         If list.isError Then
             Return list.getError
         Else
-            Return list.populates(Of Taxonomy) _
+            Return list.populates(Of Taxonomy)(env) _
                 .GroupBy(Function(t) t.ToString()) _
                 .Select(Function(sg) sg.First) _
                 .ToArray

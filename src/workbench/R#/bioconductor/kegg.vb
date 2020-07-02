@@ -19,7 +19,7 @@ Module kegg
         If kegg.isError Then
             Return kegg.getError
         Else
-            Call kegg.populates(Of Map).WriteMaps(saveRDS)
+            Call kegg.populates(Of Map)(env).WriteMaps(saveRDS)
         End If
 
         Return Nothing
@@ -32,7 +32,7 @@ Module kegg
         If reactionList.isError Then
             Return reactionList.getError
         Else
-            Call reactionList.populates(Of ReactionTable).WriteReactions(saveRDS)
+            Call reactionList.populates(Of ReactionTable)(env).WriteReactions(saveRDS)
         End If
 
         Return Nothing
