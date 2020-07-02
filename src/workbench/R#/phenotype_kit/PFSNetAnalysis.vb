@@ -67,7 +67,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf reactions Is ReactionTable() Then
             reactionTable = DirectCast(reactions, ReactionTable())
         ElseIf TypeOf reactions Is pipeline AndAlso DirectCast(reactions, pipeline).elementType Like GetType(ReactionTable) Then
-            reactionTable = DirectCast(reactions, pipeline).populates(Of ReactionTable).ToArray
+            reactionTable = DirectCast(reactions, pipeline).populates(Of ReactionTable)(env).ToArray
         ElseIf TypeOf reactions Is vector AndAlso DirectCast(reactions, vector).elementType Like GetType(ReactionTable) Then
             reactionTable = DirectCast(reactions, vector).data.AsObjectEnumerator(Of ReactionTable).ToArray
         Else
@@ -100,7 +100,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf ggi Is GraphEdge() Then
             network = DirectCast(ggi, GraphEdge())
         ElseIf TypeOf ggi Is pipeline Then
-            network = DirectCast(ggi, pipeline).populates(Of GraphEdge).ToArray
+            network = DirectCast(ggi, pipeline).populates(Of GraphEdge)(env).ToArray
         ElseIf TypeOf ggi Is vector Then
             network = DirectCast(ggi, vector).data.AsObjectEnumerator(Of GraphEdge).ToArray
         Else

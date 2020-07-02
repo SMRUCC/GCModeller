@@ -33,7 +33,7 @@ Module gastTools
         Dim taxonomyTable = taxonomy.AsGeneric(Of otu_taxonomy)(env)
 
         Return queries _
-            .populates(Of Query) _
+            .populates(Of Query)(env) _
             .OTUgreengenesTaxonomy(OTUTable, taxonomyTable, min_pct) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function

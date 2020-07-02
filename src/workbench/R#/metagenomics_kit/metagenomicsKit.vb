@@ -117,12 +117,10 @@ Module metagenomicsKit
             End If
 
             consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
-            consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(a) a.hits).ToArray
-            consensus = consensus.Take(3).ToArray
+            consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(node) node.hits).Take(10).ToArray
 
             taxonomyList = consensus _
-                .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species)) _
-                .IteratesALL _
+                .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species).First) _
                 .ToArray
 
             origins(compound.Key) = New Dictionary(Of String, Object) From {

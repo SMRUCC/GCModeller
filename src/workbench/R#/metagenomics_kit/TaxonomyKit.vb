@@ -115,8 +115,22 @@ Module TaxonomyKit
         If list.isError Then
             Return list.getError
         Else
-            Return list.populates(Of Taxonomy) _
+            Return list.populates(Of Taxonomy)(env) _
                 .Select(Function(tax) tax.ToString(BIOMstyle:=True)) _
+                .ToArray
+        End If
+    End Function
+
+    <ExportAPI("unique_taxonomy")>
+    Public Function uniqueTaxonomy(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
+
+        If list.isError Then
+            Return list.getError
+        Else
+            Return list.populates(Of Taxonomy)(env) _
+                .GroupBy(Function(t) t.ToString()) _
+                .Select(Function(sg) sg.First) _
                 .ToArray
         End If
     End Function
@@ -145,12 +159,16 @@ Module TaxonomyKit
 
     <ExportAPI("taxonomy.filter")>
     <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
-    Public Function Filters(tree As NcbiTaxonomyTree, range As Integer(), Optional taxid As Integer() = Nothing) As Object
+    Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
         Dim ranges As Taxonomy() = range _
             .Select(Function(id)
-                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                        If id.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), only_std_ranks:=True))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
+                        End If
                     End Function) _
-            .Select(Function(nodes) New Taxonomy(nodes)) _
+            .Where(Function(t) t.lowestLevel <> TaxonomyRanks.NA) _
             .ToArray
 
         If taxid Is Nothing Then
@@ -211,14 +229,18 @@ Module TaxonomyKit
     ''' get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
     ''' </summary>
     ''' <param name="tree">the ncbi taxonomy tree model</param>
-    ''' <param name="taxid">the ncbi taxonomy id</param>
+    ''' <param name="tax">the ncbi taxonomy id or taxonomy string in BIOM style.</param>
     ''' <param name="fullName"></param>
     ''' <returns></returns>
     <ExportAPI("lineage")>
-    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> taxid As Integer(), Optional fullName As Boolean = False) As Taxonomy()
-        Return taxid _
+    Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> tax As String(), Optional fullName As Boolean = False) As Taxonomy()
+        Return tax _
             .Select(Function(ncbi_taxid)
-                        Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(ncbi_taxid, only_std_ranks:=Not fullName))
+                        If ncbi_taxid.IsPattern("\d+") Then
+                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=Not fullName))
+                        Else
+                            Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
+                        End If
                     End Function) _
             .ToArray
     End Function

@@ -96,7 +96,7 @@ Module terms
             Return Internal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
         End If
 
-        Return KOAssignment.KOassignmentBBH(forward.populates(Of BestHit), reverse.populates(Of BestHit)).DoCall(AddressOf pipeline.CreateFromPopulator)
+        Return KOAssignment.KOassignmentBBH(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)).DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
     <ExportAPI("assign.COG")>

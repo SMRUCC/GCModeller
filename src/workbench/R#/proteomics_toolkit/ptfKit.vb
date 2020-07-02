@@ -54,7 +54,7 @@ Module ptfKit
         End If
 
         Return upstream _
-            .populates(Of ProteinAnnotation) _
+            .populates(Of ProteinAnnotation)(env) _
             .Where(Function(protein)
                        Return protein.attributes.ContainsKey(key)
                    End Function) _
@@ -76,7 +76,7 @@ Module ptfKit
 
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
             Call PtfFile.WriteStream(
-                annotation:=anno.populates(Of ProteinAnnotation),
+                annotation:=anno.populates(Of ProteinAnnotation)(env),
                 file:=writer
             )
         End Using
@@ -92,7 +92,7 @@ Module ptfKit
             Return anno.getError
         End If
 
-        Return anno.populates(Of ProteinAnnotation).Where(Function(protein) protein.attributes.ContainsKey(""))
+        Return anno.populates(Of ProteinAnnotation)(env).Where(Function(protein) protein.attributes.ContainsKey(""))
     End Function
 
     <ExportAPI("ptf.split")>
@@ -103,7 +103,7 @@ Module ptfKit
             Return anno.getError
         End If
 
-        Call anno.populates(Of ProteinAnnotation).SplitAnnotations(key, outputdir)
+        Call anno.populates(Of ProteinAnnotation)(env).SplitAnnotations(key, outputdir)
 
         Return True
     End Function
