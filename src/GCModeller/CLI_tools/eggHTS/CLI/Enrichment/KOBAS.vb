@@ -234,7 +234,8 @@ Partial Module CLI
                                               R:=R,
                                               size:=size,
                                               displays:=displays,
-                                              padding:="padding:200px 900px 250px 300px;"
+                                              padding:="padding:200px 900px 250px 300px;",
+                                              correlatedPvalue:=usingCorrected
                 )
             Else
                 plot = enrichments.EnrichmentPlot(

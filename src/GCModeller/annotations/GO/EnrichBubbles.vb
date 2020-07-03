@@ -94,7 +94,8 @@ Public Module EnrichBubbles
                                Optional displays% = 10,
                                Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
-                               Optional bubbleBorder As Boolean = True) As GraphicsData
+                               Optional bubbleBorder As Boolean = True,
+                               Optional correlatedPvalue As Boolean = True) As GraphicsData
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim unenrich As Color = unenrichColor.TranslateColor
@@ -118,7 +119,8 @@ Public Module EnrichBubbles
                         r:=calcR,
                         displays:=displays,
                         showBubbleBorder:=bubbleBorder,
-                        padding:=padding
+                        padding:=padding,
+                        correlatedPvalue:=correlatedPvalue
                     )
 
                     Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
@@ -179,7 +181,8 @@ Public Module EnrichBubbles
                              r As Func(Of Double, Double),
                              displays%,
                              showBubbleBorder As Boolean,
-                             padding$)
+                             padding$,
+                             correlatedPvalue As Boolean)
 
         Dim serials As SerialData() = result _
             .Keys _
@@ -191,7 +194,7 @@ Public Module EnrichBubbles
                             .Alpha(250) _
                             .ToArray
                         Dim terms = result(category).AsList
-                        Dim serial = terms.createModel(category, color, pvalue, r, displays)
+                        Dim serial = terms.createModel(category, color, pvalue, r, displays, correlatedPvalue)
 
                         Return serial
                     End Function) _
@@ -284,8 +287,8 @@ Public Module EnrichBubbles
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%) As SerialData
-        Dim pv = catalog.Select(Function(gene) gene.CorrectedPvalue).AsVector
+    Private Function createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%, correlatedPvalue As Boolean) As SerialData
+        Dim pv = catalog.Select(Function(gene) If(correlatedPvalue, gene.CorrectedPvalue, gene.Pvalue)).AsVector
         Dim enrichResults = catalog(Which.IsTrue(pv <= pvalue))
         Dim colorIndex%() = enrichResults _
             .Select(Function(gene) gene.P(correctedPvalue:=False)) _
