@@ -111,6 +111,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -129,10 +130,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bioModels\stringdbPPI.vb" />
     <Compile Include="kegg.vb" />
     <Compile Include="automation.vb" />
     <Compile Include="models.vb" />
-    <Compile Include="TRN.vb" />
+    <Compile Include="bioModels\TRN.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -178,6 +180,10 @@
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj">
+      <Project>{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}</Project>
+      <Name>STRING-db</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
       <Name>KEGGNetwork</Name>
@@ -185,6 +191,10 @@
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj">
       <Project>{05C0D4B3-D9DF-43AB-9781-FDFDBEE86729}</Project>
       <Name>Network.Regulons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\STRING\STRING.vbproj">
+      <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}</Project>
+      <Name>STRING</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.Automation\Cytoscape.Automation.vbproj">
       <Project>{DEC3B6DF-0C03-40F5-938F-05F7A4FFC158}</Project>

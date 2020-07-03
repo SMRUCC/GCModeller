@@ -80,6 +80,26 @@ Public Module FunctionalNetwork
     End Function
 
     ''' <summary>
+    ''' 直接使用所提供的布局信息
+    ''' </summary>
+    ''' <param name="graph"></param>
+    ''' <param name="layouts"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function applyLayout(graph As NetworkGraph, layouts As ILayoutCoordinate() )  As  NetworkGraph
+        Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
+
+        For Each node In graph.vertex
+            With layoutTable(node.label)
+                Dim point As New FDGVector2(.X * 1000, .Y * 1000)
+                node.data.initialPostion = point
+            End With
+        Next
+
+        Return graph
+    End Function
+
+    ''' <summary>
     ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
     ''' </summary>
     ''' <param name="model"></param>
@@ -113,14 +133,7 @@ Public Module FunctionalNetwork
             Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
         Else
             ' 直接使用所提供的布局信息
-            Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
-
-            For Each node In graph.vertex
-                With layoutTable(node.label)
-                    Dim point As New FDGVector2(.X * 1000, .Y * 1000)
-                    node.data.initialPostion = point
-                End With
-            Next
+            Call graph.applyLayout(layouts)
         End If
 
         Dim graphNodes As Dictionary(Of Graph.Node) = graph.vertex.ToDictionary
