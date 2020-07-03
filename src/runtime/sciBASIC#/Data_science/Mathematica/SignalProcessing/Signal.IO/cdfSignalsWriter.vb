@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.IO.netCDF
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.SignalProcessing
 
 ''' <summary>
@@ -9,20 +10,27 @@ Imports Microsoft.VisualBasic.Math.SignalProcessing
 Public Module cdfSignalsWriter
 
     <Extension>
-    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String) As Boolean
+    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String, Optional description$ = Nothing) As Boolean
         Using cdffile As New CDFWriter(file)
             Call cdffile.Dimensions(Dimension.Double, Dimension.Float, Dimension.Integer, Dimension.Long, Dimension.Text(fixedChars:=1024))
             Call cdffile.GlobalAttributes(New attribute With {.name = "time", .type = CDFDataTypes.CHAR, .value = Now.ToString})
             Call cdffile.GlobalAttributes(New attribute With {.name = "filename", .type = CDFDataTypes.CHAR, .value = file.FileName})
             Call cdffile.GlobalAttributes(New attribute With {.name = "github", .type = CDFDataTypes.CHAR, .value = LICENSE.githubURL})
 
+            If Not description.StringEmpty Then
+                Call cdffile.GlobalAttributes(New attribute With {.name = NameOf(description), .type = CDFDataTypes.CHAR, .value = description})
+            End If
+
             Dim nsignals As Integer
-            Dim data1, data2 As CDFData
+            Dim data As CDFData
             Dim attrs As attribute()
 
             For Each signal As GeneralSignal In signals
-                data1 = New CDFData With {.numerics = signal.Measures}
-                data2 = New CDFData With {.numerics = signal.Strength}
+                data = New CDFData With {
+                    .numerics = signal.Measures _
+                        .JoinIterates(signal.Strength) _
+                        .ToArray
+                }
                 attrs = signal.meta _
                     .Select(Function(a)
                                 Return New attribute With {
@@ -32,8 +40,14 @@ Public Module cdfSignalsWriter
                                 }
                             End Function) _
                     .ToArray
-                cdffile.AddVariable("axis_" & (nsignals + 1), data1, Dimension.Double, attrs)
-                cdffile.AddVariable("signal_" & (nsignals + 1), data2, Dimension.Double, attrs)
+                attrs = attrs _
+                    .JoinIterates({
+                         New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length},
+                         New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit}
+                     }) _
+                    .ToArray
+
+                cdffile.AddVariable(signal.reference, data, Dimension.Double, attrs)
 
                 nsignals += 1
             Next

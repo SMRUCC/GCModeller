@@ -1,10 +1,16 @@
 ﻿Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Public Class GeneralSignal
+Public Class GeneralSignal : Implements INamedValue
 
     Public Property Measures As Double()
     Public Property Strength As Double()
 
+    ''' <summary>
+    ''' the unique reference
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property reference As String Implements INamedValue.Key
     Public Property measureUnit As String
     Public Property description As String
     Public Property meta As Dictionary(Of String, String)
