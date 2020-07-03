@@ -25,6 +25,7 @@ Public Module cdfSignalsWriter
             Dim data1, data2 As CDFData
             Dim attrs As attribute()
             Dim [dim] As Dimension
+            Dim chunksize As New Dictionary(Of Integer, Dimension)
 
             For Each signal As GeneralSignal In signals
                 data1 = New CDFData With {
@@ -44,17 +45,24 @@ Public Module cdfSignalsWriter
                     .ToArray
                 attrs = attrs _
                     .JoinIterates({
-                         New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length},
                          New attribute With {.name = "index", .type = CDFDataTypes.INT, .value = nsignals}
                      }) _
                     .ToArray
-                [dim] = New Dimension With {
-                    .name = dimension_prefix & (nsignals + 1),
-                    .size = data1.numerics.Length
-                }
+
+                If Not chunksize.ContainsKey(data1.numerics.Length) Then
+                    chunksize(data1.numerics.Length) = New Dimension With {
+                        .name = dimension_prefix & data1.numerics.Length,
+                        .size = data1.numerics.Length
+                    }
+                End If
+
+                [dim] = chunksize(data1.numerics.Length)
 
                 cdffile.AddVariable(signal.reference, data1, [dim], attrs)
-                cdffile.AddVariable("axis" & (nsignals + 1), data2, [dim], {New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit}})
+                cdffile.AddVariable("axis" & (nsignals + 1), data2, [dim], {
+                    New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit},
+                    New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length}
+                })
 
                 nsignals += 1
             Next
