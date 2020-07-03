@@ -5,15 +5,30 @@ Public Class GeneralSignal
     Public Property Measures As Double()
     Public Property Strength As Double()
 
-    Public Property MeasureUnit As String
-    Public Property Description As String
+    Public Property measureUnit As String
+    Public Property description As String
+    Public Property meta As Dictionary(Of String, String)
 
     Public Overrides Function ToString() As String
-        Return Description
+        Return description
     End Function
 
     Public Function GetText() As String
         Dim sb As New StringBuilder
+
+        For Each line As String In description.LineTokens
+            Call sb.AppendLine("# " & line)
+        Next
+
+        For Each par In meta
+            Call sb.AppendLine($"{par.Key}={par.Value}")
+        Next
+
+        Call sb.AppendLine(measureUnit & vbTab & "intensity")
+
+        For i As Integer = 0 To Measures.Length - 1
+            Call sb.AppendLine(Measures(i) & vbTab & Strength(i))
+        Next
 
         Return sb.ToString
     End Function
