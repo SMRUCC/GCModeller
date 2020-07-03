@@ -200,7 +200,12 @@ Public Module EnrichBubbles
                     End Function) _
             .Join(result.Values _
                 .IteratesALL _
-                .unenrichSerial(pvalue, color:=unenrich, r:=r)) _
+                .unenrichSerial(
+                    pvalue:=pvalue,
+                    color:=unenrich,
+                    r:=r,
+                    correlatedPvalue:=correlatedPvalue
+                )) _
             .ToArray
         Dim bubbleBorder As Stroke = Nothing
 
@@ -260,8 +265,8 @@ Public Module EnrichBubbles
     End Sub
 
     <Extension>
-    Private Function unenrichSerial(catalog As IEnumerable(Of EnrichmentTerm), pvalue#, color As Color, r As Func(Of Double, Double)) As SerialData
-        Dim unenrichs = catalog.Where(Function(term) term.CorrectedPvalue > pvalue)
+    Private Function unenrichSerial(catalog As IEnumerable(Of EnrichmentTerm), pvalue#, color As Color, r As Func(Of Double, Double), correlatedPvalue As Boolean) As SerialData
+        Dim unenrichs = catalog.Where(Function(term) If(correlatedPvalue, term.CorrectedPvalue, term.Pvalue) > pvalue)
         Dim points = unenrichs _
             .Select(Function(gene)
                         Return New PointData With {
