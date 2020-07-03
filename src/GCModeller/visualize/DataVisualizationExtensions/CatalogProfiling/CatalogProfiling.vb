@@ -396,6 +396,7 @@ Namespace CatalogProfiling
             Dim tickSize As SizeF
             Dim tickPen As New Pen(Color.Black, 3)
             Dim tickX!
+            Dim isIntCount As Boolean = axisTicks.All(Function(ti) Math.Floor(ti) = Math.Ceiling(ti))
 
             For Each tick In axisTicks.Where(Function(v) v <= maxValue)
                 tickX = barRect.Left + mapper.ScallingWidth(tick, barRect.Width - gap)
@@ -414,7 +415,12 @@ Namespace CatalogProfiling
                 End If
 
                 Call g.DrawLine(tickPen, New PointF(tickX, y), New PointF(tickX, y + d))
-                Call g.DrawString(tick, tickFont, Brushes.Black, anchor)
+
+                If isIntCount Then
+                    Call g.DrawString(CInt(tick).ToString, tickFont, Brushes.Black, anchor)
+                Else
+                    Call g.DrawString(tick.ToString("G2"), tickFont, Brushes.Black, anchor)
+                End If
             Next
 
             y += d + 10 + g.MeasureString("0", tickFont).Height
