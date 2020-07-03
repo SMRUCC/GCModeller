@@ -43,7 +43,11 @@ Namespace ComponentModel.Annotation
         End Operator
 
         Public Shared Narrowing Operator CType(profile As CatalogProfile) As NamedValue(Of Double)()
-            Return profile.AsEnumerable.ToArray
+            If profile Is Nothing Then
+                Return {}
+            Else
+                Return profile.AsEnumerable.ToArray
+            End If
         End Operator
     End Class
 
