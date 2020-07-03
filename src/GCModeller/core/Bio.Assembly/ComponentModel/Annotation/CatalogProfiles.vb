@@ -7,7 +7,7 @@ Namespace ComponentModel.Annotation
 
     Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
 
-        Public Property profile As Dictionary(Of String, Double)
+        Public Property profile As New Dictionary(Of String, Double)
 
         Public Function Add(value As NamedValue(Of Double)) As CatalogProfile
             Call profile.Add(value.Name, value.Value)
@@ -53,7 +53,7 @@ Namespace ComponentModel.Annotation
 
     Public Class CatalogProfiles
 
-        Public Property catalogs As Dictionary(Of String, CatalogProfile)
+        Public Property catalogs As New Dictionary(Of String, CatalogProfile)
 
         Default Public ReadOnly Property GetCatalogValue(name As String) As CatalogProfile
             Get
