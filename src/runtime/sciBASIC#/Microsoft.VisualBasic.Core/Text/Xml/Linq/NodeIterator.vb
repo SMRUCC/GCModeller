@@ -134,6 +134,10 @@ Namespace Text.Xml.Linq
                     End If
                 End If
             Next
+
+            If buffer > 0 AndAlso Not buffer.All(Function(s) Strings.Trim(s).StringEmpty) Then
+                Call $"[{path}] is an incomplete xml dataset!".Warning
+            End If
         End Function
 
         Private Function getXmlSection(line As String) As String
@@ -144,7 +148,7 @@ Namespace Text.Xml.Linq
             buffer += ends
             tagOpen = False
 
-            XmlText = buffer.JoinBy(vbLf)
+            xmlText = buffer.JoinBy(vbLf)
             buffer *= 0
             buffer += lefts
 
