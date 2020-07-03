@@ -10,7 +10,7 @@ Imports Microsoft.VisualBasic.Math.SignalProcessing
 Public Module cdfSignalsWriter
 
     <Extension>
-    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String, Optional description$ = Nothing) As Boolean
+    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String, Optional description$ = Nothing, Optional dimension_prefix$ = "signalChunk_") As Boolean
         Using cdffile As New CDFWriter(file)
             Call cdffile.Dimensions(Dimension.Double, Dimension.Float, Dimension.Integer, Dimension.Long, Dimension.Text(fixedChars:=1024))
             Call cdffile.GlobalAttributes(New attribute With {.name = "time", .type = CDFDataTypes.CHAR, .value = Now.ToString})
@@ -24,6 +24,7 @@ Public Module cdfSignalsWriter
             Dim nsignals As Integer
             Dim data As CDFData
             Dim attrs As attribute()
+            Dim [dim] As Dimension
 
             For Each signal As GeneralSignal In signals
                 data = New CDFData With {
@@ -46,8 +47,12 @@ Public Module cdfSignalsWriter
                          New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit}
                      }) _
                     .ToArray
+                [dim] = New Dimension With {
+                    .name = dimension_prefix & (nsignals + 1),
+                    .size = data.numerics.Length
+                }
 
-                cdffile.AddVariable(signal.reference, data, Dimension.Double, attrs)
+                cdffile.AddVariable(signal.reference, data, [dim], attrs)
 
                 nsignals += 1
             Next

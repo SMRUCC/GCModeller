@@ -317,7 +317,7 @@ Namespace netCDF
                 Call writeAttributes(output, var.attributes)
                 Call output.Write(var.type)
                 ' varSize
-                Call output.Write(var.size)
+                Call output.Write(CUInt(var.size))
                 ' version = 1, write 4 bytes
                 Call output.Write(var.offset)
                 Call output.Flush()
