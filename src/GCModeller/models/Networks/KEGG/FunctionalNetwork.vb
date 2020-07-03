@@ -200,7 +200,9 @@ Public Module FunctionalNetwork
                        edgeDashTypes:=dash,
                        minLinkWidth:=5,
                        nodeRadius:=DirectMapRadius(),
-                       fontSize:=DirectMapRadius(0.5)
+                       fontSize:=DirectMapRadius(0.5),
+                       labelerIterations:=0,
+                       labelTextStroke:=Nothing
             ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
