@@ -9,8 +9,21 @@ Imports Microsoft.VisualBasic.Math.SignalProcessing
 ''' </summary>
 Public Module cdfSignalsWriter
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="signals"></param>
+    ''' <param name="file"></param>
+    ''' <param name="description$"></param>
+    ''' <param name="dimension_prefix$"></param>
+    ''' <param name="enableCDFExtension">enable netCDF extension type?</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String, Optional description$ = Nothing, Optional dimension_prefix$ = "signalChunk_") As Boolean
+    Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String,
+                             Optional description$ = Nothing,
+                             Optional dimension_prefix$ = "signalChunk_",
+                             Optional enableCDFExtension As Boolean = False) As Boolean
+
         Using cdffile As New CDFWriter(file)
             Call cdffile.Dimensions(Dimension.Double, Dimension.Float, Dimension.Integer, Dimension.Long, Dimension.Text(fixedChars:=1024))
             Call cdffile.GlobalAttributes(New attribute With {.name = "time", .type = CDFDataTypes.CHAR, .value = Now.ToString})
