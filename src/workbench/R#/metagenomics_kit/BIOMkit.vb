@@ -52,7 +52,7 @@ Public Module BIOMkit
                     End If
                 End Try
             Else
-                Return Internal.debug.stop("the given file is not found on your filesystem!", env)
+                Return Internal.debug.stop({"the given file is not found on your filesystem!", "file: " & file}, env)
             End If
         Else
             Return Internal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
