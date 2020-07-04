@@ -92,7 +92,7 @@ Public Module cdfSignalsWriter
                 values.Add(signal.meta.TryGetValue(name, [default]:=""))
             Next
 
-            If values.All(Function(s) s Is Nothing OrElse s = "" OrElse s.IsPattern("\d+")) Then
+            If values.AsParallel.Select(Function(s) s Is Nothing OrElse s = "" OrElse s.IsPattern("\d+")).All(Function(t) t = True) Then
                 Dim longs = values.Select(AddressOf Long.Parse).ToArray
 
                 If longs.All(Function(b) b <= 255 AndAlso b >= -255) Then
@@ -105,9 +105,9 @@ Public Module cdfSignalsWriter
                     data = New CDFData With {.longs = longs}
                 End If
 
-            ElseIf values.All(Function(s) s Is Nothing OrElse s = "" OrElse s.IsNumeric) Then
+            ElseIf values.AsParallel.Select(Function(s) s Is Nothing OrElse s = "" OrElse s.IsNumeric).All(Function(t) t = True) Then
                 data = New CDFData With {.numerics = values.Select(AddressOf ParseDouble).ToArray}
-            ElseIf values.All(Function(s) s Is Nothing OrElse s = "" OrElse s.IsPattern("((true)|(false))", RegexICSng)) Then
+            ElseIf values.AsParallel.Select(Function(s) s Is Nothing OrElse s = "" OrElse s.IsPattern("((true)|(false))", RegexICSng)).All(Function(t) t = True) Then
                 data = New CDFData With {.flags = values.Select(AddressOf ParseBoolean).ToArray}
             Else
                 data = New CDFData With {.chars = values.AsEnumerable.GetJson}
