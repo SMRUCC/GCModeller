@@ -51,7 +51,7 @@ Public Module ExpressionPatterns
         For Each cluster In clusters.GroupBy(Function(c) c.Cluster)
             Dim matrix = New Matrix With {
                 .sampleID = sampleNames,
-                .Expression = cluster _
+                .expression = cluster _
                     .Select(Function(a)
                                 Return New DataFrameRow With {
                                     .geneID = a.ID,
@@ -89,6 +89,7 @@ Public Module ExpressionPatterns
                        Dim h = canvas.PlotRegion.Height / matrix.Length
                        Dim scatterData As SerialData()
                        Dim i As i32 = 1
+                       Dim layout As GraphicsRegion
 
                        For Each row In matrix
 
@@ -96,6 +97,7 @@ Public Module ExpressionPatterns
 
                            For Each col As Matrix In row
                                padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
+                               layout = New GraphicsRegion(canvas.Size, padding)
                                x += w
                                scatterData = col.expression _
                                    .Select(Function(gene)
@@ -120,7 +122,7 @@ Public Module ExpressionPatterns
                                            End Function) _
                                    .ToArray
 
-                               Scatter.Plot(scatterData, g, canvas)
+                               Scatter.Plot(scatterData, g, layout)
                            Next
 
                            y += h
