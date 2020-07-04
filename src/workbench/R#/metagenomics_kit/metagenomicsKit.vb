@@ -62,10 +62,19 @@ Module metagenomicsKit
         Return CompoundOrigins.CreateEmptyCompoundsProfile(taxonomy, organism)
     End Function
 
+    ''' <summary>
+    ''' create compound origin profile dataset
+    ''' </summary>
+    ''' <param name="annotations">a list of multiple organism protein functional annotation dataset.</param>
+    ''' <param name="tree">the ncbi taxonomy tree</param>
+    ''' <param name="rank">minimal rank for takes the most abondance taxonomy from the raw dataset.</param>
+    ''' <param name="ranges"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("compounds.origin")>
     Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree,
                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Family,
-                                   Optional ranges As Integer() = Nothing,
+                                   Optional ranges As String() = Nothing,
                                    Optional env As Environment = Nothing) As list
 
         Dim compounds As New Dictionary(Of String, List(Of String))
@@ -90,7 +99,11 @@ Module metagenomicsKit
         Dim searchRanges As Metagenomics.Taxonomy() = ranges _
             .SafeQuery _
             .Select(Function(id)
-                        Return tree.GetAscendantsWithRanksAndNames(id, only_std_ranks:=True)
+                        If id.IsPattern("\d+") Then
+                            Return New Metagenomics.Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(id), only_std_ranks:=True))
+                        Else
+                            Return New Metagenomics.Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
+                        End If
                     End Function) _
             .Select(Function(nodes) New Metagenomics.Taxonomy(nodes)) _
             .ToArray
@@ -117,7 +130,11 @@ Module metagenomicsKit
             End If
 
             consensusTree = TaxonomyTree.BuildTree(taxonomyList, Nothing, Nothing)
-            consensus = consensusTree.PopulateTaxonomy(rank).OrderByDescending(Function(node) node.hits).Take(10).ToArray
+            consensus = consensusTree _
+                .PopulateTaxonomy(rank) _
+                .OrderByDescending(Function(node) node.hits) _
+                .Take(10) _
+                .ToArray
 
             taxonomyList = consensus _
                 .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species).First) _

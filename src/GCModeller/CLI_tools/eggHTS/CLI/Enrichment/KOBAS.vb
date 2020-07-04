@@ -204,16 +204,16 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim PlantRegMap As Boolean = args.GetBoolean("/PlantRegMap")
         Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
         Dim size As String = args.GetValue("/size", "2000,1600")
         Dim plot As GraphicsData
-        Dim bubbleStyle As Boolean = args.GetBoolean("/bubble")
+        Dim bubbleStyle As Boolean = args("/bubble")
         Dim tick# = args.GetValue("/tick", 1.0R)
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim usingCorrected As Boolean = args.GetBoolean("/Corrected")
         Dim labelColorDisable As Boolean = args("/label.color.disable")
         Dim labelMaxlen As Integer = args("/label.maxlen") Or 64
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}_{If(bubbleStyle, "bubbles", "barplot")}.png")
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
@@ -234,7 +234,8 @@ Partial Module CLI
                                               R:=R,
                                               size:=size,
                                               displays:=displays,
-                                              padding:="padding:200px 900px 250px 300px;"
+                                              padding:="padding:200px 900px 250px 300px;",
+                                              correlatedPvalue:=usingCorrected
                 )
             Else
                 plot = enrichments.EnrichmentPlot(

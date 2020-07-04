@@ -186,7 +186,7 @@ Module TaxonomyKit
     End Function
 
     <Extension>
-    Private Function filterLambda(tree As NcbiTaxonomyTree, ranges As Taxonomy()) As Predicate(Of Object)
+    Friend Function filterLambda(tree As NcbiTaxonomyTree, ranges As Taxonomy()) As Predicate(Of Object)
         Return Function(target)
                    Dim relation As Relations
 
