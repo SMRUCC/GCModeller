@@ -83,17 +83,17 @@ Public Module ExpressionPatterns
 
         Dim matrix As Matrix()() = raw.KMeansCluster(dim$.SizeParser.ToArray)
         Dim plot = Sub(ByRef g As IGraphics, canvas As GraphicsRegion)
-                       Dim x!
-                       Dim y! = canvas.PlotRegion.Top
                        Dim w = canvas.PlotRegion.Width / matrix(Scan0).Length
                        Dim h = canvas.PlotRegion.Height / matrix.Length
                        Dim scatterData As SerialData()
                        Dim i As i32 = 1
                        Dim layout As GraphicsRegion
+                       Dim x!
+                       Dim y! = canvas.PlotRegion.Top + h
 
                        For Each row In matrix
 
-                           x = canvas.PlotRegion.Left
+                           x = canvas.PlotRegion.Left + w
 
                            For Each col As Matrix In row
                                padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
