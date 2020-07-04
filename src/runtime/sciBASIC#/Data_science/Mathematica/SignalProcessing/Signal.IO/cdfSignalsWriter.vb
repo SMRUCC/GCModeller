@@ -84,7 +84,9 @@ Public Module cdfSignalsWriter
 
             Call cdffile.AddVariable("measure_buffer", New CDFData With {.numerics = measures.ToArray}, dataDimension)
             Call cdffile.AddVariable("signal_buffer", New CDFData With {.numerics = signalDatas.ToArray}, dataDimension)
-            Call cdffile.AddVariable("chunk_size", New CDFData With {.integers = chunksize.ToArray}, dataDimension)
+
+            dataDimension = New Dimension With {.name = "signals", .size = chunksize.Count}
+            cdffile.AddVariable("chunk_size", New CDFData With {.integers = chunksize.ToArray}, dataDimension)
 
             If enableCDFExtension Then
                 Call cdffile.AddVariable("buffer_offset", New CDFData With {.longs = offsets.ToArray}, dataDimension)
