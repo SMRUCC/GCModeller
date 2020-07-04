@@ -9,6 +9,10 @@ Imports Microsoft.VisualBasic.Math.SignalProcessing
 ''' </summary>
 Public Module cdfSignalsWriter
 
+    ' 20200704 redesign of the general signal cdf file storage layout:
+    ' the previous version of the signal data file is too slow that reading 
+    ' in R script code when the signal data count is large
+
     <Extension>
     Public Function WriteCDF(signals As IEnumerable(Of GeneralSignal), file As String, Optional description$ = Nothing, Optional dimension_prefix$ = "signalChunk_") As Boolean
         Using cdffile As New CDFWriter(file)
@@ -21,56 +25,40 @@ Public Module cdfSignalsWriter
                 Call cdffile.GlobalAttributes(New attribute With {.name = NameOf(description), .type = CDFDataTypes.CHAR, .value = description})
             End If
 
-            Dim nsignals As Integer
-            Dim data1, data2 As CDFData
-            Dim attrs As attribute()
-            Dim [dim] As Dimension
-            Dim chunksize As New Dictionary(Of Integer, Dimension)
+            Dim package As GeneralSignal() = signals.ToArray
+            Dim chunksize As New List(Of Integer)
+            Dim attrs As New Dictionary(Of String, List(Of String))
+
+            Call cdffile.GlobalAttributes(New attribute With {.name = "signals", .type = CDFDataTypes.INT, .value = package.Length})
+
+
+
 
             For Each signal As GeneralSignal In signals
-                data1 = New CDFData With {
-                    .numerics = signal.Strength
-                }
-                data2 = New CDFData With {
-                    .numerics = signal.Measures
-                }
-                attrs = signal.meta _
-                    .Select(Function(a)
-                                Return New attribute With {
-                                    .name = a.Key,
-                                    .type = CDFDataTypes.CHAR,
-                                    .value = a.Value
-                                }
-                            End Function) _
-                    .ToArray
-                attrs = attrs _
-                    .JoinIterates({
-                         New attribute With {.name = "index", .type = CDFDataTypes.INT, .value = nsignals}
-                     }) _
-                    .ToArray
 
-                If Not chunksize.ContainsKey(data1.numerics.Length) Then
-                    chunksize(data1.numerics.Length) = New Dimension With {
-                        .name = dimension_prefix & data1.numerics.Length,
-                        .size = data1.numerics.Length
-                    }
-                End If
-
-                [dim] = chunksize(data1.numerics.Length)
-
-                cdffile.AddVariable(signal.reference, data1, [dim], attrs)
-                cdffile.AddVariable("axis" & (nsignals + 1), data2, [dim], {
-                    New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit},
-                    New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length},
-                    New attribute With {.name = "signal", .type = CDFDataTypes.CHAR, .value = signal.reference}
-                })
-
-                nsignals += 1
             Next
-
-            Call cdffile.GlobalAttributes(New attribute With {.name = "signals", .type = CDFDataTypes.INT, .value = nsignals})
         End Using
 
         Return True
+    End Function
+
+    <Extension>
+    Private Function createAttributes(package As GeneralSignal()) As Dictionary(Of String, CDFData)
+        Dim attrs As New Dictionary(Of String, CDFData)
+        Dim allNames As String() = package.Select(Function(sig) sig.meta.Keys).IteratesALL.Distinct.ToArray
+
+        For Each name As String In allNames
+            Dim values As New List(Of String)
+
+            For Each signal As GeneralSignal In package
+                values.Add(signal.meta.TryGetValue(name))
+            Next
+
+            If values.All(Function(s) s.IsPattern("\d+")) Then
+
+            End If
+        Next
+
+        Return attrs
     End Function
 End Module
