@@ -61,7 +61,8 @@ Public Module cdfSignalsWriter
                 cdffile.AddVariable(signal.reference, data1, [dim], attrs)
                 cdffile.AddVariable("axis" & (nsignals + 1), data2, [dim], {
                     New attribute With {.name = NameOf(GeneralSignal.measureUnit), .type = CDFDataTypes.CHAR, .value = signal.measureUnit},
-                    New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length}
+                    New attribute With {.name = "ticks", .type = CDFDataTypes.INT, .value = signal.Measures.Length},
+                    New attribute With {.name = "signal", .type = CDFDataTypes.CHAR, .value = signal.reference}
                 })
 
                 nsignals += 1
