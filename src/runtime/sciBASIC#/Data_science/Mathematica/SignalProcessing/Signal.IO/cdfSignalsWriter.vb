@@ -46,6 +46,7 @@ Public Module cdfSignalsWriter
             Dim attrNames As New List(Of String)
             Dim measures As New List(Of Double)
             Dim signalDatas As New List(Of Double)
+            Dim annotation As attribute
 
             Call cdffile.GlobalAttributes(New attribute With {.name = "signals", .type = CDFDataTypes.INT, .value = package.Length})
 
@@ -54,8 +55,13 @@ Public Module cdfSignalsWriter
                     .name = "attribute_data: " & attr.Name,
                     .size = attr.Value.Length
                 }
+                annotation = New attribute With {
+                    .name = "type",
+                    .type = CDFDataTypes.CHAR,
+                    .value = attr.Description
+                }
 
-                Call cdffile.AddVariable("meta:" & attr.Name, attr.Value, dataDimension)
+                Call cdffile.AddVariable("meta:" & attr.Name, attr.Value, dataDimension, {annotation})
                 Call attrNames.Add(attr.Name)
             Next
 
@@ -101,6 +107,7 @@ Public Module cdfSignalsWriter
         For Each name As String In allNames
             Dim values As New List(Of String)
             Dim data As CDFData
+            Dim type As String
 
             For Each signal As GeneralSignal In package
                 values.Add(signal.meta.TryGetValue(name, [default]:=""))
@@ -111,31 +118,40 @@ Public Module cdfSignalsWriter
 
                 If longs.All(Function(b) b <= 255 AndAlso b >= -255) Then
                     data = New CDFData With {.byteStream = longs.Select(Function(l) CByte(l)).ToBase64String}
+                    type = "base64"
                 ElseIf longs.All(Function(s) s <= Short.MaxValue AndAlso s >= Short.MinValue) Then
                     data = New CDFData With {.tiny_int = longs.Select(Function(l) CShort(l)).ToArray}
+                    type = "int16"
                 ElseIf longs.All(Function(i) i <= Integer.MaxValue AndAlso i >= Integer.MinValue) Then
                     data = New CDFData With {.integers = longs.Select(Function(l) CInt(l)).ToArray}
+                    type = "i32"
                 ElseIf enableCDFExtension Then
                     data = New CDFData With {.longs = longs}
+                    type = "i64"
                 Else
                     Throw New InvalidProgramException($"{GetType(Long).FullName} is not supports when option '{NameOf(enableCDFExtension)}' is not enable!")
                 End If
 
             ElseIf values.AsParallel.Select(Function(s) s Is Nothing OrElse s = "" OrElse s.IsNumeric).All(Function(t) t = True) Then
                 data = New CDFData With {.numerics = values.Select(AddressOf ParseDouble).ToArray}
+                type = "f64"
             ElseIf values.AsParallel.Select(Function(s) s Is Nothing OrElse s = "" OrElse s.IsPattern("((true)|(false))", RegexICSng)).All(Function(t) t = True) Then
                 If enableCDFExtension Then
                     data = New CDFData With {.flags = values.Select(AddressOf ParseBoolean).ToArray}
+                    type = "flags"
                 Else
                     data = New CDFData With {.tiny_int = values.Select(AddressOf ParseBoolean).Select(Function(f) CShort(If(f, 1, 0))).ToArray}
+                    type = "i16"
                 End If
             Else
                 data = New CDFData With {.chars = values.AsEnumerable.GetJson}
+                type = "json"
             End If
 
             Yield New NamedValue(Of CDFData) With {
                 .Name = name,
-                .Value = data
+                .Value = data,
+                .Description = type
             }
         Next
     End Function
