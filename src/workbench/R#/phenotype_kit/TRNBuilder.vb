@@ -113,7 +113,7 @@ Module TRNBuilder
             Return DirectCast(regulationFootprints, RegulationFootprint()).SaveTo(file)
         ElseIf TypeOf regulationFootprints Is pipeline AndAlso DirectCast(regulationFootprints, pipeline).elementType Like GetType(RegulationFootprint) Then
             Using writer As New WriteStream(Of RegulationFootprint)(file)
-                For Each edge As RegulationFootprint In DirectCast(regulationFootprints, pipeline).populates(Of RegulationFootprint)
+                For Each edge As RegulationFootprint In DirectCast(regulationFootprints, pipeline).populates(Of RegulationFootprint)(env)
                     Call writer.Flush(edge)
                 Next
             End Using
@@ -153,7 +153,7 @@ Module TRNBuilder
             regulatorMaps = DirectCast(regulators, BestHit())
         ElseIf TypeOf regulators Is pipeline AndAlso DirectCast(regulators, pipeline).elementType Like GetType(BestHit) Then
             regulatorMaps = DirectCast(regulators, pipeline) _
-                .populates(Of BestHit) _
+                .populates(Of BestHit)(env) _
                 .ToArray
         Else
             Return Internal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)

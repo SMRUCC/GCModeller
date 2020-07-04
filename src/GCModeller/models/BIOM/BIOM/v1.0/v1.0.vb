@@ -188,7 +188,7 @@ Namespace v10
                 Next
 
                 If metaInfoAsRowID AndAlso row.value.hasMetaInfo Then
-                    rowID = row.value.metadata.lineage.ToString
+                    rowID = row.value.metadata.lineage.ToString(BIOMstyle:=True)
                 Else
                     rowID = row.value.id
                 End If

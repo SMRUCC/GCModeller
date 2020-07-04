@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Model.Network.Regulons
 ''' Transcription Regulation Network Builder Tools
 ''' </summary>
 ''' 
-<Package("network.TRN")>
+<Package("bioModels.TRN")>
 Module TRN
 
     <ExportAPI("fpkm.connections")>

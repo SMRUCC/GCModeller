@@ -206,7 +206,7 @@ Public Module kegg_repository
 
         Return New XmlList(Of Pathway) With {
             .items = pathwayCollection _
-                .populates(Of Pathway) _
+                .populates(Of Pathway)(env) _
                 .ToArray
         }.GetXml _
          .SaveTo(file)

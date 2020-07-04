@@ -299,7 +299,7 @@
     <Compile Include="BEBaC\CrudeClustering.vb" />
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
-    <Compile Include="BIOM.vb" />
+    <Compile Include="OTUTable\BIOM.vb" />
     <Compile Include="ACE.vb" />
     <Compile Include="gast\TaxonomyTree\TaxonomyConsensus.vb" />
     <Compile Include="gast\TaxonomyTree\TreePopulator.vb" />
@@ -314,9 +314,10 @@
     <Compile Include="Mothur\MothurContigsOTU.vb" />
     <Compile Include="Mothur\Mothur.vb" />
     <Compile Include="newickParser.vb" />
+    <Compile Include="OTUTable\BIOMExtensions.vb" />
     <Compile Include="SILVA\SILVABuild.vb" />
     <Compile Include="UPGMATree.vb" />
-    <Compile Include="OTUTable.vb" />
+    <Compile Include="OTUTable\OTUTable.vb" />
     <Compile Include="MeganImports.vb" />
     <Compile Include="gast\ARGV.vb" />
     <Compile Include="gast\gast.vb" />
@@ -324,7 +325,7 @@
     <Compile Include="gast\Taxonomy.vb" />
     <Compile Include="gast\gast_tools.vb" />
     <Compile Include="RankAbundance.vb" />
-    <Compile Include="OTU.vb" />
+    <Compile Include="OTUTable\OTU.vb" />
     <Compile Include="RelativeStatics.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
