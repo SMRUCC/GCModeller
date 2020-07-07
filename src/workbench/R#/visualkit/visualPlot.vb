@@ -220,5 +220,12 @@ Module visualPlot
                               End Function)
         }
     End Function
+
+    <ExportAPI("plot.expression_patterns")>
+    Public Function PlotExpressionPatterns(matrix As Matrix,
+                                           <RRawVectorArgument>
+                                           Optional [dim] As Object = "3,3") As Object
+        Return ExpressionPatterns.DrawMatrix(raw:=matrix, [dim]:=[dim])
+    End Function
 End Module
 
