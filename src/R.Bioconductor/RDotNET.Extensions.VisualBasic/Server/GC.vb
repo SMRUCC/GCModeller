@@ -52,6 +52,12 @@ Public Module RDotNetGC
 
     Dim objects As New List(Of String)
 
+    Public ReadOnly Property numObjects As Integer
+        Get
+            Return objects.Count
+        End Get
+    End Property
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Add(name As String)
         Call objects.Add(name)

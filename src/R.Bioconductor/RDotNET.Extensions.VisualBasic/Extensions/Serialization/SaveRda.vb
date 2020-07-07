@@ -211,7 +211,7 @@ Namespace Serialization
                                  )
                              End Sub)
 
-                Return utils.read.csv(.ByRef)
+                Return .DoCall(AddressOf utils.read.csv)
             End With
         End Function
 
