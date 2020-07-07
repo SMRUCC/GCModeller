@@ -327,7 +327,7 @@ Namespace ComponentModel.DataSourceModel
                            Dim ptype As Type = t.PropertyType
 
                            If ptype.IsEnum AndAlso enumCast <> EnumCastTo.none Then
-                               Return True
+                               Return False
                            Else
                                Return Not IsPrimitive(ptype)
                            End If
