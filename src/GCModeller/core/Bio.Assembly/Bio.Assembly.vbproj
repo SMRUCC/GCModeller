@@ -807,7 +807,6 @@
     <Compile Include="ContextModel\Algorithm\ContextProvider.vb" />
     <Compile Include="ContextModel\Algorithm\TFDensity.vb" />
     <Compile Include="ContextModel\Extensions.vb" />
-    <Compile Include="ContextModel\Operon\FeatureScores.vb" />
     <Compile Include="ContextModel\Promoter\Extensions.vb" />
     <Compile Include="ContextModel\Promoter\PrefixLength.vb" />
     <Compile Include="ContextModel\Promoter\PromoterRegionParser.vb" />
