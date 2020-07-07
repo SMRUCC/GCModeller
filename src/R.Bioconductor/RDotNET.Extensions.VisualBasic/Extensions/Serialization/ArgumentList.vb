@@ -48,6 +48,16 @@ Public Module ArgumentList
                     .Name = f.Name,
                     .Value = str.Substring(1)
                 }
+            ElseIf str.Length > 1 Then
+                If (str.First = """"c AndAlso str.Last = """"c) OrElse (str.First = "'"c AndAlso str.Last = "'"c) Then
+                    Return New NamedValue(Of String) With {.Name = f.Name, .Value = str}
+                Else
+                    ' is string value
+                    Return New NamedValue(Of String) With {
+                        .Name = f.Name,
+                        .Value = RScripts.Rstring(str)
+                    }
+                End If
             Else
                 ' is string value
                 Return New NamedValue(Of String) With {
