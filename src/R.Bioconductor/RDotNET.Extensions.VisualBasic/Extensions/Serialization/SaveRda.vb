@@ -159,7 +159,7 @@ Namespace Serialization
 
             If keyValTupleCache(base).isTuple Then
                 Call list.writeKeyValueTuples(var, keyValTupleCache(base).key, keyValTupleCache(base).val, encoding)
-            ElseIf DataFramework.IsComplexType(base) Then
+            ElseIf DataFramework.IsComplexType(base, EnumCastTo.string) Then
                 ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
                 ' 反之复杂的非基础类型写为一个list
 
@@ -190,22 +190,29 @@ Namespace Serialization
                     Next
                 End If
             Else
-                ' write as dataframe
-                With App.GetAppSysTempFile(, App.PID)
-                    Call .DoCall(Sub(file)
-                                     Call list.SaveTable(
-                                        path:=file,
-                                        type:=base,
-                                        encoding:=encoding,
-                                        silent:=True
-                                     )
-                                 End Sub)
-
-                    Return utils.read.csv(.ByRef)
-                End With
+                var = PushTable(list, encoding)
             End If
 
             Return var
+        End Function
+
+        Public Function PushTable(list As IEnumerable, encoding As Encoding) As String
+            Dim type As Type = CObj(list).GetType
+            Dim base As Type = type.GetTypeElement(False)
+
+            ' write as dataframe
+            With App.GetAppSysTempFile(, App.PID)
+                Call .DoCall(Sub(file)
+                                 Call list.SaveTable(
+                                    path:=file,
+                                    type:=base,
+                                    encoding:=encoding,
+                                    silent:=True
+                                 )
+                             End Sub)
+
+                Return utils.read.csv(.ByRef)
+            End With
         End Function
 
         ''' <summary>
