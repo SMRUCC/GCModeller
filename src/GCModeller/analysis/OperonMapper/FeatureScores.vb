@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::33baa0da15101c99e1e4e79041402bb3, core\Bio.Assembly\ContextModel\Operon\FeatureScores.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FeatureScores
-    ' 
-    '         Function: DHamming, IntergenicDistance, L, LengthRatio, NeighborhoodConservation
-    '                   (+2 Overloads) P
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FeatureScores
+' 
+'         Function: DHamming, IntergenicDistance, L, LengthRatio, NeighborhoodConservation
+'                   (+2 Overloads) P
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports stdNum = System.Math
 
 Namespace ContextModel.Operon
@@ -73,9 +74,9 @@ Namespace ContextModel.Operon
                 Throw New Exception("Invalid strand data!")
             Else
                 If upstream.Strand = Strands.Forward Then
-                    Return (downstream.Left - (upstream.Right + 1))
+                    Return (downstream.left - (upstream.right + 1))
                 Else
-                    Return (upstream.Left - (downstream.Right + 1))
+                    Return (upstream.left - (downstream.right + 1))
                 End If
             End If
         End Function
