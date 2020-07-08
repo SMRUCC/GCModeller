@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b016c17b772b5bfa649eed22fddfa41, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::2b016c17b772b5bfa649eed22fddfa41, Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Entry.vb"
 
     ' Author:
     ' 

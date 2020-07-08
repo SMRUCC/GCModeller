@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b57cc63e9a7c99b1f717d7df763db581, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::77ffd444edc3d35fc0a2a4b533132e12, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
     '     Module CompoundBrite
     ' 
     '         Function: BioactivePeptides, Carcinogens, CompoundsWithBiologicalRoles, DownloadCompounds, EndocrineDisruptingCompounds
-    '                   GetAllCompoundResources, GetAllPubchemMapCompound, Lipids, LoadFile, NaturalToxins
-    '                   Pesticides, PhytochemicalCompounds, TargetbasedClassificationOfCompounds
+    '                   GetAllCompoundResources, GetAllPubchemMapCompound, Glycosides, Lipids, LoadFile
+    '                   NaturalToxins, Pesticides, PhytochemicalCompounds, TargetbasedClassificationOfCompounds
     ' 
-    '         Sub: DownloadFromResource
+    '         Sub: DownloadFromResource, DownloadOthers
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae7bfe3fb55618b55dfdcbd889b9e63f, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ae7bfe3fb55618b55dfdcbd889b9e63f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5af241b13cf572fde83e503ae1531fa7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\SearchInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::5af241b13cf572fde83e503ae1531fa7, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\SearchInvoker.vb"
 
     ' Author:
     ' 

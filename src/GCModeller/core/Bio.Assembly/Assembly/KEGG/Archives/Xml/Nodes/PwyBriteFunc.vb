@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635b70dd80361cc0067fad2074e17199, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb"
+﻿#Region "Microsoft.VisualBasic::635b70dd80361cc0067fad2074e17199, Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb"
 
     ' Author:
     ' 

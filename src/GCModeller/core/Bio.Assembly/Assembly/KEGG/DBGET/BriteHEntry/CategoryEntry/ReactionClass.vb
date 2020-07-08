@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8fec71b597a15b7969347281aebf919, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb"
+﻿#Region "Microsoft.VisualBasic::3fac6f9a31dda58a9b160d22a78e6c13, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\ReactionClass.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository

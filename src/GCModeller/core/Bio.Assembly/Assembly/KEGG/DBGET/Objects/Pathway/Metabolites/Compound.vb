@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57fe5bbc86ee5f570f7bd2dec041ddef, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::4d44bab80239717dbfa3223d60c0499f, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
     ' Author:
     ' 
@@ -38,11 +38,8 @@
     '                     molWeight, pathway, reactionId, remarks
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: DownloadKCF, GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules
-    '                   GetPathways, ToString
-    ' 
-    '         Sub: DownloadKCF, DownloadStructureImage
+    '         Function: GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules, GetPathways
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

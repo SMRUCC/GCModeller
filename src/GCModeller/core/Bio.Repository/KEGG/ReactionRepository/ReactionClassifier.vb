@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b56a78d7bb0c45894299c1f0fe083ea, core\Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::2fec6cde767700c62083eb0c0fa864ba, Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ Public Class ReactionClassifier
         Return classifier Is Nothing OrElse classifier.classes.IsNullOrEmpty
     End Function
 End Class
-

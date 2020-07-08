@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2312388a830c3405544abc8c663f003d, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::699a9b1a6ce49ab73895480f12cdd1ec, Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -33,22 +33,13 @@
 
     '     Class GFFTable
     ' 
-    '         Properties: [Date], DNA, Features, GffVersion, processor
+    '         Properties: [date], DNA, features, GffVersion, processor
     '                     Protein, RNA, SeqRegion, Size, species
-    '                     SrcVersion, Type
+    '                     SrcVersion, type
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    ' 
     '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, ProtId2Locus, (+2 Overloads) Save, ToString, TryGetFreaturesData
-    '                   TryGetMetaData
-    ' 
-    '         Sub: TrySetMetaData
-    '         Structure parserHelper
-    ' 
-    '             Function: IsMetaDataLine, parse
-    ' 
-    ' 
+    '                   LoadDocument, (+2 Overloads) Save, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
 
     ' Author:
     ' 

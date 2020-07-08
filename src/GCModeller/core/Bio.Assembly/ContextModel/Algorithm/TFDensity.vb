@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af9aca00f704ca125c411d02e31b74ee, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::41d59805af2256490dcedd74f028f33c, Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 

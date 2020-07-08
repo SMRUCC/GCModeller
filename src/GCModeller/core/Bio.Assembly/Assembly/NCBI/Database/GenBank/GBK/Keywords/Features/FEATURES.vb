@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d00cb7fd39e672944fe5503e9ac129f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\FEATURES.vb"
+﻿#Region "Microsoft.VisualBasic::83848b18a85f28c4ccdda3a42f93c1fb, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\FEATURES.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: GetByLocation, GetEnumerator, GetEnumerator1, ListFeatures, Query
     ' 
-    '         Sub: Add, AddGenes, LinkEntry
+    '         Sub: Add, AddGenes, Delete, LinkEntry, SetSourceFeature
     ' 
     ' 
     ' /********************************************************************************/

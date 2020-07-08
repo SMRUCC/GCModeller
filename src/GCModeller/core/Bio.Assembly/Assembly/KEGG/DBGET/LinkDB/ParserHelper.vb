@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47bf742d2e7cde4e2813689c796027db, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\ParserHelper.vb"
+﻿#Region "Microsoft.VisualBasic::47bf742d2e7cde4e2813689c796027db, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\ParserHelper.vb"
 
     ' Author:
     ' 

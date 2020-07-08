@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d88e3b3de6e578f34d425220d9131666, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::7ca73fbd3a42e91c8a177ec1ffc6fd27, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module GbkParser
     ' 
-    '         Function: __loadData, __originReadThread, Internal_readBlock, Read
+    '         Function: __originReadThread, bufferTrims, doLoadData, Internal_readBlock, Read
     ' 
     '         Sub: __readOrigin
     ' 

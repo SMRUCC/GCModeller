@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e400f97d91322d4fac7a76e97110601a, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb"
+﻿#Region "Microsoft.VisualBasic::e400f97d91322d4fac7a76e97110601a, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHTextParser.vb"
 
     ' Author:
     ' 

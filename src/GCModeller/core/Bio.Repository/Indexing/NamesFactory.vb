@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6db33cd81dbf487b48294df55fb0d5a9, core\Bio.Repository\Indexing\NamesFactory.vb"
+﻿#Region "Microsoft.VisualBasic::6db33cd81dbf487b48294df55fb0d5a9, Bio.Repository\Indexing\NamesFactory.vb"
 
     ' Author:
     ' 

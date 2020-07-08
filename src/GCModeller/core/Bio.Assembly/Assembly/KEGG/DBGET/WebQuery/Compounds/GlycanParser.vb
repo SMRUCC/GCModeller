@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a490e57d01b9dbd232bb43d5611dbb2, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\GlycanParser.vb"
+﻿#Region "Microsoft.VisualBasic::1a490e57d01b9dbd232bb43d5611dbb2, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\GlycanParser.vb"
 
     ' Author:
     ' 

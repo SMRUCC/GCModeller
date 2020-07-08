@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b049e22b3b0ff87493e6766136bb3864, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\Region.vb"
+﻿#Region "Microsoft.VisualBasic::703b199f9c0115ce40642c3308151d2d, Bio.Annotation\GFF\Region.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class SeqRegion
     ' 
-    '         Properties: AccessId, Ends, Start
+    '         Properties: accessId, ends, start
     ' 
     '         Function: Parser, ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80f2315bbdd1c2acbe56290a407d4735, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::9b1b0c7447a017484c1017b032b3a44d, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 

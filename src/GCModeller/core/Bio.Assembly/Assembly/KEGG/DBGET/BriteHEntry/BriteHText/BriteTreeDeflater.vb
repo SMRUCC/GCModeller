@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0c5dbda7c0f237d9809180ef90cb0db, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\TreeParser.vb"
+﻿#Region "Microsoft.VisualBasic::342093cde88e320f44fe862ab8a5b073, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Module TreeParser
+    '     Module BriteTreeDeflater
     ' 
-    '         Function: Deflate, deflate_C, deflate_D, deflate_E, deflateInternal
+    '         Function: (+2 Overloads) Deflate, deflate_C, deflate_D, deflate_E, deflateInternal
     '                   incompleteTerm
     ' 
     ' 
