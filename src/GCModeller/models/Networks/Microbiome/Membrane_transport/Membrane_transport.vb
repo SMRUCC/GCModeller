@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
+﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, Microbiome\Membrane_transport\Membrane_transport.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f019069b786df20afbdd72c8144901e6, Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::82a54317907aa566caf2fe6ed91a59b5, KEGG\ReactionNetwork\CompoundNodeTable.vb"
 
     ' Author:
     ' 

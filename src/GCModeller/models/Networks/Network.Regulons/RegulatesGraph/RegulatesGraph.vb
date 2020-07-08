@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7650ecb260c919ca3643b587595fc474, Networks\Network.Regulons\RegulatesGraph\RegulatesGraph.vb"
+﻿#Region "Microsoft.VisualBasic::7650ecb260c919ca3643b587595fc474, Network.Regulons\RegulatesGraph\RegulatesGraph.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46c44a2c56ef8b08d1614208ce074825, Networks\Microbiome\UniProt\TaxonomyRepository.vb"
+﻿#Region "Microsoft.VisualBasic::46c44a2c56ef8b08d1614208ce074825, Microbiome\UniProt\TaxonomyRepository.vb"
 
     ' Author:
     ' 

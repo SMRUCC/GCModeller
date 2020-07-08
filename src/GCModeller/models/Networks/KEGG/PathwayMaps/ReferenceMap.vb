@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f793e499d9f7f6b6f162e391f3510e4, Networks\KEGG\PathwayMaps\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::5f793e499d9f7f6b6f162e391f3510e4, KEGG\PathwayMaps\ReferenceMap.vb"
 
     ' Author:
     ' 

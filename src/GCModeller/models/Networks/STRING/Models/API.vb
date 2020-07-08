@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72900123fbe09ae8810ebf8ca91a9f58, Networks\STRING\Models\API.vb"
+﻿#Region "Microsoft.VisualBasic::72900123fbe09ae8810ebf8ca91a9f58, STRING\Models\API.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb0850a0186416c246d062a30b724a1f, Networks\STRING\Models\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::cb0850a0186416c246d062a30b724a1f, STRING\Models\Regulation.vb"
 
     ' Author:
     ' 
