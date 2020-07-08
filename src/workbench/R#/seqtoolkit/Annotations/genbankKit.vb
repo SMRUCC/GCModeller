@@ -109,11 +109,15 @@ Module genbankKit
                     If file.value Is Nothing Then
                         env.AddMessage({$"file object in position {file.i} is nothing!", "index: " & file.i}, MSG_TYPES.WRN)
                     ElseIf TypeOf file.value Is String Then
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(file)
+                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
                             Yield gb
                         Next
                     ElseIf TypeOf file.value Is Stream Then
-
+                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
+                            Yield gb
+                        Next
+                    Else
+                        env.AddMessage({$"file object in position {file.i} is not a file...", "index: " & file.i}, MSG_TYPES.WRN)
                     End If
                 Next
             End Function
