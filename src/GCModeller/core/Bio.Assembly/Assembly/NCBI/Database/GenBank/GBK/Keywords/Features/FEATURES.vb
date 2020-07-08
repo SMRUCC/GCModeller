@@ -127,19 +127,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <summary>
         ''' 列举出所有 该字段之下的域的数据
         ''' </summary>
-        ''' <param name="FieldName"></param>
+        ''' <param name="fieldName"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ListFeatures(FieldName As String) As Feature()
-            Dim features As Feature() =
-                LinqAPI.Exec(Of Feature) <= From feature As Feature
-                                            In Me._innerList
-                                            Where String.Equals(
-                                                feature.KeyName,
-                                                FieldName,
-                                                StringComparison.OrdinalIgnoreCase)
-                                            Select feature
-            Return features
+        Public Function ListFeatures(fieldName As String) As IEnumerable(Of Feature)
+            Return From feature As Feature
+                   In _innerList
+                   Let assert As Boolean = String.Equals(feature.KeyName, fieldName, StringComparison.OrdinalIgnoreCase)
+                   Where True = assert
+                   Select feature
         End Function
 
         ''' <summary>

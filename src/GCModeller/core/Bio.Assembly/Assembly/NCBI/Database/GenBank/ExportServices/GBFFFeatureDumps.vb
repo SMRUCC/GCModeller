@@ -80,7 +80,7 @@ Namespace Assembly.NCBI.GenBank
             Dim result As New List(Of GeneTable)
 
             For Each feature As String In features
-                Dim fs As Feature() = gb.Features.ListFeatures(feature)
+                Dim fs As Feature() = gb.Features.ListFeatures(feature).ToArray
                 result += _dumpMethods(feature)(fs)
             Next
 
