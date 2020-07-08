@@ -138,6 +138,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 End If
             End Get
         End Property
+
         Public ReadOnly Property TGA As Long
             Get
                 If Me.Location.Strand = Strands.Forward Then

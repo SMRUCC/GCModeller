@@ -240,29 +240,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
 #Region "IO Operations"
 
-        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Dim sBuilder As New StringBuilder(Title & String.Format(" - 1..{0}", Size), capacity:=1024)
-
-            Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine(Me.NumOfProducts & " proteins")
-            Call sBuilder.AppendLine("Location	Strand	Length	PID	Gene	Synonym	Code	COG	Product")
-
-            Dim LQuery = (From GeneObject As GeneBrief In Me.GeneObjects
-                          Let strandCode As String = If(GeneObject.Location.Strand = Strands.Forward, "+", "-")
-                          Select String.Format("{0}..{1}	{2}	{3}	{4}	{5}	{6}	{7}	{8}	{9}",
-                              GeneObject.Location.Left,
-                              GeneObject.Location.Right,
-                              strandCode,
-                              GeneObject.Length,
-                              GeneObject.PID,
-                              GeneObject.Gene,
-                              GeneObject.Synonym,
-                              GeneObject.Code,
-                              GeneObject.COG,
-                              GeneObject.Product)).ToArray
-
-            Call sBuilder.AppendLine(String.Join(vbCrLf, LQuery))
-            Return sBuilder.ToString.SaveTo(Path, encoding)
+        Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using file As New StreamWriter(path.Open(FileMode.OpenOrCreate, doClear:=True), encoding)
+                Call WriteDocument(file)
+                Return True
+            End Using
         End Function
 
         ''' <summary>
