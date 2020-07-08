@@ -129,6 +129,10 @@ Namespace Serialization
         End Sub
 
         Public Function PushList(list As IEnumerable, encoding As Encoding) As String
+            If list Is Nothing Then
+                Return "NULL"
+            End If
+
             Dim type As Type = CObj(list).GetType
             Dim base As Type = type.GetTypeElement(False)
             Dim var$ = RDotNetGC.Allocate
