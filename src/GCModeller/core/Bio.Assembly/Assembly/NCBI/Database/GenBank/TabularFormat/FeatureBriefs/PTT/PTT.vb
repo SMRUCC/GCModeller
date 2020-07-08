@@ -272,36 +272,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             End If
 
             Try
-                Return PTT.Read(path, fillBlank)
+                Return PTTFileReader.Read(path, fillBlank)
             Catch ex As Exception
                 Dim exMsg As String = $"[PTT_LOADDER_ERROR]  -----> PTT database file ""{path.ToFileURL}"""
                 ex = New Exception(exMsg, ex)
                 Return App.LogException(ex)
             End Try
-        End Function
-
-        ''' <summary>
-        ''' 出错不会被处理，而<see cref="Load(String, Boolean)"/>函数则会处理错误，返回Nothing
-        ''' </summary>
-        ''' <returns></returns>
-        Public Overloads Shared Function Read(path As String, Optional FillBlankName As Boolean = False) As PTT
-            Dim lines As String() = File.ReadAllLines(path)
-            Dim PTT As New PTT With {
-                .Title = lines(0)
-            }
-
-            lines = (From s As String In lines.Skip(3) Where Not String.IsNullOrWhiteSpace(s) Select s).ToArray
-            Dim Genes As GeneBrief() = New GeneBrief(lines.Length - 1) {}
-            For i As Integer = 0 To lines.Length - 1
-                Dim strLine As String = lines(i)
-                Genes(i) = GeneBrief.DocumentParser(strLine, FillBlankName)
-            Next
-            PTT.GeneObjects = Genes
-            Dim strTemp As String = Regex.Match(PTT.Title, " - \d+\.\.\d+").Value
-            PTT.Size = Val(Strings.Split(strTemp, "..").Last)
-            PTT.Title = PTT.Title.Replace(strTemp, "")
-
-            Return PTT
         End Function
 
         Public Overloads Shared Widening Operator CType(FilePath As String) As PTT
