@@ -129,6 +129,10 @@ Namespace Serialization
         End Sub
 
         Public Function PushList(list As IEnumerable, encoding As Encoding) As String
+            If list Is Nothing Then
+                Return "NULL"
+            End If
+
             Dim type As Type = CObj(list).GetType
             Dim base As Type = type.GetTypeElement(False)
             Dim var$ = RDotNetGC.Allocate
@@ -146,6 +150,7 @@ Namespace Serialization
             End SyncLock
 
             Static keyValTupleCache As New Dictionary(Of Type, (isTuple As Boolean, key As PropertyInfo, val As PropertyInfo))
+            Static complexTypeCache As New Dictionary(Of Type, Boolean)
 
             If Not keyValTupleCache.ContainsKey(base) Then
                 Dim properties = base.GetProperties(PublicProperty)
@@ -156,10 +161,13 @@ Namespace Serialization
                     Call keyValTupleCache.Add(base, (False, Nothing, Nothing))
                 End If
             End If
+            If Not complexTypeCache.ContainsKey(base) Then
+                Call complexTypeCache.Add(base, DataFramework.IsComplexType(base, EnumCastTo.string))
+            End If
 
             If keyValTupleCache(base).isTuple Then
                 Call list.writeKeyValueTuples(var, keyValTupleCache(base).key, keyValTupleCache(base).val, encoding)
-            ElseIf DataFramework.IsComplexType(base) Then
+            ElseIf complexTypeCache(base) Then
                 ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
                 ' 反之复杂的非基础类型写为一个list
 
@@ -190,22 +198,29 @@ Namespace Serialization
                     Next
                 End If
             Else
-                ' write as dataframe
-                With App.GetAppSysTempFile(, App.PID)
-                    Call .DoCall(Sub(file)
-                                     Call list.SaveTable(
-                                        path:=file,
-                                        type:=base,
-                                        encoding:=encoding,
-                                        silent:=True
-                                     )
-                                 End Sub)
-
-                    Return utils.read.csv(.ByRef)
-                End With
+                var = PushTable(list, encoding)
             End If
 
             Return var
+        End Function
+
+        Public Function PushTable(list As IEnumerable, encoding As Encoding) As String
+            Dim type As Type = CObj(list).GetType
+            Dim base As Type = type.GetTypeElement(False)
+
+            ' write as dataframe
+            With App.GetAppSysTempFile(, App.PID)
+                Call .DoCall(Sub(file)
+                                 Call list.SaveTable(
+                                    path:=file,
+                                    type:=base,
+                                    encoding:=encoding,
+                                    silent:=True
+                                 )
+                             End Sub)
+
+                Return .DoCall(AddressOf utils.read.csv)
+            End With
         End Function
 
         ''' <summary>

@@ -174,7 +174,7 @@ Namespace CatalogProfiling
                     )
                 End Sub
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal,, "300,300")
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, Drivers.GDI, "300,300")
         End Function
 
         ''' <summary>
