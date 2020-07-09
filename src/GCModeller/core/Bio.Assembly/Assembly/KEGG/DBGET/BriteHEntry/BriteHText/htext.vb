@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7027d6fac7ffee4f953931ebf96e75de, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
+﻿#Region "Microsoft.VisualBasic::ff7c3c2479ed921fa7d425fba9c9e5e2, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: Descript, Hierarchical, MaxDepth, Schema, Title
     ' 
-    '         Function: br08201, br08204, GetEntryDictionary, ko00001, StreamParser
-    '                   ToString
+    '         Function: br08201, br08204, GetEntryDictionary, GetInternalResource, getResourceCache
+    '                   ko00001, StreamParser, ToString
     ' 
     ' 
     ' /********************************************************************************/

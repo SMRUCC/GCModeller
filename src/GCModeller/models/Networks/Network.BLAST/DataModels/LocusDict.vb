@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92a76aa07b99f7c81ddb36d994cb5ad9, Networks\Network.BLAST\DataModels\LocusDict.vb"
+﻿#Region "Microsoft.VisualBasic::92a76aa07b99f7c81ddb36d994cb5ad9, Network.BLAST\DataModels\LocusDict.vb"
 
     ' Author:
     ' 

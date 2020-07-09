@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1304cb72150dade303e3084920214cc7, core\Bio.Assembly\Assembly\bac-srna.org\Database.vb"
+﻿#Region "Microsoft.VisualBasic::1304cb72150dade303e3084920214cc7, Bio.Assembly\Assembly\bac-srna.org\Database.vb"
 
     ' Author:
     ' 

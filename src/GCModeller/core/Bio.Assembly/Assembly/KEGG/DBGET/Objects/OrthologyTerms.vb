@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a862a92a7992490df15c612fb761bef, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
+﻿#Region "Microsoft.VisualBasic::3a862a92a7992490df15c612fb761bef, Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
 
     ' Author:
     ' 

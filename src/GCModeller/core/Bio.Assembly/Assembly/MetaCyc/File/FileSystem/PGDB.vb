@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdd30e20065d4bf73322446598311efe, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
+﻿#Region "Microsoft.VisualBasic::fdd30e20065d4bf73322446598311efe, Bio.Assembly\Assembly\MetaCyc\File\FileSystem\PGDB.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e04f7e7e9688b724674f231298290a9, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::22463d90ad37262a84f4cb15213cbf39, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,9 @@
     '         Properties: Count, IsReadOnly, KeyName, Keys, Location
     '                     PairedValues, SequenceData, Values
     ' 
-    '         Function: __parser, attributes, Contains, ContainsKey, GetEnumerator
+    '         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
     '                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
-    '                   SetValue, ToGff, ToString, TryGetValue
+    '                   SetValue, ToString, TryGetValue
     ' 
     '         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
     ' 

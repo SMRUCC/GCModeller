@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0298960874b13ad184a415fd9b49f454, core\Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
+﻿#Region "Microsoft.VisualBasic::674f98c7aadc75be30bf82c2dd21e26a, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '     Properties: Compounds
     ' 
-    '     Function: Exists, GetAll, GetByKey, GetWhere, ScanModels
-    '               ScanRepository
+    '     Function: Exists, GetAll, GetByKey, GetNames, GetWhere
+    '               ScanModels, ScanRepository
     ' 
     ' Class CompoundIndex
     ' 

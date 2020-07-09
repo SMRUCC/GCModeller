@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc69eea4f116643035d4b55cc8d43816, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::cf59a607ada48efcacfcfa9555b65dd6, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
     '     Class File
     ' 
     '         Properties: Accession, Comment, DbLinks, Definition, Features
-    '                     HasSequenceData, IsPlasmidSource, IsWGS, Keywords, Locus
+    '                     HasSequenceData, isPlasmid, IsWGS, Keywords, Locus
     '                     Origin, Reference, Source, SourceFeature, Taxon
     '                     Version
     ' 
-    '         Function: __trims, IsValidGenbankFormat, Load, LoadDatabase, Read
+    '         Function: IsValidGenbankFormat, Load, (+2 Overloads) LoadDatabase, Read, readGenbankBuffer
     '                   (+2 Overloads) Save
     ' 
     ' 
@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -283,50 +284,55 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        Public Shared Iterator Function LoadDatabase(filePath As String) As IEnumerable(Of File)
-            Dim data As String = FileIO.FileSystem.ReadAllText(filePath)
-            Dim parts$() = r.Split(data, GenbankMultipleRecordDelimiterRegexp, RegexOptions.Multiline)
-            Dim sBuf As IEnumerable(Of String()) =
- _
-                From s As String
-                In parts.AsParallel
-                Let ss As String = s & vbCrLf & GenbankMultipleRecordDelimiter
-                Select ss.LineTokens
+        Public Shared Function LoadDatabase(filePath As String, Optional suppressError As Boolean = False) As IEnumerable(Of File)
+            Return LoadDatabase(filePath.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), filePath.BaseName, suppressError)
+        End Function
 
-            Try
-                For Each buf As String() In sBuf
-                    Dim sDat As String() = __trims(buf)
+        Public Shared Iterator Function LoadDatabase(file As Stream, Optional defaultAccession$ = Nothing, Optional suppressError As Boolean = False) As IEnumerable(Of File)
+            If defaultAccession.StringEmpty Then
+                If TypeOf file Is FileStream Then
+                    defaultAccession = DirectCast(file, FileStream).Name.BaseName
+                Else
+                    defaultAccession = "unknown"
+                End If
+            End If
+
+            For Each buf As String() In readGenbankBuffer(file)
+                Try
+                    Dim sDat As String() = bufferTrims(buf)
 
                     If sDat.IsNullOrEmpty Then
                         Continue For
                     Else
-                        Yield __loadData(sDat, filePath)
+                        Yield doLoadData(sDat, defaultAccession)
                     End If
-                Next
-            Catch ex As Exception
-                ex = New Exception(filePath, ex)
-                Throw ex
-            End Try
+                Catch ex As Exception
+                    ex = New Exception(defaultAccession, ex)
+
+                    If Not suppressError Then
+                        Throw ex
+                    End If
+                End Try
+            Next
         End Function
 
-        Private Shared Function __trims(buf As String()) As String()
-            Dim i As Integer = 0
+        Private Shared Iterator Function readGenbankBuffer(file As Stream) As IEnumerable(Of String())
+            Using read As New StreamReader(file)
+                Dim buffer As New List(Of String)
+                Dim line As Value(Of String) = ""
 
-            If buf.Length < 5 Then
-                Return Nothing
-            End If
+                Do While Not read.EndOfStream
+                    If (line = read.ReadLine) = GenbankMultipleRecordDelimiter Then
+                        Yield buffer.PopAll
+                    Else
+                        buffer += line
+                    End If
+                Loop
 
-            Do While String.IsNullOrEmpty(buf.Read(i))
-            Loop
-
-            If i = 1 Then
-                Return buf
-            Else
-                i -= 1
-            End If
-
-            buf = buf.Skip(i).ToArray
-            Return buf
+                If buffer > 0 Then
+                    Yield buffer.ToArray
+                End If
+            End Using
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save

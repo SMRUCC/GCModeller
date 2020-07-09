@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f38b02980b87703ddbb98483d03c1dde, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::f38b02980b87703ddbb98483d03c1dde, Bio.Assembly\Assembly\NCBI\WebServiceHandler\Taxonomy.vb"
 
     ' Author:
     ' 
