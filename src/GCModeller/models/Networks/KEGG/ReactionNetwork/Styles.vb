@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93186d733c1f45bce90437e7f7cd5811, Networks\KEGG\ReactionNetwork\Styles.vb"
+﻿#Region "Microsoft.VisualBasic::93186d733c1f45bce90437e7f7cd5811, KEGG\ReactionNetwork\Styles.vb"
 
     ' Author:
     ' 

@@ -1,42 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::9adf6b4f82ebcede9b1c93eafc87de94, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb"
+﻿#Region "Microsoft.VisualBasic::54c404b843f9de6215f19ba3c7787ee0, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetaboliteWebApi.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module MetaboliteWebApi
-' 
-'         Function: DownloadCompound, FetchTo, LoadCompoundObject, MatchByName, ScanLoad
-' 
-' 
-' /********************************************************************************/
+    '     Module MetaboliteWebApi
+    ' 
+    '         Function: DownloadCompound, (+2 Overloads) DownloadKCF, FetchTo, LoadCompoundObject, MatchByName
+    '                   ScanLoad
+    ' 
+    '         Sub: DownloadStructureImage
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

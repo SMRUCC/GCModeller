@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11da42367453b7d346b43feaece32d2e, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb"
+﻿#Region "Microsoft.VisualBasic::5c06b5a22f5769d338a1c7ac702898e0, Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     '                     Definition, FullName, Keywords, Lineage, Reference
     '                     Sequence, Taxonomy, TID
     ' 
-    '         Function: links, (+2 Overloads) referenceParser, ShowOrganism, ToString
+    '         Function: ShowOrganism, ToString
     ' 
     ' 
     ' /********************************************************************************/

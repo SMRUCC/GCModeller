@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d70f7a860164a69099ee35615f43849, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
+﻿#Region "Microsoft.VisualBasic::f1abdd7a13f6434c9da3560bc9411c35, Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     '     Class Codon
     ' 
-    '         Properties: CodonValue, IsInitCodon, IsStopCodon, TranslHash, X
+    '         Properties: CodonValue, IsInitCodon, IsStopCodon, TranslHashCode, X
     '                     Y, Z
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: CalTranslHash, CreateHashTable, Equals, ToString
+    '         Function: CreateHashTable, Equals, GetHashCode, ToString
     ' 
     ' 
     ' /********************************************************************************/

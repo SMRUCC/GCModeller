@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02dc944bbff10d26e07ea78a800f1d15, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb"
+﻿#Region "Microsoft.VisualBasic::f052b8a546ccc2b382fa6743fb8be71c, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class ReactionClass
     ' 
-    '         Properties: definition, entryId, enzymes, orthology, pathways
-    '                     reactantPairs, reactions
+    '         Properties: category, definition, entryId, enzymes, orthology
+    '                     pathways, reactantPairs, reactions
     ' 
     '         Function: ScanRepository
     ' 

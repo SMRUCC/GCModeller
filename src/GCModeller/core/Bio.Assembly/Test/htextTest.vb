@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b59f6f4a23827891d724583206dfeb14, core\Bio.Assembly\Test\htextTest.vb"
+﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, Bio.Assembly\test\htextTest.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Module htextTest
         Pause()
     End Sub
 End Module
-

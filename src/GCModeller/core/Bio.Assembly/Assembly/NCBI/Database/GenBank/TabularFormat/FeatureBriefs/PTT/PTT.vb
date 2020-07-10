@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c6745504aaa48db1a108c0e77ed9ade, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::e92a279ecdce3d6e59dc1d53480b4317, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
@@ -240,29 +240,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
 #Region "IO Operations"
 
-        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Dim sBuilder As New StringBuilder(Title & String.Format(" - 1..{0}", Size), capacity:=1024)
-
-            Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine(Me.NumOfProducts & " proteins")
-            Call sBuilder.AppendLine("Location	Strand	Length	PID	Gene	Synonym	Code	COG	Product")
-
-            Dim LQuery = (From GeneObject As GeneBrief In Me.GeneObjects
-                          Let strandCode As String = If(GeneObject.Location.Strand = Strands.Forward, "+", "-")
-                          Select String.Format("{0}..{1}	{2}	{3}	{4}	{5}	{6}	{7}	{8}	{9}",
-                              GeneObject.Location.Left,
-                              GeneObject.Location.Right,
-                              strandCode,
-                              GeneObject.Length,
-                              GeneObject.PID,
-                              GeneObject.Gene,
-                              GeneObject.Synonym,
-                              GeneObject.Code,
-                              GeneObject.COG,
-                              GeneObject.Product)).ToArray
-
-            Call sBuilder.AppendLine(String.Join(vbCrLf, LQuery))
-            Return sBuilder.ToString.SaveTo(Path, encoding)
+        Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using file As New StreamWriter(path.Open(FileMode.OpenOrCreate, doClear:=True), encoding)
+                Call WriteDocument(file)
+                Return True
+            End Using
         End Function
 
         ''' <summary>
@@ -290,36 +272,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             End If
 
             Try
-                Return PTT.Read(path, fillBlank)
+                Return PTTFileReader.Read(path, fillBlank)
             Catch ex As Exception
                 Dim exMsg As String = $"[PTT_LOADDER_ERROR]  -----> PTT database file ""{path.ToFileURL}"""
                 ex = New Exception(exMsg, ex)
                 Return App.LogException(ex)
             End Try
-        End Function
-
-        ''' <summary>
-        ''' 出错不会被处理，而<see cref="Load(String, Boolean)"/>函数则会处理错误，返回Nothing
-        ''' </summary>
-        ''' <returns></returns>
-        Public Overloads Shared Function Read(path As String, Optional FillBlankName As Boolean = False) As PTT
-            Dim lines As String() = File.ReadAllLines(path)
-            Dim PTT As New PTT With {
-                .Title = lines(0)
-            }
-
-            lines = (From s As String In lines.Skip(3) Where Not String.IsNullOrWhiteSpace(s) Select s).ToArray
-            Dim Genes As GeneBrief() = New GeneBrief(lines.Length - 1) {}
-            For i As Integer = 0 To lines.Length - 1
-                Dim strLine As String = lines(i)
-                Genes(i) = GeneBrief.DocumentParser(strLine, FillBlankName)
-            Next
-            PTT.GeneObjects = Genes
-            Dim strTemp As String = Regex.Match(PTT.Title, " - \d+\.\.\d+").Value
-            PTT.Size = Val(Strings.Split(strTemp, "..").Last)
-            PTT.Title = PTT.Title.Replace(strTemp, "")
-
-            Return PTT
         End Function
 
         Public Overloads Shared Widening Operator CType(FilePath As String) As PTT

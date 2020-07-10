@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b22ff08ca93f96ed4973cd725114dba, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb"
+﻿#Region "Microsoft.VisualBasic::8253ed63a6cab5c3a676df90cecfb156, Bio.Annotation\GFF\FeatureKeys.vb"
 
     ' Author:
     ' 
@@ -33,19 +33,10 @@
 
     '     Module FeatureKeys
     ' 
+    '         Properties: featuresIndex
     ' 
-    '         Enum Features
-    ' 
-    '             CDS, exon, gene, region, rRNA
-    '             tmRNA, tRNA
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: FeaturesHash
-    ' 
-    '     Function: [GetFeatureType], DbXref, GetAllGeneIDs, (+2 Overloads) GetsAllFeatures
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: [GetFeatureType], DbXref, GetAllGeneIDs, (+2 Overloads) GetsAllFeatures
     ' 
     ' 
     ' /********************************************************************************/
