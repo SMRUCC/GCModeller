@@ -243,6 +243,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\modules\SeqFeature\SeqFeature\SeqFeature.vbproj">
+      <Project>{050FE13B-BCCE-4FF7-86E2-48735543D7A4}</Project>
+      <Name>SeqFeature</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

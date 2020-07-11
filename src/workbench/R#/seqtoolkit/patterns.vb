@@ -42,8 +42,11 @@
 #End Region
 
 
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -52,9 +55,11 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
+Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -80,6 +85,48 @@ Module patterns
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sites"></param>
+    ''' <param name="seq"></param>
+    ''' <param name="deli"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("view.sites")>
+    <RApiReturn(GetType(String))>
+    Public Function viewSites(<RRawVectorArgument> sites As Object, seq As Object, Optional deli$ = ", ", Optional env As Environment = Nothing) As Object
+        Dim siteData As pipeline = pipeline.TryCreatePipeline(Of Site)(sites, env)
+
+        If siteData.isError Then
+            Return siteData.getError
+        End If
+
+        Dim fa As FastaSeq
+
+        If TypeOf seq Is String Then
+            fa = New FastaSeq With {
+                .Headers = {"seq"},
+                .SequenceData = DirectCast(seq, String)
+            }
+        Else
+            fa = GetFastaSeq(seq, env).FirstOrDefault
+        End If
+
+        With New StringBuilder
+            Call siteData _
+                .populates(Of Site)(env) _
+                .DisplayOn(fa.SequenceData, New StringWriter(.ByRef), deli)
+
+            Return .ToString
+        End With
+    End Function
+
+    ''' <summary>
+    ''' read sequence motif json file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.motifs")>
     Public Function readMotifs(file As String) As SequenceMotif()
         Return file.LoadJSON(Of SequenceMotif())
