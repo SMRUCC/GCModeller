@@ -67,7 +67,7 @@ Partial Module CLI
     Public Function GetIntergenic(args As CommandLine) As Integer
         Dim len As Integer = args.GetValue("/len", 100)
         Dim strict As Boolean = args.GetBoolean("/strict")
-        Dim PTT As PTT = TabularFormat.PTT.Read(args("/ptt"))
+        Dim PTT As PTT = TabularFormat.PTT.Load(args("/ptt"))
         Dim outDIR As String = args("/o") Or (args("/nt").TrimSuffix & $".intergenic.{len}bp.{If(strict, "strict", "")}.fasta")
         Dim NT As New FASTA.FastaSeq(args("/nt"))
         Dim fa As FASTA.FastaFile =

@@ -58,7 +58,12 @@ Module genomics
     End Function
 
     <ExportAPI("as.tabular")>
-    Public Function asTable(genes As GeneBrief(), Optional title$ = "n/a", Optional size% = 0, Optional format$ = "PTT|GFF|GTF", Optional env As Environment = Nothing) As Object
+    Public Function asTable(genes As GeneBrief(),
+                            Optional title$ = "n/a",
+                            Optional size% = 0,
+                            Optional format$ = "PTT|GFF|GTF",
+                            Optional env As Environment = Nothing) As Object
+
         Select Case Strings.UCase(format).Split("|"c).FirstOrDefault
             Case "PTT"
                 Return New PTT(genes, title, size)
