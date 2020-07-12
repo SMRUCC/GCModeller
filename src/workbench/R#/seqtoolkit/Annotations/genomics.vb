@@ -39,17 +39,21 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("gene_info", GetType(GeneBrief))>
 Module genomics
 
     <ExportAPI("read.gtf")>
@@ -124,5 +128,48 @@ Module genomics
         End If
     End Function
 
+    <ExportAPI("write.PTT_tabular")>
+    Public Function writePPTTabular(<RRawVectorArgument>
+                                    genomics As Object,
+                                    Optional file$ = Nothing,
+                                    Optional encoding As Encodings = Encodings.ASCII,
+                                    Optional env As Environment = Nothing) As Object
+        Dim dev As StreamWriter
+
+        If file.StringEmpty Then
+            ' std_output
+            dev = App.StdOut.DefaultValue
+        Else
+            dev = file.OpenWriter(encoding)
+        End If
+
+        If genomics Is Nothing Then
+            Return Internal.debug.stop("the required genomics context data can not be nothing!", env)
+        End If
+
+        If TypeOf genomics Is PTT Then
+            Call DirectCast(genomics, PTT).WriteDocument(dev)
+        Else
+            Dim geneStream As pipeline = pipeline.TryCreatePipeline(Of GeneBrief)(genomics, env)
+
+            If geneStream.isError Then
+                Return geneStream.getError
+            End If
+
+            Call dev.WriteTabular(geneStream.populates(Of GeneBrief)(env))
+
+            If geneStream.isError Then
+                Return geneStream.getError
+            End If
+        End If
+
+        Call dev.Flush()
+
+        If Not file.StringEmpty Then
+            Call dev.Dispose()
+        End If
+
+        Return 0
+    End Function
 End Module
 
