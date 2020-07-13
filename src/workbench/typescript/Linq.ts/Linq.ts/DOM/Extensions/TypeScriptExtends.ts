@@ -114,6 +114,8 @@ namespace TypeExtensions {
             if (enable) {
                 node.style.pointerEvents = "auto";
                 node.style.opacity = "1";
+                node.style.filter = null;
+                node.style.webkitFilter = null;
             } else {
                 node.style.pointerEvents = "none";
                 node.style.opacity = "0.4";

@@ -129,6 +129,9 @@
     <TypeScriptCompile Include="Framework\Reflection\Reflector.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Framework\Reflection\Internal.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Framework\StackTrace\StackFrame.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -181,6 +184,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Framework\BackgroundWorker.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Framework\EventHandles.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Helpers\Benchmark.ts">
@@ -293,9 +299,6 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Activator.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="RequireGlobal.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

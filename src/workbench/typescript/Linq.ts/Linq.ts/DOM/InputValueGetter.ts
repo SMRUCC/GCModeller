@@ -13,9 +13,9 @@ namespace DOM {
          * @param Default 查询失败的时候所返回来的默认值
         */
         export function metaValue(name: string, Default: string = null, allowQueryParent: boolean = false): string {
-            let selector: string = `meta[name~="${name}"]`;
-            let meta: Element = document.querySelector(selector);
-            let getContent = function () {
+            var selector: string = `meta[name~="${name}"]`;
+            var meta: Element = document.querySelector(selector);
+            var getContent = function () {
                 if (meta) {
                     var content: string = meta.getAttribute("content");
                     return content ? content : Default;
@@ -43,8 +43,10 @@ namespace DOM {
          * 即这个参数为``false``的时候会直接强制读取value属性值
         */
         export function getValue(resource: string, strict: boolean = true): any {
-            let input: IHTMLElement = $ts(resource);
+            return unifyGetValue($ts(resource), strict);
+        }
 
+        export function unifyGetValue(input: HTMLElement, strict: boolean = true): any {
             switch (input.tagName.toLowerCase()) {
                 case "input": return inputValue(<any>input);
                 case "select": return selectOptionValues(<any>input);

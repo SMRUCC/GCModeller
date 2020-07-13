@@ -23,8 +23,6 @@
         alt?: string;
         checked?: boolean;
         selected?: boolean;
-        autofocus?: boolean;
-        placeholder?: string;
 
         /**
          * 应用于``<a>``标签进行文件下载重命名文件所使用的
@@ -40,12 +38,13 @@
         context?: Window | HTMLElement | IHTMLElement;
         title?: string;
         name?: string;
+        placeholder?: string;
+
         /**
          * HTML的输入控件的预设值
         */
         value?: string | number | boolean;
         for?: string;
-        role?: string;
         tabindex?: number;
 
         "max-width"?: string;
@@ -60,27 +59,34 @@
         /**
          * 处理HTML节点对象的点击事件，这个属性值应该是一个无参数的函数来的
         */
-        onclick?: Delegate.Sub | string;
-        onmouseover?: Delegate.Sub | string;
+        onclick?: HtmlEventHandler;
+        onmouseover?: HtmlEventHandler;
         /**
          * 主要是应用于输入控件
         */
-        onchange?: Delegate.Sub | string;
+        onchange?: HtmlEventHandler;
+        /**
+         * 失去焦点
+        */
+        onblur?: HtmlEventHandler;
+        onfocusout?: HtmlEventHandler;
+        /**
+         * 获得焦点
+        */
+        onfocus?: HtmlEventHandler;
 
         "data-toggle"?: string;
         "data-target"?: string;
-
         "aria-hidden"?: boolean;
-        "aria-label"?: string;
-        "aria-live"?: string;
-        "aria-haspopup"?: boolean;
-        "aria-owns"?: string;
-        "aria-expanded"?: boolean;
+        "data-content"?: string;
 
         "aria-labelledby"?: string;
 
+        role?: string;
         usemap?: string;
         shape?: string;
         coords?: string;
     }
+
+    type HtmlEventHandler = Delegate.Sub | string;
 }

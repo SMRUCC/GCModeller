@@ -22,7 +22,7 @@
 */
 abstract class Bootstrap {
 
-    protected status: string;
+    protected status: "Sleep" | "Running";
     /**
      * 是否阻止用户关闭当前页面
     */
@@ -39,7 +39,7 @@ abstract class Bootstrap {
         return getAllUrlParams().Item("app") || Router.appName || "/";
     }
 
-    public get appStatus(): string {
+    public get appStatus(): "Sleep" | "Running" {
         return this.status;
     }
 
@@ -108,6 +108,8 @@ abstract class Bootstrap {
 
             vm.OnHashChanged(val);
         };
+
+        Internal.EventHandles.hookEventHandles(this);
 
         this.init();
         this.status = "Running";
