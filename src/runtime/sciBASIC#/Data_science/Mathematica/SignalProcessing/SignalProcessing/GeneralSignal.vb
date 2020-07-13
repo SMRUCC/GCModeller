@@ -95,6 +95,12 @@ Public Class Resampler
     Dim x As Double()
     Dim y As Double()
 
+    Public ReadOnly Property enumerateMeasures As Double()
+        Get
+            Return x.ToArray
+        End Get
+    End Property
+
     Public Function GetIntensity(x As Double) As Double
         Dim i As Integer = getPosition(x)
 
