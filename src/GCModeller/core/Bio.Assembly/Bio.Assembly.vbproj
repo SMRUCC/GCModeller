@@ -748,6 +748,8 @@
     <Compile Include="Assembly\NCBI\Database\COG\COGs\COGTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GBFFFeatureDumps.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\GenbankExportInfo.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb" />
     <Compile Include="ComponentModel\Annotation\CatalogProfiles.vb" />
     <Compile Include="ComponentModel\Annotation\GeneTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\ExportServices\gbEntry.vb" />

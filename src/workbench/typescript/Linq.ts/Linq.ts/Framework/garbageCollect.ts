@@ -11,7 +11,7 @@
         export const handler: Delegate.Func<any> = getHandler();
 
         function getHandler() {
-            if (typeof window != "undefined" && typeof (<any>window).require === "function") {
+            if (typeof (<any>window).require === "function") {
                 let require = (<any>window).require;
 
                 try {
@@ -60,7 +60,7 @@
             //        return ProfilerAgent.collectGarbage;
             //    }
             //}
-            if (typeof window !== 'undefined' && typeof (<any>window).global !== 'undefined') {
+            if (typeof (<any>window).global !== 'undefined') {
                 let global = (<any>window).global;
 
                 if (global.gc) {

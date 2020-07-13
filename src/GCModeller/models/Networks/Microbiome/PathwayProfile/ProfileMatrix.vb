@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb340459886a2e4c644a26e097a07098, Networks\Microbiome\PathwayProfile\ProfileMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::bb340459886a2e4c644a26e097a07098, Microbiome\PathwayProfile\ProfileMatrix.vb"
 
     ' Author:
     ' 

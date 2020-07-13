@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6df8262589ac6978a4c436cfdbce3ba1, Networks\KEGG\PathwayMaps\Styles\BlockStyle.vb"
+﻿#Region "Microsoft.VisualBasic::6df8262589ac6978a4c436cfdbce3ba1, KEGG\PathwayMaps\Styles\BlockStyle.vb"
 
     ' Author:
     ' 

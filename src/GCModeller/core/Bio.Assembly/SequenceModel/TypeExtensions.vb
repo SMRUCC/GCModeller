@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 

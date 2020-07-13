@@ -1,54 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::c0f057af1b8f93c619bf8e27fb4ae8ab, R#\seqtoolkit\Annotations\genomics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module genomics
-    ' 
-    '     Function: asTable, genes, getUpstream, readGtf
-    ' 
-    ' /********************************************************************************/
+' Module genomics
+' 
+'     Function: asTable, genes, getUpstream, readGtf
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("gene_info", GetType(GeneBrief))>
 Module genomics
 
     <ExportAPI("read.gtf")>
@@ -57,8 +62,13 @@ Module genomics
     End Function
 
     <ExportAPI("as.tabular")>
-    Public Function asTable(genes As GeneBrief(), Optional title$ = "n/a", Optional size% = 0, Optional format$ = "PTT", Optional env As Environment = Nothing) As Object
-        Select Case UCase(format)
+    Public Function asTable(genes As GeneBrief(),
+                            Optional title$ = "n/a",
+                            Optional size% = 0,
+                            Optional format$ = "PTT|GFF|GTF",
+                            Optional env As Environment = Nothing) As Object
+
+        Select Case Strings.UCase(format).Split("|"c).FirstOrDefault
             Case "PTT"
                 Return New PTT(genes, title, size)
             Case "GFF"
@@ -103,7 +113,7 @@ Module genomics
     End Function
 
     <ExportAPI("genome.genes")>
-    <RApiReturn(GetType(GeneBrief()))>
+    <RApiReturn(GetType(GeneBrief))>
     Public Function genes(<RRawVectorArgument> genome As Object, Optional env As Environment = Nothing) As Object
         If genome Is Nothing Then
             Return {}
@@ -111,10 +121,55 @@ Module genomics
 
         If TypeOf genome Is PTT Then
             Return DirectCast(genome, PTT).GeneObjects
+        ElseIf TypeOf genome Is GBFF.File Then
+            Return DirectCast(genome, GBFF.File).EnumerateGeneFeatures(ORF:=False).FeatureGenes.ToArray
         Else
             Return Internal.debug.stop($"Invalid genome context model: {genome.GetType.FullName}!", env)
         End If
     End Function
 
+    <ExportAPI("write.PTT_tabular")>
+    Public Function writePPTTabular(<RRawVectorArgument>
+                                    genomics As Object,
+                                    Optional file$ = Nothing,
+                                    Optional encoding As Encodings = Encodings.ASCII,
+                                    Optional env As Environment = Nothing) As Object
+        Dim dev As StreamWriter
+
+        If file.StringEmpty Then
+            ' std_output
+            dev = App.StdOut.DefaultValue
+        Else
+            dev = file.OpenWriter(encoding)
+        End If
+
+        If genomics Is Nothing Then
+            Return Internal.debug.stop("the required genomics context data can not be nothing!", env)
+        End If
+
+        If TypeOf genomics Is PTT Then
+            Call DirectCast(genomics, PTT).WriteDocument(dev)
+        Else
+            Dim geneStream As pipeline = pipeline.TryCreatePipeline(Of GeneBrief)(genomics, env)
+
+            If geneStream.isError Then
+                Return geneStream.getError
+            End If
+
+            Call dev.WriteTabular(geneStream.populates(Of GeneBrief)(env))
+
+            If geneStream.isError Then
+                Return geneStream.getError
+            End If
+        End If
+
+        Call dev.Flush()
+
+        If Not file.StringEmpty Then
+            Call dev.Dispose()
+        End If
+
+        Return 0
+    End Function
 End Module
 

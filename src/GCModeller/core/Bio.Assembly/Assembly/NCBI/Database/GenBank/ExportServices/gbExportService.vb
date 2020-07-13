@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8080a17f32231d072bf531bbb107d50c, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::806f5a6f05bffd98e36e1d2538b5eee6, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,10 @@
 
     '     Module gbExportService
     ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, __toGenes, BatchExport
-    '                   BatchExportPlasmid, CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, EnsureNonEmptyLocusId
-    '                   ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump, GbffToPTT, InvokeExport
-    '                   LoadGbkSource, TryParseGBKID
+    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
+    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, EnsureNonEmptyLocusId, EnumerateGeneFeatures
+    '                   ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump, FeatureGenes, GbffToPTT
+    '                   InvokeExport, LoadGbkSource, TryParseGBKID
     ' 
     ' 
     ' /********************************************************************************/
@@ -108,7 +108,7 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("protein_id", gene.ProteinId)
             Call obj.TryGetValue("gene", gene.geneName)
             Call obj.TryGetValue("translation", gene.Translation)
-            Call obj.TryGetValue("function", gene.Function)
+            Call obj.TryGetValue("function", gene.function)
             Call obj.TryGetValue("transl_table", gene.Transl_table)
 
             gene.GI = obj.db_xref_GI
@@ -116,7 +116,7 @@ Namespace Assembly.NCBI.GenBank
             gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
             gene.InterPro = obj.db_xref_InterPro
             gene.GO = obj.db_xref_GO
-            gene.Species = obj.gb.Definition.Value
+            gene.species = obj.gb.Definition.Value
             gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
             gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
 
@@ -127,7 +127,7 @@ Namespace Assembly.NCBI.GenBank
             Try
                 gene.left = obj.Location.ContiguousRegion.left
                 gene.right = obj.Location.ContiguousRegion.right
-                gene.Strand = If(obj.Location.Complement, "-", "+")
+                gene.strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
                 Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
                 ex = New Exception(msg)
@@ -255,7 +255,22 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="ORF">默认参数值为True，表示只导出蛋白编码基因的位置信息</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function GbffToPTT(genbank As GBFF.File, Optional ORF As Boolean = True) As TabularFormat.PTT
+        <Extension>
+        Public Function GbffToPTT(genbank As GBFF.File, Optional ORF As Boolean = True) As TabularFormat.PTT
+            Dim size = genbank.Origin.SequenceData.Length
+            Dim def As String = genbank.Definition.Value
+            Dim genes = genbank.EnumerateGeneFeatures(ORF)
+            Dim genomics As New TabularFormat.PTT With {
+                .GeneObjects = genes.FeatureGenes.ToArray,
+                .Size = size,
+                .Title = def
+            }
+
+            Return genomics
+        End Function
+
+        <Extension>
+        Public Function EnumerateGeneFeatures(genbank As GBFF.File, Optional ORF As Boolean = True) As IEnumerable(Of Feature)
             Dim assert As Predicate(Of Feature)
 
             If ORF Then
@@ -270,18 +285,14 @@ Namespace Assembly.NCBI.GenBank
                          End Function
             End If
 
-            Dim size = genbank.Origin.SequenceData.Length
-            Dim genes As Feature() = LinqAPI.Exec(Of Feature) _
- _
-                () <= From feature As Feature
-                      In genbank.Features._innerList
-                      Where True = assert(feature)
-                      Select feature
-
-            Return genes.__toGenes(size, genbank.Definition.Value)
+            Return From feature As Feature
+                   In genbank.Features._innerList
+                   Where True = assert(feature)
+                   Select feature
         End Function
 
-        <Extension> Private Function __toGenes(genes As Feature(), size%, def$) As TabularFormat.PTT
+        <Extension>
+        Public Function FeatureGenes(genes As IEnumerable(Of Feature)) As IEnumerable(Of GeneBrief)
             Dim PTT_genes = From g As Feature
                             In genes
                             Select gene = g.__featureToPTT
@@ -297,13 +308,7 @@ Namespace Assembly.NCBI.GenBank
                 Call VBDebugger.Warning($"""{duplicated.Synonym}"" data was duplicated!")
             Next
 
-            Dim list = (From gene In array Select gene.ggenes.First).ToArray
-
-            Return New TabularFormat.PTT With {
-                .GeneObjects = list,
-                .Size = size,
-                .Title = def
-            }
+            Return From gene In array Select gene.ggenes.First
         End Function
 
         <Extension>
@@ -457,21 +462,21 @@ Namespace Assembly.NCBI.GenBank
                     .COG = gene.COG,
                     .commonName = gene.Gene,
                     .EC_Number = "-",
-                    .Function = gene.Product,
+                    .function = gene.Product,
                     .GC_Content = 0,
                     .geneName = gene.Gene,
                     .GI = "-",
                     .GO = {},
                     .InterPro = {},
                     .left = gene.Location.left,
-                    .Length = gene.Location.FragmentSize,
+                    .length = gene.Location.FragmentSize,
                     .Location = gene.Location,
                     .locus_id = gene.Synonym,
                     .ProteinId = gene.Synonym,
                     .right = gene.Location.right,
-                    .Species = "",
+                    .species = "",
                     .SpeciesAccessionID = "",
-                    .Strand = gene.Location.Strand.ToString,
+                    .strand = gene.Location.Strand.ToString,
                     .Translation = "",
                     .Transl_table = "",
                     .UniprotSwissProt = "",
@@ -584,7 +589,7 @@ Namespace Assembly.NCBI.GenBank
         Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
             Dim LQuery = From gene As GeneTable
                          In data.AsParallel
-                         Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.Function, gene.Species}
+                         Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
                          Select New FASTA.FastaSeq With {
                              .Headers = attrs,
                              .SequenceData = gene.Translation

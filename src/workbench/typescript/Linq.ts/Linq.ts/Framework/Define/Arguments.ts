@@ -47,7 +47,7 @@
                 caseInSensitive: false,
                 nativeModel: true,
                 defaultValue: "",
-                context: typeof window == "undefined" ? null : window
+                context: window
             }
         }
     }

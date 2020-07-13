@@ -8,17 +8,29 @@
 */
 module Router {
 
-    var hashLinks: Dictionary<string>;
-    var webApp: Dictionary<Bootstrap>[];
-    var caseSensitive: boolean = true;
+    let hashLinks: Dictionary<string>;
+    let webApp: Dictionary<Bootstrap>[] = <any>{};
+    let caseSensitive: boolean = true;
 
     /**
      * meta标签中的app值
     */
-    export const appName: string = typeof document == "undefined" ? null : DOM.InputValueGetter.metaValue("app");
+    export const appName: string = <any>DOM.InputValueGetter.metaValue("app");
 
     export function isCaseSensitive(): boolean {
         return caseSensitive;
+    }
+
+    export function currentAppPage(): Bootstrap {
+        for (let index in webApp) {
+            for (let app of (<Dictionary<Bootstrap>>webApp[index]).Values.ToArray()) {
+                if (app.appStatus == "Running") {
+                    return app;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -35,9 +47,6 @@ module Router {
      * @param module 默认的模块是``/``，即如果服务器为php服务器的话，则默认为index.php
     */
     export function AddAppHandler(app: Bootstrap, module = "/") {
-        if (isNullOrUndefined(webApp)) {
-            webApp = <any>{};
-        }
         if (!(module in webApp)) {
             webApp[module] = new Dictionary<Bootstrap>({});
         }
@@ -73,8 +82,8 @@ module Router {
     }
 
     export function getAppSummary(app: Bootstrap, module: string = "/"): IAppInfo {
-        var type = $ts.typeof(app);
-        var info = <IAppInfo>{
+        let type = $ts.typeof(app);
+        let info = <IAppInfo>{
             module: module,
             appName: app.appName,
             className: type.class,
@@ -94,9 +103,9 @@ module Router {
         if (module in webApp) {
             doModule(module, apps => apps.Select(app => app.value.Init()));
         } else if (module == "index" || module in indexModule) {
-            var runInit: boolean = false;
+            let runInit: boolean = false;
 
-            for (var index of Object.keys(indexModule)) {
+            for (let index of Object.keys(indexModule)) {
                 if (index in webApp) {
                     doModule(index, apps => apps.Select(app => app.value.Init()));
                     runInit = true;
@@ -114,7 +123,7 @@ module Router {
 
         if (TypeScript.logging.outputEverything) {
             // 在console中显示table
-            var summary: IAppInfo[] = [];
+            let summary: IAppInfo[] = [];
 
             Object.keys(webApp).forEach(module => {
                 doModule(module, apps => {

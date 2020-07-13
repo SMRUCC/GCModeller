@@ -17,7 +17,21 @@ module Strings {
     export const Z: number = "Z".charCodeAt(0);
 
     export const numericPattern: RegExp = /[-]?\d+(\.\d+)?/g;
-    export const integerPattern: RegExp = /[0-9]+/g;
+    export const integerPattern: RegExp = /[-]?[0-9]+/g;
+
+    export function PadLeft(text: string, padLen: number, c: string = " ") {
+        if (Strings.Empty(text)) {
+            return DataExtensions.Dim(padLen, c).join("");
+        }
+
+        padLen = padLen - text.length;
+
+        if (padLen < 0) {
+            return text;
+        } else {
+            return DataExtensions.Dim(padLen, c).join("") + text;
+        }
+    }
 
     /**
      * 判断所给定的字符串文本是否是任意实数的正则表达式模式

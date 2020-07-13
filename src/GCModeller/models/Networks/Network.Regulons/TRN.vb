@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8519a5c6ed0113bd6a1224556f51b37, Networks\Network.Regulons\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::d8519a5c6ed0113bd6a1224556f51b37, Network.Regulons\TRN.vb"
 
     ' Author:
     ' 

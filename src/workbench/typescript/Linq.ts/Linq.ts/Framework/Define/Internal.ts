@@ -455,14 +455,14 @@ namespace Internal {
     }
 
     export function queryFunction<T>(handle: object, any: ((() => void) | T | T[]), args: object): any {
-        var type: TypeScript.Reflection.TypeInfo = TypeScript.Reflection.$typeof(any);
-        var typeOf: string = type.typeOf;
+        let type: TypeScript.Reflection.TypeInfo = TypeScript.Reflection.$typeof(any);
+        let typeOf: string = type.typeOf;
         // symbol renames due to problem in js compress tool
         //
         // ERROR - "eval" cannot be redeclared in strict mode
         //
-        var queryEval: any = typeOf in handle ? handle[typeOf]() : null;
-        var isHtmlCollection = (typeOf == "object") && (type.class == "HTMLCollection" || type.class == "NodeListOf");
+        let queryEval: any = typeOf in handle ? handle[typeOf]() : null;
+        let isHtmlCollection = (typeOf == "object") && (type.class == "HTMLCollection" || type.class == "NodeListOf" || type.class == "NodeList");
 
         if (isHtmlCollection) {
             return Internal.Handlers.Shared.HTMLCollection().doEval(<any>any, type, args);

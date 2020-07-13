@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::828f0bb3d0f8aa9d12e0a91e43695418, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7d1bacdba12cad5d73ae96467339b104, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: AsGenes, COGs, ToGeneBrief
+    '         Function: COGs
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c37fc0cc3b6eba30fda715a89f0d5385, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
+﻿#Region "Microsoft.VisualBasic::79313d9a33f19e50b4046cbe217cf845, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,12 @@
     ' 
     '         [function], [partial], anticodon, bound_moiety, citation
     '         codon, codon_start, cons_splice, db_xref, direction
-    '         EC_number, evidence, frequency, gene, label
-    '         locus_tag, map, mod_base, note, number
-    '         organism, phenotype, product, protein_id, pseudo
-    '         rpt_family, rpt_type, rpt_unit, standard_name, transl_except
-    '         transl_table, translation, type, usedin
+    '         EC_number, evidence, frequency, gene, inference
+    '         label, locus_tag, map, mod_base, mol_type
+    '         note, number, organism, phenotype, product
+    '         protein_id, pseudo, rpt_family, rpt_type, rpt_unit
+    '         standard_name, transl_except, transl_table, translation, type
+    '         usedin
     ' 
     '  
     ' 

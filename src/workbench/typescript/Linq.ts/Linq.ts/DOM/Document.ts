@@ -133,7 +133,7 @@ namespace DOM {
         headers: string[] | IEnumerator<string> | IEnumerator<MapTuple<string, string>> | MapTuple<string, string>[] = null,
         attrs: Internal.TypeScriptArgument = null): HTMLTableElement {
 
-        var thead: HTMLElement = $ts("<thead>");
+        var thead: HTMLElement = $ts("<tr>");
         var tbody: HTMLElement = $ts("<tbody>");
         var fields: MapTuple<string, string>[];
 
@@ -160,7 +160,7 @@ namespace DOM {
 
         return <HTMLTableElement>$ts("<table>", attrs)
             .asExtends
-            .append(thead)
+            .append($ts("<thead>").display(thead))
             .append(tbody)
             .HTMLElement;
     }
