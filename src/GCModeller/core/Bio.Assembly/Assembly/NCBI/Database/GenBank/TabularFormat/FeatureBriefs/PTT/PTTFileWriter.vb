@@ -42,10 +42,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
             Call output.WriteLine()
             Call output.WriteLine(genomics.NumOfProducts & " proteins")
-            Call output.WriteLine("Location	Strand	Length	PID	Gene	Synonym	Code	COG	Product")
-
-            Call genomics.GeneObjects.WriteGeneLines(output)
+            Call output.WriteTabular(genomics.GeneObjects)
             Call output.Flush()
+        End Sub
+
+        <Extension>
+        Public Sub WriteTabular(output As TextWriter, genes As IEnumerable(Of GeneBrief))
+            Call output.WriteLine({"Location", "Strand", "Length", "PID", "Gene", "Synonym", "Code", "COG", "Product"}.JoinBy(vbTab))
+            Call genes.WriteGeneLines(output)
         End Sub
 
         <Extension>

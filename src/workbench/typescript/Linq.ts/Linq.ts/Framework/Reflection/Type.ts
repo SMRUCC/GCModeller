@@ -47,7 +47,7 @@
          * 是否是一个枚举器集合对象？
         */
         public get isEnumerator(): boolean {
-            return this.typeOf == "object" && (this.class == "IEnumerator" || this.class == "DOMEnumerator");
+            return this.typeOf == "object" && ((this.class == "IEnumerator" || this.class == "DOMEnumerator") || Internal.isEnumeratorSignature(this));
         }
 
         /**
@@ -55,7 +55,7 @@
         */
         public isArrayOf(genericType: string): boolean {
             return this.isArray && this.class == genericType;
-        }        
+        }
 
         public toString() {
             if (this.typeOf == "object") {

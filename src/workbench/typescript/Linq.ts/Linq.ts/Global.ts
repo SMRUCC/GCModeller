@@ -247,3 +247,20 @@ const $link = function (query: string | HTMLElement, args?: Internal.TypeScriptA
 const $iframe = function (query: string | HTMLElement, args?: Internal.TypeScriptArgument): HTMLIFrameElement {
     return Internal.typeGenericElement<HTMLIFrameElement>(query, args);
 };
+
+/**
+ * 进行对象的浅克隆
+*/
+function $clone<T extends {}>(obj: T): T {
+    let copy: {} = {};
+
+    if (!isNullOrUndefined(obj)) {
+        for (let name in obj) {
+            copy[<any>name] = obj[name];
+        }
+    } else {
+        TypeScript.logging.warning("target object is nothing!");
+    }
+
+    return <any>copy;
+}

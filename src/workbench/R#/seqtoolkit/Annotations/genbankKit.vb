@@ -94,11 +94,17 @@ Module genbankKit
     ''' populate a list of genbank data objects from a given list of files or stream.
     ''' </summary>
     ''' <param name="files">a list of files or file stream</param>
+    ''' <param name="autoClose">
+    ''' auto close of the <see cref="Stream"/> if the <paramref name="files"/> contains stream object?
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("populate.genbank")>
     <RApiReturn(GetType(GBFF.File))>
-    Public Function populateGenbanks(<RRawVectorArgument> files As Object, Optional env As Environment = Nothing) As Object
+    Public Function populateGenbanks(<RRawVectorArgument>
+                                     files As Object,
+                                     Optional autoClose As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
         If files Is Nothing Then
             Return Internal.debug.stop("the required file list can not be nothing!", env)
         End If
@@ -116,6 +122,14 @@ Module genbankKit
                         For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
                             Yield gb
                         Next
+
+                        If autoClose Then
+                            Try
+                                Call DirectCast(file.value, Stream).Dispose()
+                            Catch ex As Exception
+
+                            End Try
+                        End If
                     Else
                         env.AddMessage({$"file object in position {file.i} is not a file...", "index: " & file.i}, MSG_TYPES.WRN)
                     End If
