@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
@@ -84,6 +85,14 @@ Public Class GeneralSignal : Implements INamedValue
         Return sb.ToString
     End Function
 
+    Public Iterator Function PopulatePoints() As IEnumerable(Of PointF)
+        For i As Integer = 0 To _Measures.Length - 1
+            Yield New PointF With {
+                .X = _Measures(i),
+                .Y = _Strength(i)
+            }
+        Next
+    End Function
 End Class
 
 ''' <summary>
