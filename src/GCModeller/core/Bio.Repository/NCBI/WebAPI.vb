@@ -50,7 +50,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -65,8 +64,6 @@ Public Module DownloaderWebAPI
     ''' <returns>返回下载成功的文件数目</returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("genbank.batch_download",
-               Info:="This command required the bioperl package installed on your computer!")>
     Public Function DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer) As Integer
         Using pb As New CBusyIndicator(start:=True)
             Dim downloads As New __genbankDownloadHelper With {.EXPORT = EXPORT}
