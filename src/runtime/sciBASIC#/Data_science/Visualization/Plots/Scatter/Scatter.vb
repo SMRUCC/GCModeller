@@ -389,7 +389,7 @@ Public Module Scatter
                     }
                 Else
                     legendPosition = New Point With {
-                        .X = region.Size.Width - lsize.Width / 2 - maxWidth,
+                        .X = region.Size.Width - lsize.Width / 3 - maxWidth,
                         .Y = rect.PlotRegion.Top + lFont.Height
                     }
                 End If
