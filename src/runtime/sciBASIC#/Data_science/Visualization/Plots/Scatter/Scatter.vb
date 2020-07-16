@@ -369,7 +369,7 @@ Public Module Scatter
                       Select New Legend With {
                           .color = sColor,
                           .fontstyle = legendFontCSS,
-                          .style = LegendStyles.Circle,
+                          .style = s.shape,
                           .title = s.title
                       }
             Dim legendParts As Legend()() = Nothing
