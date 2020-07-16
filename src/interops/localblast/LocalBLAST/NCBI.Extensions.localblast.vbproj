@@ -370,7 +370,6 @@
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Views.vb" />
     <Compile Include="LocalBLAST\BlastOutput\GrepOperation.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastX.vb" />

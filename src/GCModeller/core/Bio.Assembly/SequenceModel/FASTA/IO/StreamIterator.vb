@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::cf9f27db341b7d08296802d4a4a30b32, Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class StreamIterator
-    ' 
-    '         Properties: DefaultSuffix
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __loops, ReadStream, SeqSource, Split
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class StreamIterator
+' 
+'         Properties: DefaultSuffix
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __loops, ReadStream, SeqSource, Split
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -53,14 +53,16 @@ Namespace SequenceModel.FASTA
     ''' <summary>
     ''' 读取超大型的fasta文件所需要的一个数据对象
     ''' </summary>
-    Public Class StreamIterator : Inherits BufferedStream
+    Public Class StreamIterator : Implements IDisposable
+
+        ReadOnly _file As StreamReader
 
         ''' <summary>
         ''' 从指定的文件之中构建一个读取超大型的fasta文件所需要的一个数据对象
         ''' </summary>
         ''' <param name="path"></param>
         Sub New(path As String)
-            Call MyBase.New(path, maxBufferSize:=1024 * 1024 * 128)
+            _file = path.OpenReader()
         End Sub
 
         ''' <summary>
@@ -70,20 +72,25 @@ Namespace SequenceModel.FASTA
         Public Iterator Function ReadStream() As IEnumerable(Of FastaSeq)
             Dim stream As New List(Of String)
 
-            Do While Not Me.EndRead  ' 一直循环直到读完文件为止
-                For Each fa As FastaSeq In __loops(stream)
-                    Yield fa
-                Next
-            Loop
+            For Each fa As FastaSeq In __loops(stream)
+                Yield fa
+            Next
 
             If Not stream.Count = 0 Then
                 Yield FastaSeq.ParseFromStream(stream, {"|"c})
             End If
         End Function
 
+        Private Iterator Function BufferProvider() As IEnumerable(Of String)
+            Do While Not _file.EndOfStream
+                Yield _file.ReadLine
+            Loop
+        End Function
+
         Public Const SOH As Char = Chr(1)
 
         ReadOnly __deli As Char() = {"|"c}
+        Private disposedValue As Boolean
 
         ''' <summary>
         ''' Loops on each block of data
@@ -91,7 +98,7 @@ Namespace SequenceModel.FASTA
         ''' <param name="stream"></param>
         ''' <returns></returns>
         Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
-            For Each line As String In MyBase.BufferProvider   ' 读取一个数据块
+            For Each line As String In BufferProvider()   ' 读取一个数据块
                 If line.StringEmpty Then  ' 跳过空白的行
                     Continue For
                 End If
@@ -121,7 +128,7 @@ Namespace SequenceModel.FASTA
             Dim temp As New List(Of FastaSeq)
             Dim i As Integer
 
-            Call MyBase.Reset()
+            Call _file.BaseStream.Seek(Scan0, SeekOrigin.Begin)
 
             For Each fa As FastaSeq In Me.ReadStream
                 If i < size Then
@@ -143,7 +150,7 @@ Namespace SequenceModel.FASTA
         ''' 默认的Fasta文件拓展名列表
         ''' </summary>
         ''' <returns></returns>
-        Public Shared ReadOnly Property DefaultSuffix As [Default](Of  String()) = {"*.fasta", "*.fa", "*.fsa", "*.fas"}
+        Public Shared ReadOnly Property DefaultSuffix As [Default](Of String()) = {"*.fasta", "*.fa", "*.fsa", "*.fas"}
 
         ''' <summary>
         ''' 全部都是使用<see cref="StreamIterator"/>对象来进行读取的
@@ -178,5 +185,31 @@ Namespace SequenceModel.FASTA
                 Next
             End If
         End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                    Call _file.Dispose()
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace
