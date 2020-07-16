@@ -53,22 +53,22 @@ Public Module HMMParserAPI
     ''' <param name="path">Pfam-A.hmm</param>
     ''' <returns></returns>
     Public Iterator Function LoadDoc(path As String) As IEnumerable(Of HMMParser)
-        Dim reader As BufferedStream = New BufferedStream(path, maxBufferSize:=1024 * 1024 * 128)
-        Dim last As List(Of String) = New List(Of String)
+        Dim reader As IEnumerable(Of String) = path.IterateAllLines
+        Dim buffer As New List(Of String)
 
         VBDebugger.Mute = True
 
-        Do While Not reader.EndRead
-            Dim lines As String() = reader.BufferProvider
-            Dim blocks As String()() = lines.Split("//").ToArray
+        For Each line As String In reader
+            buffer.Add(line)
 
-            blocks(Scan0) = last + blocks(Scan0)
-            last = blocks.Last.AsList
+            If line = "//" Then
+                Yield StreamParser(buffer.PopAll)
+            End If
+        Next
 
-            For Each block As String() In blocks.Take(blocks.Length - 1)
-                Yield StreamParser(block)
-            Next
-        Loop
+        If buffer > 0 Then
+            Yield StreamParser(buffer.PopAll)
+        End If
 
         VBDebugger.Mute = False
     End Function
