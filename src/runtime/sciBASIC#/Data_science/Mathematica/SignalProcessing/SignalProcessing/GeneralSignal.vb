@@ -45,6 +45,7 @@
 Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 
 Public Class GeneralSignal : Implements INamedValue
@@ -69,6 +70,16 @@ Public Class GeneralSignal : Implements INamedValue
     Public Property description As String
     Public Property meta As Dictionary(Of String, String)
 
+    Public ReadOnly Property MeasureRange As DoubleRange
+        Get
+            If Measures.IsNullOrEmpty Then
+                Return {0, 0}
+            Else
+                Return {Measures.Min, Measures.Max}
+            End If
+        End Get
+    End Property
+
     ''' <summary>
     ''' take signal subset by a given range of <see cref="Measures"/>
     ''' </summary>
@@ -77,8 +88,15 @@ Public Class GeneralSignal : Implements INamedValue
     ''' <returns></returns>
     Default Public ReadOnly Property GetByRange(min#, max#) As GeneralSignal
         Get
-            Dim i As Integer = Which(Measures.Select(Function(a) a >= min)).First
-            Dim j As Integer = Which(Measures.Select(Function(a) a >= max)).First
+            Dim i As Integer = Which(Measures.Select(Function(a) a >= min)).FirstOrDefault
+            Dim j As Integer = Which(Measures.Select(Function(a) a >= max)).FirstOrDefault
+
+            If i = 0 AndAlso j = 0 Then
+                i = 0
+                j = Measures.Length - 1
+            ElseIf j = 0 Then
+                j = Measures.Length - 1
+            End If
 
             Return New GeneralSignal With {
                 .description = description,
