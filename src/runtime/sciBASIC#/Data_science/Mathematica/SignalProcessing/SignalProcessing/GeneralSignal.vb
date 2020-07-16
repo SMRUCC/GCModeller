@@ -49,7 +49,15 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Class GeneralSignal : Implements INamedValue
 
+    ''' <summary>
+    ''' usually is the time in unit second.(x axis)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Measures As Double()
+    ''' <summary>
+    ''' the signal strength.(y axis)
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Strength As Double()
 
     ''' <summary>
@@ -60,6 +68,28 @@ Public Class GeneralSignal : Implements INamedValue
     Public Property measureUnit As String
     Public Property description As String
     Public Property meta As Dictionary(Of String, String)
+
+    ''' <summary>
+    ''' take signal subset by a given range of <see cref="Measures"/>
+    ''' </summary>
+    ''' <param name="min">min of take by <see cref="Measures"/></param>
+    ''' <param name="max#">max of take by <see cref="Measures"/></param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property GetByRange(min#, max#) As GeneralSignal
+        Get
+            Dim i As Integer = Which(Measures.Select(Function(a) a >= min)).First
+            Dim j As Integer = Which(Measures.Select(Function(a) a >= max)).First
+
+            Return New GeneralSignal With {
+                .description = description,
+                .measureUnit = measureUnit,
+                .meta = New Dictionary(Of String, String)(meta),
+                .reference = reference,
+                .Measures = Measures.Skip(i).Take(j - i).ToArray,
+                .Strength = Strength.Skip(i).Take(j - i).ToArray
+            }
+        End Get
+    End Property
 
     Public Overrides Function ToString() As String
         Return description
