@@ -8,8 +8,7 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
     Public Sub New(<CallerMemberName>
                    Optional cache As String = Nothing,
                    Optional interval As Integer = -1,
-                   Optional offline As Boolean = False,
-                   Optional debug As Boolean = True)
+                   Optional offline As Boolean = False)
 
         MyBase.New(
             url:=AddressOf CreateQueryURL,
@@ -18,8 +17,7 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
             prefix:=Function(guid) guid.First,
             cache:=cache,
             interval:=interval,
-            offline:=offline,
-            debug:=debug
+            offline:=offline
         )
     End Sub
 

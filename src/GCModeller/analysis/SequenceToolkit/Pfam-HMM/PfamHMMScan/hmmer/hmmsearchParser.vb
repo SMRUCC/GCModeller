@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Text.Parser
 Public Module hmmsearchParser
 
     Public Function LoadDoc(path As String) As hmmsearch
-        Dim lines As IEnumerable(Of String) = BufferedStream.LinesIterator(path)
+        Dim lines As IEnumerable(Of String) = path.IterateAllLines
         Dim head As String() = lines.Take(10).ToArray
         Dim sections As IEnumerable(Of String()) = lines.Skip(10).Split("//")
         Dim query As PfamQuery() = sections.Select(AddressOf QueryParser).ToArray
