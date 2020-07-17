@@ -80,7 +80,7 @@ Namespace PeakFinding
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"[{rtmin}, {rtmax}] {region.Length} ticks"
+            Return $"[{rtmin}, {rtmax}] {region.Length} ticks:  {region.Select(Function(a) a.intensity).JoinBy(", ")}"
         End Function
 
     End Structure
