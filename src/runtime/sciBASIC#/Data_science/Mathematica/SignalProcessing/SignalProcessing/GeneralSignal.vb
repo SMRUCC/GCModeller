@@ -141,6 +141,15 @@ Public Class GeneralSignal : Implements INamedValue
             }
         Next
     End Function
+
+    Public Iterator Function GetTimeSignals() As IEnumerable(Of ITimeSignal)
+        For i As Integer = 0 To _Measures.Length - 1
+            Yield New TimeSignal With {
+                .time = _Measures(i),
+                .intensity = _Strength(i)
+            }
+        Next
+    End Function
 End Class
 
 ''' <summary>
