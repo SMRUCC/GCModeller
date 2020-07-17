@@ -50,6 +50,7 @@ Namespace PeakFinding
 
         Dim region As ITimeSignal()
         Dim integration As Double
+        Dim baseline As Double
 
         Default Public ReadOnly Property tick(index As Integer) As ITimeSignal
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -67,6 +68,16 @@ Namespace PeakFinding
         Public ReadOnly Property rtmax As Double
             Get
                 Return region.Last.time
+            End Get
+        End Property
+
+        Public ReadOnly Property snratio As Double
+            Get
+                Dim baseline As Double = Me.baseline
+                Dim signals As Double = region.Sum(Function(a) a.intensity - baseline)
+                Dim sn As Double = SignalProcessing.SNRatio(signals, baseline * region.Length)
+
+                Return sn
             End Get
         End Property
 
