@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1f7432579353b79769f29003bda7508, modules\ExperimentDesigner\Templates\Time_series.vb"
+﻿#Region "Microsoft.VisualBasic::e1f7432579353b79769f29003bda7508, ExperimentDesigner\Templates\Time_series.vb"
 
     ' Author:
     ' 

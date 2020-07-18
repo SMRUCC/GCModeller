@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::536dc265a33fd4da8f848bd6790baf3e, R#\seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::58ca2313856e02813eb4d5520c16757a, seqtoolkit\Blast.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,6 @@
     ' Module Blast
     ' 
     '     Function: doAlign, gwANIMultipleAlignment, ParseBlosumMatrix, RunGlobalNeedlemanWunsch
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -101,5 +100,3 @@ Module Blast
         Return gwANI.calculate_and_output_gwani(multipleSeq)
     End Function
 End Module
-
-

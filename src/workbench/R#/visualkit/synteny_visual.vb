@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7cb4a69f53ae261efeccf77ab761d07, R#\visualkit\synteny_visual.vb"
+﻿#Region "Microsoft.VisualBasic::64005ff79ef9e1da64d230c8abc563a9, visualkit\synteny_visual.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@
 Module synteny_visual
 
 End Module
-

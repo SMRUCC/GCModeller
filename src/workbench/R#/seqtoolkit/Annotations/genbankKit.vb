@@ -1,45 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::6d0e3487c1c7235f727a1016923a7bcb, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::4ce82d5845fb336d758224363b0d7729, seqtoolkit\Annotations\genbankKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module genbankKit
-' 
-'     Function: addproteinSeq, addRNAGene, asGenbank, getOrAddNtOrigin, getRNASeq
-'               readGenbank, writeGenbank
-' 
-' /********************************************************************************/
+    ' Module genbankKit
+    ' 
+    '     Function: addFeature, addproteinSeq, addRNAGene, asGenbank, createFeature
+    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, populateGenbanks, readGenbank
+    '               writeGenbank
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
@@ -388,4 +389,3 @@ Module genbankKit
         Return gb
     End Function
 End Module
-
