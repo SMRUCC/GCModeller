@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55ea7c5c2fa920f25e5305afb2e2c0c8, Bio.Assembly\test\gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, Bio.Assembly\test\gbTest.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Module gbTest
         Pause()
     End Sub
 End Module
-

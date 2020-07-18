@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4c6691c928acc41d7dbf302745dc1c6, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htextJSON.vb"
+﻿#Region "Microsoft.VisualBasic::9e0c2de86d896866c0afae6b89102558, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htextJSON.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 

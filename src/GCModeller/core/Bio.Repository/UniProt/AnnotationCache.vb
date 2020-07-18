@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de81d5b1fdb29afd37db4c6967b7ec8f, Bio.Repository\UniProt\AnnotationCache.vb"
+﻿#Region "Microsoft.VisualBasic::ca45a6bb3381ae53d6f3b116db2d4e61, Bio.Repository\UniProt\AnnotationCache.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Public Module AnnotationCache
         Next
     End Sub
 End Module
-
