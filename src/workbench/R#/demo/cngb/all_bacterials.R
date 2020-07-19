@@ -1,8 +1,10 @@
 imports "kegg.repository" from "kegg_kit";
+imports "ftp" from "R.web";
 
 setwd(!script$dir);
 
 let prokaryote = fetch.kegg_organism(NULL, type = "prokaryote");
+let cngb as new ftp(server = "ftp.cngb.org");
 
 write.csv(prokaryote, file = "./bacterials.csv", row_names = FALSE);
 
