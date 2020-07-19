@@ -181,7 +181,7 @@ Public Module kegg_repository
     Public Function FetchKEGGOrganism(Optional resource$ = "http://www.kegg.jp/kegg/catalog/org_list.html",
                                       Optional type As OrganismTypes = OrganismTypes.all) As Prokaryote()
 
-        Dim result As KEGGOrganism = EntryAPI.FromResource(resource)
+        Dim result As KEGGOrganism = If(resource.StringEmpty, EntryAPI.GetOrganismListFromResource(), EntryAPI.FromResource(resource))
         Dim eukaryotes As List(Of Prokaryote) = result.Eukaryotes _
             .Select(Function(x)
                         Return New Prokaryote(x)
