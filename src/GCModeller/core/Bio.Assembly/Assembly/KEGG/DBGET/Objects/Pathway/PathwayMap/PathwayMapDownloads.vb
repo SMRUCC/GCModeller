@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ed6ba06d928d5eb7f586dc1169d092b, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMapDownloads.vb"
+﻿#Region "Microsoft.VisualBasic::9c53a9498ad11d150da752b3dfcf5779, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMapDownloads.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices

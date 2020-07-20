@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8dd4c86e80538d2dfee5c082ea81314a, modules\ExperimentDesigner\Templates\SampleTuple.vb"
+﻿#Region "Microsoft.VisualBasic::8dd4c86e80538d2dfee5c082ea81314a, ExperimentDesigner\Templates\SampleTuple.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da85b5409bd8721b421e6798b88d5e79, R#\cytoscape_toolkit\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::ab9aafced8b603fbdacd3ba36acdd80b, cytoscape_toolkit\bioModels\TRN.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Module TRN
         Return fpkm.CorrelationNetwork(cutoff).ToArray
     End Function
 End Module
-
