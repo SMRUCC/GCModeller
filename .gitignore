@@ -256,3 +256,4 @@ src/workbench/R#/demo/kegg/kegg_maps.zip
 src/GCModeller/annotations/GSEA/PFSNet/PFSNet_1.0.0.1.tar.gz
 GCModeller/Microsoft.VisualBasic.dll
 src/workbench/R#/demo/cytoscape/automation/result.cys
+src/workbench/R#/demo/cngb/bacterials.csv
