@@ -208,12 +208,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             Year = GetValue(Year)
 
             If Not String.IsNullOrEmpty(RefSeq) Then
-                RefSeq = r.Match(RefSeq, "<a href="".+?"">").Value
-            End If
-            If Not String.IsNullOrEmpty(RefSeq) Then
-                RefSeq = Mid(RefSeq, 10, Len(RefSeq) - 11)
+                RefSeq = r.Match(RefSeq, "<a\s*href\s*[=]\s*("".+?"")|('.+?')\s*>").Value
             End If
 
+            RefSeq = RefSeq.GetStackValue("""", """").GetStackValue("'", "'")
             Kingdom = GetValue(Kingdom)
 
             Return Me
