@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::022cd9bba427395d2feb1688945173b8, R#\cytoscape_toolkit\xgmml.vb"
+﻿#Region "Microsoft.VisualBasic::5c0cdd479b9a07c73888db3fb1490df3, cytoscape_toolkit\xgmml.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,11 @@
 
     ' Module xgmmlToolkit
     ' 
-    '     Function: createGraph, loadXgmml, XgmmlRender
+    '     Function: loadXgmml, XgmmlRender
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -125,4 +124,3 @@ Module xgmmlToolkit
         )
     End Function
 End Module
-

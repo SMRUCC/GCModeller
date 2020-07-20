@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb9767a0f8402369891bcfe0a7186306, R#\gokit\file.vb"
+﻿#Region "Microsoft.VisualBasic::95e45e5b34c739f148e159ddffe56ff5, gokit\file.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -57,4 +56,3 @@ Public Module file
         Return GO_OBO.LoadDocument(path:=goDb)
     End Function
 End Module
-

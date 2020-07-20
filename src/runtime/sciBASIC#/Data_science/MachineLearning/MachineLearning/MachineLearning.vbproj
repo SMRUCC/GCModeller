@@ -619,6 +619,7 @@
     <Compile Include="NeuralNetwork\ActiveFunctions\Functions\Sigmoid.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\Functions\Threshold.vb" />
     <Compile Include="NeuralNetwork\Accelerator.vb" />
+    <Compile Include="NeuralNetwork\Models\SoftmaxLayer.vb" />
     <Compile Include="NeuralNetwork\TrainingSample.vb" />
     <Compile Include="NeuralNetwork\Models\HiddenLayers.vb" />
     <Compile Include="NeuralNetwork\Models\Layer.vb" />

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9349c403215496e409c1d63da2f36320, modules\ExperimentDesigner\Templates\SampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e4d8e0a16a62d66ffe29ce0084118b25, ExperimentDesigner\Templates\SampleInfo.vb"
 
     ' Author:
     ' 
@@ -33,11 +33,11 @@
 
     ' Class SampleInfo
     ' 
-    '     Properties: color, ID, Order, shapetype
+    '     Properties: batch, color, ID, injectionOrder, shapetype
     ' 
     ' Class SampleGroup
     ' 
-    '     Properties: sample_group, sample_name
+    '     Properties: sample_info, sample_name
     ' 
     '     Function: ToString
     ' 

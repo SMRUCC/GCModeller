@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::279b4ae6b937cb05b355dfc64556ac06, R#\circoskit\Model.vb"
+﻿#Region "Microsoft.VisualBasic::1eac4cb293051c97df508fd1c8efab68, circoskit\Model.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Circos
@@ -61,4 +60,3 @@ Module Model
         Return circos
     End Function
 End Module
-

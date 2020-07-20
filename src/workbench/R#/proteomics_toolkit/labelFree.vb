@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bde1f7102c01c716c6cda61910d9d1ac, R#\proteomics_toolkit\labelFree.vb"
+﻿#Region "Microsoft.VisualBasic::ee45f50e02bd0cb3a1b2f08834ae276e, proteomics_toolkit\labelFree.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -146,4 +145,3 @@ Module labelFree
         Return output.ToArray
     End Function
 End Module
-

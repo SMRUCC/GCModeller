@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e92a279ecdce3d6e59dc1d53480b4317, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::55fc98ab0e77f17d4089d1d8bca085f7, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
@@ -39,8 +39,8 @@
     '         Constructor: (+2 Overloads) Sub New
     '         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
     '                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
-    '                   Load, OrderByGeneID, Read, (+2 Overloads) Save, SaveXml
-    '                   ToDictionary, TryGetGeneObjectValue, TryGetGenesId
+    '                   Load, OrderByGeneID, (+2 Overloads) Save, SaveXml, ToDictionary
+    '                   TryGetGeneObjectValue, TryGetGenesId
     ' 
     ' 
     ' /********************************************************************************/
