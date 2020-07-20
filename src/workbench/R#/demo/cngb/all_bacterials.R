@@ -34,15 +34,17 @@ let downloadGbff as function(genome) {
 			let gzfile = `${subdir}/${gbff[1]}`;
 			let saveas = `${save_gz}/${gbff[1]}`;
 			
-			cngb :> ftp.get(gzfile, saveas);
+			if (!file.exists(saveas)) {
+				cngb :> ftp.get(gzfile, saveas);
+			} else {
+				print(`skip ${saveas}`);
+			}
 		}
 	}
 }
 
-downloadGbff(as.object(prokaryote[1]));
+# downloadGbff(as.object(prokaryote[1]));
 
-# for(genome in prokaryote :> projectAs(as.object)) {
-	
-	
-	# break;
-# }
+for(genome in prokaryote :> projectAs(as.object)) {
+	downloadGbff(genome);
+}
