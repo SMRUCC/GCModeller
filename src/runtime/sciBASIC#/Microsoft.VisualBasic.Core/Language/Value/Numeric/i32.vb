@@ -281,6 +281,16 @@ Namespace Language
         End Operator
 
         ''' <summary>
+        ''' <paramref name="n"/> + <see cref="i32.Value"/>
+        ''' </summary>
+        ''' <param name="n"></param>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Operator +(n As Integer, x As i32) As Integer
+            Return n + x.Value
+        End Operator
+
+        ''' <summary>
         ''' p的值增加x，然后返回之前的值
         ''' </summary>
         ''' <param name="p"></param>

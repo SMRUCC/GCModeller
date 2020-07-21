@@ -106,12 +106,17 @@ Namespace IL
 
 
     Public Module Globals
+
         Public Cache As Dictionary(Of Integer, Object) = New Dictionary(Of Integer, Object)()
         Public multiByteOpCodes As OpCode()
         Public singleByteOpCodes As OpCode()
         Public modules As [Module]() = Nothing
 
-        Public Sub LoadOpCodes()
+        Sub New()
+            Call LoadOpCodes()
+        End Sub
+
+        Private Sub LoadOpCodes()
             singleByteOpCodes = New OpCode(255) {}
             multiByteOpCodes = New OpCode(255) {}
             Dim infoArray1 As FieldInfo() = GetType(OpCodes).GetFields()

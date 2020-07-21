@@ -1,6 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.Reflection.Emit
 Imports System.Threading
+Imports Microsoft.VisualBasic.Language
 Imports stdNum = System.Math
 
 Namespace IL
@@ -16,36 +17,36 @@ Namespace IL
         Private mi As MethodInfo = Nothing
 
 #Region "il read methods"
-        Private Function ReadInt16(ByVal _il As Byte(), ByRef position As Integer) As Integer
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8
+        Private Function ReadInt16(ByVal _il As Byte(), ByRef position As i32) As Integer
+            Return ((il(++position) Or (il(++position) << 8)))
         End Function
 
-        Private Function ReadUInt16(ByVal _il As Byte(), ByRef position As Integer) As UShort
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8
+        Private Function ReadUInt16(ByVal _il As Byte(), ByRef position As i32) As UShort
+            Return ((il(++position) Or (il(++position) << 8)))
         End Function
 
-        Private Function ReadInt32(ByVal _il As Byte(), ByRef position As Integer) As Integer
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18
+        Private Function ReadInt32(ByVal _il As Byte(), ByRef position As i32) As Integer
+            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18))
         End Function
 
-        Private Function ReadInt64(ByVal _il As Byte(), ByRef position As Integer) As ULong
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H38
+        Private Function ReadInt64(ByVal _il As Byte(), ByRef position As i32) As ULong
+            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18) Or (il(++position) << &H20) Or (il(++position) << &H28) Or (il(++position) << &H30) Or (il(++position) << &H38))
         End Function
 
-        Private Function ReadDouble(ByVal _il As Byte(), ByRef position As Integer) As Double
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H38
+        Private Function ReadDouble(ByVal _il As Byte(), ByRef position As i32) As Double
+            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18) Or (il(++position) << &H20) Or (il(++position) << &H28) Or (il(++position) << &H30) Or (il(++position) << &H38))
         End Function
 
-        Private Function ReadSByte(ByVal _il As Byte(), ByRef position As Integer) As SByte
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1))
+        Private Function ReadSByte(ByVal _il As Byte(), ByRef position As i32) As SByte
+            Return il(++position)
         End Function
 
-        Private Function ReadByte(ByVal _il As Byte(), ByRef position As Integer) As Byte
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1))
+        Private Function ReadByte(ByVal _il As Byte(), ByRef position As i32) As Byte
+            Return il(++position)
         End Function
 
-        Private Function ReadSingle(ByVal _il As Byte(), ByRef position As Integer) As Single
-            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18
+        Private Function ReadSingle(ByVal _il As Byte(), ByRef position As i32) As Single
+            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18))
         End Function
 #End Region
 
@@ -54,27 +55,26 @@ Namespace IL
         ''' </summary>
         ''' <param name="module"></param>
         Private Sub ConstructInstructions(ByVal [module] As [Module])
-            Dim il = Me.il
-            Dim position = 0
+            Dim position As i32 = Scan0
             instructions = New List(Of ILInstruction)()
 
             While position < il.Length
-                Dim instruction As ILInstruction = New ILInstruction()
+                Dim instruction As New ILInstruction()
 
                 ' get the operation code of the current instruction
                 Dim code = OpCodes.Nop
-                Dim value As UShort = il(stdNum.Min(Interlocked.Increment(position), position - 1))
+                Dim value As UShort = il(++position)
 
                 If value <> &HFE Then
                     code = singleByteOpCodes(value)
                 Else
-                    value = il(stdNum.Min(Interlocked.Increment(position), position - 1))
+                    value = il(++position)
                     code = multiByteOpCodes(value)
                     value = CUShort(value Or &HFE00)
                 End If
 
                 instruction.Code = code
-                instruction.Offset = position - 1
+                instruction.Offset = CInt(position) - 1
 
                 Dim metadataToken = 0
 
@@ -118,20 +118,20 @@ Namespace IL
                         instruction.Operand = [module].ResolveType(metadataToken, mi.DeclaringType.GetGenericArguments(), mi.GetGenericArguments())
                     Case OperandType.InlineI
                         instruction.Operand = ReadInt32(il, position)
-                        Exit Select
+
                     Case OperandType.InlineI8
                         instruction.Operand = ReadInt64(il, position)
-                        Exit Select
+
                     Case OperandType.InlineNone
                         instruction.Operand = Nothing
-                        Exit Select
+
                     Case OperandType.InlineR
                         instruction.Operand = ReadDouble(il, position)
-                        Exit Select
+
                     Case OperandType.InlineString
                         metadataToken = ReadInt32(il, position)
                         instruction.Operand = [module].ResolveString(metadataToken)
-                        Exit Select
+
                     Case OperandType.InlineSwitch
                         Dim count = ReadInt32(il, position)
                         Dim casesAddresses = New Integer(count - 1) {}
@@ -141,27 +141,28 @@ Namespace IL
                         Next
 
                         Dim cases = New Integer(count - 1) {}
+                        Dim position_i As Integer = position
 
                         For i = 0 To count - 1
-                            cases(i) = position + casesAddresses(i)
+                            cases(i) = position_i + casesAddresses(i)
                         Next
 
-                        Exit Select
+
                     Case OperandType.InlineVar
                         instruction.Operand = ReadUInt16(il, position)
-                        Exit Select
+
                     Case OperandType.ShortInlineBrTarget
                         instruction.Operand = ReadSByte(il, position) + position
-                        Exit Select
+
                     Case OperandType.ShortInlineI
                         instruction.Operand = ReadSByte(il, position)
-                        Exit Select
+
                     Case OperandType.ShortInlineR
                         instruction.Operand = ReadSingle(il, position)
-                        Exit Select
+
                     Case OperandType.ShortInlineVar
                         instruction.Operand = ReadByte(il, position)
-                        Exit Select
+
                     Case Else
                         Throw New Exception("Unknown operand type.")
                 End Select
