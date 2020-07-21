@@ -276,6 +276,9 @@
   <ItemGroup>
     <Compile Include="Extensions.vb" />
     <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="IL\aa.vb" />
+    <Compile Include="IL\b.vb" />
+    <Compile Include="IL\ccc.vb" />
     <Compile Include="VersionControl\git\log.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
