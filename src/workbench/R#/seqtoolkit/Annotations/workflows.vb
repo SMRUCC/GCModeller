@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f2fb3bcf28af08155064a35573e5719, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::a66c7badf9ebf93f5a590f187695feb0, seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging

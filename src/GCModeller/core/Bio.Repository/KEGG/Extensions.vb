@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d984a0dc40dbeeaf92021ecf58524eb6, Bio.Repository\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6ce7848b5c1dc1cf3fd5bb5f62a1e4b5, Bio.Repository\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 
@@ -58,4 +57,3 @@ Public Module Extensions
                           End Function)
     End Function
 End Module
-

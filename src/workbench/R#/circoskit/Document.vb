@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a97613ee08762d90d16baa478f223668, R#\circoskit\Document.vb"
+﻿#Region "Microsoft.VisualBasic::f761511dcdf7cfb049e9032783a399f5, circoskit\Document.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -160,4 +159,3 @@ Module Document
     End Function
 
 End Module
-

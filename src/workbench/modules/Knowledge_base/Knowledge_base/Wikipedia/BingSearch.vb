@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12fb432eaf9cebe6647a9d5443273ce4, modules\Knowledge_base\Knowledge_base\Wikipedia\BingSearch.vb"
+﻿#Region "Microsoft.VisualBasic::12fb432eaf9cebe6647a9d5443273ce4, Knowledge_base\Knowledge_base\Wikipedia\BingSearch.vb"
 
     ' Author:
     ' 

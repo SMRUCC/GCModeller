@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc4c9e289880ba13b03a9c57050607c1, R#\phenotype_kit\multiOmics.vb"
+﻿#Region "Microsoft.VisualBasic::3a3a2d77ef9f487903b0a840fd5fdd1d, phenotype_kit\multiOmics.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -95,4 +94,3 @@ Module multiOmics
         End If
     End Function
 End Module
-

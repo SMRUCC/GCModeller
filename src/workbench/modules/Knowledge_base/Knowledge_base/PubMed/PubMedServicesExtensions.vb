@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::633176936f5cca61b8fa7dfdca9e8f3f, modules\Knowledge_base\Knowledge_base\PubMed\PubMedServicesExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::633176936f5cca61b8fa7dfdca9e8f3f, Knowledge_base\Knowledge_base\PubMed\PubMedServicesExtensions.vb"
 
     ' Author:
     ' 

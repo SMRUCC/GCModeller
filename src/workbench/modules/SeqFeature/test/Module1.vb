@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9977360ec56af771260d4b2c6e5a749f, modules\SeqFeature\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::9977360ec56af771260d4b2c6e5a749f, SeqFeature\test\Module1.vb"
 
     ' Author:
     ' 

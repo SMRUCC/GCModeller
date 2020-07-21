@@ -113,6 +113,14 @@ Public Module RSystem
         End Try
     End Sub
 
+    Public Function ref(name As String) As String
+        Return "&" & Strings.Trim(name).Trim("&"c)
+    End Function
+
+    Public Function ref(var As var) As String
+        Return "&" & var.name
+    End Function
+
     ''' <summary>
     ''' Manual set up R init environment.
     ''' </summary>
