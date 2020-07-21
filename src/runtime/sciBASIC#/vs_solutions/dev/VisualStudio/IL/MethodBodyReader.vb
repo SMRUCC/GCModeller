@@ -1,9 +1,7 @@
 ﻿Imports System.IO
 Imports System.Reflection
 Imports System.Reflection.Emit
-Imports System.Threading
 Imports Microsoft.VisualBasic.Language
-Imports stdNum = System.Math
 
 Namespace IL
 
@@ -27,7 +25,7 @@ Namespace IL
         ''' <param name="mi">
         ''' The System.Reflection defined MethodInfo
         ''' </param>
-        Public Sub New(ByVal mi As MethodInfo)
+        Public Sub New(mi As MethodInfo)
             Me.mi = mi
 
             If mi.GetMethodBody() IsNot Nothing Then
@@ -40,125 +38,122 @@ Namespace IL
         ''' Constructs the array of ILInstructions according to the IL byte code.
         ''' </summary>
         ''' <param name="module"></param>
-        Private Sub ConstructInstructions(ByVal [module] As [Module])
-            ' Dim position As i32 = Scan0
+        Private Sub ConstructInstructions([module] As [Module])
             Dim il As New BinaryReader(Me.il)
 
-            While il.BaseStream.Position < il.BaseStream.Length   'position < il.Length
-                Dim instruction As New ILInstruction()
-
-                ' get the operation code of the current instruction
-                Dim code = OpCodes.Nop
-                Dim value As UShort = il.ReadByte '(++position)
-
-                If value <> &HFE Then
-                    code = singleByteOpCodes(value)
-                Else
-                    value = il.ReadByte  ' il(++position)
-                    code = multiByteOpCodes(value)
-                    value = CUShort(value Or &HFE00)
-                End If
-
-                instruction.Code = code
-                instruction.Offset = il.BaseStream.Position - 1
-
-                Dim metadataToken = 0
-
-                ' get the operand of the current operation
-                Select Case code.OperandType
-                    Case OperandType.InlineBrTarget
-                        metadataToken = il.ReadInt32 ' (il, position)
-                        metadataToken += il.BaseStream.Position  ' position
-                        instruction.Operand = metadataToken
-                    Case OperandType.InlineField
-                        metadataToken = il.ReadInt32 ' (il, position)
-                        instruction.Operand = [module].ResolveField(metadataToken)
-                    Case OperandType.InlineMethod
-                        metadataToken = il.ReadInt32 ' (il, position)
-
-                        Try
-                            instruction.Operand = [module].ResolveMethod(metadataToken)
-                        Catch
-                            instruction.Operand = [module].ResolveMember(metadataToken)
-                            ' Continue While
-                        End Try
-
-                    Case OperandType.InlineSig
-                        metadataToken = il.ReadInt32 ' (il, position)
-                        instruction.Operand = [module].ResolveSignature(metadataToken)
-                    Case OperandType.InlineTok
-                        metadataToken = il.ReadInt32 ' (il, position)
-
-                        Try
-                            instruction.Operand = [module].ResolveType(metadataToken)
-                        Catch
-                            ' SSS : see what to do here
-                        End Try
-
-                    Case OperandType.InlineType
-                        metadataToken = il.ReadInt32 ' (il, position)
-                        ' now we call the ResolveType always using the generic attributes type in order
-                        ' to support decompilation of generic methods and classes
-
-                        ' thanks to the guys from code project who commented on this missing feature
-
-                        instruction.Operand = [module].ResolveType(metadataToken, mi.DeclaringType.GetGenericArguments(), mi.GetGenericArguments())
-                    Case OperandType.InlineI
-                        instruction.Operand = il.ReadInt32' (il, position)
-
-                    Case OperandType.InlineI8
-                        instruction.Operand = il.ReadInt64' (il, position)
-
-                    Case OperandType.InlineNone
-                        instruction.Operand = Nothing
-
-                    Case OperandType.InlineR
-                        instruction.Operand = il.ReadDouble' (il, position)
-
-                    Case OperandType.InlineString
-                        metadataToken = il.ReadInt32 '(il, position)
-                        instruction.Operand = [module].ResolveString(metadataToken)
-
-                    Case OperandType.InlineSwitch
-                        Dim count = il.ReadInt32 ' (il, position)
-                        Dim casesAddresses = New Integer(count - 1) {}
-
-                        For i = 0 To count - 1
-                            casesAddresses(i) = il.ReadInt32 ' (il, position)
-                        Next
-
-                        Dim cases = New Integer(count - 1) {}
-                        Dim position_i As Integer = il.BaseStream.Position
-
-                        For i = 0 To count - 1
-                            cases(i) = position_i + casesAddresses(i)
-                        Next
-
-
-                    Case OperandType.InlineVar
-                        instruction.Operand = il.ReadUInt16' (il, position)
-
-                    Case OperandType.ShortInlineBrTarget
-                        instruction.Operand = il.ReadSByte + il.BaseStream.Position  ' (il, position) + position
-
-                    Case OperandType.ShortInlineI
-                        instruction.Operand = il.ReadSByte'(il, position)
-
-                    Case OperandType.ShortInlineR
-                        instruction.Operand = il.ReadSingle' (il, position)
-
-                    Case OperandType.ShortInlineVar
-                        instruction.Operand = il.ReadByte '(il, position)
-
-                    Case Else
-                        Throw New Exception("Unknown operand type.")
-                End Select
-
-                instructions.Add(instruction)
+            While il.BaseStream.Position < il.BaseStream.Length
+                instructions.Add(ParseIL(il, [module], mi))
             End While
         End Sub
 
-        Public Function GetRefferencedOperand(ByVal [module] As [Module], ByVal metadataToken As Integer) As Object
+        Private Shared Function ParseIL(il As BinaryReader, [module] As [Module], mi As MethodInfo) As ILInstruction
+            Dim instruction As New ILInstruction()
+            Dim metadataToken As Integer = 0
+            ' get the operation code of the current instruction
+            Dim code As OpCode = OpCodes.Nop
+            Dim value As UShort = il.ReadByte
+
+            If value <> &HFE Then
+                code = singleByteOpCodes(value)
+            Else
+                value = il.ReadByte
+                code = multiByteOpCodes(value)
+                value = CUShort(value Or &HFE00)
+            End If
+
+            instruction.Code = code
+            instruction.Offset = il.BaseStream.Position - 1
+
+            ' get the operand of the current operation
+            Select Case code.OperandType
+                Case OperandType.InlineBrTarget
+                    metadataToken = il.ReadInt32
+                    metadataToken += il.BaseStream.Position
+                    instruction.Operand = metadataToken
+                Case OperandType.InlineField
+                    metadataToken = il.ReadInt32
+                    instruction.Operand = [module].ResolveField(metadataToken)
+                Case OperandType.InlineMethod
+                    metadataToken = il.ReadInt32
+
+                    Try
+                        instruction.Operand = [module].ResolveMethod(metadataToken)
+                    Catch
+                        instruction.Operand = [module].ResolveMember(metadataToken)
+                    End Try
+
+                Case OperandType.InlineSig
+                    metadataToken = il.ReadInt32
+                    instruction.Operand = [module].ResolveSignature(metadataToken)
+                Case OperandType.InlineTok
+                    metadataToken = il.ReadInt32
+
+                    Try
+                        instruction.Operand = [module].ResolveType(metadataToken)
+                    Catch
+                        ' SSS : see what to do here
+                    End Try
+
+                Case OperandType.InlineType
+                    metadataToken = il.ReadInt32
+                    ' now we call the ResolveType always using the generic attributes type in order
+                    ' to support decompilation of generic methods and classes
+
+                    ' thanks to the guys from code project who commented on this missing feature
+                    instruction.Operand = [module].ResolveType(metadataToken, mi.DeclaringType.GetGenericArguments(), mi.GetGenericArguments())
+                Case OperandType.InlineI
+                    instruction.Operand = il.ReadInt32
+
+                Case OperandType.InlineI8
+                    instruction.Operand = il.ReadInt64
+
+                Case OperandType.InlineNone
+                    instruction.Operand = Nothing
+
+                Case OperandType.InlineR
+                    instruction.Operand = il.ReadDouble
+
+                Case OperandType.InlineString
+                    metadataToken = il.ReadInt32
+                    instruction.Operand = [module].ResolveString(metadataToken)
+
+                Case OperandType.InlineSwitch
+                    Dim count = il.ReadInt32
+                    Dim casesAddresses = New Integer(count - 1) {}
+
+                    For i = 0 To count - 1
+                        casesAddresses(i) = il.ReadInt32
+                    Next
+
+                    Dim cases = New Integer(count - 1) {}
+                    Dim position_i As Integer = il.BaseStream.Position
+
+                    For i = 0 To count - 1
+                        cases(i) = position_i + casesAddresses(i)
+                    Next
+                Case OperandType.InlineVar
+                    instruction.Operand = il.ReadUInt16
+
+                Case OperandType.ShortInlineBrTarget
+                    instruction.Operand = il.ReadSByte + il.BaseStream.Position
+
+                Case OperandType.ShortInlineI
+                    instruction.Operand = il.ReadSByte
+
+                Case OperandType.ShortInlineR
+                    instruction.Operand = il.ReadSingle
+
+                Case OperandType.ShortInlineVar
+                    instruction.Operand = il.ReadByte
+
+                Case Else
+                    Throw New Exception("Unknown operand type.")
+            End Select
+
+            Return instruction
+        End Function
+
+        Public Function GetRefferencedOperand([module] As [Module], metadataToken As Integer) As Object
             Dim assemblyNames As AssemblyName() = [module].Assembly.GetReferencedAssemblies()
             Dim modules As [Module]()
 

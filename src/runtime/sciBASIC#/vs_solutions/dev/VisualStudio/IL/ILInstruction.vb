@@ -2,9 +2,9 @@
 Imports System.Reflection.Emit
 
 Namespace IL
+
     Public Class ILInstruction
 
-        ' Properties
         Public Property Code As OpCode
         Public Property Operand As Object
         Public Property OperandData As Byte()
@@ -81,7 +81,7 @@ Namespace IL
         ''' </param>
         ''' <returns>
         ''' </returns>
-        Private Function GetExpandedOffset(ByVal offset As Long) As String
+        Private Function GetExpandedOffset(offset As Long) As String
             Dim result As String = offset.ToString()
             Dim i = 0
 

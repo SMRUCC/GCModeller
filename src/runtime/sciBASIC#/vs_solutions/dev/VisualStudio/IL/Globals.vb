@@ -103,9 +103,7 @@ Namespace IL
     '    PostDecrement
     '}
 
-
-
-    Public Module Globals
+    Module Globals
 
         Public Cache As Dictionary(Of Integer, Object) = New Dictionary(Of Integer, Object)()
         Public multiByteOpCodes As OpCode()
@@ -152,7 +150,7 @@ Namespace IL
         ''' <returns>
         ''' The simplified name of the type (i.e. "int" instead f System.Int32)
         ''' </returns>
-        Public Function ProcessSpecialTypes(ByVal typeName As String) As String
+        Public Function ProcessSpecialTypes(typeName As String) As String
             Dim result = typeName
 
             Select Case typeName
