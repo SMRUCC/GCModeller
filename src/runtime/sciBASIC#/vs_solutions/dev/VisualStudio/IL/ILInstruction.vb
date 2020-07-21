@@ -5,10 +5,10 @@ Namespace IL
     Public Class ILInstruction
 
         ' Properties
-        Public Property CodeField As OpCode
+        Public Property Code As OpCode
         Public Property Operand As Object
         Public Property OperandData As Byte()
-        Public Property Offset As Integer?
+        Public Property Offset As Integer
 
         ''' <summary>
         ''' Returns a friendly strign representation of this instruction
@@ -16,24 +16,24 @@ Namespace IL
         ''' <returns></returns>
         Public Function GetCode() As String
             Dim result = ""
-            result += GetExpandedOffset(offsetField) & " : " & codeField.ToString
+            result += GetExpandedOffset(Offset) & " : " & Code.ToString
 
-            If operandField IsNot Nothing Then
-                Select Case codeField.OperandType
+            If Operand IsNot Nothing Then
+                Select Case Code.OperandType
                     Case OperandType.InlineField
-                        Dim fOperand = CType(operandField, FieldInfo)
+                        Dim fOperand = CType(Operand, FieldInfo)
                         result += " " & ProcessSpecialTypes(fOperand.FieldType.ToString()) & " " & ProcessSpecialTypes(fOperand.ReflectedType.ToString()) & "::" & fOperand.Name & ""
                     Case OperandType.InlineMethod
 
                         Try
-                            Dim mOperand = CType(operandField, MethodInfo)
+                            Dim mOperand = CType(Operand, MethodInfo)
                             result += " "
                             If Not mOperand.IsStatic Then result += "instance "
                             result += ProcessSpecialTypes(mOperand.ReturnType.ToString()) & " " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
                         Catch
 
                             Try
-                                Dim mOperand = CType(operandField, ConstructorInfo)
+                                Dim mOperand = CType(Operand, ConstructorInfo)
                                 result += " "
                                 If Not mOperand.IsStatic Then result += "instance "
                                 result += "void " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
@@ -42,25 +42,25 @@ Namespace IL
                         End Try
 
                     Case OperandType.ShortInlineBrTarget, OperandType.InlineBrTarget
-                        result += " " & GetExpandedOffset(CInt(operandField))
+                        result += " " & GetExpandedOffset(CInt(Operand))
                     Case OperandType.InlineType
-                        result += " " & ProcessSpecialTypes(operandField.ToString())
+                        result += " " & ProcessSpecialTypes(Operand.ToString())
                     Case OperandType.InlineString
 
-                        If Equals(operandField.ToString(), Microsoft.VisualBasic.Constants.vbCrLf) Then
+                        If Equals(Operand.ToString(), vbCrLf) Then
                             result += " ""\r\n"""
                         Else
-                            result += " """ & operandField.ToString() & """"
+                            result += " """ & Operand.ToString() & """"
                         End If
 
                     Case OperandType.ShortInlineVar
-                        result += operandField.ToString()
+                        result += Operand.ToString()
                     Case OperandType.InlineI, OperandType.InlineI8, OperandType.InlineR, OperandType.ShortInlineI, OperandType.ShortInlineR
-                        result += operandField.ToString()
+                        result += Operand.ToString()
                     Case OperandType.InlineTok
 
-                        If TypeOf operandField Is Type Then
-                            result += CType(operandField, Type).FullName
+                        If TypeOf Operand Is Type Then
+                            result += CType(Operand, Type).FullName
                         Else
                             result += "not supported"
                         End If
