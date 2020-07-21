@@ -935,6 +935,7 @@ Namespace API
                             R.call = $"{out} <- append({out}, {v});"
                         Next
 
+                        ' Return RSystem.ref(out)
                         Return out
                     End SyncLock
                 End If
