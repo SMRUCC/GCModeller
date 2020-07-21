@@ -12,44 +12,29 @@ Namespace IL
     ''' 
     ''' > https://www.codeproject.com/articles/14058/parsing-the-il-of-a-method-body
     ''' </summary>
-    Public Class MethodBodyReader
-        Public instructions As List(Of ILInstruction) = Nothing
-        Protected il As Stream
-        Private mi As MethodInfo = Nothing
+    Public Class MethodBodyReader : Implements IEnumerable(Of ILInstruction)
+        Implements IDisposable
 
-        '#Region "il read methods"
-        '        Private Function ReadInt16(ByVal _il As Byte(), ByRef position As i32) As Integer
-        '            Return ((il(++position) Or (il(++position) << 8)))
-        '        End Function
+        ReadOnly instructions As New List(Of ILInstruction)
+        ReadOnly il As Stream
+        ReadOnly mi As MethodInfo = Nothing
 
-        '        Private Function ReadUInt16(ByVal _il As Byte(), ByRef position As i32) As UShort
-        '            Return ((il(++position) Or (il(++position) << 8)))
-        '        End Function
+        Private disposedValue As Boolean
 
-        '        Private Function ReadInt32(ByVal _il As Byte(), ByRef position As i32) As Integer
-        '            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18))
-        '        End Function
+        ''' <summary>
+        ''' MethodBodyReader constructor
+        ''' </summary>
+        ''' <param name="mi">
+        ''' The System.Reflection defined MethodInfo
+        ''' </param>
+        Public Sub New(ByVal mi As MethodInfo)
+            Me.mi = mi
 
-        '        Private Function ReadInt64(ByVal _il As Byte(), ByRef position As i32) As ULong
-        '            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18) Or (il(++position) << &H20) Or (il(++position) << &H28) Or (il(++position) << &H30) Or (il(++position) << &H38))
-        '        End Function
-
-        '        Private Function ReadDouble(ByVal _il As Byte(), ByRef position As i32) As Double
-        '            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18) Or (il(++position) << &H20) Or (il(++position) << &H28) Or (il(++position) << &H30) Or (il(++position) << &H38))
-        '        End Function
-
-        '        Private Function ReadSByte(ByVal _il As Byte(), ByRef position As i32) As SByte
-        '            Return il(++position)
-        '        End Function
-
-        '        Private Function ReadByte(ByVal _il As Byte(), ByRef position As i32) As Byte
-        '            Return il(++position)
-        '        End Function
-
-        '        Private Function ReadSingle(ByVal _il As Byte(), ByRef position As i32) As Single
-        '            Return (((il(++position) Or (il(++position) << 8)) Or (il(++position) << &H10)) Or (il(++position) << &H18))
-        '        End Function
-        '#End Region
+            If mi.GetMethodBody() IsNot Nothing Then
+                il = New MemoryStream(mi.GetMethodBody().GetILAsByteArray())
+                ConstructInstructions(mi.Module)
+            End If
+        End Sub
 
         ''' <summary>
         ''' Constructs the array of ILInstructions according to the IL byte code.
@@ -58,8 +43,6 @@ Namespace IL
         Private Sub ConstructInstructions(ByVal [module] As [Module])
             ' Dim position As i32 = Scan0
             Dim il As New BinaryReader(Me.il)
-
-            instructions = New List(Of ILInstruction)()
 
             While il.BaseStream.Position < il.BaseStream.Length   'position < il.Length
                 Dim instruction As New ILInstruction()
@@ -96,8 +79,8 @@ Namespace IL
                         Try
                             instruction.Operand = [module].ResolveMethod(metadataToken)
                         Catch
-                            ' instruction.Operand = [module].ResolveMember(metadataToken)
-                            Continue While
+                            instruction.Operand = [module].ResolveMember(metadataToken)
+                            ' Continue While
                         End Try
 
                     Case OperandType.InlineSig
@@ -177,12 +160,12 @@ Namespace IL
 
         Public Function GetRefferencedOperand(ByVal [module] As [Module], ByVal metadataToken As Integer) As Object
             Dim assemblyNames As AssemblyName() = [module].Assembly.GetReferencedAssemblies()
+            Dim modules As [Module]()
 
-            For i = 0 To assemblyNames.Length - 1
-                Dim modules As [Module]() = Assembly.Load(assemblyNames(i)).GetModules()
+            For i As Integer = 0 To assemblyNames.Length - 1
+                modules = Assembly.Load(assemblyNames(i)).GetModules()
 
-                For j = 0 To modules.Length - 1
-
+                For j As Integer = 0 To modules.Length - 1
                     Try
                         Dim t = modules(j).ResolveType(metadataToken)
                         Return t
@@ -202,7 +185,7 @@ Namespace IL
             Dim result = ""
 
             If instructions IsNot Nothing Then
-                For i = 0 To instructions.Count - 1
+                For i As Integer = 0 To instructions.Count - 1
                     result += instructions(i).GetCode() & vbLf
                 Next
             End If
@@ -210,19 +193,41 @@ Namespace IL
             Return result
         End Function
 
-        ''' <summary>
-        ''' MethodBodyReader constructor
-        ''' </summary>
-        ''' <param name="mi">
-        ''' The System.Reflection defined MethodInfo
-        ''' </param>
-        Public Sub New(ByVal mi As MethodInfo)
-            Me.mi = mi
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)
+                    Call il.Dispose()
+                    Call instructions.Clear()
+                End If
 
-            If mi.GetMethodBody() IsNot Nothing Then
-                il = New MemoryStream(mi.GetMethodBody().GetILAsByteArray())
-                ConstructInstructions(mi.Module)
+                ' TODO: 释放未托管的资源(未托管的对象)并替代终结器
+                ' TODO: 将大型字段设置为 null
+                disposedValue = True
             End If
         End Sub
+
+        ' ' TODO: 仅当“Dispose(disposing As Boolean)”拥有用于释放未托管资源的代码时才替代终结器
+        ' Protected Overrides Sub Finalize()
+        '     ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of ILInstruction) Implements IEnumerable(Of ILInstruction).GetEnumerator
+            For Each il As ILInstruction In instructions
+                Yield il
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
     End Class
 End Namespace
