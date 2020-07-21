@@ -15,62 +15,78 @@ Namespace IL
         ''' </summary>
         ''' <returns></returns>
         Public Function GetCode() As String
-            Dim result = ""
-            result += GetExpandedOffset(Offset) & " : " & Code.ToString
+            Dim result = GetExpandedOffset(Offset) & " : " & Code.ToString
 
             If Operand IsNot Nothing Then
-                Select Case Code.OperandType
-                    Case OperandType.InlineField
-                        Dim fOperand = CType(Operand, FieldInfo)
-                        result += " " & ProcessSpecialTypes(fOperand.FieldType.ToString()) & " " & ProcessSpecialTypes(fOperand.ReflectedType.ToString()) & "::" & fOperand.Name & ""
-                    Case OperandType.InlineMethod
-
-                        Try
-                            Dim mOperand = CType(Operand, MethodInfo)
-                            result += " "
-                            If Not mOperand.IsStatic Then result += "instance "
-                            result += ProcessSpecialTypes(mOperand.ReturnType.ToString()) & " " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
-                        Catch
-
-                            Try
-                                Dim mOperand = CType(Operand, ConstructorInfo)
-                                result += " "
-                                If Not mOperand.IsStatic Then result += "instance "
-                                result += "void " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
-                            Catch
-                            End Try
-                        End Try
-
-                    Case OperandType.ShortInlineBrTarget, OperandType.InlineBrTarget
-                        result += " " & GetExpandedOffset(CInt(Operand))
-                    Case OperandType.InlineType
-                        result += " " & ProcessSpecialTypes(Operand.ToString())
-                    Case OperandType.InlineString
-
-                        If Equals(Operand.ToString(), vbCrLf) Then
-                            result += " ""\r\n"""
-                        Else
-                            result += " """ & Operand.ToString() & """"
-                        End If
-
-                    Case OperandType.ShortInlineVar
-                        result += Operand.ToString()
-                    Case OperandType.InlineI, OperandType.InlineI8, OperandType.InlineR, OperandType.ShortInlineI, OperandType.ShortInlineR
-                        result += Operand.ToString()
-                    Case OperandType.InlineTok
-
-                        If TypeOf Operand Is Type Then
-                            result += CType(Operand, Type).FullName
-                        Else
-                            result += "not supported"
-                        End If
-
-                    Case Else
-                        result += "not supported"
-                End Select
+                result = result & GetOperandCode()
             End If
 
             Return result
+        End Function
+
+        Private Function buildInlineMethodCode() As String
+            Dim result = " "
+
+            Try
+                Dim mOperand = CType(Operand, MethodInfo)
+
+                If Not mOperand.IsStatic Then
+                    result &= "instance "
+                End If
+
+                result &= ProcessSpecialTypes(mOperand.ReturnType.ToString()) & " " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
+            Catch
+                Try
+                    Dim mOperand = CType(Operand, ConstructorInfo)
+
+                    If Not mOperand.IsStatic Then
+                        result &= "instance "
+                    End If
+
+                    result &= "void " & ProcessSpecialTypes(mOperand.ReflectedType.ToString()) & "::" & mOperand.Name & "()"
+                Catch
+
+                End Try
+            End Try
+
+            Return result
+        End Function
+
+        Private Function GetOperandCode() As String
+            Select Case Code.OperandType
+                Case OperandType.InlineField
+                    With CType(Operand, FieldInfo)
+                        Return " " & ProcessSpecialTypes(.FieldType.ToString()) & " " & ProcessSpecialTypes(.ReflectedType.ToString()) & "::" & .Name & ""
+                    End With
+                Case OperandType.InlineMethod
+                    Return buildInlineMethodCode()
+                Case OperandType.ShortInlineBrTarget, OperandType.InlineBrTarget
+                    Return " " & GetExpandedOffset(CInt(Operand))
+                Case OperandType.InlineType
+                    Return " " & ProcessSpecialTypes(Operand.ToString())
+                Case OperandType.InlineString
+
+                    If Equals(Operand.ToString(), vbCrLf) Then
+                        Return " ""\r\n"""
+                    Else
+                        Return " """ & Operand.ToString() & """"
+                    End If
+
+                Case OperandType.ShortInlineVar
+                    Return Operand.ToString()
+                Case OperandType.InlineI, OperandType.InlineI8, OperandType.InlineR, OperandType.ShortInlineI, OperandType.ShortInlineR
+                    Return Operand.ToString()
+                Case OperandType.InlineTok
+
+                    If TypeOf Operand Is Type Then
+                        Return CType(Operand, Type).FullName
+                    Else
+                        Return "not supported"
+                    End If
+
+                Case Else
+                    Return "not supported"
+            End Select
         End Function
 
         ''' <summary>
@@ -92,8 +108,5 @@ Namespace IL
 
             Return result
         End Function
-
-        Public Sub New()
-        End Sub
     End Class
 End Namespace
