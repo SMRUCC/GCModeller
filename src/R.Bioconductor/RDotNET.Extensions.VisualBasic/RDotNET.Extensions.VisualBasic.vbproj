@@ -351,6 +351,7 @@
     <Compile Include="Extensions\Serialization\WriteMemoryInternal.vb" />
     <Compile Include="Extensions\Serialization\SaveRda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
+    <Compile Include="ScriptBuilder\SafeTable.vb" />
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
     <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
