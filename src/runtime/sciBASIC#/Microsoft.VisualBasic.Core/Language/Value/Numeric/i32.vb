@@ -280,6 +280,11 @@ Namespace Language
             Return x
         End Operator
 
+        Public Overloads Shared Operator +(x As i32, n&) As i32
+            x.Value += n
+            Return x
+        End Operator
+
         ''' <summary>
         ''' <paramref name="n"/> + <see cref="i32.Value"/>
         ''' </summary>
