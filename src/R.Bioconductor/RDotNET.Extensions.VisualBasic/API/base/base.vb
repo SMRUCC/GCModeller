@@ -516,6 +516,11 @@ Namespace API
             Return lapply(x, Function(obj) obj.Key, FUN, autoGC)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function lapply(Of T)(x As IEnumerable(Of IGrouping(Of String, T)), FUN As Func(Of IEnumerable(Of T), String), Optional autoGC As Boolean = False) As String
+            Return lapply(x, Function(group) group.Key, Function(group) FUN(group), autoGC)
+        End Function
+
         ''' <summary>
         ''' lapply returns a list of the same length as X, each element of which is the result of applying 
         ''' <paramref name="FUN"/> to the corresponding element of X.
