@@ -1,10 +1,9 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Reflection
+﻿Imports System.Reflection
 Imports System.Reflection.Emit
 Imports System.Threading
+Imports stdNum = System.Math
 
-Namespace SDILReader
+Namespace IL
 
     ''' <summary>
     ''' Parsing the IL of a Method Body
@@ -18,42 +17,42 @@ Namespace SDILReader
 
 #Region "il read methods"
         Private Function ReadInt16(ByVal _il As Byte(), ByRef position As Integer) As Integer
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8
         End Function
 
         Private Function ReadUInt16(ByVal _il As Byte(), ByRef position As Integer) As UShort
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8
         End Function
 
         Private Function ReadInt32(ByVal _il As Byte(), ByRef position As Integer) As Integer
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H18
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18
         End Function
 
         Private Function ReadInt64(ByVal _il As Byte(), ByRef position As Integer) As ULong
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H38
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H38
         End Function
 
         Private Function ReadDouble(ByVal _il As Byte(), ByRef position As Integer) As Double
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H38
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H20 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H28 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H30 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H38
         End Function
 
         Private Function ReadSByte(ByVal _il As Byte(), ByRef position As Integer) As SByte
-            Return il(Math.Min(Interlocked.Increment(position), position - 1))
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1))
         End Function
 
         Private Function ReadByte(ByVal _il As Byte(), ByRef position As Integer) As Byte
-            Return il(Math.Min(Interlocked.Increment(position), position - 1))
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1))
         End Function
 
         Private Function ReadSingle(ByVal _il As Byte(), ByRef position As Integer) As Single
-            Return il(Math.Min(Interlocked.Increment(position), position - 1)) Or il(Math.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(Math.Min(Interlocked.Increment(position), position - 1)) << &H18
+            Return il(stdNum.Min(Interlocked.Increment(position), position - 1)) Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << 8 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H10 Or il(stdNum.Min(Interlocked.Increment(position), position - 1)) << &H18
         End Function
 #End Region
 
         ''' <summary>
         ''' Constructs the array of ILInstructions according to the IL byte code.
         ''' </summary>
-        ''' <paramname="module"></param>
+        ''' <param name="module"></param>
         Private Sub ConstructInstructions(ByVal [module] As [Module])
             Dim il = Me.il
             Dim position = 0
@@ -64,19 +63,21 @@ Namespace SDILReader
 
                 ' get the operation code of the current instruction
                 Dim code = OpCodes.Nop
-                Dim value As UShort = il(Math.Min(Interlocked.Increment(position), position - 1))
+                Dim value As UShort = il(stdNum.Min(Interlocked.Increment(position), position - 1))
 
                 If value <> &HFE Then
                     code = singleByteOpCodes(value)
                 Else
-                    value = il(Math.Min(Interlocked.Increment(position), position - 1))
+                    value = il(stdNum.Min(Interlocked.Increment(position), position - 1))
                     code = multiByteOpCodes(value)
                     value = CUShort(value Or &HFE00)
                 End If
 
                 instruction.Code = code
                 instruction.Offset = position - 1
+
                 Dim metadataToken = 0
+
                 ' get the operand of the current operation
                 Select Case code.OperandType
                     Case OperandType.InlineBrTarget
@@ -186,9 +187,8 @@ Namespace SDILReader
             Next
 
             Return Nothing
-            'System.Reflection.Assembly.Load(module.Assembly.GetReferencedAssemblies()[3]).GetModules()[0].ResolveType(metadataToken)
-
         End Function
+
         ''' <summary>
         ''' Gets the IL code of the method
         ''' </summary>
@@ -198,7 +198,7 @@ Namespace SDILReader
 
             If instructions IsNot Nothing Then
                 For i = 0 To instructions.Count - 1
-                    result += instructions(i).GetCode() & Microsoft.VisualBasic.Constants.vbLf
+                    result += instructions(i).GetCode() & vbLf
                 Next
             End If
 
@@ -208,7 +208,7 @@ Namespace SDILReader
         ''' <summary>
         ''' MethodBodyReader constructor
         ''' </summary>
-        ''' <paramname="mi">
+        ''' <param name="mi">
         ''' The System.Reflection defined MethodInfo
         ''' </param>
         Public Sub New(ByVal mi As MethodInfo)

@@ -1,9 +1,7 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Reflection
+﻿Imports System.Reflection
 Imports System.Reflection.Emit
 
-Namespace SDILReader
+Namespace IL
     'public enum AssemblyType
     '{
     '    None,
@@ -129,11 +127,11 @@ Namespace SDILReader
                         singleByteOpCodes(num2) = code1
                     Else
 
-                        If (num2 And &Hff00) <> &Hfe00 Then
+                        If (num2 And &HFF00) <> &HFE00 Then
                             Throw New Exception("Invalid OpCode.")
                         End If
 
-                        multiByteOpCodes(num2 And &HfF) = code1
+                        multiByteOpCodes(num2 And &HFF) = code1
                     End If
                 End If
             Next
@@ -143,7 +141,7 @@ Namespace SDILReader
         ''' <summary>
         ''' Retrieve the friendly name of a type
         ''' </summary>
-        ''' <paramname="typeName">
+        ''' <param name="typeName">
         ''' The complete name to the type
         ''' </param>
         ''' <returns>

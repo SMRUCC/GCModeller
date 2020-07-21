@@ -1,51 +1,14 @@
-﻿Imports System
-Imports System.Reflection
+﻿Imports System.Reflection
 Imports System.Reflection.Emit
 
-Namespace SDILReader
+Namespace IL
     Public Class ILInstruction
-        ' Fields
-        Private codeField As OpCode
-        Private operandField As Object
-        Private operandDataField As Byte()
-        Private offsetField As Integer
 
         ' Properties
-        Public Property Code As OpCode
-            Get
-                Return codeField
-            End Get
-            Set(ByVal value As OpCode)
-                codeField = value
-            End Set
-        End Property
-
+        Public Property CodeField As OpCode
         Public Property Operand As Object
-            Get
-                Return operandField
-            End Get
-            Set(ByVal value As Object)
-                operandField = value
-            End Set
-        End Property
-
         Public Property OperandData As Byte()
-            Get
-                Return operandDataField
-            End Get
-            Set(ByVal value As Byte())
-                operandDataField = value
-            End Set
-        End Property
-
-        Public Property Offset As Integer
-            Get
-                Return offsetField
-            End Get
-            Set(ByVal value As Integer)
-                offsetField = value
-            End Set
-        End Property
+        Public Property Offset As Integer?
 
         ''' <summary>
         ''' Returns a friendly strign representation of this instruction
@@ -113,7 +76,7 @@ Namespace SDILReader
         ''' <summary>
         ''' Add enough zeros to a number as to be represented on 4 characters
         ''' </summary>
-        ''' <paramname="offset">
+        ''' <param name="offset">
         ''' The number that must be represented on 4 characters
         ''' </param>
         ''' <returns>
