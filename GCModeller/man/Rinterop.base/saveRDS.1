@@ -1,0 +1,53 @@
+.\" man page create by R# package system.
+.TH RINTEROP.BASE 1 2000-01-01 "saveRDS" "saveRDS"
+.SH NAME
+saveRDS \- Serialization Interface for Single Objects
+.SH SYNOPSIS
+\fIsaveRDS(\fBobject\fR as string, 
+\fBfile\fR as string = "", 
+\fBascii\fR as boolean = FALSE, 
+\fBversion\fR as string = "NULL", 
+\fBcompress\fR as boolean = TRUE, 
+\fBrefhook\fR as string = "NULL");\fR
+.SH DESCRIPTION
+.PP
+Serialization Interface for Single Objects
+ 
+ Functions to write a single R object to a file, and to restore it.
+.PP
+.SH OPTIONS
+.PP
+\fBobject\fB \fR\- R object to serialize.
+.PP
+.PP
+\fBfile\fB \fR\- a connection or the name of the file where the 
+ R object is saved to or read from.
+.PP
+.PP
+\fBascii\fB \fR\- a logical. If TRUE or NA, an ASCII representation 
+ is written; otherwise (default), a binary one is used. See the 
+ comments in the help for save.
+.PP
+.PP
+\fBversion\fB \fR\- the workspace format version to use. NULL 
+ specifies the current default version (3). The only other supported 
+ value is 2, the default from R 1.4.0 to R 3.5.0.
+.PP
+.PP
+\fBcompress\fB \fR\- a logical specifying whether saving to a named 
+ file is to use "gzip" compression, or one of "gzip", "bzip2" or "xz" 
+ to indicate the type of compression to be used. Ignored if file is a 
+ connection.
+.PP
+.PP
+\fBrefhook\fB \fR\- a hook function for handling reference objects.
+
+.PP
+.SH SEE ALSO
+Rinterop.base
+.SH FILES
+.PP
+RDotNET.Extensions.VisualBasic.dll
+.PP
+.SH COPYRIGHT
+Copyright ©  2015
