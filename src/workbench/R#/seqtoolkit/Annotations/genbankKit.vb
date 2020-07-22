@@ -1,46 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::6d0e3487c1c7235f727a1016923a7bcb, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::4ce82d5845fb336d758224363b0d7729, seqtoolkit\Annotations\genbankKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module genbankKit
-' 
-'     Function: addproteinSeq, addRNAGene, asGenbank, getOrAddNtOrigin, getRNASeq
-'               readGenbank, writeGenbank
-' 
-' /********************************************************************************/
+    ' Module genbankKit
+    ' 
+    '     Function: addFeature, addproteinSeq, addRNAGene, asGenbank, createFeature
+    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, populateGenbanks, readGenbank
+    '               writeGenbank
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
-
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
@@ -58,6 +60,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' NCBI genbank assembly file I/O toolkit
@@ -86,6 +89,55 @@ Module genbankKit
         Else
             Return GBFF.File.Load(file)
         End If
+    End Function
+
+    ''' <summary>
+    ''' populate a list of genbank data objects from a given list of files or stream.
+    ''' </summary>
+    ''' <param name="files">a list of files or file stream</param>
+    ''' <param name="autoClose">
+    ''' auto close of the <see cref="Stream"/> if the <paramref name="files"/> contains stream object?
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("populate.genbank")>
+    <RApiReturn(GetType(GBFF.File))>
+    Public Function populateGenbanks(<RRawVectorArgument>
+                                     files As Object,
+                                     Optional autoClose As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+        If files Is Nothing Then
+            Return Internal.debug.stop("the required file list can not be nothing!", env)
+        End If
+
+        Dim populator =
+            Iterator Function() As IEnumerable(Of GBFF.File)
+                For Each file As SeqValue(Of Object) In REnv.asVector(Of Object)(files).AsObjectEnumerator.SeqIterator
+                    If file.value Is Nothing Then
+                        env.AddMessage({$"file object in position {file.i} is nothing!", "index: " & file.i}, MSG_TYPES.WRN)
+                    ElseIf TypeOf file.value Is String Then
+                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
+                            Yield gb
+                        Next
+                    ElseIf TypeOf file.value Is Stream Then
+                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
+                            Yield gb
+                        Next
+
+                        If autoClose Then
+                            Try
+                                Call DirectCast(file.value, Stream).Dispose()
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+                    Else
+                        env.AddMessage({$"file object in position {file.i} is not a file...", "index: " & file.i}, MSG_TYPES.WRN)
+                    End If
+                Next
+            End Function
+
+        Return pipeline.CreateFromPopulator(populator())
     End Function
 
     ''' <summary>
@@ -257,7 +309,7 @@ Module genbankKit
         If proteins Is Nothing Then
             Return gb.ExportProteins_Short
         Else
-            seqs = GetFastaSeq(proteins)
+            seqs = GetFastaSeq(proteins, env)
         End If
 
         If seqs Is Nothing Then
@@ -305,7 +357,7 @@ Module genbankKit
                               End Function)
         ElseIf TypeOf RNA Is pipeline AndAlso DirectCast(RNA, pipeline).elementType Like GetType(BlastnMapping) Then
             rnaMaps = DirectCast(RNA, pipeline) _
-                .populates(Of BlastnMapping) _
+                .populates(Of BlastnMapping)(env) _
                 .GroupBy(Function(map) map.Reference) _
                 .ToDictionary(Function(map) map.Key,
                               Function(map)
@@ -337,4 +389,3 @@ Module genbankKit
         Return gb
     End Function
 End Module
-

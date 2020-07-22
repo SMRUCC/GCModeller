@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::226a98c17270ed87d5e82807e5be749e, Data\DataFrame\IO\Generic\DataSet.vb"
+﻿#Region "Microsoft.VisualBasic::a0b7471b6bfd2f461bd6933821da80c8, Data\DataFrame\IO\Generic\DataSet.vb"
 
     ' Author:
     ' 
@@ -101,6 +101,12 @@ Namespace IO
 
         Shared ReadOnly replace As New [Default](Of Func(Of Double, Double, Double))(Function(previous, now) now)
 
+        ''' <summary>
+        ''' 将一系列数据添加进入当前的数据集对象实例之中
+        ''' </summary>
+        ''' <param name="data">数据系列</param>
+        ''' <param name="duplicated"></param>
+        ''' <returns></returns>
         Public Function Append(data As [Property](Of Double), Optional duplicated As Func(Of Double, Double, Double) = Nothing) As DataSet
             duplicated = duplicated Or DataSet.replace
 

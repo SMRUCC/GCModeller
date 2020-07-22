@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3d477e7955efde5f83ed74c04666bab, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::70c83d8bbc5a2cccd9599f3a29dfbef4, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\Vector.vb"
 
     ' Author:
     ' 
@@ -259,6 +259,15 @@ Namespace Language.Vectorization
                 For i As Integer = 0 To indices.Length - 1
                     buffer(indices(i)) = value(i)
                 Next
+            End Set
+        End Property
+
+        Default Public Overloads Property Item(range As (start%, ends%)) As List(Of T)
+            Get
+                Return New List(Of T)(Me.Skip(range.start).Take(count:=range.ends - range.start))
+            End Get
+            Set(value As List(Of T))
+                Me(New IntRange(range.start, range.ends)) = value
             End Set
         End Property
 

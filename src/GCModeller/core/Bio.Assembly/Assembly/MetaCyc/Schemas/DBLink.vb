@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
     ' Author:
     ' 

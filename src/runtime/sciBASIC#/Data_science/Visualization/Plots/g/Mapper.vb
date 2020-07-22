@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9b4ae01ab7fff1f24faaa776aeafe00, Data_science\Visualization\Plots\g\Mapper.vb"
+﻿#Region "Microsoft.VisualBasic::0ffc75a73faa3471fe6128b554bc730f, Data_science\Visualization\Plots\g\Mapper.vb"
 
     ' Author:
     ' 
@@ -100,7 +100,7 @@ Namespace Graphic
             If Not ignoreAxis Then
 
                 If Not ignoreX Then
-                    xAxis = New Vector(xrange.CreateAxisTicks(parts))
+                    xAxis = New Vector(xrange.CreateAxisTicks(parts / 2))
                 Else
                     xAxis = New Vector({0R})
                 End If

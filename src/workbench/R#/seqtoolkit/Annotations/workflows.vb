@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f2fb3bcf28af08155064a35573e5719, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::a66c7badf9ebf93f5a590f187695feb0, seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,6 @@
 
 #End Region
 
-
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -112,7 +111,7 @@ Module workflows
             Return REnv.Internal.debug.stop($"invalid pipeline data type: {query.elementType.ToString}", env)
         End If
 
-        Return query.populates(Of Query) _
+        Return query.populates(Of Query)(env) _
             .Export(parallel:=False) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
@@ -136,7 +135,7 @@ Module workflows
 
         If topBest Then
             hitsPopulator = Iterator Function() As IEnumerable(Of BestHit())
-                                For Each q As Query In query.populates(Of Query)
+                                For Each q As Query In query.populates(Of Query)(env)
                                     Yield {
                                         v228.SBHLines(q, coverage, idetities, keepsRawQueryName:=keepsRawName)(Scan0)
                                     }
@@ -144,7 +143,7 @@ Module workflows
                             End Function
         Else
             hitsPopulator = Iterator Function() As IEnumerable(Of BestHit())
-                                For Each q As Query In query.populates(Of Query)
+                                For Each q As Query In query.populates(Of Query)(env)
                                     Yield v228.SBHLines(q, coverage, idetities, keepsRawQueryName:=keepsRawName)
                                 Next
                             End Function
@@ -178,7 +177,7 @@ Module workflows
 
         Select Case algorithm
             Case BBHAlgorithm.Naive
-                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit), reverse.populates(Of BestHit)))
+                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)))
             Case BBHAlgorithm.BHR
             Case BBHAlgorithm.TaxonomySupports
             Case Else
@@ -213,7 +212,7 @@ Module workflows
 
         If applyOnHits Then
             queryPopulator = Iterator Function() As IEnumerable(Of Query)
-                                 For Each q As Query In query.populates(Of Query)
+                                 For Each q As Query In query.populates(Of Query)(env)
                                      For Each hit In q.SubjectHits
                                          hit.Name = grep(hit.Name)
                                      Next
@@ -223,7 +222,7 @@ Module workflows
                              End Function
         Else
             queryPopulator = Iterator Function() As IEnumerable(Of Query)
-                                 For Each q As Query In query.populates(Of Query)
+                                 For Each q As Query In query.populates(Of Query)(env)
                                      q.QueryName = grep(q.QueryName)
                                      Yield q
                                  Next
@@ -249,11 +248,11 @@ Module workflows
 
         Select Case data.elementType.raw
             Case GetType(BestHit)
-                Call writeStreamHelper(Of BestHit)(stream, data)
+                Call writeStreamHelper(Of BestHit)(stream, data, env)
             Case GetType(BiDirectionalBesthit)
-                Call writeStreamHelper(Of BiDirectionalBesthit)(stream, data)
+                Call writeStreamHelper(Of BiDirectionalBesthit)(stream, data, env)
             Case GetType(BlastnMapping)
-                Call writeStreamHelper(Of BlastnMapping)(stream, data)
+                Call writeStreamHelper(Of BlastnMapping)(stream, data, env)
             Case Else
                 Return Internal.debug.stop(New NotImplementedException, env)
         End Select
@@ -261,9 +260,9 @@ Module workflows
         Return True
     End Function
 
-    Private Sub writeStreamHelper(Of T As Class)(stream As Object, data As pipeline)
+    Private Sub writeStreamHelper(Of T As Class)(stream As Object, data As pipeline, env As Environment)
         With DirectCast(stream, WriteStream(Of T))
-            For Each hit As T In data.populates(Of T)
+            For Each hit As T In data.populates(Of T)(env)
                 Call .Flush(hit)
             Next
 
@@ -289,7 +288,7 @@ Module workflows
             End Function
 
         Return besthits _
-            .populates(Of BestHit) _
+            .populates(Of BestHit)(env) _
             .Where(filter) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function

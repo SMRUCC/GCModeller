@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09bd4a4a62b3cfc73d60a7e328520acf, Microsoft.VisualBasic.Core\Extensions\StringHelpers\RegexExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::8636845be1e9429a89e9fa90f29f3f0f, Microsoft.VisualBasic.Core\Extensions\StringHelpers\RegexExtensions.vb"
 
     ' Author:
     ' 
@@ -274,7 +274,12 @@ Public Module RegexExtensions
             Return False
         End If
 
-        Dim match$ = Regex.Match(s, pattern, opt).Value
+        Static patternCache As New Dictionary(Of String, Regex)
+
+        Dim match$ = patternCache _
+            .ComputeIfAbsent(pattern, lazyValue:=Function(r) New Regex(r, opt)) _
+            .Match(s) _
+            .Value
 
         If match = s Then
             Return True

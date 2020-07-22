@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH MACHINELEARNING 2 2020-06-25 "training.ANN" "training.ANN"
+.TH MACHINELEARNING 2 2020-07-22 "training.ANN" "training.ANN"
 .SH NAME
 training.ANN \- do ANN model training
 .SH SYNOPSIS
@@ -12,7 +12,9 @@ training.ANN \- do ANN model training
 \fBnormalMethod\fR as <integer> Methods = [RelativeScaler], 
 \fBlearnRateDecay\fR as double = 1E-10, 
 \fBtruncate\fR as double = -1, 
+\fBsoftmax\fR as boolean = TRUE, 
 \fBselectiveMode\fR as boolean = FALSE, 
+\fBdropout\fR as double = 0, 
 \fBmaxIterations\fR as integer = 10000, 
 \fBminErr\fR as double = 0.01, 
 \fBparallel\fR as boolean = TRUE, 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee938435f68cc526add706a92705253b, R#\GCModeller_cli\settings.vb"
+﻿#Region "Microsoft.VisualBasic::73fe4f7e200e902e480953f40817d4bd, GCModeller_cli\settings.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Module settingsHelper
     End Sub
 
 End Module
-

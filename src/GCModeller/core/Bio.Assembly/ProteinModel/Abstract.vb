@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a9ef7b5ecdcc291230e4a3f36fbfc3d, core\Bio.Assembly\ProteinModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::8a9ef7b5ecdcc291230e4a3f36fbfc3d, Bio.Assembly\ProteinModel\Abstract.vb"
 
     ' Author:
     ' 

@@ -1,63 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::768e07f72c21ae623f03883c4f311196, core\Bio.Assembly\ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb"
+﻿#Region "Microsoft.VisualBasic::b2ffc8328221205a535d2de3786333bb, Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\SecondaryIDSolver.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Synonym
-' 
-'         Properties: [alias], accessionID
-' 
-'         Function: GenericEnumerator, GetEnumerator, ToString
-' 
-'     Class SecondaryIDSolver
-' 
-'         Properties: ALL
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: ToString
-' 
-'         Sub: Add
-'         Delegate Function
-' 
-' 
-'         Delegate Function
-' 
-'             Function: Create
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Class SecondaryIDSolver
+    ' 
+    '         Properties: ALL, Count
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: GetSynonym, PopulateSynonyms, ToString
+    ' 
+    '         Sub: Add
+    '         Delegate Function
+    ' 
+    ' 
+    '         Delegate Function
+    ' 
+    '             Function: Create, FromMaps
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e21dc6787ee44f14c7b5375af9d086b4, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::7c29662f4454da7bf5f2c1a7925ba40b, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -968,14 +968,18 @@ Public Module StringHelpers
     ''' <returns></returns>
     <Extension>
     Public Function StringReplace(s$, pattern$, replaceAs$, Optional opt As RegexOptions = RegexICSng) As String
-        Dim targets$() = r.Matches(s, pattern, opt).ToArray
-        Dim sb As New StringBuilder(s)
+        If Not s Is Nothing Then
+            Dim targets$() = r.Matches(s, pattern, opt).ToArray
+            Dim sb As New StringBuilder(s)
 
-        For Each t As String In targets
-            Call sb.Replace(t, replaceAs)
-        Next
+            For Each t As String In targets
+                Call sb.Replace(t, replaceAs)
+            Next
 
-        Return sb.ToString
+            Return sb.ToString
+        Else
+            Return ""
+        End If
     End Function
 
     ''' <summary>
@@ -1210,7 +1214,7 @@ Public Module StringHelpers
     ''' <param name="s"></param>
     ''' <returns></returns>
     ''' <param name="trim">
-    ''' Set <see cref="Boolean.FalseString"/> to avoid a reader bug in the csv data reader <see cref="BufferedStream"/>
+    ''' Set <see cref="Boolean.FalseString"/> to avoid a reader bug in the csv data reader 
     ''' </param>
     ''' <param name="escape">
     ''' 是否需要将字符串之中的``\n``转义为换行之后再进行分割？默认不进行转义

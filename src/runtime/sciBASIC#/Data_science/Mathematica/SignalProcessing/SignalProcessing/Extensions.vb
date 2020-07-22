@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cedec0ab49058c16a059f42b9e830606, Data_science\Mathematica\SignalProcessing\SignalProcessing\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::419aabf1c38f6e9c7a898c7b95daba63, Data_science\Mathematica\SignalProcessing\SignalProcessing\Extensions.vb"
 
     ' Author:
     ' 
@@ -59,6 +59,8 @@ Public Module Extensions
     ''' <param name="signal"></param>
     ''' <param name="noise"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function SNRatio(signal As Double, noise As Double) As Double
         Return 10 * stdNum.Log10(If(noise <= 0.0, Double.MaxValue, signal / noise))
     End Function
@@ -77,6 +79,8 @@ Public Module Extensions
     ''' <param name="signal">为信道内所传信号的平均功率</param>
     ''' <param name="noise">为信道内部的高斯噪声功率</param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ShannonTransferRate(bandWidth As Double, signal As Double, noise As Double) As Double
         Return bandWidth * stdNum.Log(1 + signal / noise, 2)
     End Function

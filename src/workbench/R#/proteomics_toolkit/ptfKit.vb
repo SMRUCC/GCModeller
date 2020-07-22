@@ -1,4 +1,45 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::366da7de8941afca92e47b1cdc578f34, proteomics_toolkit\ptfKit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module ptfKit
+    ' 
+    '     Function: filterBykey, loadPtf, NCBITaxonomy, savePtf, split
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -54,7 +95,7 @@ Module ptfKit
         End If
 
         Return upstream _
-            .populates(Of ProteinAnnotation) _
+            .populates(Of ProteinAnnotation)(env) _
             .Where(Function(protein)
                        Return protein.attributes.ContainsKey(key)
                    End Function) _
@@ -76,7 +117,7 @@ Module ptfKit
 
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
             Call PtfFile.WriteStream(
-                annotation:=anno.populates(Of ProteinAnnotation),
+                annotation:=anno.populates(Of ProteinAnnotation)(env),
                 file:=writer
             )
         End Using
@@ -92,7 +133,7 @@ Module ptfKit
             Return anno.getError
         End If
 
-        Return anno.populates(Of ProteinAnnotation).Where(Function(protein) protein.attributes.ContainsKey(""))
+        Return anno.populates(Of ProteinAnnotation)(env).Where(Function(protein) protein.attributes.ContainsKey(""))
     End Function
 
     <ExportAPI("ptf.split")>
@@ -103,8 +144,9 @@ Module ptfKit
             Return anno.getError
         End If
 
-        Call anno.populates(Of ProteinAnnotation).SplitAnnotations(key, outputdir)
+        Call anno.populates(Of ProteinAnnotation)(env).SplitAnnotations(key, outputdir)
 
         Return True
     End Function
 End Module
+

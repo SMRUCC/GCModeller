@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e149df5b5326eccd35141f7a4fefb78, Microsoft.VisualBasic.Core\ComponentModel\Ranges\RangeModel\DoubleRange.vb"
+﻿#Region "Microsoft.VisualBasic::76a4b672575315f3e85de0b09f8255cb, Microsoft.VisualBasic.Core\ComponentModel\Ranges\RangeModel\DoubleRange.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 
@@ -106,7 +105,13 @@ Namespace ComponentModel.Ranges.Model
         ''' </summary>
         ''' <param name="data"></param>
         Sub New(data As Double())
-            Call Me.New(data.Min, data.Max)
+            If data.Length = 0 Then
+                Min = Double.NaN
+                Max = Double.NaN
+            Else
+                Min = data.Min
+                Max = data.Max
+            End If
         End Sub
 
         ''' <summary>

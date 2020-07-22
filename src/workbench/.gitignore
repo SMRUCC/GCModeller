@@ -18,3 +18,4 @@ node_modules
 *.sqlite-journal
 /R#/demo/kegg/KEGG_maps.zip
 R#/demo/cytoscape/automation/result.cys
+R#/demo/cngb/bacterials.csv

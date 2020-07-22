@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d88e3b3de6e578f34d425220d9131666, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::7ca73fbd3a42e91c8a177ec1ffc6fd27, Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module GbkParser
     ' 
-    '         Function: __loadData, __originReadThread, Internal_readBlock, Read
+    '         Function: __originReadThread, bufferTrims, doLoadData, Internal_readBlock, Read
     ' 
     '         Sub: __readOrigin
     ' 
@@ -66,10 +66,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <remarks></remarks>
         '''
         <ExportAPI("Read")> Public Function Read(Path As String) As NCBI.GenBank.GBFF.File
-            Dim File As String() = IO.File.ReadAllLines(Path)
-            Dim GenBank = __loadData(File, Path)
+            Dim file As String() = IO.File.ReadAllLines(Path)
+            Dim genbank = doLoadData(file, Path)
 
-            Return GenBank
+            Return genbank
         End Function
 
         Private Function __originReadThread(gb As NCBI.GenBank.GBFF.File, buf As String()) As NCBI.GenBank.GBFF.Keywords.ORIGIN
@@ -86,7 +86,27 @@ Namespace Assembly.NCBI.GenBank.GBFF
             End If
         End Function
 
-        Friend Function __loadData(innerBufs As String(), Path As String) As NCBI.GenBank.GBFF.File
+        Friend Function bufferTrims(buf As String()) As String()
+            Dim i As Integer = 0
+
+            If buf.Length < 5 Then
+                Return Nothing
+            End If
+
+            Do While String.IsNullOrEmpty(buf.Read(i))
+            Loop
+
+            If i = 1 Then
+                Return buf
+            Else
+                i -= 1
+            End If
+
+            buf = buf.Skip(i).ToArray
+            Return buf
+        End Function
+
+        Friend Function doLoadData(innerBufs As String(), defaultAccession$) As NCBI.GenBank.GBFF.File
             Call "Start loading ncbi gbk file...".__DEBUG_ECHO
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
@@ -96,7 +116,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             gb.Comment = Internal_readBlock(KeyWord.GBK_FIELD_KEY_COMMENT, innerBufs)
             gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser
-            gb.Accession = ACCESSION.CreateObject(Internal_readBlock(KeyWord.GBK_FIELD_KEY_ACCESSION, innerBufs), Path.BaseName)
+            gb.Accession = ACCESSION.CreateObject(Internal_readBlock(KeyWord.GBK_FIELD_KEY_ACCESSION, innerBufs), defaultAccession)
             gb.Reference = REFERENCE.InternalParser(innerBufs)
             gb.Definition = Internal_readBlock(KeyWord.GBK_FIELD_KEY_DEFINITION, innerBufs)
             gb.Version = Internal_readBlock(KeyWord.GBK_FIELD_KEY_VERSION, innerBufs)
@@ -118,9 +138,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             Call gb.Features.LinkEntry()
             Call ReadThread.EndInvoke(ReadThreadResult)
-            Call $"({gb.Accession.AccessionId})""{gb.Definition.Value}"" data load done!  {FileIO.FileSystem.GetFileInfo(Path).Length}bytes {Sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 
-            gb.Origin.gb = gb  '由于使用线程进行读取的，所以不能保证在赋值的时候是否初始化基因组序列完成
+            ' 由于使用线程进行读取的，所以不能保证在赋值的时候是否初始化基因组序列完成
+            gb.Origin.gb = gb
             innerBufs = Nothing
 
             Return gb

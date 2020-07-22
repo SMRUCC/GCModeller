@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e05322a8f9c6ca4e46124ef94cff2c20, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
+﻿#Region "Microsoft.VisualBasic::dede2d9e5139212133c4b828612732e5, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: dimensions, globalAttributes, recordDimension, variables, version
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: attributeExists, dataVariableExists, (+2 Overloads) getDataVariable, getDataVariableAsString, getDataVariableEntry
     '                   Open, ToString
@@ -186,6 +186,10 @@ Namespace netCDF
             Me.variableTable = header _
                 .variables _
                 .ToDictionary(Function(var) var.name)
+        End Sub
+
+        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8)
+            Call Me.New(New BinaryDataReader(file, encoding))
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

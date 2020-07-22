@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72bf0bb253421a1cd28542f7ad70ef89, Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
+﻿#Region "Microsoft.VisualBasic::d0bb8ea6a94cfe2c28626746425f61a8, STRING\FunctionalNetwork\AnalysisAPI.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,8 @@ Public Module AnalysisAPI
                                      annotations As Dictionary(Of String, entry),
                                      DEGs As (UP As Dictionary(Of String, Double), down As Dictionary(Of String, Double)),
                                      Optional layouts As IEnumerable(Of Coordinates) = Nothing,
-                                     Optional radius$ = "5,30") As (model As NetworkTables, image As Image)
+                                     Optional radius$ = "5,30",
+                                     Optional canvasSize$ = "1920,1080") As (model As NetworkTables, image As Image)
 
         Dim colorLevels = (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9)
         Dim model = stringNetwork _
@@ -73,7 +74,7 @@ Public Module AnalysisAPI
 
         With model.VisualizeKEGG(
             layouts.ToArray,
-            size:="4000,3000",
+            size:=canvasSize,
             radius:=radius,
             groupLowerBounds:=4
         )

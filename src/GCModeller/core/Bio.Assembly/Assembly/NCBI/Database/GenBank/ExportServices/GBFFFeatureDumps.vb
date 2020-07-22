@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::220b52ba13f5fbd78b6fd9e106ddeac7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
+﻿#Region "Microsoft.VisualBasic::6aaf9640ad1904e80694d9d74f3bb56a, Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
     ' Author:
     ' 
@@ -80,7 +80,7 @@ Namespace Assembly.NCBI.GenBank
             Dim result As New List(Of GeneTable)
 
             For Each feature As String In features
-                Dim fs As Feature() = gb.Features.ListFeatures(feature)
+                Dim fs As Feature() = gb.Features.ListFeatures(feature).ToArray
                 result += _dumpMethods(feature)(fs)
             Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13fee0fd2a4f57ead875927e8da9e534, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::a1a98c2829164c6cb5d9db700f828df0, Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class FastaFile
     ' 
-    '         Properties: _innerList, FilePath, IsReadOnly, NumberOfFasta
+    '         Properties: _innerList, Count, FilePath, IsReadOnly
     ' 
     '         Constructor: (+8 Overloads) Sub New
     ' 

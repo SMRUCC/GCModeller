@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbbe60b4056ff879c29a184f64cf6f46, modules\Knowledge_base\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::bbbe60b4056ff879c29a184f64cf6f46, Knowledge_base\test\Module1.vb"
 
     ' Author:
     ' 

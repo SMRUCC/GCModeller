@@ -1,12 +1,12 @@
 .\" man page create by R# package system.
-.TH VCELLKIT.SIMULATOR 2 2020-04-27 "engine.load" "engine.load"
+.TH VCELLKIT.SIMULATOR 2 2020-07-22 "engine.load" "engine.load"
 .SH NAME
 engine.load \- create a new virtual cell engine
 .SH SYNOPSIS
 \fIengine.load(\fBinits\fR as <generic> Definition, 
 \fBvcell\fR as <generic> CellularModule, 
-\fBiterations\fR as integer = 5000, 
-\fBtime_resolutions\fR as integer = 1000, 
+\fBiterations\fR as integer = 100, 
+\fBtime_resolutions\fR as integer = 10000, 
 \fBdeletions\fR as string = \fB<NULL>\fR, 
 \fBdynamics\fR as <generic> FluxBaseline = \fB<NULL>\fR, 
 \fBshowProgress\fR as boolean = TRUE);\fR

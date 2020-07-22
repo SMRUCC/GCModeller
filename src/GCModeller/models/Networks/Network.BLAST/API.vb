@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2088deba272c8c8d98d6ea396bbe37a3, Networks\Network.BLAST\API.vb"
+﻿#Region "Microsoft.VisualBasic::2088deba272c8c8d98d6ea396bbe37a3, Network.BLAST\API.vb"
 
     ' Author:
     ' 

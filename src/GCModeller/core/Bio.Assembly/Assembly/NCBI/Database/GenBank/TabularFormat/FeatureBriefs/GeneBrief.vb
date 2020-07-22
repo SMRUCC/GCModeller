@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98f6a3693b232bd45165a9da53f38974, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
+﻿#Region "Microsoft.VisualBasic::338178523f7f4fce18140982ccc677ee, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb"
 
     ' Author:
     ' 
@@ -138,6 +138,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 End If
             End Get
         End Property
+
         Public ReadOnly Property TGA As Long
             Get
                 If Me.Location.Strand = Strands.Forward Then

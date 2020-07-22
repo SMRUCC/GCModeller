@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7887da9301df023cd6a22a51a97c2ab, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Algorithm.vb"
+﻿#Region "Microsoft.VisualBasic::1033cb650817654b80646f6a8867d3f7, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Algorithm.vb"
 
     ' Author:
     ' 
@@ -106,7 +106,8 @@ Namespace PeakFinding
                 ' 在这里将区间的上限的积分值减去区间的下限的积分值即可得到当前的这个区间的积分值（近似于定积分）
                 Yield New SignalPeak With {
                     .integration = area.Last.y - area.First.y,
-                    .region = rawSignals((time >= rtmin) & (time <= rtmax))
+                    .region = rawSignals((time >= rtmin) & (time <= rtmax)),
+                    .baseline = baseline
                 }
             Next
         End Function

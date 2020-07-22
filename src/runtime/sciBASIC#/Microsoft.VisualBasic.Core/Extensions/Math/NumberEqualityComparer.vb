@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96dd3f761a42c567a8614b43094c5bd0, Microsoft.VisualBasic.Core\Extensions\Math\NumberEqualityComparer.vb"
+﻿#Region "Microsoft.VisualBasic::8972aae26a7b14ee5c1a162a754eeed1, Microsoft.VisualBasic.Core\Extensions\Math\NumberEqualityComparer.vb"
 
     ' Author:
     ' 
@@ -74,7 +74,7 @@ Namespace Math
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Function Equals(x As Double, y As Double) As Boolean Implements IEqualityComparer(Of Double).Equals
+        Public Overridable Overloads Function Equals(x As Double, y As Double) As Boolean Implements IEqualityComparer(Of Double).Equals
             Return stdNum.Abs(x - y) <= _DeltaTolerance
         End Function
 

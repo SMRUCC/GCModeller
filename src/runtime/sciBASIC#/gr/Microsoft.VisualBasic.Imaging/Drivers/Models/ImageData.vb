@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69a9376700901195ed367afb4a9aa3e9, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::b7c6d52dd834c885e68196eea161ee57, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\ImageData.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) Save
+    '         Function: GetDataURI, (+2 Overloads) Save
     ' 
     '         Sub: Dispose
     ' 
@@ -50,6 +50,7 @@ Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
 
@@ -94,6 +95,10 @@ Namespace Driver
                 Return Drivers.GDI
             End Get
         End Property
+
+        Public Overrides Function GetDataURI() As DataURI
+            Return New DataURI(Image)
+        End Function
 
         Const InvalidSuffix$ = "The gdi+ image file save path: {0} ending with *.svg file extension suffix!"
 

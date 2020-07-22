@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -8,6 +9,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
 ''' <summary>
 ''' 表达模式聚类
@@ -80,35 +82,58 @@ Public Module ExpressionPatterns
                                Optional bg$ = "white") As GraphicsData
 
         Dim matrix As Matrix()() = raw.KMeansCluster(dim$.SizeParser.ToArray)
+        Dim plot = Sub(ByRef g As IGraphics, canvas As GraphicsRegion)
+                       Dim w = canvas.PlotRegion.Width / matrix(Scan0).Length
+                       Dim h = canvas.PlotRegion.Height / matrix.Length
+                       Dim scatterData As SerialData()
+                       Dim i As i32 = 1
+                       Dim layout As GraphicsRegion
+                       Dim x!
+                       Dim y! = canvas.PlotRegion.Top + h
+
+                       For Each row In matrix
+
+                           x = canvas.PlotRegion.Left + w
+
+                           For Each col As Matrix In row
+                               padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
+                               layout = New GraphicsRegion(canvas.Size, padding)
+                               x += w
+                               scatterData = col.expression _
+                                   .Select(Function(gene)
+                                               Return New SerialData With {
+                                                   .title = gene.geneID,
+                                                   .color = Color.Red,
+                                                   .lineType = DashStyle.Solid,
+                                                   .pointSize = 5,
+                                                   .width = 5,
+                                                   .pts = gene.experiments _
+                                                       .Select(Function(exp, idx)
+                                                                   Return New PointData With {
+                                                                       .tag = raw.sampleID(idx),
+                                                                       .pt = New PointF With {
+                                                                           .X = idx,
+                                                                           .Y = exp
+                                                                       }
+                                                                   }
+                                                               End Function) _
+                                                       .ToArray
+                                               }
+                                           End Function) _
+                                   .ToArray
+
+                               Scatter.Plot(scatterData, g, layout)
+                           Next
+
+                           y += h
+                       Next
+                   End Sub
 
         Return g.GraphicsPlots(
             size:=size.SizeParser,
             padding:=padding,
             bg:=bg,
-            plotAPI:=Sub(ByRef g As IGraphics, canvas As GraphicsRegion)
-
-                         Dim x!
-                         Dim y! = canvas.PlotRegion.Top
-                         Dim w = canvas.PlotRegion.Width / matrix(Scan0).Length
-                         Dim h = canvas.PlotRegion.Height / matrix.Length
-                         Dim scatterData As SerialData
-
-                         For Each row In matrix
-
-                             x = canvas.PlotRegion.Left
-
-                             For Each col In row
-
-                                 padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
-                                 x += w
-
-                                 Call Scatter.Plot({scatterData}, size, padding, bg)
-
-                             Next
-
-                             y += h
-                         Next
-
-                     End Sub)
+            plotAPI:=plot
+        )
     End Function
 End Module

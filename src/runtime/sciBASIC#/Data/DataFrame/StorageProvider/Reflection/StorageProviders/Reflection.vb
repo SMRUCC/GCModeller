@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffd4f3f19fe444c824ee4f77361b3096, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::ef2f6c2d77078e2ea20ef40460126436, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
 
     ' Author:
     ' 
@@ -265,17 +265,19 @@ Namespace StorageProvider.Reflection
                 .CacheIndex(source, reorderKeys)
 
             schemaOut = rowWriter _
-                .Columns _
+                .columns _
                 .ToDictionary(Function(x) x.Name,
-                              Function(x) x.BindProperty.PropertyType)
+                              Function(x)
+                                  Return x.BindProperty.PropertyType
+                              End Function)
 
             Dim title As RowObject = rowWriter.GetRowNames(maps).Join(rowWriter.GetMetaTitles)
 
             Yield title
 
-            If Not rowWriter.MetaRow Is Nothing Then
+            If Not rowWriter.metaRow Is Nothing Then
                 ' 只读属性会和字典属性产生冲突
-                Dim valueType As Type = rowWriter.MetaRow _
+                Dim valueType As Type = rowWriter.metaRow _
                                                  .Dictionary _
                                                  .GenericTypeArguments _
                                                  .Last

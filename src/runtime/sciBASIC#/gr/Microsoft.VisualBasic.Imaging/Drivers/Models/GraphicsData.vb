@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a674bf4f81684bea669a69beedbf94c8, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\GraphicsData.vb"
+﻿#Region "Microsoft.VisualBasic::40dd5db05417b786421602dcbd2df836, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\GraphicsData.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
 
@@ -118,6 +119,8 @@ Namespace Driver
                 .Padding = padding
             }
         End Sub
+
+        Public MustOverride Function GetDataURI() As DataURI
 
         ''' <summary>
         ''' Save the image graphics to file

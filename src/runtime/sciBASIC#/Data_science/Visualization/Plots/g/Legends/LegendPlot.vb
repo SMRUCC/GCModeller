@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a52441bd81d48e43f500cc2dbaafcd5c, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::54c5ec2b161227663e87409563f6e559, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -272,19 +272,21 @@ Namespace Graphic.Legend
                 lineWidth = font.Size / 2
             End If
 
-            Call g.DrawLegendShape(
-                pos, canvas, l.style, color,
-                border:=border,
-                radius:=radius,
-                labelPos:=labelPosition,
-                lineWidth:=lineWidth
-            )
-            Call g.DrawString(
-                l.title,
-                font,
-                brush:=titleBrush Or blackTitle,
-                point:=labelPosition
-            )
+            SyncLock blackTitle.DefaultValue
+                Call g.DrawLegendShape(
+                    pos, canvas, l.style, color,
+                    border:=border,
+                    radius:=radius,
+                    labelPos:=labelPosition,
+                    lineWidth:=lineWidth
+                )
+                Call g.DrawString(
+                    l.title,
+                    font,
+                    brush:=titleBrush Or blackTitle,
+                    point:=labelPosition
+                )
+            End SyncLock
 
             If fSize.Height > canvas.Height Then
                 Return fSize

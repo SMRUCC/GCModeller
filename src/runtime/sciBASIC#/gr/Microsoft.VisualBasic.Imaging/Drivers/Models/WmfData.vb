@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1896556223b05f7cf4b0d5b5aa9c32a, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
+﻿#Region "Microsoft.VisualBasic::9833499dfe86910fddf3ac784fd49967, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Driver
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Save, wmfTmp
+    '         Function: GetDataURI, (+2 Overloads) Save, wmfTmp
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +46,7 @@
 Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
 
@@ -76,6 +77,12 @@ Namespace Driver
                 Throw New InvalidDataException("The input img data is nothing or file unavailable currently!")
             End If
         End Sub
+
+        Public Overrides Function GetDataURI() As DataURI
+            Using file As Stream = tempfile.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return New DataURI(file, content_type)
+            End Using
+        End Function
 
         Public Overrides Function Save(path As String) As Boolean
             Return tempfile.FileCopy(path)

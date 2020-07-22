@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::111d7c25571ec428aa24efc0b4a77dd4, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::9a0a1d41b832b9e51110d8dfbb92e971, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Literal.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '         Properties: number
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Evaluate, ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: (+2 Overloads) Evaluate, GetNegative, GetReciprocal, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,12 +53,44 @@ Namespace Scripting.MathExpression.Impl
             Me.number = Val(text)
         End Sub
 
+        Sub New(x As Double)
+            Me.number = x
+        End Sub
+
+        Public Function GetNegative() As Literal
+            Return New Literal(-1 * number)
+        End Function
+
+        Public Function GetReciprocal() As Literal
+            Return New Literal(1 / number)
+        End Function
+
         Public Overrides Function Evaluate(env As ExpressionEngine) As Double
             Return number
+        End Function
+
+        Public Overloads Shared Function Evaluate(left As Literal, op As Char, right As Literal) As Literal
+            Dim a As Double = left.Evaluate(Nothing)
+            Dim b As Double = right.Evaluate(Nothing)
+
+            Select Case op
+                Case "+" : Return a + b
+                Case "-" : Return a - b
+                Case "*" : Return a * b
+                Case "/" : Return a / b
+                Case "%" : Return a Mod b
+                Case "^" : Return a ^ b
+                Case Else
+                    Throw New NotImplementedException(op)
+            End Select
         End Function
 
         Public Overrides Function ToString() As String
             Return number
         End Function
+
+        Public Overloads Shared Widening Operator CType(x As Double) As Literal
+            Return New Literal(x)
+        End Operator
     End Class
 End Namespace

@@ -63,7 +63,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /log2FC <default=log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /size <default=1920,1080> /log2FC <default=log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     <Argument("/map", True, CLITypes.File,
@@ -85,6 +85,7 @@ Partial Module CLI
         Dim proteins As protein() = protein.LoadDataSet(DEP).UserCustomMaps(args <= "/map")
         Dim stringNetwork = [in].LoadTsv(Of InteractExports)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates).ToArray
+        Dim size$ = args("/size") Or "1920,1080"
         Dim annotations = UniProtXML.EnumerateEntries(uniprot).StringUniprot ' STRING -> uniprot
         Dim DEGs = proteins.GetDEGs(
             Function(gene)
@@ -102,7 +103,9 @@ Partial Module CLI
             annotations:=annotations,
             DEGs:=DEGs,
             layouts:=layouts,
-            radius:=radius)
+            radius:=radius,
+            canvasSize:=size
+        )
 
             Call .image _
                 .SaveAs(out & "/network.png")

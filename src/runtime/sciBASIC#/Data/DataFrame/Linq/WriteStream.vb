@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ad16a7e090256593dbe04907360864d, Data\DataFrame\Linq\WriteStream.vb"
+﻿#Region "Microsoft.VisualBasic::e52ac046a95127330dd84c69af065b15, Data\DataFrame\Linq\WriteStream.vb"
 
     ' Author:
     ' 
@@ -98,7 +98,7 @@ Namespace IO.Linq
         ''' <returns></returns>
         Public ReadOnly Property IsMetaIndexed As Boolean
             Get
-                Return rowWriter.IsMetaIndexed
+                Return rowWriter.isMetaIndexed
             End Get
         End Property
 

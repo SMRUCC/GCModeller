@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::d219c69d1999249887ea1378a7fb5fc7, R#\seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::11fd88786f7c60da830c3538c20b314e, seqtoolkit\Fasta.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Fasta
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, readFasta
-'               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
-'               viewFasta, viewMSA, writeFasta
-' 
-' 
-' Class AssembleResult
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: GetAssembledSequence
-' 
-' /********************************************************************************/
+    ' Module Fasta
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, readFasta
+    '               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
+    '               viewFasta, viewMSA, writeFasta
+    ' 
+    ' 
+    ' Class AssembleResult
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GetAssembledSequence
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -133,7 +133,7 @@ Module Fasta
     ''' </summary>
     ''' <param name="a"></param>
     ''' <returns></returns>
-    Public Function GetFastaSeq(a As Object) As IEnumerable(Of FastaSeq)
+    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
         If a Is Nothing Then
             Return {}
         ElseIf TypeOf a Is vector Then
@@ -162,7 +162,7 @@ Module Fasta
 
                     Return populator
                 ElseIf type Is GetType(pipeline) AndAlso DirectCast(a, pipeline).elementType Like GetType(FastaSeq) Then
-                    Return DirectCast(a, pipeline).populates(Of FastaSeq)
+                    Return DirectCast(a, pipeline).populates(Of FastaSeq)(env)
                 Else
                     Return Nothing
                 End If
@@ -213,9 +213,10 @@ Module Fasta
     <ExportAPI("write.fasta")>
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
                                Optional lineBreak% = -1,
-                               Optional encoding As Encodings = Encodings.ASCII) As Boolean
+                               Optional encoding As Encodings = Encodings.ASCII,
+                               Optional env As Environment = Nothing) As Boolean
 
-        Return New FastaFile(GetFastaSeq(seq)).Save(lineBreak, file, encoding)
+        Return New FastaFile(GetFastaSeq(seq, env)).Save(lineBreak, file, encoding)
     End Function
 
     ''' <summary>
@@ -251,7 +252,7 @@ Module Fasta
                 }
             End If
         Else
-            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(nt, env)
 
             If collection Is Nothing Then
                 Return REnv.Internal.debug.stop(New NotImplementedException(nt.GetType.FullName), env)
@@ -302,8 +303,8 @@ Module Fasta
     ''' <param name="seqs">A fasta sequence collection</param>
     ''' <returns></returns>
     <ExportAPI("MSA.of")>
-    Public Function MSA(<RRawVectorArgument> seqs As Object) As MSAOutput
-        Return GetFastaSeq(seqs).MultipleAlignment(ScoreMatrix.DefaultMatrix)
+    Public Function MSA(<RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As MSAOutput
+        Return GetFastaSeq(seqs, env).MultipleAlignment(ScoreMatrix.DefaultMatrix)
     End Function
 
     ''' <summary>
@@ -340,7 +341,7 @@ Module Fasta
 
             Return fasta
         Else
-            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
 
             If collection Is Nothing Then
                 If x.GetType.IsArray Then
@@ -387,7 +388,7 @@ Module Fasta
     ''' <returns></returns>
     <ExportAPI("Assemble.of")>
     Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
-        Dim readSeqs As FastaSeq() = GetFastaSeq(reads).ToArray
+        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
         Dim data As String() = readSeqs _
             .Select(Function(fa) fa.SequenceData) _
             .ToArray
@@ -448,7 +449,7 @@ Module Fasta
                 .SequenceData = sequence.SequenceData
             }
         Else
-            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(NT)
+            Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(NT, env)
 
             If collection Is Nothing Then
                 Return REnv.Internal.debug.stop(New NotImplementedException(NT.GetType.FullName), env)

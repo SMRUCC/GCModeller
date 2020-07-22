@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f03ccd239839760104d044fd42c296e3, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::206764fc01716928b50ac62069e78914, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -211,7 +211,13 @@ Namespace Distributions
                     Return .Max
                 End If
 
-                Dim hist = .Hist([step]:=New DoubleRange(.Min, .Max).Length / 5).ToArray
+                Dim steps As Double = New DoubleRange(.Min, .Max).Length / 5
+
+                If steps < 0.000001 Then
+                    Return .Average
+                End If
+
+                Dim hist = .Hist([step]:=steps).ToArray
                 Dim maxN = Which.Max(hist.Select(Function(bin) bin.Count))
                 Dim resample As Double()
 

@@ -173,7 +173,7 @@ class IEnumerator<T> extends LINQIterator<T> {
         compares?: (a: TKey, b: TKey) => number): IEnumerator<Group<TKey, T>> {
 
         if (isNullOrUndefined(compares)) {
-            var x = keySelector(this.First);
+            let x = keySelector(this.First);
 
             switch (typeof x) {
                 case "string": compares = <any>Strings.CompareTo; break;
@@ -193,7 +193,11 @@ class IEnumerator<T> extends LINQIterator<T> {
                     });
                     break;
                 default:
-                    throw "No element comparer was specific!";
+                    if (this.Count == 0) {
+                        return <any>$from([]);
+                    } else {
+                        throw "No element comparer was specific!";
+                    }
             }
         }
 

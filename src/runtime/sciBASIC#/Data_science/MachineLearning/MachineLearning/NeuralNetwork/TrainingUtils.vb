@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b20c999ba2ca48e7aa4d3b49814e4f3, Data_science\MachineLearning\MachineLearning\NeuralNetwork\TrainingUtils.vb"
+﻿#Region "Microsoft.VisualBasic::8b53e30886eb3b711b2f4389b4164fef, Data_science\MachineLearning\MachineLearning\NeuralNetwork\TrainingUtils.vb"
 
     ' Author:
     ' 
@@ -38,10 +38,10 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: CalculateError, TakeSnapshot, trainingImpl
+    '         Function: CalculateError, SetDropOut, SetLayerNormalize, SetSelective, TakeSnapshot
+    '                   trainingImpl
     ' 
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, SetDropOut, SetLayerNormalize
-    '              (+3 Overloads) Train
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
     ' 
     ' 
     ' /********************************************************************************/
@@ -172,19 +172,39 @@ Namespace NeuralNetwork
             End If
         End Sub
 
-        Public Sub SetDropOut(percentage As Double)
-            _dropOutRate = percentage
+        Public Function SetSelective(opt As Boolean) As TrainingUtils
+            Selective = opt
+            Return Me
+        End Function
 
-            For Each layer As Layer In network.HiddenLayer
-                layer.doDropOutMode = True
-            Next
-        End Sub
+        ''' <summary>
+        ''' set percentage for random drop out of the nodes in each layer
+        ''' </summary>
+        ''' <param name="percentage"></param>
+        ''' <returns></returns>
+        Public Function SetDropOut(percentage As Double) As TrainingUtils
+            If percentage > 0 Then
+                _dropOutRate = percentage
 
-        Public Sub SetLayerNormalize(opt As Boolean)
+                For Each layer As Layer In network.HiddenLayer
+                    layer.doDropOutMode = True
+                Next
+            End If
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' apply softmax normalization for each layer?
+        ''' </summary>
+        ''' <param name="opt"></param>
+        Public Function SetLayerNormalize(opt As Boolean) As TrainingUtils
             For Each layer As Layer In network.HiddenLayer
-                layer.doNormalize = opt
+                layer.softmaxNormalization = opt
             Next
-        End Sub
+
+            Return Me
+        End Function
 
         ''' <summary>
         ''' 在这里添加训练使用的数据集

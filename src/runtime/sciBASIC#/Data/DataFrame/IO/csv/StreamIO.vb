@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9581c92018922f91586b8c396cd19875, Data\DataFrame\IO\csv\StreamIO.vb"
+﻿#Region "Microsoft.VisualBasic::8152f118e2cae119b7a92aef7fca9e23, Data\DataFrame\IO\csv\StreamIO.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module StreamIO
     ' 
-    '         Function: (+2 Overloads) [TypeOf], SaveDataFrame
+    '         Function: (+2 Overloads) [TypeOf], (+2 Overloads) SaveDataFrame
     ' 
     ' 
     ' /********************************************************************************/
@@ -120,15 +120,28 @@ Namespace IO
                                       Optional encoding As Encoding = Nothing,
                                       Optional tsv As Boolean = False,
                                       Optional silent As Boolean = False) As Boolean
+            If path.StringEmpty Then
+                Throw New NullReferenceException(NullLocationRef)
+            Else
+                Return csv.SaveDataFrame(path.Open(FileMode.OpenOrCreate, doClear:=True), encoding, tsv, silent)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Save this csv document into a specific <paramref name="file"/> stream
+        ''' </summary>
+        ''' <remarks>当目标保存路径不存在的时候，会自动创建文件夹</remarks>
+        <Extension>
+        Public Function SaveDataFrame(csv As IEnumerable(Of RowObject),
+                                      file As Stream,
+                                      Optional encoding As Encoding = Nothing,
+                                      Optional tsv As Boolean = False,
+                                      Optional silent As Boolean = False) As Boolean
 
             Dim stopwatch As Stopwatch = Stopwatch.StartNew
             Dim del$ = ","c Or ASCII.TAB.AsDefault(Function() tsv)
 
-            If path.StringEmpty Then
-                Throw New NullReferenceException(NullLocationRef)
-            End If
-
-            Using out As StreamWriter = path.OpenWriter(encoding Or UTF8)
+            Using out As New StreamWriter(file, encoding Or UTF8)
                 For Each line$ In csv.Select(Function(r) r.AsLine(del))
                     Call out.WriteLine(line)
                 Next

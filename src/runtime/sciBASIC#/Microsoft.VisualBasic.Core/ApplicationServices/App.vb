@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e16d7ed2656117daca8ea325ebd85c15, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::6a7c39b3815a431b46feba08852d0eef, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -135,7 +135,7 @@ Public Module App
     ''' Gets the number of ticks that represent the date and time of this instance.
     ''' 
     ''' The number of ticks that represent the date and time of this instance. The value
-    ''' is between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks.
+    ''' is between <see cref="DateTime.MinValue"/> and <see cref="DateTime.MaxValue"/>.
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property NanoTime As Long

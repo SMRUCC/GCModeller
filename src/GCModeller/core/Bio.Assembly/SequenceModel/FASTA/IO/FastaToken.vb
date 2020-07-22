@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::615084cc0771327b67f050892f65a5cf, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::e2a896de3769d582172aab5fef928172, Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class FastaSeq
     ' 
-    '         Properties: HaveGaps, Headers, Length, SequenceData, Title
+    '         Properties: HaveGaps, Headers, Length, locus_tag, SequenceData
+    '                     Title
     ' 
     '         Constructor: (+7 Overloads) Sub New
     ' 

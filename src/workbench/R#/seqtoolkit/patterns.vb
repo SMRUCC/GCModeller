@@ -1,49 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::b6f369ab1b63c511a2a59f9248184083, R#\seqtoolkit\patterns.vb"
+﻿#Region "Microsoft.VisualBasic::6aeb0289de09c761e95dd80161b5431e, seqtoolkit\patterns.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module patterns
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
-'               PalindromeToString, readMotifs
-' 
-' /********************************************************************************/
+    ' Module patterns
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
+    '               PalindromeToString, readMotifs, ScaffoldOrthogonality, viewSites
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
-
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -52,9 +54,11 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
+Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -80,6 +84,48 @@ Module patterns
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sites"></param>
+    ''' <param name="seq"></param>
+    ''' <param name="deli"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("view.sites")>
+    <RApiReturn(GetType(String))>
+    Public Function viewSites(<RRawVectorArgument> sites As Object, seq As Object, Optional deli$ = ", ", Optional env As Environment = Nothing) As Object
+        Dim siteData As pipeline = pipeline.TryCreatePipeline(Of Site)(sites, env)
+
+        If siteData.isError Then
+            Return siteData.getError
+        End If
+
+        Dim fa As FastaSeq
+
+        If TypeOf seq Is String Then
+            fa = New FastaSeq With {
+                .Headers = {"seq"},
+                .SequenceData = DirectCast(seq, String)
+            }
+        Else
+            fa = GetFastaSeq(seq, env).FirstOrDefault
+        End If
+
+        With New StringBuilder
+            Call siteData _
+                .populates(Of Site)(env) _
+                .DisplayOn(fa.SequenceData, New StringWriter(.ByRef), deli)
+
+            Return .ToString
+        End With
+    End Function
+
+    ''' <summary>
+    ''' read sequence motif json file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.motifs")>
     Public Function readMotifs(file As String) As SequenceMotif()
         Return file.LoadJSON(Of SequenceMotif())
@@ -108,7 +154,7 @@ Module patterns
         ElseIf TypeOf target Is FastaSeq Then
             Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities)
         Else
-            Dim seqs = GetFastaSeq(target)
+            Dim seqs = GetFastaSeq(target, env)
 
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
@@ -166,7 +212,8 @@ Module patterns
                               Optional minw% = 6,
                               Optional maxw% = 20,
                               Optional nmotifs% = 25,
-                              Optional noccurs% = 6) As SequenceMotif()
+                              Optional noccurs% = 6,
+                              Optional env As Environment = Nothing) As SequenceMotif()
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
@@ -175,7 +222,7 @@ Module patterns
             .ScanMinW = 6,
             .ScanCutoff = 0.8
         }
-        Dim motifs As SequenceMotif() = GetFastaSeq(fasta) _
+        Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
             .PopulateMotifs(
                 leastN:=noccurs,
                 param:=param
@@ -201,7 +248,7 @@ Module patterns
             Return REnv.Internal.debug.stop("MSA is nothing!", env)
         End If
 
-        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA)
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA, env)
 
         If data Is Nothing Then
             Dim type As Type = MSA.GetType
@@ -237,7 +284,7 @@ Module patterns
                                           Optional rev_compl As Boolean = False,
                                           Optional env As Environment = Nothing) As Object
 
-        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds)
+        Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds, env)
 
         If data Is Nothing Then
             Return Internal.debug.stop({
@@ -264,4 +311,3 @@ Module patterns
         Return outputs.ToArray
     End Function
 End Module
-

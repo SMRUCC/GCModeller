@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::246c604e800e00381211a1dbcbb854a0, Data_science\Visualization\Plots\g\Axis\AxisScalling.vb"
+﻿#Region "Microsoft.VisualBasic::134cd52205dd3812882d5597c82cd142, Data_science\Visualization\Plots\g\Axis\AxisScalling.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,11 @@ Namespace Graphic.Axis
         <Extension>
         Public Function CreateAxisTicks(range As DoubleRange, Optional ticks% = 10, Optional decimalDigits% = 2) As Double()
             With range
-                Return AxisScalling.CreateAxisTicks(.Min, .Max, ticks, decimalDigits)
+                If .Min.IsNaNImaginary AndAlso .Max.IsNaNImaginary Then
+                    Return {0, 1}
+                Else
+                    Return AxisScalling.CreateAxisTicks(.Min, .Max, ticks, decimalDigits)
+                End If
             End With
         End Function
 

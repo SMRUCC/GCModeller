@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::673ed338456f8fb8be228182af51955d, CLI_tools\metaProfiler\CLI\HMP\HMP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Download16sSeq, ExportFileList, ExportsOTUTable
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Download16sSeq, ExportFileList, ExportsOTUTable
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -48,9 +48,10 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Data.Repository.NIH.HMP
-Imports SMRUCC.genomics.foundation
 Imports SMRUCC.genomics.foundation.BIOM.v10
+Imports BIOM = SMRUCC.genomics.foundation.BIOM
 
 Partial Module CLI
 
@@ -105,21 +106,12 @@ Partial Module CLI
     Public Function ExportsOTUTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimDIR}.otu_table.csv"
-        Dim matrix As New Dictionary(Of String, DataSet)
-
-        For Each biomHdf5 As String In ls - l - r - "*.biom" <= [in]
-            Dim json As BIOMDataSet(Of Double) = BIOM.ReadAuto(biomHdf5, denseMatrix:=True)
-
-            For Each otu In json.PopulateRows
-                If Not matrix.ContainsKey(otu.Name) Then
-                    matrix.Add(otu.Name, New DataSet With {.ID = otu.Name})
-                End If
-
-                matrix(otu.Name).Append(otu, AddressOf Math.Max)
-            Next
-        Next
-
-        Return matrix.Values _
+        Dim matrix As DataSet() = Iterator Function() As IEnumerable(Of BIOMDataSet(Of Double))
+                                      For Each biomHdf5 As String In ls - l - r - "*.biom" <= [in]
+                                          Yield BIOM.ReadAuto(biomHdf5, denseMatrix:=True)
+                                      Next
+                                  End Function().Union().ToArray
+        Return matrix _
             .SaveTo(out, metaBlank:=0) _
             .CLICode
     End Function

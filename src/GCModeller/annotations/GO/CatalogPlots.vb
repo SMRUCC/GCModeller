@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::6a75dc6b3e827a9c1b46e27b0d3810a8, annotations\GO\CatalogPlots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CatalogPlots
-    ' 
-    '     Function: CreateEnrichmentProfiles, (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
-    ' 
-    ' /********************************************************************************/
+' Module CatalogPlots
+' 
+'     Function: CreateEnrichmentProfiles, (+2 Overloads) EnrichmentPlot, (+4 Overloads) Plot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -345,7 +346,7 @@ Public Module CatalogPlots
                     Optional top% = -1,
                     Optional pvalue# = 0.05) As Dictionary(Of String, NamedValue(Of Double)())
 
-        Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
+        Dim profile As New CatalogProfiles
         Dim testPvalue As Func(Of EnrichmentTerm, Boolean)
         Dim namespace$
 
@@ -363,24 +364,25 @@ Public Module CatalogPlots
             With GO_terms(term.Go_ID)
                 namespace$ = .namespace
 
-                If Not profile.ContainsKey([namespace]) Then
-                    Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
+                If Not profile.haveCategory([namespace]) Then
+                    Call profile.catalogs.Add([namespace], New CatalogProfile)
                 End If
 
-                Call profile([namespace]).Add(New NamedValue(Of Double)(.name, term.P))
+                Call profile([namespace]).Add(.name, term.P)
             End With
         Next
 
         If top > 0 Then
             ' 已经转换为P值了，直接降序排序
-            For Each GO_ns In profile.ToArray
+            For Each GO_ns In profile.catalogs.ToArray
                 Dim name$ = GO_ns.Key
                 Dim terms = GO_ns.Value _
+                    .AsEnumerable _
                     .OrderByDescending(Function(t) t.Value) _
                     .Take(top) _
-                    .AsList
+                    .ToArray
 
-                profile(name) = terms
+                profile.catalogs(name) = terms
             Next
         End If
 

@@ -512,8 +512,13 @@ Namespace API
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String)) As String
-            Return lapply(x, Function(obj) obj.Key, FUN)
+        Public Function lapply(Of T As INamedValue)(x As IEnumerable(Of T), FUN As Func(Of T, String), Optional autoGC As Boolean = False) As String
+            Return lapply(x, Function(obj) obj.Key, FUN, autoGC)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function lapply(Of T)(x As IEnumerable(Of IGrouping(Of String, T)), FUN As Func(Of IEnumerable(Of T), String), Optional autoGC As Boolean = False) As String
+            Return lapply(x, Function(group) group.Key, Function(group) FUN(group), autoGC)
         End Function
 
         ''' <summary>
@@ -530,12 +535,22 @@ Namespace API
         ''' %*%, the function name must be backquoted or quoted.
         ''' </param>
         ''' <returns></returns>
-        Public Function lapply(Of T)(x As IEnumerable(Of T), key As Func(Of T, String), FUN As Func(Of T, String)) As String
+        Public Function lapply(Of T)(x As IEnumerable(Of T), key As Func(Of T, String), FUN As Func(Of T, String), Optional autoGC As Boolean = False) As String
             Dim list$ = base.list
+
+            If autoGC Then
+                Call RDotNetGC.Exclude(list)
+            End If
 
             SyncLock R
                 With R
-                    Call x.DoEach(Sub(obj) .call = $"{list}[[""{key(obj)}""]] = {FUN(obj)}")
+                    Call x.DoEach(Sub(obj)
+                                      .call = $"{list}[[""{key(obj)}""]] = {FUN(obj)}"
+
+                                      If autoGC AndAlso RDotNetGC.numObjects > 10000 Then
+                                          Call RDotNetGC.Do()
+                                      End If
+                                  End Sub)
                 End With
             End SyncLock
 
@@ -920,6 +935,7 @@ Namespace API
                             R.call = $"{out} <- append({out}, {v});"
                         Next
 
+                        ' Return RSystem.ref(out)
                         Return out
                     End SyncLock
                 End If

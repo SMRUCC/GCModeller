@@ -39,7 +39,7 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <DefineConstants>FRAMEWORD_CORE=1,NET_48=True</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=TRUE</DefineConstants>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
@@ -55,7 +55,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=FALSE</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <WarningsAsErrors>
@@ -339,7 +339,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\smartnucl_integrative\biodeepDB\smartnucl_integrative\16s_contents\App\</OutputPath>
-    <DefineConstants>FRAMEWORD_CORE=1,NET_48=TRUE</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=FALSE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <Optimize>false</Optimize>
@@ -356,7 +356,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\app\</OutputPath>
-    <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=TRUE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <Optimize>false</Optimize>
@@ -458,10 +458,10 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\mysqli\Reflector\bin\x64\mysqli_X64_release\</OutputPath>
-    <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=TRUE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -1056,7 +1056,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Rsharp_app_release\</OutputPath>
-    <DefineConstants>FRAMEWORD_CORE=1,UNIX=1</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,UNIX=1,NET_48=TRUE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -1144,7 +1144,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\mzkit\</OutputPath>
-    <DefineConstants>FRAMEWORD_CORE=1,UNIX=0</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,UNIX=0,NET_48=TRUE</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -1408,7 +1408,6 @@
     <Compile Include="ComponentModel\DataStructures\Trigger.vb" />
     <Compile Include="ComponentModel\DataStructures\BitMap\HashHandle.vb" />
     <Compile Include="ComponentModel\DataStructures\Set\SetAPI.vb" />
-    <Compile Include="ComponentModel\File\BufferedStream.vb" />
     <Compile Include="ComponentModel\Ranges\Relations.vb" />
     <Compile Include="ComponentModel\ValuePair\NamedTuple.vb" />
     <Compile Include="Extensions\IO\Path\CopyDirectory.vb" />

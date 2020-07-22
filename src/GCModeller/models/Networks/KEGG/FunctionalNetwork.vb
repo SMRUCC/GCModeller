@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd4ded3d2bf627c637b11879e7790b63, Networks\KEGG\FunctionalNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::47333ab144584d601284f27a997fcc27, KEGG\FunctionalNetwork.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module FunctionalNetwork
     ' 
-    '     Function: KOGroupTable, VisualizeKEGG
+    '     Function: applyLayout, KOGroupTable, VisualizeKEGG
     ' 
     ' /********************************************************************************/
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -80,6 +81,26 @@ Public Module FunctionalNetwork
     End Function
 
     ''' <summary>
+    ''' 直接使用所提供的布局信息
+    ''' </summary>
+    ''' <param name="graph"></param>
+    ''' <param name="layouts"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function applyLayout(graph As NetworkGraph, layouts As ILayoutCoordinate()) As NetworkGraph
+        Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
+
+        For Each node In graph.vertex
+            With layoutTable(node.label)
+                Dim point As New FDGVector2(.X * 1000, .Y * 1000)
+                node.data.initialPostion = point
+            End With
+        Next
+
+        Return graph
+    End Function
+
+    ''' <summary>
     ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
     ''' </summary>
     ''' <param name="model"></param>
@@ -101,8 +122,15 @@ Public Module FunctionalNetwork
             .CreateGraph(
                 nodeColor:=Function(n)
                                Return (n!color).GetBrush
-                           End Function) _
-            .ScaleRadius(range:=radius)
+                           End Function)
+
+        Call graph.ApplyAnalysis
+
+        For Each node In graph.vertex
+            node.data.size = {Val(node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE))}
+        Next
+
+        Call graph.ScaleRadius(range:=radius)
 
         If layouts.IsNullOrEmpty Then
             Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
@@ -113,14 +141,7 @@ Public Module FunctionalNetwork
             Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
         Else
             ' 直接使用所提供的布局信息
-            Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
-
-            For Each node In graph.vertex
-                With layoutTable(node.label)
-                    Dim point As New FDGVector2(.X * 1000, .Y * 1000)
-                    node.data.initialPostion = point
-                End With
-            Next
+            Call graph.applyLayout(layouts)
         End If
 
         Dim graphNodes As Dictionary(Of Graph.Node) = graph.vertex.ToDictionary
@@ -187,7 +208,9 @@ Public Module FunctionalNetwork
                        edgeDashTypes:=dash,
                        minLinkWidth:=5,
                        nodeRadius:=DirectMapRadius(),
-                       fontSize:=DirectMapRadius(0.5)
+                       fontSize:=DirectMapRadius(0.5),
+                       labelerIterations:=0,
+                       labelTextStroke:=Nothing
             ) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)

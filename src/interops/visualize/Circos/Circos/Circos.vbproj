@@ -23,8 +23,9 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,8 +35,9 @@
     <Optimize>true</Optimize>
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -55,10 +57,11 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -66,10 +69,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
@@ -77,10 +81,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
@@ -88,10 +93,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -100,10 +106,11 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
@@ -111,10 +118,11 @@
     <OutputPath>bin\x86\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
@@ -122,10 +130,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
@@ -133,10 +142,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
@@ -144,10 +154,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
@@ -155,15 +166,17 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU' ">
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64' ">
     <OutputPath>./bin</OutputPath>
@@ -172,20 +185,24 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineTrace>true</DefineTrace>
+    <PlatformTarget>x64</PlatformTarget>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86' ">
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
@@ -193,10 +210,11 @@
     <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>false</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
@@ -206,10 +224,11 @@
     <OutputPath>./bin</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Visualize.Circos.Core.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>41999,42016</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
