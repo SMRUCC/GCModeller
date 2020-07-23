@@ -80,6 +80,11 @@ Module genomics
         End Select
     End Function
 
+    <ExportAPI("as.PTT")>
+    Public Function asPTT(gb As GBFF.File) As PTT
+        Return gb.GbffToPTT
+    End Function
+
     <ExportAPI("upstream")>
     Public Function getUpstream(<RRawVectorArgument>
                                 context As GeneBrief(),

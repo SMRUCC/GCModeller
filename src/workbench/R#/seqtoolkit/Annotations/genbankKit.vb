@@ -91,6 +91,37 @@ Module genbankKit
         End If
     End Function
 
+    <ExportAPI("is.plasmid")>
+    <RApiReturn(GetType(Boolean))>
+    Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
+        If gb Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf gb Is list Then
+            Return DirectCast(gb, list) _
+                .AsGeneric(Of GBFF.File)(env) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.isPlasmid)
+                              End Function) _
+                .DoCall(Function(data)
+                            Return New list With {
+                                .slots = data
+                            }
+                        End Function)
+        Else
+            Dim source As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(gb, env)
+
+            If source.isError Then
+                Return source.getError
+            End If
+
+            Return source _
+                .populates(Of GBFF.File)(env) _
+                .Select(Function(a) a.isPlasmid) _
+                .DoCall(AddressOf vector.asVector)
+        End If
+    End Function
+
     ''' <summary>
     ''' populate a list of genbank data objects from a given list of files or stream.
     ''' </summary>
