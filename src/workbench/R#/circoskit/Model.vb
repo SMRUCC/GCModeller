@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
-<Package("circos.model", Category:=APICategories.UtilityTools)>
+<Package("model", Category:=APICategories.UtilityTools)>
 Module Model
 
     ''' <summary>

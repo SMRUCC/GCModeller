@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 ''' <summary>
 ''' R# api for circos perl program to draw a circle diagram of a bacteria genome.
 ''' </summary>
-<Package("circos.document", Description:="Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
+<Package("circos", Description:="R# language interaction with circos perl program to draw a circle diagram of a bacteria genome.
 <br />
 ```
                                     ____ _
