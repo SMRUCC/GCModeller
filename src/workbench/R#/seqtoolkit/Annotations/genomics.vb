@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::a0bb1acbee58e5bc95c28645092ebfe7, seqtoolkit\Annotations\genomics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module genomics
-    ' 
-    '     Function: asTable, genes, getUpstream, readGtf, writePPTTabular
-    ' 
-    ' /********************************************************************************/
+' Module genomics
+' 
+'     Function: asTable, genes, getUpstream, readGtf, writePPTTabular
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -80,6 +81,11 @@ Module genomics
         End Select
     End Function
 
+    <ExportAPI("as.PTT")>
+    Public Function asPTT(gb As GBFF.File) As PTT
+        Return gb.GbffToPTT
+    End Function
+
     <ExportAPI("upstream")>
     Public Function getUpstream(<RRawVectorArgument>
                                 context As GeneBrief(),
@@ -87,29 +93,34 @@ Module genomics
                                 Optional isRelativeOffset As Boolean = False) As NucleotideLocation()
         Return context _
             .Select(Function(gene)
-                        Dim loci As NucleotideLocation = gene.Location
-
-                        If isRelativeOffset Then
-                            If loci.Strand = Strands.Forward Then
-                                loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
-                                    .tag = loci.ToString & $"|offset=-{length}"
-                                }
-                            Else
-                                loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
-                                    .tag = loci.ToString & $"|offset=+{length}"
-                                }
-                            End If
-                        Else
-                            If loci.Strand = Strands.Forward Then
-                                loci = loci - length
-                            Else
-                                loci = loci + length
-                            End If
-                        End If
-
-                        Return loci
+                        Return gene.getUpStream(length, isRelativeOffset)
                     End Function) _
             .ToArray
+    End Function
+
+    <Extension>
+    Private Function getUpStream(gene As GeneBrief, length As Integer, isRelativeOffset As Boolean) As NucleotideLocation
+        Dim loci As NucleotideLocation = gene.Location
+
+        If isRelativeOffset Then
+            If loci.Strand = Strands.Forward Then
+                loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
+                    .tag = loci.ToString & $"|offset=-{length}"
+                }
+            Else
+                loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
+                    .tag = loci.ToString & $"|offset=+{length}"
+                }
+            End If
+        Else
+            If loci.Strand = Strands.Forward Then
+                loci = loci - length
+            Else
+                loci = loci + length
+            End If
+        End If
+
+        Return loci
     End Function
 
     <ExportAPI("genome.genes")>
