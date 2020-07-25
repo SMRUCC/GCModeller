@@ -228,7 +228,23 @@ Module Document
     ''' </remarks>
     <ExportAPI("ideogram")>
     <Extension>
-    Public Function GetIdeogram(doc As Circos) As Ideogram
+    Public Function GetIdeogram(doc As Circos,
+                                Optional thickness$ = "30p",
+                                Optional stroke_thickness% = 0,
+                                Optional stroke_color$ = "black",
+                                Optional fill$ = "yes",
+                                Optional fill_color$ = "black",
+                                Optional radius$ = "0.85r",
+                                Optional show_label$ = "no",
+                                Optional label_font$ = "default",
+                                Optional label_radius$ = "dims(ideogram,radius) + 0.05r",
+                                Optional label_size% = 36,
+                                Optional label_parallel$ = "yes",
+                                Optional label_case$ = "upper",
+                                Optional band_stroke_thickness% = 0,
+                                Optional show_bands$ = "yes",
+                                Optional fill_bands$ = "yes") As Ideogram
+
         Dim LQuery As IEnumerable(Of Ideogram) =
  _
             From node As CircosConfig
@@ -238,11 +254,29 @@ Module Document
 
         Dim idNode As Ideogram = LQuery.FirstOrDefault
 
-        If Not idNode Is Nothing Then
-            Return idNode
-        Else
-            Return New Ideogram(doc)
+        If idNode Is Nothing Then
+            idNode = New Ideogram(doc)
         End If
+
+        With idNode.Ideogram
+            .thickness = thickness
+            .stroke_thickness = stroke_thickness
+            .stroke_color = stroke_color
+            .fill = fill
+            .fill_color = fill_color
+            .radius = radius
+            .show_label = show_label
+            .label_font = label_font
+            .label_radius = label_radius
+            .label_size = label_size
+            .label_parallel = label_parallel
+            .label_case = label_case
+            .band_stroke_thickness = band_stroke_thickness
+            .show_bands = show_bands
+            .fill_bands = fill_bands
+        End With
+
+        Return idNode
     End Function
 
     <ExportAPI("save")>
