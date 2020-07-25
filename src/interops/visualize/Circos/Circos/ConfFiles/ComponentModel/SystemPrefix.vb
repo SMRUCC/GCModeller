@@ -61,7 +61,7 @@ Namespace Configurations.ComponentModel
         ''' <param name="path"></param>
         ''' <remarks></remarks>
         Protected Sub New(path As String)
-            Call MyBase.New(path, Circos:=Nothing)
+            Call MyBase.New(path, circos:=Nothing)
         End Sub
 
         Protected Sub New(path As String, name As String)

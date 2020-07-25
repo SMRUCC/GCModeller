@@ -270,7 +270,7 @@ Module genbankKit
     ''' the modified genbank assembly object.
     ''' </returns>
     <ExportAPI("origin.fasta")>
-    <RApiReturn(GetType(GBFF.File))>
+    <RApiReturn(GetType(GBFF.File), GetType(FastaSeq))>
     Public Function getOrAddNtOrigin(gb As GBFF.File, Optional nt As FastaSeq = Nothing, Optional mol_type$ = "genomic DNA") As Object
         If nt Is Nothing Then
             Return gb.Origin.ToFasta
