@@ -280,8 +280,8 @@ Module Document
     End Function
 
     <ExportAPI("save")>
-    Public Function Save(circos As Circos, directory As String) As Boolean
-        Return circos.Save(directory, Encodings.UTF8)
+    Public Function Save(circos As CircosConfig, directory As String) As Boolean
+        Return circos.main.Save(directory, Encodings.UTF8)
     End Function
 
 End Module
