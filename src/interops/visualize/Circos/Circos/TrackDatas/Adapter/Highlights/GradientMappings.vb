@@ -42,7 +42,6 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
@@ -51,7 +50,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Visualize.Circos.Colors
-Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
 
 Namespace TrackDatas.Highlights
 
@@ -177,12 +175,10 @@ Namespace TrackDatas.Highlights
         ''' 
         ''' </summary>
         ''' <param name="values"></param>
-        ''' <param name="karyotype"></param>
         ''' <param name="mapName">
         ''' <see cref="Designer.GetColors(String, Integer, Integer)"/>
         ''' </param>
-        Sub New(values As IEnumerable(Of ValueTrackData), karyotype As Karyotype.SkeletonInfo, mapName As String)
-            Dim labels As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels
+        Sub New(values As IEnumerable(Of ValueTrackData), mapName As String)
             Dim chrs = From x As ValueTrackData
                        In values
                        Select x
@@ -191,7 +187,6 @@ Namespace TrackDatas.Highlights
             Me.source = New List(Of ValueTrackData)
 
             For Each ch In chrs
-                Dim length As Integer = labels(ch.chr).end
                 Dim ranges As DoubleRange = ch.Group.Select(Function(x) x.value).ToArray
                 Dim colors As String() = Designer _
                     .GetColors(mapName, 500) _
