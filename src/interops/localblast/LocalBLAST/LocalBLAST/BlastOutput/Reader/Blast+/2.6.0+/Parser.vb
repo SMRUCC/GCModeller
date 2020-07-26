@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cd4332f0ceed3e8214f864e7e7063ca, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::bb831e6871353820f5a217c2e1dfcb0a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Parser
     ' 
-    '         Function: __fileSizeTooLarge, __parsingInner, __tryParseDatabase, IsBlastn, LoadBlastOutput
+    '         Function: __parsingInner, IsBlastn, isUltraLargeFileSize, LoadBlastOutput, ParseDbName
     '                   ParsingSizeAuto, TryParse, UltraLarge
     '         Enum ReaderTypes
     ' 
@@ -45,8 +45,8 @@
     ' 
     '     Properties: DefaultEncoding
     ' 
-    '     Function: [GetType], (+2 Overloads) __blockWorker, __getParser, __queryParser, __tryParseBlastnOutput
-    '               __tryParseUltraLarge, BuildGrepScript, doLoadDataInternal, IsBlastOut, TryParseBlastnOutput
+    '     Function: [GetType], (+2 Overloads) __blockWorker, __queryParser, __tryParseBlastnOutput, __tryParseUltraLarge
+    '               BuildGrepScript, doLoadDataInternal, IsBlastOut, measureParser, TryParseBlastnOutput
     '               TryParseUltraLarge
     ' 
     '     Sub: (+2 Overloads) Transform

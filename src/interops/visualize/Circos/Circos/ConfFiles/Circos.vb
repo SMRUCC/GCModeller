@@ -324,7 +324,7 @@ Namespace Configurations
         ''' </summary>
         ''' <param name="track"></param>
         ''' <remarks></remarks>
-        Public Sub AddTrack(track As ITrackPlot)
+        Public Sub AddTrack(track As ITrackPlot, Optional autoLayout As Boolean = True)
             Call Me.plotTracks.Add(track)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
@@ -334,7 +334,9 @@ Namespace Configurations
                 track.stroke_color = stroke_color
             End If
 
-            Call ForceAutoLayout(Me.Plots)
+            If autoLayout Then
+                Call ForceAutoLayout(Me.Plots)
+            End If
         End Sub
 
         ''' <summary>

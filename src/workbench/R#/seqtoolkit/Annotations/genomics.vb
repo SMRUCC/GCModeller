@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0bb1acbee58e5bc95c28645092ebfe7, seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::5576e617451aff23ebe6ce34488f6598, seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 
@@ -33,19 +33,23 @@
 
     ' Module genomics
     ' 
-    '     Function: asTable, genes, getUpstream, readGtf, writePPTTabular
+    '     Function: asPTT, asTable, genes, getUpstream, getUpStream
+    '               PTT2Dump, readGtf, writePPTTabular
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.Rsharp.Runtime
@@ -80,6 +84,16 @@ Module genomics
         End Select
     End Function
 
+    <ExportAPI("as.geneTable")>
+    Public Function PTT2Dump(PTT As PTT) As GeneTable()
+        Return GenBank.ExportPTTAsDump(PTT)
+    End Function
+
+    <ExportAPI("as.PTT")>
+    Public Function asPTT(gb As GBFF.File) As PTT
+        Return gb.GbffToPTT
+    End Function
+
     <ExportAPI("upstream")>
     Public Function getUpstream(<RRawVectorArgument>
                                 context As GeneBrief(),
@@ -87,29 +101,34 @@ Module genomics
                                 Optional isRelativeOffset As Boolean = False) As NucleotideLocation()
         Return context _
             .Select(Function(gene)
-                        Dim loci As NucleotideLocation = gene.Location
-
-                        If isRelativeOffset Then
-                            If loci.Strand = Strands.Forward Then
-                                loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
-                                    .tag = loci.ToString & $"|offset=-{length}"
-                                }
-                            Else
-                                loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
-                                    .tag = loci.ToString & $"|offset=+{length}"
-                                }
-                            End If
-                        Else
-                            If loci.Strand = Strands.Forward Then
-                                loci = loci - length
-                            Else
-                                loci = loci + length
-                            End If
-                        End If
-
-                        Return loci
+                        Return gene.getUpStream(length, isRelativeOffset)
                     End Function) _
             .ToArray
+    End Function
+
+    <Extension>
+    Private Function getUpStream(gene As GeneBrief, length As Integer, isRelativeOffset As Boolean) As NucleotideLocation
+        Dim loci As NucleotideLocation = gene.Location
+
+        If isRelativeOffset Then
+            If loci.Strand = Strands.Forward Then
+                loci = New NucleotideLocation(loci.left - length, loci.left, Strands.Forward) With {
+                    .tag = loci.ToString & $"|offset=-{length}"
+                }
+            Else
+                loci = New NucleotideLocation(loci.right, loci.right + length, Strands.Reverse) With {
+                    .tag = loci.ToString & $"|offset=+{length}"
+                }
+            End If
+        Else
+            If loci.Strand = Strands.Forward Then
+                loci = loci - length
+            Else
+                loci = loci + length
+            End If
+        End If
+
+        Return loci
     End Function
 
     <ExportAPI("genome.genes")>

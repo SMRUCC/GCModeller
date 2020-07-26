@@ -58,7 +58,7 @@ Public Module Extensions
                 type,
                 New Text With {
                     .Text = x.Title
-                }) Then
+                }).Success Then
 
                 Yield x
             End If
@@ -76,7 +76,7 @@ Public Module Extensions
         Dim def As New IObject(GetType(Text))
 
         Try
-            For Each query In arguments
+            For Each query As NamedValue(Of String) In arguments
                 Dim path$ = out & $"/{query.Name.NormalizePathString}.fasta"
                 Call expressions.Add(query.Value.Build,
                                      path.OpenWriter(Encodings.ASCII))
@@ -94,7 +94,7 @@ Public Module Extensions
                 }
 
                 For Each query In expressions
-                    If query.Key.Evaluate(def, title) Then
+                    If query.Key.Evaluate(def, title).Success Then
                         SyncLock query.Value
                             Call query.Value.WriteLine(fa.GenerateDocument(120))
                         End SyncLock

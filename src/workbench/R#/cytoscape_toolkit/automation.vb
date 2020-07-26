@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dba205ba2975d275dc1e85a8a183f5ab, cytoscape_toolkit\automation.vb"
+﻿#Region "Microsoft.VisualBasic::6b272d192e71958c9bb5bc481f3aad30, cytoscape_toolkit\automation.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -184,4 +183,3 @@ Module automation
         Call automation.getContainer(version, port, host).destroySession()
     End Sub
 End Module
-

@@ -259,12 +259,20 @@ Namespace Assembly.NCBI.GenBank
         Public Function GbffToPTT(genbank As GBFF.File, Optional ORF As Boolean = True) As TabularFormat.PTT
             Dim size = genbank.Origin.SequenceData.Length
             Dim def As String = genbank.Definition.Value
-            Dim genes = genbank.EnumerateGeneFeatures(ORF)
+            Dim genes As IEnumerable(Of Feature) = genbank.EnumerateGeneFeatures(ORF)
             Dim genomics As New TabularFormat.PTT With {
                 .GeneObjects = genes.FeatureGenes.ToArray,
                 .Size = size,
                 .Title = def
             }
+
+            If Not genbank.SourceFeature Is Nothing Then
+                Dim db_xref = genbank.SourceFeature.Query(FeatureQualifiers.db_xref)
+
+                If db_xref.IsPattern("taxon[:]\d+") Then
+                    genomics.Title = $"{def} (ncbi_taxid:{db_xref.Match("\d+")})"
+                End If
+            End If
 
             Return genomics
         End Function
@@ -325,7 +333,7 @@ Namespace Assembly.NCBI.GenBank
             End If
 
             Dim locusId$ = featureSite.Query(FeatureQualifiers.locus_tag)
-            Dim GB As New GeneBrief With {
+            Dim gene As New GeneBrief With {
                 .Synonym = locusId,
                 .PID = featureSite.Query(FeatureQualifiers.protein_id),
                 .Product = featureSite.Query(FeatureQualifiers.product),
@@ -333,15 +341,26 @@ Namespace Assembly.NCBI.GenBank
                 .Location = loci,
                 .Length = .Location.FragmentSize
             }
+            Dim note As String = featureSite.Query(FeatureQualifiers.note)
 
-            If String.IsNullOrEmpty(GB.Synonym) Then
-                GB.Synonym = featureSite.Query(FeatureQualifiers.gene)
+            If Not note.StringEmpty Then
+                If gene.Product.StringEmpty Then
+                    gene.Product = note
+                End If
+
+                gene.COG = note _
+                    .Split _
+                    .FirstOrDefault _
+                    .Match("COG\d+", RegexICSng)
             End If
-            If String.IsNullOrEmpty(GB.Synonym) Then
-                GB.Synonym = featureSite.Location.UniqueId
+            If String.IsNullOrEmpty(gene.Synonym) Then
+                gene.Synonym = featureSite.Query(FeatureQualifiers.gene)
+            End If
+            If String.IsNullOrEmpty(gene.Synonym) Then
+                gene.Synonym = featureSite.Location.UniqueId
             End If
 
-            Return GB
+            Return gene
         End Function
 
         <Extension> Public Function InvokeExport(gbk As GBFF.File, ByRef GeneList As GeneTable()) As KeyValuePair(Of gbEntryBrief, String)

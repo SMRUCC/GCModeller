@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff42d4a68ecea235faea4fa1b1398268, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::62d65cb77b8d7cd14621916bec3d0f4a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module BlastpOutputReader
     ' 
-    '         Function: __hspParser, __queryParser, QueryBlockIterates, QueryParser, RunParser
+    '         Function: HspParserInternal, internalQueryParser, QueryBlockIterates, QueryParser, RunParser
     '                   subjectParser
     ' 
     ' 

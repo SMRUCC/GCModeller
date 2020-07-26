@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54c5ec2b161227663e87409563f6e559, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::6194adb691f50591af0b08ab104b6ad8, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -136,7 +136,7 @@ Namespace Graphic.Legend
                     Dim a As New Point(pos.X + d, pos.Y + gSize.Height / 2)
                     Dim b As New Point(pos.X + gSize.Width - d, a.Y)
                     Dim pen As New Pen(color, lineWidth) With {
-                        .DashStyle = DashStyle.Dash
+                        .DashStyle = DashStyle.Dot
                     }
 
                     Call g.DrawLine(pen, a, b)

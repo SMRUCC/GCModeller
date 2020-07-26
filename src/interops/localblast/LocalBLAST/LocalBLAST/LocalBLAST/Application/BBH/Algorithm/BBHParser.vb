@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f15be08f11128c7d1a833d6e9d16d9bf, LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::a0e1c14bf305e2ad883bbe4e4b757450, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,9 @@
 
     '     Module BBHParser
     ' 
-    '         Function: __export, __topBesthit, BBHScore, BBHTop, bhTopTable
-    '                   EnzymeClassification, generateBBH, get_DiReBh, GetBBHTop, GetDirreBhAll
-    '                   (+2 Overloads) GetDirreBhAll2, hashSet, MapsNames, QueryNames, SBHScore
-    '                   StripTopBest, TopHit
+    '         Function: __topBesthit, BBHScore, BBHTop, bhTopTable, generateBBH
+    '                   get_DiReBh, GetBBHTop, GetDirreBhAll, (+2 Overloads) GetDirreBhAll2, hashSet
+    '                   MapsNames, QueryNames, SBHScore, StripTopBest, TopHit
     ' 
     ' 
     ' /********************************************************************************/

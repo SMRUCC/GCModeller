@@ -306,12 +306,14 @@ Public Module ToolsAPI
 
 
     ''' <summary>
-    ''' 批量计算比较基因组序列之间的同质性
+    ''' measuring the homogeneity property using a specific rule 
+    ''' sequence between the dnaA and gyrB gene in batch.
+    ''' 
+    ''' (批量计算比较基因组序列之间的同质性)
     ''' </summary>
     ''' <param name="PartitionData"></param>
     ''' <param name="RuleSource"></param>
     ''' <returns></returns>
-    <ExportAPI("Measure.Homogeneity", Info:="Batch measuring the homogeneity property using a specific rule sequence between the dnaA and gyrB gene.")>
     Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
                                        <Parameter("Dir.Rule.Source",
                                                   "The original GenBank dowunload data directory which should contains the *.ptt " &
@@ -330,8 +332,8 @@ Public Module ToolsAPI
                             ID = path.Key,
                             Name = path.Value.BaseName
                         Where Not Ptt Is Nothing
-                        Let dnaA = MatchGene(Ptt, "dnaA", {"chromosomal replication initiator protein DnaA", "chromosomal replication initiator"}),
-                            gyrB = MatchGene(Ptt, "gyrB", {"DNA gyrase B subunit", "DNA gyrase, B subunit"})
+                        Let dnaA = ObjectQuery.MatchGene(Ptt, "dnaA", {"chromosomal replication initiator protein DnaA", "chromosomal replication initiator"}),
+                            gyrB = ObjectQuery.MatchGene(Ptt, "gyrB", {"DNA gyrase B subunit", "DNA gyrase, B subunit"})
                         Where Not (dnaA Is Nothing OrElse gyrB Is Nothing)
                         Select dnaA,
                             gyrB,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be2b5e83e5462defed2a28659f2cf7a, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
+﻿#Region "Microsoft.VisualBasic::b4d584c5828264395ff50d640d4eead1, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
     ' Author:
     ' 

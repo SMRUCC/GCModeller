@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7470855b62e58aa94d16525cc0b627f, LocalBLAST\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::c48552669f86cca1074e3815d314dfcb, localblast\LocalBLAST\NCBILocalBlast.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
     ' Module NCBILocalBlast
     ' 
     '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
-    '               (+2 Overloads) BlastX, ClassifyEnzyme, CreateGrepScript, CreateSession, (+2 Overloads) Export_BidirBesthit
-    '               ExportBesthit, ExportBesthits, ExportOverviewCsv, FastCheckIntegrityProvider, Grephits
-    '               GrepQuery, LoadBesthitCsv, LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput
-    '               LoadOverview, LoadUltraLargeSizeBlastOutput, MyvaCogClassify, ParseScore, ReadMyvaCOG
-    '               SaveBBH, Version, WriteBesthit
+    '               (+2 Overloads) BlastX, CreateSession, (+2 Overloads) Export_BidirBesthit, ExportBesthit, ExportBesthits
+    '               ExportOverviewCsv, FastCheckIntegrityProvider, Grephits, GrepQuery, LoadBesthitCsv
+    '               LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview, LoadUltraLargeSizeBlastOutput
+    '               MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH, Version
+    '               WriteBesthit
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f761511dcdf7cfb049e9032783a399f5, circoskit\Document.vb"
+﻿#Region "Microsoft.VisualBasic::11f5a94bba29c8ff0f7793abb35e9650, circoskit\Document.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     ' Module Document
     ' 
-    '     Function: AddTrack, CreateDataModel, GetIdeogram
+    '     Function: AddTrack, ConfigCircosBackbone, CreateDataModel, GetCircosScript, GetIdeogram
+    '               Save
     ' 
     ' /********************************************************************************/
 
@@ -42,6 +43,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
@@ -49,7 +53,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 ''' <summary>
 ''' R# api for circos perl program to draw a circle diagram of a bacteria genome.
 ''' </summary>
-<Package("circos.document", Description:="Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
+<Package("circos", Description:="R# language interaction with circos perl program to draw a circle diagram of a bacteria genome.
 <br />
 ```
                                     ____ _
@@ -116,9 +120,91 @@ Module Document
     ''' <summary>
     ''' Creats a new <see cref="Circos"/> plots configuration document.
     ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="use_rules"></param>
+    ''' <param name="chromosomes_units"></param>
+    ''' <param name="chromosomes_display_default"></param>
+    ''' <param name="chromosomes"></param>
+    ''' <param name="chromosomes_reverse"></param>
+    ''' <param name="chromosomes_radius"></param>
+    ''' <param name="chromosomes_scale"></param>
+    ''' <param name="chromosomes_color"></param>
+    ''' <param name="chromosomes_order"></param>
+    ''' <param name="chromosomes_breaks"></param>
+    ''' <param name="show_scatter"></param>
+    ''' <param name="show_line"></param>
+    ''' <param name="show_histogram"></param>
+    ''' <param name="show_heatmap"></param>
+    ''' <param name="show_tile"></param>
+    ''' <param name="show_highlight"></param>
+    ''' <param name="show_links"></param>
+    ''' <param name="show_highlights"></param>
+    ''' <param name="show_text"></param>
+    ''' <param name="show_heatmaps"></param>
+    ''' <param name="track_width"></param>
+    ''' <param name="track_start"></param>
+    ''' <param name="track_step"></param>
+    ''' <returns></returns>
     <ExportAPI("circos")>
-    Public Function CreateDataModel() As Circos
-        Return Circos.CreateObject
+    Public Function CreateDataModel(Optional genome$ = "",
+                                    Optional use_rules$ = "yes",
+                                    Optional chromosomes_units% = 5000,
+                                    Optional chromosomes_display_default$ = "yes",
+                                    Optional chromosomes$ = "",
+                                    Optional chromosomes_reverse$ = "",
+                                    Optional chromosomes_radius$ = "",
+                                    Optional chromosomes_scale$ = "",
+                                    Optional chromosomes_color$ = "",
+                                    Optional chromosomes_order$ = "",
+                                    Optional chromosomes_breaks$ = "",
+                                    Optional show_scatter$ = "yes",
+                                    Optional show_line$ = "yes",
+                                    Optional show_histogram$ = "yes",
+                                    Optional show_heatmap$ = "yes",
+                                    Optional show_tile$ = "yes",
+                                    Optional show_highlight$ = "yes",
+                                    Optional show_links$ = "yes",
+                                    Optional show_highlights$ = "yes",
+                                    Optional show_text$ = "yes",
+                                    Optional show_heatmaps$ = "yes",
+                                    Optional track_width$ = "",
+                                    Optional track_start$ = "",
+                                    Optional track_step$ = "") As Circos
+
+        Dim circos As Circos = Circos.CreateObject
+
+        circos.genome = genome
+        circos.use_rules = use_rules
+        circos.chromosomes_units = chromosomes_units
+        circos.chromosomes_display_default = chromosomes_display_default
+        circos.chromosomes = chromosomes
+        circos.chromosomes_reverse = chromosomes_reverse
+        circos.chromosomes_radius = chromosomes_radius
+        circos.chromosomes_scale = chromosomes_scale
+        circos.chromosomes_color = chromosomes_color
+        circos.chromosomes_order = chromosomes_order
+        circos.chromosomes_breaks = chromosomes_breaks
+        circos.show_scatter = show_scatter
+        circos.show_line = show_line
+        circos.show_histogram = show_histogram
+        circos.show_heatmap = show_heatmap
+        circos.show_tile = show_tile
+        circos.show_highlight = show_highlight
+        circos.show_links = show_links
+        circos.show_highlights = show_highlights
+        circos.show_text = show_text
+        circos.show_heatmaps = show_heatmaps
+        circos.track_width = track_width
+        circos.track_start = track_start
+        circos.track_step = track_step
+
+        Return circos
+    End Function
+
+    <ExportAPI("backbone")>
+    Public Function ConfigCircosBackbone(circos As Circos, source As FastaSeq, Optional loophole As Integer = 512) As Circos
+        Call CircosAPI.SetBasicProperty(circos, nt:=source, loophole:=loophole)
+        Return circos
     End Function
 
     ''' <summary>
@@ -127,10 +213,15 @@ Module Document
     ''' <param name="circos"></param>
     ''' <param name="track"></param>
     ''' <returns></returns>
-    <ExportAPI("add.track")>
-    Public Function AddTrack(circos As Circos, track As ITrackPlot) As Circos
-        circos.AddTrack(track)
+    <ExportAPI("add")>
+    Public Function AddTrack(circos As Circos, track As ITrackPlot, Optional auto_layout As Boolean = True) As Circos
+        circos.AddTrack(track, autoLayout:=auto_layout)
         Return circos
+    End Function
+
+    <ExportAPI("main")>
+    Public Function getMain(circos As CircosConfig) As Circos
+        Return circos.main
     End Function
 
     ''' <summary>
@@ -141,21 +232,82 @@ Module Document
     ''' <remarks>
     ''' (还没有ideogram文档的时候，则会返回一个新的文档)
     ''' </remarks>
-    <ExportAPI("Get.Circos.Ideogram")>
+    <ExportAPI("ideogram")>
     <Extension>
-    Public Function GetIdeogram(doc As Circos) As Ideogram
-        Dim LQuery As IEnumerable(Of Ideogram) = From node As CircosConfig
-                                                 In doc.includes
-                                                 Where TypeOf node Is Ideogram
-                                                 Select DirectCast(node, Ideogram)
+    Public Function GetIdeogram(doc As Circos,
+                                Optional thickness$ = "30p",
+                                Optional stroke_thickness% = 0,
+                                Optional stroke_color$ = "black",
+                                Optional fill$ = "yes",
+                                Optional fill_color$ = "black",
+                                Optional radius$ = "0.85r",
+                                Optional show_label$ = "no",
+                                Optional label_font$ = "default",
+                                Optional label_radius$ = "dims(ideogram,radius) + 0.05r",
+                                Optional label_size% = 36,
+                                Optional label_parallel$ = "yes",
+                                Optional label_case$ = "upper",
+                                Optional band_stroke_thickness% = 0,
+                                Optional show_bands$ = "yes",
+                                Optional fill_bands$ = "yes") As Ideogram
+
+        Dim LQuery As IEnumerable(Of Ideogram) =
+ _
+            From node As CircosConfig
+            In doc.includes
+            Where TypeOf node Is Ideogram
+            Select DirectCast(node, Ideogram)
 
         Dim idNode As Ideogram = LQuery.FirstOrDefault
 
-        If Not idNode Is Nothing Then
-            Return idNode
-        Else
-            Return New Ideogram(doc)
+        If idNode Is Nothing Then
+            idNode = New Ideogram(doc)
         End If
+
+        With idNode.Ideogram
+            .thickness = thickness
+            .stroke_thickness = stroke_thickness
+            .stroke_color = stroke_color
+            .fill = fill
+            .fill_color = fill_color
+            .radius = radius
+            .show_label = show_label
+            .label_font = label_font
+            .label_radius = label_radius
+            .label_size = label_size
+            .label_parallel = label_parallel
+            .label_case = label_case
+            .band_stroke_thickness = band_stroke_thickness
+            .show_bands = show_bands
+            .fill_bands = fill_bands
+        End With
+
+        Return idNode
     End Function
 
+    ''' <summary>
+    ''' Save the circos plots configuration object as the default 
+    ''' configuration file: ``circos.conf``.
+    ''' 
+    ''' this function will always save the entire circos document into
+    ''' the given directory location.
+    ''' </summary>
+    ''' <param name="circos"></param>
+    ''' <param name="directory">
+    ''' a required directory location for save the entire circos documents.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("save")>
+    Public Function Save(circos As CircosConfig, directory As String) As String
+        Return CircosAPI.WriteData(circos.main, directory, debug:=False)
+    End Function
+
+    ''' <summary>
+    ''' Gets the circos Perl script file location automatically by search on the file system.
+    ''' </summary>
+    ''' <returns></returns>
+    <ExportAPI("circos.pl")>
+    Public Function GetCircosScript() As String
+        Return CircosAPI.GetCircosScript
+    End Function
 End Module

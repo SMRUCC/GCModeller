@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39c43b50c26d3c8956e9ca2015824fde, visualize\Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fb7a28f24370c5936a9c9f845316af69, visualize\Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,11 @@
     ' Module CircosAPI
     ' 
     '     Function: __includesRemoveCommon, AddGenbankData, (+3 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack
-    '               AddScoredMotifs, AddSites, CircosOption, CreateDataModel, CreateGCContent
-    '               CreateGCSkewPlots, CreateGenomeCircle, GenerateGeneCircle, GetCircosScript, GetIdeogram
-    '               (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram, RemoveStroke
-    '               RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius, SetIdeogramWidth
-    '               SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation, Shell
-    '               SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump, WriteData
+    '               AddScoredMotifs, AddSites, CreateGenomeCircle, GenerateGeneCircle, GetCircosScript
+    '               (+2 Overloads) IdentityColors, PlotsSeperatorLine, RemoveIdeogram, RemoveStroke, RemoveTicks
+    '               RNAVisualize, (+3 Overloads) SetBasicProperty, SetIdeogramRadius, SetIdeogramWidth, (+2 Overloads) SetRadius
+    '               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
+    '               WriteData
     ' 
     '     Sub: __STDOUT_Threads, setProperty, ShowTicksLabel
     ' 
@@ -318,7 +317,7 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Plots.add.Gradients")>
     Public Function AddGradientMappings(circos As Configurations.Circos, values As IEnumerable(Of ValueTrackData), Optional mapName As String = "Jet") As Configurations.Circos
-        Dim node As New GradientMappings(values, circos.skeletonKaryotype, mapName)
+        Dim node As New GradientMappings(values, mapName)
         Dim hTrack As New HighLight(node)
         Call circos.AddTrack(track:=hTrack)
         Return circos
@@ -473,67 +472,6 @@ SET_END:    Dim ends = i
         )
     End Function
 
-    ''' <summary>
-    ''' Adds the GC% content on the circos plots.
-    ''' </summary>
-    ''' <param name="nt">
-    ''' The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow
-    ''' </param>
-    ''' <param name="winSize%"></param>
-    ''' <param name="steps%"></param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.GC%", Info:="Adds the GC% content on the circos plots.")>
-    Public Function CreateGCContent(<Parameter("NT.Fasta",
-                                               "The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow")>
-                                    nt As FastaSeq, winSize%, steps%) As NtProps.GenomeGCContent
-        Return New NtProps.GenomeGCContent(nt, winSize, steps)
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="rOutside">The radius value of the outside for this circle element.</param>
-    ''' <param name="rInner">The radius value of the inner circle of this element.</param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.Element.Set.Position")>
-    Public Function SetPlotElementPosition(track As ITrackPlot,
-                                           <Parameter("r.Outside", "The radius value of the outside for this circle element.")>
-                                           rOutside As String,
-                                           <Parameter("r.Inner", "The radius value of the inner circle of this element.")>
-                                           rInner As String) As ITrackPlot
-        track.r1 = rOutside
-        track.r0 = rInner
-        Return track
-    End Function
-
-    ''' <summary>
-    ''' Invoke set the color of the circle element on the circos plots.
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="Color">The name of the color in the circos program.</param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.Element.Set.Fill_Color", Info:="Invoke set the color of the circle element on the circos plots.")>
-    Public Function SetTrackFillColor(track As ITrackPlot,
-                                      <Parameter("Color", "The name of the color in the circos program.")>
-                                      Color As String) As ITrackPlot
-        track.fill_color = Color
-        Return track
-    End Function
-
-    ''' <summary>
-    '''
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="orientation">ori = ""in"" or ""out""</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
-    Public Function SetTrackOrientation(track As ITrackPlot, orientation$) As ITrackPlot
-        track.orientation = DirectCast([Enum].Parse(GetType(orientations), Strings.LCase(orientation)), orientations)
-        Return track
-    End Function
-
     '''' <summary>
     '''' Door之中的操纵子以heatmap的形式绘制
     '''' </summary>
@@ -562,20 +500,6 @@ SET_END:    Dim ends = i
     Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneTable), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
-    End Function
-
-    ''' <summary>
-    ''' Creates the circos circle plots of the genome gcskew.
-    ''' </summary>
-    ''' <param name="SequenceModel"></param>
-    ''' <param name="SlideWindowSize"></param>
-    ''' <param name="steps"></param>
-    ''' <returns></returns>
-    <ExportAPI("Karyotype.doc.gcSkew", Info:="Creates the circos circle plots of the genome gcskew.")>
-    Public Function CreateGCSkewPlots(SequenceModel As IPolymerSequenceModel,
-                                      <Parameter("SlideWindow.Size")> SlideWindowSize As Integer,
-                                      steps As Integer) As NtProps.GCSkew
-        Return New NtProps.GCSkew(SequenceModel, SlideWindowSize, steps, True)
     End Function
 
     '<ExportAPI("Karyotype.As.Heatmap")>
@@ -697,48 +621,38 @@ SET_END:    Dim ends = i
     End Function
 
     ''' <summary>
-    ''' Creats a new <see cref="Configurations.Circos"/> plots configuration document.
-    ''' </summary>
-    ''' <returns><see cref="Configurations.Circos.CreateObject"/></returns>
-    <ExportAPI("Circos.Document.Create", Info:="Creats a new circos plots configuration document.")>
-    Public Function CreateDataModel() As Configurations.Circos
-        Return Configurations.Circos.CreateObject
-    End Function
-
-    ''' <summary>
     ''' Save the circos plots configuration object as the default configuration file: circos.conf
     ''' </summary>
     ''' <param name="circos"></param>
     ''' <param name="outDIR"></param>
     ''' <param name="debug"></param>
     ''' <returns></returns>
-    <ExportAPI("Write.Txt.Circos", Info:="Save the circos plots configuration object as the default configuration file: circos.conf")>
     <Extension>
     Public Function WriteData(circos As Configurations.Circos,
                               Optional outDIR$ = "",
                               Optional debug As DebugGroups = DebugGroups.NULL) As String
 
         Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
-        Dim conf$ = circos.FilePath.CLIPath.Replace("\", "/")
+        Dim conf$ = circos.filePath.CLIPath.Replace("\", "/")
 
         Call circos.Save(outDIR)
         Call $"perl {perlRun} -conf {conf}{debug.GetOptions}".SaveTo(outDIR & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
              $"perl {perlRun} -conf {conf}{debug.GetOptions}").SaveTo(outDIR & "/run.sh")
 
-        Return circos.FilePath
+        Return circos.filePath
     End Function
 
     ''' <summary>
     ''' Gets the circos Perl script file location automatically by search on the file system.
     ''' </summary>
     ''' <returns></returns>
-    <ExportAPI("Circos.pl", Info:="Gets the circos Perl script file location automatically by search on the file system.")>
+    <ExportAPI("Circos.pl")>
     Public Function GetCircosScript() As String
         Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
 
-        For Each DIR As String In libs
-            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos").ToArray
+        For Each directory As String In libs
+            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(directory, "circos").ToArray
 
             If Not circos.IsNullOrEmpty Then
                 Return circos.First
@@ -772,7 +686,12 @@ SET_END:    Dim ends = i
         End If
     End Sub
 
-    <ExportAPI("Ticks.Remove", Info:="Removes the ticks label from the circos docuemnt node.")>
+    ''' <summary>
+    ''' Removes the ticks label from the circos docuemnt node.
+    ''' </summary>
+    ''' <param name="doc"></param>
+    ''' <returns></returns>
+    <ExportAPI("Ticks.Remove")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
@@ -888,8 +807,4 @@ SET_END:    Dim ends = i
     ''' </summary>
     Public Const null As String = ""
 
-    <ExportAPI("PTT2Dump")>
-    Public Function PTT2Dump(PTT As PTT) As GeneTable()
-        Return GenBank.ExportPTTAsDump(PTT)
-    End Function
 End Module

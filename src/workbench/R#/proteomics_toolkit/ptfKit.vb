@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::366da7de8941afca92e47b1cdc578f34, proteomics_toolkit\ptfKit.vb"
+﻿#Region "Microsoft.VisualBasic::93bedf8123b55822c9ae23b43a7200a8, proteomics_toolkit\ptfKit.vb"
 
     ' Author:
     ' 
@@ -149,4 +149,3 @@ Module ptfKit
         Return True
     End Function
 End Module
-

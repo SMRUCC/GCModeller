@@ -1,4 +1,48 @@
-﻿Imports System.Reflection
+﻿#Region "Microsoft.VisualBasic::735adc8655caae2edc13f8334d863b4d, vs_solutions\dev\VisualStudio\IL\ILInstruction.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class ILInstruction
+    ' 
+    '         Properties: Code, Offset, Operand, OperandData
+    ' 
+    '         Function: buildInlineMethodCode, GetCode, GetExpandedOffset, GetOperandCode, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Reflection
 Imports System.Reflection.Emit
 
 Namespace IL
@@ -9,6 +53,10 @@ Namespace IL
         Public Property Operand As Object
         Public Property OperandData As Byte()
         Public Property Offset As Integer
+
+        Public Overrides Function ToString() As String
+            Return GetCode()
+        End Function
 
         ''' <summary>
         ''' Returns a friendly strign representation of this instruction
@@ -110,3 +158,4 @@ Namespace IL
         End Function
     End Class
 End Namespace
+
