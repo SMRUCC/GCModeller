@@ -219,6 +219,11 @@ Module Document
         Return circos
     End Function
 
+    <ExportAPI("main")>
+    Public Function getMain(circos As CircosConfig) As Circos
+        Return circos.main
+    End Function
+
     ''' <summary>
     ''' Gets the ideogram configuration node in the circos document object.
     ''' </summary>
