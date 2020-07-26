@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f44ddf09a4e4f2cc7bb1fa3d4fd34365, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::b8a2f9e0d55754521a05267a06d60d93, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Attributes.vb"
 
     ' Author:
     ' 
@@ -33,14 +33,14 @@
 
     '     Class Attribute
     ' 
-    '         Properties: cyType, Directed, elementType, Hidden, Name
+    '         Properties: cyType, Directed, elementType, Hidden, name
     '                     Type, TypeMapping, Value
     ' 
     '         Function: StringValue, ToString
     ' 
     '     Class AttributeDictionary
     ' 
-    '         Properties: Attributes
+    '         Properties: attributes
     ' 
     '         Function: AddAttribute, SetAttribute, ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5358c8da8d4ce5d7a321607ffa1c631, LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\HitFragment.vb"
+﻿#Region "Microsoft.VisualBasic::e5358c8da8d4ce5d7a321607ffa1c631, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\HitFragment.vb"
 
     ' Author:
     ' 

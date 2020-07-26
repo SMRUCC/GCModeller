@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39c43b50c26d3c8956e9ca2015824fde, visualize\Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fb7a28f24370c5936a9c9f845316af69, visualize\Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,11 @@
     ' Module CircosAPI
     ' 
     '     Function: __includesRemoveCommon, AddGenbankData, (+3 Overloads) AddGradientMappings, AddMotifSites, AddPlotTrack
-    '               AddScoredMotifs, AddSites, CircosOption, CreateDataModel, CreateGCContent
-    '               CreateGCSkewPlots, CreateGenomeCircle, GenerateGeneCircle, GetCircosScript, GetIdeogram
-    '               (+2 Overloads) IdentityColors, PlotsSeperatorLine, PTT2Dump, RemoveIdeogram, RemoveStroke
-    '               RemoveTicks, RNAVisualize, (+3 Overloads) SetBasicProperty, (+2 Overloads) SetIdeogramRadius, SetIdeogramWidth
-    '               SetPlotElementPosition, (+2 Overloads) SetRadius, SetTrackFillColor, SetTrackOrientation, Shell
-    '               SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump, WriteData
+    '               AddScoredMotifs, AddSites, CreateGenomeCircle, GenerateGeneCircle, GetCircosScript
+    '               (+2 Overloads) IdentityColors, PlotsSeperatorLine, RemoveIdeogram, RemoveStroke, RemoveTicks
+    '               RNAVisualize, (+3 Overloads) SetBasicProperty, SetIdeogramRadius, SetIdeogramWidth, (+2 Overloads) SetRadius
+    '               Shell, SitesFrequency, SkeletonFromDoor, VariantsHighlights, VariationAsDump
+    '               WriteData
     ' 
     '     Sub: __STDOUT_Threads, setProperty, ShowTicksLabel
     ' 

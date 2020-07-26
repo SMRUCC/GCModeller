@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e25b84ee19ccb14b01b884bb873ca259, visualize\Circos\Circos\TrackDatas\TrackDatas\Idata.vb"
+﻿#Region "Microsoft.VisualBasic::0adfe4fb30d9ad70041b731c4eceaec3, visualize\Circos\Circos\TrackDatas\TrackDatas\Idata.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Interface Idata
     ' 
-    '         Properties: FileName
+    '         Properties: fileName
     ' 
     '         Function: GetDocumentText, GetEnumerator
     ' 

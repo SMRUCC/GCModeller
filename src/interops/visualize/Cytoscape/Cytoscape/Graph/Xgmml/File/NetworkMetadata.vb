@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::b476b27534f941a4a1682a53cddc8e2e, visualize\Cytoscape\Cytoscape\Graph\Xgmml\NetworkMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::c21b3a689c061eb9d4374eae1f7b53eb, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\NetworkMetadata.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class InnerRDF
-' 
-'         Properties: meta
-' 
-'         Function: ToString
-' 
-'     Class NetworkMetadata
-' 
-'         Properties: [Date], Description, Format, Identifer, InteractionType
-'                     Source, Title
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class InnerRDF
+    ' 
+    '         Properties: meta
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class NetworkMetadata
+    ' 
+    '         Properties: [date], description, format, identifer, source
+    '                     title, type
+    ' 
+    '         Function: createAttribute, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

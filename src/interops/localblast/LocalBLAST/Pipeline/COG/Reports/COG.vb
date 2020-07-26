@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, LocalBLAST\Pipeline\COG\Reports\COG.vb"
+﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
 
     ' Author:
     ' 

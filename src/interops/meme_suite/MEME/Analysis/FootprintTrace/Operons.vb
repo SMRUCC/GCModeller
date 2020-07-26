@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ec22cfd0c1de19813057c8989afade3, meme_suite\MEME\Analysis\FootprintTrace\Operons.vb"
+﻿#Region "Microsoft.VisualBasic::717af485971df8def5e191ebbb866a58, meme_suite\MEME\Analysis\FootprintTrace\Operons.vb"
 
     ' Author:
     ' 

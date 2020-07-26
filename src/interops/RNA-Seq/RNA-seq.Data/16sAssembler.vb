@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1549799118abab297842c5bfd179bffa, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::fb7a8ea25cfeaa040d9d9d27fd468974, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 

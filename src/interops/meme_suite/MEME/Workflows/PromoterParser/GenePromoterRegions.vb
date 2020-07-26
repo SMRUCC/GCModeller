@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::837e95fe0307e6c14dff1cd90325e8fa, meme_suite\MEME\Workflows\PromoterParser\GenePromoterRegions.vb"
+﻿#Region "Microsoft.VisualBasic::b9822d4279c7ff5f54ce73b8147df0d4, meme_suite\MEME\Workflows\PromoterParser\GenePromoterRegions.vb"
 
     ' Author:
     ' 
