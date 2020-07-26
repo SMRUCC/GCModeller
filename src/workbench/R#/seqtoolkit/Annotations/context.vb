@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f915a83ca960468101d91d159bf19f4, seqtoolkit\Annotations\context.vb"
+﻿#Region "Microsoft.VisualBasic::41b9381f334bd35e1312d4ee9f520fce, seqtoolkit\Annotations\context.vb"
 
     ' Author:
     ' 
@@ -211,4 +211,3 @@ Module context
     End Function
 
 End Module
-

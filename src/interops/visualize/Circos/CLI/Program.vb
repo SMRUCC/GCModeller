@@ -1,4 +1,45 @@
-﻿'#Region "Microsoft.VisualBasic::1bd8cd6929ce984053f0419664f37757, visualize\Circos\CLI\Program.vb"
+﻿#Region "Microsoft.VisualBasic::0b949dce0efa2bc8c0cc63b572f7690e, visualize\Circos\CLI\Program.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module Program
+    ' 
+    '     Function: Main
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+'#Region "Microsoft.VisualBasic::1bd8cd6929ce984053f0419664f37757, visualize\Circos\CLI\Program.vb"
 
 '' Author:
 '' 
@@ -480,3 +521,4 @@ Module Program
     '    'End Function
 
 End Module
+

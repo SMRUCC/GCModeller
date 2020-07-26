@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d8fe5c05749bbf2b36e1d254755be01, metagenomics_kit\BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::a6b1f9230556b37eb4a0a11feb22014c, metagenomics_kit\BIOMkit.vb"
 
     ' Author:
     ' 
@@ -164,4 +164,3 @@ Public Module BIOMkit
         }
     End Function
 End Module
-
