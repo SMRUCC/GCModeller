@@ -83,22 +83,23 @@ Module TrackPlots
             .label_snuggle = label_snuggle
         }
 
-        Return labels
+        If labels.tracksData.GetEnumerator.Count = 0 Then
+            Return Internal.debug.stop("the text track data can not be empty!", env)
+        Else
+            Return labels
+        End If
     End Function
 
-    <ExportAPI("track.heatmapping")>
+    <ExportAPI("track.highlight")>
     <RApiReturn(GetType(HighLight))>
-    Public Function HeatMapping(<RRawVectorArgument> values As Object, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
-        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+    Public Function HeatMapping(highlights As Highlights, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
+        Dim hTrack As New HighLight(highlights)
 
-        If valuePoints.isError Then
-            Return valuePoints.getError
+        If hTrack.tracksData.GetEnumerator.Count = 0 Then
+            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+        Else
+            Return hTrack
         End If
-
-        Dim model As New GradientMappings(valuePoints.populates(Of ValueTrackData)(env), mapName:=colors)
-        Dim hTrack As New HighLight(model)
-
-        Return hTrack
     End Function
 
     <ExportAPI("track.histogram")>
@@ -109,6 +110,12 @@ Module TrackPlots
             Return valuePoints.getError
         End If
 
-        Return New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
+        Dim hist As New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
+
+        If hist.tracksData.GetEnumerator.Count = 0 Then
+            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+        Else
+            Return hist
+        End If
     End Function
 End Module
