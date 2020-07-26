@@ -651,8 +651,8 @@ SET_END:    Dim ends = i
     Public Function GetCircosScript() As String
         Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
 
-        For Each DIR As String In libs
-            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos").ToArray
+        For Each directory As String In libs
+            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(directory, "circos").ToArray
 
             If Not circos.IsNullOrEmpty Then
                 Return circos.First
