@@ -35,7 +35,7 @@ XC_0033,,conserved hypothetical protein
 XC_0034,,conserved hypothetical protein
 XC_0035,,phospholipid N-methyltransferase
 XC_0036,,conserved hypothetical protein
-XC_0037,,pirin
+XC_0037,pirin,pirin
 XC_0040,,transcriptional regulator lysR family
 XC_0041,,conserved hypothetical protein
 XC_0042,,NonF-related protein
@@ -59,7 +59,7 @@ XC_0059,,conserved hypothetical protein
 XC_0060,,NAD(P)H oxidoreductase
 XC_0061,,conserved hypothetical protein
 XC_0062,,conserved hypothetical protein
-XC_0063,,regulatory protein cII
+XC_0063,cII,regulatory protein cII
 XC_0064,,conserved hypothetical protein
 XC_0065,,conserved hypothetical protein
 XC_0066,,conserved hypothetical protein
@@ -128,15 +128,15 @@ XC_0129,,conserved hypothetical protein
 XC_0130,,conserved hypothetical protein
 XC_0131,,conserved hypothetical protein
 XC_0132,,deoxycytidylate deaminase
-XC_0133,,IS1479 transposase
+XC_0133,IS1479,IS1479 transposase
 XC_0136,RhsD,RhsD protein
-XC_0137,,IS1478 transposase
+XC_0137,IS1478,IS1478 transposase
 XC_0139,,conserved hypothetical protein
 XC_0140,,conserved hypothetical protein
 XC_0141,,alpha-amylase
 XC_0142,,trehalose synthase
 XC_0143,,"1,4-alpha-glucan branching enzyme"
-XC_0144,,IS1480 transposase
+XC_0144,IS1480,IS1480 transposase
 XC_0146,,conserved hypothetical protein
 XC_0147,,conserved hypothetical protein
 XC_0148,,conserved hypothetical protein
@@ -262,11 +262,11 @@ XC_0267,,nitrile hydratase activator
 XC_0268,,conserved hypothetical protein
 XC_0269,,integral membrane protein
 XC_0270,,conserved hypothetical protein
-XC_0271,,ATPase
+XC_0271,ATPase,ATPase
 XC_0272,,conserved hypothetical protein
 XC_0273,,transcriptional regulator marR family
 XC_0274,,organic hydroperoxide resistance protein
-XC_0276,,lipase
+XC_0276,lipase,lipase
 XC_0277,,conserved hypothetical protein
 XC_0278,,conserved hypothetical protein
 XC_0279,,oxidoreductase
@@ -376,7 +376,7 @@ XC_0383,,4-Carboxymuconolactone decarboxylase
 XC_0384,,hydrolase
 XC_0385,,transcriptional regulator
 XC_0386,,conserved hypothetical protein
-XC_0387,,lipase
+XC_0387,lipase,lipase
 XC_0388,,conserved hypothetical protein
 XC_0389,,glucose inhibited division protein A
 XC_0390,,conserved hypothetical protein
@@ -399,7 +399,7 @@ XC_0406,,conserved hypothetical protein
 XC_0407,,superoxidase dismutase
 XC_0408,,conserved hypothetical protein
 XC_0409,,TonB-dependent receptor
-XC_0410,,IS1478 transposase
+XC_0410,IS1478,IS1478 transposase
 XC_0411,,isopenicillin N epimerase
 XC_0412,,similar to IS1404 transposase ORFA
 XC_0413,,similar to IS1404 transposase ORFB
@@ -476,7 +476,7 @@ XC_0486,,CAP-like protein
 XC_0487,,S-adenosyl methionine decarboxylase proenzyme
 XC_0488,SugE,SugE protein
 XC_0489,,ubiquinone biosynthesis protein
-XC_0490,,50S ribosomal protein L13
+XC_0490,L13,50S ribosomal protein L13
 XC_0491,,30S ribosomal protein S9
 XC_4334,,tRNA-Gln
 XC_4335,,tRNA-Met
@@ -578,7 +578,7 @@ XC_0586,,conserved hypothetical protein
 XC_0587,,"arabinogalactan endo-1,4-beta-galactosidase"
 XC_0588,,pyruvate dehydrogenase
 XC_0589,,RNA-directed DNA polymerase
-XC_0590,,IS1478 transposase
+XC_0590,IS1478,IS1478 transposase
 XC_0591,,conserved hypothetical protein
 XC_0592,,ThiJ/PfpI family protein
 XC_0593,,conserved hypothetical protein
@@ -651,8 +651,8 @@ XC_0661,,conserved hypothetical protein
 XC_0662,,diaminopimelate epimerase
 XC_0663,,conserved hypothetical protein
 XC_0664,,site-specific recombinase
-XC_0665,,ISxac3 transposase
-XC_0666,,ISxac3 transposase
+XC_0665,ISxac3,ISxac3 transposase
+XC_0666,ISxac3,ISxac3 transposase
 XC_0667,,ATP-dependent HslUV protease peptidase subunit HslV
 XC_0668,,ATP-dependent HslUV protease ATP-binding subunit HslU
 XC_0669,,conserved hypothetical protein
@@ -666,15 +666,15 @@ XC_0676,,aminopeptidase
 XC_0677,,conserved hypothetical protein
 XC_0678,,conserved hypothetical protein
 XC_0679,,methanol dehydrogenase heavy chain
-XC_0680,,ISxac3 transposase
-XC_0681,,ISxac3 transposase
+XC_0680,ISxac3,ISxac3 transposase
+XC_0681,ISxac3,ISxac3 transposase
 XC_0682,,methanol dehydrogenase heavy chain
 XC_0683,MoxJ,MoxJ protein
 XC_0684,,conserved hypothetical protein
 XC_0685,,surface antigen gene
 XC_0686,,alcohol dehydrogenase class III
 XC_0687,,TonB-dependent receptor
-XC_0688,,IS1480 transposase
+XC_0688,IS1480,IS1480 transposase
 XC_0689,,transcriptional regulator
 XC_0690,,sugar kinase
 XC_0691,,rod shape-determining protein
@@ -682,13 +682,13 @@ XC_0692,,rod shape-determining protein
 XC_0693,,rod shape-determining protein
 XC_0694,,penicillin-binding protein 2
 XC_0695,,rod shape-determining protein
-XC_0696,,NTPase
-XC_0697,,IS1404 transposase
-XC_0698,,IS1404 transposase
+XC_0696,NTPase,NTPase
+XC_0697,IS1404,IS1404 transposase
+XC_0698,IS1404,IS1404 transposase
 XC_0700,,hypothetical protein
 XC_0701,,conserved hypothetical protein
 XC_0703,,hypothetical protein
-XC_0702,,IS1478 transposase
+XC_0702,IS1478,IS1478 transposase
 XC_0704,,conserved hypothetical protein
 XC_0705,,endopolygalacturonase
 XC_0706,,membrane-bound lytic transglycosylase
@@ -840,7 +840,7 @@ XC_0854,,conserved hypothetical protein
 XC_0855,,conserved hypothetical protein
 XC_0856,,conserved hypothetical protein
 XC_0857,,conserved hypothetical protein
-XC_0858,,IS1477 transposase
+XC_0858,IS1477,IS1477 transposase
 XC_0859,,IS1477 transposase ORFA
 XC_0860,,conserved hypothetical protein
 XC_0861,,conserved hypothetical protein
@@ -850,7 +850,7 @@ XC_0865,,conserved hypothetical protein
 XC_0866,,conserved hypothetical protein
 XC_0867,,conserved hypothetical protein
 XC_0868,VirB6,VirB6 protein
-XC_0869,,IS1478 transposase
+XC_0869,IS1478,IS1478 transposase
 XC_0870,,conserved hypothetical protein
 XC_0871,,conserved hypothetical protein
 XC_0872,,6-phosphofructokinase
@@ -887,10 +887,10 @@ XC_0902,,conserved hypothetical protein
 XC_0903,,conserved hypothetical protein
 XC_0904,,conserved hypothetical protein
 XC_0905,,aminopeptidase P
-XC_0906,,IS1480 transposase
+XC_0906,IS1480,IS1480 transposase
 XC_0907,,beta-lactamase
 XC_0908,,endonuclease
-XC_0909,,IS1480 transposase
+XC_0909,IS1480,IS1480 transposase
 XC_0910,,molybdate-binding periplasmic protein
 XC_0911,,molybdate transport permease protein
 XC_0912,,ATP-binding component of molybdate transport
@@ -907,8 +907,8 @@ XC_0922,,reductase
 XC_0923,,transcriptional regulator
 XC_0924,,outer membrane receptor for ferric iron uptake
 XC_0925,,outer membrane receptor for ferric iron uptake
-XC_0926,,IS1404 transposase
-XC_0927,,IS1404 transposase
+XC_0926,IS1404,IS1404 transposase
+XC_0927,IS1404,IS1404 transposase
 XC_0928,,proline imino-peptidase
 XC_0929,,transketolase 1
 XC_0930,,proton glutamate symport protein
@@ -926,12 +926,12 @@ XC_0941,,fimbrial assembly membrane protein
 XC_0942,,penicillin-binding protein 1A
 XC_0943,,conserved hypothetical protein
 XC_0944,,citrate synthase
-XC_0945,,50S ribosomal protein L31
+XC_0945,L31,50S ribosomal protein L31
 XC_0946,,inosine-uridine preferring nucleoside hydrolase
 XC_0947,,ATP-dependent DNA helicase
 XC_0948,,translation initiation inhibitor
 XC_0949,,D-galactarate dehydratase
-XC_0950,,porin
+XC_0950,porin,porin
 XC_0951,,glucarate hydratase
 XC_0952,,glucarate transporter
 XC_0953,,ketoglutarate semialdehyde dehydrogenase
@@ -949,7 +949,7 @@ XC_0964,,conserved hypothetical protein
 XC_0965,,conserved hypothetical protein
 XC_0966,,proline dipeptidase
 XC_0967,,conserved hypothetical protein
-XC_0968,,IS1480 transposase
+XC_0968,IS1480,IS1480 transposase
 XC_0969,,outer membrane protein
 XC_0970,,outer membrane protein
 XC_0971,,conserved hypothetical protein
@@ -1004,16 +1004,16 @@ XC_1018,,phage-related integrase
 XC_1019,,conserved hypothetical protein
 XC_1020,,conserved hypothetical protein
 XC_1021,,conserved hypothetical protein
-XC_1022,,regulatory protein bphR
+XC_1022,bphR,regulatory protein bphR
 XC_1023,,conserved hypothetical protein
-XC_1025,,IS1404 transposase
-XC_1026,,IS1404 transposase
+XC_1025,IS1404,IS1404 transposase
+XC_1026,IS1404,IS1404 transposase
 XC_1027,VirB6,VirB6 protein
 XC_1028,,conserved hypothetical protein
 XC_1029,,conserved hypothetical protein
 XC_1030,,conserved hypothetical protein
-XC_1032,,ISxcc1 transposase
-XC_1034,,ISxcc1 transposase
+XC_1032,ISxcc1,ISxcc1 transposase
+XC_1034,ISxcc1,ISxcc1 transposase
 XC_1035,,conserved hypothetical protein
 XC_1036,,conserved hypothetical protein
 XC_1037,,conserved hypothetical protein
@@ -1032,12 +1032,12 @@ XC_1050,,two-component system sensor protein
 XC_1051,,conserved hypothetical protein
 XC_1052,,conserved hypothetical protein
 XC_1053,,conserved hypothetical protein
-XC_1054,,IS1478 transposase
+XC_1054,IS1478,IS1478 transposase
 XC_1055,,conserved hypothetical protein
 XC_1056,,type IV pre-pilin leader peptidase
 XC_1057,,fimbrial assembly protein
-XC_1058,,pilin
-XC_1059,,pilin
+XC_1058,pilin,pilin
+XC_1059,pilin,pilin
 XC_1060,,pilus biogenesis protein
 XC_1061,,two-component system regulatory protein
 XC_1062,,two-component system sensor protein
@@ -1189,8 +1189,8 @@ XC_1207,,type I restriction enzyme M protein
 XC_1208,,conserved hypothetical protein
 XC_1209,,conserved hypothetical protein
 XC_1210,,conserved hypothetical protein
-XC_1211,,ISxac3 transposase
-XC_1212,,ISxac3 transposase
+XC_1211,ISxac3,ISxac3 transposase
+XC_1212,ISxac3,ISxac3 transposase
 XC_1213,,virulence protein
 XC_1214,,beta-galactosidase
 XC_1215,,conserved hypothetical protein
@@ -1376,7 +1376,7 @@ XC_1395,,accessory protein
 XC_1396,,hydrolase
 XC_1397,,conserved hypothetical protein
 XC_1398,,carbon starvation protein A
-XC_1399,,pirin
+XC_1399,pirin,pirin
 XC_1400,,conserved hypothetical protein
 XC_1401,,conserved hypothetical protein
 XC_1402,,pirin-related protein
@@ -1384,14 +1384,14 @@ XC_1403,,endonuclease V
 XC_1404,,phosphoglycerate mutase
 XC_1405,,conserved hypothetical protein
 XC_1406,,metallopeptidase
-XC_1407,,IS1479 transposase
+XC_1407,IS1479,IS1479 transposase
 XC_1408,,cardiolipin synthase
 XC_1409,,protein-glutamate methylesterase
 XC_1410,,response regulator for chemotaxis
 XC_1411,,response regulator
 XC_1412,,chemotaxis protein
 XC_1413,,chemotaxis protein
-XC_1414,,chemotaxis histidine protein kinase
+XC_1414,kinase,chemotaxis histidine protein kinase
 XC_1415,,conserved hypothetical protein
 XC_1416,,transcription-repair coupling factor
 XC_1417,,conserved hypothetical protein
@@ -1442,7 +1442,7 @@ XC_1461,,conserved hypothetical protein
 XC_1462,,chloride channel
 XC_1463,,phosphodiesterase-nucleotide pyrophosphatase
 XC_1464,,6-O-methylguanine-DNA methyltransferase
-XC_1465,,DNA methylation and regulatory protein Ada
+XC_1465,Ada,DNA methylation and regulatory protein Ada
 XC_1466,,conserved hypothetical protein
 XC_1467,,conserved hypothetical protein
 XC_1468,,conserved hypothetical protein
@@ -1455,7 +1455,7 @@ XC_1474,,RNA polymerase ECF-type sigma factor
 XC_1475,,ATP-dependent RNA helicase
 XC_1476,,conserved hypothetical protein
 XC_1477,,pseudouridylate synthase
-XC_1478,,IS1478 transposase
+XC_1478,IS1478,IS1478 transposase
 XC_1479,,conserved hypothetical protein
 XC_1480,,s-adenosylmethionine:2-demethylmenaquinone methyltransferase
 XC_1481,,beta-lactamase
@@ -1500,7 +1500,7 @@ XC_1519,,alkaline phosphatase
 XC_1520,,glutamate symport protein
 XC_1521,,conserved hypothetical protein
 XC_1522,,conserved hypothetical protein
-XC_1524,,IS1478 transposase
+XC_1524,IS1478,IS1478 transposase
 XC_1526,,histidine kinase
 XC_1527,,conserved hypothetical protein
 XC_1528,,two-component system regulatory protein
@@ -1585,7 +1585,7 @@ XC_1604,,N utilization substance protein A
 XC_1605,,protein chain initiation factor IF-2
 XC_1606,,ribosomal-binding factor A
 XC_1607,,tRNA pseudouridine synthase B
-XC_1608,,30S ribosomal protein S15
+XC_1608,S15,30S ribosomal protein S15
 XC_1609,,polynucleotide phosphorylase
 XC_1610,,conserved hypothetical protein
 XC_1611,,nicotinate-nucleotide pyrophosphorylase
@@ -1620,9 +1620,9 @@ XC_1637,VirB2,VirB2 protein
 XC_1638,VirB3,VirB3 protein
 XC_1639,VirB4,VirB4 protein
 XC_1640,,conserved hypothetical protein
-XC_1641,,IS1478 transposase
+XC_1641,IS1478,IS1478 transposase
 XC_1642,,alpha-glucosidase
-XC_1643,,IS1479 transposase
+XC_1643,IS1479,IS1479 transposase
 XC_1644,,TonB-dependent receptor
 XC_1645,,alpha-glucosidase
 XC_1646,,conserved hypothetical protein
@@ -1631,8 +1631,8 @@ XC_1648,,cyclomaltodextrin glucanotransferase (CGTase)
 XC_1649,,maltose transport gene repressor
 XC_1650,,threonyl-tRNA synthetase
 XC_1651,,translation initiation factor IF-3
-XC_1652,,50S ribosomal protein L35
-XC_1653,,50S ribosomal protein L20
+XC_1652,L35,50S ribosomal protein L35
+XC_1653,L20,50S ribosomal protein L20
 XC_1654,,phenylalanyl-tRNA synthetase alpha chain
 XC_1655,,phenylalanyl-tRNA synthetase beta chain
 XC_1656,,integration host factor alpha chain
@@ -1652,7 +1652,7 @@ XC_1668,GumL,GumL protein
 XC_1669,GumM,GumM protein
 XC_1670,,conserved hypothetical protein
 XC_1671,GumN,GumN protein
-XC_1672,,GumO
+XC_1672,GumO,GumO
 XC_1673,GumP,GumP protein
 XC_1674,,NAD(P)H steroid dehydrogenase
 XC_1675,,conserved hypothetical protein
@@ -1902,7 +1902,7 @@ XC_1918,,phosphinothricin N-acetyltransferase
 XC_1919,,beta-alanine synthetase
 XC_1920,,conserved hypothetical protein
 XC_1921,,conserved hypothetical protein
-XC_1922,,50S ribosomal protein L36
+XC_1922,L36,50S ribosomal protein L36
 XC_1923,,cytidylate kinase
 XC_1924,,30S ribosomal protein S1
 XC_1925,,integration host factor beta subunit
@@ -1994,11 +1994,11 @@ XC_2002,,phage-related integrase
 XC_2003,,cointegrate resolution protein T
 XC_2004,,avirulence protein
 XC_2005,,conserved hypothetical protein
-XC_2007,,IS1478 transposase
+XC_2007,IS1478,IS1478 transposase
 XC_2009,,conserved hypothetical protein
-XC_2010,,IS1477 transposase
-XC_2011,,IS1477 transposase
-XC_2012,,IS1479 transposase
+XC_2010,IS1477,IS1477 transposase
+XC_2011,IS1477,IS1477 transposase
+XC_2012,IS1479,IS1479 transposase
 XC_2014,,conserved hypothetical protein
 XC_2013,,sensor kinase
 XC_2015,,conserved hypothetical protein
@@ -2015,7 +2015,7 @@ XC_2025,,conserved hypothetical protein
 XC_2026,,conserved hypothetical protein
 XC_2027,,conserved hypothetical protein
 XC_2028,,conserved hypothetical protein
-XC_2029,,putative DNA repair protein RadC
+XC_2029,RadC,putative DNA repair protein RadC
 XC_2030,,conserved hypothetical protein
 XC_2031,,"Type IV secretory pathway, VirB4 components"
 XC_2032,,conserved hypothetical protein
@@ -2065,7 +2065,7 @@ XC_2079,,YeeC-like protein
 XC_2080,,conserved hypothetical protein
 XC_2081,,avirulence protein
 XC_2082,,avirulence protein
-XC_2084,,Tn5041 transposase
+XC_2084,Tn5041,Tn5041 transposase
 XC_2085,,conserved hypothetical protein
 XC_2086,,DNA helicase related protein
 XC_2087,,tannase precursor
@@ -2116,7 +2116,7 @@ XC_2130,,single-domain response regulator
 XC_2131,,conserved hypothetical protein
 XC_2132,,conserved hypothetical protein
 XC_2133,,conserved hypothetical protein
-XC_2134,,IS1480 transposase
+XC_2134,IS1480,IS1480 transposase
 XC_2135,,conserved hypothetical protein
 XC_2136,,chemotaxis protein
 XC_2137,,TonB-dependent receptor
@@ -2190,7 +2190,7 @@ XC_2204,,transcriptional regulator tetR family
 XC_2205,,3-hydroxyacyl-CoA dehydrogenase
 XC_2206,,3-ketoacyl-CoA thiolase
 XC_2208,,conserved hypothetical protein
-XC_2209,,ATPase
+XC_2209,ATPase,ATPase
 XC_2210,,conserved hypothetical protein
 XC_2211,,outer-membrane lipoproteins carrier protein precursor
 XC_2212,,conserved hypothetical protein
@@ -2258,7 +2258,7 @@ XC_2274,,GGDEF family protein
 XC_2275,,GGDEF family protein
 XC_2276,,GGDEF family protein
 XC_2277,,flagellar protein
-XC_2278,,flagellar biosynthetic protein FlhA
+XC_2278,FlhA,flagellar biosynthetic protein FlhA
 XC_2279,,flagellar biosynthetic protein
 XC_2280,,flagellar biosynthesis switch protein
 XC_2281,,RNA polymerase sigma factor
@@ -2272,7 +2272,7 @@ XC_2288,,conserved hypothetical protein
 XC_2289,,conserved hypothetical protein
 XC_2290,,conserved hypothetical protein
 XC_2291,,conserved hypothetical protein
-XC_2292,,IS1478 transposase
+XC_2292,IS1478,IS1478 transposase
 XC_2293,,conserved hypothetical protein
 XC_2294,,arsenite efflux pump ACR3
 XC_2295,,putative high-affinity Fe2+/Pb2+ permease
@@ -2321,9 +2321,9 @@ XC_2338,,regulatory protein
 XC_2339,,inner membrane protein
 XC_2340,,membrane protein
 XC_2341,,inner membrane protein
-XC_2342,,regulatory protein rpfI
+XC_2342,rpfI,regulatory protein rpfI
 XC_2343,,putative single stranded DNA exonuclease
-XC_2344,,regulatory protein rpfE
+XC_2344,rpfE,regulatory protein rpfE
 XC_2345,,putative transcriptional elongation factor
 XC_2346,,carbamoyl-phosphate synthase large chain
 XC_2347,,conserved hypothetical protein
@@ -2354,7 +2354,7 @@ XC_2371,,enolase-phosphatase
 XC_2372,,conserved hypothetical protein
 XC_2373,,conserved hypothetical protein
 XC_2374,,phosphoribosyl-AMP cyclohydrolase
-XC_2375,,cyclase
+XC_2375,cyclase,cyclase
 XC_2376,,phosphoribosylformimino-5-aminoimidazole carboxam
 XC_2377,,amidotransferase
 XC_2378,,imidazoleglycerolphosphate dehydratase
@@ -2370,10 +2370,10 @@ XC_2387,,conserved hypothetical protein
 XC_2388,,homoserine kinase
 XC_2389,,aspartokinase/homoserine dehydrogenase I
 XC_2390,,tryptophan-rich sensory protein
-XC_2392,,IS1481 transposase
+XC_2392,IS1481,IS1481 transposase
 XC_2393,,conserved hypothetical protein
-XC_2394,,IS1477 transposase
-XC_2395,,IS1477 transposase
+XC_2394,IS1477,IS1477 transposase
+XC_2395,IS1477,IS1477 transposase
 XC_2396,,filamentous haemagglutinin
 XC_4355,,tRNA-Arg
 XC_2399,,integrase/recombinase
@@ -2491,7 +2491,7 @@ XC_2506,,carbon storage regulator
 XC_2507,,alanyl-tRNA synthetase
 XC_2508,RecX,RecX protein
 XC_2509,RecA,RecA protein
-XC_2510,,LexA
+XC_2510,LexA,LexA
 XC_2511,,ubiquinone biosynthesis protein
 XC_2512,,TonB-dependent receptor
 XC_2513,,conserved hypothetical protein
@@ -2512,7 +2512,7 @@ XC_2527,,hydrogenase subunit
 XC_2528,,"2C-methyl-D-erythritol 2,4-cyclodiphosphate synthase"
 XC_2529,,4-diphosphocytidyl-2-C-methyl-D-erythritol synthase
 XC_2530,,conserved hypothetical protein
-XC_2531,,enolase
+XC_2531,enolase,enolase
 XC_2532,,conserved hypothetical protein
 XC_2533,,2-dehydro-3-deoxyphosphooctonate aldolase
 XC_2534,,CTP synthetase
@@ -2571,20 +2571,20 @@ XC_2586,,conserved hypothetical protein
 XC_2587,,conserved hypothetical protein
 XC_2588,,glycosyl transferase-related protein
 XC_2589,,phage-related integrase
-XC_2590,,IS1481 transposase
+XC_2590,IS1481,IS1481 transposase
 XC_2591,,conserved hypothetical protein
 XC_2592,RhsD,RhsD protein
-XC_2593,,IS1404 transposase
+XC_2593,IS1404,IS1404 transposase
 XC_2595,,conserved hypothetical protein
 XC_2596,,conserved hypothetical protein
-XC_2597,,ISxac3 transposase
-XC_2598,,ISxac3 transposase
+XC_2597,ISxac3,ISxac3 transposase
+XC_2598,ISxac3,ISxac3 transposase
 XC_2599,,conserved hypothetical protein
 XC_2600,,conserved hypothetical protein
 XC_2601,,invertase/recombinase protein
 XC_2602,,avirulence protein
-XC_2603,,IS1477 transposase
-XC_2604,,IS1477 transposase
+XC_2603,IS1477,IS1477 transposase
+XC_2604,IS1477,IS1477 transposase
 XC_2605,,conserved hypothetical protein
 XC_2606,,unknown acidic aa rich protein
 XC_2607,,conserved hypothetical protein
@@ -2602,14 +2602,14 @@ XC_2618,,phage-related integrase
 XC_2619,,phage-related integrase
 XC_2620,,conserved plasmid protein
 XC_2621,,conserved hypothetical protein
-XC_2622,,IS1479 transposase
-XC_2623,,IS1477 transposase
-XC_2624,,IS1477 transposase
-XC_2625,,IS1404 transposase
-XC_2626,,IS1404 transposase
+XC_2622,IS1479,IS1479 transposase
+XC_2623,IS1477,IS1477 transposase
+XC_2624,IS1477,IS1477 transposase
+XC_2625,IS1404,IS1404 transposase
+XC_2626,IS1404,IS1404 transposase
 XC_2627,,conserved hypothetical protein
-XC_2628,,ISxcC1 transposase
-XC_2629,,ISxcc1 transposase
+XC_2628,ISxcC1,ISxcC1 transposase
+XC_2629,ISxcc1,ISxcc1 transposase
 XC_2630,,conserved hypothetical protein
 XC_2631,,conserved hypothetical protein
 XC_2632,,conserved hypothetical protein
@@ -2651,14 +2651,14 @@ XC_2666,,cell division protein
 XC_2667,,chromosome segregation protein
 XC_2668,,conserved hypothetical protein
 XC_2669,,50S ribosomal protein L9
-XC_2670,,30S ribosomal protein S18
+XC_2670,S18,30S ribosomal protein S18
 XC_2671,,30S ribosomal protein S6
 XC_2672,,conserved hypothetical protein
 XC_2673,,asparaginyl-tRNA synthetase
 XC_2674,,conserved hypothetical protein
 XC_2675,,conserved hypothetical protein
 XC_2676,,conserved hypothetical protein
-XC_2677,,transcriptional regulator protein Pai2
+XC_2677,Pai2,transcriptional regulator protein Pai2
 XC_2678,,carbonic anhydrase
 XC_2679,,"3-hydroxyanthranilate 3,4-dioxygenase"
 XC_2680,,conserved hypothetical protein
@@ -2762,18 +2762,18 @@ XC_2775,,conserved hypothetical protein
 XC_2776,,conserved hypothetical protein
 XC_2777,,phage-related protein
 XC_2778,,phage-related integrase
-XC_2779,,IS1478 transposase
+XC_2779,IS1478,IS1478 transposase
 XC_2780,,phage-related integrase
 XC_2781,,conserved hypothetical protein
 XC_2782,,conserved hypothetical protein
-XC_2783,,IS1477 transposase
-XC_2784,,IS1478 transposase
+XC_2783,IS1477,IS1477 transposase
+XC_2784,IS1478,IS1478 transposase
 XC_2785,,helicase
 XC_2786,,conserved hypothetical protein
 XC_2787,,conserved hypothetical protein
 XC_2788,,conserved hypothetical protein
 XC_2789,,conserved hypothetical protein
-XC_2790,,IS1481 transposase
+XC_2790,IS1481,IS1481 transposase
 XC_2791,,conserved hypothetical protein
 XC_2792,,conserved hypothetical protein
 XC_2793,,sensor histidine kinase
@@ -2842,7 +2842,7 @@ XC_2855,,protein-PII uridylyltransferase
 XC_2856,,methionine aminopeptidase
 XC_2857,,protein U
 XC_2858,,pili assembly chaperone
-XC_2859,,outer membrane usher protein FasD
+XC_2859,FasD,outer membrane usher protein FasD
 XC_2860,,conserved hypothetical protein
 XC_2861,,conserved hypothetical protein
 XC_2862,,pili assembly chaperone
@@ -2969,14 +2969,14 @@ XC_2982,,transcriptional regulator
 XC_2983,,TonB-dependent receptor
 XC_2984,,"arabinogalactan endo-1,4-beta-galactosidase"
 XC_2985,,beta-galactosidase
-XC_2986,,IS1478 transposase
+XC_2986,IS1478,IS1478 transposase
 XC_2987,,conserved hypothetical protein
 XC_2988,,conserved hypothetical protein
 XC_2989,,conserved hypothetical protein
 XC_2990,,conserved hypothetical protein
 XC_2991,,beta-glucosidase
 XC_2992,,conserved hypothetical protein
-XC_2993,,IS1479 transposase
+XC_2993,IS1479,IS1479 transposase
 XC_2994,,conserved hypothetical protein
 XC_2995,,conserved hypothetical protein
 XC_2996,,hypothetical protein
@@ -3017,16 +3017,16 @@ XC_3030,,isopenicillin N epimerase
 XC_3031,,conserved hypothetical protein
 XC_3032,,"tryptophan 2,3-dioxygenase"
 XC_3033,,conserved hypothetical protein
-XC_3034,,IS1595 transposase
+XC_3034,IS1595,IS1595 transposase
 XC_3035,,DNA mismatch repair protein
 XC_3036,,conserved hypothetical protein
 XC_3037,,catalase/peroxidase
 XC_3038,,heat shock protein 15 homolog
 XC_3039,,conserved hypothetical protein
-XC_3040,,50S ribosomal protein L19
+XC_3040,L19,50S ribosomal protein L19
 XC_3041,,tRNA (guanine-N1-)-methyltransferase
-XC_3042,,16S rRNA processing protein RimM
-XC_3043,,30S ribosomal protein S16
+XC_3042,RimM,16S rRNA processing protein RimM
+XC_3043,S16,30S ribosomal protein S16
 XC_3044,,conserved hypothetical protein
 XC_3045,,2-nitropropane dioxygenase
 XC_3046,,conserved hypothetical protein
@@ -3072,10 +3072,10 @@ XC_3086,,lipoprotein signal peptidase
 XC_3087,,isoleucyl-tRNA synthetase
 XC_3088,,riboflavin biosynthesis protein
 XC_3089,,virulence factor
-XC_3090,,30S ribosomal protein S20
+XC_3090,S20,30S ribosomal protein S20
 XC_3091,,GTP-binding protein
-XC_3092,,50S ribosomal protein L27
-XC_3093,,50S ribosomal protein L21
+XC_3092,L27,50S ribosomal protein L27
+XC_3093,L21,50S ribosomal protein L21
 XC_3094,,excinuclease ABC subunit A
 XC_3095,,conserved hypothetical protein
 XC_3096,,conserved hypothetical protein
@@ -3087,7 +3087,7 @@ XC_3101,,arginine-tRNA-protein transferase
 XC_3102,,conserved hypothetical protein
 XC_3103,,conserved hypothetical protein
 XC_3104,,conserved hypothetical protein
-XC_3105,,IS1478 transposase
+XC_3105,IS1478,IS1478 transposase
 XC_3106,,phosphoribosylglycinamide formyltransferase 2
 XC_3107,,conserved hypothetical protein
 XC_3108,,conserved hypothetical protein
@@ -3140,7 +3140,7 @@ XC_3156,,ferredoxin
 XC_3157,,hydroxylase molybdopterin-containing subunit
 XC_3158,,hydroxylase large subunit
 XC_3159,,periplasmic beta-glucosidase
-XC_3160,,transducer protein car
+XC_3160,car,transducer protein car
 XC_3161,,excinuclease ABC subunit A
 XC_3162,,conserved hypothetical protein
 XC_3163,,EAL domain protein
@@ -3211,7 +3211,7 @@ XC_3226,,acyl carrier protein
 XC_3227,,3-oxoacyl-[ACP] reductase
 XC_3228,,malonyl CoA-ACP transacylase
 XC_3229,,beta-ketoacyl-[ACP] synthase III
-XC_3230,,50S ribosomal protein L32
+XC_3230,L32,50S ribosomal protein L32
 XC_3231,,conserved hypothetical protein
 XC_3232,,conserved hypothetical protein
 XC_3233,,conserved hypothetical protein
@@ -3221,9 +3221,9 @@ XC_3236,,conserved hypothetical protein
 XC_3237,,methanol dehydrogenase regulator
 XC_3238,,conserved hypothetical protein
 XC_3239,,conserved hypothetical protein
-XC_3240,,outer membrane protein Slp
+XC_3240,Slp,outer membrane protein Slp
 XC_3241,,histidine triad protein homolog (HIT-like protein)
-XC_3242,,recombination protein RecR
+XC_3242,RecR,recombination protein RecR
 XC_3243,,conserved hypothetical protein
 XC_3244,,DNA polymerase III tau and gamma subunits
 XC_4366,,tRNA-Ser
@@ -3306,43 +3306,43 @@ XC_3311,,Glu-tRNAGln amidotransferase A subunit
 XC_3312,,membrane protein
 XC_3313,,family II 2-keto-3-deoxy-D-arabino-heptulosonate 7-phosphate synthase
 XC_3314,,disulfide bond formation protein B
-XC_3315,,50S ribosomal protein L17
+XC_3315,L17,50S ribosomal protein L17
 XC_3316,,RNA polymerase alpha subunit
 XC_3317,,30S ribosomal protein s4
-XC_3318,,30S ribosomal protein S11
-XC_3319,,30S ribosomal protein S13
+XC_3318,S11,30S ribosomal protein S11
+XC_3319,S13,30S ribosomal protein S13
 XC_3320,,preprotein translocase SecY subunit
-XC_3321,,50S ribosomal protein L15
-XC_3322,,50S ribosomal protein L30
+XC_3321,L15,50S ribosomal protein L15
+XC_3322,L30,50S ribosomal protein L30
 XC_3323,,30S ribosomal protein S5
-XC_3324,,50S ribosomal protein L18
+XC_3324,L18,50S ribosomal protein L18
 XC_3325,,50S ribosomal protein L6
 XC_3326,,30S ribosomal protein S8
-XC_3327,,30S ribosomal protein S14
+XC_3327,S14,30S ribosomal protein S14
 XC_3328,,50S ribosomal protein L5
-XC_3329,,50S ribosomal protein L24
-XC_3330,,50S ribosomal protein L14
-XC_3331,,30S ribosomal protein S17
-XC_3332,,50S ribosomal protein L29
-XC_3333,,50S ribosomal protein L16
+XC_3329,L24,50S ribosomal protein L24
+XC_3330,L14,50S ribosomal protein L14
+XC_3331,S17,30S ribosomal protein S17
+XC_3332,L29,50S ribosomal protein L29
+XC_3333,L16,50S ribosomal protein L16
 XC_3334,,30S ribosomal protein S3
-XC_3335,,50S ribosomal protein L22
-XC_3336,,30S ribosomal protein S19
+XC_3335,L22,50S ribosomal protein L22
+XC_3336,S19,30S ribosomal protein S19
 XC_3337,,50S ribosomal protein L2
-XC_3338,,50S ribosomal protein L23
+XC_3338,L23,50S ribosomal protein L23
 XC_3339,,50S ribosomal protein L4
 XC_3340,,50S ribosomal protein L3
-XC_3341,,30S ribosomal protein S10
+XC_3341,S10,30S ribosomal protein S10
 XC_3342,,elongation factor Tu
 XC_3343,,elongation factor G
 XC_3344,,30S ribosomal protein S7
-XC_3345,,30S ribosomal protein S12
+XC_3345,S12,30S ribosomal protein S12
 XC_3346,,RNA polymerase beta' subunit
 XC_3347,,RNA polymerase beta subunit
 XC_3348,,50S ribosomal protein L7/L12
-XC_3349,,50S ribosomal protein L10
+XC_3349,L10,50S ribosomal protein L10
 XC_3350,,50S ribosomal protein L1
-XC_3351,,50S ribosomal protein L11
+XC_3351,L11,50S ribosomal protein L11
 XC_3352,,transcription antitermination factor
 XC_3353,,translocase SecE
 XC_4376,,tRNA-Trp
@@ -3352,7 +3352,7 @@ XC_4378,,tRNA-Gly
 XC_4379,,tRNA-Tyr
 XC_3355,,GTP-binding protein
 XC_3356,,peptidyl tRNA hydrolase
-XC_3357,,50S ribosomal protein L25
+XC_3357,L25,50S ribosomal protein L25
 XC_3358,,phosphoribosyl pyrophosphate synthetase
 XC_4380,,tRNA-Gln
 XC_3359,,4-diphosphocytidyl-2-C-methyl-D-erythritol kinase
@@ -3617,14 +3617,14 @@ XC_3619,,acetyl transferase/isomerase
 XC_3620,,sugar translocase
 XC_3621,,conserved hypothetical protein
 XC_3622,,conserved hypothetical protein
-XC_3623,,ISxcc1 transposase
-XC_3624,,ISxcC1 transposase
+XC_3623,ISxcc1,ISxcc1 transposase
+XC_3624,ISxcC1,ISxcC1 transposase
 XC_3626,,UDP-glucose 4-epimerase
 XC_3627,,"putative GDP-mannose 4,6-dehydratase"
-XC_3628,,membrane protein WxcE
-XC_3629,,membrane protein WxcD
+XC_3628,WxcE,membrane protein WxcE
+XC_3629,WxcD,membrane protein WxcD
 XC_3630,,glycosyltransferase
-XC_3631,,kinase
+XC_3631,kinase,kinase
 XC_3632,,ATP binding component of ABC-transporter
 XC_3633,,membrane subunit of LPS efflux transporter
 XC_3634,,glycosyltransferase
@@ -3664,8 +3664,8 @@ XC_3667,,ABC transporter permease
 XC_3668,,conserved hypothetical protein
 XC_3669,,histidine kinase/response regulator hybrid protein
 XC_3670,,similar to histidine kinase/response regulator hybrid protein
-XC_3671,,IS1404 transposase
-XC_3672,,IS1404 transposase
+XC_3671,IS1404,IS1404 transposase
+XC_3672,IS1404,IS1404 transposase
 XC_3673,,conserved hypothetical protein
 XC_3674,,UDP-N-acetylglucosamine pyrophosphorylase
 XC_3675,,conserved hypothetical protein
@@ -3690,7 +3690,7 @@ XC_3694,,outer membrane protein
 XC_3695,,conserved hypothetical protein
 XC_3696,,conserved hypothetical protein
 XC_3697,,conserved hypothetical protein
-XC_3698,,IS1478 transposase
+XC_3698,IS1478,IS1478 transposase
 XC_3699,,outer membrane protein
 XC_3700,,ABC transporter permease
 XC_3701,,ABC transporter ATP-binding protein
@@ -3795,8 +3795,8 @@ XC_3799,,transcriptional regulator
 XC_3800,,response regulator
 XC_3801,,histidine kinase/response regulator hybrid protein
 XC_3802,,avirulence protein
-XC_3803,,ISxac3 transposase
-XC_3804,,ISxac3 transposase
+XC_3803,ISxac3,ISxac3 transposase
+XC_3804,ISxac3,ISxac3 transposase
 XC_4381,,tRNA-Met
 XC_3805,,conserved hypothetical protein
 XC_3806,,RNA polymerase sigma-70 factor
@@ -3882,7 +3882,7 @@ XC_3885,,dehydrogenase
 XC_3886,,beta-glucosidase
 XC_3887,,dihydroneopterin aldolase
 XC_3888,,O-sialoglycoprotein endopeptidase
-XC_3889,,30S ribosomal protein S21
+XC_3889,S21,30S ribosomal protein S21
 XC_3890,,conserved hypothetical protein
 XC_3891,,ribonuclease BN
 XC_3892,,DNA primase
@@ -3895,28 +3895,28 @@ XC_3898,,conserved hypothetical protein
 XC_3899,,conserved hypothetical protein
 XC_3900,,conserved hypothetical protein
 XC_3901,,cytochrome C oxidase subunit III
-XC_3902,,cytochrome C oxidase assembly protein ctaG
+XC_3902,ctaG,cytochrome C oxidase assembly protein ctaG
 XC_3903,,conserved hypothetical protein
 XC_3904,,cytochrome C oxidase subunit I
 XC_3905,,cytochrome C oxidase subunit II
 XC_3906,,conserved hypothetical protein
-XC_3907,,PutA
-XC_3908,,IS1478 transposase
+XC_3907,PutA,PutA
+XC_3908,IS1478,IS1478 transposase
 XC_3909,,conserved hypothetical protein
 XC_3910,,conserved hypothetical protein
 XC_3911,,conserved hypothetical protein
 XC_3912,,conserved hypothetical protein
 XC_3913,,conserved hypothetical protein
-XC_3914,,IS1404 transposase
-XC_3915,,IS1404 transposase
+XC_3914,IS1404,IS1404 transposase
+XC_3915,IS1404,IS1404 transposase
 XC_3916,,phage-related baseplate assembly protein
-XC_3917,,ISxcC1 transposase
-XC_3918,,ISxcc1 transposase
-XC_3920,,ISxac3 transposase
-XC_3921,,ISxac3 transposase
+XC_3917,ISxcC1,ISxcC1 transposase
+XC_3918,ISxcc1,ISxcc1 transposase
+XC_3920,ISxac3,ISxac3 transposase
+XC_3921,ISxac3,ISxac3 transposase
 XC_3922,,conserved hypothetical protein
-XC_3923,,IS1479 transposase
-XC_3924,,IS1478 transposase
+XC_3923,IS1479,IS1479 transposase
+XC_3924,IS1478,IS1478 transposase
 XC_4382,,5S ribosomal RNA
 XC_4383,,23S ribosomal RNA
 XC_4384,,tRNA-Ile
@@ -3939,7 +3939,7 @@ XC_3938,,dolichol-phosphate mannosyltransferase
 XC_3939,,conserved hypothetical protein
 XC_3940,,conserved hypothetical protein
 XC_3941,,phosphomannomutase
-XC_3942,,dUTPase
+XC_3942,dUTPase,dUTPase
 XC_3943,,DNA/pantothenate metabolism flavoprotein
 XC_3944,,DNA repair protein
 XC_3945,,arginyl-tRNA synthetase
@@ -3993,7 +3993,7 @@ XC_3991,,hydrolase
 XC_3992,,leucine aminopeptidase
 XC_3993,,catalase
 XC_3994,,cytochrome B561
-XC_3995,,IS1481 transposase
+XC_3995,IS1481,IS1481 transposase
 XC_3996,,conserved hypothetical protein
 XC_3997,,two-component system regulatory protein
 XC_3998,,two-component system sensor protein
@@ -4121,8 +4121,8 @@ XC_4118,,transcriptional regulator
 XC_4119,,acyl transferase
 XC_4120,FldA,FldA protein
 XC_4121,,4-oxalomesaconate hydratase
-XC_4122,,50S ribosomal protein L33
-XC_4123,,50S ribosomal protein L28
+XC_4122,L33,50S ribosomal protein L33
+XC_4123,L28,50S ribosomal protein L28
 XC_4124,,conserved hypothetical protein
 XC_4125,,cation efflux system protein
 XC_4126,,cation efflux system protein
@@ -4201,7 +4201,7 @@ XC_4199,,conserved hypothetical protein
 XC_4200,,bleomycin resistance protein
 XC_4201,,hypothetical protein
 XC_4202,,conserved hypothetical protein
-XC_4203,,histone
+XC_4203,histone,histone
 XC_4204,,ring canal kelch-like protein
 XC_4205,,gluconolactonase precursor
 XC_4206,,conserved hypothetical protein
@@ -4230,8 +4230,8 @@ XC_4228,,conserved hypothetical protein
 XC_4229,,conserved hypothetical protein
 XC_4230,,acetyltransferase
 XC_4231,,ATP-dependent DNA helicase
-XC_4232,,ISxac3 transposase
-XC_4233,,ISxac3 transposase
+XC_4232,ISxac3,ISxac3 transposase
+XC_4233,ISxac3,ISxac3 transposase
 XC_4234,,XmnI methyltransferase
 XC_4235,,thymidine kinase
 XC_4236,,sensor histidine kinase
@@ -4280,8 +4280,8 @@ XC_4275,,hypothetical protein
 XC_4276,,conserved hypothetical protein
 XC_4277,,DNA-binding protein
 XC_4278,,pseudouridylate synthase
-XC_4280,,IS1481 transposase
-XC_4281,,phage-related regulatory protein cII
+XC_4280,IS1481,IS1481 transposase
+XC_4281,cII,phage-related regulatory protein cII
 XC_4282,,conserved hypothetical protein
 XC_4283,,conserved hypothetical protein
 XC_4284,,conserved hypothetical protein
@@ -4332,4 +4332,4 @@ XC_4328,,thiophene and furan oxidation protein
 XC_4329,,polysaccharide deacetylase
 XC_4330,,60 kDa inner-membrane protein
 XC_4331,,ribonuclease P protein component
-XC_4332,,50S ribosomal protein L34
+XC_4332,L34,50S ribosomal protein L34
