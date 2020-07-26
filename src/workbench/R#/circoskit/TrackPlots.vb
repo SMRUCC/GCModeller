@@ -8,8 +8,50 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' package module for create track plots or config track plots
+''' </summary>
 <Package("track.plots")>
 Module TrackPlots
+
+    ''' <summary>
+    ''' Invoke set the color of the circle element on the circos plots.
+    ''' </summary>
+    ''' <param name="track"></param>
+    ''' <param name="color">The name of the color in the circos program.</param>
+    ''' <returns></returns>
+    <ExportAPI("fill_color")>
+    Public Function SetTrackFillColor(track As ITrackPlot, color As String) As ITrackPlot
+        track.fill_color = color
+        Return track
+    End Function
+
+    ''' <summary>
+    '''
+    ''' </summary>
+    ''' <param name="track"></param>
+    ''' <param name="orientation">ori = "in" or "out"</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    <ExportAPI("orientation")>
+    Public Function SetTrackOrientation(track As ITrackPlot, Optional orientation As orientations = orientations.in) As ITrackPlot
+        track.orientation = orientation
+        Return track
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="track"></param>
+    ''' <param name="r1">The radius value of the outside for this circle element.</param>
+    ''' <param name="r0">The radius value of the inner circle of this element.</param>
+    ''' <returns></returns>
+    <ExportAPI("radius01")>
+    Public Function SetPlotElementPosition(track As ITrackPlot, r1 As Double, r0 As Double) As ITrackPlot
+        track.r1 = r1 & "r"
+        track.r0 = r0 & "r"
+        Return track
+    End Function
 
     ''' <summary>
     ''' Tracks such As scatter plot, line plot, histogram Or heat map, 

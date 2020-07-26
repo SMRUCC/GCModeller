@@ -296,4 +296,12 @@ Module Document
         Return CircosAPI.WriteData(circos.main, directory, debug:=False)
     End Function
 
+    ''' <summary>
+    ''' Gets the circos Perl script file location automatically by search on the file system.
+    ''' </summary>
+    ''' <returns></returns>
+    <ExportAPI("circos.pl")>
+    Public Function GetCircosScript() As String
+        Return CircosAPI.GetCircosScript
+    End Function
 End Module

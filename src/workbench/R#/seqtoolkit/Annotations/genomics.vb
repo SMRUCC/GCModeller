@@ -44,9 +44,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.Rsharp.Runtime
@@ -79,6 +81,11 @@ Module genomics
             Case Else
                 Return Internal.debug.stop($"unsupported table format: '{format}'!", env)
         End Select
+    End Function
+
+    <ExportAPI("as.geneTable")>
+    Public Function PTT2Dump(PTT As PTT) As GeneTable()
+        Return GenBank.ExportPTTAsDump(PTT)
     End Function
 
     <ExportAPI("as.PTT")>

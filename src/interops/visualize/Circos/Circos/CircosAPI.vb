@@ -473,67 +473,6 @@ SET_END:    Dim ends = i
         )
     End Function
 
-    ''' <summary>
-    ''' Adds the GC% content on the circos plots.
-    ''' </summary>
-    ''' <param name="nt">
-    ''' The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow
-    ''' </param>
-    ''' <param name="winSize%"></param>
-    ''' <param name="steps%"></param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.GC%", Info:="Adds the GC% content on the circos plots.")>
-    Public Function CreateGCContent(<Parameter("NT.Fasta",
-                                               "The original nt sequence in the fasta format for the calculation of the GC% content in each slidewindow")>
-                                    nt As FastaSeq, winSize%, steps%) As NtProps.GenomeGCContent
-        Return New NtProps.GenomeGCContent(nt, winSize, steps)
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="rOutside">The radius value of the outside for this circle element.</param>
-    ''' <param name="rInner">The radius value of the inner circle of this element.</param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.Element.Set.Position")>
-    Public Function SetPlotElementPosition(track As ITrackPlot,
-                                           <Parameter("r.Outside", "The radius value of the outside for this circle element.")>
-                                           rOutside As String,
-                                           <Parameter("r.Inner", "The radius value of the inner circle of this element.")>
-                                           rInner As String) As ITrackPlot
-        track.r1 = rOutside
-        track.r0 = rInner
-        Return track
-    End Function
-
-    ''' <summary>
-    ''' Invoke set the color of the circle element on the circos plots.
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="Color">The name of the color in the circos program.</param>
-    ''' <returns></returns>
-    <ExportAPI("Plots.Element.Set.Fill_Color", Info:="Invoke set the color of the circle element on the circos plots.")>
-    Public Function SetTrackFillColor(track As ITrackPlot,
-                                      <Parameter("Color", "The name of the color in the circos program.")>
-                                      Color As String) As ITrackPlot
-        track.fill_color = Color
-        Return track
-    End Function
-
-    ''' <summary>
-    '''
-    ''' </summary>
-    ''' <param name="track"></param>
-    ''' <param name="orientation">ori = ""in"" or ""out""</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
-    Public Function SetTrackOrientation(track As ITrackPlot, orientation$) As ITrackPlot
-        track.orientation = DirectCast([Enum].Parse(GetType(orientations), Strings.LCase(orientation)), orientations)
-        Return track
-    End Function
-
     '''' <summary>
     '''' Door之中的操纵子以heatmap的形式绘制
     '''' </summary>
@@ -562,20 +501,6 @@ SET_END:    Dim ends = i
     Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneTable), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
-    End Function
-
-    ''' <summary>
-    ''' Creates the circos circle plots of the genome gcskew.
-    ''' </summary>
-    ''' <param name="SequenceModel"></param>
-    ''' <param name="SlideWindowSize"></param>
-    ''' <param name="steps"></param>
-    ''' <returns></returns>
-    <ExportAPI("Karyotype.doc.gcSkew", Info:="Creates the circos circle plots of the genome gcskew.")>
-    Public Function CreateGCSkewPlots(SequenceModel As IPolymerSequenceModel,
-                                      <Parameter("SlideWindow.Size")> SlideWindowSize As Integer,
-                                      steps As Integer) As NtProps.GCSkew
-        Return New NtProps.GCSkew(SequenceModel, SlideWindowSize, steps, True)
     End Function
 
     '<ExportAPI("Karyotype.As.Heatmap")>
@@ -697,15 +622,6 @@ SET_END:    Dim ends = i
     End Function
 
     ''' <summary>
-    ''' Creats a new <see cref="Configurations.Circos"/> plots configuration document.
-    ''' </summary>
-    ''' <returns><see cref="Configurations.Circos.CreateObject"/></returns>
-    <ExportAPI("Circos.Document.Create", Info:="Creats a new circos plots configuration document.")>
-    Public Function CreateDataModel() As Configurations.Circos
-        Return Configurations.Circos.CreateObject
-    End Function
-
-    ''' <summary>
     ''' Save the circos plots configuration object as the default configuration file: circos.conf
     ''' </summary>
     ''' <param name="circos"></param>
@@ -732,7 +648,7 @@ SET_END:    Dim ends = i
     ''' Gets the circos Perl script file location automatically by search on the file system.
     ''' </summary>
     ''' <returns></returns>
-    <ExportAPI("Circos.pl", Info:="Gets the circos Perl script file location automatically by search on the file system.")>
+    <ExportAPI("Circos.pl")>
     Public Function GetCircosScript() As String
         Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
 
@@ -771,7 +687,12 @@ SET_END:    Dim ends = i
         End If
     End Sub
 
-    <ExportAPI("Ticks.Remove", Info:="Removes the ticks label from the circos docuemnt node.")>
+    ''' <summary>
+    ''' Removes the ticks label from the circos docuemnt node.
+    ''' </summary>
+    ''' <param name="doc"></param>
+    ''' <returns></returns>
+    <ExportAPI("Ticks.Remove")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
@@ -887,8 +808,4 @@ SET_END:    Dim ends = i
     ''' </summary>
     Public Const null As String = ""
 
-    <ExportAPI("PTT2Dump")>
-    Public Function PTT2Dump(PTT As PTT) As GeneTable()
-        Return GenBank.ExportPTTAsDump(PTT)
-    End Function
 End Module

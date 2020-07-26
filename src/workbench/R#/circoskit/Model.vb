@@ -50,6 +50,8 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' package module for generates plot data
@@ -81,5 +83,32 @@ Module Model
         End If
 
         Return New GeneMark(geneTable.populates(Of GeneTable)(env), geneColors)
+    End Function
+
+    ''' <summary>
+    ''' creates the ``GC%`` content for circos plots.
+    ''' </summary>
+    ''' <param name="nt">
+    ''' The original nt sequence in the fasta format for the calculation of the 
+    ''' ``GC%`` content in each slidewindow
+    ''' </param>
+    ''' <param name="win_size%"></param>
+    ''' <param name="steps%"></param>
+    ''' <returns></returns>
+    <ExportAPI("GC_content")>
+    Public Function CreateGCContent(nt As FastaSeq, win_size%, steps%) As NtProps.GenomeGCContent
+        Return New NtProps.GenomeGCContent(nt, win_size, steps)
+    End Function
+
+    ''' <summary>
+    ''' Creates the circos circle plots of the genome gcskew.
+    ''' </summary>
+    ''' <param name="nt"></param>
+    ''' <param name="win_size"></param>
+    ''' <param name="steps"></param>
+    ''' <returns></returns>
+    <ExportAPI("gcSkew")>
+    Public Function CreateGCSkewPlots(nt As IPolymerSequenceModel, win_size As Integer, steps As Integer) As NtProps.GCSkew
+        Return New NtProps.GCSkew(nt, win_size, steps, True)
     End Function
 End Module
