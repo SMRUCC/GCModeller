@@ -1,14 +1,12 @@
+# GCModeller <a href="https://gcmodeller.org"><img src="images/logo.png" width="150" align="right" ></a>
+GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
+
 [![DOI](https://zenodo.org/badge/48901128.svg)](https://zenodo.org/badge/latestdoi/48901128)
 [![Github All Releases](https://img.shields.io/github/downloads/SMRUCC/GCModeller/total.svg?maxAge=2592000?style=flat-square)]()
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
 
 ###### [WARNING] This project is a work in progress and is not recommended for production use.
-
-<img src="images/logo.png" height="250px">
-
-# GCModeller
-GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
 > + Github: https://github.com/SMRUCC/GCModeller
