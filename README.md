@@ -1,4 +1,4 @@
-# GCModeller <a href="https://gcmodeller.org"><img src="images/logo.png" width="150" align="right" ></a>
+# GCModeller <a href="https://gcmodeller.org"><img src="images/logo.png" width="150" align="right" border="1px" ></a>
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 [![DOI](https://zenodo.org/badge/48901128.svg)](https://zenodo.org/badge/latestdoi/48901128)
