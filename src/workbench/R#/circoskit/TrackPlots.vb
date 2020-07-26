@@ -176,7 +176,7 @@ Module TrackPlots
 
     <ExportAPI("track.highlight")>
     <RApiReturn(GetType(HighLight))>
-    Public Function HeatMapping(highlights As Highlights, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
+    Public Function HeatMapping(highlights As Highlights, Optional env As Environment = Nothing) As Object
         Dim hTrack As New HighLight(highlights)
 
         If hTrack.tracksData.GetEnumerator.Count = 0 Then
