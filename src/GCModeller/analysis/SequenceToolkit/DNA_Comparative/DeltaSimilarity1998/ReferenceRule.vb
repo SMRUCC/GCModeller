@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::28e8d23106cbf2dd7825f20b2b9c96a7, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\ReferenceRule.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceRule
-    ' 
-    '         Properties: dnaA, gyrB
-    ' 
-    '         Function: (+2 Overloads) dnaA_gyrB, (+2 Overloads) GetReferenceRule
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceRule
+' 
+'         Properties: dnaA, gyrB
+' 
+'         Function: (+2 Overloads) dnaA_gyrB, (+2 Overloads) GetReferenceRule
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ObjectQuery
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports nucl = SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment
@@ -65,8 +65,8 @@ Namespace DeltaSimilarity1998
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property dnaA As New NamedCollection(Of String) With {
-            .Name = "dnaA",
-            .Value = {
+            .name = "dnaA",
+            .value = {
                 "chromosomal replication initiator protein DnaA",
                 "chromosomal replication initiator"
             }
@@ -76,8 +76,8 @@ Namespace DeltaSimilarity1998
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property gyrB As New NamedCollection(Of String) With {
-            .Name = "gyrB",
-            .Value = {
+            .name = "gyrB",
+            .value = {
                 "DNA gyrase B subunit",
                 "DNA gyrase, B subunit"
             }
@@ -112,26 +112,24 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Get.Ref_Rule",
-                   Info:="Gets the segment betweens the dnaA and gyrB nucleotide sequence as the default reference rule for the homogeneity measuring.")>
         <Extension>
         Public Function GetReferenceRule(nt As FastaSeq, PTT As PTT, start As NamedCollection(Of String), ends As NamedCollection(Of String)) As FastaSeq
-            Dim dnaA As GeneBrief = PTT.MatchGene(start.Name, start.Value)
-            Dim gyrB As GeneBrief = PTT.MatchGene(ends.Name, ends.Value)
+            Dim dnaA As GeneBrief = PTT.MatchGene(start.name, start.value)
+            Dim gyrB As GeneBrief = PTT.MatchGene(ends.name, ends.value)
 
             If (dnaA Is Nothing OrElse gyrB Is Nothing) Then
-                Call $"Could not found gene '{start.Name}' or '{ends.Name}' on {nt.Title}".PrintException
+                Call $"Could not found gene '{start.name}' or '{ends.name}' on {nt.Title}".PrintException
                 Return Nothing
             End If
 
             ' 默认dnaA - gyrB这个基因簇是位于正义链的
-            Dim St As Integer = dnaA.Location.Left
-            Dim sp As Integer = gyrB.Location.Right
+            Dim St As Integer = dnaA.Location.left
+            Dim sp As Integer = gyrB.Location.right
 
             ' 但是有些基因组或者由于测序的原因，位于负义链。。。
             If dnaA.Location.Strand = Strands.Reverse Then
-                St = gyrB.Location.Left
-                sp = dnaA.Location.Right
+                St = gyrB.Location.left
+                sp = dnaA.Location.right
             End If
 
             Dim ruleSegment As nucl
@@ -149,7 +147,7 @@ Namespace DeltaSimilarity1998
             End Try
 
             Return New FastaSeq With {
-                .Headers = New String() {$"{start.Name}-{ends.Name}", nt.Title},
+                .Headers = New String() {$"{start.name}-{ends.name}", nt.Title},
                 .SequenceData = ruleSegment.SequenceData
             }
         End Function

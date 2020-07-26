@@ -39,7 +39,7 @@
 
 #End Region
 
-Namespace Query
+Namespace ObjectQuery
 
     Public Module MatchContext
 

@@ -93,7 +93,7 @@ Module terms
     Public Function geneNames(<RRawVectorArgument> descriptions As Object) As vector
         Return REnv.asVector(Of String)(descriptions) _
             .AsObjectEnumerator(Of String) _
-            .Select(AddressOf Query.geneName.TryParseGeneName) _
+            .Select(AddressOf ObjectQuery.geneName.TryParseGeneName) _
             .DoCall(AddressOf vector.asVector)
     End Function
 

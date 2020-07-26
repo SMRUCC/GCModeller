@@ -1,4 +1,4 @@
-﻿Namespace Query
+﻿Namespace ObjectQuery
 
     ''' <summary>
     ''' biological object query helper module

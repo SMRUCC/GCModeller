@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace Query
+Namespace ObjectQuery
 
     ''' <summary>
     ''' Extensions for object query in the GCModeller biological components

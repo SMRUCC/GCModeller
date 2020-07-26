@@ -1,4 +1,4 @@
-﻿Namespace Query
+﻿Namespace ObjectQuery
 
     Public Module geneName
 
