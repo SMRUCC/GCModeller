@@ -75,14 +75,14 @@ Module Model
     <ExportAPI("highlight.genemarks")>
     <RApiReturn(GetType(Highlights))>
     Public Function GeneMarks(<RRawVectorArgument> genes As Object, colors As list, Optional env As Environment = Nothing) As Object
-        Dim geneTable As pipeline = pipeline.TryCreatePipeline(Of GeneTable)(genes, env)
+        Dim geneTable As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
         Dim geneColors As Dictionary(Of String, String) = colors.AsGeneric(Of String)(env)
 
         If geneTable.isError Then
             Return geneTable.getError
         End If
 
-        Return New GeneMark(geneTable.populates(Of GeneTable)(env), geneColors)
+        Return New GeneMark(geneTable.populates(Of IGeneBrief)(env), geneColors)
     End Function
 
     ''' <summary>
