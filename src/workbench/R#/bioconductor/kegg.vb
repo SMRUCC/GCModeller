@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1af5d7e37381f2bdb4dd329b1c884a3a, bioconductor\kegg.vb"
+﻿#Region "Microsoft.VisualBasic::e5fa340bea666773fca1efa909eaa88a, bioconductor\kegg.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.GCModeller
@@ -79,4 +78,3 @@ Module kegg
         Return Nothing
     End Function
 End Module
-

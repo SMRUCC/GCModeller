@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b975b893fc319777b0d9c4d94eaced37, cytoscape_toolkit\models.vb"
+﻿#Region "Microsoft.VisualBasic::e461f3b74cc1f45ddf3a1bafca022285, cytoscape_toolkit\models.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ Module models
         Return cys.GetLayoutedGraph(collection, name)
     End Function
 End Module
-

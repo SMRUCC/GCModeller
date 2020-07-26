@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b4c10088c4141d025109c638583a75d, cytoscape_toolkit\bioModels\stringdbPPI.vb"
+﻿#Region "Microsoft.VisualBasic::765b5116518c29a1435fb6c8bf52370b, cytoscape_toolkit\bioModels\stringdbPPI.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -100,4 +99,3 @@ Module stringdbPPI
         Return string_network_coordinates.LoadTsv(Of Coordinates).ToArray
     End Function
 End Module
-

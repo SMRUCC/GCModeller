@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ce82d5845fb336d758224363b0d7729, seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::5035168ea23c18dce4f1c0fde8396023, seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     ' Module genbankKit
     ' 
     '     Function: addFeature, addproteinSeq, addRNAGene, asGenbank, createFeature
-    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, populateGenbanks, readGenbank
-    '               writeGenbank
+    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, isPlasmidSource, populateGenbanks
+    '               readGenbank, writeGenbank
     ' 
     ' 
     ' /********************************************************************************/
