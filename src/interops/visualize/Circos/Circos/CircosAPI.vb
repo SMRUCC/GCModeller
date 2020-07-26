@@ -712,21 +712,20 @@ SET_END:    Dim ends = i
     ''' <param name="outDIR"></param>
     ''' <param name="debug"></param>
     ''' <returns></returns>
-    <ExportAPI("Write.Txt.Circos", Info:="Save the circos plots configuration object as the default configuration file: circos.conf")>
     <Extension>
     Public Function WriteData(circos As Configurations.Circos,
                               Optional outDIR$ = "",
                               Optional debug As DebugGroups = DebugGroups.NULL) As String
 
         Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
-        Dim conf$ = circos.FilePath.CLIPath.Replace("\", "/")
+        Dim conf$ = circos.filePath.CLIPath.Replace("\", "/")
 
         Call circos.Save(outDIR)
         Call $"perl {perlRun} -conf {conf}{debug.GetOptions}".SaveTo(outDIR & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
              $"perl {perlRun} -conf {conf}{debug.GetOptions}").SaveTo(outDIR & "/run.sh")
 
-        Return circos.FilePath
+        Return circos.filePath
     End Function
 
     ''' <summary>

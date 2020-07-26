@@ -1,6 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("track.plots")>
 Module TrackPlots
@@ -53,5 +59,56 @@ Module TrackPlots
             .[end] = [end],
             .text = text
         }
+    End Function
+
+    <ExportAPI("track.text")>
+    Public Function TrackText(<RRawVectorArgument> texts As Object,
+                              Optional r0$ = "0.90r",
+                              Optional r1$ = "0.995r",
+                              Optional snuggle_refine$ = "yes",
+                              Optional label_snuggle$ = "yes",
+                              Optional env As Environment = Nothing) As Object
+
+        Dim textPoints As pipeline = pipeline.TryCreatePipeline(Of TextTrackData)(texts, env)
+
+        If textPoints.isError Then
+            Return textPoints.getError
+        End If
+
+        Dim labelText As New HighlightLabel(textPoints.populates(Of TextTrackData)(env))
+        Dim labels As New TextLabel(labelText) With {
+            .r0 = r0,
+            .r1 = r1,
+            .snuggle_refine = snuggle_refine,
+            .label_snuggle = label_snuggle
+        }
+
+        Return labels
+    End Function
+
+    <ExportAPI("track.heatmapping")>
+    <RApiReturn(GetType(HighLight))>
+    Public Function HeatMapping(<RRawVectorArgument> values As Object, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
+        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+
+        If valuePoints.isError Then
+            Return valuePoints.getError
+        End If
+
+        Dim model As New GradientMappings(valuePoints.populates(Of ValueTrackData)(env), mapName:=colors)
+        Dim hTrack As New HighLight(model)
+
+        Return hTrack
+    End Function
+
+    <ExportAPI("track.histogram")>
+    Public Function Histogram(<RRawVectorArgument> values As Object, Optional env As Environment = Nothing) As Object
+        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+
+        If valuePoints.isError Then
+            Return valuePoints.getError
+        End If
+
+        Return New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
     End Function
 End Module

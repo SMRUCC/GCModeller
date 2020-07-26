@@ -279,9 +279,21 @@ Module Document
         Return idNode
     End Function
 
+    ''' <summary>
+    ''' Save the circos plots configuration object as the default 
+    ''' configuration file: ``circos.conf``.
+    ''' 
+    ''' this function will always save the entire circos document into
+    ''' the given directory location.
+    ''' </summary>
+    ''' <param name="circos"></param>
+    ''' <param name="directory">
+    ''' a required directory location for save the entire circos documents.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("save")>
-    Public Function Save(circos As CircosConfig, directory As String) As Boolean
-        Return circos.main.Save(directory, Encodings.UTF8)
+    Public Function Save(circos As CircosConfig, directory As String) As String
+        Return CircosAPI.WriteData(circos.main, directory, debug:=False)
     End Function
 
 End Module

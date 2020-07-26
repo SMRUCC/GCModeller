@@ -44,6 +44,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
+''' <summary>
+''' package module for generates plot data
+''' </summary>
 <Package("model", Category:=APICategories.UtilityTools)>
 Module Model
 
