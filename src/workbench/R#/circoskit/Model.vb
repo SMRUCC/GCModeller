@@ -111,4 +111,11 @@ Module Model
     Public Function CreateGCSkewPlots(nt As IPolymerSequenceModel, win_size As Integer, steps As Integer) As NtProps.GCSkew
         Return New NtProps.GCSkew(nt, win_size, steps, True)
     End Function
+
+    <ExportAPI("ntVariants")>
+    Public Function VariantsHighlights(fasta As FastaFile, Optional index As Integer = Scan0, Optional step% = 1) As NtProps.GCSkew
+        Dim var As Double() = Patterns.NTVariations(fasta, index)
+        Dim node As New NtProps.GCSkew(var, [step])
+        Return node
+    End Function
 End Module
