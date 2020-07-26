@@ -214,9 +214,14 @@ Module Document
     ''' <param name="track"></param>
     ''' <returns></returns>
     <ExportAPI("add")>
-    Public Function AddTrack(circos As Circos, track As ITrackPlot) As Circos
-        circos.AddTrack(track)
+    Public Function AddTrack(circos As Circos, track As ITrackPlot, Optional auto_layout As Boolean = True) As Circos
+        circos.AddTrack(track, autoLayout:=auto_layout)
         Return circos
+    End Function
+
+    <ExportAPI("main")>
+    Public Function getMain(circos As CircosConfig) As Circos
+        Return circos.main
     End Function
 
     ''' <summary>

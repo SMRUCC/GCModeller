@@ -676,6 +676,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{6fc88360-095e-460c-b659-700719070b84}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{71ecfa16-4452-425f-95a6-4b5f654a0570}*SharedItemsImports = 4
 		runtime\mysqli\mysqliHelper\mysqliHelper.projitems*{7404646f-5bba-4e31-b108-8c551e84dd09}*SharedItemsImports = 13
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4

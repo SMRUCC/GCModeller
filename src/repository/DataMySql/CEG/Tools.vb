@@ -87,7 +87,7 @@ Namespace CEG
             Dim GetClusterLQuery = (From Cluster As CEG.GeneCluster In CEG.GeneClusters.AsParallel
                                     Let ClusterGenes = (From GeneObject As CEG.ClusterGene
                                                         In Cluster.GeneClusters
-                                                        Let FoundGene = MatchGene(Ptt, GeneObject.Annotation.GeneName, {GeneObject.Annotation.Description})
+                                                        Let FoundGene = ObjectQuery.MatchGene(Ptt, GeneObject.Annotation.GeneName, {GeneObject.Annotation.Description})
                                                         Where Not FoundGene Is Nothing
                                                         Select FoundGene).ToArray
                                     Where Not ClusterGenes.IsNullOrEmpty AndAlso ClusterGenes.Count = Cluster.GeneClusters.Count
@@ -278,7 +278,7 @@ Namespace CEG
                                               In Annotation.AsParallel
                                               Let FoundGene = Function() As GeneBrief
                                                                   Call Console.Write(".")
-                                                                  Return MatchGene(PTT, anno.GeneName, {anno.Description})
+                                                                  Return ObjectQuery.MatchGene(PTT, anno.GeneName, {anno.Description})
                                                               End Function()
                                               Where Not FoundGene Is Nothing
                                               Select GeneObject = setValue(FoundGene, anno.GeneName)
