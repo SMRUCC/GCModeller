@@ -54,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' package module for create track plots or config track plots
 ''' </summary>
 <Package("track.plots")>
+<RTypeExport("text", GetType(TextTrackData))>
 Module TrackPlots
 
     ''' <summary>
