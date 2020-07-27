@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd3dda80e26d6718b37c4be07695fd4d, bioconductor\RDotNET.vb"
+﻿#Region "Microsoft.VisualBasic::4573870a50c7860fe19f56447746e257, bioconductor\RDotNET.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -81,4 +80,3 @@ Module RDotNET
         End If
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b3276e10e59df972c130d92cbcd81db, assembler\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::1b3276e10e59df972c130d92cbcd81db, localblast\assembler\test\Module1.vb"
 
     ' Author:
     ' 

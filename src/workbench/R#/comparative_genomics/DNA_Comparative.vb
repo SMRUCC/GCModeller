@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b8b5151b19e1866f84178fcb37561b5, comparative_genomics\DNA_Comparative.vb"
+﻿#Region "Microsoft.VisualBasic::93b30f4972efaa4507119cfb56c010d4, comparative_genomics\DNA_Comparative.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,9 @@
     ' 
     '     Function: dist, dnaA_gyrB, Sigma
     ' 
-    ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Math.DataFrame
@@ -114,5 +112,3 @@ Public Module DNA_Comparative
         End If
     End Function
 End Module
-
-

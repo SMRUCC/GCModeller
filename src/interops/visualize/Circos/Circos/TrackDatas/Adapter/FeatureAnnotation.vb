@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15e0ac2039f1fb821a6191d238c365e3, visualize\Circos\Circos\TrackDatas\Adapter\FeatureAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::d8adec070b16b5aa138d6d066e0f6790, visualize\Circos\Circos\TrackDatas\Adapter\FeatureAnnotation.vb"
 
     ' Author:
     ' 

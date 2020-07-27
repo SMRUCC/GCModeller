@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd5fd73702832e6aeb8340532d379acf, visualize\Circos\Circos\ConfFiles\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f59aa362ba78e3d4c52237ad992ef0cd, visualize\Circos\Circos\ConfFiles\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: GenerateCircosDocumentElement
+    '         Function: CircosOption, GenerateCircosDocumentElement
     ' 
     ' 
     ' /********************************************************************************/

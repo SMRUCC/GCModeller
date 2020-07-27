@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::df33a0f864ebb4aef3af995f006dd1fb, visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GeneMark.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneMark
-    ' 
-    '         Properties: COGColors
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: LegendsDrawing
-    ' 
-    '         Sub: motifSitesCommon
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneMark
+' 
+'         Properties: COGColors
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: LegendsDrawing
+' 
+'         Sub: motifSitesCommon
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,8 +70,8 @@ Namespace TrackDatas.Highlights
         ''' 在这里是使用直方图来显示基因的位置的
         ''' </summary>
         ''' <param name="annos"></param>
-        ''' <param name="Color"></param>
-        Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
+        ''' <param name="COG_colors"></param>
+        Sub New(annos As IEnumerable(Of IGeneBrief), COG_colors As Dictionary(Of String, String), Optional chr$ = "chr1")
             Dim noname As [Default](Of String) = "-"
 
             source = LinqAPI.MakeList(Of ValueTrackData) <=
@@ -79,22 +79,23 @@ Namespace TrackDatas.Highlights
                 From gene As IGeneBrief
                 In annos
                 Let COG As String = gene.Feature Or noname
-                Let fill As String = If(
-                    Color.ContainsKey(COG),
-                    Color(COG),
-                    CircosColor.DefaultCOGColor)
+                Let fill As String = getCOGcolors(COG_colors, COG)
                 Select New ValueTrackData With {
-                    .start = CInt(gene.Location.Left),
-                    .end = CInt(gene.Location.Right),
+                    .start = CInt(gene.Location.left),
+                    .end = CInt(gene.Location.right),
                     .value = 1,
-                    .chr = "chr1",
+                    .chr = chr,
                     .formatting = New Formatting With {
                         .fill_color = fill
                     }
                 }
 
-            COGColors = Color
+            COGColors = COG_colors
         End Sub
+
+        Private Shared Function getCOGcolors(COG_colors As Dictionary(Of String, String), COG As String) As String
+            Return If(COG_colors.ContainsKey(COG), COG_colors(COG), CircosColor.DefaultCOGColor)
+        End Function
 
         ''' <summary>
         ''' 直接从motif位点构建，这个模型并不显示标签信息
@@ -129,8 +130,8 @@ Namespace TrackDatas.Highlights
                     color(COG),
                     CircosColor.DefaultCOGColor)
                 Select New ValueTrackData With {
-                    .start = site.site.Left,
-                    .end = site.site.Right,
+                    .start = site.site.left,
+                    .end = site.site.right,
                     .value = 1,
                     .chr = chr,
                     .formatting = New Formatting With {

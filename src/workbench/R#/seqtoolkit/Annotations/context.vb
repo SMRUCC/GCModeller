@@ -1,51 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::6f915a83ca960468101d91d159bf19f4, seqtoolkit\Annotations\context.vb"
+﻿#Region "Microsoft.VisualBasic::41b9381f334bd35e1312d4ee9f520fce, seqtoolkit\Annotations\context.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module context
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: context, contextSummary, getNtLocation, isForward, location
-    '               offsetLocation, relationship
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Module context
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: context, contextSummary, getNtLocation, isForward, location
+'               offsetLocation, relationship
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -98,14 +99,37 @@ Module context
     End Function
 
     ''' <summary>
-    ''' create a new nucleotide location object
+    ''' filter genes by given strand direction
     ''' </summary>
-    ''' <param name="left"></param>
-    ''' <param name="right"></param>
+    ''' <param name="genes"></param>
     ''' <param name="strand"></param>
+    ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("location")>
-    Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object
+    <ExportAPI("strand.filter")>
+    Public Function strandFilter(<RRawVectorArgument> genes As Object,
+                                 Optional strand As Object = "+",
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim strVal As Strands = getStrand(strand)
+        Dim geneObjects As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+
+        If geneObjects.isError Then
+            Return geneObjects.getError
+        End If
+
+        Return geneObjects _
+            .populates(Of IGeneBrief)(env) _
+            .Where(Function(gene)
+                       If strVal = Strands.Unknown Then
+                           Return True
+                       Else
+                           Return gene.Location.Strand = strVal
+                       End If
+                   End Function) _
+            .DoCall(AddressOf vector.asVector)
+    End Function
+
+    Private Function getStrand(strand As Object) As Strands
         Dim strVal As Strands
 
         If strand Is Nothing Then
@@ -116,7 +140,19 @@ Module context
             strVal = Scripting.ToString(strand).GetStrand
         End If
 
-        Return New NucleotideLocation(left, right, strVal)
+        Return strVal
+    End Function
+
+    ''' <summary>
+    ''' create a new nucleotide location object
+    ''' </summary>
+    ''' <param name="left"></param>
+    ''' <param name="right"></param>
+    ''' <param name="strand"></param>
+    ''' <returns></returns>
+    <ExportAPI("location")>
+    Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object
+        Return New NucleotideLocation(left, right, getStrand(strand))
     End Function
 
     ''' <summary>
@@ -211,4 +247,3 @@ Module context
     End Function
 
 End Module
-

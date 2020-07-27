@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c204be017b671623f82675b6cdb1c49, metagenomics_kit\HMP.vb"
+﻿#Region "Microsoft.VisualBasic::eb65a4f6c18461bb8a65cf1e21e0b11a, metagenomics_kit\HMP.vb"
 
     ' Author:
     ' 
@@ -86,4 +86,3 @@ Module HMP
         End If
     End Function
 End Module
-

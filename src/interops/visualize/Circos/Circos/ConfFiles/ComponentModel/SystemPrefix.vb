@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5ab904ae2f3301ea9d35faee3c65f03, visualize\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
+﻿#Region "Microsoft.VisualBasic::1b82345718eefad8145f1f34815ff093, visualize\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Namespace Configurations.ComponentModel
         ''' <param name="path"></param>
         ''' <remarks></remarks>
         Protected Sub New(path As String)
-            Call MyBase.New(path, Circos:=Nothing)
+            Call MyBase.New(path, circos:=Nothing)
         End Sub
 
         Protected Sub New(path As String, name As String)
