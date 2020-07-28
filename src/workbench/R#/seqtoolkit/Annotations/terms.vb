@@ -43,6 +43,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
@@ -50,7 +51,9 @@ Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -60,7 +63,20 @@ Module terms
 
     Sub New()
         Call Internal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
+
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
     End Sub
+
+    Private Function COGtable(myva As MyvaCOG(), args As list, env As Environment) As dataframe
+        Dim text = myva.ToCsvDoc
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        For Each column As String() In text.Columns
+            Call table.columns.Add(column(Scan0), column.Skip(1).ToArray)
+        Next
+
+        Return table
+    End Function
 
     Private Function printIDSolver(solver As SecondaryIDSolver) As String
         Dim sb As New StringBuilder
@@ -120,8 +136,17 @@ Module terms
     End Function
 
     <ExportAPI("assign.COG")>
-    Public Function COGannotations()
-        Throw New NotImplementedException
+    Public Function COGannotations(<RRawVectorArgument> alignment As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf alignment Is MyvaCOG() Then
+            Return DirectCast(alignment, MyvaCOG()) _
+                .GroupBy(Function(hit) hit.QueryName) _
+                .Select(Function(hits)
+                            Return hits.OrderByDescending(Function(hit) hit.Identities).First
+                        End Function) _
+                .ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
+        End If
     End Function
 
     <ExportAPI("assign.Pfam")>
@@ -137,6 +162,11 @@ Module terms
     <ExportAPI("write.id_maps")>
     Public Function saveIdMappings(maps As SecondaryIDSolver, file As String) As Boolean
         Return maps.Save(path:=file)
+    End Function
+
+    <ExportAPI("read.MyvaCOG")>
+    Public Function readMyvaCOG(file As String) As MyvaCOG()
+        Return file.LoadCsv(Of MyvaCOG).ToArray
     End Function
 
     ''' <summary>
