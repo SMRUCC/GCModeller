@@ -1,63 +1,82 @@
 ﻿#Region "Microsoft.VisualBasic::0d49ae9313c23b5b278fdac57c90101a, seqtoolkit\Annotations\terms.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module terms
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: COGannotations, GOannotations, KOannotations, Pfamannotations, printIDSolver
-    '               readIdMappings, saveIdMappings, Synonyms
-    ' 
-    ' /********************************************************************************/
+' Module terms
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: COGannotations, GOannotations, KOannotations, Pfamannotations, printIDSolver
+'               readIdMappings, saveIdMappings, Synonyms
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module terms
 
     Sub New()
         Call Internal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
+
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
     End Sub
+
+    Private Function COGtable(myva As MyvaCOG(), args As list, env As Environment) As dataframe
+        Dim text = myva.ToCsvDoc
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        For Each column As String() In text.Columns
+            Call table.columns.Add(column(Scan0), column.Skip(1).ToArray)
+        Next
+
+        Return table
+    End Function
 
     Private Function printIDSolver(solver As SecondaryIDSolver) As String
         Dim sb As New StringBuilder
@@ -77,6 +96,21 @@ Module terms
         Call sb.AppendLine("...")
 
         Return sb.ToString
+    End Function
+
+    ''' <summary>
+    ''' try parse gene names from the product description strings
+    ''' </summary>
+    ''' <param name="descriptions">
+    ''' the gene functional product description strings.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("geneNames")>
+    Public Function geneNames(<RRawVectorArgument> descriptions As Object) As vector
+        Return REnv.asVector(Of String)(descriptions) _
+            .AsObjectEnumerator(Of String) _
+            .Select(AddressOf ObjectQuery.geneName.TryParseGeneName) _
+            .DoCall(AddressOf vector.asVector)
     End Function
 
     ''' <summary>
@@ -102,8 +136,17 @@ Module terms
     End Function
 
     <ExportAPI("assign.COG")>
-    Public Function COGannotations()
-        Throw New NotImplementedException
+    Public Function COGannotations(<RRawVectorArgument> alignment As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf alignment Is MyvaCOG() Then
+            Return DirectCast(alignment, MyvaCOG()) _
+                .GroupBy(Function(hit) hit.QueryName) _
+                .Select(Function(hits)
+                            Return hits.OrderByDescending(Function(hit) hit.Identities).First
+                        End Function) _
+                .ToArray
+        Else
+            Return Internal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
+        End If
     End Function
 
     <ExportAPI("assign.Pfam")>
@@ -119,6 +162,11 @@ Module terms
     <ExportAPI("write.id_maps")>
     Public Function saveIdMappings(maps As SecondaryIDSolver, file As String) As Boolean
         Return maps.Save(path:=file)
+    End Function
+
+    <ExportAPI("read.MyvaCOG")>
+    Public Function readMyvaCOG(file As String) As MyvaCOG()
+        Return file.LoadCsv(Of MyvaCOG).ToArray
     End Function
 
     ''' <summary>

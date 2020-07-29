@@ -888,6 +888,8 @@
     <Compile Include="ProteinModel\DomainModels.vb" />
     <Compile Include="ProteinModel\Extensions.vb" />
     <Compile Include="Query\MatchContext.vb" />
+    <Compile Include="Query\NamespaceDoc.vb" />
+    <Compile Include="Query\Term\geneName.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
     <Compile Include="SequenceModel\Bits.vb" />
     <Compile Include="SequenceModel\CutSequence.vb" />

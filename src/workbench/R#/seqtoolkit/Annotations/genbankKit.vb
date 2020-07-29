@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ce82d5845fb336d758224363b0d7729, seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::5035168ea23c18dce4f1c0fde8396023, seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     ' Module genbankKit
     ' 
     '     Function: addFeature, addproteinSeq, addRNAGene, asGenbank, createFeature
-    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, populateGenbanks, readGenbank
-    '               writeGenbank
+    '               enumerateFeatures, getOrAddNtOrigin, getRNASeq, isPlasmidSource, populateGenbanks
+    '               readGenbank, writeGenbank
     ' 
     ' 
     ' /********************************************************************************/
@@ -88,6 +88,37 @@ Module genbankKit
             Return GenBank.loadRepliconTable(file)
         Else
             Return GBFF.File.Load(file)
+        End If
+    End Function
+
+    <ExportAPI("is.plasmid")>
+    <RApiReturn(GetType(Boolean))>
+    Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
+        If gb Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf gb Is list Then
+            Return DirectCast(gb, list) _
+                .AsGeneric(Of GBFF.File)(env) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.isPlasmid)
+                              End Function) _
+                .DoCall(Function(data)
+                            Return New list With {
+                                .slots = data
+                            }
+                        End Function)
+        Else
+            Dim source As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(gb, env)
+
+            If source.isError Then
+                Return source.getError
+            End If
+
+            Return source _
+                .populates(Of GBFF.File)(env) _
+                .Select(Function(a) a.isPlasmid) _
+                .DoCall(AddressOf vector.asVector)
         End If
     End Function
 
@@ -225,6 +256,47 @@ Module genbankKit
         Return gb.Features.ToArray
     End Function
 
+    <ExportAPI("featureKeys")>
+    <RApiReturn(GetType(String))>
+    Public Function keyNames(<RRawVectorArgument> features As Object, Optional env As Environment = Nothing) As Object
+        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+
+        If featureArray.isError Then
+            Return featureArray.getError
+        End If
+
+        Return featureArray _
+            .populates(Of Feature)(env) _
+            .Select(Function(feature) feature.KeyName) _
+            .ToArray
+    End Function
+
+    <ExportAPI("featureMeta")>
+    <RApiReturn(GetType(String))>
+    Public Function featureMeta(<RRawVectorArgument> features As Object, attrName$, Optional env As Environment = Nothing) As Object
+        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+
+        If featureArray.isError Then
+            Return featureArray.getError
+        End If
+
+        Return featureArray _
+            .populates(Of Feature)(env) _
+            .Select(Function(feature) feature.Query(attrName)) _
+            .ToArray
+    End Function
+
+    <ExportAPI("addMeta")>
+    Public Function addMeta(feature As Feature, <RListObjectArgument> meta As list, Optional env As Environment = Nothing) As Feature
+        Dim metadata As Dictionary(Of String, String) = meta.AsGeneric(Of String)(env)
+
+        For Each attr As KeyValuePair(Of String, String) In metadata
+            Call feature.Add(attr)
+        Next
+
+        Return feature
+    End Function
+
     ''' <summary>
     ''' get, add or replace the genome origin fasta sequence in the given genbank assembly file.
     ''' </summary>
@@ -239,7 +311,7 @@ Module genbankKit
     ''' the modified genbank assembly object.
     ''' </returns>
     <ExportAPI("origin.fasta")>
-    <RApiReturn(GetType(GBFF.File))>
+    <RApiReturn(GetType(GBFF.File), GetType(FastaSeq))>
     Public Function getOrAddNtOrigin(gb As GBFF.File, Optional nt As FastaSeq = Nothing, Optional mol_type$ = "genomic DNA") As Object
         If nt Is Nothing Then
             Return gb.Origin.ToFasta

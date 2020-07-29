@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03b263c917682e58a07354fc30e7836c, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::1937d9c316dbe00270961e333fcaa445, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -263,6 +263,7 @@ Public Module Scatter
         End If
 
         Dim width As Double = rect.PlotRegion.Width / 200
+        Dim annotations As New Dictionary(Of String, (raw As SerialData, line As SerialData))
 
         For Each line As SerialData In array
             Dim pts As SlideWindow(Of PointData)() = line.pts _
@@ -353,10 +354,14 @@ Public Module Scatter
             If Not line.DataAnnotations.IsNullOrEmpty Then
                 Dim raw = array.Where(Function(s) s.title = line.title).First
 
-                For Each annotation As Annotation In line.DataAnnotations
-                    Call annotation.Draw(g, scaler, raw, rect)
-                Next
+                Call annotations.Add(line.title, (raw, line))
             End If
+        Next
+
+        For Each part In annotations.Values
+            For Each annotation As Annotation In part.line.DataAnnotations
+                Call annotation.Draw(g, scaler, part.raw, rect)
+            Next
         Next
 
         If showLegend Then

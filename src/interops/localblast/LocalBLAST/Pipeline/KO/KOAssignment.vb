@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::716455c9f1d1912033d632d1659f2592, LocalBLAST\Pipeline\KO\KOAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::cfd2e8bf43a5dc4786d7dbf94a2862b4, localblast\LocalBLAST\Pipeline\KO\KOAssignment.vb"
 
     ' Author:
     ' 

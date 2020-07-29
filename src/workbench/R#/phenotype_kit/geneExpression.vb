@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af2d4d0dfabeb716132daca33033d041, phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::a07661e38be11be09ef8a5a9b3f7ec42, phenotype_kit\geneExpression.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -86,4 +85,3 @@ Module geneExpression
         }
     End Function
 End Module
-

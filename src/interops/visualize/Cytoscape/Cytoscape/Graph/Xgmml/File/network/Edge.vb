@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a549ae26e59dde509d9a6eb4537af90b, visualize\Cytoscape\Cytoscape\Graph\Xgmml\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::7eea72b2e1bc2828b2b08092b5eae78f, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\Edge.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Class Edge
+    '     Class XGMMLedge
     ' 
-    '         Properties: __internalUID, Graphics, Id, Label, source
+    '         Properties: __internalUID, graphics, id, label, source
     '                     target
     ' 
     '         Function: ContainsNode, ContainsOneOfNode, ToString

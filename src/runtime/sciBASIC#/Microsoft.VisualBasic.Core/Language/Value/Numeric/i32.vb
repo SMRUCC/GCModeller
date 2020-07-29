@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2379efaff63a9544f94cebaa2e1d3c8b, Microsoft.VisualBasic.Core\Language\Value\Numeric\i32.vb"
+﻿#Region "Microsoft.VisualBasic::a0dd7f0ddeeeb2695c0969010855fca2, Microsoft.VisualBasic.Core\Language\Value\Numeric\i32.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) CompareTo, Equals, (+2 Overloads) ToString
-    '         Operators: (+3 Overloads) -, (+2 Overloads) /, (+2 Overloads) +, (+3 Overloads) <, <<
+    '         Operators: (+3 Overloads) -, (+2 Overloads) /, (+4 Overloads) +, (+3 Overloads) <, <<
     '                    <=, (+3 Overloads) >, >=, (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
     ' 
     ' 
@@ -237,6 +237,11 @@ Namespace Language
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Narrowing Operator CType(n As i32) As Integer
             Return n.Value
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(n As i32) As Long
+            Return CLng(n.Value)
         End Operator
 
         ''' <summary>

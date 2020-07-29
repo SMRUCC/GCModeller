@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a273902ec33542c7e6e61bc358808983, LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
+﻿#Region "Microsoft.VisualBasic::a273902ec33542c7e6e61bc358808983, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
 
     ' Author:
     ' 

@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::6e4fd3cbcfdce0e3a331e3ec7ea33005, RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
+﻿#Region "Microsoft.VisualBasic::fa1c94809c720e8e1b7ca73668a9b350, RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module HtseqCountMethod
-' 
-'     Function: DataFrame, HtseqCount, (+2 Overloads) RPKM, TrimGFF
-'     Delegate Function
-' 
-'         Properties: HtSeqMethods
-' 
-'         Function: __getFeatures, __htSeqCount, GetMethod, HtseqCount, HtseqCountBatchParallel
-'                   (+2 Overloads) IntersectionNonempty, (+2 Overloads) IntersectionStrict, ToDoc, (+2 Overloads) Union
-' 
-'         Sub: __getFeatures
-'     Class CountResult
-' 
-'         Properties: Counts, Feature
-' 
-'         Function: Load, ToString
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module HtseqCountMethod
+    ' 
+    '     Function: DataFrame, HtseqCount, (+2 Overloads) RPKM, TrimGFF
+    '     Delegate Function
+    ' 
+    '         Properties: HtSeqMethods
+    ' 
+    '         Function: __getFeatures, __htSeqCount, GetMethod, HtseqCount, HtseqCountBatchParallel
+    '                   (+2 Overloads) IntersectionNonempty, (+2 Overloads) IntersectionStrict, ToDoc, (+2 Overloads) Union
+    ' 
+    '         Sub: __getFeatures
+    '     Class CountResult
+    ' 
+    '         Properties: Counts, Feature
+    ' 
+    '         Function: Load, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

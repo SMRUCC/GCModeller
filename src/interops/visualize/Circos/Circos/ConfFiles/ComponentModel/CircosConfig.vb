@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec32c7cff75a4a510df0345f7438317c, visualize\Circos\Circos\ConfFiles\ComponentModel\CircosConfig.vb"
+﻿#Region "Microsoft.VisualBasic::4ac243da9e0180f27d61d71e59603ab8, visualize\Circos\Circos\ConfFiles\ComponentModel\CircosConfig.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class CircosConfig
     ' 
-    '         Properties: FilePath, includes, main, RefPath
+    '         Properties: filePath, includes, main, refPath
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -72,9 +72,21 @@ Namespace Configurations.ComponentModel
         ''' <returns></returns>
         Public Property main As Circos
 
-        Sub New(FileName As String, Circos As Circos)
-            Me.FilePath = FileName
-            Me.main = Circos
+        ''' <summary>
+        ''' 配置文件的引用的相对路径
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property refPath As String
+            Get
+                Return Tools.TrimPath(Me)
+            End Get
+        End Property
+
+        Public Property filePath As String Implements IFileReference.FilePath
+
+        Sub New(fileName As String, circos As Circos)
+            Me.filePath = fileName
+            Me.main = circos
         End Sub
 
         Protected Function GenerateIncludes(directory As String) As String
@@ -111,17 +123,6 @@ Namespace Configurations.ComponentModel
         End Sub
 
         ''' <summary>
-        ''' 配置文件的引用的相对路径
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property RefPath As String
-            Get
-                Return Tools.TrimPath(Me)
-            End Get
-        End Property
-
-        Public Property FilePath As String Implements IFileReference.FilePath
-        ''' <summary>
         ''' ``ticks.conf``
         ''' </summary>
         Public Const TicksConf As String = "ticks.conf"
@@ -146,11 +147,12 @@ Namespace Configurations.ComponentModel
         ''' <returns></returns>
         Public Overridable Function Save(directory$, Encoding As Encoding) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
-                Return True ' 系统自带的不需要进行保存了
+                ' 系统自带的不需要进行保存了
+                Return True
             End If
 
             Dim doc As String = build(indents:=Scan0, directory:=directory)
-            Dim path$ = $"{directory}/{FilePath}"
+            Dim path$ = $"{directory}/{filePath}"
 
             Return doc.SaveTo(path, Encoding Or Encoding.ASCII.AsDefault)
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61f0ad6bbacf71b13baff9874c0af53d, LocalBLAST\Pipeline\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::61f0ad6bbacf71b13baff9874c0af53d, localblast\LocalBLAST\Pipeline\NamespaceDoc.vb"
 
     ' Author:
     ' 

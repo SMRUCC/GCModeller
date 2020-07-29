@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8332379d66b596b65b23eb3647f9539, gokit\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::e20ad86a293225bd9e81b4a7032e76d7, gokit\annotation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -104,4 +103,3 @@ Module annotation
             .ToArray
     End Function
 End Module
-

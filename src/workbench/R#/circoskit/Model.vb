@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1eac4cb293051c97df508fd1c8efab68, circoskit\Model.vb"
+﻿#Region "Microsoft.VisualBasic::3717f6c0a907abb2e40564c9860952c8, circoskit\Model.vb"
 
     ' Author:
     ' 
@@ -33,30 +33,97 @@
 
     ' Module Model
     ' 
-    '     Function: SetIdeogramRadius
+    '     Function: CreateGCContent, CreateGCSkewPlots, GeneMarks, HeatMapping, VariantsHighlights
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
 
-<Package("circos.model", Category:=APICategories.UtilityTools)>
+''' <summary>
+''' package module for generates plot data
+''' </summary>
+<Package("model", Category:=APICategories.UtilityTools)>
 Module Model
 
+    <ExportAPI("highlight.heatmapping")>
+    <RApiReturn(GetType(Highlights))>
+    Public Function HeatMapping(<RRawVectorArgument> values As Object, Optional colors$ = ColorMap.PatternJet, Optional env As Environment = Nothing) As Object
+        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+
+        If valuePoints.isError Then
+            Return valuePoints.getError
+        End If
+
+        Dim model As New GradientMappings(valuePoints.populates(Of ValueTrackData)(env), mapName:=colors)
+        Return model
+    End Function
+
+    <ExportAPI("highlight.genemarks")>
+    <RApiReturn(GetType(Highlights))>
+    Public Function GeneMarks(<RRawVectorArgument> genes As Object, colors As Object, Optional env As Environment = Nothing) As Object
+        Dim geneTable As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+        Dim geneColors As Dictionary(Of String, String)
+
+        If geneTable.isError Then
+            Return geneTable.getError
+        End If
+
+        If TypeOf colors Is list Then
+            geneColors = DirectCast(colors, list).AsGeneric(Of String)(env)
+        Else
+            geneColors = New Dictionary(Of String, String) From {
+                {"-", InteropArgumentHelper.getColor(colors)}
+            }
+        End If
+
+        Return New GeneMark(geneTable.populates(Of IGeneBrief)(env), geneColors)
+    End Function
+
     ''' <summary>
-    ''' Invoke set the radius value of the ideogram circle.
+    ''' creates the ``GC%`` content for circos plots.
     ''' </summary>
-    ''' <param name="circos"></param>
-    ''' <param name="r"></param>
+    ''' <param name="nt">
+    ''' The original nt sequence in the fasta format for the calculation of the 
+    ''' ``GC%`` content in each slidewindow
+    ''' </param>
+    ''' <param name="win_size%"></param>
+    ''' <param name="steps%"></param>
     ''' <returns></returns>
-    <ExportAPI("Set.Ideogram.Radius")>
-    Public Function SetIdeogramRadius(circos As Circos, r As Double) As Circos
-        Dim idg As Ideogram = circos.GetIdeogram
-        Call CircosAPI.SetIdeogramRadius(idg, r)
-        Return circos
+    <ExportAPI("GC_content")>
+    Public Function CreateGCContent(nt As FastaSeq, win_size%, steps%) As NtProps.GenomeGCContent
+        Return New NtProps.GenomeGCContent(nt, win_size, steps)
+    End Function
+
+    ''' <summary>
+    ''' Creates the circos circle plots of the genome gcskew.
+    ''' </summary>
+    ''' <param name="nt"></param>
+    ''' <param name="win_size"></param>
+    ''' <param name="steps"></param>
+    ''' <returns></returns>
+    <ExportAPI("gcSkew")>
+    Public Function CreateGCSkewPlots(nt As IPolymerSequenceModel, win_size As Integer, steps As Integer) As NtProps.GCSkew
+        Return New NtProps.GCSkew(nt, win_size, steps, True)
+    End Function
+
+    <ExportAPI("ntVariants")>
+    Public Function VariantsHighlights(fasta As FastaFile, Optional index As Integer = Scan0, Optional step% = 1) As NtProps.GCSkew
+        Dim var As Double() = Patterns.NTVariations(fasta, index)
+        Dim node As New NtProps.GCSkew(var, [step])
+        Return node
     End Function
 End Module

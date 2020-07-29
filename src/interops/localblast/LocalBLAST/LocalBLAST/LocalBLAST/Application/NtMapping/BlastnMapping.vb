@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfc59dc6ad5ededdc6ad5d5615cbd542, LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::d572c06cc90291b5405a78857cb3cc2a, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     '     Class BlastnMapping
     ' 
-    '         Properties: AlignmentFullLength, Evalue, Extensions, Gaps, GapsFraction
-    '                     Identities, IdentitiesFraction, PerfectAlignment, QueryLeft, QueryLength
+    '         Properties: AlignmentFullLength, Evalue, Extensions, GapsFraction, gapsValue
+    '                     IdentitiesFraction, identitiesValue, PerfectAlignment, QueryLeft, QueryLength
     '                     QueryRight, QueryStrand, RawScore, ReadQuery, Reference
     '                     ReferenceLeft, ReferenceRight, ReferenceStrand, Score, Strand
     '                     Unique

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbeee54300d75cb59491d8a992e7aa24, visualize\Phylip\Models\CRISPRPhylogeneticTree.vb"
+﻿#Region "Microsoft.VisualBasic::149427a3760527c87a9b9fa214cc57fc, visualize\Phylip\Models\CRISPRPhylogeneticTree.vb"
 
     ' Author:
     ' 
