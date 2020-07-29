@@ -61,11 +61,15 @@ Namespace ComponentModel.Evaluation
         ''' <returns></returns>
         <Extension>
         Public Function AUC(validates As IEnumerable(Of Validation)) As Double
-            Return validates _
+            Dim raw = validates _
                 .OrderByDescending(Function(d) d.Threshold) _
-                .ToArray _
-                .accumulate() _
-                .Sum / 100
+                .ToArray
+
+            If raw.All(Function(a) a.Specificity = 100 AndAlso a.Sensibility = 100) Then
+                Return 1
+            Else
+                Return raw.accumulate().Sum / 100
+            End If
         End Function
 
         <Extension>
@@ -73,6 +77,7 @@ Namespace ComponentModel.Evaluation
             Dim x2, x1 As Double
             Dim fx2, fx1 As Double
             Dim h As Double
+            Dim delta As Double
 
             ' x = 1 - Specificity
             ' y = Sensibility
@@ -80,14 +85,14 @@ Namespace ComponentModel.Evaluation
             ' 梯形面积计算： 矩形面积+直角三角形面积
 
             For i As Integer = 1 To data.Length - 1
-                x2 = 100 - data(i).Specificity
-                x1 = 100 - data(i - 1).Specificity
+                x2 = data(i).Specificity
+                x1 = data(i - 1).Specificity
                 fx2 = data(i).Sensibility
-                fx1 = data(i).Sensibility
+                fx1 = data(i - 1).Sensibility
                 h = x2 - x1
+                delta = (fx2 + fx1) * h / 2
 
-                ' 矩形面积 + 直角三角形面积
-                Yield h * stdNum.Min(fx2, fx1) + (h * stdNum.Abs(fx2 - fx1)) / 2
+                Yield delta
             Next
         End Function
 
