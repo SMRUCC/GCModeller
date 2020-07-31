@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
+Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -229,19 +230,26 @@ Module visualPlot
         }
     End Function
 
+    <ExportAPI("expression.cmeans_pattern")>
+    Public Function CmeansPattern(matrix As Matrix, <RRawVectorArgument> Optional [dim] As Object = "3,3") As ExpressionPattern
+        Return InteropArgumentHelper _
+            .getSize([dim], "3,3") _
+            .Split(","c) _
+            .Select(AddressOf Integer.Parse) _
+            .DoCall(Function(dimension)
+                        Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
+                    End Function)
+    End Function
+
     <ExportAPI("plot.expression_patterns")>
-    Public Function PlotExpressionPatterns(matrix As Matrix,
-                                           <RRawVectorArgument>
-                                           Optional [dim] As Object = "3,3",
+    Public Function PlotExpressionPatterns(matrix As ExpressionPattern,
                                            <RRawVectorArgument>
                                            Optional size As Object = "2400,2100",
                                            <RRawVectorArgument>
                                            Optional padding As Object = g.DefaultPadding,
                                            Optional bg As Object = "white") As Object
 
-        Return ExpressionPatterns.DrawMatrix(
-            raw:=matrix,
-            [dim]:=InteropArgumentHelper.getSize([dim], "3,3"),
+        Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
             bg:=InteropArgumentHelper.getColor(bg, "white")
