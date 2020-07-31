@@ -2,7 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -14,7 +14,15 @@ Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 ''' <summary>
 ''' 表达模式聚类
 ''' </summary>
-Public Module ExpressionPatterns
+Public Class ExpressionPattern
+
+    Public Property Patterns As FuzzyCMeansEntity()
+    Public Property sampleNames As String()
+    Public Property [dim] As Integer()
+
+    Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
+        Return populatePartitions(Patterns, [dim], sampleNames)
+    End Function
 
     ''' <summary>
     ''' 
@@ -23,41 +31,44 @@ Public Module ExpressionPatterns
     ''' <param name="dim">``[row, columns]``</param>
     ''' <returns></returns>
     ''' 
-    <Extension>
-    Public Function KMeansCluster(matrix As Matrix, [dim] As Integer()) As Matrix()()
+    Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer()) As ExpressionPattern
         Dim nsize As Integer = [dim](Scan0) * [dim](1)
         Dim sampleNames = matrix.sampleID
         Dim clusters = matrix.expression _
             .AsParallel _
             .Select(Function(gene)
-                        Dim vector As New Dictionary(Of String, Double)
+                        Dim vector As New List(Of Double)
 
                         For i As Integer = 0 To sampleNames.Length - 1
-                            Call vector.Add(sampleNames(i), gene.experiments(i))
+                            Call vector.Add(gene.experiments(i))
                         Next
 
-                        Return New DataSet With {.ID = gene.geneID, .Properties = vector}
+                        Return New FuzzyCMeansEntity With {
+                            .uid = gene.geneID,
+                            .Memberships = New Dictionary(Of Integer, Double),
+                            .entityVector = vector.ToArray
+                        }
                     End Function) _
-            .ToKMeansModels _
-            .Kmeans(expected:=nsize)
+            .FuzzyCMeans(numberOfClusters:=nsize)
 
-        Return clusters.populatePartitions([dim], sampleNames).ToArray
+        Return New ExpressionPattern With {
+            .Patterns = clusters.ToArray,
+            .sampleNames = sampleNames,
+            .[dim] = [dim]
+        }
     End Function
 
-    <Extension>
-    Private Iterator Function populatePartitions(clusters As IEnumerable(Of EntityClusterModel), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
+    Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
         Dim row As New List(Of Matrix)
 
-        For Each cluster In clusters.GroupBy(Function(c) c.Cluster)
+        For Each cluster In clusters.GroupBy(Function(c) c.cluster)
             Dim matrix = New Matrix With {
                 .sampleID = sampleNames,
                 .expression = cluster _
                     .Select(Function(a)
                                 Return New DataFrameRow With {
-                                    .geneID = a.ID,
-                                    .experiments = sampleNames _
-                                        .Select(Function(name) a(name)) _
-                                        .ToArray
+                                    .geneID = a.uid,
+                                    .experiments = a.entityVector
                                 }
                             End Function) _
                     .ToArray
@@ -75,13 +86,21 @@ Public Module ExpressionPatterns
         End If
     End Function
 
-    Public Function DrawMatrix(raw As Matrix,
-                               Optional dim$ = "3,3",
-                               Optional size$ = "2400,2100",
-                               Optional padding$ = g.DefaultPadding,
-                               Optional bg$ = "white") As GraphicsData
+    Public Shared Function DrawMatrix(raw As Matrix,
+                                      Optional dim$ = "3,3",
+                                      Optional size$ = "2400,2100",
+                                      Optional padding$ = g.DefaultPadding,
+                                      Optional bg$ = "white") As GraphicsData
 
-        Dim matrix As Matrix()() = raw.KMeansCluster(dim$.SizeParser.ToArray)
+    End Function
+
+    Public Shared Function DrawMatrix(raw As Matrix,
+                                      Optional dim$ = "3,3",
+                                      Optional size$ = "2400,2100",
+                                      Optional padding$ = g.DefaultPadding,
+                                      Optional bg$ = "white") As GraphicsData
+
+        Dim matrix As ExpressionPattern = CMeansCluster(raw, dim$.SizeParser.ToArray)
         Dim plot = Sub(ByRef g As IGraphics, canvas As GraphicsRegion)
                        Dim w = canvas.PlotRegion.Width / matrix(Scan0).Length
                        Dim h = canvas.PlotRegion.Height / matrix.Length
@@ -136,4 +155,4 @@ Public Module ExpressionPatterns
             plotAPI:=plot
         )
     End Function
-End Module
+End Class
