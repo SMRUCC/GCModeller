@@ -228,6 +228,6 @@ Module visualPlot
     Public Function PlotExpressionPatterns(matrix As Matrix,
                                            <RRawVectorArgument>
                                            Optional [dim] As Object = "3,3") As Object
-        Return ExpressionPatterns.DrawMatrix(raw:=matrix, [dim]:=[dim])
+        Return ExpressionPatterns.DrawMatrix(raw:=matrix, [dim]:=InteropArgumentHelper.getSize([dim], "3,3"))
     End Function
 End Module
