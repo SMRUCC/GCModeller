@@ -37,7 +37,7 @@ Namespace ExpressionPattern
                     x += w
                     scatterData = col.DoCall(AddressOf createLines).ToArray
 
-                    Scatter.Plot(scatterData, g, layout)
+                    Call Scatter.Plot(scatterData, g, layout, Xlabel:=xlabel, Ylabel:=ylabel)
                 Next
 
                 y += h

@@ -12,10 +12,10 @@ Namespace ExpressionPattern
     Public Module PatternPlotExtensions
 
         Public Function DrawMatrix(raw As Matrix,
-                               Optional dim$ = "3,3",
-                               Optional size$ = "2400,2100",
-                               Optional padding$ = g.DefaultPadding,
-                               Optional bg$ = "white") As GraphicsData
+                                   Optional dim$ = "3,3",
+                                   Optional size$ = "2400,2100",
+                                   Optional padding$ = g.DefaultPadding,
+                                   Optional bg$ = "white") As GraphicsData
 
             Return ExpressionPattern.CMeansCluster(raw, dim$.SizeParser.ToArray).DrawMatrix(
                 size:=size,
@@ -26,15 +26,16 @@ Namespace ExpressionPattern
 
         <Extension>
         Public Function DrawMatrix(matrix As ExpressionPattern,
-                               Optional size$ = "2400,2100",
-                               Optional padding$ = g.DefaultPadding,
-                               Optional bg$ = "white",
-                               Optional title$ = "Expression Patterns",
-                               Optional xlab$ = "time groups",
-                               Optional ylab$ = "expression quantification") As GraphicsData
+                                   Optional size$ = "2400,2100",
+                                   Optional padding$ = g.DefaultPadding,
+                                   Optional bg$ = "white",
+                                   Optional title$ = "Expression Patterns",
+                                   Optional xlab$ = "time groups",
+                                   Optional ylab$ = "expression quantification") As GraphicsData
 
             Dim theme As New Theme With {
-                .background = bg
+                .background = bg,
+                .padding = padding
             }
 
             Return New PatternPlot(theme) With {
@@ -42,7 +43,7 @@ Namespace ExpressionPattern
                 .matrix = matrix,
                 .xlabel = xlab,
                 .ylabel = ylab
-            }.Plot(size, padding)
+            }.Plot(size)
         End Function
     End Module
 End Namespace
