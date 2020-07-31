@@ -299,7 +299,8 @@
     <Compile Include="CurvesChart\CurvesModel.vb" />
     <Compile Include="CurvesChart\Histogram.vb" />
     <Compile Include="CurvesChart\Line.vb" />
-    <Compile Include="ExpressionPattern\ExpressionPatterns.vb" />
+    <Compile Include="ExpressionPattern\ExpressionPattern.vb" />
+    <Compile Include="ExpressionPattern\PatternPlot.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="GCSkew.vb" />
     <Compile Include="MapLabelLayout.vb" />
