@@ -300,7 +300,7 @@
     <Compile Include="CurvesChart\Histogram.vb" />
     <Compile Include="CurvesChart\Line.vb" />
     <Compile Include="ExpressionPattern\ExpressionPattern.vb" />
-    <Compile Include="ExpressionPattern\Module1.vb" />
+    <Compile Include="ExpressionPattern\Extensions.vb" />
     <Compile Include="ExpressionPattern\PatternPlot.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="GCSkew.vb" />
