@@ -6,6 +6,7 @@ setwd(!script$dir);
 "E:\smartnucl_integrative\biodeep_pipeline\Biodeep_Rpackage\etc\pathway_network\msms_Intensity.csv"
 :> load.expr
 :> relative
-:> plot.expression_patterns(dim = [4,4])
+:> expression.cmeans_pattern(dim = [4,4])
+:> plot.expression_patterns()
 :> save.graphics(file = "./patterns.png")
 ;
