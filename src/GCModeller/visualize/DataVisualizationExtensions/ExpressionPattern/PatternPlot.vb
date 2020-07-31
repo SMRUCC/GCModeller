@@ -27,6 +27,7 @@ Namespace ExpressionPattern
             Dim layout As GraphicsRegion
             Dim x!
             Dim y! = canvas.PlotRegion.Top + h
+            Dim padding As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
                 x = canvas.PlotRegion.Left + w

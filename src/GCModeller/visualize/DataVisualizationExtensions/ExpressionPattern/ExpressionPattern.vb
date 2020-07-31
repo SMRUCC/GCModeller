@@ -13,6 +13,7 @@ Namespace ExpressionPattern
         Public Property Patterns As FuzzyCMeansEntity()
         Public Property sampleNames As String()
         Public Property [dim] As Integer()
+        Public Property centers As FuzzyCMeansEntity()
 
         Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
             Return populatePartitions(Patterns, [dim], sampleNames)
@@ -28,7 +29,7 @@ Namespace ExpressionPattern
         Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer()) As ExpressionPattern
             Dim nsize As Integer = [dim](Scan0) * [dim](1)
             Dim sampleNames = matrix.sampleID
-            Dim clusters = matrix.expression _
+            Dim geneNodes As FuzzyCMeansEntity() = matrix.expression _
                 .AsParallel _
                 .Select(Function(gene)
                             Dim vector As New List(Of Double)
@@ -43,12 +44,14 @@ Namespace ExpressionPattern
                                 .entityVector = vector.ToArray
                             }
                         End Function) _
-                .FuzzyCMeans(numberOfClusters:=nsize)
+                .ToArray
+            Dim centers = geneNodes.FuzzyCMeans(numberOfClusters:=nsize)
 
             Return New ExpressionPattern With {
-                .Patterns = clusters.ToArray,
+                .Patterns = geneNodes.ToArray,
                 .sampleNames = sampleNames,
-                .[dim] = [dim]
+                .[dim] = [dim],
+                .centers = centers.ToArray
             }
         End Function
 
