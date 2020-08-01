@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b6a1dbab239818337dfb44b47bcea7d, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Algorithm\FuzzyCMeansAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::ce3384ba888bc4cc558b5c9a7e01b655, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Algorithm\FuzzyCMeansAlgorithm.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module FuzzyCMeansAlgorithm
     ' 
-    '         Function: FuzzyCMeans
+    '         Function: FuzzyCMeans, MakeFuzzyClusters, RecalculateCoordinateOfFuzzyClusterCenters
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,7 +42,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
 Namespace FuzzyCMeans
@@ -94,150 +94,87 @@ Namespace FuzzyCMeans
                                     Optional fuzzificationParameter# = 2,
                                     Optional maxIterates% = Short.MaxValue,
                                     Optional threshold# = 0.001,
-                                    Optional ByRef trace As Dictionary(Of Integer, List(Of FuzzyCMeansEntity)) = Nothing) As List(Of FuzzyCMeansEntity)
-
-            Dim coordinates As New List(Of FuzzyCMeansEntity)(data)
-            ' Dim random As New Random()
-            '  Dim bgrColor As Byte() = New Byte(2) {}
-            Dim clusterCenters As List(Of FuzzyCMeansEntity) = AlgorithmsUtils.MakeInitialSeeds(coordinates, numberOfClusters)
-            Dim clusters As Dictionary(Of FuzzyCMeansEntity, FuzzyCMeansEntity)
-            Dim membershipMatrix As Dictionary(Of FuzzyCMeansEntity, List(Of Double)) = Nothing
-            Dim iteration As i32 = 0
-            Dim ptClone As New Value(Of FuzzyCMeansEntity)
-            '  Dim clusterColors As New Dictionary(Of Entity, Color)()
-
-            'For Each clusterCenter As Entity In clusterCenters
-            '    For Each annotation As Entity In coordinates
-
-            '        If annotation = clusterCenter Then
-            '            random.NextBytes(bgrColor)
-
-            '            MarkClusterCenter(annotation, Color.FromArgb(bgrColor(0), bgrColor(1), bgrColor(2)))
-            '            clusterColors.Add(clusterCenter, annotation.Fill)
-
-            '            Call $"Inital cluster center {annotation.uid}".__DEBUG_ECHO
-            '        End If
-            '    Next
-            'Next
+                                    Optional ByRef trace As Dictionary(Of Integer, FuzzyCMeansEntity()) = Nothing) As FuzzyCMeansEntity()
 
             If Not trace Is Nothing Then
                 Call trace.Clear()
             End If
 
-            While ++iteration <= maxIterates
-#If DEBUG Then
-                Call $"Iteration = {iteration}".__DEBUG_ECHO
-#End If
-                clusters = MakeFuzzyClusters(coordinates, clusterCenters, fuzzificationParameter, membershipMatrix)
+            Return New FuzzyCMeans(data, numberOfClusters, threshold, fuzzificationParameter) With {
+                .trace = trace
+            }.RunCMeans(maxIterates).ToArray
+        End Function
 
-                'For Each pair As KeyValuePair(Of Entity, Entity) In clusters
-                '    For Each annotation As Entity In coordinates
+        Friend Function MakeFuzzyClusters(points As List(Of FuzzyCMeansEntity),
+                                clusterCenters As List(Of FuzzyCMeansEntity),
+                        fuzzificationParameter As Double,
+                        ByRef membershipMatrix As MembershipMatrix) As Dictionary(Of FuzzyCMeansEntity, FuzzyCMeansEntity)
 
-                '        If VectorEqualityComparer.VectorEqualsToAnother(annotation.Properties, pair.Key.Properties) Then
-                '            annotation.MarkClusterCenter(clusterColors(pair.Value))
-                '        End If
-                '    Next
-                'Next
+            Dim distancesToClusterCenters As MembershipMatrix = MembershipMatrix.DistanceToClusterCenters(points, clusterCenters)
+            Dim clusters As New Dictionary(Of FuzzyCMeansEntity, FuzzyCMeansEntity)()
+            Dim clusterNumber As Integer
 
-                For Each pair As KeyValuePair(Of FuzzyCMeansEntity, List(Of Double)) In membershipMatrix
-                    For Each annotation As FuzzyCMeansEntity In coordinates
+            membershipMatrix = MembershipMatrix.CreateMembershipMatrix(distancesToClusterCenters, fuzzificationParameter)
 
-                        If VectorEqualityComparer.VectorEqualsToAnother(annotation.entityVector, pair.Key.entityVector) Then
-                            Dim tooltip As New Dictionary(Of Integer, Double)
+            For Each value In membershipMatrix.GetMemberships
+                clusterNumber = Which.Max(value.membership)
+                clusters.Add(value.entity, clusterCenters(clusterNumber))
+            Next
 
-                            For i As Integer = 0 To pair.Value.Count - 1
-                                Dim value As Double = pair.Value(i)
-                                Call tooltip.Add(i, stdNum.Round(value, 2))
-                            Next
+            Return clusters
+        End Function
 
-                            annotation.Memberships = tooltip
-                        End If
+        Friend Function RecalculateCoordinateOfFuzzyClusterCenters(clusterCenters As List(Of FuzzyCMeansEntity),
+                                                                 membershipMatrix As MembershipMatrix,
+                                                           fuzzificationParameter As Double) As List(Of FuzzyCMeansEntity)
+
+            Dim clusterMembershipValuesSums As New List(Of Double)()
+
+            For Each clusterCenter As FuzzyCMeansEntity In clusterCenters
+                clusterMembershipValuesSums.Add(0)
+            Next
+
+            Dim weightedPointCoordinateSums As New List(Of List(Of Double))()
+            Dim memberRelationships = membershipMatrix.GetMemberships.ToArray
+
+            For i As Integer = 0 To clusterCenters.Count - 1
+                Dim clusterCoordinatesSum As New List(Of Double)()
+
+                For Each coordinate As Double In clusterCenters(0).entityVector
+                    clusterCoordinatesSum.Add(0)
+                Next
+
+                For Each member In memberRelationships
+                    Dim pointCoordinates As FuzzyCMeansEntity = member.entity
+                    Dim membershipValues As List(Of Double) = member.membership
+
+                    clusterMembershipValuesSums(i) += stdNum.Pow(membershipValues(i), fuzzificationParameter)
+
+                    For j As Integer = 0 To pointCoordinates.Length - 1
+                        clusterCoordinatesSum(j) += pointCoordinates(j) * stdNum.Pow(membershipValues(i), fuzzificationParameter)
                     Next
                 Next
 
-                Dim oldClusterCenters As List(Of FuzzyCMeansEntity) = clusterCenters
+                weightedPointCoordinateSums.Add(clusterCoordinatesSum)
+            Next
 
-                clusterCenters = RecalculateCoordinateOfFuzzyClusterCenters(clusterCenters, membershipMatrix, fuzzificationParameter)
-                If Not trace Is Nothing Then
-                    Call trace.Add(iteration, clusterCenters)
-                End If
+            Dim newClusterCenters As New List(Of FuzzyCMeansEntity)()
 
-                Dim distancesToClusterCenters As Dictionary(Of FuzzyCMeansEntity, List(Of Double)) = coordinates.DistanceToClusterCenters(clusterCenters)
-                Dim newMembershipMatrix As Dictionary(Of FuzzyCMeansEntity, List(Of Double)) = CreateMembershipMatrix(distancesToClusterCenters, fuzzificationParameter)
+            For i As Integer = 0 To clusterCenters.Count - 1
+                Dim coordinatesSums As List(Of Double) = weightedPointCoordinateSums(i)
+                Dim newCoordinates As New FuzzyCMeansEntity() With {
+                    .entityVector = New Double(coordinatesSums.Count - 1) {},
+                    .uid = clusterCenters(i).uid
+                }
 
-                Dim differences As List(Of List(Of Double)) = newMembershipMatrix.Values.DifferenceMatrix(membershipMatrix.Values.AsList())
-                Dim maxElement As Double = GetMaxElement(differences)
-
-                Call $"Max element: {maxElement}".__DEBUG_ECHO
-
-                If maxElement <= threshold Then
-                    Exit While
-                End If
-
-                'Dim colorValues As New List(Of Color)(clusterColors.Values)
-
-                'Call clusterColors.Clear()
-
-                'For i As Integer = 0 To clusterCenters.Count - 1
-                '    clusterColors.Add(clusterCenters(i), colorValues(i))
-                'Next
-
-                For Each oldClusterCenter As FuzzyCMeansEntity In oldClusterCenters
-                    Dim isClusterCenterDataPoint As Boolean = False
-
-                    For Each coordinate As FuzzyCMeansEntity In coordinates
-
-                        If VectorEqualityComparer.VectorEqualsToAnother(oldClusterCenter.entityVector, coordinate.entityVector) Then
-#If DEBUG Then
-                            Call $"ex-center {oldClusterCenter.uid}".__DEBUG_ECHO
-#End If
-                            isClusterCenterDataPoint = True
-                            Exit For
-                        End If
-                    Next
-
-                    If Not isClusterCenterDataPoint Then
-                        For Each annotation As FuzzyCMeansEntity In coordinates
-
-                            If VectorEqualityComparer.VectorEqualsToAnother(annotation.entityVector, oldClusterCenter.entityVector) Then
-#If DEBUG Then
-                                Call $"remove center with coordinate {annotation.uid}".__DEBUG_ECHO
-#End If
-                                coordinates.Remove(annotation)
-                                Exit For
-                            End If
-                        Next
-                    End If
+                For j As Integer = 0 To coordinatesSums.Count - 1
+                    newCoordinates(j) = coordinatesSums(j) / clusterMembershipValuesSums(i)
                 Next
 
-                For i As Integer = 0 To clusterCenters.Count - 1
-                    Dim clusterCenter As FuzzyCMeansEntity = clusterCenters(i)
-                    Dim isExists As Boolean = False
+                newClusterCenters.Add(newCoordinates)
+            Next
 
-                    For Each annotation As FuzzyCMeansEntity In coordinates
-
-                        If VectorEqualityComparer.VectorEqualsToAnother(annotation.entityVector, clusterCenter.entityVector) Then
-                            '  MarkClusterCenter(annotation, colorValues(i))
-                            isExists = True
-                            Exit For
-                        End If
-                    Next
-
-                    If Not isExists Then
-
-                        '  Call MarkClusterCenter(ptClone, colorValues(i))
-                        coordinates += ptClone = New FuzzyCMeansEntity With {
-                            .entityVector = clusterCenter.entityVector.Clone,
-                            .uid = clusterCenter.uid
-                        }
-#If DEBUG Then
-                        Call $"add center with coordinate {(+ptClone).uid}".__DEBUG_ECHO
-#End If
-                    End If
-                Next
-            End While
-
-            Return clusterCenters
+            Return newClusterCenters
         End Function
     End Module
 End Namespace

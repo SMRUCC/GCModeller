@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0dd7f0ddeeeb2695c0969010855fca2, Microsoft.VisualBasic.Core\Language\Value\Numeric\i32.vb"
+﻿#Region "Microsoft.VisualBasic::088d89691c0090a29016cf74af9b6ab0, Microsoft.VisualBasic.Core\Language\Value\Numeric\i32.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Hex, Oct
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) CompareTo, Equals, (+2 Overloads) ToString
+    '         Function: (+2 Overloads) CompareTo, Equals, GetHexInteger, (+2 Overloads) ToString
     '         Operators: (+3 Overloads) -, (+2 Overloads) /, (+4 Overloads) +, (+3 Overloads) <, <<
     '                    <=, (+3 Overloads) >, >=, (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
     ' 
@@ -45,6 +45,7 @@
 
 #End Region
 
+Imports System.Globalization
 Imports System.Runtime.CompilerServices
 
 Namespace Language
@@ -92,6 +93,21 @@ Namespace Language
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return Value
+        End Function
+
+        ''' <summary>
+        ''' 将16进制的数字转换为10进制数
+        ''' </summary>
+        ''' <param name="hex$"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 因为直接使用vb的<see cref="Val"/>函数转换，在Linux上面可能会出错，所以需要在这里用.NET自己的方法来转换
+        ''' </remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetHexInteger(hex As String) As Integer
+            Dim num% = Integer.Parse(hex, NumberStyles.HexNumber)
+            Return num
         End Function
 
         ''' <summary>
