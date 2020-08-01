@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2618abcc326be4c9a7e80eaaecc9be6a, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Algorithm\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::0b2ea9db96ab4ac68646060a9ec8ebd2, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Algorithm\Utils.vb"
 
     ' Author:
     ' 
@@ -31,117 +31,64 @@
 
     ' Summaries:
 
-    '     Module FuzzyCMeansAlgorithm
+    '     Module AlgorithmsUtils
     ' 
-    '         Function: CreateMembershipMatrix, MakeFuzzyClusters, RecalculateCoordinateOfFuzzyClusterCenters
+    '         Function: DifferenceMatrix, MakeInitialSeeds
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports stdNum = System.Math
 
 Namespace FuzzyCMeans
 
-    Partial Public Module FuzzyCMeansAlgorithm
+    Public Module AlgorithmsUtils
 
-        Friend Function MakeFuzzyClusters(points As List(Of FuzzyCMeansEntity),
-                                   clusterCenters As List(Of FuzzyCMeansEntity),
-                           fuzzificationParameter As Double,
-                           ByRef membershipMatrix As Dictionary(Of FuzzyCMeansEntity, List(Of Double))) As Dictionary(Of FuzzyCMeansEntity, FuzzyCMeansEntity)
+        ''' <summary>
+        ''' </summary>
+        ''' <param name="matrix1"></param>
+        ''' <param name="matrix2"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function DifferenceMatrix(matrix1 As IEnumerable(Of List(Of Double)), matrix2 As List(Of Double)()) As List(Of List(Of Double))
+            Dim diff As New List(Of List(Of Double))()
+            Dim l% = matrix1.First.Count
+            Dim line As List(Of Double)
 
-            Dim distancesToClusterCenters As Dictionary(Of FuzzyCMeansEntity, List(Of Double)) =
-                points.DistanceToClusterCenters(clusterCenters)
-            Dim clusters As New Dictionary(Of FuzzyCMeansEntity, FuzzyCMeansEntity)()
+            For Each row As SeqValue(Of List(Of Double)) In matrix1.SeqIterator
+                Dim rowDifferences As New List(Of Double)()
 
-            membershipMatrix = CreateMembershipMatrix(distancesToClusterCenters, fuzzificationParameter)
+                line = (+row)
 
-            For Each value As KeyValuePair(Of FuzzyCMeansEntity, List(Of Double)) In membershipMatrix
-                Dim clusterNumber As Integer = Which.Max(value.Value)
-                clusters.Add(value.Key, clusterCenters(clusterNumber))
+                For j As Integer = 0 To l - 1
+                    rowDifferences.Add(stdNum.Abs(line(j) - matrix2(row.i)(j)))
+                Next
+
+                diff.Add(rowDifferences)
             Next
 
-            Return clusters
+            Return diff
         End Function
 
-        Friend Function CreateMembershipMatrix(distancesToClusterCenters As Dictionary(Of FuzzyCMeansEntity, List(Of Double)), fuzzificationParameter As Double) As Dictionary(Of FuzzyCMeansEntity, List(Of Double))
-            Dim map As New Dictionary(Of FuzzyCMeansEntity, List(Of Double))()
+        Public Function MakeInitialSeeds(coordinates As List(Of FuzzyCMeansEntity), numberOfClusters As Integer) As List(Of FuzzyCMeansEntity)
+            Dim coordinatesCopy As List(Of FuzzyCMeansEntity) = coordinates.AsList()
+            Dim initialClusterCenters As New List(Of FuzzyCMeansEntity)()
+            Dim random As Random = randf.seeds
+            Dim clusterCenterPointNumber As Integer
 
-            For Each pair As KeyValuePair(Of FuzzyCMeansEntity, List(Of Double)) In distancesToClusterCenters
-                Dim unNormaizedMembershipValues As New List(Of Double)()
-                Dim sum As Double = 0
-
-                For i As Integer = 0 To pair.Value.Count - 1
-                    Dim distance As Double = pair.Value(i)
-                    If distance = 0 Then
-                        distance = 0.0000001
-                    End If
-
-                    Dim membershipValue As Double = stdNum.Pow(1 / distance, (1 / (fuzzificationParameter - 1)))
-                    sum += membershipValue
-                    unNormaizedMembershipValues.Add(membershipValue)
-                Next
-
-                Dim membershipValues As New List(Of Double)()
-                For Each membershipValue As Double In unNormaizedMembershipValues
-                    membershipValues.Add((membershipValue / sum))
-                Next
-                map.Add(pair.Key, membershipValues)
+            For i As Integer = 0 To numberOfClusters - 1
+                clusterCenterPointNumber = random.[Next](0, coordinatesCopy.Count)
+                initialClusterCenters.Add(coordinatesCopy(clusterCenterPointNumber))
+                coordinatesCopy.RemoveAt(clusterCenterPointNumber)
             Next
 
-            Return map
-        End Function
-
-        Friend Function RecalculateCoordinateOfFuzzyClusterCenters(clusterCenters As List(Of FuzzyCMeansEntity),
-                                                                  membershipMatrix As Dictionary(Of FuzzyCMeansEntity, List(Of Double)),
-                                                            fuzzificationParameter As Double) As List(Of FuzzyCMeansEntity)
-
-            Dim clusterMembershipValuesSums As New List(Of Double)()
-            For Each clusterCenter As FuzzyCMeansEntity In clusterCenters
-                clusterMembershipValuesSums.Add(0)
-            Next
-
-            Dim weightedPointCoordinateSums As New List(Of List(Of Double))()
-
-            For i As Integer = 0 To clusterCenters.Count - 1
-                Dim clusterCoordinatesSum As New List(Of Double)()
-                For Each coordinate As Double In clusterCenters(0).entityVector
-                    clusterCoordinatesSum.Add(0)
-                Next
-
-                For Each pair As KeyValuePair(Of FuzzyCMeansEntity, List(Of Double)) In membershipMatrix
-                    Dim pointCoordinates As FuzzyCMeansEntity = pair.Key
-                    Dim membershipValues As List(Of Double) = pair.Value
-
-                    clusterMembershipValuesSums(i) += stdNum.Pow(membershipValues(i), fuzzificationParameter)
-
-                    For j As Integer = 0 To pointCoordinates.Length - 1
-                        clusterCoordinatesSum(j) += pointCoordinates(j) * stdNum.Pow(membershipValues(i), fuzzificationParameter)
-                    Next
-                Next
-
-                weightedPointCoordinateSums.Add(clusterCoordinatesSum)
-            Next
-
-            Dim newClusterCenters As New List(Of FuzzyCMeansEntity)()
-            For i As Integer = 0 To clusterCenters.Count - 1
-                Dim coordinatesSums As List(Of Double) = weightedPointCoordinateSums(i)
-                Dim newCoordinates As New FuzzyCMeansEntity() With {
-                    .entityVector = New Double(coordinatesSums.Count - 1) {},
-                    .uid = clusterCenters(i).uid
-                }
-
-                For j As Integer = 0 To coordinatesSums.Count - 1
-                    newCoordinates(j) = coordinatesSums(j) / clusterMembershipValuesSums(i)
-                Next
-
-                newClusterCenters.Add(newCoordinates)
-            Next
-
-            Return newClusterCenters
+            Return initialClusterCenters
         End Function
     End Module
 End Namespace
