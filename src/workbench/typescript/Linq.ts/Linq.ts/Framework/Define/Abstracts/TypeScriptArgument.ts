@@ -19,6 +19,7 @@
         type?: string;
         href?: string;
         text?: string;
+        label?: string;
         visible?: boolean;
         alt?: string;
         checked?: boolean;

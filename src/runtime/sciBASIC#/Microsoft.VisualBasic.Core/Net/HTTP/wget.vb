@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d64a23d994ed18fccdf8e5548a97dcbb, Microsoft.VisualBasic.Core\Net\HTTP\wget.vb"
+﻿#Region "Microsoft.VisualBasic::9a073d388e380362b249f72ba452010c, Microsoft.VisualBasic.Core\Net\HTTP\wget.vb"
 
     ' Author:
     ' 
@@ -63,8 +63,8 @@ Namespace Net.Http
         ''' </summary>
         ''' <param name="url">The remote resource to download.</param>
         ''' <param name="save">The file save location</param>
-        Sub New(url$, save$, headers As Dictionary(Of String, String))
-            task = New wgetTask(url, save, headers)
+        Sub New(url$, save$, Optional headers As Dictionary(Of String, String) = Nothing)
+            task = New wgetTask(url, save, headers Or (New Dictionary(Of String, String)).AsDefault)
             cursorTop = Console.CursorTop
             originalTop = Console.CursorTop
         End Sub
