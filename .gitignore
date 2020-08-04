@@ -3,6 +3,8 @@
 #################
 
 tools/Installer/bootLoader/Resources/
+COVID-19/
+
 
 *.pydevproject
 .project
