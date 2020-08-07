@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd6c73042c8ea9a920799f99d2bc3c9c, Data_science\MachineLearning\MachineLearning\NeuralNetwork\TrainingSample.vb"
+﻿#Region "Microsoft.VisualBasic::21b04f3b550cd2ed60f8e0eaf0971cde, Data_science\MachineLearning\MachineLearning\NeuralNetwork\TrainingSample.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,7 @@
     '         Properties: isEmpty
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +44,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace NeuralNetwork
 
@@ -67,6 +69,10 @@ Namespace NeuralNetwork
             Me.sample = sample.vector
             Me.classify = sample.target
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{sampleID}] {sample.JoinBy(", ")} -> {classify.GetJson}"
+        End Function
 
     End Structure
 End Namespace

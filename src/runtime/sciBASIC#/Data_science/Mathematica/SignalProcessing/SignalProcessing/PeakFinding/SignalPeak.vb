@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54c2e31ba41305770897dd95e7e5fb75, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
+﻿#Region "Microsoft.VisualBasic::86f515ee4ac66d9d5d7d66ee8c592a59, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Structure SignalPeak
     ' 
-    '         Properties: rtmax, rtmin, snratio
+    '         Properties: rt, rtmax, rtmin, snratio
     ' 
     '         Function: Subset, ToString
     ' 
@@ -56,6 +56,15 @@ Namespace PeakFinding
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return region(index)
+            End Get
+        End Property
+
+        Public ReadOnly Property rt As Double
+            Get
+                Return region _
+                    .OrderByDescending(Function(a) a.intensity) _
+                    .FirstOrDefault _
+                    .time
             End Get
         End Property
 

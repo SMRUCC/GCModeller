@@ -256,6 +256,47 @@ Module genbankKit
         Return gb.Features.ToArray
     End Function
 
+    <ExportAPI("featureKeys")>
+    <RApiReturn(GetType(String))>
+    Public Function keyNames(<RRawVectorArgument> features As Object, Optional env As Environment = Nothing) As Object
+        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+
+        If featureArray.isError Then
+            Return featureArray.getError
+        End If
+
+        Return featureArray _
+            .populates(Of Feature)(env) _
+            .Select(Function(feature) feature.KeyName) _
+            .ToArray
+    End Function
+
+    <ExportAPI("featureMeta")>
+    <RApiReturn(GetType(String))>
+    Public Function featureMeta(<RRawVectorArgument> features As Object, attrName$, Optional env As Environment = Nothing) As Object
+        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+
+        If featureArray.isError Then
+            Return featureArray.getError
+        End If
+
+        Return featureArray _
+            .populates(Of Feature)(env) _
+            .Select(Function(feature) feature.Query(attrName)) _
+            .ToArray
+    End Function
+
+    <ExportAPI("addMeta")>
+    Public Function addMeta(feature As Feature, <RListObjectArgument> meta As list, Optional env As Environment = Nothing) As Feature
+        Dim metadata As Dictionary(Of String, String) = meta.AsGeneric(Of String)(env)
+
+        For Each attr As KeyValuePair(Of String, String) In metadata
+            Call feature.Add(attr)
+        Next
+
+        Return feature
+    End Function
+
     ''' <summary>
     ''' get, add or replace the genome origin fasta sequence in the given genbank assembly file.
     ''' </summary>

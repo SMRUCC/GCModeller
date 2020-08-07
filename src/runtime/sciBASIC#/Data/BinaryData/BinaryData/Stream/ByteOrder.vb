@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6197f9d0bf127f64bdf0d4f3ff9fc354, Data\BinaryData\BinaryData\Stream\ByteOrder.vb"
+﻿#Region "Microsoft.VisualBasic::fc911ab3b71686af272382ccf4950067, Data\BinaryData\BinaryData\Stream\ByteOrder.vb"
 
     ' Author:
     ' 
@@ -109,11 +109,13 @@ End Enum
 
     Private Function networkByteOrderLittleEndian(d As IEnumerable(Of Double)) As Byte()
         Dim buffer As Byte() = d _
-            .Select(AddressOf BitConverter.GetBytes) _
+            .Select(Function(x)
+                        Dim chunk As Byte() = BitConverter.GetBytes(x)
+                        Call Array.Reverse(chunk)
+                        Return chunk
+                    End Function) _
             .IteratesALL _
             .ToArray
-
-        Call Array.Reverse(buffer)
 
         Return buffer
     End Function

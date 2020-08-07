@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0186ad048f2a0e13a6b06622544fbc07, Microsoft.VisualBasic.Core\ComponentModel\File\XmlDataModel.vb"
+﻿#Region "Microsoft.VisualBasic::48dfaba4c17e2492ed6fee012ec01c0d, Microsoft.VisualBasic.Core\ComponentModel\File\XmlDataModel.vb"
 
     ' Author:
     ' 
@@ -184,7 +184,6 @@ Namespace ComponentModel
             Dim fullName$ = modelType.FullName
             Dim devtools = modelType.Assembly.FromAssembly
             Dim assembly$ = modelType.Assembly.FullName
-            Dim update As Date = File.GetLastWriteTime(modelType.Assembly.Location)
             Dim md5$ = modelType.Assembly.Location.GetFileMd5
             Dim indentBlank As New String(" "c, indent)
             Dim traceInfo$ = vbCrLf &
@@ -193,7 +192,7 @@ Namespace ComponentModel
                 $"{indentBlank} version:   " & devtools.AssemblyVersion & vbCrLf &
                 $"{indentBlank} built:     " & devtools.BuiltTime.ToString & vbCrLf &
                 $"{indentBlank} md5:       " & md5 & vbCrLf &
-                $"{indentBlank} timestamp: " & update.ToString & vbCrLf &
+                $"{indentBlank} timestamp: " & Now.ToString & vbCrLf &
                 "  "
 
             Return traceInfo
