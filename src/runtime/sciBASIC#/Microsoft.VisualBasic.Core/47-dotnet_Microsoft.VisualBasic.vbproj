@@ -1259,6 +1259,9 @@
     <Compile Include="ApplicationServices\Terminal\xConsole\Comparer.vb" />
     <Compile Include="ApplicationServices\Terminal\xConsole\Spinner.vb" />
     <Compile Include="ApplicationServices\Terminal\xConsole\CoolWriteSettings.vb" />
+    <Compile Include="CommandLine\CLI\ProcessEx.vb" />
+    <Compile Include="CommandLine\Parsers\CommandLineTokenlizer.vb" />
+    <Compile Include="CommandLine\Parsers\CliArgumentParsers.vb" />
     <Compile Include="CommandLine\Reflection\ExportApiInformation.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
     <Compile Include="ComponentModel\DataSource\Property\Extensions.vb" />
@@ -1464,6 +1467,7 @@
     <Compile Include="Serialization\RawStream.vb" />
     <Compile Include="Text\IO\Encodings.vb" />
     <Compile Include="Text\Parser\CharBuffer.vb" />
+    <Compile Include="Text\Parser\SyntaxTokenlizer.vb" />
     <Compile Include="Text\Patterns\NamespaceDoc.vb" />
     <Compile Include="Text\Patterns\Validator\isIP.vb" />
     <Compile Include="Text\Patterns\Validator\Validator.vb" />
