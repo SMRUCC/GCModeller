@@ -1466,6 +1466,7 @@
     <Compile Include="Serialization\RawStream.vb" />
     <Compile Include="Text\IO\Encodings.vb" />
     <Compile Include="Text\Parser\CharBuffer.vb" />
+    <Compile Include="Text\Parser\SyntaxTokenlizer.vb" />
     <Compile Include="Text\Patterns\NamespaceDoc.vb" />
     <Compile Include="Text\Patterns\Validator\isIP.vb" />
     <Compile Include="Text\Patterns\Validator\Validator.vb" />
