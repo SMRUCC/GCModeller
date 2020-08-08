@@ -279,21 +279,4 @@ Public Module RSystem
             Return source.ToDictionary(Function(x) x, Function() .Next)
         End With
     End Function
-
-    ' <U+767D>
-
-    Public Function ProcessingRUniCode(output As String) As String
-        Dim unicodes As String() = output.Matches("[<]U[+][A-H0-9]+[>]").Distinct.ToArray
-        Dim charCode As Integer
-        Dim [char] As Char
-        Dim str As New StringBuilder(output)
-
-        For Each code As String In unicodes
-            charCode = code.GetStackValue("<", ">").Split("+"c).Last.DoCall(AddressOf i32.GetHexInteger)
-            [char] = Strings.ChrW(charCode)
-            str.Replace(code, [char])
-        Next
-
-        Return str.ToString
-    End Function
 End Module
