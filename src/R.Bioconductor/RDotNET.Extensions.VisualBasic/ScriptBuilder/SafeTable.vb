@@ -15,7 +15,11 @@
         End Property
 
         Sub New(metadata As IDictionary(Of String, String))
-            internal = New Dictionary(Of String, String)(metadata)
+            If metadata Is Nothing Then
+                internal = New Dictionary(Of String, String)
+            Else
+                internal = New Dictionary(Of String, String)(metadata)
+            End If
         End Sub
     End Class
 End Namespace
