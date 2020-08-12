@@ -162,9 +162,15 @@ Namespace StoreProcedure
                 .JoinIterates(samples) _
                 .ToArray
             Dim outputNames As String() = dataset.output
+            Dim inputNames As String() = dataset.NormalizeMatrix.names
 
             If outputNames.IsNullOrEmpty Then
                 outputNames = union(Scan0).target _
+                    .Select(Function(x, i) $"Y_{i + 1}") _
+                    .ToArray
+            End If
+            If inputNames.IsNullOrEmpty Then
+                inputNames = union(Scan0).vector _
                     .Select(Function(x, i) $"X_{i + 1}") _
                     .ToArray
             End If
@@ -173,7 +179,7 @@ Namespace StoreProcedure
                 .DataSamples = New SampleList With {
                     .items = union
                 },
-                .NormalizeMatrix = NormalizeMatrix.CreateFromSamples(union, outputNames, estimateQuantile),
+                .NormalizeMatrix = NormalizeMatrix.CreateFromSamples(union, inputNames, estimateQuantile),
                 .output = outputNames
             }
         End Function
