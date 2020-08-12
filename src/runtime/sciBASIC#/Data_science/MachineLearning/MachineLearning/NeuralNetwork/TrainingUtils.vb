@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::8b53e30886eb3b711b2f4389b4164fef, Data_science\MachineLearning\MachineLearning\NeuralNetwork\TrainingUtils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TrainingUtils
-    ' 
-    '         Properties: dropOutRate, MinError, NeuronNetwork, Selective, TrainingSet
-    '                     TrainingType, Truncate, XP
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: CalculateError, SetDropOut, SetLayerNormalize, SetSelective, TakeSnapshot
-    '                   trainingImpl
-    ' 
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TrainingUtils
+' 
+'         Properties: dropOutRate, MinError, NeuronNetwork, Selective, TrainingSet
+'                     TrainingType, Truncate, XP
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: CalculateError, SetDropOut, SetLayerNormalize, SetSelective, TakeSnapshot
+'                   trainingImpl
+' 
+'         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -110,9 +110,11 @@ Namespace NeuralNetwork
         ReadOnly network As Network
 
         ''' <summary>
-        ''' 模型当前的训练误差
+        ''' current errors on each classify dimension.
+        ''' 
+        ''' (模型当前的训练误差)
         ''' </summary>
-        Dim errors#
+        Dim errors As Double()
         Dim dataSets As New List(Of TrainingSample)
 
         ''' <summary>
@@ -268,8 +270,9 @@ Namespace NeuralNetwork
 
                 For i As Integer = 0 To numEpochs - 1
                     errors = trainingImpl(dataSets, parallel, Selective)
+
                     ETA = $"ETA: {tick.ETA().FormatTime}"
-                    msg = $"Iterations: [{i}/{numEpochs}], errors={errors}{vbTab}learn_rate={network.LearnRate} {ETA}"
+                    msg = $"Iterations: [{i}/{numEpochs}], errors={errors.Average}{vbTab}learn_rate={network.LearnRate} {ETA}"
 #If UNIX Then
                     Call msg.__INFO_ECHO
 #Else
@@ -278,14 +281,15 @@ Namespace NeuralNetwork
                     Else
                         Call tick.StepProgress()
                         Call msg.__INFO_ECHO
+                        Call $"[{errors.Select(Function(e) e.ToString("F3")).JoinBy(", ")}]".__DEBUG_ECHO
                     End If
 #End If
-                    If errors < 0.0001 Then
+                    If errors.Average < 0.0001 Then
                         Selective = False
                     End If
 
                     If Not reporter Is Nothing Then
-                        Call reporter(i, errors, network)
+                        Call reporter(i, errors.Average, network)
                     End If
                     If break Then
                         Exit For
@@ -305,9 +309,9 @@ Namespace NeuralNetwork
         ''' <param name="parallel"></param>
         ''' <param name="selective"></param>
         ''' <returns></returns>
-        Private Function trainingImpl(dataSets As TrainingSample(), parallel As Boolean, selective As Boolean) As Double
-            Dim errors As New List(Of Double)()
-            Dim err#
+        Private Function trainingImpl(dataSets As TrainingSample(), parallel As Boolean, selective As Boolean) As Double()
+            Dim errors As New List(Of Double())()
+            Dim err#()
             Dim outputSize% = dataSets(Scan0).classify.Length
 
             If dropOutRate > 0 Then
@@ -322,7 +326,7 @@ Namespace NeuralNetwork
                     ' sum
                     err = CalculateError(network, dataSet.classify)
                     ' means
-                    If err / outputSize <= 0.05 Then
+                    If errorSum(err) / outputSize <= 0.05 Then
                         ' skip current sample
                         Call errors.Add(err)
                         Continue For
@@ -337,7 +341,25 @@ Namespace NeuralNetwork
                 Call errors.Add(CalculateError(network, dataSet.classify))
             Next
 
-            Return errors.Average
+            Dim errs As Double() = New Double(outputSize - 1) {}
+
+            For i As Integer = 0 To outputSize - 1
+                errs(i) = errors.Select(Function(a) a(i)).Average
+            Next
+
+            Return errs
+        End Function
+
+        Private Function errorSum(errs As Double()) As Double
+            Dim err As Double = errs.Sum
+
+            Const maxErr# = 10 ^ 255
+
+            If err.IsNaNImaginary Then
+                Return maxErr
+            Else
+                Return err
+            End If
         End Function
 
         Public Overloads Sub Train(dataSets As TrainingSample(), minimumError As Double, Optional parallel As Boolean = False)
@@ -356,11 +378,13 @@ Namespace NeuralNetwork
             End If
 
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
-                [error] = trainingImpl(dataSets, parallel, True)
+                errors = trainingImpl(dataSets, parallel, True)
+                [error] = [errors].Average
+
                 numEpochs += 1
                 progress = ((minimumError / [error]) * 100).ToString("F2")
 
-                Call $"{numEpochs}{ASCII.TAB}Error:={[error]}{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
+                Call $"{numEpochs}{ASCII.TAB}Error:=[{[errors].Select(Function(a) a.ToString("F3")).JoinBy(", ")}]{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
 
                 If Not reporter Is Nothing Then
                     Call reporter(numEpochs, [error], network)
@@ -379,21 +403,15 @@ Namespace NeuralNetwork
         ''' <param name="targets"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Friend Shared Function CalculateError(neuronNetwork As Network, targets As Double()) As Double
-            Dim err# = neuronNetwork.OutputLayer _
+        Friend Shared Function CalculateError(neuronNetwork As Network, targets As Double()) As Double()
+            Dim err#() = neuronNetwork.OutputLayer _
                 .Neurons _
                 .Select(Function(n, i)
                             Return stdNum.Abs(n.CalculateError(targets(i)))
                         End Function) _
-                .Sum()
+                .ToArray
 
-            Const maxErr# = 10 ^ 255
-
-            If err.IsNaNImaginary Then
-                Return maxErr
-            Else
-                Return err
-            End If
+            Return err
         End Function
 #End Region
 

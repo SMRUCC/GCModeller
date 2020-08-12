@@ -87,7 +87,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' </summary>
         ''' <param name="instance"></param>
         ''' <returns></returns>
-        Public Function TakeSnapshot(instance As Network, errors#) As NeuralNetwork
+        Public Function TakeSnapshot(instance As Network, errors As Double()) As NeuralNetwork
             Dim nodes As New List(Of NeuronNode)
             Dim hiddenlayers As New List(Of NeuronLayer)
             Dim inputlayer As String()

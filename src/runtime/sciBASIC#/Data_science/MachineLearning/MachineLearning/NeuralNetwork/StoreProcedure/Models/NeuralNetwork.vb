@@ -63,7 +63,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' 当前的这个模型快照在训练数据集上的预测误差
         ''' </summary>
         ''' <returns></returns>
-        Public Property errors As Double
+        Public Property errors As Double()
 
         Public Property neurons As NeuronNode()
         Public Property connections As Synapse()
@@ -95,7 +95,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Snapshot(instance As Network, Optional errors# = 0) As NeuralNetwork
+        Public Shared Function Snapshot(instance As Network, Optional errors As Double() = Nothing) As NeuralNetwork
             Return StoreProcedure.TakeSnapshot(instance, errors)
         End Function
 

@@ -71,7 +71,7 @@ Namespace NeuralNetwork.StoreProcedure
 
         Sub New(model As Network)
             source = model
-            snapshot = CreateSnapshot.TakeSnapshot(model, 0)
+            snapshot = CreateSnapshot.TakeSnapshot(model, {})
             neuronLinks = createNeuronUpdateMaps(source, snapshot).ToArray
             synapseLinks = createSynapseUpdateMaps(source, snapshot).ToArray
         End Sub
@@ -146,7 +146,7 @@ Namespace NeuralNetwork.StoreProcedure
         ''' The calculation errors of current snapshot.
         ''' </param>
         ''' <returns></returns>
-        Public Function UpdateSnapshot([error] As Double) As Snapshot
+        Public Function UpdateSnapshot([error] As Double()) As Snapshot
             Dim toNode As NeuronNode
             Dim fromNode As Neuron
 
