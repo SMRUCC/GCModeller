@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::557ed0c54269a1c8a523c7963679cf82, Data_science\MachineLearning\MachineLearning\DataSet\DataSet.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DataSet
-    ' 
-    '         Properties: DataSamples, NormalizeMatrix, output, OutputSize, Size
-    '                     width
-    ' 
-    '         Function: createExtends, PopulateNormalizedSamples, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DataSet
+' 
+'         Properties: DataSamples, NormalizeMatrix, output, OutputSize, Size
+'                     width
+' 
+'         Function: createExtends, PopulateNormalizedSamples, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace StoreProcedure
@@ -153,6 +154,28 @@ Namespace StoreProcedure
             Next
 
             Return extends
+        End Function
+
+        Public Shared Function JoinSamples(dataset As DataSet, samples As IEnumerable(Of Sample), Optional estimateQuantile As Boolean = True) As DataSet
+            Dim union As Sample() = dataset.DataSamples _
+                .AsEnumerable _
+                .JoinIterates(samples) _
+                .ToArray
+            Dim outputNames As String() = dataset.output
+
+            If outputNames.IsNullOrEmpty Then
+                outputNames = union(Scan0).target _
+                    .Select(Function(x, i) $"X_{i + 1}") _
+                    .ToArray
+            End If
+
+            Return New DataSet With {
+                .DataSamples = New SampleList With {
+                    .items = union
+                },
+                .NormalizeMatrix = NormalizeMatrix.CreateFromSamples(union, outputNames, estimateQuantile),
+                .output = outputNames
+            }
         End Function
 
         Public Overrides Function ToString() As String
