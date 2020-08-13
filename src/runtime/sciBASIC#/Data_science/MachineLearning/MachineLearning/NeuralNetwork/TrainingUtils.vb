@@ -342,9 +342,11 @@ Namespace NeuralNetwork
             Next
 
             Dim errs As Double() = New Double(outputSize - 1) {}
+            Dim j As Integer
 
             For i As Integer = 0 To outputSize - 1
-                errs(i) = errors.Select(Function(a) a(i)).Average
+                j = i
+                errs(i) = errors.Select(Function(a) a(j)).Average
             Next
 
             Return errs
