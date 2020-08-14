@@ -88,8 +88,10 @@ Namespace NeuralNetwork.StoreProcedure
             End With
         End Function
 
-        Public Function GetPredictLambda2(normalize As NormalizeMatrix, Optional method As Methods = Methods.NormalScaler) As Func(Of Double(), Double())
-            With Me.LoadModel
+        Public Function GetPredictLambda2(normalize As NormalizeMatrix,
+                                          Optional method As Methods = Methods.NormalScaler,
+                                          Optional mute As Boolean = False) As Func(Of Double(), Double())
+            With Me.LoadModel(mute:=mute)
                 Return Function(sample)
                            Return .Compute(normalize.NormalizeInput(sample, method))
                        End Function

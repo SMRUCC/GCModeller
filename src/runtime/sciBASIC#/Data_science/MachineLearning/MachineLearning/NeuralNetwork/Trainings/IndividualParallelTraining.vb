@@ -22,9 +22,16 @@ Namespace NeuralNetwork
             Dim parallels As New List(Of Func(Of Double(), Double()))
             Dim annLambda As Func(Of Double(), Double())
 
-            For Each individual As String In dir.ListDirectory(SearchOption.SearchTopLevelOnly).OrderBy(Function(name) Convert.ToInt32(name.BaseName, 16))
-                annLambda = ScatteredLoader(store:=individual).GetPredictLambda2(normalize, method)
+            For Each individual As String In dir _
+                .ListDirectory(SearchOption.SearchTopLevelOnly) _
+                .OrderBy(Function(name)
+                             Return Convert.ToInt32(name.BaseName, 16)
+                         End Function)
+
+                annLambda = ScatteredLoader(store:=individual, mute:=True).GetPredictLambda2(normalize, method, mute:=True)
                 parallels += annLambda
+
+                Call $"load component: {Convert.ToInt32(individual.BaseName, 16)}".__DEBUG_ECHO
             Next
 
             Return New ParallelNetwork With {
