@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Protocols
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
@@ -116,6 +117,7 @@ Namespace NeuralNetwork
         ''' </summary>
         Dim errors As Double()
         Dim dataSets As New List(Of TrainingSample)
+        Dim snapshotSaveLocation As String
 
         ''' <summary>
         ''' 训练所使用到的经验数量,即数据集的大小size
@@ -176,6 +178,11 @@ Namespace NeuralNetwork
 
         Public Function SetSelective(opt As Boolean) As TrainingUtils
             Selective = opt
+            Return Me
+        End Function
+
+        Public Function SetSnapshotLocation(save As String) As TrainingUtils
+            snapshotSaveLocation = save
             Return Me
         End Function
 
@@ -270,6 +277,12 @@ Namespace NeuralNetwork
                     saveSignal = New UserTaskSaveAction(
                         Sub()
                             Call "save trained ANN model!".__DEBUG_ECHO
+
+                            If Not snapshotSaveLocation.StringEmpty Then
+                                Call TakeSnapshot.ScatteredStore(snapshotSaveLocation)
+                            Else
+                                Call "Snapshot location is empty, trained model will not saved...".__DEBUG_ECHO
+                            End If
                         End Sub)
                 End If
 
