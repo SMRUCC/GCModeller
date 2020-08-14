@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Protocols
+Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
@@ -116,6 +117,7 @@ Namespace NeuralNetwork
         ''' </summary>
         Dim errors As Double()
         Dim dataSets As New List(Of TrainingSample)
+        Dim snapshotSaveLocation As String
 
         ''' <summary>
         ''' 训练所使用到的经验数量,即数据集的大小size
@@ -176,6 +178,11 @@ Namespace NeuralNetwork
 
         Public Function SetSelective(opt As Boolean) As TrainingUtils
             Selective = opt
+            Return Me
+        End Function
+
+        Public Function SetSnapshotLocation(save As String) As TrainingUtils
+            snapshotSaveLocation = save
             Return Me
         End Function
 
@@ -259,12 +266,23 @@ Namespace NeuralNetwork
                 Dim ETA$
                 Dim break As Boolean = False
                 Dim cancelSignal As UserTaskCancelAction = Nothing
+                Dim saveSignal As UserTaskSaveAction = Nothing
 
                 If App.IsConsoleApp Then
                     cancelSignal = New UserTaskCancelAction(
                         Sub()
                             Call "User cancel of the training loop...".__DEBUG_ECHO
                             break = True
+                        End Sub)
+                    saveSignal = New UserTaskSaveAction(
+                        Sub()
+                            Call "save trained ANN model!".__DEBUG_ECHO
+
+                            If Not snapshotSaveLocation.StringEmpty Then
+                                Call TakeSnapshot.ScatteredStore(snapshotSaveLocation)
+                            Else
+                                Call "Snapshot location is empty, trained model will not saved...".__DEBUG_ECHO
+                            End If
                         End Sub)
                 End If
 
@@ -298,6 +316,9 @@ Namespace NeuralNetwork
 
                 If Not cancelSignal Is Nothing Then
                     Call cancelSignal.Dispose()
+                End If
+                If Not saveSignal Is Nothing Then
+                    Call saveSignal.Dispose()
                 End If
             End Using
         End Sub
@@ -342,9 +363,11 @@ Namespace NeuralNetwork
             Next
 
             Dim errs As Double() = New Double(outputSize - 1) {}
+            Dim j As Integer
 
             For i As Integer = 0 To outputSize - 1
-                errs(i) = errors.Select(Function(a) a(i)).Average
+                j = i
+                errs(i) = errors.Select(Function(a) a(j)).Average
             Next
 
             Return errs
