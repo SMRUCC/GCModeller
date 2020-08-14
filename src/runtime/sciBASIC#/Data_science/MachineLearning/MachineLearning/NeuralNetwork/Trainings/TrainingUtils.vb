@@ -290,7 +290,7 @@ Namespace NeuralNetwork
                 End If
 
                 For i As Integer = 0 To numEpochs - 1
-                    errors = trainingImpl(dataSets, parallel, Selective)
+                    errors = trainingImpl(network, dataSets, parallel, Selective, dropOutRate)
 
                     ETA = $"ETA: {tick.ETA().FormatTime}"
                     msg = $"Iterations: [{i}/{numEpochs}], errors={errors.Average}{vbTab}learn_rate={network.LearnRate} {ETA}"
@@ -333,13 +333,13 @@ Namespace NeuralNetwork
         ''' <param name="parallel"></param>
         ''' <param name="selective"></param>
         ''' <returns></returns>
-        Private Function trainingImpl(dataSets As TrainingSample(), parallel As Boolean, selective As Boolean) As Double()
+        Friend Shared Function trainingImpl(network As Network, dataSets As TrainingSample(), parallel As Boolean, selective As Boolean, dropoutRate As Double) As Double()
             Dim errors As New List(Of Double())()
             Dim err#()
             Dim outputSize% = dataSets(Scan0).classify.Length
 
-            If dropOutRate > 0 Then
-                Call network.DoDropOut(percentage:=dropOutRate)
+            If dropoutRate > 0 Then
+                Call network.DoDropOut(percentage:=dropoutRate)
             End If
 
             For Each dataSet As TrainingSample In dataSets
@@ -376,7 +376,7 @@ Namespace NeuralNetwork
             Return errs
         End Function
 
-        Private Function errorSum(errs As Double()) As Double
+        Private Shared Function errorSum(errs As Double()) As Double
             Dim err As Double = errs.Sum
 
             Const maxErr# = 10 ^ 255
@@ -404,7 +404,7 @@ Namespace NeuralNetwork
             End If
 
             While [error] > minimumError AndAlso numEpochs < Integer.MaxValue
-                errors = trainingImpl(dataSets, parallel, True)
+                errors = trainingImpl(network, dataSets, parallel, Selective, dropOutRate)
                 [error] = [errors].Average
 
                 numEpochs += 1
