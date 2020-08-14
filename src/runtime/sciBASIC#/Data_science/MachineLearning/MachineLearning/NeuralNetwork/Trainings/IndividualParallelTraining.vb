@@ -1,9 +1,38 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
+Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
 
 Namespace NeuralNetwork
+
+    Public Class ParallelNetwork
+
+        Dim parallels As Func(Of Double(), Double())()
+
+        Public Iterator Function Predicts(input As Double()) As IEnumerable(Of Double)
+            For i As Integer = 0 To parallels.Length - 1
+                Yield parallels(i)(input)(Scan0)
+            Next
+        End Function
+
+        Public Shared Function LoadSnapshot(dir As String, normalize As NormalizeMatrix, Optional method As Methods = Methods.NormalScaler) As ParallelNetwork
+            Dim parallels As New List(Of Func(Of Double(), Double()))
+            Dim annLambda As Func(Of Double(), Double())
+
+            For Each individual As String In dir.ListDirectory(SearchOption.SearchTopLevelOnly).OrderBy(Function(name) Convert.ToInt32(name.BaseName, 16))
+                annLambda = ScatteredLoader(store:=individual).GetPredictLambda2(normalize, method)
+                parallels += annLambda
+            Next
+
+            Return New ParallelNetwork With {
+                .parallels = parallels.ToArray
+            }
+        End Function
+
+    End Class
 
     Public Class IndividualParallelTraining : Inherits ANNTrainer
 
@@ -63,7 +92,7 @@ Namespace NeuralNetwork
             Dim outputSize As Integer = network.OutputLayer.Count
 
             For i As Integer = 0 To outputSize - 1
-                Call New Snapshot(individualNetworks(i)).WriteScatteredParts($"{snapshotSaveLocation}/attribute_{i}/")
+                Call New Snapshot(individualNetworks(i)).WriteScatteredParts($"{snapshotSaveLocation}/{(i + 666).ToHexString}/")
             Next
         End Sub
 
@@ -80,7 +109,7 @@ Namespace NeuralNetwork
                             Return (network.i, Err:=temp(Scan0))
                         End Function) _
                 .OrderBy(Function(rtvl) rtvl.i) _
-                .Select(Function(xi) xi.err) _
+                .Select(Function(xi) xi.Err) _
                 .ToArray
 
             Return errors

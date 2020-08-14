@@ -88,6 +88,14 @@ Namespace NeuralNetwork.StoreProcedure
             End With
         End Function
 
+        Public Function GetPredictLambda2(normalize As NormalizeMatrix, Optional method As Methods = Methods.NormalScaler) As Func(Of Double(), Double())
+            With Me.LoadModel
+                Return Function(sample)
+                           Return .Compute(normalize.NormalizeInput(sample, method))
+                       End Function
+            End With
+        End Function
+
         ''' <summary>
         ''' Dump the given Neuron <see cref="Network"/> as xml model data
         ''' </summary>
