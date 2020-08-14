@@ -619,9 +619,10 @@
     <Compile Include="NeuralNetwork\ActiveFunctions\Functions\SigmoidFunction.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\Functions\Sigmoid.vb" />
     <Compile Include="NeuralNetwork\ActiveFunctions\Functions\Threshold.vb" />
-    <Compile Include="NeuralNetwork\Accelerator.vb" />
+    <Compile Include="NeuralNetwork\Trainings\Accelerator.vb" />
+    <Compile Include="NeuralNetwork\Trainings\IndividualParallel\IndividualParallelTraining.vb" />
     <Compile Include="NeuralNetwork\Models\SoftmaxLayer.vb" />
-    <Compile Include="NeuralNetwork\TrainingSample.vb" />
+    <Compile Include="NeuralNetwork\Trainings\TrainingSample.vb" />
     <Compile Include="NeuralNetwork\Models\HiddenLayers.vb" />
     <Compile Include="NeuralNetwork\Models\Layer.vb" />
     <Compile Include="NeuralNetwork\Importance.vb" />
@@ -638,12 +639,12 @@
     <Compile Include="NeuralNetwork\StoreProcedure\Models\Neuron.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Models\NeuralNetwork.vb" />
     <Compile Include="DataSet\DataSet.vb" />
-    <Compile Include="NeuralNetwork\Helpers.vb" />
+    <Compile Include="NeuralNetwork\Trainings\Helpers.vb" />
     <Compile Include="NeuralNetwork\Models\Network.vb" />
     <Compile Include="NeuralNetwork\Models\Neuron.vb" />
     <Compile Include="NeuralNetwork\Models\Synapse.vb" />
     <Compile Include="NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb" />
-    <Compile Include="NeuralNetwork\TrainingUtils.vb" />
+    <Compile Include="NeuralNetwork\Trainings\TrainingUtils.vb" />
     <Compile Include="QLearning\Action.vb" />
     <Compile Include="QLearning\Model.vb" />
     <Compile Include="QLearning\QLearning.vb" />
