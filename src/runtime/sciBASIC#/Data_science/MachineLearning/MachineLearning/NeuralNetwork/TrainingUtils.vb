@@ -259,12 +259,17 @@ Namespace NeuralNetwork
                 Dim ETA$
                 Dim break As Boolean = False
                 Dim cancelSignal As UserTaskCancelAction = Nothing
+                Dim saveSignal As UserTaskSaveAction = Nothing
 
                 If App.IsConsoleApp Then
                     cancelSignal = New UserTaskCancelAction(
                         Sub()
                             Call "User cancel of the training loop...".__DEBUG_ECHO
                             break = True
+                        End Sub)
+                    saveSignal = New UserTaskSaveAction(
+                        Sub()
+                            Call "save trained ANN model!".__DEBUG_ECHO
                         End Sub)
                 End If
 
@@ -298,6 +303,9 @@ Namespace NeuralNetwork
 
                 If Not cancelSignal Is Nothing Then
                     Call cancelSignal.Dispose()
+                End If
+                If Not saveSignal Is Nothing Then
+                    Call saveSignal.Dispose()
                 End If
             End Using
         End Sub
