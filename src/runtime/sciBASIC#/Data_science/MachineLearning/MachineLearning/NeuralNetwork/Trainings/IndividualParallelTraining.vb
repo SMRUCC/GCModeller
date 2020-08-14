@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
 Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
@@ -21,17 +22,20 @@ Namespace NeuralNetwork
         Public Shared Function LoadSnapshot(dir As String, normalize As NormalizeMatrix, Optional method As Methods = Methods.NormalScaler) As ParallelNetwork
             Dim parallels As New List(Of Func(Of Double(), Double()))
             Dim annLambda As Func(Of Double(), Double())
+            Dim i As Integer
 
             For Each individual As String In dir _
                 .ListDirectory(SearchOption.SearchTopLevelOnly) _
                 .OrderBy(Function(name)
-                             Return Convert.ToInt32(name.BaseName, 16)
+                             Return i32.GetHexInteger(name.BaseName)
                          End Function)
 
                 annLambda = ScatteredLoader(store:=individual, mute:=True).GetPredictLambda2(normalize, method, mute:=True)
                 parallels += annLambda
 
-                Call $"load component: {Convert.ToInt32(individual.BaseName, 16)}".__DEBUG_ECHO
+                i = i32.GetHexInteger(individual.BaseName)
+
+                Call $"load component: {i}".__DEBUG_ECHO
             Next
 
             Return New ParallelNetwork With {
@@ -97,9 +101,10 @@ Namespace NeuralNetwork
 
         Public Sub Snapshot(snapshotSaveLocation As String)
             Dim outputSize As Integer = network.OutputLayer.Count
+            Dim index As i32 = 666
 
             For i As Integer = 0 To outputSize - 1
-                Call New Snapshot(individualNetworks(i)).WriteScatteredParts($"{snapshotSaveLocation}/{(i + 666).ToHexString}/")
+                Call New Snapshot(individualNetworks(i)).WriteScatteredParts($"{snapshotSaveLocation}/{(index + 1).Hex }/")
             Next
         End Sub
 

@@ -51,7 +51,7 @@ Namespace Imaging
 
 #Region "CONVERSION FROM DECIMAL TO HEXADECIMAL AND VICE VERSA"
 
-        Private Function HexadecimaltoDecimal(hexadecimal As String) As Integer
+        Public Function HexadecimaltoDecimal(hexadecimal As String) As Integer
             Dim result As Integer = 0
 
             For i As Integer = 0 To hexadecimal.Length - 1
