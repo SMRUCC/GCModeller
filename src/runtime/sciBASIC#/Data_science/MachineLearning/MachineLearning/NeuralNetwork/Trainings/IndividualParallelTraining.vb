@@ -46,13 +46,20 @@ Namespace NeuralNetwork
                      momentum:=network.Momentum,
                      active:=active,
                      weightInit:=Helpers.randomWeight
-                ).DoCall(AddressOf clones.Add)
+                ) With {
+                    .Truncate = network.Truncate,
+                    .LearnRateDecay = network.LearnRateDecay
+                }.DoCall(AddressOf clones.Add)
             Next
 
             individualNetworks = clones.SeqIterator.ToArray
         End Sub
 
         Protected Overrides Sub SaveSnapshot()
+            Call Snapshot(snapshotSaveLocation)
+        End Sub
+
+        Public Sub Snapshot(snapshotSaveLocation As String)
             Dim outputSize As Integer = network.OutputLayer.Count
 
             For i As Integer = 0 To outputSize - 1
