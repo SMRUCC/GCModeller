@@ -88,7 +88,10 @@ Namespace NeuralNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property Selective As Boolean = True
-
+        ''' <summary>
+        ''' [0,1]之间,建议设置一个[0.3,0.6]之间的值, 这个参数表示被随机删除的节点的数量百分比,值越高,则剩下的神经元节点越少
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property dropOutRate As Double = 0
 
         ''' <summary>
