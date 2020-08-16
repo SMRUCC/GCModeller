@@ -67,11 +67,14 @@ Namespace NeuralNetwork.StoreProcedure
         ''' 模型文件所存储的文件夹的路径
         ''' </param>
         ''' <returns>
-        ''' 返回来的完整的结果可以通过<see cref="IntegralLoader.LoadModel(NeuralNetwork)"/>
+        ''' 返回来的完整的结果可以通过<see cref="IntegralLoader.LoadModel(NeuralNetwork,Boolean)"/>
         ''' 函数将数据模型来加载为计算模型
         ''' </returns>
-        Public Function ScatteredLoader(store As String) As StoreProcedure.NeuralNetwork
+        Public Function ScatteredLoader(store As String, Optional mute As Boolean = False) As StoreProcedure.NeuralNetwork
             Dim main = $"{store}/{mainPart}".LoadXml(Of StoreProcedure.NeuralNetwork)
+            Dim previousMuteConfig As Boolean = VBDebugger.Mute
+
+            VBDebugger.Mute = mute
 
             Call "Load network parts...".__DEBUG_ECHO
 
@@ -95,6 +98,8 @@ Namespace NeuralNetwork.StoreProcedure
             main.connections = $"{store}/{edges}".parseEdges.ToArray
 
             Call "Load neuron network model success!".__INFO_ECHO
+
+            VBDebugger.Mute = previousMuteConfig
 
             Return main
         End Function
