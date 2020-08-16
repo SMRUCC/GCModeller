@@ -257,7 +257,7 @@ Public Class File : Implements IFileReference
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function Open(path$) As File
+    Public Shared Function Open(path As String) As File
         Return IO.CreateReader(xlsx:=path)
     End Function
 End Class
