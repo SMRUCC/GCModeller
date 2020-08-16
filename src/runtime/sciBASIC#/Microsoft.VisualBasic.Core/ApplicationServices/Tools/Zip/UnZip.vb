@@ -47,6 +47,7 @@ Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace ApplicationServices.Zip
@@ -156,6 +157,40 @@ Namespace ApplicationServices.Zip
 
             Using zip As Stream = sourceArchiveFileName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
                 Call sourceArchiveFileName.IsSourceFolderZip(folder:=rootDir)
+                Call zip.ImprovedExtractToDirectory(
+                    destinationDirectoryName:=destinationDirectoryName,
+                    overwriteMethod:=overwriteMethod,
+                    extractToFlat:=extractToFlat,
+                    rootDir:=rootDir
+                )
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' Unzips the specified file to the given folder in a safe
+        ''' manner.  This plans for missing paths and existing files
+        ''' and handles them gracefully.
+        ''' </summary>
+        ''' <param name="zip">
+        ''' The file contant data of the zip file to be extracted
+        ''' </param>
+        ''' <param name="destinationDirectoryName">
+        ''' The directory to extract the zip file to
+        ''' </param>
+        ''' <param name="overwriteMethod">
+        ''' Specifies how we are going to handle an existing file.
+        ''' The default is IfNewer.
+        ''' </param>
+        ''' 
+        <ExportAPI("ExtractToDir")>
+        <Extension>
+        Public Sub ImprovedExtractToDirectory(<Parameter("Zip", "The name of the zip file to be extracted")> zip As DataURI,
+                                              <Parameter("Dir", "The directory to extract the zip file to")> destinationDirectoryName$,
+                                              <Parameter("Overwrite.HowTo", "Specifies how we are going to handle an existing file. The default is IfNewer.")>
+                                              Optional overwriteMethod As Overwrite = Overwrite.IfNewer,
+                                              Optional extractToFlat As Boolean = False,
+                                              Optional rootDir As String = Nothing)
+            Using file As Stream = zip.ToStream
                 Call zip.ImprovedExtractToDirectory(
                     destinationDirectoryName:=destinationDirectoryName,
                     overwriteMethod:=overwriteMethod,
