@@ -73,6 +73,53 @@ Namespace API
     <Package("Rinterop.base")>
     Public Module base
 
+        ''' <summary>
+        ''' Assign a Value to a Name
+        ''' 
+        ''' Assign a value to a name in an environment.
+        ''' </summary>
+        ''' <param name="x">a variable name, given as a character string. No coercion is done, 
+        ''' and the first element of a character vector of length greater than one will be 
+        ''' used, with a warning.</param>
+        ''' <param name="value">a value to be assigned to x.</param>
+        ''' <param name="pos">where to do the assignment. By default, assigns into the current 
+        ''' environment. See ‘Details’ for other possibilities.</param>
+        ''' <param name="envir">the environment to use. See ‘Details’.</param>
+        ''' <param name="inherits">should the enclosing frames of the environment be inspected?
+        ''' </param>
+        ''' <param name="immediate">an ignored compatibility feature.</param>
+        ''' <returns>
+        ''' This function is invoked for its side effect, which is assigning value to the 
+        ''' variable x. If no envir is specified, then the assignment takes place in the 
+        ''' currently active environment.
+        '''
+        ''' If inherits is TRUE, enclosing environments of the supplied environment are searched 
+        ''' until the variable x is encountered. The value is then assigned in the environment 
+        ''' in which the variable is encountered (provided that the binding is not locked: see 
+        ''' lockBinding: if it is, an error is signaled). If the symbol is not encountered then 
+        ''' assignment takes place in the user's workspace (the global environment).
+        '''
+        ''' If inherits is FALSE, assignment takes place in the initial frame of envir, unless 
+        ''' an existing binding is locked or there is no existing binding and the environment 
+        ''' is locked (when an error is signaled).
+        ''' </returns>
+        ''' <remarks>
+        ''' There are no restrictions on the name given as x: it can be a non-syntactic name 
+        ''' (see make.names).
+        '''
+        ''' The pos argument can specify the environment in which to assign the object in any 
+        ''' of several ways: as -1 (the default), as a positive integer (the position in the 
+        ''' search list); as the character string name of an element in the search list; or as 
+        ''' an environment (including using sys.frame to access the currently active function 
+        ''' calls). The envir argument is an alternative way to specify an environment, but 
+        ''' is primarily for back compatibility.
+        '''
+        ''' assign does not dispatch assignment methods, so it cannot be used to set elements 
+        ''' of vectors, names, attributes, etc.
+        '''
+        ''' Note that assignment to an attached list or data frame changes the attached copy 
+        ''' and not the original object: see attach and with.
+        ''' </remarks>
         <ExportAPI("assign")>
         Public Function assign(x$, value$,
                                Optional pos% = -1,
