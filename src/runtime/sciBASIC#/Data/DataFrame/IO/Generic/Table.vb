@@ -74,7 +74,7 @@ Namespace IO
             End If
 
             If uidMap.StringEmpty Then
-                If ContainsIDField(file, tsv, encoding, uidMap) Then
+                If ContainsIDField(file, CBool(tsv), encoding, uidMap) Then
                     uidMap = NameOf(EntityObject.ID)
                 Else
                     ' 使用第一列作为ID

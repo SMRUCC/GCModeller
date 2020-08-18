@@ -64,8 +64,8 @@ Namespace DATA
                 .Properties = New Dictionary(Of String, Double)(dataset.Properties)
             }
 
-            Static numericFields = CbindProvider(Of T) _
-                .schema _
+            Static numericFields As KeyValuePair(Of String, PropertyInfo)() =
+                CbindProvider(Of T).schema _
                 .Where(Function(f)
                            Return f.Value.PropertyType.IsNumericType
                        End Function) _

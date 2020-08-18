@@ -133,7 +133,7 @@ Namespace IO.Linq
             Call $"All I/O queue job done!   {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 
             For Each data As NamedValue(Of String()) In IO
-                Dim buf As T() = data.Value.LoadStream(Of T)(False)
+                Dim buf As T() = data.Value.LoadStream(Of T)(False).ToArray
 
                 Yield New NamedValue(Of T())(data.Name, buf)
 

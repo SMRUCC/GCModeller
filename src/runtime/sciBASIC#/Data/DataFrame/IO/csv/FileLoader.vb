@@ -122,7 +122,7 @@ Namespace IO
             Dim headerIndex As Integer = first.IndexOf(skipWhile.Name)
 
             If trimBlanks Then
-                test = Function(s) Not s.IsEmptyRow(","c)
+                test = Function(s) Not Tokenizer.IsEmptyRow(s, ","c)
             Else
                 test = Function(s) True
             End If

@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::b37eed7c0470ebe61929c8d31badae1c, Microsoft.VisualBasic.Core\Scripting\TokenIcer\ParserCommon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ParserCommon
-    ' 
-    '         Function: [As], [CType], [TryCast], GetCodeComment, GetTokens
-    '                   StartEscaping, TokenParser
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ParserCommon
+' 
+'         Function: [As], [CType], [TryCast], GetCodeComment, GetTokens
+'                   StartEscaping, TokenParser
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Parser
 
 Namespace Scripting.TokenIcer
 
@@ -60,6 +61,21 @@ Namespace Scripting.TokenIcer
         <Extension>
         Public Function StartEscaping(buffer As List(Of Char), Optional escape As Char = "\"c) As Boolean
             If buffer.IsNullOrEmpty Then
+                Return False
+            Else
+                Return buffer.Last = escape
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 当前的token对象之中是否是转义的起始，即当前的token之中的最后一个符号是否是转移符<paramref name="escape"/>?
+        ''' </summary>
+        ''' <param name="buffer"></param>
+        ''' <param name="escape"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function StartEscaping(buffer As CharBuffer, Optional escape As Char = "\"c) As Boolean
+            If buffer.Size = 0 Then
                 Return False
             Else
                 Return buffer.Last = escape
