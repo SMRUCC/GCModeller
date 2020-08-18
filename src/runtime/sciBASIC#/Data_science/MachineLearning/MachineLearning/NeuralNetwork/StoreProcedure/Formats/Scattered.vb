@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0394ad64a3383705b55375ade0979eac, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Formats\Scattered.vb"
+﻿#Region "Microsoft.VisualBasic::10af903a607ffd01a4869d244b39c72a, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Formats\Scattered.vb"
 
     ' Author:
     ' 

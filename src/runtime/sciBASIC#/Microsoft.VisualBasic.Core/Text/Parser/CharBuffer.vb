@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4409e16508515c3307575044399df24, Microsoft.VisualBasic.Core\Text\Parser\CharBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::a59babce3b991950d4db3a227e1593da, Microsoft.VisualBasic.Core\Text\Parser\CharBuffer.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,11 @@
     ' 
     '         Properties: Last, Size
     ' 
-    '         Function: GetLastOrDefault, PopAllChars, ToString
+    '         Function: Add, GetLastOrDefault, Pop, PopAllChars, ToString
     ' 
     '         Sub: Clear
     ' 
-    '         Operators: *, (+3 Overloads) +, <, <>, =
+    '         Operators: *, (+3 Overloads) +, <, (+2 Overloads) <>, (+2 Overloads) =
     '                    >
     ' 
     ' 
