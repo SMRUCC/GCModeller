@@ -84,6 +84,11 @@ Namespace Text.Parser
             End Get
         End Property
 
+        Public Function Add(c As Char) As CharBuffer
+            Call buffer.Add(c)
+            Return Me
+        End Function
+
         Public Function GetLastOrDefault() As Char
             If buffer.Count = 0 Then
                 Return Nothing
@@ -95,6 +100,12 @@ Namespace Text.Parser
         Public Sub Clear()
             Call buffer.Clear()
         End Sub
+
+        Public Function Pop() As Char
+            Dim last As Char = Me.Last
+            Call buffer.RemoveLast
+            Return last
+        End Function
 
         Public Function PopAllChars() As Char()
             Return buffer.PopAll

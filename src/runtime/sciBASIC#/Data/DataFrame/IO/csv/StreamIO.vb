@@ -139,7 +139,7 @@ Namespace IO
                                       Optional silent As Boolean = False) As Boolean
 
             Dim stopwatch As Stopwatch = Stopwatch.StartNew
-            Dim del$ = ","c Or ASCII.TAB.AsDefault(Function() tsv)
+            Dim del As Char = ","c Or ASCII.TAB.AsDefault(Function() tsv)
 
             Using out As New StreamWriter(file, encoding Or UTF8)
                 For Each line$ In csv.Select(Function(r) r.AsLine(del))

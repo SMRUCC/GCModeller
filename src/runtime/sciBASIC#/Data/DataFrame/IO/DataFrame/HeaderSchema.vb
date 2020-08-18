@@ -92,7 +92,7 @@ Namespace IO
             End If
 
             If i >= SchemaOridinal.Count Then
-                Throw New IndexOutOfRangeException(i)
+                Throw New IndexOutOfRangeException(i.ToString)
             Else
                 Return SchemaOridinal _
                     .First(Function(name) name.Value = i) _

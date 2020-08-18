@@ -264,7 +264,7 @@ B21,B22,B23,...
             Get
                 For Each row As RowObject In _innerTable
                     If InStr(row.First, prefix) = 1 Then
-                        Yield row.AsLine(" ")
+                        Yield row.AsLine(" "c)
                     End If
                 Next
             End Get
@@ -723,7 +723,7 @@ B21,B22,B23,...
             If tsv Then
                 Return New RowObject(firstLine.Split(ASCII.TAB))
             Else
-                Return New RowObject(IO.CharsParser(firstLine))
+                Return New RowObject(IO.Tokenizer.CharsParser(firstLine))
             End If
         End Function
 
@@ -993,7 +993,7 @@ B21,B22,B23,...
         End Function
 
         Public Sub Save(output As StreamWriter, Optional isTsv As Boolean = False)
-            Dim delimiter$ = "," Or vbTab.When(isTsv)
+            Dim delimiter As Char = ","c Or ASCII.TAB.When(isTsv)
 
             For Each row As RowObject In Me
                 Call output.WriteLine(row.AsLine(delimiter))

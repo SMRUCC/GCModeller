@@ -58,7 +58,7 @@ Public Class MappingsHelper
     ''' <param name="types"></param>
     ''' <returns>这个匹配函数是安全的函数, 如果一个结果都没有被匹配上,则这个函数会返回<see cref="System.Void"/>类型</returns>
     Public Shared Function [Typeof](file$, ParamArray types As Type()) As Type
-        Dim headers As RowObject = Tokenizer.CharsParser(file.ReadFirstLine)
+        Dim headers As New RowObject(Tokenizer.CharsParser(file.ReadFirstLine))
         Dim match As Type = StreamIO.TypeOf(headers, types)
 
         If match Is Nothing Then

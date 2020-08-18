@@ -94,7 +94,7 @@ Namespace IO
         ''' </summary>
         ''' <param name="s"></param>
         ''' <returns></returns>
-        Public Function CharsParser(s$, Optional delimiter As Char = ","c, Optional quot As Char = ASCII.Quot) As IEnumerable(Of String)
+        Public Shared Function CharsParser(s$, Optional delimiter As Char = ","c, Optional quot As Char = ASCII.Quot) As IEnumerable(Of String)
             Return New RowTokenizer(s).GetTokens(delimiter, quot)
         End Function
 
