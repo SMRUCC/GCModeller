@@ -35,6 +35,8 @@ Namespace IO
 
             If buf > 0 Then
                 Yield buf.ToString.Replace(doubleQuot, quot)
+            ElseIf rowStr.RawBuffer(rowStr.Length - 1) = ","c Then
+                Yield ""
             End If
         End Function
 
@@ -52,7 +54,7 @@ Namespace IO
                         ' 因为前面的 Dim c As Char = +buffer 已经位移了，所以在这里直接取当前的字符
                         Dim peek = rowStr.Current
                         ' 也有可能是 "" 转义 为单个 "
-                        Dim lastQuot = (buf > 0 AndAlso buf.Last = quot)
+                        Dim lastQuot = (buf > 0 AndAlso buf.Last <> quot)
 
                         If buf = 0 AndAlso peek = delimiter Then
 
@@ -63,7 +65,7 @@ Namespace IO
                             openStack = False
                             Return True
 
-                        ElseIf (peek = delimiter OrElse rowStr.EndRead) AndAlso lastQuot Then
+                        ElseIf (peek = delimiter AndAlso lastQuot) OrElse rowStr.EndRead Then
 
                             ' 下一个字符为分隔符，则结束这个token
                             ' 跳过下一个分隔符，因为已经在这里判断过了
