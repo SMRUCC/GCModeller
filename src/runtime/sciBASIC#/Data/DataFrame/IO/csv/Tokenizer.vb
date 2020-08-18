@@ -119,7 +119,7 @@ Namespace IO
                             ' 因为前面的 Dim c As Char = +buffer 已经位移了，所以在这里直接取当前的字符
                             Dim peek = buffer.Current
                             ' 也有可能是 "" 转义 为单个 "
-                            Dim lastQuot = (temp > 0 AndAlso temp.Last <> quot)
+                            Dim lastQuot = (temp > 0 AndAlso temp.Last = quot)
 
                             If temp = 0 AndAlso peek = delimiter Then
 
