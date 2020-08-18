@@ -15,12 +15,16 @@ Namespace IO
         Dim openStack As Boolean = False
 
         Sub New(chars As String)
-            rowStr = chars
+            rowStr = chars.Replace("""""", ASCII.SI)
         End Sub
 
         Sub New(ptr As CharPtr)
             rowStr = ptr
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return rowStr.ToString
+        End Function
 
         Public Iterator Function GetTokens(Optional delimiter As Char = ","c, Optional quot As Char = ASCII.Quot) As IEnumerable(Of String)
             Dim doubleQuot$ = quot & quot
@@ -29,12 +33,18 @@ Namespace IO
 
             Do While rowStr
                 If walkChar(++rowStr, delimiter, quot) Then
-                    Yield buf.PopAllChars.CharString.Replace(doubleQuot, quot)
+                    Yield buf.PopAllChars _
+                        .CharString _
+                        .Replace(ASCII.SI, """""") _
+                        .Replace(doubleQuot, quot)
                 End If
             Loop
 
             If buf > 0 Then
-                Yield buf.ToString.Replace(doubleQuot, quot)
+                Yield buf.ToString _
+                    .Replace(ASCII.SI, """""") _
+                    .Replace(doubleQuot, quot)
+
             ElseIf rowStr.RawBuffer(rowStr.Length - 1) = ","c Then
                 Yield ""
             End If
