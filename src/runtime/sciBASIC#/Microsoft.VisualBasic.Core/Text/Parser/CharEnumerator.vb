@@ -63,7 +63,7 @@ Namespace Text.Parser
         Public ReadOnly Property Remaining As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return buffer.Skip(index).CharString
+                Return buffer.Skip(index + 1).CharString
             End Get
         End Property
 

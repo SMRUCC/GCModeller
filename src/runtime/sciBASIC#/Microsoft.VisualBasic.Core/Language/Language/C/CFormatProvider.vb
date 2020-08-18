@@ -220,7 +220,8 @@ Namespace Language.C
         ''' </summary>
         ''' <param name="input">The input.</param>
         ''' <returns>A string with all string meta chars are replaced</returns>
-        <Extension> Public Function ReplaceMetaChars(input As String) As String
+        <Extension>
+        Public Function ReplaceMetaChars(input As String) As String
             Return Regex.Replace(input, "(\\)(\d{3}|[^\d])?", New MatchEvaluator(AddressOf ReplaceMetaCharsMatch))
         End Function
 
