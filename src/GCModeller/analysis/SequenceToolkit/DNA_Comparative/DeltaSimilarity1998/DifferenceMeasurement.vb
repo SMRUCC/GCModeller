@@ -77,13 +77,6 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Sigma",
-                   Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
- is the average absolute dinucleotide relative abundance difference calculated as
-
- sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
- 
- where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         Public Function Sigma(f As NucleotideModels.NucleicAcid, g As NucleotideModels.NucleicAcid) As Double
             Dim sum As Double
             sum += BIAS(f, g, DNA.dAMP, DNA.dAMP) + BIAS(f, g, DNA.dAMP, DNA.dCMP) +
