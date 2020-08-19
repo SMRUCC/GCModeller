@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e740d9e38c8b6ba3461447283839d3e2, Data\DataFrame\DATA\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::56479ba0ea3136d11d7fcc87fceb0fab, Data\DataFrame\DATA\MySQL.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f258be222dc1352a8820ed3ba155c296, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\NeuralNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::3fad47eab733fb86ba832d99a340e914, Data_science\MachineLearning\MachineLearning\NeuralNetwork\StoreProcedure\Models\NeuralNetwork.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: connections, errors, hiddenlayers, inputlayer, learnRate
     '                     momentum, neurons, outputlayer
     ' 
-    '         Function: GetPredictLambda, LoadModel, Snapshot
+    '         Function: GetPredictLambda, GetPredictLambda2, LoadModel, Snapshot
     ' 
     ' 
     ' /********************************************************************************/

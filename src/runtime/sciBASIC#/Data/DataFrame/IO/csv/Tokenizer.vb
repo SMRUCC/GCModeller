@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c810b14327d0a5f31f2b208670d6402, Data\DataFrame\IO\csv\Tokenizer.vb"
+﻿#Region "Microsoft.VisualBasic::e30b58363927b58ee2d7602bd8874fd7, Data\DataFrame\IO\csv\Tokenizer.vb"
 
     ' Author:
     ' 
@@ -31,8 +31,9 @@
 
     ' Summaries:
 
-    '     Module Tokenizer
+    '     Class Tokenizer
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CharsParser, IsEmptyRow, RegexTokenizer
     ' 
     ' 
