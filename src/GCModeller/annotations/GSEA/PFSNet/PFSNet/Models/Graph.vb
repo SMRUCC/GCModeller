@@ -119,7 +119,7 @@ Namespace R.Graph
             Next
 
             For Each ggi As GraphEdge In g.edges
-                Call graph.CreateEdge(ggi.g1, ggi.g2, New EdgeData With {.label = ggi.pathwayID})
+                Call graph.CreateEdge(ggi.g1, ggi.g2, data:=New EdgeData With {.label = ggi.pathwayID})
             Next
 
             Dim subnetworks = graph.DecomposeGraph(minVertices:=min_vertices).ToArray
