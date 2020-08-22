@@ -53,7 +53,7 @@ Namespace DeltaSimilarity1998
     ''' 为了加快计算速度而生成的窗口计算缓存，请注意，在生成缓存的时候已经进行了并行化，所以在内部生成缓存的时候，不需要再进行并行化了
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
+    Public Class NucleicAcid
 
         Protected Friend biasTable As New Dictionary(Of String, Double)
 
@@ -61,6 +61,9 @@ Namespace DeltaSimilarity1998
         ''' 为了防止反复重新创建划窗而构建出来的计算数据缓存
         ''' </summary>
         Protected Friend DNA_segments As SlideWindow(Of DNA)()
+        Protected Friend ReadOnly nt As DNA()
+
+        Public ReadOnly Property UserTag As String
 
         ''' <summary>
         ''' Get value by using a paired of base.
@@ -78,7 +81,7 @@ Namespace DeltaSimilarity1998
         ''' <param name="nt"></param>
         ''' <remarks></remarks>
         Sub New(nt As DNA())
-            Call MyBase.New(nt)
+            Me.nt = nt
 
             ' 20190622
             ' 因为__createSigma函数需要这个滑窗数据，所以需要先于__createSigma函数进行调用
@@ -111,13 +114,13 @@ Namespace DeltaSimilarity1998
         End Sub
 
         Private Iterator Function slideWindows() As IEnumerable(Of SlideWindow(Of DNA))
-            Dim len = Length
+            Dim len = nt.Length
 
             For i As Integer = 0 To len - 2
                 Yield New SlideWindow(Of DNA) With {
                     .Index = i,
-                    .Items = {_innerSeqModel(i), _innerSeqModel(i + 1)},
-                    .Left = .Index
+                    .Items = {nt(i), nt(i + 1)},
+                    .left = .Index
                 }
             Next
         End Function
@@ -135,12 +138,17 @@ Namespace DeltaSimilarity1998
             Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
         End Sub
 
+        Sub New(nt As NucleotideModels.NucleicAcid)
+            Call Me.New(nt.ToArray)
+            Me.UserTag = nt.UserTag
+        End Sub
+
         Private Sub New(nt As IEnumerable(Of DNA))
             Call Me.New(nt.ToArray)
         End Sub
 
         Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
-            For Each region In MyBase.SlideWindows(winSize, offset:=[step])
+            For Each region In nt.SlideWindows(winSize, offset:=[step])
                 Yield New NucleicAcid(region)
             Next
         End Function
