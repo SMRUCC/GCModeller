@@ -65,6 +65,12 @@ Namespace DeltaSimilarity1998
 
         Public ReadOnly Property UserTag As String
 
+        Public ReadOnly Property length As Integer
+            Get
+                Return nt.Length
+            End Get
+        End Property
+
         ''' <summary>
         ''' Get value by using a paired of base.
         ''' </summary>

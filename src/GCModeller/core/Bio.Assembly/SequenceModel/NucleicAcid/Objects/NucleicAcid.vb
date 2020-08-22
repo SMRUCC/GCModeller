@@ -79,17 +79,21 @@ Namespace SequenceModel.NucleotideModels
             Return _innerSeqModel.ToArray
         End Function
 
+        Public Function Counts(base As DNA) As Double
+            Return Counts(_innerSeqModel, base)
+        End Function
+
         ''' <summary>
         ''' 计算某一种碱基在序列之中的出现频率
         ''' </summary>
         ''' <param name="base">只允许``ATGC``</param>
         ''' <returns>因为可能还存在简并碱基字符，所以在这里返回一个小数</returns>
-        Public Function Counts(base As DNA) As Double
-            Dim n# = _innerSeqModel.Where(Function(b) b = base).Count
+        Public Shared Function Counts(nt As DNA(), base As DNA) As Double
+            Dim n# = nt.Where(Function(b) b = base).Count
             Dim dbEntries = Conversion.BaseDegenerateEntries(base)
 
             For Each dgBase As DNA In dbEntries
-                Dim cd% = _innerSeqModel.Where(Function(b) b = dgBase).Count
+                Dim cd% = nt.Where(Function(b) b = dgBase).Count
                 Dim l = 1 / Conversion.DegenerateBases(dgBase).Length
 
                 ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量

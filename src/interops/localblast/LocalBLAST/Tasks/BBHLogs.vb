@@ -141,7 +141,7 @@ Namespace Tasks
         End Function
 
         ''' <summary>
-        '''
+        ''' Batch export the log data into the besthit data from the batch blastp operation.
         ''' </summary>
         ''' <param name="Source"></param>
         ''' <param name="EXPORT"></param>
@@ -150,7 +150,6 @@ Namespace Tasks
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Export.LogData", Info:="Batch export the log data into the besthit data from the batch blastp operation.")>
         Public Function ExportLogData(<Parameter("Dir.Source")> Source As String,
                                       <Parameter("Dir.Export")> EXPORT As String,
                                       <Parameter("Grep.Query", "Default action is:  Tokens ' ' First")>
@@ -178,7 +177,14 @@ Namespace Tasks
             End If
         End Function
 
-        <ExportAPI("Export.LogData.UltraLargeSize", Info:="Batch export the log data into the besthit data from the batch blastp operation.")>
+        ''' <summary>
+        ''' Batch export the log data into the besthit data from the batch blastp operation.
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="QueryGrep"></param>
+        ''' <param name="SubjectGrep"></param>
+        ''' <returns></returns>
         Public Function ExportLogDataUltraLargeSize(<Parameter("DataList.Logs.Entry")> source As IEnumerable(Of AlignEntry),
                                                     <Parameter("Dir.Export")> EXPORT As String,
                                                     <Parameter("Grep.Query")> Optional QueryGrep As TextGrepScriptEngine = Nothing,
@@ -223,7 +229,8 @@ RETURN_VALUE:
         End Function
 
         ''' <summary>
-        ''' 使用这个函数批量导出sbh数据，假若数据量比较小的话
+        ''' Batch export the log data into the besthit data from the batch blastp operation.
+        ''' (使用这个函数批量导出sbh数据，假若数据量比较小的话)
         ''' </summary>
         ''' <param name="source"></param>
         ''' <param name="EXPORT"></param>
@@ -232,7 +239,6 @@ RETURN_VALUE:
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Export.LogData.List", Info:="Batch export the log data into the besthit data from the batch blastp operation.")>
         Public Function ExportLogData(<Parameter("DataList.Logs.Entry")>
                                       Source As IEnumerable(Of AlignEntry),
                                       <Parameter("Dir.Export")> EXPORT As String,
@@ -270,6 +276,7 @@ RETURN_VALUE:
         End Function
 
         ''' <summary>
+        ''' Batch export the bbh result
         ''' 批量导出最佳比对匹配结果
         ''' </summary>
         ''' <returns></returns>
@@ -278,7 +285,6 @@ RETURN_VALUE:
         ''' <param name="EXPORT">双向最佳的导出文件夹</param>
         ''' <param name="CDSAll">从GBK文件列表之中所导出来的蛋白质信息的汇总表</param>
         '''
-        <ExportAPI("Export.Besthits", Info:="Batch export the bbh result")>
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("CDS.All.Dump", "Lazy loading task.")>
                                                    CDSAll As Task(Of String, Dictionary(Of String, GeneTable)),
@@ -288,6 +294,7 @@ RETURN_VALUE:
         End Function
 
         ''' <summary>
+        ''' Batch export the bbh result
         ''' 批量导出双向最佳比对匹配结果
         ''' </summary>
         ''' <returns></returns>
@@ -296,7 +303,6 @@ RETURN_VALUE:
         ''' <param name="EXPORT">双向最佳的导出文件夹</param>
         ''' <param name="CDSInfo">从GBK文件列表之中所导出来的蛋白质信息的汇总表</param>
         '''
-        <ExportAPI("Export.Besthits", Info:="Batch export the bbh result")>
         Public Function ExportBidirectionalBesthit(Source As IEnumerable(Of AlignEntry),
                                                    <Parameter("Dir.Export")> EXPORT As String,
                                                    <Parameter("CDS.All.Dump")>

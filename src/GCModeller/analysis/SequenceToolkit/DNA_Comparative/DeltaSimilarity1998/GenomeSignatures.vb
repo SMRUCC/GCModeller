@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::6e1298f94753fc69f16dc101ef2ca638, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GenomeSignatures
-    ' 
-    '         Function: __counts, __counts_p, CodonSignature, DinucleotideBIAS, DinucleotideBIAS_p
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GenomeSignatures
+' 
+'         Function: __counts, __counts_p, CodonSignature, DinucleotideBIAS, DinucleotideBIAS_p
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
@@ -69,11 +70,11 @@ Namespace DeltaSimilarity1998
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Public Function DinucleotideBIAS(nt As DNA(), X As DNA, Y As DNA) As Double
-            Dim len As Integer = nt.Length
+        Public Function DinucleotideBIAS(nt As NucleicAcid, X As DNA, Y As DNA) As Double
+            Dim len As Integer = nt.length
             Dim dibias As Double = nt.DNA_segments.__counts({X, Y}) / (len - 1)
-            Dim fx# = nt.Count(X) / len
-            Dim fy# = nt.Count(Y) / len
+            Dim fx# = NucleotideModels.NucleicAcid.Counts(nt.nt, X) / len
+            Dim fy# = NucleotideModels.NucleicAcid.Counts(nt.nt, Y) / len
             Dim value As Double = dibias / (fx * fy)
             Return value
         End Function
@@ -107,11 +108,11 @@ Namespace DeltaSimilarity1998
         ''' <remarks></remarks>
         <Extension>
         Public Function DinucleotideBIAS_p(nt As NucleicAcid, X As DNA, Y As DNA) As Double
-            Dim len As Integer = nt.Length
+            Dim len As Integer = nt.length
             Dim DNA_segments = nt.DNA_segments
             Dim dinucleotideBias# = DNA_segments.__counts_p({X, Y}) / (len - 1)
-            Dim fx# = nt.Counts(X) / len
-            Dim fy# = nt.Counts(Y) / len
+            Dim fx# = NucleotideModels.NucleicAcid.Counts(nt.nt, X) / len
+            Dim fy# = NucleotideModels.NucleicAcid.Counts(nt.nt, Y) / len
             Dim out# = dinucleotideBias / (fx * fy)
 
             Return out
