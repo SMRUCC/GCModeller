@@ -46,45 +46,42 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace gwANI
+<HideModuleName>
+Public Module gwANIExtensions
 
-    <HideModuleName>
-    Public Module gwANIExtensions
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="[in]">必须要是经过多序列比对对齐了的序列</param>
+    ''' <param name="out"></param>
+    ''' <param name="fast"></param>
+    Public Sub Evaluate([in] As String, out As String, Optional fast As Boolean = True)
+        Dim multipleSeq As FastaFile = FastaFile.LoadNucleotideData([in])
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="[in]">必须要是经过多序列比对对齐了的序列</param>
-        ''' <param name="out"></param>
-        ''' <param name="fast"></param>
-        Public Sub Evaluate([in] As String, out As String, Optional fast As Boolean = True)
-            Dim multipleSeq As FastaFile = FastaFile.LoadNucleotideData([in])
+        Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
+            If fast Then
+                Call fast_calculate_gwani(multipleSeq).print(write)
+            Else
+                Call calculate_and_output_gwani(multipleSeq).print(write)
+            End If
+        End Using
+    End Sub
 
-            Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
-                If fast Then
-                    Call fast_calculate_gwani(multipleSeq).print(write)
-                Else
-                    Call calculate_and_output_gwani(multipleSeq).print(write)
-                End If
-            End Using
-        End Sub
+    ''' <summary>
+    ''' 执行入口点
+    ''' </summary>
+    ''' <param name="multipleSeq"></param>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function calculate_and_output_gwani(ByRef multipleSeq As FastaFile) As DataSet()
+        Return New gwANI().__calculate_and_output_gwani(multipleSeq).ToArray
+    End Function
 
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="multipleSeq"></param>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function calculate_and_output_gwani(ByRef multipleSeq As FastaFile) As DataSet()
-            Return New gwANI().__calculate_and_output_gwani(multipleSeq).ToArray
-        End Function
-
-        ''' <summary>
-        ''' 执行入口点
-        ''' </summary>
-        ''' <param name="multipleSeq"></param>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function fast_calculate_gwani(ByRef multipleSeq As FastaFile) As DataSet()
-            Return New gwANI().__fast_calculate_gwani(multipleSeq).toarray
-        End Function
-    End Module
-End Namespace
+    ''' <summary>
+    ''' 执行入口点
+    ''' </summary>
+    ''' <param name="multipleSeq"></param>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function fast_calculate_gwani(ByRef multipleSeq As FastaFile) As DataSet()
+        Return New gwANI().__fast_calculate_gwani(multipleSeq).toarray
+    End Function
+End Module
