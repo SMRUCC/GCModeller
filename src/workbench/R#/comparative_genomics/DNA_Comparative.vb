@@ -79,9 +79,9 @@ Public Module DNA_Comparative
     <ExportAPI("sigma")>
     Public Function Sigma(f As FastaSeq, g As FastaSeq) As vector
         Dim dist As Double = DifferenceMeasurement.Sigma(f, g)
-        Dim desc As String = DifferenceMeasurement.SimilarDescription(dist)
+        Dim desc As String = DifferenceMeasurement.SimilarDescription(dist).ToString
 
-        Return vector.asVector({dist}, New unit(desc.ToString))
+        Return vector.asVector({dist}, New unit(desc))
     End Function
 
     ''' <summary>

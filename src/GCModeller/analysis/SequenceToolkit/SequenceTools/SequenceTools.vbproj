@@ -373,6 +373,10 @@
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\gwANI\gwANI.vbproj">
+      <Project>{303eba88-ddba-4eb2-afb4-f392a0e8a25e}</Project>
+      <Name>gwANI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MotifScanner\MotifScanner.vbproj">
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
       <Name>MotifScanner</Name>

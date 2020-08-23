@@ -77,27 +77,17 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Sigma",
-                   Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
- is the average absolute dinucleotide relative abundance difference calculated as
-
- sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
- 
- where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         Public Function Sigma(f As NucleotideModels.NucleicAcid, g As NucleotideModels.NucleicAcid) As Double
             Dim sum As Double
-            sum += BIAS(f, g, DNA.dAMP, DNA.dAMP) + BIAS(f, g, DNA.dAMP, DNA.dCMP) +
-               BIAS(f, g, DNA.dAMP, DNA.dGMP) + BIAS(f, g, DNA.dAMP, DNA.dTMP)
+            Dim ntf As New NucleicAcid(f)
+            Dim ntg As New NucleicAcid(g)
 
-            sum += BIAS(f, g, DNA.dCMP, DNA.dAMP) + BIAS(f, g, DNA.dCMP, DNA.dCMP) +
-               BIAS(f, g, DNA.dCMP, DNA.dGMP) + BIAS(f, g, DNA.dCMP, DNA.dTMP)
-
-            sum += BIAS(f, g, DNA.dGMP, DNA.dAMP) + BIAS(f, g, DNA.dGMP, DNA.dCMP) +
-               BIAS(f, g, DNA.dGMP, DNA.dGMP) + BIAS(f, g, DNA.dGMP, DNA.dTMP)
-
-            sum += BIAS(f, g, DNA.dTMP, DNA.dAMP) + BIAS(f, g, DNA.dTMP, DNA.dCMP) +
-               BIAS(f, g, DNA.dTMP, DNA.dGMP) + BIAS(f, g, DNA.dTMP, DNA.dTMP)
+            sum += BIAS(ntf, ntg, DNA.dAMP, DNA.dAMP) + BIAS(ntf, ntg, DNA.dAMP, DNA.dCMP) + BIAS(ntf, ntg, DNA.dAMP, DNA.dGMP) + BIAS(ntf, ntg, DNA.dAMP, DNA.dTMP)
+            sum += BIAS(ntf, ntg, DNA.dCMP, DNA.dAMP) + BIAS(ntf, ntg, DNA.dCMP, DNA.dCMP) + BIAS(ntf, ntg, DNA.dCMP, DNA.dGMP) + BIAS(ntf, ntg, DNA.dCMP, DNA.dTMP)
+            sum += BIAS(ntf, ntg, DNA.dGMP, DNA.dAMP) + BIAS(ntf, ntg, DNA.dGMP, DNA.dCMP) + BIAS(ntf, ntg, DNA.dGMP, DNA.dGMP) + BIAS(ntf, ntg, DNA.dGMP, DNA.dTMP)
+            sum += BIAS(ntf, ntg, DNA.dTMP, DNA.dAMP) + BIAS(ntf, ntg, DNA.dTMP, DNA.dCMP) + BIAS(ntf, ntg, DNA.dTMP, DNA.dGMP) + BIAS(ntf, ntg, DNA.dTMP, DNA.dTMP)
             sum = sum / 16
+
             Return sum
         End Function
 
