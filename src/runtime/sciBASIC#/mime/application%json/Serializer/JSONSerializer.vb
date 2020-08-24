@@ -30,7 +30,7 @@ Public Module JSONSerializer
             .enumToString = enumToStr,
             .unixTimestamp = unixTimestamp
         }.DoCall(Function(opts)
-                     Return obj.GetType.GetJson(obj, opts).BuildJsonString(opts)
+                     Return obj.GetType.GetJsonElement(obj, opts).BuildJsonString(opts)
                  End Function)
     End Function
 

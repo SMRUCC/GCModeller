@@ -61,13 +61,13 @@ Public Module ObjectSerializer
             elementSchema = schema.GetElementType
             populator = From element As Object
                         In DirectCast(obj, Array)
-                        Select elementSchema.GetJson(element, opt)
+                        Select elementSchema.GetJsonElement(element, opt)
         Else
             ' list of type
             elementSchema = schema.GenericTypeArguments(Scan0)
             populator = From element As Object
                         In DirectCast(obj, IList)
-                        Select elementSchema.GetJson(element, opt)
+                        Select elementSchema.GetJsonElement(element, opt)
         End If
 
         Return New JsonArray(populator)
@@ -94,7 +94,7 @@ Public Module ObjectSerializer
             [property] = reader.Value
             valueType = [property].PropertyType
             valObj = [property].GetValue(obj)
-            json.Add(reader.Key, valueType.GetJson(valObj, opt))
+            json.Add(reader.Key, valueType.GetJsonElement(valObj, opt))
         Next
 
         Return json
@@ -115,14 +115,21 @@ Public Module ObjectSerializer
         For Each memberKey As Object In obj.Keys
             key = Scripting.ToString(memberKey)
             value = obj.Item(memberKey)
-            json.Add(key, valueSchema.GetJson(value, opt))
+            json.Add(key, valueSchema.GetJsonElement(value, opt))
         Next
 
         Return json
     End Function
 
+    ''' <summary>
+    ''' Convert any .NET object as json element model for build json string or bson data
+    ''' </summary>
+    ''' <param name="schema"></param>
+    ''' <param name="obj"></param>
+    ''' <param name="opt"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function GetJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
+    Public Function GetJsonElement(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
         If obj Is Nothing Then
             Return Nothing
         ElseIf schema.IsAbstract OrElse schema Is GetType(Object) AndAlso Not obj Is Nothing Then
@@ -161,7 +168,7 @@ Public Module ObjectSerializer
                 obj = opt.digest(schema)(obj)
                 schema = obj.GetType
 
-                Return GetJson(schema, obj, opt)
+                Return GetJsonElement(schema, obj, opt)
             Else
                 ' isObject
                 Return schema.populateObjectJson(obj, opt)
