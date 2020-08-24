@@ -256,15 +256,11 @@
     <Compile Include="DeltaSimilarity1998\CAI\CodonBiasVector.vb" />
     <Compile Include="DeltaSimilarity1998\ReferenceRule.vb" />
     <Compile Include="DeltaSimilarity1998\SimilarDiscriptions.vb" />
-    <Compile Include="gwANI\gwANIPrinter.vb" />
     <Compile Include="IdentityResult.vb" />
     <Compile Include="GCOutlier.vb" />
     <Compile Include="DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb" />
     <Compile Include="DeltaSimilarity1998\CAI\CodonFrequency.vb" />
     <Compile Include="DeltaSimilarity1998\CAI\XML\CodonFrequency.vb" />
-    <Compile Include="gwANI\gwANI.vb" />
-    <Compile Include="gwANI\Const.vb" />
-    <Compile Include="gwANI\gwANIExtensions.vb" />
     <Compile Include="ToolsAPI\ChromosomePartitioningEntry.vb" />
     <Compile Include="ToolsAPI\SegmentRenderData.vb" />
     <Compile Include="ToolsAPI\SiteSigma.vb" />
@@ -311,6 +307,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
@@ -326,10 +326,6 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

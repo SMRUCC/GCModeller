@@ -238,8 +238,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <param name="nt"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function ToCodonCollection(nt As NucleicAcid) As Codon()
-            Dim codons = nt.ToArray.CreateSlideWindows(3, offset:=3)
+        Public Function ToCodonCollection(nt As IEnumerable(Of DNA)) As Codon()
+            Dim codons = nt.CreateSlideWindows(3, offset:=3)
             Dim aa As Codon() = LinqAPI.Exec(Of Codon) _
  _
                 () <= From Codon As SlideWindow(Of DNA)
