@@ -335,14 +335,12 @@ Public Module NCBILocalBlast
     End Function
 
     ''' <summary>
-    '''
+    ''' ``chunk_size`` parameter is recommended using 100 when the file size is below 2GB and using 768 when the file size is large than 20GB
     ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="chunk_size">是以1024*1024为基础的，本参数的值应该小于768，最大不应该超过800，否则程序会崩溃.对于1GB以内的日志文件，可以考虑100</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <ExportAPI("Read.Ultra_large_blast_output",
-               Info:="chunk_size parameter is recommended using 100 when the file size is below 2GB and using 768 when the file size is large than 20GB")>
     Public Function LoadUltraLargeSizeBlastOutput(path As String, Optional chunk_size As Integer = 768) As BlastPlus.v228
         Return NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(path, CHUNK_SIZE:=chunk_size * 1024 * 1024)
     End Function

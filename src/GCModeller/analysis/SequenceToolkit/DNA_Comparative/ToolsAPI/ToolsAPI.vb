@@ -516,9 +516,8 @@ Public Module ToolsAPI
     ''' 
     ''' </summary>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>Please notice that the query parameter is sensitive to the character case.</remarks>
     ''' 
-    <ExportAPI("delta_diff.partitioning_query", Info:="Please notice that the query parameter is sensitive to the character case.")>
     Public Function PartitioningSigmaCompareWith(source As IEnumerable(Of PartitioningData), query As String, EXPORT As String, Optional winSize As Integer = 1000) As Boolean
         Using pb = New CBusyIndicator(start:=True)
             Dim MAT = (From nn In (From item In source Select item Group By item.PartitioningTag Into Group).ToArray
@@ -632,7 +631,7 @@ Public Module ToolsAPI
     ''' <summary>
     ''' 按照功能分组数据<see cref="ChromosomePartitioningEntry"></see>进行比较基因组学分析报告文件的生成
     ''' </summary>
-    ''' <param name="source"></param>
+    ''' <param name="source">The source parameter is the source directory of the Delta query export dirtectory.</param>
     ''' <param name="CDSInfo"><see cref="SiteSigma.Site"></see>位置上面的基因的信息</param>
     ''' <returns></returns>
     ''' <remarks>
@@ -643,7 +642,6 @@ Public Module ToolsAPI
     ''' dsc3  c   3
     ''' 
     ''' </remarks>
-    <ExportAPI("diff.create_report", Info:="The source parameter is the source directory of the Delta query export dirtectory.")>
     Public Function GenerateDeltaDiffReport(source As String,
                                             partitions As IEnumerable(Of ChromosomePartitioningEntry),
                                             CDSInfo As IEnumerable(Of GeneTable)) As IO.File
@@ -996,7 +994,9 @@ Public Module ToolsAPI
     End Function
 
     ''' <summary>
-    ''' 对<paramref name="source"></paramref>文件夹之中的所有序列对象进行两两比对，适用于小规模的计算
+    ''' This function is suite for the large scales data calculation.
+    ''' (对<paramref name="source"></paramref>文件夹之中的所有序列对象
+    ''' 进行两两比对，适用于小规模的计算)
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="EXPORT"></param>
@@ -1004,7 +1004,6 @@ Public Module ToolsAPI
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("sigma_diff.batch", Info:="This function is suite for the large scales data calculation.")>
     Public Function BatchCalculation2(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)
 
@@ -1048,6 +1047,7 @@ Public Module ToolsAPI
     End Function
 
     ''' <summary>
+    ''' This function is suite for the small scales data calculation.
     ''' 对<paramref name="source"></paramref>文件夹之中的所有序列对象进行两两比对，适用于小规模的计算
     ''' </summary>
     ''' <param name="source"></param>
@@ -1056,7 +1056,6 @@ Public Module ToolsAPI
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("sigma_diff.batch_small", Info:="This function is suite for the small scales data calculation.")>
     Public Function BatchCalculation(source As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
 
         Call Console.WriteLine("[DEBUG] start to load fasta data from " & source)

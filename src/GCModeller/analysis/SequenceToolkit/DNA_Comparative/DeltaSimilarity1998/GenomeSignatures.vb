@@ -1,50 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::6e1298f94753fc69f16dc101ef2ca638, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module GenomeSignatures
-    ' 
-    '         Function: __counts, __counts_p, CodonSignature, DinucleotideBIAS, DinucleotideBIAS_p
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module GenomeSignatures
+' 
+'         Function: __counts, __counts_p, CodonSignature, DinucleotideBIAS, DinucleotideBIAS_p
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
@@ -67,15 +69,12 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Dinucleotide.BIAS",
-               Info:="Dinucleotide relative abundance values (dinucleotide bias) are assessed through the odds ratio p(XY) = f(XY)/f(X)f(Y), 
-where fX denotes the frequency of the nucleotide X and fXY is the frequency of the dinucleotide XY in the sequence under study.")>
         <Extension>
         Public Function DinucleotideBIAS(nt As NucleicAcid, X As DNA, Y As DNA) As Double
-            Dim len As Integer = nt.Length
+            Dim len As Integer = nt.length
             Dim dibias As Double = nt.DNA_segments.__counts({X, Y}) / (len - 1)
-            Dim fx# = nt.Counts(X) / len
-            Dim fy# = nt.Counts(Y) / len
+            Dim fx# = NucleotideModels.NucleicAcid.Counts(nt.nt, X) / len
+            Dim fy# = NucleotideModels.NucleicAcid.Counts(nt.nt, Y) / len
             Dim value As Double = dibias / (fx * fy)
             Return value
         End Function
@@ -107,16 +106,13 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Dinucleotide.BIAS.Parallel",
-               Info:="Dinucleotide relative abundance values (dinucleotide bias) are assessed through the odds ratio p(XY) = f(XY)/f(X)f(Y), 
-where fX denotes the frequency of the nucleotide X and fXY is the frequency of the dinucleotide XY in the sequence under study.")>
         <Extension>
         Public Function DinucleotideBIAS_p(nt As NucleicAcid, X As DNA, Y As DNA) As Double
-            Dim len As Integer = nt.Length
+            Dim len As Integer = nt.length
             Dim DNA_segments = nt.DNA_segments
             Dim dinucleotideBias# = DNA_segments.__counts_p({X, Y}) / (len - 1)
-            Dim fx# = nt.Counts(X) / len
-            Dim fy# = nt.Counts(Y) / len
+            Dim fx# = NucleotideModels.NucleicAcid.Counts(nt.nt, X) / len
+            Dim fy# = NucleotideModels.NucleicAcid.Counts(nt.nt, Y) / len
             Dim out# = dinucleotideBias / (fx * fy)
 
             Return out
@@ -160,20 +156,6 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Codon.Signature",
-             Info:="CODON SIGNATURE
-             <br />
- <p>For a given collection of genes, let fX(1); fY(2); fZ(3) denote frequencies of the indicated nucleotide at codon sites 1, 2, and 3, respectively, 
- and let f(XYZ) indicate codon frequency. The embedded dinucleotide frequencies are denoted fXY(1, 2); fYZ(2, 3); and fXZ(1, 3). Dinucleotide 
- contrasts are assessed through the odds ratio pXY = f(XY)/f(X)f(Y). 
- In the context of codons, we define
- 
-<li>    pXY(1, 2) = fXY(1, 2)/fX(1)fY(2)
-<li>    pYZ(2, 3) = fYZ(2, 3)/fY(2)fZ(3)
-<li>    pXZ(1, 3) = fXZ(1, 3)/fX(1)fZ(3)
- 
-<p> We refer to the profiles {pXY(1, 2)}; {pXZ(1, 3)}; {pYZ(2, 3)}, and also {pZW(3, 4)}, where 4(=1) is the first position of the next codon, as the 
- codon signature to be distinguished from the global genome signature")>
         <Extension>
         Public Function CodonSignature(nt As NucleicAcid, codon As Codon) As CodonBiasVector
             Dim v As New CodonBiasVector With {
