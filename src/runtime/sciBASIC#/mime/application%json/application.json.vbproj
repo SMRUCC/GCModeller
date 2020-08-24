@@ -514,11 +514,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Serializer\JSONSerializerOptions.vb" />
+    <Compile Include="Serializer\JSONSerializer.vb" />
     <Compile Include="Serializer\Variant.vb" />
     <Compile Include="Serializer\ObjectSchema.vb" />
     <Compile Include="Serializer\ExtendedDictionary.vb" />
     <Compile Include="Serializer\Deserializer.vb" />
-    <Compile Include="Serializer\JSONSerializer.vb" />
+    <Compile Include="Serializer\ObjectSerializer\ObjectSerializer.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
