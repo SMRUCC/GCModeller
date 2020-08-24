@@ -143,10 +143,10 @@ Public Module ObjectSerializer
                 If opt.unixTimestamp Then
                     Return New JsonValue(DirectCast(obj, Date).UnixTimeStamp)
                 Else
-                    Return New JsonValue(JsonContract.GetObjectJson(schema, obj))
+                    Return New JsonValue(obj)
                 End If
             Else
-                Return New JsonValue(JsonContract.GetObjectJson(schema, obj))
+                Return New JsonValue(obj)
             End If
         ElseIf schema.IsEnum Then
             If opt.enumToString Then
