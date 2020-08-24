@@ -48,15 +48,14 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.ValueTypes
 
 Public Module ObjectSerializer
 
     <Extension>
-    Private Function populateArrayJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As IEnumerable(Of String)
+    Private Function populateArrayJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
         Dim elementSchema As Type
-        Dim populator As IEnumerable(Of String)
+        Dim populator As IEnumerable(Of JsonElement)
 
         If schema.IsArray Then
             elementSchema = schema.GetElementType
@@ -71,12 +70,11 @@ Public Module ObjectSerializer
                         Select elementSchema.GetJson(element, opt)
         End If
 
-        Return populator
+        Return New JsonArray(populator)
     End Function
 
     <Extension>
-    Private Function populateObjectJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As String
-        Dim members As New List(Of String)
+    Private Function populateObjectJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
         ' 会需要忽略掉有<ScriptIgnore>标记的属性
         Dim memberReaders = schema _
             .Schema(PropertyAccess.Readable, nonIndex:=True) _
@@ -89,20 +87,17 @@ Public Module ObjectSerializer
                    End Function)
         Dim [property] As PropertyInfo
         Dim valueType As Type
+        Dim json As New JsonObject
+        Dim valObj As Object
 
         For Each reader As KeyValuePair(Of String, PropertyInfo) In memberReaders
             [property] = reader.Value
             valueType = [property].PropertyType
-            members += $"""{reader.Key}"": {valueType.GetJson([property].GetValue(obj, Nothing), opt)}"
+            valObj = [property].GetValue(obj)
+            json.Add(reader.Key, valueType.GetJson(valObj, opt))
         Next
 
-        If opt.indent Then
-            Return $"{{
-            {members.JoinBy("," & ASCII.LF)}
-        }}"
-        Else
-            Return $"{{{members.JoinBy(",")}}}"
-        End If
+        Return json
     End Function
 
     ''' <summary>
@@ -112,59 +107,45 @@ Public Module ObjectSerializer
     ''' <param name="valueSchema"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function populateTableJson(obj As IDictionary, valueSchema As Type, opt As JSONSerializerOptions) As String
-        Dim members As New List(Of String)
+    Private Function populateTableJson(obj As IDictionary, valueSchema As Type, opt As JSONSerializerOptions) As JsonElement
+        Dim json As New JsonObject
         Dim key As String
         Dim value As Object
 
-        For Each member In obj
-            key = Scripting.ToString(member.Key)
-            value = member.Value
-            members += $"""{key}"": {valueSchema.GetJson(value, opt)}"
+        For Each memberKey As Object In obj.Keys
+            key = Scripting.ToString(memberKey)
+            value = obj.Item(memberKey)
+            json.Add(key, valueSchema.GetJson(value, opt))
         Next
 
-        If opt.indent Then
-            Return $"{{
-            {members.JoinBy("," & ASCII.LF)}
-        }}"
-        Else
-            Return $"{{{members.JoinBy(",")}}}"
-        End If
+        Return json
     End Function
 
     <Extension>
     Public Function GetJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
         If obj Is Nothing Then
-            Return "null"
+            Return Nothing
         ElseIf schema.IsAbstract OrElse schema Is GetType(Object) AndAlso Not obj Is Nothing Then
             schema = obj.GetType
         End If
 
         If schema.IsArray OrElse schema.IsInheritsFrom(GetType(List(Of )), strict:=False) Then
-            Dim elementJSON = schema.populateArrayJson(obj, opt).ToArray
-
-            If opt.indent Then
-                Return $"[
-                {elementJSON.JoinBy(", " & ASCII.LF)}
-            ]"
-            Else
-                Return $"[{elementJSON.JoinBy(", ")}]"
-            End If
+            Return schema.populateArrayJson(obj, opt)
         ElseIf DataFramework.IsPrimitive(schema) Then
             If schema Is GetType(Date) Then
                 If opt.unixTimestamp Then
-                    Return DirectCast(obj, Date).UnixTimeStamp
+                    Return New JsonValue(DirectCast(obj, Date).UnixTimeStamp)
                 Else
-                    Return JsonContract.GetObjectJson(schema, obj)
+                    Return New JsonValue(JsonContract.GetObjectJson(schema, obj))
                 End If
             Else
-                Return JsonContract.GetObjectJson(schema, obj)
+                Return New JsonValue(JsonContract.GetObjectJson(schema, obj))
             End If
         ElseIf schema.IsEnum Then
             If opt.enumToString Then
-                Return """" & obj.ToString & """"
+                Return New JsonValue(obj.ToString)
             Else
-                Return CLng(obj)
+                Return New JsonValue(CLng(obj))
             End If
         ElseIf schema.IsInheritsFrom(GetType(Dictionary(Of, )), strict:=False) Then
             Dim valueType As Type = schema _

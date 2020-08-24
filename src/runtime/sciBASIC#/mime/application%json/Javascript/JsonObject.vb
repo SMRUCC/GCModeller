@@ -116,20 +116,6 @@ Namespace Javascript
             Return "JsonObject::[" & array.Keys.JoinBy(", ") & "]"
         End Function
 
-        Public Overrides Function BuildJsonString() As String
-            Dim a As New StringBuilder
-            Dim array$() = Me _
-                .array _
-                .Select(Function(kp) $"""{kp.Key}"": {kp.Value.BuildJsonString}") _
-                .ToArray
-
-            Call a.AppendLine("{")
-            Call a.AppendLine(array.JoinBy("," & vbLf))
-            Call a.AppendLine("}")
-
-            Return a.ToString
-        End Function
-
         Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of JsonElement)) Implements IEnumerable(Of NamedValue(Of JsonElement)).GetEnumerator
             For Each kp As KeyValuePair(Of String, JsonElement) In array
                 Yield New NamedValue(Of JsonElement) With {
