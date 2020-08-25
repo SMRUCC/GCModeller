@@ -29,10 +29,14 @@ Public NotInheritable Class TreeGraph(Of K, V)
             g.CreateEdge(center, v)
         Next
 
-        If connectLeft AndAlso Not tree.Left Is Nothing Then
+        If Not tree.Left Is Nothing Then
             clusterId = keyId(tree.Left.Key)
             v = g.CreateNode(clusterId, New NodeData With {.Properties = New Dictionary(Of String, String) From {{NamesOf.REFLECTION_ID_MAPPING_NODETYPE, clusterId}}})
-            g.CreateEdge(v, center)
+
+            If connectLeft Then
+                g.CreateEdge(v, center)
+            End If
+
             appendGraph(g, v, tree.Left, uniqueId, keyId, connectLeft)
         End If
 
