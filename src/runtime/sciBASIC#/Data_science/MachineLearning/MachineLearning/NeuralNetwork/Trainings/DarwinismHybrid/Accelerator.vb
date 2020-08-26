@@ -60,9 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Helper
-Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
-Imports Microsoft.VisualBasic.SecurityString
 
 Namespace NeuralNetwork.DarwinismHybrid
 
@@ -70,6 +68,16 @@ Namespace NeuralNetwork.DarwinismHybrid
     ''' 
     ''' </summary>
     Public Module Accelerator
+
+        <Extension>
+        Public Function GetSynapseGroups(network As Network) As NamedCollection(Of Synapse)()
+            Return network.PopulateAllSynapses _
+                .GroupBy(Function(s) s.ToString) _
+                .Select(Function(sg)
+                            Return New NamedCollection(Of Synapse)(sg.Key, sg.ToArray)
+                        End Function) _
+                .ToArray
+        End Function
 
         <Extension>
         Public Function RunGATrainer(network As Network, trainingSet As Sample(), Optional mutationRate# = 0.2, Optional populationSize% = 1000, Optional iterations% = 10000) As Network
