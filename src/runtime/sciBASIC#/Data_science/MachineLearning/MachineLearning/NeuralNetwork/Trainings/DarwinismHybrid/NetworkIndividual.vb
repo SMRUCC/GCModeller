@@ -97,8 +97,63 @@ Namespace NeuralNetwork.DarwinismHybrid
             }
         End Function
 
-        Public Function Crossover(another As NetworkIndividual) As IEnumerable(Of NetworkIndividual) Implements Chromosome(Of NetworkIndividual).Crossover
-            Throw New NotImplementedException()
+        Private Overloads Sub Crossover(x As Layer, y As Layer)
+            Dim n As Integer = CInt(x.Count / 4)
+            Dim link1, link2 As Synapse
+            Dim wtemp, deltatemp As Double
+
+            For j As Integer = 0 To x.Count - 1
+                Dim i As Integer = randf.NextInteger(x.Count)
+                Dim nodeX = x.Neurons(i)
+                Dim nodeY = x.Neurons(i)
+
+                If Not nodeX.InputSynapses.IsNullOrEmpty Then
+                    i = randf.NextInteger(nodeX.InputSynapses.Count)
+                    link1 = nodeX.InputSynapses(i)
+                    link2 = nodeY.InputSynapses(i)
+
+                    wtemp = link2.Weight
+                    deltatemp = link2.Weight
+
+                    link2.Weight = link1.Weight
+                    link2.WeightDelta = link1.WeightDelta
+                    link1.Weight = wtemp
+                    link1.WeightDelta = deltatemp
+                End If
+                If Not nodeX.OutputSynapses.IsNullOrEmpty Then
+                    i = randf.NextInteger(nodeX.OutputSynapses.Count)
+                    link1 = nodeX.OutputSynapses(i)
+                    link2 = nodeY.OutputSynapses(i)
+
+                    wtemp = link2.Weight
+                    deltatemp = link2.Weight
+
+                    link2.Weight = link1.Weight
+                    link2.WeightDelta = link1.WeightDelta
+                    link1.Weight = wtemp
+                    link1.WeightDelta = deltatemp
+                End If
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 进行若干连接的权重值的交换
+        ''' </summary>
+        ''' <param name="another"></param>
+        ''' <returns></returns>
+        Public Overloads Iterator Function Crossover(another As NetworkIndividual) As IEnumerable(Of NetworkIndividual) Implements Chromosome(Of NetworkIndividual).Crossover
+            Dim copyX As NetworkIndividual = Me.Clone
+            Dim copyY As NetworkIndividual = another.Clone
+
+            Call Crossover(copyX.target.InputLayer, copyY.target.InputLayer)
+            Call Crossover(copyX.target.OutputLayer, copyY.target.OutputLayer)
+
+            For i As Integer = 0 To copyX.target.HiddenLayer.Count - 1
+                Call Crossover(copyX.target.HiddenLayer.Layers(i), copyY.target.HiddenLayer.Layers(i))
+            Next
+
+            Yield copyX
+            Yield copyY
         End Function
 
         Private Overloads Shared Function Mutate(target As Layer) As Neuron
@@ -119,6 +174,10 @@ Namespace NeuralNetwork.DarwinismHybrid
             Return neuron
         End Function
 
+        ''' <summary>
+        ''' 进行若干连接阶段权重值的修改
+        ''' </summary>
+        ''' <returns></returns>
         Public Overloads Function Mutate() As NetworkIndividual Implements Chromosome(Of NetworkIndividual).Mutate
             Dim copy As NetworkIndividual = DirectCast(Clone(), NetworkIndividual)
             Dim neuron As Network = copy.target
