@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
+﻿Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace NeuralNetwork.DarwinismHybrid
@@ -20,8 +21,75 @@ Namespace NeuralNetwork.DarwinismHybrid
             End Get
         End Property
 
+        Private Function copyLayer(layer As Layer) As Layer
+            Dim neurons As Neuron() = layer.Neurons _
+                .Select(Function(a)
+                            Return New Neuron(Function() 0, a.activation, a.Guid) With {
+                                .Bias = a.Bias,
+                                .BiasDelta = a.BiasDelta,
+                                .Gradient = a.Gradient,
+                                .isDroppedOut = a.isDroppedOut,
+                                .Value = a.Value
+                            }
+                        End Function) _
+                .ToArray
+            Dim copy As New Layer(neurons) With {
+                .doDropOutMode = layer.doDropOutMode,
+                .softmaxNormalization = layer.softmaxNormalization
+            }
+
+            Return copy
+        End Function
+
+        Private Shared Function GetNodeTable(network As Network) As Dictionary(Of String, Neuron)
+            Dim neurons As New Dictionary(Of String, Neuron)
+
+            For Each node In network.InputLayer
+                neurons.Add(node.Guid, node)
+            Next
+
+            For Each node In network.OutputLayer
+                neurons.Add(node.Guid, node)
+            Next
+
+            For Each hidden In network.HiddenLayer
+                For Each node In hidden
+                    neurons.Add(node.Guid, node)
+                Next
+            Next
+
+            Return neurons
+        End Function
+
         Public Function Clone() As Object Implements ICloneable.Clone
-            Dim copy As Network
+            Dim copy As New Network(target.Activations) With {
+                .LearnRate = target.LearnRate,
+                .Momentum = target.Momentum,
+                .Truncate = target.Truncate,
+                .LearnRateDecay = target.LearnRateDecay,
+                .InputLayer = copyLayer(target.InputLayer),
+                .OutputLayer = copyLayer(target.OutputLayer),
+                .HiddenLayer = New HiddenLayers(target.HiddenLayer.Select(AddressOf copyLayer))
+            }
+
+            ' create neuron links
+            Dim copyTable = GetNodeTable(copy)
+            Dim rawTable = GetNodeTable(target)
+            Dim linkUnit As Synapse
+
+            For Each node As Neuron In copyTable.Values
+                Dim raw As Neuron = rawTable(node.Guid)
+
+                For Each link As Synapse In raw.InputSynapses.JoinIterates(raw.OutputSynapses)
+                    linkUnit = New Synapse With {
+                        .Weight = link.Weight,
+                        .WeightDelta = link.WeightDelta,
+                        .InputNeuron = copyTable(link.InputNeuron.Guid),
+                        .OutputNeuron = copyTable(link.OutputNeuron.Guid)
+                    }
+                    node.InputSynapses.Add(linkUnit)
+                Next
+            Next
 
             Return New NetworkIndividual With {
                 .MutationRate = MutationRate,
