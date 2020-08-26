@@ -72,24 +72,15 @@ Namespace NeuralNetwork.DarwinismHybrid
     Public Module Accelerator
 
         <Extension>
-        Public Function GetSynapseGroups(network As Network) As NamedCollection(Of Synapse)()
-            Return network.PopulateAllSynapses _
-                .GroupBy(Function(s) s.ToString) _
-                .Select(Function(sg)
-                            Return New NamedCollection(Of Synapse)(sg.Key, sg.ToArray)
-                        End Function) _
-                .ToArray
-        End Function
-
-        <Extension>
-        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional populationSize% = 1000, Optional iterations% = 10000)
-            Dim synapses = network.GetSynapseGroups
-            Dim population As Population(Of WeightVector) = New WeightVector(synapses).InitialPopulation(New Population(Of WeightVector)(New PopulationList(Of WeightVector), parallel:=True) With {.capacitySize = populationSize})
-            Dim fitness As Fitness(Of WeightVector) = New Fitness(network, synapses, trainingSet)
-            Dim ga As New GeneticAlgorithm(Of WeightVector)(population, fitness)
-            Dim engine As New EnvironmentDriver(Of WeightVector)(ga, Sub(null, nullErr)
-                                                                         ' do nothing
-                                                                     End Sub) With {
+        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional mutationRate# = 0.2, Optional populationSize% = 1000, Optional iterations% = 10000)
+            Dim population As Population(Of NetworkIndividual) = New NetworkIndividual(network) With {
+                .MutationRate = mutationRate
+            }.InitialPopulation(New Population(Of NetworkIndividual)(New PopulationList(Of NetworkIndividual), parallel:=True) With {.capacitySize = populationSize})
+            Dim fitness As Fitness(Of NetworkIndividual) = New Fitness(trainingSet)
+            Dim ga As New GeneticAlgorithm(Of NetworkIndividual)(population, fitness)
+            Dim engine As New EnvironmentDriver(Of NetworkIndividual)(ga, Sub(null, nullErr)
+                                                                              ' do nothing
+                                                                          End Sub) With {
                 .Iterations = iterations,
                 .Threshold = 0.005
             }
@@ -99,8 +90,8 @@ Namespace NeuralNetwork.DarwinismHybrid
             Call engine.Train()
         End Sub
 
-        Private Sub doPrint(i%, e#, g As GeneticAlgorithm(Of WeightVector))
-            Call EnvironmentDriver(Of WeightVector).CreateReport(i, e, g).ToString.__DEBUG_ECHO
+        Private Sub doPrint(i%, e#, g As GeneticAlgorithm(Of NetworkIndividual))
+            Call EnvironmentDriver(Of NetworkIndividual).CreateReport(i, e, g).ToString.__DEBUG_ECHO
         End Sub
     End Module
 End Namespace

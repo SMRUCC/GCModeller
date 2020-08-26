@@ -6,7 +6,8 @@ Namespace NeuralNetwork.DarwinismHybrid
 
     Public Class NetworkIndividual : Implements Chromosome(Of NetworkIndividual), ICloneable
 
-        Dim target As Network
+        Friend target As Network
+
         Dim guid As String
 
         Public Property MutationRate As Double Implements Chromosome(Of NetworkIndividual).MutationRate
@@ -20,6 +21,14 @@ Namespace NeuralNetwork.DarwinismHybrid
                 Return guid
             End Get
         End Property
+
+        Sub New()
+
+        End Sub
+
+        Sub New(network As Network)
+            target = network
+        End Sub
 
         Private Function copyLayer(layer As Layer) As Layer
             Dim neurons As Neuron() = layer.Neurons _
