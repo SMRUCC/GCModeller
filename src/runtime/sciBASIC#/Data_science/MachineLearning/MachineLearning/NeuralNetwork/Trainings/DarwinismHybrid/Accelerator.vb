@@ -72,15 +72,22 @@ Namespace NeuralNetwork.DarwinismHybrid
     Public Module Accelerator
 
         <Extension>
-        Public Sub RunGAAccelerator(network As Network, trainingSet As Sample(), Optional mutationRate# = 0.2, Optional populationSize% = 1000, Optional iterations% = 10000)
-            Dim population As Population(Of NetworkIndividual) = New NetworkIndividual(network) With {
+        Public Function RunGATrainer(network As Network, trainingSet As Sample(), Optional mutationRate# = 0.2, Optional populationSize% = 1000, Optional iterations% = 10000) As Network
+            Dim population As New Population(Of NetworkIndividual)(New PopulationList(Of NetworkIndividual), parallel:=True) With {
+                .capacitySize = populationSize
+            }
+
+            population = New NetworkIndividual(network) With {
                 .MutationRate = mutationRate
-            }.InitialPopulation(New Population(Of NetworkIndividual)(New PopulationList(Of NetworkIndividual), parallel:=True) With {.capacitySize = populationSize})
+            }.InitialPopulation(population)
+
             Dim fitness As Fitness(Of NetworkIndividual) = New Fitness(trainingSet)
             Dim ga As New GeneticAlgorithm(Of NetworkIndividual)(population, fitness)
-            Dim engine As New EnvironmentDriver(Of NetworkIndividual)(ga, Sub(null, nullErr)
-                                                                              ' do nothing
-                                                                          End Sub) With {
+            Dim engine As New EnvironmentDriver(Of NetworkIndividual)(
+                ga:=ga,
+                takeBestSnapshot:=Sub(null, nullErr)
+                                      ' do nothing
+                                  End Sub) With {
                 .Iterations = iterations,
                 .Threshold = 0.005
             }
@@ -88,7 +95,9 @@ Namespace NeuralNetwork.DarwinismHybrid
             Call "Run GA helper!".__DEBUG_ECHO
             Call engine.AttachReporter(AddressOf doPrint)
             Call engine.Train()
-        End Sub
+
+            Return ga.Best.target
+        End Function
 
         Private Sub doPrint(i%, e#, g As GeneticAlgorithm(Of NetworkIndividual))
             Call EnvironmentDriver(Of NetworkIndividual).CreateReport(i, e, g).ToString.__DEBUG_ECHO
