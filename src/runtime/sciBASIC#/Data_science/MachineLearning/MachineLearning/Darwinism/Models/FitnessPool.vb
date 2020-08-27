@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::8a393bdc7f46c949c21e76545eb8664f, Data_science\MachineLearning\MachineLearning\Darwinism\Models\FitnessPool.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FitnessPool
-    ' 
-    '         Properties: Cacheable, evaluateFitness
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Fitness, getOrCacheOfFitness
-    ' 
-    '         Sub: Clear
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FitnessPool
+' 
+'         Properties: Cacheable, evaluateFitness
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: Fitness, getOrCacheOfFitness
+' 
+'         Sub: Clear
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -103,13 +103,15 @@ Namespace Darwinism.Models
         ''' <param name="[in]"></param>
         ''' <returns></returns>
         Public Function Fitness([in] As Individual, parallel As Boolean) As Double Implements Fitness(Of Individual).Calculate
-            SyncLock evaluateFitness
-                If Not evaluateFitness.Cacheable Then
-                    Return evaluateFitness.Calculate([in], parallel)
-                Else
-                    Return getOrCacheOfFitness([in], parallel)
-                End If
-            End SyncLock
+            ' 20200827
+            ' the synlock will stop the parallel computing in GA engine
+            'SyncLock evaluateFitness
+            If Not evaluateFitness.Cacheable Then
+                Return evaluateFitness.Calculate([in], parallel)
+            Else
+                Return getOrCacheOfFitness([in], parallel)
+            End If
+            'End SyncLock
         End Function
 
         Private Function getOrCacheOfFitness([in] As Individual, parallel As Boolean) As Double

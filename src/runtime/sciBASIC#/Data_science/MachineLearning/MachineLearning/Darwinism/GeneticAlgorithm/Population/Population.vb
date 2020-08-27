@@ -210,23 +210,44 @@ Namespace Darwinism.GAF
         ''' <summary>
         ''' 使用PLinq进行并行计算
         ''' </summary>
-        ''' <param name="source"></param>
+        ''' <param name="population"></param>
         ''' <returns></returns>
-        Private Shared Function GA_PLinq(comparator As FitnessPool(Of Chr), source As PopulationCollection(Of Chr), parallelFlag As Boolean) As IEnumerable(Of NamedValue(Of Double))
-            Dim population = Iterator Function() As IEnumerable(Of Chr)
-                                 For i As Integer = 0 To source.Count - 1
-                                     Yield source(i)
-                                 Next
-                             End Function
+        Private Shared Function GA_PLinq(comparator As FitnessPool(Of Chr), population As PopulationCollection(Of Chr), parallelFlag As Boolean) As IEnumerable(Of NamedValue(Of Double))
+            'Dim population = Iterator Function() As IEnumerable(Of Chr)
+            '                     For i As Integer = 0 To source.Count - 1
+            '                         Yield source(i)
+            '                     Next
+            '                 End Function
 
-            Return From c As Chr
-                   In population().Populate(parallel:=parallelFlag)
-                   Let fit As Double = comparator.Fitness(c, parallel:=Not parallelFlag)
-                   Let key As String = comparator.indivToString(c)
-                   Select New NamedValue(Of Double) With {
-                       .Name = key,
-                       .Value = fit
-                   }
+            ' 20200827
+            ' use populate function for run parallel is not working
+            'Return From c As Chr
+            '       In population().Populate(parallel:=parallelFlag)
+            '       Let fit As Double = comparator.Fitness(c, parallel:=Not parallelFlag)
+            '       Let key As String = comparator.indivToString(c)
+            '       Select New NamedValue(Of Double) With {
+            '           .Name = key,
+            '           .Value = fit
+            '       }
+            If parallelFlag Then
+                Return From c As Chr
+                       In population.GetCollection.AsParallel
+                       Let fit As Double = comparator.Fitness(c, parallel:=Not parallelFlag)
+                       Let key As String = comparator.indivToString(c)
+                       Select New NamedValue(Of Double) With {
+                           .Name = key,
+                           .Value = fit
+                       }
+            Else
+                Return From c As Chr
+                       In population.GetCollection()
+                       Let fit As Double = comparator.Fitness(c, parallel:=Not parallelFlag)
+                       Let key As String = comparator.indivToString(c)
+                       Select New NamedValue(Of Double) With {
+                           .Name = key,
+                           .Value = fit
+                       }
+            End If
         End Function
 
         ''' <summary>

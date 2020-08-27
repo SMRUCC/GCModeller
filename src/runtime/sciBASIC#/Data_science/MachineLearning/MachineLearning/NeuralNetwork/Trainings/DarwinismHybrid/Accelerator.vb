@@ -102,7 +102,7 @@ Namespace NeuralNetwork.DarwinismHybrid
 
             Call "Run GA helper!".__DEBUG_ECHO
             Call engine.AttachReporter(AddressOf doPrint)
-            Call engine.Train()
+            Call engine.Train(parallel:=True)
 
             Return ga.Best.target
         End Function
