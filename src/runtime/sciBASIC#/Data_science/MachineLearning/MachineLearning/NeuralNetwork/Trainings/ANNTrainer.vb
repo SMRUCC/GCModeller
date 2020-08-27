@@ -182,7 +182,14 @@ Namespace NeuralNetwork
         End Function
 
         Public Function SetOutputNames(names As String()) As ANNTrainer
-            outputNames = names
+            Dim maxLen As Integer = names.Select(AddressOf Strings.Len).Max
+
+            outputNames = names _
+                .Select(Function(str)
+                            Return str.PadRight(maxLen * 1.25)
+                        End Function) _
+                .ToArray
+
             Return Me
         End Function
 
@@ -287,7 +294,14 @@ Namespace NeuralNetwork
                     Else
                         Call tick.StepProgress()
                         Call msg.__INFO_ECHO
-                        Call $"[{errors.Select(Function(e) e.ToString("F3")).JoinBy(", ")}]".__DEBUG_ECHO
+
+                        If outputNames.IsNullOrEmpty Then
+                            Call $"[{errors.Select(Function(e) e.ToString("F3")).JoinBy(", ")}]".__DEBUG_ECHO
+                        Else
+                            For index As Integer = 0 To outputNames.Length - 1
+                                Call $"    {outputNames(index)} = {errors(index).ToString("F4")}".__INFO_ECHO
+                            Next
+                        End If
                     End If
 #End If
                     If errors.Average < 0.0001 Then
