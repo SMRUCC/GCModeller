@@ -143,7 +143,11 @@ Namespace ComponentModel.DataSourceModel
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return value.Length
+                If value Is Nothing Then
+                    Return 0
+                Else
+                    Return value.Length
+                End If
             End Get
         End Property
 
