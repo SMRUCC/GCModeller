@@ -121,6 +121,7 @@ Namespace NeuralNetwork
         Protected errors As Double()
         Protected dataSets As New List(Of TrainingSample)
         Protected snapshotSaveLocation As String
+        Protected outputNames As String()
 
         ''' <summary>
         ''' 训练所使用到的经验数量,即数据集的大小size
@@ -177,6 +178,11 @@ Namespace NeuralNetwork
 
         Public Function SetSnapshotLocation(save As String) As ANNTrainer
             snapshotSaveLocation = save
+            Return Me
+        End Function
+
+        Public Function SetOutputNames(names As String()) As ANNTrainer
+            outputNames = names
             Return Me
         End Function
 
@@ -399,7 +405,15 @@ Namespace NeuralNetwork
                 numEpochs += 1
                 progress = ((minimumError / [error]) * 100).ToString("F2")
 
-                Call $"{numEpochs}{ASCII.TAB}Error:=[{[errors].Select(Function(a) a.ToString("F3")).JoinBy(", ")}]{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
+                If outputNames.IsNullOrEmpty Then
+                    Call $"{numEpochs}{ASCII.TAB}Error:=[{[errors].Select(Function(a) a.ToString("F3")).JoinBy(", ")}]{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
+                Else
+                    Call $"{numEpochs}{ASCII.TAB}Error:=[{[errors].Average}]{ASCII.TAB}progress:={progress}%".__DEBUG_ECHO
+
+                    For i As Integer = 0 To outputNames.Length - 1
+                        Call $"    {outputNames(i)}={errors(i)}".__INFO_ECHO
+                    Next
+                End If
 
                 If Not reporter Is Nothing Then
                     Call reporter(numEpochs, [error], network)
