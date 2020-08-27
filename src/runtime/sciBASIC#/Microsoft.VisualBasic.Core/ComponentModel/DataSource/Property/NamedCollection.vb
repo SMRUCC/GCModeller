@@ -200,7 +200,11 @@ Namespace ComponentModel.DataSourceModel
         End Function
 
         Public Overrides Function ToString() As String
-            Return name
+            If IsEmpty Then
+                Return "NULL"
+            Else
+                Return name
+            End If
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
