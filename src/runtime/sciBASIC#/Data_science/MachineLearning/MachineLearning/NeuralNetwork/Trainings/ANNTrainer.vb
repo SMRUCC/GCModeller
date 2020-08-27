@@ -299,7 +299,7 @@ Namespace NeuralNetwork
                             Call $"[{errors.Select(Function(e) e.ToString("F3")).JoinBy(", ")}]".__DEBUG_ECHO
                         Else
                             For index As Integer = 0 To outputNames.Length - 1
-                                Call $"    {outputNames(index)}={errors(index)}".__INFO_ECHO
+                                Call $"    {outputNames(index)} = {errors(index).ToString("F4")}".__INFO_ECHO
                             Next
                         End If
                     End If
