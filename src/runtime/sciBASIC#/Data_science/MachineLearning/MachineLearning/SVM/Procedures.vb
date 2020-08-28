@@ -788,7 +788,7 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     If Not param.Weights.ContainsKey(label(i)) Then
-                        Console.Error.Write("WARNING: class label " & label(i) & " specified in weight is not found" & ASCII.LF)
+                        Call $"WARNING: class label {label(i)} specified in weight is not found".Warning
                     Else
                         weighted_C(i) *= param.Weights(label(i))
                     End If
