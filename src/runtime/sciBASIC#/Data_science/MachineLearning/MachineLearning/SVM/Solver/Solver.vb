@@ -1,4 +1,49 @@
-﻿' 
+﻿#Region "Microsoft.VisualBasic::c3c0986a5041a1ba13c333a847636b1f, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Solver
+    ' 
+    '         Function: be_shrunk, calculate_rho, get_C, is_free, is_lower_bound
+    '                   is_upper_bound, select_working_set
+    ' 
+    '         Sub: do_shrinking, reconstruct_gradient, Solve, swap_index, update_alpha_status
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+' 
 ' * SVM.NET Library
 ' * Copyright (C) 2008 Matthew Johnson
 ' * 
@@ -637,3 +682,4 @@ Namespace SVM
     End Class
 
 End Namespace
+
