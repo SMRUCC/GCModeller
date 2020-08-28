@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70b6b2714570efc889ca6262fb1ecb19, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
+﻿#Region "Microsoft.VisualBasic::4f6771eaa55b5173b5c7721e81b7f5fc, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
 
     ' Author:
     ' 
@@ -132,4 +132,3 @@ Namespace SVM
         End Function
     End Module
 End Namespace
-

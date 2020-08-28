@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::078622122b4a77f76d25280692c5035e, Data_science\MachineLearning\MachineLearning\SVM\Solver\ONE_CLASS_Q.vb"
+﻿#Region "Microsoft.VisualBasic::790a5fa7b3d9a6815b236c2972e7be35, Data_science\MachineLearning\MachineLearning\SVM\Solver\ONE_CLASS_Q.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61903f16813051f95e04113eacc99611, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
+﻿#Region "Microsoft.VisualBasic::1e041cffe752568ace2c63893a461fb6, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: doCrossValidation, PerformCrossValidation, Train
     ' 
-    '         Sub: parseCommandLine, SetRandomSeed, Train
+    '         Sub: parseCommandLine, SetRandomSeed
     ' 
     ' 
     ' /********************************************************************************/
@@ -221,4 +221,3 @@ Namespace SVM
         End Sub
     End Module
 End Namespace
-

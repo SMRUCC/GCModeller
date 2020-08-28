@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::651d68188d386233f0dfa4aa11850cbf, Data_science\Mathematica\SignalProcessing\SignalProcessing\Resampler.vb"
+﻿#Region "Microsoft.VisualBasic::42483e4b7989de00005b7a6109fffbbc, Data_science\Mathematica\SignalProcessing\SignalProcessing\Resampler.vb"
 
     ' Author:
     ' 
@@ -101,4 +101,3 @@ Public Class Resampler
         }
     End Function
 End Class
-

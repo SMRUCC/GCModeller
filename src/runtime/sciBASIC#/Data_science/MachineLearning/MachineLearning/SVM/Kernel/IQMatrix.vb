@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ff05c9c187d20023eabea570e415948, Data_science\MachineLearning\MachineLearning\SVM\Kernel\IQMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::150ee4edc251ece5969ceeb8680ab871, Data_science\MachineLearning\MachineLearning\SVM\Kernel\IQMatrix.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Namespace SVM
 

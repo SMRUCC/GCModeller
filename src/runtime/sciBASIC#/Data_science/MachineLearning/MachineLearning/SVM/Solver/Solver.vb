@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3c0986a5041a1ba13c333a847636b1f, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
+﻿#Region "Microsoft.VisualBasic::047c3a13afdf6b87fcc8d24bf82fb9f4, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
 
     ' Author:
     ' 
@@ -683,4 +683,3 @@ Namespace SVM
     End Class
 
 End Namespace
-

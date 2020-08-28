@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::678b1657833d7da8e447be1ef9f166d3, mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::9ffa185b48fc7a71841dd1af0453ce09, mime\application%json\Serializer\JSONSerializer.vb"
 
     ' Author:
     ' 
@@ -136,4 +136,3 @@ Public Module JSONSerializer
         Return a.ToString
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97dffafcbd9c868718990dafe36b8ac3, Microsoft.VisualBasic.Core\Serialization\BEncoding\BencodingException.vb"
+﻿#Region "Microsoft.VisualBasic::f6b0e7311bbd742e92731c1f0e00928c, Microsoft.VisualBasic.Core\Serialization\BEncoding\BencodingException.vb"
 
     ' Author:
     ' 

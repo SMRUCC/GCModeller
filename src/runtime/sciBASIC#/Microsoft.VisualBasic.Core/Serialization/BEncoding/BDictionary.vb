@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53b5e4d7ecece5f1027fbdf0bb551683, Microsoft.VisualBasic.Core\Serialization\BEncoding\BDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::66206dbd7e3b2a34fb27ee5c4c73ea1d, Microsoft.VisualBasic.Core\Serialization\BEncoding\BDictionary.vb"
 
     ' Author:
     ' 

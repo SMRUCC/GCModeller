@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a8a59dfab932d806f25ba98e91a468b, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Deque\ReverseQueue.vb"
+﻿#Region "Microsoft.VisualBasic::1ddff95eb64e37e432b078b011527db6, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Deque\ReverseQueue.vb"
 
     ' Author:
     ' 

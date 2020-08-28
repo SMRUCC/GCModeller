@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::552a1442a172ad8c33325607300fe083, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Deque\Deque.vb"
+﻿#Region "Microsoft.VisualBasic::802129f8ed49dcb64229b2536bd47bc2, Microsoft.VisualBasic.Core\ComponentModel\DataStructures\Deque\Deque.vb"
 
     ' Author:
     ' 

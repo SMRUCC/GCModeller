@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db38b725f5ce79eba20f5acd6a97d4e, Data_science\MachineLearning\MachineLearning\SVM\Kernel\PrecomputedKernel.vb"
+﻿#Region "Microsoft.VisualBasic::bd0baf5235e6f95f4c692c2ac9f9bc07, Data_science\MachineLearning\MachineLearning\SVM\Kernel\PrecomputedKernel.vb"
 
     ' Author:
     ' 
@@ -159,4 +159,3 @@ Namespace SVM
         End Function
     End Class
 End Namespace
-

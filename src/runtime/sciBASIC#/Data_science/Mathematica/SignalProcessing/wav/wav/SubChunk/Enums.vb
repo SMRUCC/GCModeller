@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cd997a01990c16969e23d0796aece9a, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::2d401960cf460e3a8da6da251bb8a96a, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Enums.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Public Enum wFormatTag
     ''' <summary>

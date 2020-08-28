@@ -1,50 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::e96ff2f3e3eaaa0de489894a5cc49614, Data_science\MachineLearning\MachineLearning\SVM\Model.vb"
+﻿#Region "Microsoft.VisualBasic::78b12b52f864ece014ba46c95a89c4bc, Data_science\MachineLearning\MachineLearning\SVM\Models\Model.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Model
-' 
-'         Properties: ClassLabels, NumberOfClasses, NumberOfSVPerClass, PairwiseProbabilityA, PairwiseProbabilityB
-'                     Parameter, Rho, SupportVectorCoefficients, SupportVectorCount, SupportVectorIndices
-'                     SupportVectors
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: Equals, GetHashCode, (+2 Overloads) Read
-' 
-'         Sub: (+2 Overloads) Write
-' 
-' 
-' /********************************************************************************/
+    '     Class Model
+    ' 
+    '         Properties: ClassLabels, DimensionNames, NumberOfClasses, NumberOfSVPerClass, PairwiseProbabilityA
+    '                     PairwiseProbabilityB, Parameter, Rho, SupportVectorCoefficients, SupportVectorCount
+    '                     SupportVectorIndices, SupportVectors
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Equals, GetHashCode
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -154,4 +151,3 @@ Namespace SVM
         End Function
     End Class
 End Namespace
-
