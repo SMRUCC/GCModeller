@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61903f16813051f95e04113eacc99611, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
+﻿#Region "Microsoft.VisualBasic::1e041cffe752568ace2c63893a461fb6, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Function: doCrossValidation, PerformCrossValidation, Train
     ' 
-    '         Sub: parseCommandLine, SetRandomSeed, Train
+    '         Sub: parseCommandLine, SetRandomSeed
     ' 
     ' 
     ' /********************************************************************************/
@@ -67,10 +67,12 @@ Imports System.Runtime.InteropServices
 Imports stdNum = System.Math
 
 Namespace SVM
+
     ''' <summary>
     ''' Class containing the routines to train SVM models.
     ''' </summary>
     Public Module Training
+
         ''' <summary>
         ''' Whether the system will output information to the console during the training process.
         ''' </summary>
@@ -78,12 +80,12 @@ Namespace SVM
             Get
                 Return Procedures.IsVerbose
             End Get
-            Set(ByVal value As Boolean)
+            Set(value As Boolean)
                 Procedures.IsVerbose = value
             End Set
         End Property
 
-        Private Function doCrossValidation(ByVal problem As Problem, ByVal parameters As Parameter, ByVal nr_fold As Integer) As Double
+        Private Function doCrossValidation(problem As Problem, parameters As Parameter, nr_fold As Integer) As Double
             Dim i As Integer
             Dim target = New Double(problem.Count - 1) {}
             svm_cross_validation(problem, parameters, nr_fold, target)
@@ -114,28 +116,8 @@ Namespace SVM
             Return total_correct / problem.Count
         End Function
 
-        Public Sub SetRandomSeed(ByVal seed As Integer)
+        Public Sub SetRandomSeed(seed As Integer)
             Procedures.setRandomSeed(seed)
-        End Sub
-
-        ''' <summary>
-        ''' Legacy.  Allows use as if this was svm_train.  See libsvm documentation for details on which arguments to pass.
-        ''' </summary>
-        ''' <param name="args"></param>
-        <Obsolete("Provided only for legacy compatibility, use the other Train() methods")>
-        Public Sub Train(ParamArray args As String())
-            Dim parameters As Parameter = Nothing
-            Dim problem As Problem = Nothing
-            Dim crossValidation As Boolean
-            Dim nrfold As Integer
-            Dim modelFilename As String = Nothing
-            parseCommandLine(args, parameters, problem, crossValidation, nrfold, modelFilename)
-
-            If crossValidation Then
-                PerformCrossValidation(problem, parameters, nrfold)
-            Else
-                Model.Write(modelFilename, Train(problem, parameters))
-            End If
         End Sub
 
         ''' <summary>
@@ -145,7 +127,7 @@ Namespace SVM
         ''' <param name="parameters">The parameters to test</param>
         ''' <param name="nrfold">The number of cross validations to use</param>
         ''' <returns>The cross validation score</returns>
-        Public Function PerformCrossValidation(ByVal problem As Problem, ByVal parameters As Parameter, ByVal nrfold As Integer) As Double
+        Public Function PerformCrossValidation(problem As Problem, parameters As Parameter, nrfold As Integer) As Double
             Dim [error] = svm_check_parameter(problem, parameters)
 
             If Equals([error], Nothing) Then
@@ -161,7 +143,7 @@ Namespace SVM
         ''' <param name="problem">The training data</param>
         ''' <param name="parameters">The parameters to use</param>
         ''' <returns>A trained SVM Model</returns>
-        Public Function Train(ByVal problem As Problem, ByVal parameters As Parameter) As Model
+        Public Function Train(problem As Problem, parameters As Parameter) As Model
             Dim [error] = svm_check_parameter(problem, parameters)
 
             If Equals([error], Nothing) Then
@@ -171,7 +153,7 @@ Namespace SVM
             End If
         End Function
 
-        Private Sub parseCommandLine(ByVal args As String(), <Out> ByRef parameters As Parameter, <Out> ByRef problem As Problem, <Out> ByRef crossValidation As Boolean, <Out> ByRef nrfold As Integer, <Out> ByRef modelFilename As String)
+        Private Sub parseCommandLine(args As String(), <Out> ByRef parameters As Parameter, <Out> ByRef problem As Problem, <Out> ByRef crossValidation As Boolean, <Out> ByRef nrfold As Integer, <Out> ByRef modelFilename As String)
             Dim i As Integer
             parameters = New Parameter()
             ' default values
@@ -227,7 +209,7 @@ Namespace SVM
             ' determine filenames
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
-            problem = Problem.Read(args(i))
+            problem = ProblemText.Read(args(i))
             If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.MaxIndex
 
             If i < args.Length - 1 Then
@@ -239,4 +221,3 @@ Namespace SVM
         End Sub
     End Module
 End Namespace
-

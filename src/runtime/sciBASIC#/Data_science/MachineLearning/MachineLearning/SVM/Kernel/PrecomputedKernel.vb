@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db38b725f5ce79eba20f5acd6a97d4e, Data_science\MachineLearning\MachineLearning\SVM\Kernel\PrecomputedKernel.vb"
+﻿#Region "Microsoft.VisualBasic::bd0baf5235e6f95f4c692c2ac9f9bc07, Data_science\MachineLearning\MachineLearning\SVM\Kernel\PrecomputedKernel.vb"
 
     ' Author:
     ' 
@@ -65,6 +65,7 @@ Namespace SVM
     ''' </summary>
     <Serializable>
     Public Class PrecomputedKernel
+
         Private _similarities As Single(,)
         Private _rows As Integer
         Private _columns As Integer
@@ -73,7 +74,7 @@ Namespace SVM
         ''' Constructor.
         ''' </summary>
         ''' <param name="similarities">The similarity scores between all items in the training data</param>
-        Public Sub New(ByVal similarities As Single(,))
+        Public Sub New(similarities As Single(,))
             _similarities = similarities
             _rows = _similarities.GetLength(0)
             _columns = _similarities.GetLength(1)
@@ -84,7 +85,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="nodes">Nodes for self-similarity analysis</param>
         ''' <param name="param">Parameters to use when computing similarities</param>
-        Public Sub New(ByVal nodes As List(Of Node()), ByVal param As Parameter)
+        Public Sub New(nodes As List(Of Node()), param As Parameter)
             _rows = nodes.Count
             _columns = _rows
             _similarities = New Single(_rows - 1, _columns - 1) {}
@@ -109,7 +110,7 @@ Namespace SVM
         ''' <param name="rows">Nodes to use as the rows of the matrix</param>
         ''' <param name="columns">Nodes to use as the columns of the matrix</param>
         ''' <param name="param">Parameters to use when compute similarities</param>
-        Public Sub New(ByVal rows As List(Of Node()), ByVal columns As List(Of Node()), ByVal param As Parameter)
+        Public Sub New(rows As List(Of Node()), columns As List(Of Node()), param As Parameter)
             _rows = rows.Count
             _columns = columns.Count
             _similarities = New Single(_rows - 1, _columns - 1) {}
@@ -128,7 +129,7 @@ Namespace SVM
         ''' <param name="rowLabels">The labels for the row items</param>
         ''' <param name="columnLabels">The labels for the column items</param>
         ''' <returns>A <see cref="Problem"/> object</returns>
-        Public Function Compute(ByVal rowLabels As Double(), ByVal columnLabels As Double()) As Problem
+        Public Function Compute(rowLabels As Double(), columnLabels As Double()) As Problem
             Dim X As List(Of Node()) = New List(Of Node())()
             Dim Y As List(Of Double) = New List(Of Double)()
             Dim maxIndex = 0
@@ -154,8 +155,7 @@ Namespace SVM
                 Y.Add(rowLabels(r))
             Next
 
-            Return New Problem(X.Count, Y.ToArray(), X.ToArray(), maxIndex)
+            Return New Problem(Y.ToArray(), X.ToArray(), maxIndex)
         End Function
     End Class
 End Namespace
-

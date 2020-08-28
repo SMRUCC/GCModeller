@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5402d5b5c1c51e5bac2d46a9e117d0a, Data_science\MachineLearning\MachineLearning\SVM\Parameter\Parameter.vb"
+﻿#Region "Microsoft.VisualBasic::e39d5883fb6445b1da6534b7b3671ca0, Data_science\MachineLearning\MachineLearning\SVM\Parameter\Parameter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '                     Shrinking, SvmType, Weights
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Clone, Equals, GetHashCode
+    '         Function: Clone, Equals, GetHashCode, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -62,11 +62,7 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-Imports System
-Imports System.Linq
-Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SVM
 
@@ -76,31 +72,12 @@ Namespace SVM
     ''' the default values.
     ''' </summary>
     <Serializable>
-    Public Class Parameter
-        Implements ICloneable
+    Public Class Parameter : Implements ICloneable
 
         ''' <summary>
         ''' Contains custom weights for class labels.  Default weight value is 1.
         ''' </summary>
-        Private _Weights As System.Collections.Generic.Dictionary(Of Integer, Double)
-        ''' <summary>
-        ''' Default Constructor.  Gives good default values to all parameters.
-        ''' </summary>
-        Public Sub New()
-            SvmType = SvmType.C_SVC
-            KernelType = KernelType.RBF
-            Degree = 3
-            Gamma = 0 ' 1/k
-            Coefficient0 = 0
-            Nu = 0.5
-            CacheSize = 40
-            C = 1
-            EPS = 1e-3
-            P = 0.1
-            Shrinking = True
-            Probability = False
-            Weights = New Dictionary(Of Integer, Double)()
-        End Sub
+        Dim _Weights As Dictionary(Of Integer, Double)
 
         ''' <summary>
         ''' Type of SVM (default C-SVC)
@@ -120,7 +97,10 @@ Namespace SVM
         ''' <summary>
         ''' Gamma in kernel function (default 1/k)
         ''' </summary>
-        Public Property Gamma As Double
+        ''' <remarks>
+        ''' 这个参数比较重要，千万不可以设置为零，否则将无法进行数据分类
+        ''' </remarks>
+        Public Property Gamma As Double = 0.5
 
         ''' <summary>
         ''' Zeroeth coefficient in kernel function (default 0)
@@ -146,7 +126,7 @@ Namespace SVM
             Get
                 Return _Weights
             End Get
-            Private Set(ByVal value As Dictionary(Of Integer, Double))
+            Private Set(value As Dictionary(Of Integer, Double))
                 _Weights = value
             End Set
         End Property
@@ -171,7 +151,30 @@ Namespace SVM
         ''' </summary>
         Public Property Probability As Boolean
 
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        ''' <summary>
+        ''' Default Constructor.  Gives good default values to all parameters.
+        ''' </summary>
+        Public Sub New()
+            SvmType = SvmType.C_SVC
+            KernelType = KernelType.RBF
+            Degree = 3
+            Gamma = 0.5
+            Coefficient0 = 0
+            Nu = 0.5
+            CacheSize = 40
+            C = 1
+            EPS = 0.001
+            P = 0.1
+            Shrinking = True
+            Probability = False
+            Weights = New Dictionary(Of Integer, Double)()
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+        Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)
             If other Is Nothing Then Return False
             Return other.C = C AndAlso other.CacheSize = CacheSize AndAlso other.Coefficient0 = Coefficient0 AndAlso other.Degree = Degree AndAlso other.EPS = EPS AndAlso other.Gamma = Gamma AndAlso other.KernelType = KernelType AndAlso other.Nu = Nu AndAlso other.P = P AndAlso other.Probability = Probability AndAlso other.Shrinking = Shrinking AndAlso other.SvmType = SvmType AndAlso other.Weights.ToArray().IsEqual(Weights.ToArray())
@@ -194,4 +197,3 @@ Namespace SVM
 #End Region
     End Class
 End Namespace
-

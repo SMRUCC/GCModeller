@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::927e88ea30c2980435e834c0817aada5, Data_science\MachineLearning\MachineLearning\SVM\Solver\SVR_Q.vb"
+﻿#Region "Microsoft.VisualBasic::2aaea4ea6b94362040933f733cbc11e8, Data_science\MachineLearning\MachineLearning\SVM\Solver\SVR_Q.vb"
 
     ' Author:
     ' 
@@ -44,15 +44,9 @@
 
 #End Region
 
-
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
-Imports stdNum = System.Math
-
 Namespace SVM
 
-    Friend Class SVR_Q
-        Inherits Kernel
+    Friend Class SVR_Q : Inherits Kernel
 
         Private ReadOnly l As Integer
         Private ReadOnly cache As Cache
@@ -62,7 +56,7 @@ Namespace SVM
         Private buffer As Single()()
         Private ReadOnly QD As Double()
 
-        Public Sub New(ByVal prob As Problem, ByVal param As Parameter)
+        Public Sub New(prob As Problem, param As Parameter)
             MyBase.New(prob.Count, prob.X, param)
             l = prob.Count
             cache = New Cache(l, CLng(param.CacheSize) * (1 << 20))
@@ -83,7 +77,7 @@ Namespace SVM
             next_buffer = 0
         End Sub
 
-        Public Overrides Sub SwapIndex(ByVal i As Integer, ByVal j As Integer)
+        Public Overrides Sub SwapIndex(i As Integer, j As Integer)
             Do
                 Dim __ = sign(i)
                 sign(i) = sign(j)
@@ -103,7 +97,7 @@ Namespace SVM
             Loop While False
         End Sub
 
-        Public Overrides Function GetQ(ByVal i As Integer, ByVal len As Integer) As Single()
+        Public Overrides Function GetQ(i As Integer, len As Integer) As Single()
             Dim data As Single() = Nothing
             Dim j As Integer, real_i = index(i)
 

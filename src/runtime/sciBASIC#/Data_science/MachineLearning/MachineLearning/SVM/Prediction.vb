@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe7c95f99a08bf350fb6d4f9a21c3c0, Data_science\MachineLearning\MachineLearning\SVM\Prediction.vb"
+﻿#Region "Microsoft.VisualBasic::9ce236e78dd8eb57a9e58293d7e2592a, Data_science\MachineLearning\MachineLearning\SVM\Prediction.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Function: (+2 Overloads) Predict, PredictLabels, PredictLabelsProbability, PredictProbability
     ' 
-    '         Sub: exit_with_help, Predict
+    '         Sub: exit_with_help
     ' 
     ' 
     ' /********************************************************************************/
@@ -66,10 +66,12 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
+
     ''' <summary>
     ''' Class containing the routines to perform class membership prediction using a trained SVM.
     ''' </summary>
     Public Module Prediction
+
         ''' <summary>
         ''' Predicts the class memberships of all the vectors in the problem.
         ''' </summary>
@@ -78,7 +80,7 @@ Namespace SVM
         ''' <param name="model">The Model to use</param>
         ''' <param name="predict_probability">Whether to output a distribution over the classes</param>
         ''' <returns>Percentage correctly labelled</returns>
-        Public Function Predict(ByVal problem As Problem, ByVal outputFile As String, ByVal model As Model, ByVal predict_probability As Boolean) As Double
+        Public Function Predict(problem As Problem, outputFile As String, model As Model, predict_probability As Boolean) As Double
             Dim correct = 0
             Dim total = 0
             Dim [error] As Double = 0
@@ -156,7 +158,7 @@ Namespace SVM
         ''' <param name="problem">The problem to solve</param>
         ''' <returns>The predicted labels</returns>
         <Extension()>
-        Public Function PredictLabels(ByVal model As Model, ByVal problem As Problem) As Double()
+        Public Function PredictLabels(model As Model, problem As Problem) As Double()
             Return problem.X.[Select](Function(o) model.Predict(o)).ToArray()
         End Function
 
@@ -167,7 +169,7 @@ Namespace SVM
         ''' <param name="problem">The problem to solve</param>
         ''' <returns>A distribution over labels for each data point</returns>
         <Extension()>
-        Public Function PredictLabelsProbability(ByVal model As Model, ByVal problem As Problem) As Double()()
+        Public Function PredictLabelsProbability(model As Model, problem As Problem) As Double()()
             Return problem.X.[Select](Function(o) model.PredictProbability(o)).ToArray()
         End Function
 
@@ -178,7 +180,7 @@ Namespace SVM
         ''' <param name="x">The vector for which to predict class</param>
         ''' <returns>The result</returns>
         <Extension()>
-        Public Function Predict(ByVal model As Model, ByVal x As Node()) As Double
+        Public Function Predict(model As Model, x As Node()) As Double
             Return svm_predict(model, x)
         End Function
 
@@ -189,7 +191,7 @@ Namespace SVM
         ''' <param name="x">The vector for which to predict the class distribution</param>
         ''' <returns>A probability distribtion over classes</returns>
         <Extension()>
-        Public Function PredictProbability(ByVal model As Model, ByVal x As Node()) As Double()
+        Public Function PredictProbability(model As Model, x As Node()) As Double()
             Dim svm_type = svm_get_svm_type(model)
             If svm_type <> SvmType.C_SVC AndAlso svm_type <> SvmType.NU_SVC Then Throw New Exception("Model type " & svm_type & " unable to predict probabilities.")
             Dim nr_class = svm_get_nr_class(model)
@@ -202,34 +204,5 @@ Namespace SVM
             Debug.Write("usage: svm_predict [options] test_file model_file output_file" & ASCII.LF & "options:" & ASCII.LF & "-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0); one-class SVM not supported yet" & ASCII.LF)
             Environment.Exit(1)
         End Sub
-
-        ''' <summary>
-        ''' Legacy method, provided to allow usage as though this were the command line version of libsvm.
-        ''' </summary>
-        ''' <param name="args">Standard arguments passed to the svm_predict exectutable.  See libsvm documentation for details.</param>
-        <Obsolete("Use the other version of Predict() instead")>
-        Public Sub Predict(ParamArray args As String())
-            Dim i = 0
-            Dim predictProbability = False
-
-            ' parse options
-            For i = 0 To args.Length - 1
-                If args(i)(0) <> "-"c Then Exit For
-                Threading.Interlocked.Increment(i)
-
-                Select Case args(i - 1)(1)
-                    Case "b"c
-                        predictProbability = Integer.Parse(args(i)) = 1
-                    Case Else
-                        Throw New ArgumentException("Unknown option")
-                End Select
-            Next
-
-            If i >= args.Length Then Throw New ArgumentException("No input, model and output files provided")
-            Dim problem As Problem = Problem.Read(args(i))
-            Dim model As Model = Model.Read(args(i + 1))
-            Predict(problem, args(i + 2), model, predictProbability)
-        End Sub
     End Module
 End Namespace
-

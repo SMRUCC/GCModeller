@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21332bf781166ebda5136caacf613bcb, Data_science\MachineLearning\MachineLearning\SVM\Node.vb"
+﻿#Region "Microsoft.VisualBasic::fb901ad7a8eaac63abdc0b385c5b4262, Data_science\MachineLearning\MachineLearning\SVM\Models\Problem.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '     Class Node
+    '     Class Problem
     ' 
-    '         Properties: Index, Value
+    '         Properties: Count, DimensionNames, MaxIndex, X, Y
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: CompareTo, Equals, GetHashCode, ToString
+    '         Function: Equals, GetHashCode, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -60,71 +60,77 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SVM
 
     ''' <summary>
-    ''' Encapsulates a node in a Problem vector, with an index and a value (for more efficient representation
-    ''' of sparse data.
+    ''' Encapsulates a problem, or set of vectors which must be classified.
     ''' </summary>
-    <Serializable>
-    Public Class Node : Implements IComparable(Of Node)
+    <Serializable> Public Class Problem
 
         ''' <summary>
-        ''' Index of this Node.
+        ''' Number of vectors.
         ''' </summary>
-        Public Property Index As Integer
+        Public ReadOnly Property Count As Integer
+            Get
+                Return X.Length
+            End Get
+        End Property
 
         ''' <summary>
-        ''' Value at Index.
+        ''' Class labels.
         ''' </summary>
-        Public Property Value As Double
+        Public Property Y As Double()
 
         ''' <summary>
-        ''' Default Constructor.
+        ''' Vector data.
         ''' </summary>
-        Public Sub New()
-        End Sub
+        Public Property X As Node()()
+
+        ''' <summary>
+        ''' Maximum index for a vector. this value is the width of each 
+        ''' row in <see cref="X"/> and equals to the length of vector 
+        ''' <see cref="DimensionNames"/> 
+        ''' </summary>
+        Public Property MaxIndex As Integer
+
+        ''' <summary>
+        ''' the width of each row in <see cref="X"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DimensionNames As String()
 
         ''' <summary>
         ''' Constructor.
         ''' </summary>
-        ''' <param name="index">The index of the value.</param>
-        ''' <param name="value">The value to store.</param>
-        Public Sub New(index As Integer, value As Double)
-            _index = index
-            _value = value
+        ''' <param name="y">The class labels</param>
+        ''' <param name="x">Vector data.</param>
+        ''' <param name="maxIndex">Maximum index for a vector</param>
+        Public Sub New(y As Double(), x As Node()(), maxIndex As Integer)
+            Me.Y = y
+            Me.X = x
+            Me.MaxIndex = maxIndex
         End Sub
 
         ''' <summary>
-        ''' String representation of this Node as {index}:{value}.
+        ''' Empty Constructor.  Nothing is initialized.
         ''' </summary>
-        ''' <returns>{index}:{value}</returns>
+        Public Sub New()
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return String.Format("{0}:{1}", _index, _value.Truncate())
+            Return $"dim {DimensionNames.GetJson}, {Y.Length} labels = {Y.Distinct.GetJson}"
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
-            Dim other As Node = TryCast(obj, Node)
+            Dim other As Problem = TryCast(obj, Problem)
             If other Is Nothing Then Return False
-            Return _index = other._index AndAlso _value.Truncate() = other._value.Truncate()
+            Return other.Count = Count AndAlso other.MaxIndex = MaxIndex AndAlso other.X.IsEqual(X) AndAlso other.Y.IsEqual(Y)
         End Function
 
         Public Overrides Function GetHashCode() As Integer
-            Return _index.GetHashCode() + _value.GetHashCode()
+            Return Count.GetHashCode() + MaxIndex.GetHashCode() + X.ComputeHashcode2() + Y.ComputeHashcode()
         End Function
-
-#Region "IComparable<Node> Members"
-
-        ''' <summary>
-        ''' Compares this node with another.
-        ''' </summary>
-        ''' <param name="other">The node to compare to</param>
-        ''' <returns>A positive number if this node is greater, a negative number if it is less than, or 0 if equal</returns>
-        Public Function CompareTo(other As Node) As Integer Implements IComparable(Of Node).CompareTo
-            Return _index.CompareTo(other._index)
-        End Function
-
-#End Region
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ff05c9c187d20023eabea570e415948, Data_science\MachineLearning\MachineLearning\SVM\Kernel\IQMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::150ee4edc251ece5969ceeb8680ab871, Data_science\MachineLearning\MachineLearning\SVM\Kernel\IQMatrix.vb"
 
     ' Author:
     ' 
@@ -42,12 +42,11 @@
 
 #End Region
 
-
 Namespace SVM
 
     Friend Interface IQMatrix
-        Function GetQ(ByVal column As Integer, ByVal len As Integer) As Single()
+        Function GetQ(column As Integer, len As Integer) As Single()
         Function GetQD() As Double()
-        Sub SwapIndex(ByVal i As Integer, ByVal j As Integer)
+        Sub SwapIndex(i As Integer, j As Integer)
     End Interface
 End Namespace

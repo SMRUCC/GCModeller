@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72644f58d81a1da7752e800470afc6ad, Data_science\MachineLearning\MachineLearning\SVM\Parameter\ParameterSelection.vb"
+﻿#Region "Microsoft.VisualBasic::2de08589f91aad2eab2ace6b6163774c, Data_science\MachineLearning\MachineLearning\SVM\Parameter\ParameterSelection.vb"
 
     ' Author:
     ' 
@@ -57,8 +57,6 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 Imports System.Runtime.InteropServices
 Imports System.Threading
 Imports stdNum = System.Math
@@ -70,6 +68,7 @@ Namespace SVM
     ''' an RBF kernel.
     ''' </summary>
     Public Module ParameterSelection
+
         ''' <summary>
         ''' Default number of times to divide the data.
         ''' </summary>
@@ -98,6 +97,7 @@ Namespace SVM
         ''' Default power iteration step for the Gamma value (2)
         ''' </summary>
         Public Const G_STEP As Integer = 2
+
         ''' <summary>
         ''' Used to control the degree of parallelism used in grid exploration.  Default value is the number of processors.
         ''' </summary>
@@ -110,7 +110,7 @@ Namespace SVM
         ''' <param name="maxPower">The maximum power of 2</param>
         ''' <param name="iteration">The iteration size to use in powers</param>
         ''' <returns></returns>
-        Public Function GetList(ByVal minPower As Double, ByVal maxPower As Double, ByVal iteration As Double) As List(Of Double)
+        Public Function GetList(minPower As Double, maxPower As Double, iteration As Double) As List(Of Double)
             Dim list As List(Of Double) = New List(Of Double)()
             Dim d = minPower
 
@@ -133,7 +133,7 @@ Namespace SVM
         ''' <param name="C">The optimal C value will be put into this variable</param>
         ''' <param name="Gamma">The optimal Gamma value will be put into this variable</param>
         ''' <returns>A list of grid squares and their results</returns>
-        Public Function Grid(ByVal problem As Problem, ByVal createParams As Func(Of Parameter), ByVal report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
+        Public Function Grid(problem As Problem, createParams As Func(Of Parameter), report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
             Return Grid(problem, createParams, GetList(MIN_C, MAX_C, C_STEP), GetList(MIN_G, MAX_G, G_STEP), report, NFOLD, C, Gamma)
         End Function
         ''' <summary>
@@ -149,7 +149,7 @@ Namespace SVM
         ''' <param name="C">The optimal C value will be put into this variable</param>
         ''' <param name="Gamma">The optimal Gamma value will be put into this variable</param>
         ''' <returns>A list of grid squares and their results</returns>
-        Public Function Grid(ByVal problem As Problem, ByVal createParams As Func(Of Parameter), ByVal CValues As List(Of Double), ByVal GammaValues As List(Of Double), ByVal report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
+        Public Function Grid(problem As Problem, createParams As Func(Of Parameter), CValues As List(Of Double), GammaValues As List(Of Double), report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
             Return Grid(problem, createParams, CValues, GammaValues, report, NFOLD, C, Gamma)
         End Function
 
@@ -167,7 +167,7 @@ Namespace SVM
         ''' <param name="C">The optimal C value will be placed in this variable</param>
         ''' <param name="Gamma">The optimal Gamma value will be placed in this variable</param>
         ''' <returns>A list of grid squares and their results</returns>
-        Public Function Grid(ByVal problem As Problem, ByVal createParams As Func(Of Parameter), ByVal CValues As List(Of Double), ByVal GammaValues As List(Of Double), ByVal report As Action(Of GridSquare), ByVal nrfold As Integer, <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
+        Public Function Grid(problem As Problem, createParams As Func(Of Parameter), CValues As List(Of Double), GammaValues As List(Of Double), report As Action(Of GridSquare), nrfold As Integer, <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
             C = 0
             Gamma = 0
             Dim squares As List(Of GridSquare) = New List(Of GridSquare)()
@@ -207,7 +207,7 @@ Namespace SVM
         ''' <param name="C">The optimal C value will be placed in this variable</param>
         ''' <param name="Gamma">The optimal Gamma value will be placed in this variable</param>
         ''' <returns>A list of grid squares and their results</returns>
-        Public Function Grid(ByVal problem As Problem, ByVal validation As Problem, ByVal createParams As Func(Of Parameter), ByVal report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
+        Public Function Grid(problem As Problem, validation As Problem, createParams As Func(Of Parameter), report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
             Return Grid(problem, validation, createParams, GetList(MIN_C, MAX_C, C_STEP), GetList(MIN_G, MAX_G, G_STEP), report, C, Gamma)
         End Function
         ''' <summary>
@@ -223,7 +223,7 @@ Namespace SVM
         ''' <param name="C">The optimal C value will be placed in this variable</param>
         ''' <param name="Gamma">The optimal Gamma value will be placed in this variable</param>
         ''' <returns>A list of grid squares and their results</returns>
-        Public Function Grid(ByVal problem As Problem, ByVal validation As Problem, ByVal createParams As Func(Of Parameter), ByVal CValues As List(Of Double), ByVal GammaValues As List(Of Double), ByVal report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
+        Public Function Grid(problem As Problem, validation As Problem, createParams As Func(Of Parameter), CValues As List(Of Double), GammaValues As List(Of Double), report As Action(Of GridSquare), <Out> ByRef C As Double, <Out> ByRef Gamma As Double) As List(Of GridSquare)
             C = 0
             Gamma = 0
             Dim squares As List(Of GridSquare) = New List(Of GridSquare)()
@@ -255,4 +255,3 @@ Namespace SVM
         End Function
     End Module
 End Namespace
-

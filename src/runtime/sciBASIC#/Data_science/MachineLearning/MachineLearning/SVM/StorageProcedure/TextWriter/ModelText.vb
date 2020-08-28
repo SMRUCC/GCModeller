@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e96ff2f3e3eaaa0de489894a5cc49614, Data_science\MachineLearning\MachineLearning\SVM\Model.vb"
+﻿#Region "Microsoft.VisualBasic::5559f4fb8d58a18ba65e926124908765, Data_science\MachineLearning\MachineLearning\SVM\StorageProcedure\TextWriter\ModelText.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,9 @@
 
     ' Summaries:
 
-    '     Class Model
+    '     Module ModelText
     ' 
-    '         Properties: ClassLabels, NumberOfClasses, NumberOfSVPerClass, PairwiseProbabilityA, PairwiseProbabilityB
-    '                     Parameter, Rho, SupportVectorCoefficients, SupportVectorCount, SupportVectorIndices
-    '                     SupportVectors
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Equals, GetHashCode, (+2 Overloads) Read
+    '         Function: (+2 Overloads) Read
     ' 
     '         Sub: (+2 Overloads) Write
     ' 
@@ -48,121 +42,19 @@
 
 #End Region
 
-' 
-' * SVM.NET Library
-' * Copyright (C) 2008 Matthew Johnson
-' * 
-' * This program is free software: you can redistribute it and/or modify
-' * it under the terms of the GNU General Public License as published by
-' * the Free Software Foundation, either version 3 of the License, or
-' * (at your option) any later version.
-' * 
-' * This program is distributed in the hope that it will be useful,
-' * but WITHOUT ANY WARRANTY; without even the implied warranty of
-' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' * GNU General Public License for more details.
-' * 
-' * You should have received a copy of the GNU General Public License
-' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
-
 Imports System.IO
 Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
-    ''' <summary>
-    ''' Encapsulates an SVM Model.
-    ''' </summary>
-    <Serializable>
-    Public Class Model
-        Friend Sub New()
-        End Sub
 
-        ''' <summary>
-        ''' Parameter object.
-        ''' </summary>
-        Public Property Parameter As Parameter
-
-        ''' <summary>
-        ''' Number of classes in the model.
-        ''' </summary>
-        Public Property NumberOfClasses As Integer
-
-        ''' <summary>
-        ''' Total number of support vectors.
-        ''' </summary>
-        Public Property SupportVectorCount As Integer
-
-        ''' <summary>
-        ''' The support vectors.
-        ''' </summary>
-        Public Property SupportVectors As Node()()
-
-        ''' <summary>
-        ''' The coefficients for the support vectors.
-        ''' </summary>
-        Public Property SupportVectorCoefficients As Double()()
-
-        ''' <summary>
-        ''' Values in [1,...,num_training_data] to indicate SVs in the training set
-        ''' </summary>
-        Public Property SupportVectorIndices As Integer()
-
-        ''' <summary>
-        ''' Constants in decision functions
-        ''' </summary>
-        Public Property Rho As Double()
-
-        ''' <summary>
-        ''' First pairwise probability.
-        ''' </summary>
-        Public Property PairwiseProbabilityA As Double()
-
-        ''' <summary>
-        ''' Second pairwise probability.
-        ''' </summary>
-        Public Property PairwiseProbabilityB As Double()
-
-        ' for classification only
-
-        ''' <summary>
-        ''' Class labels.
-        ''' </summary>
-        Public Property ClassLabels As Integer()
-
-        ''' <summary>
-        ''' Number of support vectors per class.
-        ''' </summary>
-        Public Property NumberOfSVPerClass As Integer()
-
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
-            Dim test As Model = TryCast(obj, Model)
-            If test Is Nothing Then Return False
-            Dim same = ClassLabels.IsEqual(test.ClassLabels)
-            same = same AndAlso NumberOfClasses = test.NumberOfClasses
-            same = same AndAlso NumberOfSVPerClass.IsEqual(test.NumberOfSVPerClass)
-            If PairwiseProbabilityA IsNot Nothing Then same = same AndAlso PairwiseProbabilityA.IsEqual(test.PairwiseProbabilityA)
-            If PairwiseProbabilityB IsNot Nothing Then same = same AndAlso PairwiseProbabilityB.IsEqual(test.PairwiseProbabilityB)
-            same = same AndAlso Parameter.Equals(test.Parameter)
-            same = same AndAlso Rho.IsEqual(test.Rho)
-            same = same AndAlso SupportVectorCoefficients.IsEqual(test.SupportVectorCoefficients)
-            same = same AndAlso SupportVectorCount = test.SupportVectorCount
-            same = same AndAlso SupportVectors.IsEqual(test.SupportVectors)
-            Return same
-        End Function
-
-        Public Overrides Function GetHashCode() As Integer
-            Return ClassLabels.ComputeHashcode() + NumberOfClasses.GetHashCode() + NumberOfSVPerClass.ComputeHashcode() + PairwiseProbabilityA.ComputeHashcode() + PairwiseProbabilityB.ComputeHashcode() + Parameter.GetHashCode() + Rho.ComputeHashcode() + SupportVectorCoefficients.ComputeHashcode2() + SupportVectorCount.GetHashCode() + SupportVectors.ComputeHashcode2()
-        End Function
+    Module ModelText
 
         ''' <summary>
         ''' Reads a Model from the provided file.
         ''' </summary>
         ''' ''' <param name="filename">The name of the file containing the Model</param>
         ''' <returns>the Model</returns>
-        Public Shared Function Read(ByVal filename As String) As Model
+        Public Function Read(filename As String) As Model
             Dim input = File.OpenRead(filename)
 
             Try
@@ -177,8 +69,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="stream">The stream from which to read the Model.</param>
         ''' <returns>the Model</returns>
-        Public Shared Function Read(ByVal stream As Stream) As Model
-            Start()
+        Public Function Read(stream As Stream) As Model
             Dim input As StreamReader = New StreamReader(stream)
 
             ' read parameters
@@ -307,7 +198,6 @@ Namespace SVM
                 Next
             Next
 
-            [Stop]()
             Return model
         End Function
 
@@ -316,7 +206,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="filename">The desired file</param>
         ''' ''' <param name="model">The Model to write</param>
-        Public Shared Sub Write(ByVal filename As String, ByVal model As Model)
+        Public Sub Write(filename As String, model As Model)
             Dim stream = File.Open(filename, FileMode.Create)
 
             Try
@@ -331,12 +221,13 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="stream">The output stream</param>
         ''' ''' <param name="model">The model to write</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal model As Model)
-            Start()
+        Public Sub Write(stream As Stream, model As Model)
             Dim output As StreamWriter = New StreamWriter(stream)
             Dim param = model.Parameter
+
             output.Write("svm_type {0}" & ASCII.LF, param.SvmType)
             output.Write("kernel_type {0}" & ASCII.LF, param.KernelType)
+
             If param.KernelType = KernelType.POLY Then output.Write("degree {0}" & ASCII.LF, param.Degree)
             If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.RBF OrElse param.KernelType = KernelType.SIGMOID Then output.Write("gamma {0:0.000000}" & ASCII.LF, param.Gamma)
             If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.SIGMOID Then output.Write("coef0 {0:0.000000}" & ASCII.LF, param.Coefficient0)
@@ -426,8 +317,8 @@ Namespace SVM
             Next
 
             output.Flush()
-            [Stop]()
         End Sub
-    End Class
+    End Module
 End Namespace
+
 

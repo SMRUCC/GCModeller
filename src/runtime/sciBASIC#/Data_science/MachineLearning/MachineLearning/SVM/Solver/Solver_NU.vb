@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5cd8163adbea7ce1519a8d776b2e2d3, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver_NU.vb"
+﻿#Region "Microsoft.VisualBasic::ff71b9acf3d3996e8050a55b54a67e60, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver_NU.vb"
 
     ' Author:
     ' 
@@ -42,9 +42,6 @@
 
 #End Region
 
-
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -58,13 +55,17 @@ Namespace SVM
 
         Private si As SolutionInfo
 
-        Public Overrides Sub Solve(ByVal l As Integer, ByVal Q As IQMatrix, ByVal p As Double(), ByVal y As SByte(), ByVal alpha As Double(), ByVal Cp As Double, ByVal Cn As Double, ByVal eps As Double, ByVal si As SolutionInfo, ByVal shrinking As Boolean)
+        Public Overrides Sub Solve(l As Integer, Q As IQMatrix, p As Double(), y As SByte(), alpha As Double(), Cp As Double, Cn As Double, eps As Double, si As SolutionInfo, shrinking As Boolean)
             Me.si = si
             MyBase.Solve(l, Q, p, y, alpha, Cp, Cn, eps, si, shrinking)
         End Sub
 
-        ' return 1 if already optimal, return 0 otherwise
-        Protected Overrides Function select_working_set(ByVal working_set As Integer()) As Integer
+        ''' <summary>
+        ''' return 1 if already optimal, return 0 otherwise
+        ''' </summary>
+        ''' <param name="working_set"></param>
+        ''' <returns></returns>
+        Protected Overrides Function select_working_set(working_set As Integer()) As Integer
             ' return i,j such that y_i = y_j and
             ' i: maximizes -y_i * grad(f)_i, i in I_up(\alpha)
             ' j: minimizes the decrease of obj value
@@ -167,7 +168,7 @@ Namespace SVM
             Return 0
         End Function
 
-        Private Function be_shrunk(ByVal i As Integer, ByVal Gmax1 As Double, ByVal Gmax2 As Double, ByVal Gmax3 As Double, ByVal Gmax4 As Double) As Boolean
+        Private Function be_shrunk(i As Integer, Gmax1 As Double, Gmax2 As Double, Gmax3 As Double, Gmax4 As Double) As Boolean
             If is_upper_bound(i) Then
                 If y(i) = +1 Then
                     Return -G(i) > Gmax1

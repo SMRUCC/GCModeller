@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33678521c60f8ec6af6633f02b915365, Data_science\MachineLearning\MachineLearning\SVM\Parameter\GridSquare.vb"
+﻿#Region "Microsoft.VisualBasic::82425df8f9ac5aed02641be5d166f397, Data_science\MachineLearning\MachineLearning\SVM\Parameter\GridSquare.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,7 @@ Namespace SVM
     ''' Class representing a grid square result.
     ''' </summary>
     Public Class GridSquare
+
         ''' <summary>
         ''' The C value
         ''' </summary>

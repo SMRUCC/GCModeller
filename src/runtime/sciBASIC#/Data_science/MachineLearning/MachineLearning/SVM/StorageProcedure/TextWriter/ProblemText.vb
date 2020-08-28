@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b4d03e6721aa81c7f8c921fa70bb72f, Data_science\MachineLearning\MachineLearning\SVM\Problem.vb"
+﻿#Region "Microsoft.VisualBasic::de57900fcbce1013edc658341e32ed79, Data_science\MachineLearning\MachineLearning\SVM\StorageProcedure\TextWriter\ProblemText.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,9 @@
 
     ' Summaries:
 
-    '     Class Problem
+    '     Module ProblemText
     ' 
-    '         Properties: Count, MaxIndex, X, Y
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Equals, GetHashCode, (+2 Overloads) Read
+    '         Function: (+2 Overloads) Read
     ' 
     '         Sub: (+2 Overloads) Write
     ' 
@@ -46,90 +42,21 @@
 
 #End Region
 
-' 
-' * SVM.NET Library
-' * Copyright (C) 2008 Matthew Johnson
-' * 
-' * This program is free software: you can redistribute it and/or modify
-' * it under the terms of the GNU General Public License as published by
-' * the Free Software Foundation, either version 3 of the License, or
-' * (at your option) any later version.
-' * 
-' * This program is distributed in the hope that it will be useful,
-' * but WITHOUT ANY WARRANTY; without even the implied warranty of
-' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' * GNU General Public License for more details.
-' * 
-' * You should have received a copy of the GNU General Public License
-' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace SVM
-    ''' <summary>
-    ''' Encapsulates a problem, or set of vectors which must be classified.
-    ''' </summary>
-    <Serializable>
-    Public Class Problem
-        ''' <summary>
-        ''' Constructor.
-        ''' </summary>
-        ''' <param name="count">Number of vectors</param>
-        ''' <param name="y">The class labels</param>
-        ''' <param name="x">Vector data.</param>
-        ''' <param name="maxIndex">Maximum index for a vector</param>
-        Public Sub New(ByVal count As Integer, ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
-            Me.Count = count
-            Me.Y = y
-            Me.X = x
-            Me.MaxIndex = maxIndex
-        End Sub
-        ''' <summary>
-        ''' Empty Constructor.  Nothing is initialized.
-        ''' </summary>
-        Public Sub New()
-        End Sub
-        ''' <summary>
-        ''' Number of vectors.
-        ''' </summary>
-        Public Property Count As Integer
 
-        ''' <summary>
-        ''' Class labels.
-        ''' </summary>
-        Public Property Y As Double()
-
-        ''' <summary>
-        ''' Vector data.
-        ''' </summary>
-        Public Property X As Node()()
-
-        ''' <summary>
-        ''' Maximum index for a vector.
-        ''' </summary>
-        Public Property MaxIndex As Integer
-
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
-            Dim other As Problem = TryCast(obj, Problem)
-            If other Is Nothing Then Return False
-            Return other.Count = Count AndAlso other.MaxIndex = MaxIndex AndAlso other.X.IsEqual(X) AndAlso other.Y.IsEqual(Y)
-        End Function
-
-        Public Overrides Function GetHashCode() As Integer
-            Return Count.GetHashCode() + MaxIndex.GetHashCode() + X.ComputeHashcode2() + Y.ComputeHashcode()
-        End Function
+    Module ProblemText
 
         ''' <summary>
         ''' Reads a problem from a stream.
         ''' </summary>
         ''' <param name="stream">Stream to read from</param>
         ''' <returns>The problem</returns>
-        Public Shared Function Read(ByVal stream As Stream) As Problem
-            Start()
+        Public Function Read(stream As Stream) As Problem
             Dim input As StreamReader = New StreamReader(stream)
             Dim vy As List(Of Double) = New List(Of Double)()
             Dim vx As List(Of Node()) = New List(Of Node())()
@@ -152,8 +79,7 @@ Namespace SVM
                 vx.Add(x)
             End While
 
-            [Stop]()
-            Return New Problem(vy.Count, vy.ToArray(), vx.ToArray(), max_index)
+            Return New Problem(vy.ToArray(), vx.ToArray(), max_index)
         End Function
 
         ''' <summary>
@@ -161,8 +87,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The stream to write the problem to.</param>
         ''' <param name="problem">The problem to write.</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal problem As Problem)
-            Start()
+        Public Sub Write(stream As Stream, problem As Problem)
             Dim output As StreamWriter = New StreamWriter(stream)
 
             For i = 0 To problem.Count - 1
@@ -176,7 +101,6 @@ Namespace SVM
             Next
 
             output.Flush()
-            [Stop]()
         End Sub
 
         ''' <summary>
@@ -184,7 +108,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The file to read from.</param>
         ''' <returns>the Probem</returns>
-        Public Shared Function Read(ByVal filename As String) As Problem
+        Public Function Read(filename As String) As Problem
             Dim input = File.OpenRead(filename)
 
             Try
@@ -199,7 +123,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The file to write to</param>
         ''' <param name="problem">The problem to write</param>
-        Public Shared Sub Write(ByVal filename As String, ByVal problem As Problem)
+        Public Sub Write(filename As String, problem As Problem)
             Dim output = File.Open(filename, FileMode.Create)
 
             Try
@@ -208,6 +132,5 @@ Namespace SVM
                 output.Close()
             End Try
         End Sub
-    End Class
+    End Module
 End Namespace
-

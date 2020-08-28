@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c02ef49f922da3ace6a2da95b2203e6a, Data_science\MachineLearning\MachineLearning\SVM\Solver\SolutionInfo.vb"
+﻿#Region "Microsoft.VisualBasic::22b7b7dadb4ea218029ff9342eb54b85, Data_science\MachineLearning\MachineLearning\SVM\Solver\SolutionInfo.vb"
 
     ' Author:
     ' 
@@ -35,19 +35,34 @@
     ' 
     '         Properties: obj, r, rho, upper_bound_n, upper_bound_p
     ' 
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 Namespace SVM
+
     ' java: information about solution except alpha,
     ' because we cannot return multiple values otherwise...
     Public Class SolutionInfo
+
         Public Property obj As Double
         Public Property rho As Double
         Public Property upper_bound_p As Double
         Public Property upper_bound_n As Double
-        Public Property r As Double ' for Solver_NU
+
+        ''' <summary>
+        ''' for Solver_NU
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property r As Double
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 End Namespace

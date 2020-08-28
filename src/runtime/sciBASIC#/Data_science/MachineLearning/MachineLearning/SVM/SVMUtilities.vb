@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70b6b2714570efc889ca6262fb1ecb19, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
+﻿#Region "Microsoft.VisualBasic::4f6771eaa55b5173b5c7721e81b7f5fc, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
 
     ' Author:
     ' 
@@ -42,13 +42,14 @@
 
 Namespace SVM
     Public Module SVMUtilities
-        Private Const SCALE As Double = 100
+
+        Const SCALE As Double = 100
+
         Public Const TRAINING_SEED As Integer = 20080524
         Public Const TESTING_SEED As Integer = 20140407
 
-        Public Function CreateTwoClassProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateTwoClassProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             ' create points on either side of the vertical axis
@@ -69,13 +70,12 @@ Namespace SVM
             Return prob
         End Function
 
-        Public Function CreateMulticlassProblem(ByVal numberOfClasses As Integer, ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateMulticlassProblem(numberOfClasses As Integer, count As Integer, Optional isTraining As Boolean = True) As Problem
             If numberOfClasses > 8 Then Throw New ArgumentException("Number of classes must be < 8")
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 3
             Dim samplesPerClass = New Integer(numberOfClasses - 1) {}
-            Dim countPerClass = count / numberOfClasses
+            Dim countPerClass As Integer = count / numberOfClasses
             Dim current = countPerClass
 
             For i = 1 To samplesPerClass.Length - 1
@@ -111,9 +111,8 @@ Namespace SVM
             Return prob
         End Function
 
-        Public Function CreateRegressionProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateRegressionProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             Dim labels As List(Of Double) = New List(Of Double)()
@@ -133,4 +132,3 @@ Namespace SVM
         End Function
     End Module
 End Namespace
-

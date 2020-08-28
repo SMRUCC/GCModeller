@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a978ee5c1e28507b9a6e47a7c0db10ce, Data_science\MachineLearning\MachineLearning\SVM\Kernel\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::a85eac82cd3d990942d00e4dc86660eb, Data_science\MachineLearning\MachineLearning\SVM\Kernel\Kernel.vb"
 
     ' Author:
     ' 
@@ -57,10 +57,10 @@ Namespace SVM
         Private _degree As Integer
         Private _gamma As Double
         Private _coef0 As Double
-        Public MustOverride Function GetQ(ByVal column As Integer, ByVal len As Integer) As Single() Implements IQMatrix.GetQ
+        Public MustOverride Function GetQ(column As Integer, len As Integer) As Single() Implements IQMatrix.GetQ
         Public MustOverride Function GetQD() As Double() Implements IQMatrix.GetQD
 
-        Public Overridable Sub SwapIndex(ByVal i As Integer, ByVal j As Integer) Implements IQMatrix.SwapIndex
+        Public Overridable Sub SwapIndex(i As Integer, j As Integer) Implements IQMatrix.SwapIndex
             _x.SwapIndex(i, j)
 
             If _xSquare IsNot Nothing Then
@@ -68,7 +68,7 @@ Namespace SVM
             End If
         End Sub
 
-        Private Shared Function powi(ByVal value As Double, ByVal times As Integer) As Double
+        Private Shared Function powi(value As Double, times As Integer) As Double
             Dim tmp = value, ret = 1.0
             Dim t = times
 
@@ -81,7 +81,7 @@ Namespace SVM
             Return ret
         End Function
 
-        Public Function KernelFunction(ByVal i As Integer, ByVal j As Integer) As Double
+        Public Function KernelFunction(i As Integer, j As Integer) As Double
             Select Case _kernelType
                 Case KernelType.LINEAR
                     Return dot(_x(i), _x(j))
@@ -98,7 +98,7 @@ Namespace SVM
             End Select
         End Function
 
-        Public Sub New(ByVal l As Integer, ByVal x_ As Node()(), ByVal param As Parameter)
+        Public Sub New(l As Integer, x_ As Node()(), param As Parameter)
             _kernelType = param.KernelType
             _degree = param.Degree
             _gamma = param.Gamma
@@ -116,7 +116,7 @@ Namespace SVM
             End If
         End Sub
 
-        Private Shared Function dot(ByVal xNodes As Node(), ByVal yNodes As Node()) As Double
+        Private Shared Function dot(xNodes As Node(), yNodes As Node()) As Double
             Dim sum As Double = 0
             Dim xlen = xNodes.Length
             Dim ylen = yNodes.Length
@@ -127,8 +127,8 @@ Namespace SVM
 
             While True
 
-                If x._index = y._index Then
-                    sum += x._value * y._value
+                If x.Index = y.Index Then
+                    sum += x.Value * y.Value
                     i += 1
                     j += 1
 
@@ -146,7 +146,7 @@ Namespace SVM
                     End If
                 Else
 
-                    If x._index > y._index Then
+                    If x.Index > y.Index Then
                         Threading.Interlocked.Increment(j)
 
                         If j < ylen Then
@@ -169,7 +169,7 @@ Namespace SVM
             Return sum
         End Function
 
-        Private Shared Function computeSquaredDistance(ByVal xNodes As Node(), ByVal yNodes As Node()) As Double
+        Private Shared Function computeSquaredDistance(xNodes As Node(), yNodes As Node()) As Double
             Dim x = xNodes(0)
             Dim y = yNodes(0)
             Dim xLength = xNodes.Length
@@ -180,8 +180,8 @@ Namespace SVM
 
             While True
 
-                If x._index = y._index Then
-                    Dim d = x._value - y._value
+                If x.Index = y.Index Then
+                    Dim d = x.Value - y.Value
                     sum += d * d
                     xIndex += 1
                     yIndex += 1
@@ -198,8 +198,8 @@ Namespace SVM
                     Else
                         Exit While
                     End If
-                ElseIf x._index > y._index Then
-                    sum += y._value * y._value
+                ElseIf x.Index > y.Index Then
+                    sum += y.Value * y.Value
 
                     If Threading.Interlocked.Increment(yIndex) < yLength Then
                         y = yNodes(yIndex)
@@ -207,7 +207,7 @@ Namespace SVM
                         Exit While
                     End If
                 Else
-                    sum += x._value * x._value
+                    sum += x.Value * x.Value
 
                     If Threading.Interlocked.Increment(xIndex) < xLength Then
                         x = xNodes(xIndex)
@@ -218,13 +218,13 @@ Namespace SVM
             End While
 
             While xIndex < xLength
-                Dim d = xNodes(xIndex)._value
+                Dim d = xNodes(xIndex).Value
                 sum += d * d
                 xIndex += 1
             End While
 
             While yIndex < yLength
-                Dim d = yNodes(yIndex)._value
+                Dim d = yNodes(yIndex).Value
                 sum += d * d
                 yIndex += 1
             End While
@@ -232,7 +232,7 @@ Namespace SVM
             Return sum
         End Function
 
-        Public Shared Function KernelFunction(ByVal x As Node(), ByVal y As Node(), ByVal param As Parameter) As Double
+        Public Shared Function KernelFunction(x As Node(), y As Node(), param As Parameter) As Double
             Select Case param.KernelType
                 Case KernelType.LINEAR
                     Return dot(x, y)
@@ -251,4 +251,3 @@ Namespace SVM
         End Function
     End Class
 End Namespace
-

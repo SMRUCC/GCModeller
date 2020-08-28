@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7293729bd50daa16afe7ba8cdaf058a0, gr\network-visualization\Datavisualization.Network\TreeAPI\TreeGraph.vb"
+﻿#Region "Microsoft.VisualBasic::a075c461b75a52060e80e58f67cc4571, gr\network-visualization\Datavisualization.Network\TreeAPI\TreeGraph.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Public NotInheritable Class TreeGraph(Of K, V)
         End If
     End Sub
 End Class
-

@@ -666,14 +666,14 @@
     <Compile Include="SVM\RangeTransform\IRangeTransform.vb" />
     <Compile Include="SVM\Kernel\IQMatrix.vb" />
     <Compile Include="SVM\Kernel\Kernel.vb" />
-    <Compile Include="SVM\Model.vb" />
+    <Compile Include="SVM\Models\Model.vb" />
     <Compile Include="SVM\Node.vb" />
     <Compile Include="SVM\Parameter\Parameter.vb" />
     <Compile Include="SVM\Parameter\ParameterSelection.vb" />
     <Compile Include="SVM\PerformanceEvaluator.vb" />
     <Compile Include="SVM\Kernel\PrecomputedKernel.vb" />
     <Compile Include="SVM\Prediction.vb" />
-    <Compile Include="SVM\Problem.vb" />
+    <Compile Include="SVM\Models\Problem.vb" />
     <Compile Include="SVM\RangeTransform\RangeTransform.vb" />
     <Compile Include="SVM\Scaling.vb" />
     <Compile Include="SVM\Solver\SolutionInfo.vb" />
@@ -682,9 +682,12 @@
     <Compile Include="SVM\Solver\SVC_Q.vb" />
     <Compile Include="SVM\Solver\Solver_NU.vb" />
     <Compile Include="SVM\Solver\Solver.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\ModelText.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\GaussianTransformText.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\TransformText.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\ProblemText.vb" />
     <Compile Include="SVM\SVMExtensions.vb" />
     <Compile Include="SVM\SVMUtilities.vb" />
-    <Compile Include="SVM\TemporaryCulture.vb" />
     <Compile Include="SVM\Training.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -723,6 +726,8 @@
   <ItemGroup>
     <Content Include="NeuralNetwork\ActiveFunctions\Copyright.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SVM\StorageProcedure\Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

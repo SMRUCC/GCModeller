@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3c0986a5041a1ba13c333a847636b1f, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
+﻿#Region "Microsoft.VisualBasic::047c3a13afdf6b87fcc8d24bf82fb9f4, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
 
     ' Author:
     ' 
@@ -86,6 +86,7 @@ Namespace SVM
     ' solution will be put in \alpha, objective value will be put in obj
     '
     Friend Class Solver
+
         Protected active_size As Integer
         Protected y As SByte()
         Protected G As Double()     ' gradient of objective function
@@ -105,11 +106,11 @@ Namespace SVM
         Protected unshrink As Boolean   ' XXX
         Protected Const INF As Double = Double.PositiveInfinity
 
-        Private Function get_C(ByVal i As Integer) As Double
+        Private Function get_C(i As Integer) As Double
             Return If(y(i) > 0, Cp, Cn)
         End Function
 
-        Private Sub update_alpha_status(ByVal i As Integer)
+        Private Sub update_alpha_status(i As Integer)
             If alpha(i) >= get_C(i) Then
                 alpha_status(i) = UPPER_BOUND
             ElseIf alpha(i) <= 0 Then
@@ -119,19 +120,19 @@ Namespace SVM
             End If
         End Sub
 
-        Protected Function is_upper_bound(ByVal i As Integer) As Boolean
+        Protected Function is_upper_bound(i As Integer) As Boolean
             Return alpha_status(i) = UPPER_BOUND
         End Function
 
-        Protected Function is_lower_bound(ByVal i As Integer) As Boolean
+        Protected Function is_lower_bound(i As Integer) As Boolean
             Return alpha_status(i) = LOWER_BOUND
         End Function
 
-        Protected Function is_free(ByVal i As Integer) As Boolean
+        Protected Function is_free(i As Integer) As Boolean
             Return alpha_status(i) = FREE
         End Function
 
-        Protected Sub swap_index(ByVal i As Integer, ByVal j As Integer)
+        Protected Sub swap_index(i As Integer, j As Integer)
             Q.SwapIndex(i, j)
 
             Do
@@ -218,7 +219,7 @@ Namespace SVM
             End If
         End Sub
 
-        Public Overridable Sub Solve(ByVal l As Integer, ByVal Q As IQMatrix, ByVal p_ As Double(), ByVal y_ As SByte(), ByVal alpha_ As Double(), ByVal Cp As Double, ByVal Cn As Double, ByVal eps As Double, ByVal si As SolutionInfo, ByVal shrinking As Boolean)
+        Public Overridable Sub Solve(l As Integer, Q As IQMatrix, p_ As Double(), y_ As SByte(), alpha_ As Double(), Cp As Double, Cn As Double, eps As Double, si As SolutionInfo, shrinking As Boolean)
             Me.l = l
             Me.Q = Q
             QD = Q.GetQD()
@@ -482,7 +483,7 @@ Namespace SVM
         End Sub
 
         ' return 1 if already optimal, return 0 otherwise
-        Protected Overridable Function select_working_set(ByVal working_set As Integer()) As Integer
+        Protected Overridable Function select_working_set(working_set As Integer()) As Integer
             ' return i,j such that
             ' i: maximizes -y_i * grad(f)_i, i in I_up(\alpha)
             ' j: mimimizes the decrease of obj value
@@ -573,7 +574,7 @@ Namespace SVM
             Return 0
         End Function
 
-        Private Function be_shrunk(ByVal i As Integer, ByVal Gmax1 As Double, ByVal Gmax2 As Double) As Boolean
+        Private Function be_shrunk(i As Integer, Gmax1 As Double, Gmax2 As Double) As Boolean
             If is_upper_bound(i) Then
                 If y(i) = +1 Then
                     Return -G(i) > Gmax1
@@ -682,4 +683,3 @@ Namespace SVM
     End Class
 
 End Namespace
-

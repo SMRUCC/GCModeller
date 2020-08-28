@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7597c9cf9c56fe01c80fb4ae3f463c2, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Sample.vb"
+﻿#Region "Microsoft.VisualBasic::acfaf32a65abbb7796f6f4ab38d1a192, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Sample.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -76,4 +75,3 @@ Public Structure Sample
     End Function
 
 End Structure
-

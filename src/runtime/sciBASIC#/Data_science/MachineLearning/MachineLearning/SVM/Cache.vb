@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7929a3943008bc232eb6260e7651e53f, Data_science\MachineLearning\MachineLearning\SVM\Cache.vb"
+﻿#Region "Microsoft.VisualBasic::660bec7b7b3b17cef3440515d7cdc2d9, Data_science\MachineLearning\MachineLearning\SVM\Cache.vb"
 
     ' Author:
     ' 
@@ -78,7 +78,7 @@ Namespace SVM
         Private _size As Long
 
         Private NotInheritable Class head_t
-            Public Sub New(ByVal enclosingInstance As Cache)
+            Public Sub New(enclosingInstance As Cache)
                 _enclosingInstance = enclosingInstance
             End Sub
 
@@ -98,7 +98,7 @@ Namespace SVM
         Private head As head_t()
         Private lru_head As head_t
 
-        Public Sub New(ByVal count As Integer, ByVal size As Long)
+        Public Sub New(count As Integer, size As Long)
             _count = count
             _size = size
             head = New head_t(_count - 1) {}
@@ -114,13 +114,13 @@ Namespace SVM
             lru_head.next = lru_head
         End Sub
 
-        Private Sub lru_delete(ByVal h As head_t)
+        Private Sub lru_delete(h As head_t)
             ' delete from current location
             h.prev.next = h.next
             h.next.prev = h.prev
         End Sub
 
-        Private Sub lru_insert(ByVal h As head_t)
+        Private Sub lru_insert(h As head_t)
             ' insert to last position
             h.next = lru_head
             h.prev = lru_head.prev
@@ -138,7 +138,7 @@ Namespace SVM
         ' return some position p where [p,len) need to be filled
         ' (p >= len if nothing needs to be filled)
         ' java: simulate pointer using single-element array
-        Public Function GetData(ByVal index As Integer, <Out> ByRef data As Single(), ByVal len As Integer) As Integer
+        Public Function GetData(index As Integer, <Out> ByRef data As Single(), len As Integer) As Integer
             Dim h = head(index)
             If h.len > 0 Then lru_delete(h)
             Dim more = len - h.len
@@ -166,7 +166,7 @@ Namespace SVM
             Return len
         End Function
 
-        Public Sub SwapIndex(ByVal i As Integer, ByVal j As Integer)
+        Public Sub SwapIndex(i As Integer, j As Integer)
             If i = j Then Return
             If head(i).len > 0 Then lru_delete(head(i))
             If head(j).len > 0 Then lru_delete(head(j))
@@ -196,4 +196,3 @@ Namespace SVM
         End Sub
     End Class
 End Namespace
-
