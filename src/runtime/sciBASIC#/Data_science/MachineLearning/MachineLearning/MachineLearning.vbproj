@@ -683,6 +683,8 @@
     <Compile Include="SVM\Solver\Solver_NU.vb" />
     <Compile Include="SVM\Solver\Solver.vb" />
     <Compile Include="SVM\StorageProcedure\TextWriter\ModelText.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\GaussianTransformText.vb" />
+    <Compile Include="SVM\StorageProcedure\TextWriter\TransformText.vb" />
     <Compile Include="SVM\StorageProcedure\TextWriter\ProblemText.vb" />
     <Compile Include="SVM\SVMExtensions.vb" />
     <Compile Include="SVM\SVMUtilities.vb" />

@@ -61,7 +61,6 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Imports System.IO
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -79,6 +78,42 @@ Namespace SVM
         ''' Default upper bound for scaling (1).
         ''' </summary>
         Public Const DEFAULT_UPPER_BOUND As Integer = 1
+
+        Friend ReadOnly _inputStart As Double()
+        Friend ReadOnly _inputScale As Double()
+        Friend ReadOnly _outputStart As Double
+        Friend ReadOnly _outputScale As Double
+        Friend ReadOnly _length As Integer
+
+        ''' <summary>
+        ''' Constructor.
+        ''' </summary>
+        ''' <param name="minValues">The minimum values in each dimension.</param>
+        ''' <param name="maxValues">The maximum values in each dimension.</param>
+        ''' <param name="lowerBound">The desired lower bound for all dimensions.</param>
+        ''' <param name="upperBound">The desired upper bound for all dimensions.</param>
+        Public Sub New(minValues As Double(), maxValues As Double(), lowerBound As Double, upperBound As Double)
+            _length = minValues.Length
+            If maxValues.Length <> _length Then Throw New Exception("Number of max and min values must be equal.")
+            _inputStart = New Double(_length - 1) {}
+            _inputScale = New Double(_length - 1) {}
+
+            For i = 0 To _length - 1
+                _inputStart(i) = minValues(i)
+                _inputScale(i) = maxValues(i) - minValues(i)
+            Next
+
+            _outputStart = lowerBound
+            _outputScale = upperBound - lowerBound
+        End Sub
+
+        Friend Sub New(inputStart As Double(), inputScale As Double(), outputStart As Double, outputScale As Double, length As Integer)
+            _inputStart = inputStart
+            _inputScale = inputScale
+            _outputStart = outputStart
+            _outputScale = outputScale
+            _length = length
+        End Sub
 
         ''' <summary>
         ''' Determines the Range transform for the provided problem.  Uses the default lower and upper bounds.
@@ -126,42 +161,6 @@ Namespace SVM
             Return New RangeTransform(minVals, maxVals, lowerBound, upperBound)
         End Function
 
-        Private _inputStart As Double()
-        Private _inputScale As Double()
-        Private _outputStart As Double
-        Private _outputScale As Double
-        Private _length As Integer
-
-        ''' <summary>
-        ''' Constructor.
-        ''' </summary>
-        ''' <param name="minValues">The minimum values in each dimension.</param>
-        ''' <param name="maxValues">The maximum values in each dimension.</param>
-        ''' <param name="lowerBound">The desired lower bound for all dimensions.</param>
-        ''' <param name="upperBound">The desired upper bound for all dimensions.</param>
-        Public Sub New(minValues As Double(), maxValues As Double(), lowerBound As Double, upperBound As Double)
-            _length = minValues.Length
-            If maxValues.Length <> _length Then Throw New Exception("Number of max and min values must be equal.")
-            _inputStart = New Double(_length - 1) {}
-            _inputScale = New Double(_length - 1) {}
-
-            For i = 0 To _length - 1
-                _inputStart(i) = minValues(i)
-                _inputScale(i) = maxValues(i) - minValues(i)
-            Next
-
-            _outputStart = lowerBound
-            _outputScale = upperBound - lowerBound
-        End Sub
-
-        Private Sub New(inputStart As Double(), inputScale As Double(), outputStart As Double, outputScale As Double, length As Integer)
-            _inputStart = inputStart
-            _inputScale = inputScale
-            _outputStart = outputStart
-            _outputScale = outputScale
-            _length = length
-        End Sub
-
         ''' <summary>
         ''' Transforms the input array based upon the values provided.
         ''' </summary>
@@ -192,92 +191,6 @@ Namespace SVM
             tmp /= _inputScale(index)
             tmp *= _outputScale
             Return tmp + _outputStart
-        End Function
-
-        ''' <summary>
-        ''' Writes this Range transform to a stream.
-        ''' </summary>
-        ''' <param name="stream">The stream to write to</param>
-        ''' <param name="r">The range to write</param>
-        Public Shared Sub Write(stream As Stream, r As RangeTransform)
-            Dim output As StreamWriter = New StreamWriter(stream)
-            output.WriteLine(r._length)
-            output.Write(r._inputStart(0))
-
-            For i = 1 To r._inputStart.Length - 1
-                output.Write(" " & r._inputStart(i))
-            Next
-
-            output.WriteLine()
-            output.Write(r._inputScale(0))
-
-            For i = 1 To r._inputScale.Length - 1
-                output.Write(" " & r._inputScale(i))
-            Next
-
-            output.WriteLine()
-            output.WriteLine("{0} {1}", r._outputStart, r._outputScale)
-            output.Flush()
-        End Sub
-
-        ''' <summary>
-        ''' Writes this Range transform to a file.    This will overwrite any previous data in the file.
-        ''' </summary>
-        ''' <param name="outputFile">The file to write to</param>
-        ''' <param name="r">The Range to write</param>
-        Public Shared Sub Write(outputFile As String, r As RangeTransform)
-            Dim s = File.Open(outputFile, FileMode.Create)
-
-            Try
-                Write(s, r)
-            Finally
-                s.Close()
-            End Try
-        End Sub
-
-        ''' <summary>
-        ''' Reads a Range transform from a file.
-        ''' </summary>
-        ''' <param name="inputFile">The file to read from</param>
-        ''' <returns>The Range transform</returns>
-        Public Shared Function Read(inputFile As String) As RangeTransform
-            Dim s = File.OpenRead(inputFile)
-
-            Try
-                Return Read(s)
-            Finally
-                s.Close()
-            End Try
-        End Function
-
-        ''' <summary>
-        ''' Reads a Range transform from a stream.
-        ''' </summary>
-        ''' <param name="stream">The stream to read from</param>
-        ''' <returns>The Range transform</returns>
-        Public Shared Function Read(stream As Stream) As RangeTransform
-            Dim input As StreamReader = New StreamReader(stream)
-            Dim length As Integer = Integer.Parse(input.ReadLine())
-            Dim inputStart = New Double(length - 1) {}
-            Dim inputScale = New Double(length - 1) {}
-            Dim parts As String() = input.ReadLine().Split()
-
-            For i = 0 To length - 1
-                inputStart(i) = Double.Parse(parts(i))
-            Next
-
-            parts = input.ReadLine().Split()
-
-            For i = 0 To length - 1
-                inputScale(i) = Double.Parse(parts(i))
-            Next
-
-            parts = input.ReadLine().Split()
-
-            Dim outputStart = Double.Parse(parts(0))
-            Dim outputScale = Double.Parse(parts(1))
-
-            Return New RangeTransform(inputStart, inputScale, outputStart, outputScale, length)
         End Function
     End Class
 End Namespace
