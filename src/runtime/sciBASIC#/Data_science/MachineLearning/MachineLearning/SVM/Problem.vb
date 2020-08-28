@@ -98,6 +98,12 @@ Namespace SVM
         Public Property MaxIndex As Integer
 
         ''' <summary>
+        ''' the width of each row in <see cref="X"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DimensionNames As String()
+
+        ''' <summary>
         ''' Constructor.
         ''' </summary>
         ''' <param name="count">Number of vectors</param>

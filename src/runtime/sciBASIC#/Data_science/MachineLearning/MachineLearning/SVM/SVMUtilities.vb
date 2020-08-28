@@ -75,7 +75,7 @@ Namespace SVM
             prob.Count = count
             prob.MaxIndex = 3
             Dim samplesPerClass = New Integer(numberOfClasses - 1) {}
-            Dim countPerClass = count / numberOfClasses
+            Dim countPerClass As Integer = count / numberOfClasses
             Dim current = countPerClass
 
             For i = 1 To samplesPerClass.Length - 1
