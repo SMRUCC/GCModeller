@@ -65,6 +65,7 @@ Namespace SVM
     ''' </summary>
     <Serializable>
     Public Class PrecomputedKernel
+
         Private _similarities As Single(,)
         Private _rows As Integer
         Private _columns As Integer

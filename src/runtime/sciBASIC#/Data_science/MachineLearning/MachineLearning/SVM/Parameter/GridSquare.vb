@@ -46,6 +46,7 @@ Namespace SVM
     ''' Class representing a grid square result.
     ''' </summary>
     Public Class GridSquare
+
         ''' <summary>
         ''' The C value
         ''' </summary>
