@@ -20,6 +20,15 @@ Namespace ComponentModel.Encoder
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(vector As IEnumerable(Of ColorClass))
+            For Each item In vector
+                Call AddClass(item)
+            Next
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>

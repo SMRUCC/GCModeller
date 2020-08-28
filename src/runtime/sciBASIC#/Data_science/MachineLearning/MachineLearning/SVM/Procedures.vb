@@ -1244,6 +1244,14 @@ Namespace SVM
             End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="model"></param>
+        ''' <param name="x"></param>
+        ''' <returns>
+        ''' 在这里使用double数值类型主要是为了兼容分类以及打分这两种工作模式
+        ''' </returns>
         Public Function svm_predict(model As Model, x As Node()) As Double
             Dim nr_class = model.NumberOfClasses
             Dim dec_values As Double()
