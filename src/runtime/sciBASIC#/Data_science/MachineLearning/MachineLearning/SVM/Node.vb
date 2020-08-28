@@ -126,5 +126,15 @@ Namespace SVM
         End Function
 
 #End Region
+
+        Public Shared Function Copy(dataset As IEnumerable(Of Node)) As IEnumerable(Of Node)
+            Return dataset _
+                .Select(Function(d)
+                            Return New Node With {
+                                .Index = d.Index,
+                                .Value = d.Value
+                            }
+                        End Function)
+        End Function
     End Class
 End Namespace

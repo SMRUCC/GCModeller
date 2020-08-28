@@ -658,6 +658,7 @@
     <Compile Include="RandomForests\NamespaceDoc.vb" />
     <Compile Include="RandomForests\StorageProcedure\MatrixLoader.vb" />
     <Compile Include="SVM\Cache.vb" />
+    <Compile Include="SVM\StorageProcedure\Models\ProblemTable.vb" />
     <Compile Include="SVM\SVMModel.vb" />
     <Compile Include="SVM\Parameter\GridSquare.vb" />
     <Compile Include="SVM\Parameter\KernelType.vb" />
@@ -727,8 +728,6 @@
   <ItemGroup>
     <Content Include="NeuralNetwork\ActiveFunctions\Copyright.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SVM\StorageProcedure\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

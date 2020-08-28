@@ -168,7 +168,7 @@ Namespace SVM
             ' parse options
             For i = 0 To args.Length - 1
                 If args(i)(0) <> "-"c Then Exit For
-                Threading.Interlocked.Increment(i)
+                i += 1
 
                 Select Case args(i - 1)(1)
                     Case "s"c

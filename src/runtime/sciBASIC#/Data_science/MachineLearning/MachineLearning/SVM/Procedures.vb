@@ -60,6 +60,7 @@ Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
+Imports Microsoft.VisualBasic.Language
 
 Namespace SVM
 
@@ -555,13 +556,13 @@ Namespace SVM
                 For j = 0 To begin - 1
                     subprob.X(k) = prob.X(perm(j))
                     subprob.Y(k) = prob.Y(perm(j))
-                    Threading.Interlocked.Increment(k)
+                    k += 1
                 Next
 
                 For j = [end] To prob.Count - 1
                     subprob.X(k) = prob.X(perm(j))
                     subprob.Y(k) = prob.Y(perm(j))
-                    Threading.Interlocked.Increment(k)
+                    k += 1
                 Next
 
                 Dim p_count = 0, n_count = 0
@@ -662,7 +663,7 @@ Namespace SVM
                 For j = 0 To nr_class - 1
 
                     If this_label = label(j) Then
-                        Threading.Interlocked.Increment(count(j))
+                        count(j) += 1
                         Exit For
                     End If
                 Next
@@ -682,7 +683,7 @@ Namespace SVM
 
                     label(nr_class) = this_label
                     count(nr_class) = 1
-                    Threading.Interlocked.Increment(nr_class)
+                    nr_class += 1
                 End If
             Next
 
@@ -723,7 +724,7 @@ Namespace SVM
 
             For i = 0 To l - 1
                 perm(start(data_label(i))) = i
-                Threading.Interlocked.Increment(start(data_label(i)))
+                start(data_label(i)) += 1
             Next
 
             start(0) = 0
@@ -768,7 +769,9 @@ Namespace SVM
                 Dim i As Integer
 
                 For i = 0 To prob.Count - 1
-                    If stdNum.Abs(f.alpha(i)) > 0 Then Threading.Interlocked.Increment(nSV)
+                    If stdNum.Abs(f.alpha(i)) > 0 Then
+                        nSV += 1
+                    End If
                 Next
 
                 model.SupportVectorCount = nSV
@@ -783,7 +786,7 @@ Namespace SVM
                         model.SupportVectors(j) = prob.X(i)
                         model.SupportVectorCoefficients(0)(j) = f.alpha(i)
                         model.SupportVectorIndices(j) = i + 1
-                        Threading.Interlocked.Increment(j)
+                        j += 1
                     End If
                 Next
             Else
@@ -838,7 +841,7 @@ Namespace SVM
                     probB = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
                 End If
 
-                Dim p = 0
+                Dim p As i32 = 0
 
                 For i = 0 To nr_class - 1
 
@@ -878,7 +881,7 @@ Namespace SVM
                             If Not nonzero(sj + k) AndAlso stdNum.Abs(f(p).alpha(ci + k)) > 0 Then nonzero(sj + k) = True
                         Next
 
-                        Threading.Interlocked.Increment(p)
+                        p += 1
                     Next
                 Next
 
@@ -920,8 +923,8 @@ Namespace SVM
                     For j = 0 To count(i) - 1
 
                         If nonzero(start(i) + j) Then
-                            Threading.Interlocked.Increment(nSV)
-                            Threading.Interlocked.Increment(nnz)
+                            nSV += 1
+                            nnz += 1
                         End If
                     Next
 
@@ -939,7 +942,7 @@ Namespace SVM
 
                     If nonzero(i) Then
                         model.SupportVectors(p) = x(i)
-                        model.SupportVectorIndices(stdNum.Min(Threading.Interlocked.Increment(p), p - 1)) = perm(i) + 1
+                        model.SupportVectorIndices(++p) = perm(i) + 1
                     End If
                 Next
 
@@ -969,20 +972,20 @@ Namespace SVM
                         Dim sj = start(j)
                         Dim ci = count(i)
                         Dim cj = count(j)
-                        Dim q = nz_start(i)
+                        Dim q As i32 = nz_start(i)
                         Dim k As Integer
 
                         For k = 0 To ci - 1
-                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(stdNum.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(k)
+                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(++q) = f(p).alpha(k)
                         Next
 
                         q = nz_start(j)
 
                         For k = 0 To cj - 1
-                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(stdNum.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(ci + k)
+                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(++q) = f(p).alpha(ci + k)
                         Next
 
-                        Threading.Interlocked.Increment(p)
+                        p += 1
                     Next
                 Next
             End If
@@ -1095,13 +1098,13 @@ Namespace SVM
                 For j = 0 To begin - 1
                     subprob.X(k) = prob.X(perm(j))
                     subprob.Y(k) = prob.Y(perm(j))
-                    Threading.Interlocked.Increment(k)
+                    k += 1
                 Next
 
                 For j = [end] To l - 1
                     subprob.X(k) = prob.X(perm(j))
                     subprob.Y(k) = prob.Y(perm(j))
-                    Threading.Interlocked.Increment(k)
+                    k += 1
                 Next
 
                 Dim submodel = svm_train(subprob, param)
@@ -1225,9 +1228,9 @@ Namespace SVM
                         dec_values(p) = sum
 
                         If dec_values(p) > 0 Then
-                            Threading.Interlocked.Increment(vote(i))
+                            vote(i) += 1
                         Else
-                            Threading.Interlocked.Increment(vote(j))
+                            vote(j) += 1
                         End If
 
                         p += 1
@@ -1345,7 +1348,7 @@ Namespace SVM
                     For j = 0 To nr_class - 1
 
                         If this_label = label(j) Then
-                            Threading.Interlocked.Increment(count(j))
+                            count(j) += 1
                             Exit For
                         End If
                     Next
@@ -1363,7 +1366,7 @@ Namespace SVM
 
                         label(nr_class) = this_label
                         count(nr_class) = 1
-                        Threading.Interlocked.Increment(nr_class)
+                        nr_class += 1
                     End If
                 Next
 

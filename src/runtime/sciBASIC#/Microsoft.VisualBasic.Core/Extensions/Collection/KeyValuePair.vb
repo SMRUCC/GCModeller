@@ -455,6 +455,11 @@ Public Module KeyValuePairExtensions
         Return list.AsList
     End Function
 
+    <Extension>
+    Public Function Keys(Of T As INamedValue)(source As Enumeration(Of T), Optional distinct As Boolean = False) As List(Of String)
+        Return source.AsEnumerable.Keys
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Keys(Of K, V)(source As IEnumerable(Of IGrouping(Of K, V))) As K()
