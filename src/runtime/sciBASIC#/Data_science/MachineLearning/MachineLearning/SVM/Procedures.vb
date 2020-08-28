@@ -73,15 +73,15 @@ Namespace SVM
         Private rand As Random = randf.seeds
         Private svm_print_stdout As TextWriter = Console.Out
 
-        Public Sub setRandomSeed(ByVal seed As Integer)
+        Public Sub setRandomSeed(seed As Integer)
             rand = New Random(seed)
         End Sub
 
-        Public Sub info(ByVal s As String)
+        Public Sub info(s As String)
             If IsVerbose Then svm_print_stdout.Write(s)
         End Sub
 
-        Private Sub solve_c_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo, ByVal Cp As Double, ByVal Cn As Double)
+        Private Sub solve_c_svc(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo, Cp As Double, Cn As Double)
             Dim l = prob.Count
             Dim minus_ones = New Double(l - 1) {}
             Dim y = New SByte(l - 1) {}
@@ -113,7 +113,7 @@ Namespace SVM
             Next
         End Sub
 
-        Private Sub solve_nu_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
+        Private Sub solve_nu_svc(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
             Dim i As Integer
             Dim l = prob.Count
             Dim nu = param.Nu
@@ -163,7 +163,7 @@ Namespace SVM
             si.upper_bound_n = 1 / r
         End Sub
 
-        Private Sub solve_one_class(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
+        Private Sub solve_one_class(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
             Dim l = prob.Count
             Dim zeros = New Double(l - 1) {}
             Dim ones = New SByte(l - 1) {}
@@ -189,7 +189,7 @@ Namespace SVM
             s.Solve(l, New ONE_CLASS_Q(prob, param), zeros, ones, alpha, 1.0, 1.0, param.EPS, si, param.Shrinking)
         End Sub
 
-        Private Sub solve_epsilon_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
+        Private Sub solve_epsilon_svr(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
             Dim l = prob.Count
             Dim alpha2 = New Double(2 * l - 1) {}
             Dim linear_term = New Double(2 * l - 1) {}
@@ -217,7 +217,7 @@ Namespace SVM
             Procedures.info("nu = " & sum_alpha / (param.C * l) & ASCII.LF)
         End Sub
 
-        Private Sub solve_nu_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
+        Private Sub solve_nu_svr(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
             Dim l = prob.Count
             Dim C = param.C
             Dim alpha2 = New Double(2 * l - 1) {}
@@ -253,7 +253,7 @@ Namespace SVM
             Public Property rho As Double
         End Class
 
-        Private Function svm_train_one(ByVal prob As Problem, ByVal param As Parameter, ByVal Cp As Double, ByVal Cn As Double) As decision_function
+        Private Function svm_train_one(prob As Problem, param As Parameter, Cp As Double, Cn As Double) As decision_function
             Dim alpha = New Double(prob.Count - 1) {}
             Dim si As New SolutionInfo()
 
@@ -298,7 +298,7 @@ Namespace SVM
         End Function
 
         ' Platt's binary SVM Probablistic Output: an improvement from Lin et al.
-        Private Sub sigmoid_train(ByVal l As Integer, ByVal dec_values As Double(), ByVal labels As Double(), ByVal probAB As Double())
+        Private Sub sigmoid_train(l As Integer, dec_values As Double(), labels As Double(), probAB As Double())
             Dim A, B As Double
             Dim prior1 As Double = 0, prior0 As Double = 0
             Dim i As Integer
@@ -421,7 +421,7 @@ Namespace SVM
             probAB(1) = B
         End Sub
 
-        Private Function sigmoid_predict(ByVal decision_value As Double, ByVal A As Double, ByVal B As Double) As Double
+        Private Function sigmoid_predict(decision_value As Double, A As Double, B As Double) As Double
             Dim fApB = decision_value * A + B
 
             If fApB >= 0 Then
@@ -432,7 +432,7 @@ Namespace SVM
         End Function
 
         ' Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
-        Private Sub multiclass_probability(ByVal k As Integer, ByVal r As Double(,), ByVal p As Double())
+        Private Sub multiclass_probability(k As Integer, r As Double(,), p As Double())
             Dim t, j As Integer
             Dim iter = 0, max_iter = stdNum.Max(100, k)
             Dim Q = New Double(k - 1, k - 1) {}
@@ -493,7 +493,7 @@ Namespace SVM
         End Sub
 
         ' Cross-validation decision values for probability estimates
-        Private Sub svm_binary_svc_probability(ByVal prob As Problem, ByVal param As Parameter, ByVal Cp As Double, ByVal Cn As Double, ByVal probAB As Double())
+        Private Sub svm_binary_svc_probability(prob As Problem, param As Parameter, Cp As Double, Cn As Double, probAB As Double())
             Dim i As Integer
             Dim nr_fold = 5
             Dim perm = New Integer(prob.Count - 1) {}
@@ -583,7 +583,7 @@ Namespace SVM
         End Sub
 
         ' Return parameter of a Laplace distribution 
-        Private Function svm_svr_probability(ByVal prob As Problem, ByVal param As Parameter) As Double
+        Private Function svm_svr_probability(prob As Problem, param As Parameter) As Double
             Dim i As Integer
             Dim nr_fold = 5
             Dim ymv = New Double(prob.Count - 1) {}
@@ -618,7 +618,7 @@ Namespace SVM
 
         ' label: label name, start: begin of each class, count: #data of classes, perm: indices to the original data
         ' perm, length l, must be allocated before calling this subroutine
-        Private Sub svm_group_classes(ByVal prob As Problem, <Out> ByRef nr_class_ret As Integer, <Out> ByRef label_ret As Integer(), <Out> ByRef start_ret As Integer(), <Out> ByRef count_ret As Integer(), ByVal perm As Integer())
+        Private Sub svm_group_classes(prob As Problem, <Out> ByRef nr_class_ret As Integer, <Out> ByRef label_ret As Integer(), <Out> ByRef start_ret As Integer(), <Out> ByRef count_ret As Integer(), perm As Integer())
             Dim l = prob.Count
             Dim max_nr_class = 16
             Dim nr_class = 0
@@ -713,7 +713,7 @@ Namespace SVM
         '
         ' Interface functions
         '
-        Public Function svm_train(ByVal prob As Problem, ByVal param As Parameter) As Model
+        Public Function svm_train(prob As Problem, param As Parameter) As Model
             Dim model As New Model() With {
                 .Parameter = param,
                 .DimensionNames = prob.DimensionNames
@@ -963,7 +963,7 @@ Namespace SVM
         End Function
 
         ' Stratified cross validation
-        Public Sub svm_cross_validation(ByVal prob As Problem, ByVal param As Parameter, ByVal nr_fold As Integer, ByVal target As Double())
+        Public Sub svm_cross_validation(prob As Problem, param As Parameter, nr_fold As Integer, target As Double())
             Dim i As Integer
             Dim fold_start = New Integer(nr_fold + 1 - 1) {}
             Dim l = prob.Count
@@ -1093,15 +1093,15 @@ Namespace SVM
             Next
         End Sub
 
-        Public Function svm_get_svm_type(ByVal model As Model) As SvmType
+        Public Function svm_get_svm_type(model As Model) As SvmType
             Return model.Parameter.SvmType
         End Function
 
-        Public Function svm_get_nr_class(ByVal model As Model) As Integer
+        Public Function svm_get_nr_class(model As Model) As Integer
             Return model.NumberOfClasses
         End Function
 
-        Public Sub svm_get_labels(ByVal model As Model, ByVal label As Integer())
+        Public Sub svm_get_labels(model As Model, label As Integer())
             If model.ClassLabels IsNot Nothing Then
                 For i = 0 To model.NumberOfClasses - 1
                     label(i) = model.ClassLabels(i)
@@ -1109,7 +1109,7 @@ Namespace SVM
             End If
         End Sub
 
-        Public Sub svm_get_sv_indices(ByVal model As Model, ByVal indices As Integer())
+        Public Sub svm_get_sv_indices(model As Model, indices As Integer())
             If model.SupportVectorIndices IsNot Nothing Then
                 For i = 0 To model.SupportVectorCount - 1
                     indices(i) = model.SupportVectorIndices(i)
@@ -1117,11 +1117,11 @@ Namespace SVM
             End If
         End Sub
 
-        Public Function svm_get_nr_sv(ByVal model As Model) As Integer
+        Public Function svm_get_nr_sv(model As Model) As Integer
             Return model.SupportVectorCount
         End Function
 
-        Public Function svm_get_svr_probability(ByVal model As Model) As Double
+        Public Function svm_get_svr_probability(model As Model) As Double
             If (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.PairwiseProbabilityA IsNot Nothing Then
                 Return model.PairwiseProbabilityA(0)
             Else
@@ -1130,7 +1130,7 @@ Namespace SVM
             End If
         End Function
 
-        Public Function svm_predict_values(ByVal model As Model, ByVal x As Node(), ByVal dec_values As Double()) As Double
+        Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As Double
             Dim i As Integer
 
             If model.Parameter.SvmType = SvmType.ONE_CLASS OrElse model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR Then
@@ -1216,7 +1216,7 @@ Namespace SVM
             End If
         End Function
 
-        Public Function svm_predict(ByVal model As Model, ByVal x As Node()) As Double
+        Public Function svm_predict(model As Model, x As Node()) As Double
             Dim nr_class = model.NumberOfClasses
             Dim dec_values As Double()
 
@@ -1230,7 +1230,7 @@ Namespace SVM
             Return pred_result
         End Function
 
-        Public Function svm_predict_probability(ByVal model As Model, ByVal x As Node(), ByVal prob_estimates As Double()) As Double
+        Public Function svm_predict_probability(model As Model, x As Node(), prob_estimates As Double()) As Double
             If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.PairwiseProbabilityA IsNot Nothing AndAlso model.PairwiseProbabilityB IsNot Nothing Then
                 Dim i As Integer
                 Dim nr_class = model.NumberOfClasses
@@ -1262,7 +1262,7 @@ Namespace SVM
             End If
         End Function
 
-        Public Function svm_check_parameter(ByVal prob As Problem, ByVal param As Parameter) As String
+        Public Function svm_check_parameter(prob As Problem, param As Parameter) As String
             ' svm_type
 
             Dim svm_type = param.SvmType
@@ -1344,7 +1344,7 @@ Namespace SVM
             Return Nothing
         End Function
 
-        Public Function svm_check_probability_model(ByVal model As Model) As Integer
+        Public Function svm_check_probability_model(model As Model) As Integer
             If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.PairwiseProbabilityA IsNot Nothing AndAlso model.PairwiseProbabilityB IsNot Nothing OrElse (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.PairwiseProbabilityA IsNot Nothing Then
                 Return 1
             Else

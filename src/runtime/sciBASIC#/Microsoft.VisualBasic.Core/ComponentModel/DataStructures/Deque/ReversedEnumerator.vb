@@ -63,7 +63,7 @@ Namespace ComponentModel.Collection.Deque
         ''' </summary>
         Dim que As Deque(Of S)
 
-        Public Sub New(ByVal que As Deque(Of S), ByVal version As Long)
+        Public Sub New(que As Deque(Of S), version As Long)
             Me.version = version
             Me.que = que
 

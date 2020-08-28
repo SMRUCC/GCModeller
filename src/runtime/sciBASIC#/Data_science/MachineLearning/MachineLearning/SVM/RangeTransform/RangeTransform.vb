@@ -85,7 +85,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="prob">The Problem to analyze</param>
         ''' <returns>The Range transform for the problem</returns>
-        Public Shared Function Compute(ByVal prob As Problem) As RangeTransform
+        Public Shared Function Compute(prob As Problem) As RangeTransform
             Return Compute(prob, DEFAULT_LOWER_BOUND, DEFAULT_UPPER_BOUND)
         End Function
 
@@ -96,7 +96,7 @@ Namespace SVM
         ''' <param name="lowerBound">The lower bound for scaling</param>
         ''' <param name="upperBound">The upper bound for scaling</param>
         ''' <returns>The Range transform for the problem</returns>
-        Public Shared Function Compute(ByVal prob As Problem, ByVal lowerBound As Double, ByVal upperBound As Double) As RangeTransform
+        Public Shared Function Compute(prob As Problem, lowerBound As Double, upperBound As Double) As RangeTransform
             Dim minVals = New Double(prob.MaxIndex - 1) {}
             Dim maxVals = New Double(prob.MaxIndex - 1) {}
 
@@ -139,7 +139,7 @@ Namespace SVM
         ''' <param name="maxValues">The maximum values in each dimension.</param>
         ''' <param name="lowerBound">The desired lower bound for all dimensions.</param>
         ''' <param name="upperBound">The desired upper bound for all dimensions.</param>
-        Public Sub New(ByVal minValues As Double(), ByVal maxValues As Double(), ByVal lowerBound As Double, ByVal upperBound As Double)
+        Public Sub New(minValues As Double(), maxValues As Double(), lowerBound As Double, upperBound As Double)
             _length = minValues.Length
             If maxValues.Length <> _length Then Throw New Exception("Number of max and min values must be equal.")
             _inputStart = New Double(_length - 1) {}
@@ -154,7 +154,7 @@ Namespace SVM
             _outputScale = upperBound - lowerBound
         End Sub
 
-        Private Sub New(ByVal inputStart As Double(), ByVal inputScale As Double(), ByVal outputStart As Double, ByVal outputScale As Double, ByVal length As Integer)
+        Private Sub New(inputStart As Double(), inputScale As Double(), outputStart As Double, outputScale As Double, length As Integer)
             _inputStart = inputStart
             _inputScale = inputScale
             _outputStart = outputStart
@@ -167,7 +167,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="input">The input array</param>
         ''' <returns>A scaled array</returns>
-        Public Function Transform(ByVal input As Node()) As Node() Implements IRangeTransform.Transform
+        Public Function Transform(input As Node()) As Node() Implements IRangeTransform.Transform
             Dim output = New Node(input.Length - 1) {}
 
             For i = 0 To output.Length - 1
@@ -185,7 +185,7 @@ Namespace SVM
         ''' <param name="input">The input value to transform</param>
         ''' <param name="index">The dimension whose scaling transform should be used</param>
         ''' <returns>The scaled value</returns>
-        Public Function Transform(ByVal input As Double, ByVal index As Integer) As Double Implements IRangeTransform.Transform
+        Public Function Transform(input As Double, index As Integer) As Double Implements IRangeTransform.Transform
             index -= 1
             Dim tmp = input - _inputStart(index)
             If _inputScale(index) = 0 Then Return 0
@@ -199,7 +199,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The stream to write to</param>
         ''' <param name="r">The range to write</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal r As RangeTransform)
+        Public Shared Sub Write(stream As Stream, r As RangeTransform)
             Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             output.WriteLine(r._length)
@@ -227,7 +227,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="outputFile">The file to write to</param>
         ''' <param name="r">The Range to write</param>
-        Public Shared Sub Write(ByVal outputFile As String, ByVal r As RangeTransform)
+        Public Shared Sub Write(outputFile As String, r As RangeTransform)
             Dim s = File.Open(outputFile, FileMode.Create)
 
             Try
@@ -242,7 +242,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="inputFile">The file to read from</param>
         ''' <returns>The Range transform</returns>
-        Public Shared Function Read(ByVal inputFile As String) As RangeTransform
+        Public Shared Function Read(inputFile As String) As RangeTransform
             Dim s = File.OpenRead(inputFile)
 
             Try
@@ -257,7 +257,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The stream to read from</param>
         ''' <returns>The Range transform</returns>
-        Public Shared Function Read(ByVal stream As Stream) As RangeTransform
+        Public Shared Function Read(stream As Stream) As RangeTransform
             Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim length As Integer = Integer.Parse(input.ReadLine())

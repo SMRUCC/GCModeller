@@ -66,6 +66,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
+
     ''' <summary>
     ''' Class containing the routines to perform class membership prediction using a trained SVM.
     ''' </summary>
@@ -78,7 +79,7 @@ Namespace SVM
         ''' <param name="model">The Model to use</param>
         ''' <param name="predict_probability">Whether to output a distribution over the classes</param>
         ''' <returns>Percentage correctly labelled</returns>
-        Public Function Predict(ByVal problem As Problem, ByVal outputFile As String, ByVal model As Model, ByVal predict_probability As Boolean) As Double
+        Public Function Predict(problem As Problem, outputFile As String, model As Model, predict_probability As Boolean) As Double
             Dim correct = 0
             Dim total = 0
             Dim [error] As Double = 0
@@ -156,7 +157,7 @@ Namespace SVM
         ''' <param name="problem">The problem to solve</param>
         ''' <returns>The predicted labels</returns>
         <Extension()>
-        Public Function PredictLabels(ByVal model As Model, ByVal problem As Problem) As Double()
+        Public Function PredictLabels(model As Model, problem As Problem) As Double()
             Return problem.X.[Select](Function(o) model.Predict(o)).ToArray()
         End Function
 
@@ -167,7 +168,7 @@ Namespace SVM
         ''' <param name="problem">The problem to solve</param>
         ''' <returns>A distribution over labels for each data point</returns>
         <Extension()>
-        Public Function PredictLabelsProbability(ByVal model As Model, ByVal problem As Problem) As Double()()
+        Public Function PredictLabelsProbability(model As Model, problem As Problem) As Double()()
             Return problem.X.[Select](Function(o) model.PredictProbability(o)).ToArray()
         End Function
 
@@ -178,7 +179,7 @@ Namespace SVM
         ''' <param name="x">The vector for which to predict class</param>
         ''' <returns>The result</returns>
         <Extension()>
-        Public Function Predict(ByVal model As Model, ByVal x As Node()) As Double
+        Public Function Predict(model As Model, x As Node()) As Double
             Return svm_predict(model, x)
         End Function
 
@@ -189,7 +190,7 @@ Namespace SVM
         ''' <param name="x">The vector for which to predict the class distribution</param>
         ''' <returns>A probability distribtion over classes</returns>
         <Extension()>
-        Public Function PredictProbability(ByVal model As Model, ByVal x As Node()) As Double()
+        Public Function PredictProbability(model As Model, x As Node()) As Double()
             Dim svm_type = svm_get_svm_type(model)
             If svm_type <> SvmType.C_SVC AndAlso svm_type <> SvmType.NU_SVC Then Throw New Exception("Model type " & svm_type & " unable to predict probabilities.")
             Dim nr_class = svm_get_nr_class(model)

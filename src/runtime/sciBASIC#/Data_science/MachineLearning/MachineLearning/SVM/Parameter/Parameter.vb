@@ -126,7 +126,7 @@ Namespace SVM
             Get
                 Return _Weights
             End Get
-            Private Set(ByVal value As Dictionary(Of Integer, Double))
+            Private Set(value As Dictionary(Of Integer, Double))
                 _Weights = value
             End Set
         End Property
@@ -174,7 +174,7 @@ Namespace SVM
             Return Me.GetJson
         End Function
 
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)
             If other Is Nothing Then Return False
             Return other.C = C AndAlso other.CacheSize = CacheSize AndAlso other.Coefficient0 = Coefficient0 AndAlso other.Degree = Degree AndAlso other.EPS = EPS AndAlso other.Gamma = Gamma AndAlso other.KernelType = KernelType AndAlso other.Nu = Nu AndAlso other.P = P AndAlso other.Probability = Probability AndAlso other.Shrinking = Shrinking AndAlso other.SvmType = SvmType AndAlso other.Weights.ToArray().IsEqual(Weights.ToArray())

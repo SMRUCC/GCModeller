@@ -75,7 +75,7 @@ Namespace SVM
         ''' <param name="range">The Range transform to use in scaling</param>
         ''' <returns>The Scaled problem</returns>
         <Extension()>
-        Public Function Scale(ByVal range As IRangeTransform, ByVal prob As Problem) As Problem
+        Public Function Scale(range As IRangeTransform, prob As Problem) As Problem
             Dim scaledProblem As New Problem(
                 y:=New Double(prob.Count - 1) {},
                 x:=New Node(prob.Count - 1)() {},

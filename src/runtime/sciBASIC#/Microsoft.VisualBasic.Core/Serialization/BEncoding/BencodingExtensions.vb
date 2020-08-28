@@ -60,7 +60,7 @@ Namespace Serialization.Bencoding
         ''' <param name="s">The current instance.</param>
         ''' <returns>The root elements of the decoded string.</returns>
         <Extension()>
-        Public Function BDecode(ByVal s As String) As BElement()
+        Public Function BDecode(s As String) As BElement()
             Return Decode(s)
         End Function
 

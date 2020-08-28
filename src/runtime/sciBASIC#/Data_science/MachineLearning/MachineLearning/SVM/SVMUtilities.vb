@@ -46,7 +46,7 @@ Namespace SVM
         Public Const TRAINING_SEED As Integer = 20080524
         Public Const TESTING_SEED As Integer = 20140407
 
-        Public Function CreateTwoClassProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateTwoClassProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
@@ -68,7 +68,7 @@ Namespace SVM
             Return prob
         End Function
 
-        Public Function CreateMulticlassProblem(ByVal numberOfClasses As Integer, ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateMulticlassProblem(numberOfClasses As Integer, count As Integer, Optional isTraining As Boolean = True) As Problem
             If numberOfClasses > 8 Then Throw New ArgumentException("Number of classes must be < 8")
             Dim prob As Problem = New Problem()
             prob.MaxIndex = 3
@@ -109,7 +109,7 @@ Namespace SVM
             Return prob
         End Function
 
-        Public Function CreateRegressionProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
+        Public Function CreateRegressionProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))

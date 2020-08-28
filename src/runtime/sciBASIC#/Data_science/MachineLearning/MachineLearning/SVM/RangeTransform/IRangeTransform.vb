@@ -69,13 +69,13 @@ Namespace SVM
         ''' <param name="input">Input value</param>
         ''' <param name="index">Index of the transform to use</param>
         ''' <returns>The transformed value</returns>
-        Function Transform(ByVal input As Double, ByVal index As Integer) As Double
+        Function Transform(input As Double, index As Integer) As Double
         ''' <summary>
         ''' Transforms the input array.
         ''' </summary>
         ''' <param name="input">The array to transform</param>
         ''' <returns>The transformed array</returns>
-        Function Transform(ByVal input As Node()) As Node()
+        Function Transform(input As Node()) As Node()
     End Interface
 End Namespace
 

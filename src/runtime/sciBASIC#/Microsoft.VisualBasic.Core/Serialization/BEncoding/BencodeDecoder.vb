@@ -75,7 +75,7 @@ Namespace Serialization.Bencoding
         ''' </summary>
         ''' <param name="bencodedString">The bencoded string.</param>
         ''' <returns>An array of root elements.</returns>
-        Public Function Decode(ByVal bencodedString As String) As BElement()
+        Public Function Decode(bencodedString As String) As BElement()
             Dim index = 0
 
             Try
@@ -190,7 +190,7 @@ Namespace Serialization.Bencoding
             End Try
         End Function
 
-        Private Function [Error](ByVal e As Exception) As Exception
+        Private Function [Error](e As Exception) As Exception
             Return New BencodingException("Bencoded string invalid.", e)
         End Function
 

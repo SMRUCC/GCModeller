@@ -58,7 +58,7 @@ Namespace Serialization.Bencoding
         ''' Creates a new BencodingException.
         ''' </summary>
         ''' <param name="message">The message.</param>
-        Public Sub New(ByVal message As String)
+        Public Sub New(message As String)
             MyBase.New(message)
         End Sub
 
@@ -67,7 +67,7 @@ Namespace Serialization.Bencoding
         ''' </summary>
         ''' <param name="message">The message.</param>
         ''' <param name="inner">The inner exception.</param>
-        Public Sub New(ByVal message As String, ByVal inner As Exception)
+        Public Sub New(message As String, inner As Exception)
             MyBase.New(message, inner)
         End Sub
     End Class

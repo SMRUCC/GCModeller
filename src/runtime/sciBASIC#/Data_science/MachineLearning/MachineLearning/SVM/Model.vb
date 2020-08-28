@@ -136,7 +136,7 @@ Namespace SVM
         Friend Sub New()
         End Sub
 
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        Public Overrides Function Equals(obj As Object) As Boolean
             Dim test As Model = TryCast(obj, Model)
             If test Is Nothing Then Return False
             Dim same = ClassLabels.IsEqual(test.ClassLabels)
@@ -161,7 +161,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="filename">The name of the file containing the Model</param>
         ''' <returns>the Model</returns>
-        Public Shared Function Read(ByVal filename As String) As Model
+        Public Shared Function Read(filename As String) As Model
             Dim input = File.OpenRead(filename)
 
             Try
@@ -176,7 +176,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="stream">The stream from which to read the Model.</param>
         ''' <returns>the Model</returns>
-        Public Shared Function Read(ByVal stream As Stream) As Model
+        Public Shared Function Read(stream As Stream) As Model
             Start()
             Dim input As StreamReader = New StreamReader(stream)
 
@@ -315,7 +315,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="filename">The desired file</param>
         ''' ''' <param name="model">The Model to write</param>
-        Public Shared Sub Write(ByVal filename As String, ByVal model As Model)
+        Public Shared Sub Write(filename As String, model As Model)
             Dim stream = File.Open(filename, FileMode.Create)
 
             Try
@@ -330,7 +330,7 @@ Namespace SVM
         ''' </summary>
         ''' ''' <param name="stream">The output stream</param>
         ''' ''' <param name="model">The model to write</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal model As Model)
+        Public Shared Sub Write(stream As Stream, model As Model)
             Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             Dim param = model.Parameter

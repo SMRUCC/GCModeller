@@ -57,10 +57,10 @@ Namespace SVM
         Private _degree As Integer
         Private _gamma As Double
         Private _coef0 As Double
-        Public MustOverride Function GetQ(ByVal column As Integer, ByVal len As Integer) As Single() Implements IQMatrix.GetQ
+        Public MustOverride Function GetQ(column As Integer, len As Integer) As Single() Implements IQMatrix.GetQ
         Public MustOverride Function GetQD() As Double() Implements IQMatrix.GetQD
 
-        Public Overridable Sub SwapIndex(ByVal i As Integer, ByVal j As Integer) Implements IQMatrix.SwapIndex
+        Public Overridable Sub SwapIndex(i As Integer, j As Integer) Implements IQMatrix.SwapIndex
             _x.SwapIndex(i, j)
 
             If _xSquare IsNot Nothing Then
@@ -68,7 +68,7 @@ Namespace SVM
             End If
         End Sub
 
-        Private Shared Function powi(ByVal value As Double, ByVal times As Integer) As Double
+        Private Shared Function powi(value As Double, times As Integer) As Double
             Dim tmp = value, ret = 1.0
             Dim t = times
 
@@ -81,7 +81,7 @@ Namespace SVM
             Return ret
         End Function
 
-        Public Function KernelFunction(ByVal i As Integer, ByVal j As Integer) As Double
+        Public Function KernelFunction(i As Integer, j As Integer) As Double
             Select Case _kernelType
                 Case KernelType.LINEAR
                     Return dot(_x(i), _x(j))
@@ -98,7 +98,7 @@ Namespace SVM
             End Select
         End Function
 
-        Public Sub New(ByVal l As Integer, ByVal x_ As Node()(), ByVal param As Parameter)
+        Public Sub New(l As Integer, x_ As Node()(), param As Parameter)
             _kernelType = param.KernelType
             _degree = param.Degree
             _gamma = param.Gamma
@@ -116,7 +116,7 @@ Namespace SVM
             End If
         End Sub
 
-        Private Shared Function dot(ByVal xNodes As Node(), ByVal yNodes As Node()) As Double
+        Private Shared Function dot(xNodes As Node(), yNodes As Node()) As Double
             Dim sum As Double = 0
             Dim xlen = xNodes.Length
             Dim ylen = yNodes.Length
@@ -169,7 +169,7 @@ Namespace SVM
             Return sum
         End Function
 
-        Private Shared Function computeSquaredDistance(ByVal xNodes As Node(), ByVal yNodes As Node()) As Double
+        Private Shared Function computeSquaredDistance(xNodes As Node(), yNodes As Node()) As Double
             Dim x = xNodes(0)
             Dim y = yNodes(0)
             Dim xLength = xNodes.Length
@@ -232,7 +232,7 @@ Namespace SVM
             Return sum
         End Function
 
-        Public Shared Function KernelFunction(ByVal x As Node(), ByVal y As Node(), ByVal param As Parameter) As Double
+        Public Shared Function KernelFunction(x As Node(), y As Node(), param As Parameter) As Double
             Select Case param.KernelType
                 Case KernelType.LINEAR
                     Return dot(x, y)

@@ -84,7 +84,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="prob">The Problem to analyze</param>
         ''' <returns>The Gaussian transform for the problem</returns>
-        Public Shared Function Compute(ByVal prob As Problem) As GaussianTransform
+        Public Shared Function Compute(prob As Problem) As GaussianTransform
             Dim counts = New Integer(prob.MaxIndex - 1) {}
             Dim means = New Double(prob.MaxIndex - 1) {}
 
@@ -125,7 +125,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="means">Means in each dimension</param>
         ''' <param name="stddevs">Standard deviation in each dimension</param>
-        Public Sub New(ByVal means As Double(), ByVal stddevs As Double())
+        Public Sub New(means As Double(), stddevs As Double())
             _means = means
             _stddevs = stddevs
         End Sub
@@ -136,7 +136,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The destination stream</param>
         ''' <param name="transform">The transform</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal transform As GaussianTransform)
+        Public Shared Sub Write(stream As Stream, transform As GaussianTransform)
             Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             output.WriteLine(transform._means.Length)
@@ -154,7 +154,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The source stream</param>
         ''' <returns>The transform</returns>
-        Public Shared Function Read(ByVal stream As Stream) As GaussianTransform
+        Public Shared Function Read(stream As Stream) As GaussianTransform
             Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim length As Integer = Integer.Parse(input.ReadLine(), CultureInfo.InvariantCulture)
@@ -177,7 +177,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The destination filename</param>
         ''' <param name="transform">The transform</param>
-        Public Shared Sub Write(ByVal filename As String, ByVal transform As GaussianTransform)
+        Public Shared Sub Write(filename As String, transform As GaussianTransform)
             Dim output = File.Open(filename, FileMode.Create)
 
             Try
@@ -192,7 +192,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The source filename</param>
         ''' <returns>The transform</returns>
-        Public Shared Function Read(ByVal filename As String) As GaussianTransform
+        Public Shared Function Read(filename As String) As GaussianTransform
             Dim input = File.Open(filename, FileMode.Open)
 
             Try
@@ -210,7 +210,7 @@ Namespace SVM
         ''' <param name="input">Input value</param>
         ''' <param name="index">Index of the transform to use</param>
         ''' <returns>The transformed value</returns>
-        Public Function Transform(ByVal input As Double, ByVal index As Integer) As Double Implements IRangeTransform.Transform
+        Public Function Transform(input As Double, index As Integer) As Double Implements IRangeTransform.Transform
             index -= 1
             If _stddevs(index) = 0 Then Return 0
             Dim diff = input - _means(index)
@@ -222,7 +222,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="input">The array to transform</param>
         ''' <returns>The transformed array</returns>
-        Public Function Transform(ByVal input As Node()) As Node() Implements IRangeTransform.Transform
+        Public Function Transform(input As Node()) As Node() Implements IRangeTransform.Transform
             Dim output = New Node(input.Length - 1) {}
 
             For i = 0 To output.Length - 1

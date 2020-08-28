@@ -78,12 +78,12 @@ Namespace SVM
             Get
                 Return Procedures.IsVerbose
             End Get
-            Set(ByVal value As Boolean)
+            Set(value As Boolean)
                 Procedures.IsVerbose = value
             End Set
         End Property
 
-        Private Function doCrossValidation(ByVal problem As Problem, ByVal parameters As Parameter, ByVal nr_fold As Integer) As Double
+        Private Function doCrossValidation(problem As Problem, parameters As Parameter, nr_fold As Integer) As Double
             Dim i As Integer
             Dim target = New Double(problem.Count - 1) {}
             svm_cross_validation(problem, parameters, nr_fold, target)
@@ -114,7 +114,7 @@ Namespace SVM
             Return total_correct / problem.Count
         End Function
 
-        Public Sub SetRandomSeed(ByVal seed As Integer)
+        Public Sub SetRandomSeed(seed As Integer)
             Procedures.setRandomSeed(seed)
         End Sub
 
@@ -145,7 +145,7 @@ Namespace SVM
         ''' <param name="parameters">The parameters to test</param>
         ''' <param name="nrfold">The number of cross validations to use</param>
         ''' <returns>The cross validation score</returns>
-        Public Function PerformCrossValidation(ByVal problem As Problem, ByVal parameters As Parameter, ByVal nrfold As Integer) As Double
+        Public Function PerformCrossValidation(problem As Problem, parameters As Parameter, nrfold As Integer) As Double
             Dim [error] = svm_check_parameter(problem, parameters)
 
             If Equals([error], Nothing) Then
@@ -161,7 +161,7 @@ Namespace SVM
         ''' <param name="problem">The training data</param>
         ''' <param name="parameters">The parameters to use</param>
         ''' <returns>A trained SVM Model</returns>
-        Public Function Train(ByVal problem As Problem, ByVal parameters As Parameter) As Model
+        Public Function Train(problem As Problem, parameters As Parameter) As Model
             Dim [error] = svm_check_parameter(problem, parameters)
 
             If Equals([error], Nothing) Then
@@ -171,7 +171,7 @@ Namespace SVM
             End If
         End Function
 
-        Private Sub parseCommandLine(ByVal args As String(), <Out> ByRef parameters As Parameter, <Out> ByRef problem As Problem, <Out> ByRef crossValidation As Boolean, <Out> ByRef nrfold As Integer, <Out> ByRef modelFilename As String)
+        Private Sub parseCommandLine(args As String(), <Out> ByRef parameters As Parameter, <Out> ByRef problem As Problem, <Out> ByRef crossValidation As Boolean, <Out> ByRef nrfold As Integer, <Out> ByRef modelFilename As String)
             Dim i As Integer
             parameters = New Parameter()
             ' default values

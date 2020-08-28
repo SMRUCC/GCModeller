@@ -91,7 +91,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="index">The index of the value.</param>
         ''' <param name="value">The value to store.</param>
-        Public Sub New(ByVal index As Integer, ByVal value As Double)
+        Public Sub New(index As Integer, value As Double)
             _index = index
             _value = value
         End Sub
@@ -104,7 +104,7 @@ Namespace SVM
             Return String.Format("{0}:{1}", _index, _value.Truncate())
         End Function
 
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Node = TryCast(obj, Node)
             If other Is Nothing Then Return False
             Return _index = other._index AndAlso _value.Truncate() = other._value.Truncate()
@@ -121,7 +121,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="other">The node to compare to</param>
         ''' <returns>A positive number if this node is greater, a negative number if it is less than, or 0 if equal</returns>
-        Public Function CompareTo(ByVal other As Node) As Integer Implements IComparable(Of Node).CompareTo
+        Public Function CompareTo(other As Node) As Integer Implements IComparable(Of Node).CompareTo
             Return _index.CompareTo(other._index)
         End Function
 

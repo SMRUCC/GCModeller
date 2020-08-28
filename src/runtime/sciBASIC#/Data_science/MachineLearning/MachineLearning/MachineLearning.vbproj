@@ -673,7 +673,7 @@
     <Compile Include="SVM\PerformanceEvaluator.vb" />
     <Compile Include="SVM\Kernel\PrecomputedKernel.vb" />
     <Compile Include="SVM\Prediction.vb" />
-    <Compile Include="SVM\Problem.vb" />
+    <Compile Include="SVM\Models\Problem.vb" />
     <Compile Include="SVM\RangeTransform\RangeTransform.vb" />
     <Compile Include="SVM\Scaling.vb" />
     <Compile Include="SVM\Solver\SolutionInfo.vb" />
@@ -723,6 +723,8 @@
   <ItemGroup>
     <Content Include="NeuralNetwork\ActiveFunctions\Copyright.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SVM\StorageProcedure\Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

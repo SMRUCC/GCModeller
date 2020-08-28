@@ -105,7 +105,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="score">Score for this pair</param>
         ''' <param name="label">Label associated with the given score</param>
-        Public Sub New(ByVal score As Double, ByVal label As Double)
+        Public Sub New(score As Double, label As Double)
             _score = score
             _label = label
         End Sub
@@ -135,7 +135,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="other">The pair to compare to</param>
         ''' <returns>Whether this should come before or after the argument</returns>
-        Public Function CompareTo(ByVal other As RankPair) As Integer Implements IComparable(Of RankPair).CompareTo
+        Public Function CompareTo(other As RankPair) As Integer Implements IComparable(Of RankPair).CompareTo
             Return other.Score.CompareTo(Score)
         End Function
 
@@ -161,7 +161,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="x">X coordinate</param>
         ''' <param name="y">Y coordinate</param>
-        Public Sub New(ByVal x As Single, ByVal y As Single)
+        Public Sub New(x As Single, y As Single)
             _x = x
             _y = y
         End Sub
@@ -198,7 +198,7 @@ Namespace SVM
     ''' </summary>
     Public Class PerformanceEvaluator
         Private Class ChangePoint
-            Public Sub New(ByVal tp As Integer, ByVal fp As Integer, ByVal tn As Integer, ByVal fn As Integer)
+            Public Sub New(tp As Integer, fp As Integer, tn As Integer, fn As Integer)
                 Me.TP = tp
                 Me.FP = fp
                 Me.TN = tn
@@ -223,7 +223,7 @@ Namespace SVM
         ''' Constructor.
         ''' </summary>
         ''' <param name="set">A pre-computed ranked pair set</param>
-        Public Sub New(ByVal [set] As List(Of RankPair))
+        Public Sub New([set] As List(Of RankPair))
             _data = [set]
             computeStatistics()
         End Sub
@@ -234,7 +234,7 @@ Namespace SVM
         ''' <param name="model">Model to evaluate</param>
         ''' <param name="problem">Problem to evaluate</param>
         ''' <param name="category">Label to be evaluate for</param>
-        Public Sub New(ByVal model As Model, ByVal problem As Problem, ByVal category As Double)
+        Public Sub New(model As Model, problem As Problem, category As Double)
             Me.New(model, problem, category, "tmp.results")
         End Sub
         ''' <summary>
@@ -244,7 +244,7 @@ Namespace SVM
         ''' <param name="problem">Problem to evaluate</param>
         ''' <param name="resultsFile">Results file for output</param>
         ''' <param name="category">Category to evaluate for</param>
-        Public Sub New(ByVal model As Model, ByVal problem As Problem, ByVal category As Double, ByVal resultsFile As String)
+        Public Sub New(model As Model, problem As Problem, category As Double, resultsFile As String)
             Predict(problem, resultsFile, model, True)
             parseResultsFile(resultsFile, problem.Y, category)
             computeStatistics()
@@ -256,12 +256,12 @@ Namespace SVM
         ''' <param name="resultsFile">Results file</param>
         ''' <param name="correctLabels">The correct labels of each data item</param>
         ''' <param name="category">The category to evaluate for</param>
-        Public Sub New(ByVal resultsFile As String, ByVal correctLabels As Double(), ByVal category As Double)
+        Public Sub New(resultsFile As String, correctLabels As Double(), category As Double)
             parseResultsFile(resultsFile, correctLabels, category)
             computeStatistics()
         End Sub
 
-        Private Sub parseResultsFile(ByVal resultsFile As String, ByVal labels As Double(), ByVal category As Double)
+        Private Sub parseResultsFile(resultsFile As String, labels As Double(), category As Double)
             Dim input As StreamReader = New StreamReader(resultsFile)
             Dim parts As String() = input.ReadLine().Split(New Char() {" "c}, StringSplitOptions.RemoveEmptyEntries)
             Dim confidenceIndex = -1
@@ -324,11 +324,11 @@ Namespace SVM
             Next
         End Sub
 
-        Private Function computePrecision(ByVal p As ChangePoint) As Single
+        Private Function computePrecision(p As ChangePoint) As Single
             Return CSng(p.TP) / (p.TP + p.FP)
         End Function
 
-        Private Function computeRecall(ByVal p As ChangePoint) As Single
+        Private Function computeRecall(p As ChangePoint) As Single
             Return CSng(p.TP) / (p.TP + p.FN)
         End Function
 
@@ -362,7 +362,7 @@ Namespace SVM
         ''' Writes the Precision-Recall curve to a tab-delimited file.
         ''' </summary>
         ''' <param name="filename">Filename for output</param>
-        Public Sub WritePRCurve(ByVal filename As String)
+        Public Sub WritePRCurve(filename As String)
             Dim output As StreamWriter = New StreamWriter(filename)
             output.WriteLine(_ap)
 
@@ -377,7 +377,7 @@ Namespace SVM
         ''' Writes the Receiver Operating Characteristic curve to a tab-delimited file.
         ''' </summary>
         ''' <param name="filename">Filename for output</param>
-        Public Sub WriteROCCurve(ByVal filename As String)
+        Public Sub WriteROCCurve(filename As String)
             Dim output As StreamWriter = New StreamWriter(filename)
             output.WriteLine(_auc)
 
@@ -424,11 +424,11 @@ Namespace SVM
             End Get
         End Property
 
-        Private Function computeTPR(ByVal cp As ChangePoint) As Single
+        Private Function computeTPR(cp As ChangePoint) As Single
             Return computeRecall(cp)
         End Function
 
-        Private Function computeFPR(ByVal cp As ChangePoint) As Single
+        Private Function computeFPR(cp As ChangePoint) As Single
             Return CSng(cp.FP) / (cp.FP + cp.TN)
         End Function
 

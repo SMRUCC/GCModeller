@@ -75,8 +75,7 @@ Namespace SVM
     ''' <summary>
     ''' Encapsulates a problem, or set of vectors which must be classified.
     ''' </summary>
-    <Serializable>
-    Public Class Problem
+    <Serializable> Public Class Problem
 
         ''' <summary>
         ''' Number of vectors.
@@ -116,7 +115,7 @@ Namespace SVM
         ''' <param name="y">The class labels</param>
         ''' <param name="x">Vector data.</param>
         ''' <param name="maxIndex">Maximum index for a vector</param>
-        Public Sub New(ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
+        Public Sub New(y As Double(), x As Node()(), maxIndex As Integer)
             Me.Y = y
             Me.X = x
             Me.MaxIndex = maxIndex
@@ -132,7 +131,7 @@ Namespace SVM
             Return $"dim {DimensionNames.GetJson}, {Y.Length} labels = {Y.Distinct.GetJson}"
         End Function
 
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Problem = TryCast(obj, Problem)
             If other Is Nothing Then Return False
             Return other.Count = Count AndAlso other.MaxIndex = MaxIndex AndAlso other.X.IsEqual(X) AndAlso other.Y.IsEqual(Y)
@@ -147,7 +146,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">Stream to read from</param>
         ''' <returns>The problem</returns>
-        Public Shared Function Read(ByVal stream As Stream) As Problem
+        Public Shared Function Read(stream As Stream) As Problem
             Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim vy As List(Of Double) = New List(Of Double)()
@@ -180,7 +179,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="stream">The stream to write the problem to.</param>
         ''' <param name="problem">The problem to write.</param>
-        Public Shared Sub Write(ByVal stream As Stream, ByVal problem As Problem)
+        Public Shared Sub Write(stream As Stream, problem As Problem)
             Start()
             Dim output As StreamWriter = New StreamWriter(stream)
 
@@ -203,7 +202,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The file to read from.</param>
         ''' <returns>the Probem</returns>
-        Public Shared Function Read(ByVal filename As String) As Problem
+        Public Shared Function Read(filename As String) As Problem
             Dim input = File.OpenRead(filename)
 
             Try
@@ -218,7 +217,7 @@ Namespace SVM
         ''' </summary>
         ''' <param name="filename">The file to write to</param>
         ''' <param name="problem">The problem to write</param>
-        Public Shared Sub Write(ByVal filename As String, ByVal problem As Problem)
+        Public Shared Sub Write(filename As String, problem As Problem)
             Dim output = File.Open(filename, FileMode.Create)
 
             Try

@@ -60,6 +60,6 @@ Namespace Serialization.Bencoding
         ''' </summary>
         ''' <param name="u">The StringBuilder to append to.</param>
         ''' <returns>The bencoded equivalent of the element.</returns>
-        Function ToBencodedString(ByVal u As StringBuilder) As StringBuilder
+        Function ToBencodedString(u As StringBuilder) As StringBuilder
     End Interface
 End Namespace
