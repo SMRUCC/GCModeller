@@ -172,7 +172,7 @@ Namespace SVM
             P = 0.1
             Shrinking = True
             Probability = False
-            Weights = New Dictionary(Of String, Double)()
+            Weights = New Dictionary(Of Integer, Double)()
         End Sub
 
         Public Overrides Function ToString() As String
