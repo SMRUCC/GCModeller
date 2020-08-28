@@ -109,7 +109,9 @@ Namespace SVM
             Else
 
                 For i = 0 To problem.Count - 1
-                    If target(i) = problem.Y(i) Then Threading.Interlocked.Increment(total_correct)
+                    If target(i) = problem.Y(i) Then
+                        total_correct += 1
+                    End If
                 Next
             End If
 
