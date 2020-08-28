@@ -52,5 +52,26 @@ Namespace SVM
             }
         End Function
 
+        ''' <summary>
+        ''' row append
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        Public Shared Function Append(a As ProblemTable, b As ProblemTable) As ProblemTable
+            Dim union As SupportVector() = a.vectors _
+                .JoinIterates(b.vectors) _
+                .ToArray
+            Dim names As String() = union _
+                .Select(Function(vi) vi.Properties.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            Return New ProblemTable With {
+                .DimensionNames = names,
+                .vectors = union
+            }
+        End Function
     End Class
 End Namespace
