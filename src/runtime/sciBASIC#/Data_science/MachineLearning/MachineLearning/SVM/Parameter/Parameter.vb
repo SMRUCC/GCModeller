@@ -22,56 +22,8 @@ Imports System.Linq
 Imports System.Collections.Generic
 
 Namespace SVM
-    ''' <summary>
-    ''' Contains all of the types of SVM this library can model.
-    ''' </summary>
-    Public Enum SvmType
-        ''' <summary>
-        ''' C-SVC.
-        ''' </summary>
-        C_SVC
-        ''' <summary>
-        ''' nu-SVC.
-        ''' </summary>
-        NU_SVC
-        ''' <summary>
-        ''' one-class SVM
-        ''' </summary>
-        ONE_CLASS
-        ''' <summary>
-        ''' epsilon-SVR
-        ''' </summary>
-        EPSILON_SVR
-        ''' <summary>
-        ''' nu-SVR
-        ''' </summary>
-        NU_SVR
-    End Enum
-    ''' <summary>
-    ''' Contains the various kernel types this library can use.
-    ''' </summary>
-    Public Enum KernelType
-        ''' <summary>
-        ''' Linear: u'*v
-        ''' </summary>
-        LINEAR
-        ''' <summary>
-        ''' Polynomial: (gamma*u'*v + coef0)^degree
-        ''' </summary>
-        POLY
-        ''' <summary>
-        ''' Radial basis function: exp(-gamma*|u-v|^2)
-        ''' </summary>
-        RBF
-        ''' <summary>
-        ''' Sigmoid: tanh(gamma*u'*v + coef0)
-        ''' </summary>
-        SIGMOID
-        ''' <summary>
-        ''' Precomputed kernel
-        ''' </summary>
-        PRECOMPUTED
-    End Enum
+
+
 
     ''' <summary>
     ''' This class contains the various parameters which can affect the way in which an SVM

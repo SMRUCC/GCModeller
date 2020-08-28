@@ -4,7 +4,10 @@ Imports System.Runtime.CompilerServices
 Imports stdNum = System.Math
 
 Namespace SVM
+
+    <HideModuleName>
     Friend Module SVMExtensions
+
         Private Const PRECISION As Double = 1000000.0
 
         <Extension()>

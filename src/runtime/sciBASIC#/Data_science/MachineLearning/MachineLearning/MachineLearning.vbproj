@@ -658,13 +658,16 @@
     <Compile Include="RandomForests\NamespaceDoc.vb" />
     <Compile Include="RandomForests\StorageProcedure\MatrixLoader.vb" />
     <Compile Include="SVM\Cache.vb" />
+    <Compile Include="SVM\Parameter\KernelType.vb" />
+    <Compile Include="SVM\Parameter\SvmType.vb" />
+    <Compile Include="SVM\Procedures.vb" />
     <Compile Include="SVM\RangeTransform\GaussianTransform.vb" />
     <Compile Include="SVM\RangeTransform\IRangeTransform.vb" />
     <Compile Include="SVM\Kernel\IQMatrix.vb" />
     <Compile Include="SVM\Kernel\Kernel.vb" />
     <Compile Include="SVM\Model.vb" />
     <Compile Include="SVM\Node.vb" />
-    <Compile Include="SVM\Parameter.vb" />
+    <Compile Include="SVM\Parameter\Parameter.vb" />
     <Compile Include="SVM\ParameterSelection.vb" />
     <Compile Include="SVM\PerformanceEvaluator.vb" />
     <Compile Include="SVM\PrecomputedKernel.vb" />
