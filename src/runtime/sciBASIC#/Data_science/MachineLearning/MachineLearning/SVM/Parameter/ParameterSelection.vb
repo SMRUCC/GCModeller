@@ -1,52 +1,27 @@
 ﻿' 
- ' * SVM.NET Library
- ' * Copyright (C) 2008 Matthew Johnson
- ' * 
- ' * This program is free software: you can redistribute it and/or modify
- ' * it under the terms of the GNU General Public License as published by
- ' * the Free Software Foundation, either version 3 of the License, or
- ' * (at your option) any later version.
- ' * 
- ' * This program is distributed in the hope that it will be useful,
- ' * but WITHOUT ANY WARRANTY; without even the implied warranty of
- ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ' * GNU General Public License for more details.
- ' * 
- ' * You should have received a copy of the GNU General Public License
- ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+' * SVM.NET Library
+' * Copyright (C) 2008 Matthew Johnson
+' * 
+' * This program is free software: you can redistribute it and/or modify
+' * it under the terms of the GNU General Public License as published by
+' * the Free Software Foundation, either version 3 of the License, or
+' * (at your option) any later version.
+' * 
+' * This program is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' * GNU General Public License for more details.
+' * 
+' * You should have received a copy of the GNU General Public License
+' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Threading
-Imports System.Threading.Tasks
+
 Imports System.Runtime.InteropServices
+Imports System.Threading
 Imports stdNum = System.Math
 
 Namespace SVM
-    ''' <summary>
-    ''' Class representing a grid square result.
-    ''' </summary>
-    Public Class GridSquare
-        ''' <summary>
-        ''' The C value
-        ''' </summary>
-        Public C As Double
-        ''' <summary>
-        ''' The Gamma value
-        ''' </summary>
-        Public Gamma As Double
-        ''' <summary>
-        ''' The cross validation score
-        ''' </summary>
-        Public Score As Double
-
-        Public Overrides Function ToString() As String
-            Return String.Format("{0} {1} {2}", C, Gamma, Score)
-        End Function
-    End Class
 
     ''' <summary>
     ''' This class contains routines which perform parameter selection for a model which uses C-SVC and

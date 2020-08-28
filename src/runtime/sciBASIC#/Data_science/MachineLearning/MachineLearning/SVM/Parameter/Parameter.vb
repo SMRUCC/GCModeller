@@ -23,8 +23,6 @@ Imports System.Collections.Generic
 
 Namespace SVM
 
-
-
     ''' <summary>
     ''' This class contains the various parameters which can affect the way in which an SVM
     ''' is learned.  Unless you know what you are doing, chances are you are best off using
