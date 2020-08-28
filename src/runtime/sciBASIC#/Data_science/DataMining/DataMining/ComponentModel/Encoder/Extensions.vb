@@ -55,7 +55,7 @@ Namespace ComponentModel.Encoder
         End Function
 
         <Extension>
-        Public Iterator Function ClassEncoder(labels As IEnumerable(Of String)) As IEnumerable(Of ColorClass)
+        Public Iterator Function ClassEncoder(labels As IEnumerable(Of String), Optional distance As Integer = 1) As IEnumerable(Of ColorClass)
             Dim raw As String() = labels.ToArray
             Dim unique As Index(Of String) = raw.Distinct.Indexing
 
@@ -64,7 +64,7 @@ Namespace ComponentModel.Encoder
 
                 For Each label As String In raw
                     Yield New ColorClass With {
-                        .enumInt = unique.IndexOf(label),
+                        .enumInt = unique.IndexOf(label) * distance,
                         .name = label,
                         .color = colors(.enumInt)
                     }
@@ -73,7 +73,7 @@ Namespace ComponentModel.Encoder
         End Function
 
         <Extension>
-        Public Function GetClassMapping(labels As IEnumerable(Of String)) As ColorClass()
+        Public Function GetClassMapping(labels As IEnumerable(Of String), Optional distance As Integer = 1) As ColorClass()
             Return labels.Distinct.ClassEncoder.ToArray
         End Function
     End Module

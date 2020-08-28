@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::fb901ad7a8eaac63abdc0b385c5b4262, Data_science\MachineLearning\MachineLearning\SVM\Models\Problem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Problem
-    ' 
-    '         Properties: Count, DimensionNames, MaxIndex, X, Y
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Equals, GetHashCode, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Problem
+' 
+'         Properties: Count, DimensionNames, MaxIndex, X, Y
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Equals, GetHashCode, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,7 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SVM
@@ -81,7 +82,7 @@ Namespace SVM
         ''' <summary>
         ''' Class labels.
         ''' </summary>
-        Public Property Y As Double()
+        Public Property Y As ColorClass()
 
         ''' <summary>
         ''' Vector data.
@@ -107,15 +108,18 @@ Namespace SVM
         ''' <param name="y">The class labels</param>
         ''' <param name="x">Vector data.</param>
         ''' <param name="maxIndex">Maximum index for a vector</param>
-        Public Sub New(y As Double(), x As Node()(), maxIndex As Integer)
-            Me.Y = y
+        Public Sub New(y As String(), x As Node()(), maxIndex As Integer)
+            Me.Y = y.ClassEncoder.ToArray
             Me.X = x
             Me.MaxIndex = maxIndex
         End Sub
 
         ''' <summary>
-        ''' Empty Constructor.  Nothing is initialized.
+        ''' Empty Constructor. 
         ''' </summary>
+        ''' <remarks>
+        ''' Nothing is initialized.
+        ''' </remarks>
         Public Sub New()
         End Sub
 
