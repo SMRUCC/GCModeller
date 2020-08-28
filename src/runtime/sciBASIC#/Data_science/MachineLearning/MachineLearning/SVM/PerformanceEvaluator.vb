@@ -86,6 +86,7 @@
 
 Imports System.Globalization
 Imports System.IO
+Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
     ''' <summary>
@@ -362,7 +363,7 @@ Namespace SVM
             output.WriteLine(_ap)
 
             For i = 0 To _prCurve.Count - 1
-                output.WriteLine("{0}" & Microsoft.VisualBasic.Constants.vbTab & "{1}", _prCurve(CInt(i)).X, _prCurve(CInt(i)).Y)
+                output.WriteLine("{0}" & ASCII.TAB & "{1}", _prCurve(CInt(i)).X, _prCurve(CInt(i)).Y)
             Next
 
             output.Close()
@@ -377,7 +378,7 @@ Namespace SVM
             output.WriteLine(_auc)
 
             For i = 0 To _rocCurve.Count - 1
-                output.WriteLine("{0}" & Microsoft.VisualBasic.Constants.vbTab & "{1}", _rocCurve(CInt(i)).X, _rocCurve(CInt(i)).Y)
+                output.WriteLine("{0}" & ASCII.TAB & "{1}", _rocCurve(CInt(i)).X, _rocCurve(CInt(i)).Y)
             Next
 
             output.Close()

@@ -1,50 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::e5cd8163adbea7ce1519a8d776b2e2d3, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver_NU.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Solver_NU
-    ' 
-    '         Function: be_shrunk, calculate_rho, select_working_set
-    ' 
-    '         Sub: do_shrinking, Solve
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Solver_NU
+' 
+'         Function: be_shrunk, calculate_rho, select_working_set
+' 
+'         Sub: do_shrinking, Solve
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -63,7 +60,11 @@ Namespace SVM
             MyBase.Solve(l, Q, p, y, alpha, Cp, Cn, eps, si, shrinking)
         End Sub
 
-        ' return 1 if already optimal, return 0 otherwise
+        ''' <summary>
+        ''' return 1 if already optimal, return 0 otherwise
+        ''' </summary>
+        ''' <param name="working_set"></param>
+        ''' <returns></returns>
         Protected Overrides Function select_working_set(working_set As Integer()) As Integer
             ' return i,j such that y_i = y_j and
             ' i: maximizes -y_i * grad(f)_i, i in I_up(\alpha)

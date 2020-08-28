@@ -137,7 +137,6 @@ Namespace SVM
         ''' <param name="stream">The destination stream</param>
         ''' <param name="transform">The transform</param>
         Public Shared Sub Write(stream As Stream, transform As GaussianTransform)
-            Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             output.WriteLine(transform._means.Length)
 
@@ -146,7 +145,6 @@ Namespace SVM
             Next
 
             output.Flush()
-            [Stop]()
         End Sub
 
         ''' <summary>
@@ -155,7 +153,6 @@ Namespace SVM
         ''' <param name="stream">The source stream</param>
         ''' <returns>The transform</returns>
         Public Shared Function Read(stream As Stream) As GaussianTransform
-            Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim length As Integer = Integer.Parse(input.ReadLine(), CultureInfo.InvariantCulture)
             Dim means = New Double(length - 1) {}
@@ -167,7 +164,6 @@ Namespace SVM
                 stddevs(i) = Double.Parse(parts(1), CultureInfo.InvariantCulture)
             Next
 
-            [Stop]()
             Return New GaussianTransform(means, stddevs)
         End Function
 

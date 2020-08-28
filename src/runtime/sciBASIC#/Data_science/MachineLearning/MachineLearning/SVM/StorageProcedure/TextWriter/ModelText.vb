@@ -26,7 +26,6 @@ Namespace SVM
         ''' ''' <param name="stream">The stream from which to read the Model.</param>
         ''' <returns>the Model</returns>
         Public Function Read(stream As Stream) As Model
-            Start()
             Dim input As StreamReader = New StreamReader(stream)
 
             ' read parameters
@@ -155,7 +154,6 @@ Namespace SVM
                 Next
             Next
 
-            [Stop]()
             Return model
         End Function
 
@@ -180,11 +178,12 @@ Namespace SVM
         ''' ''' <param name="stream">The output stream</param>
         ''' ''' <param name="model">The model to write</param>
         Public Sub Write(stream As Stream, model As Model)
-            Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             Dim param = model.Parameter
+
             output.Write("svm_type {0}" & ASCII.LF, param.SvmType)
             output.Write("kernel_type {0}" & ASCII.LF, param.KernelType)
+
             If param.KernelType = KernelType.POLY Then output.Write("degree {0}" & ASCII.LF, param.Degree)
             If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.RBF OrElse param.KernelType = KernelType.SIGMOID Then output.Write("gamma {0:0.000000}" & ASCII.LF, param.Gamma)
             If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.SIGMOID Then output.Write("coef0 {0:0.000000}" & ASCII.LF, param.Coefficient0)
@@ -274,7 +273,6 @@ Namespace SVM
             Next
 
             output.Flush()
-            [Stop]()
         End Sub
     End Module
 End Namespace

@@ -14,7 +14,6 @@ Namespace SVM
         ''' <param name="stream">Stream to read from</param>
         ''' <returns>The problem</returns>
         Public Function Read(stream As Stream) As Problem
-            Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim vy As List(Of Double) = New List(Of Double)()
             Dim vx As List(Of Node()) = New List(Of Node())()
@@ -37,7 +36,6 @@ Namespace SVM
                 vx.Add(x)
             End While
 
-            [Stop]()
             Return New Problem(vy.ToArray(), vx.ToArray(), max_index)
         End Function
 
@@ -47,7 +45,6 @@ Namespace SVM
         ''' <param name="stream">The stream to write the problem to.</param>
         ''' <param name="problem">The problem to write.</param>
         Public Sub Write(stream As Stream, problem As Problem)
-            Start()
             Dim output As StreamWriter = New StreamWriter(stream)
 
             For i = 0 To problem.Count - 1
@@ -61,7 +58,6 @@ Namespace SVM
             Next
 
             output.Flush()
-            [Stop]()
         End Sub
 
         ''' <summary>

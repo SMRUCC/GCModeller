@@ -686,7 +686,6 @@
     <Compile Include="SVM\StorageProcedure\TextWriter\ProblemText.vb" />
     <Compile Include="SVM\SVMExtensions.vb" />
     <Compile Include="SVM\SVMUtilities.vb" />
-    <Compile Include="SVM\TemporaryCulture.vb" />
     <Compile Include="SVM\Training.vb" />
   </ItemGroup>
   <ItemGroup>

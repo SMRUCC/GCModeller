@@ -200,7 +200,6 @@ Namespace SVM
         ''' <param name="stream">The stream to write to</param>
         ''' <param name="r">The range to write</param>
         Public Shared Sub Write(stream As Stream, r As RangeTransform)
-            Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             output.WriteLine(r._length)
             output.Write(r._inputStart(0))
@@ -219,7 +218,6 @@ Namespace SVM
             output.WriteLine()
             output.WriteLine("{0} {1}", r._outputStart, r._outputScale)
             output.Flush()
-            [Stop]()
         End Sub
 
         ''' <summary>
@@ -258,7 +256,6 @@ Namespace SVM
         ''' <param name="stream">The stream to read from</param>
         ''' <returns>The Range transform</returns>
         Public Shared Function Read(stream As Stream) As RangeTransform
-            Start()
             Dim input As StreamReader = New StreamReader(stream)
             Dim length As Integer = Integer.Parse(input.ReadLine())
             Dim inputStart = New Double(length - 1) {}
@@ -276,9 +273,10 @@ Namespace SVM
             Next
 
             parts = input.ReadLine().Split()
+
             Dim outputStart = Double.Parse(parts(0))
             Dim outputScale = Double.Parse(parts(1))
-            [Stop]()
+
             Return New RangeTransform(inputStart, inputScale, outputStart, outputScale, length)
         End Function
     End Class
