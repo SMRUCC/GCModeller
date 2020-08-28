@@ -40,7 +40,18 @@ Namespace ComponentModel.Encoder
 
         Public Function AddClass(label As String) As ClassEncoder
             If Not m_colors.ContainsKey(label) Then
-                m_colors.Add(label, New ColorClass With {.color = "000000", .enumInt = Colors.Select(Function(a) a.enumInt).Max + 1, .name = label})
+                Dim enumInt As Integer
+
+                If m_colors.Count = 0 Then
+                    enumInt = 0
+                Else
+                    enumInt = m_colors _
+                        .Values _
+                        .Select(Function(a) a.enumInt) _
+                        .Max
+                End If
+
+                m_colors.Add(label, New ColorClass With {.color = "#000000", .enumInt = enumInt + 1, .name = label})
             End If
 
             labels.Add(label)
@@ -72,6 +83,12 @@ Namespace ComponentModel.Encoder
             Next
         End Function
 
+        ''' <summary>
+        ''' union of two factor collection
+        ''' </summary>
+        ''' <param name="classList"></param>
+        ''' <param name="newLabels"></param>
+        ''' <returns></returns>
         Public Shared Function Union(classList As IEnumerable(Of ColorClass), newLabels As IEnumerable(Of String)) As ColorClass()
             Dim encoder As New ClassEncoder
 
