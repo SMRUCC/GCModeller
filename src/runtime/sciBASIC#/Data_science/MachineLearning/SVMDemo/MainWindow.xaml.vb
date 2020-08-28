@@ -1,5 +1,4 @@
-﻿Imports SVM
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Threading
@@ -9,6 +8,7 @@ Imports System.Windows.Input
 Imports System.Windows.Media
 Imports System.Windows.Media.Imaging
 Imports System.Windows.Shapes
+Imports Microsoft.VisualBasic.MachineLearning.SVM
 
 Namespace SVMDemo
     ''' <summary>
@@ -39,7 +39,6 @@ Namespace SVMDemo
             Dim train As Problem = New Problem With {
                 .X = _data.[Select](Function(o) New Node() {New Node(1, o.Position.X), New Node(2, o.Position.Y)}).ToArray(),
                 .Y = _data.[Select](Function(o) o.Label).ToArray(),
-                .Count = _data.Count,
                 .MaxIndex = 2
             }
             Dim param As Parameter = TryCast(args, Parameter)
