@@ -314,7 +314,7 @@ Namespace SVM
 
                 Dim i = working_set(0)
                 Dim j = working_set(1)
-                Threading.Interlocked.Increment(iter)
+                iter += 1
 
                 ' update alpha[i] and alpha[j], handle bounds carefully
 
@@ -667,7 +667,7 @@ Namespace SVM
                         lb = stdNum.Max(lb, yG)
                     End If
                 Else
-                    Threading.Interlocked.Increment(nr_free)
+                    nr_free += 1
                     sum_free += yG
                 End If
             Next

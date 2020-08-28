@@ -253,7 +253,7 @@ Public MustInherit Class Vector(Of T)
         End If
 
         While System.Threading.Interlocked.Decrement(length) >= 0
-            destination(System.Math.Max(System.Threading.Interlocked.Increment(destinationIndex),destinationIndex - 1)) = Me(System.Math.Max(System.Threading.Interlocked.Increment(sourceIndex),sourceIndex - 1))
+            destination(System.Math.Max(System.destinationIndex),destinationIndex - 1)) = Me(System.Math.Max(System.sourceIndex),sourceIndex - 1))
 		End While
 	End Sub
 

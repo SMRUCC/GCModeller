@@ -129,17 +129,22 @@ Namespace SVM
                     End If
                 Else
                     v = svm_predict(model, x)
-                    If output IsNot Nothing Then output.Write(v & ASCII.LF)
+                    If output IsNot Nothing Then
+                        output.Write(v & ASCII.LF)
+                    End If
                 End If
 
-                If v = target Then Threading.Interlocked.Increment(correct)
+                If v = target Then
+                    correct += 1
+                End If
+
                 [error] += (v - target) * (v - target)
                 sumv += v
                 sumy += target
                 sumvv += v * v
                 sumyy += target * target
                 sumvy += v * target
-                Threading.Interlocked.Increment(total)
+                total += 1
             Next
 
             If output IsNot Nothing Then output.Close()

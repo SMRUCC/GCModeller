@@ -253,7 +253,7 @@ Namespace SVM
                     ElseIf is_upper_bound(i) Then
                         lb1 = stdNum.Max(lb1, G(i))
                     Else
-                        Threading.Interlocked.Increment(nr_free1)
+                        nr_free1 += 1
                         sum_free1 += G(i)
                     End If
                 Else
@@ -263,7 +263,7 @@ Namespace SVM
                     ElseIf is_upper_bound(i) Then
                         lb2 = stdNum.Max(lb2, G(i))
                     Else
-                        Threading.Interlocked.Increment(nr_free2)
+                        nr_free2 += 1
                         sum_free2 += G(i)
                     End If
                 End If

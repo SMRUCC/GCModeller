@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::a85eac82cd3d990942d00e4dc86660eb, Data_science\MachineLearning\MachineLearning\SVM\Kernel\Kernel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Kernel
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: computeSquaredDistance, dot, (+2 Overloads) KernelFunction, powi
-    ' 
-    '         Sub: SwapIndex
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Kernel
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: computeSquaredDistance, dot, (+2 Overloads) KernelFunction, powi
+' 
+'         Sub: SwapIndex
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -147,7 +148,7 @@ Namespace SVM
                 Else
 
                     If x.Index > y.Index Then
-                        Threading.Interlocked.Increment(j)
+                        j += 1
 
                         If j < ylen Then
                             y = yNodes(j)
@@ -155,7 +156,7 @@ Namespace SVM
                             Exit While
                         End If
                     Else
-                        Threading.Interlocked.Increment(i)
+                        i += 1
 
                         If i < xlen Then
                             x = xNodes(i)
@@ -174,8 +175,8 @@ Namespace SVM
             Dim y = yNodes(0)
             Dim xLength = xNodes.Length
             Dim yLength = yNodes.Length
-            Dim xIndex = 0
-            Dim yIndex = 0
+            Dim xIndex As i32 = 0
+            Dim yIndex As i32 = 0
             Dim sum As Double = 0
 
             While True
@@ -201,7 +202,7 @@ Namespace SVM
                 ElseIf x.Index > y.Index Then
                     sum += y.Value * y.Value
 
-                    If Threading.Interlocked.Increment(yIndex) < yLength Then
+                    If ++yIndex < yLength Then
                         y = yNodes(yIndex)
                     Else
                         Exit While
@@ -209,7 +210,7 @@ Namespace SVM
                 Else
                     sum += x.Value * x.Value
 
-                    If Threading.Interlocked.Increment(xIndex) < xLength Then
+                    If ++xIndex < xLength Then
                         x = xNodes(xIndex)
                     Else
                         Exit While
