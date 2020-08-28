@@ -78,7 +78,7 @@ Namespace SVM
         ''' <summary>
         ''' Contains custom weights for class labels.  Default weight value is 1.
         ''' </summary>
-        Dim _Weights As Dictionary(Of String, Double)
+        Dim _Weights As Dictionary(Of Integer, Double)
 
         ''' <summary>
         ''' Type of SVM (default C-SVC)
@@ -127,7 +127,7 @@ Namespace SVM
         ''' <see cref="ColorClass.name"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Property Weights As Dictionary(Of String, Double)
+        Public Property Weights As Dictionary(Of Integer, Double)
             Get
                 Return _Weights
             End Get
