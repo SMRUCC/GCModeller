@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf3dd774d6fdb73ba908778a7e522c83, Microsoft.VisualBasic.Core\Serialization\BEncoding\BString.vb"
+﻿#Region "Microsoft.VisualBasic::fa256efcdb8b080b4bf8bef21b08fe77, Microsoft.VisualBasic.Core\Serialization\BEncoding\BString.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,6 @@
 
 #End Region
 
-
 Imports System.Text
 
 Namespace Serialization.Bencoding
@@ -63,7 +62,7 @@ Namespace Serialization.Bencoding
         ''' The main constructor.
         ''' </summary>
         ''' <param name="value"></param>
-        Public Sub New(ByVal value As String)
+        Public Sub New(value As String)
             Me.Value = value
         End Sub
 
@@ -80,7 +79,7 @@ Namespace Serialization.Bencoding
         ''' </summary>
         ''' <param name="u">The StringBuilder to append to.</param>
         ''' <returns>The bencoded equivalent of the string.</returns>
-        Public Function ToBencodedString(ByVal u As StringBuilder) As StringBuilder Implements BElement.ToBencodedString
+        Public Function ToBencodedString(u As StringBuilder) As StringBuilder Implements BElement.ToBencodedString
             If u Is Nothing Then
                 u = New StringBuilder(Value.Length)
             Else
@@ -98,7 +97,7 @@ Namespace Serialization.Bencoding
         ''' <summary>
         ''' String.Equals(object)
         ''' </summary>
-        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        Public Overrides Function Equals(obj As Object) As Boolean
             Try
                 Return Value.Equals(CType(obj, BString).Value)
             Catch
@@ -112,7 +111,7 @@ Namespace Serialization.Bencoding
         End Function
 
         ''' <see cref="IComparable.CompareTo(Object)"/>
-        Public Function CompareTo(ByVal other As BString) As Integer Implements IComparable(Of BString).CompareTo
+        Public Function CompareTo(other As BString) As Integer Implements IComparable(Of BString).CompareTo
             Return Value.CompareTo(other.Value)
         End Function
 

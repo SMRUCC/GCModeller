@@ -99,7 +99,7 @@ Namespace DeltaSimilarity1998.CAI
 
         Public Function CAI() As Double
             Try
-                Dim Codens = ToCodonCollection(ORF, translCode)
+                Dim Codens = TranslTable.GetTable(translCode).ToCodonCollection(ORF.nt)
                 Dim PIValue = (From code As Codon In Codens Select Me.W(code)).ProductALL
                 Return PIValue ^ (1 / Codens.Length)
             Catch ex As Exception

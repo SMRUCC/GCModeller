@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4409e16508515c3307575044399df24, Microsoft.VisualBasic.Core\Text\Parser\CharBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::a59babce3b991950d4db3a227e1593da, Microsoft.VisualBasic.Core\Text\Parser\CharBuffer.vb"
 
     ' Author:
     ' 
@@ -35,11 +35,11 @@
     ' 
     '         Properties: Last, Size
     ' 
-    '         Function: GetLastOrDefault, PopAllChars, ToString
+    '         Function: Add, GetLastOrDefault, Pop, PopAllChars, ToString
     ' 
     '         Sub: Clear
     ' 
-    '         Operators: *, (+3 Overloads) +, <, <>, =
+    '         Operators: *, (+3 Overloads) +, <, (+2 Overloads) <>, (+2 Overloads) =
     '                    >
     ' 
     ' 
@@ -55,6 +55,13 @@ Namespace Text.Parser
 
         ReadOnly buffer As New List(Of Char)
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="i">
+        ''' 使用负数表示从尾到头
+        ''' </param>
+        ''' <returns></returns>
         Default Public ReadOnly Property GetChar(i As Integer) As Char
             Get
                 Return buffer(i)
@@ -77,6 +84,11 @@ Namespace Text.Parser
             End Get
         End Property
 
+        Public Function Add(c As Char) As CharBuffer
+            Call buffer.Add(c)
+            Return Me
+        End Function
+
         Public Function GetLastOrDefault() As Char
             If buffer.Count = 0 Then
                 Return Nothing
@@ -88,6 +100,12 @@ Namespace Text.Parser
         Public Sub Clear()
             Call buffer.Clear()
         End Sub
+
+        Public Function Pop() As Char
+            Dim last As Char = Me.Last
+            Call buffer.RemoveLast
+            Return last
+        End Function
 
         Public Function PopAllChars() As Char()
             Return buffer.PopAll
@@ -128,6 +146,36 @@ Namespace Text.Parser
             End If
 
             Return buf
+        End Operator
+
+        ''' <summary>
+        ''' string equals?
+        ''' </summary>
+        ''' <param name="buf"></param>
+        ''' <param name="test"></param>
+        ''' <returns></returns>
+        Public Shared Operator =(buf As CharBuffer, test As String) As Boolean
+            If buf <> test.Length Then
+                Return False
+            End If
+
+            For i As Integer = 0 To test.Length - 1
+                If buf.buffer(i) <> test(i) Then
+                    Return False
+                End If
+            Next
+
+            Return True
+        End Operator
+
+        ''' <summary>
+        ''' string not equals?
+        ''' </summary>
+        ''' <param name="buf"></param>
+        ''' <param name="test"></param>
+        ''' <returns></returns>
+        Public Shared Operator <>(buf As CharBuffer, test As String) As Boolean
+            Return Not buf = test
         End Operator
 
         Public Shared Operator =(buf As CharBuffer, size As Integer) As Boolean

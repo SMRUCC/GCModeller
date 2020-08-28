@@ -1,62 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::6a7c39b3815a431b46feba08852d0eef, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::84c3378635e791763385d423cea1f0a9, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module App
-' 
-'     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
-'                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
-'                 ExceptionLogFile, ExecutablePath, Github, HOME, Info
-'                 InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData, LocalDataTemp
-'                 LogErrDIR, NanoTime, NextTempName, OutFile, PID
-'                 Platform, PreviousDirectory, Process, ProductName, ProductProgramData
-'                 ProductSharedDIR, ProductSharedTemp, References, Running, RunningInGitBash
-'                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdInput
-'                 StdOut, SysTemp, UnixTimeStamp, UserHOME, Version
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
-'               ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
-'               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
-'               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
-'               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, SelfFolks
-'               Shell, tempCode, TemporaryEnvironment, TraceBugs
-' 
-'     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
-'          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
-'          RunAsAdmin, SetBufferSize, StartGC, StopGC
-' 
-' /********************************************************************************/
+    ' Module App
+    ' 
+    '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
+    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
+    '                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
+    '                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
+    '                 LocalDataTemp, LogErrDIR, NanoTime, NextTempName, OutFile
+    '                 PID, Platform, PreviousDirectory, Process, ProductName
+    '                 ProductProgramData, ProductSharedDIR, ProductSharedTemp, References, Running
+    '                 RunningInGitBash, RunTimeDirectory, StartTime, StartupDirectory, StdErr
+    '                 StdInput, StdOut, SysTemp, UnixTimeStamp, UserHOME
+    '                 Version
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
+    '               ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
+    '               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
+    '               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
+    '               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, SelfFolks
+    '               Shell, tempCode, TemporaryEnvironment, TraceBugs
+    ' 
+    '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
+    '          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
+    '          RunAsAdmin, SetBufferSize, StartGC, StopGC
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -827,6 +828,8 @@ Public Module App
         End Get
     End Property
 
+    Public Property GetLastError As Exception
+
     ''' <summary>
     ''' Simply log application exception data into a log file which saves at location: %<see cref="App.LocalData"/>%/.logs/err/.
     ''' (简单日志记录，函数返回空值)
@@ -837,6 +840,7 @@ Public Module App
     <ExportAPI("LogException")>
     Public Function LogException(ex As Exception, <CallerMemberName> Optional ByRef trace$ = "") As Object
         Try
+            GetLastError = ex
             trace = App.TraceBugs(ex, trace)
         Catch ex2 As Exception
             ' 错误日志文件的存放位置不可用或者被占用了不可写，则可能会出错，
@@ -1034,7 +1038,7 @@ Public Module App
     <ExportAPI("RunCLI")>
     <Extension>
     Public Function RunCLI(Interpreter As Type, args$, <CallerMemberName> Optional caller$ = Nothing) As Integer
-        Return Interpreter.RunCLIInternal(CLITools.TryParse(args), caller, Nothing, Nothing, Nothing)
+        Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, Nothing, Nothing, Nothing)
     End Function
 
     ''' <summary>
@@ -1075,7 +1079,7 @@ Public Module App
     <Extension> Public Function RunCLI(Interpreter As Type, args$, executeEmpty As ExecuteEmptyCLI,
                                        <CallerMemberName>
                                        Optional caller$ = Nothing) As Integer
-        Return Interpreter.RunCLIInternal(CLITools.TryParse(args), caller, executeEmpty, Nothing, Nothing)
+        Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, executeEmpty, Nothing, Nothing)
     End Function
 
     ''' <summary>
@@ -1097,7 +1101,7 @@ Public Module App
     <Extension> Public Function RunCLI(Interpreter As Type, args$, executeEmpty As ExecuteEmptyCLI, executeNotFound As ExecuteNotFound,
                                        <CallerMemberName>
                                        Optional caller$ = Nothing) As Integer
-        Return Interpreter.RunCLIInternal(CLITools.TryParse(args), caller, executeEmpty, executeNotFound, Nothing)
+        Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, executeEmpty, executeNotFound, Nothing)
     End Function
 
     ''' <summary>
@@ -1181,7 +1185,7 @@ Public Module App
     '''
     <ExportAPI("RunCLI")>
     <Extension> Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, <CallerMemberName> Optional caller$ = Nothing) As Integer
-        Return Interpreter.RunCLIInternal(CLITools.TryParse(args), caller, Nothing, Nothing, executeFile)
+        Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, Nothing, Nothing, executeFile)
     End Function
 
     ''' <summary>
@@ -1212,7 +1216,7 @@ Public Module App
     <Extension> Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, executeEmpty As ExecuteEmptyCLI,
                                        <CallerMemberName>
                                        Optional caller$ = Nothing) As Integer
-        Return Interpreter.RunCLI(TryParse(args), executeFile, executeEmpty, caller)
+        Return Interpreter.RunCLI(Parsers.TryParse(args), executeFile, executeEmpty, caller)
     End Function
 
     ''' <summary>

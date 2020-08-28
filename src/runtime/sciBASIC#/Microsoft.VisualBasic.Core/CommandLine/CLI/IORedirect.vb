@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f61fb3b53c42dcb8214bdef82e0056fa, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
+﻿#Region "Microsoft.VisualBasic::f50f16590232337d58b85a4dd6d637b1, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,25 @@
 
     ' Summaries:
 
+    '     Delegate Function
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
     '     Class IORedirect
     ' 
     '         Properties: Bin, CLIArguments, ExitCode, HasExited, PID
     '                     StandardOutput
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Delegate Function
     ' 
+    '         Function: GetError, Read, ReadLine, Run, Shell
+    '                   (+3 Overloads) Start, ToString, WaitError, waitForExit, WaitForExit
+    '                   WaitOutput
     ' 
-    '         Delegate Sub
-    ' 
-    '             Function: GetError, Read, ReadLine, Run, Shell
-    '                       (+3 Overloads) Start, ToString, WaitError, waitForExit, WaitForExit
-    '                       WaitOutput
-    ' 
-    '             Sub: (+2 Overloads) Dispose, errorHandler, Kill, outputHandler, Write
-    '                  (+2 Overloads) WriteLine
+    '         Sub: (+2 Overloads) Dispose, errorHandler, Kill, outputHandler, Write
+    '              (+2 Overloads) WriteLine
     ' 
     ' 
     ' 
@@ -69,6 +71,17 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine
+
+    Public Delegate Function ProcessAyHandle(WaitForExit As Boolean, PushingData As String(), _DISP_DEBUG_INFO As Boolean) As Integer
+
+    ''' <summary>
+    ''' A function pointer for process the events when the target invoked child process was terminated and exit.
+    ''' (当目标进程退出的时候所调用的过程)
+    ''' </summary>
+    ''' <param name="exitCode">The exit code for the target sub invoke process.进程的退出代码</param>
+    ''' <param name="exitTime">The exit time for the target sub invoke process.(进程的退出时间)</param>
+    ''' <remarks></remarks>
+    Public Delegate Sub ProcessExitCallback(exitCode As Integer, exitTime As String)
 
     ''' <summary>
     ''' A communication fundation class type for the commandline program interop.
@@ -209,17 +222,6 @@ Namespace CommandLine
             End If
         End Sub
 
-        Public Delegate Function ProcessAyHandle(WaitForExit As Boolean, PushingData As String(), _DISP_DEBUG_INFO As Boolean) As Integer
-
-        ''' <summary>
-        ''' A function pointer for process the events when the target invoked child process was terminated and exit.
-        ''' (当目标进程退出的时候所调用的过程)
-        ''' </summary>
-        ''' <param name="exitCode">The exit code for the target sub invoke process.进程的退出代码</param>
-        ''' <param name="exitTime">The exit time for the target sub invoke process.(进程的退出时间)</param>
-        ''' <remarks></remarks>
-        Public Delegate Sub ProcessExitCallback(exitCode As Integer, exitTime As String)
-
         Private Sub outputHandler(sender As Object, e As DataReceivedEventArgs) Handles processInfo.OutputDataReceived
             If e.Data Is Nothing Then
                 Call outputWaitHandle.[Set]()
@@ -275,7 +277,7 @@ Namespace CommandLine
             End If
 
             If displaDebug Then
-                Dim Exe As String = FileIO.FileSystem.GetFileInfo(processInfo.StartInfo.FileName).FullName.Replace("\", "/")
+                Dim Exe As String = processInfo.StartInfo.FileName.GetFullPath.Replace("\", "/")
                 Dim argvs As String = processInfo.StartInfo.Arguments
 
                 Call Console.WriteLine("# ""{0}"" {1}", Exe, argvs)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e341c0e67c7e5993959378d9004c20b7, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::2e1a9e10e20bc9091a1119452ed3a207, Microsoft.VisualBasic.Core\Scripting\Runtime\CType\Casting.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -370,7 +371,7 @@ Namespace Scripting.Runtime
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CastCommandLine(obj As String) As CommandLine.CommandLine
-            Return CommandLine.TryParse(obj)
+            Return Parsers.TryParse(obj)
         End Function
 
         ''' <summary>

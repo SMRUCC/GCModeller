@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60fb88c016e2a1f955bfe3846e73a073, Microsoft.VisualBasic.Core\Extensions\Collection\ListExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ff74203b84512004fd8595dfec48495b, Microsoft.VisualBasic.Core\Extensions\Collection\ListExtensions.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     ' Module ListExtensions
     ' 
     '     Function: AppendAfter, AsHashList, AsHashSet, AsList, AsLoop
-    '               HasKey, Indexing, rand, Random, ReorderByKeys
-    '               (+2 Overloads) ToList, TopMostFrequent
+    '               Count, HasKey, Indexing, rand, Random
+    '               ReorderByKeys, (+2 Overloads) ToList, TopMostFrequent
     ' 
     '     Sub: DoEach, ForEach, Swap
     ' 
@@ -74,6 +74,24 @@ Public Module ListExtensions
             Yield x
         Next
     End Function
+
+    <Extension>
+    Public Function Count(Of T As IEquatable(Of T))(list As IEnumerable(Of T), item As T) As Integer
+        Dim i As Integer = 0
+
+        For Each obj In list
+            If obj.Equals(item) Then
+                i += 1
+            End If
+        Next
+
+        Return i
+    End Function
+
+    '<Extension>
+    'Public Function Count(Of T As IComparable(Of T))(list As IEnumerable(Of T), item As T) As Integer
+
+    'End Function
 
     ''' <summary>
     ''' 查找出序列之中最频繁出现的对象(这个函数会自动跳过空值)

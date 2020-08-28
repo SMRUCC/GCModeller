@@ -502,11 +502,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\mzkit\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.DataMining.Framework.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit|x86'">
     <DefineTrace>true</DefineTrace>
@@ -594,11 +596,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\BioDeep_database\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.DataMining.Framework.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BioDeep_database|x86'">
     <DefineTrace>true</DefineTrace>
@@ -650,14 +654,15 @@
     <Compile Include="AprioriRules\Helper\Encoding.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\FuzzyCMeans.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\MembershipMatrix.vb" />
-    <Compile Include="ComponentModel\Class.vb" />
+    <Compile Include="ComponentModel\Encoder\Class.vb" />
     <Compile Include="ComponentModel\Discretizer\NormalRangeDiscretizer.vb" />
+    <Compile Include="ComponentModel\Encoder\ClassEncoder.vb" />
     <Compile Include="ComponentModel\Evaluation\RegressionClassify.vb" />
     <Compile Include="ComponentModel\Evaluation\ROC.vb" />
     <Compile Include="ComponentModel\Evaluation\Validate.vb" />
     <Compile Include="ComponentModel\Evaluation\NamespaceDoc.vb" />
     <Compile Include="ComponentModel\IntegerEntity.vb" />
-    <Compile Include="ComponentModel\Extensions.vb" />
+    <Compile Include="ComponentModel\Encoder\Extensions.vb" />
     <Compile Include="Clustering\DBSCAN\DbscanAlgorithm.vb" />
     <Compile Include="Clustering\DBSCAN\DbscanPoint.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\Utils.vb" />
@@ -665,6 +670,7 @@
     <Compile Include="Clustering\Clustering.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Entity.vb" />
     <Compile Include="ComponentModel\Discretizer\Discretizer.vb" />
+    <Compile Include="ComponentModel\Normalizer\Methods.vb" />
     <Compile Include="ComponentModel\Normalizer\Normalizations.vb" />
     <Compile Include="DecisionTree\Algorithm.vb" />
     <Compile Include="DecisionTree\DataModels\DataTable.vb" />
@@ -685,8 +691,6 @@
     <Compile Include="Clustering\KMeans\CompleteLinkage\Point.vb" />
     <Compile Include="Clustering\KMeans\Models\ClusterCollection.vb" />
     <Compile Include="Clustering\KMeans\Evaluation.vb" />
-    <Compile Include="Clustering\KMeans\Parallel\Folks.vb" />
-    <Compile Include="Clustering\KMeans\Parallel\StreamAPI.vb" />
     <Compile Include="Clustering\KMeans\EntityModels\Entity.vb" />
     <Compile Include="Clustering\KMeans\Models\KMeansCluster.vb" />
     <Compile Include="Clustering\KMeans\KMeans.vb" />
@@ -763,9 +767,7 @@
       <Name>math-core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ComponentModel\Table\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

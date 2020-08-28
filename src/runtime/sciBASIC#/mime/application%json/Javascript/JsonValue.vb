@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b49e9b86bd42020c163758950923f56, mime\application%json\Javascript\JsonValue.vb"
+﻿#Region "Microsoft.VisualBasic::da7cd0e704c57a5d6e8a1e8b3d417c63, mime\application%json\Javascript\JsonValue.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: BSONValue, value
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: BuildJsonString, GetStripString, Literal, ToString
+    '         Function: GetStripString, Literal, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -92,16 +92,6 @@ Namespace Javascript
                 .GetString
             s = JsonParser.StripString(s)
             Return s
-        End Function
-
-        Public Overrides Function BuildJsonString() As String
-            If value Is Nothing Then
-                Return "null"
-            ElseIf value.GetType Is BSONValue Then
-                Return DirectCast(value, BSONValue).ToString
-            Else
-                Return Scripting.ToString(value, "null")
-            End If
         End Function
 
         Public Overrides Function ToString() As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71d18de8e8e6bd509a1d3cf9e9cfe4ce, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::4c046aa8570517f14bf0a1cf75656c15, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
 
     ' Author:
     ' 
@@ -458,6 +458,7 @@ Namespace CommandLine
         Private Shared Function doLoadApiInternal(cmdAttr As ExportAPIAttribute, methodInfo As MethodInfo, [throw] As Boolean) As APIEntryPoint
             Dim commandInfo As New APIEntryPoint(cmdAttr, methodInfo, [throw])
 
+#Disable Warning
             If cmdAttr.Info.StringEmpty Then
                 ' 帮助信息的获取兼容系统的Description方法
                 cmdAttr.Info = methodInfo.Description
@@ -468,6 +469,7 @@ Namespace CommandLine
             If cmdAttr.Example.StringEmpty Then
                 cmdAttr.Example = methodInfo.ExampleInfo
             End If
+#Enable Warning
 
             Return commandInfo
         End Function

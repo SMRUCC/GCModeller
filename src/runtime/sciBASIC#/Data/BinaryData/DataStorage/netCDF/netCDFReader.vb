@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dede2d9e5139212133c4b828612732e5, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
+﻿#Region "Microsoft.VisualBasic::0629ee9ba4af559c36cf27482d1f1757, Data\BinaryData\DataStorage\netCDF\netCDFReader.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Namespace netCDF
@@ -183,6 +184,13 @@ Namespace netCDF
             Me.globalAttributeTable = header _
                 .globalAttributes _
                 .ToDictionary(Function(att) att.name)
+
+            Dim conflictsId As String() = header.checkVariableIdConflicts.ToArray
+
+            If conflictsId.Length > 0 Then
+                Throw New DuplicateNameException(conflictsId.GetJson)
+            End If
+
             Me.variableTable = header _
                 .variables _
                 .ToDictionary(Function(var) var.name)

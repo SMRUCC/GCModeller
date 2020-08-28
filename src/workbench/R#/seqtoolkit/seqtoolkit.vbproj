@@ -179,6 +179,10 @@
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.vbproj">
+      <Project>{303eba88-ddba-4eb2-afb4-f392a0e8a25e}</Project>
+      <Name>gwANI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
       <Name>MotifScanner</Name>

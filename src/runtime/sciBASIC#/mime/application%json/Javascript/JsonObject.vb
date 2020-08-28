@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6570ee0818aeee57aded826accc2b3e5, mime\application%json\Javascript\JsonObject.vb"
+﻿#Region "Microsoft.VisualBasic::b73a666b3d517071d7b59a6b761b9b9e, mime\application%json\Javascript\JsonObject.vb"
 
     ' Author:
     ' 
@@ -33,20 +33,19 @@
 
     '     Class JsonObject
     ' 
-    '         Function: BuildJsonString, ContainsElement, ContainsKey, CreateObject, GetEnumerator
-    '                   IEnumerable_GetEnumerator, Remove, ToString
+    '         Function: ContainsElement, ContainsKey, CreateObject, GetEnumerator, IEnumerable_GetEnumerator
+    '                   Remove, ToString
     ' 
-    '         Sub: (+2 Overloads) Add
+    '         Sub: (+2 Overloads) Add, WriteBuffer
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 
 Namespace Javascript
 
@@ -91,6 +90,14 @@ Namespace Javascript
             Call array.Add(key, New JsonValue(value))
         End Sub
 
+        ''' <summary>
+        ''' write bson buffer
+        ''' </summary>
+        ''' <param name="buffer"></param>
+        Public Sub WriteBuffer(buffer As FileStream)
+            Call BSON.WriteBuffer(Me, buffer)
+        End Sub
+
         Public Function Remove(key As String) As Boolean
             Return array.Remove(key)
         End Function
@@ -114,20 +121,6 @@ Namespace Javascript
 
         Public Overrides Function ToString() As String
             Return "JsonObject::[" & array.Keys.JoinBy(", ") & "]"
-        End Function
-
-        Public Overrides Function BuildJsonString() As String
-            Dim a As New StringBuilder
-            Dim array$() = Me _
-                .array _
-                .Select(Function(kp) $"""{kp.Key}"": {kp.Value.BuildJsonString}") _
-                .ToArray
-
-            Call a.AppendLine("{")
-            Call a.AppendLine(array.JoinBy("," & vbLf))
-            Call a.AppendLine("}")
-
-            Return a.ToString
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of NamedValue(Of JsonElement)) Implements IEnumerable(Of NamedValue(Of JsonElement)).GetEnumerator
