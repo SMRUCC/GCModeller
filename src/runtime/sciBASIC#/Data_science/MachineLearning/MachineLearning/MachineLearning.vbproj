@@ -658,6 +658,7 @@
     <Compile Include="RandomForests\NamespaceDoc.vb" />
     <Compile Include="RandomForests\StorageProcedure\MatrixLoader.vb" />
     <Compile Include="SVM\Cache.vb" />
+    <Compile Include="SVM\SVMModel.vb" />
     <Compile Include="SVM\Parameter\GridSquare.vb" />
     <Compile Include="SVM\Parameter\KernelType.vb" />
     <Compile Include="SVM\Parameter\SvmType.vb" />
