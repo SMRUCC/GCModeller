@@ -20,6 +20,7 @@
 Imports System
 Imports System.IO
 Imports System.Globalization
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>
@@ -67,7 +68,7 @@ Namespace SVM
             For i = 0 To prob.MaxIndex - 1
                 If stddevs(i) = 0 Then Continue For
                 stddevs(i) /= counts(i) - 1
-                stddevs(i) = Math.Sqrt(stddevs(i))
+                stddevs(i) = stdNum.Sqrt(stddevs(i))
             Next
 
             Return New GaussianTransform(means, stddevs)

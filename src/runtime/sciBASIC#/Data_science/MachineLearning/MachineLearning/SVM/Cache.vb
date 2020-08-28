@@ -19,6 +19,7 @@
 
 Imports System
 Imports System.Runtime.InteropServices
+Imports stdNum = System.Math
 
 Namespace SVM
     Friend Class Cache

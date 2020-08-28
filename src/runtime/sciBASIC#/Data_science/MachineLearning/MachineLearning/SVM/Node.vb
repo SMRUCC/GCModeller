@@ -18,6 +18,7 @@
 
 
 Imports System
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>

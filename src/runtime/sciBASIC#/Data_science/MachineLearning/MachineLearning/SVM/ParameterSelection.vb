@@ -23,6 +23,7 @@ Imports System.Linq
 Imports System.Threading
 Imports System.Threading.Tasks
 Imports System.Runtime.InteropServices
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>
@@ -97,7 +98,7 @@ Namespace SVM
             Dim d = minPower
 
             While d <= maxPower
-                list.Add(Math.Pow(2, d))
+                list.Add(stdNum.Pow(2, d))
                 d += iteration
             End While
 
@@ -165,7 +166,7 @@ Namespace SVM
             Next
 
             Dim parameters As ThreadLocal(Of Parameter) = New ThreadLocal(Of Parameter)(Function() createParams())
-            Parallel.ForEach(squares, New ParallelOptions With {
+            System.Threading.Tasks.Parallel.ForEach(squares, New ParallelOptions With {
                 .MaxDegreeOfParallelism = Threads
             }, Sub(square)
                    parameters.Value.C = square.C
@@ -221,7 +222,7 @@ Namespace SVM
             Next
 
             Dim parameters As ThreadLocal(Of Parameter) = New ThreadLocal(Of Parameter)(Function() createParams())
-            Parallel.ForEach(squares, New ParallelOptions With {
+            System.Threading.Tasks.Parallel.ForEach(squares, New ParallelOptions With {
                 .MaxDegreeOfParallelism = Threads
             }, Sub(square)
                    parameters.Value.C = square.C

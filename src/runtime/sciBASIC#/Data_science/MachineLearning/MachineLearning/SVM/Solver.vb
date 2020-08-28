@@ -1,25 +1,26 @@
 ﻿' 
- ' * SVM.NET Library
- ' * Copyright (C) 2008 Matthew Johnson
- ' * 
- ' * This program is free software: you can redistribute it and/or modify
- ' * it under the terms of the GNU General Public License as published by
- ' * the Free Software Foundation, either version 3 of the License, or
- ' * (at your option) any later version.
- ' * 
- ' * This program is distributed in the hope that it will be useful,
- ' * but WITHOUT ANY WARRANTY; without even the implied warranty of
- ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ' * GNU General Public License for more details.
- ' * 
- ' * You should have received a copy of the GNU General Public License
- ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+' * SVM.NET Library
+' * Copyright (C) 2008 Matthew Johnson
+' * 
+' * This program is free software: you can redistribute it and/or modify
+' * it under the terms of the GNU General Public License as published by
+' * the Free Software Foundation, either version 3 of the License, or
+' * (at your option) any later version.
+' * 
+' * This program is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' * GNU General Public License for more details.
+' * 
+' * You should have received a copy of the GNU General Public License
+' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 
 Imports System
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports stdNum = System.Math
 
 Namespace SVM
 
@@ -251,15 +252,15 @@ Namespace SVM
             ' optimization step
 
             Dim iter = 0
-            Dim max_iter = Math.Max(10000000, If(l > Integer.MaxValue / 100, Integer.MaxValue, 100 * l))
-            Dim counter = Math.Min(l, 1000) + 1
+            Dim max_iter = stdNum.Max(10000000, If(l > Integer.MaxValue / 100, Integer.MaxValue, 100 * l))
+            Dim counter = stdNum.Min(l, 1000) + 1
             Dim working_set = New Integer(1) {}
 
             While iter < max_iter
                 ' show progress and do shrinking
 
                 If Threading.Interlocked.Decrement(counter) = 0 Then
-                    counter = Math.Min(l, 1000)
+                    counter = stdNum.Min(l, 1000)
                     If shrinking Then do_shrinking()
                     info(".")
                 End If
@@ -621,16 +622,16 @@ Namespace SVM
 
                 If is_lower_bound(i) Then
                     If y(i) > 0 Then
-                        ub = Math.Min(ub, yG)
+                        ub = stdNum.Min(ub, yG)
                     Else
-                        lb = Math.Max(lb, yG)
+                        lb = stdNum.Max(lb, yG)
                     End If
                 ElseIf is_upper_bound(i) Then
 
                     If y(i) < 0 Then
-                        ub = Math.Min(ub, yG)
+                        ub = stdNum.Min(ub, yG)
                     Else
-                        lb = Math.Max(lb, yG)
+                        lb = stdNum.Max(lb, yG)
                     End If
                 Else
                     Threading.Interlocked.Increment(nr_free)
@@ -755,7 +756,7 @@ Namespace SVM
                 End If
             Next
 
-            If Math.Max(Gmaxp + Gmaxp2, Gmaxn + Gmaxn2) < eps Then Return 1
+            If stdNum.Max(Gmaxp + Gmaxp2, Gmaxn + Gmaxn2) < eps Then Return 1
 
             If y(Gmin_idx) = +1 Then
                 working_set(0) = Gmaxp_idx
@@ -814,7 +815,7 @@ Namespace SVM
                 End If
             Next
 
-            If unshrink = False AndAlso Math.Max(Gmax1 + Gmax2, Gmax3 + Gmax4) <= eps * 10 Then
+            If unshrink = False AndAlso stdNum.Max(Gmax1 + Gmax2, Gmax3 + Gmax4) <= eps * 10 Then
                 unshrink = True
                 reconstruct_gradient()
                 active_size = l
@@ -848,9 +849,9 @@ Namespace SVM
 
                 If y(i) = +1 Then
                     If is_lower_bound(i) Then
-                        ub1 = Math.Min(ub1, G(i))
+                        ub1 = stdNum.Min(ub1, G(i))
                     ElseIf is_upper_bound(i) Then
-                        lb1 = Math.Max(lb1, G(i))
+                        lb1 = stdNum.Max(lb1, G(i))
                     Else
                         Threading.Interlocked.Increment(nr_free1)
                         sum_free1 += G(i)
@@ -858,9 +859,9 @@ Namespace SVM
                 Else
 
                     If is_lower_bound(i) Then
-                        ub2 = Math.Min(ub2, G(i))
+                        ub2 = stdNum.Min(ub2, G(i))
                     ElseIf is_upper_bound(i) Then
-                        lb2 = Math.Max(lb2, G(i))
+                        lb2 = stdNum.Max(lb2, G(i))
                     Else
                         Threading.Interlocked.Increment(nr_free2)
                         sum_free2 += G(i)
@@ -1171,10 +1172,10 @@ Namespace SVM
             For i = 0 To l - 1
 
                 If y(i) = +1 Then
-                    alpha(i) = Math.Min(1.0, sum_pos)
+                    alpha(i) = stdNum.Min(1.0, sum_pos)
                     sum_pos -= alpha(i)
                 Else
-                    alpha(i) = Math.Min(1.0, sum_neg)
+                    alpha(i) = stdNum.Min(1.0, sum_neg)
                     sum_neg -= alpha(i)
                 End If
             Next
@@ -1248,7 +1249,7 @@ Namespace SVM
 
             For i = 0 To l - 1
                 alpha(i) = alpha2(i) - alpha2(i + l)
-                sum_alpha += Math.Abs(alpha(i))
+                sum_alpha += stdNum.Abs(alpha(i))
             Next
 
             Procedures.info("nu = " & sum_alpha / (param.C * l) & Microsoft.VisualBasic.Constants.vbLf)
@@ -1264,7 +1265,7 @@ Namespace SVM
             Dim sum = C * param.Nu * l / 2
 
             For i = 0 To l - 1
-                alpha2(i) = CSharpImpl.__Assign(alpha2(i + l), Math.Min(sum, C))
+                alpha2(i) = CSharpImpl.__Assign(alpha2(i + l), stdNum.Min(sum, C))
                 sum -= alpha2(i)
                 linear_term(i) = -prob.Y(i)
                 y(i) = 1
@@ -1323,13 +1324,13 @@ Namespace SVM
 
             For i = 0 To prob.Count - 1
 
-                If Math.Abs(alpha(i)) > 0 Then
+                If stdNum.Abs(alpha(i)) > 0 Then
                     Threading.Interlocked.Increment(nSV)
 
                     If prob.Y(i) > 0 Then
-                        If Math.Abs(alpha(i)) >= si.upper_bound_p Then Threading.Interlocked.Increment(nBSV)
+                        If stdNum.Abs(alpha(i)) >= si.upper_bound_p Then Threading.Interlocked.Increment(nBSV)
                     Else
-                        If Math.Abs(alpha(i)) >= si.upper_bound_n Then Threading.Interlocked.Increment(nBSV)
+                        If stdNum.Abs(alpha(i)) >= si.upper_bound_n Then Threading.Interlocked.Increment(nBSV)
                     End If
                 End If
             Next
@@ -1369,7 +1370,7 @@ Namespace SVM
 
             ' Initial Point and Initial Fun Value
             A = 0.0
-            B = Math.Log((prior0 + 1.0) / (prior1 + 1.0))
+            B = stdNum.Log((prior0 + 1.0) / (prior1 + 1.0))
             Dim fval = 0.0
 
             For i = 0 To l - 1
@@ -1383,9 +1384,9 @@ Namespace SVM
                 fApB = dec_values(i) * A + B
 
                 If fApB >= 0 Then
-                    fval += t(i) * fApB + Math.Log(1 + Math.Exp(-fApB))
+                    fval += t(i) * fApB + stdNum.Log(1 + stdNum.Exp(-fApB))
                 Else
-                    fval += (t(i) - 1) * fApB + Math.Log(1 + Math.Exp(fApB))
+                    fval += (t(i) - 1) * fApB + stdNum.Log(1 + stdNum.Exp(fApB))
                 End If
             Next
 
@@ -1401,11 +1402,11 @@ Namespace SVM
                     fApB = dec_values(i) * A + B
 
                     If fApB >= 0 Then
-                        p = Math.Exp(-fApB) / (1.0 + Math.Exp(-fApB))
-                        q = 1.0 / (1.0 + Math.Exp(-fApB))
+                        p = stdNum.Exp(-fApB) / (1.0 + stdNum.Exp(-fApB))
+                        q = 1.0 / (1.0 + stdNum.Exp(-fApB))
                     Else
-                        p = 1.0 / (1.0 + Math.Exp(fApB))
-                        q = Math.Exp(fApB) / (1.0 + Math.Exp(fApB))
+                        p = 1.0 / (1.0 + stdNum.Exp(fApB))
+                        q = stdNum.Exp(fApB) / (1.0 + stdNum.Exp(fApB))
                     End If
 
                     d2 = p * q
@@ -1418,7 +1419,7 @@ Namespace SVM
                 Next
 
                 ' Stopping Criteria
-                If Math.Abs(g1) < eps AndAlso Math.Abs(g2) < eps Then Exit For
+                If stdNum.Abs(g1) < eps AndAlso stdNum.Abs(g2) < eps Then Exit For
 
                 ' Finding Newton direction: -inv(H') * g
                 det = h11 * h22 - h21 * h21
@@ -1438,9 +1439,9 @@ Namespace SVM
                         fApB = dec_values(i) * newA + newB
 
                         If fApB >= 0 Then
-                            newf += t(i) * fApB + Math.Log(1 + Math.Exp(-fApB))
+                            newf += t(i) * fApB + stdNum.Log(1 + stdNum.Exp(-fApB))
                         Else
-                            newf += (t(i) - 1) * fApB + Math.Log(1 + Math.Exp(fApB))
+                            newf += (t(i) - 1) * fApB + stdNum.Log(1 + stdNum.Exp(fApB))
                         End If
                     Next
                     ' Check sufficient decrease
@@ -1469,16 +1470,16 @@ Namespace SVM
             Dim fApB = decision_value * A + B
 
             If fApB >= 0 Then
-                Return Math.Exp(-fApB) / (1.0 + Math.Exp(-fApB))
+                Return stdNum.Exp(-fApB) / (1.0 + stdNum.Exp(-fApB))
             Else
-                Return 1.0 / (1 + Math.Exp(fApB))
+                Return 1.0 / (1 + stdNum.Exp(fApB))
             End If
         End Function
 
         ' Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
         Private Sub multiclass_probability(ByVal k As Integer, ByVal r As Double(,), ByVal p As Double())
             Dim t, j As Integer
-            Dim iter = 0, max_iter = Math.Max(100, k)
+            Dim iter = 0, max_iter = stdNum.Max(100, k)
             Dim Q = New Double(k - 1, k - 1) {}
             Dim Qp = New Double(k - 1) {}
             Dim pQp As Double, eps = 0.005 / k
@@ -1515,7 +1516,7 @@ Namespace SVM
                 Dim max_error As Double = 0
 
                 For t = 0 To k - 1
-                    Dim [error] = Math.Abs(Qp(t) - pQp)
+                    Dim [error] = stdNum.Abs(Qp(t) - pQp)
                     If [error] > max_error Then max_error = [error]
                 Next
 
@@ -1638,20 +1639,20 @@ Namespace SVM
 
             For i = 0 To prob.Count - 1
                 ymv(i) = prob.Y(i) - ymv(i)
-                mae += Math.Abs(ymv(i))
+                mae += stdNum.Abs(ymv(i))
             Next
 
             mae /= prob.Count
-            Dim std = Math.Sqrt(2 * mae * mae)
+            Dim std = stdNum.Sqrt(2 * mae * mae)
             Dim count = 0
             mae = 0
 
             For i = 0 To prob.Count - 1
 
-                If Math.Abs(ymv(i)) > 5 * std Then
+                If stdNum.Abs(ymv(i)) > 5 * std Then
                     count = count + 1
                 Else
-                    mae += Math.Abs(ymv(i))
+                    mae += stdNum.Abs(ymv(i))
                 End If
             Next
 
@@ -1782,7 +1783,7 @@ Namespace SVM
                 Dim i As Integer
 
                 For i = 0 To prob.Count - 1
-                    If Math.Abs(f.alpha(i)) > 0 Then Threading.Interlocked.Increment(nSV)
+                    If stdNum.Abs(f.alpha(i)) > 0 Then Threading.Interlocked.Increment(nSV)
                 Next
 
                 model.SupportVectorCount = nSV
@@ -1793,7 +1794,7 @@ Namespace SVM
 
                 For i = 0 To prob.Count - 1
 
-                    If Math.Abs(f.alpha(i)) > 0 Then
+                    If stdNum.Abs(f.alpha(i)) > 0 Then
                         model.SupportVectors(j) = prob.X(i)
                         model.SupportVectorCoefficients(0)(j) = f.alpha(i)
                         model.SupportVectorIndices(j) = i + 1
@@ -1885,11 +1886,11 @@ Namespace SVM
                         f(p) = svm_train_one(sub_prob, param, weighted_C(i), weighted_C(j))
 
                         For k = 0 To ci - 1
-                            If Not nonzero(si + k) AndAlso Math.Abs(f(p).alpha(k)) > 0 Then nonzero(si + k) = True
+                            If Not nonzero(si + k) AndAlso stdNum.Abs(f(p).alpha(k)) > 0 Then nonzero(si + k) = True
                         Next
 
                         For k = 0 To cj - 1
-                            If Not nonzero(sj + k) AndAlso Math.Abs(f(p).alpha(ci + k)) > 0 Then nonzero(sj + k) = True
+                            If Not nonzero(sj + k) AndAlso stdNum.Abs(f(p).alpha(ci + k)) > 0 Then nonzero(sj + k) = True
                         Next
 
                         Threading.Interlocked.Increment(p)
@@ -1953,7 +1954,7 @@ Namespace SVM
 
                     If nonzero(i) Then
                         model.SupportVectors(p) = x(i)
-                        model.SupportVectorIndices(Math.Min(Threading.Interlocked.Increment(p), p - 1)) = perm(i) + 1
+                        model.SupportVectorIndices(stdNum.Min(Threading.Interlocked.Increment(p), p - 1)) = perm(i) + 1
                     End If
                 Next
 
@@ -1987,13 +1988,13 @@ Namespace SVM
                         Dim k As Integer
 
                         For k = 0 To ci - 1
-                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(Math.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(k)
+                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(stdNum.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(k)
                         Next
 
                         q = nz_start(j)
 
                         For k = 0 To cj - 1
-                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(Math.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(ci + k)
+                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(stdNum.Min(Threading.Interlocked.Increment(q), q - 1)) = f(p).alpha(ci + k)
                         Next
 
                         Threading.Interlocked.Increment(p)
@@ -2285,7 +2286,7 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     For j = i + 1 To nr_class - 1
-                        pairwise_prob(i, j) = Math.Min(Math.Max(sigmoid_predict(dec_values(k), model.PairwiseProbabilityA(k), model.PairwiseProbabilityB(k)), min_prob), 1 - min_prob)
+                        pairwise_prob(i, j) = stdNum.Min(stdNum.Max(sigmoid_predict(dec_values(k), model.PairwiseProbabilityA(k), model.PairwiseProbabilityB(k)), min_prob), 1 - min_prob)
                         pairwise_prob(j, i) = 1 - pairwise_prob(i, j)
                         k += 1
                     Next
@@ -2378,7 +2379,7 @@ Namespace SVM
 
                     For j = i + 1 To nr_class - 1
                         Dim n2 = count(j)
-                        If param.Nu * (n1 + n2) / 2 > Math.Min(n1, n2) Then Return "specified nu is infeasible"
+                        If param.Nu * (n1 + n2) / 2 > stdNum.Min(n1, n2) Then Return "specified nu is infeasible"
                     Next
                 Next
             End If

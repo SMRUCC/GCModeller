@@ -19,6 +19,7 @@
 
 Imports System
 Imports System.IO
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>
@@ -64,8 +65,8 @@ Namespace SVM
                 For j = 0 To prob.X(i).Length - 1
                     Dim index = prob.X(i)(j).Index - 1
                     Dim value = prob.X(i)(j).Value
-                    minVals(index) = Math.Min(minVals(index), value)
-                    maxVals(index) = Math.Max(maxVals(index), value)
+                    minVals(index) = stdNum.Min(minVals(index), value)
+                    maxVals(index) = stdNum.Max(maxVals(index), value)
                 Next
             Next
 

@@ -19,6 +19,7 @@
 
 Imports System
 Imports System.Runtime.InteropServices
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>
@@ -57,7 +58,7 @@ Namespace SVM
                     sumvy += v * y
                 Next
 
-                Return (problem.Count * sumvy - sumv * sumy) / (Math.Sqrt(problem.Count * sumvv - sumv * sumv) * Math.Sqrt(problem.Count * sumyy - sumy * sumy))
+                Return (problem.Count * sumvy - sumv * sumy) / (stdNum.Sqrt(problem.Count * sumvv - sumv * sumv) * stdNum.Sqrt(problem.Count * sumyy - sumy * sumy))
             Else
 
                 For i = 0 To problem.Count - 1

@@ -1,6 +1,7 @@
 ﻿Imports System
 Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports stdNum = System.Math
 
 Namespace SVM
     Friend Module SVMExtensions
@@ -8,7 +9,7 @@ Namespace SVM
 
         <Extension()>
         Public Function Truncate(ByVal x As Double) As Double
-            Return Math.Round(x * PRECISION) / PRECISION
+            Return stdNum.Round(x * PRECISION) / PRECISION
         End Function
 
         <Extension()>

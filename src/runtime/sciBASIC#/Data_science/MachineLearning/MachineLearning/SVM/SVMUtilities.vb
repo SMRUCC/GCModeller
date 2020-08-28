@@ -3,7 +3,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 
-Namespace SVMTest
+Namespace SVM
     Public Module SVMUtilities
         Private Const SCALE As Double = 100
         Public Const TRAINING_SEED As Integer = 20080524
@@ -21,7 +21,7 @@ Namespace SVMTest
 
             For i = 0 To count - 1
                 Dim x As Double = rand.NextDouble() * SCALE + 10
-                Dim y As Double = rand.NextDouble() * SCALE - SCALE * .5
+                Dim y As Double = rand.NextDouble() * SCALE - SCALE * 0.5
                 x = If(i < positive, x, -x)
                 data.Add(New Node() {New Node(1, x), New Node(2, y)})
                 labels.Add(If(i < positive, 1, -1))

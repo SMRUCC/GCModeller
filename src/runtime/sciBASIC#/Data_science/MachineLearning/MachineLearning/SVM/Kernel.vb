@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports stdNum = System.Math
 
 Namespace SVM
     Friend Interface IQMatrix
@@ -47,9 +48,9 @@ Namespace SVM
                 Case KernelType.POLY
                     Return powi(_gamma * dot(_x(i), _x(j)) + _coef0, _degree)
                 Case KernelType.RBF
-                    Return Math.Exp(-_gamma * (_xSquare(i) + _xSquare(j) - 2 * dot(_x(i), _x(j))))
+                    Return stdNum.Exp(-_gamma * (_xSquare(i) + _xSquare(j) - 2 * dot(_x(i), _x(j))))
                 Case KernelType.SIGMOID
-                    Return Math.Tanh(_gamma * dot(_x(i), _x(j)) + _coef0)
+                    Return stdNum.Tanh(_gamma * dot(_x(i), _x(j)) + _coef0)
                 Case KernelType.PRECOMPUTED
                     Return _x(i)(CInt(_x(j)(0).Value)).Value
                 Case Else
@@ -199,9 +200,9 @@ Namespace SVM
                     Return powi(param.Degree * dot(x, y) + param.Coefficient0, param.Degree)
                 Case KernelType.RBF
                     Dim sum = computeSquaredDistance(x, y)
-                    Return Math.Exp(-param.Gamma * sum)
+                    Return stdNum.Exp(-param.Gamma * sum)
                 Case KernelType.SIGMOID
-                    Return Math.Tanh(param.Gamma * dot(x, y) + param.Coefficient0)
+                    Return stdNum.Tanh(param.Gamma * dot(x, y) + param.Coefficient0)
                 Case KernelType.PRECOMPUTED
                     Return x(CInt(y(0).Value)).Value
                 Case Else

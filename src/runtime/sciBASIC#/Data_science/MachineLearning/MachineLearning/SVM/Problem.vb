@@ -20,6 +20,7 @@
 Imports System
 Imports System.IO
 Imports System.Collections.Generic
+Imports stdNum = System.Math
 
 Namespace SVM
     ''' <summary>
@@ -100,7 +101,7 @@ Namespace SVM
                     x(j).Value = Double.Parse(nodeParts(1))
                 Next
 
-                If m > 0 Then max_index = Math.Max(max_index, x(m - 1).Index)
+                If m > 0 Then max_index = stdNum.Max(max_index, x(m - 1).Index)
                 vx.Add(x)
             End While
 
