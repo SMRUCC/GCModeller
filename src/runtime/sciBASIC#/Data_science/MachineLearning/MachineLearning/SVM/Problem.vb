@@ -70,29 +70,13 @@ Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace SVM
+
     ''' <summary>
     ''' Encapsulates a problem, or set of vectors which must be classified.
     ''' </summary>
     <Serializable>
     Public Class Problem
-        ''' <summary>
-        ''' Constructor.
-        ''' </summary>
-        ''' <param name="count">Number of vectors</param>
-        ''' <param name="y">The class labels</param>
-        ''' <param name="x">Vector data.</param>
-        ''' <param name="maxIndex">Maximum index for a vector</param>
-        Public Sub New(ByVal count As Integer, ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
-            Me.Count = count
-            Me.Y = y
-            Me.X = x
-            Me.MaxIndex = maxIndex
-        End Sub
-        ''' <summary>
-        ''' Empty Constructor.  Nothing is initialized.
-        ''' </summary>
-        Public Sub New()
-        End Sub
+
         ''' <summary>
         ''' Number of vectors.
         ''' </summary>
@@ -112,6 +96,26 @@ Namespace SVM
         ''' Maximum index for a vector.
         ''' </summary>
         Public Property MaxIndex As Integer
+
+        ''' <summary>
+        ''' Constructor.
+        ''' </summary>
+        ''' <param name="count">Number of vectors</param>
+        ''' <param name="y">The class labels</param>
+        ''' <param name="x">Vector data.</param>
+        ''' <param name="maxIndex">Maximum index for a vector</param>
+        Public Sub New(ByVal count As Integer, ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
+            Me.Count = count
+            Me.Y = y
+            Me.X = x
+            Me.MaxIndex = maxIndex
+        End Sub
+
+        ''' <summary>
+        ''' Empty Constructor.  Nothing is initialized.
+        ''' </summary>
+        Public Sub New()
+        End Sub
 
         Public Overrides Function Equals(ByVal obj As Object) As Boolean
             Dim other As Problem = TryCast(obj, Problem)

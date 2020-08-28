@@ -127,8 +127,8 @@ Namespace SVM
 
             While True
 
-                If x._index = y._index Then
-                    sum += x._value * y._value
+                If x.Index = y.Index Then
+                    sum += x.Value * y.Value
                     i += 1
                     j += 1
 
@@ -146,7 +146,7 @@ Namespace SVM
                     End If
                 Else
 
-                    If x._index > y._index Then
+                    If x.Index > y.Index Then
                         Threading.Interlocked.Increment(j)
 
                         If j < ylen Then
@@ -180,8 +180,8 @@ Namespace SVM
 
             While True
 
-                If x._index = y._index Then
-                    Dim d = x._value - y._value
+                If x.Index = y.Index Then
+                    Dim d = x.Value - y.Value
                     sum += d * d
                     xIndex += 1
                     yIndex += 1
@@ -198,8 +198,8 @@ Namespace SVM
                     Else
                         Exit While
                     End If
-                ElseIf x._index > y._index Then
-                    sum += y._value * y._value
+                ElseIf x.Index > y.Index Then
+                    sum += y.Value * y.Value
 
                     If Threading.Interlocked.Increment(yIndex) < yLength Then
                         y = yNodes(yIndex)
@@ -207,7 +207,7 @@ Namespace SVM
                         Exit While
                     End If
                 Else
-                    sum += x._value * x._value
+                    sum += x.Value * x.Value
 
                     If Threading.Interlocked.Increment(xIndex) < xLength Then
                         x = xNodes(xIndex)
@@ -218,13 +218,13 @@ Namespace SVM
             End While
 
             While xIndex < xLength
-                Dim d = xNodes(xIndex)._value
+                Dim d = xNodes(xIndex).Value
                 sum += d * d
                 xIndex += 1
             End While
 
             While yIndex < yLength
-                Dim d = yNodes(yIndex)._value
+                Dim d = yNodes(yIndex).Value
                 sum += d * d
                 yIndex += 1
             End While

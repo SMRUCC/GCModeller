@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::af3ee02f86b72b00c666713f6164de56, Data_science\MachineLearning\MachineLearning\SVM\Node.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Node
-    ' 
-    '         Properties: Index, Value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: CompareTo, Equals, GetHashCode, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Node
+' 
+'         Properties: Index, Value
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: CompareTo, Equals, GetHashCode, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,22 +62,30 @@
 
 
 Namespace SVM
+
     ''' <summary>
     ''' Encapsulates a node in a Problem vector, with an index and a value (for more efficient representation
     ''' of sparse data.
     ''' </summary>
     <Serializable>
-    Public Class Node
-        Implements IComparable(Of Node)
+    Public Class Node : Implements IComparable(Of Node)
 
-        Friend _index As Integer
-        Friend _value As Double
+        ''' <summary>
+        ''' Index of this Node.
+        ''' </summary>
+        Public Property Index As Integer
+
+        ''' <summary>
+        ''' Value at Index.
+        ''' </summary>
+        Public Property Value As Double
 
         ''' <summary>
         ''' Default Constructor.
         ''' </summary>
         Public Sub New()
         End Sub
+
         ''' <summary>
         ''' Constructor.
         ''' </summary>
@@ -87,29 +95,6 @@ Namespace SVM
             _index = index
             _value = value
         End Sub
-
-        ''' <summary>
-        ''' Index of this Node.
-        ''' </summary>
-        Public Property Index As Integer
-            Get
-                Return _index
-            End Get
-            Set(ByVal value As Integer)
-                _index = value
-            End Set
-        End Property
-        ''' <summary>
-        ''' Value at Index.
-        ''' </summary>
-        Public Property Value As Double
-            Get
-                Return _value
-            End Get
-            Set(ByVal value As Double)
-                _value = value
-            End Set
-        End Property
 
         ''' <summary>
         ''' String representation of this Node as {index}:{value}.
