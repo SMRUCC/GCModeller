@@ -660,7 +660,8 @@
     <Compile Include="SVM\Cache.vb" />
     <Compile Include="SVM\GaussianTransform.vb" />
     <Compile Include="SVM\IRangeTransform.vb" />
-    <Compile Include="SVM\Kernel.vb" />
+    <Compile Include="SVM\Kernel\Class1.vb" />
+    <Compile Include="SVM\Kernel\Kernel.vb" />
     <Compile Include="SVM\Model.vb" />
     <Compile Include="SVM\Node.vb" />
     <Compile Include="SVM\Parameter.vb" />
