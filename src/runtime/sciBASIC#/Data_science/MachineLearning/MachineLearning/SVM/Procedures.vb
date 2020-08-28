@@ -60,6 +60,7 @@ Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
+Imports Microsoft.VisualBasic.Language
 
 Namespace SVM
 
@@ -840,7 +841,7 @@ Namespace SVM
                     probB = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
                 End If
 
-                Dim p = 0
+                Dim p As i32 = 0
 
                 For i = 0 To nr_class - 1
 
@@ -941,7 +942,7 @@ Namespace SVM
 
                     If nonzero(i) Then
                         model.SupportVectors(p) = x(i)
-                        model.SupportVectorIndices(stdNum.Min(p), p - 1)) = perm(i) + 1
+                        model.SupportVectorIndices(++p) = perm(i) + 1
                     End If
                 Next
 
@@ -971,17 +972,17 @@ Namespace SVM
                         Dim sj = start(j)
                         Dim ci = count(i)
                         Dim cj = count(j)
-                        Dim q = nz_start(i)
+                        Dim q As i32 = nz_start(i)
                         Dim k As Integer
 
                         For k = 0 To ci - 1
-                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(stdNum.Min(q), q - 1)) = f(p).alpha(k)
+                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(++q) = f(p).alpha(k)
                         Next
 
                         q = nz_start(j)
 
                         For k = 0 To cj - 1
-                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(stdNum.Min(q), q - 1)) = f(p).alpha(ci + k)
+                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(++q) = f(p).alpha(ci + k)
                         Next
 
                         p += 1
