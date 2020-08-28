@@ -69,12 +69,12 @@ Imports System.Globalization
 Imports stdNum = System.Math
 
 Namespace SVM
+
     ''' <summary>
     ''' A transform which learns the mean and variance of a sample set and uses these to transform new data
     ''' so that it has zero mean and unit variance.
     ''' </summary>
-    Public Class GaussianTransform
-        Implements IRangeTransform
+    Public Class GaussianTransform : Implements IRangeTransform
 
         Private _means As Double()
         Private _stddevs As Double()

@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::d5402d5b5c1c51e5bac2d46a9e117d0a, Data_science\MachineLearning\MachineLearning\SVM\Parameter\Parameter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Parameter
-    ' 
-    '         Properties: C, CacheSize, Coefficient0, Degree, EPS
-    '                     Gamma, KernelType, Nu, P, Probability
-    '                     Shrinking, SvmType, Weights
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Clone, Equals, GetHashCode
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Parameter
+' 
+'         Properties: C, CacheSize, Coefficient0, Degree, EPS
+'                     Gamma, KernelType, Nu, P, Probability
+'                     Shrinking, SvmType, Weights
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Clone, Equals, GetHashCode
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,12 +62,6 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-Imports System
-Imports System.Linq
-Imports System.Collections.Generic
-
 Namespace SVM
 
     ''' <summary>
@@ -76,31 +70,12 @@ Namespace SVM
     ''' the default values.
     ''' </summary>
     <Serializable>
-    Public Class Parameter
-        Implements ICloneable
+    Public Class Parameter : Implements ICloneable
 
         ''' <summary>
         ''' Contains custom weights for class labels.  Default weight value is 1.
         ''' </summary>
-        Private _Weights As System.Collections.Generic.Dictionary(Of Integer, Double)
-        ''' <summary>
-        ''' Default Constructor.  Gives good default values to all parameters.
-        ''' </summary>
-        Public Sub New()
-            SvmType = SvmType.C_SVC
-            KernelType = KernelType.RBF
-            Degree = 3
-            Gamma = 0 ' 1/k
-            Coefficient0 = 0
-            Nu = 0.5
-            CacheSize = 40
-            C = 1
-            EPS = 1e-3
-            P = 0.1
-            Shrinking = True
-            Probability = False
-            Weights = New Dictionary(Of Integer, Double)()
-        End Sub
+        Dim _Weights As Dictionary(Of Integer, Double)
 
         ''' <summary>
         ''' Type of SVM (default C-SVC)
@@ -170,6 +145,25 @@ Namespace SVM
         ''' Whether to train an SVC or SVR model for probability estimates, (default False)
         ''' </summary>
         Public Property Probability As Boolean
+
+        ''' <summary>
+        ''' Default Constructor.  Gives good default values to all parameters.
+        ''' </summary>
+        Public Sub New()
+            SvmType = SvmType.C_SVC
+            KernelType = KernelType.RBF
+            Degree = 3
+            Gamma = 0 ' 1/k
+            Coefficient0 = 0
+            Nu = 0.5
+            CacheSize = 40
+            C = 1
+            EPS = 0.001
+            P = 0.1
+            Shrinking = True
+            Probability = False
+            Weights = New Dictionary(Of Integer, Double)()
+        End Sub
 
         Public Overrides Function Equals(ByVal obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)

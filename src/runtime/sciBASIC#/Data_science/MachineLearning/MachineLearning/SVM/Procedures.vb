@@ -57,6 +57,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace SVM
 
@@ -68,7 +69,8 @@ Namespace SVM
         ' construct and solve various formulations
         '
         Public Const LIBSVM_VERSION As Integer = 318
-        Private rand As Random = New Random()
+
+        Private rand As Random = randf.seeds
         Private svm_print_stdout As TextWriter = Console.Out
 
         Public Sub setRandomSeed(ByVal seed As Integer)
@@ -712,8 +714,10 @@ Namespace SVM
         ' Interface functions
         '
         Public Function svm_train(ByVal prob As Problem, ByVal param As Parameter) As Model
-            Dim model As Model = New Model()
-            model.Parameter = param
+            Dim model As New Model() With {
+                .Parameter = param,
+                .DimensionNames = prob.DimensionNames
+            }
 
             If param.SvmType = SvmType.ONE_CLASS OrElse param.SvmType = SvmType.EPSILON_SVR OrElse param.SvmType = SvmType.NU_SVR Then
                 ' regression or one-class-svm
