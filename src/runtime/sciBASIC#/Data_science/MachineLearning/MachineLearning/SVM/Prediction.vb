@@ -1,27 +1,25 @@
 ﻿' 
- ' * SVM.NET Library
- ' * Copyright (C) 2008 Matthew Johnson
- ' * 
- ' * This program is free software: you can redistribute it and/or modify
- ' * it under the terms of the GNU General Public License as published by
- ' * the Free Software Foundation, either version 3 of the License, or
- ' * (at your option) any later version.
- ' * 
- ' * This program is distributed in the hope that it will be useful,
- ' * but WITHOUT ANY WARRANTY; without even the implied warranty of
- ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ' * GNU General Public License for more details.
- ' * 
- ' * You should have received a copy of the GNU General Public License
- ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+' * SVM.NET Library
+' * Copyright (C) 2008 Matthew Johnson
+' * 
+' * This program is free software: you can redistribute it and/or modify
+' * it under the terms of the GNU General Public License as published by
+' * the Free Software Foundation, either version 3 of the License, or
+' * (at your option) any later version.
+' * 
+' * This program is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' * GNU General Public License for more details.
+' * 
+' * You should have received a copy of the GNU General Public License
+' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-Imports System
-Imports System.Linq
+
 Imports System.IO
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
     ''' <summary>
@@ -49,7 +47,7 @@ Namespace SVM
 
             If predict_probability Then
                 If svm_type = SvmType.EPSILON_SVR OrElse svm_type = SvmType.NU_SVR Then
-                    Console.WriteLine("Prob. model for test data: target value = predicted value + z," & Microsoft.VisualBasic.Constants.vbLf & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & svm_get_svr_probability(model))
+                    Console.WriteLine("Prob. model for test data: target value = predicted value + z," & ASCII.LF & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & svm_get_svr_probability(model))
                 Else
                     svm_get_labels(model, labels)
                     prob_estimates = New Double(nr_class - 1) {}
@@ -61,7 +59,7 @@ Namespace SVM
                             output.Write(" " & labels(j))
                         Next
 
-                        output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                        output.Write(ASCII.LF)
                     End If
                 End If
             End If
@@ -81,11 +79,11 @@ Namespace SVM
                             output.Write(prob_estimates(j) & " ")
                         Next
 
-                        output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                        output.Write(ASCII.LF)
                     End If
                 Else
                     v = svm_predict(model, x)
-                    If output IsNot Nothing Then output.Write(v & Microsoft.VisualBasic.Constants.vbLf)
+                    If output IsNot Nothing Then output.Write(v & ASCII.LF)
                 End If
 
                 If v = target Then Threading.Interlocked.Increment(correct)
@@ -157,7 +155,7 @@ Namespace SVM
         End Function
 
         Private Sub exit_with_help()
-            Debug.Write("usage: svm_predict [options] test_file model_file output_file" & Microsoft.VisualBasic.Constants.vbLf & "options:" & Microsoft.VisualBasic.Constants.vbLf & "-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0); one-class SVM not supported yet" & Microsoft.VisualBasic.Constants.vbLf)
+            Debug.Write("usage: svm_predict [options] test_file model_file output_file" & ASCII.LF & "options:" & ASCII.LF & "-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0); one-class SVM not supported yet" & ASCII.LF)
             Environment.Exit(1)
         End Sub
 

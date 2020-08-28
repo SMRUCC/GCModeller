@@ -18,9 +18,8 @@
 
 
 
-Imports System
 Imports System.IO
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Text
 
 Namespace SVM
     ''' <summary>
@@ -286,15 +285,15 @@ Namespace SVM
             Start()
             Dim output As StreamWriter = New StreamWriter(stream)
             Dim param = model.Parameter
-            output.Write("svm_type {0}" & Microsoft.VisualBasic.Constants.vbLf, param.SvmType)
-            output.Write("kernel_type {0}" & Microsoft.VisualBasic.Constants.vbLf, param.KernelType)
-            If param.KernelType = KernelType.POLY Then output.Write("degree {0}" & Microsoft.VisualBasic.Constants.vbLf, param.Degree)
-            If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.RBF OrElse param.KernelType = KernelType.SIGMOID Then output.Write("gamma {0:0.000000}" & Microsoft.VisualBasic.Constants.vbLf, param.Gamma)
-            If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.SIGMOID Then output.Write("coef0 {0:0.000000}" & Microsoft.VisualBasic.Constants.vbLf, param.Coefficient0)
+            output.Write("svm_type {0}" & ASCII.LF, param.SvmType)
+            output.Write("kernel_type {0}" & ASCII.LF, param.KernelType)
+            If param.KernelType = KernelType.POLY Then output.Write("degree {0}" & ASCII.LF, param.Degree)
+            If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.RBF OrElse param.KernelType = KernelType.SIGMOID Then output.Write("gamma {0:0.000000}" & ASCII.LF, param.Gamma)
+            If param.KernelType = KernelType.POLY OrElse param.KernelType = KernelType.SIGMOID Then output.Write("coef0 {0:0.000000}" & ASCII.LF, param.Coefficient0)
             Dim nr_class = model.NumberOfClasses
             Dim l = model.SupportVectorCount
-            output.Write("nr_class {0}" & Microsoft.VisualBasic.Constants.vbLf, nr_class)
-            output.Write("total_sv {0}" & Microsoft.VisualBasic.Constants.vbLf, l)
+            output.Write("nr_class {0}" & ASCII.LF, nr_class)
+            output.Write("total_sv {0}" & ASCII.LF, l)
 
             If True Then
                 output.Write("rho")
@@ -303,7 +302,7 @@ Namespace SVM
                     output.Write(" {0:0.000000}", model.Rho(i))
                 Next
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             End If
 
             If model.ClassLabels IsNot Nothing Then
@@ -313,7 +312,7 @@ Namespace SVM
                     output.Write(" {0}", model.ClassLabels(i))
                 Next
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             End If
             ' regression has probA only
             If model.PairwiseProbabilityA IsNot Nothing Then
@@ -323,7 +322,7 @@ Namespace SVM
                     output.Write(" {0:0.000000}", model.PairwiseProbabilityA(i))
                 Next
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             End If
 
             If model.PairwiseProbabilityB IsNot Nothing Then
@@ -333,7 +332,7 @@ Namespace SVM
                     output.Write(" {0:0.000000}", model.PairwiseProbabilityB(i))
                 Next
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             End If
 
             If model.NumberOfSVPerClass IsNot Nothing Then
@@ -343,10 +342,10 @@ Namespace SVM
                     output.Write(" {0}", model.NumberOfSVPerClass(i))
                 Next
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             End If
 
-            output.Write("SV" & Microsoft.VisualBasic.Constants.vbLf)
+            output.Write("SV" & ASCII.LF)
             Dim sv_coef = model.SupportVectorCoefficients
             Dim SV = model.SupportVectors
 
@@ -359,7 +358,7 @@ Namespace SVM
                 Dim p = SV(i)
 
                 If p.Length = 0 Then
-                    output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                    output.Write(ASCII.LF)
                     Continue For
                 End If
 
@@ -373,7 +372,7 @@ Namespace SVM
                     Next
                 End If
 
-                output.Write(Microsoft.VisualBasic.Constants.vbLf)
+                output.Write(ASCII.LF)
             Next
 
             output.Flush()

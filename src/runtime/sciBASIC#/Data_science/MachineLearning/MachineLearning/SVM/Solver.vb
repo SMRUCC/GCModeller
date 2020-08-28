@@ -17,10 +17,10 @@
 
 
 
-Imports System
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -161,7 +161,7 @@ Namespace SVM
                 If is_free(j) Then nr_free += 1
             Next
 
-            If 2 * nr_free < active_size Then Procedures.info(Microsoft.VisualBasic.Constants.vbLf & "WARNING: using -h 0 may be faster" & Microsoft.VisualBasic.Constants.vbLf)
+            If 2 * nr_free < active_size Then Procedures.info(ASCII.LF & "WARNING: using -h 0 may be faster" & ASCII.LF)
 
             If nr_free * l > 2 * active_size * (l - active_size) Then
                 For i = active_size To l - 1
@@ -419,7 +419,7 @@ Namespace SVM
                     info("*")
                 End If
 
-                Console.Error.Write(Microsoft.VisualBasic.Constants.vbLf & "WARNING: reaching max number of iterations" & Microsoft.VisualBasic.Constants.vbLf)
+                Console.Error.Write(ASCII.LF & "WARNING: reaching max number of iterations" & ASCII.LF)
             End If
 
             ' calculate rho
@@ -447,7 +447,7 @@ Namespace SVM
 
             si.upper_bound_p = Cp
             si.upper_bound_n = Cn
-            Procedures.info(Microsoft.VisualBasic.Constants.vbLf & "optimization finished, #iter = " & iter & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info(ASCII.LF & "optimization finished, #iter = " & iter & ASCII.LF)
         End Sub
 
         ' return 1 if already optimal, return 0 otherwise
@@ -1122,7 +1122,7 @@ Namespace SVM
                 sum_alpha += alpha(i)
             Next
 
-            If Cp = Cn Then Procedures.info("nu = " & sum_alpha / (Cp * prob.Count) & Microsoft.VisualBasic.Constants.vbLf)
+            If Cp = Cn Then Procedures.info("nu = " & sum_alpha / (Cp * prob.Count) & ASCII.LF)
 
             For i = 0 To l - 1
                 alpha(i) *= y(i)
@@ -1167,7 +1167,7 @@ Namespace SVM
             Dim s As Solver_NU = New Solver_NU()
             s.Solve(l, New SVC_Q(prob, param, y), zeros, y, alpha, 1.0, 1.0, param.EPS, si, param.Shrinking)
             Dim r = si.r
-            Procedures.info("C = " & 1 / r & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("C = " & 1 / r & ASCII.LF)
 
             For i = 0 To l - 1
                 alpha(i) *= y(i) / r
@@ -1230,7 +1230,7 @@ Namespace SVM
                 sum_alpha += stdNum.Abs(alpha(i))
             Next
 
-            Procedures.info("nu = " & sum_alpha / (param.C * l) & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("nu = " & sum_alpha / (param.C * l) & ASCII.LF)
         End Sub
 
         Private Sub solve_nu_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo)
@@ -1254,7 +1254,7 @@ Namespace SVM
 
             Dim s As Solver_NU = New Solver_NU()
             s.Solve(2 * l, New SVR_Q(prob, param), linear_term, y, alpha2, C, C, param.EPS, si, param.Shrinking)
-            Procedures.info("epsilon = " & -si.r & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("epsilon = " & -si.r & ASCII.LF)
 
             For i = 0 To l - 1
                 alpha(i) = alpha2(i) - alpha2(i + l)
@@ -1286,7 +1286,7 @@ Namespace SVM
                     solve_nu_svr(prob, param, alpha, si)
             End Select
 
-            Procedures.info("obj = " & si.obj & ", rho = " & si.rho & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("obj = " & si.obj & ", rho = " & si.rho & ASCII.LF)
 
             ' output SVs
 
@@ -1306,7 +1306,7 @@ Namespace SVM
                 End If
             Next
 
-            Procedures.info("nSV = " & nSV & ", nBSV = " & nBSV & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("nSV = " & nSV & ", nBSV = " & nBSV & ASCII.LF)
             Dim f As decision_function = New decision_function()
             f.alpha = alpha
             f.rho = si.rho
@@ -1427,12 +1427,12 @@ Namespace SVM
                 End While
 
                 If stepsize < min_step Then
-                    Procedures.info("Line search fails in two-class probability estimates" & Microsoft.VisualBasic.Constants.vbLf)
+                    Procedures.info("Line search fails in two-class probability estimates" & ASCII.LF)
                     Exit For
                 End If
             Next
 
-            If iter >= max_iter Then Procedures.info("Reaching maximal iterations in two-class probability estimates" & Microsoft.VisualBasic.Constants.vbLf)
+            If iter >= max_iter Then Procedures.info("Reaching maximal iterations in two-class probability estimates" & ASCII.LF)
             probAB(0) = A
             probAB(1) = B
         End Sub
@@ -1505,7 +1505,7 @@ Namespace SVM
                 Next
             Next
 
-            If iter >= max_iter Then Procedures.info("Exceeds max_iter in multiclass_prob" & Microsoft.VisualBasic.Constants.vbLf)
+            If iter >= max_iter Then Procedures.info("Exceeds max_iter in multiclass_prob" & ASCII.LF)
         End Sub
 
         ' Cross-validation decision values for probability estimates
@@ -1628,7 +1628,7 @@ Namespace SVM
             Next
 
             mae /= prob.Count - count
-            Procedures.info("Prob. model for test data: target value = predicted value + z," & Microsoft.VisualBasic.Constants.vbLf & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & Microsoft.VisualBasic.Constants.vbLf)
+            Procedures.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
             Return mae
         End Function
 
@@ -1783,7 +1783,7 @@ Namespace SVM
 
                 ' group training data of the same class
                 svm_group_classes(prob, nr_class, label, start, count, perm)
-                If nr_class = 1 Then Procedures.info("WARNING: training data in only one class. See README for details." & Microsoft.VisualBasic.Constants.vbLf)
+                If nr_class = 1 Then Procedures.info("WARNING: training data in only one class. See README for details." & ASCII.LF)
                 Dim x = New Node(l - 1)() {}
                 Dim i As Integer
 
@@ -1802,7 +1802,7 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     If Not param.Weights.ContainsKey(label(i)) Then
-                        Console.Error.Write("WARNING: class label " & label(i) & " specified in weight is not found" & Microsoft.VisualBasic.Constants.vbLf)
+                        Console.Error.Write("WARNING: class label " & label(i) & " specified in weight is not found" & ASCII.LF)
                     Else
                         weighted_C(i) *= param.Weights(label(i))
                     End If
@@ -1915,7 +1915,7 @@ Namespace SVM
                     nz_count(i) = nSV
                 Next
 
-                Procedures.info("Total nSV = " & nnz & Microsoft.VisualBasic.Constants.vbLf)
+                Procedures.info("Total nSV = " & nnz & ASCII.LF)
                 model.SupportVectorCount = nnz
                 model.SupportVectors = New Node(nnz - 1)() {}
                 model.SupportVectorIndices = New Integer(nnz - 1) {}
@@ -2139,7 +2139,7 @@ Namespace SVM
             If (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.PairwiseProbabilityA IsNot Nothing Then
                 Return model.PairwiseProbabilityA(0)
             Else
-                Console.Error.Write("Model doesn't contain information for SVR probability inference" & Microsoft.VisualBasic.Constants.vbLf)
+                Console.Error.Write("Model doesn't contain information for SVR probability inference" & ASCII.LF)
                 Return 0
             End If
         End Function
