@@ -779,7 +779,9 @@ Public Module KeyValuePairExtensions
     <Extension>
     Public Function ToDictionary(Of K, V, KOut, VOut)(input As IEnumerable(Of KeyValuePair(Of K, V)), key As Func(Of K, V, KOut), value As Func(Of K, V, VOut)) As Dictionary(Of KOut, VOut)
         Return input.ToDictionary(Function(tuple) key(tuple.Key, tuple.Value),
-                                  Function(tuple) value(tuple.Key, tuple.Value))
+                                  Function(tuple)
+                                      Return value(tuple.Key, tuple.Value)
+                                  End Function)
     End Function
 
     Const sourceEmpty$ = "Source is nothing, returns empty dictionary table!"
