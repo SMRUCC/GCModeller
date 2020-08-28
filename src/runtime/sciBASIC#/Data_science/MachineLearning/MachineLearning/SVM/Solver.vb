@@ -20,6 +20,7 @@
 Imports System
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.Language
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -294,7 +295,7 @@ Namespace SVM
 
                 If y(i) <> y(j) Then
                     Dim quad_coef = QD(i) + QD(j) + 2 * Q_i(j)
-                    If quad_coef <= 0 Then quad_coef = 1e-12
+                    If quad_coef <= 0 Then quad_coef = 0.000000000001
                     Dim delta = (-G(i) - G(j)) / quad_coef
                     Dim diff = alpha(i) - alpha(j)
                     alpha(i) += delta
@@ -327,7 +328,7 @@ Namespace SVM
                     End If
                 Else
                     Dim quad_coef = QD(i) + QD(j) - 2 * Q_i(j)
-                    If quad_coef <= 0 Then quad_coef = 1e-12
+                    If quad_coef <= 0 Then quad_coef = 0.000000000001
                     Dim delta = (G(i) - G(j)) / quad_coef
                     Dim sum = alpha(i) + alpha(j)
                     alpha(i) -= delta
@@ -501,7 +502,7 @@ Namespace SVM
                             If quad_coef > 0 Then
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef
                             Else
-                                obj_diff = -(grad_diff * grad_diff) / 1e-12
+                                obj_diff = -(grad_diff * grad_diff) / 0.000000000001
                             End If
 
                             If obj_diff <= obj_diff_min Then
@@ -523,7 +524,7 @@ Namespace SVM
                             If quad_coef > 0 Then
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef
                             Else
-                                obj_diff = -(grad_diff * grad_diff) / 1e-12
+                                obj_diff = -(grad_diff * grad_diff) / 0.000000000001
                             End If
 
                             If obj_diff <= obj_diff_min Then
@@ -722,7 +723,7 @@ Namespace SVM
                             If quad_coef > 0 Then
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef
                             Else
-                                obj_diff = -(grad_diff * grad_diff) / 1e-12
+                                obj_diff = -(grad_diff * grad_diff) / 0.000000000001
                             End If
 
                             If obj_diff <= obj_diff_min Then
@@ -744,7 +745,7 @@ Namespace SVM
                             If quad_coef > 0 Then
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef
                             Else
-                                obj_diff = -(grad_diff * grad_diff) / 1e-12
+                                obj_diff = -(grad_diff * grad_diff) / 0.000000000001
                             End If
 
                             If obj_diff <= obj_diff_min Then
@@ -911,9 +912,9 @@ Namespace SVM
 
         Public Overrides Function GetQ(ByVal i As Integer, ByVal len As Integer) As Single()
             Dim data As Single() = Nothing
-            Dim start, j As Integer
+            Dim start As i32 = 0, j As Integer
 
-            If CSharpImpl.__Assign(start, cache.GetData(i, data, len)) < len Then
+            If (start = cache.GetData(i, data, len)) < len Then
                 For j = start To len - 1
                     data(j) = CSng(y(i) * y(j) * KernelFunction(i, j))
                 Next
@@ -942,14 +943,6 @@ Namespace SVM
                 QD(j) = __
             Loop While False
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 
     Friend Class ONE_CLASS_Q
@@ -970,9 +963,10 @@ Namespace SVM
 
         Public Overrides Function GetQ(ByVal i As Integer, ByVal len As Integer) As Single()
             Dim data As Single() = Nothing
-            Dim start, j As Integer
+            Dim start As i32 = 0
+            Dim j As Integer
 
-            If CSharpImpl.__Assign(start, cache.GetData(i, data, len)) < len Then
+            If (start = cache.GetData(i, data, len)) < len Then
                 For j = start To len - 1
                     data(j) = CSng(KernelFunction(i, j))
                 Next
@@ -995,14 +989,6 @@ Namespace SVM
                 QD(j) = __
             Loop While False
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 
     Friend Class SVR_Q
@@ -1082,14 +1068,6 @@ Namespace SVM
         Public Overrides Function GetQD() As Double()
             Return QD
         End Function
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 
     Friend Module Procedures
@@ -1265,7 +1243,8 @@ Namespace SVM
             Dim sum = C * param.Nu * l / 2
 
             For i = 0 To l - 1
-                alpha2(i) = CSharpImpl.__Assign(alpha2(i + l), stdNum.Min(sum, C))
+                alpha2(i + l) = stdNum.Min(sum, C)
+                alpha2(i) = alpha2(i + l)
                 sum -= alpha2(i)
                 linear_term(i) = -prob.Y(i)
                 y(i) = 1
@@ -1288,14 +1267,6 @@ Namespace SVM
         Private Class decision_function
             Public Property alpha As Double()
             Public Property rho As Double
-
-            Private Class CSharpImpl
-                <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-                Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                    target = value
-                    Return value
-                End Function
-            End Class
         End Class
 
         Private Function svm_train_one(ByVal prob As Problem, ByVal param As Parameter, ByVal Cp As Double, ByVal Cn As Double) As decision_function
@@ -1358,9 +1329,9 @@ Namespace SVM
             Next
 
             Dim max_iter = 100  ' Maximal number of iterations
-            Dim min_step = 1e-10    ' Minimal step taken in line search
-            Dim sigma = 1e-12   ' For numerically strict PD of Hessian
-            Dim eps = 1e-5
+            Dim min_step = 0.0000000001    ' Minimal step taken in line search
+            Dim sigma = 0.000000000001   ' For numerically strict PD of Hessian
+            Dim eps = 0.00001
             Dim hiTarget = (prior1 + 1.0) / (prior1 + 2.0)
             Dim loTarget = 1 / (prior0 + 2.0)
             Dim t = New Double(l - 1) {}
@@ -2279,7 +2250,7 @@ Namespace SVM
                 Dim nr_class = model.NumberOfClasses
                 Dim dec_values = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
                 svm_predict_values(model, x, dec_values)
-                Dim min_prob = 1e-7
+                Dim min_prob = 0.0000001
                 Dim pairwise_prob = New Double(nr_class - 1, nr_class - 1) {}
                 Dim k = 0
 
@@ -2394,13 +2365,5 @@ Namespace SVM
                 Return 0
             End If
         End Function
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Module
 End Namespace

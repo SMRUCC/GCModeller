@@ -225,7 +225,10 @@ Namespace SVM
 
         Private Sub findChanges()
             Dim tp, fp, tn, fn As Integer
-            tp = CSharpImpl.__Assign(fp, CSharpImpl.__Assign(tn, CSharpImpl.__Assign(fn, 0)))
+            fn = 0
+            tn = 0
+            fp = 0
+            tp = 0
 
             For i = 0 To _data.Count - 1
 
@@ -373,7 +376,7 @@ Namespace SVM
                 Dim newFPR = computeFPR(_changes(i))
 
                 If _changes(i).TP > _changes(i - 1).TP Then
-                    _auc += tpr * (newFPR - fpr) + .5 * (newTPR - tpr) * (newFPR - fpr)
+                    _auc += tpr * (newFPR - fpr) + 0.5 * (newTPR - tpr) * (newFPR - fpr)
                     tpr = newTPR
                     fpr = newFPR
                     _rocCurve.Add(New CurvePoint(fpr, tpr))
@@ -381,15 +384,7 @@ Namespace SVM
             Next
 
             _rocCurve.Add(New CurvePoint(1, 1))
-            _auc += tpr * (1 - fpr) + .5 * (1 - tpr) * (1 - fpr)
+            _auc += tpr * (1 - fpr) + 0.5 * (1 - tpr) * (1 - fpr)
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace

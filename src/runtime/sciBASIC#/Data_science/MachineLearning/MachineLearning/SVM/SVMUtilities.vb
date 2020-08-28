@@ -1,9 +1,4 @@
-﻿Imports SVM
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
-Namespace SVM
+﻿Namespace SVM
     Public Module SVMUtilities
         Private Const SCALE As Double = 100
         Public Const TRAINING_SEED As Integer = 20080524

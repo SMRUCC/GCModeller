@@ -1,25 +1,23 @@
 ﻿' 
- ' * SVM.NET Library
- ' * Copyright (C) 2008 Matthew Johnson
- ' * 
- ' * This program is free software: you can redistribute it and/or modify
- ' * it under the terms of the GNU General Public License as published by
- ' * the Free Software Foundation, either version 3 of the License, or
- ' * (at your option) any later version.
- ' * 
- ' * This program is distributed in the hope that it will be useful,
- ' * but WITHOUT ANY WARRANTY; without even the implied warranty of
- ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ' * GNU General Public License for more details.
- ' * 
- ' * You should have received a copy of the GNU General Public License
- ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+' * SVM.NET Library
+' * Copyright (C) 2008 Matthew Johnson
+' * 
+' * This program is free software: you can redistribute it and/or modify
+' * it under the terms of the GNU General Public License as published by
+' * the Free Software Foundation, either version 3 of the License, or
+' * (at your option) any later version.
+' * 
+' * This program is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' * GNU General Public License for more details.
+' * 
+' * You should have received a copy of the GNU General Public License
+' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-Imports System
+
 Imports System.Runtime.InteropServices
-Imports stdNum = System.Math
 
 Namespace SVM
     Friend Class Cache
@@ -59,7 +57,8 @@ Namespace SVM
             _size = CLng(_size / 4)
             _size -= CLng(_count * (16 / 4)) ' sizeof(head_t) == 16
             lru_head = New head_t(Me)
-            lru_head.next = CSharpImpl.__Assign(lru_head.prev, lru_head)
+            lru_head.prev = lru_head
+            lru_head.next = lru_head
         End Sub
 
         Private Sub lru_delete(ByVal h As head_t)
@@ -142,13 +141,5 @@ Namespace SVM
                 h = h.next
             End While
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace
