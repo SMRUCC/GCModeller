@@ -29,6 +29,11 @@ Namespace SVM
             End Get
         End Property
 
+        ''' <summary>
+        ''' 获取所指定的<paramref name="topic"/>下的所有标签数据，不去重
+        ''' </summary>
+        ''' <param name="topic"></param>
+        ''' <returns></returns>
         Public Function GetTopicLabels(topic As String) As String()
             Return vectors.Select(Function(a) a.labels(topic)).ToArray
         End Function

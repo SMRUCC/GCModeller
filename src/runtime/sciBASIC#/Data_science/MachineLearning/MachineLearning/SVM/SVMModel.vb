@@ -19,4 +19,11 @@ Namespace SVM
             Return DimensionNames.GetJson
         End Function
     End Class
+
+    Public Class SVMMultipleSet
+
+        Public Property dimensionNames As String()
+        Public Property topics As Dictionary(Of String, SVMModel)
+
+    End Class
 End Namespace
