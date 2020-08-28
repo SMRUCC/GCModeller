@@ -48,7 +48,6 @@ Namespace SVM
 
         Public Function CreateTwoClassProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             ' create points on either side of the vertical axis
@@ -72,7 +71,6 @@ Namespace SVM
         Public Function CreateMulticlassProblem(ByVal numberOfClasses As Integer, ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
             If numberOfClasses > 8 Then Throw New ArgumentException("Number of classes must be < 8")
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 3
             Dim samplesPerClass = New Integer(numberOfClasses - 1) {}
             Dim countPerClass As Integer = count / numberOfClasses
@@ -113,7 +111,6 @@ Namespace SVM
 
         Public Function CreateRegressionProblem(ByVal count As Integer, ByVal Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.Count = count
             prob.MaxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             Dim labels As List(Of Double) = New List(Of Double)()

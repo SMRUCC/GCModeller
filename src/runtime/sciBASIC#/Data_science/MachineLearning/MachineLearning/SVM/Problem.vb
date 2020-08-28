@@ -80,7 +80,11 @@ Namespace SVM
         ''' <summary>
         ''' Number of vectors.
         ''' </summary>
-        Public Property Count As Integer
+        Public ReadOnly Property Count As Integer
+            Get
+                Return X.Length
+            End Get
+        End Property
 
         ''' <summary>
         ''' Class labels.
@@ -93,7 +97,9 @@ Namespace SVM
         Public Property X As Node()()
 
         ''' <summary>
-        ''' Maximum index for a vector.
+        ''' Maximum index for a vector. this value is the width of each 
+        ''' row in <see cref="X"/> and equals to the length of vector 
+        ''' <see cref="DimensionNames"/> 
         ''' </summary>
         Public Property MaxIndex As Integer
 
@@ -106,12 +112,10 @@ Namespace SVM
         ''' <summary>
         ''' Constructor.
         ''' </summary>
-        ''' <param name="count">Number of vectors</param>
         ''' <param name="y">The class labels</param>
         ''' <param name="x">Vector data.</param>
         ''' <param name="maxIndex">Maximum index for a vector</param>
-        Public Sub New(ByVal count As Integer, ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
-            Me.Count = count
+        Public Sub New(ByVal y As Double(), ByVal x As Node()(), ByVal maxIndex As Integer)
             Me.Y = y
             Me.X = x
             Me.MaxIndex = maxIndex
@@ -163,7 +167,7 @@ Namespace SVM
             End While
 
             [Stop]()
-            Return New Problem(vy.Count, vy.ToArray(), vx.ToArray(), max_index)
+            Return New Problem(vy.ToArray(), vx.ToArray(), max_index)
         End Function
 
         ''' <summary>

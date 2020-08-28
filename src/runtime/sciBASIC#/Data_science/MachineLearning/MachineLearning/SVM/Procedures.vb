@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::473c7188d5092b95a9a644acaa5ef0b2, Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Procedures
-    ' 
-    '         Properties: IsVerbose
-    ' 
-    '         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
-    '                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
-    '                   svm_svr_probability, svm_train, svm_train_one
-    ' 
-    '         Sub: info, multiclass_probability, setRandomSeed, sigmoid_train, solve_c_svc
-    '              solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class, svm_binary_svc_probability
-    '              svm_cross_validation, svm_get_labels, svm_get_sv_indices, svm_group_classes
-    '         Class decision_function
-    ' 
-    '             Properties: alpha, rho
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Procedures
+' 
+'         Properties: IsVerbose
+' 
+'         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
+'                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
+'                   svm_svr_probability, svm_train, svm_train_one
+' 
+'         Sub: info, multiclass_probability, setRandomSeed, sigmoid_train, solve_c_svc
+'              solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class, svm_binary_svc_probability
+'              svm_cross_validation, svm_get_labels, svm_get_sv_indices, svm_group_classes
+'         Class decision_function
+' 
+'             Properties: alpha, rho
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -516,10 +516,10 @@ Namespace SVM
                 Dim begin As Integer = CInt(i * prob.Count / nr_fold)
                 Dim [end] As Integer = CInt((i + 1) * prob.Count / nr_fold)
                 Dim j, k As Integer
-                Dim subprob As Problem = New Problem()
-                subprob.Count = prob.Count - ([end] - begin)
-                subprob.X = New Node(subprob.Count - 1)() {}
-                subprob.Y = New Double(subprob.Count - 1) {}
+                Dim subprob As New Problem()
+                Dim subCount = prob.Count - ([end] - begin)
+                subprob.X = New Node(subCount - 1)() {}
+                subprob.Y = New Double(subCount - 1) {}
                 k = 0
 
                 For j = 0 To begin - 1
@@ -811,12 +811,12 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     For j = i + 1 To nr_class - 1
-                        Dim sub_prob As Problem = New Problem()
+                        Dim sub_prob As New Problem()
                         Dim si = start(i), sj = start(j)
                         Dim ci = count(i), cj = count(j)
-                        sub_prob.Count = ci + cj
-                        sub_prob.X = New Node(sub_prob.Count - 1)() {}
-                        sub_prob.Y = New Double(sub_prob.Count - 1) {}
+                        Dim sub_Count = ci + cj
+                        sub_prob.X = New Node(sub_Count - 1)() {}
+                        sub_prob.Y = New Double(sub_Count - 1) {}
                         Dim k As Integer
 
                         For k = 0 To ci - 1
@@ -1054,10 +1054,10 @@ Namespace SVM
                 Dim begin = fold_start(i)
                 Dim [end] = fold_start(i + 1)
                 Dim j, k As Integer
-                Dim subprob As Problem = New Problem()
-                subprob.Count = l - ([end] - begin)
-                subprob.X = New Node(subprob.Count - 1)() {}
-                subprob.Y = New Double(subprob.Count - 1) {}
+                Dim subprob As New Problem()
+                Dim subCount = l - ([end] - begin)
+                subprob.X = New Node(subCount - 1)() {}
+                subprob.Y = New Double(subCount - 1) {}
                 k = 0
 
                 For j = 0 To begin - 1

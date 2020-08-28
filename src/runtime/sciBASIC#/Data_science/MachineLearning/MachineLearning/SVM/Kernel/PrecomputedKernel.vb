@@ -154,7 +154,7 @@ Namespace SVM
                 Y.Add(rowLabels(r))
             Next
 
-            Return New Problem(X.Count, Y.ToArray(), X.ToArray(), maxIndex)
+            Return New Problem(Y.ToArray(), X.ToArray(), maxIndex)
         End Function
     End Class
 End Namespace

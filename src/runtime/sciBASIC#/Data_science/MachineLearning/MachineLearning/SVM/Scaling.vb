@@ -68,14 +68,15 @@ Namespace SVM
     ''' </summary>
     Public Module Scaling
         ''' <summary>
-        ''' Scales a problem using the provided range.  This will not affect the parameter.
+        ''' Scales a problem using the provided range.  
+        ''' This will not affect the parameter.
         ''' </summary>
         ''' <param name="prob">The problem to scale</param>
         ''' <param name="range">The Range transform to use in scaling</param>
         ''' <returns>The Scaled problem</returns>
         <Extension()>
         Public Function Scale(ByVal range As IRangeTransform, ByVal prob As Problem) As Problem
-            Dim scaledProblem As Problem = New Problem(prob.Count, New Double(prob.Count - 1) {}, New Node(prob.Count - 1)() {}, prob.MaxIndex)
+            Dim scaledProblem As Problem = New Problem(New Double(prob.Count - 1) {}, New Node(prob.Count - 1)() {}, prob.MaxIndex)
 
             For i = 0 To scaledProblem.Count - 1
                 scaledProblem.X(i) = New Node(prob.X(i).Length - 1) {}
