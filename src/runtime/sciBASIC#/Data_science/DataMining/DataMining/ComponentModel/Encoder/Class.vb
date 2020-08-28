@@ -46,7 +46,7 @@
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Linq
 
-Namespace ComponentModel
+Namespace ComponentModel.Encoder
 
     ''' <summary>
     ''' Object entity classification class

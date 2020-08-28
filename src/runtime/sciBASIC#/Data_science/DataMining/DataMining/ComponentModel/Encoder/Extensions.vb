@@ -42,8 +42,9 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace ComponentModel
+Namespace ComponentModel.Encoder
 
+    <HideModuleName>
     Public Module Extensions
 
         <Extension>
