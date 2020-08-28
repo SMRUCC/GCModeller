@@ -29,6 +29,10 @@ Namespace SVM
             End Get
         End Property
 
+        Public Function GetTopicLabels(topic As String) As String()
+            Return vectors.Select(Function(a) a.labels(topic)).ToArray
+        End Function
+
         Public Function GetProblem(topic As String) As Problem
             Dim inputs As New List(Of Node())
             Dim labels As New List(Of String)
