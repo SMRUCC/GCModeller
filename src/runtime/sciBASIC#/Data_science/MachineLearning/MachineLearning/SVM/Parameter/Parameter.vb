@@ -62,6 +62,8 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 Namespace SVM
 
     ''' <summary>
@@ -95,7 +97,10 @@ Namespace SVM
         ''' <summary>
         ''' Gamma in kernel function (default 1/k)
         ''' </summary>
-        Public Property Gamma As Double
+        ''' <remarks>
+        ''' 这个参数比较重要，千万不可以设置为零，否则将无法进行数据分类
+        ''' </remarks>
+        Public Property Gamma As Double = 0.5
 
         ''' <summary>
         ''' Zeroeth coefficient in kernel function (default 0)
@@ -153,7 +158,7 @@ Namespace SVM
             SvmType = SvmType.C_SVC
             KernelType = KernelType.RBF
             Degree = 3
-            Gamma = 0 ' 1/k
+            Gamma = 0.5
             Coefficient0 = 0
             Nu = 0.5
             CacheSize = 40
@@ -164,6 +169,10 @@ Namespace SVM
             Probability = False
             Weights = New Dictionary(Of Integer, Double)()
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
         Public Overrides Function Equals(ByVal obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)
