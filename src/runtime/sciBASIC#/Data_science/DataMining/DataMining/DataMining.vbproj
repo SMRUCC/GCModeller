@@ -690,8 +690,6 @@
     <Compile Include="Clustering\KMeans\CompleteLinkage\Point.vb" />
     <Compile Include="Clustering\KMeans\Models\ClusterCollection.vb" />
     <Compile Include="Clustering\KMeans\Evaluation.vb" />
-    <Compile Include="Clustering\KMeans\Parallel\Folks.vb" />
-    <Compile Include="Clustering\KMeans\Parallel\StreamAPI.vb" />
     <Compile Include="Clustering\KMeans\EntityModels\Entity.vb" />
     <Compile Include="Clustering\KMeans\Models\KMeansCluster.vb" />
     <Compile Include="Clustering\KMeans\KMeans.vb" />
