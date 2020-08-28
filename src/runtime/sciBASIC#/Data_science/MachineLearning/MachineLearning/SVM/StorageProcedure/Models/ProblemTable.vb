@@ -19,15 +19,20 @@ Namespace SVM
 
         Public Property DimensionNames As String()
 
-        Public ReadOnly Property Topics As String()
-            Get
-                Return vectors _
-                    .Select(Function(a) a.labels.Keys) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
-            End Get
-        End Property
+        Public Function GetTopics() As String()
+            ' 20200828
+            ' 使用readonly属性会导致json反序列化出错
+            ' 在这里修改为函数
+            If vectors.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Return vectors _
+                .Select(Function(a) a.labels.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End Function
 
         ''' <summary>
         ''' 获取所指定的<paramref name="topic"/>下的所有标签数据，不去重
