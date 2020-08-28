@@ -657,6 +657,25 @@
     <Compile Include="RandomForests\RandomForests.vb" />
     <Compile Include="RandomForests\NamespaceDoc.vb" />
     <Compile Include="RandomForests\StorageProcedure\MatrixLoader.vb" />
+    <Compile Include="SVM\Cache.vb" />
+    <Compile Include="SVM\GaussianTransform.vb" />
+    <Compile Include="SVM\IRangeTransform.vb" />
+    <Compile Include="SVM\Kernel.vb" />
+    <Compile Include="SVM\Model.vb" />
+    <Compile Include="SVM\Node.vb" />
+    <Compile Include="SVM\Parameter.vb" />
+    <Compile Include="SVM\ParameterSelection.vb" />
+    <Compile Include="SVM\PerformanceEvaluator.vb" />
+    <Compile Include="SVM\PrecomputedKernel.vb" />
+    <Compile Include="SVM\Prediction.vb" />
+    <Compile Include="SVM\Problem.vb" />
+    <Compile Include="SVM\RangeTransform.vb" />
+    <Compile Include="SVM\Scaling.vb" />
+    <Compile Include="SVM\Solver.vb" />
+    <Compile Include="SVM\SVMExtensions.vb" />
+    <Compile Include="SVM\SVMUtilities.vb" />
+    <Compile Include="SVM\TemporaryCulture.vb" />
+    <Compile Include="SVM\Training.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
