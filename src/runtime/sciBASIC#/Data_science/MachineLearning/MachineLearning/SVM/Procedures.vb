@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::fbe24c26cfb881053f219aa21956ba93, Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Procedures
-    ' 
-    '         Properties: IsVerbose
-    ' 
-    '         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
-    '                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
-    '                   svm_svr_probability, svm_train, svm_train_one
-    ' 
-    '         Sub: info, multiclass_probability, setRandomSeed, sigmoid_train, solve_c_svc
-    '              solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class, svm_binary_svc_probability
-    '              svm_cross_validation, svm_get_labels, svm_get_sv_indices, svm_group_classes
-    '         Class decision_function
-    ' 
-    '             Properties: alpha, rho
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Procedures
+' 
+'         Properties: IsVerbose
+' 
+'         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
+'                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
+'                   svm_svr_probability, svm_train, svm_train_one
+' 
+'         Sub: info, multiclass_probability, setRandomSeed, sigmoid_train, solve_c_svc
+'              solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class, svm_binary_svc_probability
+'              svm_cross_validation, svm_get_labels, svm_get_sv_indices, svm_group_classes
+'         Class decision_function
+' 
+'             Properties: alpha, rho
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,8 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 
 Namespace SVM
 
@@ -245,12 +247,17 @@ Namespace SVM
             Next
         End Sub
 
-        '
-        ' decision_function
-        '
+        ''' <summary>
+        ''' decision_function
+        ''' </summary>
         Private Class decision_function
+
             Public Property alpha As Double()
             Public Property rho As Double
+
+            Public Overrides Function ToString() As String
+                Return Me.GetJson
+            End Function
         End Class
 
         Private Function svm_train_one(prob As Problem, param As Parameter, Cp As Double, Cn As Double) As decision_function
@@ -280,31 +287,40 @@ Namespace SVM
             For i = 0 To prob.Count - 1
 
                 If stdNum.Abs(alpha(i)) > 0 Then
-                    Threading.Interlocked.Increment(nSV)
+                    nSV += 1
 
                     If prob.Y(i) > 0 Then
-                        If stdNum.Abs(alpha(i)) >= si.upper_bound_p Then Threading.Interlocked.Increment(nBSV)
+                        If stdNum.Abs(alpha(i)) >= si.upper_bound_p Then
+                            nBSV += 1
+                        End If
                     Else
-                        If stdNum.Abs(alpha(i)) >= si.upper_bound_n Then Threading.Interlocked.Increment(nBSV)
+                        If stdNum.Abs(alpha(i)) >= si.upper_bound_n Then
+                            nBSV += 1
+                        End If
                     End If
                 End If
             Next
 
             Procedures.info("nSV = " & nSV & ", nBSV = " & nBSV & ASCII.LF)
-            Dim f As decision_function = New decision_function()
+            Dim f As New decision_function()
             f.alpha = alpha
             f.rho = si.rho
             Return f
         End Function
 
-        ' Platt's binary SVM Probablistic Output: an improvement from Lin et al.
-        Private Sub sigmoid_train(l As Integer, dec_values As Double(), labels As Double(), probAB As Double())
+        ''' <summary>
+        ''' Platt's binary SVM Probablistic Output: an improvement from Lin et al.
+        ''' </summary>
+        ''' <param name="l"></param>
+        ''' <param name="dec_values"></param>
+        ''' <param name="labels"></param>
+        ''' <param name="probAB"></param>
+        Private Sub sigmoid_train(l As Integer, dec_values As Double(), labels As ColorClass(), probAB As Double())
             Dim A, B As Double
             Dim prior1 As Double = 0, prior0 As Double = 0
             Dim i As Integer
 
             For i = 0 To l - 1
-
                 If labels(i) > 0 Then
                     prior1 += 1
                 Else
@@ -431,7 +447,12 @@ Namespace SVM
             End If
         End Function
 
-        ' Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
+        ''' <summary>
+        ''' Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
+        ''' </summary>
+        ''' <param name="k"></param>
+        ''' <param name="r"></param>
+        ''' <param name="p"></param>
         Private Sub multiclass_probability(k As Integer, r As Double(,), p As Double())
             Dim t, j As Integer
             Dim iter = 0, max_iter = stdNum.Max(100, k)
@@ -492,7 +513,14 @@ Namespace SVM
             If iter >= max_iter Then Procedures.info("Exceeds max_iter in multiclass_prob" & ASCII.LF)
         End Sub
 
-        ' Cross-validation decision values for probability estimates
+        ''' <summary>
+        ''' Cross-validation decision values for probability estimates
+        ''' </summary>
+        ''' <param name="prob"></param>
+        ''' <param name="param"></param>
+        ''' <param name="Cp"></param>
+        ''' <param name="Cn"></param>
+        ''' <param name="probAB"></param>
         Private Sub svm_binary_svc_probability(prob As Problem, param As Parameter, Cp As Double, Cn As Double, probAB As Double())
             Dim i As Integer
             Dim nr_fold = 5
@@ -521,7 +549,7 @@ Namespace SVM
                 Dim subprob As New Problem()
                 Dim subCount = prob.Count - ([end] - begin)
                 subprob.X = New Node(subCount - 1)() {}
-                subprob.Y = New Double(subCount - 1) {}
+                subprob.Y = New ColorClass(subCount - 1) {}
                 k = 0
 
                 For j = 0 To begin - 1
@@ -820,17 +848,17 @@ Namespace SVM
                         Dim ci = count(i), cj = count(j)
                         Dim sub_Count = ci + cj
                         sub_prob.X = New Node(sub_Count - 1)() {}
-                        sub_prob.Y = New Double(sub_Count - 1) {}
+                        sub_prob.Y = New ColorClass(sub_Count - 1) {}
                         Dim k As Integer
 
                         For k = 0 To ci - 1
                             sub_prob.X(k) = x(si + k)
-                            sub_prob.Y(k) = +1
+                            sub_prob.Y(k) = New ColorClass With {.enumInt = +1, .name = "temp", .color = "n/a"}
                         Next
 
                         For k = 0 To cj - 1
                             sub_prob.X(ci + k) = x(sj + k)
-                            sub_prob.Y(ci + k) = -1
+                            sub_prob.Y(ci + k) = New ColorClass With {.enumInt = -1, .name = "temp", .color = "n/a"}
                         Next
 
                         If param.Probability Then
@@ -1061,7 +1089,7 @@ Namespace SVM
                 Dim subprob As New Problem()
                 Dim subCount = l - ([end] - begin)
                 subprob.X = New Node(subCount - 1)() {}
-                subprob.Y = New Double(subCount - 1) {}
+                subprob.Y = New ColorClass(subCount - 1) {}
                 k = 0
 
                 For j = 0 To begin - 1
@@ -1303,7 +1331,7 @@ Namespace SVM
                 Dim i As Integer
 
                 For i = 0 To l - 1
-                    Dim this_label As Integer = CInt(prob.Y(i))
+                    Dim this_label As Integer = prob.Y(i)
                     Dim j As Integer
 
                     For j = 0 To nr_class - 1

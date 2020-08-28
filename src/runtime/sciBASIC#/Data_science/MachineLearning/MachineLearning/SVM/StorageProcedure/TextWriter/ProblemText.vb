@@ -79,7 +79,8 @@ Namespace SVM
                 vx.Add(x)
             End While
 
-            Return New Problem(vy.ToArray(), vx.ToArray(), max_index)
+            ' Return New Problem(vy.ToArray(), vx.ToArray(), max_index)
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

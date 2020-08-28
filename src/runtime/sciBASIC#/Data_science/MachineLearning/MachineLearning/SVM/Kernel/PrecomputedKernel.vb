@@ -123,40 +123,40 @@ Namespace SVM
             Next
         End Sub
 
-        ''' <summary>
-        ''' Constructs a <see cref="Problem"/> object using the labels provided. If a label is set to "0" that item is ignored.
-        ''' </summary>
-        ''' <param name="rowLabels">The labels for the row items</param>
-        ''' <param name="columnLabels">The labels for the column items</param>
-        ''' <returns>A <see cref="Problem"/> object</returns>
-        Public Function Compute(rowLabels As Double(), columnLabels As Double()) As Problem
-            Dim X As List(Of Node()) = New List(Of Node())()
-            Dim Y As List(Of Double) = New List(Of Double)()
-            Dim maxIndex = 0
+        '''' <summary>
+        '''' Constructs a <see cref="Problem"/> object using the labels provided. If a label is set to "0" that item is ignored.
+        '''' </summary>
+        '''' <param name="rowLabels">The labels for the row items</param>
+        '''' <param name="columnLabels">The labels for the column items</param>
+        '''' <returns>A <see cref="Problem"/> object</returns>
+        'Public Function Compute(rowLabels As Double(), columnLabels As Double()) As Problem
+        '    Dim X As List(Of Node()) = New List(Of Node())()
+        '    Dim Y As New List(Of Double)()
+        '    Dim maxIndex = 0
 
-            For i = 0 To columnLabels.Length - 1
-                If columnLabels(i) <> 0 Then maxIndex += 1
-            Next
+        '    For i = 0 To columnLabels.Length - 1
+        '        If columnLabels(i) <> 0 Then maxIndex += 1
+        '    Next
 
-            maxIndex += 1
+        '    maxIndex += 1
 
-            For r = 0 To _rows - 1
-                If rowLabels(r) = 0 Then Continue For
-                Dim nodes As List(Of Node) = New List(Of Node)()
+        '    For r = 0 To _rows - 1
+        '        If rowLabels(r) = 0 Then Continue For
+        '        Dim nodes As List(Of Node) = New List(Of Node)()
 
-                nodes.Add(New Node(0, X.Count + 1))
+        '        nodes.Add(New Node(0, X.Count + 1))
 
-                For c = 0 To _columns - 1
-                    If columnLabels(c) = 0 Then Continue For
-                    Dim value As Double = _similarities(r, c)
-                    nodes.Add(New Node(nodes.Count, value))
-                Next
+        '        For c = 0 To _columns - 1
+        '            If columnLabels(c) = 0 Then Continue For
+        '            Dim value As Double = _similarities(r, c)
+        '            nodes.Add(New Node(nodes.Count, value))
+        '        Next
 
-                X.Add(nodes.ToArray())
-                Y.Add(rowLabels(r))
-            Next
+        '        X.Add(nodes.ToArray())
+        '        Y.Add(rowLabels(r))
+        '    Next
 
-            Return New Problem(Y.ToArray(), X.ToArray(), maxIndex)
-        End Function
+        '    Return New Problem(Y.ToArray(), X.ToArray(), maxIndex)
+        'End Function
     End Class
 End Namespace
