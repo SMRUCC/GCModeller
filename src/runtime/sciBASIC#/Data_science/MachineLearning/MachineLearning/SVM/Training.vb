@@ -67,10 +67,12 @@ Imports System.Runtime.InteropServices
 Imports stdNum = System.Math
 
 Namespace SVM
+
     ''' <summary>
     ''' Class containing the routines to train SVM models.
     ''' </summary>
     Public Module Training
+
         ''' <summary>
         ''' Whether the system will output information to the console during the training process.
         ''' </summary>

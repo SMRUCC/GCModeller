@@ -86,6 +86,7 @@ Namespace SVM
     ' solution will be put in \alpha, objective value will be put in obj
     '
     Friend Class Solver
+
         Protected active_size As Integer
         Protected y As SByte()
         Protected G As Double()     ' gradient of objective function

@@ -42,7 +42,9 @@
 
 Namespace SVM
     Public Module SVMUtilities
-        Private Const SCALE As Double = 100
+
+        Const SCALE As Double = 100
+
         Public Const TRAINING_SEED As Integer = 20080524
         Public Const TESTING_SEED As Integer = 20140407
 

@@ -1,102 +1,97 @@
 ﻿#Region "Microsoft.VisualBasic::0b226dcaeeddf5e29d39b1a5a9a9e7d6, Data_science\MachineLearning\MachineLearning\SVM\PerformanceEvaluator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class RankPair
-    ' 
-    '         Properties: Label, Score
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CompareTo, ToString
-    ' 
-    '     Class CurvePoint
-    ' 
-    '         Properties: X, Y
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class PerformanceEvaluator
-    ' 
-    '         Properties: AP, AuC, PRCurve, ROCCurve
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: computeFPR, computePrecision, computeRecall, computeTPR
-    ' 
-    '         Sub: computePR, computeRoC, computeStatistics, findChanges, parseResultsFile
-    '              WritePRCurve, WriteROCCurve
-    '         Class ChangePoint
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: ToString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class RankPair
+' 
+'         Properties: Label, Score
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CompareTo, ToString
+' 
+'     Class CurvePoint
+' 
+'         Properties: X, Y
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+'     Class PerformanceEvaluator
+' 
+'         Properties: AP, AuC, PRCurve, ROCCurve
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: computeFPR, computePrecision, computeRecall, computeTPR
+' 
+'         Sub: computePR, computeRoC, computeStatistics, findChanges, parseResultsFile
+'              WritePRCurve, WriteROCCurve
+'         Class ChangePoint
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: ToString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 ' 
- ' * SVM.NET Library
- ' * Copyright (C) 2008 Matthew Johnson
- ' * 
- ' * This program is free software: you can redistribute it and/or modify
- ' * it under the terms of the GNU General Public License as published by
- ' * the Free Software Foundation, either version 3 of the License, or
- ' * (at your option) any later version.
- ' * 
- ' * This program is distributed in the hope that it will be useful,
- ' * but WITHOUT ANY WARRANTY; without even the implied warranty of
- ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ' * GNU General Public License for more details.
- ' * 
- ' * You should have received a copy of the GNU General Public License
- ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+' * SVM.NET Library
+' * Copyright (C) 2008 Matthew Johnson
+' * 
+' * This program is free software: you can redistribute it and/or modify
+' * it under the terms of the GNU General Public License as published by
+' * the Free Software Foundation, either version 3 of the License, or
+' * (at your option) any later version.
+' * 
+' * This program is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' * GNU General Public License for more details.
+' * 
+' * You should have received a copy of the GNU General Public License
+' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-Imports System
-Imports System.Collections.Generic
-Imports System.IO
 Imports System.Globalization
+Imports System.IO
 
 Namespace SVM
     ''' <summary>
     ''' Class encoding a member of a ranked set of labels.
     ''' </summary>
-    Public Class RankPair
-        Implements IComparable(Of RankPair)
+    Public Class RankPair : Implements IComparable(Of RankPair)
 
         Private _score, _label As Double
 

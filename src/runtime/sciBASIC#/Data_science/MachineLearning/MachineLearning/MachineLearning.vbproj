@@ -666,7 +666,7 @@
     <Compile Include="SVM\RangeTransform\IRangeTransform.vb" />
     <Compile Include="SVM\Kernel\IQMatrix.vb" />
     <Compile Include="SVM\Kernel\Kernel.vb" />
-    <Compile Include="SVM\Model.vb" />
+    <Compile Include="SVM\Models\Model.vb" />
     <Compile Include="SVM\Node.vb" />
     <Compile Include="SVM\Parameter\Parameter.vb" />
     <Compile Include="SVM\Parameter\ParameterSelection.vb" />
@@ -725,6 +725,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SVM\StorageProcedure\Models\" />
+    <Folder Include="SVM\StorageProcedure\TextWriter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

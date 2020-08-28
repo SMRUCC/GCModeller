@@ -71,6 +71,7 @@ Namespace SVM
     ''' Class containing the routines to perform class membership prediction using a trained SVM.
     ''' </summary>
     Public Module Prediction
+
         ''' <summary>
         ''' Predicts the class memberships of all the vectors in the problem.
         ''' </summary>
