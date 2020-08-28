@@ -204,34 +204,6 @@ Namespace SVM
             Debug.Write("usage: svm_predict [options] test_file model_file output_file" & ASCII.LF & "options:" & ASCII.LF & "-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0); one-class SVM not supported yet" & ASCII.LF)
             Environment.Exit(1)
         End Sub
-
-        ''' <summary>
-        ''' Legacy method, provided to allow usage as though this were the command line version of libsvm.
-        ''' </summary>
-        ''' <param name="args">Standard arguments passed to the svm_predict exectutable.  See libsvm documentation for details.</param>
-        <Obsolete("Use the other version of Predict() instead")>
-        Public Sub Predict(ParamArray args As String())
-            Dim i = 0
-            Dim predictProbability = False
-
-            ' parse options
-            For i = 0 To args.Length - 1
-                If args(i)(0) <> "-"c Then Exit For
-                Threading.Interlocked.Increment(i)
-
-                Select Case args(i - 1)(1)
-                    Case "b"c
-                        predictProbability = Integer.Parse(args(i)) = 1
-                    Case Else
-                        Throw New ArgumentException("Unknown option")
-                End Select
-            Next
-
-            If i >= args.Length Then Throw New ArgumentException("No input, model and output files provided")
-            Dim problem As Problem = Problem.Read(args(i))
-            Dim model As Model = Model.Read(args(i + 1))
-            Predict(problem, args(i + 2), model, predictProbability)
-        End Sub
     End Module
 End Namespace
 

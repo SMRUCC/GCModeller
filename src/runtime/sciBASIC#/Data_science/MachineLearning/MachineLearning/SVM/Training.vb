@@ -121,26 +121,6 @@ Namespace SVM
         End Sub
 
         ''' <summary>
-        ''' Legacy.  Allows use as if this was svm_train.  See libsvm documentation for details on which arguments to pass.
-        ''' </summary>
-        ''' <param name="args"></param>
-        <Obsolete("Provided only for legacy compatibility, use the other Train() methods")>
-        Public Sub Train(ParamArray args As String())
-            Dim parameters As Parameter = Nothing
-            Dim problem As Problem = Nothing
-            Dim crossValidation As Boolean
-            Dim nrfold As Integer
-            Dim modelFilename As String = Nothing
-            parseCommandLine(args, parameters, problem, crossValidation, nrfold, modelFilename)
-
-            If crossValidation Then
-                PerformCrossValidation(problem, parameters, nrfold)
-            Else
-                Model.Write(modelFilename, Train(problem, parameters))
-            End If
-        End Sub
-
-        ''' <summary>
         ''' Performs cross validation.
         ''' </summary>
         ''' <param name="problem">The training data</param>
@@ -229,7 +209,7 @@ Namespace SVM
             ' determine filenames
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
-            problem = Problem.Read(args(i))
+            problem = ProblemText.Read(args(i))
             If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.MaxIndex
 
             If i < args.Length - 1 Then
