@@ -88,7 +88,9 @@ Namespace SVM
         Private Function doCrossValidation(problem As Problem, parameters As Parameter, nr_fold As Integer) As Double
             Dim i As Integer
             Dim target = New Double(problem.Count - 1) {}
-            svm_cross_validation(problem, parameters, nr_fold, target)
+
+            Call svm_cross_validation(problem, parameters, nr_fold, target)
+
             Dim total_correct = 0
             Dim total_error As Double = 0
             Dim sumv As Double = 0, sumy As Double = 0, sumvv As Double = 0, sumyy As Double = 0, sumvy As Double = 0
@@ -109,7 +111,9 @@ Namespace SVM
             Else
 
                 For i = 0 To problem.Count - 1
-                    If target(i) = problem.Y(i) Then Threading.Interlocked.Increment(total_correct)
+                    If target(i) = problem.Y(i) Then
+                        total_correct += 1
+                    End If
                 Next
             End If
 

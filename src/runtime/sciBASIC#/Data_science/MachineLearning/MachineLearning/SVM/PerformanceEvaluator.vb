@@ -241,9 +241,10 @@ Namespace SVM
         ''' <param name="resultsFile">Results file for output</param>
         ''' <param name="category">Category to evaluate for</param>
         Public Sub New(model As Model, problem As Problem, category As Double, resultsFile As String)
-            Predict(problem, resultsFile, model, True)
-            parseResultsFile(resultsFile, problem.Y, category)
-            computeStatistics()
+            ' Predict(problem, resultsFile, model, True)
+            ' parseResultsFile(resultsFile, problem.Y, category)
+            ' computeStatistics()
+            Throw New NotImplementedException
         End Sub
 
         ''' <summary>
