@@ -1,4 +1,9 @@
-﻿Namespace SVM
+﻿
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
+Imports stdNum = System.Math
+
+Namespace SVM
     '
     ' Solver for nu-svm classification and regression
     '

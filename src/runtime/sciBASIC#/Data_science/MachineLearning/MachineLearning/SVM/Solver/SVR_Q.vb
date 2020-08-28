@@ -1,4 +1,9 @@
-﻿Namespace SVM
+﻿
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
+Imports stdNum = System.Math
+
+Namespace SVM
 
     Friend Class SVR_Q
         Inherits Kernel

@@ -24,7 +24,7 @@ Namespace SVM
             If IsVerbose Then svm_print_stdout.Write(s)
         End Sub
 
-        Private Sub solve_c_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo, ByVal Cp As Double, ByVal Cn As Double)
+        Private Sub solve_c_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo, ByVal Cp As Double, ByVal Cn As Double)
             Dim l = prob.Count
             Dim minus_ones = New Double(l - 1) {}
             Dim y = New SByte(l - 1) {}
@@ -56,7 +56,7 @@ Namespace SVM
             Next
         End Sub
 
-        Private Sub solve_nu_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo)
+        Private Sub solve_nu_svc(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
             Dim i As Integer
             Dim l = prob.Count
             Dim nu = param.Nu
@@ -106,7 +106,7 @@ Namespace SVM
             si.upper_bound_n = 1 / r
         End Sub
 
-        Private Sub solve_one_class(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo)
+        Private Sub solve_one_class(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
             Dim l = prob.Count
             Dim zeros = New Double(l - 1) {}
             Dim ones = New SByte(l - 1) {}
@@ -132,7 +132,7 @@ Namespace SVM
             s.Solve(l, New ONE_CLASS_Q(prob, param), zeros, ones, alpha, 1.0, 1.0, param.EPS, si, param.Shrinking)
         End Sub
 
-        Private Sub solve_epsilon_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo)
+        Private Sub solve_epsilon_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
             Dim l = prob.Count
             Dim alpha2 = New Double(2 * l - 1) {}
             Dim linear_term = New Double(2 * l - 1) {}
@@ -160,7 +160,7 @@ Namespace SVM
             Procedures.info("nu = " & sum_alpha / (param.C * l) & ASCII.LF)
         End Sub
 
-        Private Sub solve_nu_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As Solver.SolutionInfo)
+        Private Sub solve_nu_svr(ByVal prob As Problem, ByVal param As Parameter, ByVal alpha As Double(), ByVal si As SolutionInfo)
             Dim l = prob.Count
             Dim C = param.C
             Dim alpha2 = New Double(2 * l - 1) {}
@@ -198,7 +198,7 @@ Namespace SVM
 
         Private Function svm_train_one(ByVal prob As Problem, ByVal param As Parameter, ByVal Cp As Double, ByVal Cn As Double) As decision_function
             Dim alpha = New Double(prob.Count - 1) {}
-            Dim si As Solver.SolutionInfo = New Solver.SolutionInfo()
+            Dim si As New SolutionInfo()
 
             Select Case param.SvmType
                 Case SvmType.C_SVC

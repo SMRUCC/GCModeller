@@ -16,8 +16,6 @@
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports stdNum = System.Math
 

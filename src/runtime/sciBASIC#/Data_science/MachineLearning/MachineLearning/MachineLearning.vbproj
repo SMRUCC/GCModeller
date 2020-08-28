@@ -671,12 +671,12 @@
     <Compile Include="SVM\Parameter\Parameter.vb" />
     <Compile Include="SVM\Parameter\ParameterSelection.vb" />
     <Compile Include="SVM\PerformanceEvaluator.vb" />
-    <Compile Include="SVM\PrecomputedKernel.vb" />
+    <Compile Include="SVM\Kernel\PrecomputedKernel.vb" />
     <Compile Include="SVM\Prediction.vb" />
     <Compile Include="SVM\Problem.vb" />
     <Compile Include="SVM\RangeTransform\RangeTransform.vb" />
     <Compile Include="SVM\Scaling.vb" />
-    <Compile Include="SVM\Solver\Class1.vb" />
+    <Compile Include="SVM\Solver\SolutionInfo.vb" />
     <Compile Include="SVM\Solver\SVR_Q.vb" />
     <Compile Include="SVM\Solver\ONE_CLASS_Q.vb" />
     <Compile Include="SVM\Solver\SVC_Q.vb" />
