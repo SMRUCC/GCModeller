@@ -62,11 +62,13 @@
 Imports System.Runtime.CompilerServices
 
 Namespace SVM
+
     ''' <summary>
     ''' Deals with the scaling of Problems so they have uniform ranges across all dimensions in order to
     ''' result in better SVM performance.
     ''' </summary>
     Public Module Scaling
+
         ''' <summary>
         ''' Scales a problem using the provided range.  
         ''' This will not affect the parameter.
@@ -76,7 +78,11 @@ Namespace SVM
         ''' <returns>The Scaled problem</returns>
         <Extension()>
         Public Function Scale(ByVal range As IRangeTransform, ByVal prob As Problem) As Problem
-            Dim scaledProblem As Problem = New Problem(New Double(prob.Count - 1) {}, New Node(prob.Count - 1)() {}, prob.MaxIndex)
+            Dim scaledProblem As New Problem(
+                y:=New Double(prob.Count - 1) {},
+                x:=New Node(prob.Count - 1)() {},
+                maxIndex:=prob.MaxIndex
+            ) With {.DimensionNames = prob.DimensionNames}
 
             For i = 0 To scaledProblem.Count - 1
                 scaledProblem.X(i) = New Node(prob.X(i).Length - 1) {}
