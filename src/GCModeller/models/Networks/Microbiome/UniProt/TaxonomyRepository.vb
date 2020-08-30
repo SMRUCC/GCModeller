@@ -46,6 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Metagenomics
@@ -81,6 +82,12 @@ Public Class TaxonomyRepository
     ''' </summary>
     ''' <returns></returns>
     Private Property base As String Implements IFileReference.FilePath
+
+    Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+        Get
+            Throw New NotImplementedException()
+        End Get
+    End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function TaxonomyGroup(rank As TaxonomyRanks) As Dictionary(Of String, TaxonomyRef())
