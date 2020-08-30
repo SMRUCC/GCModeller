@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.Linq
 
-Namespace SVM
+Namespace SVM.StorageProcedure
 
     Public Class SupportVector : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
@@ -19,16 +19,41 @@ Namespace SVM
 
         Public Property DimensionNames As String()
 
-        Public ReadOnly Property Topics As String()
-            Get
-                Return vectors _
-                    .Select(Function(a) a.labels.Keys) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
-            End Get
-        End Property
+        Public Function GetTopics() As String()
+            ' 20200828
+            ' 使用readonly属性会导致json反序列化出错
+            ' 在这里修改为函数
+            If vectors.IsNullOrEmpty Then
+                Return {}
+            End If
 
+            Return vectors _
+                .Select(Function(a) a.labels.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        End Function
+
+        Public Function Clone() As ProblemTable
+            Return New ProblemTable With {
+                .DimensionNames = DimensionNames.ToArray,
+                .vectors = vectors _
+                    .Select(Function(vec)
+                                Return New SupportVector With {
+                                    .id = vec.id,
+                                    .labels = New Dictionary(Of String, String)(vec.labels),
+                                    .Properties = New Dictionary(Of String, Double)(vec.Properties)
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        End Function
+
+        ''' <summary>
+        ''' 获取所指定的<paramref name="topic"/>下的所有标签数据，不去重
+        ''' </summary>
+        ''' <param name="topic"></param>
+        ''' <returns></returns>
         Public Function GetTopicLabels(topic As String) As String()
             Return vectors.Select(Function(a) a.labels(topic)).ToArray
         End Function

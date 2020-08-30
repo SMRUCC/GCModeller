@@ -53,6 +53,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 
 Namespace Settings
@@ -197,6 +198,12 @@ Visit http://GCModeller.org/ for more information.
         Public Shared ReadOnly Property DefaultXmlFile As String = App.ProductProgramData & "/.settings/Settings.xml"
 
         Public Property FilePath As String Implements IFileReference.FilePath
+
+        Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
+        End Property
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             On Error Resume Next

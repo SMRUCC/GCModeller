@@ -72,11 +72,13 @@ Namespace Language.Vectorization
         Protected linq As DataValue(Of T)
         Protected ReadOnly type As VectorSchemaProvider = inspectType(GetType(T))
 
-        Shared ReadOnly typeCache As New Dictionary(Of Type, VectorSchemaProvider)
-
         Private Shared Function inspectType(type As Type) As VectorSchemaProvider
+            Static typeCache As New Dictionary(Of Type, VectorSchemaProvider)
+
             If Not typeCache.ContainsKey(type) Then
-                typeCache(type) = New VectorSchemaProvider(type)
+                SyncLock typeCache
+                    typeCache(type) = VectorSchemaProvider.CreateSchema(type)
+                End SyncLock
             End If
 
             Return typeCache(type)
