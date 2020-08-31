@@ -47,6 +47,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Settings.Programs
@@ -66,6 +67,13 @@ Namespace Settings.Programs
 #Region "Interface implements"
 
         Private Property FilePath As String Implements IProfile.FilePath
+
+        Public ReadOnly Property MimeType As ContentType() Implements Microsoft.VisualBasic.ComponentModel.IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
+        End Property
+
         Private Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements IProfile.Save
             Return False
         End Function

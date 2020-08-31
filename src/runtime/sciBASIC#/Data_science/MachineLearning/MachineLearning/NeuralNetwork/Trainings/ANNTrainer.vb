@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::402ee3ca603440999f4a72005712efe0, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Trainings\ANNTrainer.vb"
+﻿#Region "Microsoft.VisualBasic::b618e5905e5788e202f25b6ae4a319d0, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Trainings\ANNTrainer.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: CalculateError, errorSum, SetDropOut, SetLayerNormalize, SetSelective
-    '                   SetSnapshotLocation, trainingImpl
+    '         Function: CalculateError, errorSum, SetDropOut, SetLayerNormalize, SetOutputNames
+    '                   SetSelective, SetSnapshotLocation, trainingImpl
     ' 
     '         Sub: (+2 Overloads) Add, (+2 Overloads) Corrects, RemoveLast, (+3 Overloads) Train
     ' 

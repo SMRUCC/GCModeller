@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35e1c95b50d4db4879d2011629405ab0, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Collection.vb"
+﻿#Region "Microsoft.VisualBasic::8cce063ebb0c7e946d157a5d48f192d1, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Collection.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,8 @@
     '     Class PopulationList
     ' 
     '         Properties: Count
+    ' 
+    '         Function: GetCollection
     ' 
     '         Sub: Add, OrderBy, Trim
     ' 

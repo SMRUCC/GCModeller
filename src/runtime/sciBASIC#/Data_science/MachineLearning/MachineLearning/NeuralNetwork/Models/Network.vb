@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db44e7d9180270136ba9d59eef753a69, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Network.vb"
+﻿#Region "Microsoft.VisualBasic::b1cf1cc3111083b672567a9c48ff322d, Data_science\MachineLearning\MachineLearning\NeuralNetwork\Models\Network.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Activations, HiddenLayer, InputLayer, LearnRate, LearnRateDecay
     '                     Momentum, OutputLayer, Truncate
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: Compute, ForwardPropagate, ToString
     ' 
