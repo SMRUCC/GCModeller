@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel
@@ -170,6 +171,12 @@ Here, we report on the progress of the curation effort and associated improvemen
         End Property
 
         Public Property FilePath As String Implements IFileReference.FilePath
+
+        Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
+        End Property
 
         ''' <summary>
         ''' 非并行版本的<see cref="CDD.SmpFile.Name">AccessionId</see>, <see cref="CDD.SmpFile.Id">TagId</see>, <see cref="CDD.SmpFile.CommonName">CommonName</see>

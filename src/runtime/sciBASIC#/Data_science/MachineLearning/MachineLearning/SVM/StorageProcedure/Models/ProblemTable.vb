@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.Linq
 
-Namespace SVM
+Namespace SVM.StorageProcedure
 
     Public Class SupportVector : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
@@ -32,6 +32,21 @@ Namespace SVM
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+        End Function
+
+        Public Function Clone() As ProblemTable
+            Return New ProblemTable With {
+                .DimensionNames = DimensionNames.ToArray,
+                .vectors = vectors _
+                    .Select(Function(vec)
+                                Return New SupportVector With {
+                                    .id = vec.id,
+                                    .labels = New Dictionary(Of String, String)(vec.labels),
+                                    .Properties = New Dictionary(Of String, Double)(vec.Properties)
+                                }
+                            End Function) _
+                    .ToArray
+            }
         End Function
 
         ''' <summary>

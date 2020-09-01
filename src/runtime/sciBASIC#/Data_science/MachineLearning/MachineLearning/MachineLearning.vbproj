@@ -658,6 +658,8 @@
     <Compile Include="RandomForests\NamespaceDoc.vb" />
     <Compile Include="RandomForests\StorageProcedure\MatrixLoader.vb" />
     <Compile Include="SVM\Cache.vb" />
+    <Compile Include="SVM\StorageProcedure\Models\SvmModelJSON.vb" />
+    <Compile Include="SVM\StorageProcedure\Models\Model.vb" />
     <Compile Include="SVM\StorageProcedure\Models\ProblemTable.vb" />
     <Compile Include="SVM\SVMModel.vb" />
     <Compile Include="SVM\Parameter\GridSquare.vb" />
@@ -672,7 +674,6 @@
     <Compile Include="SVM\Node.vb" />
     <Compile Include="SVM\Parameter\Parameter.vb" />
     <Compile Include="SVM\Parameter\ParameterSelection.vb" />
-    <Compile Include="SVM\PerformanceEvaluator.vb" />
     <Compile Include="SVM\Kernel\PrecomputedKernel.vb" />
     <Compile Include="SVM\Prediction.vb" />
     <Compile Include="SVM\Models\Problem.vb" />

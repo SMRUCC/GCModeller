@@ -67,7 +67,7 @@ Namespace SVM
     ''' <summary>
     ''' Encapsulates an SVM Model.
     ''' </summary>
-    <Serializable> Public Class Model
+    Public Class Model
 
         ''' <summary>
         ''' Parameter object.
@@ -127,7 +127,7 @@ Namespace SVM
         Public Property NumberOfSVPerClass As Integer()
         Public Property DimensionNames As String()
 
-        Friend Sub New()
+        Public Sub New()
         End Sub
 
         Public Overrides Function Equals(obj As Object) As Boolean
