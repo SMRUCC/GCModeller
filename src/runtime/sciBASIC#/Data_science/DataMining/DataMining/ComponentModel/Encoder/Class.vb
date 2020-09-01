@@ -71,7 +71,7 @@ Namespace ComponentModel.Encoder
         Public Property name As String
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"{{{enumInt}}} {name} = {color}"
         End Function
 
         ''' <summary>

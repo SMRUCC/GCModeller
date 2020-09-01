@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 Imports Path = System.String
@@ -450,7 +451,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
         ''' <remarks></remarks>
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
-            Static ASCII As [Default](Of  Encoding) = Encoding.ASCII
+            Static ASCII As [Default](Of Encoding) = Encoding.ASCII
 
             Using writer As StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
@@ -592,6 +593,12 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Set(value As FastaSeq)
                 _innerList(index) = value
             End Set
+        End Property
+
+        Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
         End Property
 
         Public Sub RemoveAt(index As Integer) Implements IList(Of FastaSeq).RemoveAt

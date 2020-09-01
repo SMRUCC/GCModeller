@@ -49,6 +49,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 
 Namespace Configurations.ComponentModel
@@ -83,6 +84,12 @@ Namespace Configurations.ComponentModel
         End Property
 
         Public Property filePath As String Implements IFileReference.FilePath
+
+        Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
+        End Property
 
         Sub New(fileName As String, circos As Circos)
             Me.filePath = fileName

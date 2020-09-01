@@ -168,7 +168,7 @@ Namespace SVM
             ' parse options
             For i = 0 To args.Length - 1
                 If args(i)(0) <> "-"c Then Exit For
-                Threading.Interlocked.Increment(i)
+                i += 1
 
                 Select Case args(i - 1)(1)
                     Case "s"c
@@ -213,7 +213,7 @@ Namespace SVM
             ' determine filenames
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
-            problem = ProblemText.Read(args(i))
+            ' problem = ProblemText.Read(args(i))
             If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.MaxIndex
 
             If i < args.Length - 1 Then

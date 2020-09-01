@@ -47,6 +47,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.DOMINE
@@ -66,6 +67,12 @@ Namespace Assembly.DOMINE
         Public Property Go As DOMINE.Tables.Go()
         Public Property PGMap As DOMINE.Tables.PGMap()
         Public Property FilePath As String Implements IFileReference.FilePath
+
+        Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
+            Get
+                Throw New NotImplementedException()
+            End Get
+        End Property
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             If String.IsNullOrEmpty(Path) Then

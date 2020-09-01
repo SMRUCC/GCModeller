@@ -171,11 +171,13 @@ Namespace Emit.Delegates
             properties = inspectType(type)
         End Sub
 
-        Shared ReadOnly typeCache As New Dictionary(Of Type, Dictionary(Of String, PropertyInfo))
-
         Private Shared Function inspectType(type As Type) As Dictionary(Of String, PropertyInfo)
+            Static typeCache As New Dictionary(Of Type, Dictionary(Of String, PropertyInfo))
+
             If Not typeCache.ContainsKey(type) Then
-                typeCache(type) = type.Schema(PropertyAccess.NotSure, PublicProperty, True)
+                SyncLock typeCache
+                    typeCache(type) = type.Schema(PropertyAccess.NotSure, PublicProperty, True)
+                End SyncLock
             End If
 
             Return typeCache(type)

@@ -67,18 +67,17 @@ Namespace SVM
     ''' Encapsulates a node in a Problem vector, with an index and a value (for more efficient representation
     ''' of sparse data.
     ''' </summary>
-    <Serializable>
     Public Class Node : Implements IComparable(Of Node)
 
         ''' <summary>
         ''' Index of this Node.
         ''' </summary>
-        Public Property Index As Integer
+        Public Property index As Integer
 
         ''' <summary>
         ''' Value at Index.
         ''' </summary>
-        Public Property Value As Double
+        Public Property value As Double
 
         ''' <summary>
         ''' Default Constructor.
@@ -126,5 +125,15 @@ Namespace SVM
         End Function
 
 #End Region
+
+        Public Shared Function Copy(dataset As IEnumerable(Of Node)) As IEnumerable(Of Node)
+            Return dataset _
+                .Select(Function(d)
+                            Return New Node With {
+                                .index = d.index,
+                                .value = d.value
+                            }
+                        End Function)
+        End Function
     End Class
 End Namespace
