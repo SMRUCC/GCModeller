@@ -123,19 +123,26 @@ Namespace Core
             Catch ex As Exception When ex.IsSocketPortOccupied
                 Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
                 Call ex.ToString.__DEBUG_ECHO
+                Call App.LogException(ex)
                 Call Console.WriteLine()
                 Call "Program http server thread was terminated.".__DEBUG_ECHO
                 Call Console.WriteLine()
                 Call Console.WriteLine()
                 Call Console.WriteLine()
+
+                Return 500
             Catch ex As Exception
                 ex = New Exception(CStr(localPort), ex)
 
                 Call ex.PrintException
                 Call App.LogException(ex)
+
+                Return 500
             Finally
                 Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
             End Try
+
+            Call _threadPool.Start()
 
             While Is_active
                 If Not _threadPool.FullCapacity Then
@@ -182,6 +189,7 @@ Namespace Core
         Public Sub Shutdown()
             Is_active = False
             _httpListener.Stop()
+            _threadPool.Dispose()
         End Sub
 
         ''' <summary>
@@ -228,7 +236,6 @@ Namespace Core
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     Call Shutdown()
-                    Call _threadPool.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
