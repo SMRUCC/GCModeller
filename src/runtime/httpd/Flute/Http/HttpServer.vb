@@ -144,8 +144,6 @@ Namespace Core
                 Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
             End Try
 
-            Call _threadPool.Start()
-
             While Is_active
                 If Not _threadPool.FullCapacity Then
                     Call _threadPool.RunTask(AddressOf accept)
