@@ -119,6 +119,8 @@ Namespace Core
 
             Try
                 _httpListener.Start(10240)
+                _threadPool.Start()
+
                 Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
                 Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
