@@ -119,6 +119,8 @@ Namespace Core
 
             Try
                 _httpListener.Start(10240)
+                _threadPool.Start()
+
                 Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
                 Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
@@ -141,8 +143,6 @@ Namespace Core
             Finally
                 Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
             End Try
-
-            Call _threadPool.Start()
 
             While Is_active
                 If Not _threadPool.FullCapacity Then
