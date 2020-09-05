@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::384d8105e1e3958a8df33e9383277dec, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IForceDirected.vb"
+﻿#Region "Microsoft.VisualBasic::bc5ccabd214545668bc349bde15dd225, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IVector.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,12 @@
 
     ' Summaries:
 
-    '     Delegate Sub
+    '     Interface IVector
     ' 
+    '         Properties: x, y, z
     ' 
-    '     Delegate Sub
-    ' 
-    ' 
-    '     Interface IForceDirected
-    ' 
-    '         Properties: Damping, graph, Repulsion, Stiffness, Threshold
-    '                     WithinThreshold
-    ' 
-    '         Function: GetBoundingBox, GetPoint, Nearest
-    ' 
-    '         Sub: Calculate, Clear, EachEdge, EachNode, SetPhysics
-    ' 
-    ' 
-    ' 
+    '         Function: Add, Divide, Magnitude, Multiply, Normalize
+    '                   SetIdentity, SetZero, Subtract
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,11 +44,11 @@
 #End Region
 
 '! 
-'@file IForceDirected.cs
+'@file IVector.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief ForceDirected Interface
+'@brief Vector Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -88,45 +77,31 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the ForceDirected.
+'An Interface for the Vector.
 '
 '
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Text
 
-Namespace Layouts.Interfaces
+Namespace Layouts.SpringForce.Interfaces
 
-    Public Delegate Sub EdgeAction(edge As Edge, spring As Spring)
-    Public Delegate Sub NodeAction(edge As Node, point As LayoutPoint)
+    Public Interface IVector
+        Property x() As Double
 
-    Public Interface IForceDirected
+        Property y() As Double
 
-        ReadOnly Property graph() As NetworkGraph
-        ReadOnly Property Stiffness() As Double
-        ReadOnly Property Repulsion() As Double
-        ReadOnly Property Damping() As Double
-        ' NOT Using
-        ReadOnly Property WithinThreshold() As Boolean
+        Property z() As Double
 
-        Property Threshold As Double
-
-        Sub Clear()
-
-        ''' <summary>
-        ''' Calculates the physics updates.
-        ''' </summary>
-        ''' <param name="iTimeStep"></param>
-        Sub Calculate(iTimeStep As Double)
-        Sub EachEdge(del As EdgeAction)
-        Sub SetPhysics(Stiffness As Double, Repulsion As Double, Damping As Double)
-
-        ''' <summary>
-        ''' 节点的经过计算之后的当前位置可以从这个方法之中获取得到
-        ''' </summary>
-        ''' <param name="del"></param>
-        Sub EachNode(del As NodeAction)
-        Function Nearest(position As AbstractVector) As NearestPoint
-        Function GetBoundingBox() As BoundingBox
-        Function GetPoint(iNode As Node) As LayoutPoint
+        Function Add(v2 As AbstractVector) As AbstractVector
+        Function Subtract(v2 As AbstractVector) As AbstractVector
+        Function Multiply(n As Double) As AbstractVector
+        Function Divide(n As Double) As AbstractVector
+        Function Magnitude() As Double
+        'public abstract AbstractVector Normal();
+        Function Normalize() As AbstractVector
+        Function SetZero() As AbstractVector
+        Function SetIdentity() As AbstractVector
     End Interface
 End Namespace

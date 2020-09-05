@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26198b2cb036b2ecebdbc7875d65edc7, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\AbstractRenderer.vb"
+﻿#Region "Microsoft.VisualBasic::87e17f1fbefd82f85f73f467c5e2a83d, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IGraph.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,9 @@
 
     ' Summaries:
 
-    '     Class AbstractRenderer
+    '     Interface IGraphEventListener
     ' 
-    '         Properties: PhysicsEngine
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: DirectDraw, Draw
+    '         Sub: GraphChanged
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,11 +41,11 @@
 #End Region
 
 '! 
-'@file AbstractRenderer.cs
+'@file IGraph.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Abstract Renderer Interface
+'@brief Graph Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -77,57 +74,15 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Abstract Renderer Class.
+'An Interface for the Graph.
 '
 '
-
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces
 
-Namespace Layouts
+Namespace Layouts.SpringForce.Interfaces
 
-    Public MustInherit Class AbstractRenderer
-        Implements IRenderer
+    Public Interface IGraphEventListener
 
-        Public ReadOnly Property PhysicsEngine As IForceDirected
-            Get
-                Return forceDirected
-            End Get
-        End Property
-
-        Protected forceDirected As IForceDirected
-
-        Public Sub New(forceDirected As IForceDirected)
-            Me.forceDirected = forceDirected
-        End Sub
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="iTimeStep"><see cref="IForceDirected.Calculate(Single)"/></param>
-        ''' <param name="physicsUpdate"></param>
-        Public Sub Draw(iTimeStep As Double, Optional physicsUpdate As Boolean = True) Implements IRenderer.Draw
-            If physicsUpdate Then
-                ' 计算力的变化
-                Call forceDirected.Calculate(iTimeStep)
-            End If
-
-            ' 清理画板
-            Call Clear()
-            Call DirectDraw()
-        End Sub
-
-        ''' <summary>
-        ''' 不计算位置而直接更新绘图
-        ''' </summary>
-        Public Overridable Sub DirectDraw()
-            forceDirected.EachEdge(Sub(edge As Edge, spring As Spring) drawEdge(edge, spring.point1.position, spring.point2.position))
-            forceDirected.EachNode(Sub(node As Node, point As LayoutPoint) drawNode(node, point.position))
-        End Sub
-
-        Public MustOverride Sub Clear() Implements IRenderer.Clear
-        Protected MustOverride Sub drawEdge(iEdge As Edge, iPosition1 As AbstractVector, iPosition2 As AbstractVector)
-        Protected MustOverride Sub drawNode(iNode As Node, iPosition As AbstractVector)
-
-    End Class
+        Sub GraphChanged(sender As NetworkGraph, eventName As String)
+    End Interface
 End Namespace

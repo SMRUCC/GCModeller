@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f60096c54a5403d9f534e4e7884a573b, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IRenderer.vb"
+﻿#Region "Microsoft.VisualBasic::8d3630ce3d12501be83f4273fc7b23fd, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Spring.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,20 @@
 
     ' Summaries:
 
-    '     Interface IRenderer
+    '     Class Spring
     ' 
-    '         Sub: Clear, Draw
+    '         Properties: K, length, point1, point2
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class NearestPoint
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class BoundingBox
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,11 +52,11 @@
 #End Region
 
 '! 
-'@file IRenderer.cs
+'@file Spring.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Renderer Interface
+'@brief Spring Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -74,19 +85,59 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Renderer.
+'An Interface for the Spring Class.
 '
 '
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Layouts.Interfaces
+Namespace Layouts.SpringForce
 
-    Public Interface IRenderer
+    Public Class Spring
 
-        Sub Clear()
-        Sub Draw(iTimeStep As Double, Optional physicsUpdate As Boolean = True)
-    End Interface
+        Public Property point1 As LayoutPoint
+        Public Property point2 As LayoutPoint
+        Public Property length As Double
+        Public Property K As Double
+
+        Public Sub New(point1 As LayoutPoint, point2 As LayoutPoint, length As Double, K As Double)
+            Me.point1 = point1
+            Me.point2 = point2
+            Me.length = length
+            Me.K = K
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class NearestPoint
+
+        Public node As Node
+        Public point As LayoutPoint
+        Public distance As Double?
+
+        Public Sub New()
+            node = Nothing
+            point = Nothing
+            distance = Nothing
+        End Sub
+    End Class
+
+    Public Class BoundingBox
+
+        ' ~5% padding
+        Public Const defaultBB As Double = 2.0F
+        Public Const defaultPadding As Double = 0.07F
+
+        Public topRightBack As AbstractVector
+        Public bottomLeftFront As AbstractVector
+
+        Public Sub New()
+            topRightBack = Nothing
+            bottomLeftFront = Nothing
+        End Sub
+    End Class
 End Namespace

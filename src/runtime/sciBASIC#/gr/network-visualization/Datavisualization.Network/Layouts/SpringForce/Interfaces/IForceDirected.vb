@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d3630ce3d12501be83f4273fc7b23fd, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\Spring.vb"
+﻿#Region "Microsoft.VisualBasic::384d8105e1e3958a8df33e9383277dec, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IForceDirected.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,23 @@
 
     ' Summaries:
 
-    '     Class Spring
+    '     Delegate Sub
     ' 
-    '         Properties: K, length, point1, point2
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
+    '     Delegate Sub
     ' 
-    '     Class NearestPoint
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '     Interface IForceDirected
     ' 
-    '     Class BoundingBox
+    '         Properties: Damping, graph, Repulsion, Stiffness, Threshold
+    '                     WithinThreshold
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetBoundingBox, GetPoint, Nearest
+    ' 
+    '         Sub: Calculate, Clear, EachEdge, EachNode, SetPhysics
+    ' 
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
@@ -52,11 +55,11 @@
 #End Region
 
 '! 
-'@file Spring.cs
+'@file IForceDirected.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Spring Interface
+'@brief ForceDirected Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -85,59 +88,45 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Spring Class.
+'An Interface for the ForceDirected.
 '
 '
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Layouts
+Namespace Layouts.SpringForce.Interfaces
 
-    Public Class Spring
+    Public Delegate Sub EdgeAction(edge As Edge, spring As Spring)
+    Public Delegate Sub NodeAction(edge As Node, point As LayoutPoint)
 
-        Public Property point1 As LayoutPoint
-        Public Property point2 As LayoutPoint
-        Public Property length As Double
-        Public Property K As Double
+    Public Interface IForceDirected
 
-        Public Sub New(point1 As LayoutPoint, point2 As LayoutPoint, length As Double, K As Double)
-            Me.point1 = point1
-            Me.point2 = point2
-            Me.length = length
-            Me.K = K
-        End Sub
+        ReadOnly Property graph() As NetworkGraph
+        ReadOnly Property Stiffness() As Double
+        ReadOnly Property Repulsion() As Double
+        ReadOnly Property Damping() As Double
+        ' NOT Using
+        ReadOnly Property WithinThreshold() As Boolean
 
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
+        Property Threshold As Double
 
-    Public Class NearestPoint
+        Sub Clear()
 
-        Public node As Node
-        Public point As LayoutPoint
-        Public distance As Double?
+        ''' <summary>
+        ''' Calculates the physics updates.
+        ''' </summary>
+        ''' <param name="iTimeStep"></param>
+        Sub Calculate(iTimeStep As Double)
+        Sub EachEdge(del As EdgeAction)
+        Sub SetPhysics(Stiffness As Double, Repulsion As Double, Damping As Double)
 
-        Public Sub New()
-            node = Nothing
-            point = Nothing
-            distance = Nothing
-        End Sub
-    End Class
-
-    Public Class BoundingBox
-
-        ' ~5% padding
-        Public Const defaultBB As Double = 2.0F
-        Public Const defaultPadding As Double = 0.07F
-
-        Public topRightBack As AbstractVector
-        Public bottomLeftFront As AbstractVector
-
-        Public Sub New()
-            topRightBack = Nothing
-            bottomLeftFront = Nothing
-        End Sub
-    End Class
+        ''' <summary>
+        ''' 节点的经过计算之后的当前位置可以从这个方法之中获取得到
+        ''' </summary>
+        ''' <param name="del"></param>
+        Sub EachNode(del As NodeAction)
+        Function Nearest(position As AbstractVector) As NearestPoint
+        Function GetBoundingBox() As BoundingBox
+        Function GetPoint(iNode As Node) As LayoutPoint
+    End Interface
 End Namespace

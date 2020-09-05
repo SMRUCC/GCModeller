@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc5ccabd214545668bc349bde15dd225, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IVector.vb"
+﻿#Region "Microsoft.VisualBasic::26198b2cb036b2ecebdbc7875d65edc7, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Layout\AbstractRenderer.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,12 @@
 
     ' Summaries:
 
-    '     Interface IVector
+    '     Class AbstractRenderer
     ' 
-    '         Properties: x, y, z
+    '         Properties: PhysicsEngine
     ' 
-    '         Function: Add, Divide, Magnitude, Multiply, Normalize
-    '                   SetIdentity, SetZero, Subtract
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: DirectDraw, Draw
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,11 +44,11 @@
 #End Region
 
 '! 
-'@file IVector.cs
+'@file AbstractRenderer.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Vector Interface
+'@brief Abstract Renderer Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -77,31 +77,57 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Vector.
+'An Interface for the Abstract Renderer Class.
 '
 '
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
 
-Namespace Layouts.Interfaces
+Namespace Layouts.SpringForce
 
-    Public Interface IVector
-        Property x() As Double
+    Public MustInherit Class AbstractRenderer
+        Implements IRenderer
 
-        Property y() As Double
+        Public ReadOnly Property PhysicsEngine As IForceDirected
+            Get
+                Return forceDirected
+            End Get
+        End Property
 
-        Property z() As Double
+        Protected forceDirected As IForceDirected
 
-        Function Add(v2 As AbstractVector) As AbstractVector
-        Function Subtract(v2 As AbstractVector) As AbstractVector
-        Function Multiply(n As Double) As AbstractVector
-        Function Divide(n As Double) As AbstractVector
-        Function Magnitude() As Double
-        'public abstract AbstractVector Normal();
-        Function Normalize() As AbstractVector
-        Function SetZero() As AbstractVector
-        Function SetIdentity() As AbstractVector
-    End Interface
+        Public Sub New(forceDirected As IForceDirected)
+            Me.forceDirected = forceDirected
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="iTimeStep"><see cref="IForceDirected.Calculate"/></param>
+        ''' <param name="physicsUpdate"></param>
+        Public Sub Draw(iTimeStep As Double, Optional physicsUpdate As Boolean = True) Implements IRenderer.Draw
+            If physicsUpdate Then
+                ' 计算力的变化
+                Call forceDirected.Calculate(iTimeStep)
+            End If
+
+            ' 清理画板
+            Call Clear()
+            Call DirectDraw()
+        End Sub
+
+        ''' <summary>
+        ''' 不计算位置而直接更新绘图
+        ''' </summary>
+        Public Overridable Sub DirectDraw()
+            forceDirected.EachEdge(Sub(edge As Edge, spring As Spring) drawEdge(edge, spring.point1.position, spring.point2.position))
+            forceDirected.EachNode(Sub(node As Node, point As LayoutPoint) drawNode(node, point.position))
+        End Sub
+
+        Public MustOverride Sub Clear() Implements IRenderer.Clear
+        Protected MustOverride Sub drawEdge(iEdge As Edge, iPosition1 As AbstractVector, iPosition2 As AbstractVector)
+        Protected MustOverride Sub drawNode(iNode As Node, iPosition As AbstractVector)
+
+    End Class
 End Namespace

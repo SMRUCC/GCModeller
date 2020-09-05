@@ -84,7 +84,7 @@
 '
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
 
 Namespace Layouts
 
