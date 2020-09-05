@@ -18,7 +18,7 @@ Namespace Layouts.ForceDirected
         ''' <summary>
         ''' The repulsion strength between two unconnected vertices
         ''' </summary>
-        Private Const VertexRepulsionForceStrength As Double = 5.0R
+        Private Const VertexRepulsionForceStrength As Double = 0.5R
 
         ''' <summary>
         ''' The attraction strength between two connected vertices
