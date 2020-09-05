@@ -18,12 +18,12 @@ Namespace Layouts.ForceDirected
         ''' <summary>
         ''' The repulsion strength between two unconnected vertices
         ''' </summary>
-        Private Const VertexRepulsionForceStrength As Double = 0.5R
+        Private Const VertexRepulsionForceStrength As Double = 5.0R
 
         ''' <summary>
         ''' The attraction strength between two connected vertices
         ''' </summary>
-        Private Const VertexAttractionForceStrength As Double = 0.1R
+        Private Const VertexAttractionForceStrength As Double = 0.9R
 
         ''' <summary>
         ''' Plans the specified graph.
