@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::47333ab144584d601284f27a997fcc27, KEGG\FunctionalNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module FunctionalNetwork
-    ' 
-    '     Function: applyLayout, KOGroupTable, VisualizeKEGG
-    ' 
-    ' /********************************************************************************/
+' Module FunctionalNetwork
+' 
+'     Function: applyLayout, KOGroupTable, VisualizeKEGG
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -61,7 +62,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
 Public Module FunctionalNetwork
 
@@ -133,8 +133,8 @@ Public Module FunctionalNetwork
         Call graph.ScaleRadius(range:=radius)
 
         If layouts.IsNullOrEmpty Then
-            Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
-            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile, New ForceDirectedArgs With {.Damping = 0.2, .Iterations = 2000, .Repulsion = 1000, .Stiffness = 80})
+            Dim defaultFile$ = App.InputFile.ParentPath & "/" & SpringForce.Parameters.DefaultFileName
+            Dim parameters As ForceDirectedArgs = SpringForce.Parameters.Load(defaultFile, New ForceDirectedArgs With {.Damping = 0.2, .Iterations = 2000, .Repulsion = 1000, .Stiffness = 80})
 
             ' 生成layout信息               
             Call graph.doRandomLayout

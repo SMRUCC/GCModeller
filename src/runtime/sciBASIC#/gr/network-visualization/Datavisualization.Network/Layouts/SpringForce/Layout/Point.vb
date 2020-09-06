@@ -90,7 +90,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Layouts
+Namespace Layouts.SpringForce
 
     ''' <summary>
     ''' The position of the node object in the fdg data model.
@@ -99,7 +99,7 @@ Namespace Layouts
 
         Public Property position As AbstractVector
         Public Property node As Node
-        Public Property mass As Single
+        Public Property mass As Double
             Get
                 Return node.data.mass
             End Get

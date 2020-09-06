@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f60096c54a5403d9f534e4e7884a573b, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IRenderer.vb"
+﻿#Region "Microsoft.VisualBasic::384d8105e1e3958a8df33e9383277dec, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IForceDirected.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,23 @@
 
     ' Summaries:
 
-    '     Interface IRenderer
+    '     Delegate Sub
     ' 
-    '         Sub: Clear, Draw
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Interface IForceDirected
+    ' 
+    '         Properties: Damping, graph, Repulsion, Stiffness, Threshold
+    '                     WithinThreshold
+    ' 
+    '         Function: GetBoundingBox, GetPoint, Nearest
+    ' 
+    '         Sub: Calculate, Clear, EachEdge, EachNode, SetPhysics
+    ' 
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,11 +55,11 @@
 #End Region
 
 '! 
-'@file IRenderer.cs
+'@file IForceDirected.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Renderer Interface
+'@brief ForceDirected Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -74,19 +88,45 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Renderer.
+'An Interface for the ForceDirected.
 '
 '
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
-Namespace Layouts.Interfaces
+Namespace Layouts.SpringForce.Interfaces
 
-    Public Interface IRenderer
+    Public Delegate Sub EdgeAction(edge As Edge, spring As Spring)
+    Public Delegate Sub NodeAction(edge As Node, point As LayoutPoint)
+
+    Public Interface IForceDirected
+
+        ReadOnly Property graph() As NetworkGraph
+        ReadOnly Property Stiffness() As Double
+        ReadOnly Property Repulsion() As Double
+        ReadOnly Property Damping() As Double
+        ' NOT Using
+        ReadOnly Property WithinThreshold() As Boolean
+
+        Property Threshold As Double
 
         Sub Clear()
-        Sub Draw(iTimeStep As Single, Optional physicsUpdate As Boolean = True)
+
+        ''' <summary>
+        ''' Calculates the physics updates.
+        ''' </summary>
+        ''' <param name="iTimeStep"></param>
+        Sub Calculate(iTimeStep As Double)
+        Sub EachEdge(del As EdgeAction)
+        Sub SetPhysics(Stiffness As Double, Repulsion As Double, Damping As Double)
+
+        ''' <summary>
+        ''' 节点的经过计算之后的当前位置可以从这个方法之中获取得到
+        ''' </summary>
+        ''' <param name="del"></param>
+        Sub EachNode(del As NodeAction)
+        Function Nearest(position As AbstractVector) As NearestPoint
+        Function GetBoundingBox() As BoundingBox
+        Function GetPoint(iNode As Node) As LayoutPoint
     End Interface
 End Namespace
