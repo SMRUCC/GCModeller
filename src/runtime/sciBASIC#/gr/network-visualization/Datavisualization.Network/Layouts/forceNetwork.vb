@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::1bf005724b66dab1f77de93dfa2faffb, gr\network-visualization\Datavisualization.Network\Layouts\forceNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module forceNetwork
-    ' 
-    '         Function: CheckZero, (+2 Overloads) doForceLayout, doRandomLayout
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module forceNetwork
+' 
+'         Function: CheckZero, (+2 Overloads) doForceLayout, doRandomLayout
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -116,22 +117,29 @@ Namespace Layouts
                                       Optional Damping# = 0.83,
                                       Optional iterations% = 1000,
                                       Optional showProgress As Boolean = False,
-                                      Optional clearScreen As Boolean = False) As NetworkGraph
+                                      Optional clearScreen As Boolean = False,
+                                      Optional progressCallback As Action(Of String) = Nothing) As NetworkGraph
 
             Dim physicsEngine As New ForceDirected2D(net, Stiffness, Repulsion, Damping)
             Dim tick As Action(Of Integer)
             Dim progress As ProgressBar = Nothing
-
-            If showProgress Then
-                Dim ticking As ProgressProvider
-                Dim ETA$
-                Dim details$
-                Dim args$ = New ForceDirectedArgs With {
+            Dim args$ = New ForceDirectedArgs With {
                     .Damping = Damping,
                     .Iterations = iterations,
                     .Repulsion = Repulsion,
                     .Stiffness = Stiffness
                 }.GetJson
+
+            If progressCallback Is Nothing Then
+                progressCallback = Sub()
+
+                                   End Sub
+            End If
+
+            If showProgress Then
+                Dim ticking As ProgressProvider
+                Dim ETA$
+                Dim details$
 
                 progress = New ProgressBar("Do Force Directed Layout...", 1, CLS:=clearScreen)
                 ticking = New ProgressProvider(progress, iterations)
@@ -139,9 +147,12 @@ Namespace Layouts
                            ETA = "ETA=" & ticking.ETA().FormatTime
                            details = args & $" ({i}/{iterations}) " & ETA
                            progress.SetProgress(ticking.StepProgress, details)
+                           progressCallback(details)
                        End Sub
             Else
                 tick = Sub(i%)
+                           Dim details = args & $" [{i}/{iterations}]"
+                           progressCallback(details)
                        End Sub
             End If
 
