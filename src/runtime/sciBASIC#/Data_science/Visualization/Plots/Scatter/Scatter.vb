@@ -210,13 +210,14 @@ Public Module Scatter
                     Optional legendSplit% = -1,
                     Optional hullConvexList As String() = Nothing,
                     Optional XtickFormat$ = "F2",
-                    Optional YtickFormat$ = "F2")
+                    Optional YtickFormat$ = "F2",
+                    Optional axisStroke$ = Stroke.AxisStroke)
 
         Dim array As SerialData() = c.ToArray
         Dim XTicks#(), YTicks#()
         Dim hullPolygonIndex As Index(Of String) = hullConvexList.SafeQuery.ToArray
 
-        With array.CreateAxisTicks(preferPositive)
+        With array.CreateAxisTicks(preferPositive, scale:=If(XaxisAbsoluteScalling, 1, 1.25))
             XTicks = .x
             YTicks = .y
         End With
@@ -259,7 +260,8 @@ Public Module Scatter
                 gridColor:=gridColor,
                 gridFill:=gridFill,
                 XtickFormat:=XtickFormat,
-                YtickFormat:=YtickFormat
+                YtickFormat:=YtickFormat,
+                axisStroke:=axisStroke
             )
         End If
 
@@ -267,10 +269,6 @@ Public Module Scatter
         Dim annotations As New Dictionary(Of String, (raw As SerialData, line As SerialData))
 
         For Each line As SerialData In array
-            Dim pts As SlideWindow(Of PointData)() = line.pts _
-                .getSplinePoints(spline:=interplot) _
-                .SlideWindows(2) _
-                .ToArray
             Dim pen As Pen = line.GetPen
             Dim br As New SolidBrush(line.color)
             Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
@@ -284,67 +282,86 @@ Public Module Scatter
                                         Return pt.color.GetBrush
                                     End If
                                 End Function
-            Dim pt1, pt2 As PointF
             Dim polygon As New List(Of PointF)
 
-            For Each pt As SlideWindow(Of PointData) In pts
-                Dim a As PointData = pt.First
-                Dim b As PointData = pt.Last
+            If drawLine Then
+                Dim pt1, pt2 As PointF
+                Dim pts As SlideWindow(Of PointData)() = line.pts _
+                    .getSplinePoints(spline:=interplot) _
+                    .SlideWindows(2) _
+                    .ToArray
 
-                pt1 = scaler.Translate(a.pt.X, a.pt.Y)
-                pt2 = scaler.Translate(b.pt.X, b.pt.Y)
+                For Each pt As SlideWindow(Of PointData) In pts
+                    Dim a As PointData = pt.First
+                    Dim b As PointData = pt.Last
 
-                polygon.Add(pt1)
-                polygon.Add(pt2)
+                    pt1 = scaler.Translate(a.pt.X, a.pt.Y)
+                    pt2 = scaler.Translate(b.pt.X, b.pt.Y)
 
-                If drawLine Then
-                    Call g.DrawLine(pen, pt1, pt2)
-                End If
+                    polygon.Add(pt1)
+                    polygon.Add(pt2)
 
-                If fill Then
-                    Dim path As New GraphicsPath
-                    Dim ptc As New PointF(pt2.X, bottom) ' c
-                    Dim ptd As New PointF(pt1.X, bottom) ' d
+                    If drawLine Then
+                        Call g.DrawLine(pen, pt1, pt2)
+                    End If
+
+                    If fill Then
+                        Dim path As New GraphicsPath
+                        Dim ptc As New PointF(pt2.X, bottom) ' c
+                        Dim ptd As New PointF(pt1.X, bottom) ' d
 
 
-                    '   /-b
-                    ' a-  |
-                    ' |   |
-                    ' |   |
-                    ' d---c
+                        '   /-b
+                        ' a-  |
+                        ' |   |
+                        ' |   |
+                        ' d---c
 
-                    path.AddLine(pt1, pt2)
-                    path.AddLine(pt2, ptc)
-                    path.AddLine(ptc, ptd)
-                    path.AddLine(ptd, pt1)
-                    path.CloseFigure()
+                        path.AddLine(pt1, pt2)
+                        path.AddLine(pt2, ptc)
+                        path.AddLine(ptc, ptd)
+                        path.AddLine(ptd, pt1)
+                        path.CloseFigure()
 
-                    Call g.FillPath(fillBrush, path)
-                End If
+                        Call g.FillPath(fillBrush, path)
+                    End If
 
-                If fillPie Then
-                    Call g.FillPie(getPointBrush(a), pt1.X - r, pt1.Y - r, d, d, 0, 360)
-                    Call g.FillPie(getPointBrush(b), pt2.X - r, pt2.Y - r, d, d, 0, 360)
-                End If
+                    If fillPie Then
+                        Call g.FillPie(getPointBrush(a), pt1.X - r, pt1.Y - r, d, d, 0, 360)
+                        Call g.FillPie(getPointBrush(b), pt2.X - r, pt2.Y - r, d, d, 0, 360)
+                    End If
 
-                ' 绘制误差线
-                ' 首先计算出误差的长度，然后可pt1,pt2的Y相加减即可得到新的位置
-                ' 最后划线即可
-                If a.errPlus > 0 Then
-                    Call g.drawErrorLine(scaler, pt1, a.errPlus + a.pt.Y, width, br)
-                End If
-                If a.errMinus > 0 Then
-                    Call g.drawErrorLine(scaler, pt1, a.pt.Y - a.errMinus, width, br)
-                End If
-                If b.errPlus > 0 Then
-                    Call g.drawErrorLine(scaler, pt2, b.errPlus + b.pt.Y, width, br)
-                End If
-                If b.errMinus > 0 Then
-                    Call g.drawErrorLine(scaler, pt2, b.pt.Y - b.errMinus, width, br)
-                End If
+                    ' 绘制误差线
+                    ' 首先计算出误差的长度，然后可pt1,pt2的Y相加减即可得到新的位置
+                    ' 最后划线即可
+                    If a.errPlus > 0 Then
+                        Call g.drawErrorLine(scaler, pt1, a.errPlus + a.pt.Y, width, br)
+                    End If
+                    If a.errMinus > 0 Then
+                        Call g.drawErrorLine(scaler, pt1, a.pt.Y - a.errMinus, width, br)
+                    End If
+                    If b.errPlus > 0 Then
+                        Call g.drawErrorLine(scaler, pt2, b.errPlus + b.pt.Y, width, br)
+                    End If
+                    If b.errMinus > 0 Then
+                        Call g.drawErrorLine(scaler, pt2, b.pt.Y - b.errMinus, width, br)
+                    End If
 
-                Call Application.DoEvents()
-            Next
+                    Call Application.DoEvents()
+                Next
+            Else
+                For Each pt As PointData In line.pts
+                    Dim pt1 = scaler.Translate(pt.pt.X, pt.pt.Y)
+
+                    polygon.Add(pt1)
+
+                    If fillPie Then
+                        Call g.FillPie(getPointBrush(pt), pt1.X - r, pt1.Y - r, d, d, 0, 360)
+                    End If
+
+                    Call Application.DoEvents()
+                Next
+            End If
 
             If line.title Like hullPolygonIndex Then
                 Call polygon _
@@ -510,56 +527,62 @@ Public Module Scatter
                          Optional legendSplit% = -1,
                          Optional hullConvexList As String() = Nothing,
                          Optional XtickFormat$ = "F2",
-                         Optional YtickFormat$ = "F2") As GraphicsData
+                         Optional YtickFormat$ = "F2",
+                         Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
+
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, layout As GraphicsRegion)
+                Call c.Plot(
+                    g:=g,
+                    rect:=layout,
+                    bg:=bg,
+                    showGrid:=showGrid,
+                    showLegend:=showLegend,
+                    legendPosition:=legendPosition,
+                    legendSize:=legendSize,
+                    drawLine:=drawLine,
+                    legendBorder:=legendBorder,
+                    legendRegionBorder:=legendRegionBorder,
+                    fill:=fill,
+                    fillPie:=fillPie,
+                    legendFontCSS:=legendFontCSS,
+                    absoluteScaling:=absoluteScaling,
+                    xaxis:=xaxis,
+                    XaxisAbsoluteScalling:=XaxisAbsoluteScalling,
+                    yaxis:=yaxis,
+                    YaxisAbsoluteScalling:=YaxisAbsoluteScalling,
+                    drawAxis:=drawAxis,
+                    xlayout:=xlayout,
+                    ylayout:=ylayout,
+                    Xlabel:=Xlabel,
+                    Ylabel:=Ylabel,
+                    ablines:=ablines,
+                    htmlLabel:=htmlLabel,
+                    ticksY:=ticksY,
+                    preferPositive:=preferPositive,
+                    interplot:=interplot,
+                    densityColor:=densityColor,
+                    tickFontStyle:=tickFontStyle,
+                    labelFontStyle:=labelFontStyle,
+                    title:=title,
+                    titleFontCSS:=titleFontCSS,
+                    gridColor:=gridColor,
+                    gridFill:=gridFill,
+                    legendSplit:=legendSplit,
+                    legendBgFill:=legendBgFill,
+                    hullConvexList:=hullConvexList,
+                    XtickFormat:=XtickFormat,
+                    YtickFormat:=YtickFormat,
+                    axisStroke:=axisStroke
+                )
+            End Sub
 
         Return g.GraphicsPlots(
             size:=size.SizeParser,
             padding:=padding,
             bg:=bg,
-            plotAPI:=Sub(ByRef g, layout)
-                         Call c.Plot(
-                            g:=g,
-                            rect:=layout,
-                            bg:=bg,
-                            showGrid:=showGrid,
-                            showLegend:=showLegend,
-                            legendPosition:=legendPosition,
-                            legendSize:=legendSize,
-                            drawLine:=drawLine,
-                            legendBorder:=legendBorder,
-                            legendRegionBorder:=legendRegionBorder,
-                            fill:=fill,
-                            fillPie:=fillPie,
-                            legendFontCSS:=legendFontCSS,
-                            absoluteScaling:=absoluteScaling,
-                            xaxis:=xaxis,
-                            XaxisAbsoluteScalling:=XaxisAbsoluteScalling,
-                            yaxis:=yaxis,
-                            YaxisAbsoluteScalling:=YaxisAbsoluteScalling,
-                            drawAxis:=drawAxis,
-                            xlayout:=xlayout,
-                            ylayout:=ylayout,
-                            Xlabel:=Xlabel,
-                            Ylabel:=Ylabel,
-                            ablines:=ablines,
-                            htmlLabel:=htmlLabel,
-                            ticksY:=ticksY,
-                            preferPositive:=preferPositive,
-                            interplot:=interplot,
-                            densityColor:=densityColor,
-                            tickFontStyle:=tickFontStyle,
-                            labelFontStyle:=labelFontStyle,
-                            title:=title,
-                            titleFontCSS:=titleFontCSS,
-                            gridColor:=gridColor,
-                            gridFill:=gridFill,
-                            legendSplit:=legendSplit,
-                            legendBgFill:=legendBgFill,
-                            hullConvexList:=hullConvexList,
-                            XtickFormat:=XtickFormat,
-                            YtickFormat:=YtickFormat
-                         )
-                     End Sub)
+            plotAPI:=plotInternal
+        )
     End Function
 
     Public Function Plot(x As Vector,
