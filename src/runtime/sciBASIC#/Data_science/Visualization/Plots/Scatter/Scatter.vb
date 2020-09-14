@@ -219,7 +219,8 @@ Public Module Scatter
                     Optional hullConvexList As String() = Nothing,
                     Optional XtickFormat$ = "F2",
                     Optional YtickFormat$ = "F2",
-                    Optional axisStroke$ = Stroke.AxisStroke)
+                    Optional axisStroke$ = Stroke.AxisStroke,
+                    Optional scatterReorder As Boolean = False)
 
         Dim array As SerialData() = c.ToArray
         Dim XTicks#(), YTicks#()
@@ -363,7 +364,15 @@ Public Module Scatter
                     Call Application.DoEvents()
                 Next
             Else
-                For Each pt As PointData In line.pts
+                Dim scatter As IEnumerable(Of PointData)
+
+                If scatterReorder Then
+                    scatter = line.pts.OrderBy(Function(a) a.value)
+                Else
+                    scatter = line.pts
+                End If
+
+                For Each pt As PointData In scatter
                     Dim pt1 = scaler.Translate(pt.pt.X, pt.pt.Y)
 
                     polygon.Add(pt1)
@@ -541,7 +550,8 @@ Public Module Scatter
                          Optional hullConvexList As String() = Nothing,
                          Optional XtickFormat$ = "F2",
                          Optional YtickFormat$ = "F2",
-                         Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
+                         Optional axisStroke$ = Stroke.AxisStroke,
+                         Optional scatterReorder As Boolean = False) As GraphicsData
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, layout As GraphicsRegion)
@@ -586,7 +596,8 @@ Public Module Scatter
                     hullConvexList:=hullConvexList,
                     XtickFormat:=XtickFormat,
                     YtickFormat:=YtickFormat,
-                    axisStroke:=axisStroke
+                    axisStroke:=axisStroke,
+                    scatterReorder:=scatterReorder
                 )
             End Sub
 
