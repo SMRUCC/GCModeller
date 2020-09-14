@@ -87,17 +87,19 @@ Public Module Scatter
     End Sub
 
     <Extension>
-    Public Function CreateAxisTicks(array As SerialData(), Optional preferPositive As Boolean = False, Optional scale# = 1.2) As (x As Double(), y As Double())
+    Public Function CreateAxisTicks(array As SerialData(), Optional preferPositive As Boolean = False, Optional scaleX# = 1.2, Optional scaleY# = 1.2) As (x As Double(), y As Double())
         Dim ptX#() = array _
             .Select(Function(s)
                         Return s.pts.Select(Function(pt) CDbl(pt.pt.X))
                     End Function) _
            .IteratesALL _
            .ToArray
+        Dim w_steps# = If(scaleX <> 1.0, 0.8, 0.2)
+        Dim w_bound# = If(scaleX <> 1.0, 0.1, 0.4)
         Dim XTicks = ptX _
-           .Range(scale) _
-           .CreateAxisTicks
-        Dim YTicks = array _
+           .Range(scaleX) _
+           .CreateAxisTicks(w_steps:=w_steps, w_max:=w_bound, w_min:=w_bound)
+        Dim ptY#() = array _
             .Select(Function(s)
                         Return s.pts _
                             .Select(Function(pt)
@@ -109,8 +111,14 @@ Public Module Scatter
                     End Function) _
             .IteratesALL _
             .IteratesALL _
-            .Range _
-            .CreateAxisTicks
+            .ToArray
+
+        w_steps# = If(scaleY <> 1.0, 0.8, 0.2)
+        w_bound# = If(scaleY <> 1.0, 0.1, 0.4)
+
+        Dim YTicks = ptY _
+            .Range(scaleY) _
+            .CreateAxisTicks(w_steps:=w_steps, w_max:=w_bound, w_min:=w_bound)
 
         If preferPositive AndAlso Not ptX.Any(Function(n) n < 0) Then
             ' 全部都是正实数，则将可能的负实数去掉
@@ -118,7 +126,7 @@ Public Module Scatter
             ' 因为在下面的Range函数里面，是根据scale来将最大值加上一个delta值，最小值减去一个delta值来得到scale之后的结果，
             ' 所以假若X有比较接近于零的值得花， scale之后会出现负数
             ' 这个负数很明显是不合理的，所以在这里将负数删除掉
-            With ptX.Range(scale)
+            With ptX.Range(scaleX)
                 XTicks = New DoubleRange(0, .Max).CreateAxisTicks
             End With
         End If
@@ -217,7 +225,12 @@ Public Module Scatter
         Dim XTicks#(), YTicks#()
         Dim hullPolygonIndex As Index(Of String) = hullConvexList.SafeQuery.ToArray
 
-        With array.CreateAxisTicks(preferPositive, scale:=If(XaxisAbsoluteScalling, 1, 1.25))
+        With array.CreateAxisTicks(
+            preferPositive:=preferPositive,
+            scaleX:=If(XaxisAbsoluteScalling, 1, 1.25),
+            scaleY:=If(YaxisAbsoluteScalling, 1, 1.25)
+        )
+
             XTicks = .x
             YTicks = .y
         End With
