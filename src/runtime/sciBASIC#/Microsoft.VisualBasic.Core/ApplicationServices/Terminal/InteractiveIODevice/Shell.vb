@@ -92,7 +92,7 @@ Namespace ApplicationServices.Terminal
 
             Do While App.Running
                 Call Console.Write(ps1.ToString)
-                ' Call Console.Out.Flush()
+                Call Console.Out.Flush()
 
                 If Strings.Trim((cli = Console.ReadLine)).StringEmpty Then
                     Call _shell(cli)
