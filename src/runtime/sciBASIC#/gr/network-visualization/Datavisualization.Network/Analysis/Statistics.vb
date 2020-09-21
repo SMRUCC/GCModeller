@@ -76,12 +76,12 @@ Namespace Analysis
         End Function
 
         ''' <summary>
-        ''' <see cref="names.REFLECTION_ID_MAPPING_BETWEENESS_CENTRALITY"/>, <see cref="names.REFLECTION_ID_MAPPING_RELATIVE_BETWEENESS_CENTRALITY"/>
+        ''' compute and write data of <see cref="names.REFLECTION_ID_MAPPING_BETWEENESS_CENTRALITY"/>, <see cref="names.REFLECTION_ID_MAPPING_RELATIVE_BETWEENESS_CENTRALITY"/>
         ''' </summary>
         ''' <param name="graph"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ComputeBetweennessCentrality(graph As NetworkGraph) As Dictionary(Of String, Integer)
+        Public Function ComputeBetweennessCentrality(ByRef graph As NetworkGraph) As Dictionary(Of String, Integer)
             Dim data = graph.BetweennessCentrality
             Dim sumAll As Double = data.Values.Sum
 
