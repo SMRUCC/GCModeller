@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::42a2de2b1d63abfbe0dcb78ac5156519, KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BuilderBase
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: BuildModel, doNetworkExpansion
-    ' 
-    '         Sub: addNewEdge
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BuilderBase
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: BuildModel, doNetworkExpansion
+' 
+'         Sub: addNewEdge
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
@@ -182,20 +183,21 @@ Namespace ReactionNetwork
                 Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
             End If
 
+            Dim compoundNodesAll As Node() = nodes.values _
+                .Where(Function(n)
+                           Return n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound" AndAlso Not n.label Like commonIgnores
+                       End Function) _
+                .ToArray
+
             ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-            For Each a As Node In nodes.values.Where(Function(n) Not n.label Like commonIgnores).ToArray
+            For Each a As Node In compoundNodesAll
                 Dim reactionA = cpdGroups.TryGetValue(a.label)
 
                 If reactionA.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                For Each b As Node In nodes.values _
-                    .Where(Function(x)
-                               Return x.ID <> a.ID AndAlso Not x.label Like commonIgnores
-                           End Function) _
-                    .ToArray
-
+                For Each b As Node In compoundNodesAll.Where(Function(x) x.ID <> a.ID)
                     Dim rB = cpdGroups.TryGetValue(b.label)
 
                     If rB.IsNullOrEmpty Then
