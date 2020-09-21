@@ -121,37 +121,48 @@ Public Module Reconstruction
             .ToArray
 
         If coverage >= min_cov Then
-            Return New Pathway With {
-                .description = map.Name,
-                .EntryId = map.id,
-                .name = map.Name,
-                .KOpathway = proteins _
-                    .Select(Function(prot)
-                                Return prot.attributes("ko") _
-                                    .Select(Function(ko)
-                                                Return New NamedValue With {
-                                                    .name = ko,
-                                                    .text = prot.description
-                                                }
-                                            End Function)
-                            End Function) _
-                    .IteratesALL _
-                    .ToArray,
-                .genes = proteins _
-                    .Select(Function(g)
-                                Return New NamedValue With {
-                                    .name = g.geneId,
-                                    .text = g.description
-                                }
-                            End Function) _
-                    .ToArray,
-                .modules = idIndex _
-                    .Distinct _
-                    .Select(Function(id) New NamedValue With {.name = id}) _
-                    .ToArray
-            }
+            Return map.createPathwayModel(proteins, idIndex)
         Else
             Return Nothing
         End If
+    End Function
+
+    <Extension>
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As Pathway
+        Dim kopathway As NamedValue() = proteins _
+            .Select(Function(prot)
+                        Return prot.attributes("ko") _
+                            .Select(Function(ko)
+                                        Return New NamedValue With {
+                                            .name = ko,
+                                            .text = prot.description
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        Return New Pathway With {
+            .description = map.Name,
+            .EntryId = map.id,
+            .name = map.Name,
+            .KOpathway = kopathway,
+            .genes = proteins _
+                .Select(Function(g)
+                            Return New NamedValue With {
+                                .name = g.geneId,
+                                .text = g.description
+                            }
+                        End Function) _
+                .ToArray,
+            .modules = idIndex _
+                .Distinct _
+                .Select(Function(id)
+                            Return New NamedValue With {
+                                .name = id
+                            }
+                        End Function) _
+                .ToArray
+        }
     End Function
 End Module
