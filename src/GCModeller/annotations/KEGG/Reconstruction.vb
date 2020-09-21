@@ -25,19 +25,35 @@ Public Module Reconstruction
                           End Function)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="names">the names list of the kegg compounds</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As Pathway
+    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As Pathway
         Dim fluxInMap = pathway.modules _
             .Where(Function(id) reactions.ContainsKey(id.name)) _
             .Select(Function(id) reactions(id.name)) _
             .IteratesALL _
             .ToArray
 
+        If names Is Nothing Then
+            names = New Dictionary(Of String, String)
+        End If
+
         pathway.compound = fluxInMap _
             .Select(Function(rxn) rxn.substrates.AsList + rxn.products) _
             .IteratesALL _
             .Distinct _
-            .Select(Function(cid) New NamedValue With {.name = cid}) _
+            .Select(Function(cid)
+                        Return New NamedValue With {
+                            .name = cid,
+                            .text = names.TryGetValue(cid)
+                        }
+                    End Function) _
             .ToArray
         pathway.modules = Nothing
 
