@@ -70,11 +70,7 @@ Namespace ReactionNetwork
         ''' <summary>
         ''' some primary metabolite connected too much reactions, ignores these metabolites
         ''' </summary>
-        Friend ReadOnly commonIgnores As Index(Of String) = My.Resources _
-            .CommonIgnores _
-            .LineTokens _
-            .Distinct _
-            .ToArray
+        Friend ReadOnly commonIgnores As Index(Of String) = IgnoreList.InOrganicPrimary
 
         ''' <summary>
         ''' 从输入的数据之中构建出网络的节点列表

@@ -231,6 +231,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IgnoreList.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
     <Compile Include="ReactionNetwork\Builder\ReactionClassNetwork.vb" />
     <Compile Include="ReactionNetwork\GetGeneSymbols.vb" />
