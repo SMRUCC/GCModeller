@@ -193,12 +193,8 @@ Namespace ReactionNetwork
                     Continue For
                 End If
 
-                For Each b As Node In compoundNodesAll.Where(Function(x) x.ID <> a.ID)
-                    Dim rB = cpdGroups.TryGetValue(b.label)
-
-                    If rB.IsNullOrEmpty Then
-                        Continue For
-                    End If
+                For Each b As Node In compoundNodesAll.Where(Function(x) x.ID <> a.ID AndAlso cpdGroups.ContainsKey(x.label))
+                    Dim rB As String() = cpdGroups(b.label)
 
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
@@ -213,7 +209,14 @@ Namespace ReactionNetwork
                             If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
                                 Continue For
                             Else
-                                extendes += cpdGroups.doNetworkExtension(a, b, gray, AddressOf addNewEdge, nodes, reactionIDlist)
+                                extendes += cpdGroups.doNetworkExtension(
+                                    a:=a,
+                                    b:=b,
+                                    gray:=gray,
+                                    addEdge:=AddressOf addNewEdge,
+                                    nodes:=nodes,
+                                    reactionIDlist:=reactionIDlist
+                                )
                             End If
 
                         End If
