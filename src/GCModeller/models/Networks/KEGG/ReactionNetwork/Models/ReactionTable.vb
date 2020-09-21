@@ -113,7 +113,7 @@ Namespace ReactionNetwork
         ''' <returns></returns>
         Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
             If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
-                Return br08201.LoadCsv(Of ReactionClassTable)
+                Return br08201.LoadCsv(Of ReactionTable)
             Else
                 Return br08201.DoCall(AddressOf loadXmls)
             End If
