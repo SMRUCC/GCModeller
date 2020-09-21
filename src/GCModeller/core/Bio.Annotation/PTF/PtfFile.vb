@@ -58,7 +58,8 @@ Namespace Ptf
     ''' <summary>
     ''' the GCModeller protein annotation tabular format file.
     ''' </summary>
-    Public Class PtfFile : Implements ISaveHandle
+    Public Class PtfFile : Implements Enumeration(Of ProteinAnnotation)
+        Implements ISaveHandle
 
         ' # version: ...
         ' # program: ...
@@ -114,6 +115,16 @@ Namespace Ptf
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(path, encoding.CodePage)
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of ProteinAnnotation) Implements Enumeration(Of ProteinAnnotation).GenericEnumerator
+            For Each protein As ProteinAnnotation In proteins
+                Yield protein
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of ProteinAnnotation).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace
