@@ -56,6 +56,8 @@ Namespace ReactionNetwork
         ReadOnly nodes As Dictionary(Of Node)
         ReadOnly g As NetworkGraph
 
+        Friend ReadOnly ignores As Index(Of String)
+
         Public ReadOnly Property values As IEnumerable(Of Node)
             Get
                 Return nodes.Values
@@ -68,9 +70,9 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), g As NetworkGraph, color As Brush)
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush)
             nodes = compounds _
-                .Where(Function(cpd) Not cpd.Name Like ReactionNetworkBuilder.commonIgnores) _
+                .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
@@ -80,6 +82,7 @@ Namespace ReactionNetwork
             nodes.Values _
                 .DoEach(AddressOf g.AddNode)
 
+            Me.ignores = ignores
             Me.g = g
         End Sub
 

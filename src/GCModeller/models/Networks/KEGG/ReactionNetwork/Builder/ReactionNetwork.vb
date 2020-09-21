@@ -67,8 +67,11 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        Sub New(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)))
-            Call MyBase.New(br08901, compounds, blue)
+        Sub New(br08901 As IEnumerable(Of ReactionTable),
+                compounds As IEnumerable(Of NamedValue(Of String)),
+                Optional ignoresCommonList As Boolean = True)
+
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList)
         End Sub
 
         ''' <summary>
@@ -152,7 +155,8 @@ Namespace ReactionNetwork
                                    Optional extended As Boolean = False,
                                    Optional enzymes As Dictionary(Of String, String()) = Nothing,
                                    Optional enzymaticRelated As Boolean = True,
-                                   Optional filterByEnzymes As Boolean = False) As NetworkGraph
+                                   Optional filterByEnzymes As Boolean = False,
+                                   Optional ignoresCommonList As Boolean = True) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -170,8 +174,12 @@ Namespace ReactionNetwork
                 source = br08901.ToArray
             End If
 
-            Dim builderSession As New ReactionNetworkBuilder(br08901:=source, compounds)
-            Dim g = builderSession.BuildModel(extended, enzymes, enzymaticRelated)
+            Dim builderSession As New ReactionNetworkBuilder(
+                br08901:=source,
+                compounds:=compounds,
+                ignoresCommonList:=ignoresCommonList
+            )
+            Dim g As NetworkGraph = builderSession.BuildModel(extended, enzymes, enzymaticRelated)
 
             Return g
         End Function

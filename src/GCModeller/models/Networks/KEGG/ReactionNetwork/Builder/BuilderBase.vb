@@ -66,7 +66,10 @@ Namespace ReactionNetwork
         ''' </summary>
         Protected Shared ReadOnly gray As New SolidBrush(Color.LightGray)
 
-        Friend Shared ReadOnly commonIgnores As Index(Of String) = My.Resources _
+        ''' <summary>
+        ''' some primary metabolite connected too much reactions, ignores these metabolites
+        ''' </summary>
+        Friend ReadOnly commonIgnores As Index(Of String) = My.Resources _
             .CommonIgnores _
             .LineTokens _
             .Distinct _
@@ -90,7 +93,11 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        Protected Sub New(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)), color As Brush)
+        Protected Sub New(br08901 As IEnumerable(Of ReactionTable),
+                          compounds As IEnumerable(Of NamedValue(Of String)),
+                          color As Brush,
+                          ignoresCommonList As Boolean)
+
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
             networkBase = br08901 _
@@ -119,7 +126,11 @@ Namespace ReactionNetwork
                                       .ToArray
                               End Function)
 
-            nodes = New CompoundNodeTable(compounds, cpdGroups, g, color:=color)
+            If Not ignoresCommonList Then
+                commonIgnores = {}
+            End If
+
+            nodes = New CompoundNodeTable(compounds, cpdGroups, commonIgnores, g, color:=color)
         End Sub
 
         ''' <summary>
