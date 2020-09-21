@@ -395,21 +395,21 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25JSON\application.JSON.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25json\application.json.vbproj">
       <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
-      <Name>application.JSON</Name>
+      <Name>application.json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\application.rdf_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
-      <Name>application.RDF_xml</Name>
+      <Name>application.rdf_xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25xml\application_xml.vbproj">
       <Project>{25af39f4-76af-411f-ac19-0dd1e128d801}</Project>
       <Name>application_xml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
