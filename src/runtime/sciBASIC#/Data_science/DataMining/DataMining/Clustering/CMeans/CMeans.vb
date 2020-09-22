@@ -2,6 +2,7 @@
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -73,7 +74,7 @@ Public Module CMeans
     <Extension>
     Private Sub updateMembershipParallel(ByRef u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
         u = Enumerable.Range(0, u.Length) _
-            .Select(Function(i) (i, val:= Values(i))) _
+            .Select(Function(i) (i, Val:=Values(i))) _
             .AsParallel _
             .Select(Function(obj)
                         Dim result As Double() = centers.scanRow(
@@ -137,17 +138,30 @@ Public Module CMeans
         Dim result As Classify() = Enumerable.Range(0, classCount) _
           .[Select](Function(x, i)
                         Return New Classify() With {
-                            .Id = i
+                            .Id = i + 1
                         }
                     End Function) _
           .ToArray
         Dim index As Integer
         Dim maxMembership As Double
+        Dim clusterMembership As Double()
+        Dim resultEntity As FuzzyCMeansEntity
 
         For i As Integer = 0 To values.Length - 1
-            maxMembership = u(i).Max()
+            clusterMembership = u(i)
+            maxMembership = clusterMembership.Max()
             index = Array.IndexOf(u(i), maxMembership)
-            result(index).members.Add(values(i))
+            resultEntity = New FuzzyCMeansEntity With {
+                .cluster = index,
+                .entityVector = values(i).entityVector,
+                .uid = values(i).uid,
+                .memberships = result _
+                    .ToDictionary(Function(a) a.Id - 1,
+                                  Function(a)
+                                      Return clusterMembership(a.Id - 1)
+                                  End Function)
+            }
+            result(index).members.Add(resultEntity)
         Next
 
         Return result
