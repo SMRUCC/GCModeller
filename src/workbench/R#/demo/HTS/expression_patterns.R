@@ -3,7 +3,7 @@ imports "geneExpression" from "phenotype_kit";
 
 setwd(!script$dir);
 
-let expr0 = read.csv("msms_Intensity.csv");
+let expr0 = read.csv("msms_Intensity.csv", row_names = 1);
 
 expr0[, "mz"] = NULL;
 expr0[, "rt"] = NULL;
