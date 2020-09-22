@@ -68,18 +68,19 @@ Namespace ReactionNetwork
         ''' <returns></returns>
         <Extension>
         Friend Iterator Function doNetworkExtension(cpdGroups As Dictionary(Of String, String()),
-                                                 a As Node, b As Node,
-                                                 gray As SolidBrush,
-                                                 addEdge As Action(Of Edge),
-                                                 nodes As CompoundNodeTable,
-                                                 reactionIDlist As List(Of String)) As IEnumerable(Of Node)
+                                                    a As Node, b As Node,
+                                                    gray As SolidBrush,
+                                                    addEdge As Action(Of Edge),
+                                                    nodes As CompoundNodeTable,
+                                                    reactionIDlist As List(Of String)) As IEnumerable(Of Node)
+
             Dim indexA = cpdGroups(a.label).Indexing
             Dim indexB = cpdGroups(b.label).Indexing
 
             For Each x In cpdGroups.Where(Function(compound)
                                               ' C00001 是水,很多代谢过程都存在的
                                               ' 在这里就没有必要添加进来了
-                                              Return Not compound.Key Like ReactionNetworkBuilder.commonIgnores
+                                              Return Not compound.Key Like nodes.ignores
                                           End Function)
                 Dim list As String() = x.Value
 
@@ -89,7 +90,7 @@ Namespace ReactionNetwork
                     ' X也添加进入拓展节点列表之中
                     Yield New Node With {
                         .label = x.Key,
-                        .Data = New NodeData With {
+                        .data = New NodeData With {
                             .color = gray,
                             .label = x.Key,
                             .origID = x.Key,
@@ -111,7 +112,7 @@ Namespace ReactionNetwork
                         Dim edge As New Edge With {
                             .U = nodes(n.ID),
                             .V = nodes(x.Key),
-                            .Data = New EdgeData With {
+                            .data = New EdgeData With {
                                 .length = interactions.Length,
                                 .Properties = New Dictionary(Of String, String) From {
                                     {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, interactions.JoinBy("|")}

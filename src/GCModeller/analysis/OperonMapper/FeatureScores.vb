@@ -152,7 +152,9 @@ Namespace ContextModel.Operon
                 .Distinct _
                 .OrderBy(Function(f) f) _
                 .ToDictionary(Function(feature) feature,
-                              Function(i) P(i, genomes))
+                              Function(i)
+                                  Return P(i, genomes)
+                              End Function)
         End Function
 
         ''' <summary>
@@ -193,6 +195,7 @@ Namespace ContextModel.Operon
             Dim j = i + 1
             Dim gi = genome(i), gj = genome(j)
             Dim l = stdNum.Log(gi.Length / gj.Length)
+
             Return l
         End Function
     End Module
