@@ -33,7 +33,7 @@ Public Module CMeans
         Next
     End Function
 
-    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity()) As Classify()
+    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity(), Optional parallel As Boolean = True) As Classify()
         Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=Values.Length).ToArray()
         Dim _j As Double = -1
         Dim centers As Double()()
@@ -50,27 +50,41 @@ Public Module CMeans
 
             _j = j_new
 
-            For i As Integer = 0 To u.Length - 1
-                Dim index As Integer = i
-
-                For j As Integer = 0 To u(i).Length - 1
-                    Dim jIndex As Integer = j
-                    Dim sumAll As Double = Aggregate x As Integer
-                                           In Enumerable.Range(0, classCount).AsParallel
-                                           Let a As Double = Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x)))
-                                           Let val As Double = a ^ (2 / (m - 1))
-                                           Into Sum(val)
-                    u(i)(j) = 1 / sumAll
-
-                    If Double.IsNaN(u(i)(j)) Then
-                        u(i)(j) = 1
-                    End If
-                Next
-            Next
+            If parallel Then
+                Call u.updateMembershipParallel(Values, centers, classCount, m)
+            Else
+                Call u.updateMembership(Values, centers, classCount, m)
+            End If
         End While
 
         Return Values.PopulateClusters(classCount, u)
     End Function
+
+    <Extension>
+    Private Sub updateMembershipParallel(u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
+
+    End Sub
+
+    <Extension>
+    Private Sub updateMembership(u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
+        For i As Integer = 0 To u.Length - 1
+            Dim index As Integer = i
+
+            For j As Integer = 0 To u(i).Length - 1
+                Dim jIndex As Integer = j
+                Dim sumAll As Double = Aggregate x As Integer
+                                       In Enumerable.Range(0, classCount)
+                                       Let a As Double = Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x)))
+                                       Let val As Double = a ^ (2 / (m - 1))
+                                       Into Sum(val)
+                u(i)(j) = 1 / sumAll
+
+                If Double.IsNaN(u(i)(j)) Then
+                    u(i)(j) = 1
+                End If
+            Next
+        Next
+    End Sub
 
     <Extension>
     Private Function PopulateClusters(values As ClusterEntity(), classCount As Integer, u As Double()()) As Classify()
