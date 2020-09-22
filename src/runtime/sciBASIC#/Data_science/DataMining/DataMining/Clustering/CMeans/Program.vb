@@ -9,7 +9,14 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Program
     Public Shared Sub Main(args As String())
-        Dim data As ClusterEntity() = Enumerable.Range(0, 100).[Select](Function(x) New ClusterEntity With {.uid = x.ToString, .entityVector = New Double() {randf.randf(0, 99999)}}).ToArray()
+        Dim data As ClusterEntity() = Enumerable.Range(0, 200) _
+            .[Select](Function(x)
+                          Return New ClusterEntity With {
+                              .uid = x.ToString,
+                              .entityVector = New Double() {randf.randf(0, 99999), randf.randf(-1000, 999)}
+                          }
+                      End Function) _
+            .ToArray()
         Dim result As List(Of Classify) = CMeans.CMeans(10, data)
 
         For Each item In result
