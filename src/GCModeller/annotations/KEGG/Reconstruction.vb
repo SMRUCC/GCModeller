@@ -75,7 +75,15 @@ Public Module Reconstruction
             .IteratesALL _
             .ToArray
 
-        Return koMaps + enzymeMaps
+        ' non-enzymatic
+        Dim none As ReactionTable() = reactions.Values _
+            .IteratesALL _
+            .Where(Function(a)
+                       Return a.KO.IsNullOrEmpty AndAlso a.EC.IsNullOrEmpty
+                   End Function) _
+            .ToArray
+
+        Return koMaps + enzymeMaps + none
     End Function
 
     ''' <summary>
