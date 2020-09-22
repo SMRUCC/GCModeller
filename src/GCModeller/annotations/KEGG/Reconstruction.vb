@@ -3,7 +3,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
@@ -39,12 +41,13 @@ Public Module Reconstruction
     ''' <param name="names">the names list of the kegg compounds</param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As Pathway
+    Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
         Dim fluxInMap = pathway.modules _
             .Where(Function(id) reactions.ContainsKey(id.name)) _
             .Select(Function(id) reactions(id.name)) _
             .IteratesALL _
             .ToArray
+        Dim enzymes As EnzymeEntry() = EnzymeEntry.ParseEntries
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)
@@ -69,7 +72,7 @@ Public Module Reconstruction
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
                                                 genes As IEnumerable(Of ProteinAnnotation),
-                                                Optional min_cov As Double = 0.3) As IEnumerable(Of Pathway)
+                                                Optional min_cov As Double = 0.3) As IEnumerable(Of DBGET.bGetObject.Pathway)
 
         Dim KOindex As Dictionary(Of String, ProteinAnnotation()) = genes _
             .Where(Function(g) g.attributes.ContainsKey("ko")) _
@@ -82,7 +85,7 @@ Public Module Reconstruction
                           Function(g)
                               Return g.Select(Function(i) i.g).ToArray
                           End Function)
-        Dim mapReconstruct As New Value(Of Pathway)
+        Dim mapReconstruct As New Value(Of DBGET.bGetObject.Pathway)
 
         For Each map As Map In reference
             If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov) Is Nothing Then
@@ -92,7 +95,7 @@ Public Module Reconstruction
     End Function
 
     <Extension>
-    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As Pathway
+    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As DBGET.bGetObject.Pathway
         Dim all As Integer = 0
         Dim hits As New List(Of ProteinAnnotation())
         Dim objs As String()
@@ -134,7 +137,7 @@ Public Module Reconstruction
     End Function
 
     <Extension>
-    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As Pathway
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As DBGET.bGetObject.Pathway
         Dim kopathway As NamedValue() = proteins _
             .Select(Function(prot)
                         Return prot.attributes("ko") _
@@ -148,7 +151,7 @@ Public Module Reconstruction
             .IteratesALL _
             .ToArray
 
-        Return New Pathway With {
+        Return New DBGET.bGetObject.Pathway With {
             .description = map.Name,
             .EntryId = map.id,
             .name = map.Name,
