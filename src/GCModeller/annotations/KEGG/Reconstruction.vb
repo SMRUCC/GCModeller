@@ -33,6 +33,24 @@ Public Module Reconstruction
                           End Function)
     End Function
 
+    <Extension>
+    Public Function GetEnzymeNumbers(pathway As DBGET.bGetObject.Pathway) As IEnumerable(Of NamedValue)
+        Static enzymes As EnzymeEntry() = EnzymeEntry.ParseEntries
+    End Function
+
+    <Extension>
+    Public Function GetFluxInMaps(pathway As DBGET.bGetObject.Pathway, Optional ByRef enzymes As NamedValue() = Nothing) As IEnumerable(Of ReactionTable)
+        Dim koMaps = pathway.modules _
+            .Where(Function(id) reactions.ContainsKey(id.name)) _
+            .Select(Function(id) reactions(id.name)) _
+            .IteratesALL _
+            .ToArray
+
+        enzymes = GetEnzymeNumbers(pathway).ToArray
+
+        Return koMaps
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -42,12 +60,8 @@ Public Module Reconstruction
     ''' <returns></returns>
     <Extension>
     Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
-        Dim fluxInMap = pathway.modules _
-            .Where(Function(id) reactions.ContainsKey(id.name)) _
-            .Select(Function(id) reactions(id.name)) _
-            .IteratesALL _
-            .ToArray
-        Dim enzymes As EnzymeEntry() = EnzymeEntry.ParseEntries
+        Dim enzymes As NamedValue() = Nothing
+        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, enzymes)
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)
@@ -64,7 +78,7 @@ Public Module Reconstruction
                         }
                     End Function) _
             .ToArray
-        pathway.modules = Nothing
+        pathway.modules = enzymes
 
         Return pathway
     End Function
