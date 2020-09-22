@@ -59,8 +59,12 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        Sub New(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)), reactionClass As IEnumerable(Of ReactionClassTable))
-            Call MyBase.New(br08901, compounds, blue)
+        Sub New(br08901 As IEnumerable(Of ReactionTable),
+                compounds As IEnumerable(Of NamedValue(Of String)),
+                reactionClass As IEnumerable(Of ReactionClassTable),
+                Optional ignoresCommonList As Boolean = True)
+
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList)
 
             classIndex = ReactionClassTable.IndexTable(reactionClass)
         End Sub
