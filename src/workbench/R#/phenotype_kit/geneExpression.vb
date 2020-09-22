@@ -67,14 +67,29 @@ Module geneExpression
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
     Public Function loadExpression(file As Object, Optional exclude_samples As String() = Nothing, Optional env As Environment = Nothing) As Object
-        Dim ignores As Index(Of String) = If(exclude_samples Is Nothing, Nothing, New Index(Of String)(exclude_samples))
+        Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
             Return Matrix.LoadData(DirectCast(file, String), ignores)
         ElseIf TypeOf file Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(file, Rdataframe)
-            Dim geneIds As String() = table.getRowNames
+            Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
+            Dim genes As DataFrameRow() = table _
+                .forEachRow(colKeys:=sampleNames) _
+                .Select(Function(v)
+                            Return New DataFrameRow With {
+                                .geneID = v.name,
+                                .experiments = v.value _
+                                    .Select(Function(obj) CDbl(obj)) _
+                                    .ToArray
+                            }
+                        End Function) _
+                .ToArray
 
+            Return New Matrix With {
+                .expression = genes,
+                .sampleID = sampleNames
+            }
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
