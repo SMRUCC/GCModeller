@@ -73,15 +73,15 @@ Public Module CMeans
     <Extension>
     Private Sub updateMembershipParallel(ByRef u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
         u = Enumerable.Range(0, u.Length) _
+            .Select(Function(i) (i, val:= Values(i))) _
             .AsParallel _
-            .Select(Function(i)
+            .Select(Function(obj)
                         Dim result As Double() = centers.scanRow(
-                            index:=i,
-                            Values:=Values,
+                            entity:=obj.val,
                             classCount:=classCount,
                             m:=m
                         )
-                        Dim pack = (i, result)
+                        Dim pack = (obj.i, result)
 
                         Return pack
                     End Function) _
@@ -91,14 +91,14 @@ Public Module CMeans
     End Sub
 
     <Extension>
-    Private Function scanRow(centers As Double()(), index As Integer, Values As ClusterEntity(), classCount As Integer, m As Double) As Double()
+    Private Function scanRow(centers As Double()(), entity As ClusterEntity, classCount As Integer, m As Double) As Double()
         Dim ui As Double() = New Double(classCount - 1) {}
 
         For j As Integer = 0 To classCount - 1
             Dim jIndex As Integer = j
             Dim sumAll As Double = Aggregate x As Integer
                                    In Enumerable.Range(0, classCount)
-                                   Let a As Double = Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x)))
+                                   Let a As Double = Math.Sqrt(Dist(entity, centers(jIndex))) / Math.Sqrt(Dist(entity, centers(x)))
                                    Let val As Double = a ^ (2 / (m - 1))
                                    Into Sum(val)
             ui(j) = 1 / sumAll
