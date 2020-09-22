@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::42a2de2b1d63abfbe0dcb78ac5156519, KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class BuilderBase
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: BuildModel, doNetworkExpansion
-    ' 
-    '         Sub: addNewEdge
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class BuilderBase
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: BuildModel, doNetworkExpansion
+' 
+'         Sub: addNewEdge
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
@@ -66,11 +67,10 @@ Namespace ReactionNetwork
         ''' </summary>
         Protected Shared ReadOnly gray As New SolidBrush(Color.LightGray)
 
-        Friend Shared ReadOnly commonIgnores As Index(Of String) = My.Resources _
-            .CommonIgnores _
-            .LineTokens _
-            .Distinct _
-            .ToArray
+        ''' <summary>
+        ''' some primary metabolite connected too much reactions, ignores these metabolites
+        ''' </summary>
+        Friend ReadOnly commonIgnores As Index(Of String) = IgnoreList.InOrganicPrimary
 
         ''' <summary>
         ''' 从输入的数据之中构建出网络的节点列表
@@ -90,7 +90,11 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
-        Protected Sub New(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)), color As Brush)
+        Protected Sub New(br08901 As IEnumerable(Of ReactionTable),
+                          compounds As IEnumerable(Of NamedValue(Of String)),
+                          color As Brush,
+                          ignoresCommonList As Boolean)
+
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
             networkBase = br08901 _
@@ -119,7 +123,11 @@ Namespace ReactionNetwork
                                       .ToArray
                               End Function)
 
-            nodes = New CompoundNodeTable(compounds, cpdGroups, g, color:=color)
+            If Not ignoresCommonList Then
+                commonIgnores = {}
+            End If
+
+            nodes = New CompoundNodeTable(compounds, cpdGroups, commonIgnores, g, color:=color)
         End Sub
 
         ''' <summary>
@@ -171,25 +179,22 @@ Namespace ReactionNetwork
                 Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
             End If
 
+            Dim compoundNodesAll As Node() = nodes.values _
+                .Where(Function(n)
+                           Return n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "KEGG Compound" AndAlso Not n.label Like commonIgnores
+                       End Function) _
+                .ToArray
+
             ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
-            For Each a As Node In nodes.values.Where(Function(n) Not n.label Like commonIgnores).ToArray
+            For Each a As Node In compoundNodesAll
                 Dim reactionA = cpdGroups.TryGetValue(a.label)
 
                 If reactionA.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                For Each b As Node In nodes.values _
-                    .Where(Function(x)
-                               Return x.ID <> a.ID AndAlso Not x.label Like commonIgnores
-                           End Function) _
-                    .ToArray
-
-                    Dim rB = cpdGroups.TryGetValue(b.label)
-
-                    If rB.IsNullOrEmpty Then
-                        Continue For
-                    End If
+                For Each b As Node In compoundNodesAll.Where(Function(x) x.ID <> a.ID AndAlso cpdGroups.ContainsKey(x.label))
+                    Dim rB As String() = cpdGroups(b.label)
 
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
@@ -204,7 +209,14 @@ Namespace ReactionNetwork
                             If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
                                 Continue For
                             Else
-                                extendes += cpdGroups.doNetworkExtension(a, b, gray, AddressOf addNewEdge, nodes, reactionIDlist)
+                                extendes += cpdGroups.doNetworkExtension(
+                                    a:=a,
+                                    b:=b,
+                                    gray:=gray,
+                                    addEdge:=AddressOf addNewEdge,
+                                    nodes:=nodes,
+                                    reactionIDlist:=reactionIDlist
+                                )
                             End If
 
                         End If

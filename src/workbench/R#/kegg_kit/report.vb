@@ -119,6 +119,10 @@ Module report
     End Function
 
     Private Function getHighlightObjects(highlights As Object, env As Environment) As [Variant](Of Message, NamedValue(Of String)())
+        If TypeOf highlights Is vector Then
+            highlights = DirectCast(highlights, vector).data
+        End If
+
         If TypeOf highlights Is NamedValue(Of String)() Then
             Return DirectCast(highlights, NamedValue(Of String)())
         ElseIf TypeOf highlights Is String()() Then

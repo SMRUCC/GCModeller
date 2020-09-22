@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87e17f1fbefd82f85f73f467c5e2a83d, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IGraph.vb"
+﻿#Region "Microsoft.VisualBasic::f60096c54a5403d9f534e4e7884a573b, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Interfaces\IRenderer.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Interface IGraphEventListener
+    '     Interface IRenderer
     ' 
-    '         Sub: GraphChanged
+    '         Sub: Clear, Draw
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,11 +41,11 @@
 #End Region
 
 '! 
-'@file IGraph.cs
+'@file IRenderer.cs
 '@author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 '		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
 '@date August 08, 2013
-'@brief Graph Interface
+'@brief Renderer Interface
 '@version 1.0
 '
 '@section LICENSE
@@ -74,15 +74,19 @@
 '
 '@section DESCRIPTION
 '
-'An Interface for the Graph.
+'An Interface for the Renderer.
 '
 '
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
-Namespace Layouts.Interfaces
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Text
 
-    Public Interface IGraphEventListener
+Namespace Layouts.SpringForce.Interfaces
 
-        Sub GraphChanged(sender As NetworkGraph, eventName As String)
+    Public Interface IRenderer
+
+        Sub Clear()
+        Sub Draw(iTimeStep As Double, Optional physicsUpdate As Boolean = True)
     End Interface
 End Namespace

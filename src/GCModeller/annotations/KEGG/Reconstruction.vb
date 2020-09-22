@@ -25,19 +25,35 @@ Public Module Reconstruction
                           End Function)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="names">the names list of the kegg compounds</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As Pathway
+    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As Pathway
         Dim fluxInMap = pathway.modules _
             .Where(Function(id) reactions.ContainsKey(id.name)) _
             .Select(Function(id) reactions(id.name)) _
             .IteratesALL _
             .ToArray
 
+        If names Is Nothing Then
+            names = New Dictionary(Of String, String)
+        End If
+
         pathway.compound = fluxInMap _
             .Select(Function(rxn) rxn.substrates.AsList + rxn.products) _
             .IteratesALL _
             .Distinct _
-            .Select(Function(cid) New NamedValue With {.name = cid}) _
+            .Select(Function(cid)
+                        Return New NamedValue With {
+                            .name = cid,
+                            .text = names.TryGetValue(cid)
+                        }
+                    End Function) _
             .ToArray
         pathway.modules = Nothing
 
@@ -105,37 +121,48 @@ Public Module Reconstruction
             .ToArray
 
         If coverage >= min_cov Then
-            Return New Pathway With {
-                .description = map.Name,
-                .EntryId = map.id,
-                .name = map.Name,
-                .KOpathway = proteins _
-                    .Select(Function(prot)
-                                Return prot.attributes("ko") _
-                                    .Select(Function(ko)
-                                                Return New NamedValue With {
-                                                    .name = ko,
-                                                    .text = prot.description
-                                                }
-                                            End Function)
-                            End Function) _
-                    .IteratesALL _
-                    .ToArray,
-                .genes = proteins _
-                    .Select(Function(g)
-                                Return New NamedValue With {
-                                    .name = g.geneId,
-                                    .text = g.description
-                                }
-                            End Function) _
-                    .ToArray,
-                .modules = idIndex _
-                    .Distinct _
-                    .Select(Function(id) New NamedValue With {.name = id}) _
-                    .ToArray
-            }
+            Return map.createPathwayModel(proteins, idIndex)
         Else
             Return Nothing
         End If
+    End Function
+
+    <Extension>
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As Pathway
+        Dim kopathway As NamedValue() = proteins _
+            .Select(Function(prot)
+                        Return prot.attributes("ko") _
+                            .Select(Function(ko)
+                                        Return New NamedValue With {
+                                            .name = ko,
+                                            .text = prot.description
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        Return New Pathway With {
+            .description = map.Name,
+            .EntryId = map.id,
+            .name = map.Name,
+            .KOpathway = kopathway,
+            .genes = proteins _
+                .Select(Function(g)
+                            Return New NamedValue With {
+                                .name = g.geneId,
+                                .text = g.description
+                            }
+                        End Function) _
+                .ToArray,
+            .modules = idIndex _
+                .Distinct _
+                .Select(Function(id)
+                            Return New NamedValue With {
+                                .name = id
+                            }
+                        End Function) _
+                .ToArray
+        }
     End Function
 End Module

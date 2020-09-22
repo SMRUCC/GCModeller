@@ -50,6 +50,15 @@ Namespace Ptf
         Public Property description As String
         Public Property attributes As Dictionary(Of String, String())
 
+        Default Public Property attr(key As String) As String
+            Get
+                Return attributes.TryGetValue(key).FirstOrDefault
+            End Get
+            Set(value As String)
+                attributes(key) = {value}
+            End Set
+        End Property
+
         Public Overrides Function ToString() As String
             Return $"{geneId}: {description}"
         End Function

@@ -220,7 +220,7 @@ Namespace ApplicationServices.Debugging
             End If
 
             _AutoPaused = args.GetBoolean("/auto-paused")
-            VBDebugger.inDebugMode = args.IsTrue("--debug")
+            VBDebugger.m_inDebugMode = args.IsTrue("--debug")
 
             If args.GetBoolean("/mute") Then
                 VBDebugger.Mute = True
