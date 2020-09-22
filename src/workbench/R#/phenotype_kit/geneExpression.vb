@@ -95,6 +95,17 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' calculate average value of the gene expression for
+    ''' each sample group.
+    ''' 
+    ''' this method can be apply for reduce data size when 
+    ''' create some plot for visualize the gene expression
+    ''' patterns across the sample groups.
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <returns></returns>
     <ExportAPI("average")>
     Public Function average(matrix As Matrix, sampleinfo As SampleInfo()) As Matrix
         Return Matrix.MatrixAverage(matrix, sampleinfo)

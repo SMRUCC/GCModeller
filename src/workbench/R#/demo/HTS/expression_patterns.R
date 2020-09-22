@@ -1,5 +1,5 @@
 imports "visualkit.plots" from "visualkit";
-imports "geneExpression" from "phenotype_kit";
+imports ["geneExpression", "sampleInfo"] from "phenotype_kit";
 
 setwd(!script$dir);
 
@@ -10,8 +10,9 @@ expr0[, "rt"] = NULL;
 
 expr0
 :> load.expr
+:> average()
 :> relative
 :> expression.cmeans_pattern(dim = [3, 4])
-:> plot.expression_patterns()
+:> plot.expression_patterns(size = [4000,2400])
 :> save.graphics(file = "./patterns.png")
 ;
