@@ -56,7 +56,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
 
 Namespace KMeans.CompleteLinkage
 

@@ -1,4 +1,6 @@
-﻿Namespace KMeans.CompleteLinkage
+﻿Imports stdNum = System.Math
+
+Namespace KMeans.CompleteLinkage
 
     Public Class LloydsMethodClustering : Inherits Clustering
 
