@@ -11,7 +11,7 @@ expr0[, "rt"] = NULL;
 expr0
 :> load.expr
 :> relative
-:> expression.cmeans_pattern(dim = [4,4])
+:> expression.cmeans_pattern(dim = [3, 4])
 :> plot.expression_patterns()
 :> save.graphics(file = "./patterns.png")
 ;

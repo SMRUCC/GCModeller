@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace ExpressionPattern
@@ -29,7 +30,7 @@ Namespace ExpressionPattern
         ''' 
         Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer()) As ExpressionPattern
             Dim nsize As Integer = [dim](Scan0) * [dim](1)
-            Dim sampleNames = matrix.sampleID
+            Dim sampleNames As String() = matrix.sampleID
             Dim geneNodes As ClusterEntity() = matrix.expression _
                 .AsParallel _
                 .Select(Function(gene)
@@ -48,7 +49,10 @@ Namespace ExpressionPattern
             Dim centers As Classify() = geneNodes.CMeans(classCount:=nsize)
 
             Return New ExpressionPattern With {
-                .Patterns = geneNodes.ToArray,
+                .Patterns = centers _
+                    .Select(Function(c) c.members) _
+                    .IteratesALL _
+                    .ToArray,
                 .sampleNames = sampleNames,
                 .[dim] = [dim],
                 .centers = centers
@@ -58,7 +62,7 @@ Namespace ExpressionPattern
         Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
             Dim row As New List(Of Matrix)
 
-            For Each cluster In clusters.GroupBy(Function(c) c.cluster)
+            For Each cluster As IGrouping(Of Integer, FuzzyCMeansEntity) In clusters.GroupBy(Function(c) c.cluster)
                 Dim matrix = New Matrix With {
                     .sampleID = sampleNames,
                     .expression = cluster _
