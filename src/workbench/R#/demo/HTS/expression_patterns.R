@@ -3,7 +3,7 @@ imports "geneExpression" from "phenotype_kit";
 
 setwd(!script$dir);
 
-"E:\smartnucl_integrative\biodeep_pipeline\Biodeep_Rpackage\etc\pathway_network\msms_Intensity.csv"
+"msms_Intensity.csv"
 :> load.expr
 :> relative
 :> expression.cmeans_pattern(dim = [4,4])
