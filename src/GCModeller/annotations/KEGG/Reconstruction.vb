@@ -99,7 +99,7 @@ Public Module Reconstruction
                                     Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
 
         Dim enzymes As NamedValue() = Nothing
-        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, reactions, enzymes)
+        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, reactions, enzymes).ToArray
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)
