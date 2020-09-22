@@ -9,7 +9,7 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Program
     Public Shared Sub Main(args As String())
-        Dim data As ClusterEntity() = Enumerable.Range(0, 200) _
+        Dim data As ClusterEntity() = Enumerable.Range(0, 2000) _
             .[Select](Function(x)
                           Return New ClusterEntity With {
                               .uid = x.ToString,

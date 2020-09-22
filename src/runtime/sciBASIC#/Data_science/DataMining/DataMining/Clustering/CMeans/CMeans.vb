@@ -23,7 +23,10 @@ Public Module CMeans
 
             For i = 0 To c.Length - 1
                 c(i) = randf.randf(0, 1 - c.Sum())
-                If i = c.Length - 1 Then c(i) = 1 - c.Sum()
+
+                If i = c.Length - 1 Then
+                    c(i) = 1 - c.Sum()
+                End If
             Next
 
             Yield c
@@ -35,12 +38,16 @@ Public Module CMeans
         Dim _j As Double = -1
         Dim centers As Double()()
         Dim width As Integer = Values(0).Length
+        Dim j_new As Double
 
         While True
             centers = GetCenters(classCount, m, u, Values, width).ToArray
-            Dim j_new As Double = J(m, u, centers, Values)
+            j_new = J(m, u, centers, Values)
 
-            If _j <> -1 AndAlso Math.Abs(j_new - _j) < diff Then Exit While
+            If _j <> -1 AndAlso Math.Abs(j_new - _j) < diff Then
+                Exit While
+            End If
+
             _j = j_new
 
             For i As Integer = 0 To u.Length - 1
@@ -48,12 +55,12 @@ Public Module CMeans
 
                 For j As Integer = 0 To u(i).Length - 1
                     Dim jIndex As Integer = j
-
-                    u(i)(j) = 1 / Enumerable.Range(0, classCount) _
-                        .Select(Function(x)
-                                    Return Math.Pow(Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x))), 2 / (m - 1))
-                                End Function) _
-                        .Sum()
+                    Dim sumAll As Double = Aggregate x As Integer
+                                           In Enumerable.Range(0, classCount).AsParallel
+                                           Let a As Double = Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x)))
+                                           Let val As Double = a ^ (2 / (m - 1))
+                                           Into Sum(val)
+                    u(i)(j) = 1 / sumAll
 
                     If Double.IsNaN(u(i)(j)) Then
                         u(i)(j) = 1
@@ -111,6 +118,12 @@ Public Module CMeans
                               End Function).Sum()
     End Function
 
+    ''' <summary>
+    ''' 在这里面只会计算结果值，并不会修改数据
+    ''' </summary>
+    ''' <param name="value"></param>
+    ''' <param name="center"></param>
+    ''' <returns></returns>
     Private Function Dist(value As ClusterEntity, center As Double()) As Double
         Return value.entityVector.Select(Function(x, i) (x - center(i)) ^ 2).Sum()
     End Function
