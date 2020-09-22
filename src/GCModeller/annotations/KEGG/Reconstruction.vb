@@ -35,20 +35,47 @@ Public Module Reconstruction
 
     <Extension>
     Public Function GetEnzymeNumbers(pathway As DBGET.bGetObject.Pathway) As IEnumerable(Of NamedValue)
-        Static enzymes As EnzymeEntry() = EnzymeEntry.ParseEntries
+        Static enzymes As Dictionary(Of String, EnzymeEntry()) = EnzymeEntry _
+            .ParseEntries _
+            .GroupBy(Function(a) a.KO) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.ToArray
+                          End Function)
+
+        Dim rawEntries = pathway.KOpathway _
+            .SafeQuery _
+            .Where(Function(ko) enzymes.ContainsKey(ko.name)) _
+            .Select(Function(ko) enzymes(ko.name)) _
+            .IteratesALL _
+            .ToArray
+
+        Return rawEntries _
+            .Select(Function(a)
+                        Return New NamedValue With {
+                            .name = a.EC,
+                            .text = a.fullName
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
     <Extension>
-    Public Function GetFluxInMaps(pathway As DBGET.bGetObject.Pathway, Optional ByRef enzymes As NamedValue() = Nothing) As IEnumerable(Of ReactionTable)
+    Private Function GetFluxInMaps(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional ByRef enzymes As NamedValue() = Nothing) As IEnumerable(Of ReactionTable)
         Dim koMaps = pathway.modules _
             .Where(Function(id) reactions.ContainsKey(id.name)) _
             .Select(Function(id) reactions(id.name)) _
             .IteratesALL _
-            .ToArray
+            .AsList
 
         enzymes = GetEnzymeNumbers(pathway).ToArray
 
-        Return koMaps
+        Dim enzymeMaps As ReactionTable() = enzymes _
+            .Select(Function(a) reactions.TryGetValue(a.name)) _
+            .IteratesALL _
+            .ToArray
+
+        Return koMaps + enzymeMaps
     End Function
 
     ''' <summary>
@@ -59,9 +86,12 @@ Public Module Reconstruction
     ''' <param name="names">the names list of the kegg compounds</param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
+    Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway,
+                                    reactions As Dictionary(Of String, ReactionTable()),
+                                    Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
+
         Dim enzymes As NamedValue() = Nothing
-        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, enzymes)
+        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, reactions, enzymes)
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)

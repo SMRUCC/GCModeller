@@ -218,7 +218,7 @@ Namespace ReactionNetwork
 
         <Extension>
         Public Iterator Function GetReactions(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
-            For Each ko As NamedValue In pathway.KOpathway
+            For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
                 If reactions.ContainsKey(ko.name) Then
                     For Each item In reactions(ko.name)
                         Yield item
