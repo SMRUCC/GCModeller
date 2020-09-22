@@ -61,9 +61,45 @@ Public Module CMeans
     End Function
 
     <Extension>
-    Private Sub updateMembershipParallel(u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
+    Private Sub updateMembershipParallel(ByRef u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
+        u = Enumerable.Range(0, u.Length) _
+            .AsParallel _
+            .Select(Function(i)
+                        Dim result As Double() = centers.scanRow(
+                            index:=i,
+                            Values:=Values,
+                            classCount:=classCount,
+                            m:=m
+                        )
+                        Dim pack = (i, result)
 
+                        Return pack
+                    End Function) _
+            .OrderBy(Function(pack) pack.i) _
+            .Select(Function(a) a.result) _
+            .ToArray
     End Sub
+
+    <Extension>
+    Private Function scanRow(centers As Double()(), index As Integer, Values As ClusterEntity(), classCount As Integer, m As Double) As Double()
+        Dim ui As Double() = New Double(classCount - 1) {}
+
+        For j As Integer = 0 To classCount - 1
+            Dim jIndex As Integer = j
+            Dim sumAll As Double = Aggregate x As Integer
+                                   In Enumerable.Range(0, classCount)
+                                   Let a As Double = Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x)))
+                                   Let val As Double = a ^ (2 / (m - 1))
+                                   Into Sum(val)
+            ui(j) = 1 / sumAll
+
+            If Double.IsNaN(ui(j)) Then
+                ui(j) = 1
+            End If
+        Next
+
+        Return ui
+    End Function
 
     <Extension>
     Private Sub updateMembership(u As Double()(), Values As ClusterEntity(), centers As Double()(), classCount As Integer, m As Double)
