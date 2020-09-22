@@ -43,16 +43,20 @@ Namespace FuzzyCMeans
         ''' **Fuzzy clustering** (also referred to as **soft clustering**) is a form of clustering in which 
         ''' each data point can belong to more than one cluster.
         ''' </summary>
-        Public Function CMeans(classCount As Integer, entities As IEnumerable(Of ClusterEntity)) As Classify()
-            Return CMeans(classCount, 2, 0.001, entities.ToArray)
+        ''' 
+        <Extension>
+        Public Function CMeans(entities As IEnumerable(Of ClusterEntity), classCount As Integer) As Classify()
+            Return CMeans(entities.ToArray, classCount, 2, 0.001)
         End Function
 
         ''' <summary>
         ''' **Fuzzy clustering** (also referred to as **soft clustering**) is a form of clustering in which 
         ''' each data point can belong to more than one cluster.
         ''' </summary>
-        Public Function CMeans(classCount As Integer, m As Double, entities As IEnumerable(Of ClusterEntity)) As Classify()
-            Return CMeans(classCount, m, 0.001, entities.ToArray)
+        ''' 
+        <Extension>
+        Public Function CMeans(entities As IEnumerable(Of ClusterEntity), classCount As Integer, m As Double) As Classify()
+            Return CMeans(entities.ToArray, classCount, m, 0.001)
         End Function
 
         Private Iterator Function GetRandomMatrix(classCount As Integer, nsamples As Integer) As IEnumerable(Of Double())
@@ -75,18 +79,26 @@ Namespace FuzzyCMeans
         ''' **Fuzzy clustering** (also referred to as **soft clustering**) is a form of clustering in which 
         ''' each data point can belong to more than one cluster.
         ''' </summary>
-        Public Function CMeans(classCount As Integer, m As Double, threshold As Double, entities As ClusterEntity(), Optional parallel As Boolean = True, Optional maxLoop As Integer = 10000) As Classify()
+        ''' 
+        <Extension>
+        Public Function CMeans(entities As ClusterEntity(),
+                               classCount As Integer,
+                               fuzzification As Double,
+                               threshold As Double,
+                               Optional parallel As Boolean = True,
+                               Optional maxLoop As Integer = 10000) As Classify()
+
             Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=entities.Length).ToArray()
             Dim _j As Double = -1
-            Dim centers As Double()()
+            Dim centers As Double()() = Nothing
             Dim width As Integer = entities(0).Length
             Dim j_new As Double
             Dim membership_diff As Double
             Dim [loop] As i32 = Scan0
 
             While True
-                centers = GetCenters(classCount, m, u, entities, width).ToArray
-                j_new = J(m, u, centers, entities)
+                centers = GetCenters(classCount, fuzzification, u, entities, width).ToArray
+                j_new = J(fuzzification, u, centers, entities)
                 membership_diff = stdNum.Abs(j_new - _j)
 
                 If _j <> -1 AndAlso membership_diff < threshold Then
@@ -98,9 +110,9 @@ Namespace FuzzyCMeans
                 _j = j_new
 
                 If parallel Then
-                    Call u.updateMembershipParallel(entities, centers, classCount, m)
+                    Call u.updateMembershipParallel(entities, centers, classCount, fuzzification)
                 Else
-                    Call u.updateMembership(entities, centers, classCount, m)
+                    Call u.updateMembership(entities, centers, classCount, fuzzification)
                 End If
 
                 If ++[loop] > maxLoop Then
@@ -108,7 +120,7 @@ Namespace FuzzyCMeans
                 End If
             End While
 
-            Return entities.PopulateClusters(classCount, u)
+            Return entities.PopulateClusters(classCount, u, centers)
         End Function
 
         <Extension>
@@ -174,14 +186,15 @@ Namespace FuzzyCMeans
         End Sub
 
         <Extension>
-        Private Function PopulateClusters(values As ClusterEntity(), classCount As Integer, u As Double()()) As Classify()
+        Private Function PopulateClusters(values As ClusterEntity(), classCount As Integer, u As Double()(), centers As Double()()) As Classify()
             Dim result As Classify() = Enumerable.Range(0, classCount) _
-          .[Select](Function(x, i)
-                        Return New Classify() With {
-                            .Id = i + 1
-                        }
-                    End Function) _
-          .ToArray
+                .[Select](Function(i)
+                              Return New Classify() With {
+                                    .Id = i + 1,
+                                    .center = centers(i)
+                                }
+                          End Function) _
+                .ToArray
             Dim index As Integer
             Dim maxMembership As Double
             Dim clusterMembership As Double()
@@ -192,15 +205,15 @@ Namespace FuzzyCMeans
                 maxMembership = clusterMembership.Max()
                 index = Array.IndexOf(u(i), maxMembership)
                 resultEntity = New FuzzyCMeansEntity With {
-                .cluster = index,
-                .entityVector = values(i).entityVector,
-                .uid = values(i).uid,
-                .memberships = result _
-                    .ToDictionary(Function(a) a.Id - 1,
-                                  Function(a)
-                                      Return clusterMembership(a.Id - 1)
-                                  End Function)
-            }
+                    .cluster = index,
+                    .entityVector = values(i).entityVector,
+                    .uid = values(i).uid,
+                    .memberships = result _
+                        .ToDictionary(Function(a) a.Id - 1,
+                                      Function(a)
+                                          Return clusterMembership(a.Id - 1)
+                                      End Function)
+                }
                 result(index).members.Add(resultEntity)
             Next
 

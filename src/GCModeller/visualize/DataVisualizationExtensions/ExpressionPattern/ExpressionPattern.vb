@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
@@ -13,7 +14,7 @@ Namespace ExpressionPattern
         Public Property Patterns As FuzzyCMeansEntity()
         Public Property sampleNames As String()
         Public Property [dim] As Integer()
-        Public Property centers As FuzzyCMeansEntity()
+        Public Property centers As Classify()
 
         Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
             Return populatePartitions(Patterns, [dim], sampleNames)
@@ -29,7 +30,7 @@ Namespace ExpressionPattern
         Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer()) As ExpressionPattern
             Dim nsize As Integer = [dim](Scan0) * [dim](1)
             Dim sampleNames = matrix.sampleID
-            Dim geneNodes As FuzzyCMeansEntity() = matrix.expression _
+            Dim geneNodes As ClusterEntity() = matrix.expression _
                 .AsParallel _
                 .Select(Function(gene)
                             Dim vector As New List(Of Double)
@@ -40,18 +41,18 @@ Namespace ExpressionPattern
 
                             Return New FuzzyCMeansEntity With {
                                 .uid = gene.geneID,
-                                .Memberships = New Dictionary(Of Integer, Double),
+                                .memberships = New Dictionary(Of Integer, Double),
                                 .entityVector = vector.ToArray
                             }
                         End Function) _
                 .ToArray
-            Dim centers = geneNodes.FuzzyCMeans(numberOfClusters:=nsize)
+            Dim centers As Classify() = geneNodes.CMeans(classCount:=nsize)
 
             Return New ExpressionPattern With {
                 .Patterns = geneNodes.ToArray,
                 .sampleNames = sampleNames,
                 .[dim] = [dim],
-                .centers = centers.ToArray
+                .centers = centers
             }
         End Function
 
