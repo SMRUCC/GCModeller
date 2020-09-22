@@ -13,16 +13,16 @@ Public Class Program
             .[Select](Function(x)
                           Return New ClusterEntity With {
                               .uid = x.ToString,
-                              .entityVector = New Double() {randf.randf(0, 99999), randf.randf(-1000, 999)}
+                              .entityVector = New Double() {randf.randf(0, 99999), randf.randf(-1000, 999), randf.randf(1, 10)}
                           }
                       End Function) _
             .ToArray()
-        Dim result As List(Of Classify) = CMeans.CMeans(10, data)
+        Dim result As Classify() = CMeans.CMeans(10, data)
 
         For Each item In result
-            Console.WriteLine($"===== {item.Id} (Count:{item.Values.Count}) =====")
+            Console.WriteLine($"===== {item.Id} (Count:{item.members.Count}) =====")
 
-            For Each item2 In item.Values.OrderBy(Function(x) x.entityVector.Average())
+            For Each item2 In item.members.OrderBy(Function(x) x.entityVector.Average())
                 Console.WriteLine(String.Join(", ", item2))
             Next
         Next

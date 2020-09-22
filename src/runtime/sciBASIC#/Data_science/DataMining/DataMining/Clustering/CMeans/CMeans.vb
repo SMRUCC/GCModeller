@@ -1,6 +1,7 @@
 ﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -8,11 +9,11 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 ''' the cmeans algorithm module
 ''' </summary>
 Public Module CMeans
-    Public Function CMeans(classCount As Integer, Values As IEnumerable(Of ClusterEntity)) As List(Of Classify)
+    Public Function CMeans(classCount As Integer, Values As IEnumerable(Of ClusterEntity)) As Classify()
         Return CMeans(classCount, 2, 0.001, Values.ToArray)
     End Function
 
-    Public Function CMeans(classCount As Integer, m As Double, Values As IEnumerable(Of ClusterEntity)) As List(Of Classify)
+    Public Function CMeans(classCount As Integer, m As Double, Values As IEnumerable(Of ClusterEntity)) As Classify()
         Return CMeans(classCount, m, 0.001, Values.ToArray)
     End Function
 
@@ -29,7 +30,7 @@ Public Module CMeans
         Next
     End Function
 
-    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity()) As List(Of Classify)
+    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity()) As Classify()
         Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=Values.Length).ToArray()
         Dim _j As Double = -1
         Dim centers As Double()()
@@ -61,17 +62,25 @@ Public Module CMeans
             Next
         End While
 
-        Dim result As List(Of Classify) = Enumerable.Range(0, classCount) _
-            .[Select](Function(x, i)
-                          Return New Classify() With {
-                              .Id = i
-                          }
-                      End Function) _
-            .ToList()
+        Return Values.PopulateClusters(classCount, u)
+    End Function
 
-        For i = 0 To Values.Count - 1
-            Dim index = Array.IndexOf(u(i), u(i).Max())
-            result(index).Values.Add(Values(i))
+    <Extension>
+    Private Function PopulateClusters(values As ClusterEntity(), classCount As Integer, u As Double()()) As Classify()
+        Dim result As Classify() = Enumerable.Range(0, classCount) _
+          .[Select](Function(x, i)
+                        Return New Classify() With {
+                            .Id = i
+                        }
+                    End Function) _
+          .ToArray
+        Dim index As Integer
+        Dim maxMembership As Double
+
+        For i As Integer = 0 To values.Length - 1
+            maxMembership = u(i).Max()
+            index = Array.IndexOf(u(i), maxMembership)
+            result(index).members.Add(values(i))
         Next
 
         Return result
