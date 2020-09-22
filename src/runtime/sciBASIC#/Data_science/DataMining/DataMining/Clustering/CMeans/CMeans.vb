@@ -3,6 +3,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Language
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
@@ -33,23 +34,24 @@ Public Module CMeans
         Next
     End Function
 
-    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity(), Optional parallel As Boolean = True) As Classify()
+    Public Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity(), Optional parallel As Boolean = True, Optional maxLoop As Integer = 10000) As Classify()
         Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=Values.Length).ToArray()
         Dim _j As Double = -1
         Dim centers As Double()()
         Dim width As Integer = Values(0).Length
         Dim j_new As Double
-        Dim diffValue As Double
+        Dim membership_diff As Double
+        Dim [loop] As i32 = Scan0
 
         While True
             centers = GetCenters(classCount, m, u, Values, width).ToArray
             j_new = J(m, u, centers, Values)
-            diffValue = Math.Abs(j_new - _j)
+            membership_diff = Math.Abs(j_new - _j)
 
-            If _j <> -1 AndAlso diffValue < diff Then
+            If _j <> -1 AndAlso membership_diff < diff Then
                 Exit While
             Else
-                Call $"diff: |{j_new} - {_j}| = {diffValue}".__DEBUG_ECHO
+                Call $"loop_{[loop]} membership_diff: |{j_new} - {_j}| = {membership_diff}".__DEBUG_ECHO
             End If
 
             _j = j_new
@@ -58,6 +60,10 @@ Public Module CMeans
                 Call u.updateMembershipParallel(Values, centers, classCount, m)
             Else
                 Call u.updateMembership(Values, centers, classCount, m)
+            End If
+
+            If ++[loop] > maxLoop Then
+                Exit While
             End If
         End While
 
