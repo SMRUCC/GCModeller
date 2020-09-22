@@ -39,13 +39,17 @@ Public Module CMeans
         Dim centers As Double()()
         Dim width As Integer = Values(0).Length
         Dim j_new As Double
+        Dim diffValue As Double
 
         While True
             centers = GetCenters(classCount, m, u, Values, width).ToArray
             j_new = J(m, u, centers, Values)
+            diffValue = Math.Abs(j_new - _j)
 
-            If _j <> -1 AndAlso Math.Abs(j_new - _j) < diff Then
+            If _j <> -1 AndAlso diffValue < diff Then
                 Exit While
+            Else
+                Call $"diff: |{j_new} - {_j}| = {diffValue}".__DEBUG_ECHO
             End If
 
             _j = j_new
