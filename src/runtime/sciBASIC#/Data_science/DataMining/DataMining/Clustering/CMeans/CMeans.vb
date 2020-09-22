@@ -49,20 +49,20 @@ Public Module CMeans
                 For j As Integer = 0 To u(i).Length - 1
                     Dim jIndex As Integer = j
 
-                    u(i)(j) = 1 / Enumerable.Range(0), classCount)) _
+                    u(i)(j) = 1 / Enumerable.Range(0, classCount) _
                         .Select(Function(x)
-                                    Return Math.Pow(Math.Sqrt(Dist(Values(index)), centers(jIndex)))) / Math.Sqrt(Dist(Values(index)), centers(x)))), 2 / (m - 1))
+                                    Return Math.Pow(Math.Sqrt(Dist(Values(index), centers(jIndex))) / Math.Sqrt(Dist(Values(index), centers(x))), 2 / (m - 1))
                                 End Function) _
                         .Sum()
 
                     If Double.IsNaN(u(i)(j)) Then
                         u(i)(j) = 1
                     End If
-    Next
-    Next
-    End While
+                Next
+            Next
+        End While
 
-    Return Values.PopulateClusters(classCount, u)
+        Return Values.PopulateClusters(classCount, u)
     End Function
 
     <Extension>
@@ -90,11 +90,11 @@ Public Module CMeans
         For Each i As Integer In Enumerable.Range(0, classCount)
             Yield Enumerable.Range(0, width) _
                               .[Select](Function(x)
-                                            Dim sumAll = Aggregate j As Integer In Enumerable.Range(0), Values.Count))
-                                                   Let val As Double = Math.Pow(CDbl(u(j))(i))), m) * Values(j))(x))
+                                            Dim sumAll = Aggregate j As Integer In Enumerable.Range(0, Values.Count)
+                                                   Let val As Double = Math.Pow(u(j)(i), m) * Values(j)(x)
                                                    Into Sum(val)
-                                            Dim b = Aggregate j As Integer In Enumerable.Range(0), Values.Count))
-                                                        Let val As Double = Math.Pow(CDbl(u(j))(i))), m)
+                                            Dim b = Aggregate j As Integer In Enumerable.Range(0, Values.Count)
+                                                        Let val As Double = Math.Pow(u(j)(i), m)
                                                            Into Sum(val)
 
                                             Return sumAll / b
