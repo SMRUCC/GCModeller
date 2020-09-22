@@ -1,7 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
@@ -90,7 +87,7 @@ Namespace FuzzyCMeans
             While True
                 centers = GetCenters(classCount, m, u, entities, width).ToArray
                 j_new = J(m, u, centers, entities)
-                membership_diff = Math.Abs(j_new - _j)
+                membership_diff = stdNum.Abs(j_new - _j)
 
                 If _j <> -1 AndAlso membership_diff < threshold Then
                     Exit While
@@ -142,7 +139,7 @@ Namespace FuzzyCMeans
                 Dim jIndex As Integer = j
                 Dim sumAll As Double = Aggregate x As Integer
                                    In Enumerable.Range(0, classCount)
-                                   Let a As Double = Math.Sqrt(Dist(entity, centers(jIndex))) / Math.Sqrt(Dist(entity, centers(x)))
+                                   Let a As Double = stdNum.Sqrt(Dist(entity, centers(jIndex))) / stdNum.Sqrt(Dist(entity, centers(x)))
                                    Let val As Double = a ^ (2 / (m - 1))
                                    Into Sum(val)
                 ui(j) = 1 / sumAll
@@ -164,7 +161,7 @@ Namespace FuzzyCMeans
                     Dim jIndex As Integer = j
                     Dim sumAll As Double = Aggregate x As Integer
                                        In Enumerable.Range(0, classCount)
-                                       Let a As Double = Math.Sqrt(Dist(entities(index), centers(jIndex))) / Math.Sqrt(Dist(entities(index), centers(x)))
+                                       Let a As Double = stdNum.Sqrt(Dist(entities(index), centers(jIndex))) / stdNum.Sqrt(Dist(entities(index), centers(x)))
                                        Let val As Double = a ^ (2 / (m - 1))
                                        Into Sum(val)
                     u(i)(j) = 1 / sumAll
@@ -215,10 +212,10 @@ Namespace FuzzyCMeans
                 Yield Enumerable.Range(0, width) _
                               .[Select](Function(x)
                                             Dim sumAll = Aggregate j As Integer In Enumerable.Range(0, entities.Count)
-                                                   Let val As Double = Math.Pow(u(j)(i), m) * entities(j)(x)
+                                                   Let val As Double = (u(j)(i) ^ m) * entities(j)(x)
                                                    Into Sum(val)
                                             Dim b = Aggregate j As Integer In Enumerable.Range(0, entities.Count)
-                                                        Let val As Double = Math.Pow(u(j)(i), m)
+                                                        Let val As Double = u(j)(i) ^ m
                                                            Into Sum(val)
 
                                             Return sumAll / b

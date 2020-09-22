@@ -1,6 +1,6 @@
 ﻿Imports System
-Imports System.Collections.Generic
 Imports System.Linq
+Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
