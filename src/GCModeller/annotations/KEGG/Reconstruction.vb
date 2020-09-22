@@ -9,12 +9,18 @@ Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module Reconstruction
 
+    ''' <summary>
+    ''' create kegg reaction index by kegg reaction id/KO/ECnumber
+    ''' </summary>
+    ''' <param name="reactions"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable)) As Dictionary(Of String, ReactionTable())
         Return reactions _
             .Select(Function(r)
                         Return {r.entry} _
                             .JoinIterates(r.KO) _
+                            .JoinIterates(r.EC) _
                             .Select(Function(id) (id, r))
                     End Function) _
             .IteratesALL _

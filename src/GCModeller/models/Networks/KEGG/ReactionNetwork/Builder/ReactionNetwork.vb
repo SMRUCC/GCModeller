@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::9b4e8ee48a094465f436d60bee905bd2, KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReactionNetworkBuilder
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: createEdges
-    ' 
-    '     Module Extensions
-    ' 
-    '         Function: BuildModel
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReactionNetworkBuilder
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: createEdges
+' 
+'     Module Extensions
+' 
+'         Function: BuildModel
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,8 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace ReactionNetwork
 
@@ -62,6 +64,8 @@ Namespace ReactionNetwork
     ''' </summary>
     Public Class ReactionNetworkBuilder : Inherits BuilderBase
 
+        ReadOnly enzymeBridged As Boolean = True
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -69,9 +73,12 @@ Namespace ReactionNetwork
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
         Sub New(br08901 As IEnumerable(Of ReactionTable),
                 compounds As IEnumerable(Of NamedValue(Of String)),
-                Optional ignoresCommonList As Boolean = True)
+                Optional ignoresCommonList As Boolean = True,
+                Optional enzymeBridged As Boolean = True)
 
             Call MyBase.New(br08901, compounds, blue, ignoresCommonList)
+
+            Me.enzymeBridged = enzymeBridged
         End Sub
 
         ''' <summary>
@@ -81,6 +88,29 @@ Namespace ReactionNetwork
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         Protected Overrides Sub createEdges(commons As String(), a As Node, b As Node)
+            If enzymeBridged Then
+                For Each edge In enzymeBridgedEdges(commons, a, b)
+                    Call addNewEdge(edge)
+                Next
+            Else
+                Call addNewEdge(compoundEdge(commons, a, b))
+            End If
+        End Sub
+
+        Private Function compoundEdge(commons As String(), a As Node, b As Node) As Edge
+            Return New Edge With {
+                .U = a,
+                .V = b,
+                .weight = commons.Length,
+                .data = New EdgeData With {
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"kegg", commons.GetJson}
+                    }
+                }
+            }
+        End Function
+
+        Private Iterator Function enzymeBridgedEdges(commons As String(), a As Node, b As Node) As IEnumerable(Of Edge)
             ' each enzyme is an edge
             ' For Each rid As String In commons
             ' Dim geneNames = networkBase(rid)
@@ -105,7 +135,7 @@ Namespace ReactionNetwork
                 rNode = nodes(rid.label)
             End If
 
-            Call New Edge With {
+            Yield New Edge With {
                 .U = a,
                 .V = rNode,
                 .data = New EdgeData With {
@@ -115,9 +145,9 @@ Namespace ReactionNetwork
                     }
                 },
                 .weight = rid.geneSymbols.TryCount
-            }.DoCall(AddressOf addNewEdge)
+            }
 
-            Call New Edge With {
+            Yield New Edge With {
                 .U = rNode,
                 .V = b,
                 .data = New EdgeData With {
@@ -127,8 +157,8 @@ Namespace ReactionNetwork
                     }
                 },
                 .weight = rid.geneSymbols.TryCount
-            }.DoCall(AddressOf addNewEdge)
-        End Sub
+            }
+        End Function
     End Class
 
     <HideModuleName>
@@ -156,7 +186,8 @@ Namespace ReactionNetwork
                                    Optional enzymes As Dictionary(Of String, String()) = Nothing,
                                    Optional enzymaticRelated As Boolean = True,
                                    Optional filterByEnzymes As Boolean = False,
-                                   Optional ignoresCommonList As Boolean = True) As NetworkGraph
+                                   Optional ignoresCommonList As Boolean = True,
+                                   Optional enzymeBridged As Boolean = True) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -177,11 +208,33 @@ Namespace ReactionNetwork
             Dim builderSession As New ReactionNetworkBuilder(
                 br08901:=source,
                 compounds:=compounds,
-                ignoresCommonList:=ignoresCommonList
+                ignoresCommonList:=ignoresCommonList,
+                enzymeBridged:=enzymeBridged
             )
             Dim g As NetworkGraph = builderSession.BuildModel(extended, enzymes, enzymaticRelated)
 
             Return g
+        End Function
+
+        <Extension>
+        Public Iterator Function GetReactions(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            For Each ko As NamedValue In pathway.KOpathway
+                If reactions.ContainsKey(ko.name) Then
+                    For Each item In reactions(ko.name)
+                        Yield item
+                    Next
+                End If
+            Next
+
+            For Each item As ReactionTable In reactions.Values _
+                .IteratesALL _
+                .GroupBy(Function(a) a.entry) _
+                .Select(Function(a) a.First)
+
+                If item.EC.IsNullOrEmpty AndAlso item.KO.IsNullOrEmpty Then
+                    Yield item
+                End If
+            Next
         End Function
     End Module
 End Namespace
