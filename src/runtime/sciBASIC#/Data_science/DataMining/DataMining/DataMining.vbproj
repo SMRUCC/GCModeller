@@ -656,6 +656,8 @@
     <Compile Include="AprioriRules\Helper\Encoding.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\FuzzyCMeans.vb" />
     <Compile Include="Clustering\FuzzyCMeans\Algorithm\MembershipMatrix.vb" />
+    <Compile Include="Clustering\KMeans\CompleteLinkage\Class1.vb" />
+    <Compile Include="Clustering\KMeans\CompleteLinkage\LloydsMethodClustering.vb" />
     <Compile Include="ComponentModel\Encoder\Class.vb" />
     <Compile Include="ComponentModel\Discretizer\NormalRangeDiscretizer.vb" />
     <Compile Include="ComponentModel\Encoder\ClassEncoder.vb" />
