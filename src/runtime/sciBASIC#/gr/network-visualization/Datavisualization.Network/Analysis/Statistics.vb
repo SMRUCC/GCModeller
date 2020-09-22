@@ -82,8 +82,10 @@ Namespace Analysis
         ''' <returns></returns>
         <Extension>
         Public Function ComputeBetweennessCentrality(ByRef graph As NetworkGraph) As Dictionary(Of String, Integer)
-            Dim data = graph.BetweennessCentrality
-            Dim sumAll As Double = data.Values.Sum
+            Dim data As Dictionary(Of String, Integer) = graph.BetweennessCentrality
+            ' convert to double for avoid the integer upbound overflow
+            ' when deal with the network graph in ultra large size
+            Dim sumAll As Double = data.Values.Select(Function(i) CDbl(i)).Sum
 
             For Each node As Graph.Node In graph.vertex
                 node.data.betweennessCentrality = data(node.label)
@@ -96,8 +98,7 @@ Namespace Analysis
 
         <Extension>
         Public Function ConnectedDegrees(g As NetworkGraph) As Dictionary(Of String, Integer)
-            Return g _
-                .graphEdges _
+            Return g.graphEdges _
                 .Select(Function(link) {link.U.label, link.V.label}) _
                 .IteratesALL _
                 .GroupBy(Function(id) id) _
