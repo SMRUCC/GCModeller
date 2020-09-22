@@ -216,6 +216,17 @@ Namespace ReactionNetwork
             Return g
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="pathway"></param>
+        ''' <param name="reactions"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' we are not going to add the non-enzymics reaction into each pathway map
+        ''' because this operation will caused all of the pathway map contains the 
+        ''' similar compound profile which is bring by all of the non-enzymics reactions.
+        ''' </remarks>
         <Extension>
         Public Iterator Function GetReactions(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
             For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
@@ -226,15 +237,15 @@ Namespace ReactionNetwork
                 End If
             Next
 
-            For Each item As ReactionTable In reactions.Values _
-                .IteratesALL _
-                .GroupBy(Function(a) a.entry) _
-                .Select(Function(a) a.First)
+            'For Each item As ReactionTable In reactions.Values _
+            '    .IteratesALL _
+            '    .GroupBy(Function(a) a.entry) _
+            '    .Select(Function(a) a.First)
 
-                If item.EC.IsNullOrEmpty AndAlso item.KO.IsNullOrEmpty Then
-                    Yield item
-                End If
-            Next
+            '    If item.EC.IsNullOrEmpty AndAlso item.KO.IsNullOrEmpty Then
+            '        Yield item
+            '    End If
+            'Next
         End Function
     End Module
 End Namespace

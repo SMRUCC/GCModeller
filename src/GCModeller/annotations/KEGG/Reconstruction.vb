@@ -60,6 +60,15 @@ Public Module Reconstruction
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' we are not going to add the non-enzymics reaction into each pathway map
+    ''' because this operation will caused all of the pathway map contains the 
+    ''' similar compound profile which is bring by all of the non-enzymics reactions.
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="enzymes"></param>
+    ''' <returns></returns>
     <Extension>
     Private Function GetFluxInMaps(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional ByRef enzymes As NamedValue() = Nothing) As IEnumerable(Of ReactionTable)
         Dim koMaps = pathway.modules _
@@ -76,14 +85,14 @@ Public Module Reconstruction
             .ToArray
 
         ' non-enzymatic
-        Dim none As ReactionTable() = reactions.Values _
-            .IteratesALL _
-            .Where(Function(a)
-                       Return a.KO.IsNullOrEmpty AndAlso a.EC.IsNullOrEmpty
-                   End Function) _
-            .ToArray
+        'Dim none As ReactionTable() = reactions.Values _
+        '    .IteratesALL _
+        '    .Where(Function(a)
+        '               Return a.KO.IsNullOrEmpty AndAlso a.EC.IsNullOrEmpty
+        '           End Function) _
+        '    .ToArray
 
-        Return koMaps + enzymeMaps + none
+        Return koMaps + enzymeMaps ' + none
     End Function
 
     ''' <summary>
