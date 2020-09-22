@@ -1,18 +1,23 @@
 ﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace CMeans
+
+
+
+
     Public Class Program
         Public Shared Sub Main(args As String())
-            Dim data As List(Of Double()) = Enumerable.Range(0, 100).[Select](Function(x) New Double() {randf.randf(0, 99999)}).ToList()
+            Dim data As ClusterEntity() = Enumerable.Range(0, 100).[Select](Function(x) New ClusterEntity With {.uid = x.ToString, .entityVector = New Double() {randf.randf(0, 99999)}}).ToArray()
             Dim result As List(Of Classify) = CMeans(10, data)
 
             For Each item In result
                 Console.WriteLine($"===== {item.Id} (Count:{item.Values.Count}) =====")
 
-                For Each item2 In item.Values.OrderBy(Function(x) x.Average())
+                For Each item2 In item.Values.OrderBy(Function(x) x.entityVector.Average())
                     Console.WriteLine(String.Join(", ", item2))
                 Next
             Next
@@ -20,12 +25,12 @@ Namespace CMeans
             Console.ReadKey()
         End Sub
 
-        Public Shared Function CMeans(classCount As Integer, Values As List(Of Double())) As List(Of Classify)
-            Return CMeans(classCount, 2, 0.001, Values)
+        Public Shared Function CMeans(classCount As Integer, Values As IEnumerable(Of ClusterEntity)) As List(Of Classify)
+            Return CMeans(classCount, 2, 0.001, Values.ToArray)
         End Function
 
-        Public Shared Function CMeans(classCount As Integer, m As Double, Values As List(Of Double())) As List(Of Classify)
-            Return CMeans(classCount, m, 0.001, Values)
+        Public Shared Function CMeans(classCount As Integer, m As Double, Values As IEnumerable(Of ClusterEntity)) As List(Of Classify)
+            Return CMeans(classCount, m, 0.001, Values.ToArray)
         End Function
 
         Private Shared Iterator Function GetRandomMatrix(classCount As Integer, nsamples As Integer) As IEnumerable(Of Double())
@@ -41,13 +46,14 @@ Namespace CMeans
             Next
         End Function
 
-        Public Shared Function CMeans(classCount As Integer, m As Double, diff As Double, Values As List(Of Double())) As List(Of Classify)
-            Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=Values.Count).ToArray()
+        Public Shared Function CMeans(classCount As Integer, m As Double, diff As Double, Values As ClusterEntity()) As List(Of Classify)
+            Dim u As Double()() = GetRandomMatrix(classCount, nsamples:=Values.Length).ToArray()
             Dim _j As Double = -1
-            Dim centers As List(Of Double())
+            Dim centers As Double()()
+            Dim width As Integer = Values(0).Length
 
             While True
-                centers = GetCenters(classCount, m, u, Values)
+                centers = GetCenters(classCount, m, u, Values, width).ToArray
                 Dim j_new As Double = J(m, u, centers, Values)
 
                 If _j <> -1 AndAlso Math.Abs(j_new - _j) < diff Then Exit While
@@ -59,7 +65,11 @@ Namespace CMeans
                     For j As Integer = 0 To u(i).Length - 1
                         Dim jIndex As Integer = j
 
-                        u(i)(j) = 1 / Enumerable.Select(Enumerable.Range(CInt(0), CInt(classCount)), CType(Function(x) Math.Pow(Math.Sqrt(Dist(CType(Values(CInt(index)), Double()), CType(centers(CInt(jIndex)), Double()))) / Math.Sqrt(Dist(CType(Values(CInt(index)), Double()), CType(centers(CInt(x)), Double()))), 2 / (m - 1)), Func(Of Integer, Double))).Sum()
+                        u(i)(j) = 1 / Enumerable.Range(CInt(0), CInt(classCount)) _
+                            .Select(Function(x)
+                                        Return Math.Pow(Math.Sqrt(Dist(Values(CInt(index)), centers(CInt(jIndex)))) / Math.Sqrt(Dist(Values(CInt(index)), centers(CInt(x)))), 2 / (m - 1))
+                                    End Function) _
+                            .Sum()
 
                         If Double.IsNaN(u(i)(j)) Then
                             u(i)(j) = 1
@@ -84,16 +94,31 @@ Namespace CMeans
             Return result
         End Function
 
-        Public Shared Function GetCenters(classCount As Integer, m As Double, u As Double()(), Values As List(Of Double())) As List(Of Double())
-            Return Enumerable.Range(0, classCount).[Select](Function(i) Enumerable.Range(0, Enumerable.First(Values).Length).[Select](Function(x) Enumerable.Select(Enumerable.Range(CInt(0), CInt(Values.Count)), CType(Function(j) Math.Pow(CDbl(u(CInt(j))(CInt(i))), m) * Values(CInt(j))(CInt(x)), Func(Of Integer, Double))).Sum() / Enumerable.Select(Of Integer, Global.System.[Double])(Enumerable.Range(CInt(0), CInt(Values.Count)), CType(Function(j) Math.Pow(CDbl(u(CInt(j))(CInt(i))), m), Func(Of Integer, Double))).Sum()).ToArray()).ToList()
+        Public Shared Iterator Function GetCenters(classCount As Integer, m As Double, u As Double()(), Values As ClusterEntity(), width As Integer) As IEnumerable(Of Double())
+            For Each i As Integer In Enumerable.Range(0, classCount)
+                Yield Enumerable.Range(0, width) _
+                                  .[Select](Function(x)
+                                                Dim sumAll = Aggregate j As Integer In Enumerable.Range(CInt(0), CInt(Values.Count))
+                                                       Let val As Double = Math.Pow(CDbl(u(CInt(j))(CInt(i))), m) * Values(CInt(j))(CInt(x))
+                                                       Into Sum(val)
+                                                Dim b = Aggregate j As Integer In Enumerable.Range(CInt(0), CInt(Values.Count))
+                                                            Let val As Double = Math.Pow(CDbl(u(CInt(j))(CInt(i))), m)
+                                                               Into Sum(val)
+
+                                                Return sumAll / b
+                                            End Function) _
+                                  .ToArray()
+            Next
         End Function
 
-        Public Shared Function J(m As Double, u As Double()(), centers As List(Of Double()), values As List(Of Double())) As Double
-            Return Enumerable.Select(centers, CType(Function(x, i) Enumerable.Sum(Enumerable.Select(values, CType(Function(y, j1) Math.Pow(CDbl(u(CInt(j1))(CInt(i))), m) * Dist(CType(y, Double()), CType(x, Double())), Func(Of Double(), Integer, Double)))), Func(Of Double(), Integer, Double))).Sum()
+        Public Shared Function J(m As Double, u As Double()(), centers As Double()(), values As ClusterEntity()) As Double
+            Return centers.Select(Function(x, i)
+                                      Return values.Select(Function(y, j1) Math.Pow(CDbl(u(CInt(j1))(CInt(i))), m) * Dist(y, x)).Sum()
+                                  End Function).Sum()
         End Function
 
-        Public Shared Function Dist(value As Double(), center As Double()) As Double
-            Return Enumerable.Select(value, CType(Function(x, i) Math.Pow(x - center(CInt(i)), CDbl(2)), Func(Of Double, Integer, Double))).Sum()
+        Public Shared Function Dist(value As ClusterEntity, center As Double()) As Double
+            Return value.entityVector.Select(Function(x, i) Math.Pow(x - center(i), 2)).Sum()
         End Function
     End Class
 End Namespace
