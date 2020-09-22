@@ -39,9 +39,8 @@ Namespace ExpressionPattern
                                 Call vector.Add(gene.experiments(i))
                             Next
 
-                            Return New FuzzyCMeansEntity With {
+                            Return New ClusterEntity With {
                                 .uid = gene.geneID,
-                                .memberships = New Dictionary(Of Integer, Double),
                                 .entityVector = vector.ToArray
                             }
                         End Function) _
