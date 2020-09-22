@@ -3,7 +3,12 @@ imports "geneExpression" from "phenotype_kit";
 
 setwd(!script$dir);
 
-"msms_Intensity.csv"
+let expr0 = read.csv("msms_Intensity.csv");
+
+expr0[, "mz"] = NULL;
+expr0[, "rt"] = NULL;
+
+expr0
 :> load.expr
 :> relative
 :> expression.cmeans_pattern(dim = [4,4])
