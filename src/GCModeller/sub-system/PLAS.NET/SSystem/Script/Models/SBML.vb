@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f95fa0961b4b016f9190a4726453e2b, PLAS.NET\SSystem\Script\Models\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::f16775f7c4e457aa48df89b7daf384d1, sub-system\PLAS.NET\SSystem\Script\Models\SBML.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,8 @@
     ' 
     '         Properties: AutoFixError
     ' 
-    '         Function: __contact, __generateSystem, __where, (+2 Overloads) Compile, GenerateFunction
+    '         Function: __contact, __generateSystem, __where, Compile, CompileImpl
+    '                   GenerateFunction, PreCompile
     ' 
     '         Sub: __strip, __stripNumber
     ' 

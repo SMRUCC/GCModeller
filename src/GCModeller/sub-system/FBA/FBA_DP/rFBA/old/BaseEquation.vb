@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57303b9ae4267fb569fce834fe3f3951, FBA\FBA_DP\rFBA\old\BaseEquation.vb"
+﻿#Region "Microsoft.VisualBasic::57303b9ae4267fb569fce834fe3f3951, sub-system\FBA\FBA_DP\rFBA\old\BaseEquation.vb"
 
     ' Author:
     ' 

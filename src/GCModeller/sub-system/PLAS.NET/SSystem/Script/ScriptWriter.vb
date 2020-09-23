@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::401dcd2270a3aa7502d6abeb7146f59a, PLAS.NET\SSystem\Script\ScriptWriter.vb"
+﻿#Region "Microsoft.VisualBasic::401dcd2270a3aa7502d6abeb7146f59a, sub-system\PLAS.NET\SSystem\Script\ScriptWriter.vb"
 
     ' Author:
     ' 
