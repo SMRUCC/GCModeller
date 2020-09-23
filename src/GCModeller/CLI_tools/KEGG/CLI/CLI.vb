@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f370a8397e95524311c28dd49e65bde, CLI_tools\KEGG\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::29ee22440d8886b479070d2246b76c6f, CLI_tools\KEGG\CLI\CLI.vb"
 
     ' Author:
     ' 
