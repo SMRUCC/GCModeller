@@ -3,18 +3,26 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module Reconstruction
 
+    ''' <summary>
+    ''' create kegg reaction index by kegg reaction id/KO/ECnumber
+    ''' </summary>
+    ''' <param name="reactions"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable)) As Dictionary(Of String, ReactionTable())
         Return reactions _
             .Select(Function(r)
                         Return {r.entry} _
                             .JoinIterates(r.KO) _
+                            .JoinIterates(r.EC) _
                             .Select(Function(id) (id, r))
                     End Function) _
             .IteratesALL _
@@ -25,6 +33,68 @@ Public Module Reconstruction
                           End Function)
     End Function
 
+    <Extension>
+    Public Function GetEnzymeNumbers(pathway As DBGET.bGetObject.Pathway) As IEnumerable(Of NamedValue)
+        Static enzymes As Dictionary(Of String, EnzymeEntry()) = EnzymeEntry _
+            .ParseEntries _
+            .GroupBy(Function(a) a.KO) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.ToArray
+                          End Function)
+
+        Dim rawEntries = pathway.KOpathway _
+            .SafeQuery _
+            .Where(Function(ko) enzymes.ContainsKey(ko.name)) _
+            .Select(Function(ko) enzymes(ko.name)) _
+            .IteratesALL _
+            .ToArray
+
+        Return rawEntries _
+            .Select(Function(a)
+                        Return New NamedValue With {
+                            .name = a.EC,
+                            .text = a.fullName
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' we are not going to add the non-enzymics reaction into each pathway map
+    ''' because this operation will caused all of the pathway map contains the 
+    ''' similar compound profile which is bring by all of the non-enzymics reactions.
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="enzymes"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function GetFluxInMaps(pathway As DBGET.bGetObject.Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional ByRef enzymes As NamedValue() = Nothing) As IEnumerable(Of ReactionTable)
+        Dim koMaps = pathway.modules _
+            .Where(Function(id) reactions.ContainsKey(id.name)) _
+            .Select(Function(id) reactions(id.name)) _
+            .IteratesALL _
+            .AsList
+
+        enzymes = GetEnzymeNumbers(pathway).ToArray
+
+        Dim enzymeMaps As ReactionTable() = enzymes _
+            .Select(Function(a) reactions.TryGetValue(a.name)) _
+            .IteratesALL _
+            .ToArray
+
+        ' non-enzymatic
+        'Dim none As ReactionTable() = reactions.Values _
+        '    .IteratesALL _
+        '    .Where(Function(a)
+        '               Return a.KO.IsNullOrEmpty AndAlso a.EC.IsNullOrEmpty
+        '           End Function) _
+        '    .ToArray
+
+        Return koMaps + enzymeMaps ' + none
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -33,12 +103,12 @@ Public Module Reconstruction
     ''' <param name="names">the names list of the kegg compounds</param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssignCompounds(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable()), Optional names As Dictionary(Of String, String) = Nothing) As Pathway
-        Dim fluxInMap = pathway.modules _
-            .Where(Function(id) reactions.ContainsKey(id.name)) _
-            .Select(Function(id) reactions(id.name)) _
-            .IteratesALL _
-            .ToArray
+    Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway,
+                                    reactions As Dictionary(Of String, ReactionTable()),
+                                    Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
+
+        Dim enzymes As NamedValue() = Nothing
+        Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, reactions, enzymes).ToArray
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)
@@ -55,7 +125,7 @@ Public Module Reconstruction
                         }
                     End Function) _
             .ToArray
-        pathway.modules = Nothing
+        pathway.modules = enzymes
 
         Return pathway
     End Function
@@ -63,7 +133,7 @@ Public Module Reconstruction
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
                                                 genes As IEnumerable(Of ProteinAnnotation),
-                                                Optional min_cov As Double = 0.3) As IEnumerable(Of Pathway)
+                                                Optional min_cov As Double = 0.3) As IEnumerable(Of DBGET.bGetObject.Pathway)
 
         Dim KOindex As Dictionary(Of String, ProteinAnnotation()) = genes _
             .Where(Function(g) g.attributes.ContainsKey("ko")) _
@@ -76,7 +146,7 @@ Public Module Reconstruction
                           Function(g)
                               Return g.Select(Function(i) i.g).ToArray
                           End Function)
-        Dim mapReconstruct As New Value(Of Pathway)
+        Dim mapReconstruct As New Value(Of DBGET.bGetObject.Pathway)
 
         For Each map As Map In reference
             If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov) Is Nothing Then
@@ -86,7 +156,7 @@ Public Module Reconstruction
     End Function
 
     <Extension>
-    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As Pathway
+    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As DBGET.bGetObject.Pathway
         Dim all As Integer = 0
         Dim hits As New List(Of ProteinAnnotation())
         Dim objs As String()
@@ -128,7 +198,7 @@ Public Module Reconstruction
     End Function
 
     <Extension>
-    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As Pathway
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As DBGET.bGetObject.Pathway
         Dim kopathway As NamedValue() = proteins _
             .Select(Function(prot)
                         Return prot.attributes("ko") _
@@ -142,7 +212,7 @@ Public Module Reconstruction
             .IteratesALL _
             .ToArray
 
-        Return New Pathway With {
+        Return New DBGET.bGetObject.Pathway With {
             .description = map.Name,
             .EntryId = map.id,
             .name = map.Name,
