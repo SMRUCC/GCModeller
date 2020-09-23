@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07be9392ce64f349be66925d3b17ecc0, annotations\GO\NamespaceCategoryPlots.vb"
+﻿#Region "Microsoft.VisualBasic::b342abf17c2956ba52222782517d5410, annotations\GO\NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Public Module NamespaceCategoryPlots
     End Function
 
 End Module
-

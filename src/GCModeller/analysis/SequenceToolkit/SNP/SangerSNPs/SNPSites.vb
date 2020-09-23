@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12ab43d5770bb796586f2947a5e2019, analysis\SequenceToolkit\SNP\SangerSNPs\SNPSites.vb"
+﻿#Region "Microsoft.VisualBasic::c1fc1d9e97d0e66c10b3bdfc57e12030, analysis\SequenceToolkit\SNP\SangerSNPs\SNPSites.vb"
 
     ' Author:
     ' 
