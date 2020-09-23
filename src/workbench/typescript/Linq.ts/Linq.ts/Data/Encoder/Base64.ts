@@ -63,7 +63,20 @@ module Base64 {
      * 将base64字符串解码为普通的文本字符串
     */
     export function decode(base64: string): string {
-        var text = "";
+        let raw: number[] = decode_rawBuffer(base64);
+        let text: string = "";
+
+        for (let code of raw) {
+            text = text + String.fromCharCode(code);
+        }
+
+        text = Base64.utf8_decode(text);
+
+        return text
+    }
+
+    export function decode_rawBuffer(base64: string): number[] {
+        var buffer: number[] = [];
         var n, r, i;
         var s, o, u, a;
         var f = 0;
@@ -77,19 +90,31 @@ module Base64 {
             a = keyStr.indexOf(base64.charAt(f++));
             n = s << 2 | o >> 4; r = (o & 15) << 4 | u >> 2;
             i = (u & 3) << 6 | a;
-            text = text + String.fromCharCode(n);
+
+            buffer.push(n);
 
             if (u != 64) {
-                text = text + String.fromCharCode(r);
+                buffer.push(r);
             }
             if (a != 64) {
-                text = text + String.fromCharCode(i);
+                buffer.push(i);
             }
         }
 
-        text = Base64.utf8_decode(text);
+        return buffer;
+    }
 
-        return text
+    /**
+     * 将base64字符串解码为字节数组->普通数组
+     */
+    export function bytes_decode(str: string, num: number): number[] {
+        let arr:number[] = [];
+        let base64 = new Uint8Array(decode_rawBuffer(str));
+        let view = new DataView(base64.buffer);
+        for (var i = 0; i < num; i++) {
+            arr.push(view.getFloat64(i * 8));
+        }
+        return arr;
     }
 
     /**
