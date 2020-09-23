@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d9bab0db13fd7b3fe3f9e6b11aa1644, GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\RibosomeAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::1d9bab0db13fd7b3fe3f9e6b11aa1644, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\RibosomeAssembly.vb"
 
     ' Author:
     ' 

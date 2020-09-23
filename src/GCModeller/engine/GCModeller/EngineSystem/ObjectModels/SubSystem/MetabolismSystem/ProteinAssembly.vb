@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a7c1d4d1b7279af900c4ea803badb2d, GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\ProteinAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::6a7c1d4d1b7279af900c4ea803badb2d, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\ProteinAssembly.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db140bbc57e5979bbac791c6a8f8abb2, GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\PathwayCollection.vb"
+﻿#Region "Microsoft.VisualBasic::db140bbc57e5979bbac791c6a8f8abb2, engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAdapters\PathwayCollection.vb"
 
     ' Author:
     ' 

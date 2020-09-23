@@ -1,69 +1,68 @@
-﻿#Region "Microsoft.VisualBasic::5c16f8635de8aaeb4d6b5ccceceda040, SBML\SBML\Level3\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::71dfa12d7ee4eb22d3892f5b8f748760, data\SABIO-RK\SBML\kineticLaw.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class kineticLaw
-' 
-'         Properties: AnnotationData, listOfLocalParameters, math, metaid, sboTerm
-'         Class annotation
-' 
-'             Properties: _sbrk, bqbiol, rdf, sabiorkValue
-'             Class sabiork
-' 
-'                 Properties: ExperimentConditionsValue, kineticLawID
-'                 Class experimentalConditions
-' 
-'                     Properties: buffer, pHValue, TempratureValue
-' 
-'                 Class temperature
-' 
-'                     Properties: startValueTemperature, temperatureUnit
-' 
-'                 Class pH
-' 
-'                     Properties: startValuepH
-' 
-' 
-' 
-' 
-' 
-' 
-' 
-'     Class localParameter
-' 
-'         Properties: id, name, sboTerm, units, value
-' 
-' 
-' /********************************************************************************/
+    '     Class kineticLaw
+    ' 
+    '         Properties: annotation, listOfLocalParameters, math, metaid, sboTerm
+    ' 
+    '     Class kineticLawAnnotation
+    ' 
+    '         Properties: RDF, sabiork
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class sabiorkAnnotation
+    ' 
+    '         Properties: experimentalConditions, kineticLawID
+    ' 
+    '     Class experimentalConditions
+    ' 
+    '         Properties: buffer, pHValue, temperature
+    ' 
+    '     Class temperature
+    ' 
+    '         Properties: startValueTemperature, temperatureUnit
+    ' 
+    '     Class pH
+    ' 
+    '         Properties: startValuepH
+    ' 
+    '     Class localParameter
+    ' 
+    '         Properties: id, name, sboTerm, units, value
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,164 @@
-﻿'------------------------------------------------------------------------------
+﻿#Region "Microsoft.VisualBasic::c50f3e44f16c9e4e0d57d88f16a3735d, data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class DbfParamsException
+    ' 
+    ' 
+    ' 
+    '     Class DbfException
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class StyleInfo
+    ' 
+    '         Properties: mimeType, name
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class FormatInfo
+    ' 
+    '         Properties: aliases, dataTerms, name, styleInfoList, syntaxTerms
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class ExampleIdentifiersInfo
+    ' 
+    '         Properties: accessionList, entryVersionList, idList, nameList, sequenceVersionList
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class DataResourceInfo
+    ' 
+    '         Properties: href, name
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class DatabaseInfo
+    ' 
+    '         Properties: aliasList, databaseTerms, dataResourceInfoList, defaultFormat, description
+    '                     displayName, exampleIdentifiers, formatInfoList, href, name
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Class DbfNoEntryFoundException
+    ' 
+    ' 
+    ' 
+    '     Class DbfConnException
+    ' 
+    ' 
+    ' 
+    '     Class InputException
+    ' 
+    '         Sub: RaisePropertyChanged
+    ' 
+    '     Interface WSDBFetchServer
+    ' 
+    '         Function: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDatabaseInfo
+    '                   getDatabaseInfoAsync, getDatabaseInfoList, getDatabaseInfoListAsync, getDbFormats, getDbFormatsAsync
+    '                   getFormatInfo, getFormatInfoAsync, getFormatStyles, getFormatStylesAsync, getStyleInfo
+    '                   getStyleInfoAsync, getSupportedDBs, getSupportedDBsAsync, getSupportedFormats, getSupportedFormatsAsync
+    '                   getSupportedStyles, getSupportedStylesAsync
+    ' 
+    '     Class getSupportedDBsRequest
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class getSupportedDBsResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getSupportedFormatsRequest
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class getSupportedFormatsResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getSupportedStylesRequest
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class getSupportedStylesResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getDatabaseInfoListRequest
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class getDatabaseInfoListResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getDbFormatsRequest
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getDbFormatsResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getFormatStylesRequest
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Class getFormatStylesResponse
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Interface WSDBFetchServerChannel
+    ' 
+    ' 
+    ' 
+    '     Class WSDBFetchServerClient
+    ' 
+    '         Constructor: (+5 Overloads) Sub New
+    '         Function: fetchBatch, fetchBatchAsync, fetchData, fetchDataAsync, getDatabaseInfo
+    '                   getDatabaseInfoAsync, getDatabaseInfoList, getDatabaseInfoListAsync, getDbFormats, getDbFormatsAsync
+    '                   getFormatInfo, getFormatInfoAsync, getFormatStyles, getFormatStylesAsync, getStyleInfo
+    '                   getStyleInfoAsync, getSupportedDBs, getSupportedDBsAsync, getSupportedFormats, getSupportedFormatsAsync
+    '                   getSupportedStyles, getSupportedStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoList, WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoListAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormats
+    '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStylesAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBs, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBsAsync
+    '                   WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormats, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormatsAsync, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStyles, WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStylesAsync
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+'------------------------------------------------------------------------------
 ' <auto-generated>
 '     This code was generated by a tool.
 '     Runtime Version:4.0.30319.42000
@@ -1060,3 +1220,4 @@ Namespace WSDbfetchDoclitServerServices
         End Function
     End Class
 End Namespace
+

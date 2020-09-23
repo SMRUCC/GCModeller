@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94ab714acd987e7708d0dd02793aa6c4, IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
+﻿#Region "Microsoft.VisualBasic::94ab714acd987e7708d0dd02793aa6c4, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
 
     ' Author:
     ' 

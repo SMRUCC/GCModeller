@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7c0eb66e4dd50e7a6de50045407d175, GCModeller\EngineSystem\Engine\MathematicsModels\PolynomialFit.vb"
+﻿#Region "Microsoft.VisualBasic::e7c0eb66e4dd50e7a6de50045407d175, engine\GCModeller\EngineSystem\Engine\MathematicsModels\PolynomialFit.vb"
 
     ' Author:
     ' 
