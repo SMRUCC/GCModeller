@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ce11283db10975c6a9a95f0e7a1cdc, STRING\Models\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::39ce11283db10975c6a9a95f0e7a1cdc, models\Networks\STRING\Models\Interaction.vb"
 
     ' Author:
     ' 

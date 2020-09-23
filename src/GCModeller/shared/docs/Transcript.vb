@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0604910bcf35649516cb1ab37943a2f, shared\docs\Transcript.vb"
+﻿#Region "Microsoft.VisualBasic::941100e6550a2079b77319671909accd, shared\docs\Transcript.vb"
 
     ' Author:
     ' 

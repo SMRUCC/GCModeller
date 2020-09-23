@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebbdba4d33f857fdff437ac6007bb54d, Network.BLAST\Metagenome\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::ebbdba4d33f857fdff437ac6007bb54d, models\Networks\Network.BLAST\Metagenome\Protocol.vb"
 
     ' Author:
     ' 

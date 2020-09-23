@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f2d5e83448f2f17f5cc1c1e1eecf023, EID2\EID2\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::2f2d5e83448f2f17f5cc1c1e1eecf023, models\Networks\EID2\EID2\Interaction.vb"
 
     ' Author:
     ' 

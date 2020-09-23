@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c929b12513b0c763f184db78655220bb, CellPhenotype\TRN\KineticsModel\SiteInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c929b12513b0c763f184db78655220bb, sub-system\CellPhenotype\TRN\KineticsModel\SiteInfo.vb"
 
     ' Author:
     ' 

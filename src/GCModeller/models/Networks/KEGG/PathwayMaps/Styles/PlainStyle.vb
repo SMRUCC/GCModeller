@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88664db6b3eb9be0cf1cedbbf5c9fc0a, KEGG\PathwayMaps\Styles\PlainStyle.vb"
+﻿#Region "Microsoft.VisualBasic::88664db6b3eb9be0cf1cedbbf5c9fc0a, models\Networks\KEGG\PathwayMaps\Styles\PlainStyle.vb"
 
     ' Author:
     ' 

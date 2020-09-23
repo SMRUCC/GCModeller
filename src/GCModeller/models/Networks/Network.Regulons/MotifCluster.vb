@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cbe649ca01d0036112977d33d18ef18, Network.Regulons\MotifCluster.vb"
+﻿#Region "Microsoft.VisualBasic::8cbe649ca01d0036112977d33d18ef18, models\Networks\Network.Regulons\MotifCluster.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::567919c83c4004bbfa133e92b2f8b858, KEGG\KEGGMap\PathwayMapNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::567919c83c4004bbfa133e92b2f8b858, models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
     ' Author:
     ' 
