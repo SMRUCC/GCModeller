@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f179d84dc411823d18b9587946e8a944, GCModeller\GUID\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::f179d84dc411823d18b9587946e8a944, engine\GCModeller\GUID\EnzymeClass.vb"
 
     ' Author:
     ' 

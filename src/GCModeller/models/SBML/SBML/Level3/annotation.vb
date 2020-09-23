@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2e595e442772234ba476d24be270e9b, SBML\SBML\Level3\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::232bbe365947ea59bd014276a37bb70c, models\SBML\SBML\Level3\annotation.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Class speciesAnnotation
+    '     Class SbmlAnnotationData
     ' 
-    '         Properties: [is]
+    '         Properties: [is], hasTaxon, isDescribedBy, isVersionOf, occursIn
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -46,17 +46,15 @@
     '         Properties: RDF
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Class AnnotationInfo
     ' 
-    '             Constructor: (+1 Overloads) Sub New
+    '     Class AnnotationInfo
     ' 
-    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml

@@ -1,44 +1,44 @@
-﻿#Region "Microsoft.VisualBasic::c01a0d4b8d2b81a4903af23ed308fb67, CLI_tools\MEME\Cli\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::363b8769b06e740463cf2388a6d6b795, CLI_tools\MEME\Cli\MEME.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Function: __getLocusTag, __getModels, __getSites, __isFamilyName, __isFile
-'               __isLDMName, __loadMEME, __siteMatchesCommon, GetFastaSource, LogoBatch
-'               MastRegulations, MEMEBatch, MotifScan, RfamSites, SequenceLogoTask
-'               SiteMatch, SiteMatches, SiteMatchesText
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Function: __getLocusTag, __getModels, __getSites, __isFamilyName, __isFile
+    '               __isLDMName, __loadMEME, __siteMatchesCommon, GetFastaSource, LogoBatch
+    '               MastRegulations, MEMEBatch, MotifScan, RfamSites, SaveModel
+    '               SequenceLogoTask, SiteMatch, SiteMatches, SiteMatchesText
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

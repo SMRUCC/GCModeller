@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae29921d6deb3482dc06cd798dae8ef0, Bio.Assembly\SequenceModel\NucleicAcid\Translation\GeneticCodes.vb"
+﻿#Region "Microsoft.VisualBasic::ae29921d6deb3482dc06cd798dae8ef0, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\GeneticCodes.vb"
 
     ' Author:
     ' 

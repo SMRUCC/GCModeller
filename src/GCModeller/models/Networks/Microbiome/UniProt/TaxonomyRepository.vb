@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46c44a2c56ef8b08d1614208ce074825, Microbiome\UniProt\TaxonomyRepository.vb"
+﻿#Region "Microsoft.VisualBasic::3b24b3460670a292a21f325674bd0182, models\Networks\Microbiome\UniProt\TaxonomyRepository.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Class TaxonomyRepository
     ' 
-    '     Properties: base, taxonomy
+    '     Properties: base, MimeType, taxonomy
     ' 
     '     Function: Exists, GetAll, GetByKey, GetWhere, LoadByTaxonomyId
     '               LoadRepository, Selects, StorageReference, TaxonomyGroup

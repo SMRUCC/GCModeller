@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a58da7e943a68503b53bed0de78f3b7, PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::2fafb69f0f2eac2fe1a682474650d558, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: AutoFixError
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CheckConsist, (+2 Overloads) Compile
+    '         Function: CheckConsist, Compile, CompileImpl
     ' 
     ' 
     ' /********************************************************************************/

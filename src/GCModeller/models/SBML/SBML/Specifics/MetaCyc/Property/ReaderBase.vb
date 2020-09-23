@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::218f3256519c21007fa48264ea83c152, SBML\SBML\Specifics\MetaCyc\Property\ReaderBase.vb"
+﻿#Region "Microsoft.VisualBasic::218f3256519c21007fa48264ea83c152, models\SBML\SBML\Specifics\MetaCyc\Property\ReaderBase.vb"
 
     ' Author:
     ' 

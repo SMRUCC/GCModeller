@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9655af91407790a02f5196cc3d94571, SBML\Biopax\Level3\Schema\DatatypeProperty.vb"
+﻿#Region "Microsoft.VisualBasic::b9655af91407790a02f5196cc3d94571, models\SBML\Biopax\Level3\Schema\DatatypeProperty.vb"
 
     ' Author:
     ' 

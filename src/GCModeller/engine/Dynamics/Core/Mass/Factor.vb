@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8aa4e630aaf5f25731a119ae6dd6af8, Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, engine\Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,9 @@
 
     '     Class Factor
     ' 
-    '         Properties: hashCode, ID
+    '         Properties: hashCode, ID, role
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa71024ae59110502676ae6bedf13b14, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\DebuggerArgs.vb"
+﻿#Region "Microsoft.VisualBasic::81c8f5665b46a54623e729b250316f07, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\DebuggerArgs.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,9 @@
 
 #End Region
 
+Imports System.Globalization
 Imports System.Runtime.CompilerServices
+Imports System.Threading
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
@@ -185,6 +187,16 @@ Namespace ApplicationServices.Debugging
                     ' 因为只是进行命令行的调用历史的记录，所以实在不行的话就放弃这次的调用记录
                     Call ex.PrintException
                 End Try
+            End If
+
+            Dim cultureInfo$ = args <= "--cultureinfo"
+
+            If cultureInfo.StringEmpty Then
+                ' 强制抛出英文错误消息或者用户设置其他语言
+                Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
+            Else
+                ' 强制抛出英文错误消息或者用户设置其他语言
+                Thread.CurrentThread.CurrentUICulture = New CultureInfo(cultureInfo)
             End If
 
             Dim opt As String = args <= "--echo"

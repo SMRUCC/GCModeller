@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7327b298e4fcadf972a07b76aa9524ef, Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb"
+﻿#Region "Microsoft.VisualBasic::7327b298e4fcadf972a07b76aa9524ef, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocationParser.vb"
 
     ' Author:
     ' 

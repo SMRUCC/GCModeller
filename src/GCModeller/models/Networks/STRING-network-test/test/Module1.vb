@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32948ca206d3255b68a5756df5f960b6, STRING-network-test\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::32948ca206d3255b68a5756df5f960b6, models\Networks\STRING-network-test\test\Module1.vb"
 
     ' Author:
     ' 

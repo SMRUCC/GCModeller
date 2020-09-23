@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::092859cc52d2a0b5f2367e236eb90040, Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::092859cc52d2a0b5f2367e236eb90040, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
     ' Author:
     ' 

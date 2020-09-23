@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2858f0a8d372cdac324a94f7891091c8, KEGG\ReactionNetwork\EnzymaticInformation.vb"
+﻿#Region "Microsoft.VisualBasic::2858f0a8d372cdac324a94f7891091c8, models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, Bio.Assembly\ComponentModel\Equations\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
 
     ' Author:
     ' 

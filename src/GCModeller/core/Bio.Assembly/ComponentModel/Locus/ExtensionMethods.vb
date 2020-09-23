@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60602b7e5f842b34e0c457018b22ef8d, Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::60602b7e5f842b34e0c457018b22ef8d, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 

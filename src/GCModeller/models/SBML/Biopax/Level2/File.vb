@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af34fdc7239379a9610585237d6a303e, SBML\Biopax\Level2\File.vb"
+﻿#Region "Microsoft.VisualBasic::af34fdc7239379a9610585237d6a303e, models\SBML\Biopax\Level2\File.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ce7ec0daec98ae076e52503b4c8166c, CellPhenotype\TRN\Configs\ReadModel.vb"
+﻿#Region "Microsoft.VisualBasic::5ce7ec0daec98ae076e52503b4c8166c, sub-system\CellPhenotype\TRN\Configs\ReadModel.vb"
 
     ' Author:
     ' 

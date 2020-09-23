@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02a9ae079ff640fd9925ac5cdd8e2d7c, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
+﻿#Region "Microsoft.VisualBasic::4d6565eaab7c000eae0c762da1a306dc, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
 
     ' Author:
     ' 
@@ -46,10 +46,12 @@
     ' 
     '     Class RegulationFootprint
     ' 
-    '         Properties: biological_process, distance, effector, family, Identities
+    '         Properties: biological_process, distance, effector, family, identities
     '                     mode, motif, product, regprecise, regulated
     '                     regulator, regulog, replicon, sequenceData, site
     '                     species
+    ' 
+    '         Function: ToString
     ' 
     '     Class FootprintSite
     ' 

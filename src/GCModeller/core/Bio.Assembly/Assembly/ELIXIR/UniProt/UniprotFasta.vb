@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8d9c614804556f20be0527de990ec6f, Bio.Assembly\Assembly\ELIXIR\UniProt\UniprotFasta.vb"
+﻿#Region "Microsoft.VisualBasic::f8d9c614804556f20be0527de990ec6f, core\Bio.Assembly\Assembly\ELIXIR\UniProt\UniprotFasta.vb"
 
     ' Author:
     ' 

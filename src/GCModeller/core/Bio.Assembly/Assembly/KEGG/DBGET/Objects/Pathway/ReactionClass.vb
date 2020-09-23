@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f052b8a546ccc2b382fa6743fb8be71c, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb"
+﻿#Region "Microsoft.VisualBasic::f052b8a546ccc2b382fa6743fb8be71c, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\ReactionClass.vb"
 
     ' Author:
     ' 

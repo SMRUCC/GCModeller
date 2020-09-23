@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af3e7bae8ef21d1dbf9cdcbb649529c6, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
+﻿#Region "Microsoft.VisualBasic::556146eee1abd2c1147f33071a728ef4, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
 
     ' Author:
     ' 

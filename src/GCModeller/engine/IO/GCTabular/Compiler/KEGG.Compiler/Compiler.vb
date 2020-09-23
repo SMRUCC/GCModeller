@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06a76831f9fae2b2aa09275eb49bc8f4, IO\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::06a76831f9fae2b2aa09275eb49bc8f4, engine\IO\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
     ' Author:
     ' 

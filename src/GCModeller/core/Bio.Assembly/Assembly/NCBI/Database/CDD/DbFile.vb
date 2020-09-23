@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d776d1e3d7877c2ec082ced91a75e7be, Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class DbFile
     ' 
-    '         Properties: BuildTime, FastaUrl, FilePath, Id, SmpData
+    '         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
+    '                     SmpData
     ' 
     '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
     '                   (+2 Overloads) Save, Takes, ToString

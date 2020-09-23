@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b71e8181108da20bec8b3ead7e5ed792, KEGG\PathwayMaps\MapAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::b71e8181108da20bec8b3ead7e5ed792, models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
 
     ' Author:
     ' 

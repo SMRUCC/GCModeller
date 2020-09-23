@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc0a6fbf854ea3162471aed34f39b458, Model\Models\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::fc0a6fbf854ea3162471aed34f39b458, engine\Model\Models\Protein.vb"
 
     ' Author:
     ' 

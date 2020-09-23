@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d96bf83a76684bcc5a7bd25b6f33810c, CLI_tools\GCModeller\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::9655b08dbaeb6f66b965c6aabd613c37, CLI_tools\GCModeller\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
     ' Module CLI
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: About, ExportData, FileMerges, InstallMySQL, Intersect
-    '               Kmeans, MultipleAlignment, Register
+    '     Function: About, FileMerges, InstallMySQL, Intersect, Kmeans
+    '               MultipleAlignment, Register
     ' 
     ' /********************************************************************************/
 

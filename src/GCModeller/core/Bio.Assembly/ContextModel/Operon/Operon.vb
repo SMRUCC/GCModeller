@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d844531e8ec920307b0a253e0056bb26, Bio.Assembly\ContextModel\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::d844531e8ec920307b0a253e0056bb26, core\Bio.Assembly\ContextModel\Operon\Operon.vb"
 
     ' Author:
     ' 

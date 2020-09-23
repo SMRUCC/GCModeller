@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39b3e100b1c82d205bd9734950f62422, CellPhenotype\TRN\Configs\Configuration.vb"
+﻿#Region "Microsoft.VisualBasic::39b3e100b1c82d205bd9734950f62422, sub-system\CellPhenotype\TRN\Configs\Configuration.vb"
 
     ' Author:
     ' 

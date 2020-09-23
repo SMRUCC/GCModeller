@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc0f34cf22a4a7f7a2ac08894a46f290, CLI_tools\VirtualFootprint\CLI\Sites.vb"
+﻿#Region "Microsoft.VisualBasic::d147130aa0cacac1225cd1e3759cb9e0, CLI_tools\VirtualFootprint\CLI\Sites.vb"
 
     ' Author:
     ' 

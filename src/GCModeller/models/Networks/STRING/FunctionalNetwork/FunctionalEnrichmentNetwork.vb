@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cde0d644a2c3eadee040363962a9f9e, STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::9cde0d644a2c3eadee040363962a9f9e, models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
 
     ' Author:
     ' 

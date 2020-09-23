@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d99d2c1bb6161508d55fd665e6ba123c, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb"
+﻿#Region "Microsoft.VisualBasic::c6175dda54a4ebee1b2b302b2208fa53, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels

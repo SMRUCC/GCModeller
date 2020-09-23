@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2845b49f968ffa933d51682fd111d41c, GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Translation.vb"
+﻿#Region "Microsoft.VisualBasic::2845b49f968ffa933d51682fd111d41c, engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Translation.vb"
 
     ' Author:
     ' 

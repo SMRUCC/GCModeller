@@ -1,45 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::dd720a29338d91dc4b107a2523c922dc, Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::f07adaf83875c6ded11697b6410e6fc3, engine\Dynamics\Core\Vessel.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Vessel
-' 
-'         Properties: Channels, MassEnvironment
-' 
-'         Function: ContainerIterator, doForwardTransition, doReverseTransition, factorsByCount, Initialize
-'                   iterateFlux, Reset
-' 
-' 
-' /********************************************************************************/
+    '     Class Vessel
+    ' 
+    '         Properties: Channels, MassEnvironment
+    ' 
+    '         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
+    '                   Reset
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

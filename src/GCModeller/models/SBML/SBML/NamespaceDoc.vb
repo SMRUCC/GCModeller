@@ -1,4 +1,45 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::44c6944ef1168e1e4c98262313457159, models\SBML\SBML\NamespaceDoc.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Module NamespaceDoc
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 ''' <summary>
 ''' SBML是一门标记语言，主要用于描述``生化反应网络``的计算模型。SBML可以描述代谢网络、细胞信号通路、调解网络、
 ''' 以及在系统生物学研究范畴中的其他系统。SBML格式所带来的好处在于是的软件工具之间可以通用而不必重写模型。
@@ -8,3 +49,4 @@
 ''' </summary>
 Module NamespaceDoc
 End Module
+

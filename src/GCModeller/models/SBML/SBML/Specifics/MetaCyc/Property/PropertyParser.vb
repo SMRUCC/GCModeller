@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ee53c5da44463e8b4cdc3d5bf80efc6, SBML\SBML\Specifics\MetaCyc\Property\PropertyParser.vb"
+﻿#Region "Microsoft.VisualBasic::3ee53c5da44463e8b4cdc3d5bf80efc6, models\SBML\SBML\Specifics\MetaCyc\Property\PropertyParser.vb"
 
     ' Author:
     ' 

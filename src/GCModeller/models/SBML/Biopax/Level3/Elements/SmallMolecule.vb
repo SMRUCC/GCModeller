@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, SBML\Biopax\Level3\Elements\SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 

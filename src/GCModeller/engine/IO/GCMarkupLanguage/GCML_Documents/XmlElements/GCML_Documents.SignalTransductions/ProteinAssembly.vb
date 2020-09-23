@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3be1c938af37d8d3ebae9482c5c3d9b, IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::e3be1c938af37d8d3ebae9482c5c3d9b, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
 
     ' Author:
     ' 

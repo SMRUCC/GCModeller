@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81654d9a91aa1d15208de8838302ff15, IO\GCTabular\Compiler\AnalysisTransmembraneFlux.vb"
+﻿#Region "Microsoft.VisualBasic::81654d9a91aa1d15208de8838302ff15, engine\IO\GCTabular\Compiler\AnalysisTransmembraneFlux.vb"
 
     ' Author:
     ' 

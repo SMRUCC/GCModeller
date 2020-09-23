@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52e8b165a9e714636ce8def04009e112, CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::52e8b165a9e714636ce8def04009e112, sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
 
     ' Author:
     ' 

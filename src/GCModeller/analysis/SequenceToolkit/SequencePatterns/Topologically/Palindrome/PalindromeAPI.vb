@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50d5a3f5723443c12628bf4d0356ead4, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::3cd926e0fa5b61982f12b8845cb53453, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
 
     ' Author:
     ' 

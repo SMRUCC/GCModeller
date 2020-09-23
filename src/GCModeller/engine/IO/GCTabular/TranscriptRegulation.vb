@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddb27252f7fd643ac9220acc1108ec79, IO\GCTabular\TranscriptRegulation.vb"
+﻿#Region "Microsoft.VisualBasic::ddb27252f7fd643ac9220acc1108ec79, engine\IO\GCTabular\TranscriptRegulation.vb"
 
     ' Author:
     ' 
