@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5727cdae971c016b4c5aebcd85cd4066, Bio.Assembly\ContextModel\Gtf.vb"
+﻿#Region "Microsoft.VisualBasic::5727cdae971c016b4c5aebcd85cd4066, core\Bio.Assembly\ContextModel\Gtf.vb"
 
     ' Author:
     ' 

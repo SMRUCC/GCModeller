@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2be6b0d5383de1e01f138357fda728b, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::c2be6b0d5383de1e01f138357fda728b, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Pathways.vb"
 
     ' Author:
     ' 

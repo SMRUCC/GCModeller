@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f70fed41511d89e2452e35caf7b9994, Bio.Assembly\Assembly\KEGG\Web\Map\Downloader.vb"
+﻿#Region "Microsoft.VisualBasic::8f70fed41511d89e2452e35caf7b9994, core\Bio.Assembly\Assembly\KEGG\Web\Map\Downloader.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41b2f679bf172c4cdd7df627fd8353ad, Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::41b2f679bf172c4cdd7df627fd8353ad, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
     ' Author:
     ' 

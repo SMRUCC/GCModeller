@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fec6cde767700c62083eb0c0fa864ba, Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::2fec6cde767700c62083eb0c0fa864ba, core\Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
 
     ' Author:
     ' 

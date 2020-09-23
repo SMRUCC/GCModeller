@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3aa987de88b2dbfb61677c3891f7a683, Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::3aa987de88b2dbfb61677c3891f7a683, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::673fbb74a0c9cc44b7e24202008f0b35, data\ExternalDBSource\SABIORK KineticLaws\Dumps\TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, data\SABIO-RK\Dumps\TabularDump.vb"
 
     ' Author:
     ' 

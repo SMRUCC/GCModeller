@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::973760c0c0f88c9d14d40e70de5cb5bd, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
+﻿#Region "Microsoft.VisualBasic::973760c0c0f88c9d14d40e70de5cb5bd, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\AccessionTypes.vb"
 
     ' Author:
     ' 
