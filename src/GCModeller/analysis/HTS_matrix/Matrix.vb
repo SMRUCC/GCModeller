@@ -36,9 +36,16 @@ Public Class Matrix
         Return Document.LoadMatrixDocument(file, excludes)
     End Function
 
+    ''' <summary>
+    ''' calculate average value of the gene expression for
+    ''' each sample group.
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
     Public Shared Function MatrixAverage(matrix As Matrix, sampleInfo As SampleInfo()) As Matrix
         Dim sampleIndex As Index(Of String) = matrix.sampleID
-        Dim groups = sampleInfo _
+        Dim groups As NamedCollection(Of Integer)() = sampleInfo _
             .GroupBy(Function(a) a.sample_info) _
             .Select(Function(g)
                         Return New NamedCollection(Of Integer) With {
@@ -51,7 +58,7 @@ Public Class Matrix
                         }
                     End Function) _
             .ToArray
-        Dim genes = matrix.expression _
+        Dim genes As DataFrameRow() = matrix.expression _
             .Select(Function(g)
                         Dim mean As Double() = groups _
                             .Select(Function(group)

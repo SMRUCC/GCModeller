@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::81fe0922db77a18db4e7a4a4043471da, KEGG\ReactionNetwork\Models\ReactionTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReactionTable
-    ' 
-    '         Properties: definition, EC, entry, geneNames, KO
-    '                     name, products, substrates
-    ' 
-    '         Function: creates, (+2 Overloads) Load, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReactionTable
+' 
+'         Properties: definition, EC, entry, geneNames, KO
+'                     name, products, substrates
+' 
+'         Function: creates, (+2 Overloads) Load, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -104,13 +105,21 @@ Namespace ReactionNetwork
         End Function
 
         ''' <summary>
-        ''' 
+        ''' load network table data in auto detection mode 
         ''' </summary>
         ''' <param name="br08201">
         ''' <see cref="Reaction"/>
         ''' </param>
         ''' <returns></returns>
-        Public Shared Iterator Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
+        Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
+            If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
+                Return br08201.LoadCsv(Of ReactionTable)
+            Else
+                Return br08201.DoCall(AddressOf loadXmls)
+            End If
+        End Function
+
+        Private Shared Iterator Function loadXmls(br08201 As String) As IEnumerable(Of ReactionTable)
             Dim proc As New SwayBar
             Dim model As ReactionTable = Nothing
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
