@@ -86,7 +86,7 @@ Namespace SVM
         End Sub
 
         Private Sub solve_c_svc(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo, Cp As Double, Cn As Double)
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim minus_ones = New Double(l - 1) {}
             Dim y = New SByte(l - 1) {}
             Dim i As Integer
@@ -111,7 +111,7 @@ Namespace SVM
             Next
 
             If Cp = Cn Then
-                Procedures.info("nu = " & sum_alpha / (Cp * prob.Count) & ASCII.LF)
+                Procedures.info("nu = " & sum_alpha / (Cp * prob.count) & ASCII.LF)
             End If
 
             For i = 0 To l - 1
@@ -121,7 +121,7 @@ Namespace SVM
 
         Private Sub solve_nu_svc(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
             Dim i As Integer
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim nu = param.Nu
             Dim y = New SByte(l - 1) {}
 
@@ -171,17 +171,17 @@ Namespace SVM
         End Sub
 
         Private Sub solve_one_class(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim zeros = New Double(l - 1) {}
             Dim ones = New SByte(l - 1) {}
             Dim i As Integer
-            Dim n As Integer = CInt(param.Nu * prob.Count)   ' # of alpha's at upper bound
+            Dim n As Integer = CInt(param.Nu * prob.count)   ' # of alpha's at upper bound
 
             For i = 0 To n - 1
                 alpha(i) = 1
             Next
 
-            If n < prob.Count Then alpha(n) = param.Nu * prob.Count - n
+            If n < prob.count Then alpha(n) = param.Nu * prob.count - n
 
             For i = n + 1 To l - 1
                 alpha(i) = 0
@@ -196,7 +196,7 @@ Namespace SVM
         End Sub
 
         Private Sub solve_epsilon_svr(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim alpha2 = New Double(2 * l - 1) {}
             Dim linear_term = New Double(2 * l - 1) {}
             Dim y = New SByte(2 * l - 1) {}
@@ -224,7 +224,7 @@ Namespace SVM
         End Sub
 
         Private Sub solve_nu_svr(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim C = param.C
             Dim alpha2 = New Double(2 * l - 1) {}
             Dim linear_term = New Double(2 * l - 1) {}
@@ -264,7 +264,7 @@ Namespace SVM
         End Class
 
         Private Function svm_train_one(prob As Problem, param As Parameter, Cp As Double, Cn As Double) As decision_function
-            Dim alpha = New Double(prob.Count - 1) {}
+            Dim alpha = New Double(prob.count - 1) {}
             Dim si As New SolutionInfo()
 
             Select Case param.SvmType
@@ -287,7 +287,7 @@ Namespace SVM
             Dim nSV = 0
             Dim nBSV = 0
 
-            For i = 0 To prob.Count - 1
+            For i = 0 To prob.count - 1
 
                 If stdNum.Abs(alpha(i)) > 0 Then
                     nSV += 1
@@ -533,16 +533,16 @@ Namespace SVM
         Private Sub svm_binary_svc_probability(prob As Problem, param As Parameter, Cp As Double, Cn As Double, probAB As Double())
             Dim i As Integer
             Dim nr_fold = 5
-            Dim perm = New Integer(prob.Count - 1) {}
-            Dim dec_values = New Double(prob.Count - 1) {}
+            Dim perm = New Integer(prob.count - 1) {}
+            Dim dec_values = New Double(prob.count - 1) {}
 
             ' random shuffle
-            For i = 0 To prob.Count - 1
+            For i = 0 To prob.count - 1
                 perm(i) = i
             Next
 
-            For i = 0 To prob.Count - 1
-                Dim j = i + rand.Next(prob.Count - i)
+            For i = 0 To prob.count - 1
+                Dim j = i + rand.Next(prob.count - i)
 
                 Do
                     Dim __ = perm(i)
@@ -552,11 +552,11 @@ Namespace SVM
             Next
 
             For i = 0 To nr_fold - 1
-                Dim begin As Integer = CInt(i * prob.Count / nr_fold)
-                Dim [end] As Integer = CInt((i + 1) * prob.Count / nr_fold)
+                Dim begin As Integer = CInt(i * prob.count / nr_fold)
+                Dim [end] As Integer = CInt((i + 1) * prob.count / nr_fold)
                 Dim j, k As Integer
                 Dim subprob As New Problem()
-                Dim subCount = prob.Count - ([end] - begin)
+                Dim subCount = prob.count - ([end] - begin)
                 subprob.X = New Node(subCount - 1)() {}
                 subprob.Y = New ColorClass(subCount - 1) {}
                 k = 0
@@ -567,7 +567,7 @@ Namespace SVM
                     k += 1
                 Next
 
-                For j = [end] To prob.Count - 1
+                For j = [end] To prob.count - 1
                     subprob.X(k) = prob.X(perm(j))
                     subprob.Y(k) = prob.Y(perm(j))
                     k += 1
@@ -616,7 +616,7 @@ Namespace SVM
                 End If
             Next
 
-            sigmoid_train(prob.Count, dec_values, prob.Y, probAB)
+            sigmoid_train(prob.count, dec_values, prob.Y, probAB)
         End Sub
 
         ''' <summary>
@@ -628,24 +628,24 @@ Namespace SVM
         Private Function svm_svr_probability(prob As Problem, param As Parameter) As Double
             Dim i As Integer
             Dim nr_fold = 5
-            Dim ymv = New SVMPrediction(prob.Count - 1) {}
+            Dim ymv = New SVMPrediction(prob.count - 1) {}
             Dim mae As Double = 0
             Dim newparam As Parameter = CType(param.Clone(), Parameter)
 
             newparam.Probability = False
             svm_cross_validation(prob, newparam, nr_fold, ymv)
 
-            For i = 0 To prob.Count - 1
+            For i = 0 To prob.count - 1
                 ymv(i) = New SVMPrediction With {.unifyValue = prob.Y(i) - ymv(i).unifyValue}
                 mae += stdNum.Abs(ymv(i).unifyValue)
             Next
 
-            mae /= prob.Count
+            mae /= prob.count
             Dim std = stdNum.Sqrt(2 * mae * mae)
             Dim count = 0
             mae = 0
 
-            For i = 0 To prob.Count - 1
+            For i = 0 To prob.count - 1
 
                 If stdNum.Abs(ymv(i).unifyValue) > 5 * std Then
                     count = count + 1
@@ -654,7 +654,7 @@ Namespace SVM
                 End If
             Next
 
-            mae /= prob.Count - count
+            mae /= prob.count - count
             Procedures.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
             Return mae
         End Function
@@ -662,7 +662,7 @@ Namespace SVM
         ' label: label name, start: begin of each class, count: #data of classes, perm: indices to the original data
         ' perm, length l, must be allocated before calling this subroutine
         Private Sub svm_group_classes(prob As Problem, <Out> ByRef nr_class_ret As Integer, <Out> ByRef label_ret As Integer(), <Out> ByRef start_ret As Integer(), <Out> ByRef count_ret As Integer(), perm As Integer())
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim max_nr_class = 16
             Dim nr_class = 0
             Dim label = New Integer(max_nr_class - 1) {}
@@ -759,7 +759,7 @@ Namespace SVM
         Public Function svm_train(prob As Problem, param As Parameter) As Model
             Dim model As New Model() With {
                 .Parameter = param,
-                .DimensionNames = prob.DimensionNames
+                .DimensionNames = prob.dimensionNames
             }
 
             If param.SvmType = SvmType.ONE_CLASS OrElse param.SvmType = SvmType.EPSILON_SVR OrElse param.SvmType = SvmType.NU_SVR Then
@@ -782,7 +782,7 @@ Namespace SVM
                 Dim nSV = 0
                 Dim i As Integer
 
-                For i = 0 To prob.Count - 1
+                For i = 0 To prob.count - 1
                     If stdNum.Abs(f.alpha(i)) > 0 Then
                         nSV += 1
                     End If
@@ -794,7 +794,7 @@ Namespace SVM
                 model.SupportVectorIndices = New Integer(nSV - 1) {}
                 Dim j = 0
 
-                For i = 0 To prob.Count - 1
+                For i = 0 To prob.count - 1
 
                     If stdNum.Abs(f.alpha(i)) > 0 Then
                         model.SupportVectors(j) = prob.X(i)
@@ -805,7 +805,7 @@ Namespace SVM
                 Next
             Else
                 ' classification
-                Dim l = prob.Count
+                Dim l = prob.count
                 Dim nr_class As Integer
                 Dim label As Integer() = Nothing
                 Dim start As Integer() = Nothing
@@ -1025,7 +1025,7 @@ Namespace SVM
         Public Sub svm_cross_validation(prob As Problem, param As Parameter, nr_fold As Integer, target As SVMPrediction())
             Dim i As Integer
             Dim fold_start = New Integer(nr_fold + 1 - 1) {}
-            Dim l = prob.Count
+            Dim l = prob.count
             Dim perm = New Integer(l - 1) {}
 
             ' stratified cv may not give leave-one-out rate
@@ -1379,7 +1379,7 @@ Namespace SVM
             ' check whether nu-svc is feasible
 
             If svm_type = SvmType.NU_SVC Then
-                Dim l = prob.Count
+                Dim l = prob.count
                 Dim max_nr_class = 16
                 Dim nr_class = 0
                 Dim label = New Integer(max_nr_class - 1) {}

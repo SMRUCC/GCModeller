@@ -111,7 +111,7 @@ Namespace SVM
                 End If
             End If
 
-            For i = 0 To problem.Count - 1
+            For i = 0 To problem.count - 1
                 Dim target = problem.Y(i)
                 Dim x = problem.X(i)
                 Dim v As SVMPrediction

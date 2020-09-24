@@ -87,7 +87,7 @@ Namespace SVM
 
         Private Function doCrossValidation(problem As Problem, parameters As Parameter, nr_fold As Integer) As Double
             Dim i As Integer
-            Dim target = New SVMPrediction(problem.Count - 1) {}
+            Dim target = New SVMPrediction(problem.count - 1) {}
 
             Call svm_cross_validation(problem, parameters, nr_fold, target)
 
@@ -96,7 +96,7 @@ Namespace SVM
             Dim sumv As Double = 0, sumy As Double = 0, sumvv As Double = 0, sumyy As Double = 0, sumvy As Double = 0
 
             If parameters.SvmType = SvmType.EPSILON_SVR OrElse parameters.SvmType = SvmType.NU_SVR Then
-                For i = 0 To problem.Count - 1
+                For i = 0 To problem.count - 1
                     Dim y = problem.Y(i)
                     Dim v = target(i)
                     total_error += (v.unifyValue - y) * (v.unifyValue - y)
@@ -107,17 +107,17 @@ Namespace SVM
                     sumvy += v.unifyValue * y
                 Next
 
-                Return (problem.Count * sumvy - sumv * sumy) / (stdNum.Sqrt(problem.Count * sumvv - sumv * sumv) * stdNum.Sqrt(problem.Count * sumyy - sumy * sumy))
+                Return (problem.count * sumvy - sumv * sumy) / (stdNum.Sqrt(problem.count * sumvv - sumv * sumv) * stdNum.Sqrt(problem.count * sumyy - sumy * sumy))
             Else
 
-                For i = 0 To problem.Count - 1
+                For i = 0 To problem.count - 1
                     If target(i).class = problem.Y(i) Then
                         total_correct += 1
                     End If
                 Next
             End If
 
-            Return total_correct / problem.Count
+            Return total_correct / problem.count
         End Function
 
         Public Sub SetRandomSeed(seed As Integer)
@@ -214,7 +214,7 @@ Namespace SVM
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
             ' problem = ProblemText.Read(args(i))
-            If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.MaxIndex
+            If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.maxIndex
 
             If i < args.Length - 1 Then
                 modelFilename = args(i + 1)
