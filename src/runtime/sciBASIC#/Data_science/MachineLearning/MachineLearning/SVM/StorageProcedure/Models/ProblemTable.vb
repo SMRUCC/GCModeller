@@ -107,7 +107,15 @@ Namespace SVM.StorageProcedure
         ''' <param name="topic"></param>
         ''' <returns></returns>
         Public Function GetTopicLabels(topic As String) As String()
-            Return vectors.Select(Function(a) a.labels(topic)).ToArray
+            Return vectors _
+                .Select(Function(a)
+                            If a.labels.ContainsKey(topic) Then
+                                Return a.labels(topic)
+                            Else
+                                Throw New KeyNotFoundException($"missing topic key '{topic}' for vector [{a.id}] for get svm classify result data!")
+                            End If
+                        End Function) _
+                .ToArray
         End Function
 
         Public Function GetProblem(topic As String) As Problem
