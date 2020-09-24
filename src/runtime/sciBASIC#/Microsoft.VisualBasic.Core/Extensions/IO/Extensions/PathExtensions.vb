@@ -116,6 +116,7 @@ Public Module PathExtensions
                 Throw New Exception(path, ex)
             Else
                 Call App.LogException(ex, path)
+                Call ex.PrintException
             End If
 
             Return False
