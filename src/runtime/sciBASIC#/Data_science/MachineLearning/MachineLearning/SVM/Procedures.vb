@@ -83,11 +83,17 @@ Namespace SVM
         End Sub
 
         Public Sub flush()
-            Call svm_print_stdout.Flush()
+            SyncLock svm_print_stdout
+                Call svm_print_stdout.Flush()
+            End SyncLock
         End Sub
 
         Public Sub info(s As String)
-            If IsVerbose Then svm_print_stdout.Write(s)
+            If IsVerbose Then
+                SyncLock svm_print_stdout
+                    Call svm_print_stdout.Write(s)
+                End SyncLock
+            End If
         End Sub
 
         Private Sub solve_c_svc(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo, Cp As Double, Cn As Double)
@@ -547,7 +553,11 @@ Namespace SVM
             Next
 
             For i = 0 To prob.count - 1
-                Dim j = i + rand.Next(prob.count - i)
+                Dim j As Integer
+
+                SyncLock rand
+                    j = i + rand.Next(prob.count - i)
+                End SyncLock
 
                 Do
                     Dim __ = perm(i)
@@ -1084,9 +1094,12 @@ Namespace SVM
                 Next
 
                 For c = 0 To nr_class - 1
+                    Dim j As Integer
 
                     For i = 0 To count(c) - 1
-                        Dim j = i + rand.Next(count(c) - i)
+                        SyncLock rand
+                            j = i + rand.Next(count(c) - i)
+                        End SyncLock
 
                         Do
                             Dim __ = index(start(c) + j)
@@ -1129,13 +1142,16 @@ Namespace SVM
                     fold_start(i) = fold_start(i - 1) + fold_count(i - 1)
                 Next
             Else
+                Dim j As Integer
 
                 For i = 0 To l - 1
                     perm(i) = i
                 Next
 
                 For i = 0 To l - 1
-                    Dim j = i + rand.Next(l - i)
+                    SyncLock rand
+                        j = i + rand.Next(l - i)
+                    End SyncLock
 
                     Do
                         Dim __ = perm(i)
