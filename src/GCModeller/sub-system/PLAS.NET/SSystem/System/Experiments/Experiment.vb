@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc490dcc0989e1ad4eeb8b8226b09c39, PLAS.NET\SSystem\System\Experiments\Experiment.vb"
+﻿#Region "Microsoft.VisualBasic::dc490dcc0989e1ad4eeb8b8226b09c39, sub-system\PLAS.NET\SSystem\System\Experiments\Experiment.vb"
 
     ' Author:
     ' 

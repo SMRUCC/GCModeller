@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c29785db332cf6a68b43e520b78678e, IO\GCTabular\Compiler\KEGG.Compiler\RegulationNetworkFromFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::4c29785db332cf6a68b43e520b78678e, engine\IO\GCTabular\Compiler\KEGG.Compiler\RegulationNetworkFromFootprints.vb"
 
     ' Author:
     ' 

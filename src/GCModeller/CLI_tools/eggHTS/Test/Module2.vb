@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a866b107707fb1ea19c9a42c44db380c, CLI_tools\eggHTS\Test\Module2.vb"
+﻿#Region "Microsoft.VisualBasic::cf9234d8271ea6bb4b74405ab499df1b, CLI_tools\eggHTS\Test\Module2.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Module2
     ' 
-    '     Sub: Main, matrixSplitTest, plotTest, ptest
+    '     Sub: Main, plotTest, ptest
     ' 
     ' /********************************************************************************/
 

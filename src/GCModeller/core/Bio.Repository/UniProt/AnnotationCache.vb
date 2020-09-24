@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca45a6bb3381ae53d6f3b116db2d4e61, Bio.Repository\UniProt\AnnotationCache.vb"
+﻿#Region "Microsoft.VisualBasic::ca45a6bb3381ae53d6f3b116db2d4e61, core\Bio.Repository\UniProt\AnnotationCache.vb"
 
     ' Author:
     ' 

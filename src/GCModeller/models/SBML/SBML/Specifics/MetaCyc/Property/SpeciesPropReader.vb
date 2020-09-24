@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7745d8054e781eb502f119fa9e1512eb, SBML\SBML\Specifics\MetaCyc\Property\SpeciesPropReader.vb"
+﻿#Region "Microsoft.VisualBasic::7745d8054e781eb502f119fa9e1512eb, models\SBML\SBML\Specifics\MetaCyc\Property\SpeciesPropReader.vb"
 
     ' Author:
     ' 

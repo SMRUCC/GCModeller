@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71be6a1d9635f9bce17a8fb89ef5d45c, Data_science\Mathematica\SignalProcessing\SignalProcessing\Alignment.vb"
+﻿#Region "Microsoft.VisualBasic::7de66b02dfcbf000d58f6429257d5262, Data_science\Mathematica\SignalProcessing\SignalProcessing\Alignment.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Alignment
     ' 
-    '     Function: Normalize, Similarity
+    '     Function: Join, Normalize, Similarity
     ' 
     ' /********************************************************************************/
 
@@ -41,6 +41,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports stdNum = System.Math
 
@@ -62,6 +63,49 @@ Public Module Alignment
         Dim score As Double = 1 - variants.Average
 
         Return score
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="signals"></param>
+    ''' <param name="steps#"></param>
+    ''' <param name="maxgenerality">
+    ''' max generality or max features when union these signal points
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Join(signals As IEnumerable(Of GeneralSignal),
+                         Optional steps# = 0.25,
+                         Optional maxgenerality As Boolean = False) As GeneralSignal
+
+        Dim resampling As Resampler() = signals.Select(AddressOf Resampler.CreateSampler).ToArray
+        Dim measures As Double() = resampling _
+            .Select(Function(sample) sample.enumerateMeasures) _
+            .IteratesALL _
+            .ToArray
+        Dim xmin As Double = measures.Min
+        Dim xmax As Double = measures.Max
+        Dim resample As Double() = seq(xmin, xmax, steps).ToArray
+        Dim signalsample As Double() = resample _
+            .Select(Function(xi)
+                        Dim sigInto As Double() = resampling _
+                            .Select(Function(a) a.GetIntensity(xi)) _
+                            .ToArray
+
+                        If maxgenerality Then
+                            Return sigInto.Average
+                        Else
+                            Return sigInto.TabulateMode
+                        End If
+                    End Function) _
+            .ToArray
+
+        Return New GeneralSignal With {
+            .Measures = resample,
+            .Strength = signalsample,
+            .description = If(maxgenerality, "max_generality", "max_features")
+        }
     End Function
 
     <Extension>

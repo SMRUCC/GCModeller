@@ -1,51 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::747e33f39ed50e96a34837519b48bc06, CLI_tools\RNA-seq\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::6e51cc16da2a76ceb35f704180edec09, CLI_tools\RNA-seq\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CLI
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: DEGs, DEGsUpDown, DESeq2, Df, DOORCorrects
-'               HTSeqCount, PCC, RPKM, SamplingStats, sIdMapping
-'               SPCC
-'     Class SampleValue
-' 
-'         Properties: Description, Name, value
-' 
-'         Function: ToString
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module CLI
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: DEGs, DEGsUpDown, DESeq2, Df, HTSeqCount
+    '               RPKM, SamplingStats, sIdMapping
+    '     Class SampleValue
+    ' 
+    '         Properties: Description, Name, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1058f8463949a9bc052f29eca2de78cd, Dynamics\Engine\DebuggerView.vb"
+﻿#Region "Microsoft.VisualBasic::6847337d0e7b09faafd8d08c0be91ed3, engine\Dynamics\Engine\VCell\DebuggerView.vb"
 
     ' Author:
     ' 

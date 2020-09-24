@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdf66bf531cd773a8ed30bfed9dd10c2, STRING\TCS\EffectorMap.vb"
+﻿#Region "Microsoft.VisualBasic::fdf66bf531cd773a8ed30bfed9dd10c2, models\Networks\STRING\TCS\EffectorMap.vb"
 
     ' Author:
     ' 

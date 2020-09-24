@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6079a888ce1ab91230dc4489ea5a71f4, Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::6079a888ce1ab91230dc4489ea5a71f4, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 

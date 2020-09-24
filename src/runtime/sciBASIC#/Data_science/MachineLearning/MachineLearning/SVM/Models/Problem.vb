@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb901ad7a8eaac63abdc0b385c5b4262, Data_science\MachineLearning\MachineLearning\SVM\Models\Problem.vb"
+﻿#Region "Microsoft.VisualBasic::50e296800c2af195edb784e9dde0ff59, Data_science\MachineLearning\MachineLearning\SVM\Models\Problem.vb"
 
 ' Author:
 ' 
@@ -73,7 +73,7 @@ Namespace SVM
         ''' <summary>
         ''' Number of vectors.
         ''' </summary>
-        Public ReadOnly Property Count As Integer
+        Public ReadOnly Property count As Integer
             Get
                 Return X.Length
             End Get
@@ -92,15 +92,15 @@ Namespace SVM
         ''' <summary>
         ''' Maximum index for a vector. this value is the width of each 
         ''' row in <see cref="X"/> and equals to the length of vector 
-        ''' <see cref="DimensionNames"/> 
+        ''' <see cref="dimensionNames"/> 
         ''' </summary>
-        Public Property MaxIndex As Integer
+        Public Property maxIndex As Integer
 
         ''' <summary>
         ''' the width of each row in <see cref="X"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Property DimensionNames As String()
+        Public Property dimensionNames As String()
 
         ''' <summary>
         ''' Constructor.
@@ -111,7 +111,7 @@ Namespace SVM
         Public Sub New(y As String(), x As Node()(), maxIndex As Integer)
             Me.Y = y.ClassEncoder.ToArray
             Me.X = x
-            Me.MaxIndex = maxIndex
+            Me.maxIndex = maxIndex
         End Sub
 
         ''' <summary>
@@ -124,17 +124,17 @@ Namespace SVM
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"dim {DimensionNames.GetJson}, {Y.Length} labels = {Y.Distinct.GetJson}"
+            Return $"dim {dimensionNames.GetJson}, {Y.Length} labels = {Y.Distinct.GetJson}"
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Problem = TryCast(obj, Problem)
             If other Is Nothing Then Return False
-            Return other.Count = Count AndAlso other.MaxIndex = MaxIndex AndAlso other.X.IsEqual(X) AndAlso other.Y.IsEqual(Y)
+            Return other.count = count AndAlso other.maxIndex = maxIndex AndAlso other.X.IsEqual(X) AndAlso other.Y.IsEqual(Y)
         End Function
 
         Public Overrides Function GetHashCode() As Integer
-            Return Count.GetHashCode() + MaxIndex.GetHashCode() + X.ComputeHashcode2() + Y.ComputeHashcode()
+            Return count.GetHashCode() + maxIndex.GetHashCode() + X.ComputeHashcode2() + Y.ComputeHashcode()
         End Function
     End Class
 End Namespace

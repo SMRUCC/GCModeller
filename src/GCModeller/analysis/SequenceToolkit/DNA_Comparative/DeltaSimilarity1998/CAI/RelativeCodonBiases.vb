@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29c6fcdd9d2cb3c56a5701bcf4d265b3, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\RelativeCodonBiases.vb"
+﻿#Region "Microsoft.VisualBasic::1092d3b3b920a4703ecc878335823b27, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\RelativeCodonBiases.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: CodonFrequencyStatics
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __staticsOfMaxFrequencyCodon, CAI, ToString, W
+    '         Function: CAI, staticsOfMaxFrequencyCodon, ToString, W
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb928dd8276e3d28357f2a7a5706e34, Bio.Assembly\Query\IQueryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4cab2554ba379397601bfeae63c51629, core\Bio.Assembly\Query\IQueryExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,10 @@
 
     ' Summaries:
 
-    ' Module IQueryExtensions
+    '     Module IQueryExtensions
     ' 
-    '     Function: ContainsMultipleSequence, GetLocusTag, MatchGene
+    '         Function: ContainsMultipleSequence, GetLocusTag, MatchGene
+    ' 
     ' 
     ' /********************************************************************************/
 

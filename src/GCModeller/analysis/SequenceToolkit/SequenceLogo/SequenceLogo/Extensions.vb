@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a91edb62c5311ac2180a4b4885cf4b0, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b88c45f25ff4ed11dabea6a33fdd805b, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
 
     ' Author:
     ' 

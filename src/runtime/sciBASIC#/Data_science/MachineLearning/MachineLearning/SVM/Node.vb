@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21332bf781166ebda5136caacf613bcb, Data_science\MachineLearning\MachineLearning\SVM\Node.vb"
+﻿#Region "Microsoft.VisualBasic::4c77fa475de838810b80c4535dcd001e, Data_science\MachineLearning\MachineLearning\SVM\Node.vb"
 
     ' Author:
     ' 
@@ -33,10 +33,10 @@
 
     '     Class Node
     ' 
-    '         Properties: Index, Value
+    '         Properties: index, value
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: CompareTo, Equals, GetHashCode, ToString
+    '         Function: CompareTo, Copy, Equals, GetHashCode, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -106,6 +106,7 @@ Namespace SVM
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Node = TryCast(obj, Node)
             If other Is Nothing Then Return False
+
             Return _index = other._index AndAlso _value.Truncate() = other._value.Truncate()
         End Function
 

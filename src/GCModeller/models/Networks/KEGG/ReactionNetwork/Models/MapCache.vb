@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd9dbe69ad6d478cd24134a931b9fe4c, KEGG\ReactionNetwork\Models\MapCache.vb"
+﻿#Region "Microsoft.VisualBasic::bd9dbe69ad6d478cd24134a931b9fe4c, models\Networks\KEGG\ReactionNetwork\Models\MapCache.vb"
 
     ' Author:
     ' 

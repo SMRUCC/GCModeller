@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63bf2d9da2ec990fd1154c5b8e37370e, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Drug.vb"
+﻿#Region "Microsoft.VisualBasic::63bf2d9da2ec990fd1154c5b8e37370e, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\Drug.vb"
 
     ' Author:
     ' 

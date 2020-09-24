@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2b5e83d9159c2f224d43682964c6b95, data\ExternalDBSource\SABIORK KineticLaws\SBMLParser.vb"
+﻿#Region "Microsoft.VisualBasic::e921058ca705d68a60f9bf0b31ea7caa, data\SABIO-RK\Dumps\SBMLParser.vb"
 
     ' Author:
     ' 

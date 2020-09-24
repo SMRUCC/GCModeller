@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c4684443c8238a7a71353b593015f15, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::d9abe85a4e609902ed7122757f5627a3, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Class NeedlemanWunsch
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: __charEquals
+    '     Function: defaultScoreMatrix
     ' 
     ' /********************************************************************************/
 

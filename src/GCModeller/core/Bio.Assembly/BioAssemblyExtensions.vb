@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e719e4eb2ba499b14099150bae66b556, Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e719e4eb2ba499b14099150bae66b556, core\Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 

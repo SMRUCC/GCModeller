@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, STRING\TCS\MisT2API.vb"
+﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, models\Networks\STRING\TCS\MisT2API.vb"
 
     ' Author:
     ' 

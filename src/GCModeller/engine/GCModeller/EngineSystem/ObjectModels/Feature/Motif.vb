@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f22cc40ee4559ebb9ebe2f2f487ea3b7, GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::f22cc40ee4559ebb9ebe2f2f487ea3b7, engine\GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
 
     ' Author:
     ' 

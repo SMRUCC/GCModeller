@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a3f5c39a862e52e521546ec9331e1f4, analysis\SequenceToolkit\MotifScanner\Consensus\DATA.vb"
+﻿#Region "Microsoft.VisualBasic::173581fcb2267f13e46646ef5b857874, analysis\SequenceToolkit\MotifScanner\Consensus\DATA.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     ' 
     '     Function: DefaultParameter, ToString
     ' 
-    ' Class Motif
+    ' Class SequenceMotif
     ' 
     '     Properties: AverageScore, length, seeds
     ' 

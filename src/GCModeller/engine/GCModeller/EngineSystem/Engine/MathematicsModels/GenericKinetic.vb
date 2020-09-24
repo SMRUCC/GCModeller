@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87994e15ad05dd58b3c8dede04796718, GCModeller\EngineSystem\Engine\MathematicsModels\GenericKinetic.vb"
+﻿#Region "Microsoft.VisualBasic::87994e15ad05dd58b3c8dede04796718, engine\GCModeller\EngineSystem\Engine\MathematicsModels\GenericKinetic.vb"
 
     ' Author:
     ' 

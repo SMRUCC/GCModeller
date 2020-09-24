@@ -1,50 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::81471160ebdfc8a6064e4986e8a0a12a, phenotype_kit\sampleInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module DEGSample
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: guessSampleGroups, print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
-    ' 
-    ' /********************************************************************************/
+' Module DEGSample
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: guessSampleGroups, print, ReadSampleInfo, ScanForSampleInfo, WriteSampleInfo
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -69,7 +72,7 @@ Module DEGSample
     End Function
 
     <ExportAPI("guess.sample_groups")>
-    Public Function guessSampleGroups(sample_names As Array) As list
+    Public Function guessSampleGroups(sample_names As Array, Optional raw_list As Boolean = True) As list
         Return REnv.asVector(Of String)(sample_names) _
             .AsObjectEnumerator(Of String) _
             .GuessPossibleGroups _
@@ -78,10 +81,32 @@ Module DEGSample
                               Return CObj(group.ToArray)
                           End Function) _
             .DoCall(Function(list)
-                        Return New list With {
-                            .slots = list
-                        }
+                        If raw_list Then
+                            Return New list With {.slots = list}
+                        Else
+                            Return PopulateSampleInfo(list).ToArray
+                        End If
                     End Function)
+    End Function
+
+    Private Iterator Function PopulateSampleInfo(list As Dictionary(Of String, Object)) As IEnumerable(Of SampleInfo)
+        Dim colors As LoopArray(Of String) = Designer _
+            .GetColors("Set1:c8", list.Count) _
+            .Select(Function(c) c.ToHtmlColor) _
+            .ToArray
+
+        For Each group In list
+            Dim color As String = colors.Next
+
+            For Each sample As String In DirectCast(group.Value, String())
+                Yield New SampleInfo With {
+                    .ID = sample,
+                    .sample_name = sample,
+                    .sample_info = group.Key,
+                    .color = color
+                }
+            Next
+        Next
     End Function
 
     <ExportAPI("read.sampleinfo")>

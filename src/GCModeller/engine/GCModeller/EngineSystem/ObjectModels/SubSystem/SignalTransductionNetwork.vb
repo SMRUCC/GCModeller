@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::284954b0937fa53fbfdf85c0b202885b, GCModeller\EngineSystem\ObjectModels\SubSystem\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::284954b0937fa53fbfdf85c0b202885b, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6327b36b50953bd03734e97c35aba983, FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::6327b36b50953bd03734e97c35aba983, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 

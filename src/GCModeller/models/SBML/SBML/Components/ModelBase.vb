@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, SBML\SBML\Components\ModelBase.vb"
+﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, models\SBML\SBML\Components\ModelBase.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e74bfeb5a99f14549e12c9b5b13a19f8, KEGG\BiologicalObjectCluster.vb"
+﻿#Region "Microsoft.VisualBasic::e74bfeb5a99f14549e12c9b5b13a19f8, models\Networks\KEGG\BiologicalObjectCluster.vb"
 
     ' Author:
     ' 

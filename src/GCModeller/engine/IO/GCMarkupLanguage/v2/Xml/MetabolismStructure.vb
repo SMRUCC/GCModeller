@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2344489213c90d3af139da8edaffdeb, IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::186a5313b35c1535ee7f4e9d8ac32d56, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -74,6 +74,8 @@
     '     Class Catalysis
     ' 
     '         Properties: formula, parameter, PH, reaction, temperature
+    ' 
+    '         Function: ToString
     ' 
     '     Class KineticsParameter
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27c06e1ff2703aeb1e2eccba01948f8e, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fab9f4d0eb913021d68eb81b43968351, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
     ' Author:
     ' 

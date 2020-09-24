@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64497e0d32bd0889220b369813bf56ab, SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::64497e0d32bd0889220b369813bf56ab, models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 

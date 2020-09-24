@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e041cffe752568ace2c63893a461fb6, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
+﻿#Region "Microsoft.VisualBasic::395a07beff5f2695b4d79b9a8949aec2, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
 
     ' Author:
     ' 
@@ -87,7 +87,7 @@ Namespace SVM
 
         Private Function doCrossValidation(problem As Problem, parameters As Parameter, nr_fold As Integer) As Double
             Dim i As Integer
-            Dim target = New SVMPrediction(problem.Count - 1) {}
+            Dim target = New SVMPrediction(problem.count - 1) {}
 
             Call svm_cross_validation(problem, parameters, nr_fold, target)
 
@@ -95,8 +95,8 @@ Namespace SVM
             Dim total_error As Double = 0
             Dim sumv As Double = 0, sumy As Double = 0, sumvv As Double = 0, sumyy As Double = 0, sumvy As Double = 0
 
-            If parameters.SvmType = SvmType.EPSILON_SVR OrElse parameters.SvmType = SvmType.NU_SVR Then
-                For i = 0 To problem.Count - 1
+            If parameters.svmType = SvmType.EPSILON_SVR OrElse parameters.svmType = SvmType.NU_SVR Then
+                For i = 0 To problem.count - 1
                     Dim y = problem.Y(i)
                     Dim v = target(i)
                     total_error += (v.unifyValue - y) * (v.unifyValue - y)
@@ -107,17 +107,17 @@ Namespace SVM
                     sumvy += v.unifyValue * y
                 Next
 
-                Return (problem.Count * sumvy - sumv * sumy) / (stdNum.Sqrt(problem.Count * sumvv - sumv * sumv) * stdNum.Sqrt(problem.Count * sumyy - sumy * sumy))
+                Return (problem.count * sumvy - sumv * sumy) / (stdNum.Sqrt(problem.count * sumvv - sumv * sumv) * stdNum.Sqrt(problem.count * sumyy - sumy * sumy))
             Else
 
-                For i = 0 To problem.Count - 1
+                For i = 0 To problem.count - 1
                     If target(i).class = problem.Y(i) Then
                         total_correct += 1
                     End If
                 Next
             End If
 
-            Return total_correct / problem.Count
+            Return total_correct / problem.count
         End Function
 
         Public Sub SetRandomSeed(seed As Integer)
@@ -172,29 +172,29 @@ Namespace SVM
 
                 Select Case args(i - 1)(1)
                     Case "s"c
-                        parameters.SvmType = CType(Integer.Parse(args(i)), SvmType)
+                        parameters.svmType = CType(Integer.Parse(args(i)), SvmType)
                     Case "t"c
-                        parameters.KernelType = CType(Integer.Parse(args(i)), KernelType)
+                        parameters.kernelType = CType(Integer.Parse(args(i)), KernelType)
                     Case "d"c
-                        parameters.Degree = Integer.Parse(args(i))
+                        parameters.degree = Integer.Parse(args(i))
                     Case "g"c
-                        parameters.Gamma = Double.Parse(args(i))
+                        parameters.gamma = Double.Parse(args(i))
                     Case "r"c
-                        parameters.Coefficient0 = Double.Parse(args(i))
+                        parameters.coefficient0 = Double.Parse(args(i))
                     Case "n"c
-                        parameters.Nu = Double.Parse(args(i))
+                        parameters.nu = Double.Parse(args(i))
                     Case "m"c
-                        parameters.CacheSize = Double.Parse(args(i))
+                        parameters.cacheSize = Double.Parse(args(i))
                     Case "c"c
-                        parameters.C = Double.Parse(args(i))
+                        parameters.c = Double.Parse(args(i))
                     Case "e"c
                         parameters.EPS = Double.Parse(args(i))
                     Case "p"c
                         parameters.P = Double.Parse(args(i))
                     Case "h"c
-                        parameters.Shrinking = Integer.Parse(args(i)) = 1
+                        parameters.shrinking = Integer.Parse(args(i)) = 1
                     Case "b"c
-                        parameters.Probability = Integer.Parse(args(i)) = 1
+                        parameters.probability = Integer.Parse(args(i)) = 1
                     Case "v"c
                         crossValidation = True
                         nrfold = Integer.Parse(args(i))
@@ -204,7 +204,7 @@ Namespace SVM
                         End If
 
                     Case "w"c
-                        parameters.Weights(Integer.Parse(args(i - 1).Substring(2))) = Double.Parse(args(1))
+                        parameters.weights(Integer.Parse(args(i - 1).Substring(2))) = Double.Parse(args(1))
                     Case Else
                         Throw New ArgumentException("Unknown Parameter")
                 End Select
@@ -214,7 +214,7 @@ Namespace SVM
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
             ' problem = ProblemText.Read(args(i))
-            If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.MaxIndex
+            If parameters.gamma = 0 Then parameters.gamma = 1.0 / problem.maxIndex
 
             If i < args.Length - 1 Then
                 modelFilename = args(i + 1)

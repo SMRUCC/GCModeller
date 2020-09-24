@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5fa1120c680d654c0dab8d48a1e78e3, Bio.Assembly\Assembly\DOMINE\Database.vb"
+﻿#Region "Microsoft.VisualBasic::b47c227150b5e210da6579888f8987ae, core\Bio.Assembly\Assembly\DOMINE\Database.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Class Database
     ' 
-    '         Properties: FilePath, Go, Interaction, Pfam, PGMap
+    '         Properties: FilePath, Go, Interaction, MimeType, Pfam
+    '                     PGMap
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: GetInteractionDomains, (+2 Overloads) Save

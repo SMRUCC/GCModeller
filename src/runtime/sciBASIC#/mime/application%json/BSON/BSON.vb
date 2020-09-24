@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89a4abadb587be8bb4baab97dda93d46, mime\application%json\BSON\BSON.vb"
+﻿#Region "Microsoft.VisualBasic::635520bbec757c6eaf63ff676e28594e, mime\application%json\BSON\BSON.vb"
 
     ' Author:
     ' 
@@ -62,6 +62,7 @@ Namespace BSON
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Public Sub WriteBuffer(obj As JsonObject, buffer As Stream)
             Call New Encoder().encodeDocument(buffer, obj)
         End Sub

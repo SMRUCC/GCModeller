@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42f5ec7cc53f591fb206ebe1fcdf1e94, IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::42f5ec7cc53f591fb206ebe1fcdf1e94, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
 
     ' Author:
     ' 

@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::4f6771eaa55b5173b5c7721e81b7f5fc, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
+﻿#Region "Microsoft.VisualBasic::574e5331fb224c6071e30622eabae5f3, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module SVMUtilities
-' 
-'         Function: CreateMulticlassProblem, CreateRegressionProblem, CreateTwoClassProblem
-' 
-' 
-' /********************************************************************************/
+    '     Module SVMUtilities
+    ' 
+    '         Function: CreateMulticlassProblem, CreateRegressionProblem, CreateTwoClassProblem
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -52,7 +52,7 @@ Namespace SVM
 
         Public Function CreateTwoClassProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.MaxIndex = 2
+            prob.maxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             ' create points on either side of the vertical axis
             Dim positive As Integer = CInt(count / 2)
@@ -75,7 +75,7 @@ Namespace SVM
         Public Function CreateMulticlassProblem(numberOfClasses As Integer, count As Integer, Optional isTraining As Boolean = True) As Problem
             If numberOfClasses > 8 Then Throw New ArgumentException("Number of classes must be < 8")
             Dim prob As Problem = New Problem()
-            prob.MaxIndex = 3
+            prob.maxIndex = 3
             Dim samplesPerClass = New Integer(numberOfClasses - 1) {}
             Dim countPerClass As Integer = count / numberOfClasses
             Dim current = countPerClass
@@ -117,7 +117,7 @@ Namespace SVM
 
         Public Function CreateRegressionProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
             Dim prob As Problem = New Problem()
-            prob.MaxIndex = 2
+            prob.maxIndex = 2
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             Dim labels As New List(Of String)()
             Dim data As List(Of Node()) = New List(Of Node())()

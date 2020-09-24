@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1424a3cd23004d25e73e95497080392, annotations\GSEA\PFSNet\PFSNet\Models\PfsNet.vb"
+﻿#Region "Microsoft.VisualBasic::88306809d4c002e1f855d0b4ef459792, annotations\GSEA\PFSNet\PFSNet\Models\PfsNet.vb"
 
     ' Author:
     ' 
@@ -43,12 +43,6 @@
     '                     pvalue, statistics
     ' 
     '         Function: ToString
-    ' 
-    '     Class GraphEdge
-    ' 
-    '         Properties: g1, g2, isSelfLoop, pathwayID
-    ' 
-    '         Function: LoadData, ToString
     ' 
     ' 
     ' /********************************************************************************/

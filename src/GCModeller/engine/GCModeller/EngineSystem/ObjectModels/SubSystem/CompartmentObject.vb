@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc549277be03ca2cb52a0c57324b4e32, GCModeller\EngineSystem\ObjectModels\SubSystem\CompartmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::bc549277be03ca2cb52a0c57324b4e32, engine\GCModeller\EngineSystem\ObjectModels\SubSystem\CompartmentObject.vb"
 
     ' Author:
     ' 

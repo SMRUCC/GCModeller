@@ -1,43 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::5bce65e9c6c1517717b76f10e9707956, Data_science\MachineLearning\MachineLearning\SVM\RangeTransform\GaussianTransform.vb"
+﻿#Region "Microsoft.VisualBasic::a8e5e58da64c0216547f0bc11304d771, Data_science\MachineLearning\MachineLearning\SVM\RangeTransform\GaussianTransform.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GaussianTransform
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: Compute, (+2 Overloads) Transform
-' 
-' 
-' /********************************************************************************/
+    '     Class GaussianTransform
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Compute, (+2 Overloads) Transform
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -87,8 +87,8 @@ Namespace SVM
         ''' <param name="prob">The Problem to analyze</param>
         ''' <returns>The Gaussian transform for the problem</returns>
         Public Shared Function Compute(prob As Problem) As GaussianTransform
-            Dim counts = New Integer(prob.MaxIndex - 1) {}
-            Dim means = New Double(prob.MaxIndex - 1) {}
+            Dim counts = New Integer(prob.maxIndex - 1) {}
+            Dim means = New Double(prob.maxIndex - 1) {}
 
             For Each sample In prob.X
 
@@ -98,12 +98,12 @@ Namespace SVM
                 Next
             Next
 
-            For i = 0 To prob.MaxIndex - 1
+            For i = 0 To prob.maxIndex - 1
                 If counts(i) = 0 Then counts(i) = 2
                 means(i) /= counts(i)
             Next
 
-            Dim stddevs = New Double(prob.MaxIndex - 1) {}
+            Dim stddevs = New Double(prob.maxIndex - 1) {}
 
             For Each sample In prob.X
 
@@ -113,7 +113,7 @@ Namespace SVM
                 Next
             Next
 
-            For i = 0 To prob.MaxIndex - 1
+            For i = 0 To prob.maxIndex - 1
                 If stddevs(i) = 0 Then Continue For
                 stddevs(i) /= counts(i) - 1
                 stddevs(i) = stdNum.Sqrt(stddevs(i))

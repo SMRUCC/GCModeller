@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d020e416b488f67b9b4834cbe2c2052, CellPhenotype\PhenotypeRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::7e4d8f48f0efa1574c847152f84d27b3, sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
     ' Author:
     ' 
@@ -1015,4 +1015,3 @@
 '    '    Return New Microsoft.VisualBasic.Datavisualization.Network.FileStream.Network With {.Nodes = ReactionNodes, .Edges = ReactionInteractions}
 '    'End Function
 'End Module
-

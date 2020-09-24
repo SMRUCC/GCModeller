@@ -1,4 +1,52 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+﻿#Region "Microsoft.VisualBasic::8c9888f7d209d64146146b1adbf51981, Data_science\MachineLearning\MachineLearning\SVM\StorageProcedure\Models\ProblemTable.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class SupportVector
+    ' 
+    '         Properties: id, labels
+    ' 
+    '     Class ProblemTable
+    ' 
+    '         Properties: DimensionNames, vectors
+    ' 
+    '         Function: Append, Clone, GetProblem, GetTopicLabels, GetTopics
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.Linq
@@ -17,7 +65,11 @@ Namespace SVM.StorageProcedure
 
         Public Property vectors As SupportVector()
 
-        Public Property DimensionNames As String()
+        ''' <summary>
+        ''' the key collection of the support vector: <see cref="SupportVector.Properties"/> inputs.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property dimensionNames As String()
 
         Public Function GetTopics() As String()
             ' 20200828
@@ -36,7 +88,7 @@ Namespace SVM.StorageProcedure
 
         Public Function Clone() As ProblemTable
             Return New ProblemTable With {
-                .DimensionNames = DimensionNames.ToArray,
+                .dimensionNames = dimensionNames.ToArray,
                 .vectors = vectors _
                     .Select(Function(vec)
                                 Return New SupportVector With {
@@ -55,7 +107,15 @@ Namespace SVM.StorageProcedure
         ''' <param name="topic"></param>
         ''' <returns></returns>
         Public Function GetTopicLabels(topic As String) As String()
-            Return vectors.Select(Function(a) a.labels(topic)).ToArray
+            Return vectors _
+                .Select(Function(a)
+                            If a.labels.ContainsKey(topic) Then
+                                Return a.labels(topic)
+                            Else
+                                Throw New KeyNotFoundException($"missing topic key '{topic}' for vector [{a.id}] for get svm classify result data!")
+                            End If
+                        End Function) _
+                .ToArray
         End Function
 
         Public Function GetProblem(topic As String) As Problem
@@ -63,7 +123,7 @@ Namespace SVM.StorageProcedure
             Dim labels As New List(Of String)
 
             For Each vec As SupportVector In vectors
-                Call DimensionNames _
+                Call dimensionNames _
                     .Select(Function(x, i) New Node(i + 1, vec(x))) _
                     .ToArray _
                     .DoCall(AddressOf inputs.Add)
@@ -72,8 +132,8 @@ Namespace SVM.StorageProcedure
             Next
 
             Return New Problem With {
-                .DimensionNames = DimensionNames,
-                .MaxIndex = .DimensionNames.Length,
+                .dimensionNames = dimensionNames,
+                .maxIndex = .dimensionNames.Length,
                 .X = inputs _
                     .Select(Function(i) Node.Copy(i).ToArray) _
                     .ToArray,
@@ -98,7 +158,7 @@ Namespace SVM.StorageProcedure
                 .ToArray
 
             Return New ProblemTable With {
-                .DimensionNames = names,
+                .dimensionNames = names,
                 .vectors = union
             }
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::774e0c98f24e419ab156f7a3e48f3ee4, PLAS.NET\SSystem\System\Elements\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::774e0c98f24e419ab156f7a3e48f3ee4, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
     ' Author:
     ' 

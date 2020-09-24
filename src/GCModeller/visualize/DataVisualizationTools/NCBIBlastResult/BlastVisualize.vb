@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58b3a71ae4db168465b1b65cd7ee0223, visualize\DataVisualizationTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::0d5fcab66bf36112ce28487403de8e5a, visualize\DataVisualizationTools\NCBIBlastResult\BlastVisualize.vb"
 
     ' Author:
     ' 

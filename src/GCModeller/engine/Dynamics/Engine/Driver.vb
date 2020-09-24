@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dde4888702c26005fbca6c0debcb403c, Dynamics\Engine\Driver.vb"
+﻿#Region "Microsoft.VisualBasic::9cdc121012fa3d4a1d5bc7003b9d87b3, engine\Dynamics\Engine\Driver.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,13 @@
     ' 
     '         Properties: mass
     ' 
+    '         Sub: FluxSnapshot, MassSnapshot
+    ' 
+    '     Class FinalSnapshotDriver
+    ' 
+    '         Properties: flux, mass, massIndex
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Sub: FluxSnapshot, MassSnapshot
     ' 
     ' 

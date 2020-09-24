@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a9324dbe81bd4e07a83f0664694c434, Bio.Assembly\Assembly\iGEM\PartSeq.vb"
+﻿#Region "Microsoft.VisualBasic::7a9324dbe81bd4e07a83f0664694c434, core\Bio.Assembly\Assembly\iGEM\PartSeq.vb"
 
     ' Author:
     ' 

@@ -1,46 +1,46 @@
-﻿#Region "Microsoft.VisualBasic::3a4468814cb97b4a4f8d97d182dade2a, analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\ExprSamples.vb"
+﻿#Region "Microsoft.VisualBasic::f612ef39a525140730467d5f72bbb97a, analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\ExprSamples.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ExprSamples
-' 
-'         Properties: locusId, Values
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: ConvertObject, CreateFile, GetEnumerator, GetEnumerator1, ToRow
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class ExprSamples
+    ' 
+    '         Properties: data, locusId
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ConvertObject, CreateFile, GetEnumerator, GetEnumerator1, ToRow
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

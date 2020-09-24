@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Document.vb"
+﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Document.vb"
 
     ' Author:
     ' 

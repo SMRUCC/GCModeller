@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b909b7d5d99a796d3c44bba0b06320bc, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
+﻿#Region "Microsoft.VisualBasic::a2b50e8950af39ffe721ed636b327e19, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
 
     ' Author:
     ' 
