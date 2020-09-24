@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3624ead2772c698d34482d5a91d77c7d, Bio.Assembly\test\sequenceToolsTest.vb"
+﻿#Region "Microsoft.VisualBasic::3624ead2772c698d34482d5a91d77c7d, core\Bio.Assembly\test\sequenceToolsTest.vb"
 
     ' Author:
     ' 

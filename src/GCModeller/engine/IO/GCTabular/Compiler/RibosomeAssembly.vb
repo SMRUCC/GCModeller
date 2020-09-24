@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b254466bd4c4504d3ce29382d304fc96, IO\GCTabular\Compiler\RibosomeAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::b254466bd4c4504d3ce29382d304fc96, engine\IO\GCTabular\Compiler\RibosomeAssembly.vb"
 
     ' Author:
     ' 

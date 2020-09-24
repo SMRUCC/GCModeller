@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5ad3152235f0f884b42e32bf647bc69, STRING\TCS\TCS.vb"
+﻿#Region "Microsoft.VisualBasic::d5ad3152235f0f884b42e32bf647bc69, models\Networks\STRING\TCS\TCS.vb"
 
     ' Author:
     ' 

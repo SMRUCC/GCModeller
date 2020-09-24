@@ -1,46 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::b245a2a07def648a89d99a8bdafa2ec5, analysis\SequenceToolkit\DNA_Comparative\gwANI\gwANI.vb"
+﻿#Region "Microsoft.VisualBasic::cc011e70e221d3b2d9fa2c37bc86f15b, analysis\SequenceToolkit\gwANI\gwANI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class gwANI
-' 
-'         Properties: length_of_genome, number_of_samples, sequence_names
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Sub: __calculate_and_output_gwani, __fast_calculate_gwani, calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, calculate_and_output_gwani
-'              check_input_file_and_calc_dimensions, Evaluate, fast_calculate_gwani, print_header
-' 
-' 
-' /********************************************************************************/
+    ' Class gwANI
+    ' 
+    '     Function: __calculate_and_output_gwani, __fast_calculate_gwani
+    ' 
+    '     Sub: calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, check_input_file_and_calc_dimensions, Evaluate
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

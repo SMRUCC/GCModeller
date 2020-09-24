@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92c2711558e52fbc119a8ff3aa2a318f, Bio.Annotation\PTF\Document\DocumentBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::92c2711558e52fbc119a8ff3aa2a318f, core\Bio.Annotation\PTF\Document\DocumentBuilder.vb"
 
     ' Author:
     ' 

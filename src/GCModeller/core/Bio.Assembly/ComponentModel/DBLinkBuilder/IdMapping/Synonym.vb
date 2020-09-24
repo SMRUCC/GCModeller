@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88862a46bf50cc0cb7264582af7bb8a6, Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
+﻿#Region "Microsoft.VisualBasic::88862a46bf50cc0cb7264582af7bb8a6, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
 
     ' Author:
     ' 

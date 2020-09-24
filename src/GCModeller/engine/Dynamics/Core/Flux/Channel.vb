@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e99b195272ca8e124d3ce25c9dc88b5c, Dynamics\Core\Flux\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::c4ad8a30674163b942fabc88202645c8, engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 
@@ -36,10 +36,7 @@
     '         Properties: bounds, direct, forward, ID, reverse
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: CoverLeft, CoverRight, minimalUnit, ToString
-    ' 
-    '         Sub: Transition
+    '         Function: CoverLeft, CoverRight, (+2 Overloads) minimalUnit, ToString
     ' 
     ' 
     ' /********************************************************************************/

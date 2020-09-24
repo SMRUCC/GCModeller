@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9a3c4438399d345ad793b47c95fc0a6, analysis\SequenceToolkit\MotifScanner\Consensus\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::fd893775df0c287436c4ffae10437533, analysis\SequenceToolkit\MotifScanner\Consensus\Protocol.vb"
 
     ' Author:
     ' 

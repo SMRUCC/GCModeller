@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bdf759b5923218ba6f0d42ee7f50fc6, Dynamics\Core\Mass\Variable.vb"
+﻿#Region "Microsoft.VisualBasic::8d414ff3424d956f6df9cb3ea8258a2d, engine\Dynamics\Core\Mass\Variable.vb"
 
     ' Author:
     ' 

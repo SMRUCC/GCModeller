@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe86430f1b92ee1be00901d76fceca79, SBML\SBML\Export\Intersection.vb"
+﻿#Region "Microsoft.VisualBasic::fe86430f1b92ee1be00901d76fceca79, models\SBML\SBML\Export\Intersection.vb"
 
     ' Author:
     ' 

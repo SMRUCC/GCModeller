@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff115bc52885de5e19a6fba92adf733f, Model\Models\Processes.vb"
+﻿#Region "Microsoft.VisualBasic::d00f97c85a2c095fc09568900a6fe01e, engine\Model\Models\Processes.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 ''' <summary>
 ''' 过程类型

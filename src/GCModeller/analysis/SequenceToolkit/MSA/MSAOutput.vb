@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3360df84bf00115d17e2b6626182e2c, analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::0ef80ffb62881bc796a1bdc1d3ecc192, analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,9 @@
 
     ' Summaries:
 
-    ' Structure MSAOutput
+    ' Class MSAOutput
+    ' 
+    '     Properties: cost, MSA, names
     ' 
     '     Function: ToFasta, ToString
     ' 

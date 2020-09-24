@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, SBML\Biopax\Level2\Elements\Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::b2ef3d3966b302771edcb9f43c5430ce, models\SBML\Biopax\Level2\Elements\Ontology.vb"
 
     ' Author:
     ' 

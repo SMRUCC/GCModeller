@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49d74e31bacdf9ea66c0aa10338daea3, GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\ExpressionKinetics.vb"
+﻿#Region "Microsoft.VisualBasic::49d74e31bacdf9ea66c0aa10338daea3, engine\GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\ExpressionKinetics.vb"
 
     ' Author:
     ' 

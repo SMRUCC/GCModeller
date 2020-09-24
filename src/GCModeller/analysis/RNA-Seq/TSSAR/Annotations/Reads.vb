@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::932dc73cdf32b57656448096ba79a95d, analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
+﻿#Region "Microsoft.VisualBasic::7f5de3b5b774a320017fa6a5d327aa4e, analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Reads
-' 
-'     Function: (+2 Overloads) GeneAssociation, GetRelatedGenes, (+2 Overloads) Join, LoadGeneAssiciation, LoadReadsView
-'               MergeContigs, Save
-'     Class ReadsGroupView
-' 
-'         Properties: AssociatedGene, BitwiseFLAGS, BitwiseFLAGSDescription, CIGAR, FLAG
-'                     GeneLocation, Location, MAPQ, NumberOfReads, PNEXT
-'                     POS, Position, Strand, UniqueId
-' 
-'         Function: Copy, ToString
-' 
-'     Class GeneAssociationView
-' 
-'         Properties: AssociatedGene, CIGAR, FLAG, getPosition, MAPQ
-'                     NumberOfReads, PNEXT, POS, Position
-' 
-'         Function: ToString
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Module Reads
+    ' 
+    '     Function: (+2 Overloads) GeneAssociation, GetRelatedGenes, (+2 Overloads) Join, LoadGeneAssiciation, LoadReadsView
+    '               MergeContigs, Save
+    '     Class ReadsGroupView
+    ' 
+    '         Properties: AssociatedGene, BitwiseFLAGS, BitwiseFLAGSDescription, CIGAR, FLAG
+    '                     GeneLocation, Location, MAPQ, NumberOfReads, PNEXT
+    '                     POS, Position, Strand, UniqueId
+    ' 
+    '         Function: Copy, ToString
+    ' 
+    '     Class GeneAssociationView
+    ' 
+    '         Properties: AssociatedGene, CIGAR, FLAG, getPosition, MAPQ
+    '                     NumberOfReads, PNEXT, POS, Position
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

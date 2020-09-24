@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, Bio.Annotation\GFF\Document\FileFormat.vb"
+﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, core\Bio.Annotation\GFF\Document\FileFormat.vb"
 
     ' Author:
     ' 

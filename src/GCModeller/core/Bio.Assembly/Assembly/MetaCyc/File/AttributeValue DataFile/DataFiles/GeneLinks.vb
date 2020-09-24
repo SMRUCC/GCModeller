@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::236c04fd9b8b3324cfe8f6430ca41c81, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\GeneLinks.vb"
+﻿#Region "Microsoft.VisualBasic::236c04fd9b8b3324cfe8f6430ca41c81, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\GeneLinks.vb"
 
     ' Author:
     ' 

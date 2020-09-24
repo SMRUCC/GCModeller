@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7889f416208342c5e22835e6bb324d15, CellPhenotype\TRN\Regulators\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::7889f416208342c5e22835e6bb324d15, sub-system\CellPhenotype\TRN\Regulators\Regulator.vb"
 
     ' Author:
     ' 

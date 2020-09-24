@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6b2ebcd4bab9dbd40dbe0e39c9664f5, Bio.Assembly\Assembly\iGEM\rsbpml.vb"
+﻿#Region "Microsoft.VisualBasic::c6b2ebcd4bab9dbd40dbe0e39c9664f5, core\Bio.Assembly\Assembly\iGEM\rsbpml.vb"
 
     ' Author:
     ' 

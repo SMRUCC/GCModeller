@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df0c0ce8b501faab6747efdc410e0606, annotations\GSEA\GSEA\KnowledgeBase\Imports.vb"
+﻿#Region "Microsoft.VisualBasic::359be39d47b8dcc3d944e8688142273a, annotations\GSEA\GSEA\KnowledgeBase\Imports.vb"
 
     ' Author:
     ' 
@@ -36,8 +36,9 @@
     ' 
     '     Delegate Function
     ' 
-    '         Function: CreateCluster, getTermInternal, GOClusters, ImportsUniProt, KEGGClusters
-    '                   KEGGMapRelation, UniProtGetGOTerms, UniProtGetKOTerms
+    '         Function: CreateBackground, CreateCluster, createGene, getTermInternal, GOClusters
+    '                   ImportsUniProt, (+2 Overloads) KEGGClusters, KEGGMapRelation, missingGoTermWarnings, proteinLocusTag
+    '                   UniProtGetGOTerms, UniProtGetKOTerms
     ' 
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f177eb864725b13ba0e1e03055ca867, annotations\GSEA\GSEA\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::600cd9bd732b957a63c8029839b42d10, annotations\GSEA\GSEA\Enrichment.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module Enrichment
     ' 
-    '     Function: calcResult, (+2 Overloads) Enrichment, FDRCorrection
+    '     Function: calcResult, (+3 Overloads) Enrichment, FDRCorrection
     ' 
     ' /********************************************************************************/
 

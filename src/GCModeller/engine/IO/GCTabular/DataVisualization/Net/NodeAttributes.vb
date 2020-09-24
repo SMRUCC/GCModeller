@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf8feec5f677083945c6834de734cf78, IO\GCTabular\DataVisualization\Net\NodeAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::cf8feec5f677083945c6834de734cf78, engine\IO\GCTabular\DataVisualization\Net\NodeAttributes.vb"
 
     ' Author:
     ' 

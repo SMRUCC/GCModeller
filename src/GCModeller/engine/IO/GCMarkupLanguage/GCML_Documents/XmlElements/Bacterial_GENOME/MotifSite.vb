@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9edade0d91ddeeb0a58a7f87d97b55ab, IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::9edade0d91ddeeb0a58a7f87d97b55ab, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
 
     ' Author:
     ' 

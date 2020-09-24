@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69c0971038fbc3370df3fa88c4092144, Compiler\KineticsModeller\KineticsModellerHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::7cd8c515b0e42fc0cd704438aa617c45, engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
 
     ' Author:
     ' 
@@ -123,4 +123,3 @@ Module KineticsModellerHelpers
         Next
     End Function
 End Module
-

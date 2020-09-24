@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a6bc1b5cb6762811593ef41144db203, PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::1a6bc1b5cb6762811593ef41144db203, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 

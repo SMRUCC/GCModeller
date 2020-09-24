@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c94108c44a490cad194181ad81b682c, SBML\SBML\Level2\FluxModel\kineticLaw\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::4c94108c44a490cad194181ad81b682c, models\SBML\SBML\Level2\FluxModel\kineticLaw\kineticLaw.vb"
 
     ' Author:
     ' 

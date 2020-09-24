@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c00c32c6d68c51da8868044cfeff139, KEGG\ReactionNetwork\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::7c00c32c6d68c51da8868044cfeff139, models\Networks\KEGG\ReactionNetwork\NamespaceDoc.vb"
 
     ' Author:
     ' 

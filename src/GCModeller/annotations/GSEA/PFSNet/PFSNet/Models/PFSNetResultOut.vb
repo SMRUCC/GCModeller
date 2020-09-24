@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9402c5c78b982ce2ac9aeea1e3010a9c, annotations\GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
+﻿#Region "Microsoft.VisualBasic::2edcf3c861bab0314dfa9dd38bd61775, annotations\GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class PFSNetResultOut
     ' 
-    '         Properties: phenotype1, phenotype2, tag
+    '         Properties: class1, class2, phenotype1, phenotype2, tag
     ' 
     '         Function: ToString
     ' 

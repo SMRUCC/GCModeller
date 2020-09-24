@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b71d24b65fb91823c33db374dfcdde5f, PLAS.NET\SSystem\System\Elements\Var.vb"
+﻿#Region "Microsoft.VisualBasic::94ee7670911224ded45f6745792b3cfc, sub-system\PLAS.NET\SSystem\System\Elements\Var.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class var
     ' 
-    '         Properties: comment, title, Value
+    '         Properties: comment, Id, title, Value
     ' 
     '         Function: ToString, TryParse
     ' 
