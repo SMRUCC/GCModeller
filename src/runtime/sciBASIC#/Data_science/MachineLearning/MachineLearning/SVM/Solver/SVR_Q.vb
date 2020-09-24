@@ -59,7 +59,7 @@ Namespace SVM
         Public Sub New(prob As Problem, param As Parameter)
             MyBase.New(prob.count, prob.X, param)
             l = prob.count
-            cache = New Cache(l, CLng(param.CacheSize) * (1 << 20))
+            cache = New Cache(l, CLng(param.cacheSize) * (1 << 20))
             QD = New Double(2 * l - 1) {}
             sign = New SByte(2 * l - 1) {}
             index = New Integer(2 * l - 1) {}

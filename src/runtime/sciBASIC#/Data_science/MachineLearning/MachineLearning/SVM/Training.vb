@@ -95,7 +95,7 @@ Namespace SVM
             Dim total_error As Double = 0
             Dim sumv As Double = 0, sumy As Double = 0, sumvv As Double = 0, sumyy As Double = 0, sumvy As Double = 0
 
-            If parameters.SvmType = SvmType.EPSILON_SVR OrElse parameters.SvmType = SvmType.NU_SVR Then
+            If parameters.svmType = SvmType.EPSILON_SVR OrElse parameters.svmType = SvmType.NU_SVR Then
                 For i = 0 To problem.count - 1
                     Dim y = problem.Y(i)
                     Dim v = target(i)
@@ -172,21 +172,21 @@ Namespace SVM
 
                 Select Case args(i - 1)(1)
                     Case "s"c
-                        parameters.SvmType = CType(Integer.Parse(args(i)), SvmType)
+                        parameters.svmType = CType(Integer.Parse(args(i)), SvmType)
                     Case "t"c
-                        parameters.KernelType = CType(Integer.Parse(args(i)), KernelType)
+                        parameters.kernelType = CType(Integer.Parse(args(i)), KernelType)
                     Case "d"c
-                        parameters.Degree = Integer.Parse(args(i))
+                        parameters.degree = Integer.Parse(args(i))
                     Case "g"c
-                        parameters.Gamma = Double.Parse(args(i))
+                        parameters.gamma = Double.Parse(args(i))
                     Case "r"c
-                        parameters.Coefficient0 = Double.Parse(args(i))
+                        parameters.coefficient0 = Double.Parse(args(i))
                     Case "n"c
-                        parameters.Nu = Double.Parse(args(i))
+                        parameters.nu = Double.Parse(args(i))
                     Case "m"c
-                        parameters.CacheSize = Double.Parse(args(i))
+                        parameters.cacheSize = Double.Parse(args(i))
                     Case "c"c
-                        parameters.C = Double.Parse(args(i))
+                        parameters.c = Double.Parse(args(i))
                     Case "e"c
                         parameters.EPS = Double.Parse(args(i))
                     Case "p"c
@@ -194,7 +194,7 @@ Namespace SVM
                     Case "h"c
                         parameters.shrinking = Integer.Parse(args(i)) = 1
                     Case "b"c
-                        parameters.Probability = Integer.Parse(args(i)) = 1
+                        parameters.probability = Integer.Parse(args(i)) = 1
                     Case "v"c
                         crossValidation = True
                         nrfold = Integer.Parse(args(i))
@@ -204,7 +204,7 @@ Namespace SVM
                         End If
 
                     Case "w"c
-                        parameters.Weights(Integer.Parse(args(i - 1).Substring(2))) = Double.Parse(args(1))
+                        parameters.weights(Integer.Parse(args(i - 1).Substring(2))) = Double.Parse(args(1))
                     Case Else
                         Throw New ArgumentException("Unknown Parameter")
                 End Select
@@ -214,7 +214,7 @@ Namespace SVM
 
             If i >= args.Length Then Throw New ArgumentException("No input file specified")
             ' problem = ProblemText.Read(args(i))
-            If parameters.Gamma = 0 Then parameters.Gamma = 1.0 / problem.maxIndex
+            If parameters.gamma = 0 Then parameters.gamma = 1.0 / problem.maxIndex
 
             If i < args.Length - 1 Then
                 modelFilename = args(i + 1)

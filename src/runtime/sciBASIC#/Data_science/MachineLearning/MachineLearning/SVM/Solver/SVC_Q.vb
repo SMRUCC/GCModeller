@@ -60,7 +60,7 @@ Namespace SVM
         Public Sub New(prob As Problem, param As Parameter, y_ As SByte())
             MyBase.New(prob.count, prob.X, param)
             y = CType(y_.Clone(), SByte())
-            cache = New Cache(prob.count, CLng(param.CacheSize) * (1 << 20))
+            cache = New Cache(prob.count, CLng(param.cacheSize) * (1 << 20))
             QD = New Double(prob.count - 1) {}
 
             For i = 0 To prob.count - 1
