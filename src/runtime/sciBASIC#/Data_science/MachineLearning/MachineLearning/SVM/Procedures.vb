@@ -74,13 +74,8 @@ Namespace SVM
 
         Public Property IsVerbose As Boolean
 
-        '
-        ' construct and solve various formulations
-        '
-        Public Const LIBSVM_VERSION As Integer = 318
-
-        Private rand As Random = randf.seeds
-        Private svm_print_stdout As TextWriter = Console.Out
+        Dim rand As Random = randf.seeds
+        Dim svm_print_stdout As TextWriter = Console.Out
 
         Public Sub setRandomSeed(seed As Integer)
             rand = New Random(seed)
@@ -107,8 +102,8 @@ Namespace SVM
                 End If
             Next
 
-            Dim s As Solver = New Solver()
-            s.Solve(l, New SVC_Q(prob, param, y), minus_ones, y, alpha, Cp, Cn, param.EPS, si, param.Shrinking)
+            Call New Solver().Solve(l, New SVC_Q(prob, param, y), minus_ones, y, alpha, Cp, Cn, param.EPS, si, param.shrinking)
+
             Dim sum_alpha As Double = 0
 
             For i = 0 To l - 1
@@ -159,8 +154,8 @@ Namespace SVM
                 zeros(i) = 0
             Next
 
-            Dim s As Solver_NU = New Solver_NU()
-            s.Solve(l, New SVC_Q(prob, param, y), zeros, y, alpha, 1.0, 1.0, param.EPS, si, param.Shrinking)
+            Call New Solver_NU().Solve(l, New SVC_Q(prob, param, y), zeros, y, alpha, 1.0, 1.0, param.EPS, si, param.shrinking)
+
             Dim r = si.r
 
             Procedures.info("C = " & 1 / r & ASCII.LF)
@@ -197,8 +192,7 @@ Namespace SVM
                 ones(i) = 1
             Next
 
-            Dim s As Solver = New Solver()
-            s.Solve(l, New ONE_CLASS_Q(prob, param), zeros, ones, alpha, 1.0, 1.0, param.EPS, si, param.Shrinking)
+            Call New Solver().Solve(l, New ONE_CLASS_Q(prob, param), zeros, ones, alpha, 1.0, 1.0, param.EPS, si, param.shrinking)
         End Sub
 
         Private Sub solve_epsilon_svr(prob As Problem, param As Parameter, alpha As Double(), si As SolutionInfo)
@@ -217,8 +211,8 @@ Namespace SVM
                 y(i + l) = -1
             Next
 
-            Dim s As Solver = New Solver()
-            s.Solve(2 * l, New SVR_Q(prob, param), linear_term, y, alpha2, param.C, param.C, param.EPS, si, param.Shrinking)
+            Call New Solver().Solve(2 * l, New SVR_Q(prob, param), linear_term, y, alpha2, param.C, param.C, param.EPS, si, param.shrinking)
+
             Dim sum_alpha As Double = 0
 
             For i = 0 To l - 1
@@ -248,9 +242,8 @@ Namespace SVM
                 y(i + l) = -1
             Next
 
-            Dim s As Solver_NU = New Solver_NU()
-            s.Solve(2 * l, New SVR_Q(prob, param), linear_term, y, alpha2, C, C, param.EPS, si, param.Shrinking)
-            Procedures.info("epsilon = " & -si.r & ASCII.LF)
+            Call New Solver_NU().Solve(2 * l, New SVR_Q(prob, param), linear_term, y, alpha2, C, C, param.EPS, si, param.shrinking)
+            Call Procedures.info("epsilon = " & -si.r & ASCII.LF)
 
             For i = 0 To l - 1
                 alpha(i) = alpha2(i) - alpha2(i + l)
@@ -312,10 +305,11 @@ Namespace SVM
             Next
 
             Procedures.info("nSV = " & nSV & ", nBSV = " & nBSV & ASCII.LF)
-            Dim f As New decision_function()
-            f.alpha = alpha
-            f.rho = si.rho
-            Return f
+
+            Return New decision_function() With {
+                .alpha = alpha,
+                .rho = si.rho
+            }
         End Function
 
         ''' <summary>
@@ -442,7 +436,10 @@ Namespace SVM
                 End If
             Next
 
-            If iter >= max_iter Then Procedures.info("Reaching maximal iterations in two-class probability estimates" & ASCII.LF)
+            If iter >= max_iter Then
+                Procedures.info("Reaching maximal iterations in two-class probability estimates" & ASCII.LF)
+            End If
+
             probAB(0) = A
             probAB(1) = B
         End Sub
@@ -520,7 +517,9 @@ Namespace SVM
                 Next
             Next
 
-            If iter >= max_iter Then Procedures.info("Exceeds max_iter in multiclass_prob" & ASCII.LF)
+            If iter >= max_iter Then
+                Procedures.info("Exceeds max_iter in multiclass_prob" & ASCII.LF)
+            End If
         End Sub
 
         ''' <summary>
@@ -632,6 +631,7 @@ Namespace SVM
             Dim ymv = New SVMPrediction(prob.Count - 1) {}
             Dim mae As Double = 0
             Dim newparam As Parameter = CType(param.Clone(), Parameter)
+
             newparam.Probability = False
             svm_cross_validation(prob, newparam, nr_fold, ymv)
 
@@ -767,13 +767,13 @@ Namespace SVM
                 model.NumberOfClasses = 2
                 model.ClassLabels = Nothing
                 model.NumberOfSVPerClass = Nothing
-                model.PairwiseProbabilityA = Nothing
-                model.PairwiseProbabilityB = Nothing
+                model.pairwiseProbabilityA = Nothing
+                model.pairwiseProbabilityB = Nothing
                 model.SupportVectorCoefficients = New Double(0)() {}
 
                 If param.Probability AndAlso (param.SvmType = SvmType.EPSILON_SVR OrElse param.SvmType = SvmType.NU_SVR) Then
-                    model.PairwiseProbabilityA = New Double(0) {}
-                    model.PairwiseProbabilityA(0) = svm_svr_probability(prob, param)
+                    model.pairwiseProbabilityA = New Double(0) {}
+                    model.pairwiseProbabilityA(0) = svm_svr_probability(prob, param)
                 End If
 
                 Dim f = svm_train_one(prob, param, 0, 0)
@@ -814,7 +814,11 @@ Namespace SVM
 
                 ' group training data of the same class
                 svm_group_classes(prob, nr_class, label, start, count, perm)
-                If nr_class = 1 Then Procedures.info("WARNING: training data in only one class. See README for details." & ASCII.LF)
+
+                If nr_class = 1 Then
+                    Procedures.info("WARNING: training data in only one class. See README for details." & ASCII.LF)
+                End If
+
                 Dim x = New Node(l - 1)() {}
                 Dim i As Integer
 
@@ -915,16 +919,16 @@ Namespace SVM
                 Next
 
                 If param.Probability Then
-                    model.PairwiseProbabilityA = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
-                    model.PairwiseProbabilityB = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
+                    model.pairwiseProbabilityA = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
+                    model.pairwiseProbabilityB = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
 
                     For i = 0 To CInt(nr_class * (nr_class - 1) / 2) - 1
-                        model.PairwiseProbabilityA(i) = probA(i)
-                        model.PairwiseProbabilityB(i) = probB(i)
+                        model.pairwiseProbabilityA(i) = probA(i)
+                        model.pairwiseProbabilityB(i) = probB(i)
                     Next
                 Else
-                    model.PairwiseProbabilityA = Nothing
-                    model.PairwiseProbabilityA = Nothing
+                    model.pairwiseProbabilityA = Nothing
+                    model.pairwiseProbabilityA = Nothing
                 End If
 
                 Dim nnz = 0
@@ -990,13 +994,17 @@ Namespace SVM
                         Dim k As Integer
 
                         For k = 0 To ci - 1
-                            If nonzero(si + k) Then model.SupportVectorCoefficients(j - 1)(++q) = f(p).alpha(k)
+                            If nonzero(si + k) Then
+                                model.SupportVectorCoefficients(j - 1)(++q) = f(p).alpha(k)
+                            End If
                         Next
 
                         q = nz_start(j)
 
                         For k = 0 To cj - 1
-                            If nonzero(sj + k) Then model.SupportVectorCoefficients(i)(++q) = f(p).alpha(ci + k)
+                            If nonzero(sj + k) Then
+                                model.SupportVectorCoefficients(i)(++q) = f(p).alpha(ci + k)
+                            End If
                         Next
 
                         p += 1
@@ -1027,8 +1035,8 @@ Namespace SVM
                 Dim label As Integer() = Nothing
                 Dim start As Integer() = Nothing
                 Dim count As Integer() = Nothing
-                svm_group_classes(prob, nr_class, label, start, count, perm)
 
+                svm_group_classes(prob, nr_class, label, start, count, perm)
 
                 ' random shuffle and then data grouped by fold using the array perm
                 Dim fold_count = New Integer(nr_fold - 1) {}
@@ -1162,7 +1170,7 @@ Namespace SVM
 
         Public Sub svm_get_sv_indices(model As Model, indices As Integer())
             If model.SupportVectorIndices IsNot Nothing Then
-                For i = 0 To model.SupportVectorCount - 1
+                For i As Integer = 0 To model.SupportVectorCount - 1
                     indices(i) = model.SupportVectorIndices(i)
                 Next
             End If
@@ -1173,8 +1181,8 @@ Namespace SVM
         End Function
 
         Public Function svm_get_svr_probability(model As Model) As Double
-            If (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.PairwiseProbabilityA IsNot Nothing Then
-                Return model.PairwiseProbabilityA(0)
+            If (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.pairwiseProbabilityA IsNot Nothing Then
+                Return model.pairwiseProbabilityA(0)
             Else
                 Console.Error.Write("Model doesn't contain information for SVR probability inference" & ASCII.LF)
                 Return 0
@@ -1282,8 +1290,12 @@ Namespace SVM
         Public Function svm_predict(model As Model, x As Node()) As SVMPrediction
             Dim nr_class = model.NumberOfClasses
             Dim dec_values As Double()
+            Dim isSingle As Boolean =
+                model.Parameter.SvmType = SvmType.ONE_CLASS OrElse
+                model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse
+                model.Parameter.SvmType = SvmType.NU_SVR
 
-            If model.Parameter.SvmType = SvmType.ONE_CLASS OrElse model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR Then
+            If isSingle Then
                 dec_values = New Double(0) {}
             Else
                 dec_values = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
@@ -1294,7 +1306,7 @@ Namespace SVM
         End Function
 
         Public Function svm_predict_probability(model As Model, x As Node(), prob_estimates As Double()) As SVMPrediction
-            If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.PairwiseProbabilityA IsNot Nothing AndAlso model.PairwiseProbabilityB IsNot Nothing Then
+            If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.pairwiseProbabilityA IsNot Nothing AndAlso model.pairwiseProbabilityB IsNot Nothing Then
                 Dim i As Integer
                 Dim nr_class = model.NumberOfClasses
                 Dim dec_values = New Double(CInt(nr_class * (nr_class - 1) / 2) - 1) {}
@@ -1308,7 +1320,7 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     For j = i + 1 To nr_class - 1
-                        pairwise_prob(i, j) = stdNum.Min(stdNum.Max(sigmoid_predict(dec_values(k), model.PairwiseProbabilityA(k), model.PairwiseProbabilityB(k)), min_prob), 1 - min_prob)
+                        pairwise_prob(i, j) = stdNum.Min(stdNum.Max(sigmoid_predict(dec_values(k), model.pairwiseProbabilityA(k), model.pairwiseProbabilityB(k)), min_prob), 1 - min_prob)
                         pairwise_prob(j, i) = 1 - pairwise_prob(i, j)
                         k += 1
                     Next
@@ -1319,7 +1331,9 @@ Namespace SVM
                 Dim prob_max_idx = 0
 
                 For i = 1 To nr_class - 1
-                    If prob_estimates(i) > prob_estimates(prob_max_idx) Then prob_max_idx = i
+                    If prob_estimates(i) > prob_estimates(prob_max_idx) Then
+                        prob_max_idx = i
+                    End If
                 Next
 
                 Return New SVMPrediction With {
@@ -1334,12 +1348,10 @@ Namespace SVM
 
         Public Function svm_check_parameter(prob As Problem, param As Parameter) As String
             ' svm_type
-
-            Dim svm_type = param.SvmType
-
+            Dim svm_type As SvmType = param.SvmType
             ' kernel_type, degree
-
             Dim kernel_type = param.KernelType
+
             If param.Gamma < 0 Then Return "gamma < 0"
             If param.Degree < 0 Then Return "degree of polynomial kernel < 0"
 
@@ -1360,7 +1372,9 @@ Namespace SVM
                 If param.P < 0 Then Return "p < 0"
             End If
 
-            If param.Probability AndAlso svm_type = SvmType.ONE_CLASS Then Return "one-class SVM probability output not supported yet"
+            If param.Probability AndAlso svm_type = SvmType.ONE_CLASS Then
+                Return "one-class SVM probability output not supported yet"
+            End If
 
             ' check whether nu-svc is feasible
 
@@ -1406,7 +1420,10 @@ Namespace SVM
 
                     For j = i + 1 To nr_class - 1
                         Dim n2 = count(j)
-                        If param.Nu * (n1 + n2) / 2 > stdNum.Min(n1, n2) Then Return "specified nu is infeasible"
+
+                        If param.Nu * (n1 + n2) / 2 > stdNum.Min(n1, n2) Then
+                            Return "specified nu is infeasible"
+                        End If
                     Next
                 Next
             End If
@@ -1415,7 +1432,7 @@ Namespace SVM
         End Function
 
         Public Function svm_check_probability_model(model As Model) As Integer
-            If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.PairwiseProbabilityA IsNot Nothing AndAlso model.PairwiseProbabilityB IsNot Nothing OrElse (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.PairwiseProbabilityA IsNot Nothing Then
+            If (model.Parameter.SvmType = SvmType.C_SVC OrElse model.Parameter.SvmType = SvmType.NU_SVC) AndAlso model.pairwiseProbabilityA IsNot Nothing AndAlso model.pairwiseProbabilityB IsNot Nothing OrElse (model.Parameter.SvmType = SvmType.EPSILON_SVR OrElse model.Parameter.SvmType = SvmType.NU_SVR) AndAlso model.pairwiseProbabilityA IsNot Nothing Then
                 Return 1
             Else
                 Return 0

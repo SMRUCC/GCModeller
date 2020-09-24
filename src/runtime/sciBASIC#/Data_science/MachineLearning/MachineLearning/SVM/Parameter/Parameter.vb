@@ -148,7 +148,7 @@ Namespace SVM
         ''' <summary>
         ''' Whether to use the shrinking heuristics, (default True)
         ''' </summary>
-        Public Property Shrinking As Boolean
+        Public Property shrinking As Boolean
 
         ''' <summary>
         ''' Whether to train an SVC or SVR model for probability estimates, (default False)
@@ -169,7 +169,7 @@ Namespace SVM
             C = 1
             EPS = 0.001
             P = 0.1
-            Shrinking = True
+            shrinking = True
             Probability = False
             Weights = New Dictionary(Of Integer, Double)()
         End Sub
@@ -181,11 +181,11 @@ Namespace SVM
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)
             If other Is Nothing Then Return False
-            Return other.C = C AndAlso other.CacheSize = CacheSize AndAlso other.Coefficient0 = Coefficient0 AndAlso other.Degree = Degree AndAlso other.EPS = EPS AndAlso other.Gamma = Gamma AndAlso other.KernelType = KernelType AndAlso other.Nu = Nu AndAlso other.P = P AndAlso other.Probability = Probability AndAlso other.Shrinking = Shrinking AndAlso other.SvmType = SvmType AndAlso other.Weights.ToArray().IsEqual(Weights.ToArray())
+            Return other.C = C AndAlso other.CacheSize = CacheSize AndAlso other.Coefficient0 = Coefficient0 AndAlso other.Degree = Degree AndAlso other.EPS = EPS AndAlso other.Gamma = Gamma AndAlso other.KernelType = KernelType AndAlso other.Nu = Nu AndAlso other.P = P AndAlso other.Probability = Probability AndAlso other.shrinking = shrinking AndAlso other.SvmType = SvmType AndAlso other.Weights.ToArray().IsEqual(Weights.ToArray())
         End Function
 
         Public Overrides Function GetHashCode() As Integer
-            Return C.GetHashCode() + CacheSize.GetHashCode() + Coefficient0.GetHashCode() + Degree.GetHashCode() + EPS.GetHashCode() + Gamma.GetHashCode() + KernelType.GetHashCode() + Nu.GetHashCode() + P.GetHashCode() + Probability.GetHashCode() + Shrinking.GetHashCode() + SvmType.GetHashCode() + Weights.ToArray().ComputeHashcode()
+            Return C.GetHashCode() + CacheSize.GetHashCode() + Coefficient0.GetHashCode() + Degree.GetHashCode() + EPS.GetHashCode() + Gamma.GetHashCode() + KernelType.GetHashCode() + Nu.GetHashCode() + P.GetHashCode() + Probability.GetHashCode() + shrinking.GetHashCode() + SvmType.GetHashCode() + Weights.ToArray().ComputeHashcode()
         End Function
 
 

@@ -107,12 +107,12 @@ Namespace SVM
         ''' <summary>
         ''' First pairwise probability.
         ''' </summary>
-        Public Property PairwiseProbabilityA As Double()
+        Public Property pairwiseProbabilityA As Double()
 
         ''' <summary>
         ''' Second pairwise probability.
         ''' </summary>
-        Public Property PairwiseProbabilityB As Double()
+        Public Property pairwiseProbabilityB As Double()
 
         ' for classification only
 
@@ -132,22 +132,33 @@ Namespace SVM
 
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim test As Model = TryCast(obj, Model)
-            If test Is Nothing Then Return False
+
+            If test Is Nothing Then
+                Return False
+            End If
+
             Dim same = ClassLabels.IsEqual(test.ClassLabels)
             same = same AndAlso NumberOfClasses = test.NumberOfClasses
             same = same AndAlso NumberOfSVPerClass.IsEqual(test.NumberOfSVPerClass)
-            If PairwiseProbabilityA IsNot Nothing Then same = same AndAlso PairwiseProbabilityA.IsEqual(test.PairwiseProbabilityA)
-            If PairwiseProbabilityB IsNot Nothing Then same = same AndAlso PairwiseProbabilityB.IsEqual(test.PairwiseProbabilityB)
+
+            If pairwiseProbabilityA IsNot Nothing Then
+                same = same AndAlso pairwiseProbabilityA.IsEqual(test.pairwiseProbabilityA)
+            End If
+            If pairwiseProbabilityB IsNot Nothing Then
+                same = same AndAlso pairwiseProbabilityB.IsEqual(test.pairwiseProbabilityB)
+            End If
+
             same = same AndAlso Parameter.Equals(test.Parameter)
             same = same AndAlso Rho.IsEqual(test.Rho)
             same = same AndAlso SupportVectorCoefficients.IsEqual(test.SupportVectorCoefficients)
             same = same AndAlso SupportVectorCount = test.SupportVectorCount
             same = same AndAlso SupportVectors.IsEqual(test.SupportVectors)
+
             Return same
         End Function
 
         Public Overrides Function GetHashCode() As Integer
-            Return ClassLabels.ComputeHashcode() + NumberOfClasses.GetHashCode() + NumberOfSVPerClass.ComputeHashcode() + PairwiseProbabilityA.ComputeHashcode() + PairwiseProbabilityB.ComputeHashcode() + Parameter.GetHashCode() + Rho.ComputeHashcode() + SupportVectorCoefficients.ComputeHashcode2() + SupportVectorCount.GetHashCode() + SupportVectors.ComputeHashcode2()
+            Return ClassLabels.ComputeHashcode() + NumberOfClasses.GetHashCode() + NumberOfSVPerClass.ComputeHashcode() + pairwiseProbabilityA.ComputeHashcode() + pairwiseProbabilityB.ComputeHashcode() + Parameter.GetHashCode() + Rho.ComputeHashcode() + SupportVectorCoefficients.ComputeHashcode2() + SupportVectorCount.GetHashCode() + SupportVectors.ComputeHashcode2()
         End Function
     End Class
 End Namespace

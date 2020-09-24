@@ -89,21 +89,21 @@ Namespace SVM
                 output.Write(ASCII.LF)
             End If
             ' regression has probA only
-            If model.PairwiseProbabilityA IsNot Nothing Then
+            If model.pairwiseProbabilityA IsNot Nothing Then
                 output.Write("probA")
 
                 For i As Integer = 0 To CInt(nr_class * (nr_class - 1) / 2) - 1
-                    output.Write(" {0:0.000000}", model.PairwiseProbabilityA(i))
+                    output.Write(" {0:0.000000}", model.pairwiseProbabilityA(i))
                 Next
 
                 output.Write(ASCII.LF)
             End If
 
-            If model.PairwiseProbabilityB IsNot Nothing Then
+            If model.pairwiseProbabilityB IsNot Nothing Then
                 output.Write("probB")
 
                 For i As Integer = 0 To CInt(nr_class * (nr_class - 1) / 2) - 1
-                    output.Write(" {0:0.000000}", model.PairwiseProbabilityB(i))
+                    output.Write(" {0:0.000000}", model.pairwiseProbabilityB(i))
                 Next
 
                 output.Write(ASCII.LF)

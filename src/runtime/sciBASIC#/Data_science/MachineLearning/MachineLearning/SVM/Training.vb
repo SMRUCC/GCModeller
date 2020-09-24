@@ -192,7 +192,7 @@ Namespace SVM
                     Case "p"c
                         parameters.P = Double.Parse(args(i))
                     Case "h"c
-                        parameters.Shrinking = Integer.Parse(args(i)) = 1
+                        parameters.shrinking = Integer.Parse(args(i)) = 1
                     Case "b"c
                         parameters.Probability = Integer.Parse(args(i)) = 1
                     Case "v"c
