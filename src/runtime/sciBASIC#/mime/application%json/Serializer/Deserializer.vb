@@ -162,11 +162,11 @@ Public Module Deserializer
         For Each [property] As NamedValue(Of JsonElement) In json
             If writers.ContainsKey([property].Name) Then
                 writer = writers([property].Name)
-                writer.SetValue(obj, [property].Value.CreateObject(parent, writer.PropertyType))
+                writer.SetValue(obj, [property].Value.CreateObject(parent:=graph, writer.PropertyType))
             ElseIf graph.isTable AndAlso Not addMethod Is Nothing Then
                 inputs = {
                     Scripting.CTypeDynamic([property].Name, graph.keyType),
-                    [property].Value.CreateObject(parent, graph.valueType)
+                    [property].Value.CreateObject(parent:=graph, graph.valueType)
                 }
                 addMethod.Invoke(obj, inputs)
             Else
