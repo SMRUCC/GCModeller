@@ -223,7 +223,21 @@ Namespace SVM
         ''' </summary>
         ''' <returns>The clone (as type Parameter)</returns>
         Public Function Clone() As Object Implements ICloneable.Clone
-            Return MemberwiseClone()
+            Return New Parameter With {
+                .c = c,
+                .cacheSize = cacheSize,
+                .coefficient0 = coefficient0,
+                .degree = degree,
+                .EPS = EPS,
+                .gamma = gamma,
+                .kernelType = kernelType,
+                .nu = nu,
+                .P = P,
+                .probability = probability,
+                .shrinking = shrinking,
+                .svmType = svmType,
+                .weights = New Dictionary(Of Integer, Double)(weights)
+            }
         End Function
 
 #End Region
