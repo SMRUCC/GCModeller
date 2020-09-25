@@ -126,7 +126,7 @@ Public Module Deserializer
                 writer.SetValue(obj, [property].Value.CreateObject(writer.PropertyType))
             ElseIf graph.isTable AndAlso Not addMethod Is Nothing Then
                 inputs = {
-                    [property].Name,
+                    Scripting.CTypeDynamic([property].Name, graph.keyType),
                     [property].Value.CreateObject(graph.valueType)
                 }
                 addMethod.Invoke(obj, inputs)
