@@ -41,8 +41,11 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Delegates
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Friend Class ObjectSchema
 
@@ -55,6 +58,8 @@ Friend Class ObjectSchema
     Public ReadOnly valueType As Type
     Public ReadOnly keyType As Type
     Public ReadOnly raw As Type
+
+    Public ReadOnly knownTypes As Type()
 
     Private Sub New()
     End Sub
@@ -71,7 +76,8 @@ Friend Class ObjectSchema
                     writers As IReadOnlyDictionary(Of String, PropertyInfo),
                     keyType As Type,
                     valueType As Type,
-                    raw As Type)
+                    raw As Type,
+                    knownTypes As Type())
 
         Me.addMethod = addMethod
         Me.isTable = isTable
@@ -79,8 +85,14 @@ Friend Class ObjectSchema
         Me.valueType = valueType
         Me.keyType = keyType
         Me.raw = raw
+        Me.knownTypes = knownTypes
     End Sub
 
+    ''' <summary>
+    ''' get (or cache a new schema graph object if not exists) a schema graph object
+    ''' </summary>
+    ''' <param name="type"></param>
+    ''' <returns></returns>
     Public Shared Function GetSchema(type As Type) As ObjectSchema
         Static cache As New Dictionary(Of Type, ObjectSchema)
         Return cache.ComputeIfAbsent(key:=type, lazyValue:=AddressOf CreateSchema)
@@ -114,14 +126,36 @@ Friend Class ObjectSchema
             End With
         End If
 
+        ' for avoid a infinity loop that caused by the circlar reference
+        ' we just get the types at here
+        ' create object schema graph object at required
+        Dim knownTypes As Type() = schema _
+            .GetCustomAttributes(Of KnownTypeAttribute) _
+            .SafeQuery _
+            .Select(Function(a) a.Type) _
+            .ToArray
+
         Return New ObjectSchema(
             raw:=schema,
             addMethod:=addMethod,
             writers:=writers,
             isTable:=isTable,
             valueType:=valueType,
-            keyType:=keyType
+            keyType:=keyType,
+            knownTypes:=knownTypes
         )
+    End Function
+
+    Public Iterator Function FindInterfaceImpementations(type As Type) As IEnumerable(Of ObjectSchema)
+        For Each known As Type In knownTypes
+            If known.ImplementInterface(type) Then
+                Yield ObjectSchema.GetSchema(known)
+            End If
+        Next
+    End Function
+
+    Public Function Score(obj As JsonObject) As Integer
+
     End Function
 
     Public Overrides Function ToString() As String

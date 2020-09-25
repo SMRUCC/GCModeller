@@ -105,6 +105,23 @@ Public Module Deserializer
         Return array
     End Function
 
+    <Extension>
+    Private Function activate(ByRef schema As ObjectSchema, parent As ObjectSchema, score As JsonObject) As Object
+        If Not schema.raw.IsInterface Then
+            Return Activator.CreateInstance(schema.raw)
+        Else
+            Dim knownType As ObjectSchema = parent.FindInterfaceImpementations(schema.raw).OrderByDescending(Function(a) a.Score(score)).FirstOrDefault
+
+            If knownType Is Nothing Then
+                Throw New InvalidProgramException($"can not create object from an interface type: {schema.raw.FullName}!")
+            Else
+                schema = knownType
+            End If
+
+            Return Activator.CreateInstance(knownType.raw)
+        End If
+    End Function
+
     ''' <summary>
     ''' 反序列化为目标类型的对象实例
     ''' </summary>
@@ -112,10 +129,10 @@ Public Module Deserializer
     ''' <param name="schema"></param>
     ''' <returns></returns>
     <Extension>
-    Friend Function createObject(json As JsonObject, schema As Type) As Object
-        Dim obj As Object = Activator.CreateInstance(schema)
-        Dim inputs As Object()
+    Friend Function createObject(json As JsonObject, parent As ObjectSchema, schema As Type) As Object
         Dim graph As ObjectSchema = ObjectSchema.GetSchema(schema)
+        Dim obj As Object = graph.activate(parent:=parent, score:=json)
+        Dim inputs As Object()
         Dim addMethod As MethodInfo = graph.addMethod
         Dim writers = graph.writers
         Dim writer As PropertyInfo
