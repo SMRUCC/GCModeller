@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Delegates
@@ -154,8 +155,9 @@ Friend Class ObjectSchema
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Score(obj As JsonObject) As Integer
-
+        Return obj.Score(raw)
     End Function
 
     Public Overrides Function ToString() As String
