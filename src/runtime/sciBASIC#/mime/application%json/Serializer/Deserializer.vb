@@ -114,22 +114,34 @@ Public Module Deserializer
 
     <Extension>
     Private Function activate(ByRef schema As ObjectSchema, parent As ObjectSchema, score As JsonObject) As Object
-        If Not schema.raw.IsInterface Then
+        Dim knownType As ObjectSchema
+
+        If Not schema.raw.IsInterface AndAlso Not schema.raw Is GetType(Object) Then
             Return Activator.CreateInstance(schema.raw)
-        Else
-            Dim knownType As ObjectSchema = parent _
+        ElseIf schema.raw.IsInterface Then
+            knownType = parent _
                 .FindInterfaceImpementations(schema.raw) _
                 .OrderByDescending(Function(a) a.Score(score)) _
                 .FirstOrDefault
 
             If knownType Is Nothing Then
                 Throw New InvalidProgramException($"can not create object from an interface type: {schema.raw.FullName}!")
-            Else
-                schema = knownType
             End If
+        Else ' is object
+            knownType = parent _
+                .knownTypes _
+                .Select(AddressOf ObjectSchema.GetSchema) _
+                .OrderByDescending(Function(a) a.Score(score)) _
+                .FirstOrDefault
 
-            Return Activator.CreateInstance(knownType.raw)
+            If knownType Is Nothing Then
+                Throw New InvalidProgramException($"can not create object...")
+            End If
         End If
+
+        schema = knownType
+
+        Return Activator.CreateInstance(knownType.raw)
     End Function
 
     ''' <summary>
