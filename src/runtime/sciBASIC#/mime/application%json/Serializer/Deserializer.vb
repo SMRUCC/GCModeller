@@ -79,7 +79,7 @@ Public Module Deserializer
                 ' the schema require an object but gives an array
                 Return Nothing
             Else
-                Return DirectCast(json, JsonArray).CreateArray(schema.GetElementType)
+                Return DirectCast(json, JsonArray).createArray(parent, schema.GetElementType)
             End If
         ElseIf TypeOf json Is JsonObject Then
             If schema.IsInheritsFrom(GetType([Variant])) Then
