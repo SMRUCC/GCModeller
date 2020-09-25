@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
@@ -108,6 +109,18 @@ Namespace Javascript
 
         Public Function ContainsElement(element As JsonElement) As Boolean
             Return array.ContainsValue(element)
+        End Function
+
+        Public Function Score(schema As Type) As Integer
+            Dim hits As Integer
+
+            For Each [property] As PropertyInfo In schema.GetProperties(PublicProperty)
+                If array.ContainsKey([property].Name) Then
+                    hits += 1
+                End If
+            Next
+
+            Return hits
         End Function
 
         ''' <summary>
