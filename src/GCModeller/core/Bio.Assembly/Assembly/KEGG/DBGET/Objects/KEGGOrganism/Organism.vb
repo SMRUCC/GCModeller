@@ -45,11 +45,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 

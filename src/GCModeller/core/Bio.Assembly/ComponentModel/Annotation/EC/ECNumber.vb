@@ -45,6 +45,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.Annotation
