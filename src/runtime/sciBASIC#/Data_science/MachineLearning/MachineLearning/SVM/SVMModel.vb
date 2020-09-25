@@ -51,6 +51,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SVM
 
+    ''' <summary>
+    ''' A trained svm data model that can be apply for classify analysis.
+    ''' </summary>
     Public Class SVMModel
 
         Public Property model As Model
@@ -63,17 +66,21 @@ Namespace SVM
         ''' <returns></returns>
         Public Property factors As ClassEncoder
 
-        Public ReadOnly Property DimensionNames As String()
+        Public ReadOnly Property dimensionNames As String()
             Get
                 Return model.dimensionNames
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return DimensionNames.GetJson
+            Return dimensionNames.GetJson
         End Function
     End Class
 
+    ''' <summary>
+    ''' A collection of trained svm data model that can be apply for 
+    ''' multiple dimension class classify analysis.
+    ''' </summary>
     Public Class SVMMultipleSet
 
         Public Property dimensionNames As String()

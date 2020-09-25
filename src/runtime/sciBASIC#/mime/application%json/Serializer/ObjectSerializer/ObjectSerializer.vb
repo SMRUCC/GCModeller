@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.ValueTypes
 
 Public Module ObjectSerializer
