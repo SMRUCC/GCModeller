@@ -46,6 +46,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
@@ -225,14 +226,14 @@ Namespace ComparativeGenomics
                 p2 = New Point(r1.Right, r1.Top + r1.Height + RibbonDistance)
 
                 If genome1(link.genome1).Direction < 0 Then
-                    Call p1.SwapWith(p2)
+                    Call p1.Swap(p2)
                 End If
 
                 p3 = New Point(r2.Right, r2.Top - RibbonDistance)
                 p4 = New Point(r2.Location.X, r2.Location.Y - RibbonDistance)
 
                 If genome2(link.genome2).Direction < 0 Then
-                    Call p3.SwapWith(p4)
+                    Call p3.Swap(p4)
                 End If
 
                 color = New SolidBrush(link.Color Or defaultColor)
