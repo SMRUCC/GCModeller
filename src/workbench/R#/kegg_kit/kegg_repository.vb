@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::c5a9b9d893da0e06a89173e49336013f, kegg_kit\kegg_repository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module kegg_repository
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FetchKEGGOrganism, LoadCompoundRepo, loadMapRepository, LoadPathways, LoadReactionRepo
-    '               ReadKEGGOrganism, readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, showTable
-    '               TableOfReactions
-    ' 
-    ' Enum OrganismTypes
-    ' 
-    '     all, eukaryotes, prokaryote
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module kegg_repository
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: FetchKEGGOrganism, LoadCompoundRepo, loadMapRepository, LoadPathways, LoadReactionRepo
+'               ReadKEGGOrganism, readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway, showTable
+'               TableOfReactions
+' 
+' Enum OrganismTypes
+' 
+'     all, eukaryotes, prokaryote
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,8 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' 
@@ -164,6 +166,36 @@ Public Module kegg_repository
             Return ReactionTable.Load(DirectCast(repo, ReactionRepository)).ToArray
         Else
             Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
+        End If
+    End Function
+
+    <ExportAPI("reaction_class.table")>
+    Public Function loadReactionClassTable(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
+        If repo Is Nothing Then
+            Return Nothing
+        ElseIf TypeOf repo Is String OrElse TypeOf repo Is String() Then
+            Dim resource As String = DirectCast(RVectorExtensions.asVector(Of String)(repo), String())(Scan0)
+
+            If resource.DirectoryExists Then
+                Return ReactionClassTable.ScanRepository(repo:=resource).ToArray
+            ElseIf resource.ExtensionSuffix("csv") Then
+                Return resource.LoadCsv(Of ReactionClassTable).ToArray
+            Else
+                Return REnv.debug.stop({
+                    "invalid resource handle for load kegg reaction table!",
+                    "resource: " & resource
+                }, env)
+            End If
+        Else
+            Dim classes As pipeline = pipeline.TryCreatePipeline(Of ReactionClass)(repo, env)
+
+            If classes.isError Then
+                Return classes.getError
+            Else
+                Return classes.populates(Of ReactionClass)(env) _
+                    .DoCall(AddressOf ReactionClassTable.ScanRepository) _
+                    .ToArray
+            End If
         End If
     End Function
 

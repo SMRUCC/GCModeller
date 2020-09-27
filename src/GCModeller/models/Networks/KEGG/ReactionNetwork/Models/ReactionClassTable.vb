@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -125,9 +126,9 @@ Namespace ReactionNetwork
                               End Function)
         End Function
 
-        Public Shared Iterator Function ScanRepository(repo As String) As IEnumerable(Of ReactionClassTable)
-            For Each model As ReactionClass In ReactionClass.ScanRepository(repo, loadsAll:=False)
-                For Each transform In model.reactantPairs
+        Public Shared Iterator Function ScanRepository(repo As IEnumerable(Of ReactionClass)) As IEnumerable(Of ReactionClassTable)
+            For Each model As ReactionClass In repo
+                For Each transform As ReactionCompoundTransform In model.reactantPairs
                     Yield New ReactionClassTable With {
                         .category = model.category,
                         .define = model.definition,
@@ -138,6 +139,11 @@ Namespace ReactionNetwork
                     }
                 Next
             Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ScanRepository(repo As String) As IEnumerable(Of ReactionClassTable)
+            Return ScanRepository(ReactionClass.ScanRepository(repo, loadsAll:=False))
         End Function
 
         Public Shared Function CreateIndexKey(a As String, b As String) As String

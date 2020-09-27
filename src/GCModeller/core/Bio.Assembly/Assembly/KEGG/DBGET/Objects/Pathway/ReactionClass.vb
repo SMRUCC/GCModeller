@@ -106,13 +106,21 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
     End Class
 
+    ''' <summary>
+    ''' 反应左端代谢物在经过了代谢反应之后结果上的转换变化的结果（反应的右端）
+    ''' </summary>
     Public Class ReactionCompoundTransform
 
         ''' <summary>
-        ''' compound id
+        ''' the kegg compound id
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Overridable Property from As String
+
+        ''' <summary>
+        ''' the kegg compound id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Overridable Property [to] As String
 
         Public Overrides Function ToString() As String
