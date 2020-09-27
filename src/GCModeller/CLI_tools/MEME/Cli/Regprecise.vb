@@ -80,6 +80,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Partial Module CLI
 
@@ -545,7 +546,7 @@ Partial Module CLI
 
         If direct Then
             For Each pair In result
-                Call pair.hit_name.SwapWith(pair.query_name)
+                Call pair.hit_name.Swap(pair.query_name)
             Next
         End If
 
