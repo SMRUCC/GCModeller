@@ -157,6 +157,28 @@ Namespace ReactionNetwork
             End With
         End Sub
 
+        Private Iterator Function strictFilter(rid As String()) As IEnumerable(Of String)
+            ' only populate the reaction id
+            ' which theirs compounds substrate
+            ' all exists in graph nodes
+            For Each reaction As ReactionTable In rid.Select(Function(id) networkBase(id))
+                Dim check As Boolean = True
+
+                For Each cid As String In reaction.products.AsList + reaction.substrates
+                    If Not nodes.containsKey(cid) Then
+                        If Not cid Like commonIgnores Then
+                            check = False
+                            Exit For
+                        End If
+                    End If
+                Next
+
+                If check Then
+                    Yield reaction.entry
+                End If
+            Next
+        End Function
+
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
         ''' </summary>
@@ -167,7 +189,8 @@ Namespace ReactionNetwork
         ''' <returns></returns>
         Public Function BuildModel(Optional extended As Boolean = False,
                                    Optional enzymeInfo As Dictionary(Of String, String()) = Nothing,
-                                   Optional enzymeRelated As Boolean = True) As NetworkGraph
+                                   Optional enzymeRelated As Boolean = True,
+                                   Optional strictReactionNetwork As Boolean = False) As NetworkGraph
 
             Dim commons As Value(Of String()) = {}
             Dim extendes As New List(Of Node)
@@ -198,33 +221,44 @@ Namespace ReactionNetwork
 
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
-                        Call reactionIDlist.AddRange(commons.Value)
-                        Call createEdges(commons, a, b)
-                    Else
+                        If strictReactionNetwork Then
+                            commons = strictFilter(commons)
+                        End If
 
-                        ' 这两个节点之间可能存在一个空位，
-                        ' 对所有的节点进行遍历，找出同时链接a和b的节点
-                        If extended Then
-
-                            If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
-                                Continue For
-                            Else
-                                extendes += cpdGroups.doNetworkExtension(
-                                    a:=a,
-                                    b:=b,
-                                    gray:=gray,
-                                    addEdge:=AddressOf addNewEdge,
-                                    nodes:=nodes,
-                                    reactionIDlist:=reactionIDlist
-                                )
+                        If commons.Value.IsNullOrEmpty Then
+                            If extended Then
+                                Call extendes.AddRange(doExpansion(a, b))
                             End If
-
+                        Else
+                            Call reactionIDlist.AddRange(commons.Value)
+                            Call createEdges(commons, a, b)
+                        End If
+                    Else
+                        If extended Then
+                            Call extendes.AddRange(doExpansion(a, b))
                         End If
                     End If
                 Next
             Next
 
             Return doNetworkExpansion(extendes, enzymeInfo, enzymeRelated)
+        End Function
+
+        Private Function doExpansion(a As Node, b As Node) As IEnumerable(Of Node)
+            ' 这两个节点之间可能存在一个空位，
+            ' 对所有的节点进行遍历，找出同时链接a和b的节点
+            If Not cpdGroups.ContainsKey(a.label) OrElse Not cpdGroups.ContainsKey(b.label) Then
+                Return {}
+            Else
+                Return cpdGroups.doNetworkExtension(
+                    a:=a,
+                    b:=b,
+                    gray:=gray,
+                    addEdge:=AddressOf addNewEdge,
+                    nodes:=nodes,
+                    reactionIDlist:=reactionIDlist
+                )
+            End If
         End Function
 
         Private Function doNetworkExpansion(extends As List(Of Node), enzymeInfo As Dictionary(Of String, String()), enzymeRelated As Boolean) As NetworkGraph
