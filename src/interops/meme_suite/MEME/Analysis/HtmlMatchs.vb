@@ -52,6 +52,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -233,7 +234,7 @@ Namespace Analysis
                 site.Strand = "-"
                 site.gStart = gene.Location.Right + Length - site.Start
                 site.gStop = site.gStart - Len(site.Sequence)
-                site.gStart.SwapWith(site.gStop)   ' 再交换位置变换为正常的位点位置
+                site.gStart.Swap(site.gStop)   ' 再交换位置变换为正常的位点位置
                 site.RightEndDownStream = Length - site.Start - Len(site.Sequence)
             End If
 
@@ -536,8 +537,7 @@ Namespace Analysis
         End Function
 
         <ExportAPI("Write.Csv.MEME_Matched")>
-        Public Function SaveMatchedResult(data As Generic.IEnumerable(Of MatchedResult),
-                                          <Parameter("Path.Save")> SaveTo As String) As Boolean
+        Public Function SaveMatchedResult(data As IEnumerable(Of MatchedResult), <Parameter("Path.Save")> SaveTo As String) As Boolean
             Return data.SaveTo(SaveTo, False)
         End Function
 

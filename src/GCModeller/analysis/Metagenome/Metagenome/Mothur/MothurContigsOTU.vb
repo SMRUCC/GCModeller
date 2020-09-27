@@ -48,6 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Darwinism.Docker.Arguments
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

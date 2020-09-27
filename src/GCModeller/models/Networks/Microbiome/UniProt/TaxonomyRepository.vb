@@ -44,6 +44,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
@@ -95,12 +96,14 @@ Public Class TaxonomyRepository
             .GroupBy(Function(t)
                          Return t.Value.TaxonomyRankString(rank)
                      End Function) _
-            .ToDictionary(Function(g) g.Key,
-                          Function(g)
-                              Return g.Keys _
-                                  .Select(AddressOf GetByKey) _
-                                  .ToArray
-                          End Function)
+            .ToDictionary(Function(g) g.Key, AddressOf getRanks)
+    End Function
+
+    Private Function getRanks(g As IGrouping(Of String, KeyValuePair(Of String, Taxonomy))) As TaxonomyRef()
+        Return g _
+            .Select(Function(a) a.Key) _
+            .Select(AddressOf GetByKey) _
+            .ToArray
     End Function
 
     ' 2018-3-12

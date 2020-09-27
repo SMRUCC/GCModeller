@@ -139,7 +139,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public Function Normalization() As Location
             If left > right Then
-                Call Min.SwapWith(Max)
+                Call Min.Swap(Max)
             End If
             Return Me
         End Function

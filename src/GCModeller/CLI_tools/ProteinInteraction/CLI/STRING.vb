@@ -41,6 +41,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -53,8 +54,8 @@ Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
 Partial Module CLI
 
-    <ExportAPI("/STRING.selects",
-               Usage:="/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
+    <ExportAPI("/STRING.selects")>
+    <Usage("/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
     <Group(CLIGroupping.STRING_tools)>
     Public Function STRINGSelects(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -92,8 +93,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/STRING.Network",
-               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/sub <idlist.txt> /attributes <dataset.csv> /id_field <ID> /all_links <protein.links.txt> /out <outDIR>]")>
+    <ExportAPI("/STRING.Network")>
+    <Usage("/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/sub <idlist.txt> /attributes <dataset.csv> /id_field <ID> /all_links <protein.links.txt> /out <outDIR>]")>
     <Group(CLIGroupping.STRING_tools)>
     Public Function StringNetwork(args As CommandLine) As Integer
         Dim idTsv$ = args("/id")
