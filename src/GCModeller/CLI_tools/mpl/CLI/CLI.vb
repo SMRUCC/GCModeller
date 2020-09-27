@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -184,7 +185,7 @@ Default is not, default checks right side and left side.")>
         If swap Then
             For i As Integer = 0 To resultOut.Length - 1
                 Dim row = resultOut(i)
-                Call row.QueryName.SwapWith(row.HitName)
+                Call row.QueryName.Swap(row.HitName)
             Next
         End If
 
@@ -257,7 +258,7 @@ Default is not, default checks right side and left side.")>
 
         If flip Then
             For Each x As BBHIndex In sbhFile
-                Call x.QueryName.SwapWith(x.HitName)
+                Call x.QueryName.Swap(x.HitName)
             Next
         End If
 

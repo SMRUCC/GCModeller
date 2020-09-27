@@ -62,7 +62,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -351,7 +350,7 @@ Partial Module CLI
         Dim allDEPs = data.Values _
             .IteratesALL _
             .Where(Function(x) x.Value.isDEP) _
-            .Keys _
+            .Select(Function(a) a.Key) _
             .Distinct _
             .ToArray
         Dim matrix As New List(Of EntityObject)
