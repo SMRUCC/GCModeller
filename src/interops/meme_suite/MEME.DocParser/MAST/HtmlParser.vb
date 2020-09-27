@@ -41,8 +41,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -134,7 +134,7 @@ Namespace DocumentFormat.MAST.HTML
                     Else
                         ResultItem.Start = p - GetIdLQuery(i).Start
                         ResultItem.Ends = p - GetIdLQuery(i).Ends
-                        ResultItem.Start.SwapWith(GetIdLQuery(i).Ends)
+                        ResultItem.Start.Swap(GetIdLQuery(i).Ends)
                         ResultItem.Strand = "-"
                     End If
                 Next
