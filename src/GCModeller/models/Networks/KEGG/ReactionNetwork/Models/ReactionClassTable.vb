@@ -44,10 +44,11 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace ReactionNetwork
 
-    Public Class ReactionClassTable
+    Public Class ReactionClassTable : Inherits ReactionCompoundTransform
 
         ''' <summary>
         ''' entry id of current reaction class
@@ -65,21 +66,15 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <returns></returns>
         Public Property fluxId As String()
-        ''' <summary>
-        ''' compound id
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property [from] As String
-        ''' <summary>
-        ''' compound id
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property [to] As String
+
         ''' <summary>
         ''' reaction class definition
         ''' </summary>
         ''' <returns></returns>
         Public Property define As String
+
+        Sub New()
+        End Sub
 
         Public Overrides Function ToString() As String
             Return define
@@ -105,7 +100,13 @@ Namespace ReactionNetwork
         ''' create a reaction index
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks><see cref="fluxId"/></remarks>
+        ''' <remarks>
+        ''' <see cref="fluxId"/>
+        ''' 
+        ''' 因为在<see cref="ScanRepository(String)"/>加载数据的时候，由于<see cref="ReactionClass.reactantPairs"/>
+        ''' 有多个记录值，所以在展开为二维表的时候会出现重复的<see cref="ReactionClassTable.rId"/>
+        ''' 不可以去重，因为可能会丢失一部分的物质对信息
+        ''' </remarks>
         Public Shared Function ReactionIndex(table As IEnumerable(Of ReactionClassTable)) As Dictionary(Of String, ReactionClassTable())
             Return table _
                 .Select(Function(a)
@@ -115,12 +116,28 @@ Namespace ReactionNetwork
                 .GroupBy(Function(a) a.rid) _
                 .ToDictionary(Function(a) a.Key,
                               Function(g)
-                                  Return g _
-                                     .Select(Function(a) a.cls) _
-                                     .GroupBy(Function(cls) cls.rId) _
-                                     .Select(Function(a) a.First) _
-                                     .ToArray
+                                  Return g.Select(Function(a) a.cls).ToArray
+                                  ' 20200927 see remarks
+                                  '
+                                  ' .GroupBy(Function(cls) cls.rId) _
+                                  ' .Select(Function(a) a.First) _
+                                  ' .ToArray
                               End Function)
+        End Function
+
+        Public Shared Iterator Function ScanRepository(repo As String) As IEnumerable(Of ReactionClassTable)
+            For Each model As ReactionClass In ReactionClass.ScanRepository(repo, loadsAll:=False)
+                For Each transform In model.reactantPairs
+                    Yield New ReactionClassTable With {
+                        .category = model.category,
+                        .define = model.definition,
+                        .fluxId = model.reactions.Select(Function(r) r.name).ToArray,
+                        .from = transform.from,
+                        .[to] = transform.to,
+                        .rId = model.entryId
+                    }
+                Next
+            Next
         End Function
 
         Public Shared Function CreateIndexKey(a As String, b As String) As String
