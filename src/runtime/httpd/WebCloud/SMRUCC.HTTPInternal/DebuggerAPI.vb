@@ -43,6 +43,7 @@ Imports System.ComponentModel
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
