@@ -228,19 +228,6 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' Gets all keys value from the target <see cref="KeyValuePair"/> collection.
-    ''' </summary>
-    ''' <typeparam name="T1"></typeparam>
-    ''' <typeparam name="T2"></typeparam>
-    ''' <param name="source"></param>
-    ''' <returns></returns>
-    ''' 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function Keys(Of T1, T2)(source As IEnumerable(Of KeyValuePair(Of T1, T2))) As T1()
-        Return source.Select(Function(x) x.Key).ToArray
-    End Function
-
-    ''' <summary>
     ''' Adds the elements of the specified collection to the end of the List`1.
     ''' (会自动跳过空集合，这个方法是安全的)
     ''' </summary>
@@ -1124,7 +1111,17 @@ Public Module Extensions
         Return LQuery
     End Function
 
-    <Extension> Public Sub Swap(Of T)(ByRef array As T(), a%, b%)
+    ''' <summary>
+    ''' swap two element in the array
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="array"></param>
+    ''' <param name="a%"></param>
+    ''' <param name="b%"></param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Sub Swap(Of T)(ByRef array As T(), a%, b%)
         Dim tmp As T = array(a)
         array(a) = array(b)
         array(b) = tmp
@@ -1137,10 +1134,13 @@ Public Module Extensions
     ''' <param name="obj1"></param>
     ''' <param name="obj2"></param>
     ''' <remarks></remarks>
-    <Extension> Public Sub SwapWith(Of T)(ByRef obj1 As T, ByRef obj2 As T)
-        Dim objTemp As T = obj1
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Sub Swap(Of T)(ByRef obj1 As T, ByRef obj2 As T)
+        Dim temp As T = obj1
         obj1 = obj2
-        obj2 = objTemp
+        obj2 = temp
     End Sub
 
     ''' <summary>
