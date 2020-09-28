@@ -95,7 +95,8 @@ Namespace ReactionNetwork
         Protected Sub New(br08901 As IEnumerable(Of ReactionTable),
                           compounds As IEnumerable(Of NamedValue(Of String)),
                           color As Brush,
-                          ignoresCommonList As Boolean)
+                          ignoresCommonList As Boolean,
+                          filterEngine As EdgeFilterEngine)
 
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
@@ -130,6 +131,12 @@ Namespace ReactionNetwork
             End If
 
             nodes = New CompoundNodeTable(compounds, cpdGroups, commonIgnores, g, color:=color)
+            strictFilter = EdgeFilter.CreateFilter(
+                nodes:=nodes,
+                networkBase:=networkBase,
+                commonIgnores:=commonIgnores,
+                engine:=filterEngine
+            )
         End Sub
 
         ''' <summary>

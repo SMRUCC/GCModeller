@@ -1,4 +1,5 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace ReactionNetwork
@@ -17,6 +18,8 @@ Namespace ReactionNetwork
         ''' </param>
         ''' <param name="networkBase"></param>
         ''' <param name="commonIgnores"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(nodes As CompoundNodeTable,
                 networkBase As Dictionary(Of String, ReactionTable),
                 commonIgnores As Index(Of String))
@@ -28,6 +31,7 @@ Namespace ReactionNetwork
 
         Public MustOverride Function filter(reactionIds As String()) As IEnumerable(Of String)
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function SlotCompleteFilter(nodes As CompoundNodeTable,
                                                   networkBase As Dictionary(Of String, ReactionTable),
                                                   commonIgnores As Index(Of String)) As EdgeFilter
@@ -35,6 +39,7 @@ Namespace ReactionNetwork
             Return New SlotCompleteFilter(nodes, networkBase, commonIgnores)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ReactionLinkFilter(nodes As CompoundNodeTable,
                                                   networkBase As Dictionary(Of String, ReactionTable),
                                                   commonIgnores As Index(Of String)) As EdgeFilter
@@ -42,13 +47,34 @@ Namespace ReactionNetwork
             Return New ReactionLinkFilter(nodes, networkBase, commonIgnores)
         End Function
 
+        Public Shared Function CreateFilter(nodes As CompoundNodeTable,
+                                            networkBase As Dictionary(Of String, ReactionTable),
+                                            commonIgnores As Index(Of String),
+                                            engine As EdgeFilterEngine) As EdgeFilter
+
+            Select Case engine
+                Case EdgeFilterEngine.ReactionLinkFilter
+                    Return ReactionLinkFilter(nodes, networkBase, commonIgnores)
+                Case EdgeFilterEngine.SlotCompleteFilter
+                    Return SlotCompleteFilter(nodes, networkBase, commonIgnores)
+                Case Else
+                    Throw New NotImplementedException
+            End Select
+        End Function
+
     End Class
+
+    Public Enum EdgeFilterEngine
+        SlotCompleteFilter
+        ReactionLinkFilter
+    End Enum
 
     ''' <summary>
     ''' all compound should be exists for the required reaction model
     ''' </summary>
     Public Class SlotCompleteFilter : Inherits EdgeFilter
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(nodes As CompoundNodeTable,
                        networkBase As Dictionary(Of String, ReactionTable),
                        commonIgnores As Index(Of String))
@@ -84,6 +110,7 @@ Namespace ReactionNetwork
     ''' </summary>
     Public Class ReactionLinkFilter : Inherits EdgeFilter
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(nodes As CompoundNodeTable,
                        networkBase As Dictionary(Of String, ReactionTable),
                        commonIgnores As Index(Of String))

@@ -77,9 +77,10 @@ Namespace ReactionNetwork
         Sub New(br08901 As IEnumerable(Of ReactionTable),
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
-                Optional enzymeBridged As Boolean = True)
+                Optional enzymeBridged As Boolean = True,
+                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter)
 
-            Call MyBase.New(br08901, compounds, blue, ignoresCommonList)
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter)
 
             Me.enzymeBridged = enzymeBridged
         End Sub
