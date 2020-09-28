@@ -222,7 +222,7 @@ Namespace ReactionNetwork
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                         If strictReactionNetwork Then
-                            commons = strictFilter(commons)
+                            commons = strictFilter(commons).ToArray
                         End If
 
                         If commons.Value.IsNullOrEmpty Then
