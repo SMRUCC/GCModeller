@@ -190,7 +190,8 @@ Namespace ReactionNetwork
                                    Optional enzymaticRelated As Boolean = True,
                                    Optional filterByEnzymes As Boolean = False,
                                    Optional ignoresCommonList As Boolean = True,
-                                   Optional enzymeBridged As Boolean = True) As NetworkGraph
+                                   Optional enzymeBridged As Boolean = True,
+                                   Optional strictReactionNetwork As Boolean = False) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -214,7 +215,12 @@ Namespace ReactionNetwork
                 ignoresCommonList:=ignoresCommonList,
                 enzymeBridged:=enzymeBridged
             )
-            Dim g As NetworkGraph = builderSession.BuildModel(extended, enzymes, enzymaticRelated)
+            Dim g As NetworkGraph = builderSession.BuildModel(
+                extended:=extended,
+                enzymeInfo:=enzymes,
+                enzymeRelated:=enzymaticRelated,
+                strictReactionNetwork:=strictReactionNetwork
+            )
 
             Return g
         End Function
