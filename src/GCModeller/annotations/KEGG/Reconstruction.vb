@@ -168,7 +168,7 @@ Public Module Reconstruction
                         If classes Is Nothing OrElse Not classes.ContainsKey(rxn.entry) Then
                             Return DirectCast(rawList, IEnumerable(Of String))
                         Else
-                            Dim classList = classes(rxn.entry)
+                            Dim classList As ReactionClassTable() = classes(rxn.entry)
                             Dim compoundIndex As Index(Of String) = classList _
                                 .Select(Iterator Function(c)
                                             Yield c.from
