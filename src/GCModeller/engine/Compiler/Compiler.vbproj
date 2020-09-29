@@ -170,6 +170,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyScript\Commands\Add.vb" />
+    <Compile Include="AssemblyScript\Commands\Delete.vb" />
+    <Compile Include="AssemblyScript\Commands\Env.vb" />
+    <Compile Include="AssemblyScript\Commands\Label.vb" />
+    <Compile Include="AssemblyScript\Commands\Maintainer.vb" />
     <Compile Include="AssemblyScript\ScriptScanner.vb" />
     <Compile Include="AssemblyScript\Commands\From.vb" />
     <Compile Include="AssemblyScript\Environment.vb" />
