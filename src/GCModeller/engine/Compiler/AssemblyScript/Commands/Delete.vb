@@ -5,6 +5,8 @@
     ''' </summary>
     Public Class Delete : Inherits Command
 
+        Public Property entry As Entry
+
         Public Overrides Function Execute(env As Environment) As Object
             Throw New NotImplementedException()
         End Function

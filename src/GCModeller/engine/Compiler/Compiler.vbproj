@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyScript\Commands\Add.vb" />
+    <Compile Include="AssemblyScript\Commands\Entry.vb" />
     <Compile Include="AssemblyScript\Commands\Delete.vb" />
     <Compile Include="AssemblyScript\Commands\Env.vb" />
     <Compile Include="AssemblyScript\Commands\Label.vb" />
