@@ -1,56 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::5f86919357ba34e54740a99f4d368273, analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\Replicate.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Replicate
-    ' 
-    '         Properties: avgLengthReads, avgReads, minExpression, minExpressionRNA, minExpressionUTR
-    '                     name, totalReads, upperQuartile
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __strandCoordinates, __transformation, getBackgroundProb, getMeanOfRange, getReads
-    '                   getReadsInRange, getStdevOfRange, ToString
-    ' 
-    '         Sub: (+2 Overloads) __readInAlignmentFile
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Replicate
+' 
+'         Properties: avgLengthReads, avgReads, minExpression, minExpressionRNA, minExpressionUTR
+'                     name, totalReads, upperQuartile
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __strandCoordinates, __transformation, getBackgroundProb, getMeanOfRange, getReads
+'                   getReadsInRange, getStdevOfRange, ToString
+' 
+'         Sub: (+2 Overloads) __readInAlignmentFile
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace Transcriptome.UTRs
 
@@ -87,7 +88,7 @@ Namespace Transcriptome.UTRs
             Call Me.New(genomeSize, unstranded, data:=ReadsCount.LoadDb(fileName))
         End Sub
 
-        Sub New(genomeSize As Long, unstranded As Boolean, data As Generic.IEnumerable(Of ReadsCount))
+        Sub New(genomeSize As Long, unstranded As Boolean, data As IEnumerable(Of ReadsCount))
             Me._totalReads = 0
             Dim backgroundLength As Integer = 2
             Me.background = New List(Of Integer)(backgroundLength)
@@ -157,7 +158,7 @@ Namespace Transcriptome.UTRs
             End If
 
             Dim sum As Long = 0
-            For i As Integer = Math.Max(start, 1) To sys.Min([stop] + 1, plusReads.Length) - 1
+            For i As Integer = Math.Max(start, 1) To stdNum.Min([stop] + 1, plusReads.Length) - 1
                 If strand = "+"c Then
                     ' Plus strand
                     sum += Me.plusReads(i)
@@ -235,9 +236,9 @@ Namespace Transcriptome.UTRs
         Public Function getStdevOfRange(start As Integer, [stop] As Integer, strand As Char, mean As Double) As Double
             Dim stdev As Double = 0.0
 
-            If [stop] < start Then Call start.SwapWith([stop])    ' Swap
+            If [stop] < start Then Call start.Swap([stop])    ' Swap
 
-            For i As Integer = Math.Max(start, 1) To sys.Min([stop] + 1, plusReads.Length) - 1
+            For i As Integer = Math.Max(start, 1) To stdNum.Min([stop] + 1, plusReads.Length) - 1
                 If strand = "+"c Then '      ' Plus strand
                     stdev += Math.Pow(plusReads(i) - mean, 2.0)
                 ElseIf strand = "-"c Then '      ' Minus strand
@@ -246,7 +247,7 @@ Namespace Transcriptome.UTRs
                     stdev += Math.Pow(plusReads(i) + minusReads(i) - mean, 2.0)
                 End If
             Next
-            Return stdev / Math.Sqrt(sys.Min([stop], plusReads.Length - 1) - Math.Max(start, 1) + 1)
+            Return stdev / Math.Sqrt(stdNum.Min([stop], plusReads.Length - 1) - Math.Max(start, 1) + 1)
         End Function
 
         ''' <summary>
@@ -257,7 +258,7 @@ Namespace Transcriptome.UTRs
         End Function
 #End Region
 
-        Private Sub __readInAlignmentFile(data As Generic.IEnumerable(Of ReadsCount), unstranded As Boolean, genomeSizes As Long)
+        Private Sub __readInAlignmentFile(data As IEnumerable(Of ReadsCount), unstranded As Boolean, genomeSizes As Long)
             Me._avgLengthReads = 90 '(From obj In data.AsParallel Select obj.Length).Sum / data.Count
             Dim coordinates_plus As Integer() = __strandCoordinates(data, Strands.Forward, genomeSizes)
             Dim coordinates_minus As Integer() = __strandCoordinates(data, Strands.Reverse, genomeSizes)
@@ -304,8 +305,8 @@ Namespace Transcriptome.UTRs
             Call __readInAlignmentFile(data, unstranded, genomeSizes)
         End Sub
 
-        Private Function __strandCoordinates(data As Generic.IEnumerable(Of ReadsCount),
-                                             Strand As SMRUCC.genomics.ComponentModel.Loci.Strands,
+        Private Function __strandCoordinates(data As IEnumerable(Of ReadsCount),
+                                             Strand As Strands,
                                              genomeSize As Long) As Integer()
 
             Dim coordinates As Integer() = New Integer(genomeSize - 1) {}

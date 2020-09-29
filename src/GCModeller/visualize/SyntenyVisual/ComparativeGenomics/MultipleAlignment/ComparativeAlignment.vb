@@ -45,6 +45,7 @@ Imports System.Drawing
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -247,14 +248,14 @@ Namespace ComparativeAlignment
                     p2 = New Point(Region1.Right, Region1.Top + Region1.Height + 3)
 
                     If GNModel___1(Link.genome1).Direction < 0 Then
-                        Call p1.SwapWith(p2)
+                        Call p1.Swap(p2)
                     End If
 
                     p3 = New Point(Region2.Right, Region2.Top - 3)
                     p4 = New Point(Region2.Location.X, Region2.Location.Y - 3)
 
                     If GNModel___2(Link.genome2).Direction < 0 Then
-                        Call p3.SwapWith(p4)
+                        Call p3.Swap(p4)
                     End If
 
                     Call LinkdrModel.AddLine(p1, p2)
