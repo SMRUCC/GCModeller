@@ -1,6 +1,12 @@
 -- Example of the GCModeller assembly script for
 -- compile a virtual vell data model file
 
+-- *.vhd GCModeller virtual assembly script
+--
+-- V virtual cell
+-- H habiliment 
+-- D dialog
+
 -- build a new virtual cell model from a base model
 -- which the base model is named hsa and version label is 
 -- 20200929
