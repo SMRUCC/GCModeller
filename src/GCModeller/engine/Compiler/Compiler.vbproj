@@ -176,7 +176,8 @@
     <Compile Include="AssemblyScript\Commands\Env.vb" />
     <Compile Include="AssemblyScript\Commands\Label.vb" />
     <Compile Include="AssemblyScript\Commands\Maintainer.vb" />
-    <Compile Include="AssemblyScript\ScriptScanner.vb" />
+    <Compile Include="AssemblyScript\Script\Tokens.vb" />
+    <Compile Include="AssemblyScript\Script\ScriptScanner.vb" />
     <Compile Include="AssemblyScript\Commands\From.vb" />
     <Compile Include="AssemblyScript\Environment.vb" />
     <Compile Include="AssemblyScript\Commands\Command.vb" />
