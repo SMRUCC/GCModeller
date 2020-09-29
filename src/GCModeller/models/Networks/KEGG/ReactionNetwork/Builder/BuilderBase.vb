@@ -85,6 +85,8 @@ Namespace ReactionNetwork
         Protected edges As New Dictionary(Of String, Edge)
         Protected reactionIDlist As New List(Of String)
 
+        Protected ReadOnly strictFilter As EdgeFilter
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -93,7 +95,8 @@ Namespace ReactionNetwork
         Protected Sub New(br08901 As IEnumerable(Of ReactionTable),
                           compounds As IEnumerable(Of NamedValue(Of String)),
                           color As Brush,
-                          ignoresCommonList As Boolean)
+                          ignoresCommonList As Boolean,
+                          filterEngine As EdgeFilterEngine)
 
             ' 构建网络的基础数据
             ' 是依据KEGG代谢反应信息来定义的
@@ -128,6 +131,12 @@ Namespace ReactionNetwork
             End If
 
             nodes = New CompoundNodeTable(compounds, cpdGroups, commonIgnores, g, color:=color)
+            strictFilter = EdgeFilter.CreateFilter(
+                nodes:=nodes,
+                networkBase:=networkBase,
+                commonIgnores:=commonIgnores,
+                engine:=filterEngine
+            )
         End Sub
 
         ''' <summary>
@@ -156,28 +165,6 @@ Namespace ReactionNetwork
                 End If
             End With
         End Sub
-
-        Private Iterator Function strictFilter(rid As String()) As IEnumerable(Of String)
-            ' only populate the reaction id
-            ' which theirs compounds substrate
-            ' all exists in graph nodes
-            For Each reaction As ReactionTable In rid.Select(Function(id) networkBase(id))
-                Dim check As Boolean = True
-
-                For Each cid As String In reaction.products.AsList + reaction.substrates
-                    If Not nodes.containsKey(cid) Then
-                        If Not cid Like commonIgnores Then
-                            check = False
-                            Exit For
-                        End If
-                    End If
-                Next
-
-                If check Then
-                    Yield reaction.entry
-                End If
-            Next
-        End Function
 
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
@@ -222,7 +209,7 @@ Namespace ReactionNetwork
                     ' a 和 b 是直接相连的
                     If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                         If strictReactionNetwork Then
-                            commons = strictFilter(commons).ToArray
+                            commons = strictFilter.filter(commons).ToArray
                         End If
 
                         If commons.Value.IsNullOrEmpty Then
@@ -280,7 +267,13 @@ Namespace ReactionNetwork
 
             Call reactionIDlist _
                 .Distinct _
-                .doAppendReactionEnzyme(enzymeInfo, networkBase, nodes, AddressOf addNewEdge, enzymeRelated)
+                .doAppendReactionEnzyme(
+                    enzymeInfo:=enzymeInfo,
+                    networkBase:=networkBase,
+                    nodes:=nodes,
+                    addNewEdge:=AddressOf addNewEdge,
+                    enzymeRelated:=enzymeRelated
+                )
 
             Return g
         End Function
