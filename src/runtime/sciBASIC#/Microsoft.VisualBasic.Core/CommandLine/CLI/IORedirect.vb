@@ -89,7 +89,7 @@ Namespace CommandLine
     ''' 不需要终端交互功能，则更加推荐使用<see cref="IORedirectFile"/>对象来进行调用)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class IORedirect : Implements I_ConsoleDeviceHandle
+    Public Class IORedirect : Implements IConsole
         Implements IDisposable, IIORedirectAbstract
 
         ''' <summary>
@@ -396,7 +396,7 @@ Namespace CommandLine
             Return Start(waitForExit:=True)
         End Function
 
-        Public Sub WriteLine(Optional s As String = "") Implements I_ConsoleDeviceHandle.WriteLine
+        Public Sub WriteLine(Optional s As String = "") Implements IConsole.WriteLine
             If s.StringEmpty Then
                 Call input.WriteLine()
             Else
@@ -433,15 +433,15 @@ Namespace CommandLine
             Return CType(commandLine, IORedirect)
         End Function
 
-        Private Function Read() As Integer Implements I_ConsoleDeviceHandle.Read
+        Private Function Read() As Integer Implements IConsole.Read
             Return output.Length
         End Function
 
-        Private Function ReadLine() As String Implements I_ConsoleDeviceHandle.ReadLine
+        Private Function ReadLine() As String Implements IConsole.ReadLine
             Return ""
         End Function
 
-        Public Sub WriteLine(s$, ParamArray args() As String) Implements I_ConsoleDeviceHandle.WriteLine
+        Public Sub WriteLine(s$, ParamArray args() As String) Implements IConsole.WriteLine
             Call input.WriteLine(String.Format(s, args))
             Call input.Flush()
         End Sub

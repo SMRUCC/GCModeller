@@ -60,7 +60,7 @@ Namespace ApplicationServices.Terminal
     ''' Represents the standard input, output, and error streams for console applications. 交互式的命令行终端
     ''' </summary>
     ''' <remarks></remarks>
-    Public MustInherit Class Terminal : Implements STDIO__.I_ConsoleDeviceHandle
+    Public MustInherit Class Terminal : Implements STDIO__.IConsole
 
 #Region "Console Member Inherits Details"
 
@@ -408,7 +408,7 @@ Namespace ApplicationServices.Terminal
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
         ''' <exception cref="System.ArgumentNullException">format or arg is null.</exception>
         ''' <exception cref="System.FormatException">The format specification in format is invalid.</exception>
-        Public Overridable Sub WriteLine(format As String, ParamArray args() As String) Implements STDIO__.I_ConsoleDeviceHandle.WriteLine
+        Public Overridable Sub WriteLine(format As String, ParamArray args() As String) Implements STDIO__.IConsole.WriteLine
             Call Console.WriteLine(format, args)
         End Sub
 
@@ -552,7 +552,7 @@ Namespace ApplicationServices.Terminal
         ''' <param name="value">The value to write.</param>
         ''' <remarks></remarks>
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
-        Public Overridable Sub WriteLine(Optional value As String = "") Implements STDIO__.I_ConsoleDeviceHandle.WriteLine
+        Public Overridable Sub WriteLine(Optional value As String = "") Implements STDIO__.IConsole.WriteLine
             Call Console.WriteLine(value)
         End Sub
 
@@ -697,7 +697,7 @@ Namespace ApplicationServices.Terminal
         ''' <returns>The next character from the input stream, or negative one (-1) if there are currently no more characters to be read.</returns>
         ''' <remarks></remarks>
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
-        Public Overridable Function Read() As Integer Implements STDIO__.I_ConsoleDeviceHandle.Read
+        Public Overridable Function Read() As Integer Implements STDIO__.IConsole.Read
             Return Console.Read
         End Function
 
@@ -730,7 +730,7 @@ Namespace ApplicationServices.Terminal
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
         ''' <exception cref="System.OutOfMemoryException">There is insufficient memory to allocate a buffer for the returned string.</exception>
         ''' <exception cref="System.ArgumentOutOfRangeException">The number of characters in the next line of characters is greater than System.Int32.MaxValue.</exception>
-        Public Overridable Function ReadLine() As String Implements STDIO__.I_ConsoleDeviceHandle.ReadLine
+        Public Overridable Function ReadLine() As String Implements STDIO__.IConsole.ReadLine
             Return Console.ReadLine
         End Function
 #End Region

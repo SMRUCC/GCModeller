@@ -66,7 +66,7 @@ Namespace ApplicationServices.Debugging.Logging
     ''' </remarks>
     Public Class LogFile : Implements IFileReference
         Implements IDisposable
-        Implements I_ConsoleDeviceHandle
+        Implements IConsole
 
         Dim buffer As TextWriter
         Dim counts&
@@ -153,11 +153,11 @@ Namespace ApplicationServices.Debugging.Logging
             Return $"[{counts} records]'{filePath.ToFileURL}'"
         End Function
 
-        Public Function ReadLine() As String Implements I_ConsoleDeviceHandle.ReadLine
+        Public Function ReadLine() As String Implements IConsole.ReadLine
             Return ""
         End Function
 
-        Public Sub WriteLine(Optional s As String = "") Implements I_ConsoleDeviceHandle.WriteLine
+        Public Sub WriteLine(Optional s As String = "") Implements IConsole.WriteLine
             Call WriteLine(s, type:=MSG_TYPES.INF, [Object]:="")
         End Sub
 
@@ -172,12 +172,12 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="s"></param>
         ''' <param name="args">{[Object] As String, Optional Type As MsgType = MsgType.INF, Optional WriteToScreen As Boolean = True}</param>
         ''' <remarks></remarks>
-        Public Sub WriteLine(s As String, ParamArray args() As String) Implements I_ConsoleDeviceHandle.WriteLine
+        Public Sub WriteLine(s As String, ParamArray args() As String) Implements IConsole.WriteLine
             Dim [object] As String = IIf(String.IsNullOrEmpty(args(0)), "", args(0))
             Call WriteLine(s, type:=MSG_TYPES.INF, [Object]:=[object])
         End Sub
 
-        Public Overloads Function Read() As Integer Implements I_ConsoleDeviceHandle.Read
+        Public Overloads Function Read() As Integer Implements IConsole.Read
             Return -1
         End Function
 

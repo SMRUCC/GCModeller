@@ -48,7 +48,7 @@ Namespace ApplicationServices.Terminal.STDIO__
     ''' Represents the standard input, output, and error streams for console applications.(表示一个输入输出流控制台界面接口)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Interface I_ConsoleDeviceHandle
+    Public Interface IConsole
 
         ''' <summary>
         ''' Writes the specified string value, followed by the current line terminator, to the standard output stream.
