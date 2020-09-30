@@ -7,6 +7,7 @@ Namespace AssemblyScript.Script
     ''' 
     ''' </summary>
     Public Enum Tokens
+        comment
         keyword
         symbol
         assign

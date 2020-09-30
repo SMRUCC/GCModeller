@@ -170,18 +170,24 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyScript\Commands\Modification.vb" />
+    <Compile Include="AssemblyScript\VHDFile.vb" />
+    <Compile Include="AssemblyScript\Commands\metadata\Keywords.vb" />
+    <Compile Include="AssemblyScript\Compiler.vb" />
+    <Compile Include="AssemblyScript\Registry.vb" />
     <Compile Include="AssemblyScript\Commands\Add.vb" />
     <Compile Include="AssemblyScript\Commands\Entry.vb" />
     <Compile Include="AssemblyScript\Commands\Delete.vb" />
     <Compile Include="AssemblyScript\Commands\Env.vb" />
-    <Compile Include="AssemblyScript\Commands\Label.vb" />
-    <Compile Include="AssemblyScript\Commands\Maintainer.vb" />
+    <Compile Include="AssemblyScript\Commands\metadata\Label.vb" />
+    <Compile Include="AssemblyScript\Commands\metadata\Maintainer.vb" />
     <Compile Include="AssemblyScript\Script\Tokens.vb" />
-    <Compile Include="AssemblyScript\Script\ScriptScanner.vb" />
+    <Compile Include="AssemblyScript\Script\Scanner.vb" />
     <Compile Include="AssemblyScript\Commands\From.vb" />
     <Compile Include="AssemblyScript\Environment.vb" />
     <Compile Include="AssemblyScript\Commands\Command.vb" />
     <Compile Include="AssemblyScript\NamespaceDoc.vb" />
+    <Compile Include="AssemblyScript\SyntaxTree\SyntaxParser.vb" />
     <Compile Include="KineticsModeller\Modeller.vb" />
     <Compile Include="KineticsModeller\KineticsModellerHelpers.vb" />
     <Compile Include="MarkupCompiler\CompilerWorkflow.vb" />

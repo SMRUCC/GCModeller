@@ -57,5 +57,7 @@ Namespace AssemblyScript
         Public ReadOnly Property config As CommandLine
         Public ReadOnly Property workingModel As VirtualCell
 
+
+
     End Class
 End Namespace

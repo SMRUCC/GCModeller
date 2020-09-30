@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.Compiler.AssemblyScript
 
 Partial Module CLI
 
@@ -243,5 +244,21 @@ Partial Module CLI
         Next
 
         Return 0
+    End Function
+
+    <ExportAPI("/build")>
+    <Usage("/build /assembly <makeassembly.vhd> /tag <modeltagName:version>")>
+    Public Function build(args As CommandLine) As Integer
+        Dim assembly$ = args <= "/assembly"
+        Dim tag$ = args <= "/tag"
+
+        Using registry As New Registry
+            Return AssemblyScript.Compiler _
+                .Build(assembly, registry) _
+                .DoCall(Function(vcell)
+                            Return registry.Tag(vcell, tag)
+                        End Function) _
+                .CLICode
+        End Using
     End Function
 End Module

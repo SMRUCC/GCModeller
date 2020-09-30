@@ -48,7 +48,7 @@ Namespace AssemblyScript.Script
     ''' <summary>
     ''' assembly script token scanner
     ''' </summary>
-    Public Class ScriptScanner
+    Public Class Scanner
 
         ReadOnly script As CharPtr
 

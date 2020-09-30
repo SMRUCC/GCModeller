@@ -3,9 +3,7 @@
     ''' <summary>
     ''' delete node items from cellular network
     ''' </summary>
-    Public Class Delete : Inherits Command
-
-        Public Property entry As Entry
+    Public Class Delete : Inherits Modification
 
         Public Overrides Function Execute(env As Environment) As Object
             Throw New NotImplementedException()

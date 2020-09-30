@@ -1,9 +1,8 @@
 ﻿Namespace AssemblyScript.Commands
 
-    ''' <summary>
-    ''' add item nodes to cellular network
-    ''' </summary>
-    Public Class Add : Inherits Modification
+    Public Class Keywords : Inherits Command
+
+        Public Property keywords As String()
 
         Public Overrides Function Execute(env As Environment) As Object
             Throw New NotImplementedException()
