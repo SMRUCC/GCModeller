@@ -139,7 +139,7 @@ Public Module Reconstruction
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Assign a compound list to ``<see cref="DBGET.bGetObject.Pathway.compound"/>``.
     ''' </summary>
     ''' <param name="pathway"></param>
     ''' <param name="reactions"></param>
