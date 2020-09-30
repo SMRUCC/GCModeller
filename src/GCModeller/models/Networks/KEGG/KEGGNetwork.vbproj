@@ -233,6 +233,7 @@
   <ItemGroup>
     <Compile Include="IgnoreList.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
+    <Compile Include="ReactionNetwork\Builder\EdgeFilter.vb" />
     <Compile Include="ReactionNetwork\Builder\ReactionClassNetwork.vb" />
     <Compile Include="ReactionNetwork\GetGeneSymbols.vb" />
     <Compile Include="ReactionNetwork\CompoundNodeTable.vb" />

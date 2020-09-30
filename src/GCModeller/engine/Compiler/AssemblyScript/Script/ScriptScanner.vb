@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e673abe1efd0dd2fbce32d01ba20c303, engine\Compiler\AssemblyScript\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::b908e18b933006bfc61711fce6ac5ac7, engine\Compiler\AssemblyScript\ScriptScanner.vb"
 
 ' Author:
 ' 
@@ -31,7 +31,7 @@
 
 ' Summaries:
 
-'     Class Environment
+'     Class ScriptScanner
 ' 
 ' 
 ' 
@@ -40,22 +40,42 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine
-Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Parser
 
-Namespace AssemblyScript
+Namespace AssemblyScript.Script
 
     ''' <summary>
-    ''' virtual cell model assembly compiler session.
+    ''' assembly script token scanner
     ''' </summary>
-    Public Class Environment
+    Public Class ScriptScanner
 
-        ''' <summary>
-        ''' ENV指令的环境变量配置设置结果
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property config As CommandLine
-        Public ReadOnly Property workingModel As VirtualCell
+        ReadOnly script As CharPtr
 
+        Dim buf As New CharBuffer
+        Dim escapes As New Escaping
+
+        Private Class Escaping
+            Public comment As Boolean
+            Public [string] As Boolean
+        End Class
+
+        Sub New(scriptText As String)
+            script = scriptText
+        End Sub
+
+        Public Iterator Function GetTokens() As IEnumerable(Of Token)
+            Dim token As New Value(Of Token)
+
+            Do While script
+                If Not (token = walkChar(++script)) Is Nothing Then
+                    Yield token.Value
+                End If
+            Loop
+        End Function
+
+        Private Function walkChar(c As Char) As Token
+
+        End Function
     End Class
 End Namespace

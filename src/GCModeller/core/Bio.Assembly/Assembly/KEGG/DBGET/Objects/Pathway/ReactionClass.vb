@@ -70,6 +70,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property orthology As NamedValue()
         Public Property category As String
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="repository">a directory which contains reaction class xml model files</param>
+        ''' <param name="loadsAll">load all models files or distinct(ignores duplicated in different class category)</param>
+        ''' <returns></returns>
         Public Shared Iterator Function ScanRepository(repository As String, Optional loadsAll As Boolean = False) As IEnumerable(Of ReactionClass)
             Dim busy As New SwayBar
             Dim message$
@@ -100,10 +106,22 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
     End Class
 
+    ''' <summary>
+    ''' 反应左端代谢物在经过了代谢反应之后结果上的转换变化的结果（反应的右端）
+    ''' </summary>
     Public Class ReactionCompoundTransform
 
-        <XmlAttribute> Public Property from As String
-        <XmlAttribute> Public Property [to] As String
+        ''' <summary>
+        ''' the kegg compound id
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Overridable Property from As String
+
+        ''' <summary>
+        ''' the kegg compound id
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Overridable Property [to] As String
 
         Public Overrides Function ToString() As String
             Return $"{from}->{[to]}"

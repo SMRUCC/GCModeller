@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::559287b4b342b2724f815bf2c9ba46c9, annotations\KEGG\Reconstruction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Reconstruction
-    ' 
-    '     Function: AssignCompounds, CreateIndex, createPathwayModel, GetEnzymeNumbers, GetFluxInMaps
-    '               (+2 Overloads) KEGGReconstruction
-    ' 
-    ' /********************************************************************************/
+' Module Reconstruction
+' 
+'     Function: AssignCompounds, CreateIndex, createPathwayModel, GetEnzymeNumbers, GetFluxInMaps
+'               (+2 Overloads) KEGGReconstruction
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -143,11 +144,15 @@ Public Module Reconstruction
     ''' <param name="pathway"></param>
     ''' <param name="reactions"></param>
     ''' <param name="names">the names list of the kegg compounds</param>
+    ''' <param name="classes">
+    ''' apply as the compund filter
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function AssignCompounds(pathway As DBGET.bGetObject.Pathway,
                                     reactions As Dictionary(Of String, ReactionTable()),
-                                    Optional names As Dictionary(Of String, String) = Nothing) As DBGET.bGetObject.Pathway
+                                    Optional names As Dictionary(Of String, String) = Nothing,
+                                    Optional classes As Dictionary(Of String, ReactionClassTable()) = Nothing) As DBGET.bGetObject.Pathway
 
         Dim enzymes As NamedValue() = Nothing
         Dim fluxInMap As ReactionTable() = GetFluxInMaps(pathway, reactions, enzymes).ToArray
@@ -157,7 +162,25 @@ Public Module Reconstruction
         End If
 
         pathway.compound = fluxInMap _
-            .Select(Function(rxn) rxn.substrates.AsList + rxn.products) _
+            .Select(Function(rxn)
+                        Dim rawList As String() = rxn.substrates.AsList + rxn.products
+
+                        If classes Is Nothing OrElse Not classes.ContainsKey(rxn.entry) Then
+                            Return DirectCast(rawList, IEnumerable(Of String))
+                        Else
+                            Dim classList As ReactionClassTable() = classes(rxn.entry)
+                            Dim compoundIndex As Index(Of String) = classList _
+                                .Select(Iterator Function(c)
+                                            Yield c.from
+                                            Yield c.to
+                                        End Function) _
+                                .IteratesALL _
+                                .Distinct _
+                                .Indexing
+
+                            Return rawList.Where(Function(id) id Like compoundIndex)
+                        End If
+                    End Function) _
             .IteratesALL _
             .Distinct _
             .Select(Function(cid)
@@ -172,6 +195,13 @@ Public Module Reconstruction
         Return pathway
     End Function
 
+    ''' <summary>
+    ''' Reconstruct of the kegg pathway network based on the given protein annotation information.
+    ''' </summary>
+    ''' <param name="reference"></param>
+    ''' <param name="genes"></param>
+    ''' <param name="min_cov"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
                                                 genes As IEnumerable(Of ProteinAnnotation),
