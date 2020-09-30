@@ -202,7 +202,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DEPsKOHeatmap.vb" />
-    <Compile Include="Reconstruction.vb" />
+    <Compile Include="Reconstruct\UniqueRank.vb" />
+    <Compile Include="Reconstruct\Reconstruction.vb" />
     <Compile Include="PathwayMap.vb" />
     <Compile Include="KEGGOrthology.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
