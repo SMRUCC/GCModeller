@@ -44,13 +44,28 @@
 
 Namespace ApplicationServices.Terminal.STDIO__
 
-    ''' <summary>
-    ''' Represents the standard input, output, and error streams for console applications.
-    ''' (表示一个输入输出流控制台界面接口)
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Interface IConsole
+    Public Interface IReadDevice
+        ''' <summary>
+        ''' Reads the next line of characters from the standard input stream.(从输入流读取下一行字符)
+        ''' </summary>
+        ''' <returns>
+        ''' The next line of characters from the input stream, or null if no more lines are available.
+        ''' </returns>
+        ''' <remarks></remarks>
+        Function ReadLine() As String
+        ''' <summary>
+        ''' Reads the next character from the standard input stream.(从输入流读取下一个字符)
+        ''' </summary>
+        ''' <returns>
+        ''' The next character from the input stream, or negative one (-1) if there are currently no more 
+        ''' characters to be read.
+        ''' </returns>
+        ''' <remarks></remarks>
+        Function Read() As Integer
+        Function ReadKey() As ConsoleKeyInfo
+    End Interface
 
+    Public Interface IWriteDevice
         Sub Clear()
 
         Sub Write(str As String)
@@ -73,25 +88,28 @@ Namespace ApplicationServices.Terminal.STDIO__
         ''' <param name="args"></param>
         ''' <remarks></remarks>
         Sub WriteLine(s As String, ParamArray args As Object())
+    End Interface
+
+    Public Interface InteractiveDevice : Inherits IReadDevice, IWriteDevice
+    End Interface
+
+    ''' <summary>
+    ''' Represents the standard input, output, and error streams for console applications.
+    ''' (表示一个输入输出流控制台界面接口)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Interface IConsole : Inherits InteractiveDevice
 
         ''' <summary>
-        ''' Reads the next line of characters from the standard input stream.(从输入流读取下一行字符)
+        ''' 控制台窗口的宽度，以列为单位。
         ''' </summary>
-        ''' <returns>
-        ''' The next line of characters from the input stream, or null if no more lines are available.
-        ''' </returns>
-        ''' <remarks></remarks>
-        Function ReadLine() As String
-        ''' <summary>
-        ''' Reads the next character from the standard input stream.(从输入流读取下一个字符)
-        ''' </summary>
-        ''' <returns>
-        ''' The next character from the input stream, or negative one (-1) if there are currently no more 
-        ''' characters to be read.
-        ''' </returns>
-        ''' <remarks></remarks>
-        Function Read() As Integer
-        Function ReadKey() As ConsoleKeyInfo
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 不是以像素为单位，而是以字符个数为单位
+        ''' </remarks>
+        ReadOnly Property WindowWidth As Integer
+        Property BackgroundColor As ConsoleColor
+        Property ForegroundColor As ConsoleColor
 
     End Interface
 End Namespace

@@ -710,7 +710,7 @@ Namespace ApplicationServices.Terminal
         ''' <exception cref="System.ArgumentException">The color specified in a set operation is not a valid Color.</exception>
         ''' <exception cref="System.Security.SecurityException">The user does not have permission to perform this action.</exception>
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
-        Public Property BackgroundColor As System.ConsoleColor
+        Public Property BackgroundColor As System.ConsoleColor Implements STDIO__.IConsole.BackgroundColor
             Get
                 Return Console.BackgroundColor
             End Get
@@ -859,7 +859,7 @@ Namespace ApplicationServices.Terminal
         ''' <exception cref="System.ArgumentException">The color specified in a set operation is not a valid Color.</exception>
         ''' <exception cref="System.Security.SecurityException">The user does not have permission to perform this action.</exception>
         ''' <exception cref="System.IO.IOException">An I/O error occurred.</exception>
-        Public Property ForegroundColor As System.ConsoleColor
+        Public Property ForegroundColor As System.ConsoleColor Implements STDIO__.IConsole.ForegroundColor
             Get
                 Return Console.ForegroundColor
             End Get
@@ -1111,7 +1111,7 @@ Namespace ApplicationServices.Terminal
         ''' <remarks></remarks>
         ''' <exception cref="System.ArgumentOutOfRangeException">The value of the System.Console.WindowWidth property or the value of the System.Console.WindowHeight property is less than or equal to 0.-or-The value of the System.Console.WindowHeight property plus the value of the System.Console.WindowTop property is greater than or equal to System.Int16.MaxValue.-or-The value of the System.Console.WindowWidth property or the value of the System.Console.WindowHeight property is greater than the largest possible window width or height for the current screen resolution and console font.</exception>
         ''' <exception cref="System.IO.IOException">Error reading or writing information.</exception>
-        Public Property WindowWidth As Integer
+        Public Property WindowWidth As Integer Implements STDIO__.IConsole.WindowWidth
             Get
                 Return Console.WindowWidth
             End Get
