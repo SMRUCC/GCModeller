@@ -22,6 +22,22 @@ FROM hsa:20200929
 -- LABEL maintainer="xxx"
 MAINTAINER xieguigang <xie.guigang@gcmodeller.org>
 
+-- keyword is a term list that used for registry indexing
+-- of your generated virtual cell model
+-- these keywords is used for local repository search and 
+-- online search.
+-- 
+-- the quot character can be omit if the keyword contains no
+-- white space
+-- and each keyword terms should be seperated by the comma
+-- symbol 
+KEYWORDS hsa,"Human Diseases"
+
+-- the label is apply for add meta data to your virtual
+-- cell data model
+-- label meta is written in key-string_value pair format
+-- the meta data key is not limited on number, andalso 
+-- you can add any meta name as you wish 
 LABEL author="xieguigang <xie.guigang@gcmodeller.org>"
 LABEL version="1.0"
 LABEL about="blabla"
