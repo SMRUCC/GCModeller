@@ -396,13 +396,13 @@ Namespace CommandLine
             Return Start(waitForExit:=True)
         End Function
 
-        Public Sub WriteLine(Optional s As String = "") Implements IConsole.WriteLine
-            If s.StringEmpty Then
-                Call input.WriteLine()
-            Else
-                Call input.WriteLine(s)
-            End If
+        Public Sub WriteLine() Implements IConsole.WriteLine
+            Call input.WriteLine()
+            Call input.Flush()
+        End Sub
 
+        Public Sub WriteLine(s As String) Implements IConsole.WriteLine
+            Call input.WriteLine(s)
             Call input.Flush()
         End Sub
 
@@ -441,10 +441,23 @@ Namespace CommandLine
             Return ""
         End Function
 
-        Public Sub WriteLine(s$, ParamArray args() As String) Implements IConsole.WriteLine
+        Public Sub WriteLine(s$, ParamArray args() As Object) Implements IConsole.WriteLine
             Call input.WriteLine(String.Format(s, args))
             Call input.Flush()
         End Sub
+
+        Public Sub Clear() Implements IConsole.Clear
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Sub Write(str As String) Implements IConsole.Write
+            Call input.Write(str)
+            Call input.Flush()
+        End Sub
+
+        Public Function ReadKey() As ConsoleKeyInfo Implements IConsole.ReadKey
+            Throw New NotImplementedException()
+        End Function
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
