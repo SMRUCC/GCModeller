@@ -72,10 +72,10 @@ Namespace AssemblyScript.Script
             Do While script
                 If Not (token = walkChar(++script)) Is Nothing Then
                     Yield token.Value
+                End If
 
-                    If buf = "," OrElse buf = "=" OrElse buf = ":" Then
-                        Yield populateToken()
-                    End If
+                If buf = "," OrElse buf = "=" OrElse buf = ":" Then
+                    Yield populateToken()
                 End If
             Loop
         End Function

@@ -38,8 +38,8 @@ KEYWORDS hsa,"Human Diseases"
 -- label meta is written in key-string_value pair format
 -- the meta data key is not limited on number, andalso 
 -- you can add any meta name as you wish 
+LABEL version="1.0",day="2020-10-01"
 LABEL author="xieguigang <xie.guigang@gcmodeller.org>"
-LABEL version="1.0"
 LABEL about="blabla"
 LABEL url="https://gcmodeller.org"
 

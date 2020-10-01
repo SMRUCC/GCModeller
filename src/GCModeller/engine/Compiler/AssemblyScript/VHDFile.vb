@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.GCModeller.Compiler.AssemblyScript.Commands
+﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.Compiler.AssemblyScript.Commands
 Imports SMRUCC.genomics.GCModeller.Compiler.AssemblyScript.Script
 
 Namespace AssemblyScript
@@ -41,8 +42,26 @@ Namespace AssemblyScript
             If Not directive.ContainsKey("MAINTAINER") Then
                 vhd.maintainers = {New Maintainer With {.authorName = My.User.Name}}
             Else
-                vhd.maintainers = directive("MAINTAINER").Select(Function(a) New Maintainer(a)).ToArray
+                vhd.maintainers = directive("MAINTAINER") _
+                    .Select(Function(a) New Maintainer(a)) _
+                    .ToArray
             End If
+
+            vhd.keywords = directive _
+                .TryGetValue("KEYWORDS") _
+                .SafeQuery _
+                .Select(Function(a) New Keywords(a)) _
+                .ToArray
+            vhd.metadata = directive _
+                .TryGetValue("LABEL") _
+                .SafeQuery _
+                .Select(Function(a) New Label(a)) _
+                .ToArray
+            vhd.environment = directive _
+                .TryGetValue("ENV") _
+                .SafeQuery _
+                .Select(Function(a) New Env(a)) _
+                .ToArray
 
             Return vhd
         End Function
