@@ -20,7 +20,7 @@ FROM hsa:20200929
 
 -- MAINTAINER is a kind of shortcut of the 
 -- LABEL maintainer="xxx"
-MAINTAINER xieguigang <xie.guigang@gcmodeller.org>
+MAINTAINER xieguigang "<xie.guigang@gcmodeller.org>"
 
 -- keyword is a term list that used for registry indexing
 -- of your generated virtual cell model
@@ -60,7 +60,7 @@ ADD K00087,K00106,K11177,K11178,K13479,K13480,K13482
 -- category.
 -- this command will add all enzymes in the specific
 -- category
-ADD KO::"Human Diseases\Neurodegenerative disease\*"
+ADD KO:"Human Diseases\Neurodegenerative disease\*"
 
 -- as the same as the ADD command, DELETE command also can
 -- accept a list of KO id or category match for removes the
@@ -71,4 +71,4 @@ ADD KO::"Human Diseases\Neurodegenerative disease\*"
 -- category.
 -- this command will removes all enzymes under the 
 -- specific category.
-DELETE KO::"Human Diseases\Substance dependence\*"
+DELETE KO:"Human Diseases\Substance dependence\*"

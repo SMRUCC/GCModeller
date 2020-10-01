@@ -18,6 +18,7 @@ Namespace AssemblyScript
 
         Public Shared Function Parse(script As String) As VHDFile
             Dim scanner As New Scanner(script.SolveStream)
+            Dim tokens = scanner.GetTokens.ToArray
 
         End Function
 
