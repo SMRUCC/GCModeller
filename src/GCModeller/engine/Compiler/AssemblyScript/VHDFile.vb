@@ -63,6 +63,19 @@ Namespace AssemblyScript
                 .Select(Function(a) New Env(a)) _
                 .ToArray
 
+            Dim add = directive _
+                .TryGetValue("ADD") _
+                .SafeQuery _
+                .Select(Function(a) DirectCast(New Add(a), Modification)) _
+                .AsList
+            Dim delete = directive _
+                .TryGetValue("DELETE") _
+                .SafeQuery _
+                .Select(Function(a) DirectCast(New Delete(a), Modification)) _
+                .ToArray
+
+            vhd.modifications = add + delete
+
             Return vhd
         End Function
 

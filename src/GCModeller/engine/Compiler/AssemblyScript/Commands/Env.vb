@@ -11,8 +11,8 @@ Namespace AssemblyScript.Commands
         Public ReadOnly Property value As String
 
         Sub New(tokens As Token())
-            name = tokens(1).text
-            value = tokens(3).text
+            name = stripValueString(tokens(1).text)
+            value = stripValueString(tokens(3).text)
         End Sub
 
         Public Overrides Function Execute(env As Environment) As Object
@@ -20,7 +20,7 @@ Namespace AssemblyScript.Commands
         End Function
 
         Public Overrides Function ToString() As String
-            Throw New NotImplementedException()
+            Return $"ENV {name}=""{value}"""
         End Function
     End Class
 End Namespace
