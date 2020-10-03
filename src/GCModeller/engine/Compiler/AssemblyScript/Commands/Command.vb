@@ -55,5 +55,10 @@ Namespace AssemblyScript.Commands
 
         Public MustOverride Function Execute(env As Environment) As Object
         Public MustOverride Overrides Function ToString() As String
+
+        Friend Shared Function stripValueString(text As String) As String
+            Return Strings.Trim(text).Trim(""""c).Trim(" "c)
+        End Function
+
     End Class
 End Namespace
