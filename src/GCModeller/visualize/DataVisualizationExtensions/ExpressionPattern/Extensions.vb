@@ -73,7 +73,9 @@ Namespace ExpressionPattern
                                    Optional bg$ = "white",
                                    Optional title$ = "Expression Patterns",
                                    Optional xlab$ = "time groups",
-                                   Optional ylab$ = "expression quantification") As GraphicsData
+                                   Optional ylab$ = "expression quantification",
+                                   Optional colorSet$ = "RdPu:c8",
+                                   Optional levels% = 50) As GraphicsData
 
             Dim theme As New Theme With {
                 .background = bg,
@@ -82,7 +84,7 @@ Namespace ExpressionPattern
                 .axisLabelCSS = CSSFont.Win10NormalLarger
             }
 
-            Return New PatternPlot(matrix, theme) With {
+            Return New PatternPlot(matrix, theme, colorSet, levels) With {
                 .main = title,
                 .xlabel = xlab,
                 .ylabel = ylab
