@@ -68,20 +68,20 @@ Namespace ExpressionPattern
 
         <Extension>
         Public Function DrawMatrix(matrix As ExpressionPattern,
-                                   Optional size$ = "2400,2100",
+                                   Optional size$ = "6000,5200",
                                    Optional padding$ = g.DefaultPadding,
                                    Optional bg$ = "white",
                                    Optional title$ = "Expression Patterns",
                                    Optional xlab$ = "time groups",
                                    Optional ylab$ = "expression quantification",
-                                   Optional colorSet$ = "RdPu:c8",
+                                   Optional colorSet$ = "YlGnBu:c8",
                                    Optional levels% = 50) As GraphicsData
 
             Dim theme As New Theme With {
                 .background = bg,
                 .padding = padding,
                 .axisTickCSS = CSSFont.Win10Normal,
-                .axisLabelCSS = CSSFont.Win10NormalLarger
+                .axisLabelCSS = CSSFont.Win7Small
             }
 
             Return New PatternPlot(matrix, theme, colorSet, levels) With {

@@ -132,12 +132,18 @@ Namespace ExpressionPattern
                 .ToArray
 
             For Each gene As DataFrameRow In col.expression
-                Dim i As Integer = CInt(levels.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
-                Dim color As Color = colors(i)
+                Dim i As Integer
+
+                If col.expression.Length = 1 Then
+                    ' 聚类有时会出现一个成员元素的结果？
+                    i = colors.Length - 1
+                Else
+                    i = CInt(levels.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
+                End If
 
                 Yield New SerialData With {
                     .title = gene.geneID,
-                    .color = color,
+                    .color = colors(i),
                     .lineType = DashStyle.Solid,
                     .pointSize = 5,
                     .width = 5,

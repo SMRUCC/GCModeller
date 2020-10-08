@@ -244,15 +244,17 @@ Module visualPlot
     <ExportAPI("plot.expression_patterns")>
     Public Function PlotExpressionPatterns(matrix As ExpressionPattern,
                                            <RRawVectorArgument>
-                                           Optional size As Object = "2400,2100",
+                                           Optional size As Object = "2400,2700",
                                            <RRawVectorArgument>
-                                           Optional padding As Object = g.DefaultPadding,
-                                           Optional bg As Object = "white") As Object
+                                           Optional padding As Object = g.DefaultUltraLargePadding,
+                                           Optional bg As Object = "white",
+                                           Optional colorSet$ = "YlGnBu:c8") As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
-            bg:=InteropArgumentHelper.getColor(bg, "white")
+            bg:=InteropArgumentHelper.getColor(bg, "white"),
+            colorSet:=colorSet
         )
     End Function
 End Module

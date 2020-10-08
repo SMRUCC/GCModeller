@@ -21,6 +21,6 @@ expr0
 :> average(sampleinfo)
 :> relative
 :> expression.cmeans_pattern(dim = [3, 4])
-:> plot.expression_patterns(size = [4000,2400])
+:> plot.expression_patterns(size = [6000,5600], colorSet = "RdPu:c8")
 :> save.graphics(file = "./patterns.png")
 ;
