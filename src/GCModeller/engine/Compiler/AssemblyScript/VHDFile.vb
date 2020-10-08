@@ -4,6 +4,12 @@ Imports SMRUCC.genomics.GCModeller.Compiler.AssemblyScript.Script
 
 Namespace AssemblyScript
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' 主要是应用于通过命令行来进行模型文件的自动化构建操作
+    ''' </remarks>
     Public Class VHDFile
 
         ''' <summary>
