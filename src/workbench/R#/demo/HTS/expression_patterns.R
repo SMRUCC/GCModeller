@@ -8,9 +8,17 @@ let expr0 = read.csv("msms_Intensity.csv", row_names = 1);
 expr0[, "mz"] = NULL;
 expr0[, "rt"] = NULL;
 
+print("we have all sample labels:");
+print(colnames(expr0));
+
+let sampleinfo = guess.sample_groups(colnames(expr0), raw_list = FALSE);
+
+print("a possible sample groups that parsed from the given sample labels:");
+print(sampleinfo);
+
 expr0
 :> load.expr
-:> average()
+:> average(sampleinfo)
 :> relative
 :> expression.cmeans_pattern(dim = [3, 4])
 :> plot.expression_patterns(size = [4000,2400])
