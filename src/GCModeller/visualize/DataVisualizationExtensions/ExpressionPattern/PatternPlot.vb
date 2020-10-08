@@ -85,10 +85,10 @@ Namespace ExpressionPattern
             Dim padding As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
-                x = canvas.PlotRegion.Left + w
+                x = canvas.PlotRegion.Left
 
                 For Each col As Matrix In row
-                    padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
+                    padding = $"padding: {y}px {canvas.Width - (x + w)}px {canvas.Height - (y + h)}px {x}"
                     layout = New GraphicsRegion(canvas.Size, padding)
                     x += w + iw
                     scatterData = col.DoCall(AddressOf createLines).ToArray
