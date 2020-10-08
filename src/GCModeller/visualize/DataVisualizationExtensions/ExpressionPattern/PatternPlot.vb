@@ -86,7 +86,14 @@ Namespace ExpressionPattern
                     x += w
                     scatterData = col.DoCall(AddressOf createLines).ToArray
 
-                    Call Scatter.Plot(scatterData, g, layout, Xlabel:=xlabel, Ylabel:=ylabel)
+                    Call Scatter.Plot(
+                        c:=scatterData,
+                        g:=g,
+                        rect:=layout,
+                        Xlabel:=xlabel,
+                        Ylabel:=ylabel,
+                        tickFontStyle:=theme.axisTickCSS
+                    )
                 Next
 
                 y += h
