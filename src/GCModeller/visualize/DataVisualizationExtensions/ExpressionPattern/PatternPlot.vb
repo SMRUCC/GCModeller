@@ -68,8 +68,15 @@ Namespace ExpressionPattern
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim w = canvas.PlotRegion.Width / matrix.dim(Scan0)
-            Dim h = canvas.PlotRegion.Height / matrix.dim(1)
+            ' 下面得到作图子区域的大小
+            ' 用于计算布局信息
+            Dim intervalTotalWidth! = canvas.PlotRegion.Width * 0.2
+            Dim intervalTotalHeight! = canvas.PlotRegion.Height * 0.2
+            Dim w = (canvas.PlotRegion.Width - intervalTotalWidth) / matrix.dim(Scan0)
+            Dim h = (canvas.PlotRegion.Height - intervalTotalHeight) / matrix.dim(1)
+            Dim iw = intervalTotalWidth / (matrix.dim(Scan0) - 1)
+            Dim ih = intervalTotalHeight / (matrix.dim(1) - 1)
+
             Dim scatterData As SerialData()
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
@@ -83,7 +90,7 @@ Namespace ExpressionPattern
                 For Each col As Matrix In row
                     padding = $"padding: {y}px {canvas.Width - x + w}px {canvas.Height - y + h}px {x}"
                     layout = New GraphicsRegion(canvas.Size, padding)
-                    x += w
+                    x += w + iw
                     scatterData = col.DoCall(AddressOf createLines).ToArray
 
                     Call Scatter.Plot(
@@ -92,11 +99,12 @@ Namespace ExpressionPattern
                         rect:=layout,
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
-                        tickFontStyle:=theme.axisTickCSS
+                        tickFontStyle:=theme.axisTickCSS,
+                        labelFontStyle:=theme.axisLabelCSS
                     )
                 Next
 
-                y += h
+                y += h + ih
             Next
         End Sub
 

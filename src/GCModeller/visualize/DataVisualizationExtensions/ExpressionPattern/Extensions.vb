@@ -78,7 +78,8 @@ Namespace ExpressionPattern
             Dim theme As New Theme With {
                 .background = bg,
                 .padding = padding,
-                .axisTickCSS = CSSFont.Win10Normal
+                .axisTickCSS = CSSFont.Win10Normal,
+                .axisLabelCSS = CSSFont.Win10NormalLarger
             }
 
             Return New PatternPlot(theme) With {
