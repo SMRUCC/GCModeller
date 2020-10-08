@@ -72,16 +72,16 @@ Namespace ExpressionPattern
             ' 用于计算布局信息
             Dim intervalTotalWidth! = canvas.PlotRegion.Width * 0.2
             Dim intervalTotalHeight! = canvas.PlotRegion.Height * 0.2
-            Dim w = (canvas.PlotRegion.Width - intervalTotalWidth) / matrix.dim(Scan0)
-            Dim h = (canvas.PlotRegion.Height - intervalTotalHeight) / matrix.dim(1)
-            Dim iw = intervalTotalWidth / (matrix.dim(Scan0) - 1)
-            Dim ih = intervalTotalHeight / (matrix.dim(1) - 1)
+            Dim w = (canvas.PlotRegion.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1)
+            Dim h = (canvas.PlotRegion.Height - intervalTotalHeight) / (matrix.dim(1) + 1)
+            Dim iw = intervalTotalWidth / (matrix.dim(Scan0))
+            Dim ih = intervalTotalHeight / (matrix.dim(1))
 
             Dim scatterData As SerialData()
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
             Dim x!
-            Dim y! = canvas.PlotRegion.Top + h
+            Dim y! = canvas.PlotRegion.Top
             Dim padding As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
@@ -100,7 +100,8 @@ Namespace ExpressionPattern
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
                         tickFontStyle:=theme.axisTickCSS,
-                        labelFontStyle:=theme.axisLabelCSS
+                        labelFontStyle:=theme.axisLabelCSS,
+                        showLegend:=False
                     )
                 Next
 

@@ -105,8 +105,9 @@ Namespace ExpressionPattern
 
         Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
             Dim row As New List(Of Matrix)
+            Dim clusterGroups = clusters.GroupBy(Function(c) c.cluster).ToArray
 
-            For Each cluster As IGrouping(Of Integer, FuzzyCMeansEntity) In clusters.GroupBy(Function(c) c.cluster)
+            For Each cluster As IGrouping(Of Integer, FuzzyCMeansEntity) In clusterGroups
                 Dim matrix = New Matrix With {
                     .sampleID = sampleNames,
                     .expression = cluster _
