@@ -16,11 +16,17 @@ let sampleinfo = guess.sample_groups(colnames(expr0), raw_list = FALSE);
 print("a possible sample groups that parsed from the given sample labels:");
 print(sampleinfo);
 
-expr0
+let patterns = expr0
 :> load.expr
 :> average(sampleinfo)
 :> relative
 :> expression.cmeans_pattern(dim = [3, 4])
+;
+
+print("view patterns result:");
+print(patterns);
+
+patterns
 :> plot.expression_patterns(size = [6000,5600], colorSet = "RdPu:c8")
 :> save.graphics(file = "./patterns.png")
 ;
