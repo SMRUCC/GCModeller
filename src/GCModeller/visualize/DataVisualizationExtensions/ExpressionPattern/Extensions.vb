@@ -82,9 +82,8 @@ Namespace ExpressionPattern
                 .axisLabelCSS = CSSFont.Win10NormalLarger
             }
 
-            Return New PatternPlot(theme) With {
+            Return New PatternPlot(matrix, theme) With {
                 .main = title,
-                .matrix = matrix,
                 .xlabel = xlab,
                 .ylabel = ylab
             }.Plot(size)
