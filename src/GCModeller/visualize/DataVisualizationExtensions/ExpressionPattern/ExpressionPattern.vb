@@ -117,7 +117,8 @@ Namespace ExpressionPattern
                                         .experiments = a.entityVector
                                     }
                                 End Function) _
-                        .ToArray
+                        .ToArray,
+                    .tag = cluster.Key
                 }
 
                 row += matrix

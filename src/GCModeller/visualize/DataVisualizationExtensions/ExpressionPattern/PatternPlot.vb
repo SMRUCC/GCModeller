@@ -70,10 +70,11 @@ Namespace ExpressionPattern
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             ' 下面得到作图子区域的大小
             ' 用于计算布局信息
-            Dim intervalTotalWidth! = canvas.PlotRegion.Width * 0.2
-            Dim intervalTotalHeight! = canvas.PlotRegion.Height * 0.2
-            Dim w = (canvas.PlotRegion.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1)
-            Dim h = (canvas.PlotRegion.Height - intervalTotalHeight) / (matrix.dim(1) + 1)
+            Dim plot As Rectangle = canvas.PlotRegion
+            Dim intervalTotalWidth! = plot.Width * 0.3
+            Dim intervalTotalHeight! = plot.Height * 0.3
+            Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1)
+            Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1))
             Dim iw = intervalTotalWidth / (matrix.dim(Scan0))
             Dim ih = intervalTotalHeight / (matrix.dim(1))
 
@@ -81,7 +82,7 @@ Namespace ExpressionPattern
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
             Dim x!
-            Dim y! = canvas.PlotRegion.Top
+            Dim y! = canvas.PlotRegion.Top + ih
             Dim padding As String
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
