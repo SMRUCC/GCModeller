@@ -95,6 +95,7 @@ Namespace ExpressionPattern
             Dim x!
             Dim y! = canvas.PlotRegion.Top + ih
             Dim padding As String
+            Dim clusterTagId As Integer
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
                 x = canvas.PlotRegion.Left
@@ -103,7 +104,13 @@ Namespace ExpressionPattern
                     padding = $"padding: {y}px {canvas.Width - (x + w)}px {canvas.Height - (y + h)}px {x}"
                     layout = New GraphicsRegion(canvas.Size, padding)
                     x += w + iw
-                    scatterData = col.DoCall(AddressOf createLines).ToArray
+                    clusterTagId = Integer.Parse(col.tag)
+                    scatterData = col _
+                        .DoCall(AddressOf createLines) _
+                        .OrderBy(Function(gene)
+                                     Return patternsIndex(gene.title).memberships(clusterTagId)
+                                 End Function) _
+                        .ToArray
 
                     Call Scatter.Plot(
                         c:=scatterData,
