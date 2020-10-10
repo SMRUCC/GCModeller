@@ -46,10 +46,9 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Net.Protocols
-Imports Microsoft.VisualBasic.Text.Levenshtein
 
 Namespace ProteinDomainArchitecture.MPAlignment
 

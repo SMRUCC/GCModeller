@@ -44,6 +44,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
