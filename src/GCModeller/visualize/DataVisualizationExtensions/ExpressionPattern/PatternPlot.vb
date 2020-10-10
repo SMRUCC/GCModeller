@@ -153,7 +153,7 @@ Namespace ExpressionPattern
                     .color = colors(i),
                     .lineType = DashStyle.Solid,
                     .pointSize = 5,
-                    .width = 5,
+                    .width = 20,
                     .pts = gene.experiments _
                         .Select(Function(exp, idx)
                                     Return New PointData With {
