@@ -203,6 +203,10 @@
       <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>
       <Name>KEGGNetwork</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
+      <Project>{C7C6BB3D-210C-4F6F-96AE-E499A2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
       <Name>NCBI.Extensions.localblast</Name>

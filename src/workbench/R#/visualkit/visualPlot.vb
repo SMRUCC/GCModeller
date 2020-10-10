@@ -234,17 +234,6 @@ Module visualPlot
         }
     End Function
 
-    <ExportAPI("expression.cmeans_pattern")>
-    Public Function CmeansPattern(matrix As Matrix, <RRawVectorArgument> Optional [dim] As Object = "3,3") As ExpressionPattern
-        Return InteropArgumentHelper _
-            .getSize([dim], "3,3") _
-            .Split(","c) _
-            .Select(AddressOf Integer.Parse) _
-            .DoCall(Function(dimension)
-                        Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
-                    End Function)
-    End Function
-
     <ExportAPI("plot.expression_patterns")>
     Public Function PlotExpressionPatterns(matrix As ExpressionPattern,
                                            <RRawVectorArgument>

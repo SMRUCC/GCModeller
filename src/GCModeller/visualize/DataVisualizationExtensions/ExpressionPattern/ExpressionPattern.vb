@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
@@ -77,6 +78,7 @@ Namespace ExpressionPattern
             Return sb.ToString
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
             Return populatePartitions(Patterns, [dim], sampleNames)
         End Function
