@@ -119,7 +119,11 @@ Module DEGSample
     End Function
 
     <ExportAPI("read.sampleinfo")>
-    Public Function ReadSampleInfo(file As String, Optional tsv As Boolean = False, Optional exclude_groups As String() = Nothing) As SampleInfo()
+    Public Function ReadSampleInfo(file As String,
+                                   Optional tsv As Boolean = False,
+                                   Optional exclude_groups As String() = Nothing,
+                                   Optional id_makenames As Boolean = False) As SampleInfo()
+
         Dim firstLine As String() = New RowObject(file.ReadFirstLine, tsv).ToArray
         Dim nameMaps As New NameMapping(New Dictionary(Of String, String) From {
             {firstLine(Scan0), NameOf(SampleInfo.ID)}
@@ -142,12 +146,27 @@ Module DEGSample
             End With
         End If
 
+        If id_makenames Then
+            Dim sampleId As String() = samples.Select(Function(a) a.ID).ToArray
+
+            sampleId = REnv.Internal.Invokes.base.makeNames(sampleId)
+
+            For i As Integer = 0 To sampleId.Length - 1
+                samples(i).ID = sampleId(i)
+            Next
+        End If
+
         Return samples
     End Function
 
     <ExportAPI("write.sampleinfo")>
     Public Function WriteSampleInfo(sampleinfo As SampleInfo(), file$) As Boolean
         Return sampleinfo.SaveTo(file)
+    End Function
+
+    <ExportAPI("sampleInfo")>
+    Public Function sampleInfoTable(ID As String(), sample_name As String(), sample_info As String()) As SampleInfo()
+        Throw New NotImplementedException
     End Function
 
     ''' <summary>
