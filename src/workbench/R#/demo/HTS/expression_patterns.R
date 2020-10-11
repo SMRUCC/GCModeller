@@ -27,6 +27,11 @@ print("view patterns result:");
 print(patterns);
 
 patterns
-:> plot.expression_patterns(size = [6000,5600], colorSet = "RdPu:c8")
+:> plot.expression_patterns(size = [6000,5000], colorSet = "RdPu:c8")
 :> save.graphics(file = "./patterns.png")
+;
+
+patterns
+:> cmeans_matrix
+:> write.csv(file = "./patterns.csv")
 ;

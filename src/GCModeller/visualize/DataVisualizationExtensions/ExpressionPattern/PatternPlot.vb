@@ -87,7 +87,7 @@ Namespace ExpressionPattern
             Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1)
             Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1))
             Dim iw = intervalTotalWidth / (matrix.dim(Scan0))
-            Dim ih = intervalTotalHeight / (matrix.dim(1))
+            Dim ih = intervalTotalHeight / (matrix.dim(1) - 1)
 
             Dim scatterData As SerialData()
             Dim i As i32 = 1

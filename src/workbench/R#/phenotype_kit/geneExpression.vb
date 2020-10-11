@@ -42,8 +42,10 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -52,6 +54,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports REnv = SMRUCC.Rsharp.Runtime
 Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -61,7 +64,7 @@ Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 Module geneExpression
 
     Sub New()
-
+        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
     End Sub
 
     ''' <summary>
@@ -153,5 +156,27 @@ Module geneExpression
             .DoCall(Function(dimension)
                         Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
                     End Function)
+    End Function
+
+    ''' <summary>
+    ''' get cluster membership matrix
+    ''' </summary>
+    ''' <param name="pattern"></param>
+    ''' <returns></returns>
+    <ExportAPI("cmeans_matrix")>
+    Public Function GetCmeansPattern(pattern As ExpressionPattern) As Object
+        Return pattern _
+            .Patterns _
+            .Select(Function(a)
+                        Return New DataSet With {
+                            .ID = a.uid,
+                            .Properties = a.memberships _
+                                .ToDictionary(Function(c) $"#{c.Key + 1}",
+                                              Function(c)
+                                                  Return c.Value
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module

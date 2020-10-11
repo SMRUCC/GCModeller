@@ -69,10 +69,6 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualkit.plots")>
 Module visualPlot
 
-    Sub New()
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
-    End Sub
-
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
