@@ -161,7 +161,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 ## Gallery
 
-[![](./src/workbench/R#/demo/HTS/patterns.png)](./src/workbench/R#/demo/HTS/expression_patterns.R)
+[![](./src/workbench/R%23/demo/HTS/patterns.png)](./src/workbench/R%23/demo/HTS/expression_patterns.R)
 ![](./images/vocano.plot.png)
 ![](./images/KEGG-pathway-network-clusters.png)
 ![](./images/RSD-P.density.png)
