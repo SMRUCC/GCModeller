@@ -73,8 +73,8 @@ Namespace ExpressionPattern
         ReadOnly colors As Color()
 
         Public Property clusterLabelStyle As String = CSSFont.PlotSmallTitle
-        Public Property legendTitleStyle As String = CSSFont.PlotSmallTitle
-        Public Property legendTickStyle As String = CSSFont.Win7Normal
+        Public Property legendTitleStyle As String = CSSFont.Win7Normal
+        Public Property legendTickStyle As String = CSSFont.Win7Small
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -88,7 +88,7 @@ Namespace ExpressionPattern
             ' 下面得到作图子区域的大小
             ' 用于计算布局信息
             Dim plot As Rectangle = canvas.PlotRegion
-            Dim intervalTotalWidth! = plot.Width * 0.2
+            Dim intervalTotalWidth! = plot.Width * 0.3
             Dim intervalTotalHeight! = plot.Height * 0.3
             Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1.5)
             Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1) - 1)
@@ -113,7 +113,7 @@ Namespace ExpressionPattern
             Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
-                x = canvas.PlotRegion.Left + iw / 2
+                x = canvas.PlotRegion.Left + iw / 5
 
                 For Each col As Matrix In row
                     tagPos = New PointF(x, y - g.MeasureString("0", clusterTagFont).Height)
@@ -121,8 +121,8 @@ Namespace ExpressionPattern
                     legendLayout = New Rectangle With {
                         .X = x + w,
                         .Y = y,
-                        .Width = iw,
-                        .Height = h
+                        .Width = iw * 0.8,
+                        .Height = h * 0.75
                     }
                     layout = New GraphicsRegion(canvas.Size, padding)
                     x += w + iw
@@ -145,7 +145,16 @@ Namespace ExpressionPattern
                         labelFontStyle:=theme.axisLabelCSS,
                         showLegend:=False
                     )
-                    Call g.ColorMapLegend(legendLayout, designer, levels.Value.CreateAxisTicks, legendTitleFont, "membership", legendTickFont, Pens.Black)
+                    Call g.ColorMapLegend(
+                        layout:=legendLayout,
+                        designer:=designer,
+                        ticks:=levels.Value.CreateAxisTicks,
+                        titleFont:=legendTitleFont,
+                        title:="membership",
+                        tickFont:=legendTickFont,
+                        tickAxisStroke:=Pens.Black,
+                        legendOffsetLeft:=iw / 20
+                    )
                 Next
 
                 y += h + ih
