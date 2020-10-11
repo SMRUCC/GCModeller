@@ -20,14 +20,14 @@ let patterns = expr0
 :> load.expr
 :> average(sampleinfo)
 :> relative
-:> expression.cmeans_pattern(dim = [3, 4], fuzzification = 20, threshold = 1)
+:> expression.cmeans_pattern(dim = [3, 4], fuzzification = 3, threshold = 0.1)
 ;
 
 print("view patterns result:");
 print(patterns);
 
 patterns
-:> plot.expression_patterns(size = [8000,4500], colorSet = "PiYG:c8")
+:> plot.expression_patterns(size = [8000,4500], colorSet = "BuPu:c8")
 :> save.graphics(file = "./patterns.png")
 ;
 
