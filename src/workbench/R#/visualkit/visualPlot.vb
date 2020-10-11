@@ -230,29 +230,31 @@ Module visualPlot
         }
     End Function
 
-    <ExportAPI("expression.cmeans_pattern")>
-    Public Function CmeansPattern(matrix As Matrix, <RRawVectorArgument> Optional [dim] As Object = "3,3") As ExpressionPattern
-        Return InteropArgumentHelper _
-            .getSize([dim], "3,3") _
-            .Split(","c) _
-            .Select(AddressOf Integer.Parse) _
-            .DoCall(Function(dimension)
-                        Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
-                    End Function)
-    End Function
-
+    ''' <summary>
+    ''' Visualize of the gene expression patterns across different sample groups. 
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colorSet">color set for visualize the cmeans membership</param>
+    ''' <returns></returns>
     <ExportAPI("plot.expression_patterns")>
     Public Function PlotExpressionPatterns(matrix As ExpressionPattern,
                                            <RRawVectorArgument>
-                                           Optional size As Object = "2400,2100",
+                                           Optional size As Object = "2400,2700",
                                            <RRawVectorArgument>
-                                           Optional padding As Object = g.DefaultPadding,
-                                           Optional bg As Object = "white") As Object
+                                           Optional padding As Object = g.DefaultUltraLargePadding,
+                                           Optional bg As Object = "white",
+                                           Optional colorSet$ = "PiYG:c8",
+                                           Optional levels% = 25) As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
-            bg:=InteropArgumentHelper.getColor(bg, "white")
+            bg:=InteropArgumentHelper.getColor(bg, "white"),
+            colorSet:=colorSet,
+            levels:=levels
         )
     End Function
 End Module

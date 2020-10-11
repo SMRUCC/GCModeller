@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::024713601ca4cd40247a8bfd243f0bd0, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Scatter
-    ' 
-    '     Function: CreateAxisTicks, (+2 Overloads) FromPoints, FromVector, getSplinePoints, (+5 Overloads) Plot
-    '               PlotFunction
-    ' 
-    '     Sub: drawErrorLine, Plot
-    ' 
-    ' /********************************************************************************/
+' Module Scatter
+' 
+'     Function: CreateAxisTicks, (+2 Overloads) FromPoints, FromVector, getSplinePoints, (+5 Overloads) Plot
+'               PlotFunction
+' 
+'     Sub: drawErrorLine, Plot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -242,15 +242,38 @@ Public Module Scatter
 
         Dim canvas As IGraphics = g
         Dim region As Rectangle = rect.PlotRegion
-        Dim X, Y As d3js.scale.LinearScale
+        Dim X As d3js.scale.Scaler
+        Dim Y As d3js.scale.LinearScale
 
+        ' 使用手动指定的范围
+        ' 手动指定坐标轴值的范围的时候，X坐标轴无法使用term离散映射
         If Not xaxis.StringEmpty AndAlso Not yaxis.StringEmpty Then
             XTicks = AxisProvider.TryParse(xaxis).AxisTicks
             YTicks = AxisProvider.TryParse(yaxis).AxisTicks
             X = XTicks.LinearScale.range(integers:={region.Left, region.Right})
             Y = YTicks.LinearScale.range(integers:={region.Bottom, region.Top})
         Else
-            X = d3js.scale.linear.domain(XTicks).range(integers:={region.Left, region.Right})
+            ' 如果所有数据点都有单词，则X轴使用离散映射
+            If array.All(Function(line) line.pts.All(Function(a) Not a.axisLabel.StringEmpty)) Then
+                Dim allTermLabels As String() = array _
+                    .Select(Function(line)
+                                Return line.pts.Select(Function(a) a.axisLabel)
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+
+                X = d3js.scale _
+                    .ordinal _
+                    .domain(allTermLabels) _
+                    .range(integers:={region.Left, region.Right})
+            Else
+                X = d3js.scale _
+                    .linear _
+                    .domain(XTicks) _
+                    .range(integers:={region.Left, region.Right})
+            End If
+
             Y = d3js.scale.linear.domain(YTicks).range(integers:={region.Bottom, region.Top})
         End If
 
@@ -309,8 +332,8 @@ Public Module Scatter
                     Dim a As PointData = pt.First
                     Dim b As PointData = pt.Last
 
-                    pt1 = scaler.Translate(a.pt.X, a.pt.Y)
-                    pt2 = scaler.Translate(b.pt.X, b.pt.Y)
+                    pt1 = scaler.Translate(a)
+                    pt2 = scaler.Translate(b)
 
                     polygon.Add(pt1)
                     polygon.Add(pt2)
@@ -373,7 +396,7 @@ Public Module Scatter
                 End If
 
                 For Each pt As PointData In scatter
-                    Dim pt1 = scaler.Translate(pt.pt.X, pt.pt.Y)
+                    Dim pt1 = scaler.Translate(pt)
 
                     polygon.Add(pt1)
 

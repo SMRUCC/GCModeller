@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
@@ -71,8 +72,16 @@ Module DEGSample
         Return $" ({sample.sample_info}) {sample.sample_name}"
     End Function
 
+    ''' <summary>
+    ''' try to parse the sampleInfo data from the
+    ''' sample labels
+    ''' </summary>
+    ''' <param name="sample_names"></param>
+    ''' <param name="raw_list"></param>
+    ''' <returns></returns>
     <ExportAPI("guess.sample_groups")>
-    Public Function guessSampleGroups(sample_names As Array, Optional raw_list As Boolean = True) As list
+    <RApiReturn(GetType(list), GetType(SampleInfo))>
+    Public Function guessSampleGroups(sample_names As Array, Optional raw_list As Boolean = True) As Object
         Return REnv.asVector(Of String)(sample_names) _
             .AsObjectEnumerator(Of String) _
             .GuessPossibleGroups _
