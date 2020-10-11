@@ -148,13 +148,23 @@ Module geneExpression
     ''' matrix.</param>
     ''' <returns></returns>
     <ExportAPI("expression.cmeans_pattern")>
-    Public Function CmeansPattern(matrix As Matrix, <RRawVectorArgument> Optional [dim] As Object = "3,3") As ExpressionPattern
+    Public Function CmeansPattern(matrix As Matrix,
+                                  <RRawVectorArgument>
+                                  Optional [dim] As Object = "3,3",
+                                  Optional fuzzification# = 2,
+                                  Optional threshold# = 0.001) As ExpressionPattern
+
         Return InteropArgumentHelper _
             .getSize([dim], "3,3") _
             .Split(","c) _
             .Select(AddressOf Integer.Parse) _
             .DoCall(Function(dimension)
-                        Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
+                        Return ExpressionPattern.CMeansCluster(
+                            matrix:=matrix,
+                            [dim]:=dimension.ToArray,
+                            fuzzification:=fuzzification,
+                            threshold:=threshold
+                        )
                     End Function)
     End Function
 

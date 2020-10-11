@@ -90,7 +90,10 @@ Namespace ExpressionPattern
         ''' <param name="dim">``[row, columns]``</param>
         ''' <returns></returns>
         ''' 
-        Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer()) As ExpressionPattern
+        Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer(),
+                                             Optional fuzzification# = 2,
+                                             Optional threshold# = 0.001) As ExpressionPattern
+
             Dim nsize As Integer = [dim](Scan0) * [dim](1)
             Dim sampleNames As String() = matrix.sampleID
             Dim geneNodes As ClusterEntity() = matrix.expression _
@@ -108,7 +111,11 @@ Namespace ExpressionPattern
                             }
                         End Function) _
                 .ToArray
-            Dim centers As Classify() = geneNodes.CMeans(classCount:=nsize)
+            Dim centers As Classify() = geneNodes.CMeans(
+                classCount:=nsize,
+                fuzzification:=fuzzification,
+                threshold:=threshold
+            )
 
             Return New ExpressionPattern With {
                 .Patterns = centers _

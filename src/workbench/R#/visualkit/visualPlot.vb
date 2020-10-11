@@ -246,7 +246,7 @@ Module visualPlot
                                            <RRawVectorArgument>
                                            Optional padding As Object = g.DefaultUltraLargePadding,
                                            Optional bg As Object = "white",
-                                           Optional colorSet$ = "YlGnBu:c8",
+                                           Optional colorSet$ = "PiYG:c8",
                                            Optional levels% = 25) As Object
 
         Return matrix.DrawMatrix(
