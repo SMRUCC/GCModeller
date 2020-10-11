@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -72,6 +73,8 @@ Namespace ExpressionPattern
         ReadOnly colors As Color()
 
         Public Property clusterLabelStyle As String = CSSFont.PlotSmallTitle
+        Public Property legendTitleStyle As String = CSSFont.PlotSmallTitle
+        Public Property legendTickStyle As String = CSSFont.Win7Normal
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -101,6 +104,13 @@ Namespace ExpressionPattern
             Dim clusterTagId As Integer
             Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle)
             Dim tagPos As PointF
+            Dim levels As New Value(Of DoubleRange)
+            Dim legendLayout As Rectangle
+            Dim designer As SolidBrush() = colors _
+                .Select(Function(c) New SolidBrush(c)) _
+                .ToArray
+            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle)
+            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
                 x = canvas.PlotRegion.Left + iw / 2
@@ -108,11 +118,16 @@ Namespace ExpressionPattern
                 For Each col As Matrix In row
                     tagPos = New PointF(x, y - g.MeasureString("0", clusterTagFont).Height)
                     padding = $"padding: {y}px {canvas.Width - (x + w)}px {canvas.Height - (y + h)}px {x}"
+                    legendLayout = New Rectangle With {
+                        .X = x + w,
+                        .Y = y,
+                        .Width = iw,
+                        .Height = h
+                    }
                     layout = New GraphicsRegion(canvas.Size, padding)
                     x += w + iw
                     clusterTagId = Integer.Parse(col.tag)
-                    scatterData = col _
-                        .DoCall(AddressOf createLines) _
+                    scatterData = createLines(col, levels) _
                         .OrderBy(Function(gene)
                                      Return patternsIndex(gene.title).memberships(clusterTagId)
                                  End Function) _
@@ -130,16 +145,18 @@ Namespace ExpressionPattern
                         labelFontStyle:=theme.axisLabelCSS,
                         showLegend:=False
                     )
+                    Call g.ColorMapLegend(legendLayout, designer, levels.Value.CreateAxisTicks, legendTitleFont, "membership", legendTickFont, Pens.Black)
                 Next
 
                 y += h + ih
             Next
         End Sub
 
-        Private Iterator Function createLines(col As Matrix) As IEnumerable(Of SerialData)
+        Private Iterator Function createLines(col As Matrix, levels As Value(Of DoubleRange)) As IEnumerable(Of SerialData)
             Dim rawSampleId As String() = matrix.sampleNames
             Dim clusterTagId As Integer = Integer.Parse(col.tag)
-            Dim levels As DoubleRange = col.expression _
+
+            levels.Value = col.expression _
                 .Keys _
                 .Select(Function(a)
                             Return patternsIndex(a).memberships(clusterTagId)
@@ -153,7 +170,7 @@ Namespace ExpressionPattern
                     ' 聚类有时会出现一个成员元素的结果？
                     i = colors.Length - 1
                 Else
-                    i = CInt(levels.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
+                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
                 End If
 
                 Yield New SerialData With {
