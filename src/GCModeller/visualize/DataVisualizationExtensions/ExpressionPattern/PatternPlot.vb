@@ -158,6 +158,7 @@ Namespace ExpressionPattern
                         .Select(Function(exp, idx)
                                     Return New PointData With {
                                         .tag = rawSampleId(idx),
+                                        .axisLabel = rawSampleId(idx),
                                         .pt = New PointF With {
                                             .X = idx,
                                             .Y = exp
