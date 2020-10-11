@@ -27,7 +27,7 @@ print("view patterns result:");
 print(patterns);
 
 patterns
-:> plot.expression_patterns(size = [8000,4500], colorSet = "BuPu:c8")
+:> plot.expression_patterns(size = [8000,4500], colorSet = "Jet")
 :> save.graphics(file = "./patterns.png")
 ;
 
