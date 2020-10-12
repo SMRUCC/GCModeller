@@ -60,7 +60,11 @@ Namespace Graphic.Axis
     ''' </summary>
     Public Class DataScaler : Inherits YScaler
 
-        Public Property X As LinearScale
+        ''' <summary>
+        ''' X坐标轴主要是为了兼容数值类型的连续映射以及标签类型的坐标值的离散映射
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property X As Scaler
         Public Property AxisTicks As (X As Vector, Y As Vector)
 
         ''' <summary>
@@ -77,6 +81,19 @@ Namespace Graphic.Axis
                 .X = TranslateX(x),
                 .Y = TranslateY(y)
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Translate(point As PointData) As PointF
+            Dim x As Single
+
+            If TypeOf Me.X Is OrdinalScale Then
+                x = DirectCast(Me.X, OrdinalScale)(point.axisLabel)
+            Else
+                x = DirectCast(Me.X, LinearScale)(point.pt.X)
+            End If
+
+            Return New PointF(x, TranslateY(point.pt.Y))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

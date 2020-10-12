@@ -69,10 +69,6 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualkit.plots")>
 Module visualPlot
 
-    Sub New()
-        REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
-    End Sub
-
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
@@ -234,17 +230,15 @@ Module visualPlot
         }
     End Function
 
-    <ExportAPI("expression.cmeans_pattern")>
-    Public Function CmeansPattern(matrix As Matrix, <RRawVectorArgument> Optional [dim] As Object = "3,3") As ExpressionPattern
-        Return InteropArgumentHelper _
-            .getSize([dim], "3,3") _
-            .Split(","c) _
-            .Select(AddressOf Integer.Parse) _
-            .DoCall(Function(dimension)
-                        Return ExpressionPattern.CMeansCluster(matrix, [dim]:=dimension.ToArray)
-                    End Function)
-    End Function
-
+    ''' <summary>
+    ''' Visualize of the gene expression patterns across different sample groups. 
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colorSet">color set for visualize the cmeans membership</param>
+    ''' <returns></returns>
     <ExportAPI("plot.expression_patterns")>
     Public Function PlotExpressionPatterns(matrix As ExpressionPattern,
                                            <RRawVectorArgument>
@@ -252,13 +246,15 @@ Module visualPlot
                                            <RRawVectorArgument>
                                            Optional padding As Object = g.DefaultUltraLargePadding,
                                            Optional bg As Object = "white",
-                                           Optional colorSet$ = "YlGnBu:c8") As Object
+                                           Optional colorSet$ = "PiYG:c8",
+                                           Optional levels% = 25) As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
             bg:=InteropArgumentHelper.getColor(bg, "white"),
-            colorSet:=colorSet
+            colorSet:=colorSet,
+            levels:=levels
         )
     End Function
 End Module

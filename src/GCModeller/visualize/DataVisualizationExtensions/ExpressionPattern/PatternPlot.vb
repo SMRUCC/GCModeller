@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -58,6 +59,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
@@ -69,6 +71,10 @@ Namespace ExpressionPattern
 
         ReadOnly patternsIndex As Dictionary(Of String, FuzzyCMeansEntity)
         ReadOnly colors As Color()
+
+        Public Property clusterLabelStyle As String = CSSFont.PlotSmallTitle
+        Public Property legendTitleStyle As String = CSSFont.Win7Normal
+        Public Property legendTickStyle As String = CSSFont.Win7Small
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
             MyBase.New(theme)
@@ -84,33 +90,50 @@ Namespace ExpressionPattern
             Dim plot As Rectangle = canvas.PlotRegion
             Dim intervalTotalWidth! = plot.Width * 0.3
             Dim intervalTotalHeight! = plot.Height * 0.3
-            Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1)
-            Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1))
+            Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1.5)
+            Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1) - 1)
             Dim iw = intervalTotalWidth / (matrix.dim(Scan0))
-            Dim ih = intervalTotalHeight / (matrix.dim(1))
+            Dim ih = intervalTotalHeight / (matrix.dim(1) - 1)
 
             Dim scatterData As SerialData()
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
             Dim x!
-            Dim y! = canvas.PlotRegion.Top + ih
+            Dim y! = canvas.PlotRegion.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
+            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle)
+            Dim tagPos As PointF
+            Dim levels As New Value(Of DoubleRange)
+            Dim legendLayout As Rectangle
+            Dim designer As SolidBrush() = colors _
+                .Select(Function(c) New SolidBrush(c)) _
+                .ToArray
+            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle)
+            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle)
 
             For Each row As Matrix() In matrix.GetPartitionMatrix
-                x = canvas.PlotRegion.Left
+                x = canvas.PlotRegion.Left + iw / 5
 
                 For Each col As Matrix In row
+                    tagPos = New PointF(x, y - g.MeasureString("0", clusterTagFont).Height)
                     padding = $"padding: {y}px {canvas.Width - (x + w)}px {canvas.Height - (y + h)}px {x}"
+                    legendLayout = New Rectangle With {
+                        .X = x + w,
+                        .Y = y,
+                        .Width = iw * 0.8,
+                        .Height = h * 0.75
+                    }
                     layout = New GraphicsRegion(canvas.Size, padding)
                     x += w + iw
                     clusterTagId = Integer.Parse(col.tag)
-                    scatterData = col _
-                        .DoCall(AddressOf createLines) _
+                    scatterData = createLines(col, levels) _
                         .OrderBy(Function(gene)
                                      Return patternsIndex(gene.title).memberships(clusterTagId)
                                  End Function) _
                         .ToArray
+
+                    Call g.DrawString($"Cluster #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
 
                     Call Scatter.Plot(
                         c:=scatterData,
@@ -122,16 +145,27 @@ Namespace ExpressionPattern
                         labelFontStyle:=theme.axisLabelCSS,
                         showLegend:=False
                     )
+                    Call g.ColorMapLegend(
+                        layout:=legendLayout,
+                        designer:=designer,
+                        ticks:=levels.Value.CreateAxisTicks,
+                        titleFont:=legendTitleFont,
+                        title:="membership",
+                        tickFont:=legendTickFont,
+                        tickAxisStroke:=Pens.Black,
+                        legendOffsetLeft:=iw / 20
+                    )
                 Next
 
                 y += h + ih
             Next
         End Sub
 
-        Private Iterator Function createLines(col As Matrix) As IEnumerable(Of SerialData)
+        Private Iterator Function createLines(col As Matrix, levels As Value(Of DoubleRange)) As IEnumerable(Of SerialData)
             Dim rawSampleId As String() = matrix.sampleNames
             Dim clusterTagId As Integer = Integer.Parse(col.tag)
-            Dim levels As DoubleRange = col.expression _
+
+            levels.Value = col.expression _
                 .Keys _
                 .Select(Function(a)
                             Return patternsIndex(a).memberships(clusterTagId)
@@ -145,7 +179,7 @@ Namespace ExpressionPattern
                     ' 聚类有时会出现一个成员元素的结果？
                     i = colors.Length - 1
                 Else
-                    i = CInt(levels.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
+                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
                 End If
 
                 Yield New SerialData With {
@@ -153,11 +187,12 @@ Namespace ExpressionPattern
                     .color = colors(i),
                     .lineType = DashStyle.Solid,
                     .pointSize = 5,
-                    .width = 5,
+                    .width = 20,
                     .pts = gene.experiments _
                         .Select(Function(exp, idx)
                                     Return New PointData With {
                                         .tag = rawSampleId(idx),
+                                        .axisLabel = rawSampleId(idx),
                                         .pt = New PointF With {
                                             .X = idx,
                                             .Y = exp
