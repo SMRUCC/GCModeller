@@ -10,6 +10,16 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 ''' </summary>
 Public Module UniqueRank
 
+    Public Function TrimPathwayCompounds(maps As IEnumerable(Of Pathway)) As Pathway
+        With maps.ToArray
+            Dim uniqueRanks = .EvaluateCompoundUniqueRank.ToDictionary
+
+            For Each map As Pathway In .AsEnumerable
+
+            Next
+        End With
+    End Function
+
     ''' <summary>
     ''' the more pathway of one compound occurs in, the less unique rank of the compound it have
     ''' </summary>
@@ -17,11 +27,13 @@ Public Module UniqueRank
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function EvaluateCompoundUniqueRank(pathwayProfile As IEnumerable(Of Pathway)) As IEnumerable(Of DataSet)
         Return pathwayProfile.EvaluateUniqueRank(Function(map) map.compound.Keys.ToArray)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function EvaluateEnzymeUniqueRank(pathwayProfile As IEnumerable(Of Pathway)) As IEnumerable(Of DataSet)
         Return pathwayProfile.EvaluateUniqueRank(Function(map) map.genes.Keys.ToArray)
     End Function
@@ -33,7 +45,7 @@ Public Module UniqueRank
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Iterator Function EvaluateUniqueRank(pathwayProfile As IEnumerable(Of Pathway), getObjId As Func(Of Pathway, String())) As IEnumerable(Of DataSet)
+    Public Iterator Function EvaluateUniqueRank(pathwayProfile As IEnumerable(Of Pathway), getObjId As Func(Of Pathway, String()), Optional cutoff As Double = 0.3) As IEnumerable(Of DataSet)
         Dim maps As Pathway() = pathwayProfile.ToArray
         Dim allCompounds As String() = maps _
             .Select(getObjId) _
@@ -58,9 +70,16 @@ Public Module UniqueRank
                         In getObjId(pathway)
                         Let nmaps = occurs(cpd).Length
                         Into Sum(nmaps)
+            Dim uniqueScore As Double
 
             For Each cpd As String In getObjId(pathway)
-                unique(cpd) = 1 - occurs(cpd).Length / total
+                uniqueScore = 1 - occurs(cpd).Length / total
+
+                If uniqueScore >= cutoff Then
+                    unique(cpd) = uniqueScore
+                Else
+                    unique(cpd) = 0
+                End If
             Next
 
             Yield New DataSet With {
