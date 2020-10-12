@@ -72,8 +72,8 @@ Namespace ExpressionPattern
         ReadOnly patternsIndex As Dictionary(Of String, FuzzyCMeansEntity)
         ReadOnly colors As Color()
 
-        Public Property clusterLabelStyle As String = CSSFont.PlotSmallTitle
-        Public Property legendTitleStyle As String = CSSFont.Win7Normal
+        Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
+        Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
 
         Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
@@ -90,10 +90,10 @@ Namespace ExpressionPattern
             Dim plot As Rectangle = canvas.PlotRegion
             Dim intervalTotalWidth! = plot.Width * 0.3
             Dim intervalTotalHeight! = plot.Height * 0.3
-            Dim w = (plot.Width - intervalTotalWidth) / (matrix.dim(Scan0) + 1.5)
-            Dim h = (plot.Height - intervalTotalHeight) / (matrix.dim(1) - 1)
-            Dim iw = intervalTotalWidth / (matrix.dim(Scan0))
-            Dim ih = intervalTotalHeight / (matrix.dim(1) - 1)
+            Dim w = (plot.Width - intervalTotalWidth) / matrix.dim(1)
+            Dim h = (plot.Height - intervalTotalHeight) / matrix.dim(Scan0)
+            Dim iw = intervalTotalWidth / matrix.dim(1)
+            Dim ih = intervalTotalHeight / matrix.dim(Scan0)
 
             Dim scatterData As SerialData()
             Dim i As i32 = 1
@@ -175,7 +175,7 @@ Namespace ExpressionPattern
             For Each gene As DataFrameRow In col.expression
                 Dim i As Integer
 
-                If col.expression.Length = 1 Then
+                If col.expression.Length = 1 OrElse levels.Value.Length = 0.0 Then
                     ' 聚类有时会出现一个成员元素的结果？
                     i = colors.Length - 1
                 Else
@@ -187,7 +187,7 @@ Namespace ExpressionPattern
                     .color = colors(i),
                     .lineType = DashStyle.Solid,
                     .pointSize = 5,
-                    .width = 20,
+                    .width = 30,
                     .pts = gene.experiments _
                         .Select(Function(exp, idx)
                                     Return New PointData With {
