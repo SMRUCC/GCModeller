@@ -58,7 +58,7 @@ Namespace Net.Http
     ''' </summary>
     Public Class wgetTask : Implements IDisposable
 
-        ReadOnly fs As FileStream
+        Friend ReadOnly fs As Stream
 
         Dim _speedSamples As List(Of Double)
         Dim _isUnknownContentSize As Boolean = False
@@ -106,10 +106,22 @@ Namespace Net.Http
         ''' Module will create a new <see cref="FileStream"/> that writes to this desired download path
         ''' </param>
         Sub New(downloadUrl As String, saveFile As String, headers As Dictionary(Of String, String))
-            Me.fs = saveFile.Open(doClear:=True)
-            Me.url = downloadUrl
-            Me.saveFile = saveFile
+            Call Me.New(downloadUrl, saveFile.Open(doClear:=True), headers)
+        End Sub
+
+        Sub New(downloadUrl As String, save As Stream, headers As Dictionary(Of String, String))
             Me.headers = headers
+            Me.fs = save
+            Me.url = downloadUrl
+
+            Select Case save.GetType
+                Case GetType(FileStream)
+                    Me.saveFile = DirectCast(save, FileStream).Name
+                Case GetType(MemoryStream)
+                    Me.saveFile = $"<in_memory_{save.GetHashCode.ToHexString}>"
+                Case Else
+                    Me.saveFile = $"<unknown_{save.GetHashCode.ToHexString}>"
+            End Select
         End Sub
 
         Public Function StartTask(Optional doRetry As Boolean = True, Optional bufferSize% = 1024) As Boolean
