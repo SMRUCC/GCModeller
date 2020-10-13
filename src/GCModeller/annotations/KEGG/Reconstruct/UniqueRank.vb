@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
@@ -11,9 +12,9 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Public Module UniqueRank
 
     <Extension>
-    Public Iterator Function UniquePathwayCompounds(maps As IEnumerable(Of Pathway)) As IEnumerable(Of Pathway)
+    Public Iterator Function UniquePathwayCompounds(maps As IEnumerable(Of Pathway), Optional cutoff As Double = 0.3, Optional quantile# = 0.8) As IEnumerable(Of Pathway)
         With maps.ToArray
-            Dim uniqueRanks = .EvaluateCompoundUniqueRank.ToDictionary
+            Dim uniqueRanks = .EvaluateCompoundUniqueRank(cutoff, quantile).ToDictionary
 
             For Each map As Pathway In .AsEnumerable
                 map.compound = map.compound _
@@ -36,14 +37,14 @@ Public Module UniqueRank
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function EvaluateCompoundUniqueRank(pathwayProfile As IEnumerable(Of Pathway)) As IEnumerable(Of DataSet)
-        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.compound.Keys.ToArray)
+    Public Function EvaluateCompoundUniqueRank(pathwayProfile As IEnumerable(Of Pathway), Optional cutoff As Double = 0.3, Optional quantile# = 0.8) As IEnumerable(Of DataSet)
+        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.compound.Keys.ToArray, cutoff, quantile)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function EvaluateEnzymeUniqueRank(pathwayProfile As IEnumerable(Of Pathway)) As IEnumerable(Of DataSet)
-        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.genes.Keys.ToArray)
+    Public Function EvaluateEnzymeUniqueRank(pathwayProfile As IEnumerable(Of Pathway), Optional cutoff As Double = 0.3, Optional quantile# = 0.8) As IEnumerable(Of DataSet)
+        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.genes.Keys.ToArray, cutoff, quantile)
     End Function
 
     ''' <summary>
@@ -53,7 +54,11 @@ Public Module UniqueRank
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Iterator Function EvaluateUniqueRank(pathwayProfile As IEnumerable(Of Pathway), getObjId As Func(Of Pathway, String()), Optional cutoff As Double = 0.3) As IEnumerable(Of DataSet)
+    Public Iterator Function EvaluateUniqueRank(pathwayProfile As IEnumerable(Of Pathway),
+                                                getObjId As Func(Of Pathway, String()),
+                                                Optional cutoff As Double = 0.3,
+                                                Optional quantile# = 0.8) As IEnumerable(Of DataSet)
+
         Dim maps As Pathway() = pathwayProfile.ToArray
         Dim allCompounds As String() = maps _
             .Select(getObjId) _
@@ -74,14 +79,15 @@ Public Module UniqueRank
 
         For Each pathway As Pathway In maps
             Dim unique As New Dictionary(Of String, Double)
-            Dim total = Aggregate cpd As String
-                        In getObjId(pathway)
-                        Let nmaps = occurs(cpd).Length
-                        Into Sum(nmaps)
+            Dim total = (From cpd As String
+                         In getObjId(pathway)
+                         Let nmaps = occurs(cpd).Length
+                         Select CDbl(nmaps)).GKQuantile
             Dim uniqueScore As Double
+            Dim max As Double = total.Query(quantile)
 
             For Each cpd As String In getObjId(pathway)
-                uniqueScore = 1 - occurs(cpd).Length / total
+                uniqueScore = 1 - occurs(cpd).Length / max
 
                 If uniqueScore >= cutoff Then
                     unique(cpd) = uniqueScore
