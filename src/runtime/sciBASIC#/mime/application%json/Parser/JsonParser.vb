@@ -358,13 +358,17 @@ eh:
         skipChar(str, index)
         While index > 0 AndAlso index <= Len(str)
             chr = Mid(str, index, 1)
+
             If InStr("+-0123456789.eE", chr) Then
                 value &= chr
                 index += 1
+            ElseIf value = "" Then
+                Throw New InvalidCastException
             Else
                 Return New JsonValue(CDbl(value))
             End If
         End While
+
         Return New JsonValue(CDbl(value))
     End Function
 

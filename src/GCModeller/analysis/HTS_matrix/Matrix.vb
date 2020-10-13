@@ -103,7 +103,7 @@ Public Class Matrix : Implements INamedValue
                             .name = g.Key,
                             .value = g _
                                 .Select(Function(sample)
-                                            Return sampleIndex.IndexOf(sample.sample_name)
+                                            Return sampleIndex.IndexOf(sample.ID)
                                         End Function) _
                                 .ToArray
                         }

@@ -127,7 +127,7 @@ Namespace Assembly.KEGG.WebServices
             Call browser.Navigate(New Uri(url))
 
             Do While (browser.ReadyState <> WebBrowserReadyState.Complete)
-                Call Application.DoEvents()
+                Call Microsoft.VisualBasic.Parallel.DoEvents()
             Loop
 
             Dim pageContent As String = browser.DocumentText
