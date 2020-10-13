@@ -10,12 +10,20 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 ''' </summary>
 Public Module UniqueRank
 
-    Public Function TrimPathwayCompounds(maps As IEnumerable(Of Pathway)) As Pathway
+    <Extension>
+    Public Iterator Function UniquePathwayCompounds(maps As IEnumerable(Of Pathway)) As IEnumerable(Of Pathway)
         With maps.ToArray
             Dim uniqueRanks = .EvaluateCompoundUniqueRank.ToDictionary
 
             For Each map As Pathway In .AsEnumerable
+                map.compound = map.compound _
+                    .SafeQuery _
+                    .Where(Function(a)
+                               Return uniqueRanks(map.EntryId)(a.name) > 0
+                           End Function) _
+                    .ToArray
 
+                Yield map
             Next
         End With
     End Function
