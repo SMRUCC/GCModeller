@@ -44,6 +44,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.Language
 
@@ -52,11 +53,13 @@ Namespace Net.Http
     ''' <summary>
     ''' 命令行下的下载程序组件
     ''' </summary>
-    Public Class wget
+    Public Class wget : Implements IDisposable
 
         Dim WithEvents task As wgetTask
         Dim cursorTop%
         Dim originalTop%
+
+        Private disposedValue As Boolean
 
         ''' <summary>
         ''' Create a new file download task
@@ -65,6 +68,15 @@ Namespace Net.Http
         ''' <param name="save">The file save location</param>
         Sub New(url$, save$, Optional headers As Dictionary(Of String, String) = Nothing)
             task = New wgetTask(url, save, headers Or (New Dictionary(Of String, String)).AsDefault)
+            reset()
+        End Sub
+
+        Sub New(url$, save As Stream, Optional headers As Dictionary(Of String, String) = Nothing)
+            task = New wgetTask(url, save, headers Or (New Dictionary(Of String, String)).AsDefault)
+            reset()
+        End Sub
+
+        Private Sub reset()
             cursorTop = Console.CursorTop
             originalTop = Console.CursorTop
         End Sub
@@ -79,7 +91,7 @@ Namespace Net.Http
                 Call task.Dispose()
 
                 Call Console.WriteLine()
-                Call Console.WriteLine($"{Now} ({StringFormats.Lanudry(task.downloadSpeed)}/s) - '{task.saveFile.FileName}' saved [{task.saveFile.FileLength}]")
+                Call Console.WriteLine($"{Now.ToString} ({StringFormats.Lanudry(task.downloadSpeed)}/s) - '{task.saveFile}' saved [{task.fs.Length}]")
                 Call Console.WriteLine()
             End If
         End Sub
@@ -118,12 +130,12 @@ Namespace Net.Http
 
             Call Console.WriteLine()
 
-            Call ClearLine() : Console.WriteLine($"--{Now}--  {task.url}")
-            Call ClearLine() : Console.WriteLine($"     => '{task.saveFile.FileName}'")
+            Call ClearLine() : Console.WriteLine($"--{Now.ToString}--  {task.url}")
+            Call ClearLine() : Console.WriteLine($"     => '{task.saveFile}'")
             Call ClearLine() : Console.WriteLine()
             Call ClearLine() : Console.WriteLine($"Resolving {resp.ResponseUri.Host} ({domain})... {remote}")
             Call ClearLine() : Console.WriteLine($"==> METHOD ... {req.Method}/{req.RequestUri.Scheme} {DirectCast(req, HttpWebRequest).ProtocolVersion}")
-            Call ClearLine() : Console.WriteLine($"==> SIZE {task.saveFile.FileName} ... {contentSize}")
+            Call ClearLine() : Console.WriteLine($"==> SIZE {task.saveFile} ... {contentSize}")
             Call ClearLine() : Console.WriteLine($"==> CONTENT-TYPE ... {resp.ContentType}")
             Call ClearLine() : Console.WriteLine($"Length: {contentSize} ({sizePrettyPrint})")
 
@@ -166,5 +178,39 @@ Namespace Net.Http
 
             Return local.Value.FileLength > 0
         End Function
+
+        Public Shared Function Download(url$, save As Stream) As Boolean
+            Using task As New wget(url, save)
+                Call task.Run()
+            End Using
+
+            Return True
+        End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                    Call task.Dispose()
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace
