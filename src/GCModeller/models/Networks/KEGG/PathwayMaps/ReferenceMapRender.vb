@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -229,7 +230,8 @@ Namespace PathwayMaps
                                Optional rewriteGroupCategoryColors$ = "TSF",
                                Optional edgeBends As Boolean = False,
                                Optional edgeColorByNodeMixed As Boolean = True,
-                               Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing) As GraphicsData
+                               Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
+                               Optional nodeLabelFontBase$ = CSSFont.Win7VeryVeryLarge) As GraphicsData
 
             Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
 
@@ -293,7 +295,7 @@ Namespace PathwayMaps
                 getNodeLabel:=GetNodeLabel(compoundNames, reactionNames),
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
-                labelFontBase:="font-style: normal; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";",
+                labelFontBase:=nodeLabelFontBase,
                 fontSize:=New Func(Of Node, Single)(AddressOf renderStyle.getFontSize),
                 defaultLabelColor:="white",
                 getLabelColor:=AddressOf renderStyle.getLabelColor,
