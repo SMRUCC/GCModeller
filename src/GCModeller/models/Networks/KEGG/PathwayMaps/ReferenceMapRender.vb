@@ -93,10 +93,11 @@ Namespace PathwayMaps
             If reactionKOMapping.ContainsKey(rxn.Key) Then
                 Dim KO = reactionKOMapping(rxn.Key)
                 Dim names As String = KO _
+                    .Where(AddressOf KOnames.ContainsKey) _
                     .Select(Function(id) KOnames(id).description.Split(";"c).First) _
                     .Distinct _
                     .OrderBy(Function(name) name.Length) _
-                    .First
+                    .FirstOrDefault
 
                 If Not names.StringEmpty Then
                     names = r.Replace(names, "E\s*\d(\.\d+)+[,]?", "").Trim
@@ -332,10 +333,14 @@ Namespace PathwayMaps
         Public Function GetNodeLabel(compoundNames As Dictionary(Of String, String), reactionNames As Dictionary(Of String, String)) As Func(Of Node, String)
             Return Function(node As Node) As String
                        If node.label.IsPattern("C\d+") Then
-                           Return compoundNames _
-                              .TryGetValue(node.label, [default]:=node.data!label) _
-                              .Split(";"c) _
-                              .First
+                           If (Not compoundNames.ContainsKey(node.label)) AndAlso node.data!label.StringEmpty Then
+                               Return node.label
+                           Else
+                               Return compoundNames _
+                                  .TryGetValue(node.label, [default]:=node.data!label) _
+                                  .Split(";"c) _
+                                  .First
+                           End If
                        ElseIf node.label.IsPattern("R\d+") Then
                            Return reactionNames.TryGetValue(node.label, [default]:=node.data!label)
                        Else
