@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::c55c3023eac275bda1281e8a015d97a0, models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceMapRender
-    ' 
-    '         Function: getCategoryColors, (+2 Overloads) GetNodeLabel, getReactionName, getReactionNames, (+2 Overloads) Render
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceMapRender
+' 
+'         Function: getCategoryColors, (+2 Overloads) GetNodeLabel, getReactionName, getReactionNames, (+2 Overloads) Render
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -227,6 +228,7 @@ Namespace PathwayMaps
                                Optional wordWrapWidth% = 14,
                                Optional rewriteGroupCategoryColors$ = "TSF",
                                Optional edgeBends As Boolean = False,
+                               Optional edgeColorByNodeMixed As Boolean = True,
                                Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing) As GraphicsData
 
             Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
@@ -269,8 +271,14 @@ Namespace PathwayMaps
                 convexHull = New Index(Of String)
             End If
 
+            Dim degrees As New Dictionary(Of String, Integer)
+
+            If edgeColorByNodeMixed Then
+                degrees = graph.ComputeNodeDegrees
+            End If
+
             Return NetworkVisualizer.DrawImage(
-                net:=graph,
+                net:=If(edgeColorByNodeMixed, graph.mixEdgeColor(renderStyle, degrees), graph),
                 background:="white",'"transparent",
                 padding:=padding,
                 canvasSize:=canvasSize,
@@ -299,6 +307,38 @@ Namespace PathwayMaps
                                    Return n.label.IsPattern("R\d+") OrElse actualLabel.Length <= wordWrapWidth
                                End Function
             )
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="renderStyle"></param>
+        ''' <param name="degrees"><see cref="ComputeNodeDegrees"/></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function mixEdgeColor(g As NetworkGraph, renderStyle As RenderStyle, degrees As Dictionary(Of String, Integer)) As NetworkGraph
+            For Each edge As Edge In g.graphEdges
+                Dim u As Color = renderStyle.getLabelColor(edge.U)
+                Dim v As Color = renderStyle.getLabelColor(edge.V)
+
+                If GDIColors.Equals(u, v) Then
+                    edge.data.color = New SolidBrush(u)
+                ElseIf GDIColors.Equals(u, Color.Black) Then
+                    edge.data.color = New SolidBrush(v)
+                ElseIf GDIColors.Equals(v, Color.Black) Then
+                    edge.data.color = New SolidBrush(u)
+                Else
+                    ' color by max degree node
+                    If degrees(edge.U.label) >= degrees(edge.V.label) Then
+                        edge.data.color = New SolidBrush(u)
+                    Else
+                        edge.data.color = New SolidBrush(v)
+                    End If
+                End If
+            Next
+
+            Return g
         End Function
 
         ''' <summary>
