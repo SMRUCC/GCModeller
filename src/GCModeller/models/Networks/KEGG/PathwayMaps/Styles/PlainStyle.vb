@@ -100,9 +100,9 @@ Namespace PathwayMaps.RenderStyles
 
         Public Overrides Function getFontSize(node As Node) As Single
             If node.label.IsPattern("C\d+") Then
-                Return 20
+                Return 48
             Else
-                Return 15
+                Return 30
             End If
         End Function
 
