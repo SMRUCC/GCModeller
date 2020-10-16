@@ -318,6 +318,8 @@ Namespace PathwayMaps
         ''' <returns></returns>
         <Extension>
         Private Function mixEdgeColor(g As NetworkGraph, renderStyle As RenderStyle, degrees As Dictionary(Of String, Integer)) As NetworkGraph
+            Dim markBlacks As New List(Of Edge)
+
             For Each edge As Edge In g.graphEdges
                 Dim u As Color = renderStyle.getLabelColor(edge.U)
                 Dim v As Color = renderStyle.getLabelColor(edge.V)
@@ -336,9 +338,45 @@ Namespace PathwayMaps
                         edge.data.color = New SolidBrush(v)
                     End If
                 End If
+
+                If GDIColors.Equals(edge.data.color.Color, Color.Black) Then
+                    markBlacks.Add(edge)
+                End If
+            Next
+
+            For Each edge As Edge In markBlacks
+                Dim u = edge.U.getMostNearbyColor(g)
+                Dim v = edge.V.getMostNearbyColor(g)
+                Dim du As Integer = u.sumLinkDegree(degrees)
+                Dim dv As Integer = v.sumLinkDegree(degrees)
+
+                If du > dv Then
+                    edge.data.color = New SolidBrush(u.Key)
+                Else
+                    edge.data.color = New SolidBrush(v.Key)
+                End If
             Next
 
             Return g
+        End Function
+
+        <Extension>
+        Private Function sumLinkDegree(collection As IGrouping(Of Color, Edge), degrees As Dictionary(Of String, Integer)) As Integer
+            If collection Is Nothing Then
+                Return 0
+            Else
+                Return Aggregate link In collection Let dsum = degrees(link.U.label) + degrees(link.V.label) Into Sum(dsum)
+            End If
+        End Function
+
+        <Extension>
+        Private Function getMostNearbyColor(node As Node, g As NetworkGraph) As IGrouping(Of Color, Edge)
+            Return g.graphEdges _
+                .Where(Function(e) e.U Is node OrElse e.V Is node) _
+                .Where(Function(a) Not GDIColors.Equals(a.data.color.Color, Color.Black)) _
+                .GroupBy(Function(a) a.data.color.Color) _
+                .OrderByDescending(Function(a) a.Count) _
+                .FirstOrDefault
         End Function
 
         ''' <summary>
