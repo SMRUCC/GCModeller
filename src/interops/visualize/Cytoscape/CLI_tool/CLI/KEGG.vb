@@ -359,7 +359,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /ignores <compoind idlist> /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -388,6 +388,10 @@ Partial Module CLI
     <Argument("/coverage.cutoff", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
+    <Argument("/ignores", True, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Description:="A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
+              value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
@@ -402,6 +406,17 @@ Partial Module CLI
         Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
         Dim categoryLevel2 As Boolean = args("/category.level2")
         Dim topMaps As String() = args("/top.priority").Split(",")
+        Dim ignores As String() = Nothing
+
+        If args.ContainsParameter("/ignores") Then
+            With args <= "/ignores"
+                If .FileExists Then
+                    ignores = .ReadAllLines
+                Else
+                    ignores = .Trim.Split(","c).Select(AddressOf Strings.Trim).ToArray
+                End If
+            End With
+        End If
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -430,7 +445,8 @@ Partial Module CLI
                 doRemoveUnmmaped:=doRemoveUnmapped,
                 coverageCutoff:=coverageCutoff,
                 categoryLevel2:=categoryLevel2,
-                topMaps:=topMaps
+                topMaps:=topMaps,
+                ignores:=ignores
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"

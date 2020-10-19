@@ -145,6 +145,11 @@ Public Class ReactionClassifier
         Return Me
     End Function
 
+    ''' <summary>
+    ''' A shortcut method based on the <see cref="ReactionClass.ScanRepository"/>
+    ''' </summary>
+    ''' <param name="directory"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromRepository(directory As String) As ReactionClassifier
         Return New ReactionClassifier With {
