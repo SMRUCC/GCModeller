@@ -579,7 +579,8 @@ Partial Module CLI
                 compoundNamesJson:=compounds,
                 edgeBends:=edgeBends,
                 altStyle:=altStyle,
-                reactionKOMappingJson:=reactionKOMappingJson
+                reactionKOMappingJson:=reactionKOMappingJson,
+                wordWrapWidth:=If(altStyle, -1, 14)
             )
         Else
             Dim table As NetworkTables = NetworkFileIO.Load([in])
