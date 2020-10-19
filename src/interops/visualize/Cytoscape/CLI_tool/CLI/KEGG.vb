@@ -549,6 +549,25 @@ Partial Module CLI
         Return network.Save(out).CLICode
     End Function
 
+    <ExportAPI("/KEGG.referenceMap.info")>
+    <Usage("/KEGG.referenceMap.info /model <network.xgmml> /compounds <names.json> /KO <reactionKOMapping.json> [/out <table.csv>]")>
+    Public Function NodeInformationTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim compounds = (args <= "/compounds") _
+            .ReadAllText _
+            .LoadJSON(Of Dictionary(Of String, String))
+        Dim reactionKOMappingJson = (args <= "/KO") _
+            .ReadAllText _
+            .LoadJSON(Of Dictionary(Of String, String()))
+        Dim model = XGMML.RDFXml.Load([in])
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.information.csv"
+
+        Return model.GetIdProperties(reactionKOMappingJson, compounds) _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/KEGG.referenceMap.render")>
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
