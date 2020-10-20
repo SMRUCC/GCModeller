@@ -1,57 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::4475dc0d6389807e70de0d334adbe8c3, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TcpServicesSocket
-    ' 
-    '         Properties: IsShutdown, LocalPort, ResponseHandler, Running
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: BeginListen, IsServerInternalException, LoopbackEndPoint, (+2 Overloads) Run, ToString
-    ' 
-    '         Sub: AcceptCallback, (+2 Overloads) Dispose, ForceCloseHandle, HandleRequest, ReadCallback
-    '              (+2 Overloads) Send, SendCallback, startSocket, WaitForStart
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TcpServicesSocket
+' 
+'         Properties: IsShutdown, LocalPort, ResponseHandler, Running
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: BeginListen, IsServerInternalException, LoopbackEndPoint, (+2 Overloads) Run, ToString
+' 
+'         Sub: AcceptCallback, (+2 Overloads) Dispose, ForceCloseHandle, HandleRequest, ReadCallback
+'              (+2 Overloads) Send, SendCallback, startSocket, WaitForStart
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
-Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.ComponentModel
@@ -255,8 +254,9 @@ Namespace Tcp
             End Try
 
             ' Create the state object for the async receive.
-            Dim state As StateObject = New StateObject With {
-                .workSocket = handler
+            Dim state As New StateObject With {
+                .workSocket = handler,
+                .received = New MemoryStream
             }
 
             Try
@@ -294,10 +294,10 @@ Namespace Tcp
             If bytesRead > 0 Then
 
                 ' There  might be more data, so store the data received so far.
-                state.received.AddRange(state.readBuffer.Takes(bytesRead))
+                state.received.Write(state.readBuffer.Takes(bytesRead).ToArray, Scan0, bytesRead)
                 ' Check for end-of-file tag. If it is not there, read
                 ' more data.
-                state.readBuffer = state.received.ToArray
+                state.readBuffer = DirectCast(state.received, MemoryStream).ToArray
 
                 ' 得到的是原始的请求数据
                 Dim requestData As New RequestStream(state.readBuffer)
@@ -329,18 +329,20 @@ Namespace Tcp
             Dim remoteEP = DirectCast(handler.RemoteEndPoint, TcpEndPoint)
 
             Try
+                Dim result As BufferPipe
+
                 If requestData.IsPing Then
-                    requestData = NetResponse.RFC_OK
+                    result = New DataPipe(NetResponse.RFC_OK)
                 Else
-                    requestData = Me.ResponseHandler()(requestData, remoteEP)
+                    result = Me.ResponseHandler()(requestData, remoteEP)
                 End If
 
-                Call Send(handler, requestData)
+                Call Send(handler, result)
             Catch ex As Exception
                 Call _exceptionHandle(ex)
                 ' 错误可能是内部处理请求的时候出错了，则将SERVER_INTERNAL_EXCEPTION结果返回给客户端
                 Try
-                    Call Send(handler, NetResponse.RFC_INTERNAL_SERVER_ERROR)
+                    Call Send(handler, New DataPipe(NetResponse.RFC_INTERNAL_SERVER_ERROR))
                 Catch ex2 As Exception
                     ' 这里处理的是可能是强制断开连接的错误
                     Call _exceptionHandle(ex2)
@@ -354,27 +356,13 @@ Namespace Tcp
         ''' <param name="handler"></param>
         ''' <param name="data"></param>
         ''' <remarks></remarks>
-        Private Sub Send(handler As Socket, data As String)
+        Private Sub Send(handler As Socket, data As BufferPipe)
             ' Convert the string data to byte data using ASCII encoding.
-            Dim byteData As Byte() = Encoding.UTF8.GetBytes(data)
-            byteData = New RequestStream(0, 0, byteData).Serialize
-            ' Begin sending the data to the remote device.
-            Call handler.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), handler)
-        End Sub
+            For Each byteData As Byte() In data.GetBlocks
+                Call handler.Send(byteData)
+            Next
 
-        Private Sub Send(handler As Socket, data As RequestStream)
-            ' Convert the string data to byte data using ASCII encoding.
-            Dim byteData As Byte() = data.Serialize
-            ' Begin sending the data to the remote device.
-            Call handler.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), handler)
-        End Sub
-
-        Private Sub SendCallback(ar As IAsyncResult)
-            ' Retrieve the socket from the state object.
-            Dim handler As Socket = DirectCast(ar.AsyncState, Socket)
             ' Complete sending the data to the remote device.
-            Dim bytesSent As Integer = handler.EndSend(ar)
-
             Call handler.Shutdown(SocketShutdown.Both)
             Call handler.Close()
         End Sub

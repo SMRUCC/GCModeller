@@ -359,7 +359,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.referenceMap.Model")>
-    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /out <result_network.directory>]")>
+    <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /ignores <compoind idlist> /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
     <Argument("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
@@ -388,6 +388,10 @@ Partial Module CLI
     <Argument("/coverage.cutoff", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
+    <Argument("/ignores", True, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Description:="A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
+              value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
     Public Function KEGGReferenceMapModel(args As CommandLine) As Integer
         Dim in$ = args <= "/repository"
@@ -402,6 +406,17 @@ Partial Module CLI
         Dim deleteTupleEdges As Boolean = args("/delete.tupleEdges")
         Dim categoryLevel2 As Boolean = args("/category.level2")
         Dim topMaps As String() = args("/top.priority").Split(",")
+        Dim ignores As String() = Nothing
+
+        If args.ContainsParameter("/ignores") Then
+            With args <= "/ignores"
+                If .FileExists Then
+                    ignores = .ReadAllLines
+                Else
+                    ignores = .Trim.Split(","c).Select(AddressOf Strings.Trim).ToArray
+                End If
+            End With
+        End If
 
         If ReactionClassifier.IsNullOrEmpty(reactionClass) Then
             reactionClass = Nothing
@@ -430,7 +445,8 @@ Partial Module CLI
                 doRemoveUnmmaped:=doRemoveUnmapped,
                 coverageCutoff:=coverageCutoff,
                 categoryLevel2:=categoryLevel2,
-                topMaps:=topMaps
+                topMaps:=topMaps,
+                ignores:=ignores
             )
         Else
             out = args("/out") Or $"{[in].TrimDIR}.{organismName}.referenceMap/"
@@ -533,6 +549,25 @@ Partial Module CLI
         Return network.Save(out).CLICode
     End Function
 
+    <ExportAPI("/KEGG.referenceMap.info")>
+    <Usage("/KEGG.referenceMap.info /model <network.xgmml> /compounds <names.json> /KO <reactionKOMapping.json> [/out <table.csv>]")>
+    Public Function NodeInformationTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/model"
+        Dim compounds = (args <= "/compounds") _
+            .ReadAllText _
+            .LoadJSON(Of Dictionary(Of String, String))
+        Dim reactionKOMappingJson = (args <= "/KO") _
+            .ReadAllText _
+            .LoadJSON(Of Dictionary(Of String, String()))
+        Dim model = XGMML.RDFXml.Load([in])
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.information.csv"
+
+        Return model.GetIdProperties(reactionKOMappingJson, compounds) _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/KEGG.referenceMap.render")>
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
@@ -563,7 +598,8 @@ Partial Module CLI
                 compoundNamesJson:=compounds,
                 edgeBends:=edgeBends,
                 altStyle:=altStyle,
-                reactionKOMappingJson:=reactionKOMappingJson
+                reactionKOMappingJson:=reactionKOMappingJson,
+                wordWrapWidth:=If(altStyle, -1, 14)
             )
         Else
             Dim table As NetworkTables = NetworkFileIO.Load([in])

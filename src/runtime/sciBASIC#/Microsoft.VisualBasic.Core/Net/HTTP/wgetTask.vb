@@ -1,65 +1,140 @@
 ﻿#Region "Microsoft.VisualBasic::a222e94cc36e10773edbc38e0bae6c73, Microsoft.VisualBasic.Core\Net\HTTP\wgetTask.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class wgetTask
-    ' 
-    '         Properties: currentSize, downloadSpeed, headers, isDownloading, saveFile
-    '                     totalSize, url
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: StartTask, ToString
-    ' 
-    '         Sub: (+2 Overloads) Dispose, doDownloadTask, doTaskInternal, switchStat
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class wgetTask
+' 
+'         Properties: currentSize, downloadSpeed, headers, isDownloading, saveFile
+'                     totalSize, url
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: StartTask, ToString
+' 
+'         Sub: (+2 Overloads) Dispose, doDownloadTask, doTaskInternal, switchStat
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel
 
 Namespace Net.Http
+
+    Public Class WriteData : Implements IDisposable
+
+        Private disposedValue As Boolean
+
+        ReadOnly fs As Stream
+        ReadOnly pipeline As DuplexPipe
+
+        Public ReadOnly Property Length As Long
+            Get
+                If Not fs Is Nothing Then
+                    Return fs.Length
+                Else
+                    Return pipeline.Length
+                End If
+            End Get
+        End Property
+
+        Sub New(fs As Stream)
+            Me.fs = fs
+        End Sub
+
+        Sub New(pipe As DuplexPipe)
+            Me.pipeline = pipe
+        End Sub
+
+        Public Sub Write(bytes As Byte())
+            If Not fs Is Nothing Then
+                Call fs.Write(bytes, Scan0, bytes.Length)
+            Else
+                Call pipeline.Write(bytes)
+            End If
+        End Sub
+
+        Public Overrides Function ToString() As String
+            If Not fs Is Nothing Then
+                Return "<stream>"
+            Else
+                Return "<pipeline>"
+            End If
+        End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                    If Not fs Is Nothing Then
+                        Call fs.Flush()
+                        Call fs.Close()
+                        Call fs.Dispose()
+                    Else
+                        Call pipeline.Wait()
+                        Call pipeline.Close()
+                    End If
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
+    End Class
 
     ''' <summary>
     ''' 提供一些比较详细的数据信息和事件处理
     ''' </summary>
     Public Class wgetTask : Implements IDisposable
 
-        ReadOnly fs As FileStream
-
+        Dim _stream As WriteData
         Dim _speedSamples As List(Of Double)
         Dim _isUnknownContentSize As Boolean = False
 
@@ -88,6 +163,12 @@ Namespace Net.Http
             End Get
         End Property
 
+        Public ReadOnly Property StreamSize As Long
+            Get
+                Return _stream.Length
+            End Get
+        End Property
+
         Public Event DownloadProcess(wget As wgetTask, percentage#)
         Public Event ReportRequest(req As WebRequest, resp As WebResponse, remote$)
 
@@ -106,10 +187,29 @@ Namespace Net.Http
         ''' Module will create a new <see cref="FileStream"/> that writes to this desired download path
         ''' </param>
         Sub New(downloadUrl As String, saveFile As String, headers As Dictionary(Of String, String))
-            Me.fs = saveFile.Open(doClear:=True)
-            Me.url = downloadUrl
-            Me.saveFile = saveFile
+            Call Me.New(downloadUrl, saveFile.Open(doClear:=True), headers)
+        End Sub
+
+        Sub New(downloadUrl As String, pip As DuplexPipe, headers As Dictionary(Of String, String))
             Me.headers = headers
+            Me._stream = New WriteData(pip)
+            Me.url = downloadUrl
+            Me.saveFile = "<duplex_pipeline>"
+        End Sub
+
+        Sub New(downloadUrl As String, save As Stream, headers As Dictionary(Of String, String))
+            Me.headers = headers
+            Me._stream = New WriteData(save)
+            Me.url = downloadUrl
+
+            Select Case save.GetType
+                Case GetType(FileStream)
+                    Me.saveFile = DirectCast(save, FileStream).Name
+                Case GetType(MemoryStream)
+                    Me.saveFile = $"<in_memory_{save.GetHashCode.ToHexString}>"
+                Case Else
+                    Me.saveFile = $"<unknown_{save.GetHashCode.ToHexString}>"
+            End Select
         End Sub
 
         Public Function StartTask(Optional doRetry As Boolean = True, Optional bufferSize% = 1024) As Boolean
@@ -161,25 +261,26 @@ RE:
             End If
 
             ' Ask for the response
-            Dim resp As WebResponse = req.GetResponse
+            Dim _resp As WebResponse = req.GetResponse
 
-            _totalSize = resp.ContentLength
+            _totalSize = _resp.ContentLength
             _speedSamples = New List(Of Double)
             _currentSize = 0
             _startTime = App.ElapsedMilliseconds
             _isUnknownContentSize = totalSize < 0
 
-            RaiseEvent ReportRequest(req, resp, remote)
+            RaiseEvent ReportRequest(req, _resp, remote)
             RaiseEvent DownloadProcess(Me, 100 * currentSize / totalSize)
 
             If totalSize = -1 Then
                 ' task with no Content-Length
-                Call doDownloadTask(resp, bufferSize, Function(read) read = 0)
+                Call doDownloadTask(_resp, bufferSize, Function(read) read = 0)
             Else
-                Call doDownloadTask(resp, bufferSize, Function() currentSize >= totalSize)
+                Call doDownloadTask(_resp, bufferSize, Function() currentSize >= totalSize)
             End If
 
-            resp.Close()
+            Call _resp.Close()
+            Call _stream.Dispose()
         End Sub
 
         Private Sub doDownloadTask(resp As WebResponse, bufferSize%, exitJob As Func(Of Integer, Boolean))
@@ -194,7 +295,7 @@ RE:
                 read = resp.GetResponseStream.Read(buffer, Scan0, buffer.Length)
                 ' Write to filestream that you declared at the beginning 
                 ' of the DoWork sub
-                fs.Write(buffer, Scan0, read)
+                _stream.Write(buffer)
 
                 _currentSize += read
                 interval = TimeSpan.FromMilliseconds(App.ElapsedMilliseconds - _startTime).TotalSeconds
@@ -253,9 +354,6 @@ RE:
             If Not Me.disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
-                    Call fs.Flush()
-                    Call fs.Close()
-                    Call fs.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

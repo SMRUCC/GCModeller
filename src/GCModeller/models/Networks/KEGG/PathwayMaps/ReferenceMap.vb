@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::5f793e499d9f7f6b6f162e391f3510e4, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceMap
-    ' 
-    '         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
-    '                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
-    ' 
-    '         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, removesUnmapped
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceMap
+' 
+'         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
+'                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
+' 
+'         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, removesUnmapped
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -232,7 +232,7 @@ Namespace PathwayMaps
             Dim edges As New List(Of NetworkEdge)
 
             ' 下面的两个for循环产生的是从reactant a到products b的反应过程边连接
-            For Each a In compounds
+            For Each a As IGrouping(Of String, NamedValue(Of String)) In compounds
                 Dim forwards As ReactionTable() = reactantIndex.TryGetValue(a.Key)
 
                 If forwards.IsNullOrEmpty Then
@@ -516,11 +516,17 @@ Namespace PathwayMaps
                                           Optional doRemoveUnmmaped As Boolean = False,
                                           Optional coverageCutoff As Double = 0,
                                           Optional categoryLevel2 As Boolean = False,
-                                          Optional topMaps As String() = Nothing) As NetworkTables
+                                          Optional topMaps As String() = Nothing,
+                                          Optional ignores As Index(Of String) = Nothing) As NetworkTables
 
-            Dim mapsVector = maps.ToArray
+            Dim mapsVector As Map() = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
             Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
+
+            If ignores Is Nothing Then
+                ignores = ReferenceMap.ignores
+            End If
+
             Dim compounds = mapsVector _
                 .Select(AddressOf getCompoundsInMap) _
                 .IteratesALL _
