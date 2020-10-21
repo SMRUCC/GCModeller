@@ -307,7 +307,7 @@ Module visualPlot
                             .Properties = a.memberships _
                                 .ToDictionary(Function(t) t.Key.ToString,
                                               Function(t)
-                                                  Return t.Value
+                                                  Return t.Value * 100
                                               End Function)
                         }
                     End Function) _
@@ -327,9 +327,7 @@ Module visualPlot
                           Function(a)
                               Return New NamedCollection(Of String) With {
                                   .name = a.Key,
-                                  .value = a _
-                                      .Select(Function(g) g.ID) _
-                                      .ToArray
+                                  .value = {a.Key}
                               }
                           End Function)
 
@@ -346,8 +344,8 @@ Module visualPlot
                 catagory:=category,
                 camera:=camera,
                 bg:=bg,
-                padding:=padding,
-                size:=size,
+                padding:=InteropArgumentHelper.getPadding(padding),
+                size:=InteropArgumentHelper.getSize(size),
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay
