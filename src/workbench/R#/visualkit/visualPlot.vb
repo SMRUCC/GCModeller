@@ -247,14 +247,24 @@ Module visualPlot
                                            Optional padding As Object = g.DefaultUltraLargePadding,
                                            Optional bg As Object = "white",
                                            Optional colorSet$ = "PiYG:c8",
-                                           Optional levels% = 25) As Object
+                                           Optional levels% = 25,
+                                           Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
+                                           Optional legendTitleStyle As String = CSSFont.Win7Small,
+                                           Optional legendTickStyle As String = CSSFont.Win7Small,
+                                           Optional axisTickCSS$ = CSSFont.Win10Normal,
+                                           Optional axisLabelCSS$ = CSSFont.Win7Small) As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
             padding:=InteropArgumentHelper.getPadding(padding),
             bg:=InteropArgumentHelper.getColor(bg, "white"),
             colorSet:=colorSet,
-            levels:=levels
+            levels:=levels,
+            clusterLabelStyle:=clusterLabelStyle,
+            legendTickStyle:=legendTickStyle,
+            legendTitleStyle:=legendTitleStyle,
+            axisLabelCSS:=axisLabelCSS,
+            axisTickCSS:=axisTickCSS
         )
     End Function
 End Module
