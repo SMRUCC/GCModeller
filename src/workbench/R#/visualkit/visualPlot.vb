@@ -342,7 +342,16 @@ Module visualPlot
         End If
 
         Return clusterData _
-            .Scatter3D(category, camera, size, schema:=colorSet, arrowFactor:=arrowFactor, labelsQuantile:=qDisplay) _
+            .Scatter3D(
+                catagory:=category,
+                camera:=camera,
+                bg:=bg,
+                padding:=padding,
+                size:=size,
+                schema:=colorSet,
+                arrowFactor:=arrowFactor,
+                labelsQuantile:=qDisplay
+            ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)
     End Function

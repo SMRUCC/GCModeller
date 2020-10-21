@@ -213,6 +213,10 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\Plots.vbproj">
+      <Project>{17F8E821-0A01-4975-9CAA-AC95251226D5}</Project>
+      <Name>Plots</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\DataVisualization.vbproj">
       <Project>{3a114030-d9fd-4913-8e85-a78c032e9000}</Project>
       <Name>DataVisualization</Name>
