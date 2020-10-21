@@ -297,7 +297,7 @@ Module visualPlot
                                  <RRawVectorArgument(GetType(Double))>
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
-                                 Optional qDisplay# = 0.85,
+                                 Optional qDisplay# = 0.9,
                                  Optional prefix$ = "Cluster:  #") As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -314,13 +314,16 @@ Module visualPlot
                     End Function) _
             .ToArray
         Dim normRange As DoubleRange = {0, 100}
+        Dim clusterNMembers As Integer = clusterData.Length
 
-        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct
+        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct.ToArray
             Dim v = clusterData.Select(Function(a) a(project)).ToArray
             Dim range = v.Range
+            Dim map As Double
 
-            For i As Integer = 0 To clusterData.Length - 1
-                clusterData(i).Properties(project) = range.ScaleMapping(clusterData(i).Properties(project), normRange)
+            For i As Integer = 0 To clusterNMembers - 1
+                map = range.ScaleMapping(clusterData(i)(project), normRange)
+                clusterData(i)(project) = map
             Next
         Next
 
