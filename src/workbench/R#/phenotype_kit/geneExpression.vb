@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -166,6 +167,12 @@ Module geneExpression
                             threshold:=threshold
                         )
                     End Function)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <ExportAPI("expression.cmeans3D")>
+    Public Function CMeans3D(matrix As Matrix, Optional fuzzification# = 2, Optional threshold# = 0.001) As ExpressionPattern
+        Return ExpressionPattern.CMeansCluster3D(matrix, fuzzification, threshold)
     End Function
 
     ''' <summary>
