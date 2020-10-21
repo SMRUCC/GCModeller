@@ -260,7 +260,7 @@ Namespace kb_UniProtKB
                     .value _
                     .MySqlEscaping
                 Dim getRecommendedShortName =
-                    Function(i)
+                    Function(i As Integer)
                         Return recommendedName.shortNames _
                             .ElementAtOrDefault(i) _
                            ?.value _
@@ -292,9 +292,9 @@ Namespace kb_UniProtKB
                     Let altFullName = alt.fullName _
                         ?.value _
                          .MySqlEscaping
-                    Let getShortName = Function(index)
+                    Let getShortName = Function(index As Integer)
                                            Return alt.shortNames _
-                                               .ElementAtOrDefault(0) _
+                                               .ElementAtOrDefault(index) _
                                               ?.value _
                                                .MySqlEscaping
                                        End Function

@@ -83,18 +83,7 @@ Namespace ExpressionPattern
             Return populatePartitions(Patterns, [dim], sampleNames)
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="matrix"></param>
-        ''' <param name="dim">``[row, columns]``</param>
-        ''' <returns></returns>
-        ''' 
-        Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer(),
-                                             Optional fuzzification# = 2,
-                                             Optional threshold# = 0.001) As ExpressionPattern
-
-            Dim nsize As Integer = [dim](Scan0) * [dim](1)
+        Public Shared Function CMeansCluster(matrix As Matrix, nsize%, Optional fuzzification# = 2, Optional threshold# = 0.001) As Classify()
             Dim sampleNames As String() = matrix.sampleID
             Dim geneNodes As ClusterEntity() = matrix.expression _
                 .AsParallel _
@@ -116,6 +105,44 @@ Namespace ExpressionPattern
                 fuzzification:=fuzzification,
                 threshold:=threshold
             )
+
+            Return centers
+        End Function
+
+        Public Shared Function CMeansCluster3D(matrix As Matrix, Optional fuzzification# = 2, Optional threshold# = 0.001) As ExpressionPattern
+            Dim sampleNames As String() = matrix.sampleID
+            Dim centers As Classify() = CMeansCluster(
+                matrix:=matrix,
+                nsize:=3,
+                fuzzification:=fuzzification,
+                threshold:=threshold
+            )
+
+            Return New ExpressionPattern With {
+                .Patterns = centers _
+                    .Select(Function(c) c.members) _
+                    .IteratesALL _
+                    .ToArray,
+                .sampleNames = sampleNames,
+                .[dim] = {1, 3},
+                .centers = centers
+            }
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="matrix"></param>
+        ''' <param name="dim">``[row, columns]``</param>
+        ''' <returns></returns>
+        ''' 
+        Public Shared Function CMeansCluster(matrix As Matrix, [dim] As Integer(),
+                                             Optional fuzzification# = 2,
+                                             Optional threshold# = 0.001) As ExpressionPattern
+
+            Dim nsize As Integer = [dim](Scan0) * [dim](1)
+            Dim sampleNames As String() = matrix.sampleID
+            Dim centers As Classify() = CMeansCluster(matrix, nsize, fuzzification, threshold)
 
             Return New ExpressionPattern With {
                 .Patterns = centers _

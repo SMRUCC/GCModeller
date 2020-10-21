@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace ExpressionPattern
 
+    <HideModuleName>
     Public Module PatternPlotExtensions
 
         Public Function DrawMatrix(raw As Matrix,
@@ -75,19 +76,27 @@ Namespace ExpressionPattern
                                    Optional xlab$ = "time groups",
                                    Optional ylab$ = "expression quantification",
                                    Optional colorSet$ = "YlGnBu:c8",
-                                   Optional levels% = 50) As GraphicsData
+                                   Optional levels% = 50,
+                                   Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
+                                   Optional legendTitleStyle As String = CSSFont.Win7Small,
+                                   Optional legendTickStyle As String = CSSFont.Win7Small,
+                                   Optional axisTickCSS$ = CSSFont.Win10Normal,
+                                   Optional axisLabelCSS$ = CSSFont.Win7Small) As GraphicsData
 
             Dim theme As New Theme With {
                 .background = bg,
                 .padding = padding,
-                .axisTickCSS = CSSFont.Win10Normal,
-                .axisLabelCSS = CSSFont.Win7Small
+                .axisTickCSS = axisTickCSS,
+                .axisLabelCSS = axisLabelCSS
             }
 
             Return New PatternPlot(matrix, theme, colorSet, levels) With {
                 .main = title,
                 .xlabel = xlab,
-                .ylabel = ylab
+                .ylabel = ylab,
+                .clusterLabelStyle = clusterLabelStyle,
+                .legendTitleStyle = legendTitleStyle,
+                .legendTickStyle = legendTickStyle
             }.Plot(size)
         End Function
     End Module

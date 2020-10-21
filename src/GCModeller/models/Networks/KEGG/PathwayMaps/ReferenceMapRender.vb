@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -117,6 +118,11 @@ Namespace PathwayMaps
             End If
         End Function
 
+        <Extension>
+        Public Function FromCytoscapeModel(model As XGMMLgraph) As NetworkGraph
+            Return model.ToNetworkGraph("label", "class", "group.category", "group.category.color")
+        End Function
+
         ''' <summary>
         ''' 将完成node和edge布局操作的网络模型进行渲染
         ''' </summary>
@@ -135,10 +141,11 @@ Namespace PathwayMaps
                                Optional reactionKOMappingJson$ = Nothing,
                                Optional edgeBends As Boolean = False,
                                Optional altStyle As Boolean = False,
-                               Optional rewriteGroupCategoryColors$ = "TSF") As GraphicsData
+                               Optional rewriteGroupCategoryColors$ = "TSF",
+                               Optional wordWrapWidth% = 14) As GraphicsData
 
             Dim style As RenderStyle = Nothing
-            Dim graph As NetworkGraph = model.ToNetworkGraph("label", "class", "group.category", "group.category.color")
+            Dim graph As NetworkGraph = model.FromCytoscapeModel
 
             If altStyle Then
                 Dim convexHullCategoryStyle As Dictionary(Of String, String) = graph _
@@ -167,7 +174,8 @@ Namespace PathwayMaps
                     .LoadJSON(Of Dictionary(Of String, String)),
                 edgeBends:=edgeBends,
                 renderStyle:=style,
-                rewriteGroupCategoryColors:=rewriteGroupCategoryColors
+                rewriteGroupCategoryColors:=rewriteGroupCategoryColors,
+                wordWrapWidth:=wordWrapWidth
             )
         End Function
 
@@ -311,6 +319,36 @@ Namespace PathwayMaps
             )
         End Function
 
+        <Extension>
+        Public Iterator Function GetIdProperties(model As XGMMLgraph, reactionKOMapping As Dictionary(Of String, String()), compoundNames As Dictionary(Of String, String)) As IEnumerable(Of EntityObject)
+            Dim g As NetworkGraph = model.FromCytoscapeModel
+            Dim degrees As Dictionary(Of String, Integer) = g.ComputeNodeDegrees
+            Dim convexHullCategoryStyle As Dictionary(Of String, String) = g _
+                .getCategoryColors({}, "TSF") _
+                .TupleTable
+            Dim renderStyle As New PlainStyle(
+                graph:=g,
+                convexHullCategoryStyle:=convexHullCategoryStyle,
+                enzymeColorSchema:="Set1:c8",
+                compoundColorSchema:="Clusters"
+            )
+            Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
+            Dim getName = GetNodeLabel(compoundNames, reactionNames)
+
+            g = g.mixEdgeColor(renderStyle, degrees)
+
+            For Each node As Node In g.vertex
+                Yield New EntityObject With {
+                    .ID = node.ID,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"map", node.data("group.category")},
+                        {"color", node.data("group.category.color")},
+                        {"name", getName(node)}
+                    }
+                }
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -352,7 +390,9 @@ Namespace PathwayMaps
                 Dim du As Integer = u.sumLinkDegree(degrees)
                 Dim dv As Integer = v.sumLinkDegree(degrees)
 
-                If du > dv Then
+                If du = 0 AndAlso dv = 0 Then
+                    edge.data.color = Brushes.Black
+                ElseIf du > dv Then
                     edge.data.color = New SolidBrush(u.Key)
                 Else
                     edge.data.color = New SolidBrush(v.Key)

@@ -218,7 +218,7 @@ Namespace v2
                                             .formula = ScriptEngine.ParseExpression(k.Value.formula.lambda),
                                             .parameters = k.Value.formula.parameters,
                                             .paramVals = k.Value.parameter _
-                                                .Select(Function(a)
+                                                .Select(Function(a) As Object
                                                             If a.value.IsNaNImaginary Then
                                                                 Return a.target
                                                             Else
