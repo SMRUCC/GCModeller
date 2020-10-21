@@ -47,12 +47,17 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.visualize.KMeans
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
@@ -266,5 +271,79 @@ Module visualPlot
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS
         )
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="size"></param>
+    ''' <param name="padding"></param>
+    ''' <param name="bg"></param>
+    ''' <param name="colorSet$"></param>
+    ''' <param name="viewAngle"></param>
+    ''' <param name="viewDistance#"></param>
+    ''' <param name="qDisplay">quantile value for display the gene labels</param>
+    ''' <returns></returns>
+    <ExportAPI("plot.cmeans3D")>
+    Public Function PlotCMeans3D(matrix As ExpressionPattern,
+                                 <RRawVectorArgument>
+                                 Optional size As Object = "2400,2700",
+                                 <RRawVectorArgument>
+                                 Optional padding As Object = g.DefaultUltraLargePadding,
+                                 Optional bg As Object = "white",
+                                 Optional colorSet$ = "red,blue,green",
+                                 <RRawVectorArgument(GetType(Double))>
+                                 Optional viewAngle As Object = "30,60,-56.25",
+                                 Optional viewDistance# = 2500,
+                                 Optional qDisplay# = -1.0,
+                                 Optional prefix$ = "Cluster:  #") As Object
+
+        Dim clusterData As EntityClusterModel() = matrix.Patterns _
+            .Select(Function(a)
+                        Return New EntityClusterModel With {
+                            .ID = a.uid,
+                            .Cluster = a.cluster,
+                            .Properties = a.memberships _
+                                .ToDictionary(Function(t) t.Key.ToString,
+                                              Function(t)
+                                                  Return t.Value
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
+
+        Dim camera As New Camera With {
+            .fov = 500000,
+            .screen = InteropArgumentHelper.getSize(size).SizeParser,
+            .viewDistance = viewDistance,
+            .angleX = DirectCast(viewAngle, Double())(0),
+            .angleY = DirectCast(viewAngle, Double())(1),
+            .angleZ = DirectCast(viewAngle, Double())(2)
+        }
+        Dim category As Dictionary(Of NamedCollection(Of String)) = clusterData _
+            .GroupBy(Function(a) a.Cluster) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return New NamedCollection(Of String) With {
+                                  .name = a.Key,
+                                  .value = a _
+                                      .Select(Function(g) g.ID) _
+                                      .ToArray
+                              }
+                          End Function)
+
+        Dim arrowFactor$ = "1,2"
+
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityClusterModel In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        Return clusterData _
+            .Scatter3D(category, camera, size, schema:=colorSet, arrowFactor:=arrowFactor, labelsQuantile:=qDisplay) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White)
     End Function
 End Module
