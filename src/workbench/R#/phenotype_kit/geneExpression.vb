@@ -44,6 +44,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -181,8 +182,8 @@ Module geneExpression
     ''' <param name="pattern"></param>
     ''' <returns></returns>
     <ExportAPI("cmeans_matrix")>
-    Public Function GetCmeansPattern(pattern As ExpressionPattern) As Object
-        Return pattern _
+    Public Function GetCmeansPattern(pattern As ExpressionPattern, Optional kmeans_n As Integer = -1, Optional env As Environment = Nothing) As Object
+        Dim result As DataSet() = pattern _
             .Patterns _
             .Select(Function(a)
                         Return New DataSet With {
@@ -195,5 +196,22 @@ Module geneExpression
                         }
                     End Function) _
             .ToArray
+
+        If kmeans_n > 0 Then
+            If kmeans_n >= result.Length Then
+                Return Internal.debug.stop({
+                    "kmeans centers can not be greater than or equals to the data points!",
+                    "data: " & result.Length,
+                    "kmeans_n: " & kmeans_n
+                }, env)
+            Else
+                Return result _
+                    .ToKMeansModels _
+                    .Kmeans(expected:=kmeans_n, debug:=env.globalEnvironment.debugMode) _
+                    .ToArray
+            End If
+        Else
+            Return result
+        End If
     End Function
 End Module

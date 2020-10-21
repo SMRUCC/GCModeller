@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports stdNum = System.Math
 
 Namespace KMeans
 
@@ -211,7 +212,8 @@ Namespace KMeans
                                   Optional boxStroke$ = Stroke.StrongHighlightStroke,
                                   Optional axisStroke$ = Stroke.AxisStroke,
                                   Optional arrowFactor$ = "2,2",
-                                  Optional labelsQuantile# = -1) As GraphicsData
+                                  Optional labelsQuantile# = -1,
+                                  Optional showLegend As Boolean = True) As GraphicsData
 
             Dim clusters As Dictionary(Of String, EntityClusterModel()) = clusterData.ClusterGroups
 
@@ -262,7 +264,8 @@ Namespace KMeans
                 boxStroke:=boxStroke,
                 axisStroke:=axisStroke,
                 labX:=labX, labY:=labY, labZ:=labZ,
-                arrowFactor:=arrowFactor
+                arrowFactor:=arrowFactor,
+                showLegend:=showLegend
             )
         End Function
 
@@ -270,7 +273,14 @@ Namespace KMeans
         Private Function labelSelector(serials As IEnumerable(Of Serial3D), labelsQuantile#) As List(Of Serial3D)
             Dim q As QuantileEstimationGK = serials _
                 .Select(Function(s)
-                            Return s.Points.Select(Function(p) {CDbl(p.Value.X), CDbl(p.Value.Y), CDbl(p.Value.Z)}.Average)
+                            Return s.Points _
+                                .Select(Function(p)
+                                            Return {
+                                                stdNum.Abs(p.Value.X),
+                                                stdNum.Abs(p.Value.Y),
+                                                stdNum.Abs(p.Value.Z)
+                                            }.Average
+                                        End Function)
                         End Function) _
                 .IteratesALL _
                 .GKQuantile
@@ -280,7 +290,12 @@ Namespace KMeans
                 .Select(Function(s)
                             s.Points = s.Points _
                                 .Select(Function(p)
-                                            If {p.Value.X, p.Value.Y, p.Value.Z}.Average >= quantile Then
+                                            If {
+                                                stdNum.Abs(p.Value.X),
+                                                stdNum.Abs(p.Value.Y),
+                                                stdNum.Abs(p.Value.Z)
+                                            }.Average >= quantile Then
+
                                                 Return p
                                             Else
                                                 Return New NamedValue(Of Point3D) With {

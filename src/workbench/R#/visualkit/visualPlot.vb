@@ -288,6 +288,7 @@ Module visualPlot
     ''' <returns></returns>
     <ExportAPI("plot.cmeans3D")>
     Public Function PlotCMeans3D(matrix As ExpressionPattern,
+                                 Optional kmeans_n As Integer = 3,
                                  <RRawVectorArgument>
                                  Optional size As Object = "2400,2700",
                                  <RRawVectorArgument>
@@ -298,7 +299,8 @@ Module visualPlot
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
                                  Optional qDisplay# = 0.9,
-                                 Optional prefix$ = "Cluster:  #") As Object
+                                 Optional prefix$ = "Cluster:  #",
+                                 Optional env As Environment = Nothing) As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
             .Select(Function(a)
@@ -306,7 +308,7 @@ Module visualPlot
                             .ID = a.uid,
                             .Cluster = a.cluster,
                             .Properties = a.memberships _
-                                .ToDictionary(Function(t) t.Key.ToString,
+                                .ToDictionary(Function(t) (t.Key + 1).ToString,
                                               Function(t)
                                                   Return t.Value * 100
                                               End Function)
@@ -327,6 +329,13 @@ Module visualPlot
             Next
         Next
 
+        clusterData = clusterData _
+            .Kmeans(
+                expected:=kmeans_n,
+                debug:=env.globalEnvironment.debugMode
+            ) _
+            .ToArray
+
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = InteropArgumentHelper.getSize(size).SizeParser,
@@ -340,7 +349,7 @@ Module visualPlot
             .ToDictionary(Function(a) a.Key,
                           Function(a)
                               Return New NamedCollection(Of String) With {
-                                  .name = a.Key,
+                                  .name = $"Cluster Dimension #{a.Key}",
                                   .value = {a.Key}
                               }
                           End Function)
@@ -362,7 +371,8 @@ Module visualPlot
                 size:=InteropArgumentHelper.getSize(size),
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
-                labelsQuantile:=qDisplay
+                labelsQuantile:=qDisplay,
+                showLegend:=False
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)

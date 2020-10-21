@@ -14,18 +14,18 @@ print(colnames(expr0));
 let patterns = expr0
 :> load.expr
 :> relative
-:> expression.cmeans3D(fuzzification = 3, threshold = 0.1)
+:> expression.cmeans3D(fuzzification = 3, threshold = 1)
 ;
 
 print("view patterns result:");
 print(patterns);
 
 patterns
-:> plot.cmeans3D(size = [6000, 4500], colorSet = "red,blue,green")
+:> plot.cmeans3D(size = [6000, 5000], colorSet = "red,blue,green", viewDistance = 60000, qDisplay = 0.95)
 :> save.graphics(file = "./cmeans3D.png")
 ;
 
 patterns
-:> cmeans_matrix
+:> cmeans_matrix(kmeans_n = 5)
 :> write.csv(file = "./cmeans3D.csv")
 ;
