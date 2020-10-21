@@ -47,6 +47,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -296,7 +297,7 @@ Module visualPlot
                                  <RRawVectorArgument(GetType(Double))>
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
-                                 Optional qDisplay# = -1.0,
+                                 Optional qDisplay# = 0.85,
                                  Optional prefix$ = "Cluster:  #") As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -312,6 +313,16 @@ Module visualPlot
                         }
                     End Function) _
             .ToArray
+        Dim normRange As DoubleRange = {0, 100}
+
+        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct
+            Dim v = clusterData.Select(Function(a) a(project)).ToArray
+            Dim range = v.Range
+
+            For i As Integer = 0 To clusterData.Length - 1
+                clusterData(i).Properties(project) = range.ScaleMapping(clusterData(i).Properties(project), normRange)
+            Next
+        Next
 
         Dim camera As New Camera With {
             .fov = 500000,

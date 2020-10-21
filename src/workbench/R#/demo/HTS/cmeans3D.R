@@ -14,7 +14,7 @@ print(colnames(expr0));
 let patterns = expr0
 :> load.expr
 :> relative
-:> expression.cmeans3D(fuzzification = 5, threshold = 0.001)
+:> expression.cmeans3D(fuzzification = 3, threshold = 0.1)
 ;
 
 print("view patterns result:");
