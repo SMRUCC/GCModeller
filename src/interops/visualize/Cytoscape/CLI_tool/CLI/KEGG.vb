@@ -560,12 +560,13 @@ Partial Module CLI
             .ReadAllText _
             .LoadJSON(Of Dictionary(Of String, String()))
         Dim model = XGMML.RDFXml.Load([in])
-        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.information.csv"
+        Dim out As String = args("/out") Or $"{[in].TrimSuffix}.information/"
+        Dim info = model.GetIdProperties(reactionKOMappingJson, compounds)
 
-        Return model.GetIdProperties(reactionKOMappingJson, compounds) _
-            .ToArray _
-            .SaveTo(out) _
-            .CLICode
+        Call info.nodes.SaveTo($"{out}/nodes.csv")
+        Call info.edges.SaveTo($"{out}/edges.csv")
+
+        Return 0
     End Function
 
     <ExportAPI("/KEGG.referenceMap.render")>
