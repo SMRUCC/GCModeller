@@ -109,8 +109,6 @@ Namespace CommandLine
 
         Const NoProcessFound As String = "Unable to found associated process {0}, it maybe haven't been started or already terminated."
 
-        Public Delegate Sub dReadLine(strLine As String)
-
         ''' <summary>
         ''' 执行CMD命令
         ''' 
@@ -124,7 +122,7 @@ Namespace CommandLine
         ''' <param name="args">参数</param>
         ''' <param name="onReadLine">行信息（委托）</param>
         ''' <remarks>https://github.com/lishewen/LSWFramework/blob/master/LSWClassLib/CMD/CMDHelper.vb</remarks>
-        Public Sub ExecSub(app As String, args As String, onReadLine As dReadLine, Optional [in] As String = "")
+        Public Sub ExecSub(app As String, args As String, onReadLine As Action(Of String), Optional [in] As String = "")
             Dim p As New Process
             p.StartInfo = New ProcessStartInfo
             p.StartInfo.FileName = app
@@ -154,16 +152,16 @@ Namespace CommandLine
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' Run process and then gets the ``std_out`` of the child process
         ''' </summary>
         ''' <param name="app">The file path of the application to be called by its parent process.</param>
         ''' <param name="args">CLI arguments</param>
         ''' <returns></returns>
         <Extension>
         Public Function [Call](app As String, args As String, Optional [in] As String = "") As String
-            Dim STDout As New List(Of String)
-            Call ExecSub(app, args, AddressOf STDout.Add, [in])
-            Return STDout.JoinBy(vbCrLf)
+            Dim stdout As New List(Of String)
+            Call ExecSub(app, args, AddressOf stdout.Add, [in])
+            Return stdout.JoinBy(vbCrLf)
         End Function
     End Module
 End Namespace
