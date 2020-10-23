@@ -70,14 +70,12 @@ Namespace Text.Xml.Models
             Return Me
         End Function
 
-        Public Function Wrap(tagName As String, ParamArray inner As XElement()) As XmlBuilder
-            Call AppendLine($"<{tagName}>")
-
-            For Each item In inner
-                Call AppendLine(item.ToString)
+        Public Function Wrap(tag As XElement, ParamArray inner As XElement()) As XmlBuilder
+            For Each item As XElement In inner
+                Call tag.Add(item)
             Next
 
-            Call AppendLine($"</{tagName}>")
+            Me.AppendLine(tag.ToString)
 
             Return Me
         End Function
