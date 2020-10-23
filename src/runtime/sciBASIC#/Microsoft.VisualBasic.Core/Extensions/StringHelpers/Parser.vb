@@ -290,4 +290,31 @@ Public Module PrimitiveParser
 
         Return True
     End Function
+
+    Public Function ParseTimeSpan(str As String) As TimeSpan
+        Dim val As TimeSpan = Nothing
+
+        If Not TimeSpan.TryParse(str, val) Then
+            Dim tokens = str.Split(":"c)
+
+            If tokens.Length = 2 Then
+                ' hh:mm 
+                Dim hh = Integer.Parse(tokens(0))
+                Dim mm = Integer.Parse(tokens(1))
+
+                val = TimeSpan.FromHours(hh) + TimeSpan.FromMinutes(mm)
+            ElseIf tokens.Length = 3 Then
+                ' hh:mm:ss
+                Dim hh = Integer.Parse(tokens(0))
+                Dim mm = Integer.Parse(tokens(1))
+                Dim ss = Integer.Parse(tokens(2))
+
+                val = TimeSpan.FromHours(hh) + TimeSpan.FromMinutes(mm) + TimeSpan.FromSeconds(ss)
+            Else
+                Throw New InvalidCastException(str)
+            End If
+        End If
+
+        Return val
+    End Function
 End Module
