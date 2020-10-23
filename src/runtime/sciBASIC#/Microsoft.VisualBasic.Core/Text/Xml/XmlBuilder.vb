@@ -70,6 +70,18 @@ Namespace Text.Xml.Models
             Return Me
         End Function
 
+        Public Function Wrap(tagName As String, ParamArray inner As XElement()) As XmlBuilder
+            Call AppendLine($"<{tagName}>")
+
+            For Each item In inner
+                Call AppendLine(item.ToString)
+            Next
+
+            Call AppendLine($"</{tagName}>")
+
+            Return Me
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Unescape() As XmlBuilder
             Call Replace("&lt;", "<").Replace("&gt;", ">")
@@ -79,6 +91,12 @@ Namespace Text.Xml.Models
         Public Overloads Shared Operator +(xb As XmlBuilder, node As XElement) As XmlBuilder
             Call xb.script.AppendLine(node.ToString)
             Return xb
+        End Operator
+
+        Public Overloads Shared Widening Operator CType(html As String) As XmlBuilder
+            Dim sb As New XmlBuilder
+            sb.AppendLine(html)
+            Return sb
         End Operator
     End Class
 End Namespace

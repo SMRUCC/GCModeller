@@ -270,6 +270,7 @@
     <Compile Include="Charts\ScatterChart.vb" />
     <Compile Include="Charts\PieChart.vb" />
     <Compile Include="Charts\LineChart.vb" />
+    <Compile Include="Data\SynchronizedLines.vb" />
     <Compile Include="Lambda.vb" />
     <Compile Include="Common\AbstractSerial.vb" />
     <Compile Include="Common\Components.vb" />
