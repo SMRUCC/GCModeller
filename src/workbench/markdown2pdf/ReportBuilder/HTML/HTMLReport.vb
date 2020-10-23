@@ -190,8 +190,9 @@ Namespace HTML
         ''' </summary>
         ''' <param name="source">模板源文件夹</param>
         ''' <param name="output">生成报告文件的目标文件夹</param>
-        Public Shared Sub CopyTemplate(source$, output$)
+        Public Shared Function CopyTemplate(source$, output$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly) As HTMLReport
             Call New Directory(source).CopyTo(target:=output).ToArray
-        End Sub
+            Return New HTMLReport(output, searchLevel)
+        End Function
     End Class
 End Namespace
