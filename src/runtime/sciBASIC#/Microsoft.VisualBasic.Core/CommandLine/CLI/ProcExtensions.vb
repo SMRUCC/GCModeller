@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::da14906f800cd40886d3ef12c766aa0f, Microsoft.VisualBasic.Core\CommandLine\CLI\ProcExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ProcessExtensions
-    ' 
-    '         Function: FindProc, (+2 Overloads) GetProc
-    '         Delegate Sub
-    ' 
-    '             Function: [Call]
-    ' 
-    '             Sub: ExecSub
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ProcessExtensions
+' 
+'         Function: FindProc, (+2 Overloads) GetProc
+'         Delegate Sub
+' 
+'             Function: [Call]
+' 
+'             Sub: ExecSub
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -135,7 +135,6 @@ Namespace CommandLine
             p.Start()
 
             Dim reader As StreamReader = p.StandardOutput
-            Dim line As String = reader.ReadLine
 
             If Not String.IsNullOrEmpty([in]) Then
                 Dim writer As StreamWriter = p.StandardInput
@@ -144,8 +143,7 @@ Namespace CommandLine
             End If
 
             While Not reader.EndOfStream
-                onReadLine(line)
-                line = reader.ReadLine()
+                Call onReadLine(reader.ReadLine)
             End While
 
             Call p.WaitForExit()
