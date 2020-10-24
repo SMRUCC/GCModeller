@@ -74,6 +74,8 @@ Namespace HTML
         ''' <returns></returns>
         Public ReadOnly Property directory As String
 
+        Dim minify As Boolean = True
+
         ''' <summary>
         ''' 获取所有<see cref="templates"/>模板的文件路径
         ''' </summary>
@@ -100,13 +102,17 @@ Namespace HTML
             End Set
         End Property
 
-        Sub New(folder$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly)
-            templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= folder) _
+        Sub New(directory$,
+                Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly,
+                Optional minify As Boolean = False)
+
+            Me.templates = (ls - l - {"*.html", "*.htm"} << searchLevel <= directory) _
                 .ToDictionary(Function(path) path.BaseName,
                               Function(path)
                                   Return New TemplateHandler(path)
                               End Function)
-            directory = folder.GetDirectoryFullPath
+            Me.minify = minify
+            Me.directory = directory.GetDirectoryFullPath
         End Sub
 
         ''' <summary>
@@ -143,7 +149,7 @@ Namespace HTML
 
         Public Sub Save()
             For Each template In templates.Values
-                Call template.Flush()
+                Call template.Flush(minify:=minify)
             Next
         End Sub
 
@@ -186,13 +192,19 @@ Namespace HTML
         End Operator
 
         ''' <summary>
-        ''' 
+        ''' Copy template files to a specific report output folder and then create a html report handler
         ''' </summary>
         ''' <param name="source">模板源文件夹</param>
         ''' <param name="output">生成报告文件的目标文件夹</param>
-        Public Shared Function CopyTemplate(source$, output$, Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly) As HTMLReport
-            Call New Directory(source).CopyTo(target:=output).ToArray
-            Return New HTMLReport(output, searchLevel)
+        Public Shared Function CopyTemplate(source$, output$,
+                                            Optional searchLevel As SearchOption = SearchOption.SearchTopLevelOnly,
+                                            Optional minify As Boolean = False) As HTMLReport
+            With New Directory(source) _
+                .CopyTo(target:=output) _
+                .ToArray
+
+                Return New HTMLReport(output, searchLevel, minify)
+            End With
         End Function
     End Class
 End Namespace
