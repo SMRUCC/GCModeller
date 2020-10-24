@@ -12,5 +12,6 @@ Public Class LineDataSet
     Public Property unit As String
     Public Property valueDecimals As Integer
     Public Property data As Double()
+    Public Property max As Double?
 
 End Class
