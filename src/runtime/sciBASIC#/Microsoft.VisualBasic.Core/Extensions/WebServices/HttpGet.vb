@@ -177,11 +177,15 @@ Re0:
     ''' <returns></returns>
     Public Property HttpRequestTimeOut As Double
 
-    Public Function BuildWebRequest(url$, headers As Dictionary(Of String, String), proxy$, UA$) As HttpWebRequest
+    Public Function BuildWebRequest(url$, headers As Dictionary(Of String, String), proxy$, UA$, Optional isPost As Boolean = False) As HttpWebRequest
         Dim webRequest As HttpWebRequest = HttpWebRequest.Create(url)
 
         webRequest.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
         webRequest.UserAgent = UA Or DefaultUA
+
+        If isPost Then
+            webRequest.Method = "POST"
+        End If
 
         If HttpRequestTimeOut > 0 Then
             webRequest.Timeout = 1000 * HttpRequestTimeOut
