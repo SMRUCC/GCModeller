@@ -137,7 +137,7 @@ Public Module HttpGet
 
         Try
 Re0:
-            Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo).html
+            Return BuildWebRequest(url, headers, proxy, UA).UrlGet(echo:=echo).html
         Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso DoNotRetry404
             is404 = True
             Return LogException(url, New Exception(url, ex))
@@ -205,7 +205,7 @@ Re0:
     ''' <param name="webrequest"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function urlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
+    Public Function UrlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
         Dim timer As Stopwatch = Stopwatch.StartNew
         Dim url As String = webrequest.RequestUri.ToString
 
