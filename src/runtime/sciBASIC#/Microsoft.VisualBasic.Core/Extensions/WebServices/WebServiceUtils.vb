@@ -537,7 +537,7 @@ Public Module WebServiceUtils
             Dim raw = request.ResponseHeaders
 
             For Each key As String In raw.AllKeys
-                Call headers.Add(ParseHeaderName(key), raw.Get(key))
+                Call rtvlHeaders.Add(ParseHeaderName(key), raw.Get(key))
             Next
 
             Dim result As New WebResponseResult With {
