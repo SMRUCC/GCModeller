@@ -90,4 +90,27 @@ Public Module StringFormats
             Return timespan.FormatTime
         End If
     End Function
+
+    Public Function ReadableElapsedTime(microtime&, Optional format$ = "%.3f%s", Optional round% = 3) As String
+        Dim unit$
+        Dim time!
+
+        If microtime >= 1000 Then
+            unit = "s"
+            time = stdNum.Round(microtime / 1000, round)
+
+            If time >= 60 Then
+                unit = "min"
+                time = stdNum.Round(time / 60, round)
+            End If
+
+            format = sprintf(format, time, unit)
+        Else
+            unit = "ms"
+            time = microtime
+            format = sprintf("%s%s", time, unit)
+        End If
+
+        Return format
+    End Function
 End Module

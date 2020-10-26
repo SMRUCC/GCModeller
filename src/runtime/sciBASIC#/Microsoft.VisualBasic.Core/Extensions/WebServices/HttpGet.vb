@@ -135,7 +135,8 @@ Public Module HttpGet
         End If
 
         Try
-RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
+Re0:
+            Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo).html
         Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso DoNotRetry404
             is404 = True
             Return LogException(url, New Exception(url, ex))
@@ -145,7 +146,7 @@ RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
             retryTime += 1
 
             Call "Data download error, retry connect to the server!".PrintException
-            GoTo RETRY
+            GoTo Re0
 
         Catch ex As Exception
             ex = New Exception(url, ex)
@@ -202,11 +203,13 @@ RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
     ''' </summary>
     ''' <param name="webrequest"></param>
     ''' <returns></returns>
-    <Extension> Private Function urlGet(webrequest As HttpWebRequest, echo As Boolean) As String
+    <Extension>
+    Public Function urlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
         Dim timer As Stopwatch = Stopwatch.StartNew
         Dim url As String = webrequest.RequestUri.ToString
 
-        Using respStream As Stream = webrequest.GetResponse.GetResponseStream,
+        Using response As WebResponse = webrequest.GetResponse,
+            respStream As Stream = response.GetResponseStream,
             reader As New StreamReader(respStream)
 
             Dim htmlBuilder As New StringBuilder
@@ -218,16 +221,24 @@ RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
 
             Dim html As String = htmlBuilder.ToString
             Dim title As String = html.HTMLTitle
+            Dim timespan As Long = timer.ElapsedMilliseconds
+            Dim headers As New Dictionary(Of HttpResponseHeader, String)
+
+
 
             ' 判断是否是由于还没有登陆校园网客户端而导致的错误
             If InStr(html, "http://www.doctorcom.com", CompareMethod.Text) > 0 Then
                 Call doctorcomError.PrintException
-                Return ""
+
+                Return New WebResponseResult With {
+                    .url = url,
+                    .html = ""
+                }
             ElseIf echo Then
-                Dim time$ = ValueTypes.ReadableElapsedTime(timer.ElapsedMilliseconds)
+                Dim time$ = StringFormats.ReadableElapsedTime(timespan)
                 Dim debug$ = $"[{url}] {title} - {Len(html)} chars in {time}"
 
-                If timer.ElapsedMilliseconds > 1000 Then
+                If timespan > 1000 Then
                     Call debug.Warning
                 Else
                     Call debug.__INFO_ECHO
@@ -237,7 +248,21 @@ RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
 #If DEBUG Then
             Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
 #End If
-            Return html
+            Return New WebResponseResult With {
+                .url = url,
+                .timespan = timespan,
+                .html = html,
+                .headers = headers
+            }
         End Using
     End Function
 End Module
+
+Public Class WebResponseResult
+
+    Public Property html As String
+    Public Property headers As Dictionary(Of HttpResponseHeader, String)
+    Public Property timespan As Long
+    Public Property url As String
+
+End Class
