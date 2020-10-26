@@ -106,7 +106,7 @@ Namespace Assembly.Uniprot.Web
             Call args.Add(NameOf(uploadQuery), uploadQuery.JoinBy(vbLf))
 
             Dim url$ = "http://www.uniprot.org/uploadlists/"
-            Dim html As String = url.POST(args, , "http://www.uniprot.org/uploadlists/",)
+            Dim html As String = url.POST(args, , "http://www.uniprot.org/uploadlists/",).html
             Dim query$ = html.HTMLTitle.Split.First
 
             ' 2017-3-7

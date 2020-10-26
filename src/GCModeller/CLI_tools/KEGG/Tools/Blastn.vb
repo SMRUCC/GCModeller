@@ -60,7 +60,7 @@ Public Module Blastn
         Call param.Add("submit", "Compute")
 
         Dim result = PostRequest("http://www.genome.jp/tools-bin/blastplus", param)
-        Dim hits = Parser(page:=result)
+        Dim hits = Parser(page:=result.html)
         Return hits
     End Function
 
