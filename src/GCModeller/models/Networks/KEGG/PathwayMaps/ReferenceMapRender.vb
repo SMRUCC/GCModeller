@@ -295,7 +295,7 @@ Namespace PathwayMaps
                 labelerIterations:=-1000,
                 drawNodeShape:=AddressOf renderStyle.drawNode,
                 hullPolygonGroups:=renderStyle.getHullPolygonGroups,
-                minLinkWidth:=10,
+                minLinkWidth:=5,
                 nodeRadius:=300,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,
@@ -320,7 +320,7 @@ Namespace PathwayMaps
         End Function
 
         <Extension>
-        Public Iterator Function GetIdProperties(model As XGMMLgraph, reactionKOMapping As Dictionary(Of String, String()), compoundNames As Dictionary(Of String, String)) As IEnumerable(Of EntityObject)
+        Public Function GetIdProperties(model As XGMMLgraph, reactionKOMapping As Dictionary(Of String, String()), compoundNames As Dictionary(Of String, String)) As (nodes As EntityObject(), edges As EntityObject())
             Dim g As NetworkGraph = model.FromCytoscapeModel
             Dim degrees As Dictionary(Of String, Integer) = g.ComputeNodeDegrees
             Dim convexHullCategoryStyle As Dictionary(Of String, String) = g _
@@ -337,16 +337,32 @@ Namespace PathwayMaps
 
             g = g.mixEdgeColor(renderStyle, degrees)
 
+            Dim nodes As New List(Of EntityObject)
+            Dim edges As New List(Of EntityObject)
+
             For Each node As Node In g.vertex
-                Yield New EntityObject With {
-                    .ID = node.ID,
+                Call New EntityObject With {
+                    .ID = node.label,
                     .Properties = New Dictionary(Of String, String) From {
                         {"map", node.data("group.category")},
                         {"color", node.data("group.category.color")},
-                        {"name", getName(node)}
+                        {"node_name", getName(node)}
                     }
-                }
+                }.DoCall(AddressOf nodes.Add)
             Next
+
+            For Each edge As Edge In g.graphEdges
+                Call New EntityObject With {
+                    .ID = edge.ID,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"fromNode", edge.U.label},
+                        {"toNode", edge.V.label},
+                        {"color", edge.data.color.Color.ToHtmlColor}
+                    }
+                }.DoCall(AddressOf edges.Add)
+            Next
+
+            Return (nodes.ToArray, edges.ToArray)
         End Function
 
         ''' <summary>

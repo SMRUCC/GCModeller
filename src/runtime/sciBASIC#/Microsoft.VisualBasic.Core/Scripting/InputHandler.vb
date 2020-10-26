@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::9ca85436366fe23ca71b4dbea0002ffd, Microsoft.VisualBasic.Core\Scripting\InputHandler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module InputHandler
-    ' 
-    '         Properties: [String], CasterString, Types
-    ' 
-    '         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
-    '                   DefaultTextParser, IsPrimitive, ParseDateTime, StringParser, (+2 Overloads) ToString
-    ' 
-    '         Sub: CapabilityPromise
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module InputHandler
+' 
+'         Properties: [String], CasterString, Types
+' 
+'         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
+'                   DefaultTextParser, IsPrimitive, ParseDateTime, StringParser, (+2 Overloads) ToString
+' 
+'         Sub: CapabilityPromise
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -329,6 +329,11 @@ Namespace Scripting
             Return New IToString(Of T)(AddressOf ToString)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetString(Of T)() As [Default](Of Func(Of T, String))
+            Return New Func(Of T, String)(AddressOf ToString)
+        End Function
+
         ''' <summary>
         ''' Does the <paramref name="inputtype"/> type can be cast to type <paramref name="DefType"/>.
         ''' (主要为了方便减少脚本编程模块的代码)
@@ -397,9 +402,10 @@ Namespace Scripting
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function [DirectCast](array As Object(), type As Type) As Object
-            Dim out = CreateInstance(type, array.Length)
-            Call Copy(array, out, array.Length) ' 直接复制不能够正常工作
+        Public Function [DirectCast](array As IEnumerable, type As Type) As Object
+            Dim objs As Object() = (From item As Object In array.AsQueryable Select item).ToArray
+            Dim out = CreateInstance(type, objs.Length)
+            Call Copy(objs, out, objs.Length) ' 直接复制不能够正常工作
             Return out
         End Function
     End Module

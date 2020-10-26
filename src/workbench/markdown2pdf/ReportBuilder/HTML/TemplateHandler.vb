@@ -49,8 +49,10 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
 Namespace HTML
 
@@ -87,8 +89,12 @@ Namespace HTML
         ''' Interpolated html report file save
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Flush(Optional path As String = Nothing)
-            Call builder.Save(path Or Me.path.AsDefault, TextEncodings.UTF8WithoutBOM)
+        Public Sub Flush(Optional minify As Boolean = True, Optional path As String = Nothing)
+            Call If(minify,
+                builder.ToString.DoCall(AddressOf HtmlCompress.Minify),
+                builder.ToString
+            ) _
+            .SaveTo(path Or Me.path.AsDefault, TextEncodings.UTF8WithoutBOM)
         End Sub
 
         Public Overrides Function ToString() As String
