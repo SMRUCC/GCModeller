@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -62,6 +63,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' GCModeller DEG experiment analysis designer toolkit
 ''' </summary>
 <Package("sampleInfo", Category:=APICategories.ResearchTools)>
+<RTypeExport("sample_info", GetType(SampleInfo))>
 Module DEGSample
 
     Sub New()
@@ -164,9 +166,56 @@ Module DEGSample
         Return sampleinfo.SaveTo(file)
     End Function
 
+    ''' <summary>
+    ''' create ``sample_info`` data table
+    ''' </summary>
+    ''' <param name="ID"></param>
+    ''' <param name="sample_name"></param>
+    ''' <param name="sample_info"></param>
+    ''' <returns></returns>
     <ExportAPI("sampleInfo")>
-    Public Function sampleInfoTable(ID As String(), sample_name As String(), sample_info As String()) As SampleInfo()
-        Throw New NotImplementedException
+    <RApiReturn(GetType(SampleInfo))>
+    Public Function sampleInfoTable(ID As String(),
+                                    sample_name As String(),
+                                    sample_info As String(),
+                                    Optional env As Environment = Nothing) As Object
+
+        If ID.IsNullOrEmpty OrElse
+            sample_info.IsNullOrEmpty OrElse
+            sample_name.IsNullOrEmpty Then
+
+            Return Nothing
+        End If
+
+        If ID.Length <> sample_name.Length Then
+            Return Internal.debug.stop({
+                $"the size of ID should be equals to the size of sample_name!",
+                $"sizeof_ID: {ID.Length}",
+                $"sizeof_sample_name: {sample_name.Length}"}, env)
+        ElseIf sample_info.Length <> ID.Length AndAlso sample_info.Length > 1 Then
+            Return Internal.debug.stop({
+                $"invalid sample_info size, the size of sample_info should be 1 or equals to ID",
+                $"size of sample_info: {sample_info.Length}"}, env)
+        End If
+
+        Dim get_group = Function(i As Integer)
+                            If sample_info.Length = 1 Then
+                                Return sample_info(Scan0)
+                            Else
+                                Return sample_info(i)
+                            End If
+                        End Function
+        Dim list As New List(Of SampleInfo)
+
+        For i As Integer = 0 To ID.Length - 1
+            list += New SampleInfo With {
+                .ID = ID(i),
+                .sample_name = sample_name(i),
+                .sample_info = get_group(i)
+            }
+        Next
+
+        Return list.ToArray
     End Function
 
     ''' <summary>
