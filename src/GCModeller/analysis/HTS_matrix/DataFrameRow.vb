@@ -75,6 +75,18 @@ Public Class DataFrameRow : Implements INamedValue
         End Get
     End Property
 
+    Public Function ToDataSet(labels As IEnumerable(Of String)) As Dictionary(Of String, Double)
+        Dim table As New Dictionary(Of String, Double)
+        Dim i As Integer = 0
+
+        For Each label As String In labels
+            table.Add(label, experiments(i))
+            i += 1
+        Next
+
+        Return table
+    End Function
+
     Public Overrides Function ToString() As String
         Return String.Format("{0} -> {1}", geneID, String.Join(", ", experiments))
     End Function
