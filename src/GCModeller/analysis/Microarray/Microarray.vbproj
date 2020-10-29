@@ -208,6 +208,7 @@
     <Compile Include="Enrichment\KEGGPathwayMap.vb" />
     <Compile Include="DEGProfiling.vb" />
     <Compile Include="Enrichment\GSEA.vb" />
+    <Compile Include="PolarScalePlot.vb" />
     <Compile Include="OmicsScatter2D.vb" />
     <Compile Include="Type.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -278,6 +279,10 @@
       <Project>{2DD4BE80-DDC3-4767-94A7-10F1C3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
+      <Name>ExperimentDesigner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\annotations\GSEA\GSEA\GSEA.vbproj">
       <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
       <Name>GSEA</Name>
@@ -285,6 +290,10 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
