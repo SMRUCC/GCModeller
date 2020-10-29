@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH STRINGS 1 2020-10-29 "trim" "trim"
+.SH NAME
+trim \- Removes all leading and trailing occurrences of a set of characters specified
+.SH SYNOPSIS
+\fItrim(\fBstrings\fR as string, 
+\fBcharacters\fR as string = " ", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Removes all leading and trailing occurrences of a set of characters specified
+ in an array from the current System.String object.
+.PP
+.SH OPTIONS
+.PP
+\fBstrings$\fB \fR\- -
+.PP
+.PP
+\fBcharacters\fB \fR\- An array of Unicode characters to remove, or null.
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+The string that remains after all occurrences of the characters in the trimChars
+ parameter are removed from the start and end of the current string. If trimChars
+ is null or an empty array, white-space characters are removed instead. If no
+ characters can be trimmed from the current instance, the method returns the current
+ instance unchanged.
+.PP
+.SH SEE ALSO
+strings
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

@@ -1,0 +1,85 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "sink" "sink"
+.SH NAME
+sink \- Send R Output to a File
+.SH SYNOPSIS
+\fIsink(\fBfile\fR as string = \fB<NULL>\fR, 
+\fBappend\fR as boolean = FALSE, 
+\fBsplit\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Send R Output to a File
+ 
+ \fBsink\fR diverts R output to a connection (and stops such diversions).
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ a writable connection Or a character String naming 
+ the file To write To, Or NULL To Stop sink-ing.
+
+.PP
+.PP
+\fBappend\fB \fR\- 
+ logical. If TRUE, output will be appended to file; 
+ otherwise, it will overwrite the contents of file.
+
+.PP
+.PP
+\fBsplit\fB \fR\- 
+ logical: if TRUE, output will be sent to the new sink 
+ and to the current output stream, like the Unix 
+ program \fBtee\fR.
+
+.PP
+.SH VALUE
+.PP
+sink returns NULL.
+.PP
+.SH DETAILS
+.PP
+sink diverts R output to a connection (and must be used 
+ again to finish such a diversion, see below!). If file 
+ is a character string, a file connection with that name 
+ will be established for the duration of the diversion.
+
+ Normal R output (To connection stdout) Is diverted by the 
+ Default type = "output". Only prompts And (most) messages 
+ Continue To appear On the console. Messages sent To 
+ stderr() (including those from message, warning And Stop) 
+ can be diverted by sink(type = "message") (see below).
+
+ sink() Or sink(file = NULL) ends the last diversion (of 
+ the specified type). There Is a stack of diversions for 
+ normal output, so output reverts to the previous diversion 
+ (if there was one). The stack Is of up to 21 connections 
+ (20 diversions).
+
+ If file Is a connection it will be opened If necessary 
+ (In "wt" mode) And closed once it Is removed from the 
+ stack Of diversions.
+
+ split = TRUE only splits R output (via Rvprintf) And the 
+ default output from writeLines: it does Not split all 
+ output that might be sent To stdout().
+
+ Sink-ing the messages stream should be done only with 
+ great care. For that stream file must be an already open 
+ connection, And there Is no stack of connections.
+
+ If file Is a character String, the file will be opened 
+ Using the current encoding. If you want a different 
+ encoding (e.g., To represent strings which have been 
+ stored In UTF-8), use a file connection — but some 
+ ways To produce R output will already have converted 
+ such strings To the current encoding.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

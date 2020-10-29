@@ -1,0 +1,50 @@
+.\" man page create by R# package system.
+.TH ENV 1 2020-10-29 "object.size" "object.size"
+.SH NAME
+object.size \- Report the Space Allocated for an Object
+.SH SYNOPSIS
+\fIobject.size(\fBx\fR as <generic> Object);\fR
+.SH DESCRIPTION
+.PP
+Report the Space Allocated for an Object
+ 
+ Provides an estimate of the memory that is being used to store 
+ an R# object.
+ 
+ Exactly which parts of the memory allocation should be attributed 
+ to which object is not clear-cut. This function merely provides 
+ a rough indication: it should be reasonably accurate for atomic 
+ vectors, but does not detect if elements of a list are shared, for 
+ example. (Sharing amongst elements of a character vector is taken 
+ into account, but not that between character vectors in a single 
+ object.)
+
+ The calculation Is Of the size Of the Object, And excludes the 
+ space needed To store its name In the symbol table.
+
+ Associated space(e.g., the environment of a function And what the 
+ pointer in a EXTPTRSXP points to) Is Not included in the 
+ calculation.
+
+ Object sizes are larger On 64-bit builds than 32-bit ones, but will 
+ very likely be the same On different platforms With the same word 
+ length And pointer size.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an R# object.
+.PP
+.SH VALUE
+.PP
+An object of class "object_size" with a length-one double value, 
+ an estimate of the memory allocation attributable to the object 
+ in bytes.
+.PP
+.SH SEE ALSO
+env
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

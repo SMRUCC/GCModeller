@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH MATH 1 2020-10-29 "log" "log"
+.SH NAME
+log \- computes logarithms, by default natural logarithms, log10 computes common (i.e., base 10) logarithms,
+.SH SYNOPSIS
+\fIlog(\fBx\fR as <generic> Array, 
+\fBnewBase\fR as double = 2.71828182845905);\fR
+.SH DESCRIPTION
+.PP
+computes logarithms, by default natural logarithms, log10 computes common (i.e., base 10) logarithms, 
+ and log2 computes binary (i.e., base 2) logarithms. 
+ The general form log(x, base) computes logarithms with base base.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a numeric or complex vector.
+.PP
+.PP
+\fBnewBase\fB \fR\- 
+ a positive or complex number: the base with respect to which logarithms are computed. 
+ Defaults to \fBe=exp(1)\fR.
+
+.PP
+.SH SEE ALSO
+math
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

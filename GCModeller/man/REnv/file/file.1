@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH FILE 1 2020-10-29 "file" "file"
+.SH NAME
+file \- Functions to create, open and close connections, i.e.,
+.SH SYNOPSIS
+\fIfile(\fBdescription\fR as string, 
+\fBopen\fR as <integer> FileMode = [OpenOrCreate], 
+\fBtruncate\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+Functions to create, open and close connections, i.e., 
+ "generalized files", such as possibly compressed files, 
+ URLs, pipes, etc.
+.PP
+.SH OPTIONS
+.PP
+\fBdescription\fB \fR\- character string. A description of the connection: see ‘Details’.
+.PP
+.PP
+\fBopen\fB \fR\- 
+ character string. A description of how to open the connection (if it should be opened initially). 
+ See section ‘Modes’ for possible values.
+
+.PP
+.SH SEE ALSO
+file
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

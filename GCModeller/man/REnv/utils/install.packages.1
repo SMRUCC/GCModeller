@@ -1,0 +1,56 @@
+.\" man page create by R# package system.
+.TH UTILS 1 2020-10-29 "install.packages" "install.packages"
+.SH NAME
+install.packages \- Install Packages from Repositories or Local Files
+.SH SYNOPSIS
+\fIinstall.packages(\fBpackages\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Install Packages from Repositories or Local Files
+ 
+ Download and install packages from CRAN-like repositories or from local files.
+ 
+ This is the main function to install packages. It takes a vector of names and 
+ a destination library, downloads the packages from the repositories and installs 
+ them. (If the library is omitted it defaults to the first directory in 
+ .libPaths(), with a message if there is more than one.) If lib is omitted or 
+ is of length one and is not a (group) writable directory, in interactive use 
+ the code offers to create a personal library tree (the first element of 
+ Sys.getenv("R_LIBS_USER")) and install there. Detection of a writable 
+ directory is problematic on Windows: see the ‘Note’ section.
+
+ For installs from a repository an attempt Is made To install the packages In 
+ an order that respects their dependencies. This does assume that all the 
+ entries In Lib are On the Default library path For installs (Set by 
+ environment variable R_LIBS).
+
+ You are advised To run update.packages before install.packages To ensure that 
+ any already installed dependencies have their latest versions.
+.PP
+.SH OPTIONS
+.PP
+\fBpackages\fB \fR\- The dll file name, character vector of the names of 
+ packages whose current versions should be downloaded from the repositories.
+
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH DETAILS
+.PP
+install.packages tries to detect if you have write permission on the library 
+ directories specified, but Windows reports unreliably. If there is only one 
+ library directory (the default), R tries to find out by creating a test directory, 
+ but even this need not be the whole story: you may have permission to write 
+ in a library directory but lack permission to write binary files (such as ‘.dll’ 
+ files) there. See the ‘R for Windows FAQ’ for workarounds.
+.PP
+.SH SEE ALSO
+utils
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

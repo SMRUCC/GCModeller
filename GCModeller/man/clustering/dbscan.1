@@ -1,0 +1,68 @@
+.\" man page create by R# package system.
+.TH CLUSTERING 2 2020-10-29 "dbscan" "dbscan"
+.SH NAME
+dbscan \- DBSCAN density reachability and connectivity clustering
+.SH SYNOPSIS
+\fIdbscan(\fBdata\fR as <generic> Object, 
+\fBeps\fR as double, 
+\fBMinPts\fR as integer = 5, 
+\fBscale\fR as boolean = FALSE, 
+\fBmethod\fR as <integer> dbScanMethods = [raw], 
+\fBseeds\fR as boolean = TRUE, 
+\fBcountmode\fR as <generic> Object = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+DBSCAN density reachability and connectivity clustering
+ 
+ Generates a density based clustering of arbitrary shape as 
+ introduced in Ester et al. (1996).
+ 
+ Clusters require a minimum no of points (MinPts) within a maximum 
+ distance (eps) around one of its members (the seed). Any point 
+ within eps around any point which satisfies the seed condition 
+ is a cluster member (recursively). Some points may not belong to 
+ any clusters (noise).
+.PP
+.SH OPTIONS
+.PP
+\fBdata\fB \fR\- data matrix, data.frame, dissimilarity matrix 
+ or dist-object. Specify method="dist" if the data should be 
+ interpreted as dissimilarity matrix or object. Otherwise Euclidean 
+ distances will be used.
+.PP
+.PP
+\fBeps\fB \fR\- Reachability distance, see Ester et al. (1996).
+.PP
+.PP
+\fBMinPts\fB \fR\- Reachability minimum no. Of points, see Ester et al. (1996).
+.PP
+.PP
+\fBscale\fB \fR\- scale the data if TRUE.
+.PP
+.PP
+\fBmethod\fB \fR\- 
+ "dist" treats data as distance matrix (relatively fast but memory 
+ expensive), "raw" treats data as raw data and avoids calculating a 
+ distance matrix (saves memory but may be slow), "hybrid" expects 
+ also raw data, but calculates partial distance matrices (very fast 
+ with moderate memory requirements).
+
+.PP
+.PP
+\fBseeds\fB \fR\- FALSE to not include the isseed-vector in the dbscan-object.
+.PP
+.PP
+\fBcountmode\fB \fR\- 
+ NULL or vector of point numbers at which to report progress.
+
+.PP
+.SH SEE ALSO
+clustering
+.SH FILES
+.PP
+MLkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@live.com\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2020

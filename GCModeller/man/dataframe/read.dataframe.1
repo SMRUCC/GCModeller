@@ -1,10 +1,10 @@
 .\" man page create by R# package system.
-.TH DATAFRAME 4 2020-07-26 "read.dataframe" "read.dataframe"
+.TH DATAFRAME 4 2020-10-29 "read.dataframe" "read.dataframe"
 .SH NAME
 read.dataframe \- Read dataframe
 .SH SYNOPSIS
 \fIread.dataframe(\fBfile\fR as string, 
-\fBmode\fR as string = "numeric|character|any", 
+\fBmode\fR as <integer> DataModes = [numeric], 
 \fBtoRObj\fR as boolean = FALSE, 
 \fBsilent\fR as boolean = TRUE);\fR
 .SH DESCRIPTION
@@ -13,10 +13,10 @@ Read dataframe
 .PP
 .SH OPTIONS
 .PP
-\fBfile$\fB \fR\- -
+\fBfile\fB \fR\- the csv file
 .PP
 .PP
-\fBmode$\fB \fR\- -
+\fBmode\fB \fR\- -
 .PP
 .SH SEE ALSO
 dataframe

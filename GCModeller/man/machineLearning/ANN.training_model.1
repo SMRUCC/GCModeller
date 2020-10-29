@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH MACHINELEARNING 2 2020-07-26 "ANN.training_model" "ANN.training_model"
+.TH MACHINELEARNING 2 2020-10-29 "ANN.training_model" "ANN.training_model"
 .SH NAME
 ANN.training_model \- create a new ANN training model
 .SH SYNOPSIS
@@ -11,7 +11,8 @@ ANN.training_model \- create a new ANN training model
 \fBactive\fR as <generic> activation = 'hidden: Sigmoid(alpha:=2.0); output: Sigmoid(alpha:=2.0)', 
 \fBweight0\fR as <generic> Object = "random", 
 \fBlearnRateDecay\fR as double = 1E-10, 
-\fBtruncate\fR as double = -1);\fR
+\fBtruncate\fR as double = -1, 
+\fBsplit\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 create a new ANN training model
@@ -48,7 +49,7 @@ create a new ANN training model
 machineLearning
 .SH FILES
 .PP
-R.math.dll
+MLkit.dll
 .PP
 .SH AUTHOR
 Written by \fBxie.guigang@gcmodeller.org\fR

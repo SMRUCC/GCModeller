@@ -1,0 +1,51 @@
+.\" man page create by R# package system.
+.TH ENV 1 2020-10-29 "do.call" "do.call"
+.SH NAME
+do.call \- Execute a Function Call
+.SH SYNOPSIS
+\fIdo.call(\fBwhat\fR as <generic> Object, 
+\fBcalls\fR as string, 
+..., 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Execute a Function Call
+ 
+ \fBdo.call\fR constructs and executes a function call from a name or 
+ a function and a list of arguments to be passed to it.
+.PP
+.SH OPTIONS
+.PP
+\fBwhat\fB \fR\- -
+.PP
+.PP
+\fBcalls\fB \fR\- 
+ either a function or a non-empty character string naming the function 
+ to be called.
+
+.PP
+.PP
+\fBargs\fB \fR\- 
+ a list of arguments to the function call. The names attribute of 
+ args gives the argument names.
+
+.PP
+.PP
+\fBenvir\fB \fR\- 
+ an environment within which to evaluate the call. This will be most 
+ useful if what is a character string and the arguments are symbols 
+ or quoted expressions.
+
+.PP
+.SH VALUE
+.PP
+The result of the (evaluated) function call.
+.PP
+.SH SEE ALSO
+env
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019
