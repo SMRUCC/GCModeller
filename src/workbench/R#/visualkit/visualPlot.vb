@@ -73,7 +73,10 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 
-<Package("visualkit.plots")>
+''' <summary>
+''' package module for biological analysis data visualization
+''' </summary>
+<Package("visualkit.plots", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
     ''' <summary>
