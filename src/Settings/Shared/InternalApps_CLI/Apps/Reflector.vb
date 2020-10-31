@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7609.23259
-'  // ASSEMBLY:  Settings, Version=3.3277.7609.23259, Culture=neutral, PublicKeyToken=null
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
 '  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     10/31/2020 12:55:18 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -173,8 +173,6 @@ End Function
 ''' <param name="[namespace]"> The namespace value will be insert into the generated source code if this parameter is not null.
 ''' </param>
 ''' <param name="split"> Split the source code into sevral files and named by table name?
-''' </param>
-''' <param name="auto_increment_disable"> Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.
 ''' </param>
 Public Function ReflectsConvert(sql As String, 
                                    Optional o As String = "", 
