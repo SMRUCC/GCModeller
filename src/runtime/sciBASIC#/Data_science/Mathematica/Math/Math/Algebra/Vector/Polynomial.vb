@@ -48,6 +48,12 @@ Namespace LinearAlgebra
 
     Public MustInherit Class Formula
 
+        ''' <summary>
+        ''' 多项式系数向量
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Factors As Double()
+
         Public MustOverride Function Evaluate(ParamArray x As Double()) As Double
         Public MustOverride Overloads Function ToString(format As String, Optional html As Boolean = False) As String
 
@@ -79,12 +85,6 @@ Namespace LinearAlgebra
     ''' ```
     ''' </summary>
     Public Class Polynomial : Inherits Formula
-
-        ''' <summary>
-        ''' 多项式系数向量
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Factors As Double()
 
         ''' <summary>
         ''' f(x)
