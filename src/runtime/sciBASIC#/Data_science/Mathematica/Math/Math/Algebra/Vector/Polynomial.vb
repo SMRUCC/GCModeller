@@ -115,6 +115,11 @@ Namespace LinearAlgebra
         End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function Evaluate(ParamArray x() As Double) As Double
+            Return F(x:=x(Scan0))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return ToString(format:="F2")
         End Function
@@ -150,11 +155,6 @@ Namespace LinearAlgebra
                     Return $"{t(Scan0)}e<sup>{t(1)}</sup>"
                 End If
             End If
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function Evaluate(ParamArray x() As Double) As Double
-            Return F(x:=x(Scan0))
         End Function
     End Class
 End Namespace
