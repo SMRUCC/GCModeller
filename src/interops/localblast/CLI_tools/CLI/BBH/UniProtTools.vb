@@ -213,10 +213,6 @@ Partial Module CLI
     <Argument("/sp", True, CLITypes.String,
           AcceptTypes:={GetType(String)},
           Description:="The organism scientific name.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
-          AcceptTypes:={GetType(UniProtXML)},
-          Extensions:="*.xml",
-          Description:="The Uniprot protein database in XML file format.")>
     <Argument("/exclude", True, CLITypes.Boolean,
           Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
     <Argument("/out", True, CLITypes.File,
