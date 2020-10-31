@@ -10,8 +10,8 @@ Namespace Multivariate
     Public Module LinearFittingAlgorithm
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function LinearFitting(x As Double(,), y#(), Optional ByRef errors As [Error]() = Nothing) As MLRFit
-            Return LinearFitting(New GeneralMatrix(x.RowIterator.ToArray), y, errors)
+        Public Function LinearFitting(x As Double(,), y#()) As MLRFit
+            Return New GeneralMatrix(x.RowIterator.ToArray).LinearFitting(y)
         End Function
 
         ''' <summary>
@@ -43,7 +43,7 @@ Namespace Multivariate
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function LinearFitting(x As GeneralMatrix, f As Vector, Optional ByRef errors As [Error]() = Nothing) As MLRFit
+        Public Function LinearFitting(x As GeneralMatrix, f As Vector) As MLRFit
             Dim N = f.Length
             Dim p = x.ColumnDimension
             Dim Y As New GeneralMatrix(f, N)
@@ -63,7 +63,10 @@ Namespace Multivariate
                 .SST = SST
             }
 
-            errors = [Error].RunTest(MLR, x, f).ToArray
+            MLR.ErrorTest = [Error] _
+                .RunTest(MLR, x, f) _
+                .Select(Function(pt) DirectCast(pt, IFitError)) _
+                .ToArray
 
             Return MLR
         End Function

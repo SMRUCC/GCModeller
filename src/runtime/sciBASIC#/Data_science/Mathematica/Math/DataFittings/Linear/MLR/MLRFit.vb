@@ -46,6 +46,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
@@ -103,12 +104,16 @@ Namespace Multivariate
             End Get
         End Property
 
-        Public Property ErrorTest As TestPoint() Implements IFitted.ErrorTest
+        Public Property ErrorTest As IFitError() Implements IFitted.ErrorTest
 
         Public Function GetY(ParamArray x() As Double) As Double Implements IFitted.GetY
             Return Fx(New Vector(x))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LinearFitting(x As GeneralMatrix, f As Vector) As MLRFit
+            Return x.LinearFitting(f)
+        End Function
     End Class
 End Namespace
 
