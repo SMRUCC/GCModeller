@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23259
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23259, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 12:55:18 PM
 '  // 
 ' 
 ' 
@@ -42,6 +42,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Download.Mapped.Sequence:               
 '  /Download.Ortholog:                      Downloads the KEGG gene ortholog annotation data from the
 '                                           web server.
+'  /Download.reaction_class:                
 '  /Dump.sp:                                Dump all of the KEGG organism and write table data in csv
 '                                           file format.
 '  /Enrichment.Map.Render:                  Rendering kegg pathway map for enrichment analysis result
@@ -595,7 +596,7 @@ End Function
 ''' Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.
 ''' </summary>
 '''
-''' <param name="sp"> The 3 characters kegg organism code, example as: &quot;xcb&quot; is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
+''' <param name="sp"> The 3 characters kegg organism code, example as: &quot;xcb&quot; Is stands for organism &quot;Xanthomonas campestris pv. campestris 8004 (Beijing)&quot;
 ''' </param>
 Public Function DownloadPathwayMaps(sp As String, 
                                        Optional out As String = "", 
@@ -657,8 +658,8 @@ End Function
 ''' ```
 ''' </summary>
 '''
-''' <param name="sp"> A list of kegg species code. If this parameter is a text file, 
-'''               then each line should be start with the kegg organism code in three or four letters, 
+''' <param name="sp"> A list of kegg species code. If this parameter Is a text file, 
+'''               then each line should be start with the kegg organism code in three Or four letters, 
 '''               else if this parameter is a csv table file, then it must in format of kegg organism data model.
 ''' </param>
 Public Function DownloadPathwayMapsBatchTask(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
@@ -685,7 +686,7 @@ End Function
 ''' Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.
 ''' </summary>
 '''
-''' <param name="compounds"> If this argument is present in the commandline, then it means only this collection of compounds related reactions will be download.
+''' <param name="compounds"> If this argument Is present in the commandline, then it means only this collection of compounds related reactions will be download.
 ''' </param>
 Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional save As String = "", Optional _set As String = "", Optional try_all As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Download.Reaction")
@@ -704,6 +705,26 @@ Public Function DownloadKEGGReaction(Optional compounds As String = "", Optional
 Else
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
     End If
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /Download.reaction_class [/save &lt;dir, default=./&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function DownloadReactionClass(Optional save As String = "./") As Integer
+    Dim CLI As New StringBuilder("/Download.reaction_class")
+    Call CLI.Append(" ")
+    If Not save.StringEmpty Then
+            Call CLI.Append("/save " & """" & save & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 
     Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

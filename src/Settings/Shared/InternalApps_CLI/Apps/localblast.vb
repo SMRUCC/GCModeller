@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23259
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23259, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 12:55:18 PM
 '  // 
 ' 
 ' 
@@ -1111,18 +1111,21 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Export.gb.genes /gb &lt;genbank.gb&gt; [/geneName /out &lt;out.fasta&gt;]
+''' /Export.gb.genes /gb &lt;genbank.gb&gt; [/locus_tag /geneName /out &lt;out.fasta&gt;]
 ''' ```
 ''' </summary>
 '''
 ''' <param name="geneName"> If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.
 ''' </param>
-Public Function ExportGenesFasta(gb As String, Optional out As String = "", Optional genename As Boolean = False) As Integer
+Public Function ExportGenesFasta(gb As String, Optional out As String = "", Optional locus_tag As Boolean = False, Optional genename As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Export.gb.genes")
     Call CLI.Append(" ")
     Call CLI.Append("/gb " & """" & gb & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If locus_tag Then
+        Call CLI.Append("/locus_tag ")
     End If
     If genename Then
         Call CLI.Append("/genename ")

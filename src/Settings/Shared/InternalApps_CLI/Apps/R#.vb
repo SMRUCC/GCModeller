@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23259
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23259, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 12:55:18 PM
 '  // 
 ' 
 ' 
@@ -27,7 +27,23 @@ Imports Microsoft.VisualBasic.ApplicationServices
 ' 
 ' All of the command that available in this program has been list below:
 ' 
-'  --install.packages:     Install new packages.
+'  /bash:                  
+'  --info:                 Print R# interpreter version information and R# terminal version information.
+'  --man.1:                Exports unix man page data for current installed packages.
+'  --syntax:               Show syntax parser result of the input script.
+'  --version:              Print R# interpreter version
+' 
+' 
+' API list that with functional grouping
+' 
+' 1. R# System Utils
+' 
+'    R# language system and environment configuration util tools.
+' 
+' 
+'    --install.packages:     Install new packages.
+'    --setup:                Initialize the R# runtime environment.
+'    --startups:             
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -63,12 +79,49 @@ Public Class R_ : Inherits InteropService
 
 ''' <summary>
 ''' ```bash
+''' /bash --script &lt;run.R&gt;
+''' ```
+''' </summary>
+'''
+
+Public Function BashRun(script As String) As Integer
+    Dim CLI As New StringBuilder("/bash")
+    Call CLI.Append(" ")
+    Call CLI.Append("--script " & """" & script & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' 
+''' ```
+''' Print R# interpreter version information and R# terminal version information.
+''' </summary>
+'''
+
+Public Function Info() As Integer
+    Dim CLI As New StringBuilder("--info")
+    Call CLI.Append(" ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
 ''' --install.packages /module &lt;*.dll&gt; [--verbose]
 ''' ```
 ''' Install new packages.
 ''' </summary>
 '''
-
+''' <param name="[module]"> .NET Framework 4.8 assembly module file.
+''' </param>
 Public Function Install([module] As String, Optional verbose As Boolean = False) As Integer
     Dim CLI As New StringBuilder("--install.packages")
     Call CLI.Append(" ")
@@ -76,6 +129,111 @@ Public Function Install([module] As String, Optional verbose As Boolean = False)
     If verbose Then
         Call CLI.Append("--verbose ")
     End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' --man.1 [--module &lt;module.dll&gt; --debug --out &lt;directory, default=./&gt;]
+''' ```
+''' Exports unix man page data for current installed packages.
+''' </summary>
+'''
+
+Public Function unixman(Optional [module] As String = "", Optional out As String = "./", Optional debug As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("--man.1")
+    Call CLI.Append(" ")
+    If Not [module].StringEmpty Then
+            Call CLI.Append("--module " & """" & [module] & """ ")
+    End If
+    If Not out.StringEmpty Then
+            Call CLI.Append("--out " & """" & out & """ ")
+    End If
+    If debug Then
+        Call CLI.Append("--debug ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' 
+''' ```
+''' Initialize the R# runtime environment.
+''' </summary>
+'''
+
+Public Function InitializeEnvironment() As Integer
+    Dim CLI As New StringBuilder("--setup")
+    Call CLI.Append(" ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' --startups [--add &lt;namespaceList&gt; --remove &lt;namespaceList&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function ConfigStartups(Optional add As String = "", Optional remove As String = "") As Integer
+    Dim CLI As New StringBuilder("--startups")
+    Call CLI.Append(" ")
+    If Not add.StringEmpty Then
+            Call CLI.Append("--add " & """" & add & """ ")
+    End If
+    If Not remove.StringEmpty Then
+            Call CLI.Append("--remove " & """" & remove & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' --syntax /script &lt;script.R&gt;
+''' ```
+''' Show syntax parser result of the input script.
+''' </summary>
+'''
+
+Public Function SyntaxText(script As String) As Integer
+    Dim CLI As New StringBuilder("--syntax")
+    Call CLI.Append(" ")
+    Call CLI.Append("/script " & """" & script & """ ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' 
+''' ```
+''' Print R# interpreter version
+''' </summary>
+'''
+
+Public Function Version() As Integer
+    Dim CLI As New StringBuilder("--version")
+    Call CLI.Append(" ")
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
 

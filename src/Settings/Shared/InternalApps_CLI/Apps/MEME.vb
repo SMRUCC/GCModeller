@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23259
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23259, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 12:55:18 PM
 '  // 
 ' 
 ' 
@@ -40,11 +40,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /mast.Regulations:                   
 '  /MEME.Batch:                         Batch meme task by using tmod toolbox.
 '  /MEME.LDMs:                          
+'  /model.save:                         /model.save /model <meme.txt> [/out <model.json>]
 '  /Motif.BuildRegulons:                
 '  /Motif.Info:                         Assign the phenotype information And genomic context Info for
 '                                       the motif sites. [SimpleSegment] -> [MotifLog]
 '  /Motif.Info.Batch:                   [SimpleSegment] -> [MotifLog]
 '  /Motif.Similarity:                   Export of the calculation result from the tomtom program.
+'  /motif.sites.summary:                
 '  /MotifHits.Regulation:               
 '  /MotifSites.Fasta:                   
 '  /Parser.Pathway.Batch:               
@@ -689,6 +691,24 @@ End Function
 
 ''' <summary>
 ''' ```bash
+''' 
+''' ```
+''' /model.save /model &lt;meme.txt&gt; [/out &lt;model.json&gt;]
+''' </summary>
+'''
+
+Public Function SaveModel() As Integer
+    Dim CLI As New StringBuilder("/model.save")
+    Call CLI.Append(" ")
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
 ''' /Motif.BuildRegulons /meme &lt;meme.txt.DIR&gt; /model &lt;FootprintTrace.xml&gt; /DOOR &lt;DOOR.opr&gt; /maps &lt;bbhmappings.csv&gt; /corrs &lt;name/DIR&gt; [/cut &lt;0.65&gt; /out &lt;outDIR&gt;]
 ''' ```
 ''' </summary>
@@ -817,6 +837,27 @@ Public Function MEMETOM_MotifSimilarity([in] As String, motifs As String, Option
     End If
     If bp_var Then
         Call CLI.Append("/bp.var ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /motif.sites.summary /in &lt;data.directory&gt; [/out &lt;summary.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function MotifSiteSummary([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/motif.sites.summary")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
