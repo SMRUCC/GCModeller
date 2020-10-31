@@ -5,11 +5,11 @@ Imports stdNum = System.Math
 
 Namespace Multivariate
 
-    Public Structure [Error]
+    Public Structure [Error] : Implements IFitError
 
-        Dim X As Vector
-        Dim Y#
-        Dim Yfit#
+        Public Property X As Vector
+        Public Property Y As Double Implements IFitError.Y
+        Public Property Yfit As Double Implements IFitError.Yfit
 
         Public Overrides Function ToString() As String
             Return $"{stdNum.Abs(Y - Yfit)} = |{Y} - {Yfit}|"

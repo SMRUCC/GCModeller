@@ -60,7 +60,7 @@ Public Interface IFitted
     ''' <summary>
     ''' 保存拟合后的y值，在拟合时可设置为不保存节省内存
     ''' </summary>
-    Property ErrorTest As TestPoint()
+    Property ErrorTest As IFitError()
 
     ''' <summary>
     ''' f(x) or f(x1, x2, x3)
