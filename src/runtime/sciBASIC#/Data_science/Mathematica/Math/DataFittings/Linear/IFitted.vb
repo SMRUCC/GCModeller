@@ -41,6 +41,9 @@
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
+''' <summary>
+''' a unify interface model of linear fitting result
+''' </summary>
 Public Interface IFitted
 
     ''' <summary>
