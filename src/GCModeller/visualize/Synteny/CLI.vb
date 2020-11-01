@@ -93,17 +93,12 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
             .CLICode
     End Function
 
-    <ExportAPI("/test")>
-    Public Function Test() As Integer
-        Call Synteny.test.batch()
-    End Function
-
     <ExportAPI("/cluster.tree")>
     <Usage("/cluster.tree /in <besthit.csv> /genomes <fasta.directory> [/out <clusters.csv>]")>
     Public Function ClusterTree(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.conservative_clusters.csv"
-        Dim localblast As BestHit() = [in].LoadCsv(Of BestHit)
+        Dim localblast As BestHit() = [in].LoadCsv(Of BestHit).ToArray
         Dim genomes = (args <= "/genomes") _
             .EnumerateFiles("*.faa") _
             .Select(Iterator Function(file)
