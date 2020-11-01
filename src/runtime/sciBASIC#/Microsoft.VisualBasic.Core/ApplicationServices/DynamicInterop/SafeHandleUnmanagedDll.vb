@@ -60,7 +60,7 @@ Namespace ApplicationServices.DynamicInterop
         ''' <summary>
         ''' Frees the native library this objects represents
         ''' </summary>
-        ''' <paramname="disposing"></param>
+        ''' <param name="disposing"></param>
         Protected Overrides Sub Dispose(ByVal disposing As Boolean)
             If FreeLibrary() Then
                 SetHandleAsInvalid()

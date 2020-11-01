@@ -24,14 +24,10 @@ Namespace ApplicationServices.DynamicInterop
     Public MustInherit Class NativeHandle
         Implements INativeHandle
 
-        ''' <summary> Gets the number of references to the native resource for this handle.</summary>
-        '''
-        ''' <value> The number of references.</value>
-        Private _ReferenceCount As Integer
         ''' <summary> Specialised constructor for use only by derived class.</summary>
         '''
-        ''' <paramname="pointer">         The handle, value of the pointer to the native object</param>
-        ''' <paramname="currentRefCount"> (Optional) Number of pre-existing references for the native object</param>
+        ''' <param name="pointer">         The handle, value of the pointer to the native object</param>
+        ''' <param name="currentRefCount"> (Optional) Number of pre-existing references for the native object</param>
         ''' <remarks>If a native object was created prior to its use by .NET, its lifetime may need to extend its use 
         '''          from .NET. In practice the scenario is unlikely</remarks>
         Protected Sub New(ByVal pointer As IntPtr, ByVal Optional currentRefCount As Integer = 0)
@@ -49,11 +45,11 @@ Namespace ApplicationServices.DynamicInterop
 
         ''' <summary> Sets a handle.</summary>
         '''
-        ''' <exceptioncref="ArgumentException"> Thrown when a pointer is a Zero pointer
+        ''' <exception cref="ArgumentException"> Thrown when a pointer is a Zero pointer
         '''                                      .</exception>
         '''
-        ''' <paramname="pointer">         The handle, value of the pointer to the native object</param>
-        ''' <paramname="currentRefCount"> (Optional) Number of pre-existing references for the native object</param>
+        ''' <param name="pointer">         The handle, value of the pointer to the native object</param>
+        ''' <param name="currentRefCount"> (Optional) Number of pre-existing references for the native object</param>
         ''' <remarks>If a native object was created prior to its use by .NET, its lifetime may need to extend its use 
         '''          from .NET. In practice the scenario is unlikely</remarks>
         Protected Sub SetHandle(ByVal pointer As IntPtr, ByVal Optional currentRefCount As Integer = 0)
@@ -75,14 +71,11 @@ Namespace ApplicationServices.DynamicInterop
         ''' <returns> True if it succeeds, false if it fails.</returns>
         Protected MustOverride Function ReleaseHandle() As Boolean
 
+        ''' <summary> 
+        ''' Gets the number of references to the native resource for this handle.
+        ''' </summary>
+        ''' <value> The number of references.</value>
         Public Property ReferenceCount As Integer
-            Get
-                Return _ReferenceCount
-            End Get
-            Private Set(ByVal value As Integer)
-                _ReferenceCount = value
-            End Set
-        End Property
 
         ''' <summary> Gets a value indicating whether this handle has been disposed of already</summary>
         '''

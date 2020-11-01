@@ -45,6 +45,7 @@ Namespace ApplicationServices.DynamicInterop
     End Class
 
     Friend Module Win32
+
         <DllImport("kernel32.dll", SetLastError:=True)>
         Public Function LoadLibrary(
         <MarshalAs(UnmanagedType.LPStr)> ByVal lpFileName As String) As IntPtr
@@ -52,8 +53,7 @@ Namespace ApplicationServices.DynamicInterop
 
         <DllImport("kernel32.dll")>
         <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
-        <MarshalAs(UnmanagedType.Bool)>
-        Public Function FreeLibrary(ByVal hModule As IntPtr) As Boolean
+        Public Function FreeLibrary(ByVal hModule As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
         <DllImport("kernel32.dll")>

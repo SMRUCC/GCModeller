@@ -1,7 +1,4 @@
-﻿Imports System
-Imports System.ComponentModel
-Imports System.Diagnostics
-Imports System.Linq
+﻿Imports System.ComponentModel
 Imports System.IO
 
 Namespace ApplicationServices.DynamicInterop
@@ -23,10 +20,10 @@ Namespace ApplicationServices.DynamicInterop
         ''' Gets the platform on which the current process runs.
         ''' </summary>
         ''' <remarks>
-        ''' <seecref="Environment.OSVersion"/>'s platform is not <seecref="PlatformID.MacOSX"/> even on Mac OS X.
-        ''' This method returns <seecref="PlatformID.MacOSX"/> when the current process runs on Mac OS X.
+        ''' <see cref="Environment.OSVersion"/>'s platform is not <see cref="PlatformID.MacOSX"/> even on Mac OS X.
+        ''' This method returns <see cref="PlatformID.MacOSX"/> when the current process runs on Mac OS X.
         ''' This method uses UNIX's uname command to check the operating system,
-        ''' so this method cannot check the OS correctly if the PATH environment variable is changed (will returns <seecref="PlatformID.Unix"/>).
+        ''' so this method cannot check the OS correctly if the PATH environment variable is changed (will returns <see cref="PlatformID.Unix"/>).
         ''' </remarks>
         ''' <returns>The current platform.</returns>
         Public Function GetPlatform() As PlatformID
@@ -54,8 +51,8 @@ Namespace ApplicationServices.DynamicInterop
         ''' <summary>
         ''' Execute a command in a new process
         ''' </summary>
-        ''' <paramname="processName">Process name e.g. "uname"</param>
-        ''' <paramname="arguments">Arguments e.g. "-s"</param>
+        ''' <param name="processName">Process name e.g. "uname"</param>
+        ''' <param name="arguments">Arguments e.g. "-s"</param>
         ''' <returns>The output of the command to the standard output stream</returns>
         Public Function ExecCommand(ByVal processName As String, ByVal arguments As String) As String
             Using proc = New Process()
@@ -83,8 +80,8 @@ Namespace ApplicationServices.DynamicInterop
         ''' Given a DLL short file name, find all the matching occurences in directories as stored in an environment variable such as the PATH.
         ''' </summary>
         ''' <returns>One or more full file names found to exist</returns>
-        ''' <paramname="dllName">short file name.</param>
-        ''' <paramname="envVarName">Environment variable name - default PATH</param>
+        ''' <param name="dllName">short file name.</param>
+        ''' <param name="envVarName">Environment variable name - default PATH</param>
         Public Function FindFullPathEnvVar(ByVal dllName As String, ByVal Optional envVarName As String = "PATH") As String()
             Dim searchPaths = If(Environment.GetEnvironmentVariable(envVarName), "").Split(Path.PathSeparator)
             Return FindFullPath(dllName, searchPaths)
@@ -94,19 +91,19 @@ Namespace ApplicationServices.DynamicInterop
         ''' Given a DLL short file name, find all the matching occurences in directories.
         ''' </summary>
         ''' <returns>One or more full file names found to exist</returns>
-        ''' <paramname="dllName">short file name.</param>
-        ''' <paramname="directories">Directories in which to search for matching file names</param>
+        ''' <param name="dllName">short file name.</param>
+        ''' <param name="directories">Directories in which to search for matching file names</param>
         Public Function FindFullPath(ByVal dllName As String, ParamArray directories As String()) As String()
             Return directories.[Select](Function(directory) Path.Combine(directory, dllName)).Where(New Func(Of String, Boolean)(AddressOf File.Exists)).ToArray()
         End Function
 
         ''' <summary> Given a DLL short file name, short or otherwise, searches for the first full path.</summary>
         '''
-        ''' <exceptioncref="DllNotFoundException"> Thrown when a DLL Not Found error condition occurs.</exception>
+        ''' <exception cref="DllNotFoundException"> Thrown when a DLL Not Found error condition occurs.</exception>
         '''
-        ''' <paramname="nativeLibFilename"> Filename of the native library file.</param>
-        ''' <paramname="libname">           (Optional) human-readable name of the library.</param>
-        ''' <paramname="envVarName">        (Optional)
+        ''' <param name="nativeLibFilename"> Filename of the native library file.</param>
+        ''' <param name="libname">           (Optional) human-readable name of the library.</param>
+        ''' <param name="envVarName">        (Optional)
         '''                                  Environment variable to use for search path(s) - 
         '''                                  defaults according to platform to PATH or LD_LIBRARY_PATH if empty.</param>
         ''' <returns> The found full path.</returns>
@@ -139,9 +136,9 @@ Namespace ApplicationServices.DynamicInterop
 
         ''' <summary> Given the stub name for a library get the likely platform specific file name</summary>
         '''
-        ''' <exceptioncref="ArgumentNullException"> Thrown when one or more required arguments are null.</exception>
+        ''' <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null.</exception>
         '''
-        ''' <paramname="libraryName"> Name of the library.</param>
+        ''' <param name="libraryName"> Name of the library.</param>
         '''
         ''' <returns> The likely file name for the shared library.</returns>
         Public Function CreateLibraryFileName(ByVal libraryName As String) As String

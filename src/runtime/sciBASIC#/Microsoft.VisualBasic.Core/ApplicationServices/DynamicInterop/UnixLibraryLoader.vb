@@ -26,7 +26,7 @@ Namespace ApplicationServices.DynamicInterop
         ''' <summary>
         ''' Unloads a library
         ''' </summary>
-        ''' <paramname="handle">The pointer resulting from loading the library</param>
+        ''' <param name="handle">The pointer resulting from loading the library</param>
         ''' <returns>True if the function dlclose returned 0</returns>
         Public Function FreeLibrary(ByVal handle As IntPtr) As Boolean Implements IDynamicLibraryLoader.FreeLibrary
             ' according to the manual page on a Debian box
@@ -67,8 +67,7 @@ Namespace ApplicationServices.DynamicInterop
         End Function
 
         <DllImport("libdl")>
-        <MarshalAs(UnmanagedType.LPStr)>
-        Private Shared Function dlerror() As String
+        Private Shared Function dlerror() As <MarshalAs(UnmanagedType.LPStr)> String
         End Function
 
         <DllImport("libdl", EntryPoint:="dlclose")>

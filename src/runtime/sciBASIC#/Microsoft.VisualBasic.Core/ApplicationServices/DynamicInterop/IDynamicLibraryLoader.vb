@@ -10,7 +10,7 @@ Namespace ApplicationServices.DynamicInterop
         ''' <summary>
         ''' Load a native library (DLL on windows, shared libraries on Linux and MacOS)
         ''' </summary>
-        ''' <paramname="filename">The file name (short file name) of the library to load, e.g. R.dll on Windows</param>
+        ''' <param name="filename">The file name (short file name) of the library to load, e.g. R.dll on Windows</param>
         ''' <returns></returns>
         Function LoadLibrary(ByVal filename As String) As IntPtr
 
@@ -23,15 +23,15 @@ Namespace ApplicationServices.DynamicInterop
         ''' <summary>
         ''' Unloads a library
         ''' </summary>
-        ''' <paramname="handle">The pointer to the entry point of the library</param>
+        ''' <param name="handle">The pointer to the entry point of the library</param>
         ''' <returns></returns>
         Function FreeLibrary(ByVal handle As IntPtr) As Boolean
 
         ''' <summary>
         ''' Gets a pointer to the address of a native function in the specified loaded library
         ''' </summary>
-        ''' <paramname="hModule">Handle of the module(library)</param>
-        ''' <paramname="lpProcName">The name of the function sought</param>
+        ''' <param name="hModule">Handle of the module(library)</param>
+        ''' <param name="lpProcName">The name of the function sought</param>
         ''' <returns>Handle to the native function</returns>
         Function GetFunctionAddress(ByVal hModule As IntPtr, ByVal lpProcName As String) As IntPtr
     End Interface
