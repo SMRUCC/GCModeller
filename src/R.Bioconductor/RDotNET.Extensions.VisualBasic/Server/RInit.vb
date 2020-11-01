@@ -143,8 +143,12 @@ Module RInit
             Call Environment.SetEnvironmentVariable("R_HOME", rHome)
         End If
 
-        Dim R = ExtendedEngine.__init("RDotNet_" & App.GetNextUniqueName("process_"))
+        Dim dll As String = $"{rPath}/R.dll"
+        Dim R = ExtendedEngine.__init("RDotNet_" & App.GetNextUniqueName("process_"), dll)
+
+        Call REngine.SetEnvironmentVariables(rPath, R_HOME)
         Call R.Initialize()
+
         Return R
     End Function
 

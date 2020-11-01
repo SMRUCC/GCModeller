@@ -442,7 +442,9 @@ Public Class REngine
         Dim status = GetFunction(Of Rf_initialize_R)()(R_argc, R_argv)
         If status <> 0 Then Throw New Exception("A call to Rf_initialize_R returned a non-zero; status=" & status)
         ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
-        If NativeUtility.GetPlatform() = PlatformID.Win32NT Then resetCachedEnvironmentVariables()
+        If NativeUtility.GetPlatform() = PlatformID.Win32NT Then
+            Call resetCachedEnvironmentVariables()
+        End If
         '         Console.WriteLine("Initialize-Rf_initialize_R; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
         SetCstackChecking()
 
