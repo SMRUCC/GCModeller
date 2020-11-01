@@ -220,6 +220,8 @@ RE:
                 read = resp.GetResponseStream.Read(buffer, Scan0, buffer.Length)
                 ' Write to filestream that you declared at the beginning 
                 ' of the DoWork sub
+                ' 20201101 如果不使用Take函数进行额外数据的清除操作
+                ' 下载的文件会和原始文件不一致，这个非常有可能可能会导致文件无法打开的问题
                 _stream.Write(buffer.Take(read).ToArray)
 
                 _currentSize += read
