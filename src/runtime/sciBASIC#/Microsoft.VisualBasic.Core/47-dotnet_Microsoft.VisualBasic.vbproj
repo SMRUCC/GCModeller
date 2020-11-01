@@ -1332,6 +1332,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\Debugger\Exception\StackFrame.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\IDynamicLibraryLoader.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\MarshalExtra.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\NativeHandle.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\PlatformUtility.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\UnixLibraryLoader.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\UnmanagedDll.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\WindowsLibraryLoader.vb" />
     <Compile Include="ApplicationServices\Parallel\DuplexPipe.vb" />
     <Compile Include="ApplicationServices\Parallel\RequestStream.vb" />
     <Compile Include="ApplicationServices\Terminal\MarkdownRender\Theme.vb" />
@@ -1753,6 +1761,7 @@
     <Compile Include="Language\Language\C\CString.vb" />
     <Compile Include="Language\Language\C\File.vb" />
     <Compile Include="Language\StringHelpers.vb" />
+    <None Include="ApplicationServices\DynamicInterop\README.md" />
     <None Include="Extensions\Reflection\Delegate\README.md" />
     <None Include="ApplicationServices\Parallel\Threads\LQuerySchedule\ParallelLinq.md" />
     <Compile Include="Language\Language\UnixBash\PS1.vb" />
@@ -2082,6 +2091,7 @@
     <None Include="Net\MIME\List of MIME types  %28Internet Media Types%29.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationServices\DynamicInterop\License.txt" />
     <Content Include="ComponentModel\Ranges\RangeModel\Copyright.txt" />
     <None Include="Resources\scripts\bashRunner.sh" />
     <None Include="Resources\scripts\help.sh" />
