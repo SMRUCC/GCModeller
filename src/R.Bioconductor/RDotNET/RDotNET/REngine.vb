@@ -650,7 +650,7 @@ Public Class REngine
     ''' <param name="statement">The statement.</param>
     ''' <param name="environment">The environment in which to evaluate the statement. Advanced feature.</param>
     ''' <returns>Last evaluation.</returns>
-    Public Function Evaluate(ByVal statement As String, ByVal Optional environment As REnvironment = Nothing) As SymbolicExpression
+    Public Overridable Function Evaluate(ByVal statement As String, ByVal Optional environment As REnvironment = Nothing) As SymbolicExpression
         CheckEngineIsRunning()
         Return Defer(EncodeNonAsciiCharacters(statement), environment).LastOrDefault()
     End Function
