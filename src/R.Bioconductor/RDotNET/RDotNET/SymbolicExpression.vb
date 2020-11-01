@@ -39,6 +39,11 @@ Public Class SymbolicExpression
         engineField = engine
         Dim sexprecType = engine.GetSEXPRECType()
         Dim from = Marshal.PtrToStructure(pointer, sexprecType)
+
+        If from Is Nothing Then
+            Console.WriteLine()
+        End If
+
         sexp = Convert.ChangeType(from, sexprecType)
         SetHandle(pointer)
         Preserve()
