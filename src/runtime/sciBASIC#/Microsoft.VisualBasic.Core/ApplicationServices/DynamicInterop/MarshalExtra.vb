@@ -1,7 +1,7 @@
-﻿Imports System
-Imports System.Runtime.InteropServices
+﻿Imports System.Runtime.InteropServices
 
 Namespace ApplicationServices.DynamicInterop
+
     ''' <summary> 
     ''' Extra methods on top of System.Runtime.InteropServices.Marshal for allocating unmanaged memory, copying unmanaged
     ''' memory blocks, and converting managed to unmanaged types</summary>

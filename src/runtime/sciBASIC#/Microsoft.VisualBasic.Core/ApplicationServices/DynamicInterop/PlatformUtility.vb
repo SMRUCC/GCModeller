@@ -2,10 +2,12 @@
 Imports System.IO
 
 Namespace ApplicationServices.DynamicInterop
+
     ''' <summary>
     ''' Helper class with functions whose behavior may be depending on the platform 
     ''' </summary>
     Public Module PlatformUtility
+
         ''' <summary>
         ''' Is the platform unix-like (Unix or MacOX)
         ''' </summary>

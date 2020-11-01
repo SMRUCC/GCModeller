@@ -1,11 +1,11 @@
-﻿Imports System
-Imports System.ComponentModel
+﻿Imports System.ComponentModel
 Imports System.Runtime.ConstrainedExecution
 Imports System.Runtime.InteropServices
 Imports System.Security.Permissions
 Imports System.Text
 
 Namespace ApplicationServices.DynamicInterop
+
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
     Friend Class WindowsLibraryLoader
         Implements IDynamicLibraryLoader
@@ -61,7 +61,11 @@ Namespace ApplicationServices.DynamicInterop
         <MarshalAs(UnmanagedType.LPStr)> ByVal lpProcName As String) As IntPtr
         End Function
 
-        Public Const MaxPathLength As Integer = 248 'MaxPath is 248. MaxFileName is 260.
+        ''' <summary>
+        ''' MaxPath is 248. 
+        ''' </summary>
+        Public Const MaxPathLength As Integer = 248
+        Public Const MaxFileName As Integer = 260
 
         <DllImport("kernel32.dll", CharSet:=CharSet.Auto)>
         Public Function GetShortPathName(

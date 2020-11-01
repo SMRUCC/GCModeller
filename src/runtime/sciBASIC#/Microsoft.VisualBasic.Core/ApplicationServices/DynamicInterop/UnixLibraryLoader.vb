@@ -1,12 +1,10 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.IO
-Imports System.Linq
+﻿Imports System.IO
 Imports System.Runtime.ConstrainedExecution
 Imports System.Runtime.InteropServices
 Imports System.Security.Permissions
 
 Namespace ApplicationServices.DynamicInterop
+
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
     Friend Class UnixLibraryLoader
         Implements IDynamicLibraryLoader

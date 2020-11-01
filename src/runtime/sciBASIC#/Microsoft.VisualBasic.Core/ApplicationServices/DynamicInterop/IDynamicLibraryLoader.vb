@@ -1,6 +1,5 @@
-﻿Imports System
+﻿Namespace ApplicationServices.DynamicInterop
 
-Namespace ApplicationServices.DynamicInterop
     ''' <summary>
     ''' An interface definition to hide the platform specific aspects of library loading
     ''' </summary>

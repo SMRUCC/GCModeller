@@ -3,11 +3,11 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 
 Namespace ApplicationServices.DynamicInterop
+
     ''' <summary>
     ''' A proxy for unmanaged dynamic link library (DLL).
     ''' </summary>
-    Public Class UnmanagedDll
-        Inherits MarshalByRefObject
+    Public Class UnmanagedDll : Inherits MarshalByRefObject
         Implements IDisposable
 
         Dim handle As SafeHandleUnmanagedDll

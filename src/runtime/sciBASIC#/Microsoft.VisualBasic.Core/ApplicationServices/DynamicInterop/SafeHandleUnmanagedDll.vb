@@ -1,8 +1,8 @@
-﻿Imports System
-Imports System.Security.Permissions
+﻿Imports System.Security.Permissions
 Imports Microsoft.Win32.SafeHandles
 
 Namespace ApplicationServices.DynamicInterop
+
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
     Friend NotInheritable Class SafeHandleUnmanagedDll
         Inherits SafeHandleZeroOrMinusOneIsInvalid
