@@ -203,7 +203,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DynamicInterop, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="RDotNet, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -292,6 +291,10 @@
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{57d5ea2b-f718-4fd8-9504-b4c0293fa4b9}</Project>
+      <Name>RDotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataMySql\DataMySQL.vbproj">
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>

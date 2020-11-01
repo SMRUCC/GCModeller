@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::fba2e5c49ed3cbeb8a9e3c4d038f7004, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ReactionNetworkBuilder
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: compoundEdge, enzymeBridgedEdges
-    ' 
-    '         Sub: createEdges
-    ' 
-    '     Module Extensions
-    ' 
-    '         Function: BuildModel, GetReactions
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ReactionNetworkBuilder
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: compoundEdge, enzymeBridgedEdges
+' 
+'         Sub: createEdges
+' 
+'     Module Extensions
+' 
+'         Function: BuildModel, GetReactions
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -244,6 +244,18 @@ Namespace ReactionNetwork
                     For Each item In reactions(ko.name)
                         Yield item
                     Next
+                End If
+            Next
+
+            For Each gene As NamedValue In pathway.genes
+                Dim ko As String = Strings.Trim(gene.text).Split.FirstOrDefault
+
+                If Not ko.StringEmpty Then
+                    If reactions.ContainsKey(ko) Then
+                        For Each item In reactions(ko)
+                            Yield item
+                        Next
+                    End If
                 End If
             Next
 

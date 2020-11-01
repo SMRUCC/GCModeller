@@ -123,7 +123,7 @@ Public Class ExtendedEngine : Inherits REngine
 
     Public Overloads Function Evaluate(statement As String) As SymbolicExpression
         Try
-            Return MyBase.Evaluate(statement, Nothing)
+            Return MyBase.Evaluate(statement)
         Catch ex As Exception
             ex = New Exception(vbCrLf & vbCrLf &
                                statement &
