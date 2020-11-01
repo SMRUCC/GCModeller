@@ -370,10 +370,6 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\engine\CompilerServices\CompilerServices.vbproj">
       <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
       <Name>CompilerServices</Name>

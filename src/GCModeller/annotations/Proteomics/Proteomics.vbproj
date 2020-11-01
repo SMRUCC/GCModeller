@@ -265,10 +265,6 @@
       <Project>{AB6E71B0-1BE2-4418-AB4B-91D5554CF5A1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21C35138-455B-4833-9756-B2629F972A22}</Project>
-      <Name>RDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\DataFramework.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
       <Name>DataFramework.Extensions</Name>

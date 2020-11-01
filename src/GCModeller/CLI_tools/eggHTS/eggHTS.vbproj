@@ -291,10 +291,6 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataMySql\DataMySQL.vbproj">
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
       <Name>DataMySQL</Name>
