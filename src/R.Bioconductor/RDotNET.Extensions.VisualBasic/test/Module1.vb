@@ -47,7 +47,7 @@ Public Module Module1
     Sub interpreterStackSizeTest()
 
         ' tmp02hkp <- c(94.75, 94.83, 94.92, 95, 98.92, 104.83, 104.92, 
-        Dim script = "E:\GCModeller\src\R.Bioconductor\RDotNET.Extensions.VisualBasic\test\stackTest.R"
+        Dim script = "D:\GCModeller\src\R.Bioconductor\RDotNET.Extensions.VisualBasic\test\stackTest.R"
 
         SyncLock R
             With R
@@ -125,7 +125,6 @@ Public Module Module1
             End With
         End SyncLock
 
-        Pause()
     End Sub
 
     Sub Main()

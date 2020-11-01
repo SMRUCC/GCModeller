@@ -1,9 +1,70 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::5fcaa53d548bb5d4c5ac3e066206886b, RDotNET\RDotNET\REngine.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class REngine
+    ' 
+    '     Properties: AutoPrint, BaseNamespace, Disposed, DllVersion, EmptyEnvironment
+    '                 EnableLock, EngineName, GlobalEnvironment, ID, IsRunning
+    '                 LastErrorMessage, NilValue, UnboundValue
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: BuildRArgv, CreateFromNativeSexp, CreateInstance, (+2 Overloads) Defer, EncodeNonAsciiCharacters
+    '               (+2 Overloads) Evaluate, EvenStringDelimitors, GetInstance, GetPredefinedSymbol, (+2 Overloads) GetSymbol
+    '               GetVisible, IndexOfAll, IsClosedString, Parse, processInputString
+    '               processLine, ProcessRDllFileName, Segment, splitOnFirst, splitOnNewLines
+    '               splitOnStatementSeparators
+    ' 
+    '     Sub: CheckEngineIsRunning, Dispose, ForceGarbageCollection, Initialize, OnDisposing
+    '          SetCommandLineArguments, SetCstackChecking, SetEnvironmentVariables, (+2 Overloads) SetSymbol
+    '     Delegate Function
+    ' 
+    '         Properties: NaString, NaStringPointer
+    ' 
+    '         Sub: ClearGlobalEnvironment, doDetachPackages, DoDotNetGarbageCollection
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Security.Permissions
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
 Imports RDotNet.Devices
 Imports RDotNet.Internals
@@ -19,71 +80,39 @@ Imports RDotNet.Utilities
 ''' using (REngine engine = REngine.CreateInstance("RDotNet"))
 ''' {
 '''   engine.Initialize();
-''' 	NumericVector random = engine.Evaluate("rnorm(5, 0, 1)").AsNumeric();
-''' 	foreach (double r in random)
-''' 	{
-''' 		Console.Write(r + " ");
-''' 	}
+'''	NumericVector random = engine.Evaluate("rnorm(5, 0, 1)").AsNumeric();
+'''	foreach (double r in random)
+'''	{
+'''		Console.Write(r + " ");
+'''	}
 ''' }
 ''' </code>
 ''' </example>
 <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
 Public Class REngine
     Inherits DynamicInterop.UnmanagedDll
-
-    ''' <summary>
-    ''' Gets the R compatibility mode, based on the version of R used.
-    ''' </summary>
-    Dim _Compatibility As RDotNet.REngine.CompatibilityMode
-
-    ''' <summary>
-    ''' Gets whether this object has been disposed of already.
-    ''' </summary>
-    Dim _Disposed As Boolean
-
-    ''' <summary>
-    ''' Flag for working on pre or post R 3.5 and its ALTREP mode.  
-    ''' </summary>
-    Public Enum CompatibilityMode
-        ''' <summary>
-        ''' Pre ALTREP includes all versions before R 3.5.  This uses a 32-bit sxpinfo structure.
-        ''' </summary>
-        PreALTREP = 0
-
-        ''' <summary>
-        ''' ALTREP includes all versions R 3.5 and above.  Core header structures were introduced in R 3.5 with
-        ''' the ALTREP feature which required introducing the compability mode.  It uses a 64-bit sxpinfo structure.
-        ''' </summary>
-        ALTREP = 1
-    End Enum
-
     Private Shared ReadOnly DefaultDevice As ICharacterDevice = New ConsoleDevice()
-    Private ReadOnly idField As String
+
+    Private ReadOnly m_id As String
     Private adapter As CharacterDeviceAdapter
-    Private isRunningField As Boolean
+    Private m_isRunning As Boolean
     Private parameter As StartupParameter
     Private Shared environmentIsSet As Boolean = False
-    Private Shared nativeUtil As NativeUtility = Nothing
     Private Shared engine As REngine = Nothing
-
-    ' Type cache to allow faster dynamic casting
-    Private Shared sexprecType As Type = Nothing
-    Private Shared symsxpType As Type = Nothing
-    Private Shared vectorSexprecType As Type = Nothing
-    Private Shared ReadOnly RDllVersionDelimiter As Char() = {"."c}
 
     ''' <summary>
     ''' Create a new REngine instance
     ''' </summary>
     ''' <param name="id">The identifier of this object</param>
     ''' <param name="dll">The name of the file that is the shared R library, e.g. "R.dll"</param>
-    Protected Sub New(ByVal id As String, ByVal dll As String)
+    Protected Sub New(id As String, dll As String)
         MyBase.New(dll)
-        idField = id
-        isRunningField = False
-        Disposed = False
-        EnableLock = True ' See https://rdotnet.codeplex.com/workitem/113; it seems wise to enable it by default.
-        AutoPrint = False  ' 2019-05 changing to false by default, as this impacts the default performance drastically. There was an argument for a true default, but now I things this is superseded.
+        Me.m_id = id
+        Me.m_isRunning = False
+        Me.Disposed = False
+        ' See https://rdotnet.codeplex.com/workitem/113; it seems wise to enable it by default.
+        Me.EnableLock = False
+        Me.AutoPrint = True
     End Sub
 
     ''' <summary>
@@ -91,21 +120,21 @@ Public Class REngine
     ''' should be using a lock to prevent thread concurrency issues. Default is false;
     ''' </summary>
     ''' <remarks>Thanks to gchapman for proposing the fix. See https://rdotnet.codeplex.com/workitem/67 for details</remarks>
-    Public Property EnableLock As Boolean
+    Public Property EnableLock() As Boolean
 
     ''' <summary>
     ''' Gets whether this instance is running.
     ''' </summary>
-    Public ReadOnly Property IsRunning As Boolean
+    Public ReadOnly Property IsRunning() As Boolean
         Get
-            Return isRunningField
+            Return Me.m_isRunning
         End Get
     End Property
 
     ''' <summary>
     ''' Gets the version of R.DLL.
     ''' </summary>
-    Public ReadOnly Property DllVersion As String
+    Public ReadOnly Property DllVersion() As String
         Get
             ' As R's version definitions are defined in #define preprocessor,
             ' C# cannot access them dynamically.
@@ -113,7 +142,6 @@ Public Class REngine
             If Environment.OSVersion.Platform <> PlatformID.Win32NT Then
                 Throw New NotImplementedException()
             End If
-
             Dim getVersion = GetFunction(Of _getDLLVersion)("getDLLVersion")
             Return Marshal.PtrToStringAnsi(getVersion())
         End Get
@@ -122,26 +150,16 @@ Public Class REngine
     ''' <summary>
     ''' Gets the ID of this instance.
     ''' </summary>
-    Public ReadOnly Property ID As String
+    Public ReadOnly Property ID() As String
         Get
-            Return idField
+            Return Me.m_id
         End Get
     End Property
-
-    Public Property Compatibility As CompatibilityMode
-        Get
-            Return _Compatibility
-        End Get
-        Private Set(ByVal value As CompatibilityMode)
-            _Compatibility = value
-        End Set
-    End Property
-
 
     ''' <summary>
     ''' Gets the global environment.
     ''' </summary>
-    Public ReadOnly Property GlobalEnvironment As REnvironment
+    Public ReadOnly Property GlobalEnvironment() As REnvironment
         Get
             CheckEngineIsRunning()
             Return GetPredefinedSymbol("R_GlobalEnv").AsEnvironment()
@@ -157,7 +175,7 @@ Public Class REngine
     ''' <summary>
     ''' Gets the root environment.
     ''' </summary>
-    Public ReadOnly Property EmptyEnvironment As REnvironment
+    Public ReadOnly Property EmptyEnvironment() As REnvironment
         Get
             CheckEngineIsRunning()
             Return GetPredefinedSymbol("R_EmptyEnv").AsEnvironment()
@@ -167,7 +185,7 @@ Public Class REngine
     ''' <summary>
     ''' Gets the base environment.
     ''' </summary>
-    Public ReadOnly Property BaseNamespace As REnvironment
+    Public ReadOnly Property BaseNamespace() As REnvironment
         Get
             CheckEngineIsRunning()
             Return GetPredefinedSymbol("R_BaseNamespace").AsEnvironment()
@@ -177,7 +195,7 @@ Public Class REngine
     ''' <summary>
     ''' Gets the <c>NULL</c> value.
     ''' </summary>
-    Public ReadOnly Property NilValue As SymbolicExpression
+    Public ReadOnly Property NilValue() As SymbolicExpression
         Get
             CheckEngineIsRunning()
             Return GetPredefinedSymbol("R_NilValue")
@@ -187,7 +205,7 @@ Public Class REngine
     ''' <summary>
     ''' Gets the unbound value.
     ''' </summary>
-    Public ReadOnly Property UnboundValue As SymbolicExpression
+    Public ReadOnly Property UnboundValue() As SymbolicExpression
         Get
             CheckEngineIsRunning()
             Return GetPredefinedSymbol("R_UnboundValue")
@@ -197,7 +215,7 @@ Public Class REngine
     ''' <summary>
     ''' Gets the name of the R engine instance (singleton).
     ''' </summary>
-    Public Shared ReadOnly Property EngineName As String
+    Public Shared ReadOnly Property EngineName() As String
         Get
             Return "R.NET"
         End Get
@@ -228,15 +246,20 @@ Public Class REngine
     ''' engine.Evaluate("letters[1:26]");
     ''' </code>
     ''' </example>
-    Public Shared Function GetInstance(ByVal Optional dll As String = Nothing, ByVal Optional initialize As Boolean = True, ByVal Optional parameter As StartupParameter = Nothing, ByVal Optional device As ICharacterDevice = Nothing) As REngine
-        If Not environmentIsSet Then SetEnvironmentVariables() ' should there be a warning? and how?
-
+    Public Shared Function GetInstance(Optional dll As String = Nothing, Optional initialize As Boolean = True, Optional parameter As StartupParameter = Nothing, Optional device As ICharacterDevice = Nothing) As REngine
+        If Not environmentIsSet Then
+            ' should there be a warning? and how?
+            SetEnvironmentVariables()
+        End If
         If engine Is Nothing Then
             engine = CreateInstance(EngineName, dll)
-            If initialize Then engine.Initialize(parameter, device)
+            If initialize Then
+                engine.Initialize(parameter, device)
+            End If
         End If
-
-        If engine.Disposed Then Throw New InvalidOperationException("The single REngine instance has already been disposed of (i.e. shut down). Multiple engine restart is not possible.")
+        If engine.Disposed Then
+            Throw New InvalidOperationException("The single REngine instance has already been disposed of (i.e. shut down). Multiple engine restart is not possible.")
+        End If
         Return engine
     End Function
 
@@ -246,110 +269,16 @@ Public Class REngine
     ''' <param name="id">ID.</param>
     ''' <param name="dll">The file name of the library to load, e.g. "R.dll" for Windows. You should usually not provide this optional parameter</param>
     ''' <returns>The engine.</returns>
-    Private Shared Function CreateInstance(ByVal id As String, ByVal Optional dll As String = Nothing) As REngine
-        If Equals(id, Nothing) Then
+    Private Shared Function CreateInstance(id As String, Optional dll As String = Nothing) As REngine
+        If id Is Nothing Then
             Throw New ArgumentNullException("id", "Empty ID is not allowed.")
         End If
-
-        If Equals(id, String.Empty) Then
+        If id = String.Empty Then
             Throw New ArgumentException("Empty ID is not allowed.", "id")
         End If
-
         dll = ProcessRDllFileName(dll)
         Dim engine = New REngine(id, dll)
-        DetermineCompatibility(engine)
         Return engine
-    End Function
-
-    Private Shared Sub DetermineCompatibility(ByVal engine As REngine)
-        If engine Is Nothing Then
-            Return
-        End If
-
-        ' If there is no DLL version information, we are going to start with an arbitrary default
-        ' compatibility version to support R 3.5+
-        engine.Compatibility = CompatibilityMode.ALTREP
-        ' engine.DllVersion is not implemented because the R native library has no entry point to getDllVersion which is Windows only. 
-        ' Not sure yet if there is a way to programatically query the R version on Linux, without bumping in a chicken and egg problem.
-        If NativeUtility.IsUnix Then Return
-
-        If String.IsNullOrWhiteSpace(engine.DllVersion) Then
-            Return
-        End If
-
-        Dim versionParts = engine.DllVersion.Split(RDllVersionDelimiter)
-
-        If versionParts.Length < 2 Then
-            Return
-        End If
-
-        Dim major = 0
-        Dim minor = 0
-
-        If Integer.TryParse(versionParts(0), major) AndAlso Integer.TryParse(versionParts(1), minor) Then
-            ' Pre-ALTREP is <= 3.4
-            If major <= 3 AndAlso minor <= 4 Then
-                engine.Compatibility = CompatibilityMode.PreALTREP
-            Else
-                engine.Compatibility = CompatibilityMode.ALTREP
-            End If
-        End If
-    End Sub
-    ''' <summary>
-    ''' Gets the type of SEXPREC pre or post ALTREP
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function GetSEXPRECType() As Type
-        If sexprecType Is Nothing Then
-            Select Case Compatibility
-                Case CompatibilityMode.ALTREP
-                    sexprecType = GetType(ALTREP.SEXPREC)
-                Case CompatibilityMode.PreALTREP
-                    sexprecType = GetType(PreALTREP.SEXPREC)
-                Case Else
-                    Throw New InvalidCastException("No SEXPREC type is available for this compatibility level")
-            End Select
-        End If
-
-        Return sexprecType
-    End Function
-
-    ''' <summary>
-    ''' Gets the type of symsxp pre or post ALTREP
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function GetSymSxpType() As Type
-        If symsxpType Is Nothing Then
-            Select Case Compatibility
-                Case CompatibilityMode.ALTREP
-                    symsxpType = GetType(ALTREP.symsxp)
-                Case CompatibilityMode.PreALTREP
-                    symsxpType = GetType(PreALTREP.symsxp)
-                Case Else
-                    Throw New InvalidCastException("No symsxp type is available for this compatibility level")
-            End Select
-        End If
-
-        Return symsxpType
-    End Function
-
-    ''' <summary>
-    ''' Gets the type of VECTOR_SEXPREC pre or post ALTREP
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function GetVectorSexprecType() As Type
-        If vectorSexprecType Is Nothing Then
-            Select Case Compatibility
-                Case CompatibilityMode.ALTREP
-                    vectorSexprecType = GetType(ALTREP.VECTOR_SEXPREC)
-                Case CompatibilityMode.PreALTREP
-                    vectorSexprecType = GetType(PreALTREP.VECTOR_SEXPREC)
-                Case Else
-                    Throw New InvalidCastException("No symsxp type is available for this compatibility level")
-            End Select
-        End If
-
-        Return vectorSexprecType
     End Function
 
     ''' <summary>
@@ -357,24 +286,23 @@ Public Class REngine
     ''' </summary>
     ''' <param name="dll">The name of the library provided, possibly null or empty</param>
     ''' <returns>A candidate for the file name of the R shared library</returns>
-    Protected Shared Function ProcessRDllFileName(ByVal dll As String) As String
-        If Not String.IsNullOrEmpty(dll) Then Return dll
+    Protected Shared Function ProcessRDllFileName(dll As String) As String
+        If Not String.IsNullOrEmpty(dll) Then
+            Return dll
+        End If
         Return NativeUtility.GetRLibraryFileName()
     End Function
 
-    Private Shared Function EncodeNonAsciiCharacters(ByVal value As String) As String
-        Dim sb As StringBuilder = New StringBuilder()
-
-        For Each C As Char In value
-
-            If AscW(C) > 127 Then
-                Dim encodedValue As String = "\u" & AscW(C).ToString("x4")
+    Private Shared Function EncodeNonAsciiCharacters(value As String) As String
+        Dim sb As New StringBuilder()
+        For Each c As Char In value
+            If AscW(c) > 127 Then
+                Dim encodedValue As String = "\u" & (AscW(c)).ToString("x4")
                 sb.Append(encodedValue)
             Else
-                sb.Append(C)
+                sb.Append(c)
             End If
         Next
-
         Return sb.ToString()
     End Function
 
@@ -388,15 +316,9 @@ Public Class REngine
     ''' <remarks>
     ''' This function has been designed to limit the tedium for users, while allowing custom settings for unusual installations.
     ''' </remarks>
-    Public Shared Sub SetEnvironmentVariables(ByVal Optional rPath As String = Nothing, ByVal Optional rHome As String = Nothing)
+    Public Shared Sub SetEnvironmentVariables(Optional rPath As String = Nothing, Optional rHome As String = Nothing)
         environmentIsSet = True
-        nativeUtil = New NativeUtility()
-        nativeUtil.SetEnvironmentVariables(rPath:=rPath, rHome:=rHome)
-    End Sub
-
-    Private Shared Sub resetCachedEnvironmentVariables()
-        If environmentIsSet <> True Then Throw New Exception("resetCachedEnvironmentVariables cannot be called if the R environment variables were not first set")
-        nativeUtil.SetCachedEnvironmentVariables()
+        NativeUtility.CreateNew().SetEnvironmentVariables(rPath:=rPath, rHome:=rHome)
     End Sub
 
     ''' <summary>
@@ -405,12 +327,14 @@ Public Class REngine
     ''' <param name="parameter">The optional startup parameters</param>
     ''' <param name="device">The optional character device to use for the R engine</param>
     ''' <param name="setupMainLoop">if true, call the functions to initialise the embedded R</param>
-    Public Sub Initialize(ByVal Optional parameter As StartupParameter = Nothing, ByVal Optional device As ICharacterDevice = Nothing, ByVal Optional setupMainLoop As Boolean = True)
+    Public Sub Initialize(Optional parameter As StartupParameter = Nothing, Optional device As ICharacterDevice = Nothing, Optional setupMainLoop As Boolean = True)
         '         Console.WriteLine("REngine.Initialize start");
-        If isRunningField Then Return
+        If Me.m_isRunning Then
+            Return
+        End If
         '         Console.WriteLine("REngine.Initialize, after isRunning checked as false");
-        Me.parameter = If(parameter, DefaultStartupParameter())
-        adapter = New CharacterDeviceAdapter(If(device, DefaultDevice))
+        Me.parameter = If(parameter, New StartupParameter())
+        Me.adapter = New CharacterDeviceAdapter(If(device, DefaultDevice))
         ' Disabling the stack checking here, to try to avoid the issue on Linux.
         ' The disabling used to be here around end Nov 2013. Was moved later in this
         ' function to cater for disabling on Windows, @ rev 305, however this may have
@@ -419,31 +343,29 @@ Public Class REngine
         '         Console.WriteLine("Initialize-SetCstackChecking; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
 
         If Not setupMainLoop Then
-            isRunningField = True
+            Me.m_isRunning = True
             Return
         End If
 
-        Dim R_argv = BuildRArgv(Me.parameter)
+        Dim R_argv As String() = BuildRArgv(Me.parameter)
         'string[] R_argv = new[]{"rdotnet_app",  "--interactive",  "--no-save",  "--no-restore-data",  "--max-ppsize=50000"};
         'rdotnet_app --quiet --interactive --no-save --no-restore-data --max-mem-size=18446744073709551615 --max-ppsize=50000
         GetFunction(Of R_setStartTime)()()
-        Dim R_argc = R_argv.Length
+        Dim R_argc As Integer = R_argv.Length
         '         Console.WriteLine("Initialize-R_setStartTime; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
 
-        If NativeUtility.GetPlatform() = PlatformID.Win32NT Then
-            ' Attempted Fix for https://rdotnet.codeplex.com/workitem/110; not working
-            ' Tried to make sure that the command line options are taken into account. They are NOT effectively so via Rf_initialize_R only.
-            ' The problem is that cmdlineoptions assumes it is called by RGui.exe or RTerm.exe, and overrides R_HOME
+        ' Attempted Fix for https://rdotnet.codeplex.com/workitem/110; not working
+        ' Tried to make sure that the command line options are taken into account. They are NOT effectively so via Rf_initialize_R only.
+        ' The problem is that cmdlineoptions assumes it is called by RGui.exe or RTerm.exe, and overrides R_HOME
 
-            '   GetFunction<R_set_command_line_arguments>()(R_argc, R_argv);
-            '   GetFunction<cmdlineoptions>()(R_argc, R_argv);
+        '   GetFunction<R_set_command_line_arguments>()(R_argc, R_argv);
+        '   GetFunction<cmdlineoptions>()(R_argc, R_argv);
+        If NativeUtility.GetPlatform() = PlatformID.Win32NT Then
         End If
 
         Dim status = GetFunction(Of Rf_initialize_R)()(R_argc, R_argv)
-        If status <> 0 Then Throw New Exception("A call to Rf_initialize_R returned a non-zero; status=" & status)
-        ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
-        If NativeUtility.GetPlatform() = PlatformID.Win32NT Then
-            Call resetCachedEnvironmentVariables()
+        If status <> 0 Then
+            Throw New Exception("A call to Rf_initialize_R returned a non-zero; status=" & Convert.ToString(status))
         End If
         '         Console.WriteLine("Initialize-Rf_initialize_R; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
         SetCstackChecking()
@@ -451,47 +373,31 @@ Public Class REngine
         ' following in RInside: may not be needed.
         'GetFunction<R_ReplDLLinit> () ();
         'this.parameter.Interactive = true;
-        adapter.Install(Me, Me.parameter)
+        Me.adapter.Install(Me, Me.parameter)
         'Console.WriteLine("Initialize-adapter installation; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
         Select Case NativeUtility.GetPlatform()
             Case PlatformID.Win32NT
                 GetFunction(Of R_SetParams_Windows)("R_SetParams")(Me.parameter.start)
-                ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
-                resetCachedEnvironmentVariables()
-            Case PlatformID.MacOSX, PlatformID.Unix
-                'Console.WriteLine("Initialize-R_SetParams_Unix; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
-                GetFunction(Of R_SetParams_Unix)("R_SetParams")(Me.parameter.start.Common)
-        End Select
+                Exit Select
 
+            Case PlatformID.MacOSX, PlatformID.Unix
+                GetFunction(Of R_SetParams_Unix)("R_SetParams")(Me.parameter.start.Common)
+                'Console.WriteLine("Initialize-R_SetParams_Unix; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
+                Exit Select
+        End Select
         GetFunction(Of setup_Rmainloop)()()
         'Console.WriteLine("Initialize-after setup_Rmainloop; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
 
         ' See comments in the first call to SetCstackChecking in this function as to why we (may) need it twice.
         SetCstackChecking()
-        isRunningField = True
+        Me.m_isRunning = True
 
         'Console.WriteLine("Initialize-just before leaving; R_CStackLimit value is " + GetDangerousInt32("R_CStackLimit"));
 
+        ' Partial Workaround (hopefully temporary) for https://rdotnet.codeplex.com/workitem/110
         If NativeUtility.GetPlatform() = PlatformID.Win32NT Then
-            ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
-            resetCachedEnvironmentVariables()
-            ' Partial Workaround (hopefully temporary) for https://rdotnet.codeplex.com/workitem/110
-            ' Evaluate($"invisible(memory.limit({Me.parameter.MaxMemorySize / 1048576UL}))")
+            Evaluate(String.Format("invisible(memory.limit({0}))", (Me.parameter.MaxMemorySize \ 1048576UL)))
         End If
-    End Sub
-
-    Private Function DefaultStartupParameter() As StartupParameter
-        Dim p = New StartupParameter()
-        ' to avoid https://github.com/rdotnet/rdotnet/issues/127 ?
-        p.NoRenviron = True
-        p.LoadInitFile = False
-        p.LoadSiteFile = False
-        Return p
-    End Function
-
-    Private Shared Sub currentEnvVars(<Out> ByRef path As String, <Out> ByRef rhome As String)
-        path = Environment.GetEnvironmentVariable("PATH")
-        rhome = Environment.GetEnvironmentVariable("R_HOME")
     End Sub
 
     Private Sub SetCstackChecking()
@@ -499,11 +405,11 @@ Public Class REngine
         ' https://rdotnet.codeplex.com/discussions/462947
         ' https://rdotnet.codeplex.com/workitem/115
         WriteInt32("R_CStackLimit", -1)
-
         Select Case NativeUtility.GetPlatform()
             Case PlatformID.MacOSX, PlatformID.Unix
-                ' RInside does this for non-WIN32.
                 WriteInt32("R_SignalHandlers", 0)
+                ' RInside does this for non-WIN32.
+                Exit Select
         End Select
     End Sub
 
@@ -516,36 +422,49 @@ Public Class REngine
     ''' to get the startup parameters taken into account. Passing the StartupParameter to the API seems not to work as expected.
     ''' While this function may appear like an oddity to a reader, it proved necessary to the initialisation of the R engine
     ''' after much trial and error.</remarks>
-    Public Shared Function BuildRArgv(ByVal parameter As StartupParameter) As String()
+    Public Shared Function BuildRArgv(parameter As StartupParameter) As String()
         Dim platform = NativeUtility.GetPlatform()
         Dim argv = New List(Of String)()
         argv.Add("rdotnet_app")
         ' Not sure whether I should add no-readline
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool R_Quiet;
-        If parameter.Quiet AndAlso Not parameter.Interactive Then argv.Add("--quiet")  ' --quite --interactive to R embedded crashed...
-
+        If parameter.Quiet AndAlso Not parameter.Interactive Then
+            argv.Add("--quiet")
+        End If
+        ' --quite --interactive to R embedded crashed...
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool R_Slave;
-        If parameter.Slave Then argv.Add("--slave")
+        If parameter.Slave Then
+            argv.Add("--slave")
+        End If
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool R_Interactive;
-        If platform <> PlatformID.Win32NT Then ' RTerm.exe --help shows no such option; Unix only.
-            If parameter.Interactive Then argv.Add("--interactive")
+        If platform <> PlatformID.Win32NT Then
+            ' RTerm.exe --help shows no such option; Unix only.
+            If parameter.Interactive Then
+                argv.Add("--interactive")
+            End If
         End If
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool R_Verbose;
-        If parameter.Verbose Then argv.Add("--verbose")
+        If parameter.Verbose Then
+            argv.Add("--verbose")
+        End If
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool LoadSiteFile;
-        If Not parameter.LoadSiteFile Then argv.Add("--no-site-file")
+        If Not parameter.LoadSiteFile Then
+            argv.Add("--no-site-file")
+        End If
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool LoadInitFile;
-        If Not parameter.LoadInitFile Then argv.Add("--no-init-file")
+        If Not parameter.LoadInitFile Then
+            argv.Add("--no-init-file")
+        End If
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool DebugInitFile;
@@ -561,28 +480,38 @@ Public Class REngine
 
         '[MarshalAs(UnmanagedType.Bool)]
         'public bool NoRenviron;
-        If parameter.NoRenviron Then argv.Add("--no-environ")
+        If parameter.NoRenviron Then
+            argv.Add("--no-environ")
+        End If
 
         Select Case parameter.SaveAction
             Case StartupSaveAction.NoSave
                 argv.Add("--no-save")
+                Exit Select
+
             Case StartupSaveAction.Save
                 argv.Add("--save")
+                Exit Select
         End Select
-
         Select Case parameter.RestoreAction
             Case StartupRestoreAction.NoRestore
                 argv.Add("--no-restore-data")
+                Exit Select
+
             Case StartupRestoreAction.Restore
                 argv.Add("--restore")
+                Exit Select
         End Select
+
         ' This creates a nasty crash if using the default MaxMemorySize. found out in Rdotnet workitem 72
         ' do nothing
-        If parameter.MaxMemorySize = If(Environment.Is64BitProcess, ULong.MaxValue, UInteger.MaxValue) Then
+        If parameter.MaxMemorySize = (If(Environment.Is64BitProcess, ULong.MaxValue, UInteger.MaxValue)) Then
         Else
-            If platform = PlatformID.Win32NT Then argv.Add("--max-mem-size=" & parameter.MaxMemorySize) ' On unix, otherwise led to https://rdotnet.codeplex.com/workitem/137
+            If platform = PlatformID.Win32NT Then
+                ' On unix, otherwise led to https://rdotnet.codeplex.com/workitem/137
+                argv.Add("--max-mem-size=" & parameter.MaxMemorySize)
+            End If
         End If
-
         argv.Add("--max-ppsize=" & parameter.StackSize)
         Return argv.ToArray()
     End Function
@@ -599,7 +528,7 @@ Public Class REngine
     ''' </summary>
     ''' <param name="name">The name.</param>
     ''' <returns>The symbol.</returns>
-    Public Function GetSymbol(ByVal name As String) As SymbolicExpression
+    Public Function GetSymbol(name As String) As SymbolicExpression
         CheckEngineIsRunning()
         Return GlobalEnvironment.GetSymbol(name)
     End Function
@@ -610,13 +539,11 @@ Public Class REngine
     ''' <param name="name">The name.</param>
     ''' <param name="environment">The environment. If <c>null</c> is passed, <see cref="GlobalEnvironment"/> is used.</param>
     ''' <returns>The symbol.</returns>
-    Public Function GetSymbol(ByVal name As String, ByVal environment As REnvironment) As SymbolicExpression
+    Public Function GetSymbol(name As String, environment As REnvironment) As SymbolicExpression
         CheckEngineIsRunning()
-
         If environment Is Nothing Then
             environment = GlobalEnvironment
         End If
-
         Return environment.GetSymbol(name)
     End Function
 
@@ -625,7 +552,7 @@ Public Class REngine
     ''' </summary>
     ''' <param name="name">The name.</param>
     ''' <param name="expression">The symbol.</param>
-    Public Sub SetSymbol(ByVal name As String, ByVal expression As SymbolicExpression)
+    Public Sub SetSymbol(name As String, expression As SymbolicExpression)
         CheckEngineIsRunning()
         GlobalEnvironment.SetSymbol(name, expression)
     End Sub
@@ -636,13 +563,11 @@ Public Class REngine
     ''' <param name="name">The name.</param>
     ''' <param name="expression">The symbol.</param>
     ''' <param name="environment">The environment. If <c>null</c> is passed, <see cref="GlobalEnvironment"/> is used.</param>
-    Public Sub SetSymbol(ByVal name As String, ByVal expression As SymbolicExpression, ByVal environment As REnvironment)
+    Public Sub SetSymbol(name As String, expression As SymbolicExpression, environment As REnvironment)
         CheckEngineIsRunning()
-
         If environment Is Nothing Then
             environment = GlobalEnvironment
         End If
-
         environment.SetSymbol(name, expression)
     End Sub
 
@@ -650,47 +575,41 @@ Public Class REngine
     ''' Evaluates a statement in the given string.
     ''' </summary>
     ''' <param name="statement">The statement.</param>
-    ''' <param name="environment">The environment in which to evaluate the statement. Advanced feature.</param>
     ''' <returns>Last evaluation.</returns>
-    Public Overridable Function Evaluate(ByVal statement As String, ByVal Optional environment As REnvironment = Nothing) As SymbolicExpression
+    Public Overridable Function Evaluate(statement As String) As SymbolicExpression
         CheckEngineIsRunning()
-        Return Defer(EncodeNonAsciiCharacters(statement), environment).LastOrDefault()
+        Return Defer(EncodeNonAsciiCharacters(statement)).LastOrDefault()
     End Function
 
     ''' <summary>
     ''' Evaluates a statement in the given stream.
     ''' </summary>
     ''' <param name="stream">The stream.</param>
-    ''' <param name="environment">The environment in which to evaluate the statement. Advanced feature.</param>
     ''' <returns>Last evaluation.</returns>
-    Public Function Evaluate(ByVal stream As Stream, ByVal Optional environment As REnvironment = Nothing) As SymbolicExpression
+    Public Function Evaluate(stream As Stream) As SymbolicExpression
         CheckEngineIsRunning()
-        Return Defer(stream, environment).LastOrDefault()
+        Return Defer(stream).LastOrDefault()
     End Function
 
     ''' <summary>
     ''' Evaluates a statement in the given string.
     ''' </summary>
     ''' <param name="statement">The statement.</param>
-    ''' <param name="environment">The environment in which to evaluate the statement. Advanced feature.</param>
     ''' <returns>Each evaluation.</returns>
-    Private Iterator Function Defer(ByVal statement As String, ByVal Optional environment As REnvironment = Nothing) As IEnumerable(Of SymbolicExpression)
-        CheckEngineIsRunning()
+    Private Iterator Function Defer(statement As String) As IEnumerable(Of SymbolicExpression)
+        Call CheckEngineIsRunning()
 
-        If Equals(statement, Nothing) Then
+        If statement Is Nothing Then
             Throw New ArgumentNullException()
         End If
 
         Using reader As TextReader = New StringReader(statement)
-            Dim incompleteStatement = New StringBuilder()
+            Dim incompleteStatement As New StringBuilder()
             Dim line As Value(Of String) = ""
 
-            While Not (line = reader.ReadLine()) Is Nothing
-                Dim lines As String() = REngine.Segment(line).ToArray
-
-                For Each segment As String In lines
-                    Dim result = Me.Parse(segment, incompleteStatement, environment)
-
+            While (line = reader.ReadLine()) IsNot Nothing
+                For Each segmentText As String In Segment(line)
+                    Dim result = Parse(segmentText, incompleteStatement)
                     If result IsNot Nothing Then
                         Yield result
                     End If
@@ -703,29 +622,23 @@ Public Class REngine
     ''' Evaluates a statement in the given stream.
     ''' </summary>
     ''' <param name="stream">The stream.</param>
-    ''' <param name="environment">The environment in which to evaluate the statement. Advanced feature.</param>
     ''' <returns>Each evaluation.</returns>
-    Public Iterator Function Defer(ByVal stream As Stream, ByVal Optional environment As REnvironment = Nothing) As IEnumerable(Of SymbolicExpression)
+    Public Iterator Function Defer(stream As Stream) As IEnumerable(Of SymbolicExpression)
         CheckEngineIsRunning()
-
         If stream Is Nothing Then
             Throw New ArgumentNullException()
         End If
-
         If Not stream.CanRead Then
             Throw New ArgumentException()
         End If
 
         Using reader As TextReader = New StreamReader(stream)
             Dim incompleteStatement = New StringBuilder()
-            Dim line As Value(Of String) = Nothing
+            Dim line As Value(Of String) = ""
 
-            While Not (line = reader.ReadLine()) Is Nothing
-                Dim lines As String() = REngine.Segment(line).ToArray
-
-                For Each segment As String In lines
-                    Dim result = Me.Parse(segment, incompleteStatement, environment)
-
+            While (line = reader.ReadLine()) IsNot Nothing
+                For Each segmentText As String In Segment(line)
+                    Dim result = Parse(segmentText, incompleteStatement)
                     If result IsNot Nothing Then
                         Yield result
                     End If
@@ -734,13 +647,12 @@ Public Class REngine
         End Using
     End Function
 
-    Private Shared Iterator Function Segment(ByVal line As String) As IEnumerable(Of String)
+    Private Shared Iterator Function Segment(line As String) As IEnumerable(Of String)
         Dim segments = processInputString(line)
 
         For index = 0 To segments.Length - 1
-
             If index = segments.Length - 1 Then
-                If Not Equals(segments(index), String.Empty) Then
+                If segments(index) <> String.Empty Then
                     Yield segments(index) & vbLf
                 End If
             Else
@@ -749,28 +661,36 @@ Public Class REngine
         Next
     End Function
 
-    Private Shared Function processInputString(ByVal input As String) As String()
+    Private Shared Function processInputString(input As String) As String()
         ' Fixes for
         ' https://rdotnet.codeplex.com/workitem/165
         ' https://github.com/jmp75/rdotnet/issues/14
-        Dim lines As String() = input.LineTokens
-        Dim statements As List(Of String) = New List(Of String)()
-
-        For i = 0 To lines.Length - 1
+        Dim lines As String() = splitOnNewLines(input)
+        Dim statements As New List(Of String)()
+        For i As Integer = 0 To lines.Length - 1
             statements.AddRange(processLine(lines(i)))
         Next
-
         Return statements.ToArray()
     End Function
 
-    Private Shared Function processLine(ByVal line As String) As String()
-        Dim trimmedLine = line.Trim()
-        If Equals(trimmedLine, String.Empty) Then Return New String() {}
-        If trimmedLine.StartsWith("#") Then Return New String() {line}
-        Dim theRest As String = Nothing
-        Dim statement = splitOnFirst(line, theRest, ";"c)
-        Dim result = New List(Of String)()
+    Private Shared Function splitOnNewLines(input As String) As String()
+        input = input.Replace(vbLf & vbCr, vbLf)
+        Return input.Split(ControlChars.Lf)
+    End Function
 
+    Private Shared Function processLine(line As String) As String()
+        Dim trimmedLine = line.Trim()
+        If trimmedLine = String.Empty Then
+            Return New String() {}
+        End If
+        If trimmedLine.StartsWith("#") Then
+            Return New String() {line}
+        End If
+
+        Dim theRest As String = ""
+        Dim statement As String = splitOnFirst(line, theRest, ";"c)
+
+        Dim result = New List(Of String)()
         If Not statement.Contains("#") Then
             result.Add(statement)
             result.AddRange(processLine(theRest))
@@ -779,99 +699,91 @@ Public Class REngine
             ' Find the fist # character such that before that, there is an 
             ' even number of " and an even number of ' characters
 
-            Dim whereHash = IndexOfAll(statement, "#")
-            Dim firstComment = EvenStringDelimitors(statement, whereHash)
-            ' incomplete statement??? such as:
-            ' paste('this is the # ', ' start of an incomplete # statement
+            Dim whereHash As Integer() = IndexOfAll(statement, "#")
+            Dim firstComment As Integer = EvenStringDelimitors(statement, whereHash)
             If firstComment < 0 Then
+                ' incomplete statement??? such as:
+                ' paste('this is the # ', ' start of an incomplete # statement
                 result.Add(statement)
                 result.AddRange(processLine(theRest))
             Else
-                result.Add(statement.Substring(0, firstComment))
                 ' firstComment is a valid comment marker - not need to process "the rest"
+                result.Add(statement.Substring(0, firstComment))
             End If
-
-            Dim restFirstStatement As String = Nothing
-            Dim beforeComment = splitOnFirst(statement, restFirstStatement, "#"c)
+            Dim restFirstStatement As String = ""
+            Dim beforeComment As String = splitOnFirst(statement, restFirstStatement, "#"c)
         End If
-
         Return result.ToArray()
     End Function
 
-    Private Shared Function EvenStringDelimitors(ByVal statement As String, ByVal whereHash As Integer()) As Integer
-        For i = 0 To whereHash.Length - 1
+    Private Shared Function EvenStringDelimitors(statement As String, whereHash As Integer()) As Integer
+        For i As Integer = 0 To whereHash.Length - 1
             Dim s = statement.Substring(0, whereHash(i))
-            If IsClosedString(s) Then Return whereHash(i)
+            If IsClosedString(s) Then
+                Return whereHash(i)
+            End If
         Next
-
         Return -1
     End Function
 
-    Private Shared Function IsClosedString(ByVal s As String) As Boolean
+    Private Shared Function IsClosedString(s As String) As Boolean
         ' paste("#hashtag")
         ' paste("#hashtag''''")
         ' paste('#hashtag""""')
         ' paste('#hashtag""#""')
         ' paste('#hashtag""#""', "#hash ''' ")
-        Dim inSingleQuote = False, inDoubleQuotes = False
-
-        For i = 0 To s.Length - 1
-
+        Dim inSingleQuote As Boolean = False, inDoubleQuotes As Boolean = False
+        For i As Integer = 0 To s.Length - 1
             If s(i) = "'"c Then
                 If i > 0 Then
-                    If s(i - 1) = "\"c Then Continue For
+                    If s(i - 1) = "\"c Then
+                        Continue For
+                    End If
                 End If
-
-                If inDoubleQuotes Then Continue For
+                If inDoubleQuotes Then
+                    Continue For
+                End If
                 inSingleQuote = Not inSingleQuote
             End If
-
             If s(i) = """"c Then
                 If i > 0 Then
-                    If s(i - 1) = "\"c Then Continue For
+                    If s(i - 1) = "\"c Then
+                        Continue For
+                    End If
                 End If
-
-                If inSingleQuote Then Continue For
+                If inSingleQuote Then
+                    Continue For
+                End If
                 inDoubleQuotes = Not inDoubleQuotes
             End If
         Next
-
-        Return Not inSingleQuote AndAlso Not inDoubleQuotes
+        Return (Not inSingleQuote) AndAlso (Not inDoubleQuotes)
     End Function
 
-    Private Shared Function splitOnFirst(ByVal statement As String, <Out> ByRef rest As String, ByVal sep As Char) As String
+    Private Shared Function splitOnFirst(statement As String, <Out> ByRef rest As String, sep As Char) As String
         Dim split = statement.Split({sep}, 2)
-
         If split.Length = 1 Then
             rest = String.Empty
         Else
             rest = split(1)
         End If
-
         Return split(0)
     End Function
 
-    ''' <summary> Searches for the first all.</summary>
-    '''
-    ''' <param name="sourceString"> Source string.</param>
-    ''' <param name="matchString">  The match string.</param>
-    '''
-    ''' <returns> The zero-based index of the found all, or -1 if no match was found.</returns>
-    Private Shared Function IndexOfAll(ByVal sourceString As String, ByVal matchString As String) As Integer()
+    Public Shared Function IndexOfAll(sourceString As String, matchString As String) As Integer()
         matchString = Regex.Escape(matchString)
-        Dim res = From match As Match In Regex.Matches(sourceString, matchString) Select match.Index
+        Dim res = (From match As Match In Regex.Matches(sourceString, matchString) Select match.Index)
         Return res.ToArray()
     End Function
 
-    Private Shared Function splitOnStatementSeparators(ByVal line As String, <Out> ByRef theRest As String) As String
+    Private Shared Function splitOnStatementSeparators(line As String, ByRef theRest As String) As String
         Throw New NotImplementedException()
     End Function
 
-    Private Function Parse(ByVal statement As String, ByVal incompleteStatement As StringBuilder, ByVal Optional environment As REnvironment = Nothing) As SymbolicExpression
+    Private Function Parse(statement As String, incompleteStatement As StringBuilder) As SymbolicExpression
         incompleteStatement.Append(statement)
         Dim s = GetFunction(Of Rf_mkString)()(InternalString.NativeUtf8FromString(incompleteStatement.ToString()))
         Dim errorStatement As String
-
         Using New ProtectedPointer(Me, s)
             Dim status As ParseStatus
             Dim vector = New ExpressionVector(Me, GetFunction(Of R_ParseVector)()(s, -1, status, NilValue.DangerousGetHandle()))
@@ -879,32 +791,26 @@ Public Class REngine
             Select Case status
                 Case ParseStatus.OK
                     incompleteStatement.Clear()
-
                     If vector.Length = 0 Then
                         Return Nothing
                     End If
-
                     Using New ProtectedPointer(vector)
                         Dim result As SymbolicExpression = Nothing
-                        Dim exp As Expression = Enumerable.First(vector)
-                        Dim env As REnvironment = If(environment, GlobalEnvironment)
-
-                        If Not exp.TryEvaluate(env, result) Then
+                        If Not vector.First().TryEvaluate(GlobalEnvironment, result) Then
                             Throw New EvaluationException(LastErrorMessage)
                         End If
 
                         If AutoPrint AndAlso Not result.IsInvalid AndAlso GetVisible() Then
                             GetFunction(Of Rf_PrintValue)()(result.DangerousGetHandle())
                         End If
-
                         Return result
                     End Using
-
                 Case ParseStatus.Incomplete
                     Return Nothing
-                Case ParseStatus.Error
+
+                Case ParseStatus.[Error]
                     ' TODO: use LastErrorMessage if below is just a subset
-                    Dim parseErrorMsg = GetAnsiString("R_ParseErrorMsg")
+                    Dim parseErrorMsg = Me.GetAnsiString("R_ParseErrorMsg")
                     errorStatement = incompleteStatement.ToString()
                     incompleteStatement.Clear()
                     Throw New ParseException(status, errorStatement, parseErrorMsg)
@@ -920,13 +826,13 @@ Public Class REngine
     ''' Gets or sets a value indicating whether this <see cref="RDotNet.REngine"/> auto print R evaluation results, if they are visible.
     ''' </summary>
     ''' <value><c>true</c> if auto print; otherwise, <c>false</c>.</value>
-    Public Property AutoPrint As Boolean
+    Public Property AutoPrint() As Boolean
 
     Private Function GetVisible() As Boolean
         Dim symbol = DangerousGetHandle("R_Visible")
         ' If the R_Visible symbol is not exported by the current R engine (happens on R-2.14.1), then just return 'true'
         ' https://github.com/BlueMountainCapital/FSharpRProvider/pull/152
-        If symbol = CType(0, IntPtr) Then
+        If symbol = CType(0, System.IntPtr) Then
             Return True
         Else
             Dim value = Marshal.ReadInt32(symbol)
@@ -946,25 +852,30 @@ Public Class REngine
     ''' <summary>
     ''' Gets the last error message in the R engine; see R function geterrmessage.
     ''' </summary>
-    Friend ReadOnly Property LastErrorMessage As String
+    Friend ReadOnly Property LastErrorMessage() As String
         Get
-
             If geterrmessage Is Nothing Then
-                Dim statement = "geterrmessage()" & Microsoft.VisualBasic.Constants.vbLf
+                Dim statement = "geterrmessage()" & vbLf
                 Dim s = GetFunction(Of Rf_mkString)()(InternalString.NativeUtf8FromString(statement))
                 Dim status As ParseStatus
                 Dim vector = New ExpressionVector(Me, GetFunction(Of R_ParseVector)()(s, -1, status, NilValue.DangerousGetHandle()))
-                If status <> ParseStatus.OK Then Throw New ParseException(status, statement, "")
-                If vector.Length = 0 Then Throw New ParseException(status, statement, "Failed to create expression vector!")
+                If status <> ParseStatus.OK Then
+                    Throw New ParseException(status, statement, "")
+                End If
+                If vector.Length = 0 Then
+                    Throw New ParseException(status, statement, "Failed to create expression vector!")
+                End If
                 geterrmessage = vector.First()
             End If
-
             Dim result As SymbolicExpression = Nothing
-
             If geterrmessage.TryEvaluate(GlobalEnvironment, result) Then
-                Dim msgs = result.AsCharacter().ToArray()
-                If msgs.Length > 1 Then Throw New Exception("Unexpected multiple error messages returned")
-                If msgs.Length = 0 Then Throw New Exception("No error messages returned (zero length)")
+                Dim msgs = SymbolicExpressionExtension.AsCharacter(result).ToArray()
+                If msgs.Length > 1 Then
+                    Throw New Exception("Unexpected multiple error messages returned")
+                End If
+                If msgs.Length = 0 Then
+                    Throw New Exception("No error messages returned (zero length)")
+                End If
                 Return msgs(0)
             Else
                 Throw New EvaluationException("Unable to retrieve an R error message. Evaluating 'geterrmessage()' fails. The R engine is not in a working state.")
@@ -976,9 +887,9 @@ Public Class REngine
     ''' Sets the command line arguments.
     ''' </summary>
     ''' <param name="args">The arguments.</param>
-    Public Sub SetCommandLineArguments(ByVal args As String())
+    Public Sub SetCommandLineArguments(args As String())
         CheckEngineIsRunning()
-        Dim newArgs = Prepend(ID, args)
+        Dim newArgs = ArrayConverter.Prepend(ID, args)
         GetFunction(Of R_set_command_line_arguments)()(newArgs.Length, newArgs)
     End Sub
 
@@ -991,27 +902,30 @@ Public Class REngine
     ''' Called on disposing of this REngine
     ''' </summary>
     ''' <param name="e"></param>
-    Protected Overridable Sub OnDisposing(ByVal e As EventArgs)
+    Protected Overridable Sub OnDisposing(e As EventArgs)
         RaiseEvent Disposing(Me, e)
     End Sub
 
-    Public Property Disposed As Boolean
+    ''' <summary>
+    ''' Gets whether this object has been disposed of already.
+    ''' </summary>
+    Public Property Disposed() As Boolean
         Get
-            Return _Disposed
+            Return m_Disposed
         End Get
-        Private Set(ByVal value As Boolean)
-            _Disposed = value
+        Private Set
+            m_Disposed = Value
         End Set
     End Property
+    Private m_Disposed As Boolean
 
     ''' <summary>
     ''' Dispose of this REngine, including using the native R API to clean up, if the parameter is true
     ''' </summary>
     ''' <param name="disposing">if true, release native resources, using the native R API to clean up.</param>
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        isRunningField = False
+    Protected Overrides Sub Dispose(disposing As Boolean)
+        Me.m_isRunning = False
         OnDisposing(EventArgs.Empty)
-
         If disposing AndAlso Not Disposed Then
             GetFunction(Of R_RunExitFinalizers)()()
             GetFunction(Of Rf_CleanEd)()()
@@ -1019,13 +933,14 @@ Public Class REngine
             Disposed = True
         End If
 
-        If disposing AndAlso adapter IsNot Nothing Then
-            adapter.Dispose()
-            adapter = Nothing
+        If disposing AndAlso Me.adapter IsNot Nothing Then
+            Me.adapter.Dispose()
+            Me.adapter = Nothing
         End If
-
-        If Disposed Then Return
-        GC.KeepAlive(parameter)
+        If Disposed Then
+            Return
+        End If
+        GC.KeepAlive(Me.parameter)
         MyBase.Dispose(disposing)
     End Sub
 
@@ -1034,9 +949,8 @@ Public Class REngine
     ''' </summary>
     ''' <param name="name">The name.</param>
     ''' <returns>The symbol.</returns>
-    Public Function GetPredefinedSymbol(ByVal name As String) As SymbolicExpression
+    Public Function GetPredefinedSymbol(name As String) As SymbolicExpression
         CheckEngineIsRunning()
-
         Try
             Dim pointer = DangerousGetHandle(name)
             Return New SymbolicExpression(Me, Marshal.ReadIntPtr(pointer))
@@ -1050,7 +964,7 @@ Public Class REngine
     ''' </summary>
     ''' <param name="sexp">A pointer to the R symbolic expression</param>
     ''' <returns></returns>
-    Public Function CreateFromNativeSexp(ByVal sexp As IntPtr) As SymbolicExpression
+    Public Function CreateFromNativeSexp(sexp As IntPtr) As SymbolicExpression
         Return New SymbolicExpression(Me, sexp)
     End Function
 
@@ -1070,24 +984,25 @@ Public Class REngine
     ''' <param name="detachPackages">If true, detach some packages and other attached resources. Default is false. See 'detach' function in R</param>
     ''' <param name="toDetach">names of resources to dettach, e.g. an array of names such as 'mpg', 'package:lattice'.
     ''' If null, entries found in 'search()' between the first item and 'package:base' are detached. See 'search' function documentation in R</param>
-    Public Sub ClearGlobalEnvironment(ByVal Optional garbageCollectR As Boolean = True, ByVal Optional garbageCollectDotNet As Boolean = True, ByVal Optional removeHiddenRVars As Boolean = False, ByVal Optional detachPackages As Boolean = False, ByVal Optional toDetach As String() = Nothing)
-        If detachPackages Then doDetachPackages(toDetach)
+    Public Sub ClearGlobalEnvironment(Optional garbageCollectR As Boolean = True, Optional garbageCollectDotNet As Boolean = True, Optional removeHiddenRVars As Boolean = False, Optional detachPackages As Boolean = False, Optional toDetach As String() = Nothing)
+        If detachPackages Then
+            doDetachPackages(toDetach)
+        End If
         Dim rmStatement = If(removeHiddenRVars, "rm(list=ls(all.names=TRUE))", "rm(list=ls())")
-        Evaluate(rmStatement)
-
+        Me.Evaluate(rmStatement)
         If garbageCollectDotNet Then
             DoDotNetGarbageCollection()
             DoDotNetGarbageCollection()
         End If
-
-        If garbageCollectR Then ForceGarbageCollection()
+        If garbageCollectR Then
+            ForceGarbageCollection()
+        End If
     End Sub
 
-    Private Sub doDetachPackages(ByVal toDetach As String())
+    Private Sub doDetachPackages(toDetach As String())
         If toDetach Is Nothing Then
             toDetach = Evaluate("search()[2:(which(search()=='package:stats')-1)]").AsCharacter().ToArray()
         End If
-
         For Each dbName In toDetach
             Evaluate("detach('" & dbName & "')")
         Next
@@ -1106,9 +1021,11 @@ Public Class REngine
     ''' <summary>
     ''' Native pointer to the SEXP representing NA for strings (character vectors in R terminology).
     ''' </summary>
-    Public ReadOnly Property NaStringPointer As IntPtr
+    Public ReadOnly Property NaStringPointer() As IntPtr
         Get
-            If stringNAPointer = IntPtr.Zero Then stringNAPointer = NaString.DangerousGetHandle()
+            If stringNAPointer = IntPtr.Zero Then
+                stringNAPointer = NaString.DangerousGetHandle()
+            End If
             Return stringNAPointer
         End Get
     End Property
@@ -1118,10 +1035,13 @@ Public Class REngine
     ''' <summary>
     ''' SEXP representing NA for strings (character vectors in R terminology).
     ''' </summary>
-    Public ReadOnly Property NaString As SymbolicExpression
+    Public ReadOnly Property NaString() As SymbolicExpression
         Get
-            If stringNaSexp Is Nothing Then stringNaSexp = GetPredefinedSymbol("R_NaString")
+            If stringNaSexp Is Nothing Then
+                stringNaSexp = Me.GetPredefinedSymbol("R_NaString")
+            End If
             Return stringNaSexp
         End Get
     End Property
 End Class
+

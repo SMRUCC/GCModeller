@@ -1,29 +1,82 @@
-﻿Imports System.Runtime.InteropServices
+﻿#Region "Microsoft.VisualBasic::78dd087f0e42d495cbcafc3efe052e4c, RDotNET\Graphics\GraphicsDeviceAdapter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class GraphicsDeviceAdapter
+    ' 
+    '         Properties: Engine
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: Capture, ConfirmNewFrame, GetEvent, GetFunction, GetInterruptsPending
+    '                   GetInterruptsSuspended, GetLocation, (+2 Overloads) GetPoints, MeasureWidth
+    ' 
+    '         Sub: Activate, Alloc, ChangeMode, ClearDevDesc, Clip
+    '              Close, Deactivate, (+2 Overloads) Dispose, DrawCircle, DrawLine
+    '              DrawPath, DrawPolygon, DrawPolyline, DrawRaster, DrawRectangle
+    '              DrawText, EventHelper, FreeAll, GetMetricInfo, Kill
+    '              NewPage, Resize, SetEngine, SetInterruptsSuspended, SetMethod
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Linq
+Imports System.Runtime.InteropServices
 Imports RDotNet.Graphics.Internals
 
 Namespace Graphics
+
     Friend Class GraphicsDeviceAdapter
         Implements IDisposable
-
         Private ReadOnly device As IGraphicsDevice
         Private ReadOnly delegateHandles As List(Of GCHandle)
         Private description As DeviceDescription
-        Private engineField As REngine
+        Private m_engine As REngine
         Private gdd As IntPtr
 
-        Public Sub New(ByVal device As IGraphicsDevice)
+        Public Sub New(device As IGraphicsDevice)
             If device Is Nothing Then
                 Throw New ArgumentNullException("device")
             End If
-
             Me.device = device
-            delegateHandles = New List(Of GCHandle)()
-            gdd = IntPtr.Zero
+            Me.delegateHandles = New List(Of GCHandle)()
+            Me.gdd = IntPtr.Zero
         End Sub
 
-        Public ReadOnly Property Engine As REngine
+        Public ReadOnly Property Engine() As REngine
             Get
-                Return engineField
+                Return Me.m_engine
             End Get
         End Property
 
@@ -36,175 +89,171 @@ Namespace Graphics
             GC.SuppressFinalize(Me)
         End Sub
 
-        Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-            description.Dispose()
-
-            If disposing AndAlso gdd <> IntPtr.Zero Then
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            Me.description.Dispose()
+            If disposing AndAlso Me.gdd <> IntPtr.Zero Then
                 Kill()
             End If
         End Sub
 
         Public Sub Kill()
-            GetFunction(Of GEkillDevice)()(description.DangerousGetHandle())
-            gdd = IntPtr.Zero
+            Me.GetFunction(Of GEkillDevice)()(Me.description.DangerousGetHandle())
+            Me.gdd = IntPtr.Zero
         End Sub
 
-        Public Sub SetEngine(ByVal engine As REngine)
+        Public Sub SetEngine(engine As REngine)
             If gdd <> IntPtr.Zero Then
                 Throw New InvalidOperationException("engine is already set")
             End If
-
             If engine Is Nothing Then
                 Throw New ArgumentNullException("engine")
             End If
-
-            If engineField IsNot Nothing Then
+            If Me.m_engine IsNot Nothing Then
                 Throw New InvalidOperationException()
             End If
-
             If Not engine.IsRunning Then
                 Throw New ArgumentException(Nothing, "engine")
             End If
-
-            engineField = engine
+            Me.m_engine = engine
 
             'this.GetFunction<R_GE_checkVersionOrDie>()(this.device.Version);
-            GetFunction(Of R_CheckDeviceAvailable)()()
-            Dim oldSuspended = GraphicsDeviceAdapter.GetInterruptsSuspended(engine)
-            GraphicsDeviceAdapter.SetInterruptsSuspended(engine, True)
-            description = New DeviceDescription()
-            SetMethod()
-            gdd = GetFunction(Of GEcreateDevDesc)()(description.DangerousGetHandle())
-            GetFunction(Of GEaddDevice2)()(gdd, device.Name)
-            GraphicsDeviceAdapter.SetInterruptsSuspended(engine, oldSuspended)
+            Me.GetFunction(Of R_CheckDeviceAvailable)()()
+            Dim oldSuspended = GetInterruptsSuspended(engine)
+            SetInterruptsSuspended(engine, True)
 
-            If GraphicsDeviceAdapter.GetInterruptsPending(engine) AndAlso Not GraphicsDeviceAdapter.GetInterruptsSuspended(engine) Then
-                GetFunction(Of Rf_onintr)()()
+            Me.description = New DeviceDescription()
+            SetMethod()
+            gdd = Me.GetFunction(Of GEcreateDevDesc)()(Me.description.DangerousGetHandle())
+            Me.GetFunction(Of GEaddDevice2)()(gdd, Me.device.Name)
+
+            SetInterruptsSuspended(engine, oldSuspended)
+            If GetInterruptsPending(engine) AndAlso Not GetInterruptsSuspended(engine) Then
+                Me.GetFunction(Of Rf_onintr)()()
             End If
         End Sub
 
-        Private Shared Sub SetInterruptsSuspended(ByVal engine As REngine, ByVal value As Boolean)
+        Private Shared Sub SetInterruptsSuspended(engine As REngine, value As Boolean)
             Dim pointer = engine.DangerousGetHandle("R_interrupts_suspended")
             Marshal.WriteInt32(pointer, Convert.ToInt32(value))
         End Sub
 
-        Private Shared Function GetInterruptsSuspended(ByVal engine As REngine) As Boolean
+        Private Shared Function GetInterruptsSuspended(engine As REngine) As Boolean
             Dim pointer = engine.DangerousGetHandle("R_interrupts_suspended")
             Return Convert.ToBoolean(Marshal.ReadInt32(pointer))
         End Function
 
-        Private Shared Function GetInterruptsPending(ByVal engine As REngine) As Boolean
+        Private Shared Function GetInterruptsPending(engine As REngine) As Boolean
             Dim pointer = engine.DangerousGetHandle("R_interrupts_pending")
             Return Convert.ToBoolean(Marshal.ReadInt32(pointer))
         End Function
 
         Private Sub SetMethod()
-            Dim activate = CType(AddressOf Me.Activate, _DevDesc_activate)
+            Dim activate = DirectCast(AddressOf Me.Activate, _DevDesc_activate)
             Alloc(activate)
-            description.SetMethod("activate", activate)
-            Dim cap = CType(AddressOf Capture, _DevDesc_cap)
+            Me.description.SetMethod("activate", activate)
+            Dim cap = DirectCast(AddressOf Capture, _DevDesc_cap)
             Alloc(cap)
-            description.SetMethod("cap", cap)
-            Dim circle = CType(AddressOf DrawCircle, _DevDesc_circle)
+            Me.description.SetMethod("cap", cap)
+            Dim circle = DirectCast(AddressOf DrawCircle, _DevDesc_circle)
             Alloc(circle)
-            description.SetMethod("circle", circle)
-            Dim clip = CType(AddressOf Me.Clip, _DevDesc_clip)
+            Me.description.SetMethod("circle", circle)
+            Dim clip = DirectCast(AddressOf Me.Clip, _DevDesc_clip)
             Alloc(clip)
-            description.SetMethod("clip", clip)
-            Dim close = CType(AddressOf Me.Close, _DevDesc_close)
+            Me.description.SetMethod("clip", clip)
+            Dim close = DirectCast(AddressOf Me.Close, _DevDesc_close)
             Alloc(close)
-            description.SetMethod("close", close)
-            Dim deactivate = CType(AddressOf Me.Deactivate, _DevDesc_deactivate)
+            Me.description.SetMethod("close", close)
+            Dim deactivate = DirectCast(AddressOf Me.Deactivate, _DevDesc_deactivate)
             Alloc(deactivate)
-            description.SetMethod("deactivate", deactivate)
-            Dim line = CType(AddressOf DrawLine, _DevDesc_line)
+            Me.description.SetMethod("deactivate", deactivate)
+            Dim line = DirectCast(AddressOf DrawLine, _DevDesc_line)
             Alloc(line)
-            description.SetMethod("line", line)
-            Dim locator = CType(AddressOf GetLocation, _DevDesc_locator)
+            Me.description.SetMethod("line", line)
+            Dim locator = DirectCast(AddressOf GetLocation, _DevDesc_locator)
             Alloc(locator)
-            description.SetMethod("locator", locator)
-            Dim metricInfo = CType(AddressOf GetMetricInfo, _DevDesc_metricInfo)
+            Me.description.SetMethod("locator", locator)
+            Dim metricInfo = DirectCast(AddressOf GetMetricInfo, _DevDesc_metricInfo)
             Alloc(metricInfo)
-            description.SetMethod("metricInfo", metricInfo)
-            Dim mode = CType(AddressOf ChangeMode, _DevDesc_mode)
+            Me.description.SetMethod("metricInfo", metricInfo)
+            Dim mode = DirectCast(AddressOf ChangeMode, _DevDesc_mode)
             Alloc(mode)
-            description.SetMethod("mode", mode)
-            Dim newPage = CType(AddressOf Me.NewPage, _DevDesc_newPage)
+            Me.description.SetMethod("mode", mode)
+            Dim newPage = DirectCast(AddressOf Me.NewPage, _DevDesc_newPage)
             Alloc(newPage)
-            description.SetMethod("newPage", newPage)
-            Dim path = CType(AddressOf DrawPath, _DevDesc_path)
+            Me.description.SetMethod("newPage", newPage)
+            Dim path = DirectCast(AddressOf DrawPath, _DevDesc_path)
             Alloc(path)
-            description.SetMethod("path", path)
-            Dim polygon = CType(AddressOf DrawPolygon, _DevDesc_polygon)
+            Me.description.SetMethod("path", path)
+            Dim polygon = DirectCast(AddressOf DrawPolygon, _DevDesc_polygon)
             Alloc(polygon)
-            description.SetMethod("polygon", polygon)
-            Dim polyline = CType(AddressOf DrawPolyline, _DevDesc_Polyline)
+            Me.description.SetMethod("polygon", polygon)
+            Dim polyline = DirectCast(AddressOf DrawPolyline, _DevDesc_Polyline)
             Alloc(polyline)
-            description.SetMethod("polyline", polyline)
-            Dim raster = CType(AddressOf DrawRaster, _DevDesc_raster)
+            Me.description.SetMethod("polyline", polyline)
+            Dim raster = DirectCast(AddressOf DrawRaster, _DevDesc_raster)
             Alloc(raster)
-            description.SetMethod("raster", raster)
-            Dim rect = CType(AddressOf DrawRectangle, _DevDesc_rect)
+            Me.description.SetMethod("raster", raster)
+            Dim rect = DirectCast(AddressOf DrawRectangle, _DevDesc_rect)
             Alloc(rect)
-            description.SetMethod("rect", rect)
-            Dim size = CType(AddressOf Resize, _DevDesc_size)
+            Me.description.SetMethod("rect", rect)
+            Dim size = DirectCast(AddressOf Resize, _DevDesc_size)
             Alloc(size)
-            description.SetMethod("size", size)
-            Dim strWidth = CType(AddressOf MeasureWidth, _DevDesc_strWidth)
+            Me.description.SetMethod("size", size)
+            Dim strWidth = DirectCast(AddressOf MeasureWidth, _DevDesc_strWidth)
             Alloc(strWidth)
-            description.SetMethod("strWidth", strWidth)
-            Dim text = CType(AddressOf DrawText, _DevDesc_text)
+            Me.description.SetMethod("strWidth", strWidth)
+            Dim text = DirectCast(AddressOf DrawText, _DevDesc_text)
             Alloc(text)
-            description.SetMethod("text", text)
-            Dim strWidthUTF8 = CType(AddressOf MeasureWidth, _DevDesc_strWidth)
+            Me.description.SetMethod("text", text)
+            Dim strWidthUTF8 = DirectCast(AddressOf MeasureWidth, _DevDesc_strWidth)
             Alloc(strWidthUTF8)
-            description.SetMethod("strWidthUTF8", strWidthUTF8)
-            Dim textUTF8 = CType(AddressOf DrawText, _DevDesc_text)
+            Me.description.SetMethod("strWidthUTF8", strWidthUTF8)
+            Dim textUTF8 = DirectCast(AddressOf DrawText, _DevDesc_text)
             Alloc(textUTF8)
-            description.SetMethod("textUTF8", textUTF8)
-            Dim newFrameConfirm = CType(AddressOf ConfirmNewFrame, _DevDesc_newFrameConfirm)
+            Me.description.SetMethod("textUTF8", textUTF8)
+            Dim newFrameConfirm = DirectCast(AddressOf ConfirmNewFrame, _DevDesc_newFrameConfirm)
             Alloc(newFrameConfirm)
-            description.SetMethod("newFrameConfirm", newFrameConfirm)
-            Dim getEvent = CType(AddressOf Me.GetEvent, _DevDesc_getEvent)
+            Me.description.SetMethod("newFrameConfirm", newFrameConfirm)
+            Dim getEvent = DirectCast(AddressOf Me.GetEvent, _DevDesc_getEvent)
             Alloc(getEvent)
-            description.SetMethod("getEvent", getEvent)
-            Dim eventHelper = CType(AddressOf Me.EventHelper, _DevDesc_eventHelper)
+            Me.description.SetMethod("getEvent", getEvent)
+            Dim eventHelper = DirectCast(AddressOf Me.EventHelper, _DevDesc_eventHelper)
             Alloc(eventHelper)
-            description.SetMethod("eventHelper", eventHelper)
+            Me.description.SetMethod("eventHelper", eventHelper)
         End Sub
 
-        Private Sub Alloc(ByVal d As [Delegate])
+        Private Sub Alloc(d As [Delegate])
             Dim handle = GCHandle.Alloc(d)
-            delegateHandles.Add(handle)
+            Me.delegateHandles.Add(handle)
         End Sub
 
         Private Sub FreeAll()
-            delegateHandles.ForEach(Sub(handle) handle.Free())
-            delegateHandles.Clear()
+            Me.delegateHandles.ForEach(Sub(handle) Call handle.Free())
+            Me.delegateHandles.Clear()
         End Sub
 
-        Private Sub Activate(ByVal pDevDesc As IntPtr)
-            device.OnActivated(description)
+        Private Sub Activate(pDevDesc As IntPtr)
+            Me.device.OnActivated(Me.description)
         End Sub
 
-        Private Sub Deactivate(ByVal pDevDesc As IntPtr)
-            device.OnDeactivated(description)
+        Private Sub Deactivate(pDevDesc As IntPtr)
+            Me.device.OnDeactivated(Me.description)
         End Sub
 
-        Private Sub NewPage(ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub NewPage(gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
-            device.OnNewPageRequested(context, description)
+            Me.device.OnNewPageRequested(context, Me.description)
         End Sub
 
-        Private Sub Resize(<Out> ByRef left As Double, <Out> ByRef right As Double, <Out> ByRef bottom As Double, <Out> ByRef top As Double, ByVal dd As IntPtr)
-            Dim rectangle = device.OnResized(description)
+        Private Sub Resize(ByRef left As Double, ByRef right As Double, ByRef bottom As Double, ByRef top As Double, dd As IntPtr)
+            Dim rectangle = Me.device.OnResized(Me.description)
             left = rectangle.Left
             right = rectangle.Right
             bottom = rectangle.Bottom
             top = rectangle.Top
         End Sub
 
-        Private Sub Close(ByVal dd As IntPtr)
+        Private Sub Close(dd As IntPtr)
             device.OnClosed(description)
             ClearDevDesc()
         End Sub
@@ -215,35 +264,34 @@ Namespace Graphics
             Marshal.StructureToPtr(geDevDesc, gdd, False)
         End Sub
 
-        Private Function ConfirmNewFrame(ByVal dd As IntPtr) As Boolean
-            Return device.ConfirmNewFrame(description)
+        Private Function ConfirmNewFrame(dd As IntPtr) As Boolean
+            Return Me.device.ConfirmNewFrame(Me.description)
         End Function
 
-        Private Sub ChangeMode(ByVal mode As Integer, ByVal dd As IntPtr)
+        Private Sub ChangeMode(mode As Integer, dd As IntPtr)
             If mode = 0 Then
-                device.OnDrawStarted(description)
+                Me.device.OnDrawStarted(Me.description)
             ElseIf mode = 1 Then
-                device.OnDrawStopped(description)
+                Me.device.OnDrawStopped(Me.description)
             End If
         End Sub
 
-        Private Sub DrawCircle(ByVal x As Double, ByVal y As Double, ByVal r As Double, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawCircle(x As Double, y As Double, r As Double, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim center = New Point(x, y)
-            device.DrawCircle(center, r, context, description)
+            Me.device.DrawCircle(center, r, context, Me.description)
         End Sub
 
-        Private Sub Clip(ByVal x0 As Double, ByVal x1 As Double, ByVal y0 As Double, ByVal y1 As Double, ByVal dd As IntPtr)
+        Private Sub Clip(x0 As Double, x1 As Double, y0 As Double, y1 As Double, dd As IntPtr)
             Dim rectangle = New Rectangle(Math.Min(x0, x1), Math.Min(y0, y1), Math.Abs(x0 - x1), Math.Abs(y0 - y1))
-            device.Clip(rectangle, description)
+            Me.device.Clip(rectangle, Me.description)
         End Sub
 
-        Private Function GetLocation(<Out> ByRef x As Double, <Out> ByRef y As Double, ByVal dd As IntPtr) As Boolean
-            Dim location = device.GetLocation(description)
-
+        Private Function GetLocation(ByRef x As Double, ByRef y As Double, dd As IntPtr) As Boolean
+            Dim location = Me.device.GetLocation(Me.description)
             If Not location.HasValue Then
-                x = Nothing
-                y = Nothing
+                x = 0
+                y = 0
                 Return False
             End If
 
@@ -253,103 +301,103 @@ Namespace Graphics
             Return True
         End Function
 
-        Private Sub DrawLine(ByVal x1 As Double, ByVal y1 As Double, ByVal x2 As Double, ByVal y2 As Double, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawLine(x1 As Double, y1 As Double, x2 As Double, y2 As Double, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim source = New Point(x1, y1)
             Dim destination = New Point(x2, y2)
-            device.DrawLine(source, destination, context, description)
+            Me.device.DrawLine(source, destination, context, Me.description)
         End Sub
 
-        Private Sub GetMetricInfo(ByVal c As Integer, ByVal gc As IntPtr, <Out> ByRef ascent As Double, <Out> ByRef descent As Double, <Out> ByRef width As Double, ByVal dd As IntPtr)
+        Private Sub GetMetricInfo(c As Integer, gc As IntPtr, ByRef ascent As Double, ByRef descent As Double, ByRef width As Double, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
-            Dim metric = device.GetMetricInfo(c, context, description)
+            Dim metric = Me.device.GetMetricInfo(c, context, Me.description)
             ascent = metric.Ascent
             descent = metric.Descent
             width = metric.Width
         End Sub
 
-        Private Sub DrawPolygon(ByVal n As Integer, ByVal x As IntPtr, ByVal y As IntPtr, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawPolygon(n As Integer, x As IntPtr, y As IntPtr, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim points = GetPoints(n, x, y)
-            device.DrawPolygon(points, context, description)
+            Me.device.DrawPolygon(points, context, Me.description)
         End Sub
 
-        Private Sub DrawPolyline(ByVal n As Integer, ByVal x As IntPtr, ByVal y As IntPtr, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawPolyline(n As Integer, x As IntPtr, y As IntPtr, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim points = GetPoints(n, x, y)
-            device.DrawPolyline(points, context, description)
+            Me.device.DrawPolyline(points, context, Me.description)
         End Sub
 
-        Private Sub DrawRectangle(ByVal x0 As Double, ByVal y0 As Double, ByVal x1 As Double, ByVal y1 As Double, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawRectangle(x0 As Double, y0 As Double, x1 As Double, y1 As Double, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim rectangle = New Rectangle(Math.Min(x0, x1), Math.Min(y0, y1), Math.Abs(x0 - x1), Math.Abs(y0 - y1))
-            device.DrawRectangle(rectangle, context, description)
+            Me.device.DrawRectangle(rectangle, context, Me.description)
         End Sub
 
-        Private Sub DrawPath(ByVal x As IntPtr, ByVal y As IntPtr, ByVal npoly As Integer, ByVal nper As IntPtr, ByVal winding As Boolean, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawPath(x As IntPtr, y As IntPtr, npoly As Integer, nper As IntPtr, winding As Boolean, gc As IntPtr,
+        dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim points = GetPoints(x, y, npoly, nper)
-            device.DrawPath(points, winding, context, description)
+            Me.device.DrawPath(points, winding, context, Me.description)
         End Sub
 
-        Private Sub DrawRaster(ByVal raster As IntPtr, ByVal w As Integer, ByVal h As Integer, ByVal x As Double, ByVal y As Double, ByVal width As Double, ByVal height As Double, ByVal rot As Double, ByVal interpolate As Boolean, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawRaster(raster As IntPtr, w As Integer, h As Integer, x As Double, y As Double, width As Double,
+        height As Double, rot As Double, interpolate As Boolean, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
             Dim output = New Raster(w, h)
-            ' BEGIN TODO : Visual Basic does not support checked statements!
             For i = 0 To w - 1
-
                 For j = 0 To h - 1
-                    output(i, j) = Color.FromUInt32(Marshal.ReadInt32(raster))
-                    raster = System.IntPtr.Add(raster, Marshal.SizeOf(GetType(Integer)))
+                    output(i, j) = Color.FromUInt32(CUInt(Marshal.ReadInt32(raster)))
+                    raster = IntPtr.Add(raster, 4)
                 Next
             Next
-            ' END TODO : Visual Basic does not support checked statements!
-            device.DrawRaster(output, New Rectangle(x, y, width, height), rot, interpolate, context, description)
+
+            Me.device.DrawRaster(output, New Rectangle(x, y, width, height), rot, interpolate, context, Me.description)
         End Sub
 
-        Private Function Capture(ByVal dd As IntPtr) As IntPtr
-            Dim raster = device.Capture(description)
-            Return RasterExtension.CreateIntegerMatrix(Engine, CType(raster, Raster)).DangerousGetHandle()
+        Private Function Capture(dd As IntPtr) As IntPtr
+            Dim raster As Raster = Me.device.Capture(Me.description)
+            Return Engine.CreateIntegerMatrix(raster).DangerousGetHandle()
         End Function
 
-        Private Function MeasureWidth(ByVal str As String, ByVal gc As IntPtr, ByVal dd As IntPtr) As Double
+        Private Function MeasureWidth(str As String, gc As IntPtr, dd As IntPtr) As Double
             Dim context = New GraphicsContext(gc)
-            Return device.MeasureWidth(str, context, description)
+            Return Me.device.MeasureWidth(str, context, Me.description)
         End Function
 
-        Private Sub DrawText(ByVal x As Double, ByVal y As Double, ByVal str As String, ByVal rot As Double, ByVal hadj As Double, ByVal gc As IntPtr, ByVal dd As IntPtr)
+        Private Sub DrawText(x As Double, y As Double, str As String, rot As Double, hadj As Double, gc As IntPtr, dd As IntPtr)
             Dim context = New GraphicsContext(gc)
-            device.DrawText(str, New Point(x, y), rot, hadj, context, description)
+            Me.device.DrawText(str, New Point(x, y), rot, hadj, context, Me.description)
         End Sub
 
-        Private Function GetEvent(ByVal sexp As IntPtr, ByVal s As String) As IntPtr
+        Private Function GetEvent(sexp As IntPtr, s As String) As IntPtr
             Return IntPtr.Zero
         End Function
 
-        Private Sub EventHelper(ByVal dd As IntPtr, ByVal code As Integer)
+        Private Sub EventHelper(dd As IntPtr, code As Integer)
         End Sub
 
-        Private Function GetPoints(ByVal n As Integer, ByVal x As IntPtr, ByVal y As IntPtr) As IEnumerable(Of Point)
+        Private Function GetPoints(n As Integer, x As IntPtr, y As IntPtr) As IEnumerable(Of Point)
             Return Enumerable.Range(0, n).[Select](Function(index)
-                                                       Dim offset = Marshal.SizeOf(GetType(Double)) * index
+                                                       Dim offset = 8 * index
                                                        Dim px = Utility.ReadDouble(x, offset)
                                                        Dim py = Utility.ReadDouble(y, offset)
                                                        Return New Point(px, py)
                                                    End Function)
         End Function
 
-        Private Iterator Function GetPoints(ByVal x As IntPtr, ByVal y As IntPtr, ByVal npoly As Integer, ByVal nper As IntPtr) As IEnumerable(Of IEnumerable(Of Point))
+        Private Iterator Function GetPoints(x As IntPtr, y As IntPtr, npoly As Integer, nper As IntPtr) As IEnumerable(Of IEnumerable(Of Point))
             If Not Engine.IsRunning Then
                 Throw New InvalidOperationException()
             End If
 
             For index = 0 To npoly - 1
-                Dim offset = Marshal.SizeOf(GetType(Integer)) * index
+                Dim offset = 4 * index
                 Dim n = Marshal.ReadInt32(nper, offset)
+
                 Yield GetPoints(n, x, y)
 
-                Dim pointOffset = Marshal.SizeOf(GetType(Double)) * n
-
+                Dim pointOffset = 8 * n
                 x = IntPtr.Add(x, pointOffset)
                 y = IntPtr.Add(y, pointOffset)
             Next

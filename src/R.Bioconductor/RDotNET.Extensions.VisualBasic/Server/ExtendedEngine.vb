@@ -121,9 +121,9 @@ Public Class ExtendedEngine : Inherits REngine
         Call Me.GetType.Assembly.Location.__DEBUG_ECHO
     End Sub
 
-    Public Overrides Function Evaluate(statement As String, Optional env As REnvironment = Nothing) As SymbolicExpression
+    Public Overrides Function Evaluate(statement As String) As SymbolicExpression
         Try
-            Return MyBase.Evaluate(statement, env)
+            Return MyBase.Evaluate(statement)
         Catch ex As Exception
             ex = New Exception(vbCrLf & vbCrLf &
                                statement &

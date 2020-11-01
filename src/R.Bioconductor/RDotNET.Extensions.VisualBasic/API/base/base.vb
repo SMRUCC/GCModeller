@@ -1014,15 +1014,8 @@ Namespace API
         ''' c Is sometimes used for its side effect of removing attributes except names, for example to turn an array into a vector. as.vector Is a more intuitive way to do this, but also drops names. Note too that methods other than the default are Not required to do this (And they will almost certainly preserve a class attribute).
         ''' This Is a primitive function.
         ''' </remarks>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(ParamArray list As String()) As String
             Return c(list, recursive:=False)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function c(ParamArray x As Double()) As String
-            Return c(x, recursive:=False)
         End Function
 
         ''' <summary>
