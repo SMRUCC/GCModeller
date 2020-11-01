@@ -205,6 +205,7 @@ RE:
             End If
 
             Call _resp.Close()
+            Call _stream.Flush()
         End Sub
 
         Private Sub doDownloadTask(resp As WebResponse, bufferSize%, exitJob As Func(Of Integer, Boolean))
@@ -219,7 +220,7 @@ RE:
                 read = resp.GetResponseStream.Read(buffer, Scan0, buffer.Length)
                 ' Write to filestream that you declared at the beginning 
                 ' of the DoWork sub
-                _stream.Write(buffer)
+                _stream.Write(buffer.Take(read).ToArray)
 
                 _currentSize += read
                 interval = TimeSpan.FromMilliseconds(App.ElapsedMilliseconds - _startTime).TotalSeconds
