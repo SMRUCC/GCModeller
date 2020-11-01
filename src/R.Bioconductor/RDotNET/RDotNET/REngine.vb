@@ -476,7 +476,7 @@ Public Class REngine
             ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
             resetCachedEnvironmentVariables()
             ' Partial Workaround (hopefully temporary) for https://rdotnet.codeplex.com/workitem/110
-            Evaluate($"invisible(memory.limit({Me.parameter.MaxMemorySize / 1048576UL}))")
+            ' Evaluate($"invisible(memory.limit({Me.parameter.MaxMemorySize / 1048576UL}))")
         End If
     End Sub
 
@@ -686,7 +686,9 @@ Public Class REngine
             Dim line As Value(Of String) = ""
 
             While Not (line = reader.ReadLine()) Is Nothing
-                For Each segment As String In REngine.Segment(line)
+                Dim lines As String() = REngine.Segment(line).ToArray
+
+                For Each segment As String In lines
                     Dim result = Me.Parse(segment, incompleteStatement, environment)
 
                     If result IsNot Nothing Then
@@ -884,8 +886,10 @@ Public Class REngine
 
                     Using New ProtectedPointer(vector)
                         Dim result As SymbolicExpression = Nothing
+                        Dim exp As Expression = Enumerable.First(vector)
+                        Dim env As REnvironment = If(environment, GlobalEnvironment)
 
-                        If Not Enumerable.First(vector).TryEvaluate(If(environment Is Nothing, GlobalEnvironment, environment), result) Then
+                        If Not exp.TryEvaluate(env, result) Then
                             Throw New EvaluationException(LastErrorMessage)
                         End If
 

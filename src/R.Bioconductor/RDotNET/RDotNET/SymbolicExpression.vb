@@ -38,7 +38,8 @@ Public Class SymbolicExpression
         MyBase.New(IntPtr.Zero, True)
         engineField = engine
         Dim sexprecType = engine.GetSEXPRECType()
-        sexp = Convert.ChangeType(Marshal.PtrToStructure(pointer, sexprecType), sexprecType)
+        Dim from = Marshal.PtrToStructure(pointer, sexprecType)
+        sexp = Convert.ChangeType(from, sexprecType)
         SetHandle(pointer)
         Preserve()
     End Sub

@@ -168,7 +168,7 @@
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Project>{820dfa2f-2125-4ea5-b6c3-bc9b49a4cbdd}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDotNet.Extensions.VisualBasic.vbproj">
