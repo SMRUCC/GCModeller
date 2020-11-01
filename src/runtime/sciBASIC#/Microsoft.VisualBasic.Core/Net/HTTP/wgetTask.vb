@@ -87,6 +87,14 @@ Namespace Net.Http
             End If
         End Sub
 
+        Public Sub Flush()
+            If Not fs Is Nothing Then
+                Call fs.Flush()
+            Else
+                ' do nothing
+            End If
+        End Sub
+
         Public Overrides Function ToString() As String
             If Not fs Is Nothing Then
                 Return "<stream>"
@@ -280,7 +288,6 @@ RE:
             End If
 
             Call _resp.Close()
-            Call _stream.Dispose()
         End Sub
 
         Private Sub doDownloadTask(resp As WebResponse, bufferSize%, exitJob As Func(Of Integer, Boolean))
@@ -354,6 +361,7 @@ RE:
             If Not Me.disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
+                    Call _stream.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
