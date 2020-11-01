@@ -6,8 +6,7 @@ Imports System.Security.Permissions
 Namespace ApplicationServices.DynamicInterop
 
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
-    Friend Class UnixLibraryLoader
-        Implements IDynamicLibraryLoader
+    Friend Class UnixLibraryLoader : Implements IDynamicLibraryLoader
 
         Public Function LoadLibrary(ByVal filename As String) As IntPtr Implements IDynamicLibraryLoader.LoadLibrary
             Return InternalLoadLibrary(filename)
