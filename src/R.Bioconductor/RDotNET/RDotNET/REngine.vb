@@ -476,7 +476,7 @@ Public Class REngine
             ' also workaround for https://github.com/rdotnet/rdotnet/issues/127  : R.dll is intent on overriding R_HOME and PATH even if --no-environ is specified...
             resetCachedEnvironmentVariables()
             ' Partial Workaround (hopefully temporary) for https://rdotnet.codeplex.com/workitem/110
-            Evaluate(String.Format("invisible(memory.limit({0}))", Me.parameter.MaxMemorySize / 1048576UL))
+            Evaluate($"invisible(memory.limit({Me.parameter.MaxMemorySize / 1048576UL}))")
         End If
     End Sub
 
@@ -719,7 +719,9 @@ Public Class REngine
             Dim line As Value(Of String) = Nothing
 
             While Not (line = reader.ReadLine()) Is Nothing
-                For Each segment As String In REngine.Segment(line)
+                Dim lines As String() = REngine.Segment(line).ToArray
+
+                For Each segment As String In lines
                     Dim result = Me.Parse(segment, incompleteStatement, environment)
 
                     If result IsNot Nothing Then
@@ -737,7 +739,7 @@ Public Class REngine
 
             If index = segments.Length - 1 Then
                 If Not Equals(segments(index), String.Empty) Then
-                    Yield segments(index) & Microsoft.VisualBasic.Constants.vbLf
+                    Yield segments(index) & vbLf
                 End If
             Else
                 Yield segments(index) & ";"
@@ -749,7 +751,7 @@ Public Class REngine
         ' Fixes for
         ' https://rdotnet.codeplex.com/workitem/165
         ' https://github.com/jmp75/rdotnet/issues/14
-        Dim lines = splitOnNewLines(input)
+        Dim lines As String() = input.LineTokens
         Dim statements As List(Of String) = New List(Of String)()
 
         For i = 0 To lines.Length - 1
@@ -757,11 +759,6 @@ Public Class REngine
         Next
 
         Return statements.ToArray()
-    End Function
-
-    Private Shared Function splitOnNewLines(ByVal input As String) As String()
-        input = input.Replace(Microsoft.VisualBasic.Constants.vbLf & Microsoft.VisualBasic.Constants.vbCr, Microsoft.VisualBasic.Constants.vbLf)
-        Return input.Split(Microsoft.VisualBasic.Strings.ChrW(10))
     End Function
 
     Private Shared Function processLine(ByVal line As String) As String()
