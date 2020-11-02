@@ -199,6 +199,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DataSimulation.vb" />
     <Compile Include="DEGDesigner.vb" />
     <Compile Include="Enrichment\DAVID.vb" />
     <Compile Include="Enrichment\IGO_term.vb" />
@@ -286,6 +287,10 @@
     <ProjectReference Include="..\..\annotations\GSEA\GSEA\GSEA.vbproj">
       <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
       <Name>GSEA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Annotation\Bio.Annotation.vbproj">
+      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
+      <Name>Bio.Annotation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>

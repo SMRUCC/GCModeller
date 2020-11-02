@@ -78,9 +78,6 @@ Imports vcellkit
               AcceptTypes:={GetType(String())},
               Description:="The ``locus_tag`` id list that will removes from the genome, 
               use the comma symbol as delimiter. Or a txt file path for the gene id list.")>
-    <Argument("/csv", True, CLITypes.Boolean,
-              AcceptTypes:={GetType(Boolean)},
-              Description:="The output data format is csv table files.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim deletes As String() = args("/deletes").getDeletionList

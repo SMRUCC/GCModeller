@@ -265,10 +265,6 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.vbproj">
       <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
       <Name>HMP_client</Name>
