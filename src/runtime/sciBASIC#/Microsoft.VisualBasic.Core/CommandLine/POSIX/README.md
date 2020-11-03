@@ -4,7 +4,7 @@
 
 It is a good idea to follow the POSIX guidelines for the command-line options of a program. The 
 easiest way to do this is to use getopt to parse them. Note that the GNU version of getopt will 
-normally permit options anywhere among the arguments unless the special argument ‘--’ is used. 
+normally permit options anywhere among the arguments unless the special argument ``--`` is used. 
 This is not what POSIX specifies; it is a GNU extension.
 
 Please define long-named options that are equivalent to the single-letter Unix-style options. We 
@@ -13,38 +13,43 @@ hope to make GNU more user friendly this way. This is easy to do with the GNU fu
 
 One of the advantages of long-named options is that they can be consistent from program to program.
 For example, users should be able to expect the “verbose” option of any GNU program which has 
-one, to be spelled precisely ‘--verbose’. To achieve this uniformity, look at the table of 
+one, to be spelled precisely ``--verbose``. To achieve this uniformity, look at the table of 
 common long-option names when you choose the option names for your program (see Option Table).
 
 It is usually a good idea for file names given as ordinary arguments to be input files only; any 
-output files would be specified using options (preferably ‘-o’ or ‘--output’). Even if you 
+output files would be specified using options (preferably ``-o`` or ``--output``). Even if you 
 allow an output file name as an ordinary argument for compatibility, try to provide an option as 
 another way to specify it. This will lead to more consistency among GNU utilities, and fewer 
 idiosyncrasies for users to remember.
 
-All programs should support two standard options: ‘--version’ and ‘--help’. CGI programs should 
+All programs should support two standard options: ``--version`` and ``--help``. CGI programs should 
 accept these as command-line options, and also if given as the PATH_INFO; for instance, visiting 
 ‘http://example.org/p.cgi/--help’ in a browser should output the same information as invoking 
-‘p.cgi --help’ from the command line.
+``p.cgi --help`` from the command line.
 
-## --version
+## ``--version``
 
-The standard --version option should direct the program to print information about its name, version, 
+The standard ``--version`` option should direct the program to print information about its name, version, 
 origin and legal status, all on standard output, and then exit successfully. Other options and 
 arguments should be ignored once this is seen, and the program should not perform its normal function.
 
 The first line is meant to be easy for a program to parse; the version number proper starts after the 
 last space. In addition, it contains the canonical name for this program, in this format:
 
+```
 GNU Emacs 19.30
-The program’s name should be a constant string; don’t compute it from argv[0]. The idea is to state 
+```
+
+The program’s name should be a constant string; don’t compute it from ``argv[0]``. The idea is to state 
 the standard or canonical name for the program, not its file name. There are other ways to find out 
 the precise file name where a command is found in PATH.
 
 If the program is a subsidiary part of a larger package, mention the package name in parentheses, like 
 this:
 
+```
 emacsserver (GNU Emacs) 19.30
+```
 
 If the package has a version number which is different from this program’s version number, you can 
 mention the package version number just before the close-parenthesis.
@@ -68,11 +73,13 @@ It is ok to finish the output with a list of the major authors of the program, a
 
 Here’s an example of output that follows these rules:
 
+```
 GNU hello 2.3
 Copyright (C) 2007 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
+```
 
 You should adapt this to your program, of course, filling in the proper year, copyright holder, name of 
 program, and the references to distribution terms, and changing the rest of the wording as necessary.
@@ -86,14 +93,16 @@ Translations of the above lines must preserve the validity of the copyright noti
 Internationalization). If the translation’s character set supports it, the ‘(C)’ should be replaced 
 with the copyright symbol, as follows:
 
+```
 ©
+```
 
 Write the word “Copyright” exactly like that, in English. Do not translate it into another language. 
 International treaties recognize the English word “Copyright”; translations into other languages do 
 not have legal significance.
 
 Finally, here is the table of our suggested license abbreviations. Any abbreviation can be followed by 
-‘vversion[+]’, meaning that particular version, or later versions with the ‘+’, as shown above. In 
+``vversion[+]``, meaning that particular version, or later versions with the ‘+’, as shown above. In 
 the case of a GNU license, always indicate the permitted versions in this way.
 
 In the case of exceptions for extra permissions with the GPL, we use ‘/’ for a separator; the version 
@@ -154,13 +163,15 @@ The standard --help option should output brief documentation for how to invoke t
 output, then exit successfully. Other options and arguments should be ignored once this is seen, and 
 the program should not perform its normal function.
 
-Near the end of the ‘--help’ option’s output, please place lines giving the email address for bug 
-reports, the package’s home page (normally ‘https://www.gnu.org/software/pkg’, and the general page 
+Near the end of the ``--help`` option’s output, please place lines giving the email address for bug 
+reports, the package’s home page (normally ``https://www.gnu.org/software/pkg``, and the general page 
 for help using GNU programs. The format should be like this:
 
+```
 Report bugs to: mailing-address
 pkg home page: <https://www.gnu.org/software/pkg/>
 General help using GNU software: <https://www.gnu.org/gethelp/>
+```
 
 It is ok to mention other appropriate mailing lists and web pages.
 
