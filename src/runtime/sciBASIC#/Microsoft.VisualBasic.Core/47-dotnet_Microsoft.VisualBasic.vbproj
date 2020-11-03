@@ -2133,6 +2133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationServices\DynamicInterop\License.txt" />
+    <None Include="CommandLine\POSIX\README.md" />
     <Content Include="ComponentModel\Ranges\RangeModel\Copyright.txt" />
     <None Include="Resources\scripts\bashRunner.sh" />
     <None Include="Resources\scripts\help.sh" />
