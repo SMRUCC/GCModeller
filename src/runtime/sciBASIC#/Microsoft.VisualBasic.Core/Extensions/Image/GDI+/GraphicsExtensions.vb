@@ -76,6 +76,16 @@ Namespace Imaging
     <HideModuleName>
     Public Module GraphicsExtensions
 
+        ''' <summary>
+        ''' https://github.com/dotnet/runtime/issues/28361
+        ''' </summary>
+        ''' <param name="pointSize"></param>
+        ''' <param name="dpiResolution"></param>
+        ''' <returns></returns>
+        Public Function PointSizeScale(pointSize As Single, dpiResolution As Single) As Single
+            Return If(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), pointSize, pointSize * dpiResolution / 96)
+        End Function
+
         <Extension>
         Public Function GetStringPath(s$, dpi!, rect As RectangleF, font As Font, format As StringFormat) As GraphicsPath
             Dim path As New GraphicsPath()
