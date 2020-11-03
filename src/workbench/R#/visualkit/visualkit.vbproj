@@ -182,7 +182,7 @@
       <Name>GO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.vbproj">
-      <Project>{61FE6226-7B01-4181-AE04-2EEF599DE96E}</Project>
+      <Project>{61fe6226-7b01-4181-ae04-2eef599de96e}</Project>
       <Name>Proteomics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">

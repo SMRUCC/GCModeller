@@ -124,7 +124,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/nt.repository.query", Usage:="/nt.repository.query /query <arguments.csv> /DATA <DATA_dir> [/out <out_DIR>]")>
-    <Argument("/query", AcceptTypes:={GetType(QueryArgument)})>
+    <ArgumentAttribute("/query", AcceptTypes:={GetType(QueryArgument)})>
     <Group(CLIGrouping.RepositoryTools)>
     Public Function ntRepositoryExports(args As CommandLine) As Integer
         Dim query As String = args("/query")

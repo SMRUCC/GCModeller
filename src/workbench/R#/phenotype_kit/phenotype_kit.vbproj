@@ -193,6 +193,7 @@
       <Project>{bceb9332-2cba-45a1-8b3c-0d1e3b8989de}</Project>
       <Name>PFSNet_visual</Name>
     </ProjectReference>
+
     <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.vbproj">
       <Project>{61FE6226-7B01-4181-AE04-2EEF599DE96E}</Project>
       <Name>Proteomics</Name>
@@ -201,6 +202,7 @@
       <Project>{E5AD6940-D449-471D-9539-65B4E457E6E3}</Project>
       <Name>Bio.Annotation</Name>
     </ProjectReference>
+
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>

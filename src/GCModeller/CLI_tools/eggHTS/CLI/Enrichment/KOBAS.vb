@@ -79,9 +79,9 @@ Partial Module CLI
     <ExportAPI("/GO.cellular_location.Plot")>
     <Description("Visualize of the subcellular location result from the GO enrichment analysis.")>
     <Usage("/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
-    <Argument("/3D", True,
+    <ArgumentAttribute("/3D", True,
               Description:="3D style pie chart for the plot?")>
-    <Argument("/colors", True,
+    <ArgumentAttribute("/colors", True,
               Description:="Color schema name, default using color brewer color schema.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_cellularLocationPlot(args As CommandLine) As Integer
@@ -155,40 +155,40 @@ Partial Module CLI
     <ExportAPI("/Go.enrichment.plot")>
     <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /label.color.disable /label.maxlen <char_count, default=64> /colors <default=Set1:c6> /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="The KOBAS enrichment analysis output csv file.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               Out:=True,
               Extensions:="*.svg, *.png",
               Description:="The file path of the output plot image. If the graphics driver is using svg engine, then this result can be output to the standard output if this parameter is not presented in the CLI input.")>
-    <Argument("/r", True, CLITypes.String,
+    <ArgumentAttribute("/r", True, CLITypes.String,
               Description:="The bubble radius expression, when this enrichment plot is in ``/bubble`` mode.")>
-    <Argument("/label.right", True, CLITypes.Boolean,
+    <ArgumentAttribute("/label.right", True, CLITypes.Boolean,
               Description:="Align the label to right if this argument presented.")>
-    <Argument("/Corrected", True, CLITypes.Boolean,
+    <ArgumentAttribute("/Corrected", True, CLITypes.Boolean,
               Description:="Using the corrected p.value instead of using the p.value as the term filter for this enrichment plot.")>
-    <Argument("/pvalue", True, CLITypes.Double,
+    <ArgumentAttribute("/pvalue", True, CLITypes.Double,
               Description:="The p.value threshold for choose the terms that will be plot on the image, default is plot all terms that their enrichment p.value is smaller than 0.05.")>
-    <Argument("/size", True, CLITypes.String,
+    <ArgumentAttribute("/size", True, CLITypes.String,
               AcceptTypes:={GetType(Size)},
               Description:="The output image size in pixel.")>
-    <Argument("/tick", True, CLITypes.Double,
+    <ArgumentAttribute("/tick", True, CLITypes.Double,
               Description:="The axis ticking interval value, using **-1** for generated this value automatically, or any other positive numeric value will setup this interval value manually.")>
-    <Argument("/GO", True, CLITypes.File,
+    <ArgumentAttribute("/GO", True, CLITypes.File,
               Extensions:="*.obo",
               Description:="The GO database for category the enrichment term result into their corrisponding Go namespace. If this argument value is not presented in the CLI input, then program will using the GO database file from the GCModeller repository data system.")>
-    <Argument("/bubble", True, CLITypes.Boolean,
+    <ArgumentAttribute("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
-    <Argument("/displays", True, CLITypes.Integer,
+    <ArgumentAttribute("/displays", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
               Set this argument value to -1 for display all terms.")>
-    <Argument("/gray", True, CLITypes.Boolean,
+    <ArgumentAttribute("/gray", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               
@@ -256,7 +256,7 @@ Partial Module CLI
     <ExportAPI("/KEGG.enrichment.plot")>
     <Description("Bar plots of the KEGG enrichment analysis result.")>
     <Usage("/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /colors <default=Set1:c6> /top <default=13> /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               
@@ -297,13 +297,13 @@ Partial Module CLI
     <ExportAPI("/Enrichments.ORF.info")>
     <Description("Retrive KEGG/GO info for the genes in the enrichment result.")>
     <Usage("/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
-    <Argument("/ORF", True, CLITypes.Boolean,
+    <ArgumentAttribute("/ORF", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
               default is using uniprotID in the accessions fields of the uniprot.XML records.")>
-    <Argument("/nocut", True,
+    <ArgumentAttribute("/nocut", True,
               Description:="Default is using pvalue < 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.")>
-    <Argument("/in",
+    <ArgumentAttribute("/in",
               AcceptTypes:={GetType(EnrichmentTerm)},
               Description:="KOBAS analysis result output.")>
     <Group(CLIGroups.Enrichment_CLI)>
@@ -371,11 +371,11 @@ Partial Module CLI
     <ExportAPI("/KEGG.Enrichment.PathwayMap")>
     <Description("Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.")>
     <Usage("/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
-    <Argument("/colors", AcceptTypes:={GetType(String())},
+    <ArgumentAttribute("/colors", AcceptTypes:={GetType(String())},
               Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
-    <Argument("/DEPs", True, CLITypes.File, AcceptTypes:={GetType(DEP_iTraq)},
+    <ArgumentAttribute("/DEPs", True, CLITypes.File, AcceptTypes:={GetType(DEP_iTraq)},
               Description:="Using for rendering color of the KEGG pathway map. The ``/colors`` argument only works when this argument is presented.")>
-    <Argument("/map", True, CLITypes.File, Description:="Maps user custom ID to uniprot ID. A tsv file with format: ``<customID><TAB><uniprotID>``")>
+    <ArgumentAttribute("/map", True, CLITypes.File, Description:="Maps user custom ID to uniprot ID. A tsv file with format: ``<customID><TAB><uniprotID>``")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -445,10 +445,10 @@ Partial Module CLI
     <ExportAPI("/KOBAS.add.ORF")>
     <Usage("/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
     <Group(CLIGroups.Enrichment_CLI)>
-    <Argument("/in",
+    <ArgumentAttribute("/in",
               AcceptTypes:={GetType(EnrichmentTerm)},
               Description:="The KOBAS enrichment result.")>
-    <Argument("/sample",
+    <ArgumentAttribute("/sample",
               AcceptTypes:={GetType(EntityObject)},
               Description:="The uniprotID -> ORF annotation data. this table file should have a field named ""ORF"".")>
     Public Function KOBASaddORFsource(args As CommandLine) As Integer

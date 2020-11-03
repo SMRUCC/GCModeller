@@ -320,7 +320,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Export.SAM.Maps",
                Usage:="/Export.SAM.Maps /in <in.sam> [/large /contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
-    <Argument("/raw", True,
+    <ArgumentAttribute("/raw", True,
               AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
               Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer

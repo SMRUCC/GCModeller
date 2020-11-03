@@ -294,11 +294,11 @@ Partial Module CLI
     <ExportAPI("/Build.Footprints",
                Info:="Build regulations from motif log site.",
                Usage:="/Build.Footprints /motifs <motifLogs.csv> /bbh <queryHits.csv> [/hitshash /sites <motifLogSites.Xml.DIR> /out <out.csv>]")>
-    <Argument("/bbh", False,
+    <ArgumentAttribute("/bbh", False,
                    Description:="The bbh hit result between the RegPrecise database and annotated genome proteins. query should be the RegPrecise TF and hits should be the annotated proteins.")>
-    <Argument("/sites", True,
+    <ArgumentAttribute("/sites", True,
                    Description:="If this parameter not presented, then using GCModeller repository data as default.")>
-    <Argument("/hitshash", True,
+    <ArgumentAttribute("/hitshash", True,
                    Description:="Using hit name as the bbh hash index key? default is using query name.")>
     Public Function BuildFootprints(args As CommandLine) As Integer
         Dim xmls As IEnumerable(Of String) =
@@ -506,9 +506,9 @@ Partial Module CLI
     <ExportAPI("/regulation.footprints")>
     <Usage("/regulation.footprints /regulator <regprecise.regulator.csv> /footprint <motif_context.csv> [/out <regulation.csv>]")>
     <Description("Build the TF regulation predicted network.")>
-    <Argument("/regulator", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegPreciseRegulatorMatch)})>
-    <Argument("/footprint", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(FootprintSite)})>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
+    <ArgumentAttribute("/regulator", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegPreciseRegulatorMatch)})>
+    <ArgumentAttribute("/footprint", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(FootprintSite)})>
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
     Public Function RegulationFootprints(args As CommandLine) As Integer
         Dim regulator$ = args <= "/regulator"
         Dim footprint$ = args <= "/footprint"
@@ -826,7 +826,7 @@ Partial Module CLI
 
     <ExportAPI("/scan.blastn.map.motifsite")>
     <Usage("/scan.blastn.map.motifsite /in <blastn.mapping.csv> [/hits.base <default=2> /out <motifsite.csv>]")>
-    <Argument("/hits.base", True, CLITypes.String,
+    <ArgumentAttribute("/hits.base", True, CLITypes.String,
               AcceptTypes:={GetType(String), GetType(Integer)},
               Description:="Quantile expression: ``quantile:[0,1]``")>
     Public Function ScanBlastnMapMotifSites(args As CommandLine) As Integer

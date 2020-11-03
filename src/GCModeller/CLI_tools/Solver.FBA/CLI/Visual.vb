@@ -110,7 +110,7 @@ Partial Module CLI
 
     <ExportAPI("/visual.kegg.pathways")>
     <Usage("/visual.kegg.pathways /model <virtualCell.GCMarkup> /maps <kegg_maps.repo.directory> [/gene <default=red> /plasmid.highlight <default=blue> /out <directory>]")>
-    <Argument("/gene", True, CLITypes.String,
+    <ArgumentAttribute("/gene", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The color of the gene object, if this parameter is a color value. There is a special term: ``exclude``, means do not render gene color.")>
     Public Function VisualKEGGPathways(args As CommandLine) As Integer

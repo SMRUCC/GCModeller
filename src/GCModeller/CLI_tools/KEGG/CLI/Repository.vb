@@ -94,11 +94,11 @@ Partial Module CLI
     <Usage("/Maps.Repository.Build /imports <directory> [/out <repository.XML>]")>
     <Description("Union the individual kegg reference pathway map file into one integral database file, usually used for fast loading.")>
     <Group(CLIGroups.Repository_cli)>
-    <Argument("/imports", False, CLITypes.File,
+    <ArgumentAttribute("/imports", False, CLITypes.File,
               AcceptTypes:={GetType(Map)},
               Extensions:="*.xml",
               Description:="A directory folder path which contains multiple KEGG reference pathway map xml files.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               Extensions:="*.xml",
               Description:="An integral database xml file.")>
     <LastUpdated("2019-06-10 00:00:01")>
@@ -151,7 +151,7 @@ Partial Module CLI
     <ExportAPI("/Pathway.Modules.Build")>
     <Usage("/Pathway.Modules.Build /in <directory> [/batch /out <out.Xml>]")>
     <Group(CLIGroups.Repository_cli)>
-    <Argument("/in", False, CLITypes.File, Description:="A directory that created by ``/Download.Pathway.Maps`` command.")>
+    <ArgumentAttribute("/in", False, CLITypes.File, Description:="A directory that created by ``/Download.Pathway.Maps`` command.")>
     Public Function CompileGenomePathwayModule(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
 

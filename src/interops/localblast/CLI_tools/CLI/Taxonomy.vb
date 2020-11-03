@@ -85,12 +85,12 @@ Partial Module CLI
     <ExportAPI("/Reads.OTU.Taxonomy",
                Info:="If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.",
                Usage:="/Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/fill.empty /out <out.csv>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="This input data should have a column named ``taxid`` for the taxonomy information.")>
-    <Argument("/fill.empty", True, AcceptTypes:={GetType(Boolean)},
+    <ArgumentAttribute("/fill.empty", True, AcceptTypes:={GetType(Boolean)},
               Description:="If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.")>
-    <Argument("/OTU", False, AcceptTypes:={GetType(OTUData)})>
+    <ArgumentAttribute("/OTU", False, AcceptTypes:={GetType(OTUData)})>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function ReadsOTU_Taxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

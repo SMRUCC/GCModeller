@@ -73,7 +73,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
     <ExportAPI("Set", Info:="Setting up the configuration data node.",
                Usage:="Set <varName> <value>",
                Example:="Set java /usr/lib/java/java.bin")>
-    <Argument("<varName>", False, CLITypes.String,
+    <ArgumentAttribute("<varName>", False, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The variable name in the GCModeller configuration file.")>
     <Group(CLI.Config_CLI)>
@@ -92,9 +92,9 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
     <ExportAPI("var", Info:="Gets the settings value.",
                Usage:="var [varName] [/value]",
                Example:="")>
-    <Argument("[VarName]", True, CLITypes.String,
+    <ArgumentAttribute("[VarName]", True, CLITypes.String,
               Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
-    <Argument("/value", True, CLITypes.Boolean,
+    <ArgumentAttribute("/value", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument is presented, then this settings program will only output the variable value, otherwise will output data in format: key = value")>
     <Group(CLI.Config_CLI)>
@@ -134,7 +134,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
     <ExportAPI("/set.mysql")>
     <Description("Setting up the mysql connection parameters")>
     <Usage("/set.mysql /test")>
-    <Argument("/test", True, CLITypes.Boolean,
+    <ArgumentAttribute("/test", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this boolean argument is set, then the program will testing for the mysqli connection before write the configuration file. If the connection test failure, then the configuration file will not be updated!")>
     <Group(CLI.Config_CLI)>
@@ -158,7 +158,7 @@ Imports MySql = Oracle.LinuxCompatibility.MySQL.MySqli
     <ExportAPI("/dev")>
     <Description("Generates Apps CLI visualbasic reference source code.")>
     <Usage("/dev [/out <DIR>]")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The generated VisualBasic source file output directory location.")>
     <Group(CLI.Dev_CLI)>

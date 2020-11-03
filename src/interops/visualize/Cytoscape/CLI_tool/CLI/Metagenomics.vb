@@ -160,8 +160,8 @@ Partial Module CLI
     <ExportAPI("/Matrix.NET",
                Info:="Converts a generic distance matrix or kmeans clustering result to network model.",
                Usage:="/Matrix.NET /in <kmeans-out.csv> [/out <net.DIR> /generic /colors <clusters> /cutoff 0 /cutoff.paired]")>
-    <Argument("/in", AcceptTypes:={GetType(EntityClusterModel), GetType(DataSet)})>
-    <Argument("/generic", True, CLITypes.Boolean,
+    <ArgumentAttribute("/in", AcceptTypes:={GetType(EntityClusterModel), GetType(DataSet)})>
+    <ArgumentAttribute("/generic", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument parameter was presents, then the ""/in"" input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.")>
     Public Function MatrixToNetwork(args As CommandLine) As Integer
@@ -199,9 +199,9 @@ Partial Module CLI
     <Description("> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28")>
     <Usage("/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastn.mapping.csv> /tax <ssu-nt.blastnMaps.csv> /taxonomy <ncbi_taxonomy:names,nodes> [/x2taxid <x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
-    <Argument("/net", Description:="The blastn mapping that you can creates from the self pairwise blastn alignment of your SSU sequence. Using for create the network graph based on the similarity result between the aligned sequnece.")>
-    <Argument("/tax", Description:="The blastn mapping that you can creates from the blastn alignment of your SSU sequence against the NCBI nt database.")>
-    <Argument("/x2taxid", Description:="NCBI taxonomy database that you can download from the NCBI ftp server.")>
+    <ArgumentAttribute("/net", Description:="The blastn mapping that you can creates from the self pairwise blastn alignment of your SSU sequence. Using for create the network graph based on the similarity result between the aligned sequnece.")>
+    <ArgumentAttribute("/tax", Description:="The blastn mapping that you can creates from the blastn alignment of your SSU sequence against the NCBI nt database.")>
+    <ArgumentAttribute("/x2taxid", Description:="NCBI taxonomy database that you can download from the NCBI ftp server.")>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
         Dim tax$ = args("/tax")

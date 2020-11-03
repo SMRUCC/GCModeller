@@ -247,15 +247,13 @@ Namespace ReactionNetwork
                 End If
             Next
 
-            For Each gene As NamedValue In pathway.genes
+            For Each gene As NamedValue In pathway.genes.SafeQuery
                 Dim ko As String = Strings.Trim(gene.text).Split.FirstOrDefault
 
-                If Not ko.StringEmpty Then
-                    If reactions.ContainsKey(ko) Then
-                        For Each item In reactions(ko)
-                            Yield item
-                        Next
-                    End If
+                If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
+                    For Each item In reactions(ko)
+                        Yield item
+                    Next
                 End If
             Next
 

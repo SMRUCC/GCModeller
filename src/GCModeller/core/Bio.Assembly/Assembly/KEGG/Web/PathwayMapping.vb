@@ -106,10 +106,8 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add("submit", "Exec")
             Call args.Add("unclassified", list)
 
-            Const api As String = "http://www.genome.jp/kegg-bin/find_pathway_object"
-
             Dim htext = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
-            Dim html$ = api.POST(args, , "http://www.genome.jp/kegg/tool/map_pathway.html").html
+            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, , "http://www.genome.jp/kegg/tool/map_pathway.html").html
 
             Const mapLink$ = "<a href=""/kegg-bin/show_pathway[^""]+"" target=""_map"">"
 
@@ -171,9 +169,7 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add(NameOf(all), If(all, "1", ""))
             Call args.Add("submit", "Exec")
 
-            Const api As String = "http://www.kegg.jp/kegg-bin/color_pathway_object"
-
-            Dim html = api.POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html").html
+            Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html").html
 
             Const mapLinks$ = "href=""/kegg-bin/show_pathway\?.+?/ko\d+\.args"" target=""_map"""
             Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+.*?\.png"""

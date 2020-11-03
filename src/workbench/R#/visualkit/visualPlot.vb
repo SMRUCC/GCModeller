@@ -79,6 +79,14 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualkit.plots", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
+    <ExportAPI("volcano.plot")>
+    Public Function VolcanoPlot(genes As DEP_iTraq(),
+                                <RRawVectorArgument> Optional size As Object = "2400,2700",
+                                <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
+                                Optional bg As Object = "white") As Object
+
+    End Function
+
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
@@ -180,6 +188,7 @@ Module visualPlot
                                              Optional tick# = -1,
                                              <RRawVectorArgument>
                                              Optional colors As Object = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00",
+                                             Optional dpi As Integer = 300,
                                              Optional env As Environment = Nothing) As Object
 
         Dim profile As Dictionary(Of String, NamedValue(Of Double)()) = profiles
@@ -190,7 +199,8 @@ Module visualPlot
             axisTitle:=axisTitle,
             labelRightAlignment:=False,
             valueFormat:="F0",
-            colorSchema:=colors
+            colorSchema:=colors,
+            dpi:=dpi
         )
     End Function
 
@@ -276,14 +286,6 @@ Module visualPlot
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS
         )
-    End Function
-
-    <ExportAPI("volcano.plot")>
-    Public Function VolcanoPlot(genes As DEP_iTraq(),
-                                <RRawVectorArgument> Optional size As Object = "2400,2700",
-                                <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
-                                Optional bg As Object = "white") As Object
-
     End Function
 
     ''' <summary>

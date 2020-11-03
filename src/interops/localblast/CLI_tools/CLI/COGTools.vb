@@ -76,7 +76,7 @@ Partial Module CLI
     <ExportAPI("/COG.myva")>
     <Description("COG myva annotation using blastp raw output or exports sbh/bbh table result.")>
     <Usage("/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/top.best /grep <donothing> /simple /out <out.csv/txt>]")>
-    <Argument("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
+    <ArgumentAttribute("/simple", True, CLITypes.Boolean, PipelineTypes.undefined,
               AcceptTypes:={GetType(Boolean)},
               Description:="This flag will change the output file format. 
                   If this parameter value is presented, then the tool will outoput a simple tsv file;
@@ -199,7 +199,7 @@ Partial Module CLI
     <Usage("/install.cog2003-2014 /db <prot2003-2014.fasta>")>
     <Example("/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
     <Group(CLIGrouping.COGTools)>
-    <Argument("/db", False, CLITypes.File,
+    <ArgumentAttribute("/db", False, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
               Description:="The fasta database using for COG annotation, which can be download from NCBI ftp: 
               > ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz")>
@@ -221,20 +221,20 @@ Partial Module CLI
     <Description("Protein COG annotation by using NCBI cog2003-2014.fasta database.")>
     <Usage("/query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]")>
     <Group(CLIGrouping.COGTools)>
-    <Argument("/db", True, CLITypes.File,
+    <ArgumentAttribute("/db", True, CLITypes.File,
               AcceptTypes:={GetType(FastaFile)},
               Description:="The file path to the database fasta file.
               If you have config the cog2003-2014 database previously, then this argument can be omitted.")>
-    <Argument("/blast+", True, CLITypes.File,
+    <ArgumentAttribute("/blast+", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.")>
-    <Argument("/all", True, CLITypes.Boolean,
+    <ArgumentAttribute("/all", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="For export the bbh result, export all match or only the top best? default is only top best.")>
-    <Argument("/evalue", True, CLITypes.Double,
+    <ArgumentAttribute("/evalue", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="blastp e-value cutoff.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The output directory for the work files.")>
     Public Function COG2003_2014(args As CommandLine) As Integer

@@ -121,9 +121,9 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/TF.Density",
                Usage:="/TF.Density /TF <TF-list.txt> /PTT <genome.PTT> [/ranges 5000 /out <out.csv> /cis /un-strand /batch]")>
-    <Argument("/TF", False,
+    <ArgumentAttribute("/TF", False,
                    Description:="A plant text file with the TF locus_tag list.")>
-    <Argument("/batch", True,
+    <ArgumentAttribute("/batch", True,
                    Description:="This function is works in batch mode.")>
     <Group(CLIGrouping.TFRegulonTools)>
     Public Function TFDensity(args As CommandLine) As Integer

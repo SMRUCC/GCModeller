@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -217,13 +218,13 @@ Module geneExpression
 
     <ExportAPI("deg.t.test")>
     Public Function Ttest(matrix As Matrix,
-                          sampleinfo As SampleInfo(),
-                          treatment$,
-                          control$,
-                          Optional level# = 1.5,
-                          Optional pvalue# = 0.05,
-                          Optional FDR# = 0.05,
-                          Optional env As Environment = Nothing) As DEP_iTraq()
+                      sampleinfo As SampleInfo(),
+                      treatment$,
+                      control$,
+                      Optional level# = 1.5,
+                      Optional pvalue# = 0.05,
+                      Optional FDR# = 0.05,
+                      Optional env As Environment = Nothing) As DEP_iTraq()
 
         Return matrix _
             .Ttest(

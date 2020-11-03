@@ -71,9 +71,9 @@ Partial Module Utilities
     <ExportAPI("/nw",
                Info:="RunNeedlemanWunsch",
                Usage:="/nw /query <query.fasta> /subject <subject.fasta> [/out <out.txt>]")>
-    <Argument("/query", False, AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/subject", False, AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/out", True, AcceptTypes:={GetType(String)})>
+    <ArgumentAttribute("/query", False, AcceptTypes:={GetType(FastaSeq)})>
+    <ArgumentAttribute("/subject", False, AcceptTypes:={GetType(FastaSeq)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(String)})>
     <Group(CLIGrouping.Aligner)>
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
