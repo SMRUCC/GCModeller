@@ -100,9 +100,9 @@ Module CLI
     <ExportAPI("/Pfam-String.Dump",
                Usage:="/Pfam-String.Dump /In <blastp_out.txt> [/out <pfam-String.csv> /evalue <0.001> /identities <0.2> /coverage <0.85>]",
                Info:="Dump the pfam-String domain Structure composition information from the blastp alignment result.")>
-    <Argument("/In", False,
+    <ArgumentAttribute("/In", False,
                    Description:="The blastp output For the protein alignment, which the aligned database can be selected from Pfam-A Or NCBI CDD. And blast+ program Is recommended For used For the domain alignment.")>
-    <Argument("/out", True,
+    <ArgumentAttribute("/out", True,
                    Description:="The output Excel .csv data file path For the dumped pfam-String data Of your annotated protein. If this parameter Is empty, Then the file will saved On the same location With your blastp input file.")>
     Public Function DumpPfamString(args As CommandLine) As Integer
         Dim inFile As String = args("/In")
@@ -147,12 +147,12 @@ Module CLI
     <ExportAPI("--align",
                Usage:="--align /query <pfam-string.csv> /subject <pfam-string.csv> [/hits <query_vs_sbj.blastp.csv> /flip-bbh /out <alignment_out.csv> /mp <cutoff:=0.65> /swap /parts]",
                Info:="MPAlignment on your own dataset.")>
-    <Argument("/swap", True,
+    <ArgumentAttribute("/swap", True,
                    Description:="Swap the location of query and subject in the output result set.")>
-    <Argument("/parts", True,
+    <ArgumentAttribute("/parts", True,
                    Description:="Does the domain motif equals function determine the domain positioning equals just if one side in the high scoring then thoese two domain its position is equals? 
 Default is not, default checks right side and left side.")>
-    <Argument("/flip-bbh", True, Description:="Swap the direction of the query_name/hit_name in the hits?")>
+    <ArgumentAttribute("/flip-bbh", True, Description:="Swap the direction of the query_name/hit_name in the hits?")>
     Public Function MPAlignment(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim subjectFile As String = args("/subject")

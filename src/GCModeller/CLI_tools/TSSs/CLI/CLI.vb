@@ -66,7 +66,7 @@ Module CLI
     <ExportAPI("IdentifyUTRs",
                Info:="Function using the real genome context to identified each genes' 5'UTR and 3'UTR.",
                Usage:="IdentifyUTRs -ptt <genome.ptt> -reads <transcripts_reads.csv> [/unstrand -out <utr_outs.csv> /activity 0.65 /prefix <TSSs_>]")>
-    <Argument("/activity", True,
+    <ArgumentAttribute("/activity", True,
                    Description:="Sets the minimum level of expression (for a UTR region and ncRNA to be considered expressed) in this Replicate based on 
 the average number of reads per nucleotide in this Replicate and the specified transcript sensitivity between 0.0 and 1.0, inclusive.")>
     Public Function IdentifyUTRs(args As CommandLine) As Integer
@@ -131,7 +131,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
                Info:="Unlike IdentifyUTRs function, this function using the TSSs seeds to identified TSSs.
                You can manual setup genome.Size in a given length, or just left it blank let the program to detecting automatically but this maybe makes some mistakes..... 
                Only the sites which is testing successfully will be output.")>
-    <Argument("/reads.Len", True, Description:="The nt length of your raw reads in the *.fq sequence file.")>
+    <ArgumentAttribute("/reads.Len", True, Description:="The nt length of your raw reads in the *.fq sequence file.")>
     Public Function TestSites(args As CommandLine) As Integer
         Dim Transcripts As String = args("-in")
         Dim genomeSize As Long = args.GetInt64("/genome.size")
@@ -175,7 +175,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
              Info:="Just simply Associates the genome context with the sites in the target transcript site input data. 
              If the /upstream value is True, then only upstream or upstreamoverlaps site will be saved all of others loci sites will be ignored.",
              Usage:="--genome-context -in <in.csv> -ptt <genome.ptt> [/upstream /trim <shared_value:=30> -out <out.csv> /atg [ATG-distance:1000]]")>
-    <Argument("-in", False, Description:="Short reads data file from DocumentFormat.Transcript object type.")>
+    <ArgumentAttribute("-in", False, Description:="Short reads data file from DocumentFormat.Transcript object type.")>
     Public Function GenomeContent(args As CommandLine) As Integer
         Dim inFile As String = args("-in")
         Dim TrimShared = If(Not String.IsNullOrEmpty(args("/trim")), args.GetInt32("/trim"), 30)

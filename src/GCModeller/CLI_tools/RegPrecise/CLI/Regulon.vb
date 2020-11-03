@@ -170,7 +170,7 @@ Partial Module CLI
     <ExportAPI("/regulators.bbh", Usage:="/regulators.bbh /bbh <bbh.index.Csv> /regprecise <repository.directory> [/sbh /description <KEGG_genomes.fasta> /allow.multiple /out <save.csv>]")>
     <Description("Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.")>
     <Group(CLIGroups.RegulonTools)>
-    <Argument("/allow.multiple", True, CLITypes.Boolean,
+    <ArgumentAttribute("/allow.multiple", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Allow the regulator assign multiple family name? By default is not allow, which means one protein just have one TF family name.")>
     Public Function RegulatorsBBh(args As CommandLine) As Integer

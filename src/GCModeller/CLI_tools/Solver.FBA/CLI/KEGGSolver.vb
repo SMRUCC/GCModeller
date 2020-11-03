@@ -48,7 +48,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Partial Module CLI
 
     <ExportAPI("/Solver.KEGG", Usage:="/Solver.KEGG /in <model.xml> /objs <locus.txt> [/out <outDIR>]")>
-    <Argument("/objs", False,
+    <ArgumentAttribute("/objs", False,
                    Description:="This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
                    and these genes locus is associated to a enzyme reaction in the FBA model.")>
     Public Function KEGGSolver(args As CommandLine) As Integer

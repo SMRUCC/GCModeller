@@ -87,7 +87,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Build.PPI.Signature", Usage:="/Build.PPI.Signature /in <clustalW.fasta> [/level <5> /out <out.xml>]")>
-    <Argument("/level", True,
+    <ArgumentAttribute("/level", True,
                    Description:="It is not recommended to modify this value. The greater of this value, the more strict of the interaction scoring. level 5 is enough.")>
     Public Function BuildSignature(args As CommandLine) As Integer
         Dim inFile As String = args("/in")

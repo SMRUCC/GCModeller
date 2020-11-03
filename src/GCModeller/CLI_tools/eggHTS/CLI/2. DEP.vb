@@ -167,7 +167,7 @@ Partial Module CLI
     <ExportAPI("/iBAQ.Cloud")>
     <Usage("/iBAQ.Cloud /in <expression.csv> /annotations <annotations.csv> /DEPs <DEPs.csv> /tag <expression> [/out <out.png>]")>
     <Description("Cloud plot of the iBAQ DEPs result.")>
-    <Argument("/tag", Description:="The field name in the ``/in`` matrix that using as the expression value.")>
+    <ArgumentAttribute("/tag", Description:="The field name in the ``/in`` matrix that using as the expression value.")>
     Public Function DEPsCloudPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim annotations$ = args <= "/annotations"
@@ -194,9 +194,9 @@ Partial Module CLI
     <ExportAPI("/FoldChange.Matrix.Invert")>
     <Description("Reverse the FoldChange value from the source result matrix.")>
     <Usage("/FoldChange.Matrix.Invert /in <data.csv> [/log2FC /out <invert.csv>]")>
-    <Argument("/log2FC", True, CLITypes.Boolean,
+    <ArgumentAttribute("/log2FC", True, CLITypes.Boolean,
               Description:="This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               Extensions:="*.csv",
               Description:="This function will output a FoldChange matrix.")>
     <Group(CLIGroups.SamplesExpressions_CLI)>
@@ -297,9 +297,9 @@ Partial Module CLI
     <ExportAPI("/DEP.venn",
                Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
                Usage:="/DEP.venn /data <Directory> [/title <VennDiagram title> /out <out.DIR>]")>
-    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in, Description:="A directory path which it contains the DEPs matrix csv files from the sample groups's analysis result.")>
-    <Argument("/out", True, CLITypes.File, Description:="A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.")>
-    <Argument("/title", True, CLITypes.String, Description:="The main title of the venn plot.")>
+    <ArgumentAttribute("/data", False, CLITypes.File, PipelineTypes.std_in, Description:="A directory path which it contains the DEPs matrix csv files from the sample groups's analysis result.")>
+    <ArgumentAttribute("/out", True, CLITypes.File, Description:="A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.")>
+    <ArgumentAttribute("/title", True, CLITypes.String, Description:="The main title of the venn plot.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -559,40 +559,40 @@ Partial Module CLI
     <ExportAPI("/DEPs.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
     <Usage("/DEPs.heatmap /data <Directory/csv_file> [/labelFree /schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
-    <Argument("/non_DEP.blank", True, CLITypes.Boolean,
+    <ArgumentAttribute("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
-    <Argument("/KO.class", True, CLITypes.Boolean,
+    <ArgumentAttribute("/KO.class", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
-    <Argument("/sampleInfo", True, CLITypes.File,
+    <ArgumentAttribute("/sampleInfo", True, CLITypes.File,
               Extensions:="*.csv",
               AcceptTypes:={GetType(SampleInfo)},
               Description:="Describ the experimental group information")>
-    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/data", False, CLITypes.File, PipelineTypes.std_in,
               Description:="This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.")>
-    <Argument("/hide.labels", True, CLITypes.Boolean,
+    <ArgumentAttribute("/hide.labels", True, CLITypes.Boolean,
               Description:="Hide the row labels?")>
-    <Argument("/cluster.n", True, CLITypes.Integer,
+    <ArgumentAttribute("/cluster.n", True, CLITypes.Integer,
               Description:="Expects the kmeans cluster result number, default is output 6 kmeans clusters.")>
-    <Argument("/schema", True, CLITypes.String,
+    <ArgumentAttribute("/schema", True, CLITypes.String,
               Description:="The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Extensions:="*.csv, *.svg, *.png",
               Description:="A directory path where will save the output heatmap plot image and the kmeans cluster details info.")>
-    <Argument("/title", True,
+    <ArgumentAttribute("/title", True,
               Description:="The main title of this chart plot.")>
-    <Argument("/t.log2", True, CLITypes.Boolean, Description:="If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.")>
-    <Argument("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
-    <Argument("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
-    <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
-    <Argument("/is.matrix", True,
+    <ArgumentAttribute("/t.log2", True, CLITypes.Boolean, Description:="If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.")>
+    <ArgumentAttribute("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
+    <ArgumentAttribute("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
+    <ArgumentAttribute("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
+    <ArgumentAttribute("/is.matrix", True,
               CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="The input data is a data matrix, can be using for heatmap drawing directly.")>
-    <Argument("/row.labels.geneName", True, CLITypes.Boolean,
+    <ArgumentAttribute("/row.labels.geneName", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="This option will use the ``geneName``(from the annotation data) as the row display label instead of using uniprotID or geneID. This option required of the ``/annotation`` presented.")>
-    <Argument("/annotation", True, CLITypes.File,
+    <ArgumentAttribute("/annotation", True, CLITypes.File,
               AcceptTypes:={GetType(EntityObject)},
               Extensions:="*.csv",
               Description:="The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.")>
@@ -832,10 +832,10 @@ Partial Module CLI
     <ExportAPI("/DEP.logFC.hist")>
     <Description("Using for plots the FC histogram when the experiment have no biological replicates.")>
     <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.25> /type <default=log2fc> /legend.title <Frequency(log2FC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1400,900> /out <out.png>]")>
-    <Argument("/type", True, CLITypes.String,
+    <ArgumentAttribute("/type", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""log2FC"".")>
-    <Argument("/step", True, CLITypes.Double,
+    <ArgumentAttribute("/step", True, CLITypes.Double,
               AcceptTypes:={GetType(Single)},
               Description:="The steps for generates the histogram test data.")>
     <Group(CLIGroups.DEP_CLI)>
@@ -869,18 +869,18 @@ Partial Module CLI
     <ExportAPI("/DEP.logFC.Volcano")>
     <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /label.p <default=-1> /size <1400,1400> /display.count /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
-    <Argument("/size", True, CLITypes.String,
+    <ArgumentAttribute("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(DEP_iTraq)},
               Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
-    <Argument("/colors", True, CLITypes.String,
+    <ArgumentAttribute("/colors", True, CLITypes.String,
               Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.")>
-    <Argument("/title", True, CLITypes.String, Description:="The plot main title.")>
-    <Argument("/p.value", True, CLITypes.Double, Description:="The p.value cutoff threshold, default is 0.05.")>
-    <Argument("/level", True, CLITypes.Double, Description:="The log2FC value cutoff threshold, default is ``log2(1.5)``.")>
-    <Argument("/display.count", True, CLITypes.Boolean, Description:="Display the protein counts in the legend label? by default is not.")>
-    <Argument("/label.p", True, CLITypes.Boolean, Description:="Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.")>
+    <ArgumentAttribute("/title", True, CLITypes.String, Description:="The plot main title.")>
+    <ArgumentAttribute("/p.value", True, CLITypes.Double, Description:="The p.value cutoff threshold, default is 0.05.")>
+    <ArgumentAttribute("/level", True, CLITypes.Double, Description:="The log2FC value cutoff threshold, default is ``log2(1.5)``.")>
+    <ArgumentAttribute("/display.count", True, CLITypes.Boolean, Description:="Display the protein counts in the legend label? by default is not.")>
+    <ArgumentAttribute("/label.p", True, CLITypes.Boolean, Description:="Display the DEP protein name on the plot? by default -1 means not display. using this parameter for set the P value cutoff of the DEP for display labels.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
@@ -948,9 +948,9 @@ Partial Module CLI
     <ExportAPI("/DEPs.stat",
                Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
                Usage:="/DEPs.stat /in <log2.test.csv> [/log2FC <default=log2FC> /out <out.stat.csv>]")>
-    <Argument("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in, Extensions:="*.csv", Description:="The DEPs' t.test result in csv file format.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out, Description:="The stat count output file path.")>
+    <ArgumentAttribute("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in, Extensions:="*.csv", Description:="The DEPs' t.test result in csv file format.")>
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out, Description:="The stat count output file path.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

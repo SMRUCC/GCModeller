@@ -85,9 +85,9 @@ Partial Module CLI
     <ExportAPI("/enricher.background")>
     <Usage("/enricher.background /in <uniprot.XML> [/mapping <maps.tsv> /out <term2gene.txt.DIR>]")>
     <Description("Create enrichment analysis background based on the uniprot xml database.")>
-    <Argument("/mapping", True, CLITypes.File,
+    <ArgumentAttribute("/mapping", True, CLITypes.File,
               Description:="The id mapping file, each row in format like ``id<TAB>uniprotID``")>
-    <Argument("/in", True, CLITypes.File,
+    <ArgumentAttribute("/in", True, CLITypes.File,
               Description:="The uniprotKB XML database which can be download from http://uniprot.org")>
     <Group(CLIGroups.ClusterProfiler)>
     Public Function Backgrounds(args As CommandLine) As Integer
@@ -163,7 +163,7 @@ Partial Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     <Usage("/KEGG.Enrichment.PathwayMap.Render /in <enrichment.csv> [/repo <maps.directory> /DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
     <Description("KEGG pathway map enrichment analysis visual rendering locally. This function required a local kegg pathway repository.")>
-    <Argument("/repo", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(Map)},
+    <ArgumentAttribute("/repo", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(Map)},
               Description:="If this argument is omitted, then the default kegg pathway map repository will be used. But the default kegg pathway map repository only works for the KO numbers.")>
     Public Function KEGGEnrichmentPathwayMapLocal(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -267,7 +267,7 @@ Partial Module CLI
     <ExportAPI("/Converts")>
     <Usage("/Converts /in <GSEA.terms.csv> [/DAVID2KOBAS /out <result.terms.csv>]")>
     <Description("Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(EnrichmentResult)},
               Extensions:="*.csv",
               Description:="The GCModeller enrichment analysis output table.")>

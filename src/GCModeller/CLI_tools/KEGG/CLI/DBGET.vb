@@ -87,7 +87,7 @@ Partial Module CLI
     <Usage("/Download.Reaction [/try_all /compounds <compounds.directory> /save <DIR> /@set sleep=2000]")>
     <Description("Downloads the KEGG enzyme reaction reference model data. Usually use these reference reaction data applied for metabolism network analysis.")>
     <Group(CLIGroups.DBGET_tools)>
-    <Argument("/compounds", True, CLITypes.File,
+    <ArgumentAttribute("/compounds", True, CLITypes.File,
               Description:="If this argument Is present in the commandline, then it means only this collection of compounds related reactions will be download.")>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
         Dim save$ = args("/save") Or "./br08201/"
@@ -126,7 +126,7 @@ Partial Module CLI
     <ExportAPI("/Download.Compounds")>
     <Description("Downloads the KEGG compounds data from KEGG web server using dbget API. Apply this downloaded KEGG compounds data used for metabolism annotation in LC-MS data analysis.")>
     <Usage("/Download.Compounds [/list <idlist.txt> /chebi <accessions.tsv> /reactions <kegg.reactions.repository> /flat /skip.compoundbrite /updates /save <DIR>]")>
-    <Argument("/chebi", True, CLITypes.File,
+    <ArgumentAttribute("/chebi", True, CLITypes.File,
               AcceptTypes:={GetType(Accession)},
               Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, 
               then you can using this option for downloads the complete compounds data in the KEGG database.")>
@@ -210,7 +210,7 @@ Partial Module CLI
     <ExportAPI("/Download.Pathway.Maps")>
     <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR> /debug /@set <progress_bar=disabled>]")>
     <Description("Fetch all of the pathway map information for a specific kegg organism by using a specifc kegg sp code.")>
-    <Argument("/sp", False, CLITypes.String,
+    <ArgumentAttribute("/sp", False, CLITypes.String,
               PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The 3 characters kegg organism code, example as: ""xcb"" Is stands for organism ""Xanthomonas campestris pv. campestris 8004 (Beijing)""")>
@@ -261,7 +261,7 @@ Partial Module CLI
     <ExportAPI("/Download.Pathway.Maps.Batch")>
     <Usage("/Download.Pathway.Maps.Batch /sp <kegg.sp_code.list> [/KGML /out <EXPORT_DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
-    <Argument("/sp", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/sp", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String), GetType(Organism)},
               Extensions:="*.txt, *.csv",
               Description:="A list of kegg species code. If this parameter Is a text file, 
@@ -364,10 +364,10 @@ Partial Module CLI
     <ExportAPI("/download.kegg.maps")>
     <Description("Dumping the blank reference KEGG maps database.")>
     <Usage("/download.kegg.maps [/htext <htext.txt> /out <save_dir>]")>
-    <Argument("/htext", False, CLITypes.File,
+    <ArgumentAttribute("/htext", False, CLITypes.File,
               Extensions:="*.txt",
               Description:="The KEGG category term provider")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Description:="A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function HumanKEGGMaps(args As CommandLine) As Integer

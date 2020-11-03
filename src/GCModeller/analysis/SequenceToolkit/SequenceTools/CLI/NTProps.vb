@@ -72,13 +72,13 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/SimpleSegment.AutoBuild",
                Usage:="/SimpleSegment.AutoBuild /in <locis.csv> [/out <out.csv>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
               AcceptTypes:={
                 GetType(ImperfectPalindrome),
                 GetType(ReverseRepeats),
                 GetType(Repeats),
                 GetType(PalindromeLoci)})>
-    <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function ConvertsAuto(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -90,8 +90,8 @@ Partial Module Utilities
 
     <ExportAPI("/SimpleSegment.Mirrors",
                Usage:="/SimpleSegment.Mirrors /in <in.csv> [/out <out.csv>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(PalindromeLoci)})>
-    <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(PalindromeLoci)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function ConvertMirrors(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
@@ -109,7 +109,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Mirrors.Group",
                Usage:="/Mirrors.Group /in <mirrors.Csv> [/batch /fuzzy <-1> /out <out.DIR>]")>
-    <Argument("/fuzzy", True,
+    <ArgumentAttribute("/fuzzy", True,
                    Description:="-1 means group sequence by string equals compared, and value of 0-1 means using string fuzzy compare.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorGroups(args As CommandLine) As Integer
@@ -203,7 +203,7 @@ Partial Module Utilities
     <ExportAPI("/Mirrors.Context.Batch",
                Info:="This function will convert the mirror data to the simple segment object data",
                Usage:="/Mirrors.Context.Batch /in <mirrors.csv.DIR> /PTT <genome.ptt.DIR> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp> /num_threads -1]")>
-    <Argument("/trans", True,
+    <ArgumentAttribute("/trans", True,
                    Description:="Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorContextBatch(args As CommandLine) As Integer
@@ -250,7 +250,7 @@ Partial Module Utilities
     <ExportAPI("/Mirrors.Context",
                Info:="This function will convert the mirror data to the simple segment object data",
                Usage:="/Mirrors.Context /in <mirrors.csv> /PTT <genome.ptt> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp>]")>
-    <Argument("/trans", True,
+    <ArgumentAttribute("/trans", True,
                    Description:="Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.")>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function MirrorContext(args As CommandLine) As Integer
