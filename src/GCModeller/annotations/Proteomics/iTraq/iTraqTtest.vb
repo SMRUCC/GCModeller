@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::24e3e1853bd65dd178d81fe32e64151e, annotations\Proteomics\iTraq\iTraqTtest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module iTraqTtest
-    ' 
-    '     Function: createResult, log2Test, logFCtest
-    ' 
-    ' /********************************************************************************/
+' Module iTraqTtest
+' 
+'     Function: createResult, log2Test, logFCtest
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,12 +46,31 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports DataFrameRow = SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow
 
 Public Module iTraqTtest
+
+    <Extension>
+    Public Function logFCtest(proteins As DataFrameRow()) As DEP_iTraq()
+        Dim result As New List(Of DEP_iTraq)
+        Dim zero As Double() = 0.0.Replicate(n:=proteins(Scan0).samples).ToArray
+
+        For Each protein As DataFrameRow In proteins
+            result += New DEP_iTraq With {
+                .FCavg = protein.experiments.Average,
+                .ID = protein.geneID,
+                .pvalue = t.Test(protein.experiments.Select(Function(x) Math.Log(x, 2)).ToArray, zero).Pvalue,
+                .log2FC = Math.Log(.FCavg, 2)
+            }
+        Next
+
+        Return result
+    End Function
 
     ''' <summary>
     ''' iTraq结果的差异表达蛋白的检验计算
@@ -75,7 +94,7 @@ Public Module iTraqTtest
 
         Dim ZERO$ = base.rep(0, times:=data.First.Properties.Count)
         Dim result As New List(Of DEP_iTraq)
-        Dim NA As [Default](Of  Double) = 1.0# _
+        Dim NA As [Default](Of Double) = 1.0# _
             .AsDefault(Function(x)
                            Dim n# = DirectCast(x, Double)
                            Return n = 0R OrElse

@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -77,6 +78,14 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 <Package("visualkit.plots", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
+
+    <ExportAPI("volcano.plot")>
+    Public Function VolcanoPlot(genes As DEP_iTraq(),
+                                <RRawVectorArgument> Optional size As Object = "2400,2700",
+                                <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
+                                Optional bg As Object = "white") As Object
+
+    End Function
 
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
