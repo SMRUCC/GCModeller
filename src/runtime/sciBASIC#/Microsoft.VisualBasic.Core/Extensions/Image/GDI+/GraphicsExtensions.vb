@@ -568,6 +568,9 @@ Namespace Imaging
                 With dpi.SizeParser
                     Call bitmap.SetResolution(.Width, .Height)
                 End With
+
+                Call $"Bitmap size: [{bitmap.Width}, {bitmap.Height}]".__DEBUG_ECHO
+                Call $"Bitmap dpi: [{bitmap.HorizontalResolution}, {bitmap.VerticalResolution}]".__DEBUG_ECHO
             Catch ex As Exception
                 ex = New Exception(New Size(width, height).ToString, ex)
                 ex = New Exception(trace, ex)
