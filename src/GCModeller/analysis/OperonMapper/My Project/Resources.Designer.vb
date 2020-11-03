@@ -59,5 +59,19 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to koid	org	name	op	definition	source
+        '''KO00001	224324	glnBA	aq_109,aq_111		10692367
+        '''KO00002	62977	benPK	ACIAD_RS06620,ACIAD_RS06625	benzoate catabolism	11932465
+        '''KO00003	62977	areCBA	ACIAD_RS06600,ACIAD_RS06605,ACIAD_RS06610	catabolism of benzyl esters into benzoates	12957953
+        '''KO00004	62977	benABCDE	ACIAD_RS06635,ACIAD_RS06640,ACIAD_RS06645,ACIAD_RS06650,ACIAD_RS06655	benzoate degradation	12603735
+        '''KO00005	62977	catBCIJFD	ACIAD_RS06680,ACIAD_RS06685,ACIAD_RS06690,ACIAD_RS06695,ACIAD_RS06700,ACIAD_RS06705	benzoate  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property known_operon_download() As String
+            Get
+                Return ResourceManager.GetString("known_operon_download", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace
