@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
