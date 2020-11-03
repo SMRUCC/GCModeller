@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Class Matrix : Implements INamedValue
@@ -70,19 +69,6 @@ Public Class Matrix : Implements INamedValue
     ''' <returns></returns>
     Public Property expression As DataFrameRow()
 
-    Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
-        Get
-            Return expression(i)
-        End Get
-    End Property
-
-    ''' <summary>
-    ''' matrix subset by a given collection of sample names
-    ''' </summary>
-    ''' <param name="data"></param>
-    ''' <param name="sampleVector"></param>
-    ''' <param name="reversed"></param>
-    ''' <returns></returns>
     Public Shared Iterator Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As IEnumerable(Of DataFrameRow)
         Dim samples As Double()
 
@@ -94,25 +80,6 @@ Public Class Matrix : Implements INamedValue
                 .experiments = samples
             }
         Next
-    End Function
-
-    Public Function Project(sampleNames As String()) As Matrix
-        Dim index As Index(Of String) = sampleID
-        Dim sampleVector As Integer() = sampleNames.Select(Function(id) index.IndexOf(id)).ToArray
-
-        If sampleVector.Any(Function(i) i = -1) Then
-            Throw New KeyNotFoundException($"missing sample names in your data matrix: {sampleVector.SeqIterator.Where(Function(a) a.value <> -1).Select(Function(i) sampleNames(i)).GetJson}")
-        End If
-
-        Return New Matrix With {
-            .sampleID = sampleNames,
-            .tag = tag,
-            .expression = TakeSamples(
-                data:=expression,
-                sampleVector:=sampleVector,
-                reversed:=False
-             ).ToArray
-        }
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

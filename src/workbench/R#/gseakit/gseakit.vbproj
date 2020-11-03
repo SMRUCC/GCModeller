@@ -128,7 +128,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnrichmentTableFormat.vb" />
     <Compile Include="GSEABackground.vb" />
     <Compile Include="GSEA.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

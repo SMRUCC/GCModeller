@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
@@ -213,23 +213,5 @@ Module geneExpression
         Else
             Return result
         End If
-    End Function
-
-    <ExportAPI("deg.t.test")>
-    Public Function Ttest(matrix As Matrix,
-                          sampleinfo As SampleInfo(),
-                          treatment$,
-                          control$,
-                          Optional level# = 1.5,
-                          Optional pvalue# = 0.05,
-                          Optional FDR# = 0.05,
-                          Optional env As Environment = Nothing) As DEP_iTraq()
-
-        Return matrix _
-            .Ttest(
-                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
-                control:=sampleinfo.TakeGroup(control).SampleIDs
-            ) _
-            .ApplyDEPFilter(level, pvalue, FDR)
     End Function
 End Module

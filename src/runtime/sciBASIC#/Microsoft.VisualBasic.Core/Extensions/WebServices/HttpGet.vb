@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::0d7a9ce28cae3e697ecf76f2b53078b9, Microsoft.VisualBasic.Core\Extensions\WebServices\HttpGet.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module HttpGet
-' 
-'     Properties: HttpRequestTimeOut
-' 
-'     Function: [GET], BuildWebRequest, Get_PageContent, httpRequest, LogException
-'               urlGet
-' 
-' /********************************************************************************/
+    ' Module HttpGet
+    ' 
+    '     Properties: HttpRequestTimeOut
+    ' 
+    '     Function: [GET], BuildWebRequest, Get_PageContent, httpRequest, LogException
+    '               urlGet
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -48,7 +48,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
@@ -136,8 +135,7 @@ Public Module HttpGet
         End If
 
         Try
-Re0:
-            Return BuildWebRequest(url, headers, proxy, UA).UrlGet(echo:=echo).html
+RETRY:      Return BuildWebRequest(url, headers, proxy, UA).urlGet(echo:=echo)
         Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso DoNotRetry404
             is404 = True
             Return LogException(url, New Exception(url, ex))
@@ -147,7 +145,7 @@ Re0:
             retryTime += 1
 
             Call "Data download error, retry connect to the server!".PrintException
-            GoTo Re0
+            GoTo RETRY
 
         Catch ex As Exception
             ex = New Exception(url, ex)
@@ -177,15 +175,11 @@ Re0:
     ''' <returns></returns>
     Public Property HttpRequestTimeOut As Double
 
-    Public Function BuildWebRequest(url$, headers As Dictionary(Of String, String), proxy$, UA$, Optional isPost As Boolean = False) As HttpWebRequest
+    Public Function BuildWebRequest(url$, headers As Dictionary(Of String, String), proxy$, UA$) As HttpWebRequest
         Dim webRequest As HttpWebRequest = HttpWebRequest.Create(url)
 
         webRequest.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
         webRequest.UserAgent = UA Or DefaultUA
-
-        If isPost Then
-            webRequest.Method = "POST"
-        End If
 
         If HttpRequestTimeOut > 0 Then
             webRequest.Timeout = 1000 * HttpRequestTimeOut
@@ -208,13 +202,11 @@ Re0:
     ''' </summary>
     ''' <param name="webrequest"></param>
     ''' <returns></returns>
-    <Extension>
-    Public Function UrlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
+    <Extension> Private Function urlGet(webrequest As HttpWebRequest, echo As Boolean) As String
         Dim timer As Stopwatch = Stopwatch.StartNew
         Dim url As String = webrequest.RequestUri.ToString
 
-        Using response As WebResponse = webrequest.GetResponse,
-            respStream As Stream = response.GetResponseStream,
+        Using respStream As Stream = webrequest.GetResponse.GetResponseStream,
             reader As New StreamReader(respStream)
 
             Dim htmlBuilder As New StringBuilder
@@ -225,28 +217,17 @@ Re0:
             Loop
 
             Dim html As String = htmlBuilder.ToString
-            Dim timespan As Long = timer.ElapsedMilliseconds
-            Dim headers As New Dictionary(Of HttpHeaderName, String)
-            Dim raw = response.Headers
-
-            For Each key As String In raw.AllKeys
-                Call headers.Add(ParseHeaderName(key), raw.Get(key))
-            Next
+            Dim title As String = html.HTMLTitle
 
             ' 判断是否是由于还没有登陆校园网客户端而导致的错误
             If InStr(html, "http://www.doctorcom.com", CompareMethod.Text) > 0 Then
                 Call doctorcomError.PrintException
-
-                Return New WebResponseResult With {
-                    .url = url,
-                    .html = ""
-                }
+                Return ""
             ElseIf echo Then
-                Dim title As String = html.HTMLTitle
-                Dim time$ = StringFormats.ReadableElapsedTime(timespan)
+                Dim time$ = ValueTypes.ReadableElapsedTime(timer.ElapsedMilliseconds)
                 Dim debug$ = $"[{url}] {title} - {Len(html)} chars in {time}"
 
-                If timespan > 1000 Then
+                If timer.ElapsedMilliseconds > 1000 Then
                     Call debug.Warning
                 Else
                     Call debug.__INFO_ECHO
@@ -256,21 +237,7 @@ Re0:
 #If DEBUG Then
             Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
 #End If
-            Return New WebResponseResult With {
-                .url = url,
-                .timespan = timespan,
-                .html = html,
-                .headers = headers
-            }
+            Return html
         End Using
     End Function
 End Module
-
-Public Class WebResponseResult
-
-    Public Property html As String
-    Public Property headers As Dictionary(Of HttpHeaderName, String)
-    Public Property timespan As Long
-    Public Property url As String
-
-End Class
