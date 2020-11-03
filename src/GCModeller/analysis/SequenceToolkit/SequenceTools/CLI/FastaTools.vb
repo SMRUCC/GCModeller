@@ -108,8 +108,8 @@ Partial Module Utilities
     <ExportAPI("/Sites2Fasta",
                Info:="Converts the simple segment object collection as fasta file.",
                Usage:="/Sites2Fasta /in <segments.csv> [/assemble /out <out.fasta>]")>
-    <Argument("/in", AcceptTypes:={GetType(SimpleSegment)})>
-    <Argument("/out", AcceptTypes:={GetType(FastaFile)})>
+    <ArgumentAttribute("/in", AcceptTypes:={GetType(SimpleSegment)})>
+    <ArgumentAttribute("/out", AcceptTypes:={GetType(FastaFile)})>
     Public Function Sites2Fasta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim assemble As Boolean = args.GetBoolean("/assemble")
@@ -176,14 +176,14 @@ Partial Module Utilities
     <ExportAPI("/Select.By_Locus",
                Info:="Select fasta sequence by local_tag.",
                Usage:="/Select.By_Locus /in <locus.txt/csv> /fa <fasta/.inDIR> [/field <columnName> /reverse /out <out.fasta>]")>
-    <Argument("/reverse",
+    <ArgumentAttribute("/reverse",
               AcceptTypes:={GetType(Boolean)},
               Description:="If this option is enable, then all of the sequence that not appeared in the list will be output.")>
-    <Argument("/field", True,
+    <ArgumentAttribute("/field", True,
               AcceptTypes:={GetType(String)},
               Description:="If this parameter was specified, then the input locus_tag data will comes from a csv file, 
               this parameter indicates that which column will be used for gets the locus_tag data.")>
-    <Argument("/fa", False, Description:="Both a fasta file or a directory that contains the fasta files are valid value.")>
+    <ArgumentAttribute("/fa", False, Description:="Both a fasta file or a directory that contains the fasta files are valid value.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -292,9 +292,9 @@ Partial Module Utilities
     <ExportAPI("/Excel.2Fasta")>
     <Usage("/Excel.2Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]")>
     <Description("Convert the sequence data in a excel annotation file into a fasta sequence file.")>
-    <Argument("/in", Description:="Excel csv table file.")>
-    <Argument("/attrs", Description:="Excel header fields name as the fasta sequence header.")>
-    <Argument("/seq", Description:="Excel header field name for reading the sequence data.")>
+    <ArgumentAttribute("/in", Description:="Excel csv table file.")>
+    <ArgumentAttribute("/attrs", Description:="Excel header fields name as the fasta sequence header.")>
+    <ArgumentAttribute("/seq", Description:="Excel header field name for reading the sequence data.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args <= "/in"
@@ -463,10 +463,10 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--segments", Usage:="--segments /regions <regions.csv> /fasta <nt.fasta> [/complement /reversed /brief-dump]")>
-    <Argument("/reversed", True, Description:="If the sequence is on the complement strand, reversed it after complement operation?")>
-    <Argument("/complement", True,
+    <ArgumentAttribute("/reversed", True, Description:="If the sequence is on the complement strand, reversed it after complement operation?")>
+    <ArgumentAttribute("/complement", True,
                           Description:="If this Boolean switch is set on, then all of the reversed strand segment will be complemenet and reversed.")>
-    <Argument("/brief-dump", True,
+    <ArgumentAttribute("/brief-dump", True,
                           Description:="If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function GetSegments(args As CommandLine) As Integer
@@ -556,9 +556,9 @@ Partial Module Utilities
     <ExportAPI("--Trim",
                Usage:="--Trim /in <in.fasta> [/case <u/l> /break <-1/int> /out <out.fasta> /brief]",
                Info:="")>
-    <Argument("/case", True,
+    <ArgumentAttribute("/case", True,
                    Description:="Adjust the letter case of your sequence, l for lower case and u for upper case. Default value is upper case.")>
-    <Argument("/break", True,
+    <ArgumentAttribute("/break", True,
                    Description:="Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function Trim(args As CommandLine) As Integer

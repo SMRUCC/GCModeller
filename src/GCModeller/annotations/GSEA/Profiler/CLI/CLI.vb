@@ -67,12 +67,12 @@ Public Module CLI
     <ExportAPI("/KO.clusters")>
     <Usage("/KO.clusters /background <KO.txt/uniprot.XML> /maps <kegg_maps.XML/directory> [/generic /out <clusters.XML>]")>
     <Description("Create KEGG pathway map background for a given genome data or a reference KO list.")>
-    <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/background", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(UniProtXML)},
               Extensions:="*.xml",
               Description:="the KO annotation background data, it can be a ``UniProt`` database that contains the uniprot_id to KO_id mapping. or just
               a plain text file that contains a list of KO terms as background, each line in this text file should be one KO term word.")>
-    <Argument("/maps", False, CLITypes.File,
+    <ArgumentAttribute("/maps", False, CLITypes.File,
               AcceptTypes:={GetType(Map)},
               Description:="This argument should be a directory path which this folder contains multiple 
               KEGG reference pathway map xml files. A xml file path of the kegg pathway map database 
@@ -141,7 +141,7 @@ Public Module CLI
     <ExportAPI("/GO.clusters")>
     <Usage("/GO.clusters /uniprot <uniprot.XML> /go <go.obo> [/generic /out <clusters.XML>]")>
     <Description("Create GO enrichment background model from uniprot database.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
               Description:="The uniprot database.")>
     Public Function CreateGOClusters(args As CommandLine) As Integer
@@ -319,24 +319,24 @@ Public Module CLI
     <ExportAPI("/GSEA")>
     <Usage("/GSEA /background <clusters.XML> /geneSet <geneSet.txt> [/hide.progress /locus_tag /cluster_id <null, debug_used> /format <default=GCModeller> /out <out.csv>]")>
     <Description("Do gene set enrichment analysis.")>
-    <Argument("/background", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/background", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
               Description:="A genome background data file which is created by ``/KO.clusters`` or ``/GO.clusters`` tools.")>
-    <Argument("/cluster_id", True, CLITypes.String,
+    <ArgumentAttribute("/cluster_id", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="A list of specific cluster id that used for program debug use only.")>
-    <Argument("/format", True, CLITypes.String,
+    <ArgumentAttribute("/format", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="apply this argument to specify the output table format, by default is in GCModeller table format, or you can assign the ``KOBAS`` format value at this parameter.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(EnrichmentResult), GetType(EnrichmentTerm)},
               Extensions:="*.csv",
               Description:="The file path of the result output, the output result table format is affects by the ``/format`` argument.")>
-    <Argument("/geneSet", False, CLITypes.File,
+    <ArgumentAttribute("/geneSet", False, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Extensions:="*.txt",
               Description:="A text file that contains the gene id list that will be apply the GSEA analysis.")>
-    <Argument("/hide.progress", True, CLITypes.Boolean,
+    <ArgumentAttribute("/hide.progress", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="A logical flag argument that controls the console screen display the progress bar or not.")>
     Public Function EnrichmentTest(args As CommandLine) As Integer

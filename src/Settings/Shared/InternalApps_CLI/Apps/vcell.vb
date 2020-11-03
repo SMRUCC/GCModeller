@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -88,7 +88,7 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /run /model &lt;model.gcmarkup&gt; [/deletes &lt;genelist&gt; /iterations &lt;default=5000&gt; /json /out &lt;raw/result_directory&gt;]
+''' /run /model &lt;model.gcmarkup&gt; [/deletes &lt;genelist&gt; /time &lt;default=100&gt; /json /out &lt;raw/result_directory&gt;]
 ''' ```
 ''' Run GCModeller VirtualCell.
 ''' </summary>
@@ -96,11 +96,9 @@ End Function
 ''' <param name="deletes"> The ``locus_tag`` id list that will removes from the genome, 
 '''               use the comma symbol as delimiter. Or a txt file path for the gene id list.
 ''' </param>
-''' <param name="csv"> The output data format is csv table files.
-''' </param>
 Public Function Run(model As String, 
                        Optional deletes As String = "", 
-                       Optional iterations As String = "5000", 
+                       Optional time As String = "100", 
                        Optional out As String = "", 
                        Optional json As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/run")
@@ -109,8 +107,8 @@ Public Function Run(model As String,
     If Not deletes.StringEmpty Then
             Call CLI.Append("/deletes " & """" & deletes & """ ")
     End If
-    If Not iterations.StringEmpty Then
-            Call CLI.Append("/iterations " & """" & iterations & """ ")
+    If Not time.StringEmpty Then
+            Call CLI.Append("/time " & """" & time & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")

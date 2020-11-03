@@ -130,7 +130,7 @@ Partial Module CLI
     <ExportAPI("--modules.regulates",
                Info:="Exports the Venn diagram model for the module regulations.",
                Usage:="--modules.regulates /in <virtualfootprints.csv> [/out <out.DIR> /mods <KEGG_modules.DIR>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
                    Description:="The footprints data required of fill out the pathway Class, category and type information before you call this function.
                    If the fields is blank, then your should specify the /mods parameter.")>
     Public Function ModuleRegulates(args As CommandLine) As Integer

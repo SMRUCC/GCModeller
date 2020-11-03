@@ -59,8 +59,31 @@ Namespace Ptf
             End Set
         End Property
 
+        ''' <summary>
+        ''' current protein annotation has the required attribute?
+        ''' </summary>
+        ''' <param name="attrName"></param>
+        ''' <returns></returns>
+        Public Function has(attrName As String) As Boolean
+            Return attributes.ContainsKey(attrName)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{geneId}: {description}"
+        End Function
+    End Class
+
+    Public NotInheritable Class AnnotationReader
+
+        Private Sub New()
+        End Sub
+
+        Public Shared Function KO(protein As ProteinAnnotation) As String
+            If protein.attributes.ContainsKey("ko") Then
+                Return protein("ko")
+            Else
+                Return ""
+            End If
         End Function
     End Class
 End Namespace

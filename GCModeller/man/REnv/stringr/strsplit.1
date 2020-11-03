@@ -1,0 +1,48 @@
+.\" man page create by R# package system.
+.TH STRINGR 1 2020-10-29 "strsplit" "strsplit"
+.SH NAME
+strsplit \- Split the Elements of a Character Vector
+.SH SYNOPSIS
+\fIstrsplit(\fBtext\fR as string, 
+\fBdelimiter\fR as string = " ", 
+\fBfixed\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Split the Elements of a Character Vector
+ 
+ Split the elements of a character vector x into substrings
+ according to the matches to substring split within them.
+.PP
+.SH OPTIONS
+.PP
+\fBtext\fB \fR\- 
+ character vector, each element of which is to be split. Other inputs, 
+ including a factor, will give an error.
+
+.PP
+.PP
+\fBdelimiter\fB \fR\- 
+ character vector (or object which can be coerced to such) containing 
+ regular expression(s) (unless fixed = TRUE) to use for splitting. 
+ If empty matches occur, in particular if split has length 0, x is 
+ split into single characters. If split has length greater than 1, 
+ it is re-cycled along x.
+
+.PP
+.PP
+\fBfixed\fB \fR\- 
+ logical. If TRUE match split exactly, otherwise use regular expressions. 
+ Has priority over perl.
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH SEE ALSO
+stringr
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

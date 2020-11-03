@@ -62,7 +62,7 @@ Partial Module CLI
 
     <ExportAPI("/Organism.Table")>
     <Usage("/Organism.Table [/in <br08601-htext.keg> /Bacteria /out <out.csv>]")>
-    <Argument("/in", True, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", True, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.keg, *.txt",
               Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
     Public Function KEGGOrganismTable(args As CommandLine) As Integer

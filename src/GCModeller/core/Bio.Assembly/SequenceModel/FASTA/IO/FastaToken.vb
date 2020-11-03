@@ -75,7 +75,7 @@ Namespace SequenceModel.FASTA
     ''' <remarks></remarks>
     ''' 
     <Package("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
-    <ActiveViews(FastaSeq.SampleView, type:="bash")>
+    <ActiveViewsAttribute(FastaSeq.SampleView, type:="bash")>
     Public Class FastaSeq : Inherits ISequenceModel
         Implements IPolymerSequenceModel
         Implements IAbstractFastaToken

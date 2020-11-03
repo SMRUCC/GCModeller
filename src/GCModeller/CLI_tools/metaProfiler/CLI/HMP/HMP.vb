@@ -101,7 +101,7 @@ Partial Module CLI
     <ExportAPI("/hmp.otu_table")>
     <Usage("/hmp.otu_table /in <download.directory> [/out <out.csv>]")>
     <Description("Export otu table from hmp biom files.")>
-    <Argument("/in", False, CLITypes.File,
+    <ArgumentAttribute("/in", False, CLITypes.File,
               Description:="A directory contains the otu BIOM files which is download by ``/handle.hmp.manifest`` command.")>
     Public Function ExportsOTUTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

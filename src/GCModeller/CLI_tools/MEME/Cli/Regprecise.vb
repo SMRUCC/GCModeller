@@ -243,7 +243,7 @@ Partial Module CLI
     <ExportAPI("mast.compile.bulk",
                Info:="Genome wide step 1",
                Usage:="mast.compile.bulk /source <source_dir> [/ptt <genome.ptt> /atg-dist <500> /no-meme /no-regInfo /p-value 1e-3 /mast-ldm <DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /related.all]")>
-    <Argument("/no-meme", True,
+    <ArgumentAttribute("/no-meme", True,
                    Description:="Specific that the mast site construction will without and meme pwm MAST_LDM model.")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function CompileMastBuck(args As CommandLine) As Integer
@@ -493,7 +493,7 @@ Partial Module CLI
     <ExportAPI("regulators.bbh",
                Info:="Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.",
                Usage:="regulators.bbh /bbh <bbhDIR/bbh.index.Csv> [/save <save.csv> /direct /regulons /maps <genome.gb>]")>
-    <Argument("/regulons", True,
+    <ArgumentAttribute("/regulons", True,
                    Description:="The data source of the /bbh parameter is comes from the regulons bbh data.")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function RegulatorsBBh(args As CommandLine) As Integer
@@ -581,7 +581,7 @@ Partial Module CLI
     <ExportAPI("--build.Regulations",
                Info:="Genome wide step 2",
                Usage:="--build.Regulations /bbh <regprecise.bbhMapped.csv> /mast <mastSites.csv> [/cutoff <0.6> /out <out.csv> /sp <spName> /DOOR <genome.opr> /DOOR.extract]")>
-    <Argument("/DOOR.extract", True,
+    <ArgumentAttribute("/DOOR.extract", True,
                    Description:="Extract the operon structure genes after assign the operon information.")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function Build(args As CommandLine) As Integer
@@ -703,7 +703,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Dump.KEGG.Family", Usage:="--Dump.KEGG.Family /in <in.fasta> [/out <out.csv>]")>
-    <Argument("/in", False, Description:="The RegPrecise formated title fasta file.")>
+    <ArgumentAttribute("/in", False, Description:="The RegPrecise formated title fasta file.")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function KEGGFamilyDump(args As CommandLine) As Integer
         Dim inFile As String = args("/in")

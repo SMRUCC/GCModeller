@@ -14,6 +14,7 @@ R# install.packages('%lib%/R.graphics.dll');
 R# install.packages('%lib%/R.plot.dll');
 R# install.packages('%lib%/R.web.dll');
 R# install.packages('%lib%/R.math.dll');
+R# install.packages('%lib%/MLkit.dll');
 
 R# --install.packages /module scan=./
 R# --install.packages /module scan=%lib%

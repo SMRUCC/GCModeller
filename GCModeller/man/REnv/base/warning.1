@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "warning" "warning"
+.SH NAME
+warning \- Warning Messages
+.SH SYNOPSIS
+\fIwarning(\fBmessage\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Warning Messages
+ 
+ Generates a warning message that corresponds to 
+ its argument(s) and (optionally) the expression 
+ or function from which it was called.
+.PP
+.SH OPTIONS
+.PP
+\fBmessage\fB \fR\- 
+ zero Or more objects which can be coerced to 
+ character (And which are pasted together with 
+ no separator) Or a single condition object.
+
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+The warning message as character string, invisibly.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

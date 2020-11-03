@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH MACHINELEARNING 2 2020-07-26 "training.ANN" "training.ANN"
+.TH MACHINELEARNING 2 2020-10-29 "training.ANN" "training.ANN"
 .SH NAME
 training.ANN \- do ANN model training
 .SH SYNOPSIS
@@ -18,7 +18,8 @@ training.ANN \- do ANN model training
 \fBmaxIterations\fR as integer = 10000, 
 \fBminErr\fR as double = 0.01, 
 \fBparallel\fR as boolean = TRUE, 
-\fBoutputSnapshot\fR as boolean = FALSE);\fR
+\fBoutputSnapshot\fR as boolean = FALSE, 
+\fBattribute\fR as integer = -1);\fR
 .SH DESCRIPTION
 .PP
 do ANN model training
@@ -70,11 +71,16 @@ do ANN model training
  \fBTRUE\fR. 
 
 .PP
+.PP
+\fBattribute\fB \fR\- 
+ run training for a single output or all of the result output.
+
+.PP
 .SH SEE ALSO
 machineLearning
 .SH FILES
 .PP
-R.math.dll
+MLkit.dll
 .PP
 .SH AUTHOR
 Written by \fBxie.guigang@gcmodeller.org\fR

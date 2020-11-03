@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -42,13 +42,10 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '                               analysis result.
 '  /phenos.out.MAT:             1. Merge flux.csv result as a Matrix, for the calculation of the coefficient
 '                               of the genes with the metabolism flux.
-'  /Solve:                      solve a FBA model from a specific (SBML) model file.
 '  /solve.gcmarkup:             
 '  /Solver.KEGG:                
 '  /Solver.rFBA:                
 '  /visual.kegg.pathways:       
-'  compile:                     Compile data source into a model file so that the fba program can using
-'                               the data to performing the simulation calculation.
 ' 
 ' 
 ' ----------------------------------------------------------------------------------------------------
@@ -450,58 +447,6 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /solve -i &lt;sbml_file&gt; -o &lt;output_result_dir&gt; -d &lt;max/min&gt; [-m &lt;sbml/model&gt; -f &lt;object_function&gt; -knock_out &lt;gene_id_list&gt;]
-''' ```
-''' solve a FBA model from a specific (SBML) model file.
-''' </summary>
-'''
-''' <param name="i"> 
-''' </param>
-''' <param name="o"> The directory for the output result.
-''' </param>
-''' <param name="m"> 
-''' </param>
-''' <param name="f"> Optional, Set up the objective function for the fba linear programming problem, its value can be a expression, default or all.
-'''  &lt;expression&gt; - a user specific expression for objective function, it can be a expression or a text file name if the first character is @ in the switch value.
-'''  default - the program generate the objective function using the objective coefficient value which defines in each reaction object;
-'''  all - set up all of the reaction objective coeffecient factor to 1, which means all of the reaction flux will use for objective function generation.
-''' </param>
-''' <param name="d"> Optional, the constraint direction of the objective function for the fba linear programming problem, 
-''' if this switch option is not specific by the user then the program will use the direction which was defined in the FBA model file 
-''' else if use specific this switch value then the user specific value will override the direction value in the FBA model.
-''' </param>
-''' <param name="knock_out"> Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file.
-''' value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.
-''' </param>
-Public Function Solve(i As String, 
-                         o As String, 
-                         d As String, 
-                         Optional m As String = "", 
-                         Optional f As String = "", 
-                         Optional knock_out As String = "") As Integer
-    Dim CLI As New StringBuilder("/solve")
-    Call CLI.Append(" ")
-    Call CLI.Append("-i " & """" & i & """ ")
-    Call CLI.Append("-o " & """" & o & """ ")
-    Call CLI.Append("-d " & """" & d & """ ")
-    If Not m.StringEmpty Then
-            Call CLI.Append("-m " & """" & m & """ ")
-    End If
-    If Not f.StringEmpty Then
-            Call CLI.Append("-f " & """" & f & """ ")
-    End If
-    If Not knock_out.StringEmpty Then
-            Call CLI.Append("-knock_out " & """" & knock_out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```bash
 ''' /solve.gcmarkup /model &lt;model.GCMarkup&gt; [/mute &lt;locus_tags.txt/list&gt; /trim /objective &lt;flux_names.txt&gt; /out &lt;out.txt&gt;]
 ''' ```
 ''' </summary>
@@ -638,60 +583,6 @@ Public Function VisualKEGGPathways(model As String,
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
-    End If
-     Call CLI.Append("/@set --internal_pipeline=TRUE ")
-
-
-    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-    Return proc.Run()
-End Function
-
-''' <summary>
-''' ```bash
-''' compile -i &lt;input_file&gt; -o &lt;output_file&gt; [-if &lt;sbml/metacyc&gt; -of &lt;fba/fba2&gt; -f &lt;objective_function&gt; -d &lt;max/min&gt;]
-''' ```
-''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
-''' </summary>
-'''
-''' <param name="i"> The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch &apos;-if&apos;
-''' </param>
-''' <param name="o"> The output file path of the compiled model file.
-''' </param>
-''' <param name="[if]"> Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc.
-'''  metacyc - the input compiled data source is a metacyc database;
-''' sbml - the input compiled data source is a standard sbml language model in level 2.
-''' </param>
-''' <param name="[of]"> Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model.
-'''  fba - the output compiled model is a standard fba model;
-''' fba2 - the output compiled model is a advanced version of fba model.
-''' </param>
-''' <param name="f"> Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.
-''' </param>
-''' <param name="d"> Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function.
-'''  max - the constraint direction is maximum;
-'''  min - the constraint direction is minimum.
-''' </param>
-Public Function Compile(i As String, 
-                           o As String, 
-                           Optional [if] As String = "", 
-                           Optional [of] As String = "", 
-                           Optional f As String = "", 
-                           Optional d As String = "") As Integer
-    Dim CLI As New StringBuilder("compile")
-    Call CLI.Append(" ")
-    Call CLI.Append("-i " & """" & i & """ ")
-    Call CLI.Append("-o " & """" & o & """ ")
-    If Not [if].StringEmpty Then
-            Call CLI.Append("-if " & """" & [if] & """ ")
-    End If
-    If Not [of].StringEmpty Then
-            Call CLI.Append("-of " & """" & [of] & """ ")
-    End If
-    If Not f.StringEmpty Then
-            Call CLI.Append("-f " & """" & f & """ ")
-    End If
-    If Not d.StringEmpty Then
-            Call CLI.Append("-d " & """" & d & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

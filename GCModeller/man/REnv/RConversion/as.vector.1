@@ -1,0 +1,90 @@
+.\" man page create by R# package system.
+.TH RCONVERSION 1 2020-10-29 "as.vector" "as.vector"
+.SH NAME
+as.vector \- Vectors
+.SH SYNOPSIS
+\fIas.vector(\fBx\fR as <generic> Object, 
+\fBmode\fR as <generic> Object = "any", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Vectors
+ 
+ vector produces a vector of the given length and mode.
+ 
+ as.vector, a generic, attempts to coerce its argument into a 
+ vector of mode mode (the default is to coerce to whichever 
+ vector mode is most convenient): if the result is atomic all 
+ attributes are removed.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an R object.
+.PP
+.PP
+\fBmode\fB \fR\- 
+ character string naming an atomic mode or "list" or "expression" 
+ or (except for vector) "any". Currently, is.vector() allows any 
+ type (see typeof) for mode, and when mode is not "any", 
+ \fBis.vector(x, mode)\fR is almost the same as \fBtypeof(x) == mode\fR.
+
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+For vector, a vector of the given length and mode. Logical vector 
+ elements are initialized to FALSE, numeric vector elements to 0, 
+ character vector elements to "", raw vector elements to nul bytes and 
+ list/expression elements to NULL.
+
+ For as.vector, a vector (atomic Or of type list Or expression). All 
+ attributes are removed from the result if it Is of an atomic mode, but 
+ Not in general for a list result. The default method handles 24 input 
+ types And 12 values of type: the details Of most coercions are 
+ undocumented And subject To change.
+
+ For Is.vector, TRUE Or FALSE. Is.vector(x, mode = "numeric") can be 
+ true for vectors of types "integer" Or "double" whereas 
+ \fBis.vector(x, mode = "double")\fR can only be true for those of type 
+ "double".
+.PP
+.SH DETAILS
+.PP
+The atomic modes are "logical", "integer", "numeric" (synonym 
+ "double"), "complex", "character" and "raw".
+
+ If mode = "any", Is.vector may Return True For the atomic modes, 
+ list And expression. For any mode, it will Return False If x has 
+ any attributes except names. (This Is incompatible With S.) On 
+ the other hand, As.vector removes all attributes including names 
+ For results Of atomic mode (but Not those Of mode "list" nor 
+ "expression").
+
+ Note that factors are Not vectors; Is.vector returns False And 
+ \fBas.vector\fR converts a factor To a character vector For 
+ \fBmode = "any"\fR.
+ 
+ as.vector and is.vector are quite distinct from the meaning of the 
+ formal class "vector" in the methods package, and hence as(x, "vector") 
+ and is(x, "vector").
+
+ Note that \fBas.vector(x)\fR Is Not necessarily a null operation if 
+ \fBis.vector(x)\fR Is true: any names will be removed from an atomic 
+ vector.
+
+ Non-vector modes "symbol" (synonym "name") And "pairlist" are accepted 
+ but have long been undocumented: they are used To implement As.name And 
+ As.pairlist, And those functions should preferably be used directly. 
+ None Of the description here applies To those modes: see the help For 
+ the preferred forms.
+.PP
+.SH SEE ALSO
+RConversion
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

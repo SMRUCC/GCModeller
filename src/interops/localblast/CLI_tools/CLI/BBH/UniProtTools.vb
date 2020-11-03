@@ -146,14 +146,14 @@ Partial Module CLI
     <ExportAPI("/UniProt.KO.faa")>
     <Usage("/UniProt.KO.faa /in <uniprot.xml> [/lineBreak <default=120> /out <proteins.faa>]")>
     <Description("Export all of the protein sequence from the Uniprot database which have KO number been assigned.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
               Description:="The Uniprot database which is downloaded from the Uniprot website or ftp site. 
               NOTE: this argument could be a file name list for export multiple database file, 
               each file should located in current directory and all of the sequence in given 
               file names will export into one fasta sequence file. 
               File names should be seperated by comma symbol as delimiter.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={GetType(FastaFile)},
               Extensions:="*.faa, *.fasta, *.fa",
               Description:="The file path of the export protein sequence, title of each sequence consist with these fields: ``KO|uniprot_id fullName|scientificName``")>
@@ -210,16 +210,12 @@ Partial Module CLI
     <ExportAPI("/protein.EXPORT")>
     <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
     <Description("Export the protein sequence And save as fasta format from the uniprot database dump XML.")>
-    <Argument("/sp", True, CLITypes.String,
+    <ArgumentAttribute("/sp", True, CLITypes.String,
           AcceptTypes:={GetType(String)},
           Description:="The organism scientific name.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
-          AcceptTypes:={GetType(UniProtXML)},
-          Extensions:="*.xml",
-          Description:="The Uniprot protein database in XML file format.")>
-    <Argument("/exclude", True, CLITypes.Boolean,
+    <ArgumentAttribute("/exclude", True, CLITypes.Boolean,
           Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
           Extensions:="*.fa, *.fasta, *.txt",
           Description:="The saved file path for output protein sequence fasta file. The title format of this command output Is ``uniprot_id fullName``")>
     <Group(CLIGrouping.UniProtTools)>
@@ -284,17 +280,17 @@ Partial Module CLI
     <ExportAPI("/UniProt.KO.assign")>
     <Usage("/UniProt.KO.assign /in <query_vs_uniprot.KO.besthit> [/bbh <uniprot_vs_query.KO.besthit> /out <out.KO.csv>]")>
     <Description("Assign KO number to query from Uniprot reference sequence database alignment result.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(BestHit)},
               Extensions:="*.csv",
               Description:="The sbh result of the alignment: query vs uniprot.KO.")>
-    <Argument("/bbh", True, CLITypes.File,
+    <ArgumentAttribute("/bbh", True, CLITypes.File,
               AcceptTypes:={GetType(BestHit)},
               Extensions:="*.csv",
               Description:="If this argument is presents in the cli input, then it means we use the bbh method for assign the KO number to query. 
               Both ``/in`` and ``/bbh`` is not top best selection output. The input file for this argument should be the result of ``/SBH.Export.Large``
               command, and ``/keeps_raw.queryName`` option should be enabled for keeps the taxonomy information.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={},
               Extensions:="*.csv",
               Description:="Use the eggHTS command ``/proteins.KEGG.plot`` for export the final KO number assignment result table.")>

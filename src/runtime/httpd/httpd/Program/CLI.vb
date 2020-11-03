@@ -69,16 +69,16 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
     <ExportAPI("/start",
                Info:="Run start the httpd web server.",
                Usage:="/start [/port 80 /wwwroot <wwwroot_DIR> /threads <default=-1> /cache]")>
-    <Argument("/port", True, CLITypes.Integer,
+    <ArgumentAttribute("/port", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The server port of this httpd web server to listen.")>
-    <Argument("/wwwroot", True, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/wwwroot", True, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The website html root directory path.")>
-    <Argument("/threads", True, CLITypes.Integer,
+    <ArgumentAttribute("/threads", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The number of threads of this web server its thread pool.")>
-    <Argument("/cache", True, CLITypes.Boolean,
+    <ArgumentAttribute("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Is this server running in file system cache mode? Not recommended for open.")>
     <Group(httpdServerCLI)>

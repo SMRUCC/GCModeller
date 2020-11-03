@@ -88,7 +88,7 @@ Partial Module Utilities
 
     <ExportAPI("/ruler.dist.calc")>
     <Usage("/ruler.dist.calc /in <ruler.fasta> /genomes <genome.gb.DIR> [/winSize <default=1000> /step <default=500> /out <out.csv.dir>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(FastaSeq)},
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in, AcceptTypes:={GetType(FastaSeq)},
               Description:="A single fasta sequence file contains only one sequence that used for external ruler")>
     Public Function RulerSlideWindowMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -139,7 +139,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Sigma", Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
     <Description("Create a distance similarity matrix for the input sequence.")>
-    <Argument("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
+    <ArgumentAttribute("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
               Description:="Just use a simple tag for generated data vector or the full fasta sequence title if this argument is not presented in cli input.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function Sigma(args As CommandLine) As Integer
@@ -175,7 +175,7 @@ Partial Module Utilities
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/CAI", Usage:="/CAI /ORF <orf_nt.fasta> [/out <out.XML>]")>
-    <Argument("/ORF", False, CLITypes.File,
+    <ArgumentAttribute("/ORF", False, CLITypes.File,
               PipelineTypes.std_in,
               AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
               Description:="If the target fasta file contains multiple sequence, then the CAI table xml will output to a folder or just output to a xml file if only one sequence in thye fasta file.")>

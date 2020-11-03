@@ -48,7 +48,7 @@
     <DebugType>Full</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
@@ -406,7 +406,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <OutputPath>..\..\..\R-sharp\App\</OutputPath>
     <DefineConstants>FRAMEWORD_CORE=1,NET_48=True</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
@@ -1290,6 +1290,46 @@
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R-dotnet|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\R-dotnet\</OutputPath>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=FALSE</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R-dotnet|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\R.Bioconductor\Apps\</OutputPath>
+    <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R-dotnet|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\R-dotnet\</OutputPath>
+    <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="Microsoft.VisualC.STLCLR" />
@@ -1332,6 +1372,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationServices\Debugger\Exception\StackFrame.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\INativeHandle.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\IDynamicLibraryLoader.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\MarshalExtra.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\NativeHandle.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\PlatformUtility.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\UnixLibraryLoader.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\UnmanagedDll.vb" />
+    <Compile Include="ApplicationServices\DynamicInterop\WindowsLibraryLoader.vb" />
     <Compile Include="ApplicationServices\Parallel\DuplexPipe.vb" />
     <Compile Include="ApplicationServices\Parallel\RequestStream.vb" />
     <Compile Include="ApplicationServices\Terminal\MarkdownRender\Theme.vb" />
@@ -1345,6 +1394,11 @@
     <Compile Include="CommandLine\CLI\ProcessEx.vb" />
     <Compile Include="CommandLine\Parsers\CommandLineTokenlizer.vb" />
     <Compile Include="CommandLine\Parsers\CliArgumentParsers.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\IExportAPI.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\LastUpdatedAttribute.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\OutputAttribute.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\ExampleAttribute.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\UsageAttribute.vb" />
     <Compile Include="CommandLine\Reflection\ExportApiInformation.vb" />
     <Compile Include="ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb" />
     <Compile Include="ComponentModel\DataSource\Property\Extensions.vb" />
@@ -1355,6 +1409,8 @@
     <Compile Include="ComponentModel\DataStructures\Deque\ReversedEnumerator.vb" />
     <Compile Include="ComponentModel\DataStructures\Deque\ReverseQueue.vb" />
     <Compile Include="ComponentModel\File\IOWorkModes.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\DigitalSignature.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\XmlStyleProcessor.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="Data\NamespaceDoc.vb" />
     <Compile Include="Data\Repository\RepositoryFileSystem.vb" />
@@ -1410,7 +1466,7 @@
     <Compile Include="Data\TypeCaster.vb" />
     <Compile Include="Data\DefaultAttribute.vb" />
     <Compile Include="ComponentModel\DataSource\Property\GenericProperty.vb" />
-    <Compile Include="ComponentModel\File\XmlDataModel.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\XmlDataModel.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\IntTag.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\SelectorExtensions.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\NumericTagged.vb" />
@@ -1463,7 +1519,8 @@
     <Compile Include="Net\HTTP\URL.vb" />
     <Compile Include="Net\HTTP\Web\WebQuery.vb" />
     <Compile Include="Net\HTTP\Web\WebQueryModule.vb" />
-    <Compile Include="Net\HTTP\wget.vb" />
+    <Compile Include="Net\HTTP\Wget\WriteData.vb" />
+    <Compile Include="Net\HTTP\Wget\wget.vb" />
     <Compile Include="Net\HTTP\Stream\ZipStream.vb" />
     <Compile Include="Net\HTTP\Multipart.vb" />
     <Compile Include="Net\HTTP\DataURI.vb" />
@@ -1491,11 +1548,11 @@
     <Compile Include="CommandLine\CLITools.vb" />
     <Compile Include="CommandLine\CLI\ProcExtensions.vb" />
     <Compile Include="CommandLine\Interpreters\Abstract.vb" />
-    <Compile Include="CommandLine\Reflection\Attributes\Argument.vb" />
-    <Compile Include="CommandLine\Reflection\Attributes\ActiveViews.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\ArgumentAttribute.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\ActiveViewsAttribute.vb" />
     <Compile Include="CommandLine\Reflection\Attributes\Grouping.vb" />
     <Compile Include="CommandLine\Reflection\Attributes\Flags.vb" />
-    <Compile Include="CommandLine\Reflection\Attributes\[Namespace].vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\Namespace.vb" />
     <Compile Include="CommandLine\Reflection\Grouping.vb" />
     <Compile Include="CommandLine\Reflection\CLITypes.vb" />
     <Compile Include="CommandLine\Interpreters\View\ExceptionHandler.vb" />
@@ -1751,6 +1808,7 @@
     <Compile Include="Language\Language\C\CString.vb" />
     <Compile Include="Language\Language\C\File.vb" />
     <Compile Include="Language\StringHelpers.vb" />
+    <None Include="ApplicationServices\DynamicInterop\README.md" />
     <None Include="Extensions\Reflection\Delegate\README.md" />
     <None Include="ApplicationServices\Parallel\Threads\LQuerySchedule\ParallelLinq.md" />
     <Compile Include="Language\Language\UnixBash\PS1.vb" />
@@ -1938,7 +1996,7 @@
     <Compile Include="Net\Abstract.vb" />
     <Compile Include="Net\MIME\MIME.vb" />
     <Compile Include="Net\MIME\ContentType.vb" />
-    <Compile Include="Net\HTTP\wgetTask.vb" />
+    <Compile Include="Net\HTTP\Wget\wgetTask.vb" />
     <Compile Include="Net\Tcp\IPTools\IPEndPoint.vb" />
     <Compile Include="Net\Tcp\IPTools\LAN.vb" />
     <Compile Include="Net\DomainParser.vb" />
@@ -2000,7 +2058,7 @@
     <Compile Include="ComponentModel\Settings\Settings.vb" />
     <Compile Include="ComponentModel\Algorithm\base\Combination\Comb.vb" />
     <Compile Include="CommandLine\Interpreters\Interpreter.vb" />
-    <Compile Include="CommandLine\Reflection\Attributes\Attribute.vb" />
+    <Compile Include="CommandLine\Reflection\Attributes\NoteAttribute.vb" />
     <Compile Include="CommandLine\Reflection\ArgumentCollection.vb" />
     <Compile Include="CommandLine\Reflection\EntryPoints\APIEntryPoint.vb" />
     <Compile Include="CommandLine\CommandLine.vb" />
@@ -2080,6 +2138,8 @@
     <None Include="Net\MIME\List of MIME types  %28Internet Media Types%29.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationServices\DynamicInterop\License.txt" />
+    <None Include="CommandLine\POSIX\README.md" />
     <Content Include="ComponentModel\Ranges\RangeModel\Copyright.txt" />
     <None Include="Resources\scripts\bashRunner.sh" />
     <None Include="Resources\scripts\help.sh" />

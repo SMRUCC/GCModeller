@@ -1,0 +1,48 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "length" "length"
+.SH NAME
+length \- Length of an Object
+.SH SYNOPSIS
+\fIlength(\fBx\fR as <generic> Object, 
+\fBnewSize\fR as integer = -1);\fR
+.SH DESCRIPTION
+.PP
+Length of an Object
+ 
+ Get or set the length of vectors (including lists) and factors, 
+ and of any other R object for which a method has been defined.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an R object. For replacement, a vector or factor.
+.PP
+.PP
+\fBnewSize\fB \fR\- 
+ a non-negative integer or double (which will be rounded down).
+
+.PP
+.SH VALUE
+.PP
+The default method for length currently returns a non-negative 
+ integer of length 1, except for vectors of more than 2^31 - 1 
+ elements, when it returns a double.
+
+ For vectors(including lists) And factors the length Is the 
+ number of elements. For an environment it Is the number of 
+ objects in the environment, And NULL has length 0. For expressions 
+ And pairlists (including language objects And dotlists) it Is the 
+ length of the pairlist chain. All other objects (including 
+ functions) have length one: note that For functions this differs 
+ from S.
+
+ The replacement form removes all the attributes Of x except its 
+ names, which are adjusted (And If necessary extended by "").
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

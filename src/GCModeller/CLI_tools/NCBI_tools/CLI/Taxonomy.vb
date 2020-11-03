@@ -93,10 +93,10 @@ Partial Module CLI
 
     <ExportAPI("/Search.Taxonomy",
                Usage:="/Search.Taxonomy /in <list.txt/expression.csv> /ncbi_taxonomy <taxnonmy:name/nodes.dmp> [/top 10 /expression /cut 0.65 /out <out.csv>]")>
-    <Argument("/expression", True,
+    <ArgumentAttribute("/expression", True,
               Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
-    <Argument("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
-    <Argument("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
+    <ArgumentAttribute("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function SearchTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -398,7 +398,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MapHits.list", Usage:="/MapHits.list /in <in.csv> [/out <out.txt>]")>
-    <Argument("/in", AcceptTypes:={GetType(MapHits), GetType(MapHit)})>
+    <ArgumentAttribute("/in", AcceptTypes:={GetType(MapHits), GetType(MapHit)})>
     Public Function GetMapHitsList(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim data = [in].LoadCsv(Of MapHits)

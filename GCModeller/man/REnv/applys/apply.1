@@ -1,0 +1,78 @@
+.\" man page create by R# package system.
+.TH APPLYS 1 2020-10-29 "apply" "apply"
+.SH NAME
+apply \- Apply Functions Over Array Margins
+.SH SYNOPSIS
+\fIapply(\fBx\fR as <generic> Object, 
+\fBmargin\fR as <integer> margins, 
+\fBFUN\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Apply Functions Over Array Margins
+ 
+ Returns a vector or array or list of values obtained by applying 
+ a function to margins of an array or matrix.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an array, including a matrix.
+.PP
+.PP
+\fBmargin\fB \fR\- a vector giving the subscripts which the 
+ function will be applied over. E.g., for a matrix 1 indicates rows, 
+ 2 indicates columns, c(1, 2) indicates rows and columns. Where X has 
+ named dimnames, it can be a character vector selecting dimension 
+ names.
+.PP
+.PP
+\fBFUN\fB \fR\- 
+ the function to be applied: see ‘Details’. In the case of functions 
+ like +, %*%, etc., the function name must be backquoted or quoted.
+
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+If each call to FUN returns a vector of length n, then apply 
+ returns an array of dimension c(n, dim(X)[MARGIN]) if \fBn > 1\fR. 
+ If n equals 1, apply returns a vector if MARGIN has length 1 and an array 
+ of dimension dim(X)[MARGIN] otherwise. If n is 0, the result has length 
+ 0 but not necessarily the ‘correct’ dimension.
+
+ If the calls To FUN Return vectors Of different lengths, apply returns 
+ a list Of length prod(Dim(X)[MARGIN]) With Dim Set To MARGIN If this has 
+ length greater than one.
+
+ In all cases the result Is coerced by as.vector to one of the basic 
+ vector types before the dimensions are set, so that (for example) factor 
+ results will be coerced to a character array.
+.PP
+.SH DETAILS
+.PP
+If X is not an array but an object of a class with a non-null dim value 
+ (such as a data frame), apply attempts to coerce it to an array via 
+ \fBas.matrix\fR if it is two-dimensional (e.g., a data frame) or via 
+ \fBas.array\fR.
+
+ FUN Is found by a call to match.fun And typically Is either a function 
+ Or a symbol (e.g., a backquoted name) Or a character string specifying 
+ a function to be searched for from the environment of the call to apply.
+
+ Arguments in \fB...\fR cannot have the same name as any of the other 
+ arguments, And care may be needed to avoid partial matching to MARGIN Or 
+ FUN. In general-purpose code it Is good practice to name the first three 
+ arguments if ... Is passed through: this both avoids Partial matching To 
+ MARGIN Or FUN And ensures that a sensible Error message Is given If 
+ arguments named X, MARGIN Or FUN are passed through \fB...\fR.
+.PP
+.SH SEE ALSO
+applys
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

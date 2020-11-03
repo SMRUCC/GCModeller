@@ -167,9 +167,9 @@ Module CLI
 
     <ExportAPI("/HT-seq", Info:="Count raw reads for DESeq2 analysis.",
                Usage:="/Ht-seq /in <in.sam> /gff <genome.gff> [/out <out.txt> /mode <union, intersection_strict, intersection_nonempty; default:intersection_nonempty> /rpkm /feature <CDS>]")>
-    <Argument("/Mode", True,
+    <ArgumentAttribute("/Mode", True,
                    Description:="The value of this parameter specific the counter of the function will be used, the available counter values are: union, intersection_strict and intersection_nonempty")>
-    <Argument("/feature", True,
+    <ArgumentAttribute("/feature", True,
                    Description:="[NOTE: value is case sensitive!!!] Value of the gff features can be one of the: tRNA, CDS, exon, gene, tmRNA, rRNA, region")>
     Public Function HTSeqCount(args As CommandLine) As Integer
         Dim inSAM As String = args("/in")
@@ -224,7 +224,7 @@ Module CLI
     <ExportAPI("/Data.Frame",
                Info:="Generates the data input for the DESeq2 R package.",
                Usage:="/Data.Frame /in <in.DIR> /ptt <genome.ptt> [/out out.csv]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
                    Description:="A directory location which it contains the Ht-Seq raw count text files.")>
     Public Function Df(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")

@@ -65,17 +65,17 @@ Imports RDotNet.Extensions.VisualBasic.RSystem
     <Usage(".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]")>
     <Description("Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. " &
     "The generated venn dragram will be saved as tiff file format.")>
-    <Argument("-i", Description:="The csv data source file for drawing the venn diagram graph.")>
-    <Argument("-t", True, Description:="Optional, the venn diagram title text")>
-    <Argument("-o", True,
+    <ArgumentAttribute("-i", Description:="The csv data source file for drawing the venn diagram graph.")>
+    <ArgumentAttribute("-t", True, Description:="Optional, the venn diagram title text")>
+    <ArgumentAttribute("-o", True,
         Description:="Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then \n" &
                      "the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.")>
-    <Argument("-s", True, CLITypes.File,
+    <ArgumentAttribute("-s", True, CLITypes.File,
         Description:="Optional, the profile settings for the partitions in the venn diagram, each partition profile data is\n " &
                      "in a key value paired like: name,color, and each partition profile pair is seperated by a ';' character.\n" &
                      "If this switch value is not specific by the user then the program will trying to parse the partition name\n" &
                      "from the column values and apply for each partition a randomize color.")>
-    <Argument("-rbin", True,
+    <ArgumentAttribute("-rbin", True,
         Description:="Optional, Set up the r bin path for drawing the venn diagram, if this switch value is not specific by the user then \n" &
                      "the program just output the venn diagram drawing R script file in a specific location, or if this switch \n" &
                      "value is specific by the user and is valid for call the R program then will output both venn diagram tiff image " &

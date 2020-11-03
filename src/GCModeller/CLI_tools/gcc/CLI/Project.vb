@@ -81,14 +81,14 @@ Partial Module CLI
     <ExportAPI("/compile.KEGG")>
     <Description("Create GCModeller virtual cell data model file from KEGG reference data. Which the model genome have no reference genome data in KEGG database.")>
     <Usage("/compile.KEGG /in <genome.gb> /KO <ko.assign.csv> /maps <kegg.pathways.repository> /compounds <kegg.compounds.repository> /reactions <kegg.reaction.repository> [/location.as.locus_tag /glycan.cpd <id.maps.json> /regulations <transcription.regulates.csv> /out <out.model.Xml/xlsx>]")>
-    <Argument("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/regulations", True, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(RegulationFootprint)})>
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.gb, *.gbk, *.gbff",
               Description:="The genome annotation data in genbank format, apply for the genome data modelling which target genome is not yet published to public.")>
-    <Argument("/maps", False, CLITypes.File,
+    <ArgumentAttribute("/maps", False, CLITypes.File,
               Extensions:="*.xml",
               Description:="The KEGG reference pathway data repository, not the data repository for Map render data.")>
-    <Argument("/location.as.locus_tag", True, CLITypes.Boolean,
+    <ArgumentAttribute("/location.as.locus_tag", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the target genome for create the VirtualCell model is not yet publish on NCBI, 
               then it have no formal locus_tag id assigned for the genes yet, so you can enable this option 
@@ -147,9 +147,9 @@ Partial Module CLI
     <ExportAPI("/compile.organism")>
     <Usage("/compile.organism /in <genome.gb> /kegg <kegg.organism_pathways.repository/model.xml> [/location.as.locus_tag /regulations <transcription.regulates.csv> /out <out.model.Xml>]")>
     <Description("Create GCModeller virtual cell data model from KEGG organism pathway data")>
-    <Argument("/kegg", False, CLITypes.File,
+    <ArgumentAttribute("/kegg", False, CLITypes.File,
               Description:="A directory path that contains pathway data from command ``kegg_tools /Download.Pathway.Maps``.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.gb, *.gbk, *.gbff",
               Description:="A NCBI genbank file that contains the genomics data. If the genome contains multiple replicon like plasmids, 
               you can union all of the replicon data into one genbankfile and then using this union file as this input argument.")>
@@ -187,7 +187,7 @@ Partial Module CLI
     <ExportAPI("/export.model.graph")>
     <Usage("/export.model.graph /model <GCMarkup.xml/table.xlsx> [/pathway <default=none> /disable.trim /degree <default=1> /out <out.dir>]")>
     <Description("Export cellular module network from virtual cell model file for cytoscape visualization.")>
-    <Argument("/pathway", True, CLITypes.String, AcceptTypes:={GetType(String)},
+    <ArgumentAttribute("/pathway", True, CLITypes.String, AcceptTypes:={GetType(String)},
               Description:="Apply a pathway module filter on the network model, only the gene contains in the given pathway list then will be output to user. 
               By default is export all. Pathway id should be a KO pathway id list, like ``ko04146,ko02010``, and id was seperated by comma symbol.")>
     Public Function ExportModelGraph(args As CommandLine) As Integer

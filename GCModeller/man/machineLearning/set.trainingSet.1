@@ -1,16 +1,33 @@
 .\" man page create by R# package system.
-.TH MACHINELEARNING 2 2020-07-26 "set.trainingSet" "set.trainingSet"
+.TH MACHINELEARNING 2 2020-10-29 "set.trainingSet" "set.trainingSet"
 .SH NAME
 set.trainingSet \- 
 .SH SYNOPSIS
-\fIset.trainingSet(\fBann\fR as <generic> TrainingUtils, 
+\fIset.trainingSet(\fBann\fR as <generic> ANNTrainer, 
 \fBtrainingSet\fR as <generic> DataSet, 
-\fBnormalMethod\fR as <integer> Methods = [RelativeScaler]);\fR
+\fBnormalMethod\fR as <integer> Methods = [RelativeScaler], 
+\fBattribute\fR as integer = -1, 
+\fBsetOutputNames\fR as boolean = TRUE);\fR
+.SH OPTIONS
+.PP
+\fBann\fB \fR\- -
+.PP
+.PP
+\fBtrainingSet\fB \fR\- -
+.PP
+.PP
+\fBnormalMethod\fB \fR\- -
+.PP
+.PP
+\fBattribute\fB \fR\- 
+ run training for a single output or all of the result output.
+
+.PP
 .SH SEE ALSO
 machineLearning
 .SH FILES
 .PP
-R.math.dll
+MLkit.dll
 .PP
 .SH AUTHOR
 Written by \fBxie.guigang@gcmodeller.org\fR

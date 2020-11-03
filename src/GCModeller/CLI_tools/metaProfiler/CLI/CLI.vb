@@ -56,7 +56,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
     <ExportAPI("/UPGMA.Tree")>
     <Usage("/UPGMA.Tree /in <in.csv> [/out <>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(DataSet)},
               Description:="The input matrix in csv table format for build and visualize as a UPGMA Tree.")>
     Public Function UPGMATree(args As CommandLine) As Integer

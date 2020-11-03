@@ -1,11 +1,13 @@
 .\" man page create by R# package system.
-.TH XLSX 4 2020-07-26 "read.xlsx" "read.xlsx"
+.TH XLSX 4 2020-10-29 "read.xlsx" "read.xlsx"
 .SH NAME
 read.xlsx \- read a sheet table in xlsx file as a \fBdataframe\fR object.
 .SH SYNOPSIS
-\fIread.xlsx(\fBfile\fR as string, 
+\fIread.xlsx(\fBfile\fR as <generic> Object, 
 \fBsheetIndex\fR as string = "Sheet1", 
 \fBrow_names\fR as <generic> Object = \fB<NULL>\fR, 
+\fBraw\fR as boolean = FALSE, 
+\fBcheck_names\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP

@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "rep" "rep"
+.SH NAME
+rep \- Replicate Elements of Vectors and Lists
+.SH SYNOPSIS
+\fIrep(\fBx\fR as <generic> Object, 
+\fBtimes\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+Replicate Elements of Vectors and Lists
+ 
+ rep replicates the values in x. It is a generic function, 
+ and the (internal) default method is described here.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a vector (of any mode including a list) or a factor or (for rep only) 
+ a POSIXct or POSIXlt or Date object; or an S4 object containing such 
+ an object.
+
+.PP
+.PP
+\fBtimes\fB \fR\- an integer-valued vector giving the (non-negative) 
+ number of times to repeat each element if of length length(x), or to 
+ repeat the whole vector if of length 1. Negative or NA values are an 
+ error. A double vector is accepted, other inputs being coerced to an 
+ integer or double vector.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019
