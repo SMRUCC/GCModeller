@@ -1,4 +1,4 @@
-# GCModeller.ini
+﻿# GCModeller.ini
 
 GCModeller configuration api
 

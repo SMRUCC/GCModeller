@@ -1,4 +1,4 @@
-# console
+﻿# console
 
 R# console utilities
 > all of the api functions in this package module is not affected by 

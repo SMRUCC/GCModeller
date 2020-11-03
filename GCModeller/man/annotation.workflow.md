@@ -1,4 +1,4 @@
-# annotation.workflow
+﻿# annotation.workflow
 
 A pipeline collection for proteins' biological function 
  annotation based on the sequence alignment.
