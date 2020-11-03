@@ -1409,6 +1409,8 @@
     <Compile Include="ComponentModel\DataStructures\Deque\ReversedEnumerator.vb" />
     <Compile Include="ComponentModel\DataStructures\Deque\ReverseQueue.vb" />
     <Compile Include="ComponentModel\File\IOWorkModes.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\DigitalSignature.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\XmlStyleProcessor.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\BinaryHeap.vb" />
     <Compile Include="Data\NamespaceDoc.vb" />
     <Compile Include="Data\Repository\RepositoryFileSystem.vb" />
@@ -1464,7 +1466,7 @@
     <Compile Include="Data\TypeCaster.vb" />
     <Compile Include="Data\DefaultAttribute.vb" />
     <Compile Include="ComponentModel\DataSource\Property\GenericProperty.vb" />
-    <Compile Include="ComponentModel\File\XmlDataModel.vb" />
+    <Compile Include="ComponentModel\File\XmlAssembly\XmlDataModel.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\IntTag.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\SelectorExtensions.vb" />
     <Compile Include="ComponentModel\Ranges\Selector\NumericTagged.vb" />

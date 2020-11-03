@@ -1,3 +1,0 @@
-﻿Namespace ComponentModel
-
-End Namespace
