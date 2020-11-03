@@ -39,22 +39,30 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' A row of the data in ODB dataset ``known_operon.download.txt``
 ''' </summary>
-Public Class OperonRow
+Public Class OperonRow : Implements INamedValue
 
-    Public Property koid As String
+    Public Property koid As String Implements IKeyedEntity(Of String).Key
     Public Property org As String
     Public Property name As String
     Public Property op As String()
     Public Property definition As String
     Public Property source As String
 
-    Public Shared Iterator Function LoadInternalResource() As IEnumerable(Of OperonRow)
-        For Each line As String In My.Resources.known_operon_download.LineTokens.Skip(1)
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function LoadInternalResource() As IEnumerable(Of OperonRow)
+        Return Load(My.Resources.known_operon_download)
+    End Function
+
+    Public Shared Iterator Function Load(file As String) As IEnumerable(Of OperonRow)
+        For Each line As String In file.SolveStream.LineTokens.Skip(1)
             Dim tokens As String() = line.Split(ASCII.TAB)
             Dim operon As New OperonRow With {
                 .koid = tokens(Scan0),
