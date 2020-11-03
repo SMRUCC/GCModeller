@@ -249,7 +249,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Biostack|x64'">
     <OutputPath>bin\x64\Biostack\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>SMRUCC.genomics.Visualize.Extensions.xml</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>

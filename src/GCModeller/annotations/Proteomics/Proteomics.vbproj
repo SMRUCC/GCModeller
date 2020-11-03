@@ -313,10 +313,6 @@
       <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
       <Name>ExperimentDesigner</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix.vbproj">
-      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
-      <Name>HTS_matrix</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
       <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>
       <Name>Microarray</Name>
