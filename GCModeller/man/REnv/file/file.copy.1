@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH FILE 1 2020-10-29 "file.copy" "file.copy"
+.SH NAME
+file.copy \- \fBfile.copy\fR works in a similar way to \fBfile.append\fR but with the arguments
+.SH SYNOPSIS
+\fIfile.copy(\fBfrom\fR as string, 
+\fBto\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+\fBfile.copy\fR works in a similar way to \fBfile.append\fR but with the arguments 
+ in the natural order for copying. Copying to existing destination files is 
+ skipped unless overwrite = TRUE. The to argument can specify a single existing 
+ directory. If copy.mode = TRUE file read/write/execute permissions are copied 
+ where possible, restricted by ‘umask’. (On Windows this applies only to files.
+ ) Other security attributes such as ACLs are not copied. On a POSIX filesystem 
+ the targets of symbolic links will be copied rather than the links themselves, 
+ and hard links are copied separately. Using copy.date = TRUE may or may not 
+ copy the timestamp exactly (for example, fractional seconds may be omitted), 
+ but is more likely to do so as from R 3.4.0.
+.PP
+.SH OPTIONS
+.PP
+\fBfrom\fB \fR\- -
+.PP
+.PP
+\fBto\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+These functions return a logical vector indicating which operation succeeded 
+ for each of the files attempted. Using a missing value for a file or path 
+ name will always be regarded as a failure.
+.PP
+.SH SEE ALSO
+file
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

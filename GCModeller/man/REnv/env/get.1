@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH ENV 1 2020-10-29 "get" "get"
+.SH NAME
+get \- Return the Value of a Named Object
+.SH SYNOPSIS
+\fIget(\fBx\fR as <generic> Object, 
+[\fB<Environment>\fR], 
+\fBinherits\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Return the Value of a Named Object
+ 
+ Search by name for an object (get) or zero or more objects (mget).
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- For get, an object name (given as a character string).
+ For mget, a character vector of object names.
+.PP
+.PP
+\fBenvir\fB \fR\- where to look for the object (see ‘Details’); if omitted search as if the name of the object appeared unquoted in an expression.
+.PP
+.PP
+\fBinherits\fB \fR\- 
+ should the enclosing frames of the environment be searched?
+
+.PP
+.SH SEE ALSO
+env
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

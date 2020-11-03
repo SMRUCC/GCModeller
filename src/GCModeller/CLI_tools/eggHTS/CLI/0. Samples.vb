@@ -79,7 +79,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Sample.Species.Normalization",
                Usage:="/Sample.Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML/DIR> /idMapping <refSeq2uniprotKB_mappings.tsv> /sample <sample.csv> [/Description <Description.FileName> /ID <columnName> /out <out.csv>]")>
-    <Argument("/bbh", False, CLITypes.File,
+    <ArgumentAttribute("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     <Group(CLIGroups.Samples_CLI)>
     Public Function NormalizeSpecies_samples(args As CommandLine) As Integer
@@ -272,19 +272,19 @@ Partial Module CLI
     <ExportAPI("/plot.pimw")>
     <Description("'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.")>
     <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /ticks.Y <-1> /pt.size <8>]")>
-    <Argument("/field.pi", True, CLITypes.String,
+    <ArgumentAttribute("/field.pi", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``")>
-    <Argument("/field.mw", True, CLITypes.String,
+    <ArgumentAttribute("/field.mw", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The field name that records the MW value of the protein samples, default is using iTraq result out format: ``MW [kDa]``")>
-    <Argument("/pt.size", True, CLITypes.Double,
+    <ArgumentAttribute("/pt.size", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The radius size of the point in this scatter plot.")>
-    <Argument("/size", True, CLITypes.String,
+    <ArgumentAttribute("/size", True, CLITypes.String,
               AcceptTypes:={GetType(Size), GetType(SizeF)},
               Description:="The plot image its canvas size of this scatter plot.")>
-    <Argument("/quantile.removes", True, CLITypes.Double,
+    <ArgumentAttribute("/quantile.removes", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.")>
     <Group(CLIGroups.Samples_CLI)>

@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "source" "source"
+.SH NAME
+source \- Run the external R# script. Read R Code from a File, a Connection or Expressions
+.SH SYNOPSIS
+\fIsource(\fBpath\fR as string, 
+..., 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Run the external R# script. Read R Code from a File, a Connection or Expressions
+ 
+ causes R to accept its input from the named file or URL or connection or expressions directly. 
+ Input is read and parsed from that file until the end of the file is reached, then the parsed 
+ expressions are evaluated sequentially in the chosen environment.
+.PP
+.SH OPTIONS
+.PP
+\fBpath\fB \fR\- 
+ a connection Or a character String giving the pathname Of the file Or URL To read from. 
+ "" indicates the connection \fBstdin()\fR.
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+The value of special \fBlast variable\fR or the value returns by the \fBreturn\fR keyword.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

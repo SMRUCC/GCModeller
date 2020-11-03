@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH REFLECTIONS 1 2020-10-29 "formals" "formals"
+.SH NAME
+formals \- Access to and Manipulation of the Formal Arguments
+.SH SYNOPSIS
+\fIformals(\fBfun\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Access to and Manipulation of the Formal Arguments
+ 
+ Get or set the formal arguments of a function.
+ 
+ For the first form, fun can also be a character string naming 
+ the function to be manipulated, which is searched for from the 
+ parent frame. If it is not specified, the function calling 
+ formals is used.
+
+ Only closures have formals, Not primitive functions.
+.PP
+.SH OPTIONS
+.PP
+\fBfun\fB \fR\- a Function, Or see 'Details’.
+.PP
+.PP
+\fBenv\fB \fR\- environment in which the function should be defined.
+.PP
+.SH VALUE
+.PP
+formals returns the formal argument list of the function specified, 
+ as a pairlist, or NULL for a non-function or primitive.
+ 
+ The replacement form sets the formals Of a Function To the list/pairlist 
+ On the right hand side, And (potentially) resets the environment Of 
+ the Function.
+.PP
+.SH SEE ALSO
+reflections
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

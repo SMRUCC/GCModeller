@@ -207,7 +207,7 @@ date: {Now.ToString}
 
     <ExportAPI("/Search.Fasta",
                Usage:="/Search.Fasta /in <fasta.fasta/DIR> /query <query_arguments.csv> [/out <out_DIR>]")>
-    <Argument("/query", AcceptTypes:={GetType(QueryArgument)})>
+    <ArgumentAttribute("/query", AcceptTypes:={GetType(QueryArgument)})>
     Public Function SearchFasta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim query As String = args("/query")

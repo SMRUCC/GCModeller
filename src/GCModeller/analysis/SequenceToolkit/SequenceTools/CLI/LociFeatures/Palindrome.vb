@@ -70,7 +70,7 @@ Partial Module Utilities
     <ExportAPI("--Palindrome.From.NT",
                Info:="This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC",
                Usage:="--Palindrome.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <20>]")>
-    <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeNT(args As CommandLine) As Integer
         Dim NT As New FastaSeq With {
@@ -89,12 +89,12 @@ Partial Module Utilities
     <ExportAPI("--palindrome.From.FASTA")>
     <Description("")>
     <Usage("--palindrome.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <default=3> /max <default=20>]")>
-    <Argument("/nt", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/nt", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.fasta, *.fa, *.fsa",
               Description:="Fasta sequence file, and this file should just contains only one sequence.",
               AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
-    <Argument("/min", True, CLITypes.Integer,
+    <ArgumentAttribute("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <ArgumentAttribute("/min", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The min length of the palindrome mirror part.")>
     <Group(CLIGrouping.PalindromeTools)>
@@ -117,7 +117,7 @@ Partial Module Utilities
     <ExportAPI("--Mirror.From.NT",
                Usage:="--Mirror.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <20>]",
                Info:="Mirror Palindrome, and this function is for the debugging test")>
-    <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchMirrotNT(args As CommandLine) As Integer
         Dim NT As New FastaSeq With {
@@ -134,7 +134,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Mirrors.Nt.Trim", Usage:="/Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]")>
-    <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function TrimNtMirrors(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullFilePath("/in")
@@ -155,9 +155,9 @@ Partial Module Utilities
     <ExportAPI("/Mirror.Fuzzy")>
     <Usage("/Mirror.Fuzzy /in <in.fasta> [/cut <default=0.6> /max-dist <default=6> /min <default=3> /max <default=20> /out <out.csv>]")>
     <Description("Search mirror loci sites on your sequence.")>
-    <Argument("/in", False, AcceptTypes:={GetType(FastaSeq)})>
-    <Argument("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
-    <Argument("/max-dist", True, CLITypes.Integer,
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(FastaSeq)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
+    <ArgumentAttribute("/max-dist", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The max distance of the loci site and its mirror loci site.")>
     <Group(CLIGrouping.PalindromeTools)>
@@ -179,7 +179,7 @@ Partial Module Utilities
 
     <ExportAPI("/Mirror.Fuzzy.Batch",
                Usage:="/Mirror.Fuzzy.Batch /in <in.fasta/DIR> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]")>
-    <Argument("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FuzzyMirrorsBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
@@ -207,11 +207,11 @@ Partial Module Utilities
 
     <ExportAPI("/Mirror.Batch",
                Usage:="/Mirror.Batch /nt <nt.fasta> [/out <out.csv> /mp /min <3> /max <20> /num_threads <-1>]")>
-    <Argument("/mp", True,
+    <ArgumentAttribute("/mp", True,
                    Description:="Calculation in the multiple process mode?",
                    AcceptTypes:={GetType(Boolean)})>
-    <Argument("/nt", False, AcceptTypes:={GetType(FastaFile)})>
-    <Argument("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
+    <ArgumentAttribute("/nt", False, AcceptTypes:={GetType(FastaFile)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function MirrorBatch(args As CommandLine) As Integer
         Dim NT As New FastaFile(args - "/nt")
@@ -254,7 +254,7 @@ Partial Module Utilities
     <ExportAPI("--Mirror.From.Fasta",
                Usage:="--Mirror.From.Fasta /nt <nt-sequence.fasta> [/out <out.csv> /min <3> /max <20>]",
                Info:="Mirror Palindrome, search from a fasta file.")>
-    <Argument("/nt", False,
+    <ArgumentAttribute("/nt", False,
                    Description:="This fasta file should contains only just one sequence.",
                    AcceptTypes:={GetType(FastaSeq)})>
     <Group(CLIGrouping.PalindromeTools)>
@@ -360,7 +360,7 @@ Partial Module Utilities
 
     <ExportAPI("--Palindrome.Imperfects")>
     <Usage("--Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
               CLITypes.File,
               PipelineTypes.std_in,
               AcceptTypes:={GetType(FastaSeq)},
@@ -486,7 +486,7 @@ Partial Module Utilities
 
     <ExportAPI("--PerfectPalindrome.Filtering",
                Usage:="--PerfectPalindrome.Filtering /in <inDIR> [/min <8> /out <outDIR>]")>
-    <Argument("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FilterPerfectPalindrome(args As CommandLine) As Integer
         Dim LQuery = (From file As String
@@ -515,7 +515,7 @@ Partial Module Utilities
 
     <ExportAPI("--Hairpinks")>
     <Usage("--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
-    <Argument("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function Hairpinks(args As CommandLine) As Integer
         Dim input As String = args("/in")
@@ -563,7 +563,7 @@ Partial Module Utilities
 
     <ExportAPI("/Promoter.Regions.Palindrome",
                Usage:="/Promoter.Regions.Palindrome /in <genbank.gb> [/min <3> /max <20> /len <100,150,200,250,300,400,500, default:=250> /mirror /out <out.csv>]")>
-    <Argument("/mirror", True, CLITypes.Boolean,
+    <ArgumentAttribute("/mirror", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Search for the mirror palindrome loci sites.")>
     Public Function PromoterRegionPalindrome(args As CommandLine) As Integer

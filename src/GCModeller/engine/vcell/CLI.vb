@@ -74,13 +74,10 @@ Imports vcellkit
     <ExportAPI("/run")>
     <Usage("/run /model <model.gcmarkup> [/deletes <genelist> /time <default=100> /json /out <raw/result_directory>]")>
     <Description("Run GCModeller VirtualCell.")>
-    <Argument("/deletes", True, CLITypes.String,
+    <ArgumentAttribute("/deletes", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="The ``locus_tag`` id list that will removes from the genome, 
               use the comma symbol as delimiter. Or a txt file path for the gene id list.")>
-    <Argument("/csv", True, CLITypes.Boolean,
-              AcceptTypes:={GetType(Boolean)},
-              Description:="The output data format is csv table files.")>
     Public Function Run(args As CommandLine) As Integer
         Dim in$ = args <= "/model"
         Dim deletes As String() = args("/deletes").getDeletionList

@@ -1,0 +1,47 @@
+.\" man page create by R# package system.
+.TH REFLECTIONS 1 2020-10-29 "eval" "eval"
+.SH NAME
+eval \- Evaluate an (Unevaluated) Expression
+.SH SYNOPSIS
+\fIeval(\fBexpr\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Evaluate an (Unevaluated) Expression
+ 
+ Evaluate an R expression in a specified environment.
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- an object to be evaluated. See 'Details’.
+.PP
+.PP
+\fBenv\fB \fR\- the environment In which expr Is To be evaluated. 
+ May also be NULL, a list, a data frame, a pairlist Or an Integer 
+ As specified To sys.Call.
+.PP
+.SH VALUE
+.PP
+The result of evaluating the object: for an expression vector this is 
+ the result of evaluating the last element.
+.PP
+.SH DETAILS
+.PP
+eval evaluates the expr argument in the environment specified by envir 
+ and returns the computed value. If envir is not specified, then the 
+ default is parent.frame() (the environment where the call to eval was 
+ made).
+ 
+ Objects to be evaluated can be of types call Or expression Or name 
+ (when the name Is looked up in the current scope And its binding Is 
+ evaluated), a promise Or any of the basic types such as vectors, 
+ functions And environments (which are returned unchanged).
+.PP
+.SH SEE ALSO
+reflections
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

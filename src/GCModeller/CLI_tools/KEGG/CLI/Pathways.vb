@@ -119,7 +119,7 @@ Partial Module CLI
     <ExportAPI("/Enrichment.Map.Render")>
     <Usage("/Enrichment.Map.Render /url <url> [/repo <pathwayMap.repository> /out <out.png>]")>
     <Description("Rendering kegg pathway map for enrichment analysis result in local.")>
-    <Argument("/repo", True, CLITypes.File,
+    <ArgumentAttribute("/repo", True, CLITypes.File,
               Description:="A directory path that contains the KEGG reference pathway map XML model. 
               If this argument value is not presented in the commandline, then the default installed 
               GCModeller KEGG compound repository will be used.")>
@@ -138,17 +138,17 @@ Partial Module CLI
     <ExportAPI("/Compound.Map.Render")>
     <Usage("/Compound.Map.Render /list <csv/txt> [/repo <pathwayMap.repository> /scale <default=1> /color <default=red> /out <out.DIR>]")>
     <Description("Render draw of the KEGG pathway map by using a given KEGG compound id list.")>
-    <Argument("/list", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/list", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String())},
               Extensions:="*.txt, *.csv",
               Description:="A KEGG compound id list that provides the KEGG pathway map rendering source.")>
-    <Argument("/repo", True, CLITypes.File,
+    <ArgumentAttribute("/repo", True, CLITypes.File,
               Description:="A directory path that contains the KEGG reference pathway map XML model. If this argument value is not presented in the commandline, then the default installed GCModeller KEGG compound repository will be used.")>
-    <Argument("/scale", True, CLITypes.Double,
+    <ArgumentAttribute("/scale", True, CLITypes.Double,
               Description:="The circle radius size of the KEGG compound that rendering on the output pathway map image. By default is no scale.")>
-    <Argument("/color", True, CLITypes.String,
+    <ArgumentAttribute("/color", True, CLITypes.String,
               Description:="The node color that the KEGG compound rendering on the pathway map.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Description:="A directory output path that will be using for contains the rendered pathway map image and the summary table file.")>
     Public Function CompoundMapRender(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

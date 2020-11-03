@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH UTILS 1 2020-10-29 "memory.size" "memory.size"
+.SH NAME
+memory.size \- Report on Memory Allocation
+.SH SYNOPSIS
+\fImemory.size(\fBmax\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+Report on Memory Allocation
+ 
+ \fBmemory.size\fR reports the current or maximum memory allocation 
+ of the malloc function used in this version of R.
+.PP
+.SH OPTIONS
+.PP
+\fBmax\fB \fR\- 	
+ logical. If TRUE the maximum amount of memory obtained from the OS 
+ Is reported, if FALSE the amount currently in use, if NA the memory 
+ limit.
+
+.PP
+.SH VALUE
+.PP
+Size in Mb (1048576 bytes), rounded to 0.01 Mb for memory.size
+.PP
+.SH SEE ALSO
+utils
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

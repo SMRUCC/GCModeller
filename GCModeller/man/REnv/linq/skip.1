@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH LINQ 1 2020-10-29 "skip" "skip"
+.SH NAME
+skip \- Bypasses a specified number of elements in a sequence and then
+.SH SYNOPSIS
+\fIskip(\fBsequence\fR as <generic> Object, 
+\fBn\fR as integer, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Bypasses a specified number of elements in a sequence and then 
+ returns the remaining elements.
+.PP
+.SH OPTIONS
+.PP
+\fBsequence\fB \fR\- An System.Collections.Generic.IEnumerable`1 to return elements from.
+.PP
+.PP
+\fBn\fB \fR\- The number of elements to skip before returning the remaining elements.
+.PP
+.SH VALUE
+.PP
+An System.Collections.Generic.IEnumerable`1 that contains the elements that occur
+ after the specified index in the input sequence.
+.PP
+.SH SEE ALSO
+linq
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@live.com\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

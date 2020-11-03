@@ -77,7 +77,7 @@ Partial Module CLI
     <ExportAPI("/KO.list")>
     <Description("Export a KO functional id list which all of the gene in this list is involved with the given pathway kgml data.")>
     <Usage("/KO.list /kgml <pathway.kgml> [/skip.empty /out <list.csv>]")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               Extensions:="*.csv",
               Description:="If this argument is not presented in the commandline input, then result list will print on the console in tsv format.")>
     Public Function TransmembraneKOlist(args As CommandLine) As Integer
@@ -323,7 +323,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     <ExportAPI("/Dump.sp")>
     <Usage("/Dump.sp [/res <sp.html, default=weburl.html> /out <out.csv>]")>
     <Description("Dump all of the KEGG organism and write table data in csv file format.")>
-    <Argument("/res", True, CLITypes.File,
+    <ArgumentAttribute("/res", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Extensions:="*.txt, *.html",
               Description:="By default is fetch table resource from web url: 'http://www.kegg.jp/kegg/catalog/org_list.html'.")>
@@ -339,7 +339,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     <ExportAPI("/show.organism")>
     <Usage("/show.organism /code <kegg_sp> [/out <out.json>]")>
     <Description("Save the summary information about the specific given kegg organism.")>
-    <Argument("/code", False, CLITypes.String,
+    <ArgumentAttribute("/code", False, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The kegg organism brief code.")>
     Public Function ShowOrganism(args As CommandLine) As Integer

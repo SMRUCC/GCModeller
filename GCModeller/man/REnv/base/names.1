@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "names" "names"
+.SH NAME
+names \- The Names of an Object
+.SH SYNOPSIS
+\fInames(\fBobject\fR as <generic> Object, 
+\fBnamelist\fR as <generic> Array = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+The Names of an Object
+ 
+ Functions to get or set the names of an object.
+.PP
+.SH OPTIONS
+.PP
+\fB[object]\fB \fR\- an R object.
+.PP
+.PP
+\fBnamelist\fB \fR\- a character vector of up to the same length as \fBx\fR, or \fBNULL\fR.
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+For \fBnames\fR, \fBNULL\fR or a character vector of the same length as x. 
+ (NULL is given if the object has no names, including for objects of 
+ types which cannot have names.) For an environment, the length is the 
+ number of objects in the environment but the order of the names is 
+ arbitrary.
+ 
+ For \fBnames<-\fR, the updated object. (Note that the value of 
+ \fBnames(x) <- value\fR Is that of the assignment, value, Not the 
+ return value from the left-hand side.)
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

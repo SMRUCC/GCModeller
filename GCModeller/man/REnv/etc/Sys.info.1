@@ -1,0 +1,41 @@
+.\" man page create by R# package system.
+.TH ETC 1 2020-10-29 "Sys.info" "Sys.info"
+.SH NAME
+Sys.info \- Extract System and User Information
+.SH SYNOPSIS
+\fISys.info();\fR
+.SH DESCRIPTION
+.PP
+Extract System and User Information
+ 
+ Reports system and user information.
+.PP
+.SH VALUE
+.PP
+A character vector with fields
+
+ + \fBsysname\fR The operating system name.
+ + \fBrelease\fR The OS release.
+ + \fBversion\fR The OS version.
+ + \fBnodename\fR A name by which the machine Is known On 
+     the network (If any).
+ + \fBmachine\fR A concise description Of the hardware, 
+     often the CPU type.
+ + \fBlogin\fR The user 's login name, or "unknown" if it 
+     cannot be ascertained.
+ + \fBuser\fR The name Of the real user ID, Or "unknown" If 
+     it cannot be ascertained.
+ + \fBeffective_user\fR The name Of the effective user ID, Or 
+     "unknown" If it cannot be ascertained. This may differ 
+     from the real user In 'set-user-ID’ processes.
+
+ The last three fields give the same value On Windows.
+.PP
+.SH SEE ALSO
+etc
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

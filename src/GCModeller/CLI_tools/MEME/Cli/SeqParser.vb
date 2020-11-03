@@ -185,7 +185,7 @@ Partial Module CLI
 
     <ExportAPI("/Parser.Operon")>
     <Usage("/Parser.Operon /in <footprint.csv> /PTT <PTTDIR> [/out <outDIR> /family /offset <50> /all]")>
-    <Argument("/family", True,
+    <ArgumentAttribute("/family", True,
                    Description:="Group the source by family? Or output the source in one fasta set")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserNextIterator(args As CommandLine) As Integer
@@ -393,9 +393,9 @@ Partial Module CLI
     <ExportAPI("/Parser.Pathway")>
     <Usage("/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR/organismModel.Xml> /src <genomePTT.DIR/gbff.txt> [/DOOR <genome.opr> /locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
     <Description("Parsing promoter sequence region for genes in pathways.")>
-    <Argument("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
-    <Argument("/src", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
-    <Argument("/locus", True, CLITypes.String, Description:="Only works when ``/DOOR`` file was presented.")>
+    <ArgumentAttribute("/kegg.pathways", False, CLITypes.File, Description:="DBget fetch result from ``kegg_tools``.")>
+    <ArgumentAttribute("/src", False, CLITypes.File, Description:="The genome proteins gene coordination data file. It can be download from NCBI web site.")>
+    <ArgumentAttribute("/locus", True, CLITypes.String, Description:="Only works when ``/DOOR`` file was presented.")>
     <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")

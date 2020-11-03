@@ -95,7 +95,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Screen.sites",
                Usage:="/Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]")>
-    <Argument("/in", AcceptTypes:={
+    <ArgumentAttribute("/in", AcceptTypes:={
         GetType(RepeatsView),
         GetType(ReverseRepeatsView),
         GetType(PalindromeLoci),
@@ -174,9 +174,9 @@ Partial Module Utilities
     <ExportAPI("Search.Batch",
                Info:="Batch search for repeats.",
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
-    <Argument("/aln", False,
+    <ArgumentAttribute("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
-    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(ReverseRepeatsView)})>
+    <ArgumentAttribute("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(ReverseRepeatsView)})>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject(Of FastaFile)("/aln", AddressOf FastaFile.Read)

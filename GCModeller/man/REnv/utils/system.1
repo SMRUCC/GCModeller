@@ -1,0 +1,126 @@
+.\" man page create by R# package system.
+.TH UTILS 1 2020-10-29 "system" "system"
+.SH NAME
+system \- Invoke a System Command
+.SH SYNOPSIS
+\fIsystem(\fBcommand\fR as string, 
+\fBintern\fR as boolean = FALSE, 
+\fBignore_stdout\fR as boolean = FALSE, 
+\fBignore_stderr\fR as boolean = FALSE, 
+\fBwait\fR as boolean = TRUE, 
+\fBinput\fR as <generic> Object = \fB<NULL>\fR, 
+\fBshow_output_on_console\fR as boolean = TRUE, 
+\fBminimized\fR as boolean = FALSE, 
+\fBinvisible\fR as boolean = TRUE, 
+\fBtimeout\fR as double = 0);\fR
+.SH DESCRIPTION
+.PP
+Invoke a System Command
+ 
+ \fBsystem\fR invokes the OS command specified by \fBcommand\fR.
+.PP
+.SH OPTIONS
+.PP
+\fBcommand\fB \fR\- the system command to be invoked, as a character string.
+.PP
+.PP
+\fBintern\fB \fR\- a logical (not NA) which indicates whether to capture the 
+ output of the command as an R character vector.
+.PP
+.PP
+\fBignore_stdout\fB \fR\- -
+.PP
+.PP
+\fBignore_stderr\fB \fR\- -
+.PP
+.PP
+\fBwait\fB \fR\- -
+.PP
+.PP
+\fBinput\fB \fR\- -
+.PP
+.PP
+\fBshow_output_on_console\fB \fR\- 
+ logical (Not NA), indicates whether to capture the output of the command And show 
+ it on the R console (Not used by Rterm, which shows the output in the terminal 
+ unless wait Is false).
+
+.PP
+.PP
+\fBminimized\fB \fR\- 
+ logical (Not NA), indicates whether a command window should be displayed initially 
+ as a minimized window.
+
+.PP
+.PP
+\fBinvisible\fB \fR\- -
+.PP
+.PP
+\fBtimeout\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+If intern = TRUE, a character vector giving the output of the command, one line per 
+ character string. (Output lines of more than 8095 bytes will be split.) If the command 
+ could not be run an R error is generated. Under the Rgui console intern = TRUE also 
+ captures stderr unless ignore.stderr = TRUE. If command runs but gives a non-zero exit 
+ status this will be reported with a warning and in the attribute "status" of the result: 
+ an attribute "errmsg" may also be available.
+
+ If intern = False, the Return value Is an Error code (0 For success), given the invisible 
+ attribute (so needs To be printed explicitly). If the command could Not be run For any 
+ reason, the value Is 127 And a warning Is issued (As from R 3.5.0). Otherwise If 
+ wait = True the value Is the Exit status returned by the command, And If wait = False it 
+ Is 0 (the conventional success value).
+
+ If the command times out, a warning Is reported And the Exit status Is 124. Some Windows 
+ commands Return out-Of-range status values (e.g., -1) And so only the bottom 16 bits Of 
+ the value are used.
+
+ If intern = False, wait = True, show.output.On.console = True the 'stdout’ and ‘stderr’ 
+ (unless ignore.stdout = TRUE or ignore.stderr = TRUE) output from a command that is a 
+ ‘console application’ should appear in the R console (Rgui) or the window running R 
+ (Rterm).
+
+ Not all Windows executables properly respect redirection of output, Or may only do so 
+ from a console application such as Rterm And Not from Rgui For example, 'fc.exe’ was 
+ among these in the past, but we have had more success recently.
+.PP
+.SH DETAILS
+.PP
+This interface has become rather complicated over the years: see system2 for a more 
+ portable and flexible interface which is recommended for new code.
+
+ command Is parsed as a command plus arguments separated by spaces. So if the path to 
+ the command (Or a single argument such as a file path) contains spaces, it must be 
+ quoted e.g. by shQuote. Only double quotes are allowed on Windows: see the examples. 
+ (Note: a Windows path name cannot contain a Double quote, so we Do Not need To worry 
+ about escaping embedded quotes.)
+
+ command must be an executable (extensions '.exe’, ‘.com’) or a batch file (extensions 
+ ‘.cmd’ and ‘.bat’): these extensions are tried in turn if none is supplied. This 
+ means that redirection, pipes, DOS internal commands, ... cannot be used: see shell 
+ if you want to pass a shell command-line.
+
+ The search path For command may be system-dependent: it will include the R 'bin’ 
+ directory, the working directory and the Windows system directories before PATH.
+
+ When timeout Is non-zero, the command Is terminated after the given number of seconds. 
+ The termination works for typical commands, but Is Not guaranteed it Is possible to 
+ write a program that would keep running after the time Is out. Timeouts can only be 
+ set with wait = TRUE.
+
+ The ordering Of arguments after the first two has changed from time To time: it Is 
+ recommended to name all arguments after the first.
+
+ There are many pitfalls In Using system To ascertain If a command can be run — 
+ Sys.which Is more suitable.
+.PP
+.SH SEE ALSO
+utils
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

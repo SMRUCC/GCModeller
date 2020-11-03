@@ -90,7 +90,7 @@ Partial Module CLI
     <ExportAPI("/KEGG.Color.Pathway")>
     <Usage("/KEGG.Color.Pathway /in <protein.annotations.csv> /ref <KEGG.ref.pathwayMap.directory repository> [/out <out.directory>]")>
     <Group(CLIGroups.Annotation_CLI)>
-    <Argument("/ref", False, CLITypes.File, AcceptTypes:={GetType(Map)},
+    <ArgumentAttribute("/ref", False, CLITypes.File, AcceptTypes:={GetType(Map)},
               Extensions:="*.Xml",
               Description:="")>
     Public Function ColorKEGGPathwayMap(args As CommandLine) As Integer
@@ -119,7 +119,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
-    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <ArgumentAttribute("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -144,8 +144,8 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniRef.map.organism")>
     <Usage("/UniRef.map.organism /in <uniref.xml> [/org <organism_name> /out <out.csv>]")>
-    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
-    <Argument("/org", True, CLITypes.String, Description:="The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.")>
+    <ArgumentAttribute("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <ArgumentAttribute("/org", True, CLITypes.String, Description:="The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.")>
     Public Function UniRefMap2Organism(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim org$ = args <= "/org"
@@ -307,23 +307,23 @@ Partial Module CLI
     <ExportAPI("/protein.annotations")>
     <Description("Total proteins functional annotation by using uniprot database.")>
     <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv/Xlsx> /mapping <mappings.tab/tsv> /out <out.csv>]")>
-    <Argument("/list", True, CLITypes.File,
+    <ArgumentAttribute("/list", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Extensions:="*.txt, *.csv, *.xlsx",
               Description:="Using for the iTraq method result.")>
-    <Argument("/iTraq", True, CLITypes.Boolean,
+    <ArgumentAttribute("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="* Using for the iTraq method result. If this option was enabled, then the protein ID in the output table using be using the value from the uniprot ID field.")>
-    <Argument("/mapping", True, CLITypes.File,
+    <ArgumentAttribute("/mapping", True, CLITypes.File,
               Extensions:="*.tsv, *.txt",
               Description:="The id mapping table, only works when the argument ``/list`` is presented.")>
-    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(UniProtXML)},
               Extensions:="*.xml",
               Description:="The Uniprot protein database in XML file format.")>
-    <Argument("/accession.ID", True, CLITypes.Boolean,
+    <ArgumentAttribute("/accession.ID", True, CLITypes.Boolean,
               Description:="Using the uniprot protein ID from the ``/uniprot`` input as the generated dataset's ID value, instead of using the numeric sequence as the ID value.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Extensions:="*.csv",
               Description:="The file path for output protein annotation table where to save.")>
     <Group(CLIGroups.Annotation_CLI)>
@@ -469,25 +469,25 @@ Partial Module CLI
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
     <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /label.right /colors <default=Set1:c6> /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
-    <Argument("/GO", True, CLITypes.File,
+    <ArgumentAttribute("/GO", True, CLITypes.File,
               Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
-    <Argument("/level", True, CLITypes.Integer,
+    <ArgumentAttribute("/level", True, CLITypes.Integer,
               Description:="The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.")>
-    <Argument("/label.right", True, CLITypes.Boolean,
+    <ArgumentAttribute("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="Uniprot XML database export result from ``/protein.annotations`` command.")>
-    <Argument("/tick", True, CLITypes.Double,
+    <ArgumentAttribute("/tick", True, CLITypes.Double,
               Description:="The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.")>
-    <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)},
+    <ArgumentAttribute("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)},
               Description:="The size of the output plot image.")>
-    <Argument("/selects", True, CLITypes.String,
+    <ArgumentAttribute("/selects", True, CLITypes.String,
               Description:="The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Extensions:="*.csv, *.png",
               Description:="A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               
@@ -553,15 +553,15 @@ Partial Module CLI
     <ExportAPI("/proteins.KEGG.plot")>
     <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/field <default=KO> /not.human /geneId.field <default=nothing> /label.right /colors <default=Set1:c6> /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
-    <Argument("/custom",
+    <ArgumentAttribute("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg. 
               You can replace the %s mark using kegg organism code in url example as: http://www.kegg.jp/kegg-bin/download_htext?htext=%s00001&format=htext&filedir= for download the custom KO classification set.")>
-    <Argument("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
-    <Argument("/size", True, CLITypes.String, Description:="The canvas size value.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/label.right", True, CLITypes.Boolean, Description:="Align the label from right.")>
+    <ArgumentAttribute("/size", True, CLITypes.String, Description:="The canvas size value.")>
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xlsx, *.csv",
               Description:="Total protein annotation from UniProtKB database. Which is generated from the command ``/protein.annotations``.")>
-    <Argument("/colors", True, CLITypes.String, PipelineTypes.undefined,
+    <ArgumentAttribute("/colors", True, CLITypes.String, PipelineTypes.undefined,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="Change the default color profiles of the categories plots. Value can be a color profile name term or color name list that join by delimiter comma symbol:
               
@@ -646,7 +646,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Species.Normalization")>
     <Usage("/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
-    <Argument("/bbh", False, CLITypes.File,
+    <ArgumentAttribute("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function NormalizeSpecies(args As CommandLine) As Integer
@@ -800,7 +800,7 @@ Partial Module CLI
     <ExportAPI("/COG.profiling.plot",
                Info:="Plots the COGs category statics profiling of the target genome from the COG annotation file.",
                Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="The COG annotation result.")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer

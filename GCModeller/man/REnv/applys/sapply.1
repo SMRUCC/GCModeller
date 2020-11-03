@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH APPLYS 1 2020-10-29 "sapply" "sapply"
+.SH NAME
+sapply \- Apply a Function over a List or Vector
+.SH SYNOPSIS
+\fIsapply(\fBX\fR as <generic> Object, 
+\fBFUN\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Apply a Function over a List or Vector
+ 
+ sapply is a user-friendly version and wrapper of lapply by default 
+ returning a vector, matrix or, if simplify = "array", an array 
+ if appropriate, by applying simplify2array(). sapply(x, f, simplify 
+ = FALSE, USE.NAMES = FALSE) is the same as lapply(x, f).
+.PP
+.SH OPTIONS
+.PP
+\fBX\fB \fR\- 
+ a vector (atomic or list) or an expression object. Other objects 
+ (including classed objects) will be coerced by \fBbase::as.list\fR.
+
+.PP
+.PP
+\fBFUN\fB \fR\- 
+ the Function to be applied To Each element Of X: see 'Details’. 
+ In the case of functions like +, %*%, the function name must be 
+ backquoted or quoted.
+
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH SEE ALSO
+applys
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

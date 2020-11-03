@@ -77,7 +77,7 @@ Partial Module Utilities
 
     <ExportAPI("/Palindrome.BatchTask",
                Usage:="/Palindrome.BatchTask /in <in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff <0.6> /Palindrome /max-dist <1000 (bp)> /partitions <-1> /out <out.DIR>]")>
-    <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <ArgumentAttribute("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
     <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeBatchTask(args As CommandLine) As Integer
         Dim inDIR As String = args - "/in"
@@ -107,9 +107,9 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/Palindrome.Workflow",
                Usage:="/Palindrome.Workflow /in <in.fasta> [/batch /min-appears 2 /min 3 /max 20 /cutoff <0.6> /max-dist <1000 (bp)> /Palindrome /partitions <-1> /out <out.DIR>]")>
-    <Argument("/in", False,
+    <ArgumentAttribute("/in", False,
                    Description:="This is a single sequence fasta file.")>
-    <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <ArgumentAttribute("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
     <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeWorkflow(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

@@ -115,7 +115,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SWTOM.Query", Usage:="/SWTOM.Query /query <meme.txt> [/out <outDIR> /method <pcc> /bits.level 1.6 /minW 6 /no-HTML]")>
-    <Argument("/no-HTML", True,
+    <ArgumentAttribute("/no-HTML", True,
                    Description:="If this parameter is true, then only the XML result will be export.")>
     Public Function SWTomQuery(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -244,7 +244,7 @@ Partial Module CLI
     ''' <remarks>默认参数已经是经过RegulatorsMotif测试过的</remarks>
     <ExportAPI("/SWTOM.Query.Batch",
                Usage:="/SWTOM.Query.Batch /query <meme.txt.DIR> [/out <outDIR> /SW-offset 0.6 /method <pcc> /bits.level 1.5 /minW 4 /SW-threshold 0.75 /tom-threshold 0.75 /no-HTML]")>
-    <Argument("/no-HTML", True,
+    <ArgumentAttribute("/no-HTML", True,
                    Description:="If this parameter is true, then only the XML result will be export.")>
     Public Function SWTomQueryBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/query")

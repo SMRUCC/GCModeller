@@ -94,11 +94,11 @@ Partial Module CLI
     <ExportAPI("/iTraq.Symbol.Replacement")>
     <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
     <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv/xlsx> /symbols <symbols.csv/xlsx> [/sheet.name <Sheet1> /symbolSheet <sheetName> /out <out.DIR>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqReader)},
               Description:="")>
-    <Argument("/symbols", False, CLITypes.File,
+    <ArgumentAttribute("/symbols", False, CLITypes.File,
               Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqSymbols)},
               Description:="Using for replace the mass spectrum expeirment symbol to the user experiment tag.")>
@@ -152,8 +152,8 @@ Partial Module CLI
     <Description("Split the raw matrix into different compare group based on the experimental designer information.")>
     <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/allowed.swap /out <out.Dir>]")>
     <Group(CLIGroups.iTraqTool)>
-    <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
-    <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
+    <ArgumentAttribute("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
+    <ArgumentAttribute("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
               Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``<Controls>,<Experimental>``. 
               The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
@@ -193,10 +193,10 @@ Partial Module CLI
     <ExportAPI("/iTraq.RSD-P.Density")>
     <Usage("/iTraq.RSD-P.Density /in <matrix.csv> [/out <out.png>]")>
     <Description("Visualize data QC analysis result.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.csv",
               Description:="A data matrix which is comes from the ``/iTraq.matrix.split`` command.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Extensions:="*.png, *.svg",
               Description:="The file path of the plot result image.")>
     <Group(CLIGroups.iTraqTool)>
@@ -217,9 +217,9 @@ Partial Module CLI
     <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /skip.significant.test /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Description("Implements the screening for different expression proteins by using log2FC threshold and t.test pvalue threshold.")>
     <Group(CLIGroups.iTraqTool)>
-    <Argument("/FDR", True, CLITypes.Double,
+    <ArgumentAttribute("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
-    <Argument("/skip.significant.test", True,
+    <ArgumentAttribute("/skip.significant.test", True,
               CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.")>

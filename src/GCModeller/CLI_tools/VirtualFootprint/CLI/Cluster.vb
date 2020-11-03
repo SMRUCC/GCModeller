@@ -66,7 +66,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Binary.KMeans.SW",
                Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /parallel.depth <-1> /out <out.DIR>]")>
-    <Argument("/first.ID",
+    <ArgumentAttribute("/first.ID",
               Description:="Using the first token in the fasta header as the output entity ID? Default is using the full title.")>
     Public Function BinaryKmeansSW(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

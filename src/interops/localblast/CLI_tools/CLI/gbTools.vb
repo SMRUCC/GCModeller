@@ -224,9 +224,9 @@ Partial Module CLI
     <ExportAPI("/Export.BlastX")>
     <Usage("/Export.BlastX /in <blastx.txt> [/top /Uncharacterized.exclude /out <out.csv>]")>
     <Description("Export the blastx alignment result into a csv table.")>
-    <Argument("/top", True, CLITypes.Boolean,
+    <ArgumentAttribute("/top", True, CLITypes.Boolean,
               Description:="Only output the top first alignment result? Default is not.")>
-    <Argument("/in", False, CLITypes.File,
+    <ArgumentAttribute("/in", False, CLITypes.File,
               PipelineTypes.std_in,
               Extensions:="*.txt",
               Description:="The text file content output from the blastx command in NCBI blast+ suite.")>
@@ -267,9 +267,9 @@ Partial Module CLI
     <ExportAPI("/Export.gb")>
     <Description("Export the *.fna, *.faa, *.ptt file from the gbk file.")>
     <Usage("/Export.gb /gb <genbank.gb/DIR> [/flat /out <outDIR> /simple /batch]")>
-    <Argument("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
+    <ArgumentAttribute("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
               Description:="Fasta sequence short title, which is just only contains locus_tag")>
-    <Argument("/flat", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
+    <ArgumentAttribute("/flat", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
               Description:="If the argument is presented in your commandline input, then all of the files 
               will be saved in one directory, otherwise will group by genome locus_tag in seperated folders.")>
     <Group(CLIGrouping.GenbankTools)>
@@ -385,7 +385,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.gb.genes")>
     <Usage("/Export.gb.genes /gb <genbank.gb> [/locus_tag /geneName /out <out.fasta>]")>
-    <Argument("/geneName", True, CLITypes.Boolean,
+    <ArgumentAttribute("/geneName", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.")>
     <Group(CLIGrouping.GenbankTools)>
@@ -416,7 +416,7 @@ Partial Module CLI
     <ExportAPI("/add.locus_tag",
                Info:="Add locus_tag qualifier into the feature slot.",
                Usage:="/add.locus_tag /gb <gb.gbk> /prefix <prefix> [/add.gene /out <out.gb>]")>
-    <Argument("/add.gene", True, Description:="Add gene features?")>
+    <ArgumentAttribute("/add.gene", True, Description:="Add gene features?")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function AddLocusTag(args As CommandLine) As Integer
         Dim gbFile As String = args("/gb")

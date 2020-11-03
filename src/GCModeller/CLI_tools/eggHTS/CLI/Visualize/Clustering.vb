@@ -69,7 +69,7 @@ Partial Module CLI
     <ExportAPI("/DEP.kmeans.scatter2D")>
     <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <2500,2200> /pt.size <radius pixels, default=15> /schema <default=clusters> /out <out.png>]")>
     <Group(CLIGroups.DataVisualize_cli)>
-    <Argument("/sampleinfo", False, CLITypes.File, PipelineTypes.undefined,
+    <ArgumentAttribute("/sampleinfo", False, CLITypes.File, PipelineTypes.undefined,
               AcceptTypes:={GetType(SampleInfo)},
               Extensions:="*.csv",
               Description:="This file describ how to assign the axis data. The ``sample_group`` in this file defines the X or Y axis label, 
@@ -207,27 +207,27 @@ Partial Module CLI
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
     <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/display.labels <default=-1> /cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /arrow.factor <default=1,2> /cluster.title <names.csv> /out <out.png>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
               Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
-    <Argument("/sampleInfo", False, CLITypes.File,
+    <ArgumentAttribute("/sampleInfo", False, CLITypes.File,
               AcceptTypes:={GetType(SampleInfo)},
               Extensions:="*.csv",
               Description:="Sample info fot grouping the matrix column data and generates the 3d plot ``<x,y,z>`` coordinations.")>
-    <Argument("/cluster.prefix", True, CLITypes.String,
+    <ArgumentAttribute("/cluster.prefix", True, CLITypes.String,
               Description:="The term prefix of the kmeans cluster name when display on the legend title.")>
-    <Argument("/size", True,
+    <ArgumentAttribute("/size", True,
               AcceptTypes:={GetType(Size)},
               Description:="The output 3D scatter plot image size.")>
-    <Argument("/view.angle", True,
+    <ArgumentAttribute("/view.angle", True,
               Description:="The view angle of the 3D scatter plot objects, in 3D direction of ``<X>,<Y>,<Z>``")>
-    <Argument("/view.distance", True, CLITypes.Integer,
+    <ArgumentAttribute("/view.distance", True, CLITypes.Integer,
               Description:="The view distance from the 3D camera screen to the 3D objects.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               Extensions:="*.png, *.svg",
               Description:="The file path of the output plot image.")>
-    <Argument("/display.labels", True, CLITypes.Double,
+    <ArgumentAttribute("/display.labels", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="If this parameter is positive and then all of the value greater than this quantile threshold its labels will be display on the plot.")>
     <Group(CLIGroups.DataVisualize_cli)>

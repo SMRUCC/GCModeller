@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH LINQ 1 2020-10-29 "orderBy" "orderBy"
+.SH NAME
+orderBy \- Sorts the elements of a sequence in ascending order according to a key.
+.SH SYNOPSIS
+\fIorderBy(\fBsequence\fR as <generic> Object, 
+\fBgetKey\fR as <generic> RFunction = \fB<NULL>\fR, 
+\fBdesc\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Sorts the elements of a sequence in ascending order according to a key.
+.PP
+.SH OPTIONS
+.PP
+\fBsequence\fB \fR\- A sequence of values to order.
+.PP
+.PP
+\fBgetKey\fB \fR\- A function to extract a key from an element.
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+An System.Linq.IOrderedEnumerable`1 whose elements are sorted according to a
+ key.
+.PP
+.SH SEE ALSO
+linq
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@live.com\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

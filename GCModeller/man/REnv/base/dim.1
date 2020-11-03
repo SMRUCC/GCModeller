@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "dim" "dim"
+.SH NAME
+dim \- Dimensions of an Object
+.SH SYNOPSIS
+\fIdim(\fBx\fR as <generic> Object);\fR
+.SH DESCRIPTION
+.PP
+Dimensions of an Object
+ 
+ Retrieve or set the dimension of an object.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an R Object, For example a matrix, array Or data frame.
+.PP
+.SH VALUE
+.PP
+For the default method, either NULL or a numeric vector, which is 
+ coerced to integer (by truncation).
+ 
+ For an array (and hence in particular, for a matrix) dim retrieves 
+ the dim attribute of the object. It is NULL or a vector of mode 
+ integer.
+ 
+ The replacement method changes the "dim" attribute (provided the New 
+ value Is compatible) And removes any "dimnames" And "names" 
+ attributes.
+.PP
+.SH DETAILS
+.PP
+The functions dim and \fBdim<-\fR are internal generic primitive functions.
+ Dim has a method For \fBdata.frames\fR, which returns the lengths Of the 
+ \fBrow.names\fR attribute Of x And Of x (As the numbers Of rows And columns 
+ respectively).
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

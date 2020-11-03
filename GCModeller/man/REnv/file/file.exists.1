@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH FILE 1 2020-10-29 "file.exists" "file.exists"
+.SH NAME
+file.exists \- \fBfile.exists\fR returns a logical vector indicating whether the files named by its
+.SH SYNOPSIS
+\fIfile.exists(\fBfiles\fR as string);\fR
+.SH DESCRIPTION
+.PP
+\fBfile.exists\fR returns a logical vector indicating whether the files named by its 
+ argument exist. (Here ‘exists’ is in the sense of the system's stat call: a file 
+ will be reported as existing only if you have the permissions needed by stat. 
+ Existence can also be checked by file.access, which might use different permissions 
+ and so obtain a different result. Note that the existence of a file does not 
+ imply that it is readable: for that use file.access.) What constitutes a ‘file’ 
+ is system-dependent, but should include directories. (However, directory names 
+ must not include a trailing backslash or slash on Windows.) Note that if the file 
+ is a symbolic link on a Unix-alike, the result indicates if the link points to 
+ an actual file, not just if the link exists. Lastly, note the different function 
+ exists which checks for existence of R objects.
+.PP
+.SH OPTIONS
+.PP
+\fBfiles\fB \fR\- 
+ character vectors, containing file names or paths.
+
+.PP
+.SH SEE ALSO
+file
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "cat" "cat"
+.SH NAME
+cat \- Concatenate and Print
+.SH SYNOPSIS
+\fIcat(\fBvalues\fR as <generic> Object, 
+\fBfile\fR as string = \fB<NULL>\fR, 
+\fBsep\fR as string = " ", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Concatenate and Print
+ 
+ Outputs the objects, concatenating the representations. 
+ \fBcat\fR performs much less conversion than \fBprint\fR.
+.PP
+.SH OPTIONS
+.PP
+\fBvalues\fB \fR\- R objects (see ‘Details’ for the types of objects allowed).
+.PP
+.PP
+\fBfile\fB \fR\- A connection, or a character string naming the file to print to. 
+ If "" (the default), cat prints to the standard output connection, the console 
+ unless redirected by \fBsink\fR.
+.PP
+.PP
+\fBsep\fB \fR\- a character vector of strings to append after each element.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Exocarta.Hits:                         
 '  /Fasta.IDlist:                          
 '  /iBAQ.Cloud:                            Cloud plot of the iBAQ DEPs result.
+'  /KEGG.enrichment.profile:               
 '  /KO.Catalogs:                           Display the barplot of the KEGG orthology match.
 '  /KOBAS.Sim.Heatmap:                     
 '  /KOBAS.similarity:                      
@@ -301,19 +302,22 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Converts /in &lt;GSEA.terms.csv&gt; [/out &lt;result.terms.csv&gt;]
+''' /Converts /in &lt;GSEA.terms.csv&gt; [/DAVID2KOBAS /out &lt;result.terms.csv&gt;]
 ''' ```
 ''' Converts the GCModeller enrichment analysis output as the KOBAS enrichment analysis result output table.
 ''' </summary>
 '''
 ''' <param name="[in]"> The GCModeller enrichment analysis output table.
 ''' </param>
-Public Function Converts([in] As String, Optional out As String = "") As Integer
+Public Function Converts([in] As String, Optional out As String = "", Optional david2kobas As Boolean = False) As Integer
     Dim CLI As New StringBuilder("/Converts")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")
+    End If
+    If david2kobas Then
+        Call CLI.Append("/david2kobas ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 
@@ -1153,7 +1157,7 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /func.rich.string /in &lt;string_interactions.tsv&gt; /uniprot &lt;uniprot.XML&gt; /DEP &lt;dep.t.test.csv&gt; [/map &lt;map.tsv&gt; /r.range &lt;default=12,30&gt; /log2FC &lt;default=log2FC&gt; /layout &lt;string_network_coordinates.txt&gt; /out &lt;out.network.DIR&gt;]
+''' /func.rich.string /in &lt;string_interactions.tsv&gt; /uniprot &lt;uniprot.XML&gt; /DEP &lt;dep.t.test.csv&gt; [/map &lt;map.tsv&gt; /r.range &lt;default=12,30&gt; /size &lt;default=1920,1080&gt; /log2FC &lt;default=log2FC&gt; /layout &lt;string_network_coordinates.txt&gt; /out &lt;out.network.DIR&gt;]
 ''' ```
 ''' DEPs&apos; functional enrichment network based on string-db exports, and color by KEGG pathway.
 ''' </summary>
@@ -1171,6 +1175,7 @@ Public Function FunctionalNetworkEnrichment([in] As String,
                                                DEP As String, 
                                                Optional map As String = "", 
                                                Optional r_range As String = "12,30", 
+                                               Optional size As String = "1920,1080", 
                                                Optional log2fc As String = "log2FC", 
                                                Optional layout As String = "", 
                                                Optional out As String = "") As Integer
@@ -1184,6 +1189,9 @@ Public Function FunctionalNetworkEnrichment([in] As String,
     End If
     If Not r_range.StringEmpty Then
             Call CLI.Append("/r.range " & """" & r_range & """ ")
+    End If
+    If Not size.StringEmpty Then
+            Call CLI.Append("/size " & """" & size & """ ")
     End If
     If Not log2fc.StringEmpty Then
             Call CLI.Append("/log2fc " & """" & log2fc & """ ")
@@ -1927,7 +1935,7 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/gray /colors &lt;default=Set1:c6&gt; /label.right /pvalue &lt;0.05&gt; /tick 1 /size &lt;2000,1600&gt; /out &lt;out.png&gt;]
+''' /KEGG.enrichment.plot /in &lt;enrichmentTerm.csv&gt; [/gray /colors &lt;default=Set1:c6&gt; /top &lt;default=13&gt; /label.right /pvalue &lt;0.05&gt; /tick 1 /size &lt;2000,1600&gt; /out &lt;out.png&gt;]
 ''' ```
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
@@ -1943,6 +1951,7 @@ End Function
 ''' </param>
 Public Function KEGG_enrichment([in] As String, 
                                    Optional colors As String = "Set1:c6", 
+                                   Optional top As String = "13", 
                                    Optional pvalue As String = "", 
                                    Optional tick As String = "", 
                                    Optional size As String = "", 
@@ -1954,6 +1963,9 @@ Public Function KEGG_enrichment([in] As String,
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not colors.StringEmpty Then
             Call CLI.Append("/colors " & """" & colors & """ ")
+    End If
+    If Not top.StringEmpty Then
+            Call CLI.Append("/top " & """" & top & """ ")
     End If
     If Not pvalue.StringEmpty Then
             Call CLI.Append("/pvalue " & """" & pvalue & """ ")
@@ -1972,6 +1984,27 @@ Public Function KEGG_enrichment([in] As String,
     End If
     If label_right Then
         Call CLI.Append("/label.right ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /KEGG.enrichment.profile /in &lt;enrichment.csv&gt; [/out &lt;profile.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function KEGGPathwayEnrichmentProfile([in] As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.enrichment.profile")
+    Call CLI.Append(" ")
+    Call CLI.Append("/in " & """" & [in] & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
     End If
      Call CLI.Append("/@set --internal_pipeline=TRUE ")
 

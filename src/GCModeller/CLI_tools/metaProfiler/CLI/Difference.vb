@@ -63,11 +63,11 @@ Partial Module CLI
 
     <ExportAPI("/significant.difference")>
     <Usage("/significant.difference /in <data.csv> /groups <sampleInfo.csv> [/out <out.csv.DIR>]")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(DataSet)},
               Extensions:="*.csv",
               Description:="A matrix file that contains the sample data.")>
-    <Argument("/groups", False, CLITypes.File,
+    <ArgumentAttribute("/groups", False, CLITypes.File,
               AcceptTypes:={GetType(SampleInfo)},
               Extensions:="*.csv",
               Description:="Grouping info of the samples.")>
@@ -214,9 +214,9 @@ Partial Module CLI
 
     <ExportAPI("/Relative_abundance.barplot")>
     <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /size <3000,2700> /column.n <default=9> /interval <10px> /out <out.png>]")>
-    <Argument("/desc", True, CLITypes.Boolean, Description:="")>
-    <Argument("/asc", True, CLITypes.Boolean, Description:="")>
-    <Argument("/take", True, CLITypes.Integer,
+    <ArgumentAttribute("/desc", True, CLITypes.Boolean, Description:="")>
+    <ArgumentAttribute("/asc", True, CLITypes.Boolean, Description:="")>
+    <ArgumentAttribute("/take", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="")>
     Public Function Relative_abundance_barplot(args As CommandLine) As Integer

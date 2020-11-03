@@ -1,0 +1,49 @@
+.\" man page create by R# package system.
+.TH REFLECTIONS 1 2020-10-29 "parse" "parse"
+.SH NAME
+parse \- Parse Expressions
+.SH SYNOPSIS
+\fIparse(\fBtext\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Parse Expressions
+ 
+ parse returns the parsed but unevaluated expressions in a list.
+.PP
+.SH OPTIONS
+.PP
+\fBtext\fB \fR\- 
+ character vector. The text to parse. Elements are treated as if 
+ they were lines of a file. Other R objects will be coerced to 
+ character if possible.
+
+.PP
+.SH VALUE
+.PP
+An object of type "expression", with up to n elements if 
+ specified as a non-negative integer.
+ 
+ A syntax error (including an incomplete expression) will throw an error.
+ 
+ Character strings In the result will have a declared encoding 
+ If encoding Is "latin1" Or "UTF-8", Or If text Is supplied With 
+ every element Of known encoding In a Latin-1 Or UTF-8 locale.
+.PP
+.SH DETAILS
+.PP
+If text has length greater than zero (after coercion) it is used 
+ in preference to file.
+ 
+ All versions Of R accept input from a connection With End Of line
+ marked by LF (As used On Unix), CRLF (As used On DOS/Windows) Or 
+ CR (As used On classic Mac OS). The final line can be incomplete, 
+ that Is missing the final EOL marker.
+.PP
+.SH SEE ALSO
+reflections
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

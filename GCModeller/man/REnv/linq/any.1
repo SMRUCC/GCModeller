@@ -1,0 +1,48 @@
+.\" man page create by R# package system.
+.TH LINQ 1 2020-10-29 "any" "any"
+.SH NAME
+any \- Are Some Values True?
+.SH SYNOPSIS
+\fIany(\fBtest\fR as <generic> Object, 
+\fBnarm\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+Are Some Values True?
+ 
+ Given a set of logical vectors, is at least one of the values true?
+.PP
+.SH OPTIONS
+.PP
+\fBtest\fB \fR\- 
+ zero or more logical vectors. Other objects of zero length are ignored, 
+ and the rest are coerced to logical ignoring any class.
+
+.PP
+.PP
+\fBnarm\fB \fR\- 
+ logical. If true NA values are removed before the result Is computed.
+
+.PP
+.SH VALUE
+.PP
+The value is a logical vector of length one.
+
+ Let x denote the concatenation of all the logical vectors in ... 
+ (after coercion), after removing NAs if requested by na.rm = TRUE.
+ 
+ The value returned Is True If at least one Of the values In x Is True, 
+ And False If all Of the values In x are False (including If there are 
+ no values). Otherwise the value Is NA (which can only occur If 
+ na.rm = False And ... contains no True values And at least one NA 
+ value).
+.PP
+.SH SEE ALSO
+linq
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@live.com\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

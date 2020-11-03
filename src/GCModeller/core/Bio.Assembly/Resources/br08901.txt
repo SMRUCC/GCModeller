@@ -97,6 +97,7 @@ C    00601  Glycosphingolipid biosynthesis - lacto and neolacto series
 C    00603  Glycosphingolipid biosynthesis - globo and isoglobo series
 C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00540  Lipopolysaccharide biosynthesis
+C    00541  O-Antigen nucleotide sugar biosynthesis
 C    00550  Peptidoglycan biosynthesis
 C    00511  Other glycan degradation
 C    00571  Lipoarabinomannan (LAM) biosynthesis
@@ -235,13 +236,13 @@ C    02060  Phosphotransferase system (PTS)
 C    03070  Bacterial secretion system
 B  Signal transduction
 C    02020  Two-component system
-C    04014  Ras signaling pathway
-C    04015  Rap1 signaling pathway
 C    04010  MAPK signaling pathway
 C    04013  MAPK signaling pathway - fly
 C    04016  MAPK signaling pathway - plant
 C    04011  MAPK signaling pathway - yeast
 C    04012  ErbB signaling pathway
+C    04014  Ras signaling pathway
+C    04015  Rap1 signaling pathway
 C    04310  Wnt signaling pathway
 C    04330  Notch signaling pathway
 C    04340  Hedgehog signaling pathway
@@ -252,7 +253,7 @@ C    04391  Hippo signaling pathway - fly
 C    04392  Hippo signaling pathway - multiple species
 C    04370  VEGF signaling pathway
 C    04371  Apelin signaling pathway
-C    04630  Jak-STAT signaling pathway
+C    04630  JAK-STAT signaling pathway
 C    04064  NF-kappa B signaling pathway
 C    04668  TNF signaling pathway
 C    04066  HIF-1 signaling pathway
@@ -272,7 +273,7 @@ C    04080  Neuroactive ligand-receptor interaction
 C    04060  Cytokine-cytokine receptor interaction
 C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
-C    04514  Cell adhesion molecules (CAMs)
+C    04514  Cell adhesion molecules
 #
 A<b>Cellular Processes</b>
 B  Transport and catabolism
@@ -450,17 +451,18 @@ C    05310  Asthma
 C    05322  Systemic lupus erythematosus
 C    05323  Rheumatoid arthritis
 C    05320  Autoimmune thyroid disease
-C    05321  Inflammatory bowel disease (IBD)
+C    05321  Inflammatory bowel disease
 C    05330  Allograft rejection
 C    05332  Graft-versus-host disease
 C    05340  Primary immunodeficiency
 B  Neurodegenerative disease
 C    05010  Alzheimer disease
 C    05012  Parkinson disease
-C    05014  Amyotrophic lateral sclerosis (ALS)
+C    05014  Amyotrophic lateral sclerosis
 C    05016  Huntington disease
 C    05017  Spinocerebellar ataxia
-C    05020  Prion diseases
+C    05020  Prion disease
+C    05022  Pathways of neurodegeneration - multiple diseases
 B  Substance dependence
 C    05030  Cocaine addiction
 C    05031  Amphetamine addiction
@@ -469,15 +471,15 @@ C    05033  Nicotine addiction
 C    05034  Alcoholism
 B  Cardiovascular disease
 C    05418  Fluid shear stress and atherosclerosis
-C    05410  Hypertrophic cardiomyopathy (HCM)
-C    05412  Arrhythmogenic right ventricular cardiomyopathy (ARVC)
-C    05414  Dilated cardiomyopathy (DCM)
+C    05410  Hypertrophic cardiomyopathy
+C    05412  Arrhythmogenic right ventricular cardiomyopathy
+C    05414  Dilated cardiomyopathy
 C    05416  Viral myocarditis
 B  Endocrine and metabolic disease
 C    04930  Type II diabetes mellitus
 C    04940  Type I diabetes mellitus
 C    04950  Maturity onset diabetes of the young
-C    04932  Non-alcoholic fatty liver disease (NAFLD)
+C    04932  Non-alcoholic fatty liver disease
 C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
 C    04934  Cushing syndrome
@@ -510,7 +512,7 @@ C    05146  Amoebiasis
 C    05144  Malaria
 C    05145  Toxoplasmosis
 C    05140  Leishmaniasis
-C    05142  Chagas disease (American trypanosomiasis)
+C    05142  Chagas disease
 C    05143  African trypanosomiasis
 B  Drug resistance: antimicrobial
 C    01501  beta-Lactam resistance
@@ -540,7 +542,7 @@ C    07040  Antineoplastics - alkylating agents
 C    07041  Antineoplastics - antimetabolic agents
 C    07042  Antineoplastics - agents from natural products
 C    07043  Antineoplastics - hormones
-C    07045  Antineoplastics - protein kinases inhibitors
+C    07045  Antineoplastics - protein kinase inhibitors
 B  Chronology: Nervous system agents
 C    07032  Hypnotics
 C    07030  Anxiolytics
@@ -590,7 +592,7 @@ C    07230  GABA-A receptor agonists/antagonists
 C    07036  Calcium channel blocking drugs
 C    07231  Sodium channel blocking drugs
 C    07232  Potassium channel blocking and opening drugs
-C    07235  N-Metyl-D-aspartic acid receptor antagonists
+C    07235  N-Methyl-D-aspartic acid (NMDA) receptor antagonists
 B  Target-based classification: Transporters
 C    07233  Ion transporter inhibitors
 C    07234  Neurotransmitter transporter inhibitors
@@ -612,5 +614,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: March 10, 2020
+#Last updated: October 19, 2020
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

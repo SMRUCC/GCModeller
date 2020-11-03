@@ -80,7 +80,7 @@ Partial Module CLI
     <ExportAPI("--align.Family",
                Usage:="--align.Family /query <pfam-string.csv> [/out <out.csv> /threshold 0.5 /mp 0.6 /Name <null>]",
                Info:="Protein family annotation by using MPAlignment algorithm.")>
-    <Argument("/Name", True,
+    <ArgumentAttribute("/Name", True,
                    Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
     Public Function FamilyClassified(args As CommandLine) As Integer
         Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)

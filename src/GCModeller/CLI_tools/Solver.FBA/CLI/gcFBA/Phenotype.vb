@@ -215,7 +215,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Solver.rFBA",
                Usage:="/Solver.rFBA /in <MetaCyc.Sbml> /reg <footprints.csv> /obj <object_function.txt/xml> [/obj-type <lst/pathway/module> /params <rfba.parameters.xml> /stat <stat.Csv> /sample <sampleName> /modify <locus_modify.csv> /out <outDIR>]")>
-    <Argument("/obj-type", True,
+    <ArgumentAttribute("/obj-type", True,
                    Description:="The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.")>
     Public Function AnalysisPhenotype(args As CommandLine) As Integer
         Dim inModel As String = args("/in")

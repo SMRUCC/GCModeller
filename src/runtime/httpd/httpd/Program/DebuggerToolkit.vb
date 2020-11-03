@@ -59,10 +59,10 @@ Partial Module CLI
     <ExportAPI("/GET")>
     <Description("Tools for http get request the content of a specific url.")>
     <Usage("/GET /url <url, /std_in> [/out <file/std_out>]")>
-    <Argument("/url", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/url", False, CLITypes.File, PipelineTypes.std_in,
           AcceptTypes:={GetType(String)},
           Description:="The resource URL on the web.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
           AcceptTypes:={GetType(String)},
           Description:="The save location of your requested data file.")>
     Public Function [GET](args As CommandLine) As Integer

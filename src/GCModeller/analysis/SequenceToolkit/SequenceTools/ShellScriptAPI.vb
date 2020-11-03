@@ -104,10 +104,10 @@ Public Module ShellScriptAPI
     ''' <remarks></remarks>
     <ExportAPI("-Pattern_Search", Info:="Parsing the sequence segment from the sequence source using regular expression.",
         Usage:="-pattern_search fasta <fasta_object> pattern <regex_pattern> output <output_directory>")>
-    <Argument("-p",
+    <ArgumentAttribute("-p",
         Description:="This switch specific the regular expression pattern for search the sequence segment,\n" &
                      "for more detail information about the regular expression please read the user manual.")>
-    <Argument("-o", True,
+    <ArgumentAttribute("-o", True,
         Description:="Optional, this switch value specific the output directory for the result data, default is user Desktop folder.")>
     Public Function PatternSearchA(fasta As FastaFile, pattern As String, outDIR As String) As Integer
         pattern = pattern.Replace("N", "[ATGCU]")

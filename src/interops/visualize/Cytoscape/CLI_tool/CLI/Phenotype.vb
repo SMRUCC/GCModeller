@@ -124,7 +124,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Motif.Cluster", Usage:="/Motif.Cluster /query <meme.txt/MEME_OUT.DIR> /LDM <LDM-name/xml.path> [/clusters <3> /out <outCsv>]")>
-    <Argument("/clusters", True,
+    <ArgumentAttribute("/clusters", True,
                    Description:="If the expects clusters number is greater than the maps number, then the maps number divid 2 is used.")>
     Public Function MotifCluster(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -341,7 +341,7 @@ Partial Module CLI
     ''' <param name="args">假若在最开始还没有赋值基因号，而是使用位置来代替的话，可以使用/map参数来讲基因从位置重新映射回基因编号</param>
     ''' <returns></returns>
     <ExportAPI("/Motif.Cluster.Fast"， Usage:="/Motif.Cluster.Fast /query <meme_OUT.DIR> [/LDM <ldm-DIR> /out <outDIR> /map <gb.gbk> /maxw -1 /ldm_loads]")>
-    <Argument("/maxw", True,
+    <ArgumentAttribute("/maxw", True,
                    Description:="If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
                    If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.")>
     Public Function FastCluster(args As CommandLine) As Integer

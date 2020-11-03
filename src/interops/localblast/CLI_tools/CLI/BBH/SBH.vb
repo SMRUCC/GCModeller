@@ -172,13 +172,13 @@ Partial Module CLI
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
     <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern <default=-> /q.pattern <default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out <sbh.csv>]")>
-    <Argument("/trim-KEGG", True, CLITypes.Boolean,
+    <ArgumentAttribute("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The sbh result output csv file location.")>
-    <Argument("/in", False, CLITypes.File,
+    <ArgumentAttribute("/in", False, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The blastp raw result input file path.")>
     <Group(CLIGrouping.BBHTools)>

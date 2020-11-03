@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH STRINGS 1 2020-10-29 "mid" "mid"
+.SH NAME
+mid \- Returns a string that contains a specified number of characters starting from
+.SH SYNOPSIS
+\fImid(\fBstrings\fR as string, 
+\fBstart\fR as integer, 
+\fBlen\fR as integer = -1);\fR
+.SH DESCRIPTION
+.PP
+Returns a string that contains a specified number of characters starting from
+ a specified position in a string.
+.PP
+.SH OPTIONS
+.PP
+\fBstrings\fB \fR\- Required. String expression from which characters are returned.
+.PP
+.PP
+\fBstart\fB \fR\- 
+ Required. Integer expression. Starting position of the characters to return.
+ If Start is greater than the number of characters in str, the Mid function returns
+ a zero-length string (""). Start is one based.
+
+.PP
+.PP
+\fBlen\fB \fR\- 
+ Optional. Integer expression. Number of characters to return. If omitted or if
+ there are fewer than Length characters in the text (including the character at
+ position Start), all characters from the start position to the end of the string
+ are returned.
+
+.PP
+.SH VALUE
+.PP
+A string that consists of the specified number of characters starting from the
+ specified position in the string.
+.PP
+.SH SEE ALSO
+strings
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

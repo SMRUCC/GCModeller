@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  // 
 '  // SMRUCC genomics GCModeller Programs Profiles Manager
 '  // 
-'  // VERSION:   3.3277.7290.24332
-'  // ASSEMBLY:  Settings, Version=3.3277.7290.24332, Culture=neutral, PublicKeyToken=null
-'  // COPYRIGHT: Copyright © SMRUCC genomics. 2014
+'  // VERSION:   3.3277.7609.23646
+'  // ASSEMBLY:  Settings, Version=3.3277.7609.23646, Culture=neutral, PublicKeyToken=null
+'  // COPYRIGHT: Copyright (c) SMRUCC genomics. 2014
 '  // GUID:      a554d5f5-a2aa-46d6-8bbb-f7df46dbbe27
-'  // BUILT:     12/17/2019 1:31:04 PM
+'  // BUILT:     10/31/2020 1:08:12 PM
 '  // 
 ' 
 ' 
@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 '  /Build.Tree.NET.Merged_Regulons:     
 '  /Build.Tree.NET.TF:                  
 '  /kegg.compound.network:              
+'  /KEGG.referenceMap.info:             
 '  /linkage.knowledge.network:          
 '  /Matrix.NET:                         Converts a generic distance matrix or kmeans clustering result
 '                                       to network model.
@@ -723,7 +724,30 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/top.priority &lt;map.name.list&gt; /category.level2 /reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /delete.tupleEdges /split /out &lt;result_network.directory&gt;]
+''' /KEGG.referenceMap.info /model &lt;network.xgmml&gt; /compounds &lt;names.json&gt; /KO &lt;reactionKOMapping.json&gt; [/out &lt;table.csv&gt;]
+''' ```
+''' </summary>
+'''
+
+Public Function NodeInformationTable(model As String, compounds As String, KO As String, Optional out As String = "") As Integer
+    Dim CLI As New StringBuilder("/KEGG.referenceMap.info")
+    Call CLI.Append(" ")
+    Call CLI.Append("/model " & """" & model & """ ")
+    Call CLI.Append("/compounds " & """" & compounds & """ ")
+    Call CLI.Append("/KO " & """" & KO & """ ")
+    If Not out.StringEmpty Then
+            Call CLI.Append("/out " & """" & out & """ ")
+    End If
+     Call CLI.Append("/@set --internal_pipeline=TRUE ")
+
+
+    Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+    Return proc.Run()
+End Function
+
+''' <summary>
+''' ```bash
+''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/top.priority &lt;map.name.list&gt; /category.level2 /reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /delete.tupleEdges /split /ignores &lt;compoind idlist&gt; /out &lt;result_network.directory&gt;]
 ''' ```
 ''' Create network model of KEGG reference pathway map for cytoscape data visualization.
 ''' </summary>
@@ -744,12 +768,16 @@ End Function
 ''' </param>
 ''' <param name="coverage_cutoff"> The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.
 ''' </param>
+''' <param name="ignores"> A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
+'''               value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.
+''' </param>
 Public Function KEGGReferenceMapModel(repository As String, 
                                          Optional reactions As String = "", 
                                          Optional __top_priority As String = "", 
                                          Optional reaction_class As String = "", 
                                          Optional organism As String = "", 
                                          Optional coverage_cutoff As String = "0", 
+                                         Optional ignores As String = "", 
                                          Optional out As String = "", 
                                          Optional category_level2 As Boolean = False, 
                                          Optional delete_unmapped As Boolean = False, 
@@ -772,6 +800,9 @@ Public Function KEGGReferenceMapModel(repository As String,
     End If
     If Not coverage_cutoff.StringEmpty Then
             Call CLI.Append("/coverage.cutoff " & """" & coverage_cutoff & """ ")
+    End If
+    If Not ignores.StringEmpty Then
+            Call CLI.Append("/ignores " & """" & ignores & """ ")
     End If
     If Not out.StringEmpty Then
             Call CLI.Append("/out " & """" & out & """ ")

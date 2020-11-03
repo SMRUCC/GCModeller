@@ -302,7 +302,7 @@ Partial Module CLI
     <ExportAPI("/Footprints",
                Info:="3 - Generates the regulation footprints.",
                Usage:="/Footprints /footprints <footprints.xml> /coor <name/DIR> /DOOR <genome.opr> /maps <bbhMappings.Csv> [/out <out.csv> /cuts <0.65> /extract]")>
-    <Argument("/extract", True,
+    <ArgumentAttribute("/extract", True,
                    Description:="Extract the DOOR operon when the regulated gene is the first gene of the operon.")>
     Public Function ToFootprints(args As CommandLine) As Integer
         Dim footprintXml As String = args("/footprints")
@@ -336,7 +336,7 @@ Partial Module CLI
 
     <ExportAPI("/Site.MAST_Scan", Info:="[MAST.Xml] -> [SimpleSegment]",
                Usage:="/Site.MAST_Scan /mast <mast.xml/DIR> [/batch /out <out.csv>]")>
-    <Argument("/batch", True,
+    <ArgumentAttribute("/batch", True,
                    Description:="If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.")>
     Public Function SiteMASTScan(args As CommandLine) As Integer
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -431,8 +431,8 @@ Partial Module CLI
     <ExportAPI("/Motif.Info.Batch",
                Info:="[SimpleSegment] -> [MotifLog]",
                Usage:="/Motif.Info.Batch /in <sites.csv.inDIR> /gffs <gff.DIR> [/motifs <regulogs.motiflogs.MEME.DIR> /num_threads -1 /atg-dist 350 /out <out.DIR>]")>
-    <Argument("/motifs", False, Description:="Regulogs.Xml source directory")>
-    <Argument("/num_threads", True,
+    <ArgumentAttribute("/motifs", False, Description:="Regulogs.Xml source directory")>
+    <ArgumentAttribute("/num_threads", True,
                    Description:="Default Is -1, means auto config of the threads number.")>
     Public Function MotifInfoBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
@@ -460,9 +460,9 @@ Partial Module CLI
     <ExportAPI("/Motif.Info",
                Info:="Assign the phenotype information And genomic context Info for the motif sites. [SimpleSegment] -> [MotifLog]",
                Usage:="/Motif.Info /loci <loci.csv> [/motifs <motifs.DIR> /gff <genome.gff> /atg-dist 250 /out <out.csv>]")>
-    <Argument("/loci", False,
+    <ArgumentAttribute("/loci", False,
                    Description:="The motif site info data set, type Is simple segment.")>
-    <Argument("/motifs", False,
+    <ArgumentAttribute("/motifs", False,
                    Description:="A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory")>
     Public Function MotifInfo(args As CommandLine) As Integer
         Dim loci As String = args("/loci")

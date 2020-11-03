@@ -158,14 +158,14 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     <Description("Parsing the sequence segment from the sequence source using regular expression.")>
     <Usage("-pattern_search -i <file_name> -p <regex_pattern> [-o <output_directory> -f <format:fsa/gbk>]")>
     <Example("-pattern_search -i ~/xcc8004.txt -p TTA{3}N{1,2} -f fsa")>
-    <Argument("-i",
+    <ArgumentAttribute("-i",
         Description:="The sequence input data source file, it can be a fasta or genbank file.")>
-    <Argument("-p",
+    <ArgumentAttribute("-p",
         Description:="This switch specific the regular expression pattern for search the sequence segment,\n" &
                      "for more detail information about the regular expression please read the user manual.")>
-    <Argument("-o", True,
+    <ArgumentAttribute("-o", True,
         Description:="Optional, this switch value specific the output directory for the result data, default is user Desktop folder.")>
-    <Argument("-f", True,
+    <ArgumentAttribute("-f", True,
         Description:="Optional, specific the input file format for the sequence reader, default value is FASTA sequence file.\n" &
                      " fsa - The input sequence data file is a FASTA format file;\n" &
                      " gbk - The input sequence data file is a NCBI genbank flat file.")>
@@ -215,9 +215,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     <ExportAPI("/logo")>
     <Description("* Drawing the sequence logo from the clustal alignment result.")>
     <Usage("/logo /in <clustal.fasta> [/out <out.png> /title """"]")>
-    <Argument("/in", False, Description:="The file path of the clustal output fasta file.", AcceptTypes:={GetType(FastaFile)})>
-    <Argument("/out", True, Description:="The output sequence logo image file path. default is the same name as the input fasta sequence file.")>
-    <Argument("/title", True, Description:="The display title on the sequence logo, default is using the fasta file name.")>
+    <ArgumentAttribute("/in", False, Description:="The file path of the clustal output fasta file.", AcceptTypes:={GetType(FastaFile)})>
+    <ArgumentAttribute("/out", True, Description:="The output sequence logo image file path. default is the same name as the input fasta sequence file.")>
+    <ArgumentAttribute("/title", True, Description:="The display title on the sequence logo, default is using the fasta file name.")>
     Public Function SequenceLogo(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logo.png")

@@ -94,21 +94,21 @@ Partial Module CLI
 
     <ExportAPI("/Export.PfamHits")>
     <Usage("/Export.PfamHits /in <blastp_vs_pfamA.txt> [/alt.direction /evalue <1e-5> /coverage <0.8> /identities <0.7> /out <pfamhits.csv>]")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={GetType(PfamHit)},
               Extensions:="*.csv",
               Description:="The output pfam hits result which is parsed from the pfam_vs_protein blastp result.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.txt",
               Description:="The blastp alignment output of pfamA align with query proteins.")>
-    <Argument("/alt.direction", True, CLITypes.Boolean,
+    <ArgumentAttribute("/alt.direction", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="By default, this cli tools processing the blastp alignment result in direction ``protein_vs_pfam``, 
               apply this option argument in cli to switch the processor in direction ``pfam_vs_protein``.")>
-    <Argument("/evalue", True, CLITypes.Double,
+    <ArgumentAttribute("/evalue", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="E-value cutoff of the blastp alignment result.")>
-    <Argument("/coverage", True, CLITypes.Double,
+    <ArgumentAttribute("/coverage", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The coverage cutoff of the pfam domain sequence. This argument is not the coverage threshold of your query protein.")>
     <Group(Program.PfamCliTools)>
@@ -159,11 +159,11 @@ Partial Module CLI
     <ExportAPI("/Pfam.Annotation")>
     <Usage("/Pfam.Annotation /in <pfamhits.csv> [/out <out.pfamstring.csv>]")>
     <Description("Do pfam functional domain annotation based on the pfam hits result.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(PfamHit)},
               Extensions:="*.csv",
               Description:="The pfam hits result from the blastp query output or hmm search output.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={GetType(PfamString)},
               Extensions:="*.csv",
               Description:="The annotation output.")>
@@ -193,15 +193,15 @@ Partial Module CLI
     <Usage("/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     <Description("Export pfam annotation result from blastp based sequence alignment analysis.")>
     <Group(Program.PfamCliTools)>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Extensions:="*.txt",
               Description:="The blastp raw output file of alignment in direction protein query vs pfam database.")>
-    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+    <ArgumentAttribute("/out", True, CLITypes.File, PipelineTypes.std_out,
               AcceptTypes:={GetType(PfamString)},
               Extensions:="*.csv",
               Description:="The pfam annotation output.")>
-    <Argument("/offset", True, CLITypes.Double,
+    <ArgumentAttribute("/offset", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The max allowed offset value of the length delta between ``length_query`` and ``length_hit``.")>
     Public Function ExportUltraLarge(args As CommandLine) As Integer

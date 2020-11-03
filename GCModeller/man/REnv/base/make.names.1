@@ -1,0 +1,61 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "make.names" "make.names"
+.SH NAME
+make.names \- Make Syntactically Valid Names
+.SH SYNOPSIS
+\fImake.names(\fBnames\fR as <generic> Object, 
+\fBunique\fR as boolean = FALSE, 
+\fBallow_\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Make Syntactically Valid Names
+ 
+ Make syntactically valid names out of character vectors.
+.PP
+.SH OPTIONS
+.PP
+\fBnames\fB \fR\- 
+ character vector To be coerced To syntactically valid names. 
+ This Is coerced To character If necessary.
+
+.PP
+.PP
+\fBunique\fB \fR\- 
+ logical; if TRUE, the resulting elements are unique. This may 
+ be desired for, e.g., column names.
+
+.PP
+.PP
+\fBallow_\fB \fR\- 
+ logical. For compatibility with R prior to 1.9.0.
+
+.PP
+.SH VALUE
+.PP
+A character vector of same length as names with each 
+ changed to a syntactically valid name, in the current locale's 
+ encoding.
+.PP
+.SH DETAILS
+.PP
+A syntactically valid name consists of letters, numbers and 
+ the dot or underline characters and starts with a letter or 
+ the dot not followed by a number. Names such as ".2way" are 
+ not valid, and neither are the reserved words.
+
+ The definition Of a letter depends On the current locale, but 
+ only ASCII digits are considered To be digits.
+
+ The character "X" Is prepended If necessary. All invalid 
+ characters are translated To ".". A missing value Is translated 
+ To "NA". Names which match R keywords have a dot appended To 
+ them. Duplicated values are altered by make.unique.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

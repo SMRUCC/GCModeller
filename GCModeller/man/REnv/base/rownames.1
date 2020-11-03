@@ -1,0 +1,54 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "rownames" "rownames"
+.SH NAME
+rownames \- Row and Column Names
+.SH SYNOPSIS
+\fIrownames(\fBobject\fR as <generic> Object, 
+\fBnamelist\fR as <generic> Array = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Row and Column Names
+ 
+ Retrieve or set the row or column names of a matrix-like object.
+.PP
+.SH OPTIONS
+.PP
+\fB[object]\fB \fR\- a matrix-like R object, with at least two dimensions for colnames.
+.PP
+.PP
+\fBnamelist\fB \fR\- a valid value for that component of \fBdimnames(x)\fR. 
+ For a matrix or array this is either NULL or a character vector of non-zero 
+ length equal to the appropriate dimension.
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH DETAILS
+.PP
+The extractor functions try to do something sensible for any matrix-like object x. 
+ If the object has dimnames the first component is used as the row names, and the 
+ second component (if any) is used for the column names. For a data frame, rownames 
+ and colnames eventually call row.names and names respectively, but the latter are 
+ preferred.
+ 
+ If do.NULL Is FALSE, a character vector (of length NROW(x) Or NCOL(x)) Is returned 
+ in any case, prepending prefix to simple numbers, if there are no dimnames Or the 
+ corresponding component of the dimnames Is NULL.
+ 
+ The replacement methods For arrays/matrices coerce vector And factor values Of value 
+ To character, but Do Not dispatch methods For As.character.
+ 
+ For a data frame, value for rownames should be a character vector of non-duplicated 
+ And non-missing names (this Is enforced), And for colnames a character vector of 
+ (preferably) unique syntactically-valid names. In both cases, value will be coerced 
+ by as.character, And setting colnames will convert the row names To character.
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

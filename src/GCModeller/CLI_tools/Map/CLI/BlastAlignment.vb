@@ -90,7 +90,7 @@ Partial Module CLI
     <ExportAPI("/Visual.BBH",
                Info:="Visualize the blastp result.",
                Usage:="/Visual.BBH /in <bbh.Xml> /PTT <genome.PTT> /density <genomes.density.DIR> [/limits <sp-list.txt> /out <image.png>]")>
-    <Argument("/PTT", False,
+    <ArgumentAttribute("/PTT", False,
               Description:="A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
     Public Function BBHVisual(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
@@ -126,9 +126,9 @@ Partial Module CLI
     <ExportAPI("/Visualize.blastn.alignment",
                Info:="Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.",
                Usage:="/Visualize.blastn.alignment /in <alignmentTable.txt> /genbank <genome.gb> [/ORF.catagory <catagory.tsv> /region <left,right> /local /out <image.png>]")>
-    <Argument("/genbank", Description:="Provides the target genome coordinates for the blastn map plots.")>
-    <Argument("/local", Description:="The file for ``/in`` parameter is a local blastn output result file?")>
-    <Argument("/ORF.catagory", Description:="Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``<TAB>``COG/KOG/GO/KO``")>
+    <ArgumentAttribute("/genbank", Description:="Provides the target genome coordinates for the blastn map plots.")>
+    <ArgumentAttribute("/local", Description:="The file for ``/in`` parameter is a local blastn output result file?")>
+    <ArgumentAttribute("/ORF.catagory", Description:="Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``<TAB>``COG/KOG/GO/KO``")>
     Public Function BlastnVisualizeWebResult(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim gb$ = args <= "/genbank"

@@ -55,9 +55,9 @@ Partial Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("export", Info:="", Usage:="export -keyword <keyword_list> [-m <any/all>] -o <export_file> [-d <db_name> -casesense <T/F>]", Example:="")>
-    <Argument("-d", False,
+    <ArgumentAttribute("-d", False,
         Description:="This switch value can be both a domain database name or a fasta file path.")>
-    <Argument("-keyword",
+    <ArgumentAttribute("-keyword",
         Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.")>
     Public Function Export(args As CommandLine) As Integer
         Dim Db As String = args("-d")

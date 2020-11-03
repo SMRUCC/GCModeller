@@ -1,9 +1,9 @@
 .\" man page create by R# package system.
-.TH MACHINELEARNING 2 2020-07-26 "training" "training"
+.TH MACHINELEARNING 2 2020-10-29 "training" "training"
 .SH NAME
 training \- do ANN model training
 .SH SYNOPSIS
-\fItraining(\fBtraining\fR as <generic> TrainingUtils, 
+\fItraining(\fBtraining\fR as <generic> ANNTrainer, 
 \fBmaxIterations\fR as integer = 10000, 
 \fBminErr\fR as double = 0.01, 
 \fBparallel\fR as boolean = TRUE);\fR
@@ -58,11 +58,16 @@ do ANN model training
  \fBTRUE\fR. 
 
 .PP
+.PP
+\fBattribute\fB \fR\- 
+ run training for a single output or all of the result output.
+
+.PP
 .SH SEE ALSO
 machineLearning
 .SH FILES
 .PP
-R.math.dll
+MLkit.dll
 .PP
 .SH AUTHOR
 Written by \fBxie.guigang@gcmodeller.org\fR

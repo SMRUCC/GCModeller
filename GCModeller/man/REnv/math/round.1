@@ -1,0 +1,30 @@
+.\" man page create by R# package system.
+.TH MATH 1 2020-10-29 "round" "round"
+.SH NAME
+round \- rounds the values in its first argument to the specified number of decimal places (default 0).
+.SH SYNOPSIS
+\fIround(\fBx\fR as <generic> Array, 
+\fBdecimals\fR as integer = 0);\fR
+.SH DESCRIPTION
+.PP
+rounds the values in its first argument to the specified number of decimal places (default 0). 
+ See *'Details'* about "round to even" when rounding off a 5.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a numeric vector. Or, for \fBround\fR and \fBsignif\fR, a complex vector.
+.PP
+.PP
+\fBdecimals\fB \fR\- 
+ integer indicating the number of decimal places (\fBround\fR) or significant digits (\fBsignif\fR) to be used. 
+ Negative values are allowed (see *'Details'*).
+
+.PP
+.SH SEE ALSO
+math
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

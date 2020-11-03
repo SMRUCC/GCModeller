@@ -313,8 +313,8 @@ Imports SMRUCC.genomics.SequenceModel
     <Description("Download Regprecise database from Web API")>
     <Usage("/Download.Regprecise [/work ./ /save <save.Xml>]")>
     <Group(CLIGroups.WebAPI)>
-    <Argument("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
-    <Argument("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
+    <ArgumentAttribute("/work", True, CLITypes.File, Description:="The temporary directory for save the xml data. Is a cache directory path, Value is current directory by default.")>
+    <ArgumentAttribute("/save", True, CLITypes.File, Description:="The repository saved xml file path.")>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK$ = args("/work") Or (App.CurrentDirectory & "/RegpreciseDownloads/")
         Dim regprecise As TranscriptionFactors = WebAPI.Download(WORK)

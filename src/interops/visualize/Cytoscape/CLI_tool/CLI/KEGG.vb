@@ -87,8 +87,8 @@ Partial Module CLI
 
     <ExportAPI("--mod.regulations",
                Usage:="--mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]")>
-    <Argument("/class", True, Description:="This parameter can not be co-exists with ``/type`` parameter")>
-    <Argument("/type", True, Description:="This parameter can not be co-exists with ``/class`` parameter")>
+    <ArgumentAttribute("/class", True, Description:="This parameter can not be co-exists with ``/type`` parameter")>
+    <ArgumentAttribute("/type", True, Description:="This parameter can not be co-exists with ``/class`` parameter")>
     <Group(CLIGrouping.KEGGTools)>
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
@@ -271,7 +271,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Mods.NET",
                Usage:="/KEGG.Mods.NET /in <mods.xml.DIR> [/out <outDIR> /pathway /footprints <footprints.Csv> /brief /cut 0 /pcc 0]")>
-    <Argument("/brief", True,
+    <ArgumentAttribute("/brief", True,
                    Description:="If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.")>
     <Group(CLIGrouping.KEGGTools)>
     Public Function ModsNET(args As CommandLine) As Integer
@@ -361,34 +361,34 @@ Partial Module CLI
     <ExportAPI("/KEGG.referenceMap.Model")>
     <Usage("/KEGG.referenceMap.Model /repository <[reference/organism]kegg_maps.directory> /reactions <kegg_reactions.directory> [/top.priority <map.name.list> /category.level2 /reaction_class <repository> /organism <name> /coverage.cutoff <[0,1], default=0> /delete.unmapped /delete.tupleEdges /split /ignores <compoind idlist> /out <result_network.directory>]")>
     <Description("Create network model of KEGG reference pathway map for cytoscape data visualization.")>
-    <Argument("/repository", False, CLITypes.File,
+    <ArgumentAttribute("/repository", False, CLITypes.File,
               AcceptTypes:={GetType(Map), GetType(Pathway)},
               Extensions:="*.Xml",
               Description:="This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.")>
-    <Argument("/top.priority", True, CLITypes.String,
+    <ArgumentAttribute("/top.priority", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The map names in the argument value will be forced populate in top priority and ignores of their map coverage value is top or not. 
               Use comma symbol as the map id terms' delimiter.")>
-    <Argument("/reactions", False, CLITypes.File,
+    <ArgumentAttribute("/reactions", False, CLITypes.File,
               AcceptTypes:={GetType(Reaction)},
               Extensions:="*.Xml",
               Description:="The KEGG reference reaction data models.")>
-    <Argument("/organism", True, CLITypes.String,
+    <ArgumentAttribute("/organism", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The organism name or code, if this argument presents in the cli command input, then it means 
               the ``/repository`` parameter data model is the organism specific pathway map data.")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(NetworkTables)},
               Extensions:="*.csv",
               Description:="The network file data output directory that used for cytoscape network visualization.")>
-    <Argument("/reaction_class", True, CLITypes.File,
+    <ArgumentAttribute("/reaction_class", True, CLITypes.File,
               AcceptTypes:={GetType(ReactionClass)},
               Extensions:="*.Xml",
               Description:="Apply reaction class filter for reduce network size.")>
-    <Argument("/coverage.cutoff", True, CLITypes.Double,
+    <ArgumentAttribute("/coverage.cutoff", True, CLITypes.Double,
               AcceptTypes:={GetType(Double)},
               Description:="The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.")>
-    <Argument("/ignores", True, CLITypes.File,
+    <ArgumentAttribute("/ignores", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
               value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.")>
@@ -573,7 +573,7 @@ Partial Module CLI
     <Usage("/KEGG.referenceMap.render /model <network.xgmml/directory> [/edge.bends /compounds <names.json> /KO <reactionKOMapping.json> /convexHull <category.txt> /style2 /size <10(A0)> /out <viz.png>]")>
     <Description("Render pathway map as image after cytoscape layout progress.")>
     <Group(CLIGrouping.KEGGPathwayMapTools)>
-    <Argument("/compounds", True, CLITypes.File,
+    <ArgumentAttribute("/compounds", True, CLITypes.File,
               AcceptTypes:={GetType(Dictionary(Of String, String))},
               Extensions:="*.json",
               Description:="The kegg compound id to its command names mapping table file. 

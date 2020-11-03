@@ -112,9 +112,9 @@ Partial Module CLI
     <ExportAPI("/gast.Taxonomy.greengenes")>
     <Usage("/gast.Taxonomy.greengenes /in <blastn.txt> /query <OTU.rep.fasta> /taxonomy <97_otu_taxonomy.txt> [/removes.lt <default=0.0001> /gast.consensus /min.pct <default=0.6> /out <gastOut.csv>]")>
     <Description("OTU taxonomy assign by apply gast method on the result of OTU rep sequence alignment against the greengenes.")>
-    <Argument("/removes.lt", True, CLITypes.Double,
+    <ArgumentAttribute("/removes.lt", True, CLITypes.Double,
               Description:="OTU contains members number less than the percentage value of this argument value(low abundance) will be removes from the result.")>
-    <Argument("/min.pct", True, CLITypes.Double,
+    <ArgumentAttribute("/min.pct", True, CLITypes.Double,
               Description:="The required minium vote percentage of the taxonomy assigned from a OTU reference alignment by using gast method, default is required level 60% agreement.")>
     <Group(CLIGroups.Taxonomy_cli)>
     Public Function gastTaxonomy_greengenes(args As CommandLine) As Integer

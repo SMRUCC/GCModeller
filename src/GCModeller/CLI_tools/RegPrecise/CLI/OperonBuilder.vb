@@ -154,7 +154,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Build.Operons", Info:="If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.",
                Usage:="/Build.Operons /bbh <bbh.csv> /PTT <genome.PTT> /TF-bbh <bbh.csv> [/tfHit_hash /out <out.csv> /regprecise <regprecise.Xml>]")>
-    <Argument("/bbh", True,
+    <ArgumentAttribute("/bbh", True,
                    Description:="The bbh result between the annotated genome And RegPrecise database. 
                    This result was used for generates the operons, and query should be the genes in 
                    the RegPrecise database and the hits is the genes in your annotated genome.")>

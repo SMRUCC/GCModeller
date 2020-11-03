@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH STRINGS 1 2020-10-29 "instr" "instr"
+.SH NAME
+instr \- Returns an integer specifying the start position of the first occurrence of one
+.SH SYNOPSIS
+\fIinstr(\fBstrings\fR as string, 
+\fBsubstr\fR as string, 
+\fBignoreCase\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Returns an integer specifying the start position of the first occurrence of one
+ string within another.
+.PP
+.SH OPTIONS
+.PP
+\fBstrings\fB \fR\- Required. String expression being searched.
+.PP
+.PP
+\fBsubstr\fB \fR\- Required. String expression sought.
+.PP
+.PP
+\fBignoreCase\fB \fR\- 
+ Optional. Specifies the type of string comparison. If Compare is omitted, the
+ Option Compare setting determines the type of comparison.
+
+.PP
+.PP
+\fBenvir\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+If InStr returns String1 is zero length or Nothing0 String2 is zero length or
+ NothingThe starting position for the search, which defaults to the first character
+ position. String2 is not found0 String2 is found within String1Position where
+ match begins
+.PP
+.SH SEE ALSO
+strings
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

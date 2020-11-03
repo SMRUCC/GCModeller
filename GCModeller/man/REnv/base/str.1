@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH BASE 1 2020-10-29 "str" "str"
+.SH NAME
+str \- Compactly Display the Structure of an Arbitrary \fBR#\fR Object
+.SH SYNOPSIS
+\fIstr(\fBobject\fR as <generic> Object, 
+\fBlist_len\fR as integer = 99, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Compactly Display the Structure of an Arbitrary \fBR#\fR Object
+ 
+ Compactly display the internal structure of an R object, a diagnostic function 
+ and an alternative to summary (and to some extent, dput). Ideally, only one 
+ line for each ‘basic’ structure is displayed. It is especially well suited to 
+ compactly display the (abbreviated) contents of (possibly nested) lists. The 
+ idea is to give reasonable output for any R object. It calls args for 
+ (non-primitive) function objects.
+ 
+ \fBstrOptions()\fR Is a convenience function for setting \fBoptions(str = .)\fR, 
+ see the examples.
+.PP
+.SH OPTIONS
+.PP
+\fBobject\fB \fR\- any R object about which you want to have some information.
+.PP
+.PP
+\fBlist_len\fB \fR\- 
+ numeric; maximum number of list elements to display within a level.
+
+.PP
+.SH SEE ALSO
+base
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

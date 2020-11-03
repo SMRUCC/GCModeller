@@ -124,15 +124,15 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
     <ExportAPI("/solve.gcmarkup")>
     <Usage("/solve.gcmarkup /model <model.GCMarkup> [/mute <locus_tags.txt/list> /trim /objective <flux_names.txt> /out <out.txt>]")>
-    <Argument("/objective", True, CLITypes.File,
+    <ArgumentAttribute("/objective", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="A name list of the target reaction names, which this file format should be in one line one ID. 
               If this argument is ignored, then a entire list of reactions that defined in the input virtual cell model will be used.")>
-    <Argument("/trim", True, CLITypes.Boolean,
+    <ArgumentAttribute("/trim", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Removes all of the enzymatic reaction which could not found their corresponding enzyme in current 
               virtual cell model? By default is retain these reactions.")>
-    <Argument("/mute", True, CLITypes.String,
+    <ArgumentAttribute("/mute", True, CLITypes.String,
               AcceptTypes:={GetType(String())},
               Description:="+ If this parameter is a file path, then locus_tag should be one tag per line in the text file;
               + And this parameter is also can be a id list, which the id should seperated by comma symbol, format like: ``id1,id2,id3``.")>

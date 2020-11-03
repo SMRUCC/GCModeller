@@ -1,0 +1,80 @@
+.\" man page create by R# package system.
+.TH RCONVERSION 1 2020-10-29 "unlist" "unlist"
+.SH NAME
+unlist \- Flatten Lists
+.SH SYNOPSIS
+\fIunlist(\fBx\fR as <generic> Object, 
+\fBtypeof\fR as <generic> Object = \fB<NULL>\fR, 
+\fBpipeline\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Flatten Lists
+ 
+ Given a list structure x, unlist simplifies it to produce a vector 
+ which contains all the atomic components which occur in **`x`**.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an R Object, typically a list Or vector.
+.PP
+.PP
+\fB[typeof]\fB \fR\- element type of the array
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+NULL or an expression or a vector of an appropriate mode to hold 
+ the list components.
+
+ The output type Is determined from the highest type Of the components 
+ In the hierarchy \fBNULL\fR < \fBraw\fR < \fBlogical\fR < \fBInteger\fR 
+ < \fBDouble\fR < \fBcomplex\fR < \fBcharacter\fR < \fBlist\fR < 
+ \fBexpression\fR, after coercion Of pairlists To lists.
+.PP
+.SH DETAILS
+.PP
+unlist is generic: you can write methods to handle specific classes of 
+ objects, see InternalMethods, and note, e.g., relist with the unlist
+ method for relistable objects.
+
+ If recursive = False, the Function will Not recurse beyond the first level 
+ items In x.
+
+ Factors are treated specially. If all non-list elements Of x are factors 
+ (Or ordered factors) Then the result will be a factor With levels the union 
+ Of the level sets Of the elements, In the order the levels occur In the 
+ level sets Of the elements (which means that If all the elements have the 
+ same level Set, that Is the level Set Of the result).
+
+ x can be an atomic vector, but Then unlist does Nothing useful, Not even 
+ drop names.
+
+ By Default, unlist tries to retain the naming information present in x. If 
+ \fBuse.names = FALSE\fR all naming information Is dropped.
+
+ Where possible the list elements are coerced To a common mode during the 
+ unlisting, And so the result often ends up As a character vector. Vectors 
+ will be coerced To the highest type Of the components In the hierarchy 
+ \fBNULL\fR < \fBraw\fR < \fBlogical\fR < \fBInteger\fR < \fBDouble\fR <
+ \fBcomplex\fR < \fBcharacter\fR < \fBlist\fR < \fBexpression\fR: pairlists 
+ are treated As lists.
+
+ A list Is a (generic) vector, And the simplified vector might still be a list 
+ (And might be unchanged). Non-vector elements Of the list (For example language 
+ elements such As names, formulas And calls) are Not coerced, And so a list 
+ containing one Or more Of these remains a list. (The effect Of unlisting an lm 
+ fit Is a list which has individual residuals As components.) Note that 
+ \fBunlist(x)\fR now returns x unchanged also For non-vector x, instead Of signalling 
+ an Error In that Case.
+.PP
+.SH SEE ALSO
+RConversion
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

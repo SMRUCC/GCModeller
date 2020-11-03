@@ -1,0 +1,54 @@
+.\" man page create by R# package system.
+.TH UTILS 1 2020-10-29 "head" "head"
+.SH NAME
+head \- Return the First or Last Part of an Object
+.SH SYNOPSIS
+\fIhead(\fBx\fR as <generic> Object, 
+\fBn\fR as integer = 6, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Return the First or Last Part of an Object
+ 
+ Returns the first or last parts of a vector, matrix, table, data frame or function. 
+ Since head() and tail() are generic functions, they may also have been extended 
+ to other classes.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- an object
+.PP
+.PP
+\fBn\fB \fR\- 
+ a single integer. If positive or zero, size for the resulting object: number of 
+ elements for a vector (including lists), rows for a matrix or data frame or lines 
+ for a function. If negative, all but the n last/first number of elements of x.
+
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+An object (usually) like x but generally smaller. For ftable objects x, 
+ a transformed format(x).
+.PP
+.SH DETAILS
+.PP
+For matrices, 2-dim tables and data frames, head() (tail()) returns the first (last) 
+ n rows when n >= 0 or all but the last (first) n rows when n < 0. head.matrix() 
+ and tail.matrix() are exported. For functions, the lines of the deparsed function 
+ are returned as character strings.
+
+ If a matrix has no row names, Then tail() will add row names Of the form "[n,]" 
+ To the result, so that it looks similar To the last lines Of x When printed. 
+ Setting addrownums = False suppresses this behaviour.
+.PP
+.SH SEE ALSO
+utils
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

@@ -77,21 +77,21 @@ Partial Module CLI
     <ExportAPI("/microbiome.pathway.profile")>
     <Usage("/microbiome.pathway.profile /in <gastout.csv> /ref <UniProt.ref.index.json> /maps <kegg.maps.ref.XML> [/sampleName <default=NULL> /just.profiles /rank <default=family> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Generates the pathway network profile for the microbiome OTU result based on the KEGG and UniProt reference.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(gast.gastOUT), GetType(OTUTable)},
               Extensions:="*.csv",
               Description:="The OTU sample counting result.")>
-    <Argument("/ref", False, CLITypes.File,
+    <ArgumentAttribute("/ref", False, CLITypes.File,
               Extensions:="*.json",
               AcceptTypes:={GetType(TaxonomyRepository)},
               Description:="The bacteria genome annotation data repository index file.")>
-    <Argument("/just.profiles", True, CLITypes.Boolean,
+    <ArgumentAttribute("/just.profiles", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="This option will makes this cli command only creates a pathway profile matrix. For enrichment command debug used only.")>
-    <Argument("/rank", True, CLITypes.String,
+    <ArgumentAttribute("/rank", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The enrichment profile will be statistics at this level")>
-    <Argument("/sampleName", True, CLITypes.String,
+    <ArgumentAttribute("/sampleName", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="This argument is only works when the input table file is a OTU result data table.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
@@ -160,10 +160,10 @@ Partial Module CLI
     <ExportAPI("/microbiome.pathway.run.profile")>
     <Usage("/microbiome.pathway.run.profile /in <profile.csv> /maps <kegg.maps.ref.Xml> [/rank <default=family> /colors <default=Set1:c6> /tick 1 /size <2000,1600> /p.value <default=0.05> /out <out.directory>]")>
     <Description("Build pathway interaction network based on the microbiome profile result.")>
-    <Argument("/p.value", True, CLITypes.Double,
+    <ArgumentAttribute("/p.value", True, CLITypes.Double,
               Description:="The pvalue cutoff of the profile mapID, selects as the network node if the mapID its pvalue is smaller than this cutoff value. 
               By default is 0.05. If no cutoff, please set this value to 1.")>
-    <Argument("/maps", False, CLITypes.File,
+    <ArgumentAttribute("/maps", False, CLITypes.File,
               Extensions:="*.Xml",
               Description:="The kegg reference map repository database file.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
@@ -339,7 +339,7 @@ Partial Module CLI
     <Usage("/microbiome.metabolic.network /metagenome <list.txt/OTU.tab/biom> /ref <reaction.repository.XML> /uniprot <repository.json> /Membrane_transport <Membrane_transport.csv> [/out <network.directory>]")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     <Description("Construct a metabolic complementation network between the bacterial genomes from a given taxonomy list.")>
-    <Argument("/uniprot", False, CLITypes.File,
+    <ArgumentAttribute("/uniprot", False, CLITypes.File,
               Extensions:="*.json",
               Description:="A reference model which is generated from ``/Metagenome.UniProt.Ref`` command.")>
     Public Function MetabolicComplementationNetwork(args As CommandLine) As Integer
@@ -418,13 +418,13 @@ Partial Module CLI
     <Usage("/Metagenome.UniProt.Ref /in <uniprot.ultralarge.xml/cache.directory> [/cache /all /out <out.json>]")>
     <Description("Create background model for apply pathway enrichment analysis of the Metagenome data.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.Xml",
               Description:="This argument should be the uniprot database file, multiple file is supported, which the multiple xml file path can be contract by ``|`` as delimiter.")>
-    <Argument("/cache", True, CLITypes.Boolean,
+    <ArgumentAttribute("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Debug used only.")>
-    <Argument("/all", True, CLITypes.Boolean,
+    <ArgumentAttribute("/all", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument is presented, then all of the genome data will be saved, 
               includes all of the genome data that have ZERO coverage.")>
@@ -465,7 +465,7 @@ Partial Module CLI
 
     <ExportAPI("/UniProt.screen.model")>
     <Usage("/UniProt.screen.model /in <model.Xml> [/coverage <default=0.6> /terms <default=1000> /out <subset.xml>]")>
-    <Argument("/in", Description:="The metagenome network UniProt reference database that build from ``/Metagenome.UniProt.Ref`` command.")>
+    <ArgumentAttribute("/in", Description:="The metagenome network UniProt reference database that build from ``/Metagenome.UniProt.Ref`` command.")>
     <Group(CLIGroups.MicrobiomeNetwork_cli)>
     Public Function ScreenModels(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

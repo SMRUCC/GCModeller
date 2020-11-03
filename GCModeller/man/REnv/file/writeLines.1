@@ -1,0 +1,56 @@
+.\" man page create by R# package system.
+.TH FILE 1 2020-10-29 "writeLines" "writeLines"
+.SH NAME
+writeLines \- Write Lines to a Connection
+.SH SYNOPSIS
+\fIwriteLines(\fBtext\fR as string, 
+\fBcon\fR as string = \fB<NULL>\fR, 
+\fBsep\fR as string = "
+", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Write Lines to a Connection
+ 
+ Write text lines to a connection.
+.PP
+.SH OPTIONS
+.PP
+\fBtext\fB \fR\- A character vector
+.PP
+.PP
+\fBcon\fB \fR\- A connection Object Or a character String.
+.PP
+.PP
+\fBsep\fB \fR\- 
+ character string. A string to be written to the connection after each line of text.
+
+.PP
+.SH DETAILS
+.PP
+If the con is a character string, the function calls file to obtain a file connection
+ which is opened for the duration of the function call.
+
+ If the connection Is open it Is written from its current position. If it Is Not open, 
+ it Is opened For the duration Of the Call In "wt" mode And Then closed again.
+
+ Normally writeLines Is used With a text-mode connection, And the Default separator Is 
+ converted To the normal separator For that platform (LF On Unix/Linux, CRLF On Windows). 
+ For more control, open a binary connection And specify the precise value you want 
+ written To the file In sep. For even more control, use writeChar On a binary connection.
+
+ useBytes Is for expert use. Normally (when false) character strings with marked 
+ encodings are converted to the current encoding before being passed to the connection 
+ (which might do further re-encoding). useBytes = TRUE suppresses the re-encoding of 
+ marked strings so they are passed byte-by-byte to the connection: this can be useful 
+ When strings have already been re-encoded by e.g. iconv. (It Is invoked automatically 
+ For strings With marked encoding "bytes".)
+.PP
+.SH SEE ALSO
+file
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

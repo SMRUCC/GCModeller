@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH ETC 1 2020-10-29 "R.Version" "R.Version"
+.SH NAME
+R.Version \- Version Information
+.SH SYNOPSIS
+\fIR.Version([\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Version Information
+ 
+ R.Version() provides detailed information about the version of R running.
+.PP
+.SH OPTIONS
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+R.Version returns a list with character-string components
+
+ + \fBplatform\fR the platform For which R was built. A triplet Of the form 
+    CPU-VENDOR-OS, As determined by the configure script. E.g, 
+    "i686-unknown-linux-gnu" Or "i386-pc-mingw32".
+ + \fBarch\fR the architecture(CPU) R was built On/For.
+ + \fBos\fR the underlying operating system.
+ + \fBsystem\fR CPU And OS, separated by a comma.
+ + \fBstatus\fR the status Of the version (e.g., "alpha")
+ + \fBmajor\fR the major version number
+ + \fBminor\fR the minor version number, including the patchlevel
+ + \fByear\fR the year the version was released
+ + \fBmonth\fR the month the version was released
+ + \fBday\fR the day the version was released
+ + \fBsvn rev\fR the Subversion revision number, which should be either "unknown" 
+    Or a Single number. (A range Of numbers Or a number With M Or S appended 
+    indicates inconsistencies In the sources used To build this version Of R.)
+ + \fBlanguage\fR always "R".
+.PP
+.SH SEE ALSO
+etc
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

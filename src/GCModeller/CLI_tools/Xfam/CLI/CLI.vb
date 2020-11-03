@@ -63,10 +63,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 <CLI>
 Module CLI
 
-    <ExportAPI("/Rfam.Align", Usage:="/Rfam.Align /query <sequence.fasta> [/rfam <DIR> /out <outDIR> /num_threads -1 /ticks 1000]")>
-    <Argument("/formatdb", True,
-                   Description:="If the /rfam directory parameter is specific and the database is not formatted, then this value should be TRUE for local blast. 
-                   If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.")>
+    <ExportAPI("/Rfam.Align")>
+    <Usage("/Rfam.Align /query <sequence.fasta> [/rfam <DIR> /out <outDIR> /num_threads -1 /ticks 1000]")>
     Public Function RfamAlignment(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim outDIR As String = args.GetValue("/out", query.TrimSuffix)
@@ -87,7 +85,8 @@ Module CLI
                                                           TimeInterval:=ticks).CLICode
     End Function
 
-    <ExportAPI("/Rfam.SeedsDb.Dump", Usage:="/Rfam.SeedsDb.Dump /in <rfam.seed> [/out <rfam.csv>]")>
+    <ExportAPI("/Rfam.SeedsDb.Dump")>
+    <Usage("/Rfam.SeedsDb.Dump /in <rfam.seed> [/out <rfam.csv>]")>
     Public Function DumpSeedsDb(args As CommandLine) As Integer
         Dim inDb As String = args("/in")
         Dim out As String = args.GetValue("/out", inDb.TrimSuffix & ".Csv")
@@ -102,7 +101,8 @@ Module CLI
         Return loads.Values.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Export.Blastn", Usage:="/Export.Blastn /in <blastout.txt> [/out <blastn.Csv>]")>
+    <ExportAPI("/Export.Blastn")>
+    <Usage("/Export.Blastn /in <blastout.txt> [/out <blastn.Csv>]")>
     Public Function ExportBlastn(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".csv")
@@ -139,7 +139,8 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
         Return __exportCommon(inFile, out)
     End Function
 
-    <ExportAPI("/Export.Blastn.Batch", Usage:="/Export.Blastn.Batch /in <blastout.DIR> [/out outDIR /large /num_threads <-1> /no_parallel]")>
+    <ExportAPI("/Export.Blastn.Batch")>
+    <Usage("/Export.Blastn.Batch /in <blastout.DIR> [/out outDIR /large /num_threads <-1> /no_parallel]")>
     Public Function ExportBlastns(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/" & FileIO.FileSystem.GetDirectoryInfo(inDIR).Name)

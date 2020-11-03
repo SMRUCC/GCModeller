@@ -61,10 +61,10 @@ Partial Module CLI
     <ExportAPI("/Fasta.Filters",
                Info:="Filter the fasta sequence subset from a larger fasta database by using the regexp for match on the fasta title.",
                Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]")>
-    <Argument("/key", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/key", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String), GetType(String())},
               Description:="A regexp string term that will be using for title search or file path of a text file contains lines of regexp.")>
-    <Argument("/p",
+    <ArgumentAttribute("/p",
                    True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.")>

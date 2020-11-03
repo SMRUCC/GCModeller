@@ -76,7 +76,7 @@ Namespace SequenceModel.FASTA
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <ActiveViews(FastaSeq.SampleView, type:="bash")>
+    <ActiveViewsAttribute(FastaSeq.SampleView, type:="bash")>
     Public Class FastaFile
         Implements IFileReference
         Implements IEnumerable(Of FastaSeq)

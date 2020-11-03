@@ -56,9 +56,9 @@ Partial Module Utilities
 
     <ExportAPI("/SNP",
                Usage:="/SNP /in <nt.fasta> [/ref <int_index/title, default:0> /pure /monomorphic /high <0.65>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(FastaFile)}, Description:="")>
-    <Argument("/ref", True, AcceptTypes:={GetType(Integer)})>
-    <Argument("/pure", True, AcceptTypes:={GetType(Boolean)})>
+    <ArgumentAttribute("/in", False, AcceptTypes:={GetType(FastaFile)}, Description:="")>
+    <ArgumentAttribute("/ref", True, AcceptTypes:={GetType(Integer)})>
+    <ArgumentAttribute("/pure", True, AcceptTypes:={GetType(Boolean)})>
     <Group(CLIGrouping.SNPTools)>
     Public Function SNP(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"

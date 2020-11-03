@@ -66,15 +66,15 @@ Partial Module CLI
     <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /size <default=1920,1080> /log2FC <default=log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
-    <Argument("/map", True, CLITypes.File,
+    <ArgumentAttribute("/map", True, CLITypes.File,
               Description:="A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID<TAB>UniprotID``")>
-    <Argument("/DEP", False, CLITypes.File,
+    <ArgumentAttribute("/DEP", False, CLITypes.File,
               AcceptTypes:={GetType(DEP_iTraq)},
               Description:="The DEPs t.test output result csv file.")>
-    <Argument("/r.range", True, CLITypes.String,
+    <ArgumentAttribute("/r.range", True, CLITypes.String,
               AcceptTypes:={GetType(DoubleRange)},
               Description:="The network node size radius range, input string in format like: ``min,max``")>
-    <Argument("/log2FC", True, CLITypes.String,
+    <ArgumentAttribute("/log2FC", True, CLITypes.String,
               Description:="The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -125,7 +125,7 @@ Partial Module CLI
     <ExportAPI("/Gene.list.from.KOBAS")>
     <Usage("/Gene.list.from.KOBAS /in <KOBAS.csv> [/p.value <default=1> /out <out.txt>]")>
     <Description("Using this command for generates the gene id list input for the STRING-db search.")>
-    <Argument("/p.value", True, AcceptTypes:={GetType(Double)},
+    <ArgumentAttribute("/p.value", True, AcceptTypes:={GetType(Double)},
               Description:="Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function GeneIDListFromKOBASResult(args As CommandLine) As Integer
@@ -153,7 +153,7 @@ Partial Module CLI
 
     <ExportAPI("/richfun.KOBAS")>
     <Usage("/richfun.KOBAS /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> /KOBAS <enrichment.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
-    <Argument("/KOBAS", Description:="The pvalue result in the enrichment term, will be using as the node radius size.")>
+    <ArgumentAttribute("/KOBAS", Description:="The pvalue result in the enrichment term, will be using as the node radius size.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function KOBASNetwork(args As CommandLine) As Integer
         Throw New NotImplementedException

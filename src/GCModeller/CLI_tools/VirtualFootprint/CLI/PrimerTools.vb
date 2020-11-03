@@ -63,9 +63,9 @@ Partial Module CLI
     <ExportAPI("/restrict_enzyme.builds",
                Info:="",
                Usage:="/restrict_enzyme.builds [/source <html_DIR> /out <out.json>]")>
-    <Argument("/source", True,
+    <ArgumentAttribute("/source", True,
                    Description:="Default using the data source from Wikipedia.")>
-    <Argument("/out", True,
+    <ArgumentAttribute("/out", True,
                    Description:="Enzyme database was writing to the GCModeller repository by default.")>
     <Group(CLIGrouping.PrimerTools)>
     Public Function BuildEnzymeDb(args As CommandLine) As Integer

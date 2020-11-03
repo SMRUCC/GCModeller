@@ -192,7 +192,7 @@ Partial Module CLI
     <ExportAPI("/blastn.Query",
                Info:="Using target fasta sequence query against all of the fasta sequence in target direcotry. This function is single thread.",
                Usage:="/blastn.Query /query <query.fna/faa> /db <db.DIR> [/thread /evalue 1e-5 /word_size <-1> /out <out.DIR>]")>
-    <Argument("/thread", True, CLITypes.Boolean,
+    <ArgumentAttribute("/thread", True, CLITypes.Boolean,
               Description:="Is this CLI api running in one of the processor in thread mode for a caller API ``/blastn.Query.All``")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQuery(args As CommandLine) As Integer
@@ -261,7 +261,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.blastnMaps",
                Usage:="/Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]")>
-    <Argument("/best", True,
+    <ArgumentAttribute("/best", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Only output the first hit result for each query as best?")>
     <Group(CLIGrouping.BlastnTools)>
@@ -309,13 +309,13 @@ Partial Module CLI
                Info:="Exports large amount of blastn output files and write all data into a specific csv file.",
                Usage:="/Export.blastnMaps.Write /in <blastn_out.DIR> [/best /out <write.csv>]")>
     <Group(CLIGrouping.BlastnTools)>
-    <Argument("/best", True, CLITypes.Boolean,
+    <ArgumentAttribute("/best", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Only export the top best blastn alignment hit?")>
-    <Argument("/out", True, CLITypes.File,
+    <ArgumentAttribute("/out", True, CLITypes.File,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="Blastn alignment maps data.")>
-    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+    <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The directory path that contains the blastn output data.")>
     Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
@@ -422,7 +422,7 @@ Partial Module CLI
     <ExportAPI("/Blastn.Maps.Taxid",
                Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /2taxid <acc2taxid.tsv/gi2taxid.dmp> [/gi2taxid /trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
     <Group(CLIGrouping.BlastnTools)>
-    <Argument("/gi2taxid", True, AcceptTypes:={GetType(Boolean)}, Description:="The 2taxid data source is comes from gi2taxid, by default is acc2taxid.")>
+    <ArgumentAttribute("/gi2taxid", True, AcceptTypes:={GetType(Boolean)}, Description:="The 2taxid data source is comes from gi2taxid, by default is acc2taxid.")>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim x2taxid As String = args("/2taxid")

@@ -124,7 +124,7 @@ Partial Module CLI
 
     <ExportAPI("/Map.Hits.Taxonomy",
                Usage:="/Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv/DIR> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]")>
-    <Argument("/mapping", True,
+    <ArgumentAttribute("/mapping", True,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="Data frame should have a ``taxid`` field.")>
     <Group(CLIGrouping.LocalblastTools)>
