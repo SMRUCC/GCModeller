@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::8a888bbe9ae14160288196bfbd61fc28, annotations\Proteomics\AnalysisCommon.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module AnalysisCommon
-' 
-'     Function: ApplyDEPFilter
-' 
-' /********************************************************************************/
+    ' Module AnalysisCommon
+    ' 
+    '     Function: ApplyDEPFilter
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -45,34 +45,11 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
-Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 
-Public Module AnalysisCommon
-
-    <Extension>
-    Public Function Ttest(data As Matrix, treatment As String(), control As String()) As DEP_iTraq()
-        Dim treatmentData = data.Project(treatment)
-        Dim controlData = data.Project(control)
-        Dim result As New List(Of DEP_iTraq)
-        Dim labels As String() = treatment.AsList + control
-
-        For i As Integer = 0 To data.expression.Length - 1
-            result += New DEP_iTraq With {
-                .ID = data(i).geneID,
-                .FCavg = treatmentData(i).experiments.Average / controlData(i).experiments.Average,
-                .log2FC = Math.Log(.FCavg, 2),
-                .pvalue = t.Test(treatmentData(i).experiments, controlData(i).experiments).Pvalue,
-                .Properties = data(i).ToDataSet(labels).AsCharacter
-            }
-        Next
-
-        Return result
-    End Function
+Module AnalysisCommon
 
     ''' <summary>
     ''' 
