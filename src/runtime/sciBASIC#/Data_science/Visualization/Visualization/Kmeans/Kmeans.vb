@@ -223,7 +223,8 @@ Namespace KMeans
             Dim serials As New List(Of Serial3D)
             Dim shapeList As LegendStyles() = GetAllEnumFlags(Of LegendStyles)(shapes)
             Dim keys$() = catagory.Keys.ToArray
-            Dim labX$ = keys(0), labY$ = keys(1), labZ$ = keys(2)
+            Dim dimensionLabels As String() = catagory.Select(Function(a) a.Value.name).ToArray
+            Dim labX$ = dimensionLabels(0), labY$ = dimensionLabels(1), labZ$ = dimensionLabels(2)
 
             For Each cluster In clusters.SeqIterator
                 Dim color As Color = clusterColors(cluster)

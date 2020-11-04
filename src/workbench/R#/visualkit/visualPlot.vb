@@ -332,8 +332,13 @@ Module visualPlot
         Dim normRange As DoubleRange = {0, 100}
         Dim clusterNMembers As Integer = clusterData.Length
 
-        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct.ToArray
-            Dim v = clusterData.Select(Function(a) a(project)).ToArray
+        For Each project As String In clusterData _
+            .Select(Function(a) a.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+            Dim v As Double() = clusterData.Select(Function(a) a(project)).ToArray
             Dim range = v.Range
             Dim map As Double
 
@@ -368,7 +373,7 @@ Module visualPlot
                               }
                           End Function)
 
-        Dim arrowFactor$ = "1,2"
+        Dim arrowFactor$ = "1,1"
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityClusterModel In clusterData
