@@ -96,7 +96,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>comparative_genomics.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DNA_Comparative.vb" />
+    <Compile Include="operonMapper.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -162,6 +163,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\OperonMapper\OperonMapper.vbproj">
+      <Project>{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}</Project>
+      <Name>OperonMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
       <Name>DNA_Comparative</Name>

@@ -1,4 +1,4 @@
-# igraph.comparison
+﻿# igraph.comparison
 
 Network graph comparison tools
 
