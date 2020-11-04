@@ -214,7 +214,9 @@ Namespace KMeans
                                   Optional arrowFactor$ = "2,2",
                                   Optional labelsQuantile# = -1,
                                   Optional showLegend As Boolean = True,
-                                  Optional showHull As Boolean = True) As GraphicsData
+                                  Optional showHull As Boolean = True,
+                                  Optional hullAlpha As Integer = 150,
+                                  Optional hullBspline As Single = 2) As GraphicsData
 
             Dim clusters As Dictionary(Of String, EntityClusterModel()) = clusterData.ClusterGroups
 
@@ -268,7 +270,9 @@ Namespace KMeans
                 labX:=labX, labY:=labY, labZ:=labZ,
                 arrowFactor:=arrowFactor,
                 showLegend:=showLegend,
-                showHull:=showHull
+                showHull:=showHull,
+                hullAlpha:=hullAlpha,
+                hullBspline:=hullBspline
             )
         End Function
 

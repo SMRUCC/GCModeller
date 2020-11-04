@@ -73,6 +73,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
@@ -132,6 +133,8 @@ Namespace Plot3D.Device
 
     Public Class ConvexHullPolygon : Inherits Polygon
 
+        Public Property bspline As Single = 2
+
         Public Overrides Sub Draw(g As IGraphics, offset As PointF)
             Dim screen As Size = g.Size
             Dim shape As PointF() = Path _
@@ -141,7 +144,13 @@ Namespace Plot3D.Device
                 .ToArray
 
             If shape.Length > 2 Then
-                Call g.FillPolygon(brush, shape.JarvisMatch)
+                shape = shape.JarvisMatch
+
+                If bspline > 1 Then
+                    shape = shape.BSpline(degree:=bspline).ToArray
+                End If
+
+                Call g.FillPolygon(brush, shape)
             End If
         End Sub
     End Class

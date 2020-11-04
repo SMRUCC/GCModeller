@@ -317,6 +317,8 @@ Module visualPlot
                                  Optional prefix$ = "Cluster: #",
                                  Optional axisFormat$ = "CMeans dimension #%s",
                                  Optional showHull As Boolean = True,
+                                 Optional hullAlpha As Integer = 150,
+                                 Optional hullBspline As Single = 3,
                                  Optional env As Environment = Nothing) As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -395,7 +397,9 @@ Module visualPlot
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay,
                 showLegend:=False,
-                showHull:=showHull
+                showHull:=showHull,
+                hullAlpha:=hullAlpha,
+                hullBspline:=hullBspline
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)

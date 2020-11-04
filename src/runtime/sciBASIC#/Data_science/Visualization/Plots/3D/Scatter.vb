@@ -98,7 +98,8 @@ Namespace Plot3D
                              Optional arrowFactor$ = "2,2",
                              Optional showLegend As Boolean = True,
                              Optional showHull As Boolean = True,
-                             Optional hullAlpha As Integer = 150) As GraphicsData
+                             Optional hullAlpha As Integer = 150,
+                             Optional hullBspline As Single = 2) As GraphicsData
 
             Dim list As Serial3D() = serials.ToArray
             Dim points As Point3D() = list _
@@ -140,7 +141,8 @@ Namespace Plot3D
                         .brush = New SolidBrush(serial.Color.Alpha(hullAlpha)),
                         .Path = data _
                             .Select(Function(pt) pt.Value) _
-                            .ToArray
+                            .ToArray,
+                        .bspline = hullBspline
                     }
                 End If
 
