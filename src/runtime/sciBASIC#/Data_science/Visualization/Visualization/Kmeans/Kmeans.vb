@@ -213,7 +213,8 @@ Namespace KMeans
                                   Optional axisStroke$ = Stroke.AxisStroke,
                                   Optional arrowFactor$ = "2,2",
                                   Optional labelsQuantile# = -1,
-                                  Optional showLegend As Boolean = True) As GraphicsData
+                                  Optional showLegend As Boolean = True,
+                                  Optional showHull As Boolean = True) As GraphicsData
 
             Dim clusters As Dictionary(Of String, EntityClusterModel()) = clusterData.ClusterGroups
 
@@ -266,7 +267,8 @@ Namespace KMeans
                 axisStroke:=axisStroke,
                 labX:=labX, labY:=labY, labZ:=labZ,
                 arrowFactor:=arrowFactor,
-                showLegend:=showLegend
+                showLegend:=showLegend,
+                showHull:=showHull
             )
         End Function
 

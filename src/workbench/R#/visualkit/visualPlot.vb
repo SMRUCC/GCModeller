@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -313,7 +314,9 @@ Module visualPlot
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
                                  Optional qDisplay# = 0.9,
-                                 Optional prefix$ = "Cluster:  #",
+                                 Optional prefix$ = "Cluster: #",
+                                 Optional axisFormat$ = "CMeans dimension #%s",
+                                 Optional showHull As Boolean = True,
                                  Optional env As Environment = Nothing) As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -368,7 +371,7 @@ Module visualPlot
             .ToDictionary(Function(a) a.Key,
                           Function(a)
                               Return New NamedCollection(Of String) With {
-                                  .name = $"Cluster Dimension #{a.Key}",
+                                  .name = sprintf(axisFormat, a.Key),
                                   .value = {a.Key}
                               }
                           End Function)
@@ -391,7 +394,8 @@ Module visualPlot
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay,
-                showLegend:=False
+                showLegend:=False,
+                showHull:=showHull
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)
