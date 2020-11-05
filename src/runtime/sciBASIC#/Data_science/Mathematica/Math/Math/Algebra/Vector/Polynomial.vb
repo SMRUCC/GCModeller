@@ -57,6 +57,7 @@ Namespace LinearAlgebra
 
         Public MustOverride Function Evaluate(ParamArray x As Double()) As Double
         Public MustOverride Overloads Function ToString(format As String, Optional html As Boolean = False) As String
+        Public MustOverride Overloads Function ToString(variables As String(), format As String, Optional html As Boolean = False) As String
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
@@ -68,23 +69,38 @@ Namespace LinearAlgebra
     ''' 多元多项式
     ''' 
     ''' ```
-    ''' f(x1, x2, x3, ...) = a + bx1 + cx2 + dx3 + ...
+    ''' f(x1, x2, x3, ...) = a*x1 + b*x2 + c*x3 + ...
     ''' ```
     ''' </summary>
     Public Class MultivariatePolynomial : Inherits Formula
 
+        ''' <summary>
+        ''' sum(x * b) 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Overrides Function Evaluate(ParamArray x() As Double) As Double
-            Throw New NotImplementedException()
+            Dim y As Double = 0
+
+            For i As Integer = 0 To Factors.Length - 1
+                y += x(i) * Factors(i)
+            Next
+
+            Return y
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString(format As String, Optional html As Boolean = False) As String
-            Dim a As String = Factors(Scan0).ToString(format)
-            Dim vars As String() = Factors _
-                .Skip(1) _
+            Return Factors _
                 .Select(Function(b, i) $"{b}*X{i + 1}") _
-                .ToArray
+                .JoinBy(" + ")
+        End Function
 
-            Return a.JoinIterates(vars).JoinBy(" + ")
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString(variables() As String, format As String, Optional html As Boolean = False) As String
+            Return Factors _
+                .Select(Function(b, i) $"{b}*{variables(i)}") _
+                .JoinBy(" + ")
         End Function
     End Class
 
@@ -130,21 +146,9 @@ Namespace LinearAlgebra
             Return F(x:=x(Scan0))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Overrides Function ToString(format As String, Optional html As Boolean = False) As String
-            Dim items = Factors _
-                .Select(Function(a, i)
-                            If i = 0 Then
-                                Return ToString(a, format, html)
-                            ElseIf i = 1 Then
-                                Return $"{ToString(a, format, html)}*X"
-                            Else
-                                Return $"{ToString(a, format, html)}*X^{i}"
-                            End If
-                        End Function) _
-                .ToArray
-            Dim Y$ = items.JoinBy(" + ")
-
-            Return Y
+            Return ToString({"X"}, format, html)
         End Function
 
         Private Overloads Shared Function ToString(a As Double, format$, html As Boolean) As String
@@ -161,6 +165,24 @@ Namespace LinearAlgebra
                     Return $"{t(Scan0)}e<sup>{t(1)}</sup>"
                 End If
             End If
+        End Function
+
+        Public Overrides Function ToString(variables() As String, format As String, Optional html As Boolean = False) As String
+            Dim X As Double = variables(Scan0)
+            Dim items = Factors _
+                .Select(Function(a, i)
+                            If i = 0 Then
+                                Return ToString(a, format, html)
+                            ElseIf i = 1 Then
+                                Return $"{ToString(a, format, html)}*{X}"
+                            Else
+                                Return $"{ToString(a, format, html)}*{X}^{i}"
+                            End If
+                        End Function) _
+                .ToArray
+            Dim Y$ = items.JoinBy(" + ")
+
+            Return Y
         End Function
     End Class
 End Namespace
