@@ -43,6 +43,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Namespace LinearAlgebra
 
@@ -57,6 +58,10 @@ Namespace LinearAlgebra
         Public MustOverride Function Evaluate(ParamArray x As Double()) As Double
         Public MustOverride Overloads Function ToString(format As String, Optional html As Boolean = False) As String
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return ToString(format:="G3")
+        End Function
     End Class
 
     ''' <summary>
@@ -73,7 +78,13 @@ Namespace LinearAlgebra
         End Function
 
         Public Overrides Function ToString(format As String, Optional html As Boolean = False) As String
-            Throw New NotImplementedException()
+            Dim a As String = Factors(Scan0).ToString(format)
+            Dim vars As String() = Factors _
+                .Skip(1) _
+                .Select(Function(b, i) $"{b}*X{i + 1}") _
+                .ToArray
+
+            Return a.JoinIterates(vars).JoinBy(" + ")
         End Function
     End Class
 
@@ -117,11 +128,6 @@ Namespace LinearAlgebra
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Evaluate(ParamArray x() As Double) As Double
             Return F(x:=x(Scan0))
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function ToString() As String
-            Return ToString(format:="F2")
         End Function
 
         Public Overloads Overrides Function ToString(format As String, Optional html As Boolean = False) As String
