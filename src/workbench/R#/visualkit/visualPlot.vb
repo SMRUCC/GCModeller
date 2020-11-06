@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -313,7 +314,11 @@ Module visualPlot
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
                                  Optional qDisplay# = 0.9,
-                                 Optional prefix$ = "Cluster:  #",
+                                 Optional prefix$ = "Cluster: #",
+                                 Optional axisFormat$ = "CMeans dimension #%s",
+                                 Optional showHull As Boolean = True,
+                                 Optional hullAlpha As Integer = 150,
+                                 Optional hullBspline As Single = 3,
                                  Optional env As Environment = Nothing) As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -332,8 +337,13 @@ Module visualPlot
         Dim normRange As DoubleRange = {0, 100}
         Dim clusterNMembers As Integer = clusterData.Length
 
-        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct.ToArray
-            Dim v = clusterData.Select(Function(a) a(project)).ToArray
+        For Each project As String In clusterData _
+            .Select(Function(a) a.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+            Dim v As Double() = clusterData.Select(Function(a) a(project)).ToArray
             Dim range = v.Range
             Dim map As Double
 
@@ -363,12 +373,12 @@ Module visualPlot
             .ToDictionary(Function(a) a.Key,
                           Function(a)
                               Return New NamedCollection(Of String) With {
-                                  .name = $"Cluster Dimension #{a.Key}",
+                                  .name = sprintf(axisFormat, a.Key),
                                   .value = {a.Key}
                               }
                           End Function)
 
-        Dim arrowFactor$ = "1,2"
+        Dim arrowFactor$ = "1,1"
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityClusterModel In clusterData
@@ -386,7 +396,10 @@ Module visualPlot
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay,
-                showLegend:=False
+                showLegend:=False,
+                showHull:=showHull,
+                hullAlpha:=hullAlpha,
+                hullBspline:=hullBspline
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)
