@@ -81,7 +81,7 @@ Public Class KernelDriver(Of T, Dynamics As GCModeller.Framework.Kernel_Driver.I
     ''' (从运行开始后到当前的时间中所流逝的内核循环次数)
     ''' </summary>
     ''' <remarks></remarks>
-    <DumpNode> Protected _runtimeTicks As Integer
+    Protected _runtimeTicks As Integer
 
     ''' <summary>
     ''' Load the simulation kernel into the calculation kernel driver and then initialize a data adapter for the kernel.
