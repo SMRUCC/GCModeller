@@ -647,6 +647,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDotNet", "R.Bioconductor\R
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "webKit", "R-sharp\studio\Rsharp_kit\webKit\webKit.vbproj", "{4B5F4FC4-545F-4148-8401-BD51EC522E87}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TcpRequest", "runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.shproj", "{7DF565AE-6E7A-4667-AB6D-9908ACBEED8B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -697,6 +699,7 @@ Global
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
+		runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.projitems*{7df565ae-6e7a-4667-ab6d-9908acbeed8b}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{7e6df33f-feb0-447f-b656-a51acd00e888}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{7e6df33f-feb0-447f-b656-a51acd00e888}*SharedItemsImports = 4
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{7f0522dc-94ef-47b9-9f12-bae1d20d8ab8}*SharedItemsImports = 4
@@ -725,6 +728,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
 		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{a4db87f1-8b06-4398-af22-4bf0bafbd87a}*SharedItemsImports = 4
+		runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.projitems*{a60240d1-e78b-4b96-85e3-45256571c2cb}*SharedItemsImports = 4
 		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{a6390958-28ba-4c53-b22d-a859353556da}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
@@ -32397,6 +32401,7 @@ Global
 		{EA6274F7-410C-469D-A5E9-155768DAB11C} = {19E13C9D-C514-475E-A03E-D2A93F1EB987}
 		{57D5EA2B-F718-4FD8-9504-B4C0293FA4B9} = {6EDD80CC-6944-47D9-8503-6FDE5D1B661E}
 		{4B5F4FC4-545F-4148-8401-BD51EC522E87} = {19E13C9D-C514-475E-A03E-D2A93F1EB987}
+		{7DF565AE-6E7A-4667-AB6D-9908ACBEED8B} = {DDD983DD-33C2-47E9-B291-7D9B13ABFE99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
