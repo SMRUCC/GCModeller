@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d02aba5df6aedd92d0cf627f10147a0d, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
+﻿#Region "Microsoft.VisualBasic::fd53e1ea4e2aeca478463442e55348f0, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String
         Return xml.LoadFromXml(Of sbXML)(throwEx:=False)
     End Function
 End Class
-

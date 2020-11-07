@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa6be3a26e2fb03951edb090380b8247, models\Networks\KEGG\IgnoreList.vb"
+﻿#Region "Microsoft.VisualBasic::81ab35da8f0aaf4f87d129002c3f314e, models\Networks\KEGG\IgnoreList.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Module IgnoreList
         }
     End Function
 End Module
-

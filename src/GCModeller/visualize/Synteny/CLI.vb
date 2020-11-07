@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86246289affb55028e614786fdf75368, visualize\Synteny\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::979503474740f7ecfa7194cc6ea140dc, visualize\Synteny\CLI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: ClusterTree, PlotMapping, Test
+    '     Function: ClusterTree, PlotMapping
     ' 
     ' /********************************************************************************/
 

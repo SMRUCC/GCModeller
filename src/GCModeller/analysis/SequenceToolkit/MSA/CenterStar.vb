@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36666407493dc299208d705bff72147a, analysis\SequenceToolkit\MSA\CenterStar.vb"
+﻿#Region "Microsoft.VisualBasic::ae72155af8e665877d8dfb2f04605314, analysis\SequenceToolkit\MSA\CenterStar.vb"
 
     ' Author:
     ' 

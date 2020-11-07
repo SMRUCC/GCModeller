@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f26869fe697327686582c7e69790486, CLI_tools\gcc\CLI\Project.vb"
+﻿#Region "Microsoft.VisualBasic::133756b4f84efd00031b7b9002b4e9be, CLI_tools\gcc\CLI\Project.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module CLI
     ' 
-    '     Function: CompileKEGG, CompileKEGGOrganism, ExportModelGraph, ExportPathwaysNetwork, IsGCMarkup
-    '               Summary
+    '     Function: build, CompileKEGG, CompileKEGGOrganism, ExportModelGraph, ExportPathwaysNetwork
+    '               IsGCMarkup, Summary
     ' 
     ' /********************************************************************************/
 

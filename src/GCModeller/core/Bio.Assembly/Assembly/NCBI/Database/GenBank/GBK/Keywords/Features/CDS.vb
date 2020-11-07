@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::50f7652669e270c16e80d137fefab473, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
+﻿#Region "Microsoft.VisualBasic::7a9565220ca837b2eaba367f492fcfa4, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class CDS
-' 
-'         Properties: db_xref_GI, db_xref_GO, db_xref_InterPro, db_xref_UniprotKBSwissProt, db_xref_UniprotKBTrEMBL
-'                     DBLinks
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'     Class tRNAAnticodon
-' 
-'         Properties: aa, pos, seq
-' 
-'         Function: Parse, ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class CDS
+    ' 
+    '         Properties: db_xref_GI, db_xref_GO, db_xref_InterPro, db_xref_UniprotKBSwissProt, db_xref_UniprotKBTrEMBL
+    '                     DBLinks
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class tRNAAnticodon
+    ' 
+    '         Properties: aa, pos, seq
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

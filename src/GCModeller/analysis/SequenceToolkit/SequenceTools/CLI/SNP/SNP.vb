@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db1294d153ef182a5c7f7991166d94c, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::0147a84941eec89de8d6d8d191564663, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
 
     ' Author:
     ' 
