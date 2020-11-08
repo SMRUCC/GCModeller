@@ -72,18 +72,31 @@ Module ptfKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("as.uniprot_id")>
-    Public Function unifyProteinId(ptf As PtfFile, <RRawVectorArgument> proteins As Object, Optional env As Environment = Nothing) As Object
+    Public Function unifyProteinId(<RRawVectorArgument> ptf As Object, <RRawVectorArgument> proteins As Object, Optional env As Environment = Nothing) As Object
         Dim inputs As pipeline = pipeline.TryCreatePipeline(Of INamedValue)(proteins, env)
 
         If inputs.isError Then
             Return inputs.getError
         End If
 
+        Dim annotations As PtfFile
+
+        If TypeOf ptf Is PtfFile Then
+            annotations = DirectCast(ptf, PtfFile)
+        Else
+            annotations = New PtfFile With {
+                .proteins = pipeline _
+                    .TryCreatePipeline(Of ProteinAnnotation)(ptf, env) _
+                    .populates(Of ProteinAnnotation)(env) _
+                    .ToArray
+            }
+        End If
+
         Dim list = inputs.populates(Of INamedValue)(env).ToArray
         Dim generic_type As Type = list(Scan0).GetType
         Dim generic_input As Array = REnv.asVector(list, generic_type, env)
         Dim generic_api As MethodInfo = GetType(IDMapping).GetMethod(NameOf(IDMapping.Mapping)).MakeGenericMethod(generic_type)
-        Dim result As IEnumerable = generic_api.Invoke(Nothing, {ptf, generic_input})
+        Dim result As IEnumerable = generic_api.Invoke(Nothing, {annotations, generic_input})
 
         Return REnv.asVector(result.ToArray(Of INamedValue), generic_type, env)
     End Function

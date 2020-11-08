@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -102,9 +101,50 @@ Module geneExpression
                 .expression = genes,
                 .sampleID = sampleNames
             }
+        ElseIf REnv.isVector(Of DataSet)(file) Then
+            Dim rows As DataSet() = REnv.asVector(Of DataSet)(file)
+            Dim matrix As New Matrix With {.sampleID = rows.PropertyNames}
+            Dim genes As DataFrameRow() = New DataFrameRow(rows.Length - 1) {}
+
+            For i As Integer = 0 To genes.Length - 1
+#Disable Warning
+                genes(i) = New DataFrameRow With {
+                    .geneID = rows(i).ID,
+                    .experiments = matrix.sampleID _
+                        .Select(Function(name) rows(i)(name)) _
+                        .ToArray
+                }
+#Enable Warning
+            Next
+
+            matrix.expression = genes
+
+            Return matrix
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <ExportAPI("as.generic")>
+    Public Function castGenericRows(matrix As Matrix) As DataSet()
+        Dim sampleNames As String() = matrix.sampleID
+        Dim geneNodes As DataSet() = matrix.expression _
+            .AsParallel _
+            .Select(Function(gene)
+                        Dim vector As New Dictionary(Of String, Double)
+
+                        For i As Integer = 0 To sampleNames.Length - 1
+                            Call vector.Add(sampleNames(i), gene.experiments(i))
+                        Next
+
+                        Return New DataSet With {
+                            .ID = gene.geneID,
+                            .Properties = vector
+                        }
+                    End Function) _
+            .ToArray
+
+        Return geneNodes
     End Function
 
     ''' <summary>
@@ -218,13 +258,13 @@ Module geneExpression
 
     <ExportAPI("deg.t.test")>
     Public Function Ttest(matrix As Matrix,
-                      sampleinfo As SampleInfo(),
-                      treatment$,
-                      control$,
-                      Optional level# = 1.5,
-                      Optional pvalue# = 0.05,
-                      Optional FDR# = 0.05,
-                      Optional env As Environment = Nothing) As DEP_iTraq()
+                          sampleinfo As SampleInfo(),
+                          treatment$,
+                          control$,
+                          Optional level# = 1.5,
+                          Optional pvalue# = 0.05,
+                          Optional FDR# = 0.05,
+                          Optional env As Environment = Nothing) As DEP_iTraq()
 
         Return matrix _
             .Ttest(
