@@ -215,8 +215,8 @@ Namespace Tcp
 
             Try
                 Call _servicesSocket.Bind(localEndPoint)
-                Call _servicesSocket.ReceiveBufferSize.SetValue(4096)
-                Call _servicesSocket.SendBufferSize.SetValue(4096)
+                Call _servicesSocket.ReceiveBufferSize.SetValue(4096 * 1024 * 10)
+                Call _servicesSocket.SendBufferSize.SetValue(4096 * 1024 * 10)
                 Call _servicesSocket.Listen(backlog:=128)
             Catch ex As Exception
                 Dim exMessage As String =
