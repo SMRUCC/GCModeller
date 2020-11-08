@@ -40,6 +40,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -136,6 +137,24 @@ Module ptfKit
         End If
         If stream Like GetType(Message) Then
             Return stream.TryCast(Of Message)
+        End If
+        If meta Is Nothing Then
+            meta = New list With {.slots = New Dictionary(Of String, Object)}
+        End If
+
+        Dim core = GetType(ProteinAnnotation).Assembly.FromAssembly
+
+        If Not meta.hasName("version") Then
+            meta.slots.Add("version", core.AssemblyVersion)
+        End If
+        If Not meta.hasName("built") Then
+            meta.slots.Add("built", core.BuiltTime.ToString)
+        End If
+        If Not meta.hasName("program") Then
+            meta.slots.Add("program", "GCModeller+R#")
+        End If
+        If Not meta.hasName("author") Then
+            meta.slots.Add("author", My.User.Name)
         End If
 
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
