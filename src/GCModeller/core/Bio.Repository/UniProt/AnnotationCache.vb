@@ -56,7 +56,8 @@ Public Module AnnotationCache
         Next
     End Sub
 
-    Private Function toPtf(protein As entry, includesNCBITaxonomy As Boolean) As ProteinAnnotation
+    <Extension>
+    Public Function toPtf(protein As entry, includesNCBITaxonomy As Boolean) As ProteinAnnotation
         Dim dbxref As New Dictionary(Of String, String())
         Dim refList As String()
 
