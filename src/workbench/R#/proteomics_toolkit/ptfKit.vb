@@ -51,6 +51,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' toolkit for handle ptf annotation data set
@@ -60,8 +61,15 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Module ptfKit
 
     <ExportAPI("uniprot.ptf")>
-    Public Function fromUniProt(<RRawVectorArgument> uniprot As Object, Optional includesNCBITaxonomy As Boolean = False, Optional env As Environment = Nothing) As Object
+    Public Function fromUniProt(<RRawVectorArgument>
+                                uniprot As Object,
+                                Optional includesNCBITaxonomy As Boolean = False,
+                                <RRawVectorArgument(GetType(String))>
+                                Optional keys As Object = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
+                                Optional env As Environment = Nothing) As Object
+
         Dim source = getUniprotData(uniprot, env)
+        Dim keyList As String = DirectCast(REnv.asVector(Of String)(keys), String()).JoinBy(",")
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
@@ -69,7 +77,7 @@ Module ptfKit
 
         Return source _
             .TryCast(Of IEnumerable(Of entry)) _
-            .Select(Function(protein) protein.toPtf(includesNCBITaxonomy)) _
+            .Select(Function(protein) protein.toPtf(includesNCBITaxonomy, keys:=keyList)) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
