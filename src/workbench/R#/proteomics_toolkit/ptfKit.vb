@@ -127,7 +127,7 @@ Module ptfKit
 
     <ExportAPI("save.ptf")>
     <RApiReturn(GetType(Boolean))>
-    Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional env As Environment = Nothing) As Object
+    Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional meta As list = Nothing, Optional env As Environment = Nothing) As Object
         Dim stream = GetFileStream(file, FileAccess.Write, env)
         Dim anno As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
 
@@ -141,7 +141,8 @@ Module ptfKit
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
             Call PtfFile.WriteStream(
                 annotation:=anno.populates(Of ProteinAnnotation)(env),
-                file:=writer
+                file:=writer,
+                attributes:=meta.AsGeneric(Of String())(env, {})
             )
         End Using
 

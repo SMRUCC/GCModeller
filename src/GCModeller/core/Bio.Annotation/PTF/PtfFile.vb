@@ -67,7 +67,7 @@ Namespace Ptf
         ' # time: ...
         ' # ...
 
-        Public Property attributes As Dictionary(Of String, String)
+        Public Property attributes As Dictionary(Of String, String())
         Public Property proteins As ProteinAnnotation()
 
         Public Overrides Function ToString() As String
@@ -89,10 +89,12 @@ Namespace Ptf
             Return Document.IterateAnnotations(file)
         End Function
 
-        Public Shared Sub WriteStream(annotation As IEnumerable(Of ProteinAnnotation), file As TextWriter, Optional attributes As Dictionary(Of String, String) = Nothing)
+        Public Shared Sub WriteStream(annotation As IEnumerable(Of ProteinAnnotation), file As TextWriter, Optional attributes As Dictionary(Of String, String()) = Nothing)
             If Not attributes Is Nothing Then
                 For Each key As String In attributes.Keys
-                    Call file.WriteLine($"# {key}: {attributes(key)}")
+                    For Each strVal As String In attributes(key)
+                        Call file.WriteLine($"# {key}: {strVal}")
+                    Next
                 Next
 
                 Call file.WriteLine()
