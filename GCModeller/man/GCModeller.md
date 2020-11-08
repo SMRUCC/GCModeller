@@ -1,4 +1,4 @@
-﻿# GCModeller
+# GCModeller
 
 GCModeller internal cli pipeline api for R# scripting
 

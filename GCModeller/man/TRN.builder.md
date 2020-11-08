@@ -1,4 +1,4 @@
-﻿# TRN.builder
+# TRN.builder
 
 tools for create a transcription regulation network
 

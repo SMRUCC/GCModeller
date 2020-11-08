@@ -1,4 +1,4 @@
-﻿# R.executable.loader
+# R.executable.loader
 
 R# executable file loader
 

@@ -1,11 +1,12 @@
 .\" man page create by R# package system.
-.TH CONSOLE 1 2020-11-02 "log" "log"
+.TH CONSOLE 1 2020-11-09 "log" "log"
 .SH NAME
 log \- Writes the specified string value to the standard output stream.
 .SH SYNOPSIS
-\fIlog(\fBmessage\fR as string, 
+\fIlog(\fBmessage\fR as <generic> Object, 
 \fBfore_color\fR as <integer> ConsoleColor = \fB<NULL>\fR, 
-\fBback_color\fR as <integer> ConsoleColor = \fB<NULL>\fR);\fR
+\fBback_color\fR as <integer> ConsoleColor = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Writes the specified string value to the standard output stream.

@@ -1,4 +1,4 @@
-﻿# model
+# model
 
 package module for generates plot data
 

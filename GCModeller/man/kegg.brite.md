@@ -1,4 +1,4 @@
-﻿# kegg.brite
+# kegg.brite
 
 Toolkit for process the kegg brite text file
 

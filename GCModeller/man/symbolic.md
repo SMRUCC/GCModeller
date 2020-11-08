@@ -1,4 +1,4 @@
-﻿# symbolic
+# symbolic
 
 math symbolic expression for R#
 

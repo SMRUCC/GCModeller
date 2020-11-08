@@ -1,4 +1,4 @@
-﻿# igraph.render
+# igraph.render
 
 Rendering png or svg image from a given network graph model.
 

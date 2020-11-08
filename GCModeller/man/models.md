@@ -1,4 +1,4 @@
-﻿# models
+# models
 
 api for create network graph model for cytoscape
 

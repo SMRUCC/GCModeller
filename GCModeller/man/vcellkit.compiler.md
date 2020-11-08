@@ -1,4 +1,4 @@
-﻿# vcellkit.compiler
+# vcellkit.compiler
 
 The GCModeller virtual cell model creator
 

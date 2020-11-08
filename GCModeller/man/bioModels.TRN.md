@@ -1,4 +1,4 @@
-﻿# bioModels.TRN
+# bioModels.TRN
 
 Transcription Regulation Network Builder Tools
 

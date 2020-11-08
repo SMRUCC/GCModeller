@@ -1,4 +1,4 @@
-﻿# report.utils
+# report.utils
 
 the kegg pathway map report helper tool
 

@@ -1,4 +1,4 @@
-﻿# graphics2D.labeler
+# graphics2D.labeler
 
 
 
