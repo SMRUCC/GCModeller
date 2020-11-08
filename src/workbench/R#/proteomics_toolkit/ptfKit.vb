@@ -40,10 +40,13 @@
 #End Region
 
 Imports System.IO
+Imports System.Reflection
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -60,6 +63,30 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' 
 <Package("ptfKit")>
 Module ptfKit
+
+    ''' <summary>
+    ''' Try to unify all protein id to uniprot id
+    ''' </summary>
+    ''' <param name="ptf"></param>
+    ''' <param name="proteins"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.uniprot_id")>
+    Public Function unifyProteinId(ptf As PtfFile, <RRawVectorArgument> proteins As Object, Optional env As Environment = Nothing) As Object
+        Dim inputs As pipeline = pipeline.TryCreatePipeline(Of INamedValue)(proteins, env)
+
+        If inputs.isError Then
+            Return inputs.getError
+        End If
+
+        Dim list = inputs.populates(Of INamedValue)(env).ToArray
+        Dim generic_type As Type = list(Scan0).GetType
+        Dim generic_input As Array = REnv.asVector(list, generic_type, env)
+        Dim generic_api As MethodInfo = GetType(IDMapping).GetMethod(NameOf(IDMapping.Mapping)).MakeGenericMethod(generic_type)
+        Dim result As IEnumerable = generic_api.Invoke(Nothing, {ptf, generic_input})
+
+        Return REnv.asVector(result.ToArray(Of INamedValue), generic_type, env)
+    End Function
 
     <ExportAPI("uniprot.ptf")>
     Public Function fromUniProt(<RRawVectorArgument>
