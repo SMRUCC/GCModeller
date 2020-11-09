@@ -86,6 +86,7 @@ Module visualPlot
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
                                 Optional bg As Object = "white",
+                                <RDefaultExpression>
                                 Optional colors As Object = "~list(up=red,down=green,other=black)",
                                 Optional pvalue As Double = 0.05,
                                 Optional level As Double = 1.5,
