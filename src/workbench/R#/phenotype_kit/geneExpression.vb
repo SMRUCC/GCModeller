@@ -271,6 +271,16 @@ Module geneExpression
                 treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
                 control:=sampleinfo.TakeGroup(control).SampleIDs
             ) _
-            .ApplyDEPFilter(level, pvalue, FDR)
+            .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    ''' <summary>
+    ''' get gene Id list
+    ''' </summary>
+    ''' <param name="dep"></param>
+    ''' <returns></returns>
+    <ExportAPI("geneId")>
+    Public Function geneId(dep As DEP_iTraq()) As String()
+        Return dep.Select(Function(a) a.ID).ToArray
     End Function
 End Module

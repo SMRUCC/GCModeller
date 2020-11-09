@@ -74,6 +74,38 @@ Public Module AnalysisCommon
         Return result
     End Function
 
+    <Extension>
+    Public Function DepFilter2(proteins As IEnumerable(Of DEP_iTraq), level#, pvalue#, FDR_threshold#) As DEP_iTraq()
+        With proteins.Shadows
+            Dim test As BooleanVector
+            Dim log2FC As Vector = !log2FC
+            Dim p As Vector = !pvalue
+            Dim FDR As Vector = p.FDR
+            Dim n% = .Length
+
+            ' vector shadows dynamics language feature
+            With CObj(.ByRef)
+
+                test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
+
+                ' apply FDR selector if the threshold is less than 1
+                .FDR = FDR
+
+                If FDR_threshold < 1 Then
+                    test = test & (FDR <= FDR_threshold)
+                End If
+
+                .isDEP = test
+
+                With Which.IsTrue(test).Count
+                    Call println("resulted %s DEPs from %s proteins!", .ByRef, n)
+                End With
+            End With
+
+            Return .ByRef
+        End With
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>

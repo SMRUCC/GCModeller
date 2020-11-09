@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -77,15 +78,67 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' <summary>
 ''' package module for biological analysis data visualization
 ''' </summary>
-<Package("visualkit.plots", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("visualPlot", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
     <ExportAPI("volcano.plot")>
     Public Function VolcanoPlot(genes As DEP_iTraq(),
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
-                                Optional bg As Object = "white") As Object
+                                Optional bg As Object = "white",
+                                Optional colors As Object = "~list(up=red,down=green,other=black)",
+                                Optional pvalue As Double = 0.05,
+                                Optional level As Double = 1.5,
+                                Optional title$ = "volcano plot") As Object
 
+        Dim colorList As New Dictionary(Of Integer, Color)
+
+        If colors Is Nothing Then
+            colorList = New Dictionary(Of Integer, Color) From {
+                {Types.Up, Color.Red},
+                {Types.Down, Color.Green},
+                {Types.None, Color.Gray}
+            }
+        Else
+            With DirectCast(colors, list)
+                Call colorList.Add(Types.Up, Scripting.ToString(.slots("up")).TranslateColor)
+                Call colorList.Add(Types.Down, Scripting.ToString(.slots("down")).TranslateColor)
+                Call colorList.Add(Types.None, Scripting.ToString(.slots("other")).TranslateColor)
+            End With
+        End If
+
+        pvalue = -Math.Log10(pvalue)
+        level = Math.Log(level, 2)
+
+        Dim toFactor = Function(x As DEGModel)
+                           If x.pvalue < pvalue Then
+                               Return 0
+                           ElseIf Math.Abs(x.logFC) < level Then
+                               Return 0
+                           End If
+
+                           If x.logFC > 0 Then
+                               Return 1
+                           Else
+                               Return -1
+                           End If
+                       End Function
+
+        Return Volcano.Plot(
+                genes:=genes,
+                colors:=colorList,
+                factors:=toFactor,
+                padding:="padding: 50 50 150 150",
+                displayLabel:=LabelTypes.Custom,
+                size:=size,
+                log2Threshold:=level,
+                pvalueThreshold:=pvalue,
+                title:=title,
+                displayCount:=True,
+                labelP:=1
+            ) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White)
     End Function
 
     ''' <summary>
