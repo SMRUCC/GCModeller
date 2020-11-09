@@ -87,7 +87,7 @@ Module visualPlot
                                 <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
                                 Optional bg As Object = "white",
                                 <RDefaultExpression>
-                                Optional colors As Object = "~list(up=red,down=green,other=black)",
+                                Optional colors As Object = "~list(up='red',down='green',other='black')",
                                 Optional pvalue As Double = 0.05,
                                 Optional level As Double = 1.5,
                                 Optional title$ = "volcano plot") As Object
@@ -130,13 +130,13 @@ Module visualPlot
                 colors:=colorList,
                 factors:=toFactor,
                 padding:="padding: 50 50 150 150",
-                displayLabel:=LabelTypes.Custom,
+                displayLabel:=LabelTypes.None,
                 size:=size,
                 log2Threshold:=level,
                 pvalueThreshold:=pvalue,
                 title:=title,
                 displayCount:=True,
-                labelP:=1
+                labelP:=-1
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)
