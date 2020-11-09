@@ -1,4 +1,4 @@
-﻿# machineLearning
+# machineLearning
 
 R# machine learning library
 

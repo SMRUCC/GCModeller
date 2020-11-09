@@ -159,6 +159,7 @@
     <Compile Include="GFF\Features.vb" />
     <Compile Include="GFF\GFF.vb" />
     <Compile Include="GFF\Region.vb" />
+    <Compile Include="IDMapping.vb" />
     <Compile Include="PTF\Document\DocumentBuilder.vb" />
     <Compile Include="PTF\KOSelector.vb" />
     <Compile Include="PTF\ProteinAnnotation.vb" />

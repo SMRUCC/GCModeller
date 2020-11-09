@@ -1,4 +1,4 @@
-﻿# http.socket
+# http.socket
 
 
 

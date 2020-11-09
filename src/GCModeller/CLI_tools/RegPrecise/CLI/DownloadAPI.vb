@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::450e55ee751d72fd7d9b973ca8237577, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
+﻿#Region "Microsoft.VisualBasic::075c06c48637c82261f1b99eb15ba99c, CLI_tools\RegPrecise\CLI\DownloadAPI.vb"
 
     ' Author:
     ' 

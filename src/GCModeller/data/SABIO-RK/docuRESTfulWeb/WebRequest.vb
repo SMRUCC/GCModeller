@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1701d928a417107b6e5101fba8471da3, data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::b620d3bb68fed094b24b778e8b573852, data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
 
     ' Author:
     ' 
@@ -107,4 +107,3 @@ Public Module WebRequest
         Return xml
     End Function
 End Module
-

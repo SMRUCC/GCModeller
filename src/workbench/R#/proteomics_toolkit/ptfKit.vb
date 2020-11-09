@@ -1,55 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::93bedf8123b55822c9ae23b43a7200a8, proteomics_toolkit\ptfKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module ptfKit
-    ' 
-    '     Function: filterBykey, loadPtf, NCBITaxonomy, savePtf, split
-    ' 
-    ' /********************************************************************************/
+' Module ptfKit
+' 
+'     Function: filterBykey, loadPtf, NCBITaxonomy, savePtf, split
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
+Imports System.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation
 Imports SMRUCC.genomics.Annotation.Ptf
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' toolkit for handle ptf annotation data set
@@ -57,6 +63,64 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' 
 <Package("ptfKit")>
 Module ptfKit
+
+    ''' <summary>
+    ''' Try to unify all protein id to uniprot id
+    ''' </summary>
+    ''' <param name="ptf"></param>
+    ''' <param name="proteins"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.uniprot_id")>
+    Public Function unifyProteinId(<RRawVectorArgument> ptf As Object, <RRawVectorArgument> proteins As Object, Optional env As Environment = Nothing) As Object
+        Dim inputs As pipeline = pipeline.TryCreatePipeline(Of INamedValue)(proteins, env)
+
+        If inputs.isError Then
+            Return inputs.getError
+        End If
+
+        Dim annotations As PtfFile
+
+        If TypeOf ptf Is PtfFile Then
+            annotations = DirectCast(ptf, PtfFile)
+        Else
+            annotations = New PtfFile With {
+                .proteins = pipeline _
+                    .TryCreatePipeline(Of ProteinAnnotation)(ptf, env) _
+                    .populates(Of ProteinAnnotation)(env) _
+                    .ToArray
+            }
+        End If
+
+        Dim list = inputs.populates(Of INamedValue)(env).ToArray
+        Dim generic_type As Type = list(Scan0).GetType
+        Dim generic_input As Array = REnv.asVector(list, generic_type, env)
+        Dim generic_api As MethodInfo = GetType(IDMapping).GetMethod(NameOf(IDMapping.Mapping)).MakeGenericMethod(generic_type)
+        Dim result As IEnumerable = generic_api.Invoke(Nothing, {annotations, generic_input})
+
+        Return REnv.asVector(result.ToArray(Of INamedValue), generic_type, env)
+    End Function
+
+    <ExportAPI("uniprot.ptf")>
+    Public Function fromUniProt(<RRawVectorArgument>
+                                uniprot As Object,
+                                Optional includesNCBITaxonomy As Boolean = False,
+                                <RRawVectorArgument(GetType(String))>
+                                Optional keys As Object = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
+                                Optional env As Environment = Nothing) As Object
+
+        Dim source = getUniprotData(uniprot, env)
+        Dim keyList As String = DirectCast(REnv.asVector(Of String)(keys), String()).JoinBy(",")
+
+        If source Like GetType(Message) Then
+            Return source.TryCast(Of Message)
+        End If
+
+        Return source _
+            .TryCast(Of IEnumerable(Of entry)) _
+            .Select(Function(protein) protein.toPtf(includesNCBITaxonomy, keys:=keyList)) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
 
     <ExportAPI("load.ptf")>
     Public Function loadPtf(file As Object, Optional env As Environment = Nothing) As pipeline
@@ -104,7 +168,7 @@ Module ptfKit
 
     <ExportAPI("save.ptf")>
     <RApiReturn(GetType(Boolean))>
-    Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional env As Environment = Nothing) As Object
+    Public Function savePtf(<RRawVectorArgument> ptf As Object, file As Object, Optional meta As list = Nothing, Optional env As Environment = Nothing) As Object
         Dim stream = GetFileStream(file, FileAccess.Write, env)
         Dim anno As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
 
@@ -114,11 +178,30 @@ Module ptfKit
         If stream Like GetType(Message) Then
             Return stream.TryCast(Of Message)
         End If
+        If meta Is Nothing Then
+            meta = New list With {.slots = New Dictionary(Of String, Object)}
+        End If
+
+        Dim core = GetType(ProteinAnnotation).Assembly.FromAssembly
+
+        If Not meta.hasName("version") Then
+            meta.slots.Add("version", core.AssemblyVersion)
+        End If
+        If Not meta.hasName("built") Then
+            meta.slots.Add("built", core.BuiltTime.ToString)
+        End If
+        If Not meta.hasName("program") Then
+            meta.slots.Add("program", "GCModeller+R#")
+        End If
+        If Not meta.hasName("author") Then
+            meta.slots.Add("author", My.User.Name)
+        End If
 
         Using writer As New StreamWriter(stream) With {.NewLine = vbLf}
             Call PtfFile.WriteStream(
                 annotation:=anno.populates(Of ProteinAnnotation)(env),
-                file:=writer
+                file:=writer,
+                attributes:=meta.AsGeneric(Of String())(env, {})
             )
         End Using
 

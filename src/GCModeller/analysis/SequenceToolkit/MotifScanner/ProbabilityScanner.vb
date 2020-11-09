@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2919c39c508005629f72e2df3ed9de10, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::486b74b881292d13ecb1cfcc875b72c5, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 

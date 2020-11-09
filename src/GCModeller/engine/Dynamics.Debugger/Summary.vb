@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c336caa9cff31104b7d44a5c8571b3ca, engine\Dynamics.Debugger\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::7d418487ca89850676a85b2dd62119f6, engine\Dynamics.Debugger\Summary.vb"
 
     ' Author:
     ' 
@@ -133,4 +133,3 @@ Public Module Summary
             </div>, rxn.ID, forward.JoinBy("<br />"), reverse.JoinBy("<br />"))
     End Function
 End Module
-

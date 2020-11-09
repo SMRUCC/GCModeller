@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69f3ee92e6e3d0f7fbd4599508d82452, analysis\HTS_matrix\Document.vb"
+﻿#Region "Microsoft.VisualBasic::5ca02a0a31d09900f0e6d0f79d14d053, analysis\HTS_matrix\Document.vb"
 
     ' Author:
     ' 
@@ -102,4 +102,3 @@ Public Module Document
         }
     End Function
 End Module
-

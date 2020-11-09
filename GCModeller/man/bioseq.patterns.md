@@ -1,4 +1,4 @@
-﻿# bioseq.patterns
+# bioseq.patterns
 
 Tools for sequence patterns
 

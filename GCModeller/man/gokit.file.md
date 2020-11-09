@@ -1,4 +1,4 @@
-﻿# gokit.file
+# gokit.file
 
 
 

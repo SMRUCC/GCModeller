@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08ebf6f0441c3cd9d524d195aa166b0e, analysis\HTS_matrix\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::967cc118d117791e92ae6b86b8ff4bba, analysis\HTS_matrix\DataFrameRow.vb"
 
 ' Author:
 ' 
@@ -35,7 +35,7 @@
 ' 
 '     Properties: experiments, geneID, samples
 ' 
-'     Function: ToString
+'     Function: ToDataSet, ToString
 ' 
 ' /********************************************************************************/
 
@@ -88,6 +88,6 @@ Public Class DataFrameRow : Implements INamedValue
     End Function
 
     Public Overrides Function ToString() As String
-        Return String.Format("{0} -> {1}", geneID, String.Join(", ", experiments))
+        Return $"{geneID} -> {experiments.Select(Function(a) a.ToString("F3")).JoinBy(", ")}"
     End Function
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c50f3e44f16c9e4e0d57d88f16a3735d, data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::05cd42843aaba1cbf5de9407d80aa726, data\WebServices\Service References\WSDbfetchDoclitServerServices\Reference.vb"
 
     ' Author:
     ' 
@@ -1220,4 +1220,3 @@ Namespace WSDbfetchDoclitServerServices
         End Function
     End Class
 End Namespace
-

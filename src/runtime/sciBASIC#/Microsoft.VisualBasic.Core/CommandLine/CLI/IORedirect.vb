@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f50f16590232337d58b85a4dd6d637b1, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
+﻿#Region "Microsoft.VisualBasic::5907f6ccbfd6a47524457b5fa4521eca, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirect.vb"
 
     ' Author:
     ' 
@@ -44,12 +44,12 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetError, Read, ReadLine, Run, Shell
-    '                   (+3 Overloads) Start, ToString, WaitError, waitForExit, WaitForExit
-    '                   WaitOutput
+    '         Function: GetError, Read, ReadKey, ReadLine, Run
+    '                   Shell, (+3 Overloads) Start, ToString, WaitError, waitForExit
+    '                   WaitForExit, WaitOutput
     ' 
-    '         Sub: (+2 Overloads) Dispose, errorHandler, Kill, outputHandler, Write
-    '              (+2 Overloads) WriteLine
+    '         Sub: Clear, (+2 Overloads) Dispose, errorHandler, Kill, outputHandler
+    '              (+2 Overloads) Write, (+3 Overloads) WriteLine
     ' 
     ' 
     ' 
@@ -164,7 +164,6 @@ Namespace CommandLine
         Dim output As New StringBuilder(1024)
         Dim [error] As New StringBuilder()
         Dim IOredirect As Boolean
-        Dim displayOutput As Boolean = False
 
         ''' <summary>
         ''' Creates a <see cref="System.Diagnostics.Process"/> wrapper for the CLI program operations.
@@ -177,14 +176,12 @@ Namespace CommandLine
         ''' (程序会自动将这个参数之中的换行符替换为空格.)
         ''' </param>
         ''' <param name="ENV">Set up the environment variable for the target invoked child process.</param>
-        ''' <param name="displayDebug"></param>
-        ''' <param name="displayStdOut">是否显示目标被调用的外部程序的标准输出</param>
+        ''' <param name="hide">是否显示目标被调用的外部程序的标准输出</param>
         ''' <remarks></remarks>
         Public Sub New(exe$, Optional args$ = "",
                        Optional ENV As IEnumerable(Of KeyValuePair(Of String, String)) = Nothing,
                        Optional IOredirect As Boolean = True,
-                       Optional displayStdOut As Boolean = True,
-                       Optional displayDebug As Boolean = False)
+                       Optional hide As Boolean = True)
 
             Dim program$ = exe.Trim(ASCII.Quot, " "c)
             Dim pInfo As New ProcessStartInfo(program, args.TrimNewLine.Trim) With {
@@ -199,8 +196,11 @@ Namespace CommandLine
 
             pInfo.RedirectStandardInput = True
             pInfo.ErrorDialog = False
-            pInfo.WindowStyle = ProcessWindowStyle.Hidden
-            pInfo.CreateNoWindow = True
+
+            If hide Then
+                pInfo.WindowStyle = ProcessWindowStyle.Hidden
+                pInfo.CreateNoWindow = True
+            End If
 
             If Not ENV Is Nothing Then
                 For Each para As KeyValuePair(Of String, String) In ENV
@@ -209,16 +209,10 @@ Namespace CommandLine
             End If
 
             Me.IOredirect = IOredirect
-            Me.displayOutput = displayStdOut
             Me.processInfo = New Process With {
                 .EnableRaisingEvents = True,
                 .StartInfo = pInfo
             }
-
-            If displayDebug Then
-                Call $"""{exe}"" {args}".__DEBUG_ECHO
-                Call $"disp_STDOUT -> ${  "Yes!" Or "NO!".When(Not Me.displayOutput) }".__DEBUG_ECHO
-            End If
         End Sub
 
         Private Sub outputHandler(sender As Object, e As DataReceivedEventArgs) Handles processInfo.OutputDataReceived

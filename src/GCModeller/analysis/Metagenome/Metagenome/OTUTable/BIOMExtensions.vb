@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9d44cebab2188034551d90df2d4b823, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::cb11f010b7e19dd5d4990a1640094468, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
 
     ' Author:
     ' 
@@ -64,4 +64,3 @@ Public Module BIOMExtensions
         Return matrix.Values
     End Function
 End Module
-

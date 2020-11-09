@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78f100f1b99e42a5939ac4e6ae253402, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\Exception\StackFrame.vb"
+﻿#Region "Microsoft.VisualBasic::ae375a37e99dda39f7e9152bb2cb5a9e, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\Exception\StackFrame.vb"
 
     ' Author:
     ' 
@@ -37,13 +37,6 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: Parser, parserImpl, ToString
-    ' 
-    '     Class Method
-    ' 
-    '         Properties: [Module], [Namespace], Method
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -125,28 +118,6 @@ Namespace ApplicationServices.Debugging.Diagnostics
                 .File = file,
                 .Line = lineNumber
             }
-        End Function
-    End Class
-
-    Public Class Method
-
-        Public Property [Namespace] As String
-        Public Property [Module] As String
-        Public Property Method As String
-
-        Sub New()
-        End Sub
-
-        Sub New(s As String)
-            Dim t = s.Split("."c).AsList
-
-            Method = t(-1)
-            [Module] = t(-2)
-            [Namespace] = t.Take(t.Count - 2).JoinBy(".")
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return $"{[Namespace]}.{[Module]}.{Method}"
         End Function
     End Class
 End Namespace

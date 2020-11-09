@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::993f3dbec9c3075a22fdc1442b0bd53d, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::a6bc57859ef0ce8558c09c18cfd72f21, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 

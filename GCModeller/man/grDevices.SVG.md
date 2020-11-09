@@ -1,4 +1,4 @@
-﻿# grDevices.SVG
+# grDevices.SVG
 
 
 

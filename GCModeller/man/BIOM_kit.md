@@ -1,4 +1,4 @@
-﻿# BIOM_kit
+# BIOM_kit
 
 the BIOM file toolkit
 

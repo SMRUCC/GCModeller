@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81feb4d0cb32391838a98c3124844bfb, CLI_tools\S.M.A.R.T\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::88ad24fb695dee04dfaca86d6a47c57e, CLI_tools\S.M.A.R.T\CLI\CLI.vb"
 
     ' Author:
     ' 

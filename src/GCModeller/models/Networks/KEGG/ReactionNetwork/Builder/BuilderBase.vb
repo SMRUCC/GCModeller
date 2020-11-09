@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dec1199963bb167e71a8464fbc740495, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
+﻿#Region "Microsoft.VisualBasic::0855ee0a1b7ca515ec06f51ee53dee19, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: BuildModel, doNetworkExpansion
+    '         Function: BuildModel, doExpansion, doNetworkExpansion
     ' 
     '         Sub: addNewEdge
     ' 

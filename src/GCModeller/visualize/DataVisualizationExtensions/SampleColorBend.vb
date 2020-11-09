@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f62dd71e79f3dea30d705106840ab3d, visualize\DataVisualizationExtensions\SampleColorBend.vb"
+﻿#Region "Microsoft.VisualBasic::897cc58ae5f1d27b14232ee114725c58, visualize\DataVisualizationExtensions\SampleColorBend.vb"
 
     ' Author:
     ' 
@@ -127,4 +127,3 @@ Public Module SampleColorBend
         Next
     End Sub
 End Module
-

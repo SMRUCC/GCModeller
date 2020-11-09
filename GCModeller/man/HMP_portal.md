@@ -1,4 +1,4 @@
-﻿# HMP_portal
+# HMP_portal
 
 An internal ``HMP`` client for download data files from ``https://portal.hmpdacc.org/`` website
 

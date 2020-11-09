@@ -1,4 +1,4 @@
-﻿# kegg.metabolism
+# kegg.metabolism
 
 The kegg metabolism model toolkit
 

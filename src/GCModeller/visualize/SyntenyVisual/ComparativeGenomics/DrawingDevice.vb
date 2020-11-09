@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7dc2082dc65034802ccf8cb7e88f3ee, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::897044bc138a0c94608984b235fa25e9, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
 
     ' Author:
     ' 

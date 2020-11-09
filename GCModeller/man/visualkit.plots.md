@@ -1,4 +1,4 @@
-﻿# visualkit.plots
+# visualkit.plots
 
 package module for biological analysis data visualization
 

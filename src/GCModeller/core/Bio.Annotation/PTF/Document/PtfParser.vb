@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::9a62dc17ec4eccb916807665f2895934, core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module PtfParser
-    ' 
-    '         Function: IterateAnnotations, ParseAnnotation, ParseDocument
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module PtfParser
+' 
+'         Function: IterateAnnotations, ParseAnnotation, ParseDocument
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,13 +58,14 @@ Namespace Ptf.Document
         Public Function ParseDocument(file As String) As PtfFile
             Dim lines As String() = file.IterateAllLines.ToArray
             Dim headers As String() = lines.TakeWhile(Function(a) a.StartsWith("#")).ToArray
-            Dim attributes As Dictionary(Of String, String) = headers _
+            Dim attributes As Dictionary(Of String, String()) = headers _
                 .Select(Function(line)
                             Return line.Trim("#"c, " "c).GetTagValue("=")
                         End Function) _
-                .ToDictionary(Function(a) a.Name,
+                .GroupBy(Function(a) a.Name) _
+                .ToDictionary(Function(a) a.Key,
                               Function(a)
-                                  Return a.Value
+                                  Return a.Select(Function(p) p.Value).ToArray
                               End Function)
 
             Return New PtfFile With {

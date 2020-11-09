@@ -1,4 +1,4 @@
-﻿# igraph.layouts
+# igraph.layouts
 
 Do network layouts
 
