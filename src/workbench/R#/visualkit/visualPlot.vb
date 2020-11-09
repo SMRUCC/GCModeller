@@ -273,7 +273,8 @@ Module visualPlot
                                            Optional legendTitleStyle As String = CSSFont.Win7Small,
                                            Optional legendTickStyle As String = CSSFont.Win7Small,
                                            Optional axisTickCSS$ = CSSFont.Win10Normal,
-                                           Optional axisLabelCSS$ = CSSFont.Win7Small) As Object
+                                           Optional axisLabelCSS$ = CSSFont.Win7Small,
+                                           Optional driver As Drivers = Drivers.Default) As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
@@ -285,7 +286,8 @@ Module visualPlot
             legendTickStyle:=legendTickStyle,
             legendTitleStyle:=legendTitleStyle,
             axisLabelCSS:=axisLabelCSS,
-            axisTickCSS:=axisTickCSS
+            axisTickCSS:=axisTickCSS,
+            driver:=driver
         )
     End Function
 
