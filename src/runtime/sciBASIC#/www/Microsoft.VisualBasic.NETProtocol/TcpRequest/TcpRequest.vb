@@ -46,6 +46,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
@@ -54,16 +55,15 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Parallel
-Imports TcpEndPoint = System.Net.IPEndPoint
 Imports IPEndPoint = Microsoft.VisualBasic.Net.IPEndPoint
-Imports System.Net
+Imports TcpEndPoint = System.Net.IPEndPoint
 
 Namespace Tcp
 
     ''' <summary>
     ''' The server socket should returns some data string to this client or this client 
     ''' will stuck at the <see cref="SendMessage"></see> function.
-    ''' (服务器端<see cref="TcpServicesSocket"></see>必须要返回数据， 
+    ''' (服务器端``TcpServicesSocket``必须要返回数据， 
     ''' 否则本客户端会在<see cref="SendMessage"></see>函数位置一直处于等待的状态)
     ''' </summary>
     ''' <remarks></remarks>
