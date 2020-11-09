@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::a91dd334f484561c1a0b6e9b9f4d2529, www\Microsoft.VisualBasic.NETProtocol\TcpRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TcpRequest
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: getSocket, LocalConnection, OperationTimeOut, (+6 Overloads) SendMessage, ToString
-    ' 
-    '         Sub: __send, ConnectCallback, (+2 Overloads) Dispose, Receive, ReceiveCallback
-    '              RequestToStream, SendCallback
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TcpRequest
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: getSocket, LocalConnection, OperationTimeOut, (+6 Overloads) SendMessage, ToString
+' 
+'         Sub: __send, ConnectCallback, (+2 Overloads) Dispose, Receive, ReceiveCallback
+'              RequestToStream, SendCallback
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -52,10 +52,11 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Net.HTTP
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Parallel
 Imports TcpEndPoint = System.Net.IPEndPoint
 Imports IPEndPoint = Microsoft.VisualBasic.Net.IPEndPoint
+Imports System.Net
 
 Namespace Tcp
 
@@ -276,7 +277,8 @@ Namespace Tcp
             ' For this example use local machine.
             ' Create a TCP/IP socket.
             Dim client As New Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            Call client.Bind(New TcpEndPoint(System.Net.IPAddress.Any, 0))
+
+            Call client.Bind(New TcpEndPoint(IPAddress.Any, 0))
             ' Connect to the remote endpoint.
             Call client.BeginConnect(remoteEP, New AsyncCallback(AddressOf ConnectCallback), client)
             ' Wait for connect.
@@ -392,20 +394,15 @@ EX_EXIT:
         Private Sub doSend(client As Socket, byteData As Byte())
             ' Begin sending the data to the remote device.
             Try
-                Call client.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), client)
+                For Each block As Byte() In byteData.Split(512)
+                    Call client.Send(block, socketFlags:=SocketFlags.None)
+                Next
             Catch ex As Exception
                 Call Me.exceptionHandler(ex)
+            Finally
+                ' Signal that all bytes have been sent.
+                Call sendDone.Set()
             End Try
-        End Sub
-
-        Private Sub SendCallback(ar As IAsyncResult)
-            ' Retrieve the socket from the state object.
-            Dim client As Socket = DirectCast(ar.AsyncState, Socket)
-            ' Complete sending the data to the remote device.
-            Dim bytesSent As Integer = client.EndSend(ar)
-            'Console.WriteLine("Sent {0} bytes to server.", bytesSent)
-            ' Signal that all bytes have been sent.
-            sendDone.Set()
         End Sub
 
 #Region "IDisposable Support"
