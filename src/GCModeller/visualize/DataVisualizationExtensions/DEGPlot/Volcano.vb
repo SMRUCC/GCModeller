@@ -403,26 +403,4 @@ Public Module Volcano
 
         Return {normal, up, down}
     End Function
-
-    Public Structure DEGModel
-        Implements IDeg
-
-        Public Property label$ Implements IDeg.label
-        Public Property logFC# Implements IDeg.log2FC
-        Public Property pvalue# Implements IDeg.pvalue
-
-        Public Overrides Function ToString() As String
-            Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
-        End Function
-    End Structure
-
-    Public Enum LabelTypes
-        None
-        ''' <summary>
-        ''' <see cref="DEGModel.label"/>不为空字符串的时候就会被显示出来
-        ''' </summary>
-        Custom
-        ALL
-        DEG
-    End Enum
 End Module
