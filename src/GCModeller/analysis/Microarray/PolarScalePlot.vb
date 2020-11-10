@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d09a9cf9613d2d24edb6afa66304d368, analysis\Microarray\PolarScalePlot.vb"
+﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, analysis\Microarray\PolarScalePlot.vb"
 
     ' Author:
     ' 
@@ -67,4 +67,3 @@ Public Module PolarScalePlot
     End Function
 
 End Module
-

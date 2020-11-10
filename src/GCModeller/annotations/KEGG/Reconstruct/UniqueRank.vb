@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32b13e23a78f37f205820938dd7be5b2, annotations\KEGG\Reconstruct\UniqueRank.vb"
+﻿#Region "Microsoft.VisualBasic::07435ca85cf5b1565d781715bcfc65e4, annotations\KEGG\Reconstruct\UniqueRank.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ Public Module UniqueRank
         Next
     End Function
 End Module
-

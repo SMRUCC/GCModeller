@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25cb5317c135bab6cc37b92fe76d0f05, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::a8c793f2e47cfa0431631b69a74b0259, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 

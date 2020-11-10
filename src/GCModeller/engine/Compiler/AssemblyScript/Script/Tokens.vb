@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f94961b4c3dd7fc42c87e8ed4ad71bf, engine\Compiler\AssemblyScript\Script\Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::4ce6e58d914f3b2ae0eafac657a37451, engine\Compiler\AssemblyScript\Script\Tokens.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 

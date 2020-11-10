@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e126d64d5b6cd8050184bd851e731131, annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::76c16f5fbc8626e3480a82b7a55502ab, annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module AnalysisCommon
     ' 
-    '     Function: ApplyDEPFilter, Ttest
+    '     Function: ApplyDEPFilter, DepFilter2, Ttest
     ' 
     ' /********************************************************************************/
 

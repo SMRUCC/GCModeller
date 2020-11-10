@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0e748aadd04b099ef80bd67f66c2793, visualize\DataVisualizationExtensions\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::299587be3cacbb6cbde9e30972c03303, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
     ' Author:
     ' 
@@ -36,21 +36,6 @@
     '     Properties: PValueThreshold
     ' 
     '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
-    '     Structure DEGModel
-    ' 
-    '         Properties: label, logFC, pvalue
-    ' 
-    '         Function: ToString
-    ' 
-    '     Enum LabelTypes
-    ' 
-    '         ALL, Custom, DEG, None
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
