@@ -167,6 +167,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix.vbproj">
+      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
+      <Name>HTS_matrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.vbproj">
       <Project>{61fe6226-7b01-4181-ae04-2eef599de96e}</Project>
       <Name>Proteomics</Name>

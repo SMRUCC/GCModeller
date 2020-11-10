@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -67,7 +68,29 @@ Module geneExpression
 
     Sub New()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
     End Sub
+
+    Private Function depDataTable(dep As DEP_iTraq(), args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {
+            .rownames = dep.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        table.columns(NameOf(DEP_iTraq.FCavg)) = dep.Select(Function(p) p.FCavg).ToArray
+        table.columns(NameOf(DEP_iTraq.log2FC)) = dep.Select(Function(p) p.log2FC).ToArray
+        table.columns(NameOf(DEP_iTraq.pvalue)) = dep.Select(Function(p) p.pvalue).ToArray
+        table.columns(NameOf(DEP_iTraq.FDR)) = dep.Select(Function(p) p.FDR).ToArray
+        table.columns(NameOf(DEP_iTraq.isDEP)) = dep.Select(Function(p) p.isDEP).ToArray
+
+        For Each sampleName As String In dep.PropertyNames
+            table.columns(sampleName) = dep _
+                .Select(Function(p) p(sampleName)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' load an expressin matrix data
