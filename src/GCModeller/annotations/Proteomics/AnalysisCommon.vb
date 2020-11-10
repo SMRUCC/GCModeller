@@ -62,13 +62,26 @@ Public Module AnalysisCommon
         Dim labels As String() = treatment.AsList + control
 
         For i As Integer = 0 To data.expression.Length - 1
-            result += New DEP_iTraq With {
-                .ID = data(i).geneID,
-                .FCavg = treatmentData(i).experiments.Average / controlData(i).experiments.Average,
-                .log2FC = Math.Log(.FCavg, 2),
-                .pvalue = t.Test(treatmentData(i).experiments, controlData(i).experiments).Pvalue,
-                .Properties = data(i).ToDataSet(labels).AsCharacter
-            }
+            Dim a As Double() = treatmentData(i).experiments
+            Dim b As Double() = controlData(i).experiments
+
+            If a.All(Function(x) x = 0.0) AndAlso b.All(Function(x) x = 0.0) Then
+                result += New DEP_iTraq With {
+                    .ID = data(i).geneID,
+                    .FCavg = Double.NaN,
+                    .log2FC = Double.NaN,
+                    .pvalue = Double.PositiveInfinity,
+                    .Properties = data(i).ToDataSet(labels).AsCharacter
+                }
+            Else
+                result += New DEP_iTraq With {
+                    .ID = data(i).geneID,
+                    .FCavg = a.Average / b.Average,
+                    .log2FC = Math.Log(.FCavg, 2),
+                    .pvalue = t.Test(treatmentData(i).experiments, controlData(i).experiments).Pvalue,
+                    .Properties = data(i).ToDataSet(labels).AsCharacter
+                }
+            End If
         Next
 
         Return result
