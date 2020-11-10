@@ -77,11 +77,15 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
-    Public Function loadExpression(file As Object, Optional exclude_samples As String() = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function loadExpression(file As Object,
+                                   Optional exclude_samples As String() = Nothing,
+                                   Optional rm_ZERO As Boolean = False,
+                                   Optional env As Environment = Nothing) As Object
+
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO)
         ElseIf TypeOf file Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(file, Rdataframe)
             Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
@@ -96,6 +100,12 @@ Module geneExpression
                             }
                         End Function) _
                 .ToArray
+
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
 
             Return New Matrix With {
                 .expression = genes,
@@ -116,6 +126,12 @@ Module geneExpression
                 }
 #Enable Warning
             Next
+
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
 
             matrix.expression = genes
 

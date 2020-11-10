@@ -94,6 +94,16 @@ Public Class Matrix : Implements INamedValue
         }
     End Function
 
+    Public Function TrimZeros() As Matrix
+        Return New Matrix With {
+            .sampleID = sampleID,
+            .tag = tag,
+            .expression = expression _
+                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' matrix subset by a given collection of sample names
     ''' </summary>
@@ -115,8 +125,14 @@ Public Class Matrix : Implements INamedValue
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing) As Matrix
-        Return Document.LoadMatrixDocument(file, excludes)
+    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing, Optional trimZeros As Boolean = False) As Matrix
+        Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
+
+        If trimZeros Then
+            Return matrix.TrimZeros
+        Else
+            Return matrix
+        End If
     End Function
 
     ''' <summary>
