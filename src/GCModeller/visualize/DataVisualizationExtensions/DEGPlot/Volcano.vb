@@ -356,7 +356,7 @@ Public Module Volcano
                     Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
 
-                    px = .PlotRegion.Right - lsize.Width * 0.1
+                    px = .PlotRegion.Right - lsize.Width * 0.1 - lsize.Width
                     py = plotRegion.Top + .Padding.Top / 2
                     point = New PointF(px, py)
 
