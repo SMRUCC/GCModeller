@@ -75,9 +75,13 @@ Public Class DataFrameRow : Implements INamedValue
         End Get
     End Property
 
-    Public Function ToDataSet(labels As IEnumerable(Of String)) As Dictionary(Of String, Double)
+    Public Function ToDataSet(labels As String()) As Dictionary(Of String, Double)
         Dim table As New Dictionary(Of String, Double)
         Dim i As Integer = 0
+
+        If labels.Length <> experiments.Length Then
+            Throw New ArgumentException("the size of the experiment labels is not equals to the size of experiments data!")
+        End If
 
         For Each label As String In labels
             table.Add(label, experiments(i))

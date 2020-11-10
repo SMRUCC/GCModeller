@@ -61,6 +61,8 @@ Public Module AnalysisCommon
         Dim result As New List(Of DEP_iTraq)
         Dim labels As String() = treatment.AsList + control
 
+        data = data.Project(labels)
+
         For i As Integer = 0 To data.expression.Length - 1
             Dim a As Double() = treatmentData(i).experiments
             Dim b As Double() = controlData(i).experiments
@@ -68,9 +70,9 @@ Public Module AnalysisCommon
             If a.All(Function(x) x = 0.0) AndAlso b.All(Function(x) x = 0.0) Then
                 result += New DEP_iTraq With {
                     .ID = data(i).geneID,
-                    .FCavg = Double.NaN,
-                    .log2FC = Double.NaN,
-                    .pvalue = Double.PositiveInfinity,
+                    .FCavg = 1,
+                    .log2FC = 0,
+                    .pvalue = 1,
                     .Properties = data(i).ToDataSet(labels).AsCharacter
                 }
             Else
