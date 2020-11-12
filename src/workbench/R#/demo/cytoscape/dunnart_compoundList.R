@@ -18,7 +18,7 @@ print(compounds);
 	enzymeBridged         = FALSE
 )
 :> connected_graph
-:> network_map(maps)
+:> network_map(maps, desc = TRUE)
 :> json
-:> writeLines(con = "./demo.json")
+:> writeLines(con = "./demo2.json")
 ;
