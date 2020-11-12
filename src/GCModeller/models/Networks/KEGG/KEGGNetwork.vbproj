@@ -233,6 +233,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dunnart\GraphObject.vb" />
+    <Compile Include="Dunnart\Components.vb" />
     <Compile Include="IgnoreList.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
     <Compile Include="ReactionNetwork\Builder\EdgeFilter.vb" />

@@ -27,10 +27,6 @@ Public Module IDMapping
             .IteratesALL _
             .IteratesALL _
             .GroupBy(Function(a) a.id) _
-            .Where(Function(a)
-                       ' removes all id that have multiple id mapping
-                       Return a.Select(Function(d) d.geneId).Distinct.Count = 1
-                   End Function) _
             .ToDictionary(Function(a) a.Key,
                           Function(a)
                               Return a.First.geneId
