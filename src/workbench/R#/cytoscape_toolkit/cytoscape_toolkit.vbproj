@@ -135,6 +135,7 @@
     <Compile Include="automation.vb" />
     <Compile Include="models.vb" />
     <Compile Include="bioModels\TRN.vb" />
+    <Compile Include="dunnart.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
