@@ -14,9 +14,11 @@ print(compounds);
 :> reactions.table
 :> compounds.network(
 	compounds             = compounds[!(compounds in ["NULL", "NA"])], 
-	strictReactionNetwork = TRUE,
-	enzymeBridged         = FALSE
+	strictReactionNetwork = FALSE,
+	enzymeBridged         = FALSE,
+	extended              = FALSE
 )
+:> optmize(optmize_iterations = 50)
 :> connected_graph
 :> network_map(maps, desc = TRUE)
 :> json
