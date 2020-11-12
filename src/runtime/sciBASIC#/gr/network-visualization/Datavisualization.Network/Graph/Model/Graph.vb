@@ -135,7 +135,7 @@ Namespace Graph
             Call Me.New({}, {})
         End Sub
 
-        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge))
+        Sub New(nodes As IEnumerable(Of Node), edges As IEnumerable(Of Edge), Optional ignoresBrokenLinks As Boolean = False)
             Call MyBase.New({}, {})
 
             _eventListeners = New List(Of IGraphEventListener)
@@ -146,7 +146,11 @@ Namespace Graph
             Next
 
             For Each edge As Edge In edges
-                Call AddEdge(edge)
+                If ignoresBrokenLinks AndAlso edge.U Is Nothing OrElse edge.V Is Nothing Then
+                    Call $"[{edge}] link is broken!".Warning
+                Else
+                    Call AddEdge(edge)
+                End If
             Next
 
             For Each node As Node In vertex

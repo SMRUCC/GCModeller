@@ -47,7 +47,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -68,13 +67,14 @@ Namespace FileStream
         <Extension> Public Function CreateGraph(net As NetworkTables,
                                                 Optional nodeColor As Func(Of Node, Brush) = Nothing,
                                                 Optional defaultBrush$ = "black",
-                                                Optional defaultNodeSize$ = "20,20") As NetworkGraph
+                                                Optional defaultNodeSize$ = "20,20",
+                                                Optional ignoresBrokenLinks As Boolean = False) As NetworkGraph
 
-            Return CreateGraph(Of Node, NetworkEdge)(
-                net,
-                nodeColor,
+            Return net.CreateGraphGeneric(
+                nodeColor:=nodeColor,
                 defaultBrush:=defaultBrush,
-                defaultNodeSize:=defaultNodeSize
+                defaultNodeSize:=defaultNodeSize,
+                ignoresBrokenLinks:=ignoresBrokenLinks
             )
         End Function
 
@@ -86,10 +86,11 @@ Namespace FileStream
         ''' <param name="net"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CreateGraph(Of TNode As Node, TEdge As NetworkEdge)(net As Network(Of TNode, TEdge),
-                                                                            Optional nodeColor As Func(Of Node, Brush) = Nothing,
-                                                                            Optional defaultBrush$ = "black",
-                                                                            Optional defaultNodeSize$ = "20,20") As NetworkGraph
+        Public Function CreateGraphGeneric(Of TNode As Node, TEdge As NetworkEdge)(net As Network(Of TNode, TEdge),
+                                                                                   Optional nodeColor As Func(Of Node, Brush) = Nothing,
+                                                                                   Optional defaultBrush$ = "black",
+                                                                                   Optional defaultNodeSize$ = "20,20",
+                                                                                   Optional ignoresBrokenLinks As Boolean = False) As NetworkGraph
             Dim defaultNodeSizeVals As Double() = defaultNodeSize _
                 .Split(","c) _
                 .Select(AddressOf Val) _
@@ -170,7 +171,7 @@ Namespace FileStream
                                                 End Sub)
                                          Select New Edge(id, a, b, data)
 
-            Dim graph As New NetworkGraph(nodes, edges)
+            Dim graph As New NetworkGraph(nodes, edges, ignoresBrokenLinks:=ignoresBrokenLinks)
             Return graph
         End Function
 

@@ -11,8 +11,8 @@ Module dunnart
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("as.graphObj")>
-    Public Function graphObject(network As NetworkGraph, Optional colorSet As String = "Paired:c12", Optional groupKey As String = "map") As GraphObject
-        Return network.FromNetwork(colorSet, groupKey)
+    Public Function graphObject(network As NetworkGraph, Optional colorSet As String = "Paired:c12", Optional group_key As String = "map") As GraphObject
+        Return network.FromNetwork(colorSet, group_key)
     End Function
 
     <ExportAPI("network_map")>
