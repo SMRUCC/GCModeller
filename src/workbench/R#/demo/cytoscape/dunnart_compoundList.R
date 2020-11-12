@@ -12,7 +12,11 @@ print(compounds);
 
 "D:\biodeep\biodeepdb_v3\KEGG\br08201.csv"
 :> reactions.table
-:> compounds.network(compounds = compounds[!(compounds in ["NULL", "NA"])])
+:> compounds.network(
+	compounds             = compounds[!(compounds in ["NULL", "NA"])], 
+	strictReactionNetwork = TRUE,
+	enzymeBridged         = FALSE
+)
 :> connected_graph
 :> network_map(maps)
 :> json

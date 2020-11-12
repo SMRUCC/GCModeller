@@ -69,7 +69,9 @@ Module kegg
     Public Function compoundNetwork(reactions As ReactionTable(), compounds$(),
                                     Optional enzymes As Dictionary(Of String, String()) = Nothing,
                                     Optional filterByEnzymes As Boolean = False,
-                                    Optional extended As Boolean = False) As NetworkGraph
+                                    Optional extended As Boolean = False,
+                                    Optional strictReactionNetwork As Boolean = False,
+                                    Optional enzymeBridged As Boolean = True) As NetworkGraph
         Return compounds _
             .Select(Function(cpd)
                         Return New NamedValue(Of String)(cpd, cpd)
@@ -79,7 +81,9 @@ Module kegg
                             compounds:=list,
                             enzymes:=enzymes,
                             filterByEnzymes:=filterByEnzymes,
-                            extended:=extended
+                            extended:=extended,
+                            strictReactionNetwork:=strictReactionNetwork,
+                            enzymeBridged:=enzymeBridged
                         )
                     End Function)
     End Function
