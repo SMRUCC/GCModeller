@@ -174,9 +174,11 @@ Namespace Dunnart
                         .EnumerateAdjacencies _
                         .Where(Function(node) centers.ContainsKey(node.label) AndAlso node.EnumerateAdjacencies.Where(Function(n) centers.ContainsKey(n.label)).Count > 2) _
                         .OrderBy(Function(node) centers(node.label)) _
-                        .First
+                        .ToArray
 
-                    Call template.RemoveNode(adjcents)
+                    If adjcents.Length > 0 Then
+                        Call template.RemoveNode(adjcents.First)
+                    End If
                 Next
             Next
 
