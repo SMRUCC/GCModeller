@@ -18,7 +18,11 @@ print(compounds);
 	enzymeBridged         = FALSE,
 	extended              = FALSE
 )
-:> optmize(optmize_iterations = 50)
+:> optmize(
+	optmize_iterations = 50, 
+	lower_degrees      = 3,                                 
+	lower_adjcents     = 3
+)
 :> connected_graph
 :> network_map(maps, desc = TRUE)
 :> json

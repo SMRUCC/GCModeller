@@ -153,13 +153,17 @@ Namespace Dunnart
         End Function
 
         <Extension>
-        Public Function OptmizeGraph(template As NetworkGraph, Optional optmizeIterations As Integer = 100) As NetworkGraph
+        Public Function OptmizeGraph(template As NetworkGraph,
+                                     Optional optmizeIterations As Integer = 100,
+                                     Optional lowerDegrees As Integer = 3,
+                                     Optional lowerAdjcents As Integer = 2) As NetworkGraph
+
             For i As Integer = 0 To optmizeIterations
                 Dim top As KeyValuePair(Of String, Integer)() = template _
                     .ConnectedDegrees _
                     .OrderByDescending(Function(a) a.Value) _
                     .Take(3) _
-                    .Where(Function(a) a.Value >= 3) _
+                    .Where(Function(a) a.Value >= lowerDegrees) _
                     .ToArray
 
                 If top.Length = 0 Then
@@ -177,7 +181,12 @@ Namespace Dunnart
 
                     Dim adjcents = target _
                         .EnumerateAdjacencies _
-                        .Where(Function(node) centers.ContainsKey(node.label) AndAlso node.EnumerateAdjacencies.Where(Function(n) centers.ContainsKey(n.label)).Count > 2) _
+                        .Where(Function(node)
+                                   Return centers.ContainsKey(node.label) AndAlso
+                                       node.EnumerateAdjacencies _
+                                           .Where(Function(n) centers.ContainsKey(n.label)) _
+                                           .Count > lowerAdjcents
+                               End Function) _
                         .OrderBy(Function(node) centers(node.label)) _
                         .ToArray
 

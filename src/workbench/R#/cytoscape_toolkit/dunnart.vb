@@ -23,7 +23,11 @@ Module dunnart
     End Function
 
     <ExportAPI("optmize")>
-    Public Function OptmizeGraph(template As NetworkGraph, Optional optmize_iterations As Integer = 100) As NetworkGraph
-        Return template.OptmizeGraph(optmize_iterations)
+    Public Function OptmizeGraph(template As NetworkGraph,
+                                 Optional optmize_iterations As Integer = 100,
+                                 Optional lower_degrees As Integer = 3,
+                                 Optional lower_adjcents As Integer = 2) As NetworkGraph
+
+        Return template.OptmizeGraph(optmize_iterations, lower_degrees, lower_adjcents)
     End Function
 End Module
