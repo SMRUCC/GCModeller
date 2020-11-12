@@ -1,11 +1,14 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace Dunnart
 
@@ -41,7 +44,7 @@ Namespace Dunnart
             For Each node In network.vertex
                 pos = node.data.initialPostion
                 nodes(node.ID) = New Node With {
-                    .label = node.label,
+                    .label = node.data.label,
                     .dunnartid = node.ID,
                     .index = node.ID,
                     .width = 60,
@@ -64,6 +67,10 @@ Namespace Dunnart
             Dim color As Value(Of String) = ""
 
             For Each group In network.vertex.GroupBy(Function(a) a.data(groupKey))
+                If group.Key.StringEmpty Then
+                    Continue For
+                End If
+
                 groups += New Group With {
                     .label = group.Key,
                     .padding = 10,
@@ -78,6 +85,48 @@ Namespace Dunnart
                 .nodes = nodes.Values.ToArray,
                 .groups = groups
             }
+        End Function
+
+        <Extension>
+        Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
+                                    Optional desc As Boolean = False,
+                                    Optional colorSet As String = "Paired:c12") As GraphObject
+
+            Dim mapHits As New Dictionary(Of String, Integer)
+            Dim mapCompounds As New Dictionary(Of String, Index(Of String))
+
+            template = template.Copy
+
+            For Each map In maps
+                mapHits.Add(map.EntryId, 0)
+                mapCompounds(map.EntryId) = map.compound _
+                    .SafeQuery _
+                    .Select(Function(c) c.name) _
+                    .Indexing
+            Next
+
+            For Each node In template.vertex
+                For Each map In maps
+                    If node.label Like mapCompounds(map.EntryId) Then
+                        mapHits(map.EntryId) += 1
+                    End If
+                Next
+            Next
+
+            For Each node In template.vertex
+                Dim contains = mapCompounds _
+                    .Where(Function(map)
+                               Return node.label Like map.Value
+                           End Function) _
+                    .Sort(Function(a) mapHits(a.Key), desc) _
+                    .ToArray
+
+                If contains.Length > 0 Then
+                    node.data("map") = contains.First.Key
+                End If
+            Next
+
+            Return template.FromNetwork(colorSet, groupKey:="map")
         End Function
     End Module
 End Namespace
