@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6371e211b5a2cf5b734ed890b863b985, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::78a3bcf5cc5b9090096d19181e6cd1e0, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
 
     ' Author:
     ' 

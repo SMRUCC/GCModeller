@@ -50,7 +50,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics.FoldChangeMatrix
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
-<Package("proteomics.labelfree")>
+<Package("labelfree")>
 Module labelFree
 
     <ExportAPI("sample.normalize")>

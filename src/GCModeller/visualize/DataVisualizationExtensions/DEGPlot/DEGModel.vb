@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, analysis\Microarray\PolarScalePlot.vb"
+﻿#Region "Microsoft.VisualBasic::9b0ea6d9fca5c1e8ba1f1579151c184a, visualize\DataVisualizationExtensions\DEGPlot\DEGModel.vb"
 
     ' Author:
     ' 
@@ -31,39 +31,24 @@
 
     ' Summaries:
 
-    ' Module PolarScalePlot
+    ' Structure DEGModel
     ' 
-    '     Function: Plot
+    '     Properties: label, logFC, pvalue
+    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Driver
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Public Structure DEGModel
+    Implements IDeg
 
-Public Module PolarScalePlot
+    Public Property label$ Implements IDeg.label
+    Public Property logFC# Implements IDeg.log2FC
+    Public Property pvalue# Implements IDeg.pvalue
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="sampleinfo">
-    ''' 每一个实验分组就是一个极坐标
-    ''' </param>
-    ''' <param name="size$"></param>
-    ''' <param name="padding$"></param>
-    ''' <param name="bg$"></param>
-    ''' <returns></returns>
-    Public Function Plot(matrix As Matrix, sampleinfo As SampleInfo(),
-                         Optional size$ = "3000,2700",
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white") As GraphicsData
-
-        Dim polarAxis = sampleinfo.GroupBy(Function(sample) sample.sample_info).ToArray
-
+    Public Overrides Function ToString() As String
+        Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
     End Function
-
-End Module
+End Structure

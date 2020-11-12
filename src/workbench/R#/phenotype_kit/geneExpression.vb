@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -67,7 +68,29 @@ Module geneExpression
 
     Sub New()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
     End Sub
+
+    Private Function depDataTable(dep As DEP_iTraq(), args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {
+            .rownames = dep.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        table.columns("FC.avg") = dep.Select(Function(p) p.FCavg).ToArray
+        table.columns(NameOf(DEP_iTraq.log2FC)) = dep.Select(Function(p) p.log2FC).ToArray
+        table.columns("p.value") = dep.Select(Function(p) p.pvalue).ToArray
+        table.columns(NameOf(DEP_iTraq.FDR)) = dep.Select(Function(p) p.FDR).ToArray
+        table.columns("is.DEP") = dep.Select(Function(p) p.isDEP).ToArray
+
+        For Each sampleName As String In dep.PropertyNames
+            table.columns(sampleName) = dep _
+                .Select(Function(p) p(sampleName)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' load an expressin matrix data
@@ -77,11 +100,15 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
-    Public Function loadExpression(file As Object, Optional exclude_samples As String() = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function loadExpression(file As Object,
+                                   Optional exclude_samples As String() = Nothing,
+                                   Optional rm_ZERO As Boolean = False,
+                                   Optional env As Environment = Nothing) As Object
+
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO)
         ElseIf TypeOf file Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(file, Rdataframe)
             Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
@@ -96,6 +123,12 @@ Module geneExpression
                             }
                         End Function) _
                 .ToArray
+
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
 
             Return New Matrix With {
                 .expression = genes,
@@ -116,6 +149,12 @@ Module geneExpression
                 }
 #Enable Warning
             Next
+
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
 
             matrix.expression = genes
 
@@ -271,6 +310,16 @@ Module geneExpression
                 treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
                 control:=sampleinfo.TakeGroup(control).SampleIDs
             ) _
-            .ApplyDEPFilter(level, pvalue, FDR)
+            .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    ''' <summary>
+    ''' get gene Id list
+    ''' </summary>
+    ''' <param name="dep"></param>
+    ''' <returns></returns>
+    <ExportAPI("geneId")>
+    Public Function geneId(dep As DEP_iTraq()) As String()
+        Return dep.Select(Function(a) a.ID).ToArray
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0e748aadd04b099ef80bd67f66c2793, visualize\DataVisualizationExtensions\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::299587be3cacbb6cbde9e30972c03303, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
     ' Author:
     ' 
@@ -36,21 +36,6 @@
     '     Properties: PValueThreshold
     ' 
     '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
-    '     Structure DEGModel
-    ' 
-    '         Properties: label, logFC, pvalue
-    ' 
-    '         Function: ToString
-    ' 
-    '     Enum LabelTypes
-    ' 
-    '         ALL, Custom, DEG, None
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -371,7 +356,7 @@ Public Module Volcano
                     Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
 
-                    px = .Size.Width - .Padding.Left - (lsize.Width + 50)
+                    px = .PlotRegion.Right - lsize.Width * 0.1 - lsize.Width
                     py = plotRegion.Top + .Padding.Top / 2
                     point = New PointF(px, py)
 
@@ -403,26 +388,4 @@ Public Module Volcano
 
         Return {normal, up, down}
     End Function
-
-    Public Structure DEGModel
-        Implements IDeg
-
-        Public Property label$ Implements IDeg.label
-        Public Property logFC# Implements IDeg.log2FC
-        Public Property pvalue# Implements IDeg.pvalue
-
-        Public Overrides Function ToString() As String
-            Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
-        End Function
-    End Structure
-
-    Public Enum LabelTypes
-        None
-        ''' <summary>
-        ''' <see cref="DEGModel.label"/>不为空字符串的时候就会被显示出来
-        ''' </summary>
-        Custom
-        ALL
-        DEG
-    End Enum
 End Module

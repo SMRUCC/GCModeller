@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, analysis\Microarray\PolarScalePlot.vb"
+﻿#Region "Microsoft.VisualBasic::03c2b796b1d8a2fab399b90146a61188, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
 
     ' Author:
     ' 
@@ -31,39 +31,24 @@
 
     ' Summaries:
 
-    ' Module PolarScalePlot
+    ' Enum LabelTypes
     ' 
-    '     Function: Plot
+    '     ALL, Custom, DEG, None
+    ' 
+    '  
+    ' 
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Driver
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-
-Public Module PolarScalePlot
-
+Public Enum LabelTypes
+    None
     ''' <summary>
-    ''' 
+    ''' <see cref="DEGModel.label"/>不为空字符串的时候就会被显示出来
     ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="sampleinfo">
-    ''' 每一个实验分组就是一个极坐标
-    ''' </param>
-    ''' <param name="size$"></param>
-    ''' <param name="padding$"></param>
-    ''' <param name="bg$"></param>
-    ''' <returns></returns>
-    Public Function Plot(matrix As Matrix, sampleinfo As SampleInfo(),
-                         Optional size$ = "3000,2700",
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white") As GraphicsData
-
-        Dim polarAxis = sampleinfo.GroupBy(Function(sample) sample.sample_info).ToArray
-
-    End Function
-
-End Module
+    Custom
+    ALL
+    DEG
+End Enum

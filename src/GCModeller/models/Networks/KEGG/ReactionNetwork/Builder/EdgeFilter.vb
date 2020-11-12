@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a44844a252fdb4b9b4b651b1c4e9b228, models\Networks\KEGG\ReactionNetwork\Builder\EdgeFilter.vb"
+﻿#Region "Microsoft.VisualBasic::bddc4abef0436bea4e99841a1cdc332c, models\Networks\KEGG\ReactionNetwork\Builder\EdgeFilter.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
