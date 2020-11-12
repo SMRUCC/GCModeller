@@ -1,6 +1,8 @@
 imports ["dunnart", "cytoscape.kegg"] from "cytoscape_toolkit";
 imports "kegg.repository" from "kegg_kit";
 
+require(igraph);
+
 setwd(!script$dir);
 
 let compounds = read.csv("doMSMSalignment.report1.csv")[, "KEGG"] :> as.character :> unique;
@@ -11,6 +13,7 @@ print(compounds);
 "D:\biodeep\biodeepdb_v3\KEGG\br08201.csv"
 :> reactions.table
 :> compounds.network(compounds = compounds[!(compounds in ["NULL", "NA"])])
+:> connected_graph
 :> network_map(maps)
 :> json
 :> writeLines(con = "./demo.json")
