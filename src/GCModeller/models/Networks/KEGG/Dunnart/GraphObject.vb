@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
@@ -125,6 +126,23 @@ Namespace Dunnart
                     node.data("map") = contains.First.Key
                     node.data.label = maps.KeyItem(node.data!map).compound.KeyItem(node.label).text
                 End If
+            Next
+
+            For i As Integer = 0 To 10
+                Dim top As KeyValuePair(Of String, Integer)() = template _
+                    .ConnectedDegrees _
+                    .OrderByDescending(Function(a) a.Value) _
+                    .Take(3) _
+                    .ToArray
+                Dim centers = template.ComputeBetweennessCentrality
+
+                For Each topNode In top
+                    Dim adjcents = template.GetElementByID(topNode.Key).EnumerateAdjacencies.OrderBy(Function(node) centers(node.label)).Take(3).ToArray
+
+                    For Each item In adjcents
+                        Call template.RemoveNode(item)
+                    Next
+                Next
             Next
 
             Return template.FromNetwork(colorSet, groupKey:="map")

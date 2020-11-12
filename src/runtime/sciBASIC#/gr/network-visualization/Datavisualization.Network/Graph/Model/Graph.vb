@@ -418,6 +418,12 @@ Namespace Graph
         ''' <summary>
         ''' 应该使用这个方法来安全的删除节点
         ''' </summary>
+        ''' <remarks>
+        ''' 这个函数会移除:
+        ''' 
+        ''' 1. 目标节点从内部索引中删除
+        ''' 2. 删除与之相关的边连接
+        ''' </remarks>
         ''' <param name="node"></param>
         Public Sub RemoveNode(node As Node)
             Call _index.Delete(node)
