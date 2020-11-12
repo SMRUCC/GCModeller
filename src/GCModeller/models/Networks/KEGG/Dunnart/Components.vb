@@ -49,6 +49,7 @@
         Public Property leaves As Integer()
         Public Property style As String
         Public Property padding As Double
+        Public Property label As String
 
     End Class
 
