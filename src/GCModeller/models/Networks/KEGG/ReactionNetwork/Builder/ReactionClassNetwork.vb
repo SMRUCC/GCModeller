@@ -63,9 +63,10 @@ Namespace ReactionNetwork
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 reactionClass As IEnumerable(Of ReactionClassTable),
                 Optional ignoresCommonList As Boolean = True,
-                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter)
+                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter,
+                Optional randomLayout As Boolean = True)
 
-            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter)
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter, randomLayout)
 
             classIndex = ReactionClassTable.IndexTable(reactionClass)
         End Sub

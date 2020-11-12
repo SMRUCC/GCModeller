@@ -71,13 +71,13 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush)
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush, randomLayout As Boolean)
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
-                            Return createCompoundNode(cpd, cpdGroups, color)
+                            Return createCompoundNode(cpd, cpdGroups, color, randomLayout)
                         End Function) _
                 .ToDictionary
             nodes.Values _
@@ -91,7 +91,7 @@ Namespace ReactionNetwork
             Return nodes.ContainsKey(nodeLabelId)
         End Function
 
-        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush) As Node
+        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
             Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
@@ -110,7 +110,7 @@ Namespace ReactionNetwork
                         {"related", type},
                         {"kegg", cpd.Name}
                     },
-                    .initialPostion = FDGVector2.Random()
+                    .initialPostion = If(randomLayout, FDGVector2.Random(), FDGVector2.Zero)
                 }
             }
         End Function

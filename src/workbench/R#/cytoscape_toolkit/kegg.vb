@@ -71,7 +71,8 @@ Module kegg
                                     Optional filterByEnzymes As Boolean = False,
                                     Optional extended As Boolean = False,
                                     Optional strictReactionNetwork As Boolean = False,
-                                    Optional enzymeBridged As Boolean = True) As NetworkGraph
+                                    Optional enzymeBridged As Boolean = True,
+                                    Optional random_layout As Boolean = True) As NetworkGraph
         Return compounds _
             .Select(Function(cpd)
                         Return New NamedValue(Of String)(cpd, cpd)
@@ -83,7 +84,8 @@ Module kegg
                             filterByEnzymes:=filterByEnzymes,
                             extended:=extended,
                             strictReactionNetwork:=strictReactionNetwork,
-                            enzymeBridged:=enzymeBridged
+                            enzymeBridged:=enzymeBridged,
+                            randomLayout:=random_layout
                         )
                     End Function)
     End Function

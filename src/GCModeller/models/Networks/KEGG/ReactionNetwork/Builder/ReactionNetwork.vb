@@ -78,9 +78,10 @@ Namespace ReactionNetwork
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
                 Optional enzymeBridged As Boolean = True,
-                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter)
+                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter,
+                Optional randomLayout As Boolean = True)
 
-            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter)
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter, randomLayout)
 
             Me.enzymeBridged = enzymeBridged
         End Sub
@@ -193,7 +194,8 @@ Namespace ReactionNetwork
                                    Optional filterByEnzymes As Boolean = False,
                                    Optional ignoresCommonList As Boolean = True,
                                    Optional enzymeBridged As Boolean = True,
-                                   Optional strictReactionNetwork As Boolean = False) As NetworkGraph
+                                   Optional strictReactionNetwork As Boolean = False,
+                                   Optional randomLayout As Boolean = True) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -215,7 +217,8 @@ Namespace ReactionNetwork
                 br08901:=source,
                 compounds:=compounds,
                 ignoresCommonList:=ignoresCommonList,
-                enzymeBridged:=enzymeBridged
+                enzymeBridged:=enzymeBridged,
+                randomLayout:=randomLayout
             )
             Dim g As NetworkGraph = builderSession.BuildModel(
                 extended:=extended,
