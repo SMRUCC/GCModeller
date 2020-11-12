@@ -109,7 +109,8 @@ Namespace Dunnart
         <Extension>
         Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                     Optional desc As Boolean = False,
-                                    Optional colorSet As String = "Paired:c12") As GraphObject
+                                    Optional colorSet As String = "Paired:c12",
+                                    Optional isConnected As Boolean = True) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
             Dim mapCompounds As New Dictionary(Of String, Index(Of String))
@@ -148,8 +149,11 @@ Namespace Dunnart
                 End If
             Next
 
-
-            Return template.GetConnectedGraph.FromNetwork(colorSet, groupKey:="map")
+            Return If(Not isConnected, template, template.GetConnectedGraph) _
+                .FromNetwork(
+                    colorSet:=colorSet,
+                    groupKey:="map"
+                )
         End Function
 
         <Extension>

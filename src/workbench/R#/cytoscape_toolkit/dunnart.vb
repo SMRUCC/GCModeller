@@ -15,13 +15,16 @@ Module dunnart
         Return network.FromNetwork(colorSet, group_key)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("network_map")>
     Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                 Optional desc As Boolean = False,
-                                Optional colorSet As String = "Paired:c12") As GraphObject
-        Return template.CreateModel(maps, desc, colorSet)
+                                Optional colorSet As String = "Paired:c12",
+                                Optional isConnected As Boolean = True) As GraphObject
+        Return template.CreateModel(maps, desc, colorSet, isConnected)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("optmize")>
     Public Function OptmizeGraph(template As NetworkGraph,
                                  Optional optmize_iterations As Integer = 100,
