@@ -125,11 +125,12 @@ Namespace ReactionNetwork
                 rNode = New Node With {
                     .label = rid.label,
                     .data = New NodeData With {
-                        .label = rid.geneSymbols.Distinct.JoinBy(", "),
+                        .label = rid.label,
                         .origID = rid.label,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
-                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)}
+                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)},
+                            {"gene_symbols", rid.geneSymbols.Distinct.JoinBy(", ")}
                         }
                     }
                 }
