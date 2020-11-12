@@ -34,7 +34,8 @@ Namespace Dunnart
         <Extension>
         Public Function FromNetwork(network As NetworkGraph,
                                     Optional colorSet As String = "Paired:c12",
-                                    Optional groupKey As String = "map") As GraphObject
+                                    Optional groupKey As String = "map",
+                                    Optional fillOpacity As Double = 0.5) As GraphObject
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim pos As AbstractVector
@@ -66,17 +67,34 @@ Namespace Dunnart
                 .Select(Function(c) c.ToHtmlColor) _
                 .ToArray
             Dim color As Value(Of String) = ""
+            Dim style As String
 
             For Each group In network.vertex.GroupBy(Function(a) a.data(groupKey))
-                If group.Key.StringEmpty OrElse group.Count = 1 Then
+                Dim mapName As String = group.Key
+                Dim mapNodes = group.ToArray
+
+                mapNodes = mapNodes _
+                    .Where(Function(a)
+                               Return a.EnumerateAdjacencies.Any(Function(n) mapNodes.Any(Function(o) o Is n))
+                           End Function) _
+                    .ToArray
+
+                If mapName.StringEmpty OrElse mapNodes.Length <= 1 Then
                     Continue For
                 End If
 
+                style = $"fill:{(color = colors.Next).TranslateColor.Lighten.ToHtmlColor};
+                          fill-opacity:{fillOpacity};
+                          stroke:{color};
+                          stroke-opacity:1;
+                          "
                 groups += New Group With {
                     .label = group.Key,
                     .padding = 10,
-                    .style = $"fill:{(color = colors.Next).TranslateColor.Lighten.ToHtmlColor};fill-opacity:0.3;stroke:{color};stroke-opacity:1",
-                    .leaves = group.Select(Function(a) a.ID).ToArray
+                    .style = style.TrimNewLine(""),
+                    .leaves = mapNodes _
+                        .Select(Function(a) a.ID) _
+                        .ToArray
                 }
             Next
 
@@ -92,7 +110,7 @@ Namespace Dunnart
         Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                     Optional desc As Boolean = False,
                                     Optional colorSet As String = "Paired:c12",
-                                    Optional optmizeIterations As Integer = 30) As GraphObject
+                                    Optional optmizeIterations As Integer = 100) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
             Dim mapCompounds As New Dictionary(Of String, Index(Of String))
@@ -124,8 +142,10 @@ Namespace Dunnart
                     .ToArray
 
                 If contains.Length > 0 Then
-                    node.data("map") = contains.First.Key
-                    node.data.label = maps.KeyItem(node.data!map).compound.KeyItem(node.label).text
+                    Dim map = maps.KeyItem(contains.First.Key)
+
+                    node.data("map") = map.name
+                    node.data.label = map.compound.KeyItem(node.label).text
                 End If
             Next
 
@@ -134,7 +154,13 @@ Namespace Dunnart
                     .ConnectedDegrees _
                     .OrderByDescending(Function(a) a.Value) _
                     .Take(3) _
+                    .Where(Function(a) a.Value >= 3) _
                     .ToArray
+
+                If top.Length = 0 Then
+                    Exit For
+                End If
+
                 Dim centers = template.ComputeBetweennessCentrality
 
                 For Each topNode In top
@@ -146,7 +172,7 @@ Namespace Dunnart
 
                     Dim adjcents = target _
                         .EnumerateAdjacencies _
-                        .Where(Function(node) centers.ContainsKey(node.label)) _
+                        .Where(Function(node) centers.ContainsKey(node.label) AndAlso node.EnumerateAdjacencies.Where(Function(n) centers.ContainsKey(n.label)).Count > 2) _
                         .OrderBy(Function(node) centers(node.label)) _
                         .First
 
