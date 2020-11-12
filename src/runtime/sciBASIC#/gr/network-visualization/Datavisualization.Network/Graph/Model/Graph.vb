@@ -548,6 +548,10 @@ Namespace Graph
         ''' 因为克隆之后的操作可能会涉及对边或者节点对象的修改操作
         ''' </remarks>
         Private Function Clone() As Object Implements ICloneable.Clone
+            Return Clone(vertex)
+        End Function
+
+        Private Function Clone(vertex As IEnumerable(Of Node)) As Object
             Dim g As New NetworkGraph
 
             For Each v In vertex
@@ -564,6 +568,10 @@ Namespace Graph
             Next
 
             Return g
+        End Function
+
+        Public Function GetConnectedGraph() As NetworkGraph
+            Return Clone(connectedNodes)
         End Function
 
         ''' <summary>

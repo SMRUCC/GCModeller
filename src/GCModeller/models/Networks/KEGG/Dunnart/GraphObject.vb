@@ -68,7 +68,7 @@ Namespace Dunnart
             Dim color As Value(Of String) = ""
 
             For Each group In network.vertex.GroupBy(Function(a) a.data(groupKey))
-                If group.Key.StringEmpty Then
+                If group.Key.StringEmpty OrElse group.Count = 1 Then
                     Continue For
                 End If
 
@@ -91,7 +91,8 @@ Namespace Dunnart
         <Extension>
         Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                     Optional desc As Boolean = False,
-                                    Optional colorSet As String = "Paired:c12") As GraphObject
+                                    Optional colorSet As String = "Paired:c12",
+                                    Optional optmizeIterations As Integer = 30) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
             Dim mapCompounds As New Dictionary(Of String, Index(Of String))
@@ -128,7 +129,7 @@ Namespace Dunnart
                 End If
             Next
 
-            For i As Integer = 0 To 10
+            For i As Integer = 0 To optmizeIterations
                 Dim top As KeyValuePair(Of String, Integer)() = template _
                     .ConnectedDegrees _
                     .OrderByDescending(Function(a) a.Value) _
@@ -137,15 +138,23 @@ Namespace Dunnart
                 Dim centers = template.ComputeBetweennessCentrality
 
                 For Each topNode In top
-                    Dim adjcents = template.GetElementByID(topNode.Key).EnumerateAdjacencies.OrderBy(Function(node) centers(node.label)).Take(3).ToArray
+                    Dim target = template.GetElementByID(topNode.Key)
 
-                    For Each item In adjcents
-                        Call template.RemoveNode(item)
-                    Next
+                    If target Is Nothing Then
+                        Continue For
+                    End If
+
+                    Dim adjcents = target _
+                        .EnumerateAdjacencies _
+                        .Where(Function(node) centers.ContainsKey(node.label)) _
+                        .OrderBy(Function(node) centers(node.label)) _
+                        .First
+
+                    Call template.RemoveNode(adjcents)
                 Next
             Next
 
-            Return template.FromNetwork(colorSet, groupKey:="map")
+            Return template.GetConnectedGraph.FromNetwork(colorSet, groupKey:="map")
         End Function
     End Module
 End Namespace
