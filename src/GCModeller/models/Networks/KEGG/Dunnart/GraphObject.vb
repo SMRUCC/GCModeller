@@ -123,6 +123,7 @@ Namespace Dunnart
 
                 If contains.Length > 0 Then
                     node.data("map") = contains.First.Key
+                    node.data.label = maps.KeyItem(node.data!map).compound.KeyItem(node.label).text
                 End If
             Next
 
