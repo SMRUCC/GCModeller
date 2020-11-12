@@ -10,7 +10,6 @@ let maps = read.KEGG_pathway("D:\biodeep\biodeep_pipeline\Biodeep_Rpackage\gsea\
 :> reactions.table
 :> compounds.network(compounds = compounds[!(compounds in ["NULL", "NA"])])
 :> network_map(maps)
-:> as.graphObj
 :> json
 :> writeLines(con = "./demo.json")
 ;
