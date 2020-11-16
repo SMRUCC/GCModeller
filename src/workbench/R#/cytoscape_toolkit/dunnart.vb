@@ -20,16 +20,24 @@ Module dunnart
         Return network.FromNetwork(colorSet, group_key, fillOpacity, lighten)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("network_map")>
     Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                 Optional desc As Boolean = False,
                                 Optional colorSet As String = "Paired:c12",
                                 Optional fillOpacity As Double = 0.5,
-                                Optional lighten As Double = 0.1) As GraphObject
+                                Optional lighten As Double = 0.1,
+                                Optional isConnected As Boolean = True) As GraphObject
 
-        Return template.CreateModel(maps, desc, colorSet, fillOpacity, lighten)
+        Return template.CreateModel(
+            maps, desc, colorSet, 
+            fillOpacity:=fillOpacity, 
+            lighten:=lighten, 
+            isConnected:=isConnected
+        )
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("optmize")>
     Public Function OptmizeGraph(template As NetworkGraph,
                                  Optional optmize_iterations As Integer = 100,

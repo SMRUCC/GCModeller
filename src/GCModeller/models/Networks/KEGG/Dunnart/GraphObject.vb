@@ -113,6 +113,7 @@ Namespace Dunnart
                                     Optional colorSet As String = "Paired:c12",
                                     Optional fillOpacity As Double = 0.5,
                                     Optional lighten As Double = 0.1) As GraphObject
+                                    Optional isConnected As Boolean = True) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
             Dim mapCompounds As New Dictionary(Of String, Index(Of String))
@@ -151,8 +152,7 @@ Namespace Dunnart
                 End If
             Next
 
-            Return template _
-                .GetConnectedGraph _
+            Return If(Not isConnected, template, template.GetConnectedGraph) _
                 .FromNetwork(
                     colorSet:=colorSet,
                     groupKey:="map",
