@@ -11,15 +11,23 @@ Module dunnart
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("as.graphObj")>
-    Public Function graphObject(network As NetworkGraph, Optional colorSet As String = "Paired:c12", Optional group_key As String = "map") As GraphObject
-        Return network.FromNetwork(colorSet, group_key)
+    Public Function graphObject(network As NetworkGraph,
+                                Optional colorSet As String = "Paired:c12",
+                                Optional group_key As String = "map",
+                                Optional fillOpacity As Double = 0.5,
+                                Optional lighten As Double = 0.1) As GraphObject
+
+        Return network.FromNetwork(colorSet, group_key, fillOpacity, lighten)
     End Function
 
     <ExportAPI("network_map")>
     Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                 Optional desc As Boolean = False,
-                                Optional colorSet As String = "Paired:c12") As GraphObject
-        Return template.CreateModel(maps, desc, colorSet)
+                                Optional colorSet As String = "Paired:c12",
+                                Optional fillOpacity As Double = 0.5,
+                                Optional lighten As Double = 0.1) As GraphObject
+
+        Return template.CreateModel(maps, desc, colorSet, fillOpacity, lighten)
     End Function
 
     <ExportAPI("optmize")>
