@@ -112,7 +112,7 @@ Namespace Dunnart
                                     Optional desc As Boolean = False,
                                     Optional colorSet As String = "Paired:c12",
                                     Optional fillOpacity As Double = 0.5,
-                                    Optional lighten As Double = 0.1) As GraphObject
+                                    Optional lighten As Double = 0.1,
                                     Optional isConnected As Boolean = True) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
