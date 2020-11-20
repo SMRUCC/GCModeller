@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a62dc17ec4eccb916807665f2895934, core\Bio.Annotation\PTF\Document\PtfParser.vb"
+﻿#Region "Microsoft.VisualBasic::300d65bc8ee655f23e4e305f3abd86ce, core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
     ' Author:
     ' 
@@ -58,13 +58,14 @@ Namespace Ptf.Document
         Public Function ParseDocument(file As String) As PtfFile
             Dim lines As String() = file.IterateAllLines.ToArray
             Dim headers As String() = lines.TakeWhile(Function(a) a.StartsWith("#")).ToArray
-            Dim attributes As Dictionary(Of String, String) = headers _
+            Dim attributes As Dictionary(Of String, String()) = headers _
                 .Select(Function(line)
                             Return line.Trim("#"c, " "c).GetTagValue("=")
                         End Function) _
-                .ToDictionary(Function(a) a.Name,
+                .GroupBy(Function(a) a.Name) _
+                .ToDictionary(Function(a) a.Key,
                               Function(a)
-                                  Return a.Value
+                                  Return a.Select(Function(p) p.Value).ToArray
                               End Function)
 
             Return New PtfFile With {

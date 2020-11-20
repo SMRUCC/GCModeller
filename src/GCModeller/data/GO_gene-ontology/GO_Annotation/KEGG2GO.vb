@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b9cc06183cfc52dd64333efa3171742, data\GO_gene-ontology\GO_Annotation\KEGG2GO.vb"
+﻿#Region "Microsoft.VisualBasic::6d808560bf8aaac076762108b6f5b16c, data\GO_gene-ontology\GO_Annotation\KEGG2GO.vb"
 
     ' Author:
     ' 
@@ -62,4 +62,3 @@ Public Module KEGG2GO
         Next
     End Function
 End Module
-

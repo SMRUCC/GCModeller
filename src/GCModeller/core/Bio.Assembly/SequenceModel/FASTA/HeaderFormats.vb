@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ad02135bcf43c2db7ec7b038fccae5d, core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
+﻿#Region "Microsoft.VisualBasic::a64de2d871a745dcfbf7d53a38aefdd1, core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module HeaderFormats
     ' 
-    '         Function: GetUniProtAccession, TrimAccessionVersion, TryGetUniProtAccession
+    '         Function: GetUniProtAccession, HasVersionNumber, TrimAccessionVersion, TryGetUniProtAccession
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,7 +41,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Assembly.Uniprot
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace SequenceModel.FASTA
 
@@ -58,6 +60,16 @@ Namespace SequenceModel.FASTA
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TrimAccessionVersion(accession As String) As String
             Return accession.Split("."c)(Scan0)
+        End Function
+
+        Public Function HasVersionNumber(accession As String) As Boolean
+            Dim ends As Match = r.Match(accession, "\.\d+$", RegexICMul)
+
+            If ends.Success Then
+                Return True
+            Else
+                Return False
+            End If
         End Function
 
 #Region "UniProt"

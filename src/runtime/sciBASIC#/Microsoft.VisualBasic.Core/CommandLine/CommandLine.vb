@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be6a770764e3149c3121cd62e6832c1, Microsoft.VisualBasic.Core\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::a509bfd7c733ece398acdd94680b11f1, Microsoft.VisualBasic.Core\CommandLine\CommandLine.vb"
 
     ' Author:
     ' 
@@ -150,7 +150,7 @@ Namespace CommandLine
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode> Public ReadOnly Property Parameters As String()
+        Public ReadOnly Property Parameters As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Tokens.Skip(1).ToArray

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dcc996b3e3009ffe8ea04c2a485b6c5, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::3759ae6f69fa35004e9be956f2beb74d, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,12 @@
     ' 
     '         Properties: attributes, description, geneId
     ' 
-    '         Function: ToString
+    '         Function: has, ToString
+    ' 
+    '     Class AnnotationReader
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: KO
     ' 
     ' 
     ' /********************************************************************************/

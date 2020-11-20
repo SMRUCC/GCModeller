@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b913d21268339bbf1b37059a6ff71d76, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::9450ae5ad1805b937954db63b639c2a5, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
 
     ' Author:
     ' 

@@ -1,50 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::fba2e5c49ed3cbeb8a9e3c4d038f7004, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::dfe6fb6d3a7b2b2de58a75de18b147dd, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ReactionNetworkBuilder
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: compoundEdge, enzymeBridgedEdges
-' 
-'         Sub: createEdges
-' 
-'     Module Extensions
-' 
-'         Function: BuildModel, GetReactions
-' 
-' 
-' /********************************************************************************/
+    '     Class ReactionNetworkBuilder
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: compoundEdge, enzymeBridgedEdges
+    ' 
+    '         Sub: createEdges
+    ' 
+    '     Module Extensions
+    ' 
+    '         Function: BuildModel, GetReactions
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -78,9 +78,10 @@ Namespace ReactionNetwork
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
                 Optional enzymeBridged As Boolean = True,
-                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter)
+                Optional edgeFilter As EdgeFilterEngine = EdgeFilterEngine.ReactionLinkFilter,
+                Optional randomLayout As Boolean = True)
 
-            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter)
+            Call MyBase.New(br08901, compounds, blue, ignoresCommonList, edgeFilter, randomLayout)
 
             Me.enzymeBridged = enzymeBridged
         End Sub
@@ -125,11 +126,12 @@ Namespace ReactionNetwork
                 rNode = New Node With {
                     .label = rid.label,
                     .data = New NodeData With {
-                        .label = rid.geneSymbols.Distinct.JoinBy(", "),
+                        .label = rid.label,
                         .origID = rid.label,
                         .Properties = New Dictionary(Of String, String) From {
                             {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "reaction"},
-                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)}
+                            {"kegg", rid.KO.FirstOrDefault Or (rid.keggRid.First.AsDefault)},
+                            {"gene_symbols", rid.geneSymbols.Distinct.JoinBy(", ")}
                         }
                     }
                 }
@@ -192,7 +194,8 @@ Namespace ReactionNetwork
                                    Optional filterByEnzymes As Boolean = False,
                                    Optional ignoresCommonList As Boolean = True,
                                    Optional enzymeBridged As Boolean = True,
-                                   Optional strictReactionNetwork As Boolean = False) As NetworkGraph
+                                   Optional strictReactionNetwork As Boolean = False,
+                                   Optional randomLayout As Boolean = True) As NetworkGraph
 
             Dim source As ReactionTable()
 
@@ -214,7 +217,8 @@ Namespace ReactionNetwork
                 br08901:=source,
                 compounds:=compounds,
                 ignoresCommonList:=ignoresCommonList,
-                enzymeBridged:=enzymeBridged
+                enzymeBridged:=enzymeBridged,
+                randomLayout:=randomLayout
             )
             Dim g As NetworkGraph = builderSession.BuildModel(
                 extended:=extended,

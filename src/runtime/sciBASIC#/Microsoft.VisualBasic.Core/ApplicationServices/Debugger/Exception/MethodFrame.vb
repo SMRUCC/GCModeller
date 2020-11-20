@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e67bb6e4e5b8829ff378ffe4c371121, analysis\OperonMapper\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::6810cedaab5aed31c00777d9afca225c, Microsoft.VisualBasic.Core\ApplicationServices\Debugger\Exception\MethodFrame.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,40 @@
 
     ' Summaries:
 
-    ' Class Class1
+    '     Class Method
     ' 
+    '         Properties: [Module], [Namespace], Method
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Public Class Class1
 
-End Class
+Namespace ApplicationServices.Debugging.Diagnostics
 
+    Public Class Method
+
+        Public Property [Namespace] As String
+        Public Property [Module] As String
+        Public Property Method As String
+
+        Sub New()
+        End Sub
+
+        Sub New(s As String)
+            Dim t = s.Split("."c).AsList
+
+            Method = t(-1)
+            [Module] = t(-2)
+            [Namespace] = t.Take(t.Count - 2).JoinBy(".")
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{[Namespace]}.{[Module]}.{Method}"
+        End Function
+    End Class
+End Namespace

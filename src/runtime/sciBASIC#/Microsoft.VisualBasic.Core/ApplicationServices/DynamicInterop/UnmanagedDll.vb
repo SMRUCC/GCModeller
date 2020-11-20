@@ -1,6 +1,58 @@
-﻿Imports System.Collections.Concurrent
+﻿#Region "Microsoft.VisualBasic::705eda7755f3906081f010dd0da5e079, Microsoft.VisualBasic.Core\ApplicationServices\DynamicInterop\UnmanagedDll.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class UnmanagedDll
+    ' 
+    '         Properties: FileName
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: checkedGetSymbolHandle, createLdLibPathMsg, DangerousGetHandle, GetAnsiString, GetByte
+    '                   (+3 Overloads) GetFunction, GetFunctionAddress, GetInt32, GetInt64, GetIntPtr
+    ' 
+    '         Sub: (+2 Overloads) Dispose, ReportLoadLibError, ThrowFailedLibraryLoad, WriteByte, WriteInt32
+    '              WriteInt64, WriteIntPtr
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Collections.Concurrent
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ApplicationServices.DynamicInterop
 
@@ -114,7 +166,7 @@ Namespace ApplicationServices.DynamicInterop
             Throw New ArgumentException(strMsg)
         End Sub
 
-        Private delegateFunctionPointers As ConcurrentDictionary(Of String, Object) = New ConcurrentDictionary(Of String, Object)()
+        Private delegateFunctionPointers As New ConcurrentDictionary(Of String, Object)()
 
         ''' <summary>
         ''' Creates the delegate function for the specified function defined in the DLL.
@@ -132,31 +184,30 @@ Namespace ApplicationServices.DynamicInterop
         ''' <param name="entryPoint">The name of the function exported by the DLL</param>
         ''' <returns>The delegate.</returns>
         Public Function GetFunction(Of TDelegate As Class)(ByVal entryPoint As String) As TDelegate
-            If String.IsNullOrEmpty(entryPoint) Then Throw New ArgumentNullException("entryPoint", "Native function name cannot be null or empty")
+            If String.IsNullOrEmpty(entryPoint) Then
+                Throw New ArgumentNullException("entryPoint", "Native function name cannot be null or empty")
+            ElseIf Not GetType(TDelegate).IsSubclassOf(GetType([Delegate])) Then
+                Throw New InvalidCastException()
+            End If
 
             SyncLock Me
-                Dim delegateType = GetType(TDelegate)
-                If delegateFunctionPointers.ContainsKey(entryPoint) Then Return delegateFunctionPointers(entryPoint)
-
-                If Not delegateType.IsSubclassOf(GetType([Delegate])) Then
-                    Throw New InvalidCastException()
-                End If
-
-                Dim [function] = GetFunctionAddress(entryPoint)
-
-                If [function] = IntPtr.Zero Then
-                    throwEntryPointNotFound(entryPoint)
-                End If
-
-                Dim dFunc = TryCast(Marshal.GetDelegateForFunctionPointer([function], delegateType), TDelegate)
-                delegateFunctionPointers(entryPoint) = dFunc
-                Return dFunc
+                Return delegateFunctionPointers.ComputeIfAbsent(
+                    key:=entryPoint,
+                    lazyValue:=Function(func)
+                                   Return TryCast(GetFunction(entryPoint, GetType(TDelegate)), TDelegate)
+                               End Function)
             End SyncLock
         End Function
 
-        Private Sub throwEntryPointNotFound(ByVal entryPoint As String)
-            Throw New EntryPointNotFoundException(String.Format("Function {0} not found in native library {1}", entryPoint, FileName))
-        End Sub
+        Private Function GetFunction(entryPoint As String, type As Type) As Object
+            Dim [function] = GetFunctionAddress(entryPoint)
+
+            If [function] = IntPtr.Zero Then
+                Throw New EntryPointNotFoundException($"Function {entryPoint} not found in native library {FileName}")
+            Else
+                Return Marshal.GetDelegateForFunctionPointer([function], type)
+            End If
+        End Function
 
         ''' <summary>
         ''' Gets the address of a native function entry point.
@@ -306,3 +357,4 @@ Namespace ApplicationServices.DynamicInterop
         End Function
     End Class
 End Namespace
+

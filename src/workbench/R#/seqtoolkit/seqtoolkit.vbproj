@@ -252,5 +252,6 @@
       <Name>SeqFeature</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

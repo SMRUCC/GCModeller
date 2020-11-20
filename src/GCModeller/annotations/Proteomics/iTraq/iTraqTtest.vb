@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24e3e1853bd65dd178d81fe32e64151e, annotations\Proteomics\iTraq\iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::b3657a75bad37e5f398b147f34c8480c, annotations\Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module iTraqTtest
     ' 
-    '     Function: createResult, log2Test, logFCtest
+    '     Function: createResult, log2Test, (+2 Overloads) logFCtest
     ' 
     ' /********************************************************************************/
 
@@ -46,12 +46,31 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports DataFrameRow = SMRUCC.genomics.Analysis.HTS.DataFrame.DataFrameRow
 
 Public Module iTraqTtest
+
+    <Extension>
+    Public Function logFCtest(proteins As DataFrameRow()) As DEP_iTraq()
+        Dim result As New List(Of DEP_iTraq)
+        Dim zero As Double() = 0.0.Replicate(n:=proteins(Scan0).samples).ToArray
+
+        For Each protein As DataFrameRow In proteins
+            result += New DEP_iTraq With {
+                .FCavg = protein.experiments.Average,
+                .ID = protein.geneID,
+                .pvalue = t.Test(protein.experiments.Select(Function(x) Math.Log(x, 2)).ToArray, zero).Pvalue,
+                .log2FC = Math.Log(.FCavg, 2)
+            }
+        Next
+
+        Return result
+    End Function
 
     ''' <summary>
     ''' iTraq结果的差异表达蛋白的检验计算
@@ -75,7 +94,7 @@ Public Module iTraqTtest
 
         Dim ZERO$ = base.rep(0, times:=data.First.Properties.Count)
         Dim result As New List(Of DEP_iTraq)
-        Dim NA As [Default](Of  Double) = 1.0# _
+        Dim NA As [Default](Of Double) = 1.0# _
             .AsDefault(Function(x)
                            Dim n# = DirectCast(x, Double)
                            Return n = 0R OrElse

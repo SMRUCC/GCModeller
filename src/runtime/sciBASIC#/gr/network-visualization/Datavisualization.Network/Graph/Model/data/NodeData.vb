@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc790f43aa192916e5a698943f7a98af, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
+﻿#Region "Microsoft.VisualBasic::4dc57182b89a879f34739e97a3863104, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
 
     ' Author:
     ' 
@@ -95,7 +95,6 @@ Namespace Graph
         <ScriptIgnore>
         Public Property color As Brush
 
-        <DumpNode>
         Public Property weights As Double()
 
         ''' <summary>
@@ -104,7 +103,6 @@ Namespace Graph
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode>
         Public Property neighbours As Integer()
 
         Public Property betweennessCentrality As Double

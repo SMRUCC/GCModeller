@@ -1,5 +1,5 @@
 .\" man page create by R# package system.
-.TH VISUALKIT.PLOTS 1 2000-01-01 "plot.cmeans3D" "plot.cmeans3D"
+.TH VISUALKIT.PLOTS 2 2000-01-01 "plot.cmeans3D" "plot.cmeans3D"
 .SH NAME
 plot.cmeans3D \- 
 .SH SYNOPSIS
@@ -12,7 +12,11 @@ plot.cmeans3D \-
 \fBviewAngle\fR as <generic> Object = [30,60,-56.25], 
 \fBviewDistance\fR as double = 2500, 
 \fBqDisplay\fR as double = 0.9, 
-\fBprefix\fR as string = "Cluster:  #", 
+\fBprefix\fR as string = "Cluster: #", 
+\fBaxisFormat\fR as string = "CMeans dimension #%s", 
+\fBshowHull\fR as boolean = TRUE, 
+\fBhullAlpha\fR as integer = 150, 
+\fBhullBspline\fR as double = 3, 
 [\fB<Environment>\fR]);\fR
 .SH OPTIONS
 .PP
@@ -45,5 +49,7 @@ visualkit.plots
 .PP
 visualkit.dll
 .PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
 .SH COPYRIGHT
 Copyright ©  2019

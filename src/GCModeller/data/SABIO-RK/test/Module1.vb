@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edf5c3dc2ab1e8ec2d8bc79b9dd4cdf1, data\SABIO-RK\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::eccff19573e008c32f36873c4d36d361, data\SABIO-RK\test\Module1.vb"
 
     ' Author:
     ' 
@@ -78,4 +78,3 @@ Module Module1
     End Sub
 
 End Module
-

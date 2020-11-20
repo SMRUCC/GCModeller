@@ -263,8 +263,10 @@ Public Module kegg_repository
     <ExportAPI("read.KEGG_pathway")>
     <RApiReturn(GetType(Pathway))>
     Public Function readKEGGpathway(file As String, Optional env As Environment = Nothing) As Object
-        If Not file.FileExists Then
+        If Not (file.FileExists OrElse file.DirectoryExists) Then
             Return Internal.debug.stop({"the given file is not exists on your filesystem!", $"file: " & file}, env)
+        ElseIf file.DirectoryExists Then
+            Return (ls - l - r - "*.Xml" <= file).Select(AddressOf LoadXml(Of Pathway)).ToArray
         Else
             Return file.LoadXml(Of XmlList(Of Pathway)).items
         End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a888bbe9ae14160288196bfbd61fc28, annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::76c16f5fbc8626e3480a82b7a55502ab, annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module AnalysisCommon
     ' 
-    '     Function: ApplyDEPFilter
+    '     Function: ApplyDEPFilter, DepFilter2, Ttest
     ' 
     ' /********************************************************************************/
 
@@ -45,11 +45,81 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 
-Module AnalysisCommon
+Public Module AnalysisCommon
+
+    <Extension>
+    Public Function Ttest(data As Matrix, treatment As String(), control As String()) As DEP_iTraq()
+        Dim treatmentData = data.Project(treatment)
+        Dim controlData = data.Project(control)
+        Dim result As New List(Of DEP_iTraq)
+        Dim labels As String() = treatment.AsList + control
+
+        data = data.Project(labels)
+
+        For i As Integer = 0 To data.expression.Length - 1
+            Dim a As Double() = treatmentData(i).experiments
+            Dim b As Double() = controlData(i).experiments
+
+            If a.All(Function(x) x = 0.0) AndAlso b.All(Function(x) x = 0.0) Then
+                result += New DEP_iTraq With {
+                    .ID = data(i).geneID,
+                    .FCavg = 1,
+                    .log2FC = 0,
+                    .pvalue = 1,
+                    .Properties = data(i).ToDataSet(labels).AsCharacter
+                }
+            Else
+                result += New DEP_iTraq With {
+                    .ID = data(i).geneID,
+                    .FCavg = a.Average / b.Average,
+                    .log2FC = Math.Log(.FCavg, 2),
+                    .pvalue = t.Test(treatmentData(i).experiments, controlData(i).experiments).Pvalue,
+                    .Properties = data(i).ToDataSet(labels).AsCharacter
+                }
+            End If
+        Next
+
+        Return result
+    End Function
+
+    <Extension>
+    Public Function DepFilter2(proteins As IEnumerable(Of DEP_iTraq), level#, pvalue#, FDR_threshold#) As DEP_iTraq()
+        With proteins.Shadows
+            Dim test As BooleanVector
+            Dim log2FC As Vector = !log2FC
+            Dim p As Vector = !pvalue
+            Dim FDR As Vector = p.FDR
+            Dim n% = .Length
+
+            ' vector shadows dynamics language feature
+            With CObj(.ByRef)
+
+                test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
+
+                ' apply FDR selector if the threshold is less than 1
+                .FDR = FDR
+
+                If FDR_threshold < 1 Then
+                    test = test & (FDR <= FDR_threshold)
+                End If
+
+                .isDEP = test
+
+                With Which.IsTrue(test).Count
+                    Call println("resulted %s DEPs from %s proteins!", .ByRef, n)
+                End With
+            End With
+
+            Return .ByRef
+        End With
+    End Function
 
     ''' <summary>
     ''' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84c3378635e791763385d423cea1f0a9, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::378b6b460b2c9298df2c8d01f059fb6d, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
 
 ' Author:
 ' 
@@ -900,22 +900,17 @@ Public Module App
     ''' <returns></returns>
     Private Function checkIsMicrosoftPlatform() As Boolean
 #If UNIX Then
-        Return False
+#If DEBUG Then
+        Return True
 #Else
-        Dim pt As PlatformID = Platform
-
-        ' 枚举值在.NET和Mono之间可能会不一样??
-        If pt.ToString = NameOf(PlatformID.Unix) Then
-            Return False
-        ElseIf pt.ToString = NameOf(PlatformID.MacOSX) Then
-            Return False
-        End If
-
-        Return pt = PlatformID.Win32NT OrElse
-            pt = PlatformID.Win32S OrElse
-            pt = PlatformID.Win32Windows OrElse
-            pt = PlatformID.WinCE OrElse
-            pt = PlatformID.Xbox
+        Return False
+#End If
+#Else
+#If NET_48 Then
+            Return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+#Else
+        Return True
+#End If
 #End If
     End Function
 
@@ -1346,7 +1341,8 @@ Public Module App
     Public Function Shell(app$, CLI$,
                           Optional CLR As Boolean = False,
                           Optional stdin$ = Nothing,
-                          Optional ioRedirect As Boolean = False) As IIORedirectAbstract
+                          Optional ioRedirect As Boolean = False,
+                          Optional debug As Boolean = False) As IIORedirectAbstract
 
         If Not IsMicrosoftPlatform Then
             If CLR Then
@@ -1362,7 +1358,7 @@ Public Module App
         Else
             If CLR Then
                 ' 由于是重新调用自己，所以这个重定向是没有多大问题的
-                Return New IORedirect(app, CLI, IOredirect:=ioRedirect)
+                Return New IORedirect(app, CLI, IOredirect:=ioRedirect, hide:=Not debug)
             Else
                 Dim process As New IORedirectFile(app, CLI, stdin:=stdin)
                 Return process

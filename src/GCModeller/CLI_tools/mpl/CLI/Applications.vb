@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a78fc14ae2943002f912c2c91ab77484, CLI_tools\mpl\CLI\Applications.vb"
+﻿#Region "Microsoft.VisualBasic::7f5a08dbcb230e55f170f47273001660, CLI_tools\mpl\CLI\Applications.vb"
 
     ' Author:
     ' 

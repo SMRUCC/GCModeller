@@ -181,6 +181,10 @@
       <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
       <Name>GO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.vbproj">
+      <Project>{61fe6226-7b01-4181-ae04-2eef599de96e}</Project>
+      <Name>Proteomics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
       <Name>Bio.Assembly</Name>
@@ -204,6 +208,10 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0C2EB77C-39F2-460D-A3F8-CE905F867637}</Project>
       <Name>R</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.vbproj">
       <Project>{1B42809B-603F-4CEA-A0DB-91276582B9CA}</Project>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50e9a2b8de0ad0b89e34ee915641f9d9, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
+﻿#Region "Microsoft.VisualBasic::efc0df45ea6e93309eb19968e5e14b92, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
 
     ' Author:
     ' 
@@ -98,6 +98,11 @@ Namespace Analysis
             Return data
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <returns>``[<see cref="Node.label"/> => degree]``</returns>
         <Extension>
         Public Function ConnectedDegrees(g As NetworkGraph) As Dictionary(Of String, Integer)
             Return g.graphEdges _

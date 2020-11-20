@@ -1,44 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::55980885847e1d9645d0d1c7646abca8, analysis\HTS_matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::ac7e4d5671d4a3769dcf3e7701e42dc1, analysis\HTS_matrix\Matrix.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class Matrix
-' 
-'     Properties: expression, sampleID
-' 
-'     Function: LoadData, MatrixAverage, TakeSamples
-' 
-' 
-' /********************************************************************************/
+    ' Class Matrix
+    ' 
+    '     Properties: expression, sampleID, tag
+    ' 
+    '     Function: LoadData, MatrixAverage, Project, TakeSamples
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -47,6 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Class Matrix : Implements INamedValue
@@ -69,6 +69,48 @@ Public Class Matrix : Implements INamedValue
     ''' <returns></returns>
     Public Property expression As DataFrameRow()
 
+    Default Public ReadOnly Property gene(i As Integer) As DataFrameRow
+        Get
+            Return expression(i)
+        End Get
+    End Property
+
+    Public Function Project(sampleNames As String()) As Matrix
+        Dim index As Index(Of String) = sampleID
+        Dim sampleVector As Integer() = sampleNames.Select(Function(id) index.IndexOf(id)).ToArray
+
+        If sampleVector.Any(Function(i) i = -1) Then
+            Throw New KeyNotFoundException($"missing sample names in your data matrix: {sampleVector.SeqIterator.Where(Function(a) a.value <> -1).Select(Function(i) sampleNames(i)).GetJson}")
+        End If
+
+        Return New Matrix With {
+            .sampleID = sampleNames,
+            .tag = tag,
+            .expression = TakeSamples(
+                data:=expression,
+                sampleVector:=sampleVector,
+                reversed:=False
+             ).ToArray
+        }
+    End Function
+
+    Public Function TrimZeros() As Matrix
+        Return New Matrix With {
+            .sampleID = sampleID,
+            .tag = tag,
+            .expression = expression _
+                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .ToArray
+        }
+    End Function
+
+    ''' <summary>
+    ''' matrix subset by a given collection of sample names
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="sampleVector"></param>
+    ''' <param name="reversed"></param>
+    ''' <returns></returns>
     Public Shared Iterator Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As IEnumerable(Of DataFrameRow)
         Dim samples As Double()
 
@@ -83,8 +125,14 @@ Public Class Matrix : Implements INamedValue
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing) As Matrix
-        Return Document.LoadMatrixDocument(file, excludes)
+    Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing, Optional trimZeros As Boolean = False) As Matrix
+        Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
+
+        If trimZeros Then
+            Return matrix.TrimZeros
+        Else
+            Return matrix
+        End If
     End Function
 
     ''' <summary>
@@ -133,6 +181,3 @@ Public Class Matrix : Implements INamedValue
         }
     End Function
 End Class
-
-
-

@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::4099e5cb7c99287e3ed2869e3300b4d4, Data_science\Visualization\Visualization\Kmeans\Kmeans.vb"
+﻿#Region "Microsoft.VisualBasic::b1fc20cfde2d391602c11adc298690d5, Data_science\Visualization\Visualization\Kmeans\Kmeans.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module KmeansExtensions
-' 
-'         Function: ClusterGroups, labelSelector, Scatter2D, (+2 Overloads) Scatter3D
-' 
-' 
-' /********************************************************************************/
+    '     Module KmeansExtensions
+    ' 
+    '         Function: ClusterGroups, dimensionQuantile, labelSelector, Scatter2D, (+2 Overloads) Scatter3D
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -213,7 +213,10 @@ Namespace KMeans
                                   Optional axisStroke$ = Stroke.AxisStroke,
                                   Optional arrowFactor$ = "2,2",
                                   Optional labelsQuantile# = -1,
-                                  Optional showLegend As Boolean = True) As GraphicsData
+                                  Optional showLegend As Boolean = True,
+                                  Optional showHull As Boolean = True,
+                                  Optional hullAlpha As Integer = 150,
+                                  Optional hullBspline As Single = 2) As GraphicsData
 
             Dim clusters As Dictionary(Of String, EntityClusterModel()) = clusterData.ClusterGroups
 
@@ -223,7 +226,8 @@ Namespace KMeans
             Dim serials As New List(Of Serial3D)
             Dim shapeList As LegendStyles() = GetAllEnumFlags(Of LegendStyles)(shapes)
             Dim keys$() = catagory.Keys.ToArray
-            Dim labX$ = keys(0), labY$ = keys(1), labZ$ = keys(2)
+            Dim dimensionLabels As String() = catagory.Select(Function(a) a.Value.name).ToArray
+            Dim labX$ = dimensionLabels(0), labY$ = dimensionLabels(1), labZ$ = dimensionLabels(2)
 
             For Each cluster In clusters.SeqIterator
                 Dim color As Color = clusterColors(cluster)
@@ -265,7 +269,10 @@ Namespace KMeans
                 axisStroke:=axisStroke,
                 labX:=labX, labY:=labY, labZ:=labZ,
                 arrowFactor:=arrowFactor,
-                showLegend:=showLegend
+                showLegend:=showLegend,
+                showHull:=showHull,
+                hullAlpha:=hullAlpha,
+                hullBspline:=hullBspline
             )
         End Function
 

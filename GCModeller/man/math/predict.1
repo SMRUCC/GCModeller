@@ -1,0 +1,58 @@
+.\" man page create by R# package system.
+.TH MATH 2 2020-11-09 "predict" "predict"
+.SH NAME
+predict \- Model Predictions
+.SH SYNOPSIS
+\fIpredict(\fBlm\fR as <generic> lmCall, 
+\fBx\fR as <generic> Object, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Model Predictions
+ 
+ predict is a generic function for predictions from the results of 
+ various model fitting functions. The function invokes particular 
+ methods which depend on the class of the first argument.
+.PP
+.SH OPTIONS
+.PP
+\fBlm\fB \fR\- a model Object For which prediction Is desired.
+.PP
+.PP
+\fBx\fB \fR\- -
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+The form of the value returned by predict depends on the class of its argument. 
+ See the documentation of the particular methods for details of what is 
+ produced by that method.
+.PP
+.SH DETAILS
+.PP
+Most prediction methods which are similar to those for linear models 
+ have an argument newdata specifying the first place to look for 
+ explanatory variables to be used for prediction. Some considerable 
+ attempts are made to match up the columns in newdata to those used 
+ for fitting, for example that they are of comparable types and that 
+ any factors have the same level set in the same order (or can be 
+ transformed to be so).
+ 
+ Time series prediction methods In package stats have an argument 
+ n.ahead specifying how many time steps ahead To predict.
+ 
+ Many methods have a logical argument se.fit saying If standard errors 
+ are To returned.
+.PP
+.SH SEE ALSO
+math
+.SH FILES
+.PP
+R.math.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@live.com\fR
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2020

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2eb38e23716e1fa3330ab3597944da30, Data_science\Visualization\Plots\3D\Device\Element3D.vb"
+﻿#Region "Microsoft.VisualBasic::553006dfd9f4917df20589e6777bc2c0, Data_science\Visualization\Plots\3D\Device\Element3D.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,12 @@
     ' 
     '         Sub: Draw, Transform
     ' 
+    '     Class ConvexHullPolygon
+    ' 
+    '         Properties: bspline
+    ' 
+    '         Sub: Draw
+    ' 
     '     Class Label
     ' 
     '         Properties: Color, Font, Text
@@ -73,6 +79,8 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Imaging.Math2D
@@ -126,6 +134,30 @@ Namespace Plot3D.Device
                 .ToArray
 
             Call g.FillPolygon(brush, shape)
+        End Sub
+    End Class
+
+    Public Class ConvexHullPolygon : Inherits Polygon
+
+        Public Property bspline As Single = 2
+
+        Public Overrides Sub Draw(g As IGraphics, offset As PointF)
+            Dim screen As Size = g.Size
+            Dim shape As PointF() = Path _
+                .Select(Function(p)
+                            Return p.PointXY(screen).OffSet2D(offset).PointF
+                        End Function) _
+                .ToArray
+
+            If shape.Length > 2 Then
+                shape = shape.JarvisMatch
+
+                If bspline > 1 Then
+                    shape = shape.BSpline(degree:=bspline).ToArray
+                End If
+
+                Call g.FillPolygon(brush, shape)
+            End If
         End Sub
     End Class
 

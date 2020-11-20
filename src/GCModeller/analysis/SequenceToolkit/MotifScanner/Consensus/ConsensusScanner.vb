@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad5802a4fb85a47ca68a64d822f33109, analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
+﻿#Region "Microsoft.VisualBasic::1e98ff54454c97eacf54d3e171aea1bb, analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
 
     ' Author:
     ' 

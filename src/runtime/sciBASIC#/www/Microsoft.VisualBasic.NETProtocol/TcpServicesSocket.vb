@@ -1,49 +1,49 @@
-﻿#Region "Microsoft.VisualBasic::4475dc0d6389807e70de0d334adbe8c3, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::eafae47e0ff62895cc6d5c34c07a8ae2, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class TcpServicesSocket
-' 
-'         Properties: IsShutdown, LocalPort, ResponseHandler, Running
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: BeginListen, IsServerInternalException, LoopbackEndPoint, (+2 Overloads) Run, ToString
-' 
-'         Sub: AcceptCallback, (+2 Overloads) Dispose, ForceCloseHandle, HandleRequest, ReadCallback
-'              (+2 Overloads) Send, SendCallback, startSocket, WaitForStart
-' 
-' 
-' /********************************************************************************/
+    '     Class TcpServicesSocket
+    ' 
+    '         Properties: IsShutdown, LocalPort, ResponseHandler, Running
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: BeginListen, IsServerInternalException, LoopbackEndPoint, (+2 Overloads) Run, ToString
+    ' 
+    '         Sub: AcceptCallback, (+2 Overloads) Dispose, ForceCloseHandle, HandleRequest, ReadCallback
+    '              Send, startSocket, WaitForStart
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -99,6 +99,7 @@ Namespace Tcp
         ''' </summary>
         ''' <remarks></remarks>
         Public Property ResponseHandler As DataRequestHandler Implements IServicesSocket.ResponseHandler
+        Public ReadOnly Property Running As Boolean = False Implements IServicesSocket.IsRunning
 
         Public ReadOnly Property IsShutdown As Boolean Implements IServicesSocket.IsShutdown
             Get
@@ -214,9 +215,9 @@ Namespace Tcp
 
             Try
                 Call _servicesSocket.Bind(localEndPoint)
-                Call _servicesSocket.ReceiveBufferSize.SetValue(4096000)
-                Call _servicesSocket.SendBufferSize.SetValue(4096000)
-                Call _servicesSocket.Listen(backlog:=1000)
+                Call _servicesSocket.ReceiveBufferSize.SetValue(4096 * 1024 * 10)
+                Call _servicesSocket.SendBufferSize.SetValue(4096 * 1024 * 10)
+                Call _servicesSocket.Listen(backlog:=128)
             Catch ex As Exception
                 Dim exMessage As String =
                     "Exception on try initialize the socket connection local_EndPoint=" & localEndPoint.ToString &
@@ -234,8 +235,6 @@ Namespace Tcp
             _threadEndAccept = True
             _Running = True
         End Sub
-
-        Public ReadOnly Property Running As Boolean = False Implements IServicesSocket.IsRunning
 
         Public Sub WaitForStart()
             Do While Running = False
@@ -266,14 +265,15 @@ Namespace Tcp
                 Call handler.BeginReceive(state.readBuffer, 0, StateObject.BufferSize, 0, New AsyncCallback(AddressOf ReadCallback), state)
             Catch ex As Exception
                 ' 远程强制关闭主机连接，则放弃这一条数据请求的线程
-                Call ForceCloseHandle(handler.RemoteEndPoint)
+                Call ForceCloseHandle(handler.RemoteEndPoint, ex)
             End Try
 
             _threadEndAccept = True
         End Sub
 
-        Private Sub ForceCloseHandle(RemoteEndPoint As EndPoint)
+        Private Sub ForceCloseHandle(RemoteEndPoint As EndPoint, ex As Exception)
             Call $"Connection was force closed by {RemoteEndPoint.ToString}, services thread abort!".__DEBUG_ECHO
+            Call ex.PrintException
         End Sub
 
         Private Sub ReadCallback(ar As IAsyncResult)
@@ -282,15 +282,16 @@ Namespace Tcp
             Dim state As StateObject = DirectCast(ar.AsyncState, StateObject)
             Dim handler As Socket = state.workSocket
             ' Read data from the client socket.
-            Dim bytesRead As Integer
+            Dim bytesRead As Integer = 0
+            Dim closed As Boolean = False
 
             Try
                 ' 在这里可能发生远程客户端主机强制断开连接，由于已经被断开了，
                 ' 客户端已经放弃了这一次数据请求，所有在这里将这个请求线程放弃
                 bytesRead = handler.EndReceive(ar)
             Catch ex As Exception
-                Call ForceCloseHandle(handler.RemoteEndPoint)
-                Return
+                ForceCloseHandle(handler.RemoteEndPoint, ex)
+                closed = True
             End Try
 
             ' 有新的数据
@@ -312,10 +313,15 @@ Namespace Tcp
                         ' Not all data received. Get more.
                         Call handler.BeginReceive(state.readBuffer, 0, StateObject.BufferSize, 0, New AsyncCallback(AddressOf ReadCallback), state)
                     Catch ex As Exception
-                        Call ForceCloseHandle(handler.RemoteEndPoint)
-                        Return
+                        Call ForceCloseHandle(handler.RemoteEndPoint, ex)
                     End Try
                 End If
+            ElseIf closed Then
+                ' 得到的是原始的请求数据
+                Dim data As Byte() = DirectCast(state.received, MemoryStream).ToArray
+                Dim requestData As New RequestStream(data)
+
+                Call HandleRequest(handler, requestData)
             End If
         End Sub
 

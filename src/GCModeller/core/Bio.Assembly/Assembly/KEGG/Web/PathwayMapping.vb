@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6079a888ce1ab91230dc4489ea5a71f4, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::c9e5445959912833e8143c51686db137, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add("unclassified", list)
 
             Dim htext = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
-            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, , "http://www.genome.jp/kegg/tool/map_pathway.html")
+            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, , "http://www.genome.jp/kegg/tool/map_pathway.html").html
 
             Const mapLink$ = "<a href=""/kegg-bin/show_pathway[^""]+"" target=""_map"">"
 
@@ -169,7 +169,7 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add(NameOf(all), If(all, "1", ""))
             Call args.Add("submit", "Exec")
 
-            Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html")
+            Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html").html
 
             Const mapLinks$ = "href=""/kegg-bin/show_pathway\?.+?/ko\d+\.args"" target=""_map"""
             Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+.*?\.png"""

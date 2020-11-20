@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcf4a5712a71dca4576e715272ef9dd5, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::d114d661dab07f1d856154480657e0a9, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 

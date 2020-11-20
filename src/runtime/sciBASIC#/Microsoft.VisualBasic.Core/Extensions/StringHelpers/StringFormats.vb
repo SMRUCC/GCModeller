@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0cb08a2031318c848dffaf376a0884f, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringFormats.vb"
+﻿#Region "Microsoft.VisualBasic::64fb018d54e8246ae6932d4f78a12a79, Microsoft.VisualBasic.Core\Extensions\StringHelpers\StringFormats.vb"
 
     ' Author:
     ' 
@@ -33,12 +33,14 @@
 
     ' Module StringFormats
     ' 
-    '     Function: Lanudry
+    '     Function: FormatTime, (+2 Overloads) Lanudry, ReadableElapsedTime
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.Language.C
 Imports stdNum = System.Math
 
@@ -60,5 +62,55 @@ Public Module StringFormats
         Dim val = (bytes / (1000 ^ stdNum.Floor(exp)))
 
         Return sprintf($"%.2f %s", val, symbol)
+    End Function
+
+    ''' <summary>
+    ''' ``days, hh:mm:ss.ms``
+    ''' </summary>
+    ''' <param name="t"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function FormatTime(t As TimeSpan) As String
+        With t
+            Return $"{ZeroFill(.Days, 2)}, {ZeroFill(.Hours, 2)}:{ZeroFill(.Minutes, 2)}:{ZeroFill(.Seconds, 2)}.{ ZeroFill(.Milliseconds, 3)}"
+        End With
+    End Function
+
+    <Extension>
+    Public Function Lanudry(timespan As TimeSpan) As String
+        If timespan < TimeSpan.FromMinutes(1) Then
+            Return $"{timespan.TotalSeconds} seconds"
+        ElseIf timespan < TimeSpan.FromHours(1) Then
+            Return $"{timespan.TotalMinutes} min"
+        ElseIf timespan < TimeSpan.FromDays(1) Then
+            Return $"{timespan.TotalHours} hours"
+        Else
+            Return timespan.FormatTime
+        End If
+    End Function
+
+    Public Function ReadableElapsedTime(microtime&, Optional format$ = "%.3f%s", Optional round% = 3) As String
+        Dim unit$
+        Dim time!
+
+        If microtime >= 1000 Then
+            unit = "s"
+            time = stdNum.Round(microtime / 1000, round)
+
+            If time >= 60 Then
+                unit = "min"
+                time = stdNum.Round(time / 60, round)
+            End If
+
+            format = sprintf(format, time, unit)
+        Else
+            unit = "ms"
+            time = microtime
+            format = sprintf("%s%s", time, unit)
+        End If
+
+        Return format
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0f2f77a01e83aa65f0fb79975f1dd5d, Microsoft.VisualBasic.Core\Serialization\DumpData\DumpNode.vb"
+﻿#Region "Microsoft.VisualBasic::9b0ea6d9fca5c1e8ba1f1579151c184a, visualize\DataVisualizationExtensions\DEGPlot\DEGModel.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,24 @@
 
     ' Summaries:
 
-    '     Class DumpNode
+    ' Structure DEGModel
     ' 
+    '     Properties: label, logFC, pvalue
     ' 
-    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Data.Linq.Mapping
+Public Structure DEGModel
+    Implements IDeg
 
-Namespace Serialization
+    Public Property label$ Implements IDeg.label
+    Public Property logFC# Implements IDeg.log2FC
+    Public Property pvalue# Implements IDeg.pvalue
 
-    <AttributeUsage(AttributeTargets.Property Or AttributeTargets.Field, allowmultiple:=False, inherited:=True)>
-    Public Class DumpNode : Inherits Attribute
-        Public Shared ReadOnly [GetTypeId] As System.Type = GetType(DumpNode)
-    End Class
-End Namespace
+    Public Overrides Function ToString() As String
+        Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
+    End Function
+End Structure

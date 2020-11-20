@@ -1,48 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::cb2cc5275d4d3b7475bbcf4945bba142, Data_science\Mathematica\Math\Math\Algebra\Vector\Polynomial.vb"
+﻿#Region "Microsoft.VisualBasic::7c7520fa6bbad82b9165eb93ccb5875e, Data_science\Mathematica\Math\Math\Algebra\Vector\Polynomial.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Polynomial
-' 
-'         Properties: Factors, IsLinear
-' 
-'         Function: (+3 Overloads) ToString
-' 
-' 
-' /********************************************************************************/
+    '     Class Formula
+    ' 
+    '         Properties: Factors
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class MultivariatePolynomial
+    ' 
+    '         Function: Evaluate, (+2 Overloads) ToString
+    ' 
+    '     Class Polynomial
+    ' 
+    '         Properties: IsLinear
+    ' 
+    '         Function: Evaluate, (+3 Overloads) ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Namespace LinearAlgebra
 
@@ -56,24 +67,50 @@ Namespace LinearAlgebra
 
         Public MustOverride Function Evaluate(ParamArray x As Double()) As Double
         Public MustOverride Overloads Function ToString(format As String, Optional html As Boolean = False) As String
+        Public MustOverride Overloads Function ToString(variables As String(), format As String, Optional html As Boolean = False) As String
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return ToString(format:="G3")
+        End Function
     End Class
 
     ''' <summary>
     ''' 多元多项式
     ''' 
     ''' ```
-    ''' f(x1, x2, x3, ...) = a + bx1 + cx2 + dx3 + ...
+    ''' f(x1, x2, x3, ...) = a*x1 + b*x2 + c*x3 + ...
     ''' ```
     ''' </summary>
     Public Class MultivariatePolynomial : Inherits Formula
 
+        ''' <summary>
+        ''' sum(x * b) 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Overrides Function Evaluate(ParamArray x() As Double) As Double
-            Throw New NotImplementedException()
+            Dim y As Double = 0
+
+            For i As Integer = 0 To Factors.Length - 1
+                y += x(i) * Factors(i)
+            Next
+
+            Return y
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString(format As String, Optional html As Boolean = False) As String
-            Throw New NotImplementedException()
+            Return Factors _
+                .Select(Function(b, i) $"{b}*X{i + 1}") _
+                .JoinBy(" + ")
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString(variables() As String, format As String, Optional html As Boolean = False) As String
+            Return Factors _
+                .Select(Function(b, i) $"{b}*{variables(i)}") _
+                .JoinBy(" + ")
         End Function
     End Class
 
@@ -120,25 +157,8 @@ Namespace LinearAlgebra
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function ToString() As String
-            Return ToString(format:="F2")
-        End Function
-
         Public Overloads Overrides Function ToString(format As String, Optional html As Boolean = False) As String
-            Dim items = Factors _
-                .Select(Function(a, i)
-                            If i = 0 Then
-                                Return ToString(a, format, html)
-                            ElseIf i = 1 Then
-                                Return $"{ToString(a, format, html)}*X"
-                            Else
-                                Return $"{ToString(a, format, html)}*X^{i}"
-                            End If
-                        End Function) _
-                .ToArray
-            Dim Y$ = items.JoinBy(" + ")
-
-            Return Y
+            Return ToString({"X"}, format, html)
         End Function
 
         Private Overloads Shared Function ToString(a As Double, format$, html As Boolean) As String
@@ -155,6 +175,24 @@ Namespace LinearAlgebra
                     Return $"{t(Scan0)}e<sup>{t(1)}</sup>"
                 End If
             End If
+        End Function
+
+        Public Overrides Function ToString(variables() As String, format As String, Optional html As Boolean = False) As String
+            Dim X As Double = variables(Scan0)
+            Dim items = Factors _
+                .Select(Function(a, i)
+                            If i = 0 Then
+                                Return ToString(a, format, html)
+                            ElseIf i = 1 Then
+                                Return $"{ToString(a, format, html)}*{X}"
+                            Else
+                                Return $"{ToString(a, format, html)}*{X}^{i}"
+                            End If
+                        End Function) _
+                .ToArray
+            Dim Y$ = items.JoinBy(" + ")
+
+            Return Y
         End Function
     End Class
 End Namespace

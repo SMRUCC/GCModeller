@@ -1,0 +1,46 @@
+.\" man page create by R# package system.
+.TH MATH 1 2020-11-09 "var" "var"
+.SH NAME
+var \- Correlation, Variance and Covariance (Matrices)
+.SH SYNOPSIS
+\fIvar(\fBx\fR as <generic> Object, 
+\fBy\fR as <generic> Object = \fB<NULL>\fR, 
+\fBna_rm\fR as boolean = FALSE, 
+\fBuse\fR as <integer> varUseMethods = [everything]);\fR
+.SH DESCRIPTION
+.PP
+Correlation, Variance and Covariance (Matrices)
+ 
+ var, cov and cor compute the variance of x and the covariance or 
+ correlation of x and y if these are vectors. If x and y are 
+ matrices then the covariances (or correlations) between the columns 
+ of x and the columns of y are computed.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a numeric vector, matrix or data frame.
+.PP
+.PP
+\fBy\fB \fR\- 
+ NULL (default) or a vector, matrix or data frame with compatible dimensions to x. 
+ The default is equivalent to y = x (but more efficient).
+
+.PP
+.PP
+\fBna_rm\fB \fR\- logical. Should missing values be removed?
+.PP
+.PP
+\fBuse\fB \fR\- 
+ an optional character string giving a method for computing covariances 
+ in the presence of missing values. This must be (an abbreviation of) 
+ one of the strings "everything", "all.obs", "complete.obs", "na.or.complete", 
+ or "pairwise.complete.obs".
+.PP
+.SH SEE ALSO
+math
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

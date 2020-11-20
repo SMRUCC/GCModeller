@@ -1,16 +1,35 @@
 .\" man page create by R# package system.
-.TH BASE 1 2020-10-29 "t" "t"
+.TH BASE 1 2020-11-09 "t" "t"
 .SH NAME
 t \- matrix transpose
 .SH SYNOPSIS
-\fIt(\fBx\fR as <generic> dataframe);\fR
+\fIt(\fBx\fR as <generic> dataframe, 
+\fBgeneric\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 matrix transpose
+ 
+ Given a matrix or data.frame x, t returns the transpose of x.
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -
+\fBx\fB \fR\- a matrix Or data frame, typically.
+.PP
+.SH VALUE
+.PP
+A matrix, with dim and dimnames constructed appropriately from 
+ those of x, and other attributes except names copied across.
+.PP
+.SH DETAILS
+.PP
+This is a generic function for which methods can be written. 
+ The description here applies to the default and "data.frame" 
+ methods.
+ 
+ A data frame Is first coerced To a matrix: see as.matrix. 
+ When x Is a vector, it Is treated as a column, i.e., the 
+ result Is a 1-row matrix.
 .PP
 .SH SEE ALSO
 base

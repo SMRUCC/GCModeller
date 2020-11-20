@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::377f3d57b57d224a10c22e11077b8b3b, Microsoft.VisualBasic.Core\Scripting\Runtime\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::5e61b127bee3782c78f65f984f0df102, Microsoft.VisualBasic.Core\Scripting\Runtime\Extensions.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     '         Properties: Numerics
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateArray, CreatePrimitiveType, OverloadsBinaryOperator
+    '         Function: CreateArray, CreatePrimitiveType, OverloadsBinaryOperator, PrimitiveTypeCode
     ' 
     ' 
     ' /********************************************************************************/
@@ -97,6 +97,12 @@ Namespace Scripting.Runtime
                 Case Else
                     Return Nothing
             End Select
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function PrimitiveTypeCode(type As Type) As TypeCode
+            Return Type.GetTypeCode(type)
         End Function
 
         <Extension>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2133faaa756490572c7f0f0f1dbf1e5b, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::70492fbebb7ce62a028ecf3127ab417a, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
     ' Author:
     ' 

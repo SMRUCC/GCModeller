@@ -55,12 +55,15 @@ Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -75,8 +78,69 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' <summary>
 ''' package module for biological analysis data visualization
 ''' </summary>
-<Package("visualkit.plots", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("visualPlot", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
+
+    <ExportAPI("volcano.plot")>
+    Public Function VolcanoPlot(genes As DEP_iTraq(),
+                                <RRawVectorArgument> Optional size As Object = "2400,2700",
+                                <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
+                                Optional bg As Object = "white",
+                                <RDefaultExpression>
+                                Optional colors As Object = "~list(up='red',down='green',other='black')",
+                                Optional pvalue As Double = 0.05,
+                                Optional level As Double = 1.5,
+                                Optional title$ = "volcano plot") As Object
+
+        Dim colorList As New Dictionary(Of Integer, Color)
+
+        If colors Is Nothing Then
+            colorList = New Dictionary(Of Integer, Color) From {
+                {Types.Up, Color.Red},
+                {Types.Down, Color.Green},
+                {Types.None, Color.Gray}
+            }
+        Else
+            With DirectCast(colors, list)
+                Call colorList.Add(Types.Up, Scripting.ToString(.slots("up")).TranslateColor)
+                Call colorList.Add(Types.Down, Scripting.ToString(.slots("down")).TranslateColor)
+                Call colorList.Add(Types.None, Scripting.ToString(.slots("other")).TranslateColor)
+            End With
+        End If
+
+        pvalue = -Math.Log10(pvalue)
+        level = Math.Log(level, 2)
+
+        Dim toFactor = Function(x As DEGModel)
+                           If x.pvalue < pvalue Then
+                               Return 0
+                           ElseIf Math.Abs(x.logFC) < level Then
+                               Return 0
+                           End If
+
+                           If x.logFC > 0 Then
+                               Return 1
+                           Else
+                               Return -1
+                           End If
+                       End Function
+
+        Return Volcano.Plot(
+                genes:=genes,
+                colors:=colorList,
+                factors:=toFactor,
+                padding:="padding: 50 50 150 150",
+                displayLabel:=LabelTypes.None,
+                size:=size,
+                log2Threshold:=level,
+                pvalueThreshold:=pvalue,
+                title:=title,
+                displayCount:=True,
+                labelP:=-1
+            ) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White)
+    End Function
 
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
@@ -263,7 +327,8 @@ Module visualPlot
                                            Optional legendTitleStyle As String = CSSFont.Win7Small,
                                            Optional legendTickStyle As String = CSSFont.Win7Small,
                                            Optional axisTickCSS$ = CSSFont.Win10Normal,
-                                           Optional axisLabelCSS$ = CSSFont.Win7Small) As Object
+                                           Optional axisLabelCSS$ = CSSFont.Win7Small,
+                                           Optional driver As Drivers = Drivers.Default) As Object
 
         Return matrix.DrawMatrix(
             size:=InteropArgumentHelper.getSize(size),
@@ -275,7 +340,8 @@ Module visualPlot
             legendTickStyle:=legendTickStyle,
             legendTitleStyle:=legendTitleStyle,
             axisLabelCSS:=axisLabelCSS,
-            axisTickCSS:=axisTickCSS
+            axisTickCSS:=axisTickCSS,
+            driver:=driver
         )
     End Function
 
@@ -304,7 +370,11 @@ Module visualPlot
                                  Optional viewAngle As Object = "30,60,-56.25",
                                  Optional viewDistance# = 2500,
                                  Optional qDisplay# = 0.9,
-                                 Optional prefix$ = "Cluster:  #",
+                                 Optional prefix$ = "Cluster: #",
+                                 Optional axisFormat$ = "CMeans dimension #%s",
+                                 Optional showHull As Boolean = True,
+                                 Optional hullAlpha As Integer = 150,
+                                 Optional hullBspline As Single = 3,
                                  Optional env As Environment = Nothing) As Object
 
         Dim clusterData As EntityClusterModel() = matrix.Patterns _
@@ -323,8 +393,13 @@ Module visualPlot
         Dim normRange As DoubleRange = {0, 100}
         Dim clusterNMembers As Integer = clusterData.Length
 
-        For Each project As String In clusterData.Select(Function(a) a.Properties.Keys).IteratesALL.Distinct.ToArray
-            Dim v = clusterData.Select(Function(a) a(project)).ToArray
+        For Each project As String In clusterData _
+            .Select(Function(a) a.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+            Dim v As Double() = clusterData.Select(Function(a) a(project)).ToArray
             Dim range = v.Range
             Dim map As Double
 
@@ -354,12 +429,12 @@ Module visualPlot
             .ToDictionary(Function(a) a.Key,
                           Function(a)
                               Return New NamedCollection(Of String) With {
-                                  .name = $"Cluster Dimension #{a.Key}",
+                                  .name = sprintf(axisFormat, a.Key),
                                   .value = {a.Key}
                               }
                           End Function)
 
-        Dim arrowFactor$ = "1,2"
+        Dim arrowFactor$ = "1,1"
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityClusterModel In clusterData
@@ -377,7 +452,10 @@ Module visualPlot
                 schema:=colorSet,
                 arrowFactor:=arrowFactor,
                 labelsQuantile:=qDisplay,
-                showLegend:=False
+                showLegend:=False,
+                showHull:=showHull,
+                hullAlpha:=hullAlpha,
+                hullBspline:=hullBspline
             ) _
             .AsGDIImage _
             .CorpBlank(30, Color.White)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5307380b3d46f497ae1ce6ed4c0f0713, www\Microsoft.VisualBasic.NETProtocol\TcpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::a91dd334f484561c1a0b6e9b9f4d2529, www\Microsoft.VisualBasic.NETProtocol\TcpRequest.vb"
 
 ' Author:
 ' 
@@ -35,10 +35,10 @@
 ' 
 '         Constructor: (+4 Overloads) Sub New
 ' 
-'         Function: LocalConnection, OperationTimeOut, (+6 Overloads) SendMessage, ToString
+'         Function: getSocket, LocalConnection, OperationTimeOut, (+6 Overloads) SendMessage, ToString
 ' 
 '         Sub: __send, ConnectCallback, (+2 Overloads) Dispose, Receive, ReceiveCallback
-'              SendCallback
+'              RequestToStream, SendCallback
 ' 
 ' 
 ' /********************************************************************************/
@@ -53,8 +53,9 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.ExceptionExtensions
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Net.HTTP
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Parallel
+Imports IPEndPoint = Microsoft.VisualBasic.Net.IPEndPoint
 Imports TcpEndPoint = System.Net.IPEndPoint
 
 Namespace Tcp
@@ -62,7 +63,7 @@ Namespace Tcp
     ''' <summary>
     ''' The server socket should returns some data string to this client or this client 
     ''' will stuck at the <see cref="SendMessage"></see> function.
-    ''' (服务器端<see cref="TcpServicesSocket"></see>必须要返回数据， 
+    ''' (服务器端``TcpServicesSocket``必须要返回数据， 
     ''' 否则本客户端会在<see cref="SendMessage"></see>函数位置一直处于等待的状态)
     ''' </summary>
     ''' <remarks></remarks>
@@ -163,11 +164,11 @@ Namespace Tcp
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function OperationTimeOut(str As String) As Boolean
-            Return String.Equals(str, NetResponse.RFC_REQUEST_TIMEOUT.GetUTF8String)
+            Return String.Equals(str, HTTP.NetResponse.RFC_REQUEST_TIMEOUT.GetUTF8String)
         End Function
 
         ''' <summary>
-        ''' Returns the server reply.(假若操作超时的话，则会返回<see cref="NetResponse.RFC_REQUEST_TIMEOUT"></see>)
+        ''' Returns the server reply.(假若操作超时的话，则会返回<see cref="HTTP.NetResponse.RFC_REQUEST_TIMEOUT"></see>)
         ''' </summary>
         ''' <param name="Message"></param>
         ''' <param name="OperationTimeOut">操作超时的时间长度，默认为30秒</param>
@@ -179,10 +180,10 @@ Namespace Tcp
             Dim request As New RequestStream(0, 0, Message)
             Dim response = SendMessage(request, OperationTimeOut, OperationTimeoutHandler).GetUTF8String
             Return response
-        End Function 'Main
+        End Function
 
         ''' <summary>
-        ''' Returns the server reply.(假若操作超时的话，则会返回<see cref="NetResponse.RFC_REQUEST_TIMEOUT"></see>，
+        ''' Returns the server reply.(假若操作超时的话，则会返回<see cref="HTTP.NetResponse.RFC_REQUEST_TIMEOUT"></see>，
         ''' 请注意，假若目标服务器启用了ssl加密服务的话，假若这个请求是明文数据，则服务器会直接拒绝请求返回<see cref="HTTP_RFC.RFC_NO_CERT"/> 496错误代码，
         ''' 所以调用前请确保参数<paramref name="Message"/>已经使用证书加密)
         ''' </summary>
@@ -195,11 +196,12 @@ Namespace Tcp
                                     Optional timeoutHandler As Action = Nothing) As RequestStream
 
             Dim response As RequestStream = Nothing
-            Dim bResult As Boolean = Parallel.OperationTimeOut(
-                AddressOf SendMessage,
-                [In]:=Message,
-                Out:=response,
-                TimeOut:=timeout / 1000)
+            Dim sendHandler As New Func(Of RequestStream, RequestStream)(AddressOf SendMessage)
+            Dim bResult As Boolean = sendHandler.OperationTimeOut(
+                [in]:=Message,
+                out:=response,
+                timeOut:=timeout / 1000
+            )
 
             If bResult Then
                 If Not timeoutHandler Is Nothing Then Call timeoutHandler() '操作超时了
@@ -234,15 +236,15 @@ Namespace Tcp
             byteData = SendMessage(byteData)
             Dim response As String = New RequestStream(byteData).GetUTF8String
             Return response
-        End Function 'Main
+        End Function
 
         ''' <summary>
         ''' Send a request message to the remote server.
         ''' </summary>
-        ''' <param name="Message"></param>
+        ''' <param name="message"></param>
         ''' <returns></returns>
-        Public Function SendMessage(Message As RequestStream) As RequestStream
-            Dim byteData As Byte() = SendMessage(Message.Serialize)
+        Public Function SendMessage(message As RequestStream) As RequestStream
+            Dim byteData As Byte() = SendMessage(message.Serialize)
 
             If RequestStream.IsAvaliableStream(byteData) Then
                 Return New RequestStream(byteData)
@@ -266,7 +268,8 @@ Namespace Tcp
         End Sub
 
         Private Function getSocket(message As Byte()) As Socket
-            connectDone = New ManualResetEvent(False) ' ManualResetEvent instances signal completion.
+            ' ManualResetEvent instances signal completion.
+            connectDone = New ManualResetEvent(False)
             sendDone = New ManualResetEvent(False)
             receiveDone = New ManualResetEvent(False)
 
@@ -274,13 +277,14 @@ Namespace Tcp
             ' For this example use local machine.
             ' Create a TCP/IP socket.
             Dim client As New Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            Call client.Bind(New System.Net.IPEndPoint(System.Net.IPAddress.Any, 0))
+
+            Call client.Bind(New TcpEndPoint(IPAddress.Any, 0))
             ' Connect to the remote endpoint.
             Call client.BeginConnect(remoteEP, New AsyncCallback(AddressOf ConnectCallback), client)
             ' Wait for connect.
             Call connectDone.WaitOne()
             ' Send test data to the remote device.
-            Call __send(client, message)
+            Call doSend(client, message)
             Call sendDone.WaitOne()
 
             Return client
@@ -313,7 +317,6 @@ Namespace Tcp
         End Function
 
         Private Sub ConnectCallback(ar As IAsyncResult)
-
             ' Retrieve the socket from the state object.
             Dim client As Socket = DirectCast(ar.AsyncState, Socket)
 
@@ -325,7 +328,7 @@ Namespace Tcp
             Catch ex As Exception
                 Call exceptionHandler(ex)
             End Try
-        End Sub 'ConnectCallback
+        End Sub
 
         ''' <summary>
         ''' An exception of type '<see cref="SocketException"/>' occurred in System.dll but was not handled in user code
@@ -346,10 +349,11 @@ Namespace Tcp
             Catch ex As Exception
                 Call Me.exceptionHandler(ex)
             End Try
-        End Sub 'Receive
+        End Sub
 
         ''' <summary>
-        ''' Retrieve the state object and the client socket from the asynchronous state object.
+        ''' Retrieve the state object and the client socket from the 
+        ''' asynchronous state object.
         ''' </summary>
         ''' <param name="ar"></param>
         Private Sub ReceiveCallback(ar As IAsyncResult)
@@ -387,25 +391,18 @@ EX_EXIT:
         ''' <param name="client"></param>
         ''' <param name="byteData"></param>
         ''' <remarks></remarks>
-        Private Sub __send(client As Socket, byteData As Byte())
-
+        Private Sub doSend(client As Socket, byteData As Byte())
             ' Begin sending the data to the remote device.
             Try
-                Call client.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), client)
+                For Each block As Byte() In byteData.Split(512)
+                    Call client.Send(block, socketFlags:=SocketFlags.None)
+                Next
             Catch ex As Exception
                 Call Me.exceptionHandler(ex)
+            Finally
+                ' Signal that all bytes have been sent.
+                Call sendDone.Set()
             End Try
-        End Sub
-
-        Private Sub SendCallback(ar As IAsyncResult)
-
-            ' Retrieve the socket from the state object.
-            Dim client As Socket = DirectCast(ar.AsyncState, Socket)
-            ' Complete sending the data to the remote device.
-            Dim bytesSent As Integer = client.EndSend(ar)
-            'Console.WriteLine("Sent {0} bytes to server.", bytesSent)
-            ' Signal that all bytes have been sent.
-            sendDone.Set()
         End Sub
 
 #Region "IDisposable Support"

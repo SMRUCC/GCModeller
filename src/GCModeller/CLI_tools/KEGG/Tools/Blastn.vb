@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::093a7496ff6985cc4289e8e6c19fe76d, CLI_tools\KEGG\Tools\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::b33388bf5bf5f7438e7297c41fc94e8e, CLI_tools\KEGG\Tools\Blastn.vb"
 
     ' Author:
     ' 
@@ -59,7 +59,7 @@ Public Module Blastn
         Call param.Add("B_value", 250)
         Call param.Add("submit", "Compute")
 
-        Dim result = PostRequest("http://www.genome.jp/tools-bin/blastplus", param)
+        Dim result = PostRequest("http://www.genome.jp/tools-bin/blastplus", param).html
         Dim hits = Parser(page:=result)
         Return hits
     End Function

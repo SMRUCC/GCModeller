@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adc0ddc79e542248635095697292f6e2, CLI_tools\Xfam\CLI\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::70275d0fef40f3b3dea0e2839bf366b4, CLI_tools\Xfam\CLI\Pfam.vb"
 
     ' Author:
     ' 

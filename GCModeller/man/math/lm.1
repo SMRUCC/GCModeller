@@ -1,25 +1,31 @@
 .\" man page create by R# package system.
-.TH MATH 2 2020-10-29 "lm" "lm"
+.TH MATH 2 2020-11-09 "lm" "lm"
 .SH NAME
-lm \- do linear modelling
+lm \- Fitting Linear Models
 .SH SYNOPSIS
-\fIlm(\fBformula\fR as <generic> Object, 
+\fIlm(\fBformula\fR as <generic> FormulaExpression, 
 \fBdata\fR as <generic> Object, 
 \fBweights\fR as <generic> Object = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-do linear modelling
+Fitting Linear Models
+ 
+ do linear modelling, lm is used to fit linear models. It can be used to carry out regression, 
+ single stratum analysis of variance and analysis of covariance (although aov may provide a 
+ more convenient interface for these).
 .PP
 .SH OPTIONS
 .PP
-\fBformula\fB \fR\- -
+\fBformula\fB \fR\- a formula expression of the target expression
 .PP
 .PP
 \fBdata\fB \fR\- A dataframe for provides the data source for doing the linear modelling.
 .PP
 .PP
-\fBweights\fB \fR\- A numeric vector for provides weight value for the points in the linear modelling processing.
+\fBweights\fB \fR\- 
+ A numeric vector for provides weight value for the points in the linear modelling processing.
+
 .PP
 .PP
 \fBenv\fB \fR\- -

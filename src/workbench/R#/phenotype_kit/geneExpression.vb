@@ -47,13 +47,14 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -67,7 +68,29 @@ Module geneExpression
 
     Sub New()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
     End Sub
+
+    Private Function depDataTable(dep As DEP_iTraq(), args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {
+            .rownames = dep.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        table.columns("FC.avg") = dep.Select(Function(p) p.FCavg).ToArray
+        table.columns(NameOf(DEP_iTraq.log2FC)) = dep.Select(Function(p) p.log2FC).ToArray
+        table.columns("p.value") = dep.Select(Function(p) p.pvalue).ToArray
+        table.columns(NameOf(DEP_iTraq.FDR)) = dep.Select(Function(p) p.FDR).ToArray
+        table.columns("is.DEP") = dep.Select(Function(p) p.isDEP).ToArray
+
+        For Each sampleName As String In dep.PropertyNames
+            table.columns(sampleName) = dep _
+                .Select(Function(p) p(sampleName)) _
+                .ToArray
+        Next
+
+        Return table
+    End Function
 
     ''' <summary>
     ''' load an expressin matrix data
@@ -77,11 +100,15 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("load.expr")>
     <RApiReturn(GetType(Matrix))>
-    Public Function loadExpression(file As Object, Optional exclude_samples As String() = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function loadExpression(file As Object,
+                                   Optional exclude_samples As String() = Nothing,
+                                   Optional rm_ZERO As Boolean = False,
+                                   Optional env As Environment = Nothing) As Object
+
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO)
         ElseIf TypeOf file Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(file, Rdataframe)
             Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
@@ -97,13 +124,66 @@ Module geneExpression
                         End Function) _
                 .ToArray
 
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
+
             Return New Matrix With {
                 .expression = genes,
                 .sampleID = sampleNames
             }
+        ElseIf REnv.isVector(Of DataSet)(file) Then
+            Dim rows As DataSet() = REnv.asVector(Of DataSet)(file)
+            Dim matrix As New Matrix With {.sampleID = rows.PropertyNames}
+            Dim genes As DataFrameRow() = New DataFrameRow(rows.Length - 1) {}
+
+            For i As Integer = 0 To genes.Length - 1
+#Disable Warning
+                genes(i) = New DataFrameRow With {
+                    .geneID = rows(i).ID,
+                    .experiments = matrix.sampleID _
+                        .Select(Function(name) rows(i)(name)) _
+                        .ToArray
+                }
+#Enable Warning
+            Next
+
+            If rm_ZERO Then
+                genes = genes _
+                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                    .ToArray
+            End If
+
+            matrix.expression = genes
+
+            Return matrix
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <ExportAPI("as.generic")>
+    Public Function castGenericRows(matrix As Matrix) As DataSet()
+        Dim sampleNames As String() = matrix.sampleID
+        Dim geneNodes As DataSet() = matrix.expression _
+            .AsParallel _
+            .Select(Function(gene)
+                        Dim vector As New Dictionary(Of String, Double)
+
+                        For i As Integer = 0 To sampleNames.Length - 1
+                            Call vector.Add(sampleNames(i), gene.experiments(i))
+                        Next
+
+                        Return New DataSet With {
+                            .ID = gene.geneID,
+                            .Properties = vector
+                        }
+                    End Function) _
+            .ToArray
+
+        Return geneNodes
     End Function
 
     ''' <summary>
@@ -213,5 +293,33 @@ Module geneExpression
         Else
             Return result
         End If
+    End Function
+
+    <ExportAPI("deg.t.test")>
+    Public Function Ttest(matrix As Matrix,
+                          sampleinfo As SampleInfo(),
+                          treatment$,
+                          control$,
+                          Optional level# = 1.5,
+                          Optional pvalue# = 0.05,
+                          Optional FDR# = 0.05,
+                          Optional env As Environment = Nothing) As DEP_iTraq()
+
+        Return matrix _
+            .Ttest(
+                treatment:=sampleinfo.TakeGroup(treatment).SampleIDs,
+                control:=sampleinfo.TakeGroup(control).SampleIDs
+            ) _
+            .DepFilter2(level, pvalue, FDR)
+    End Function
+
+    ''' <summary>
+    ''' get gene Id list
+    ''' </summary>
+    ''' <param name="dep"></param>
+    ''' <returns></returns>
+    <ExportAPI("geneId")>
+    Public Function geneId(dep As DEP_iTraq()) As String()
+        Return dep.Select(Function(a) a.ID).ToArray
     End Function
 End Module

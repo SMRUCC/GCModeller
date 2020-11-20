@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ac8249c2b0b328cfd50213f53a8c705, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::0f298f957e7edac1782e1726987e7f80, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
 
     ' Author:
     ' 
