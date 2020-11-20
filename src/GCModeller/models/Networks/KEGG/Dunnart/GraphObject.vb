@@ -35,7 +35,8 @@ Namespace Dunnart
         Public Function FromNetwork(network As NetworkGraph,
                                     Optional colorSet As String = "Paired:c12",
                                     Optional groupKey As String = "map",
-                                    Optional fillOpacity As Double = 0.5) As GraphObject
+                                    Optional fillOpacity As Double = 0.5,
+                                    Optional lighten As Double = 0.1) As GraphObject
 
             Dim nodes As New Dictionary(Of String, Node)
             Dim pos As AbstractVector
@@ -83,7 +84,7 @@ Namespace Dunnart
                     Continue For
                 End If
 
-                style = $"fill:{(color = colors.Next).TranslateColor.Lighten.ToHtmlColor};
+                style = $"fill:{(color = colors.Next).TranslateColor.Lighten(lighten).ToHtmlColor};
                           fill-opacity:{fillOpacity};
                           stroke:{color};
                           stroke-opacity:1;
@@ -110,6 +111,8 @@ Namespace Dunnart
         Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
                                     Optional desc As Boolean = False,
                                     Optional colorSet As String = "Paired:c12",
+                                    Optional fillOpacity As Double = 0.5,
+                                    Optional lighten As Double = 0.1,
                                     Optional isConnected As Boolean = True) As GraphObject
 
             Dim mapHits As New Dictionary(Of String, Integer)
@@ -152,7 +155,9 @@ Namespace Dunnart
             Return If(Not isConnected, template, template.GetConnectedGraph) _
                 .FromNetwork(
                     colorSet:=colorSet,
-                    groupKey:="map"
+                    groupKey:="map",
+                    fillOpacity:=fillOpacity,
+                    lighten:=lighten
                 )
         End Function
 
