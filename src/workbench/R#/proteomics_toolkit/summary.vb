@@ -32,7 +32,7 @@ Module summary
                 Dim i As i32 = Scan0
 
                 For Each k As NamedValue(Of CatalogProfile) In profiles.GetProfiles()
-                    For Each term As NamedValue(Of Double) In k.Value
+                    For Each term As NamedValue(Of Double) In k.Value.AsEnumerable
                         ' {"namespace", "id", "name", "counts"} 
                         Call file.AppendLine(New String() {k.Name, term.Name, term.Description, term.Value})
                     Next
