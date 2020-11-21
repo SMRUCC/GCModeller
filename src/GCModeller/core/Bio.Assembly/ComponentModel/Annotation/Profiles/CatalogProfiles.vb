@@ -64,16 +64,46 @@ Namespace ComponentModel.Annotation
             End Get
         End Property
 
+        Public ReadOnly Property Keys As IEnumerable(Of String)
+            Get
+                Return catalogs.Keys
+            End Get
+        End Property
+
+        Public ReadOnly Property TotalTerms As Integer
+            Get
+                Return Aggregate cat As CatalogProfile In catalogs.Values Into Sum(cat.profile.Count)
+            End Get
+        End Property
+
+        Public ReadOnly Property MaxValue As Double
+            Get
+                Return Aggregate cat As CatalogProfile
+                       In catalogs.Values
+                       Let v As Double = If(cat.profile.Count = 0, 0, cat.profile.Max(Function(n) n.Value))
+                       Into Max(v)
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
         Sub New(data As Dictionary(Of String, NamedValue(Of Integer)()))
-            catalogs = New Dictionary(Of String, CatalogProfile)
-
             For Each cat As KeyValuePair(Of String, NamedValue(Of Integer)()) In data
                 catalogs(cat.Key) = New CatalogProfile(cat.Value)
             Next
         End Sub
+
+        Sub New(copy As CatalogProfiles)
+            For Each cat As KeyValuePair(Of String, CatalogProfile) In copy.catalogs
+                catalogs(cat.Key) = New CatalogProfile(cat.Value)
+            Next
+        End Sub
+
+        Public Function delete(name As String) As CatalogProfiles
+            Call catalogs.Remove(name)
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function haveCategory(name As String) As Boolean

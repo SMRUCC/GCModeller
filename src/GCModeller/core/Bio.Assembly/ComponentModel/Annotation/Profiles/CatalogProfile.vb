@@ -18,6 +18,10 @@ Namespace ComponentModel.Annotation
             Next
         End Sub
 
+        Sub New(copy As CatalogProfile)
+            profile = New Dictionary(Of String, Double)(copy.profile)
+        End Sub
+
         Sub New(data As IEnumerable(Of NamedValue(Of Integer)))
             For Each item In data
                 profile(item.Name) = item.Value

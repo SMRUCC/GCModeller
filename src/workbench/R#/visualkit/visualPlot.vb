@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
@@ -235,7 +236,7 @@ Module visualPlot
     ''' <returns></returns>
     <ExportAPI("category_profiles.plot")>
     <RApiReturn(GetType(GraphicsData))>
-    Public Function KEGGCategoryProfilePlots(profiles As Object,
+    Public Function KEGGCategoryProfilePlots(profiles As CatalogProfiles,
                                              Optional title$ = "KEGG Orthology Profiling",
                                              Optional axisTitle$ = "Number Of Proteins",
                                              <RRawVectorArgument>
