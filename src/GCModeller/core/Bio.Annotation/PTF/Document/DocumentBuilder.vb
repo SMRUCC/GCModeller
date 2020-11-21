@@ -64,7 +64,7 @@ Namespace Ptf.Document
                         End Function) _
                 .JoinBy("; ")
 
-            Return $"{protein.geneId}{vbTab}{protein.locus_id}{vbTab}{protein.description}{vbTab}{attrsToStr}"
+            Return $"{protein.geneId}{vbTab}{protein.locus_id}{vbTab}{protein.geneName}{vbTab}{protein.description}{vbTab}{attrsToStr}"
         End Function
     End Module
 End Namespace

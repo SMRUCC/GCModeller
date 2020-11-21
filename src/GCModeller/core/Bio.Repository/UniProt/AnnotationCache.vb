@@ -71,6 +71,7 @@ Public Module AnnotationCache
         Dim refList As String()
         Dim dbNames As String()
         Dim locus_id As String = Nothing
+        Dim geneName As String = Nothing
 
         Static dbNameList As New Dictionary(Of String, String())
 
@@ -89,7 +90,7 @@ Public Module AnnotationCache
                     Dim domains = AnnotationReader.Pfam(protein)
 
                     If domains.Length > 0 Then
-                        Call dbxref.Add("pfamString", domains)
+                        Call dbxref.Add("pfamstring", domains)
                     End If
                 End If
             End If
@@ -100,6 +101,10 @@ Public Module AnnotationCache
                 .Where(Function(l) l.type = "ordered locus") _
                 .FirstOrDefault _
                ?.value
+            geneName = protein.gene.names _
+                .Select(Function(k) k.value) _
+                .OrderBy(Function(a) a.Length) _
+                .FirstOrDefault
         End If
 
         If includesNCBITaxonomy Then
@@ -114,7 +119,8 @@ Public Module AnnotationCache
             .geneId = protein.accessions(Scan0),
             .description = protein.proteinFullName,
             .attributes = dbxref,
-            .locus_id = locus_id Or .geneId.AsDefault
+            .locus_id = locus_id Or .geneId.AsDefault,
+            .geneName = geneName
         }
     End Function
 

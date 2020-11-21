@@ -97,7 +97,7 @@ Namespace Ptf.Document
 
         Public Function ParseAnnotation(line As String) As ProteinAnnotation
             Dim tokens As String() = line.Split(ASCII.TAB)
-            Dim attrs As Dictionary(Of String, String()) = tokens(3) _
+            Dim attrs As Dictionary(Of String, String()) = tokens(4) _
                 .StringSplit(";\s+") _
                 .Select(Function(t) t.GetTagValue(":", trim:=True)) _
                 .ToDictionary(Function(a) a.Name,
@@ -108,7 +108,8 @@ Namespace Ptf.Document
             Return New ProteinAnnotation With {
                 .geneId = tokens(Scan0),
                 .locus_id = tokens(1),
-                .description = tokens(2),
+                .geneName = tokens(2),
+                .description = tokens(3),
                 .attributes = attrs
             }
         End Function
