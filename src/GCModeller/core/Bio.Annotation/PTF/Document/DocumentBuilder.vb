@@ -49,6 +49,7 @@ Namespace Ptf.Document
 
     Friend Module DocumentBuilder
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub writeTabular(ptf As PtfFile, output As TextWriter)
             For Each protein As ProteinAnnotation In ptf.proteins
                 Call output.WriteLine(protein.asLineText)
@@ -63,7 +64,7 @@ Namespace Ptf.Document
                         End Function) _
                 .JoinBy("; ")
 
-            Return $"{protein.geneId}{vbTab}{protein.description}{vbTab}{attrsToStr}"
+            Return $"{protein.geneId}{vbTab}{protein.locus_id}{vbTab}{protein.description}{vbTab}{attrsToStr}"
         End Function
     End Module
 End Namespace
