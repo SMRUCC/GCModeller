@@ -386,7 +386,7 @@ Public Module ProteinGroups
             .JoinBy("; ")
         Dim pfamString = uniprots _
             .Select(Function(u)
-                        Return (ID:=u.accessions.JoinBy("|"), s:=AnnotationReader.Pfam(u))
+                        Return (ID:=u.accessions.JoinBy("|"), s:=AnnotationReader.Pfam(u).JoinBy("+"))
                     End Function) _
             .Where(Function(s) Not s.s.StringEmpty) _
             .Select(Function(u) $"{u.ID}:{u.s}") _

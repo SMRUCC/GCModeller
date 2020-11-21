@@ -17,14 +17,14 @@ Namespace Ptf
             End If
         End Function
 
-        Public Shared Function Pfam(protein As entry) As String
+        Public Shared Function Pfam(protein As entry) As String()
             Return protein.features _
                 .SafeQuery _
                 .Where(Function(f) f.type = "domain") _
                 .Select(Function(d)
                             Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
                         End Function) _
-                .JoinBy("+")
+                .ToArray
         End Function
     End Class
 End Namespace

@@ -86,7 +86,11 @@ Public Module AnnotationCache
                 Call dbxref.Add(refDb.ToLower, refList)
 
                 If refDb = "Pfam" Then
-                    Call dbxref.Add("pfamString", {AnnotationReader.Pfam(protein)})
+                    Dim domains = AnnotationReader.Pfam(protein)
+
+                    If domains.Length > 0 Then
+                        Call dbxref.Add("pfamString", domains)
+                    End If
                 End If
             End If
         Next
