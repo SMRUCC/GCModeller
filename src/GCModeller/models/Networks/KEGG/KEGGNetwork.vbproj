@@ -234,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dunnart\GraphObject.vb" />
+    <Compile Include="Dunnart\Builder.vb" />
     <Compile Include="Dunnart\Components.vb" />
     <Compile Include="IgnoreList.vb" />
     <Compile Include="ReactionNetwork\Builder\BuilderBase.vb" />
