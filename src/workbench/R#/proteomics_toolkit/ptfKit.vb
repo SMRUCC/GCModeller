@@ -113,6 +113,7 @@ Module ptfKit
     Public Function fromUniProt(<RRawVectorArgument>
                                 uniprot As Object,
                                 Optional includesNCBITaxonomy As Boolean = False,
+                                Optional scientificName As Boolean = False,
                                 <RRawVectorArgument(GetType(String))>
                                 Optional keys As Object = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
                                 Optional env As Environment = Nothing) As Object

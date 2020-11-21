@@ -58,6 +58,10 @@ Public Module AnnotationCache
         Next
     End Sub
 
+    Private Function trimConflicts(name As String) As String
+        Return name.StringReplace("[,;]", ".").Replace(vbTab, " ")
+    End Function
+
     ''' <summary>
     ''' convert a uniprot entry data to a unify protein annotation data model
     ''' </summary>
@@ -66,7 +70,10 @@ Public Module AnnotationCache
     ''' <param name="keys">A collection of database names</param>
     ''' <returns></returns>
     <Extension>
-    Public Function toPtf(protein As entry, includesNCBITaxonomy As Boolean, Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG") As ProteinAnnotation
+    Public Function toPtf(protein As entry, includesNCBITaxonomy As Boolean,
+                          Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
+                          Optional scientificName As Boolean = False) As ProteinAnnotation
+
         Dim dbxref As New Dictionary(Of String, String())
         Dim refList As String()
         Dim dbNames As String()
@@ -90,7 +97,7 @@ Public Module AnnotationCache
                     Dim domains = AnnotationReader.Pfam(protein)
 
                     If domains.Length > 0 Then
-                        Call dbxref.Add("pfamstring", domains)
+                        Call dbxref.Add("pfamstring", domains.Select(AddressOf trimConflicts).ToArray)
                     End If
                 End If
             End If
@@ -109,9 +116,13 @@ Public Module AnnotationCache
 
         If includesNCBITaxonomy Then
             Dim ncbi_id As String = protein.NCBITaxonomyId
+            Dim sciName As String = protein.OrganismScientificName.DoCall(AddressOf trimConflicts)
 
             If Not ncbi_id.StringEmpty Then
                 Call dbxref.Add("ncbi_taxonomy", {ncbi_id})
+            End If
+            If scientificName AndAlso Not sciName.StringEmpty Then
+                Call dbxref.Add("scientific_name", {sciName})
             End If
         End If
 
