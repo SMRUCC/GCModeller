@@ -22,7 +22,7 @@ Namespace Ptf
                 .SafeQuery _
                 .Where(Function(f) f.type = "domain") _
                 .Select(Function(d)
-                            Return $"{d.description.StringReplace("[,;]", ".")}({d.location.begin.position}|{d.location.end.position})"
+                            Return $"{d.description.StringReplace("[,;]", ".").Replace(vbTab, " ")}({d.location.begin.position}|{d.location.end.position})"
                         End Function) _
                 .ToArray
         End Function
