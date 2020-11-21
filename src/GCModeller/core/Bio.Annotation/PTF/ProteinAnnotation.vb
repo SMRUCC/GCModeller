@@ -49,10 +49,25 @@
 
 Namespace Ptf
 
+    ''' <summary>
+    ''' A uniy protein annotation model in GCModeller softwares
+    ''' </summary>
     Public Class ProteinAnnotation
 
+        ''' <summary>
+        ''' A unique symbol id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property geneId As String
+        ''' <summary>
+        ''' full name or description
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String
+        ''' <summary>
+        ''' usually this property is a collection of gene id in other database
+        ''' </summary>
+        ''' <returns></returns>
         Public Property attributes As Dictionary(Of String, String())
 
         Default Public Property attr(key As String) As String
@@ -75,20 +90,6 @@ Namespace Ptf
 
         Public Overrides Function ToString() As String
             Return $"{geneId}: {description}"
-        End Function
-    End Class
-
-    Public NotInheritable Class AnnotationReader
-
-        Private Sub New()
-        End Sub
-
-        Public Shared Function KO(protein As ProteinAnnotation) As String
-            If protein.attributes.ContainsKey("ko") Then
-                Return protein("ko")
-            Else
-                Return ""
-            End If
         End Function
     End Class
 End Namespace
