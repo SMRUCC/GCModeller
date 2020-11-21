@@ -48,6 +48,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Ptf
 
@@ -77,7 +78,10 @@ Namespace Ptf
 
         Default Public Property attr(key As String) As String
             Get
-                Return attributes.TryGetValue(key).FirstOrDefault
+                Return attributes _
+                    .TryGetValue(key) _
+                    .SafeQuery _
+                    .FirstOrDefault
             End Get
             Set(value As String)
                 attributes(key) = {value}
