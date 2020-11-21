@@ -84,6 +84,10 @@ Public Module AnnotationCache
                     .ToArray
 
                 Call dbxref.Add(refDb.ToLower, refList)
+
+                If refDb = "Pfam" Then
+                    Call dbxref.Add("pfamString", {AnnotationReader.Pfam(protein)})
+                End If
             End If
         Next
 
