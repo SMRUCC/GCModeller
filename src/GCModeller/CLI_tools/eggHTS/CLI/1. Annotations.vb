@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b654c367b702dd216ff42d0bc942b9e0, CLI_tools\eggHTS\CLI\1. Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::a6428c24780e89c8f69006cfeb0a1601, CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
     '               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
-    '               ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2, UniprotMappings
-    '               UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
+    '               ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, UniprotMappings, UniRef2UniprotKB
+    '               UniRefMap2Organism, Update2UniprotMappedID
     ' 
     ' 
     ' /********************************************************************************/

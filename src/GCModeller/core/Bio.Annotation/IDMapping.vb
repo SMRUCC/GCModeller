@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ba2e2c392d6b66f506fb8d7cfc128fc, core\Bio.Annotation\IDMapping.vb"
+﻿#Region "Microsoft.VisualBasic::0ec4746ba94d838a442f1c36f3a56123, core\Bio.Annotation\IDMapping.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module IDMapping
     ' 
-    '     Function: Mapping
+    '     Function: createUnifyIdIndex, Mapping, populateIdMaps, UnifyIdMapping
     ' 
     ' /********************************************************************************/
 
@@ -112,4 +112,3 @@ Public Module IDMapping
     End Function
 
 End Module
-
