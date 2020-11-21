@@ -9,6 +9,21 @@ Namespace ComponentModel.Annotation
 
         Public Property profile As New Dictionary(Of String, Double)
 
+        Sub New()
+        End Sub
+
+        Sub New(data As IEnumerable(Of NamedValue(Of Double)))
+            For Each item In data
+                profile(item.Name) = item.Value
+            Next
+        End Sub
+
+        Sub New(data As IEnumerable(Of NamedValue(Of Integer)))
+            For Each item In data
+                profile(item.Name) = item.Value
+            Next
+        End Sub
+
         Public Function Add(value As NamedValue(Of Double)) As CatalogProfile
             Call profile.Add(value.Name, value.Value)
             Return Me
