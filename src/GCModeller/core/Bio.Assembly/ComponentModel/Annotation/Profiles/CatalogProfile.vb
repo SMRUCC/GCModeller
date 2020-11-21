@@ -1,4 +1,9 @@
-﻿Namespace ComponentModel.Annotation
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+
+Namespace ComponentModel.Annotation
 
     Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
 

@@ -49,9 +49,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
@@ -65,6 +63,13 @@ Namespace ComponentModel.Annotation
                 Return catalogs.TryGetValue(name)
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(data As Dictionary(Of String, NamedValue(Of Integer)()))
+
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function haveCategory(name As String) As Boolean
