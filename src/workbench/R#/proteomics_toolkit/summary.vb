@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation
 Imports SMRUCC.genomics.Annotation.Ptf
@@ -53,6 +54,28 @@ Module summary
         End Select
 
         Return table
+    End Function
+
+    <ExportAPI("profileSelector")>
+    Public Function profileSelector(profiles As CatalogProfiles, Optional selects$ = "Q3") As CatalogProfiles
+        Dim newProfiles As New CatalogProfiles
+
+        For Each cat As NamedValue(Of CatalogProfile) In profiles.GetProfiles
+            Dim list As NamedValue(Of Double)() = cat.Value.AsEnumerable.ToArray
+            Dim top As NamedValue(Of Double)() = list _
+                .ApplySelector(Function(o) o.Value, selects) _
+                .Select(Function(o)
+                            Return New NamedValue(Of Double) With {
+                                .Name = o.Description,
+                                .Value = o.Value
+                            }
+                        End Function) _
+                .ToArray
+
+            newProfiles.catalogs(cat.Name) = New CatalogProfile(DirectCast(top, IEnumerable(Of NamedValue(Of Double))))
+        Next
+
+        Return newProfiles
     End Function
 
     <ExportAPI("proteins.GO")>
