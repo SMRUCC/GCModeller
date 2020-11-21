@@ -49,23 +49,18 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Module IDMapping
 
+    ''' <summary>
+    ''' mapping any symbol id to a unify unique symbol id <see cref="Ptf.ProteinAnnotation.geneId"/>
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="proteins"></param>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function Mapping(Of T As {INamedValue, Class})(proteins As Ptf.PtfFile, data As IEnumerable(Of T)) As IEnumerable(Of T)
         Dim unifyIdIndex As Dictionary(Of String, String) = proteins _
             .AsEnumerable _
-            .Select(Function(pro)
-                        Return pro.attributes _
-                            .Select(Iterator Function(a) As IEnumerable(Of (id$, geneId$))
-                                        For Each id As String In a.Value
-                                            If HeaderFormats.HasVersionNumber(id) Then
-                                                Yield (HeaderFormats.TrimAccessionVersion(id), pro.geneId)
-                                            End If
-
-                                            Yield (id, pro.geneId)
-                                        Next
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
+            .Select(AddressOf IDMapping.populateIdMaps) _
             .IteratesALL _
             .GroupBy(Function(a) a.id) _
             .ToDictionary(Function(a) a.Key,
@@ -79,6 +74,23 @@ Public Module IDMapping
             End If
 
             Yield protein
+        Next
+    End Function
+
+    Private Iterator Function populateIdMaps(prot As Ptf.ProteinAnnotation) As IEnumerable(Of (id$, geneId$))
+        ' locus_id map to unify protein id symbol
+        If Not prot.locus_id.StringEmpty Then
+            Yield (prot.locus_id, prot.geneId)
+        End If
+
+        For Each attr In prot.attributes
+            For Each id As String In attr.Value
+                If HeaderFormats.HasVersionNumber(id) Then
+                    Yield (HeaderFormats.TrimAccessionVersion(id), prot.geneId)
+                End If
+
+                Yield (id, prot.geneId)
+            Next
         Next
     End Function
 
