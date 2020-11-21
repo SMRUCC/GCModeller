@@ -309,7 +309,7 @@ Namespace CatalogProfiling
                 y += maxLenClsKeySize.Height + 5
 
                 ' 绘制统计的小分类标签以及barplot图形
-                For Each term As NamedValue(Of Double) In profile([class].value)
+                For Each term As NamedValue(Of Double) In profile([class].value).AsEnumerable
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {

@@ -8,6 +8,7 @@ Namespace ComponentModel.Annotation
     Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
 
         Public Property profile As New Dictionary(Of String, Double)
+        Public Property information As New Dictionary(Of String, String)
 
         Sub New()
         End Sub
@@ -15,26 +16,32 @@ Namespace ComponentModel.Annotation
         Sub New(data As IEnumerable(Of NamedValue(Of Double)))
             For Each item In data
                 profile(item.Name) = item.Value
+                information(item.Name) = item.Description
             Next
         End Sub
 
         Sub New(copy As CatalogProfile)
             profile = New Dictionary(Of String, Double)(copy.profile)
+            information = New Dictionary(Of String, String)(copy.information)
         End Sub
 
         Sub New(data As IEnumerable(Of NamedValue(Of Integer)))
             For Each item In data
                 profile(item.Name) = item.Value
+                information(item.Name) = item.Description
             Next
         End Sub
 
         Public Function Add(value As NamedValue(Of Double)) As CatalogProfile
             Call profile.Add(value.Name, value.Value)
+            Call information.Add(value.Name, value.Description)
+
             Return Me
         End Function
 
         Public Function Add(name As String, value As Double)
             Call profile.Add(name, value)
+
             Return Me
         End Function
 
@@ -46,7 +53,8 @@ Namespace ComponentModel.Annotation
             For Each item In profile
                 Yield New NamedValue(Of Double) With {
                     .Name = item.Key,
-                    .Value = item.Value
+                    .Value = item.Value,
+                    .Description = information.TryGetValue(item.Key)
                 }
             Next
         End Function
@@ -57,7 +65,8 @@ Namespace ComponentModel.Annotation
 
         Public Overloads Shared Widening Operator CType(profile As NamedValue(Of Double)()) As CatalogProfile
             Return New CatalogProfile With {
-                .profile = profile.ToDictionary.FlatTable
+                .profile = profile.ToDictionary.FlatTable,
+                .information = profile.ToDictionary(Function(a) a.Name, Function(a) a.Description)
             }
         End Operator
 

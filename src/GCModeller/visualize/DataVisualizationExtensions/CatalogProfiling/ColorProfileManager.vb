@@ -75,7 +75,7 @@ Namespace CatalogProfiling
                 Dim category As New Dictionary(Of String, String)
 
                 For Each profileGroup In profile.catalogs
-                    For Each term As NamedValue(Of Double) In profileGroup.Value
+                    For Each term As NamedValue(Of Double) In profileGroup.Value.AsEnumerable
                         category(term.Name) = profileGroup.Key
                     Next
                 Next
