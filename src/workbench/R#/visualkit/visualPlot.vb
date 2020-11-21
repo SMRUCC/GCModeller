@@ -229,7 +229,7 @@ Module visualPlot
     ''' </summary>
     ''' <param name="profiles"></param>
     ''' <param name="title"></param>
-    ''' <param name="axisTitle"></param>
+    ''' <param name="axis_title"></param>
     ''' <param name="size">the size of the image</param>
     ''' <param name="tick">axis ticks, default value -1 for auto generated.</param>
     ''' <param name="colors">the color schema name</param>
@@ -238,7 +238,7 @@ Module visualPlot
     <RApiReturn(GetType(GraphicsData))>
     Public Function KEGGCategoryProfilePlots(profiles As CatalogProfiles,
                                              Optional title$ = "KEGG Orthology Profiling",
-                                             Optional axisTitle$ = "Number Of Proteins",
+                                             Optional axis_title$ = "Number Of Proteins",
                                              <RRawVectorArgument>
                                              Optional size As Object = "2300,2000",
                                              Optional tick# = -1,
@@ -249,7 +249,7 @@ Module visualPlot
         Return profiles.ProfilesPlot(title,
             size:=InteropArgumentHelper.getSize(size),
             tick:=tick,
-            axisTitle:=axisTitle,
+            axisTitle:=axis_title,
             labelRightAlignment:=False,
             valueFormat:="F0",
             colorSchema:=colors,

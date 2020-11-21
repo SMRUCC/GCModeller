@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-<Package("gokit.file")>
+<Package("file")>
 Public Module file
 
     ''' <summary>
