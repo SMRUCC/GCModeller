@@ -239,4 +239,13 @@ Module ptfKit
 
         Return True
     End Function
+
+    ''' <summary>
+    ''' export protein annotations
+    ''' </summary>
+    ''' <returns></returns>
+    <ExportAPI("protein.annotations")>
+    Public Function SampleAnnotations(<RRawVectorArgument> ptf As Object, geneIDs$(), Optional env As Environment = Nothing) As Object
+
+    End Function
 End Module
