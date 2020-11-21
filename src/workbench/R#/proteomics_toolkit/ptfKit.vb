@@ -101,6 +101,14 @@ Module ptfKit
         Return REnv.asVector(result.ToArray(Of INamedValue), generic_type, env)
     End Function
 
+    ''' <summary>
+    ''' Create the unify protein annotation models from a given uniprot database entries.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="includesNCBITaxonomy"></param>
+    ''' <param name="keys"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("uniprot.ptf")>
     Public Function fromUniProt(<RRawVectorArgument>
                                 uniprot As Object,

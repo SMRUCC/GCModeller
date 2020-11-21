@@ -59,6 +59,8 @@ Namespace Ptf
         ''' </summary>
         ''' <returns></returns>
         Public Property geneId As String
+        Public Property locus_id As String
+
         ''' <summary>
         ''' full name or description
         ''' </summary>
