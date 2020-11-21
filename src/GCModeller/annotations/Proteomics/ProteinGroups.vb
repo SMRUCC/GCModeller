@@ -46,16 +46,13 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation
+Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -389,14 +386,7 @@ Public Module ProteinGroups
             .JoinBy("; ")
         Dim pfamString = uniprots _
             .Select(Function(u)
-                        Dim pfam$ = u.features _
-                            .SafeQuery _
-                            .Where(Function(f) f.type = "domain") _
-                            .Select(Function(d)
-                                        Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
-                                    End Function) _
-                            .JoinBy("+")
-                        Return (ID:=u.accessions.JoinBy("|"), s:=pfam)
+                        Return (ID:=u.accessions.JoinBy("|"), s:=AnnotationReader.Pfam(u))
                     End Function) _
             .Where(Function(s) Not s.s.StringEmpty) _
             .Select(Function(u) $"{u.ID}:{u.s}") _
