@@ -155,9 +155,9 @@ Public Module AnnotationCache
             End If
         Next
 
-        For Each key In [handles].Keys
-            Call [handles](key).Flush()
-            Call [handles](key).Dispose()
+        For Each keyStr As String In [handles].Keys
+            Call [handles](keyStr).Flush()
+            Call [handles](keyStr).Dispose()
         Next
     End Sub
 End Module
