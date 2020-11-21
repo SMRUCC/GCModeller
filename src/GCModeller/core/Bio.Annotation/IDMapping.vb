@@ -58,15 +58,7 @@ Public Module IDMapping
     ''' <returns></returns>
     <Extension>
     Public Iterator Function Mapping(Of T As {INamedValue, Class})(proteins As Ptf.PtfFile, data As IEnumerable(Of T)) As IEnumerable(Of T)
-        Dim unifyIdIndex As Dictionary(Of String, String) = proteins _
-            .AsEnumerable _
-            .Select(AddressOf IDMapping.populateIdMaps) _
-            .IteratesALL _
-            .GroupBy(Function(a) a.id) _
-            .ToDictionary(Function(a) a.Key,
-                          Function(a)
-                              Return a.First.geneId
-                          End Function)
+        Dim unifyIdIndex As Dictionary(Of String, String) = proteins.createUnifyIdIndex
 
         For Each protein In data
             If unifyIdIndex.ContainsKey(protein.Key) Then
@@ -75,6 +67,31 @@ Public Module IDMapping
 
             Yield protein
         Next
+    End Function
+
+    Public Iterator Function UnifyIdMapping(proteins As Ptf.PtfFile, geneIDs As IEnumerable(Of String)) As IEnumerable(Of String)
+        Dim unifyIdIndex As Dictionary(Of String, String) = proteins.createUnifyIdIndex
+
+        For Each geneId As String In geneIDs
+            If unifyIdIndex.ContainsKey(geneId) Then
+                Yield unifyIdIndex(geneId)
+            Else
+                Yield geneId
+            End If
+        Next
+    End Function
+
+    <Extension>
+    Private Function createUnifyIdIndex(proteins As Ptf.PtfFile) As Dictionary(Of String, String)
+        Return proteins _
+            .AsEnumerable _
+            .Select(AddressOf IDMapping.populateIdMaps) _
+            .IteratesALL _
+            .GroupBy(Function(a) a.id) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.First.geneId
+                          End Function)
     End Function
 
     Private Iterator Function populateIdMaps(prot As Ptf.ProteinAnnotation) As IEnumerable(Of (id$, geneId$))

@@ -34,4 +34,20 @@ Public Class AnnotationTable : Inherits DynamicPropertyBase(Of String)
         }
     End Function
 
+    Public Shared Function NA(geneId As String) As AnnotationTable
+        Return New AnnotationTable With {
+            .EC = {},
+            .Entrez = {},
+            .fullName = {"unknown"},
+            .geneName = geneId,
+            .GO = {},
+            .ID = geneId,
+            .KO = {},
+            .ORF = geneId,
+            .organism = "n/a",
+            .pfam = "",
+            .uniprot = {}
+        }
+    End Function
+
 End Class
