@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -484,102 +485,20 @@ Public Module ProteinGroups
         Next
     End Function
 
-    ''' <summary>
-    ''' 不筛选出DEGs，直接导出注释数据
-    ''' </summary>
-    ''' <param name="files"></param>
-    ''' <param name="idMapping$"></param>
-    ''' <param name="uniprotXML$"></param>
-    ''' <param name="idlistField$"></param>
-    ''' <param name="prefix$"></param>
-    ''' <param name="deli"></param>
     <Extension>
-    Public Sub ApplyAnnotations(files As IEnumerable(Of String),
-                                idMapping$, uniprotXML$, idlistField$,
-                                Optional prefix$ = "",
-                                Optional deli As Char = ";"c,
-                                Optional ByRef geneList$() = Nothing)
-        Call files.__apply(False, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
-    End Sub
-
-    <Extension>
-    Private Sub __apply(files As IEnumerable(Of String),
-                        DEGsMode As Boolean,
-                        idMapping$,
-                        uniprotXML$,
-                        idlistField$,
-                        prefix$,
-                        deli As Char,
-                        ByRef geneList$())
-
-        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML.LoadDictionary(uniprotXML)
-        Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
-        Dim suffix$ = If(DEGsMode, "-DEGs-annotations.csv", "-proteins-annotations.csv")
-        Dim __where As Func(Of AnnotationTable, Boolean)
-        Dim diffCut = Math.Log(1.5, 2)  ' 蛋白质只需要1.5倍，mRNA才需要2倍
-
-        If DEGsMode Then
-            __where = Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= diffCut
-        Else
-            __where = Nothing
-        End If
-
-        Dim list As New List(Of String)
-        Dim outList As New List(Of String)
-
-        For Each file As String In files
-            Dim proteins = protein.LoadDataSet(file, uidMap:=idlistField)
-            Dim DEPs = proteins.GenerateAnnotations(
-                mappings, uniprot, edgeRfields,
-                where:=__where,
-                prefix:=prefix,
-                deli:=deli,
-                geneList:=list).ToArray
-            Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & suffix
-
-            Call DEPs.SaveDataSet(out,, "geneID")
-            Call list.SaveTo(out.TrimSuffix & "-uniprot.txt")
-            Call outList.AddRange(list)
-            Call list.Clear()
-        Next
-
-        geneList = list.Distinct.ToArray
-    End Sub
-
-    ''' <summary>
-    ''' 处理蛋白组数据的函数
-    ''' </summary>
-    ''' <param name="files">edgeR DEGs结果</param>
-    ''' <param name="idMapping$"></param>
-    ''' <param name="uniprotXML$"></param>
-    ''' <param name="idlistField$">读取质谱结果的标号域的标签列表</param>
-    ''' <param name="prefix$"></param>
-    ''' <param name="deli"></param>
-    <Extension>
-    Public Sub ApplyDEPsAnnotations(files As IEnumerable(Of String),
-                                    idMapping$, uniprotXML$, idlistField$,
-                                    Optional prefix$ = "",
-                                    Optional deli As Char = ";"c,
-                                    Optional ByRef geneList$() = Nothing)
-
-        Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
-    End Sub
-
-    <Extension>
-    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As AnnotationTable()
+    Public Function LoadSample(path$, Optional geneIDField$ = Nothing, Optional sheetName$ = "Sheet1") As EntityObject()
         Select Case path.ExtensionSuffix.ToLower
             Case "csv"
 
-                Return protein _
+                Return EntityObject _
                     .LoadDataSet(path, uidMap:=geneIDField) _
                     .ToArray
 
             Case "xlsx"
 
                 Dim csv As csv = Xlsx.Open(path).GetTable(sheetName)
-                Dim out As protein() = protein _
-                    .LoadDataSet(Of protein)(stream:=csv) _
+                Dim out As EntityObject() = EntityObject _
+                    .LoadDataSet(Of EntityObject)(stream:=csv) _
                     .ToArray
 
                 Return out
@@ -604,57 +523,4 @@ Public Module ProteinGroups
             .ToArray
         Return list
     End Function
-
-    Public Sub ExportKOList(DIR$, Optional KO$ = "KO")
-        For Each file As String In ls - l - r - "*.csv" <= DIR
-            Call file.LoadSample _
-                .GetKOlist(KO) _
-                .SaveTo(file.TrimSuffix & "-KO.txt")
-        Next
-    End Sub
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="files"></param>
-    ''' <param name="geneID$">基因ID所在的列名</param>
-    ''' <param name="annotation"></param>
-    ''' 
-    <Extension>
-    Public Sub ApplyAnnotations(files As IEnumerable(Of String), geneID$, fields$(), getAnnotations$(), annotation As Dictionary(Of protein))
-        For Each file As String In files
-            Dim genes = file.LoadSample(geneID)
-            Dim ALL As New List(Of protein)
-            Dim DEPs As New List(Of protein)
-
-            For Each gene As protein In genes
-                Dim annotations As New Dictionary(Of String, String)
-
-                For Each field In fields
-                    annotations.Add(field, gene(field))
-                Next
-
-                With annotation(gene.ID)
-                    For Each k As String In getAnnotations
-                        Call annotations.Add(k, .ItemValue(k))
-                    Next
-                End With
-
-                ALL += New protein With {
-                    .ID = gene.ID,
-                    .Properties = annotations
-                }
-
-                Dim logFC = Math.Abs(gene("logFC").ParseNumeric)
-                ' Dim Pvalue As Double = gene("PValue").ParseNumeric
-
-                If logFC >= Math.Log(1.5, 2) Then 'AndAlso Pvalue <= 0.05 Then
-                    DEPs += ALL.Last
-                End If
-            Next
-
-            Call ALL.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-proteins-annotations.csv",, "geneID")
-            Call DEPs.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-DEPs-annotations.csv",, "geneID")
-        Next
-    End Sub
 End Module
