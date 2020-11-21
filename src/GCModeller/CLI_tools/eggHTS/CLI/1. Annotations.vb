@@ -369,7 +369,7 @@ Partial Module CLI
                 .Select(Function(x) x.Item1) _
                 .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveTo(out) _
                 .CLICode
         Else
             out = args("/out") Or (uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
@@ -379,49 +379,9 @@ Partial Module CLI
                 .Select(Function(x) x.Item1) _
                 .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveTo(out) _
                 .CLICode
         End If
-    End Function
-
-    <ExportAPI("/protein.annotations.shotgun",
-               Usage:="/protein.annotations.shotgun /p1 <data.csv> /p2 <data.csv> /uniprot <data.DIR/*.xml,*.tab> [/remapping /out <out.csv>]")>
-    Public Function SampleAnnotations2(args As CommandLine) As Integer
-        Dim p1$ = args <= "/p1"
-        Dim p2$ = args <= "/p2"
-        Dim uniprot$ = args <= "/uniprot"
-        Dim remapping As Boolean = args.GetBoolean("/remapping")
-        Dim out As String = args.GetValue("/out", p1.TrimSuffix & "-" & p2.BaseName & ".uniprot-annotations.csv")
-        Dim proteins As EntityObject()
-        Dim p1Data = EntityObject.LoadDataSet(p1).ToArray
-        Dim p2Data = EntityObject.LoadDataSet(p2).ToArray
-        Dim list$() = p1Data.Keys _
-            .JoinIterates(p2Data.Keys) _
-            .Distinct _
-            .ToArray
-        Dim mappings As Dictionary(Of String, String()) = Nothing
-
-        If remapping Then
-            mappings = Retrieve_IDmapping.MappingsReader(DIR:=uniprot)
-            list = mappings.Keys.ToArray
-            proteins = list _
-                .GenerateAnnotations(mappings, uniprot, , , , iTraq:=True) _
-                .Select(Function(t) t.Item1) _
-                .ToArray
-        Else
-            proteins = list _
-                .GenerateAnnotations(uniprot, iTraq:=True) _
-                .Select(Function(t) t.Item1) _
-                .ToArray
-        End If
-
-        proteins = proteins _
-            .MergeShotgunAnnotations(
-                New NamedCollection(Of EntityObject)(p1.BaseName, p1Data),
-                New NamedCollection(Of EntityObject)(p2.BaseName, p2Data),
-                mappings)
-
-        Return proteins.SaveTo(out).CLICode
     End Function
 
     ''' <summary>

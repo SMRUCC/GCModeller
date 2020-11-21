@@ -100,7 +100,7 @@ Public Module ProteinGroups
                                         uniprotXML$,
                                         Optional iTraq As Boolean = False,
                                         Optional accID As Boolean = False,
-                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (protein, String()))
+                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (AnnotationTable, String()))
         Dim list$() = ID.ToArray
         Dim prefix$
 
