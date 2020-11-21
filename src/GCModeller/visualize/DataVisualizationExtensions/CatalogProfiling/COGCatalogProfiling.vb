@@ -105,7 +105,7 @@ Namespace CatalogProfiling
                 Call profiles.Add(catalog.Key, catalog.Value)
             Next
 
-            Return profiles.ProfilesPlot(
+            Return New CatalogProfiles(profiles).ProfilesPlot(
                 axisTitle:="Percentage of catalog genes",
                 title:=title,
                 bg:=bg,

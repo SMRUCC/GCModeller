@@ -88,6 +88,12 @@ Namespace ComponentModel.Annotation
         Sub New()
         End Sub
 
+        Sub New(data As Dictionary(Of String, NamedValue(Of Double)()))
+            For Each cat As KeyValuePair(Of String, NamedValue(Of Double)()) In data
+                catalogs(cat.Key) = New CatalogProfile(DirectCast(cat.Value, IEnumerable(Of NamedValue(Of Double))))
+            Next
+        End Sub
+
         Sub New(data As Dictionary(Of String, NamedValue(Of Integer)()))
             For Each cat As KeyValuePair(Of String, NamedValue(Of Integer)()) In data
                 catalogs(cat.Key) = New CatalogProfile(cat.Value)

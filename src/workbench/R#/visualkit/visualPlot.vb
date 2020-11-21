@@ -246,10 +246,7 @@ Module visualPlot
                                              Optional colors As Object = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00",
                                              Optional dpi As Integer = 300,
                                              Optional env As Environment = Nothing) As Object
-
-        Dim profile As Dictionary(Of String, NamedValue(Of Double)()) = profiles
-
-        Return profile.ProfilesPlot(title,
+        Return profiles.ProfilesPlot(title,
             size:=InteropArgumentHelper.getSize(size),
             tick:=tick,
             axisTitle:=axisTitle,
