@@ -127,7 +127,13 @@ Module ptfKit
 
         Return source _
             .TryCast(Of IEnumerable(Of entry)) _
-            .Select(Function(protein) protein.toPtf(includesNCBITaxonomy, keys:=keyList)) _
+            .Select(Function(protein)
+                        Return protein.toPtf(
+                            includesNCBITaxonomy:=includesNCBITaxonomy,
+                            keys:=keyList,
+                            scientificName:=scientificName
+                        )
+                    End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
