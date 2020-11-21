@@ -27,10 +27,10 @@ Public Class AnnotationTable : Inherits DynamicPropertyBase(Of String)
             .fullName = {protein.description},
             .GO = protein.get("go"),
             .KO = protein.get("ko"),
-            .ORF = protein("orf"),
+            .ORF = protein.locus_id,
             .pfam = protein("pfamstring"),
             .uniprot = protein.get("synonym"),
-            .organism = protein("")
+            .organism = protein("scientific_name")
         }
     End Function
 
