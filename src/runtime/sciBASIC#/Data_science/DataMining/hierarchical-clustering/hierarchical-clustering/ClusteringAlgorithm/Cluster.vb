@@ -153,7 +153,11 @@ Public Class Cluster : Implements INamedValue
     End Function
 
     Public Overrides Function ToString() As String
-        Return "Cluster " & Name
+        If isLeaf Then
+            Return "Leaf " & Name
+        Else
+            Return "Cluster " & Name
+        End If
     End Function
 
     Public Overrides Function Equals(obj As Object) As Boolean

@@ -74,10 +74,10 @@ Public Class DendrogramPanelV2 : Inherits Plot
         Dim unitWidth As Double = plotRegion.Height / hist.Leafs
         Dim axisTicks As Double()
 
-        If hist.TotalDistance <= 0.1 Then
-            axisTicks = {0, hist.TotalDistance}.Range.CreateAxisTicks(decimalDigits:=-1)
+        If hist.DistanceValue <= 0.1 Then
+            axisTicks = {0, hist.DistanceValue}.Range.CreateAxisTicks(decimalDigits:=-1)
         Else
-            axisTicks = {0, hist.TotalDistance}.Range.CreateAxisTicks
+            axisTicks = {0, hist.DistanceValue}.Range.CreateAxisTicks
         End If
 
         Dim scaleX As d3js.scale.LinearScale = d3js.scale _
