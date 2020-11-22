@@ -23,7 +23,8 @@ Public Class DendrogramPanelV2 : Inherits Plot
     ''' <summary>
     ''' leaf id map to <see cref="ColorClass.name"/>
     ''' </summary>
-    Friend ReadOnly classinfo As Dictionary(Of String, String)
+    Public ReadOnly Property classinfo As Dictionary(Of String, String)
+
     Friend ReadOnly showAllLabels As Boolean
     Friend ReadOnly showAllNodes As Boolean
 
