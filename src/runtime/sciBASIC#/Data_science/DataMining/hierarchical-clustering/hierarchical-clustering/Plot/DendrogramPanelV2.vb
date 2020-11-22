@@ -73,9 +73,9 @@ Public Class DendrogramPanelV2 : Inherits Plot
         Dim scaleX As d3js.scale.LinearScale = d3js.scale.linear().domain(axisTicks).range(integers:={plotRegion.Left, plotRegion.Right})
 
         ' 绘制距离标尺
-        Dim left = plotRegion.Right - scaleX(hist.DistanceValue)
-        Dim right = plotRegion.Right - scaleX(0)
-        Dim y = unitWidth - unitWidth * 0.1
+        Dim left = plotRegion.Left + plotRegion.Right - scaleX(hist.DistanceValue)
+        Dim right = plotRegion.Left + plotRegion.Right - scaleX(0)
+        Dim y = plotRegion.Top + unitWidth - unitWidth * 0.1
         Dim x!
         Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS)
         Dim tickFontHeight As Single = g.MeasureString("0", tickFont).Height
@@ -117,18 +117,18 @@ Public Class DendrogramPanelV2 : Inherits Plot
                                          charWidth As Integer)
 
         Dim orders As Cluster() = partition.Children.OrderBy(Function(a) a.Leafs).ToArray
-        Dim x = plotRegion.Right - scaleX(partition.DistanceValue)
+        Dim x = plotRegion.Left + plotRegion.Right - scaleX(partition.DistanceValue)
         Dim y As Integer
 
         If partition.isLeaf Then
-            y = i * unitWidth + unitWidth
+            y = plotRegion.Top + i * unitWidth + unitWidth
             labels += New NamedValue(Of PointF) With {
                 .Name = partition.Name,
                 .Value = New PointF(x, y)
             }
         Else
             ' 连接节点在中间？
-            y = (i + 0.5) * unitWidth + (partition.Leafs * unitWidth) / 2
+            y = plotRegion.Top + (i + 0.5) * unitWidth + (partition.Leafs * unitWidth) / 2
         End If
 
         If Not parentPt.IsEmpty Then
