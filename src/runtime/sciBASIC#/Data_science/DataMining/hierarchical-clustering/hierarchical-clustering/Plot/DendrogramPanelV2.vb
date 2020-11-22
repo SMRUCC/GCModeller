@@ -30,12 +30,14 @@ Public Class DendrogramPanelV2 : Inherits Plot
 
     ReadOnly labelFont As Font
     ReadOnly linkColor As Pen
+    ReadOnly pointColor As SolidBrush
 
     Public Sub New(hist As Cluster, theme As Theme,
                    Optional classes As ColorClass() = Nothing,
                    Optional classinfo As Dictionary(Of String, String) = Nothing,
                    Optional showAllLabels As Boolean = False,
-                   Optional showAllNodes As Boolean = False)
+                   Optional showAllNodes As Boolean = False,
+                   Optional pointColor$ = "red")
 
         MyBase.New(theme)
 
@@ -46,6 +48,7 @@ Public Class DendrogramPanelV2 : Inherits Plot
         Me.labelFont = CSSFont.TryParse(theme.tagCSS)
         Me.linkColor = Stroke.TryParse(theme.gridStroke).GDIObject
         Me.showAllNodes = showAllNodes
+        Me.pointColor = pointColor.GetBrush
     End Sub
 
     Private Function GetColor(id As String) As Color
@@ -73,9 +76,9 @@ Public Class DendrogramPanelV2 : Inherits Plot
         Dim scaleX As d3js.scale.LinearScale = d3js.scale.linear().domain(axisTicks).range(integers:={plotRegion.Left, plotRegion.Right})
 
         ' 绘制距离标尺
-        Dim left = plotRegion.Left + plotRegion.Right - scaleX(hist.DistanceValue)
+        Dim left = plotRegion.Left + plotRegion.Right - scaleX(axisTicks.Max)
         Dim right = plotRegion.Left + plotRegion.Right - scaleX(0)
-        Dim y = plotRegion.Top + unitWidth - unitWidth * 0.1
+        Dim y = plotRegion.Top + unitWidth - unitWidth / 2
         Dim x!
         Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS)
         Dim tickFontHeight As Single = g.MeasureString("0", tickFont).Height
@@ -94,13 +97,13 @@ Public Class DendrogramPanelV2 : Inherits Plot
 
         Call g.DrawLine(axisPen, New PointF(left, y), New PointF(right, y))
 
-        For Each tick As Double In axisTicks.Take(axisTicks.Length - 1)
-            x = plotRegion.Right - scaleX(tick)
-            tickLable = tick.ToString
+        For Each tick As Double In axisTicks
+            x = plotRegion.Left + plotRegion.Right - scaleX(tick)
+            tickLable = tick.ToString(theme.axisTickFormat)
             tickLabelSize = g.MeasureString(tickLable, tickFont)
 
             g.DrawLine(axisPen, New PointF(x, y), New PointF(x, y - dh))
-            g.DrawString(tick, tickFont, Brushes.Black, New PointF(x - tickLabelSize.Width / 2, y - dh - tickFontHeight))
+            g.DrawString(tickLable, tickFont, Brushes.Black, New PointF(x - tickLabelSize.Width / 2, y - dh - tickFontHeight))
         Next
 
         Call DendrogramPlot(hist, unitWidth, g, plotRegion, 0, scaleX, Nothing, labelPadding, charWidth)
@@ -138,7 +141,7 @@ Public Class DendrogramPanelV2 : Inherits Plot
         End If
 
         If partition.isLeaf OrElse showAllNodes Then
-            Call g.DrawCircle(New PointF(x, y), theme.PointSize, Brushes.Red)
+            Call g.DrawCircle(New PointF(x, y), theme.PointSize, pointColor)
         End If
 
         If partition.isLeaf OrElse showAllLabels Then
