@@ -47,7 +47,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 '
 '   Copyright 2012 Andrew Wang (andrew@umbrant.com)
@@ -112,7 +112,9 @@ Namespace Quantile
         Public Overrides Function ToString() As String
             Return seq(0, 1, 0.25) _
                 .ToDictionary(Function(pct) (100 * pct).ToString("F2") & "%",
-                              Function(pct) Query(pct).ToString("F2")) _
+                              Function(pct)
+                                  Return Query(pct).ToString("F2")
+                              End Function) _
                 .GetJson
         End Function
 
@@ -132,8 +134,11 @@ Namespace Quantile
             Dim idx As Integer = 0
 
             For Each i As X In sample
-                If i.value > v Then Exit For
-                idx += 1
+                If i.value > v Then
+                    Exit For
+                Else
+                    idx += 1
+                End If
             Next
 
             Dim delta As Integer
@@ -141,7 +146,7 @@ Namespace Quantile
             If idx = 0 OrElse idx = sample.Count Then
                 delta = 0
             Else
-                delta = CInt(Fix(sys.Floor(2 * epsilon * count)))
+                delta = CInt(Fix(stdNum.Floor(2 * epsilon * count)))
             End If
 
             Call sample.Insert(idx, New X(v, 1, delta))
@@ -166,7 +171,7 @@ Namespace Quantile
 
                 ' Merge the items together if we don't need it to maintain the
                 ' error bound
-                If x.g + x1.g + x1.delta <= sys.Floor(2 * epsilon * count) Then
+                If x.g + x1.g + x1.delta <= stdNum.Floor(2 * epsilon * count) Then
                     x1.g += x.g
                     sample.RemoveAt(i)
                     removed += 1
