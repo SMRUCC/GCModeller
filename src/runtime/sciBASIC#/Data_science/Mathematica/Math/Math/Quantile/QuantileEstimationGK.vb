@@ -45,8 +45,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports stdNum = System.Math
 
 '
@@ -67,6 +65,10 @@ Imports stdNum = System.Math
 
 Namespace Quantile
 
+    Public Interface QuantileQuery
+        Function Query(quantile#) As Double
+    End Interface
+
     ''' <summary>
     ''' Implementation of the Greenwald and Khanna algorithm for streaming
     ''' calculation of epsilon-approximate quantiles.
@@ -75,7 +77,7 @@ Namespace Quantile
     ''' 
     ''' > Greenwald and Khanna, "Space-efficient online computation of quantile summaries" in SIGMOD 2001
     ''' </summary>
-    Public Class QuantileEstimationGK
+    Public Class QuantileEstimationGK : Implements QuantileQuery
 
         ''' <summary>
         ''' Acceptable % error in percentile estimate
@@ -89,6 +91,8 @@ Namespace Quantile
         ''' Threshold to trigger a compaction
         ''' </summary>
         ReadOnly compact_size As Integer
+
+        Dim sample As New List(Of X)
 
         ''' <summary>
         ''' Implementation of the Greenwald and Khanna algorithm for streaming
@@ -107,15 +111,8 @@ Namespace Quantile
             End If
         End Sub
 
-        Dim sample As New List(Of X)
-
         Public Overrides Function ToString() As String
-            Return seq(0, 1, 0.25) _
-                .ToDictionary(Function(pct) (100 * pct).ToString("F2") & "%",
-                              Function(pct)
-                                  Return Query(pct).ToString("F2")
-                              End Function) _
-                .GetJson
+            Return Me.debugView
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -184,7 +181,7 @@ Namespace Quantile
         ''' </summary>
         ''' <param name="quantile#">``[0,1]``之间的百分比值</param>
         ''' <returns>阈值</returns>
-        Public Function Query(quantile#) As Double
+        Public Function Query(quantile#) As Double Implements QuantileQuery.Query
             Dim rankMin As Integer = 0
             Dim desired As Integer = CInt(Fix(quantile * count))
 
