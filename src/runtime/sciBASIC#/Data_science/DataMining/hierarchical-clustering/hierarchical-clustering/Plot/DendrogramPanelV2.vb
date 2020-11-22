@@ -72,8 +72,18 @@ Public Class DendrogramPanelV2 : Inherits Plot
         Dim plotRegion As Rectangle = canvas.PlotRegion
         ' 每一个样本点都平分一段长度
         Dim unitWidth As Double = plotRegion.Height / hist.Leafs
-        Dim axisTicks = {0, hist.DistanceValue}.Range.CreateAxisTicks
-        Dim scaleX As d3js.scale.LinearScale = d3js.scale.linear().domain(axisTicks).range(integers:={plotRegion.Left, plotRegion.Right})
+        Dim axisTicks As Double()
+
+        If hist.TotalDistance <= 0.1 Then
+            axisTicks = {0, hist.TotalDistance}.Range.CreateAxisTicks(decimalDigits:=-1)
+        Else
+            axisTicks = {0, hist.TotalDistance}.Range.CreateAxisTicks
+        End If
+
+        Dim scaleX As d3js.scale.LinearScale = d3js.scale _
+            .linear() _
+            .domain(axisTicks) _
+            .range(integers:={plotRegion.Left, plotRegion.Right})
 
         ' 绘制距离标尺
         Dim left = plotRegion.Left + plotRegion.Right - scaleX(axisTicks.Max)
