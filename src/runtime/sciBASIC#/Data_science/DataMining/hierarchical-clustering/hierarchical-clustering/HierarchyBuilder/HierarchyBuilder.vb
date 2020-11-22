@@ -149,11 +149,11 @@ Namespace Hierarchy
             Dim oldClusterL As Cluster = minDistLink.Left()
             Dim oldClusterR As Cluster = minDistLink.Right()
             Dim newCluster As Cluster = minDistLink.Agglomerate(Nothing)
+            Dim distanceValues As New List(Of Distance)
 
             For Each iClust As Cluster In Clusters
                 Dim link1 As HierarchyTreeNode = findByClusters(iClust, oldClusterL)
                 Dim link2 As HierarchyTreeNode = findByClusters(iClust, oldClusterR)
-                Dim distanceValues As New List(Of Distance)
 
                 If link1 IsNot Nothing Then
                     Dim distVal As Double = link1.LinkageDistance
@@ -177,6 +177,7 @@ Namespace Hierarchy
                         .Distance
                 }
 
+                Call distanceValues.Clear()
                 Call Distances.Add(newLinkage, direct:=True)
             Next
 
