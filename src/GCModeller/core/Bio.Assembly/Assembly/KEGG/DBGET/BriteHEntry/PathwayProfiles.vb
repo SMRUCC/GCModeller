@@ -76,6 +76,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                   Return p.Values
                               End Function)
 
+            profiles = profiles.ToDictionary(
+                Function(a) a.Key.Match("\d+"),
+                Function(a)
+                    Return a.Value
+                End Function)
+
             Return brite _
                .ToDictionary(Function(p) p.Key,
                              Function(group)
