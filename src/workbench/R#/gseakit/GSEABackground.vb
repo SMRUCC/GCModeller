@@ -59,7 +59,7 @@ Imports GSEATools = SMRUCC.genomics.Analysis.HTS.GSEA
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 
-<Package("gseakit.background", Category:=APICategories.ResearchTools)>
+<Package("background", Category:=APICategories.ResearchTools)>
 Public Module GSEABackground
 
     Sub New()
