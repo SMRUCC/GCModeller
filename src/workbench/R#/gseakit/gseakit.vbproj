@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="GSEABackground.vb" />
     <Compile Include="GSEA.vb" />
+    <Compile Include="Profiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -172,6 +173,10 @@
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GO\GO.vbproj">
+      <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
+      <Name>GO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\GSEA.KnowledgeBase.Extensions.vbproj">
       <Project>{77da02ce-97fc-44e2-9df7-a36cf3f1e741}</Project>
       <Name>GSEA.KnowledgeBase.Extensions</Name>
@@ -179,6 +184,10 @@
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\GSEA.vbproj">
       <Project>{db374d72-08f4-4b27-8168-b90785f71bdc}</Project>
       <Name>GSEA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\KEGG\KEGG.vbproj">
+      <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
       <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
