@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::bbb4e949378cb48711890b8c2fb2b047, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CatalogProfilingPlot
-    ' 
-    '         Function: AsDouble, GetTicks, ProfilesPlot, removesNotAssign
-    ' 
-    '         Sub: internalPlotImpl
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CatalogProfilingPlot
+' 
+'         Function: AsDouble, GetTicks, ProfilesPlot, removesNotAssign
+' 
+'         Sub: internalPlotImpl
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace CatalogProfiling
 
@@ -98,13 +99,13 @@ Namespace CatalogProfiling
         Public ReadOnly DefaultKEGGColorSchema As [Default](Of String) = "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"
 
         <Extension>
-        Private Function removesNotAssign(profile As Dictionary(Of String, NamedValue(Of Double)())) As Dictionary(Of String, NamedValue(Of Double)())
-            profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
+        Private Function removesNotAssign(profile As CatalogProfiles) As CatalogProfiles
+            profile = New CatalogProfiles(profile)
 
             For Each keyRemove As String In {NOT_ASSIGN, "Brite Hierarchies", "Not Included in Pathway or Brite"}
                 With profile.Keys.FirstOrDefault(Function(key) InStr(key, keyRemove, CompareMethod.Text) > 0)
                     If Not .StringEmpty Then
-                        Call profile.Remove(.ByRef)
+                        Call .DoCall(AddressOf profile.delete)
                     End If
                 End With
             Next
@@ -125,7 +126,7 @@ Namespace CatalogProfiling
         ''' <param name="titleFontStyle$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Double)()),
+        Public Function ProfilesPlot(profile As CatalogProfiles,
                                      Optional title$ = "Profiling Plot",
                                      Optional axisTitle$ = "Number Of Gene",
                                      Optional colorSchema$ = "Set1:c6",
@@ -151,9 +152,9 @@ Namespace CatalogProfiling
             End If
 
             Dim colors As ColorProfile = profile.GetColors(colorSchema, logarithm:=-1)
-            Dim mapperValues As Double() = profile.Values _
+            Dim mapperValues As Double() = profile.catalogs.Values _
                 .Select(Function(c)
-                            Return c.Select(Function(v) CDbl(v.Value))
+                            Return c.AsEnumerable.Select(Function(v) v.Value)
                         End Function) _
                 .IteratesALL _
                 .ToArray
@@ -199,7 +200,7 @@ Namespace CatalogProfiling
         ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
         <Extension>
         Private Sub internalPlotImpl(ByRef g As IGraphics, region As GraphicsRegion,
-                                     profile As Dictionary(Of String, NamedValue(Of Double)()),
+                                     profile As CatalogProfiles,
                                      title$,
                                      colors As ColorProfile,
                                      titleFontStyle$,
@@ -222,8 +223,8 @@ Namespace CatalogProfiling
             Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
             Dim padding As Padding = region.Padding
             Dim size As Size = region.Size
-            Dim maxLenSubKey$ = profile.Values _
-                .Select(Function(o) o.Select(Function(oo) oo.Name)) _
+            Dim maxLenSubKey$ = profile.catalogs.Values _
+                .Select(Function(o) o.AsEnumerable.Select(Function(oo) oo.Name)) _
                 .IteratesALL _
                 .Where(Function(name)
                            ' 2017-12-27
@@ -255,7 +256,7 @@ Namespace CatalogProfiling
 
             ' 所绘制的图形的总的高度
             Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
-                profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
+                profile.TotalTerms * (maxLenSubKeySize.Height + 4) +
                 classes.Length * 20
             Dim left!
             Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
@@ -308,7 +309,7 @@ Namespace CatalogProfiling
                 y += maxLenClsKeySize.Height + 5
 
                 ' 绘制统计的小分类标签以及barplot图形
-                For Each term As NamedValue(Of Double) In profile([class].value)
+                For Each term As NamedValue(Of Double) In profile([class].value).AsEnumerable
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {
@@ -389,10 +390,7 @@ Namespace CatalogProfiling
             Next
 
             ' 开始进行标尺的绘制
-            Dim maxValue# = profile.Values _
-                .Max(Function(v)
-                         Return If(v.Length = 0, 0, v.Max(Function(n) n.Value))
-                     End Function)
+            Dim maxValue# = profile.MaxValue
             Dim axisTicks#() = GetTicks(maxValue, tick)
             Dim d# = 25
             Dim tickFont = CSSFont.TryParse(tickFontStyle)

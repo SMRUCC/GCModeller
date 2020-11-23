@@ -97,6 +97,12 @@ Namespace Graphic.Canvas
         ''' <returns></returns>
         Public Property tagCSS As String
         ''' <summary>
+        ''' 数据点的大小值
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property PointSize As Integer
+
+        ''' <summary>
         ''' X坐标轴的布局
         ''' </summary>
         ''' <returns></returns>
@@ -116,6 +122,8 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <returns></returns>
         Public Property axisTickCSS As String
+        Public Property axisStroke As String
+        Public Property axisTickFormat As String = "F2"
 
         ''' <summary>
         ''' 是否显示图例
@@ -127,6 +135,7 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <returns></returns>
         Public Property drawGrid As Boolean
+        Public Property gridStroke As String
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

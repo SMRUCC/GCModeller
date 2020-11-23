@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac7e4d5671d4a3769dcf3e7701e42dc1, analysis\HTS_matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::8d33152a346a960bcafdb60a3dfae3ea, analysis\HTS_matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '     Properties: expression, sampleID, tag
     ' 
-    '     Function: LoadData, MatrixAverage, Project, TakeSamples
+    '     Function: LoadData, MatrixAverage, Project, TakeSamples, TrimZeros
     ' 
     ' /********************************************************************************/
 

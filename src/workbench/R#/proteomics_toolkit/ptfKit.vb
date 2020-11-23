@@ -44,6 +44,7 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation
@@ -64,6 +65,24 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("ptfKit")>
 Module ptfKit
 
+    Friend Function ensurePtfFile(ptf As Object, env As Environment) As [Variant](Of Message, PtfFile)
+        If TypeOf ptf Is PtfFile Then
+            Return DirectCast(ptf, PtfFile)
+        Else
+            Dim annotations = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+            If annotations.isError Then
+                Return annotations.getError
+            End If
+
+            Return New PtfFile With {
+                .proteins = annotations _
+                    .populates(Of ProteinAnnotation)(env) _
+                    .ToArray
+            }
+        End If
+    End Function
+
     ''' <summary>
     ''' Try to unify all protein id to uniprot id
     ''' </summary>
@@ -79,32 +98,34 @@ Module ptfKit
             Return inputs.getError
         End If
 
-        Dim annotations As PtfFile
+        Dim annotations As [Variant](Of Message, PtfFile) = ensurePtfFile(ptf, env)
 
-        If TypeOf ptf Is PtfFile Then
-            annotations = DirectCast(ptf, PtfFile)
-        Else
-            annotations = New PtfFile With {
-                .proteins = pipeline _
-                    .TryCreatePipeline(Of ProteinAnnotation)(ptf, env) _
-                    .populates(Of ProteinAnnotation)(env) _
-                    .ToArray
-            }
+        If annotations Like GetType(Message) Then
+            Return annotations.TryCast(Of Message)
         End If
 
         Dim list = inputs.populates(Of INamedValue)(env).ToArray
         Dim generic_type As Type = list(Scan0).GetType
         Dim generic_input As Array = REnv.asVector(list, generic_type, env)
         Dim generic_api As MethodInfo = GetType(IDMapping).GetMethod(NameOf(IDMapping.Mapping)).MakeGenericMethod(generic_type)
-        Dim result As IEnumerable = generic_api.Invoke(Nothing, {annotations, generic_input})
+        Dim result As IEnumerable = generic_api.Invoke(Nothing, {annotations.TryCast(Of PtfFile), generic_input})
 
         Return REnv.asVector(result.ToArray(Of INamedValue), generic_type, env)
     End Function
 
+    ''' <summary>
+    ''' Create the unify protein annotation models from a given uniprot database entries.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="includesNCBITaxonomy"></param>
+    ''' <param name="keys"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("uniprot.ptf")>
     Public Function fromUniProt(<RRawVectorArgument>
                                 uniprot As Object,
                                 Optional includesNCBITaxonomy As Boolean = False,
+                                Optional scientificName As Boolean = False,
                                 <RRawVectorArgument(GetType(String))>
                                 Optional keys As Object = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
                                 Optional env As Environment = Nothing) As Object
@@ -118,7 +139,13 @@ Module ptfKit
 
         Return source _
             .TryCast(Of IEnumerable(Of entry)) _
-            .Select(Function(protein) protein.toPtf(includesNCBITaxonomy, keys:=keyList)) _
+            .Select(Function(protein)
+                        Return protein.toPtf(
+                            includesNCBITaxonomy:=includesNCBITaxonomy,
+                            keys:=keyList,
+                            scientificName:=scientificName
+                        )
+                    End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
@@ -230,5 +257,32 @@ Module ptfKit
         Call anno.populates(Of ProteinAnnotation)(env).SplitAnnotations(key, outputdir)
 
         Return True
+    End Function
+
+    ''' <summary>
+    ''' export protein annotations
+    ''' </summary>
+    ''' <returns></returns>
+    <ExportAPI("protein.annotations")>
+    Public Function SampleAnnotations(<RRawVectorArgument> ptf As Object, geneIDs$(), Optional env As Environment = Nothing) As Object
+        Dim annotations As [Variant](Of Message, PtfFile) = ensurePtfFile(ptf, env)
+
+        If annotations Like GetType(Message) Then
+            Return annotations.TryCast(Of Message)
+        End If
+
+        Dim output As New List(Of AnnotationTable)
+        Dim ptfFile As PtfFile = annotations.TryCast(Of PtfFile)
+        Dim proteinIndex = ptfFile.proteins.GroupBy(Function(a) a.geneId).ToDictionary(Function(a) a.Key, Function(a) a.First)
+
+        For Each geneID As String In IDMapping.UnifyIdMapping(ptfFile, geneIDs)
+            If proteinIndex.ContainsKey(geneID) Then
+                output.Add(AnnotationTable.FromUnifyPtf(proteinIndex(geneID)))
+            Else
+                output.Add(AnnotationTable.NA(geneID))
+            End If
+        Next
+
+        Return output.ToArray
     End Function
 End Module

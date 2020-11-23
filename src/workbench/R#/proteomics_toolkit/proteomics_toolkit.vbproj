@@ -129,6 +129,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="summary.vb" />
     <Compile Include="ptfKit.vb" />
     <Compile Include="labelFree.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -186,6 +187,10 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
+      <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
+      <Name>GO_OWL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>

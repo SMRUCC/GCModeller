@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::996524420c5f049d8931833e39700789, core\Bio.Repository\UniProt\AnnotationCache.vb"
+﻿#Region "Microsoft.VisualBasic::5f1729cd7ad2b22a17ffc9258176fec9, core\Bio.Repository\UniProt\AnnotationCache.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module AnnotationCache
     ' 
-    '     Function: toPtf
+    '     Function: toPtf, trimConflicts
     ' 
     '     Sub: SplitAnnotations, WritePtfCache
     ' 
@@ -44,6 +44,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -57,11 +58,27 @@ Public Module AnnotationCache
         Next
     End Sub
 
+    Private Function trimConflicts(name As String) As String
+        Return name.StringReplace("[,;]", ".").Replace(vbTab, " ")
+    End Function
+
+    ''' <summary>
+    ''' convert a uniprot entry data to a unify protein annotation data model
+    ''' </summary>
+    ''' <param name="protein">the uniprot entry</param>
+    ''' <param name="includesNCBITaxonomy"></param>
+    ''' <param name="keys">A collection of database names</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function toPtf(protein As entry, includesNCBITaxonomy As Boolean, Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG") As ProteinAnnotation
+    Public Function toPtf(protein As entry, includesNCBITaxonomy As Boolean,
+                          Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG",
+                          Optional scientificName As Boolean = False) As ProteinAnnotation
+
         Dim dbxref As New Dictionary(Of String, String())
         Dim refList As String()
         Dim dbNames As String()
+        Dim locus_id As String = Nothing
+        Dim geneName As String = Nothing
 
         Static dbNameList As New Dictionary(Of String, String())
 
@@ -75,21 +92,46 @@ Public Module AnnotationCache
                     .ToArray
 
                 Call dbxref.Add(refDb.ToLower, refList)
+
+                If refDb = "Pfam" Then
+                    Dim domains = AnnotationReader.Pfam(protein)
+
+                    If domains.Length > 0 Then
+                        Call dbxref.Add("pfamstring", domains.Select(AddressOf trimConflicts).ToArray)
+                    End If
+                End If
             End If
         Next
 
+        If Not protein.gene Is Nothing Then
+            locus_id = protein.gene.names _
+                .Where(Function(l) l.type = "ordered locus") _
+                .FirstOrDefault _
+               ?.value
+            geneName = protein.gene.names _
+                .Select(Function(k) k.value) _
+                .OrderBy(Function(a) a.Length) _
+                .FirstOrDefault
+        End If
+
         If includesNCBITaxonomy Then
             Dim ncbi_id As String = protein.NCBITaxonomyId
+            Dim sciName As String = protein.OrganismScientificName.DoCall(AddressOf trimConflicts)
 
             If Not ncbi_id.StringEmpty Then
                 Call dbxref.Add("ncbi_taxonomy", {ncbi_id})
+            End If
+            If scientificName AndAlso Not sciName.StringEmpty Then
+                Call dbxref.Add("scientific_name", {sciName})
             End If
         End If
 
         Return New ProteinAnnotation With {
             .geneId = protein.accessions(Scan0),
             .description = protein.proteinFullName,
-            .attributes = dbxref
+            .attributes = dbxref,
+            .locus_id = locus_id Or .geneId.AsDefault,
+            .geneName = geneName
         }
     End Function
 
@@ -113,9 +155,9 @@ Public Module AnnotationCache
             End If
         Next
 
-        For Each key In [handles].Keys
-            Call [handles](key).Flush()
-            Call [handles](key).Dispose()
+        For Each keyStr As String In [handles].Keys
+            Call [handles](keyStr).Flush()
+            Call [handles](keyStr).Dispose()
         Next
     End Sub
 End Module

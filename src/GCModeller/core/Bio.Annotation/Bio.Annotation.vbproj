@@ -151,6 +151,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnotationTable.vb" />
     <Compile Include="GFF\Document\FileFormat.vb" />
     <Compile Include="GFF\Extensions.vb" />
     <Compile Include="GFF\Feature.vb" />
@@ -160,6 +161,7 @@
     <Compile Include="GFF\GFF.vb" />
     <Compile Include="GFF\Region.vb" />
     <Compile Include="IDMapping.vb" />
+    <Compile Include="PTF\AnnotationReader.vb" />
     <Compile Include="PTF\Document\DocumentBuilder.vb" />
     <Compile Include="PTF\KOSelector.vb" />
     <Compile Include="PTF\ProteinAnnotation.vb" />

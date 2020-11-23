@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::b342abf17c2956ba52222782517d5410, annotations\GO\NamespaceCategoryPlots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module NamespaceCategoryPlots
-    ' 
-    '     Function: doSingleBarplot, NamespaceEnrichmentPlot
-    ' 
-    ' /********************************************************************************/
+' Module NamespaceCategoryPlots
+' 
+'     Function: doSingleBarplot, NamespaceEnrichmentPlot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -74,10 +75,11 @@ Public Module NamespaceCategoryPlots
         Dim image As GraphicsData
         Dim namespaceTitle$
 
-        For Each [namespace] In namespaceProfiles
-            namespaceTitle = [namespace].Key
-            image = [namespace] _
-                .Value _
+        For Each [namespace] In namespaceProfiles.GetProfiles
+            namespaceTitle = [namespace].Name
+            image = [namespace].Value _
+                .AsEnumerable _
+                .ToArray _
                 .doSingleBarplot(namespaceTitle, size, tick, colorSchema, nolabelTrim)
 
             If TypeOf image Is SVGData Then
@@ -85,7 +87,7 @@ Public Module NamespaceCategoryPlots
             End If
 
             Yield New NamedValue(Of GraphicsData) With {
-                .Name = [namespace].Key,
+                .Name = [namespace].Name,
                 .Value = image
             }
         Next

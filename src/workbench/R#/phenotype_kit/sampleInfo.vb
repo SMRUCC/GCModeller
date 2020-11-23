@@ -58,6 +58,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -68,7 +69,23 @@ Module DEGSample
 
     Sub New()
         Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
     End Sub
+
+    Private Function sampleinfoTable(samples As SampleInfo(), args As list, env As Environment) As Rdataframe
+        Dim data As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        data.columns(NameOf(SampleInfo.ID)) = samples.Select(Function(a) a.ID).ToArray
+        data.columns(NameOf(SampleInfo.sample_name)) = samples.Select(Function(a) a.sample_name).ToArray
+        data.columns(NameOf(SampleInfo.sample_info)) = samples.Select(Function(a) a.sample_info).ToArray
+        data.columns(NameOf(SampleInfo.injectionOrder)) = samples.Select(Function(a) a.injectionOrder).ToArray
+        data.columns(NameOf(SampleInfo.batch)) = samples.Select(Function(a) a.batch).ToArray
+        data.columns(NameOf(SampleInfo.color)) = samples.Select(Function(a) a.color).ToArray
+        data.columns(NameOf(SampleInfo.shapetype)) = samples.Select(Function(a) a.shapetype).ToArray
+        data.rownames = samples.Select(Function(a) a.ID).ToArray
+
+        Return data
+    End Function
 
     Private Function print(sample As SampleInfo) As String
         Return $" ({sample.sample_info}) {sample.sample_name}"
