@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3759ae6f69fa35004e9be956f2beb74d, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::139d909787996cd077ef51f72f31ba62, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -33,31 +33,50 @@
 
     '     Class ProteinAnnotation
     ' 
-    '         Properties: attributes, description, geneId
+    '         Properties: attributes, description, geneId, geneName, locus_id
     ' 
-    '         Function: has, ToString
-    ' 
-    '     Class AnnotationReader
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: KO
+    '         Function: [get], has, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+
 Namespace Ptf
 
+    ''' <summary>
+    ''' A uniy protein annotation model in GCModeller softwares
+    ''' </summary>
     Public Class ProteinAnnotation
 
+        ''' <summary>
+        ''' A unique symbol id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property geneId As String
+        Public Property locus_id As String
+        Public Property geneName As String
+
+        ''' <summary>
+        ''' full name or description
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String
+        ''' <summary>
+        ''' usually this property is a collection of gene id in other database
+        ''' </summary>
+        ''' <returns></returns>
         Public Property attributes As Dictionary(Of String, String())
 
         Default Public Property attr(key As String) As String
             Get
-                Return attributes.TryGetValue(key).FirstOrDefault
+                Return attributes _
+                    .TryGetValue(key) _
+                    .SafeQuery _
+                    .FirstOrDefault
             End Get
             Set(value As String)
                 attributes(key) = {value}
@@ -69,26 +88,19 @@ Namespace Ptf
         ''' </summary>
         ''' <param name="attrName"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function has(attrName As String) As Boolean
             Return attributes.ContainsKey(attrName)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function [get](attrName As String) As String()
+            Return attributes.TryGetValue(attrName)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{geneId}: {description}"
-        End Function
-    End Class
-
-    Public NotInheritable Class AnnotationReader
-
-        Private Sub New()
-        End Sub
-
-        Public Shared Function KO(protein As ProteinAnnotation) As String
-            If protein.attributes.ContainsKey("ko") Then
-                Return protein("ko")
-            Else
-                Return ""
-            End If
         End Function
     End Class
 End Namespace

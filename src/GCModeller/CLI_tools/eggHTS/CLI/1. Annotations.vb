@@ -1,45 +1,45 @@
-﻿#Region "Microsoft.VisualBasic::b654c367b702dd216ff42d0bc942b9e0, CLI_tools\eggHTS\CLI\1. Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::a6428c24780e89c8f69006cfeb0a1601, CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
-    '               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
-    '               ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, SampleAnnotations2, UniprotMappings
-    '               UniRef2UniprotKB, UniRefMap2Organism, Update2UniprotMappedID
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: BBHReplace, BlastXFillORF, COGCatalogProfilingPlot, ColorKEGGPathwayMap, ExocartaHits
+'               GetFastaIDlist, GetIDlistFromSampleTable, KOCatalogs, NormalizeSpecies, PerseusTableAnnotations
+'               ProteinsGoPlot, proteinsKEGGPlot, SampleAnnotations, UniprotMappings, UniRef2UniprotKB
+'               UniRefMap2Organism, Update2UniprotMappedID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,6 +71,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
@@ -369,7 +370,7 @@ Partial Module CLI
                 .Select(Function(x) x.Item1) _
                 .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveTo(out) _
                 .CLICode
         Else
             out = args("/out") Or (uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
@@ -379,49 +380,9 @@ Partial Module CLI
                 .Select(Function(x) x.Item1) _
                 .Where(Function(protein) Not protein.ID.StringEmpty) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveTo(out) _
                 .CLICode
         End If
-    End Function
-
-    <ExportAPI("/protein.annotations.shotgun",
-               Usage:="/protein.annotations.shotgun /p1 <data.csv> /p2 <data.csv> /uniprot <data.DIR/*.xml,*.tab> [/remapping /out <out.csv>]")>
-    Public Function SampleAnnotations2(args As CommandLine) As Integer
-        Dim p1$ = args <= "/p1"
-        Dim p2$ = args <= "/p2"
-        Dim uniprot$ = args <= "/uniprot"
-        Dim remapping As Boolean = args.GetBoolean("/remapping")
-        Dim out As String = args.GetValue("/out", p1.TrimSuffix & "-" & p2.BaseName & ".uniprot-annotations.csv")
-        Dim proteins As EntityObject()
-        Dim p1Data = EntityObject.LoadDataSet(p1).ToArray
-        Dim p2Data = EntityObject.LoadDataSet(p2).ToArray
-        Dim list$() = p1Data.Keys _
-            .JoinIterates(p2Data.Keys) _
-            .Distinct _
-            .ToArray
-        Dim mappings As Dictionary(Of String, String()) = Nothing
-
-        If remapping Then
-            mappings = Retrieve_IDmapping.MappingsReader(DIR:=uniprot)
-            list = mappings.Keys.ToArray
-            proteins = list _
-                .GenerateAnnotations(mappings, uniprot, , , , iTraq:=True) _
-                .Select(Function(t) t.Item1) _
-                .ToArray
-        Else
-            proteins = list _
-                .GenerateAnnotations(uniprot, iTraq:=True) _
-                .Select(Function(t) t.Item1) _
-                .ToArray
-        End If
-
-        proteins = proteins _
-            .MergeShotgunAnnotations(
-                New NamedCollection(Of EntityObject)(p1.BaseName, p1Data),
-                New NamedCollection(Of EntityObject)(p2.BaseName, p2Data),
-                mappings)
-
-        Return proteins.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
@@ -627,14 +588,17 @@ Partial Module CLI
         catalogs _
             .DataFrame _
             .SaveTo(out & "/KOCatalogs.csv")
-        profile.ProfilesPlot("KEGG Orthology Profiling",
-                             size:=size,
-                             tick:=tick,
-                             axisTitle:="Number Of Proteins",
-                             labelRightAlignment:=labelRight,
-                             valueFormat:="F0",
-                             colorSchema:=args("/colors") Or DefaultKEGGColorSchema) _
-               .Save(out & "/plot.png")
+
+        Call New CatalogProfiles(profile) _
+            .ProfilesPlot("KEGG Orthology Profiling",
+                size:=size,
+                tick:=tick,
+                axisTitle:="Number Of Proteins",
+                labelRightAlignment:=labelRight,
+                valueFormat:="F0",
+                colorSchema:=args("/colors") Or DefaultKEGGColorSchema
+            ) _
+            .Save(out & "/plot.png")
 
         Return 0
     End Function

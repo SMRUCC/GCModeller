@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::300d65bc8ee655f23e4e305f3abd86ce, core\Bio.Annotation\PTF\Document\PtfParser.vb"
+﻿#Region "Microsoft.VisualBasic::8bb1aa3d141e60b5b06bb6bced2d2a52, core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ Namespace Ptf.Document
 
         Public Function ParseAnnotation(line As String) As ProteinAnnotation
             Dim tokens As String() = line.Split(ASCII.TAB)
-            Dim attrs As Dictionary(Of String, String()) = tokens(2) _
+            Dim attrs As Dictionary(Of String, String()) = tokens(4) _
                 .StringSplit(";\s+") _
                 .Select(Function(t) t.GetTagValue(":", trim:=True)) _
                 .ToDictionary(Function(a) a.Name,
@@ -107,7 +107,9 @@ Namespace Ptf.Document
 
             Return New ProteinAnnotation With {
                 .geneId = tokens(Scan0),
-                .description = tokens(1),
+                .locus_id = tokens(1),
+                .geneName = tokens(2),
+                .description = tokens(3),
                 .attributes = attrs
             }
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ba2e2c392d6b66f506fb8d7cfc128fc, core\Bio.Annotation\IDMapping.vb"
+﻿#Region "Microsoft.VisualBasic::0ec4746ba94d838a442f1c36f3a56123, core\Bio.Annotation\IDMapping.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module IDMapping
     ' 
-    '     Function: Mapping
+    '     Function: createUnifyIdIndex, Mapping, populateIdMaps, UnifyIdMapping
     ' 
     ' /********************************************************************************/
 
@@ -49,29 +49,16 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Module IDMapping
 
+    ''' <summary>
+    ''' mapping any symbol id to a unify unique symbol id <see cref="Ptf.ProteinAnnotation.geneId"/>
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="proteins"></param>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function Mapping(Of T As {INamedValue, Class})(proteins As Ptf.PtfFile, data As IEnumerable(Of T)) As IEnumerable(Of T)
-        Dim unifyIdIndex As Dictionary(Of String, String) = proteins _
-            .AsEnumerable _
-            .Select(Function(pro)
-                        Return pro.attributes _
-                            .Select(Iterator Function(a) As IEnumerable(Of (id$, geneId$))
-                                        For Each id As String In a.Value
-                                            If HeaderFormats.HasVersionNumber(id) Then
-                                                Yield (HeaderFormats.TrimAccessionVersion(id), pro.geneId)
-                                            End If
-
-                                            Yield (id, pro.geneId)
-                                        Next
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
-            .IteratesALL _
-            .GroupBy(Function(a) a.id) _
-            .ToDictionary(Function(a) a.Key,
-                          Function(a)
-                              Return a.First.geneId
-                          End Function)
+        Dim unifyIdIndex As Dictionary(Of String, String) = proteins.createUnifyIdIndex
 
         For Each protein In data
             If unifyIdIndex.ContainsKey(protein.Key) Then
@@ -82,5 +69,46 @@ Public Module IDMapping
         Next
     End Function
 
-End Module
+    Public Iterator Function UnifyIdMapping(proteins As Ptf.PtfFile, geneIDs As IEnumerable(Of String)) As IEnumerable(Of String)
+        Dim unifyIdIndex As Dictionary(Of String, String) = proteins.createUnifyIdIndex
 
+        For Each geneId As String In geneIDs
+            If unifyIdIndex.ContainsKey(geneId) Then
+                Yield unifyIdIndex(geneId)
+            Else
+                Yield geneId
+            End If
+        Next
+    End Function
+
+    <Extension>
+    Private Function createUnifyIdIndex(proteins As Ptf.PtfFile) As Dictionary(Of String, String)
+        Return proteins _
+            .AsEnumerable _
+            .Select(AddressOf IDMapping.populateIdMaps) _
+            .IteratesALL _
+            .GroupBy(Function(a) a.id) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.First.geneId
+                          End Function)
+    End Function
+
+    Private Iterator Function populateIdMaps(prot As Ptf.ProteinAnnotation) As IEnumerable(Of (id$, geneId$))
+        ' locus_id map to unify protein id symbol
+        If Not prot.locus_id.StringEmpty Then
+            Yield (prot.locus_id, prot.geneId)
+        End If
+
+        For Each attr In prot.attributes
+            For Each id As String In attr.Value
+                If HeaderFormats.HasVersionNumber(id) Then
+                    Yield (HeaderFormats.TrimAccessionVersion(id), prot.geneId)
+                End If
+
+                Yield (id, prot.geneId)
+            Next
+        Next
+    End Function
+
+End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b907cebd9dc84aa41100aa5994ed710, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\DendrogramVisualize\NodeLayout.vb"
+﻿#Region "Microsoft.VisualBasic::b8aa541a380fe1e1cdf5f1b0530cebb3, core\Bio.Annotation\PTF\AnnotationReader.vb"
 
     ' Author:
     ' 
@@ -31,52 +31,43 @@
 
     ' Summaries:
 
-    '     Structure NodeLayout
+    '     Class AnnotationReader
     ' 
-    ' 
-    ' 
-    '     Enum Layouts
-    ' 
-    '         Circular, Horizon
-    ' 
-    '  
-    ' 
-    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: KO, Pfam
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Namespace DendrogramVisualize
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports Microsoft.VisualBasic.Linq
 
-    ''' <summary>
-    ''' 计算出layout位置信息的结果
-    ''' </summary>
-    Public Structure NodeLayout
+Namespace Ptf
 
-        Dim childs As NodeLayout()
-        Dim name$
-        Dim distance As Distance
-        Dim layout As Coordinate
+    Public NotInheritable Class AnnotationReader
 
-    End Structure
+        Private Sub New()
+        End Sub
 
-    ''' <summary>
-    ''' 层次聚类树的绘制布局枚举
-    ''' </summary>
-    Public Enum Layouts As Byte
-        ''' <summary>
-        ''' 默认的竖直的布局
-        ''' </summary>
-        Vertical = 0
-        ''' <summary>
-        ''' 水平布局样式
-        ''' </summary>
-        Horizon
-        Circular
-    End Enum
+        Public Shared Function KO(protein As ProteinAnnotation) As String
+            If protein.attributes.ContainsKey("ko") Then
+                Return protein("ko")
+            Else
+                Return ""
+            End If
+        End Function
+
+        Public Shared Function Pfam(protein As entry) As String()
+            Return protein.features _
+                .SafeQuery _
+                .Where(Function(f) f.type = "domain") _
+                .Select(Function(d)
+                            Return $"{d.description}({d.location.begin.position}|{d.location.end.position})"
+                        End Function) _
+                .ToArray
+        End Function
+    End Class
 End Namespace

@@ -98,11 +98,12 @@ Public Module CatalogPlots
             Call profile.Add([class], stat)
         Next
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             title, axisTitle, colorSchema,
             bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-            tickFontStyle, tick)
+            tickFontStyle, tick
+        )
     End Function
 
     ''' <summary>
@@ -162,11 +163,12 @@ Public Module CatalogPlots
             Call profile.Add([class], stat)
         Next
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             title, axisTitle, colorSchema,
             bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-            tickFontStyle, tick)
+            tickFontStyle, tick
+        )
     End Function
 
     <Extension>
@@ -184,7 +186,7 @@ Public Module CatalogPlots
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                          Optional tick% = 50) As GraphicsData
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             title, axisTitle, colorSchema,
             bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
@@ -281,14 +283,15 @@ Public Module CatalogPlots
             !cellular_component = data!cellular_component
             !molecular_function = data!molecular_function
 
-            Return .ProfilesPlot(
-                title, axisTitle, colorSchema,
-                bg, size, padding,
-                classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-                tickFontStyle, tick,
-                labelRightAlignment:=labelAlignmentRight,
-                valueFormat:=valueFormat
-            )
+            Return .DoCall(Function(profiles) New CatalogProfiles(profiles)) _
+                   .ProfilesPlot(
+                       title, axisTitle, colorSchema,
+                       bg, size, padding,
+                       classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
+                       tickFontStyle, tick,
+                       labelRightAlignment:=labelAlignmentRight,
+                       valueFormat:=valueFormat
+                   )
         End With
     End Function
 
@@ -329,7 +332,7 @@ Public Module CatalogPlots
                 .ToArray
         Next
 
-        Return profile.ProfilesPlot(
+        Return New CatalogProfiles(profile).ProfilesPlot(
             "GO enrichment",
             size:=size,
             axisTitle:="-Log10(p-value)",
@@ -344,7 +347,7 @@ Public Module CatalogPlots
                     GO_terms As Dictionary(Of Term),
                     Optional usingCorrected As Boolean = False,
                     Optional top% = -1,
-                    Optional pvalue# = 0.05) As Dictionary(Of String, NamedValue(Of Double)())
+                    Optional pvalue# = 0.05) As CatalogProfiles
 
         Dim profile As New CatalogProfiles
         Dim testPvalue As Func(Of EnrichmentTerm, Boolean)
@@ -394,7 +397,7 @@ Public Module CatalogPlots
             !molecular_function = profile!molecular_function
         End With
 
-        Return orders
+        Return New CatalogProfiles(orders)
     End Function
 
     ''' <summary>
