@@ -158,11 +158,16 @@ Public Module GSEABackground
                             }
                         End Function) _
                 .ToArray
-        ElseIf TypeOf genes Is PtfFile OrElse TypeOf genes Is ProteinAnnotation() Then
+        ElseIf TypeOf genes Is PtfFile OrElse
+               TypeOf genes Is ProteinAnnotation() OrElse
+              (TypeOf genes Is pipeline AndAlso DirectCast(genes, pipeline).elementType Like GetType(ProteinAnnotation)) Then
+
             Dim prot As ProteinAnnotation()
 
             If TypeOf genes Is PtfFile Then
                 prot = DirectCast(genes, PtfFile).proteins
+            ElseIf TypeOf genes Is pipeline Then
+                prot = DirectCast(genes, pipeline).populates(Of ProteinAnnotation)(env).ToArray
             Else
                 prot = DirectCast(genes, ProteinAnnotation())
             End If
@@ -173,7 +178,8 @@ Public Module GSEABackground
                                 .Select(Function(koid)
                                             Return New NamedValue(Of String) With {
                                                 .Name = protein.geneId,
-                                                .Value = koid
+                                                .Value = koid,
+                                                .Description = protein.description
                                             }
                                         End Function)
                         End Function) _

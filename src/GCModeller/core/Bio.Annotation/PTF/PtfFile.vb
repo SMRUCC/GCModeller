@@ -81,7 +81,16 @@ Namespace Ptf
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load(file As String) As PtfFile
-            Return Document.ParseDocument(file)
+            Using reader As StreamReader = file.OpenReader
+                Return Document.ParseDocument(reader)
+            End Using
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Load(file As Stream) As PtfFile
+            Using reader As New StreamReader(file)
+                Return Document.ParseDocument(reader)
+            End Using
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

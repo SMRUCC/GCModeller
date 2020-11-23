@@ -150,7 +150,7 @@ Module ptfKit
     End Function
 
     <ExportAPI("load.ptf")>
-    Public Function loadPtf(file As Object, Optional env As Environment = Nothing) As pipeline
+    Public Function loadPtf(file As Object, Optional lazy As Boolean = True, Optional env As Environment = Nothing) As Object
         Dim stream = GetFileStream(file, FileAccess.Read, env)
 
         If stream Like GetType(Message) Then
@@ -167,14 +167,20 @@ Module ptfKit
                            End If
                        End Sub
 
-        Return PtfFile _
-            .ReadAnnotations(stream.TryCast(Of Stream)) _
-            .DoCall(Function(anno)
-                        Return pipeline.CreateFromPopulator(
-                            upstream:=anno,
-                            finalize:=tryClose
-                        )
-                    End Function)
+        If lazy Then
+            Return PtfFile _
+                .ReadAnnotations(stream.TryCast(Of Stream)) _
+                .DoCall(Function(anno)
+                            Return pipeline.CreateFromPopulator(
+                                upstream:=anno,
+                                finalize:=tryClose
+                            )
+                        End Function)
+        Else
+            Dim data As PtfFile = PtfFile.Load(stream.TryCast(Of Stream))
+            Call tryClose()
+            Return data
+        End If
     End Function
 
     <ExportAPI("filter")>
