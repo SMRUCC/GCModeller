@@ -72,7 +72,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 ''' <summary>
 ''' 
 ''' </summary>
-<Package("kegg.repository", Category:=APICategories.SoftwareTools)>
+<Package("repository", Category:=APICategories.SoftwareTools)>
 Public Module kegg_repository
 
     Sub New()
