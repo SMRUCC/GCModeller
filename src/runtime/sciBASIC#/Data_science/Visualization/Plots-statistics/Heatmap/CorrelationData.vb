@@ -10,10 +10,11 @@ Namespace Heatmap
         Friend data As DistanceMatrix
         Friend min#, max#
         Friend range As DoubleRange
+        Friend levelRange As DoubleRange
 
         Dim reoderKeys As String()
 
-        Public ReadOnly Property Value(i As Integer, j As Integer) As Double
+        Default Public ReadOnly Property Value(i As Integer, j As Integer) As Double
             Get
                 If reoderKeys Is Nothing Then
                     Return data(i, j)
@@ -40,6 +41,18 @@ Namespace Heatmap
             Me.data = data
             Me.range = range
         End Sub
+
+        Public Function GetLevel(i As Integer, j As Integer) As Integer
+            Dim value As Double = Me(i, j)
+            Dim level As Integer = CInt(range.ScaleMapping(value, levelRange))
+
+            Return level
+        End Function
+
+        Public Function SetLevels(levels As Integer) As CorrelationData
+            levelRange = New Double() {0, levels - 1}
+            Return Me
+        End Function
 
         Public Function SetKeyOrders(orders As IEnumerable(Of String)) As CorrelationData
             reoderKeys = orders.ToArray
