@@ -35,7 +35,11 @@ Namespace Heatmap
                 min = .Min
                 max = .Max
 
-                range = {0, .Max}
+                If data.is_dist Then
+                    range = {0, .Max}
+                Else
+                    range = {min, max}
+                End If
             End With
 
             Me.data = data

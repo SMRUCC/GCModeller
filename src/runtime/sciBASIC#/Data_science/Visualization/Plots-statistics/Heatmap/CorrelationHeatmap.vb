@@ -50,11 +50,13 @@ Namespace Heatmap
                 .GetColors(theme.colorSet, cor.levelRange.Max) _
                 .Select(Function(cl) New SolidBrush(cl)) _
                 .ToArray
+            Dim level As Integer
 
             For i As Integer = 0 To labelOrders.Length - 1
                 For j As Integer = 0 To labelOrders.Length - 1
                     rect = New RectangleF(New PointF(left + i * rectSize.Width, top + j * rectSize.Height), rectSize)
-                    g.FillRectangle(colors(cor.GetLevel(i, j)), rect)
+                    level = cor.GetLevel(i, j)
+                    g.FillRectangle(colors(level), rect)
                 Next
             Next
         End Sub
