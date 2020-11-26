@@ -11,7 +11,7 @@ Namespace Heatmap
         Friend min#, max#
         Friend range As DoubleRange
 
-        Sub New(range As DoubleRange, data As DistanceMatrix)
+        Sub New(data As DistanceMatrix, Optional range As DoubleRange = Nothing)
             With range Or data _
                 .PopulateRows _
                 .IteratesALL _
