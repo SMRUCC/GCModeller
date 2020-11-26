@@ -56,7 +56,8 @@ Module heatmapPlot
             .tagCSS = CSSFont.PlotLabelNormal,
             .gridStroke = Stroke.AxisGridStroke,
             .axisTickCSS = CSSFont.PlotLabelNormal,
-            .axisStroke = Stroke.AxisGridStroke
+            .axisStroke = Stroke.AxisGridStroke,
+            .background = "white"
         }
         Dim heatmap As New CorrelationHeatmap(New CorrelationData(d), theme)
 

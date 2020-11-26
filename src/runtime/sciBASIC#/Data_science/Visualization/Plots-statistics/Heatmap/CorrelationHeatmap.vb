@@ -26,9 +26,9 @@ Namespace Heatmap
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             ' left
-            Dim hor As New DendrogramPanelV2(hist, theme)
+            Dim hor As New DendrogramPanelV2(hist, theme, showRuler:=False, showLeafLabels:=False)
             ' top
-            Dim ver As New Horizon(hist, theme)
+            Dim ver As New Horizon(hist, theme, showRuler:=False, showLeafLabels:=False)
             Dim region = canvas.PlotRegion
             Dim labelOrders As String() = hist.OrderLeafs
 
