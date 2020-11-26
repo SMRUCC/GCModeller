@@ -103,7 +103,7 @@ Public Class Horizon : Inherits DendrogramPanelV2
             Call g.DrawLine(linkColor, New PointF(x, y), New PointF(x, parentPt.Y))
         End If
 
-        If partition.isLeaf OrElse showAllNodes Then
+        If (partition.isLeaf OrElse showAllNodes) AndAlso theme.PointSize > 0 Then
             Call g.DrawCircle(New PointF(x, y), theme.PointSize, pointColor)
         End If
 

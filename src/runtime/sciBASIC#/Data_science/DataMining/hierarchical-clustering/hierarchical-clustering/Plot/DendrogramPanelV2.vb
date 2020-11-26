@@ -120,7 +120,7 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
             Call g.DrawLine(linkColor, New PointF(x, y), New PointF(parentPt.X, y))
         End If
 
-        If partition.isLeaf OrElse showAllNodes Then
+        If (partition.isLeaf OrElse showAllNodes) AndAlso theme.PointSize > 0 Then
             Call g.DrawCircle(New PointF(x, y), theme.PointSize, pointColor)
         End If
 

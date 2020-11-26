@@ -44,13 +44,20 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 Module heatmapPlot
 
     Sub plotCorrelation2()
         Dim data = DataSet.LoadDataSet("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\sample_groups.csv")
         Dim d = data.Correlation
-        Dim theme As New Theme With {.padding = g.DefaultPadding}
+        Dim theme As New Theme With {
+            .padding = g.DefaultPadding,
+            .tagCSS = CSSFont.PlotLabelNormal,
+            .gridStroke = Stroke.AxisGridStroke,
+            .axisTickCSS = CSSFont.PlotLabelNormal,
+            .axisStroke = Stroke.AxisGridStroke
+        }
         Dim heatmap As New CorrelationHeatmap(New CorrelationData(d), theme)
 
         Call heatmap.Plot("3600,3600").Save("D:\GCModeller\src\runtime\sciBASIC#\Data_science\Visualization\data\sample_groups_correlation.png")
