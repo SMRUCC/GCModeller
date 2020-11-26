@@ -11,6 +11,18 @@ Namespace Heatmap
         Friend min#, max#
         Friend range As DoubleRange
 
+        Dim reoderKeys As String()
+
+        Public ReadOnly Property Value(i As Integer, j As Integer) As Double
+            Get
+                If reoderKeys Is Nothing Then
+                    Return data(i, j)
+                Else
+                    Return data(reoderKeys(i), reoderKeys(j))
+                End If
+            End Get
+        End Property
+
         Sub New(data As DistanceMatrix, Optional range As DoubleRange = Nothing)
             With range Or data _
                 .PopulateRows _
@@ -28,6 +40,11 @@ Namespace Heatmap
             Me.data = data
             Me.range = range
         End Sub
+
+        Public Function SetKeyOrders(orders As IEnumerable(Of String)) As CorrelationData
+            reoderKeys = orders.ToArray
+            Return Me
+        End Function
 
         Public Function GetMatrix() As Double()()
             Dim rows As New List(Of Double())

@@ -29,7 +29,7 @@ Namespace Heatmap
             Dim hor As New DendrogramPanelV2(hist, theme, showRuler:=False, showLeafLabels:=False)
             ' top
             Dim ver As New Horizon(hist, theme, showRuler:=False, showLeafLabels:=False)
-            Dim region = canvas.PlotRegion
+            Dim region As Rectangle = canvas.PlotRegion
             Dim labelOrders As String() = hist.OrderLeafs
 
             Call hor.Plot(g, New Rectangle(New Point(region.Left, region.Top), New Size(0.1 * g.Size.Width, region.Height)))
