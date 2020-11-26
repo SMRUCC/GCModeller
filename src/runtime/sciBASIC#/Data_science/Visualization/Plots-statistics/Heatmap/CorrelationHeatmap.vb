@@ -41,18 +41,18 @@ Namespace Heatmap
             Dim labelOrders As String() = hist.OrderLeafs
             Dim deltaW As Integer = treeHeight * region.Width
             Dim deltaH As Integer = treeHeight * region.Height
+            Dim rectSize As New SizeF With {
+                .Width = (region.Width - deltaW) / labelOrders.Length,
+                .Height = (region.Height - deltaH) / labelOrders.Length
+            }
 
-            Call hor.Plot(g, New Rectangle(New Point(region.Left, region.Top + deltaH), New Size(deltaW, region.Height)))
-            Call ver.Plot(g, New Rectangle(New Point(region.Left + deltaW, region.Top), New Size(region.Width, deltaH)))
+            Call hor.Plot(g, New Rectangle(New Point(region.Left, region.Top + deltaH - rectSize.Height / 2), New Size(deltaW, region.Height - deltaH)))
+            Call ver.Plot(g, New Rectangle(New Point(region.Left + deltaW - rectSize.Width / 2, region.Top), New Size(region.Width - deltaW, deltaH)))
 
             cor = cor _
                 .SetLevels(levels) _
                 .SetKeyOrders(labelOrders)
 
-            Dim rectSize As New SizeF With {
-                .Width = (region.Width - deltaW) / labelOrders.Length,
-                .Height = (region.Height - deltaH) / labelOrders.Length
-            }
             Dim rect As RectangleF
             Dim left As Integer = region.Left + deltaW
             Dim top As Integer = region.Top + deltaH
