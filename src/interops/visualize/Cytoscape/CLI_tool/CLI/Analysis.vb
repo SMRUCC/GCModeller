@@ -111,7 +111,7 @@ Partial Module CLI
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")
-        Call CorrelationHeatmap _
+        Call CorrelationTriangle _
             .Plot(matrix, size:=size, mapName:=colors) _
             .Save(out & "/heatmap.png")
 
