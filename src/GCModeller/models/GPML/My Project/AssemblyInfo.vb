@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 '查看程序集特性的值
 
-<Assembly: AssemblyTitle("GPML")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyTitle("GPML: Graphical Pathway Markup Language for PathVisio (.gpml)")>
+<Assembly: AssemblyDescription("GPML: Graphical Pathway Markup Language for PathVisio (.gpml)")>
+<Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GPML")>
-<Assembly: AssemblyCopyright("Copyright ©  2020")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2020")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
