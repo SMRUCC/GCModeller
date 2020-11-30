@@ -132,6 +132,14 @@ Namespace Core.Message
             Remote = "127.0.0.1"
         End Sub
 
+        Public Overridable Function GetBoolean(name As String) As Boolean
+            If URL.query.ContainsKey(name) Then
+                Return URL.query(name).ElementAtOrDefault(Scan0).ParseBoolean
+            Else
+                Return False
+            End If
+        End Function
+
         Public Function GetCookies() As NameValueCollection
             Dim cookies As String = HttpHeaders.TryGetValue(RequestHeaders.Cookie)
             Dim data As New NameValueCollection
@@ -180,6 +188,14 @@ Namespace Core.Message
                 HttpHeaders.TryGetValue("fileName") Or uploadfile
             )
         End Sub
+
+        Public Overrides Function GetBoolean(name As String) As Boolean
+            If HasValue(name) Then
+                Return Argument(name).DefaultValue.ParseBoolean
+            Else
+                Return False
+            End If
+        End Function
 
         Public Overrides Function HasValue(name As String) As Boolean
             If Not URL.query.ContainsKey(name) Then
