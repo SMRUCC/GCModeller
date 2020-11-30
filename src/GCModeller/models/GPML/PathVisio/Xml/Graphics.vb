@@ -33,4 +33,15 @@ Namespace GPML
         <XmlAttribute> Public Property GraphId As String
         Public Property Graphics As Graphics
     End Class
+
+    Public Class Point
+
+        <XmlAttribute> Public Property X As Double
+        <XmlAttribute> Public Property Y As Double
+        <XmlAttribute> Public Property GraphRef As String
+        <XmlAttribute> Public Property RelX As Double
+        <XmlAttribute> Public Property RelY As Double
+        <XmlAttribute> Public Property ArrowHead As String
+
+    End Class
 End Namespace

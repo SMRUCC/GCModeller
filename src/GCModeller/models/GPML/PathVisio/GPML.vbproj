@@ -64,6 +64,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Xml\Network.vb" />
     <Compile Include="Xml\Graphics.vb" />
     <Compile Include="Xml\Pathway.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
