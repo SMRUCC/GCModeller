@@ -651,7 +651,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TcpRequest", "runtime\sciBA
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rscript_shared", "workbench\R#\Rscript_shared\Rscript_shared.shproj", "{28A18D47-5F41-43CD-A0A7-C8DD9E731BD3}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GPML", "GCModeller\models\GPML\GPML.vbproj", "{081F7F06-BD84-478B-B258-B25E2C011A54}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GPML", "GCModeller\models\GPML\PathVisio\GPML.vbproj", "{081F7F06-BD84-478B-B258-B25E2C011A54}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
