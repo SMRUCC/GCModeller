@@ -149,9 +149,9 @@ Module GSEA
         Dim verbose As Boolean = env.globalEnvironment.options.verbose
 
         If REnv.isVector(Of EnrichmentResult)(enrichment) Then
-            If format = "GCModeller" Then
+            If format = EnrichmentTableFormat.GCModeller Then
                 Return DirectCast(enrichment, EnrichmentResult()).SaveTo(file, silent:=Not verbose)
-            ElseIf format = "KOBAS" Then
+            ElseIf format = EnrichmentTableFormat.KOBAS Then
                 Return KOBASFormat(enrichment).SaveTo(file, silent:=Not verbose)
             Else
                 Return Internal.debug.stop(New NotImplementedException(format), env)

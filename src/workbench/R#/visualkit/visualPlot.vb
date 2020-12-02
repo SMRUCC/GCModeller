@@ -43,7 +43,6 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -65,7 +64,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize
@@ -144,23 +143,6 @@ Module visualPlot
     End Function
 
     ''' <summary>
-    ''' Create catalog profiles data for GO enrichment result its data visualization.
-    ''' </summary>
-    ''' <param name="enrichments"></param>
-    ''' <param name="goDb"></param>
-    ''' <param name="top">display the top n enriched GO terms.</param>
-    ''' <returns></returns>
-    <ExportAPI("GO.enrichment.profile")>
-    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As Object
-        Dim GO_terms = goDb.AsEnumerable.ToDictionary
-        ' 在这里是不进行筛选的
-        ' 筛选应该是发生在脚本之中
-        Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, 1)
-
-        Return profiles
-    End Function
-
-    ''' <summary>
     ''' Create catalog profiles data for KEGG pathway enrichment result its data visualization.
     ''' </summary>
     ''' <param name="profiles"></param>
@@ -168,8 +150,9 @@ Module visualPlot
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("kegg.category_profile")>
+    <RApiReturn(GetType(CatalogProfiles))>
     Public Function KEGGCategoryProfile(profiles As Object, Optional top% = 10, Optional env As Environment = Nothing) As Object
-        Dim profile As Dictionary(Of String, NamedValue(Of Double)())
+        Dim profile As CatalogProfiles
 
         If TypeOf profiles Is Dictionary(Of String, Integer) Then
             profile = DirectCast(profiles, Dictionary(Of String, Integer)) _
@@ -177,18 +160,18 @@ Module visualPlot
                               Function(a)
                                   Return CDbl(a.Value)
                               End Function) _
-                .doKeggProfiles(top)
+                .DoKeggProfiles(top)
         ElseIf TypeOf profiles Is Dictionary(Of String, NamedValue(Of Double)()) Then
-            profile = DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)()))
+            profile = New CatalogProfiles(DirectCast(profiles, Dictionary(Of String, NamedValue(Of Double)())))
         ElseIf TypeOf profiles Is Dictionary(Of String, Double) Then
-            profile = DirectCast(profiles, Dictionary(Of String, Double)).doKeggProfiles(top)
+            profile = DirectCast(profiles, Dictionary(Of String, Double)).DoKeggProfiles(top)
         ElseIf TypeOf profiles Is list Then
             profile = DirectCast(profiles, list).slots _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
                                   Return CDbl(REnv.asVector(Of Double)(a.Value).GetValue(Scan0))
                               End Function) _
-                .doKeggProfiles(top)
+                .DoKeggProfiles(top)
         Else
             Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
         End If
@@ -256,20 +239,6 @@ Module visualPlot
             colorSchema:=colors,
             dpi:=dpi
         )
-    End Function
-
-    <Extension>
-    Private Function doKeggProfiles(profiles As Dictionary(Of String, Double), displays%) As Dictionary(Of String, NamedValue(Of Double)())
-        Return profiles _
-            .KEGGCategoryProfiles _
-            .Where(Function(cls) Not cls.Value.IsNullOrEmpty) _
-            .ToDictionary(Function(p) p.Key,
-                          Function(group)
-                              Return group.Value _
-                                  .OrderByDescending(Function(t) t.Value) _
-                                  .Take(displays) _
-                                  .ToArray
-                          End Function)
     End Function
 
     <ExportAPI("sample.color_bend")>

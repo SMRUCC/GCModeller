@@ -15,19 +15,19 @@ Imports stdNum = System.Math
 ''' </summary>
 Public Class DendrogramPanelV2 : Inherits DendrogramPanel
 
-    Protected Friend ReadOnly layout As Layouts
+    Protected labels As New List(Of NamedValue(Of PointF))
 
     Public Sub New(hist As Cluster, theme As Theme,
                    Optional classes As ColorClass() = Nothing,
                    Optional classinfo As Dictionary(Of String, String) = Nothing,
                    Optional showAllLabels As Boolean = False,
                    Optional showAllNodes As Boolean = False,
-                   Optional pointColor$ = "red")
+                   Optional pointColor$ = "red",
+                   Optional showRuler As Boolean = True,
+                   Optional showLeafLabels As Boolean = True)
 
-        MyBase.New(hist, theme, classes, classinfo, showAllLabels, showAllNodes, pointColor)
+        MyBase.New(hist, theme, classes, classinfo, showAllLabels, showAllNodes, pointColor, showLeafLabels, showRuler)
     End Sub
-
-    Dim labels As New List(Of NamedValue(Of PointF))
 
     Public Function Paint(g As IGraphics, layout As Rectangle) As IEnumerable(Of NamedValue(Of PointF))
         Call labels.Clear()
@@ -73,29 +73,31 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
             labelPadding = g.MeasureString("00", labelFont).Width
         End If
 
-        Call g.DrawLine(axisPen, New PointF(left, y), New PointF(right, y))
+        If showRuler Then
+            Call g.DrawLine(axisPen, New PointF(left, y), New PointF(right, y))
 
-        For Each tick As Double In axisTicks
-            x = plotRegion.Left + plotRegion.Right - scaleX(tick)
-            tickLable = tick.ToString(theme.axisTickFormat)
-            tickLabelSize = g.MeasureString(tickLable, tickFont)
+            For Each tick As Double In axisTicks
+                x = plotRegion.Left + plotRegion.Right - scaleX(tick)
+                tickLable = tick.ToString(theme.axisTickFormat)
+                tickLabelSize = g.MeasureString(tickLable, tickFont)
 
-            g.DrawLine(axisPen, New PointF(x, y), New PointF(x, y - dh))
-            g.DrawString(tickLable, tickFont, Brushes.Black, New PointF(x - tickLabelSize.Width / 2, y - dh - tickFontHeight))
-        Next
+                g.DrawLine(axisPen, New PointF(x, y), New PointF(x, y - dh))
+                g.DrawString(tickLable, tickFont, Brushes.Black, New PointF(x - tickLabelSize.Width / 2, y - dh - tickFontHeight))
+            Next
+        End If
 
         Call DendrogramPlot(hist, unitWidth, g, plotRegion, 0, scaleX, Nothing, labelPadding, charWidth)
     End Sub
 
-    Private Overloads Sub DendrogramPlot(partition As Cluster,
-                                         unitWidth As Double,
-                                         g As IGraphics,
-                                         plotRegion As Rectangle,
-                                         i As Integer,
-                                         scaleX As d3js.scale.LinearScale,
-                                         parentPt As PointF,
-                                         labelPadding As Integer,
-                                         charWidth As Integer)
+    Protected Overridable Overloads Sub DendrogramPlot(partition As Cluster,
+                                                       unitWidth As Double,
+                                                       g As IGraphics,
+                                                       plotRegion As Rectangle,
+                                                       i As Integer,
+                                                       scaleX As d3js.scale.LinearScale,
+                                                       parentPt As PointF,
+                                                       labelPadding As Integer,
+                                                       charWidth As Integer)
 
         Dim orders As Cluster() = partition.Children.OrderBy(Function(a) a.Leafs).ToArray
         Dim x = plotRegion.Left + plotRegion.Right - scaleX(partition.DistanceValue)
@@ -118,11 +120,11 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
             Call g.DrawLine(linkColor, New PointF(x, y), New PointF(parentPt.X, y))
         End If
 
-        If partition.isLeaf OrElse showAllNodes Then
+        If (partition.isLeaf OrElse showAllNodes) AndAlso theme.PointSize > 0 Then
             Call g.DrawCircle(New PointF(x, y), theme.PointSize, pointColor)
         End If
 
-        If partition.isLeaf OrElse showAllLabels Then
+        If showLeafLabels AndAlso (partition.isLeaf OrElse showAllLabels) Then
             Dim lsize As SizeF = g.MeasureString(partition.Name, labelFont)
             Dim lpos As New PointF(x + labelPadding, y - lsize.Height / 2)
 
@@ -130,15 +132,17 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
         End If
 
         If partition.isLeaf Then
-            ' 绘制class颜色块
-            Dim color As New SolidBrush(GetColor(partition.Name))
-            Dim d As Double = stdNum.Max(charWidth / 2, theme.PointSize)
-            Dim layout As New Rectangle With {
-                .Location = New Point(x + d, y - unitWidth / 2),
-                .Size = New Size(labelPadding - d * 1.25, unitWidth)
-            }
+            If showLeafLabels Then
+                ' 绘制class颜色块
+                Dim color As New SolidBrush(GetColor(partition.Name))
+                Dim d As Double = stdNum.Max(charWidth / 2, theme.PointSize)
+                Dim layout As New Rectangle With {
+                    .Location = New Point(x + d, y - unitWidth / 2),
+                    .Size = New Size(labelPadding - d * 1.25, unitWidth)
+                }
 
-            Call g.FillRectangle(color, layout)
+                Call g.FillRectangle(color, layout)
+            End If
         Else
             Dim n As Integer = 0
 

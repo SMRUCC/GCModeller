@@ -55,8 +55,8 @@ Namespace Ptf.Document
         ''' </summary>
         ''' <param name="file"></param>
         ''' <returns></returns>
-        Public Function ParseDocument(file As String) As PtfFile
-            Dim lines As String() = file.IterateAllLines.ToArray
+        Public Function ParseDocument(file As StreamReader) As PtfFile
+            Dim lines As String() = file.ReadToEnd.LineTokens
             Dim headers As String() = lines.TakeWhile(Function(a) a.StartsWith("#")).ToArray
             Dim attributes As Dictionary(Of String, String()) = headers _
                 .Select(Function(line)
@@ -72,6 +72,7 @@ Namespace Ptf.Document
                 .attributes = attributes,
                 .proteins = lines _
                     .Skip(headers.Length) _
+                    .Where(Function(line) Not line.StringEmpty) _
                     .Select(AddressOf ParseAnnotation) _
                     .ToArray
             }

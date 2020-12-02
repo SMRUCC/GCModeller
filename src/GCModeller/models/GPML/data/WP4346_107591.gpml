@@ -1,0 +1,1723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pathway xmlns="http://pathvisio.org/GPML/2013a" Name="Cholesterol metabolism (includes both Bloch and Kandutsch-Russell pathways)" Version="20180908" Organism="Mus musculus">
+	<Comment Source="WikiPathways-description">
+		This pathway is inspired by the Lipidmaps&gt;Sterol lipids expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php] and extended with Scheme 1 from Acimovic et al (2013 [https://www.ncbi.nlm.nih.gov/pubmed/23558541]).
+		Literature suggests that cholesterol synthesis preferentially starts with the Bloch pathway, however there is a shift to the Kandutsch-Russell part via lathosterol (Bae et al, 1997[https://www.ncbi.nlm.nih.gov/pubmed/9291139]).
+
+		Dashed lines indicate that multiple steps are involved to create the final product. Several regulatory effects concerning the metabolites of cholesterol have been indicated as well.
+		The content from the Bloch and Kandutsch-Russel pathways have been checked against literature, and differences compared to the original LipidMaps pathway have been coloured turquoise.
+	</Comment>
+	<BiopaxRef>ee1</BiopaxRef>
+	<BiopaxRef>c4e</BiopaxRef>
+	<Graphics BoardWidth="1600.6216894863066" BoardHeight="1362.66037118051"/>
+	<DataNode TextLabel="9Z-palmitoleic acid" GraphId="a0cc9" Type="Metabolite" GroupRef="f4bff">
+		<Comment>Assuming this is omega 7-type</Comment>
+		<Graphics CenterX="400.0092250922511" CenterY="1292.742927429276" Width="116.34071340713399" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="PubChem-compound" ID="445638"/>
+	</DataNode>
+	<DataNode TextLabel="Srebf1" GraphId="aa220" Type="GeneProduct">
+		<Graphics CenterX="247.32564499318391" CenterY="983.0409356725155" Width="59.79517279570178" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000020538"/>
+	</DataNode>
+	<DataNode TextLabel="7alpha-hydroxycholesterol" GraphId="ab39a" Type="Metabolite">
+		<Graphics CenterX="1217.4921337031105" CenterY="999.9513620111883" Width="161.5" Height="20.5" ZOrder="32768" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010013"/>
+	</DataNode>
+	<DataNode TextLabel="Acot1" GraphId="ad288" Type="GeneProduct" GroupRef="afa33">
+		<Graphics CenterX="174.03240010584878" CenterY="194.15103718652816" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="26897"/>
+	</DataNode>
+	<DataNode TextLabel="Abca1" GraphId="b3dae" Type="GeneProduct" GroupRef="f46e6">
+		<Graphics CenterX="375.4397545017657" CenterY="1092.982456140351" Width="90.0" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000015243"/>
+	</DataNode>
+	<DataNode TextLabel="Bloch Pathway" GraphId="b8d73" Type="Pathway">
+		<Graphics CenterX="819.3018939589579" CenterY="333.0443905632897" Width="90.0" Height="25.0" ZOrder="32768" FontWeight="Bold" FontSize="12" Valign="Middle" Color="009900"/>
+		<Xref Database="" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="Acetyl-CoA" GraphId="bca2c" Type="Metabolite">
+		<Graphics CenterX="270.19957997575534" CenterY="163.35874200426434" Width="90.0" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA07050281"/>
+	</DataNode>
+	<DataNode TextLabel="Ch25h" GraphId="bd6fe" Type="GeneProduct">
+		<Comment/>
+		<Graphics CenterX="777.348803330767" CenterY="947.4201050713681" Width="64.03938115330558" Height="24.999999999999968" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="12642"/>
+	</DataNode>
+	<DataNode TextLabel="Hmgcr" GraphId="c3a79" Type="GeneProduct">
+		<Graphics CenterX="174.0324001058488" CenterY="347.9175060651857" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15357"/>
+	</DataNode>
+	<DataNode TextLabel="Nr1h3" GraphId="c905a" Type="GeneProduct" GroupRef="b48a1">
+		<Graphics CenterX="352.1226993009494" CenterY="983.0409356725155" Width="48.67333744747107" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000002108"/>
+	</DataNode>
+	<DataNode TextLabel="Soat1" GraphId="cb5b5" Type="GeneProduct" GroupRef="ddde4">
+		<Graphics CenterX="736.7166617332902" CenterY="1077.6617105743335" Width="67.31504922644093" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="20652"/>
+	</DataNode>
+	<DataNode TextLabel="Fasn" GraphId="eb018" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="153.20254851705056" CenterY="1220.1603711805096" Width="46.77567327611733" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000025153"/>
+	</DataNode>
+	<DataNode TextLabel="CE(16:1)" GraphId="ebb18" Type="Metabolite" GroupRef="c1e92">
+		<Comment>Assuming this is omega-7 type</Comment>
+		<Graphics CenterX="512.8092859879575" CenterY="1237.4990746909473" Width="90.0" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="Wikidata" ID="Q412366"/>
+	</DataNode>
+	<DataNode TextLabel="Dhcr7" GraphId="ecff5" Type="GeneProduct">
+		<Graphics CenterX="876.0279986820151" CenterY="847.0273113782773" Width="90.0" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13360"/>
+	</DataNode>
+	<DataNode TextLabel="DHCR24" GraphId="f5281" Type="Protein">
+		<Graphics CenterX="1007.7060574068516" CenterY="328.8988511216775" Width="90.0" Height="25.0" ZOrder="32768" FontSize="12" Valign="Middle" Color="009999"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q8VCH6"/>
+	</DataNode>
+	<DataNode TextLabel="Acetoacetyl-CoA" GraphId="a65cb" Type="Metabolite">
+		<Graphics CenterX="270.19957997575546" CenterY="240.41692430882173" Width="90.0" Height="25.0" ZOrder="32769" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA07050030"/>
+	</DataNode>
+	<DataNode TextLabel="HMG-CoA" GraphId="c2349" Type="Metabolite">
+		<Graphics CenterX="270.19957997575534" CenterY="317.0" Width="90.0" Height="25.0" ZOrder="32770" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA07050116"/>
+	</DataNode>
+	<DataNode TextLabel="Mevalonic acid" GraphId="de72d" Type="Metabolite">
+		<Graphics CenterX="270.19957997575546" CenterY="387.7059502736641" Width="90.0" Height="25.0" ZOrder="32771" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA01050352"/>
+	</DataNode>
+	<DataNode TextLabel="Mevalonate-5-P" GraphId="c3504" Type="Metabolite">
+		<Graphics CenterX="270.19957997575534" CenterY="465.0" Width="90.0" Height="25.0" ZOrder="32772" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA01050415"/>
+	</DataNode>
+	<DataNode TextLabel="Mevalonate-5-PP" GraphId="b33c5" Type="Metabolite">
+		<Graphics CenterX="270.19957997575546" CenterY="532.0" Width="102.88713910761157" Height="25.0" ZOrder="32773" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA01050416"/>
+	</DataNode>
+	<DataNode TextLabel="Isopentenyl-PP" GraphId="a17cf" Type="Metabolite">
+		<Graphics CenterX="270.19957997575534" CenterY="599.0" Width="90.0" Height="25.0" ZOrder="32774" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR01010008"/>
+	</DataNode>
+	<DataNode TextLabel="Dimethylallyl-PP" GraphId="c516a" Type="Metabolite">
+		<Graphics CenterX="477.8860007490959" CenterY="599.0" Width="90.0" Height="25.0" ZOrder="32775" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR01010001"/>
+	</DataNode>
+	<DataNode TextLabel="Geranyl-PP" GraphId="b67d7" Type="Metabolite">
+		<Graphics CenterX="477.8860007490959" CenterY="532.0" Width="90.0" Height="25.0" ZOrder="32776" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR0102010001"/>
+	</DataNode>
+	<DataNode TextLabel="Farnesyl-PP" GraphId="e4be5" Type="Metabolite">
+		<Graphics CenterX="477.8860007490959" CenterY="465.0" Width="90.0" Height="25.0" ZOrder="32777" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR0103010002"/>
+	</DataNode>
+	<DataNode TextLabel="Squalene" GraphId="c13fb" Type="Metabolite">
+		<Graphics CenterX="477.8860007490959" CenterY="316.99999999999994" Width="90.0" Height="25.0" ZOrder="32778" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR0106010002"/>
+	</DataNode>
+	<DataNode TextLabel="Squalene-2,3-epoxide" GraphId="cd2cd" Type="Metabolite">
+		<Graphics CenterX="476.3934634356627" CenterY="240.41692430882173" Width="137.0" Height="24.5" ZOrder="32779" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR0106010010"/>
+	</DataNode>
+	<DataNode TextLabel="Diepoxy-squalene" GraphId="bfe66" Type="Metabolite">
+		<Graphics CenterX="477.8860007490957" CenterY="163.35874200426434" Width="110.0" Height="24.5" ZOrder="32780" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMPR0106010038"/>
+	</DataNode>
+	<DataNode TextLabel="Lanosterol" GraphId="ac635" Type="Metabolite">
+		<Graphics CenterX="988.6771631969926" CenterY="240.41692430882173" Width="137.0" Height="24.5" ZOrder="32781" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010017"/>
+	</DataNode>
+	<DataNode TextLabel="24,25-epoxycholesterol" GraphId="dd349" Type="Metabolite">
+		<Graphics CenterX="702.7371668974728" CenterY="163.37895606003596" Width="137.0" Height="24.5" ZOrder="32782" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010012"/>
+	</DataNode>
+	<DataNode TextLabel="24,25-dihydrolanosterol" GraphId="f09d4" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="364.4645338670387" Width="164.99999999999991" Height="24.499999999999986" ZOrder="32783" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010087"/>
+	</DataNode>
+	<DataNode TextLabel="32-hydroxylanosterol" GraphId="c7b83" Type="Metabolite">
+		<Graphics CenterX="813.6312389719628" CenterY="422.37259970458007" Width="165.0" Height="24.5" ZOrder="32784" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010124"/>
+	</DataNode>
+	<DataNode TextLabel="4,4-dimethylcholesta-&#10;5,8,24-trienol" GraphId="e19c7" Type="Metabolite">
+		<Graphics CenterX="812.9833213493348" CenterY="502.8780700386255" Width="138.38900294711675" Height="31.51094066809071" ZOrder="32785" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010149"/>
+	</DataNode>
+	<DataNode TextLabel="4,4-dimethylcholest-8-enol" GraphId="bd86c" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="422.37259970458" Width="232.0" Height="24.5" ZOrder="32786" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010225"/>
+	</DataNode>
+	<DataNode TextLabel="14-demethyl-lanosterol" GraphId="a1093" Type="Metabolite">
+		<Graphics CenterX="813.6312389719628" CenterY="577.1087108156903" Width="165.0" Height="24.5" ZOrder="32787" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010176"/>
+	</DataNode>
+	<DataNode TextLabel="4-alpha-methylcholest-8-enol" GraphId="ec9d5" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="499.37259970458" Width="201.0" Height="24.5" ZOrder="32788" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010197"/>
+	</DataNode>
+	<DataNode TextLabel="Zymosterol" GraphId="f3008" Type="Metabolite">
+		<Graphics CenterX="813.6312389719626" CenterY="657.3725997045776" Width="165.0" Height="24.5" ZOrder="32789" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010066"/>
+	</DataNode>
+	<DataNode TextLabel="4-alpha-methyl-cholest-8-enone" GraphId="ae3c8" Type="Metabolite">
+		<Comment/>
+		<Graphics CenterX="1211.0473376412233" CenterY="577.1087108156903" Width="201.0" Height="24.5" ZOrder="32790" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010236"/>
+	</DataNode>
+	<DataNode TextLabel="Zymostenol" GraphId="bd2e7" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="657.3725997045777" Width="165.0" Height="24.5" ZOrder="32791" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010096"/>
+	</DataNode>
+	<DataNode TextLabel="Lathosterol" GraphId="c7972" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="732.3725997045777" Width="165.0" Height="24.5" ZOrder="32792" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010089"/>
+	</DataNode>
+	<DataNode TextLabel="7-dehdrocholesterol" GraphId="b0510" Type="Metabolite">
+		<Graphics CenterX="1211.0473376412233" CenterY="814.3725997045775" Width="165.0" Height="24.5" ZOrder="32793" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010069"/>
+	</DataNode>
+	<DataNode TextLabel="Cholestadienol" GraphId="f46e2" Type="Metabolite">
+		<Comment>aka 24-dehydrolathosterol</Comment>
+		<Graphics CenterX="813.6312389719626" CenterY="732.3725997045779" Width="165.0" Height="24.5" ZOrder="32794" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010206"/>
+	</DataNode>
+	<DataNode TextLabel="7-dehydodesmosterol" GraphId="aa695" Type="Metabolite">
+		<Graphics CenterX="813.6312389719628" CenterY="814.3725997045777" Width="165.0" Height="24.5" ZOrder="32795" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010121"/>
+	</DataNode>
+	<DataNode TextLabel="Desmosterol" GraphId="e9838" Type="Metabolite">
+		<Graphics CenterX="814.1614616654938" CenterY="890.5869759289835" Width="164.99999999999997" Height="29.26555491140214" ZOrder="32796" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010016"/>
+	</DataNode>
+	<DataNode TextLabel="Cholesterol" GraphId="d8c85" Type="Metabolite">
+		<Graphics CenterX="987.7491660519162" CenterY="998.5935302390997" Width="165.0" Height="59.07172995780565" ZOrder="32797" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010001"/>
+	</DataNode>
+	<DataNode TextLabel="Sc5d" GraphId="f3d8e" Type="GeneProduct">
+		<Graphics CenterX="1027.6837599803666" CenterY="767.8725997045777" Width="90.0" Height="25.0" ZOrder="32798" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="235293"/>
+	</DataNode>
+	<DataNode TextLabel="Ebp" GraphId="a3759" Type="GeneProduct">
+		<Graphics CenterX="1027.6837599803666" CenterY="692.8725997045777" Width="90.0" Height="25.0" ZOrder="32799" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13595"/>
+	</DataNode>
+	<DataNode TextLabel="Nsdhl" GraphId="de41a" Type="GeneProduct" GroupRef="b180c">
+		<Graphics CenterX="1034.1254374978193" CenterY="640.53082755268" Width="90.0" Height="25.0" ZOrder="32800" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="18194"/>
+	</DataNode>
+	<DataNode TextLabel="Cyp51" GraphId="a4c7a" Type="GeneProduct">
+		<Graphics CenterX="945.0119128109521" CenterY="429.13768422093773" Width="65.99894514767881" Height="25.0" ZOrder="32801" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13121"/>
+	</DataNode>
+	<DataNode TextLabel="Tm7fs2" GraphId="d362f" Type="GeneProduct" GroupRef="ae052">
+		<Graphics CenterX="957.6169548277586" CenterY="545.4548781855924" Width="90.0" Height="25.0" ZOrder="32802" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="73166"/>
+	</DataNode>
+	<DataNode TextLabel="Msmo1" GraphId="c2585" Type="GeneProduct" GroupRef="b180c">
+		<Comment>aka Sc4mol</Comment>
+		<Graphics CenterX="1034.1254374978193" CenterY="590.5308275526802" Width="90.0" Height="25.0" ZOrder="32803" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="66234"/>
+	</DataNode>
+	<DataNode TextLabel="Hsd17b7" GraphId="f52ce" Type="GeneProduct" GroupRef="b180c">
+		<Graphics CenterX="1034.1254374978193" CenterY="615.5308275526801" Width="90.0" Height="25.0" ZOrder="32804" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15490"/>
+	</DataNode>
+	<DataNode TextLabel="Dhcr24" GraphId="ba8a0" Type="GeneProduct">
+		<Graphics CenterX="1414.8001505807463" CenterY="291.2059330379125" Width="90.0" Height="25.0" ZOrder="32805" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="74754"/>
+	</DataNode>
+	<DataNode TextLabel="7-oxocholesterol" GraphId="b065b" Type="Metabolite">
+		<Graphics CenterX="1414.8001505807463" CenterY="999.1384224893877" Width="161.5" Height="20.5" ZOrder="32806" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010049"/>
+	</DataNode>
+	<DataNode TextLabel="Cholestenone" GraphId="df102" Type="Metabolite">
+		<Graphics CenterX="1217.4921337031105" CenterY="1065.5055110969822" Width="161.5" Height="20.5" ZOrder="32807" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010015"/>
+	</DataNode>
+	<DataNode TextLabel="4beta-hydroxycholesterol" GraphId="f03cb" Type="Metabolite">
+		<Graphics CenterX="1217.4921337031105" CenterY="1118.242501251694" Width="161.5" Height="20.5" ZOrder="32808" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010014"/>
+	</DataNode>
+	<DataNode TextLabel="24S-hydroxycholesterol" GraphId="e3a1f" Type="Metabolite">
+		<Graphics CenterX="788.6082970016538" CenterY="1166.4032459404223" Width="165.0" Height="24.5" ZOrder="32809" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010019"/>
+	</DataNode>
+	<DataNode TextLabel="25-hydroxycholesterol" GraphId="a2216" Type="Metabolite">
+		<Graphics CenterX="776.3935989162533" CenterY="983.0409356725155" Width="165.0" Height="25.0" ZOrder="32810" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010018"/>
+	</DataNode>
+	<DataNode TextLabel="27-hydroxycholesterol" GraphId="bc76e" Type="Metabolite">
+		<Graphics CenterX="987.7491660519163" CenterY="1165.8184506187845" Width="165.0" Height="24.5" ZOrder="32811" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMST01010057"/>
+	</DataNode>
+	<DataNode TextLabel="Cholesteryl esters (CE)" GraphId="acad3" Type="Metabolite" GroupRef="c1e92">
+		<Graphics CenterX="552.1904392931614" CenterY="1212.749074690947" Width="165.0" Height="24.5" ZOrder="32812" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="ChEBI" ID="CHEBI:17002"/>
+	</DataNode>
+	<DataNode TextLabel="Cyp46a1" GraphId="e814e" Type="GeneProduct">
+		<Graphics CenterX="945.1887248645606" CenterY="1115.2563623813114" Width="64.03938115330558" Height="24.999999999999968" ZOrder="32813" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13116"/>
+	</DataNode>
+	<DataNode TextLabel="Cyp27a1" GraphId="efca4" Type="GeneProduct">
+		<Graphics CenterX="1035.1900943219582" CenterY="1121.1043155976847" Width="64.03938115330558" Height="25.0" ZOrder="32814" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="104086"/>
+	</DataNode>
+	<DataNode TextLabel="Acyl-CoA" GraphId="c2bad" Type="Metabolite">
+		<Graphics CenterX="681.3302324558235" CenterY="1041.6000517113628" Width="90.0" Height="25.0" ZOrder="32815" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="LIPID MAPS" ID="LMFA07050000"/>
+	</DataNode>
+	<DataNode TextLabel="Soat2" GraphId="c4546" Type="GeneProduct" GroupRef="ddde4">
+		<Graphics CenterX="736.5134268528373" CenterY="1102.661710574333" Width="67.3150492264409" Height="24.999999999999968" ZOrder="32816" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="223920"/>
+	</DataNode>
+	<DataNode TextLabel="Acot2" GraphId="a6a23" Type="GeneProduct" GroupRef="afa33">
+		<Graphics CenterX="174.03240010584884" CenterY="209.4003810185491" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32817" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="171210"/>
+	</DataNode>
+	<DataNode TextLabel="Hmgcs1" GraphId="ff67e" Type="GeneProduct" GroupRef="e48eb">
+		<Graphics CenterX="174.03240010584878" CenterY="268.19192913385785" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32819" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="208715"/>
+	</DataNode>
+	<DataNode TextLabel="Hmgcs2" GraphId="c4ec3" Type="GeneProduct" GroupRef="e48eb">
+		<Graphics CenterX="174.03240010584878" CenterY="283.4412729658786" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32820" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15360"/>
+	</DataNode>
+	<DataNode TextLabel="Mvk" GraphId="db6e1" Type="GeneProduct">
+		<Graphics CenterX="174.0324001058488" CenterY="421.43456643263943" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32821" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="17855"/>
+	</DataNode>
+	<DataNode TextLabel="Pmvk" GraphId="cf299" Type="GeneProduct">
+		<Graphics CenterX="174.0324001058488" CenterY="494.07119422572134" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32822" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="68603"/>
+	</DataNode>
+	<DataNode TextLabel="Mvd" GraphId="cc32e" Type="GeneProduct">
+		<Graphics CenterX="175.43886986674895" CenterY="562.1705773724474" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32823" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="192156"/>
+	</DataNode>
+	<DataNode TextLabel="Sqle" GraphId="a6801" Type="GeneProduct">
+		<Graphics CenterX="361.24534191025634" CenterY="240.4169243088217" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32824" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="20775"/>
+	</DataNode>
+	<DataNode TextLabel="Idi1" GraphId="c0ff0" Type="GeneProduct" GroupRef="caab0">
+		<Graphics CenterX="363.06306161830514" CenterY="641.2458396744502" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32826" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="319554"/>
+	</DataNode>
+	<DataNode TextLabel="Idi2" GraphId="e6e39" Type="GeneProduct" GroupRef="caab0">
+		<Graphics CenterX="363.06437395426326" CenterY="656.2451835064708" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32827" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="320581"/>
+	</DataNode>
+	<DataNode TextLabel="Fdft1" GraphId="b226c" Type="GeneProduct">
+		<Graphics CenterX="362.7378792236892" CenterY="387.7059502736641" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32828" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="14137"/>
+	</DataNode>
+	<DataNode TextLabel="Ggps1" GraphId="f0820" Type="GeneProduct" GroupRef="fbff3">
+		<Graphics CenterX="362.7378792236856" CenterY="525.5038561324461" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32830" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="14593"/>
+	</DataNode>
+	<DataNode TextLabel="Fdps" GraphId="d5ff3" Type="GeneProduct" GroupRef="fbff3">
+		<Graphics CenterX="362.7378792236856" CenterY="539.4819969245482" Width="70.1843832020997" Height="15.899606299212564" ZOrder="32831" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="110196"/>
+	</DataNode>
+	<DataNode TextLabel="Lss" GraphId="f52aa" Type="GeneProduct">
+		<Graphics CenterX="754.3247327306699" CenterY="206.832034767044" Width="64.5669291338582" Height="19.836614173228327" ZOrder="32832" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="16987"/>
+	</DataNode>
+	<DataNode TextLabel="Kandutsch-&#10;Russell &#10;Pathway" GraphId="e6c4d" Type="Pathway">
+		<Graphics CenterX="1254.103549759347" CenterY="319.06765496273727" Width="85.07456939821117" Height="43.31047320705579" ZOrder="32833" FontWeight="Bold" FontSize="12" Valign="Middle" Color="009900"/>
+		<Xref Database="" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="PreSqualene" GraphId="f2a8e" Type="Metabolite">
+		<Comment>Annotated while assuming this compound is actually presqualene-diphosphate</Comment>
+		<Graphics CenterX="477.8860007490959" CenterY="387.7059502736641" Width="90.0" Height="25.0" ZOrder="32834" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="Wikidata" ID="Q27088444"/>
+	</DataNode>
+	<DataNode TextLabel="Cyp51" GraphId="a953a" Type="GeneProduct" GroupRef="ae052">
+		<Graphics CenterX="957.6169548277586" CenterY="521.8613479464934" Width="90.0" Height="25.0" ZOrder="32837" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13121"/>
+	</DataNode>
+	<DataNode TextLabel="Dhcr7" GraphId="eb5a2" Type="GeneProduct">
+		<Graphics CenterX="1049.1784909464309" CenterY="847.0273113782774" Width="90.0" Height="25.0" ZOrder="32841" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="13360"/>
+	</DataNode>
+	<DataNode TextLabel="Dhcr24" GraphId="d5bf1" Type="GeneProduct">
+		<Graphics CenterX="988.0704840555618" CenterY="899.8523099218746" Width="90.0" Height="25.0" ZOrder="32842" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="74754"/>
+	</DataNode>
+	<DataNode TextLabel="CE(18:1)" GraphId="c9f8a" Type="Metabolite" GroupRef="c1e92">
+		<Comment>Assuming this is omega-7 type</Comment>
+		<Graphics CenterX="590.1651228374647" CenterY="1237.182618994745" Width="90.0" Height="25.0" ZOrder="32844" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="Wikidata" ID="Q27116670"/>
+	</DataNode>
+	<DataNode TextLabel="Nr1h2" GraphId="ac50c" Type="GeneProduct" GroupRef="b48a1">
+		<Graphics CenterX="401.83554926505565" CenterY="983.0409356725155" Width="50.75236248074137" Height="25.0" ZOrder="32845" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000060601"/>
+	</DataNode>
+	<DataNode TextLabel="Abcg1" GraphId="cf0ab" Type="GeneProduct" GroupRef="f46e6">
+		<Graphics CenterX="465.4397545017658" CenterY="1092.982456140351" Width="90.0" Height="25.0" ZOrder="32850" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000024030"/>
+	</DataNode>
+	<DataNode TextLabel="Mylip (IDOL)" GraphId="e201b" Type="GeneProduct">
+		<Graphics CenterX="375.4397545017657" CenterY="1169.7076023391821" Width="90.0" Height="25.0" ZOrder="32851" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000038175"/>
+	</DataNode>
+	<DataNode TextLabel="Srebf2" GraphId="f84f3" Type="GeneProduct">
+		<Graphics CenterX="160.23112192511576" CenterY="983.0409356725154" Width="59.79517279570178" Height="25.0" ZOrder="32854" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000022463"/>
+	</DataNode>
+	<DataNode TextLabel="Acsl1" GraphId="ba146" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="199.9782217931682" CenterY="1220.1603711805096" Width="46.77567327611733" Height="25.0" ZOrder="32859" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000018796"/>
+	</DataNode>
+	<DataNode TextLabel="Acsl3" GraphId="cd78e" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="246.75389506928562" CenterY="1220.1603711805096" Width="46.77567327611733" Height="25.0" ZOrder="32860" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000032883"/>
+	</DataNode>
+	<DataNode TextLabel="Acsl4" GraphId="eccbc" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="153.20254851705056" CenterY="1245.1603711805099" Width="46.77567327611733" Height="25.0" ZOrder="32861" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000031278"/>
+	</DataNode>
+	<DataNode TextLabel="Elovl2" GraphId="c4de4" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="199.97822179316825" CenterY="1245.1603711805099" Width="46.77567327611733" Height="25.0" ZOrder="32862" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000021364"/>
+	</DataNode>
+	<DataNode TextLabel="Elovl3" GraphId="b4459" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="246.75389506928556" CenterY="1245.1603711805099" Width="46.77567327611733" Height="25.0" ZOrder="32863" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000038754"/>
+	</DataNode>
+	<DataNode TextLabel="Elovl4" GraphId="f2c1a" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="153.20254851705056" CenterY="1270.1603711805099" Width="46.77567327611733" Height="25.0" ZOrder="32864" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000032262"/>
+	</DataNode>
+	<DataNode TextLabel="Elovl5" GraphId="e41d4" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="199.97822179316825" CenterY="1270.1603711805099" Width="46.77567327611733" Height="25.0" ZOrder="32865" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000032349"/>
+	</DataNode>
+	<DataNode TextLabel="Fads1" GraphId="d8359" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="246.75389506928556" CenterY="1269.8644256344903" Width="46.77567327611733" Height="25.0" ZOrder="32866" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000010663"/>
+	</DataNode>
+	<DataNode TextLabel="Fads2" GraphId="c2c3d" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="153.2025485170505" CenterY="1295.16037118051" Width="46.77567327611733" Height="25.0" ZOrder="32867" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000024665"/>
+	</DataNode>
+	<DataNode TextLabel="Scd1" GraphId="c2197" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="199.9782217931682" CenterY="1295.16037118051" Width="46.77567327611733" Height="25.0" ZOrder="32868" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000037071"/>
+	</DataNode>
+	<DataNode TextLabel="Scd2" GraphId="a743a" Type="Protein" GroupRef="c86a4">
+		<Graphics CenterX="246.75389506928562" CenterY="1295.16037118051" Width="46.77567327611733" Height="25.0" ZOrder="32869" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="P13011"/>
+	</DataNode>
+	<DataNode TextLabel="Acot1" GraphId="c48d2" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="153.2025485170505" CenterY="1320.16037118051" Width="46.77567327611733" Height="25.0" ZOrder="32870" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000072949"/>
+	</DataNode>
+	<DataNode TextLabel="Acot2" GraphId="bde89" Type="GeneProduct" GroupRef="c86a4">
+		<Graphics CenterX="199.97822179316825" CenterY="1320.16037118051" Width="46.77567327611733" Height="25.0" ZOrder="32871" FontSize="12" Valign="Middle"/>
+		<Xref Database="Ensembl" ID="ENSMUSG00000021226"/>
+	</DataNode>
+	<DataNode TextLabel="Fatty acid biosynthesis" GraphId="d2b5e" Type="Pathway">
+		<Graphics CenterX="102.7854563453696" CenterY="1187.3486076173997" Width="154.32536108931555" Height="25.0" ZOrder="32872" FontWeight="Bold" FontSize="12" Valign="Middle" Color="14961e"/>
+		<Xref Database="WikiPathways" ID="WP4491"/>
+	</DataNode>
+	<DataNode TextLabel="Oleic acid" GraphId="ef1cc" Type="Metabolite" GroupRef="f4bff">
+		<Comment>Aka C18:1 (omega 9)</Comment>
+		<Graphics CenterX="373.33640836408387" CenterY="1318.1180811808135" Width="65.13530135301335" Height="25.0" ZOrder="32873" FontSize="12" Valign="Middle" Color="0000ff"/>
+		<Xref Database="Wikidata" ID="Q207688"/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl zymostenol" GraphId="e68a6" Type="Metabolite">
+		<Comment/>
+		<Graphics CenterX="1402.482904987696" CenterY="575.6583291363012" Width="133.56579118149773" Height="24.5" ZOrder="32874" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="PubChem-compound" ID="22212495"/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl zymostenone" GraphId="cabd2" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)[C](=O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/CC(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="1402.482904987696" CenterY="525.8946682866001" Width="133.56579118149773" Height="24.5" ZOrder="32875" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl-4-carboxy&#10;zymostenone" GraphId="dfc66" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)(COOH)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/CC(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="1402.482904987696" CenterY="466.6383225135639" Width="133.56579118149773" Height="30.141289184308924" ZOrder="32877" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="dihydro-FF-MAS" GraphId="de222" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)(C)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/CC(\C)/C)CC=[C@@]21C</Comment>
+		<Graphics CenterX="1402.482904987696" CenterY="364.4645338670388" Width="133.5657911814977" Height="24.499999999999986" ZOrder="32879" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="dihydro-T-MAS" GraphId="e7de2" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)(C)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/CC(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="1402.482904987696" CenterY="413.792722604356" Width="133.56579118149776" Height="24.500000000000043" ZOrder="32880" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="Cyp51A1" GraphId="fc99e" Type="Protein">
+		<Graphics CenterX="1377.1879545465483" CenterY="324.7890899433281" Width="90.0" Height="25.0" ZOrder="32884" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q8K0C4"/>
+	</DataNode>
+	<DataNode TextLabel="TM7SF2" GraphId="a2acf" Type="Protein" GroupRef="b1f6a">
+		<Graphics CenterX="1525.6216894863066" CenterY="375.73972217781" Width="90.0" Height="25.0" ZOrder="32886" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q71KT5"/>
+	</DataNode>
+	<DataNode TextLabel="SC4MOL" GraphId="e2406" Type="Protein">
+		<Graphics CenterX="1525.6216894863066" CenterY="438.00386787424026" Width="90.0" Height="25.0" ZOrder="32888" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9CRA4"/>
+	</DataNode>
+	<DataNode TextLabel="NSDHL" GraphId="ff601" Type="Protein">
+		<Graphics CenterX="1525.6216894863069" CenterY="498.0997495559489" Width="90.0" Height="25.0" ZOrder="32890" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9R1J0"/>
+	</DataNode>
+	<DataNode TextLabel="LBR" GraphId="f3766" Type="Protein" GroupRef="b1f6a">
+		<Graphics CenterX="1525.6216894863066" CenterY="400.73972217781" Width="90.0" Height="25.0" ZOrder="32892" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q3U9G9"/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl zymosterol" GraphId="f5d6b" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/C=C(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="661.0634706276694" CenterY="575.6583291363012" Width="133.56579118149773" Height="24.5" ZOrder="32893" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="PubChem-compound" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl zymosterone" GraphId="a40ba" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)[C](=O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/C=C(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="661.0634706276694" CenterY="525.8946682866001" Width="133.56579118149773" Height="24.5" ZOrder="32894" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="4-methyl-4-carboxy&#10;zymosterone" GraphId="fffd1" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)(COOH)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/C=C(\C)/C)CC[C]21H</Comment>
+		<Graphics CenterX="661.0634706276694" CenterY="466.63832251356376" Width="133.56579118149773" Height="30.141289184308924" ZOrder="32895" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="FF-MAS" GraphId="b2096" Type="Metabolite">
+		<Comment>aka 14-demethyl-14-dehydrolanosterol</Comment>
+		<Comment>C12CC[C@@]3([H])C(C)(C)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/C=C(\C)/C)CC=[C@@]21C SMILES</Comment>
+		<Graphics CenterX="661.0634706276712" CenterY="364.46453386703877" Width="133.56579118149776" Height="24.500000000000043" ZOrder="32896" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="CAS" ID="64284-64-6"/>
+	</DataNode>
+	<DataNode TextLabel="T-MAS" GraphId="f7a7a" Type="Metabolite">
+		<Comment>C12CC[C@@]3([H])C(C)(C)[C@@H](O)CC[C@]3(C)C=1CC[C@]1(C)[C@@]([H])([C@@](C)([H])CC/C=C(\C)/C)CC[C]21H SMILES</Comment>
+		<Graphics CenterX="661.0634706276712" CenterY="413.792722604356" Width="133.56579118149776" Height="24.500000000000043" ZOrder="32897" FontSize="12" Valign="Middle" ShapeType="RoundedRectangle" Color="009999"/>
+		<Xref Database="LIPID MAPS" ID=""/>
+	</DataNode>
+	<DataNode TextLabel="DHCR14 &#10;aka Tm7fs2" GraphId="ce460" Type="Protein" GroupRef="bd81d">
+		<Graphics CenterX="559.2952590126454" CenterY="372.4655611905908" Width="68.97640556663579" Height="30.487902976550913" ZOrder="32898" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="73166"/>
+	</DataNode>
+	<DataNode TextLabel="SC4MOL" GraphId="b723e" Type="Protein">
+		<Graphics CenterX="562.2012311272" CenterY="435.4325732644961" Width="58.75431800786817" Height="25.000000000000057" ZOrder="32900" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9CRA4"/>
+	</DataNode>
+	<DataNode TextLabel="NSDHL" GraphId="c3fa1" Type="Protein">
+		<Graphics CenterX="562.2012311272" CenterY="494.92002504904235" Width="58.75431800786817" Height="25.000000000000057" ZOrder="32901" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9R1J0"/>
+	</DataNode>
+	<DataNode TextLabel="LBR" GraphId="a814c" Type="Protein" GroupRef="bd81d">
+		<Graphics CenterX="559.2952590126455" CenterY="402.95346416714165" Width="68.97640556663579" Height="30.48790297655089" ZOrder="32902" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q3U9G9"/>
+	</DataNode>
+	<DataNode TextLabel="HSD17B7" GraphId="ced98" Type="Protein">
+		<Graphics CenterX="562.2012311272" CenterY="549.795479646194" Width="58.75431800786809" Height="25.0" ZOrder="32906" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15490"/>
+	</DataNode>
+	<DataNode TextLabel="SC4MOL" GraphId="d4a5a" Type="Protein" GroupRef="a24ae">
+		<Graphics CenterX="597.4164832797218" CenterY="650.7848569663622" Width="58.75431800786817" Height="25.000000000000057" ZOrder="32913" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9CRA4"/>
+	</DataNode>
+	<DataNode TextLabel="NSDHL" GraphId="dae8a" Type="Protein" GroupRef="a24ae">
+		<Graphics CenterX="597.4164832797218" CenterY="675.7848569663622" Width="58.75431800786817" Height="25.000000000000057" ZOrder="32914" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q9R1J0"/>
+	</DataNode>
+	<DataNode TextLabel="HSD17B7" GraphId="d0882" Type="Protein" GroupRef="a24ae">
+		<Graphics CenterX="597.4164832797217" CenterY="700.7848569663623" Width="58.75431800786809" Height="25.0" ZOrder="32915" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15490"/>
+	</DataNode>
+	<DataNode TextLabel="Cyp51A1" GraphId="de415" Type="Protein">
+		<Graphics CenterX="675.2461652491372" CenterY="302.2468175326516" Width="90.0" Height="25.0" ZOrder="32917" FontSize="12" Valign="Middle"/>
+		<Xref Database="Uniprot-TrEMBL" ID="Q8K0C4"/>
+	</DataNode>
+	<DataNode TextLabel="HSD17B7" GraphId="e64ce" Type="Protein">
+		<Graphics CenterX="1525.6216894863066" CenterY="548.5583058872187" Width="89.99999999999999" Height="24.999999999999996" ZOrder="32918" FontSize="12" Valign="Middle"/>
+		<Xref Database="Entrez Gene" ID="15490"/>
+	</DataNode>
+	<Interaction GraphId="id10e71238">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="945.0119128109521" Y="416.63768422093773" GraphRef="a4c7a" RelX="0.0" RelY="-1.0"/>
+			<Point X="918.6587935069808" Y="315.6491944671251" GraphRef="d929e" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id115479da">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1072.6837599803666" Y="692.8725997045777" GraphRef="a3759" RelX="1.0" RelY="0.0"/>
+			<Point X="1211.0473376412233" Y="693.2773109243697" GraphRef="cd98b" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id118aacac">
+		<Comment>multi-step process</Comment>
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="1402.4829049876957" Y="587.9083291363012" GraphRef="e68a6" RelX="0.0" RelY="1.0"/>
+			<Point X="1293.5473376412233" Y="657.3725997045777" GraphRef="bd2e7" RelX="1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id1586f5fd">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="278.14173170734426" Y="1305.41037118051" GraphRef="b666f" RelX="1.0" RelY="0.5"/>
+			<Point X="332.76875768757725" Y="1305.430504305045" GraphRef="e711d" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id1997d1a2">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1369.8001505807463" Y="291.2059330379125" GraphRef="ba8a0" RelX="-1.0" RelY="0.0"/>
+			<Point X="1077.6252329746849" Y="292.4859681321085" GraphRef="ad732" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id19d7a456">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="206.3158646727779" Y="494.07119422572134" GraphRef="cf299" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="494.3" GraphRef="a217f" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id2165080a">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0" Color="009999">
+			<Point X="727.8463662184201" Y="364.46453386703877" GraphRef="b2096" RelX="1.0" RelY="0.0"/>
+			<Point X="1335.7000093969468" Y="364.4645338670388" GraphRef="de222" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.46064201553682593" Shape="None" GraphId="c5015"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id2666b4a6">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="207.72233443367804" Y="562.1705773724474" GraphRef="cc32e" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="561.3" GraphRef="d1b14" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id26f4efb8">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="601.7834617959634" Y="387.7095126788662" GraphRef="ebd54" RelX="1.0" RelY="0.0"/>
+			<Point X="661.0634706276712" Y="388.5189282471843" GraphRef="b65bd" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id2ae1dd57">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575546" Y="544.5" GraphRef="b33c5" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575534" Y="586.5" GraphRef="a17cf" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="d1b14"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id2c66cd62">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineStyle="Broken" LineThickness="1.0" Color="ff0033">
+			<Point X="1070.2491660519163" Y="983.8255977496483" GraphRef="d8c85" RelX="1.0" RelY="-0.5"/>
+			<Point X="1581.8706465159553" Y="637.5157653937804"/>
+			<Point X="1459.8001505807463" Y="291.2059330379125" GraphRef="ba8a0" RelX="1.0" RelY="0.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id2e5582ce">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="813.6312389719628" Y="434.62259970458007" GraphRef="c7b83" RelX="0.0" RelY="1.0"/>
+			<Point X="812.9833213493348" Y="487.1225997045801" GraphRef="e19c7" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="ab623"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id318cc971">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="831.0279986820151" Y="847.0273113782773" GraphRef="ecff5" RelX="-1.0" RelY="0.0"/>
+			<Point X="813.8433280493753" Y="846.3552392120597" GraphRef="a6841" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id322b7e88">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="945.1887248645606" Y="1102.7563623813114" GraphRef="e814e" RelX="0.0" RelY="-1.0"/>
+			<Point X="916.3428184318113" Y="1083.4389355069704" GraphRef="d6509" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id3919ac31">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="532.8860007490957" Y="163.35874200426434" GraphRef="bfe66" RelX="1.0" RelY="0.0"/>
+			<Point X="634.2371668974728" Y="163.37895606003596" GraphRef="dd349" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id3a9081b8">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575534" Y="477.5" GraphRef="c3504" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575546" Y="519.5" GraphRef="b33c5" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a217f"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id3eed3a19">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="361.24534191025634" Y="230.49861722220754" GraphRef="a6801" RelX="0.0" RelY="-1.0"/>
+			<Point X="476.99047836103585" Y="207.14365138699878" GraphRef="a8f53" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id469a490c">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="247.32564499318391" Y="995.5409356725155" GraphRef="aa220" RelX="0.0" RelY="1.0"/>
+			<Point X="322.4397545017657" Y="1092.982456140351" GraphRef="c1a72" RelX="-1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id4755548d">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="434.62259970458" GraphRef="bd86c" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="487.12259970458" GraphRef="ec9d5" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="be483"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id47c15abe">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1094.1784909464309" Y="847.0273113782774" GraphRef="eb5a2" RelX="1.0" RelY="0.0"/>
+			<Point X="1138.2280690055004" Y="883.5966259268253" GraphRef="a6418" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id482fbab5">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="988.6771631969928" Y="252.66692430882173" GraphRef="ac635" RelX="0.0" RelY="1.0"/>
+			<Point X="813.6312389719628" Y="410.12259970458007" GraphRef="c7b83" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="d929e"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id48a58096">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="987.7491660519163" Y="1028.1293952180024" GraphRef="d8c85" RelX="0.0" RelY="1.0"/>
+			<Point X="987.7491660519163" Y="1153.5684506187845" GraphRef="bc76e" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="ba53d"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id4f69d5a">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="982.6837599803666" Y="692.8725997045777" GraphRef="a3759" RelX="-1.0" RelY="0.0"/>
+			<Point X="813.6312389719626" Y="692.8944309286439" GraphRef="f853e" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id5218a753">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="477.88600074909596" Y="452.5" GraphRef="e4be5" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="400.2059502736641" GraphRef="f2a8e" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="f32fb"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id52f0d840">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="477.88600074909596" Y="586.5" GraphRef="c516a" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="544.5" GraphRef="b67d7" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.38904032180113557" Shape="None" GraphId="a2df4"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id5468365a">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="1060.6254374978193" Y="570.0308275526802" GraphRef="ef561" RelX="0.5" RelY="-1.0"/>
+			<Point X="1211.0473376412233" Y="455.62259970458" GraphRef="be483" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id551b71e9">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1028.9991660519163" Y="1028.1293952180024" GraphRef="d8c85" RelX="0.5" RelY="1.0"/>
+			<Point X="1136.7421337031105" Y="1118.242501251694" GraphRef="f03cb" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id57690b3f">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575534" Y="329.5" GraphRef="c2349" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575546" Y="375.2059502736641" GraphRef="de72d" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a5f53"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id58c774ca">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1298.2421337031105" Y="999.9513620111883" GraphRef="ab39a" RelX="1.0" RelY="0.0"/>
+			<Point X="1334.0501505807463" Y="999.1384224893877" GraphRef="b065b" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id592ed15c">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1070.2491660519163" Y="1013.361462728551" GraphRef="d8c85" RelX="1.0" RelY="0.5"/>
+			<Point X="1136.7421337031105" Y="1065.5055110969822" GraphRef="df102" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id607ddba5">
+		<Comment>Desmosterol significantly increases protein levels of Nr1h3 (see ref. for more details)</Comment>
+		<BiopaxRef>f3d</BiopaxRef>
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="731.6614616654938" Y="890.5869759289835" GraphRef="e9838" RelX="-1.0" RelY="0.0"/>
+			<Point X="364.2910336628172" Y="970.5409356725155" GraphRef="c905a" RelX="0.5" RelY="-1.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id611397ba">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1070.2491660519163" Y="998.5935302390997" GraphRef="d8c85" RelX="1.0" RelY="0.0"/>
+			<Point X="1136.7421337031105" Y="999.9513620111883" GraphRef="ab39a" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id61d37689">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="754.3247327306699" Y="216.75034185365817" GraphRef="f52aa" RelX="0.0" RelY="1.0"/>
+			<Point X="695.0069433401947" Y="240.41692430882173" GraphRef="db1d6" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id6ad03ab">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="477.88600074909596" Y="304.49999999999994" GraphRef="c13fb" RelX="0.0" RelY="-1.0"/>
+			<Point X="476.3934634356626" Y="252.66692430882173" GraphRef="cd2cd" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="e29c2"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id6bf4d8b9">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="476.3934634356626" Y="228.16692430882173" GraphRef="cd2cd" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909573" Y="175.60874200426434" GraphRef="bfe66" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a8f53"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id702c4126">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1072.6837599803666" Y="767.8725997045777" GraphRef="f3d8e" RelX="1.0" RelY="0.0"/>
+			<Point X="1211.0473376412233" Y="767.8571428571428" GraphRef="cdd9c" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id7174efd">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="362.7378792236892" Y="397.62425736027825" GraphRef="b226c" RelX="0.0" RelY="1.0"/>
+			<Point X="477.88600074909596" Y="431.58238010946565" GraphRef="f32fb" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id749202e1">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="946.4991660519163" Y="1028.1293952180024" GraphRef="d8c85" RelX="-0.5" RelY="1.0"/>
+			<Point X="871.1082970016538" Y="1166.4032459404223" GraphRef="e3a1f" RelX="1.0" RelY="0.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="d6509"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id74e4bb64">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="813.6312389719628" Y="826.6225997045777" GraphRef="aa695" RelX="0.0" RelY="1.0"/>
+			<Point X="814.1614616654938" Y="875.9541984732825" GraphRef="e9838" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a6841"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id75811cb1">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="669.6225997045777" GraphRef="bd2e7" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="720.1225997045777" GraphRef="c7972" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.46841012316419645" Shape="None" GraphId="cd98b"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id75fcb1bb">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="376.7145338670387" GraphRef="f09d4" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="410.12259970458" GraphRef="bd86c" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="eb698"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id7876c265">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="315.19957997575534" Y="599.0" GraphRef="a17cf" RelX="1.0" RelY="0.0"/>
+			<Point X="432.88600074909596" Y="599.0" GraphRef="c516a" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="addfa"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id84c482b9">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="199.97822179316805" Y="1059.2188077944143" GraphRef="a892b" RelX="0.0" RelY="0.0"/>
+			<Point X="102.7854563453696" Y="1174.8486076173997" GraphRef="d2b5e" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id85b559d0">
+		<Comment>Multiple steps involved</Comment>
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="589.3587108156903" GraphRef="ae3c8" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="645.1225997045777" GraphRef="bd2e7" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="f9a75"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id874dcb8d">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="813.6312389719626" Y="744.6225997045779" GraphRef="f46e2" RelX="0.0" RelY="1.0"/>
+			<Point X="813.6312389719628" Y="802.1225997045777" GraphRef="aa695" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4223471881849084" Shape="None" GraphId="ce7c6"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id8a84238a">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="477.88600074909596" Y="519.5" GraphRef="b67d7" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="477.5" GraphRef="e4be5" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="ba2c1"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id8c808d63">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="217.12459170689868" Y="201.77570910253863" GraphRef="c731c" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="201.68067226890756" GraphRef="c43bc" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id91f4cea8">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="217.12459170689863" Y="275.81660104986827" GraphRef="a0779" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="276.26050420168065" GraphRef="cc986" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="id99716213">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="363.0637177862842" Y="625.2960365248439" GraphRef="bf311" RelX="0.0" RelY="-1.0"/>
+			<Point X="362.2741482850916" Y="599.0" GraphRef="addfa" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ida1c96ec8">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="694.8559022396169" Y="1090.1617105743333" GraphRef="b4b55" RelX="-1.0" RelY="0.0"/>
+			<Point X="597.3261636250879" Y="1083.0563984659557" GraphRef="b2f18" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ida2f1181b">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="511.62259970458" GraphRef="ec9d5" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="564.8587108156903" GraphRef="ae3c8" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="c4ce2"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ida2f78071">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="634.7936422836558" Y="675.7848569663622" GraphRef="e58e8" RelX="1.0" RelY="0.0"/>
+			<Point X="689.0905779653867" Y="615.6940373636118" GraphRef="dd250" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ida58d2ffd">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575534" Y="175.85874200426434" GraphRef="bca2c" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575546" Y="227.91692430882173" GraphRef="a65cb" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4960205893009571" Shape="None" GraphId="c43bc"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ida6c1d920">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="1079.1254374978193" Y="590.5308275526802" GraphRef="c2585" RelX="1.0" RelY="0.0"/>
+			<Point X="1088.693297224103" Y="561.7239358508522"/>
+			<Point X="1211.0473376412233" Y="532.9170441490242" GraphRef="c4ce2" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idad096071">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="812.9833213493348" Y="518.6335403726708" GraphRef="e19c7" RelX="0.0" RelY="1.0"/>
+			<Point X="813.6312389719628" Y="564.8587108156903" GraphRef="a1093" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.34520618699380806" Shape="None" GraphId="a7393"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idae71aeb2">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="206.3158646727779" Y="421.43456643263943" GraphRef="db6e1" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="421.12357016419844" GraphRef="f60c6" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idb27ed89f">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1003.1704037453055" Y="1121.1043155976847" GraphRef="efca4" RelX="-1.0" RelY="0.0"/>
+			<Point X="987.7491660519163" Y="1078.3050173783151" GraphRef="ba53d" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idb3de7a39">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="206.3158646727779" Y="347.9175060651857" GraphRef="c3a79" RelX="1.0" RelY="0.0"/>
+			<Point X="270.1995799757554" Y="347.78238010946563" GraphRef="a5f53" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idb494995e">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="544.8934634356626" Y="240.41692430882173" GraphRef="cd2cd" RelX="1.0" RelY="0.0"/>
+			<Point X="920.1771631969928" Y="240.41692430882173" GraphRef="ac635" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="db1d6"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idbbb5528b">
+		<Graphics ZOrder="12288" LineStyle="Broken" LineThickness="1.0">
+			<Point X="813.6312389719628" Y="589.3587108156903" GraphRef="a1093" RelX="0.0" RelY="1.0"/>
+			<Point X="813.6312389719626" Y="645.1225997045776" GraphRef="f3008" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.478448900434278" Shape="None" GraphId="fd234"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idbc84aa81">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="681.3302324558235" Y="1054.1000517113628" GraphRef="c2bad" RelX="0.0" RelY="1.0"/>
+			<Point X="597.3261636250879" Y="1083.0563984659557" GraphRef="b2f18" RelX="0.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idbf581684">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575546" Y="400.2059502736641" GraphRef="de72d" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575534" Y="452.5" GraphRef="c3504" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="f60c6"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc0f88a18">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="362.7378792236856" Y="555.4318000741545" GraphRef="b514b" RelX="0.0" RelY="1.0"/>
+			<Point X="477.88600074909596" Y="570.1603064843523" GraphRef="a2df4" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc1078c90">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="814.1614616654938" Y="905.2197533846845" GraphRef="e9838" RelX="0.0" RelY="1.0"/>
+			<Point X="946.4991660519163" Y="969.0576652601969" GraphRef="d8c85" RelX="-0.5" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="c738f"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc228d2e4">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="943.0704840555618" Y="899.8523099218746" GraphRef="d5bf1" RelX="-1.0" RelY="0.0"/>
+			<Point X="867.0965434200627" Y="930.7549181348895" GraphRef="c738f" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc3892106">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="905.2491660519163" Y="983.8255977496483" GraphRef="d8c85" RelX="-1.0" RelY="-0.5"/>
+			<Point X="858.8935989162533" Y="983.0409356725155" GraphRef="a2216" RelX="1.0" RelY="0.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.21648686666200423" Shape="None" GraphId="f4583"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc477ee2a">
+		<Comment>From the LipidMaps drawing, it is unclear if only Nr1h3 influences Srebf1, or the group Nr1h2/3 does this.</Comment>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="327.78603057721386" Y="983.0409356725155" GraphRef="c905a" RelX="-1.0" RelY="0.0"/>
+			<Point X="277.2232313910348" Y="983.0409356725155" GraphRef="aa220" RelX="1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc47b154c">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="945.0119128109521" Y="441.63768422093773" GraphRef="a4c7a" RelX="0.0" RelY="1.0"/>
+			<Point X="813.3720719229116" Y="455.62259970458007" GraphRef="ab623" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idc7299d04">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="904.6169548277586" Y="533.6581130660429" GraphRef="cf9f1" RelX="-1.0" RelY="0.0"/>
+			<Point X="813.2069865213283" Y="534.5907552044445" GraphRef="a7393" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idcb91214">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="735.1435989162533" Y="995.5409356725155" GraphRef="a2216" RelX="-0.5" RelY="1.0"/>
+			<Point X="498.7090185541813" Y="1010.1010101010102"/>
+			<Point X="262.27443819210936" Y="995.5409356725155" GraphRef="aa220" RelX="0.5" RelY="1.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idcca7a0a1">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="826.6225997045775" GraphRef="b0510" RelX="0.0" RelY="1.0"/>
+			<Point X="1028.9991660519163" Y="969.0576652601969" GraphRef="d8c85" RelX="0.5" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a6418"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idcd507b5e">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="328.9618773433273" Y="240.4169243088217" GraphRef="a6801" RelX="-1.0" RelY="0.0"/>
+			<Point X="477.2889858237226" Y="283.7667697235287" GraphRef="e29c2" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idcf574b49">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="981.1254374978193" Y="615.5308275526801" GraphRef="ef561" RelX="-1.0" RelY="0.0"/>
+			<Point X="813.6312389719627" Y="616.0388821385177" GraphRef="fd234" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idcf685ec9">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="1211.0473376412233" Y="744.6225997045777" GraphRef="c7972" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="802.1225997045775" GraphRef="b0510" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4040790113489588" Shape="None" GraphId="cdd9c"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idd4ddcb4a">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="362.7378792236856" Y="509.55405298283983" GraphRef="b514b" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="502.7" GraphRef="ba2c1" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idd5b4b329">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="905.2491660519163" Y="1013.361462728551" GraphRef="d8c85" RelX="-1.0" RelY="0.5"/>
+			<Point X="597.3261636250879" Y="1192.499074690947" GraphRef="c3e0a" RelX="0.5" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.7752996793587327" Shape="None" GraphId="b2f18"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idd80c8fa5">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="777.348803330767" Y="934.9201050713681" GraphRef="bd6fe" RelX="0.0" RelY="-1.0"/>
+			<Point X="895.2137945703764" Y="983.6557287151813" GraphRef="f4583" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idd9f102da">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="217.42805859533303" Y="983.0409356725155" GraphRef="aa220" RelX="-1.0" RelY="0.0"/>
+			<Point X="199.97822179316805" Y="1199.6603711805096" GraphRef="b666f" RelX="0.0" RelY="-1.0" ArrowHead="mim-stimulation"/>
+			<Anchor Position="0.4" Shape="None" GraphId="a892b"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="iddf348d19">
+		<Comment>9291139 has been found for Rat, not Mouse</Comment>
+		<BiopaxRef>cbb</BiopaxRef>
+		<BiopaxRef>eb8</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="988.6771631969928" Y="252.66692430882173" GraphRef="ac635" RelX="0.0" RelY="1.0"/>
+			<Point X="1211.0473376412233" Y="352.2145338670387" GraphRef="f09d4" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="ad732"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ide1f6c7fb">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="720.2461652491372" Y="302.2468175326516" GraphRef="de415" RelX="1.0" RelY="0.0"/>
+			<Point X="814.9493800794869" Y="299.9961618645094" GraphRef="dbce0" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ide48549e2">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="270.19957997575546" Y="252.91692430882173" GraphRef="a65cb" RelX="0.0" RelY="1.0"/>
+			<Point X="270.19957997575534" Y="304.5" GraphRef="c2349" RelX="0.0" RelY="-1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4525433890878114" Shape="None" GraphId="cc986"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ide7db421a">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="982.6837599803666" Y="767.8725997045777" GraphRef="f3d8e" RelX="-1.0" RelY="0.0"/>
+			<Point X="813.6312389719627" Y="768.90756302521" GraphRef="ce7c6" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idee42014b">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="366.12146371463746" Y="1272.2429274292763" GraphRef="e711d" RelX="-0.5" RelY="-1.0"/>
+			<Point X="459.80928598795754" Y="1225.249074690947" GraphRef="c3e0a" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idf28c2c24">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="12288" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1007.8492935635793" Y="364.46453386703877" GraphRef="c5015" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idf345d5ea">
+		<Graphics ZOrder="12288" LineThickness="1.0">
+			<Point X="813.6312389719626" Y="669.6225997045776" GraphRef="f3008" RelX="0.0" RelY="1.0"/>
+			<Point X="813.6312389719626" Y="720.1225997045779" GraphRef="f46e2" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.46082834107061693" Shape="None" GraphId="f853e"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="idf4b93348">
+		<Graphics ConnectorType="Elbow" ZOrder="12288" LineThickness="1.0">
+			<Point X="130.33353552726487" Y="989.2909356725154" GraphRef="f84f3" RelX="-1.0" RelY="0.5"/>
+			<Point X="40.60324825986079" Y="595.533322387527"/>
+			<Point X="130.94020850479893" Y="201.77570910253863" GraphRef="c731c" RelX="-1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="b4ade">
+		<Graphics ZOrder="32835" LineThickness="1.0">
+			<Point X="477.88600074909596" Y="375.2059502736641" GraphRef="f2a8e" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="329.49999999999994" GraphRef="c13fb" RelX="0.0" RelY="1.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4" Shape="None" GraphId="f1416"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a1fba">
+		<Graphics ZOrder="32836" LineThickness="1.0">
+			<Point X="362.7378792236892" Y="377.7876431870499" GraphRef="b226c" RelX="0.0" RelY="-1.0"/>
+			<Point X="477.88600074909596" Y="356.92357016419845" GraphRef="f1416" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e44c5">
+		<Graphics ConnectorType="Elbow" ZOrder="32838" LineThickness="1.0">
+			<Point X="984.1169548277586" Y="501.3613479464934" GraphRef="cf9f1" RelX="0.5" RelY="-1.0"/>
+			<Point X="1211.0473376412233" Y="390.07776020205523" GraphRef="eb698" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ebd88">
+		<Graphics ConnectorType="Elbow" ZOrder="32839" LineThickness="1.0">
+			<Point X="1079.1254374978193" Y="615.5308275526801" GraphRef="f52ce" RelX="1.0" RelY="0.0"/>
+			<Point X="1100.880162491537" Y="574.2239358508521"/>
+			<Point X="1211.0473376412233" Y="532.9170441490242" GraphRef="c4ce2" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="bdcc7">
+		<Graphics ConnectorType="Elbow" ZOrder="32840" LineThickness="1.0">
+			<Point X="1079.1254374978193" Y="640.53082755268" GraphRef="de41a" RelX="1.0" RelY="0.0"/>
+			<Point X="1116.6464155528554" Y="626.0975469619626"/>
+			<Point X="1211.0473376412233" Y="611.6642663712453" GraphRef="f9a75" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="dcad8">
+		<Graphics ZOrder="32843" LineStyle="Broken" LineThickness="1.0" Color="ff0033">
+			<Point X="987.7491660519163" Y="969.0576652601969" GraphRef="d8c85" RelX="0.0" RelY="-1.0"/>
+			<Point X="988.0704840555618" Y="912.3523099218746" GraphRef="d5bf1" RelX="0.0" RelY="1.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a101d">
+		<Graphics ZOrder="32846" LineThickness="1.0">
+			<Point X="693.8935989162533" Y="983.0409356725155" GraphRef="a2216" RelX="-1.0" RelY="0.0"/>
+			<Point X="435.2117305054263" Y="983.0409356725155" GraphRef="be5a1" RelX="1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e4ff7">
+		<Graphics ConnectorType="Elbow" ZOrder="32848" LineThickness="1.0">
+			<Point X="731.6614616654938" Y="897.903364656834" GraphRef="e9838" RelX="-1.0" RelY="0.5"/>
+			<Point X="377.4988805413201" Y="962.5409356725155" GraphRef="be5a1" RelX="0.0" RelY="-1.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a0c53">
+		<Graphics ConnectorType="Elbow" ZOrder="32849" LineThickness="1.0">
+			<Point X="731.6614616654938" Y="883.270587201133" GraphRef="e9838" RelX="-1.0" RelY="-0.5"/>
+			<Point X="262.27443819210936" Y="970.5409356725155" GraphRef="aa220" RelX="0.5" RelY="-1.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a20b4">
+		<Graphics ConnectorType="Elbow" ZOrder="32853" LineThickness="1.0">
+			<Point X="232.37685179425847" Y="995.5409356725155" GraphRef="aa220" RelX="-0.5" RelY="1.0"/>
+			<Point X="330.4397545017657" Y="1169.7076023391821" GraphRef="e201b" RelX="-1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="aad93">
+		<Graphics ConnectorType="Elbow" ZOrder="32855" LineThickness="1.0">
+			<Point X="772.9114616654938" Y="875.9541984732825" GraphRef="e9838" RelX="-0.5" RelY="-1.0"/>
+			<Point X="145.28232872619031" Y="970.5409356725154" GraphRef="f84f3" RelX="-0.5" RelY="-1.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="c3a10">
+		<Graphics ConnectorType="Elbow" ZOrder="32856" LineThickness="1.0">
+			<Point X="735.1435989162533" Y="970.5409356725155" GraphRef="a2216" RelX="-0.5" RelY="-1.0"/>
+			<Point X="455.1617570201472" Y="924.4288224956064"/>
+			<Point X="175.1799151240412" Y="970.5409356725154" GraphRef="f84f3" RelX="0.5" RelY="-1.0" ArrowHead="mim-inhibition"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="bdc80">
+		<Graphics ConnectorType="Elbow" ZOrder="32857" LineThickness="1.0">
+			<Point X="130.33353552726487" Y="976.7909356725154" GraphRef="f84f3" RelX="-1.0" RelY="-0.5"/>
+			<Point X="76.56612529002321" Y="626.3037683611918"/>
+			<Point X="130.94020850479893" Y="275.81660104986827" GraphRef="a0779" RelX="-1.0" RelY="0.0" ArrowHead="mim-stimulation"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="cbdab">
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32876" LineThickness="1.0">
+			<Point X="1402.4829049876957" Y="538.1446682866001" GraphRef="cabd2" RelX="0.0" RelY="1.0"/>
+			<Point X="1402.4829049876957" Y="563.4083291363012" GraphRef="e68a6" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.43133279138430974" Shape="None" GraphId="dad77"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a958f">
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32878" LineThickness="1.0">
+			<Point X="1402.4829049876957" Y="481.70896710571833" GraphRef="dfc66" RelX="0.0" RelY="1.0"/>
+			<Point X="1402.4829049876957" Y="513.6446682866001" GraphRef="cabd2" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.5639201050668887" Shape="None" GraphId="bc65c"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a4192">
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32881" LineThickness="1.0">
+			<Point X="1402.482904987696" Y="426.0427226043561" GraphRef="e7de2" RelX="0.0" RelY="1.0"/>
+			<Point X="1402.4829049876957" Y="451.5676779214094" GraphRef="dfc66" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.433525191058437" Shape="None" GraphId="ba201"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e98b2">
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32882" LineThickness="1.0">
+			<Point X="1402.4829049876957" Y="376.7145338670388" GraphRef="de222" RelX="0.0" RelY="1.0"/>
+			<Point X="1402.482904987696" Y="401.5427226043561" GraphRef="e7de2" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.516495753376752" Shape="None" GraphId="ef4d4"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e1293">
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32883" LineThickness="1.0">
+			<Point X="1293.5473376412233" Y="358.3395338670387" GraphRef="f09d4" RelX="1.0" RelY="-0.5"/>
+			<Point X="1335.7000093969468" Y="358.3395338670388" GraphRef="de222" RelX="-1.0" RelY="-0.5" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="cccfa"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a5e09">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32885" LineThickness="1.0">
+			<Point X="1332.1879545465483" Y="324.7890899433281" GraphRef="fc99e" RelX="-1.0" RelY="0.0"/>
+			<Point X="1310.4084063435128" Y="358.33953386703877" GraphRef="cccfa" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="fd40a">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32887" LineThickness="1.0">
+			<Point X="1472.6216894863066" Y="388.23972217781" GraphRef="a19bf" RelX="-1.0" RelY="0.0"/>
+			<Point X="1402.482904987696" Y="389.53818791389966" GraphRef="ef4d4" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ad3bd">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32889" LineThickness="1.0">
+			<Point X="1480.6216894863066" Y="438.00386787424026" GraphRef="e2406" RelX="-1.0" RelY="0.0"/>
+			<Point X="1402.482904987696" Y="437.1084337349397" GraphRef="ba201" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="bbadb">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32891" LineThickness="1.0">
+			<Point X="1480.6216894863069" Y="498.0997495559489" GraphRef="ff601" RelX="-1.0" RelY="0.0"/>
+			<Point X="1402.4829049876957" Y="499.71815107102594" GraphRef="bc65c" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="c4caf">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32904" LineThickness="1.0">
+			<Point X="661.0634706276712" Y="376.71453386703877" GraphRef="b2096" RelX="0.0" RelY="1.0"/>
+			<Point X="661.0634706276712" Y="401.5427226043561" GraphRef="f7a7a" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4754432353095208" Shape="None" GraphId="b65bd"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="f4daa">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32905" LineThickness="1.0">
+			<Point X="661.0634706276712" Y="426.0427226043561" GraphRef="f7a7a" RelX="0.0" RelY="1.0"/>
+			<Point X="661.0634706276694" Y="451.5676779214093" GraphRef="fffd1" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.35615317050404866" Shape="None" GraphId="ca6ab"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="b5461">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32907" LineThickness="1.0">
+			<Point X="661.0634706276694" Y="481.7089671057182" GraphRef="fffd1" RelX="0.0" RelY="1.0"/>
+			<Point X="661.0634706276694" Y="513.6446682866001" GraphRef="a40ba" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4217023236537178" Shape="None" GraphId="fbbbf"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="eb674">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32908" LineThickness="1.0">
+			<Point X="661.0634706276694" Y="538.1446682866001" GraphRef="a40ba" RelX="0.0" RelY="1.0"/>
+			<Point X="661.0634706276694" Y="563.4083291363012" GraphRef="f5d6b" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.46230232054488163" Shape="None" GraphId="fd1a5"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="f6ffd">
+		<Graphics ZOrder="32909" LineThickness="1.0">
+			<Point X="591.578390131134" Y="435.4325732644961" GraphRef="b723e" RelX="1.0" RelY="0.0"/>
+			<Point X="661.0634706276705" Y="435.13351636749877" GraphRef="ca6ab" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="b8388">
+		<Graphics ZOrder="32910" LineThickness="1.0">
+			<Point X="591.578390131134" Y="494.92002504904235" GraphRef="c3fa1" RelX="1.0" RelY="0.0"/>
+			<Point X="661.0634706276694" Y="495.1763265012069" GraphRef="fbbbf" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e55ee">
+		<Graphics ZOrder="32911" LineThickness="1.0">
+			<Point X="591.578390131134" Y="549.795479646194" GraphRef="ced98" RelX="1.0" RelY="0.0"/>
+			<Point X="661.0634706276694" Y="549.8241173228757" GraphRef="fd1a5" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="a92d2">
+		<Comment>multi-step process</Comment>
+		<BiopaxRef>d66</BiopaxRef>
+		<Graphics ZOrder="32912" LineStyle="Broken" LineThickness="1.0">
+			<Point X="661.0634706276694" Y="587.9083291363012" GraphRef="f5d6b" RelX="0.0" RelY="1.0"/>
+			<Point X="731.1312389719626" Y="657.3725997045776" GraphRef="f3008" RelX="-1.0" RelY="0.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4" Shape="None" GraphId="dd250"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="b47b7">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32916" LineThickness="1.0">
+			<Point X="954.4271631969928" Y="252.66692430882173" GraphRef="ac635" RelX="-0.5" RelY="1.0"/>
+			<Point X="661.0634706276712" Y="352.21453386703877" GraphRef="b2096" RelX="0.0" RelY="-1.0" ArrowHead="Arrow"/>
+			<Anchor Position="0.4754432353095208" Shape="None" GraphId="dbce0"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="d40d9">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32919" LineThickness="1.0">
+			<Point X="1480.6216894863066" Y="548.5583058872187" GraphRef="e64ce" RelX="-1.0" RelY="0.0"/>
+			<Point X="1402.4829049876957" Y="549.0417136414882" GraphRef="dad77" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="d1ca9">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32920" LineThickness="1.0" Color="009999">
+			<Point X="727.8463662184201" Y="413.7927226043561" GraphRef="f7a7a" RelX="1.0" RelY="0.0"/>
+			<Point X="1335.700009396947" Y="413.7927226043561" GraphRef="e7de2" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.46064201553682593" Shape="None" GraphId="a33f5"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ce2ee">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32921" LineThickness="1.0" Color="009999">
+			<Point X="727.8463662184183" Y="466.63832251356376" GraphRef="fffd1" RelX="1.0" RelY="0.0"/>
+			<Point X="1335.7000093969468" Y="466.6383225135639" GraphRef="dfc66" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.46064201553682593" Shape="None" GraphId="e4008"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="dacb6">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32922" LineThickness="1.0" Color="009999">
+			<Point X="727.8463662184183" Y="525.8946682866001" GraphRef="a40ba" RelX="1.0" RelY="0.0"/>
+			<Point X="1335.7000093969468" Y="525.8946682866001" GraphRef="cabd2" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.46123370675121367" Shape="None" GraphId="ffe39"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="d5270">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32923" LineThickness="1.0" Color="009999">
+			<Point X="727.8463662184183" Y="575.6583291363012" GraphRef="f5d6b" RelX="1.0" RelY="0.0"/>
+			<Point X="1335.7000093969468" Y="575.6583291363012" GraphRef="e68a6" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.46064201553682593" Shape="None" GraphId="e630a"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ed883">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32924" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1007.8492935635794" Y="413.7927226043561" GraphRef="a33f5" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="d8ba0">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32925" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1007.8492935635783" Y="466.6383225135638" GraphRef="e4008" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="c2763">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32926" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1008.2089552238806" Y="525.8946682866001" GraphRef="ffe39" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="f81e0">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32927" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1007.8492935635783" Y="575.6583291363012" GraphRef="e630a" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="b43bb">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32928" LineThickness="1.0" Color="009999">
+			<Point X="896.1312389719626" Y="657.3725997045776" GraphRef="f3008" RelX="1.0" RelY="0.0"/>
+			<Point X="1128.5473376412233" Y="657.3725997045777" GraphRef="bd2e7" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.4790844966510887" Shape="None" GraphId="f56a4"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="d3008">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32929" LineThickness="1.0" Color="009999">
+			<Point X="896.1312389719626" Y="732.3725997045779" GraphRef="f46e2" RelX="1.0" RelY="0.0"/>
+			<Point X="1128.5473376412233" Y="732.3725997045777" GraphRef="c7972" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.482134827030301" Shape="None" GraphId="cf581"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="ff17b">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32930" LineThickness="1.0" Color="009999">
+			<Point X="896.1312389719628" Y="814.3725997045777" GraphRef="aa695" RelX="1.0" RelY="0.0"/>
+			<Point X="1128.5473376412233" Y="814.3725997045775" GraphRef="b0510" RelX="-1.0" RelY="0.0" ArrowHead="mim-conversion"/>
+			<Anchor Position="0.48465098372076126" Shape="None" GraphId="c42f1"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="dc5c9">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32931" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1007.4781886165351" Y="657.3725997045776" GraphRef="f56a4" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="c53cc">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32932" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1008.187134502924" Y="732.3725997045779" GraphRef="cf581" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Interaction GraphId="e1ce6">
+		<BiopaxRef>ee1</BiopaxRef>
+		<Graphics ZOrder="32933" LineThickness="1.0" Color="009999">
+			<Point X="1007.7060574068516" Y="341.3988511216775" GraphRef="f5281" RelX="0.0" RelY="1.0"/>
+			<Point X="1008.7719298245614" Y="814.3725997045776" GraphRef="c42f1" RelX="0.0" RelY="0.0" ArrowHead="mim-catalysis"/>
+		</Graphics>
+		<Xref Database="" ID=""/>
+	</Interaction>
+	<Label TextLabel="LXRalpha/beta" GraphId="a82b6">
+		<Graphics CenterX="429.7087603497189" CenterY="957.3099415204686" Width="90.0" Height="25.0" ZOrder="28672" FillColor="ffffff" FontSize="12" Valign="Middle"/>
+	</Label>
+	<Label TextLabel="Sterol efflux" GraphId="aa7f7">
+		<Graphics CenterX="311.5801053789587" CenterY="1060.2339181286536" Width="90.0" Height="25.0" ZOrder="28672" FillColor="ffffff" FontSize="12" Valign="Middle"/>
+	</Label>
+	<Label TextLabel="others" GraphId="ba6e8" GroupRef="f4bff">
+		<Graphics CenterX="431.7865928659288" CenterY="1318.1180811808135" Width="51.76506765067654" Height="25.0" ZOrder="28672" FillColor="ffffff" FontSize="12" Valign="Middle"/>
+	</Label>
+	<Label TextLabel="LDLR degradation" GraphId="b6374">
+		<Graphics CenterX="322.15028081755503" CenterY="1143.3333333333335" Width="106.34502923976618" Height="25.0" ZOrder="32852" FillColor="ffffff" FontSize="12" Valign="Middle"/>
+	</Label>
+	<Label TextLabel="Sterol biosynthesis" GraphId="fc25d">
+		<Graphics CenterX="73.32485547370204" CenterY="982.0668647643848" Width="110.89089230085582" Height="25.0" ZOrder="32858" FillColor="ffffff" FontSize="12" Valign="Middle"/>
+	</Label>
+	<Group GroupId="b6286" Style="Group"/>
+	<Group GroupId="a7a65" Style="Group"/>
+	<Group GroupId="e48eb" GraphId="a0779" Style="Group"/>
+	<Group GroupId="b1f6a" GraphId="a19bf" Style="Group"/>
+	<Group GroupId="c804b" GraphId="ae0aa" Style="Group"/>
+	<Group GroupId="ddde4" GraphId="b4b55" Style="Group"/>
+	<Group GroupId="fbff3" GraphId="b514b" Style="Group"/>
+	<Group GroupId="c86a4" GraphId="b666f" Style="Group"/>
+	<Group GroupId="b48a1" GraphId="be5a1" Style="Group"/>
+	<Group GroupId="caab0" GraphId="bf311" Style="Group"/>
+	<Group GroupId="f46e6" GraphId="c1a72" Style="Group"/>
+	<Group GroupId="c1e92" GraphId="c3e0a" Style="Group"/>
+	<Group GroupId="afa33" GraphId="c731c" Style="Group"/>
+	<Group GroupId="ae052" GraphId="cf9f1" Style="Group"/>
+	<Group GroupId="a24ae" GraphId="e58e8" Style="Group"/>
+	<Group GroupId="f4bff" GraphId="e711d" Style="Group"/>
+	<Group GroupId="bd81d" GraphId="ebd54" Style="Group"/>
+	<Group GroupId="b180c" GraphId="ef561" Style="Group"/>
+	<InfoBox CenterX="0.0" CenterY="0.0"/>
+	<Biopax>
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="ee1">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23558541</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ačimovič J</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rozman D</bp:AUTHORS>
+		</bp:PublicationXref>
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="eb8">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9291139</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string"/>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string"/>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string"/>
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9291139</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cholesterol biosynthesis from lanosterol: development of a novel assay method and characterization of rat liver microsomal lanosterol delta 24-reductase.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Biochem J</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1997</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bae SH</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Paik YK</bp:AUTHORS>
+		</bp:PublicationXref>
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="f3d">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">22156476</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Liver x receptor modulation of gene expression leading to proluteolytic effects in primate luteal cells.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Biol Reprod</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2012</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bogan RL</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Debarber AE</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hennebold JD</bp:AUTHORS>
+		</bp:PublicationXref>
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="d66">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string"/>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23558541</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23558541</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ačimovič J</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rozman D</bp:AUTHORS>
+		</bp:PublicationXref>
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="cbb">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string"> 23558541</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23558541</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steroidal triterpenes of cholesterol synthesis.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Molecules</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2013</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ačimovič J</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rozman D</bp:AUTHORS>
+		</bp:PublicationXref>
+
+		<bp:PublicationXref xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:id="c4e">
+			<bp:ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20923771</bp:ID>
+			<bp:DB rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PubMed</bp:DB>
+			<bp:TITLE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A mouse macrophage lipidome.</bp:TITLE>
+			<bp:SOURCE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">J Biol Chem</bp:SOURCE>
+			<bp:YEAR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2010</bp:YEAR>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dennis EA</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deems RA</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Harkewicz R</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Quehenberger O</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Brown HA</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Milne SB</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Myers DS</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Glass CK</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hardiman G</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reichart D</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Merrill AH Jr</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sullards MC</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wang E</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Murphy RC</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Raetz CR</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Garrett TA</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Guan Z</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ryan AC</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Russell DW</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">McDonald JG</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Thompson BM</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Shaw WA</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sud M</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zhao Y</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gupta S</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maurya MR</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fahy E</bp:AUTHORS>
+			<bp:AUTHORS rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Subramaniam S</bp:AUTHORS>
+		</bp:PublicationXref>
+		<bp:openControlledVocabulary xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#">
+			<bp:TERM>cholesterol biosynthetic pathway</bp:TERM>
+			<bp:ID>PW:0000454</bp:ID>
+			<bp:Ontology>Pathway Ontology</bp:Ontology>
+		</bp:openControlledVocabulary>
+		<bp:openControlledVocabulary xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#">
+			<bp:TERM>cholesterol metabolic pathway</bp:TERM>
+			<bp:ID>PW:0001304</bp:ID>
+			<bp:Ontology>Pathway Ontology</bp:Ontology>
+		</bp:openControlledVocabulary>
+		<bp:openControlledVocabulary xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#">
+			<bp:TERM>lipid signaling pathway</bp:TERM>
+			<bp:ID>PW:0000959</bp:ID>
+			<bp:Ontology>Pathway Ontology</bp:Ontology>
+		</bp:openControlledVocabulary>
+	</Biopax>
+</Pathway>
