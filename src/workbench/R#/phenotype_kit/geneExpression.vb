@@ -66,10 +66,31 @@ Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 <Package("geneExpression")>
 Module geneExpression
 
-    Sub New()
+    Friend Sub Main()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
     End Sub
+
+    Private Function expDataTable(exp As Matrix, args As list, env As Environment) As Rdataframe
+        Dim table As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
+
+        For i As Integer = 0 To exp.sampleID.Length - 1
+#Disable Warning
+            table.columns(exp.sampleID(i)) = exp.expression _
+                .Select(Function(gene)
+                            Return gene.experiments(i)
+                        End Function) _
+                .ToArray
+#Enable Warning
+        Next
+
+        table.rownames = exp.expression _
+            .Select(Function(gene) gene.geneID) _
+            .ToArray
+
+        Return table
+    End Function
 
     Private Function depDataTable(dep As DEP_iTraq(), args As list, env As Environment) As Rdataframe
         Dim table As New Rdataframe With {
