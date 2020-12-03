@@ -225,7 +225,11 @@ Namespace Imaging
                 img = Base64Codec.GetImage(res$)
             End If
 
-            Return New TextureBrush(img)
+            If img Is Nothing Then
+                Throw New InvalidCastException($"unable to cast expression '{res}' to any brush object!")
+            Else
+                Return New TextureBrush(img)
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
