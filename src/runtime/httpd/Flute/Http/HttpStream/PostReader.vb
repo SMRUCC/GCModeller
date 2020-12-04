@@ -162,7 +162,7 @@ Namespace Core.HttpStream
                         .ToArray
                     Dim s As String = ContentEncoding.GetString(byts)
 
-                    _Form = s.PostUrlDataParser
+                    _Form = s.PostUrlDataParser(toLower:=False)
                 Else
                     ' 是一个单独的文件
                     Dim [sub] As New HttpPostedFile(
