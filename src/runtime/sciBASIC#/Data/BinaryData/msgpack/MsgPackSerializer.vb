@@ -1,4 +1,51 @@
-﻿Imports System.Collections
+﻿#Region "Microsoft.VisualBasic::c5de1ab7055f4620f9f733c728da5413, Data\BinaryData\msgpack\MsgPackSerializer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    ' Class MsgPackSerializer
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: (+4 Overloads) Deserialize, (+2 Overloads) DeserializeObject, DeserializeObjectType, GetSerializer, IsGenericDictionary
+    '               IsGenericList, IsSerializableGenericCollection, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
+    ' 
+    '     Sub: (+2 Overloads) BuildMap, Serialize, SerializeObject
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Collections
+Imports System.Diagnostics
 Imports System.IO
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Data.IO.MessagePack.Constants
@@ -59,6 +106,7 @@ Public Class MsgPackSerializer
         Return info.IsSerializableGenericCollection
     End Function
 
+    <DebuggerStepThrough>
     Private Shared Function GetSerializer(t As Type) As MsgPackSerializer
         Dim result As MsgPackSerializer = Nothing
 
@@ -111,13 +159,23 @@ Public Class MsgPackSerializer
         Return endPos
     End Function
 
-    Public Shared Function Deserialize(Of T As New)(buffer As Byte()) As T
-        Using stream As MemoryStream = New MemoryStream(buffer)
+    Public Shared Function Deserialize(Of T)(buffer As Byte()) As T
+        Using stream As MemoryStream = New MemoryStream(buffer), reader As BinaryReader = New BinaryReader(stream)
+            If GetType(T).IsArray Then
+                Dim list As Type = GetType(List(Of )).MakeGenericType(GetType(T).GetElementType)
+                Dim listObj As IList = DeserializeObjectType(list, reader)
+                Dim array As Array = Array.CreateInstance(GetType(T).GetElementType, listObj.Count)
+                Dim i As i32 = Scan0
 
-            Using reader As BinaryReader = New BinaryReader(stream)
+                For Each item As Object In listObj
+                    Call array.SetValue(item, ++i)
+                Next
+
+                Return CObj(array)
+            Else
                 Dim o = DeserializeObjectType(GetType(T), reader)
                 Return Convert.ChangeType(o, GetType(T))
-            End Using
+            End If
         End Using
     End Function
 
@@ -173,9 +231,12 @@ Public Class MsgPackSerializer
         End If
 
         Dim constructorInfo = type.GetConstructor(Type.EmptyTypes)
-        If constructorInfo Is Nothing Then Throw New ApplicationException($"Can't deserialize Type [{type}] in MsgPackSerializer because it has no default constructor")
-        Dim result = constructorInfo.Invoke(SerializableProperty.EmptyObjArgs)
-        Return GetSerializer(type).Deserialize(result, reader)
+
+        If constructorInfo Is Nothing Then
+            Throw New ApplicationException($"Can't deserialize Type [{type}] in MsgPackSerializer because it has no default constructor")
+        Else
+            Return GetSerializer(type).Deserialize(constructorInfo.Invoke(SerializableProperty.EmptyObjArgs), reader)
+        End If
     End Function
 
     Friend Function Deserialize(result As Object, reader As BinaryReader) As Object
@@ -353,3 +414,4 @@ Public Class MsgPackSerializer
         End If
     End Sub
 End Class
+
