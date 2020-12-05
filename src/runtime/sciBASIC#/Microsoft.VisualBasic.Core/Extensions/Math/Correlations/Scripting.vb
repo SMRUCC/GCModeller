@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::529ef937f9a73e22edebef9c23f1bcd8, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Scripting.vb"
+﻿#Region "Microsoft.VisualBasic::b59e639b3e0dcc39165975e51b39fbb9, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Scripting.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@ Namespace Math.Correlations
 
     Public Module Scripting
 
-        Public Function GetComputeAPI(name$) As ICorrelation
+        Public Function GetComputeAPI(name As String) As ICorrelation
             Select Case name.ToLower
                 Case "pearson"
                     Return AddressOf Correlations.GetPearson

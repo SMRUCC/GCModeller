@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::637e43aa91dd7ca8cf2f85f2a79c2743, Microsoft.VisualBasic.Core\ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb"
+﻿#Region "Microsoft.VisualBasic::24b50cb3dd4b1122cc2e8799aa3279e6, Microsoft.VisualBasic.Core\ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@ Namespace ApplicationServices.DynamicInterop
     Friend NotInheritable Class SafeHandleUnmanagedDll
         Inherits SafeHandleZeroOrMinusOneIsInvalid
 
-        Public Sub New(ByVal dllName As String)
+        Public Sub New(dllName As String)
             MyBase.New(True)
             Dim libraryLoader As IDynamicLibraryLoader = Nothing
 
@@ -99,7 +99,7 @@ Namespace ApplicationServices.DynamicInterop
             End If
         End Function
 
-        Public Function GetFunctionAddress(ByVal lpProcName As String) As IntPtr
+        Public Function GetFunctionAddress(lpProcName As String) As IntPtr
             Return libraryLoader.GetFunctionAddress(handle, lpProcName)
         End Function
 
@@ -107,7 +107,7 @@ Namespace ApplicationServices.DynamicInterop
         ''' Frees the native library this objects represents
         ''' </summary>
         ''' <param name="disposing"></param>
-        Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Protected Overrides Sub Dispose(disposing As Boolean)
             If FreeLibrary() Then
                 SetHandleAsInvalid()
             End If
@@ -120,4 +120,3 @@ Namespace ApplicationServices.DynamicInterop
         End Function
     End Class
 End Namespace
-

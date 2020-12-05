@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::922b780851d5166faed3d985ecc96fb4, Microsoft.VisualBasic.Core\Extensions\Globals.vb"
+﻿#Region "Microsoft.VisualBasic::38015ee2ef7709e45db0400900d4fcb9, Microsoft.VisualBasic.Core\Extensions\Globals.vb"
 
     ' Author:
     ' 
@@ -46,5 +46,12 @@ Public Module Globals
     ''' </summary>
     Public Const Scan0 As Integer = 0
 
-End Module
+    ''' <summary>
+    ''' Nothing
+    ''' </summary>
+    Friend Const null = Nothing
 
+    Public Const void As Object = Nothing
+    Public Const unixEpocUtc As Date = #1970/1/1 0:0:0#
+
+End Module
