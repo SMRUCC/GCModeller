@@ -209,6 +209,10 @@ Namespace LinearAlgebra
             Call Me.New(0R, m)
         End Sub
 
+        Sub New(f As Double)
+            Call Me.New({f})
+        End Sub
+
         Sub New(f As Single)
             Call Me.New({CDbl(f)})
         End Sub
@@ -285,6 +289,21 @@ Namespace LinearAlgebra
             Call Me.New(values.Skip(index).Select(Function(sng) CDbl(sng)))
         End Sub
 
+        ''' <summary>
+        ''' Creates a vector from a specified array starting at a specified index position.
+        ''' </summary>
+        ''' <param name="values">
+        ''' The values to add to the vector, as an array of objects of type T. 
+        ''' The array must contain at least Count elements from the specified 
+        ''' index and only the first Count elements are used.
+        ''' </param>
+        ''' <param name="index">
+        ''' The starting index position from which to create the vector.
+        ''' </param>
+        Sub New(values As Double(), index As Integer)
+            Call Me.New(values.Skip(index))
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AsSparse() As SparseVector
             Return New SparseVector(Me)
@@ -356,14 +375,21 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Shared Operator +(v1 As Vector, v2 As Vector) As Vector
-            Dim N0 As Integer = v1.[Dim] ' 获取变量维数
-            Dim v3 As New Vector(N0)
+            If v1.Length = 1 Then
+                Return v1(Scan0) + v2
+            ElseIf v2.Length = 1 Then
+                Return v1 + v2(Scan0)
+            Else
+                ' 获取变量维数
+                Dim N0 As Integer = v1.[Dim]
+                Dim v3 As New Vector(N0)
 
-            For j As Integer = 0 To N0 - 1
-                v3(j) = v1(j) + v2(j)
-            Next
+                For j As Integer = 0 To N0 - 1
+                    v3(j) = v1(j) + v2(j)
+                Next
 
-            Return v3
+                Return v3
+            End If
         End Operator
 
         ''' <summary>
