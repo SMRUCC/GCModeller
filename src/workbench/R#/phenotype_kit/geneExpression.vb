@@ -129,7 +129,7 @@ Module geneExpression
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId
         ElseIf TypeOf file Is Rdataframe Then
             Dim table As Rdataframe = DirectCast(file, Rdataframe)
             Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
@@ -154,7 +154,7 @@ Module geneExpression
             Return New Matrix With {
                 .expression = genes,
                 .sampleID = sampleNames
-            }
+            }.uniqueGeneId
         ElseIf REnv.isVector(Of DataSet)(file) Then
             Dim rows As DataSet() = REnv.asVector(Of DataSet)(file)
             Dim matrix As New Matrix With {.sampleID = rows.PropertyNames}
@@ -179,10 +179,22 @@ Module geneExpression
 
             matrix.expression = genes
 
-            Return matrix
+            Return matrix.uniqueGeneId
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <Extension>
+    Private Function uniqueGeneId(m As Matrix) As Matrix
+        Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
+        Dim unique As String() = geneId.makeNames(unique:=True)
+
+        For i As Integer = 0 To unique.Length - 1
+            m(i).geneID = unique(i)
+        Next
+
+        Return m
     End Function
 
     <ExportAPI("as.generic")>
