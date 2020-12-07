@@ -129,60 +129,91 @@ Module geneExpression
         Dim ignores As Index(Of String) = If(exclude_samples, {})
 
         If TypeOf file Is String Then
-            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO)
+            Return Matrix.LoadData(DirectCast(file, String), ignores, rm_ZERO).uniqueGeneId
         ElseIf TypeOf file Is Rdataframe Then
-            Dim table As Rdataframe = DirectCast(file, Rdataframe)
-            Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
-            Dim genes As DataFrameRow() = table _
-                .forEachRow(colKeys:=sampleNames) _
-                .Select(Function(v)
-                            Return New DataFrameRow With {
-                                .geneID = v.name,
-                                .experiments = v.value _
-                                    .Select(Function(obj) CDbl(obj)) _
-                                    .ToArray
-                            }
-                        End Function) _
-                .ToArray
-
-            If rm_ZERO Then
-                genes = genes _
-                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
-                    .ToArray
-            End If
-
-            Return New Matrix With {
-                .expression = genes,
-                .sampleID = sampleNames
-            }
+            Return DirectCast(file, Rdataframe) _
+                .loadFromDataFrame(rm_ZERO, ignores) _
+                .uniqueGeneId
         ElseIf REnv.isVector(Of DataSet)(file) Then
-            Dim rows As DataSet() = REnv.asVector(Of DataSet)(file)
-            Dim matrix As New Matrix With {.sampleID = rows.PropertyNames}
-            Dim genes As DataFrameRow() = New DataFrameRow(rows.Length - 1) {}
-
-            For i As Integer = 0 To genes.Length - 1
-#Disable Warning
-                genes(i) = New DataFrameRow With {
-                    .geneID = rows(i).ID,
-                    .experiments = matrix.sampleID _
-                        .Select(Function(name) rows(i)(name)) _
-                        .ToArray
-                }
-#Enable Warning
-            Next
-
-            If rm_ZERO Then
-                genes = genes _
-                    .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
-                    .ToArray
-            End If
-
-            matrix.expression = genes
-
-            Return matrix
+            Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
+                .loadFromGenericDataSet(rm_ZERO, ignores) _
+                .uniqueGeneId
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
+    End Function
+
+    <Extension>
+    Private Function loadFromDataFrame(table As Rdataframe, rm_ZERO As Boolean, ignores As Index(Of String)) As Matrix
+        Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
+        Dim genes As DataFrameRow() = table _
+            .forEachRow(colKeys:=sampleNames) _
+            .Select(Function(v)
+                        Return New DataFrameRow With {
+                            .geneID = v.name,
+                            .experiments = v.value _
+                                .Select(Function(obj) CDbl(obj)) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        If rm_ZERO Then
+            genes = genes _
+                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
+                .ToArray
+        End If
+
+        Return New Matrix With {
+            .expression = genes,
+            .sampleID = sampleNames
+        }
+    End Function
+
+    <Extension>
+    Private Function loadFromGenericDataSet(rows As DataSet(), rm_ZERO As Boolean, ignores As Index(Of String)) As Matrix
+        Dim matrix As New Matrix With {
+            .sampleID = rows _
+                .PropertyNames _
+                .Where(Function(name) Not name Like ignores) _
+                .ToArray
+        }
+        Dim genes As DataFrameRow() = New DataFrameRow(rows.Length - 1) {}
+
+        For i As Integer = 0 To genes.Length - 1
+#Disable Warning
+            genes(i) = New DataFrameRow With {
+                .geneID = rows(i).ID,
+                .experiments = matrix.sampleID _
+                    .Select(Function(name) rows(i)(name)) _
+                    .ToArray
+            }
+#Enable Warning
+        Next
+
+        If rm_ZERO Then
+            genes = genes _
+                .Where(Function(gene)
+                           Return Not gene.experiments.All(Function(x) x = 0.0)
+                       End Function) _
+                .ToArray
+        End If
+
+        matrix.expression = genes
+
+        Return matrix
+    End Function
+
+    <Extension>
+    Private Function uniqueGeneId(m As Matrix) As Matrix
+        Dim geneId As String() = m.expression.Select(Function(gene) gene.geneID).ToArray
+        Dim unique As String() = geneId.makeNames(unique:=True)
+
+        For i As Integer = 0 To unique.Length - 1
+            m(i).geneID = unique(i)
+        Next
+
+        Return m
     End Function
 
     <ExportAPI("as.generic")>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66694617b20c7369b1e33346e177bfe2, Microsoft.VisualBasic.Core\Language\Language\Python\Collection.vb"
+﻿#Region "Microsoft.VisualBasic::77217b3c2b3b5f041bd5529e7073b150, Microsoft.VisualBasic.Core\Language\Language\Python\Collection.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Collection
     ' 
-    '         Function: slice
+    '         Function: slice, SpanSlice
     ' 
     ' 
     ' /********************************************************************************/
@@ -93,6 +93,21 @@ Namespace Language.Python
             For i As Integer = 0 To [stop] Step [step]
                 Yield array(i)
             Next
+        End Function
+
+        ''' <summary>
+        ''' Forms a slice out of the current span starting at a specified index for a specified length.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="span"></param>
+        ''' <param name="start">The index at which to begin this slice.</param>
+        ''' <param name="length">The desired length for the slice.</param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SpanSlice(Of T)(span As IEnumerable(Of T), start As Integer, length As Integer) As IEnumerable(Of T)
+            Return span.slice(start, [stop]:=start + length)
         End Function
     End Module
 End Namespace

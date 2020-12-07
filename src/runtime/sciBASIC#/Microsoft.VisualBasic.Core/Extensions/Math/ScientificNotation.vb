@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81dc3bbe4b63f750c4ac4b1effa1ee76, Microsoft.VisualBasic.Core\Extensions\Math\ScientificNotation.vb"
+﻿#Region "Microsoft.VisualBasic::65cde6c4d02a7bca04736fe866a4bb9b, Microsoft.VisualBasic.Core\Extensions\Math\ScientificNotation.vb"
 
     ' Author:
     ' 
@@ -40,9 +40,7 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace Math
 
@@ -58,7 +56,7 @@ Namespace Math
         ''' <param name="INF">当位数超过这个值之后将会被判定为非常大或者非常小的一个数</param>
         ''' <returns></returns>
         Public Function PowerLog10(x#, Optional INF% = 5) As Single
-            Dim pow# = sys.Log10(sys.Abs(x))
+            Dim pow# = stdNum.Log10(stdNum.Abs(x))
 
             If pow < -INF Then
                 Return pow
@@ -90,7 +88,7 @@ Namespace Math
                 Return "0"
             End If
 
-            Dim power = Fix(sys.Log10(n))
+            Dim power = Fix(stdNum.Log10(n))
             Dim s = n.ToString.Split("E"c, "e"c).First
             Dim t$() = s.Split("."c)
 
@@ -100,10 +98,10 @@ Namespace Math
 
             If intpower > 0 Then  ' 整数部分不止一个字符长度，即数位大于等于2
                 int = int.First & "." & Mid(int, 1) & t(1)
-                s = sys.Round(Val(int), [decimal])
+                s = stdNum.Round(Val(int), [decimal])
             Else
                 s = int & "." & t(1)
-                s = sys.Round(Val(s), [decimal])
+                s = stdNum.Round(Val(s), [decimal])
             End If
 
             s = s & $"E{power + intpower}"

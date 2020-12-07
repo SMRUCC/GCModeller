@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9699d21e82d3ed1acc82b5192aa94452, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::c735aaf221af86b5b549c3152e8e668c, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -445,11 +445,12 @@ Namespace ComponentModel.Collection
         End Function
 
         ''' <summary>
-        ''' gets all <see cref="INamedValue.Key"/> values
+        ''' gets all <see cref="INamedValue.Key"/> values.
+        ''' (按照顺序得到输入的序列之中的<see cref="INamedValue.Key"/>属性值)
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
-        ''' <param name="distinct"></param>
+        ''' <param name="distinct">是否还进行去重操作？默认不做去重</param>
         ''' <returns></returns>
         <Extension>
         Public Function Keys(Of T As INamedValue)(source As IEnumerable(Of T), Optional distinct As Boolean = False) As List(Of String)
