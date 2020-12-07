@@ -44,7 +44,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -186,7 +185,8 @@ Namespace Assembly.KEGG.Medical
         ''' <param name="lines$"></param>
         ''' <param name="ref">假设参考文献都是在每一个小节最末尾的部分</param>
         ''' <returns></returns>
-        <Extension> Friend Function ParseStream(lines$(), Optional ByRef ref As Reference() = void) As Func(Of String, String())
+        <Extension>
+        Friend Function ParseStream(lines$(), Optional ByRef ref As Reference() = Nothing) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
             ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
             Dim tag$ = ""

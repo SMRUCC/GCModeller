@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02518b322885f84096c5ed219b6d744c, Microsoft.VisualBasic.Core\Extensions\Reflection\Marshal\Pointer(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::59bb251d4d5fe61aa37da49576a3ca5e, Microsoft.VisualBasic.Core\Extensions\Reflection\Marshal\Pointer(Of T).vb"
 
     ' Author:
     ' 
@@ -176,6 +176,13 @@ Namespace Emit.Marshal
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <remarks>
+        ''' 为了保持原来的对象引用，在这里就不进行ToArray数组复制来打破这种引用关系了
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(ByRef array As T())
             buffer = array

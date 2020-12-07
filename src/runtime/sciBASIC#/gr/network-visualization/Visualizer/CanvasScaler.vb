@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24689a5f426a13cfcc5c14fafd488e64, gr\network-visualization\Visualizer\CanvasScaler.vb"
+﻿#Region "Microsoft.VisualBasic::a153a64478cf0e4658fb1d830fe41786, gr\network-visualization\Visualizer\CanvasScaler.vb"
 
     ' Author:
     ' 
@@ -177,6 +177,8 @@ Public Module CanvasScaler
     ''' <param name="nodes"></param>
     ''' <param name="size"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function CentralOffsets(nodes As Dictionary(Of Node, PointF), size As SizeF) As PointF
         Return nodes.Values.CentralOffset(size)
@@ -185,23 +187,16 @@ Public Module CanvasScaler
     <Extension>
     Public Function AutoScaler(boundary As RectangleF, frameSize As SizeF, padding As Padding) As SizeF
         With boundary
-            Dim w = frameSize.Width / (.Width + padding.Horizontal)
-            Dim h = frameSize.Height / (.Height + padding.Vertical)
+            Dim w = (frameSize.Width - padding.Horizontal) / .Width
+            Dim h = (frameSize.Height - padding.Vertical) / .Height
 
             Return New SizeF(w, h)
         End With
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AutoScaler(shape As IEnumerable(Of PointF), frameSize As SizeF, padding As Padding) As SizeF
-        With shape.GetBounds
-            Dim width = frameSize.Width - padding.Horizontal
-            Dim height = frameSize.Height - padding.Vertical
-
-            Return New SizeF(
-                width:=width / .Width,
-                height:=height / .Height
-            )
-        End With
+        Return shape.GetBounds.AutoScaler(frameSize, padding)
     End Function
 End Module

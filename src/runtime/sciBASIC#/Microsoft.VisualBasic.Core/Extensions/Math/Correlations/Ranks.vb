@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1baf6de51d03836b355ab556db6aea4d, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Ranks.vb"
+﻿#Region "Microsoft.VisualBasic::01855abe8f2b0468468a2af33897f6c3, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Ranks.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,15 @@
     '     Delegate Function
     ' 
     ' 
+    '     Class Ranking
+    ' 
+    '         Properties: Evaluate, Max, Weight
+    ' 
+    '         Function: Sort
+    ' 
     '     Module Ranks
     ' 
     '         Function: Best, Sort
-    '         Class Ranking
-    ' 
-    '             Properties: Evaluate, Max, Weight
-    ' 
-    '             Function: Sort
-    ' 
-    ' 
     ' 
     ' 
     ' 
@@ -54,51 +53,51 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 
-#If NET_48 Then
-
 Namespace Math
 
     Public Delegate Function Evaluate(Of T)(x As T) As Double
 
+#If NET_48 Then
+
+    Public Class Ranking(Of T)
+
+        Public Property Evaluate As Evaluate(Of T)
+        ''' <summary>
+        ''' The sort direction
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Max As Boolean
+        ''' <summary>
+        ''' 默认不加权重
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Weight As Double = 1
+
+        Public Function Sort(source As IEnumerable(Of T)) As SeqValue(Of (T, Double))()
+            Dim Evaluate As Evaluate(Of T) = Me.Evaluate
+            Dim LQuery = (From x As T In source Select x, v = Evaluate(x)).ToArray
+            Dim result As SeqValue(Of (T, Double))()
+            Dim weights As IEnumerable(Of Double) = _Weight.Repeats(LQuery.Length)
+
+            If Max Then   ' 由于后面需要进行加权计算，所以在这里是反过来求最大的
+                result = (From x In LQuery Select x Order By x.v Ascending) _
+                        .Select(Function(x) x.x) _
+                        .Tuple(weights) _
+                        .SeqTuple _
+                        .ToArray
+            Else
+                result = (From x In LQuery Select x Order By x.v Descending) _
+                        .Select(Function(x) x.x) _
+                        .Tuple(weights) _
+                        .SeqTuple _
+                        .ToArray
+            End If
+
+            Return result
+        End Function
+    End Class
+
     Public Module Ranks
-
-        Public Class Ranking(Of T)
-
-            Public Property Evaluate As Evaluate(Of T)
-            ''' <summary>
-            ''' The sort direction
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property Max As Boolean
-            ''' <summary>
-            ''' 默认不加权重
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property Weight As Double = 1
-
-            Public Function Sort(source As IEnumerable(Of T)) As SeqValue(Of (T, Double))()
-                Dim Evaluate As Evaluate(Of T) = Me.Evaluate
-                Dim LQuery = (From x As T In source Select x, v = Evaluate(x)).ToArray
-                Dim result As SeqValue(Of (T, Double))()
-                Dim weights As IEnumerable(Of Double) = _Weight.Repeats(LQuery.Length)
-
-                If Max Then   ' 由于后面需要进行加权计算，所以在这里是反过来求最大的
-                    result = (From x In LQuery Select x Order By x.v Ascending) _
-                        .Select(Function(x) x.x) _
-                        .Tuple(weights) _
-                        .SeqTuple _
-                        .ToArray
-                Else
-                    result = (From x In LQuery Select x Order By x.v Descending) _
-                        .Select(Function(x) x.x) _
-                        .Tuple(weights) _
-                        .SeqTuple _
-                        .ToArray
-                End If
-
-                Return result
-            End Function
-        End Class
 
         ''' <summary>
         ''' 
@@ -126,6 +125,5 @@ Namespace Math
             Return ranks.Select(Function(x) x.value)
         End Function
     End Module
-End Namespace
-
 #End If
+End Namespace

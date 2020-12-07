@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0ffc3d90ef472db9d8c6705183937f5, Microsoft.VisualBasic.Core\Extensions\Image\Colors\CytoscapeColor.vb"
+﻿#Region "Microsoft.VisualBasic::4961155af412b3ed26de1bfe5e85b8cf, Microsoft.VisualBasic.Core\Extensions\Image\Colors\CytoscapeColor.vb"
 
     ' Author:
     ' 
@@ -96,6 +96,13 @@ Namespace Imaging
         ''' </summary>
         ''' <param name="color"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 2020-12-06
+        ''' 
+        ''' alpha value in html color is not supported, you will lost the 
+        ''' alpha value from this function when your color value is 
+        ''' translate to html color string.
+        ''' </remarks>
         ''' 
         <DebuggerStepThrough>
         <Extension>
