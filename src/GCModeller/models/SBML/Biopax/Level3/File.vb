@@ -52,7 +52,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
-Namespace MetaCyc.Biopax.Level3
+Namespace Level3
 
     Public Class DescriptionData : Inherits Description
 
@@ -66,7 +66,7 @@ Namespace MetaCyc.Biopax.Level3
     <XmlType("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Class File : Inherits RDF(Of DescriptionData)
 
-        <XmlElement("Ontology")> Public Property Owl As owlOntology
+        <XmlElement("Ontology")> Public Property Owl As OwlOntology
         <XmlElement("SmallMolecule")> Public Property SmallMolecules As SmallMolecule()
         <XmlElement> Public Property BiochemicalReaction As BiochemicalReaction()
 

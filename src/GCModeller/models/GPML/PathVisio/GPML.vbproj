@@ -122,6 +122,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Xml\Components.vb" />
     <Compile Include="Xml\Network.vb" />
     <Compile Include="Xml\Graphics.vb" />
     <Compile Include="Xml\Pathway.vb" />
@@ -189,6 +190,10 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SBML\Biopax\Biopax.vbproj">
+      <Project>{b2e4bb6d-ce7c-47ae-b06d-9cdc10851b77}</Project>
+      <Name>Biopax</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

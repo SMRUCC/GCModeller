@@ -2,6 +2,7 @@
 
 Namespace GPML
 
+    <XmlType("Pathway", [Namespace]:="http://pathvisio.org/GPML/2013a")>
     Public Class Pathway
 
         <XmlAttribute> Public Property Name As String
@@ -13,33 +14,14 @@ Namespace GPML
         <XmlElement>
         Public Property BiopaxRef As String()
 
-    End Class
+        Public Property Graphics As Graphics
 
-    Public Class Comment
-
-        <XmlAttribute> Public Property Source As String
-        <XmlText> Public Property Text As String
-
-    End Class
-
-    Public Class PublicationXref
-
-        <XmlAttribute>
-        Public Property id As String
-    End Class
-
-    Public Class Group
-
-        <XmlAttribute> Public Property GroupId As String
-        <XmlAttribute> Public Property GraphId As String
-        <XmlAttribute> Public Property Style As String
-
-    End Class
-
-    Public Class Xref
-
-        <XmlAttribute> Public Property Database As String
-        <XmlAttribute> Public Property ID As String
+        <XmlElement> Public Property DataNode As DataNode()
+        <XmlElement> Public Property Interaction As Interaction()
+        <XmlElement> Public Property Label As Label()
+        <XmlElement> Public Property Group As Group()
+        Public Property InfoBox As InfoBox()
+        Public Property Biopax As Biopax.Level3.File
 
     End Class
 
