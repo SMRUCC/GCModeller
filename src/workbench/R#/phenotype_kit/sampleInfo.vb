@@ -235,6 +235,24 @@ Module DEGSample
         Return list.ToArray
     End Function
 
+    <ExportAPI("sampleId")>
+    <RApiReturn(GetType(String))>
+    Public Function getSampleId(<RRawVectorArgument> sampleinfo As Object, groups As String(), Optional env As Environment = Nothing) As Object
+        Dim info As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If info.isError Then
+            Return info.getError
+        End If
+
+        Dim infoData As SampleInfo() = info.populates(Of SampleInfo)(env).ToArray
+        Dim idlist As String() = groups _
+            .Select(Function(label) infoData.SampleIDs(label)) _
+            .IteratesALL _
+            .ToArray
+
+        Return idlist
+    End Function
+
     ''' <summary>
     ''' Create sampleInfo table from text files
     ''' </summary>
