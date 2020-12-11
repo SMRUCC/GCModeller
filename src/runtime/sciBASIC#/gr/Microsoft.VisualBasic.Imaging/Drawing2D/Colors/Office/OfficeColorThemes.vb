@@ -120,7 +120,7 @@ Namespace Drawing2D.Colors.OfficeAccent
 
             For Each theme As PropertyInfo In datas
                 Dim xml As String = TryCast(theme.GetValue(Nothing, Nothing), String)
-                Dim t As OfficeColorTheme = Drawing2D.Colors.OfficeColorTheme.LoadFromXml(xml)
+                Dim t As OfficeColorTheme = OfficeColorTheme.LoadFromXml(xml)
 
                 t.name = t.name.Replace("Default_", "")
                 Call Themes.Add(t) ' 顺序不能变换，否则键名就不一致了
