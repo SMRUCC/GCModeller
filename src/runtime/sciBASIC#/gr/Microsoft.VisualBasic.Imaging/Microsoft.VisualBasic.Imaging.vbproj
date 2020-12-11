@@ -597,6 +597,7 @@
     <Compile Include="d3js\scale\linear.vb" />
     <Compile Include="d3js\scale\Extensions.vb" />
     <Compile Include="d3js\scale\ordinal.vb" />
+    <Compile Include="Drawing2D\Colors\Palette.vb" />
     <Compile Include="Drawing2D\Colors\Office\ObjectAccent.vb" />
     <Compile Include="Drawing2D\Colors\Office\Xml.vb" />
     <Compile Include="Drawing2D\Polar\PolarGraphics2D.vb" />
