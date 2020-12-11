@@ -10,7 +10,7 @@
     <AssemblyName>Microsoft.VisualBasic.Framework_v47_dotnet_8da45dcd8060cc9a</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
@@ -55,7 +55,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DefineConstants>FRAMEWORD_CORE=1,NET_48=0,UNIX=0</DefineConstants>
+    <DefineConstants>FRAMEWORD_CORE=1,NET_48=1,UNIX=0</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <WarningsAsErrors>
