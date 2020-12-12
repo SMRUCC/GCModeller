@@ -450,6 +450,9 @@
     </Compile>
     <Compile Include="BinaryTree\Tree.vb" />
     <Compile Include="UMAP\UmapRender.vb" />
+    <Compile Include="UMAP\Umap3D.vb" />
+    <Compile Include="UMAP\Umap2D.vb" />
+    <Compile Include="UMAP\UmapRenderExtensions.vb" />
     <Compile Include="UMAP\UmapGraph.vb" />
   </ItemGroup>
   <ItemGroup>
