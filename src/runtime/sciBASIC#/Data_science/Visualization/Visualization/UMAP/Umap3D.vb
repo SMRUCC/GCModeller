@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
+Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D.Impl
 Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -8,6 +9,8 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
 
 Public Class Umap3D : Inherits UmapRender
+
+    ReadOnly camera As Camera
 
     Public Sub New(umap As Umap, labels$(), clusters As Dictionary(Of String, String), colorSet$, theme As Theme)
         MyBase.New(umap, labels, clusters, colorSet, theme)
@@ -31,6 +34,15 @@ Public Class Umap3D : Inherits UmapRender
             }.DoCall(AddressOf clusterSerials(clusterName).Add)
         Next
 
-        Call clusterSerials.Select(Function(cluster) New Serial3D With {.Points = cluster.Value.ToArray}).Plot()
+        Dim serials As Serial3D() = clusterSerials _
+            .Select(Function(cluster)
+                        Return New Serial3D With {
+                            .Points = cluster.Value.ToArray
+                        }
+                    End Function) _
+            .ToArray
+        Dim engine As New Scatter3D(serials, camera, "1,1", True, 0.5, 2, theme)
+
+        Call engine.Plot(g, canvas.PlotRegion)
     End Sub
 End Class
