@@ -102,6 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BTreeCluster.vb" />
+    <Compile Include="AlignmentComparison.vb" />
+    <Compile Include="ComparisonProvider.vb" />
     <Compile Include="Comparison.vb" />
     <Compile Include="BuildTree.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
