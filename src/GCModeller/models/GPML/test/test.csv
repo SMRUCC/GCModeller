@@ -1,0 +1,127 @@
+,name,type,database,dbref
+a0cc9,9Z-palmitoleic acid,Metabolite,PubChem-compound,445638
+aa220,Srebf1,GeneProduct,Ensembl,ENSMUSG00000020538
+ab39a,7alpha-hydroxycholesterol,Metabolite,LIPID MAPS,LMST01010013
+ad288,Acot1,GeneProduct,Entrez Gene,26897
+b3dae,Abca1,GeneProduct,Ensembl,ENSMUSG00000015243
+b8d73,Bloch Pathway,Pathway,,
+bca2c,Acetyl-CoA,Metabolite,LIPID MAPS,LMFA07050281
+bd6fe,Ch25h,GeneProduct,Entrez Gene,12642
+c3a79,Hmgcr,GeneProduct,Entrez Gene,15357
+c905a,Nr1h3,GeneProduct,Ensembl,ENSMUSG00000002108
+cb5b5,Soat1,GeneProduct,Entrez Gene,20652
+eb018,Fasn,GeneProduct,Ensembl,ENSMUSG00000025153
+ebb18,CE(16:1),Metabolite,Wikidata,Q412366
+ecff5,Dhcr7,GeneProduct,Entrez Gene,13360
+f5281,DHCR24,Protein,Uniprot-TrEMBL,Q8VCH6
+a65cb,Acetoacetyl-CoA,Metabolite,LIPID MAPS,LMFA07050030
+c2349,HMG-CoA,Metabolite,LIPID MAPS,LMFA07050116
+de72d,Mevalonic acid,Metabolite,LIPID MAPS,LMFA01050352
+c3504,Mevalonate-5-P,Metabolite,LIPID MAPS,LMFA01050415
+b33c5,Mevalonate-5-PP,Metabolite,LIPID MAPS,LMFA01050416
+a17cf,Isopentenyl-PP,Metabolite,LIPID MAPS,LMPR01010008
+c516a,Dimethylallyl-PP,Metabolite,LIPID MAPS,LMPR01010001
+b67d7,Geranyl-PP,Metabolite,LIPID MAPS,LMPR0102010001
+e4be5,Farnesyl-PP,Metabolite,LIPID MAPS,LMPR0103010002
+c13fb,Squalene,Metabolite,LIPID MAPS,LMPR0106010002
+cd2cd,"Squalene-2,3-epoxide",Metabolite,LIPID MAPS,LMPR0106010010
+bfe66,Diepoxy-squalene,Metabolite,LIPID MAPS,LMPR0106010038
+ac635,Lanosterol,Metabolite,LIPID MAPS,LMST01010017
+dd349,"24,25-epoxycholesterol",Metabolite,LIPID MAPS,LMST01010012
+f09d4,"24,25-dihydrolanosterol",Metabolite,LIPID MAPS,LMST01010087
+c7b83,32-hydroxylanosterol,Metabolite,LIPID MAPS,LMST01010124
+e19c7,"4,4-dimethylcholesta- 5,8,24-trienol",Metabolite,LIPID MAPS,LMST01010149
+bd86c,"4,4-dimethylcholest-8-enol",Metabolite,LIPID MAPS,LMST01010225
+a1093,14-demethyl-lanosterol,Metabolite,LIPID MAPS,LMST01010176
+ec9d5,4-alpha-methylcholest-8-enol,Metabolite,LIPID MAPS,LMST01010197
+f3008,Zymosterol,Metabolite,LIPID MAPS,LMST01010066
+ae3c8,4-alpha-methyl-cholest-8-enone,Metabolite,LIPID MAPS,LMST01010236
+bd2e7,Zymostenol,Metabolite,LIPID MAPS,LMST01010096
+c7972,Lathosterol,Metabolite,LIPID MAPS,LMST01010089
+b0510,7-dehdrocholesterol,Metabolite,LIPID MAPS,LMST01010069
+f46e2,Cholestadienol,Metabolite,LIPID MAPS,LMST01010206
+aa695,7-dehydodesmosterol,Metabolite,LIPID MAPS,LMST01010121
+e9838,Desmosterol,Metabolite,LIPID MAPS,LMST01010016
+d8c85,Cholesterol,Metabolite,LIPID MAPS,LMST01010001
+f3d8e,Sc5d,GeneProduct,Entrez Gene,235293
+a3759,Ebp,GeneProduct,Entrez Gene,13595
+de41a,Nsdhl,GeneProduct,Entrez Gene,18194
+a4c7a,Cyp51,GeneProduct,Entrez Gene,13121
+d362f,Tm7fs2,GeneProduct,Entrez Gene,73166
+c2585,Msmo1,GeneProduct,Entrez Gene,66234
+f52ce,Hsd17b7,GeneProduct,Entrez Gene,15490
+ba8a0,Dhcr24,GeneProduct,Entrez Gene,74754
+b065b,7-oxocholesterol,Metabolite,LIPID MAPS,LMST01010049
+df102,Cholestenone,Metabolite,LIPID MAPS,LMST01010015
+f03cb,4beta-hydroxycholesterol,Metabolite,LIPID MAPS,LMST01010014
+e3a1f,24S-hydroxycholesterol,Metabolite,LIPID MAPS,LMST01010019
+a2216,25-hydroxycholesterol,Metabolite,LIPID MAPS,LMST01010018
+bc76e,27-hydroxycholesterol,Metabolite,LIPID MAPS,LMST01010057
+acad3,Cholesteryl esters (CE),Metabolite,ChEBI,CHEBI:17002
+e814e,Cyp46a1,GeneProduct,Entrez Gene,13116
+efca4,Cyp27a1,GeneProduct,Entrez Gene,104086
+c2bad,Acyl-CoA,Metabolite,LIPID MAPS,LMFA07050000
+c4546,Soat2,GeneProduct,Entrez Gene,223920
+a6a23,Acot2,GeneProduct,Entrez Gene,171210
+ff67e,Hmgcs1,GeneProduct,Entrez Gene,208715
+c4ec3,Hmgcs2,GeneProduct,Entrez Gene,15360
+db6e1,Mvk,GeneProduct,Entrez Gene,17855
+cf299,Pmvk,GeneProduct,Entrez Gene,68603
+cc32e,Mvd,GeneProduct,Entrez Gene,192156
+a6801,Sqle,GeneProduct,Entrez Gene,20775
+c0ff0,Idi1,GeneProduct,Entrez Gene,319554
+e6e39,Idi2,GeneProduct,Entrez Gene,320581
+b226c,Fdft1,GeneProduct,Entrez Gene,14137
+f0820,Ggps1,GeneProduct,Entrez Gene,14593
+d5ff3,Fdps,GeneProduct,Entrez Gene,110196
+f52aa,Lss,GeneProduct,Entrez Gene,16987
+e6c4d,Kandutsch- Russell Pathway,Pathway,,
+f2a8e,PreSqualene,Metabolite,Wikidata,Q27088444
+a953a,Cyp51,GeneProduct,Entrez Gene,13121
+eb5a2,Dhcr7,GeneProduct,Entrez Gene,13360
+d5bf1,Dhcr24,GeneProduct,Entrez Gene,74754
+c9f8a,CE(18:1),Metabolite,Wikidata,Q27116670
+ac50c,Nr1h2,GeneProduct,Ensembl,ENSMUSG00000060601
+cf0ab,Abcg1,GeneProduct,Ensembl,ENSMUSG00000024030
+e201b,Mylip (IDOL),GeneProduct,Ensembl,ENSMUSG00000038175
+f84f3,Srebf2,GeneProduct,Ensembl,ENSMUSG00000022463
+ba146,Acsl1,GeneProduct,Ensembl,ENSMUSG00000018796
+cd78e,Acsl3,GeneProduct,Ensembl,ENSMUSG00000032883
+eccbc,Acsl4,GeneProduct,Ensembl,ENSMUSG00000031278
+c4de4,Elovl2,Protein,Ensembl,ENSMUSG00000021364
+b4459,Elovl3,Protein,Ensembl,ENSMUSG00000038754
+f2c1a,Elovl4,Protein,Ensembl,ENSMUSG00000032262
+e41d4,Elovl5,Protein,Ensembl,ENSMUSG00000032349
+d8359,Fads1,Protein,Ensembl,ENSMUSG00000010663
+c2c3d,Fads2,Protein,Ensembl,ENSMUSG00000024665
+c2197,Scd1,Protein,Ensembl,ENSMUSG00000037071
+a743a,Scd2,Protein,Uniprot-TrEMBL,P13011
+c48d2,Acot1,GeneProduct,Ensembl,ENSMUSG00000072949
+bde89,Acot2,GeneProduct,Ensembl,ENSMUSG00000021226
+d2b5e,Fatty acid biosynthesis,Pathway,WikiPathways,WP4491
+ef1cc,Oleic acid,Metabolite,Wikidata,Q207688
+e68a6,4-methyl zymostenol,Metabolite,PubChem-compound,22212495
+cabd2,4-methyl zymostenone,Metabolite,LIPID MAPS,
+dfc66,4-methyl-4-carboxy zymostenone,Metabolite,LIPID MAPS,
+de222,dihydro-FF-MAS,Metabolite,LIPID MAPS,
+e7de2,dihydro-T-MAS,Metabolite,LIPID MAPS,
+fc99e,Cyp51A1,Protein,Uniprot-TrEMBL,Q8K0C4
+a2acf,TM7SF2,Protein,Uniprot-TrEMBL,Q71KT5
+e2406,SC4MOL,Protein,Uniprot-TrEMBL,Q9CRA4
+ff601,NSDHL,Protein,Uniprot-TrEMBL,Q9R1J0
+f3766,LBR,Protein,Uniprot-TrEMBL,Q3U9G9
+f5d6b,4-methyl zymosterol,Metabolite,PubChem-compound,
+a40ba,4-methyl zymosterone,Metabolite,LIPID MAPS,
+fffd1,4-methyl-4-carboxy zymosterone,Metabolite,LIPID MAPS,
+b2096,FF-MAS,Metabolite,CAS,64284-64-6
+f7a7a,T-MAS,Metabolite,LIPID MAPS,
+ce460,DHCR14 aka Tm7fs2,Protein,Entrez Gene,73166
+b723e,SC4MOL,Protein,Uniprot-TrEMBL,Q9CRA4
+c3fa1,NSDHL,Protein,Uniprot-TrEMBL,Q9R1J0
+a814c,LBR,Protein,Uniprot-TrEMBL,Q3U9G9
+ced98,HSD17B7,Protein,Entrez Gene,15490
+d4a5a,SC4MOL,Protein,Uniprot-TrEMBL,Q9CRA4
+dae8a,NSDHL,Protein,Uniprot-TrEMBL,Q9R1J0
+d0882,HSD17B7,Protein,Entrez Gene,15490
+de415,Cyp51A1,Protein,Uniprot-TrEMBL,Q8K0C4
+e64ce,HSD17B7,Protein,Entrez Gene,15490

@@ -122,6 +122,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphBuilder.vb" />
     <Compile Include="Xml\Components.vb" />
     <Compile Include="Xml\Network.vb" />
     <Compile Include="Xml\Graphics.vb" />
