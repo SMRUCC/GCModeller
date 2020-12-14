@@ -268,8 +268,8 @@ Public Module Enrichment
 
         Return New EnrichmentResult With {
             .term = cluster.ID,
-            .name = cluster.names,
-            .description = cluster.description,
+            .name = cluster.names.TrimNewLine,
+            .description = cluster.description.TrimNewLine,
             .geneIDs = enriched,
             .pvalue = pvalue,
             .score = score,
