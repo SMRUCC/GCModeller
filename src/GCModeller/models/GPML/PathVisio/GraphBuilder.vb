@@ -39,7 +39,11 @@ Public Module GraphBuilder
                 }
             }
 
-            Call g.CreateEdge(u.GraphRef, v.GraphRef, data:=linkData)
+            If u.GraphRef.StringEmpty OrElse v.GraphRef.StringEmpty Then
+                Call $"missing one of the anchor node for link '{link}'!".Warning
+            Else
+                Call g.CreateEdge(u.GraphRef, v.GraphRef, data:=linkData)
+            End If
         Next
 
         Return g
