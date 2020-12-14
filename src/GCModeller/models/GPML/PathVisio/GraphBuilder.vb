@@ -14,7 +14,7 @@ Public Module GraphBuilder
 
         For Each node As DataNode In pathway.DataNode
             nodeData = New NodeData With {
-                .label = node.TextLabel,
+                .label = node.TextLabel.TrimNewLine,
                 .origID = node.GraphId,
                 .Properties = New Dictionary(Of String, String) From {
                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, node.Type.ToString},
