@@ -191,6 +191,74 @@ Public Module GSEABackground
     End Function
 
     ''' <summary>
+    ''' Create a cluster for gsea background
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="clusterId$"></param>
+    ''' <param name="clusterName$"></param>
+    ''' <returns></returns>
+    <ExportAPI("gsea.cluster")>
+    Public Function CreateCluster(data As Rdataframe, clusterId$, clusterName$, Optional desc$ = "n/a", Optional id$ = "xref", Optional name$ = "name") As Cluster
+        Dim idvec As String() = asVector(Of String)(data.columns(id))
+        Dim namevec As String() = asVector(Of String)(data.columns(name))
+        Dim cluster As New Cluster With {
+            .ID = clusterId,
+            .description = desc,
+            .names = clusterName,
+            .members = idvec _
+                .Select(Function(idstr, i)
+                            Return New BackgroundGene With {
+                                .accessionID = idstr,
+                                .[alias] = {idstr},
+                                .locus_tag = New NamedValue With {
+                                    .name = idstr,
+                                    .text = namevec(i)
+                                },
+                                .name = namevec(i),
+                                .term_id = {idstr}
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+        Return cluster
+    End Function
+
+    <ExportAPI("as.background")>
+    <RApiReturn(GetType(Background))>
+    Public Function assembleBackground(clusters As Object,
+                                       Optional background_size% = -1,
+                                       Optional name$ = "n/a",
+                                       Optional tax_id$ = "n/a",
+                                       Optional desc$ = "n/a",
+                                       Optional env As Environment = Nothing) As Object
+
+        Dim clusterList As pipeline = pipeline.TryCreatePipeline(Of Cluster)(clusters, env)
+        Dim clusterVec As Cluster()
+
+        If clusterList.isError Then
+            Return clusterList.GetType
+        Else
+            clusterVec = clusterList.populates(Of Cluster)(env).ToArray
+
+            If background_size <= 0 Then
+                background_size = Aggregate cluster In clusterVec Into Sum(cluster.size)
+            End If
+        End If
+
+        Dim background As New Background With {
+            .clusters = clusterVec,
+            .build = Now,
+            .comments = desc,
+            .id = tax_id,
+            .name = name,
+            .size = background_size
+        }
+
+        Return background
+    End Function
+
+    ''' <summary>
     ''' create kegg background model
     ''' </summary>
     ''' <param name="genes"></param>
