@@ -136,6 +136,7 @@
     <Compile Include="models.vb" />
     <Compile Include="bioModels\TRN.vb" />
     <Compile Include="dunnart.vb" />
+    <Compile Include="PathVisio.vb" />
     <Compile Include="xgmml.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -185,6 +186,10 @@
     <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj">
       <Project>{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}</Project>
       <Name>STRING-db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\models\GPML\PathVisio\GPML.vbproj">
+      <Project>{081f7f06-bd84-478b-b258-b25e2c011a54}</Project>
+      <Name>GPML</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.vbproj">
       <Project>{83C6A265-8264-4F16-A70A-1F4E692290EC}</Project>

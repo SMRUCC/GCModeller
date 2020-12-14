@@ -271,7 +271,7 @@ Public Module MatrixAPI
             Call ChunkBuffer.AddRange(Line.data)
         Next
         Dim avg = ChunkBuffer.Average
-        Dim std = ChunkBuffer.StdError
+        Dim std = ChunkBuffer.SD
 
         Call FileIO.FileSystem.WriteAllText("./debug.log", String.Format("Average:= {0};   StdError:= {1};" & vbCrLf, avg, std), append:=True)
 
