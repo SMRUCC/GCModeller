@@ -2,6 +2,7 @@
 
 Namespace GPML
 
+    <XmlRoot("Pathway", [Namespace]:="http://pathvisio.org/GPML/2013a")>
     <XmlType("Pathway", [Namespace]:="http://pathvisio.org/GPML/2013a")>
     Public Class Pathway
 
@@ -21,7 +22,7 @@ Namespace GPML
         <XmlElement> Public Property Label As Label()
         <XmlElement> Public Property Group As Group()
         Public Property InfoBox As InfoBox()
-        Public Property Biopax As Biopax.Level3.File
+        ' Public Property Biopax As Biopax.Level3.File
 
     End Class
 

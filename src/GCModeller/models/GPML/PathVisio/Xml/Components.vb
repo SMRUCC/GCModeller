@@ -15,6 +15,10 @@ Namespace GPML
         <XmlText>
         Public Property Text As String
 
+        Public Overrides Function ToString() As String
+            Return $"[{Source}] {Text}"
+        End Function
+
     End Class
 
     Public Class PublicationXref
@@ -35,6 +39,14 @@ Namespace GPML
 
         <XmlAttribute> Public Property Database As String
         <XmlAttribute> Public Property ID As String
+
+        Public Overrides Function ToString() As String
+            If Database.StringEmpty AndAlso ID.StringEmpty Then
+                Return "NULL"
+            Else
+                Return $"[{Database}] {ID}"
+            End If
+        End Function
 
     End Class
 End Namespace

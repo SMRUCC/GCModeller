@@ -23,15 +23,26 @@ Namespace GPML
         <XmlAttribute> Public Property ConnectorType As String
         <XmlAttribute> Public Property LineThickness As Double
 
-        <XmlElement>
+        <XmlElement("Point")>
         Public Property Points As Point()
         Public Property Anchor As Anchor
+
+        Public Overrides Function ToString() As String
+            Return $"[{CenterX},{CenterY},{ZOrder}]"
+        End Function
+
     End Class
 
     Public Class Label
+
         <XmlAttribute> Public Property TextLabel As String
         <XmlAttribute> Public Property GraphId As String
         Public Property Graphics As Graphics
+
+        Public Overrides Function ToString() As String
+            Return $"[{GraphId}] {TextLabel}"
+        End Function
+
     End Class
 
     Public Class Point
@@ -42,6 +53,10 @@ Namespace GPML
         <XmlAttribute> Public Property RelX As Double
         <XmlAttribute> Public Property RelY As Double
         <XmlAttribute> Public Property ArrowHead As String
+
+        Public Overrides Function ToString() As String
+            Return $"[{GraphRef}] [X={X}, Y={Y}]"
+        End Function
 
     End Class
 End Namespace
