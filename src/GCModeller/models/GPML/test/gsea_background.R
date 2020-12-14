@@ -15,5 +15,19 @@ imports "background" from "gseakit";
 	lipids = lipids[lipids[, "database"] == "LIPID MAPS", ];
 	lipids = lipids[lipids[, "dbref"] != "", ];
 
-	
+	lipids :> gsea.cluster(
+		clusterId   = basename(filepath),
+		clusterName = pathway$Name,
+		desc        = as.object(pathway$Comment)$Text,
+		id          = "dbref"
+	);
 })
+:> as.background(
+	background_size = 20000,
+	name            = "LipidMaps",
+    tax_id          = "lipid",
+    desc            = "lipidmaps enrichment background" 
+)
+:> xml
+:> writeLines(con = `${!script$dir}/lipidmaps.Xml`)
+;
