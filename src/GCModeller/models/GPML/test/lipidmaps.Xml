@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="utf-16"?>
+<background xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gcmodeller.org/GSEA/background.xml">
+  <!--
+     model:     SMRUCC.genomics.Analysis.HTS.GSEA.Background
+     assembly:  SMRUCC.genomics.Analysis.HTS.GSEA, Version=2.10.7653.24164, Culture=neutral, PublicKeyToken=null
+     version:   2.10.7653.24164
+     built:     2020/12/14 13:25:28
+     md5:       9a1df10d3f1715653ea3c682123486b0
+     timestamp: 2020/12/14 13:29:49
+  -->
+  <name>LipidMaps</name>
+  <id>lipid</id>
+  <comments>lipidmaps enrichment background</comments>
+  <build>2020-12-14T13:29:49.8245601+08:00</build>
+  <size>20000</size>
+  <clusters size="1" ID="WP167_106700">
+    <names>Eicosanoid Synthesis</names>
+    <members>
+      <gene accessionID="LMFA03010009" name="PGG2">
+        <alias>LMFA03010009</alias>
+        <term_id>LMFA03010009</term_id>
+        <locus_tag name="LMFA03010009">PGG2</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="23" ID="WP4344_107206">
+    <names>Sphingolipid Metabolism (general overview)</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Sphingolipids pathway [https://lipidmaps.org/resources/pathways/vanted.php].
+Sphingolipids are a class of lipids, which act as signal transduction and cell recognition molecules.
+This pathway provides an overview of the different tail lengths (on the right), which are used to convert sphinganine to DH-ceramide. All products are annotated with a lipid-class identifier.
+The integrated pathway can be found [https://www.wikipathways.org/index.php/Pathway:WP4690 here].</description>
+    <members>
+      <gene accessionID="LMSP01020002" name="3-keto-sphinganine">
+        <alias>LMSP01020002</alias>
+        <term_id>LMSP01020002</term_id>
+        <locus_tag name="LMSP01020002">3-keto-sphinganine</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="Palmitoyl-CoA">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">Palmitoyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA06000088" name="Hexadecanal">
+        <alias>LMFA06000088</alias>
+        <term_id>LMFA06000088</term_id>
+        <locus_tag name="LMFA06000088">Hexadecanal</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01010001" name="Sphingosine">
+        <alias>LMSP01010001</alias>
+        <term_id>LMSP01010001</term_id>
+        <locus_tag name="LMSP01010001">Sphingosine</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01020001" name="Sphinganine">
+        <alias>LMSP01020001</alias>
+        <term_id>LMSP01020001</term_id>
+        <locus_tag name="LMSP01020001">Sphinganine</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01050002" name="Sphinganine-1-phosphate">
+        <alias>LMSP01050002</alias>
+        <term_id>LMSP01050002</term_id>
+        <locus_tag name="LMSP01050002">Sphinganine-1-phosphate</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010000" name="Ceramide">
+        <alias>LMSP02010000</alias>
+        <term_id>LMSP02010000</term_id>
+        <locus_tag name="LMSP02010000">Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02050000" name="Cer-1-P">
+        <alias>LMSP02050000</alias>
+        <term_id>LMSP02050000</term_id>
+        <locus_tag name="LMSP02050000">Cer-1-P</locus_tag>
+      </gene>
+      <gene accessionID="LMSP020500A0" name="DH-Cer-1-P">
+        <alias>LMSP020500A0</alias>
+        <term_id>LMSP020500A0</term_id>
+        <locus_tag name="LMSP020500A0">DH-Cer-1-P</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0301" name="SM">
+        <alias>LMSP0301</alias>
+        <term_id>LMSP0301</term_id>
+        <locus_tag name="LMSP0301">SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA00" name="Glc-Cer">
+        <alias>LMSP0501AA00</alias>
+        <term_id>LMSP0501AA00</term_id>
+        <locus_tag name="LMSP0501AA00">Glc-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP030100A0" name="DH-SM">
+        <alias>LMSP030100A0</alias>
+        <term_id>LMSP030100A0</term_id>
+        <locus_tag name="LMSP030100A0">DH-SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AC00" name="Gal-Cer">
+        <alias>LMSP0501AC00</alias>
+        <term_id>LMSP0501AC00</term_id>
+        <locus_tag name="LMSP0501AC00">Gal-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01050001" name="Sphingosine-1-phosphate">
+        <alias>LMSP01050001</alias>
+        <term_id>LMSP01050001</term_id>
+        <locus_tag name="LMSP01050001">Sphingosine-1-phosphate</locus_tag>
+      </gene>
+      <gene accessionID="LMFA06000088" name="1-Hexadecenal">
+        <alias>LMFA06000088</alias>
+        <term_id>LMFA06000088</term_id>
+        <locus_tag name="LMFA06000088">1-Hexadecenal</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="CoA(16:0)">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">CoA(16:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="CoA(16:0)">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">CoA(16:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020000" name="DH-Ceramide">
+        <alias>LMSP02020000</alias>
+        <term_id>LMSP02020000</term_id>
+        <locus_tag name="LMSP02020000">DH-Ceramide</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="20" ID="WP4345_106451">
+    <names>Glycerolipids and Glycerophospholipids</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Glycerolipids and Glycerophospholipids Pathways expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php].
+Glycerolipids are composed of mono-, di-, and tri-substituted glycerols, which all function as energy storage. 
+Glycerophospholipids are also based on glycerol phospholipids, and serve as the main component of biological membranes.</description>
+    <members>
+      <gene accessionID="LMGP10010000" name="PA">
+        <alias>LMGP10010000</alias>
+        <term_id>LMGP10010000</term_id>
+        <locus_tag name="LMGP10010000">PA</locus_tag>
+      </gene>
+      <gene accessionID="LMGP10050000" name="1-acyl-LPA">
+        <alias>LMGP10050000</alias>
+        <term_id>LMGP10050000</term_id>
+        <locus_tag name="LMGP10050000">1-acyl-LPA</locus_tag>
+      </gene>
+      <gene accessionID="LMGP02010000" name="PE">
+        <alias>LMGP02010000</alias>
+        <term_id>LMGP02010000</term_id>
+        <locus_tag name="LMGP02010000">PE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050000" name="Acyl-CoA">
+        <alias>LMFA07050000</alias>
+        <term_id>LMFA07050000</term_id>
+        <locus_tag name="LMFA07050000">Acyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMGL02010000" name="DAG">
+        <alias>LMGL02010000</alias>
+        <term_id>LMGL02010000</term_id>
+        <locus_tag name="LMGL02010000">DAG</locus_tag>
+      </gene>
+      <gene accessionID="LMGP13010000" name="CDP-DAG">
+        <alias>LMGP13010000</alias>
+        <term_id>LMGP13010000</term_id>
+        <locus_tag name="LMGP13010000">CDP-DAG</locus_tag>
+      </gene>
+      <gene accessionID="LMGP05010000" name="PGP">
+        <alias>LMGP05010000</alias>
+        <term_id>LMGP05010000</term_id>
+        <locus_tag name="LMGP05010000">PGP</locus_tag>
+      </gene>
+      <gene accessionID="LMGP04010000" name="PG">
+        <alias>LMGP04010000</alias>
+        <term_id>LMGP04010000</term_id>
+        <locus_tag name="LMGP04010000">PG</locus_tag>
+      </gene>
+      <gene accessionID="LMGP12010000" name="CL">
+        <alias>LMGP12010000</alias>
+        <term_id>LMGP12010000</term_id>
+        <locus_tag name="LMGP12010000">CL</locus_tag>
+      </gene>
+      <gene accessionID="LMGP06010000" name="PI">
+        <alias>LMGP06010000</alias>
+        <term_id>LMGP06010000</term_id>
+        <locus_tag name="LMGP06010000">PI</locus_tag>
+      </gene>
+      <gene accessionID="LMGP01010000" name="PC">
+        <alias>LMGP01010000</alias>
+        <term_id>LMGP01010000</term_id>
+        <locus_tag name="LMGP01010000">PC</locus_tag>
+      </gene>
+      <gene accessionID="LMGP03010000" name="PS">
+        <alias>LMGP03010000</alias>
+        <term_id>LMGP03010000</term_id>
+        <locus_tag name="LMGP03010000">PS</locus_tag>
+      </gene>
+      <gene accessionID="LMGP01050000" name="1-acyl-LPC">
+        <alias>LMGP01050000</alias>
+        <term_id>LMGP01050000</term_id>
+        <locus_tag name="LMGP01050000">1-acyl-LPC</locus_tag>
+      </gene>
+      <gene accessionID="LMGP0201AA00" name="PE-Me">
+        <alias>LMGP0201AA00</alias>
+        <term_id>LMGP0201AA00</term_id>
+        <locus_tag name="LMGP0201AA00">PE-Me</locus_tag>
+      </gene>
+      <gene accessionID="LMGP0201AB00" name="PE-Me2">
+        <alias>LMGP0201AB00</alias>
+        <term_id>LMGP0201AB00</term_id>
+        <locus_tag name="LMGP0201AB00">PE-Me2</locus_tag>
+      </gene>
+      <gene accessionID="LMGL03010000" name="TAG">
+        <alias>LMGL03010000</alias>
+        <term_id>LMGL03010000</term_id>
+        <locus_tag name="LMGL03010000">TAG</locus_tag>
+      </gene>
+      <gene accessionID="LMGP1005AA00" name="2-acyl-PA">
+        <alias>LMGP1005AA00</alias>
+        <term_id>LMGP1005AA00</term_id>
+        <locus_tag name="LMGP1005AA00">2-acyl-PA</locus_tag>
+      </gene>
+      <gene accessionID="LMGP02050000" name="1-acyl-PE">
+        <alias>LMGP02050000</alias>
+        <term_id>LMGP02050000</term_id>
+        <locus_tag name="LMGP02050000">1-acyl-PE</locus_tag>
+      </gene>
+      <gene accessionID="LMGP01050000" name="LPC">
+        <alias>LMGP01050000</alias>
+        <term_id>LMGP01050000</term_id>
+        <locus_tag name="LMGP01050000">LPC</locus_tag>
+      </gene>
+      <gene accessionID="LMGP02050000" name="LPE">
+        <alias>LMGP02050000</alias>
+        <term_id>LMGP02050000</term_id>
+        <locus_tag name="LMGP02050000">LPE</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="38" ID="WP4346_107591">
+    <names>Cholesterol metabolism (includes both Bloch and Kandutsch-Russell pathways)</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Sterol lipids expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php] and extended with Scheme 1 from Acimovic et al (2013 [https://www.ncbi.nlm.nih.gov/pubmed/23558541]).
+Literature suggests that cholesterol synthesis preferentially starts with the Bloch pathway, however there is a shift to the Kandutsch-Russell part via lathosterol (Bae et al, 1997[https://www.ncbi.nlm.nih.gov/pubmed/9291139]).
+
+Dashed lines indicate that multiple steps are involved to create the final product. Several regulatory effects concerning the metabolites of cholesterol have been indicated as well.
+The content from the Bloch and Kandutsch-Russel pathways have been checked against literature, and differences compared to the original LipidMaps pathway have been coloured turquoise.
+</description>
+    <members>
+      <gene accessionID="LMST01010013" name="7alpha-hydroxycholesterol">
+        <alias>LMST01010013</alias>
+        <term_id>LMST01010013</term_id>
+        <locus_tag name="LMST01010013">7alpha-hydroxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050281" name="Acetyl-CoA">
+        <alias>LMFA07050281</alias>
+        <term_id>LMFA07050281</term_id>
+        <locus_tag name="LMFA07050281">Acetyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050030" name="Acetoacetyl-CoA">
+        <alias>LMFA07050030</alias>
+        <term_id>LMFA07050030</term_id>
+        <locus_tag name="LMFA07050030">Acetoacetyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050116" name="HMG-CoA">
+        <alias>LMFA07050116</alias>
+        <term_id>LMFA07050116</term_id>
+        <locus_tag name="LMFA07050116">HMG-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01050352" name="Mevalonic acid">
+        <alias>LMFA01050352</alias>
+        <term_id>LMFA01050352</term_id>
+        <locus_tag name="LMFA01050352">Mevalonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01050415" name="Mevalonate-5-P">
+        <alias>LMFA01050415</alias>
+        <term_id>LMFA01050415</term_id>
+        <locus_tag name="LMFA01050415">Mevalonate-5-P</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01050416" name="Mevalonate-5-PP">
+        <alias>LMFA01050416</alias>
+        <term_id>LMFA01050416</term_id>
+        <locus_tag name="LMFA01050416">Mevalonate-5-PP</locus_tag>
+      </gene>
+      <gene accessionID="LMPR01010008" name="Isopentenyl-PP">
+        <alias>LMPR01010008</alias>
+        <term_id>LMPR01010008</term_id>
+        <locus_tag name="LMPR01010008">Isopentenyl-PP</locus_tag>
+      </gene>
+      <gene accessionID="LMPR01010001" name="Dimethylallyl-PP">
+        <alias>LMPR01010001</alias>
+        <term_id>LMPR01010001</term_id>
+        <locus_tag name="LMPR01010001">Dimethylallyl-PP</locus_tag>
+      </gene>
+      <gene accessionID="LMPR0102010001" name="Geranyl-PP">
+        <alias>LMPR0102010001</alias>
+        <term_id>LMPR0102010001</term_id>
+        <locus_tag name="LMPR0102010001">Geranyl-PP</locus_tag>
+      </gene>
+      <gene accessionID="LMPR0103010002" name="Farnesyl-PP">
+        <alias>LMPR0103010002</alias>
+        <term_id>LMPR0103010002</term_id>
+        <locus_tag name="LMPR0103010002">Farnesyl-PP</locus_tag>
+      </gene>
+      <gene accessionID="LMPR0106010002" name="Squalene">
+        <alias>LMPR0106010002</alias>
+        <term_id>LMPR0106010002</term_id>
+        <locus_tag name="LMPR0106010002">Squalene</locus_tag>
+      </gene>
+      <gene accessionID="LMPR0106010010" name="Squalene-2,3-epoxide">
+        <alias>LMPR0106010010</alias>
+        <term_id>LMPR0106010010</term_id>
+        <locus_tag name="LMPR0106010010">Squalene-2,3-epoxide</locus_tag>
+      </gene>
+      <gene accessionID="LMPR0106010038" name="Diepoxy-squalene">
+        <alias>LMPR0106010038</alias>
+        <term_id>LMPR0106010038</term_id>
+        <locus_tag name="LMPR0106010038">Diepoxy-squalene</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010017" name="Lanosterol">
+        <alias>LMST01010017</alias>
+        <term_id>LMST01010017</term_id>
+        <locus_tag name="LMST01010017">Lanosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010012" name="24,25-epoxycholesterol">
+        <alias>LMST01010012</alias>
+        <term_id>LMST01010012</term_id>
+        <locus_tag name="LMST01010012">24,25-epoxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010087" name="24,25-dihydrolanosterol">
+        <alias>LMST01010087</alias>
+        <term_id>LMST01010087</term_id>
+        <locus_tag name="LMST01010087">24,25-dihydrolanosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010124" name="32-hydroxylanosterol">
+        <alias>LMST01010124</alias>
+        <term_id>LMST01010124</term_id>
+        <locus_tag name="LMST01010124">32-hydroxylanosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010149" name="4,4-dimethylcholesta- 5,8,24-trienol">
+        <alias>LMST01010149</alias>
+        <term_id>LMST01010149</term_id>
+        <locus_tag name="LMST01010149">4,4-dimethylcholesta- 5,8,24-trienol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010225" name="4,4-dimethylcholest-8-enol">
+        <alias>LMST01010225</alias>
+        <term_id>LMST01010225</term_id>
+        <locus_tag name="LMST01010225">4,4-dimethylcholest-8-enol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010176" name="14-demethyl-lanosterol">
+        <alias>LMST01010176</alias>
+        <term_id>LMST01010176</term_id>
+        <locus_tag name="LMST01010176">14-demethyl-lanosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010197" name="4-alpha-methylcholest-8-enol">
+        <alias>LMST01010197</alias>
+        <term_id>LMST01010197</term_id>
+        <locus_tag name="LMST01010197">4-alpha-methylcholest-8-enol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010066" name="Zymosterol">
+        <alias>LMST01010066</alias>
+        <term_id>LMST01010066</term_id>
+        <locus_tag name="LMST01010066">Zymosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010236" name="4-alpha-methyl-cholest-8-enone">
+        <alias>LMST01010236</alias>
+        <term_id>LMST01010236</term_id>
+        <locus_tag name="LMST01010236">4-alpha-methyl-cholest-8-enone</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010096" name="Zymostenol">
+        <alias>LMST01010096</alias>
+        <term_id>LMST01010096</term_id>
+        <locus_tag name="LMST01010096">Zymostenol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010089" name="Lathosterol">
+        <alias>LMST01010089</alias>
+        <term_id>LMST01010089</term_id>
+        <locus_tag name="LMST01010089">Lathosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010069" name="7-dehdrocholesterol">
+        <alias>LMST01010069</alias>
+        <term_id>LMST01010069</term_id>
+        <locus_tag name="LMST01010069">7-dehdrocholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010206" name="Cholestadienol">
+        <alias>LMST01010206</alias>
+        <term_id>LMST01010206</term_id>
+        <locus_tag name="LMST01010206">Cholestadienol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010121" name="7-dehydodesmosterol">
+        <alias>LMST01010121</alias>
+        <term_id>LMST01010121</term_id>
+        <locus_tag name="LMST01010121">7-dehydodesmosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010016" name="Desmosterol">
+        <alias>LMST01010016</alias>
+        <term_id>LMST01010016</term_id>
+        <locus_tag name="LMST01010016">Desmosterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010001" name="Cholesterol">
+        <alias>LMST01010001</alias>
+        <term_id>LMST01010001</term_id>
+        <locus_tag name="LMST01010001">Cholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010049" name="7-oxocholesterol">
+        <alias>LMST01010049</alias>
+        <term_id>LMST01010049</term_id>
+        <locus_tag name="LMST01010049">7-oxocholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010015" name="Cholestenone">
+        <alias>LMST01010015</alias>
+        <term_id>LMST01010015</term_id>
+        <locus_tag name="LMST01010015">Cholestenone</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010014" name="4beta-hydroxycholesterol">
+        <alias>LMST01010014</alias>
+        <term_id>LMST01010014</term_id>
+        <locus_tag name="LMST01010014">4beta-hydroxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010019" name="24S-hydroxycholesterol">
+        <alias>LMST01010019</alias>
+        <term_id>LMST01010019</term_id>
+        <locus_tag name="LMST01010019">24S-hydroxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010018" name="25-hydroxycholesterol">
+        <alias>LMST01010018</alias>
+        <term_id>LMST01010018</term_id>
+        <locus_tag name="LMST01010018">25-hydroxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMST01010057" name="27-hydroxycholesterol">
+        <alias>LMST01010057</alias>
+        <term_id>LMST01010057</term_id>
+        <locus_tag name="LMST01010057">27-hydroxycholesterol</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050000" name="Acyl-CoA">
+        <alias>LMFA07050000</alias>
+        <term_id>LMFA07050000</term_id>
+        <locus_tag name="LMFA07050000">Acyl-CoA</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="38" ID="WP4347_110702">
+    <names>Eicosanoid metabolism via Cyclo Oxygenases (COX)</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Eicosanoids Pathway expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php] and extended with the top left side of Figure 1 from Dennis and Norris (2015 [https://www.ncbi.nlm.nih.gov/pubmed/26139350]).
+Eicosanoids are a large group of compounds metabolised from arachidonic acid (AA), either via cyclooxygenases (COX)[https://www.wikipathways.org/index.php/Pathway:WP4347], lipooxygenases(LOX)[https://www.wikipathways.org/index.php/Pathway:WP4348], or cytochrome P450 monooxygenases (CYP)[https://www.wikipathways.org/index.php/Pathway:WP4349].
+This pathway visualises the first route, via COX, where additonal colours have been used to visualise which conversions are being performed by the same enzymes.
+Green and orange boxes represent receptors, where the orange colour depicts peroxisome-proliferator activating receptors (PPARs) potentially activated by the eicosanoids.</description>
+    <members>
+      <gene accessionID="LMFA01030001" name="Arachidonic acid">
+        <alias>LMFA01030001</alias>
+        <term_id>LMFA01030001</term_id>
+        <locus_tag name="LMFA01030001">Arachidonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010009" name="PGG2">
+        <alias>LMFA03010009</alias>
+        <term_id>LMFA03010009</term_id>
+        <locus_tag name="LMFA03010009">PGG2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010010" name="PGH2">
+        <alias>LMFA03010010</alias>
+        <term_id>LMFA03010010</term_id>
+        <locus_tag name="LMFA03010010">PGH2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010003" name="PGE2">
+        <alias>LMFA03010003</alias>
+        <term_id>LMFA03010003</term_id>
+        <locus_tag name="LMFA03010003">PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010002" name="PGF2a">
+        <alias>LMFA03010002</alias>
+        <term_id>LMFA03010002</term_id>
+        <locus_tag name="LMFA03010002">PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010004" name="PGD2">
+        <alias>LMFA03010004</alias>
+        <term_id>LMFA03010004</term_id>
+        <locus_tag name="LMFA03010004">PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010019" name="PGJ2">
+        <alias>LMFA03010019</alias>
+        <term_id>LMFA03010019</term_id>
+        <locus_tag name="LMFA03010019">PGJ2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010020" name="delta-12-PGJ2">
+        <alias>LMFA03010020</alias>
+        <term_id>LMFA03010020</term_id>
+        <locus_tag name="LMFA03010020">delta-12-PGJ2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010021" name="15-deoxy-delta-12-PGD2">
+        <alias>LMFA03010021</alias>
+        <term_id>LMFA03010021</term_id>
+        <locus_tag name="LMFA03010021">15-deoxy-delta-12-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060085" name="11-HETE">
+        <alias>LMFA03060085</alias>
+        <term_id>LMFA03060085</term_id>
+        <locus_tag name="LMFA03060085">11-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010087" name="PGI2">
+        <alias>LMFA03010087</alias>
+        <term_id>LMFA03010087</term_id>
+        <locus_tag name="LMFA03010087">PGI2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010001" name="6-keto-PGF1alpha">
+        <alias>LMFA03010001</alias>
+        <term_id>LMFA03010001</term_id>
+        <locus_tag name="LMFA03010001">6-keto-PGF1alpha</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010012" name="6-keto-PGE1">
+        <alias>LMFA03010012</alias>
+        <term_id>LMFA03010012</term_id>
+        <locus_tag name="LMFA03010012">6-keto-PGE1</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010035" name="PGA2">
+        <alias>LMFA03010035</alias>
+        <term_id>LMFA03010035</term_id>
+        <locus_tag name="LMFA03010035">PGA2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010018" name="PGB2">
+        <alias>LMFA03010018</alias>
+        <term_id>LMFA03010018</term_id>
+        <locus_tag name="LMFA03010018">PGB2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010172" name="15-deoxy-PGA2">
+        <alias>LMFA03010172</alias>
+        <term_id>LMFA03010172</term_id>
+        <locus_tag name="LMFA03010172">15-deoxy-PGA2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010210" name="Dinor-PGE2">
+        <alias>LMFA03010210</alias>
+        <term_id>LMFA03010210</term_id>
+        <locus_tag name="LMFA03010210">Dinor-PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010211" name="Tetranor-PGE2">
+        <alias>LMFA03010211</alias>
+        <term_id>LMFA03010211</term_id>
+        <locus_tag name="LMFA03010211">Tetranor-PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010212" name="Dinor-PGF2a">
+        <alias>LMFA03010212</alias>
+        <term_id>LMFA03010212</term_id>
+        <locus_tag name="LMFA03010212">Dinor-PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010213" name="Tetranor-PGF2a">
+        <alias>LMFA03010213</alias>
+        <term_id>LMFA03010213</term_id>
+        <locus_tag name="LMFA03010213">Tetranor-PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010214" name="Dinor-PGD2">
+        <alias>LMFA03010214</alias>
+        <term_id>LMFA03010214</term_id>
+        <locus_tag name="LMFA03010214">Dinor-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010215" name="Tetranor-PGD2">
+        <alias>LMFA03010215</alias>
+        <term_id>LMFA03010215</term_id>
+        <locus_tag name="LMFA03010215">Tetranor-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010014" name="20-hydroxy-PGE2">
+        <alias>LMFA03010014</alias>
+        <term_id>LMFA03010014</term_id>
+        <locus_tag name="LMFA03010014">20-hydroxy-PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010029" name="20-hydroxy-PGF2a">
+        <alias>LMFA03010029</alias>
+        <term_id>LMFA03010029</term_id>
+        <locus_tag name="LMFA03010029">20-hydroxy-PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010216" name="20-hydroxy-PGD2">
+        <alias>LMFA03010216</alias>
+        <term_id>LMFA03010216</term_id>
+        <locus_tag name="LMFA03010216">20-hydroxy-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010021" name="15-deoxy-delta-12-PGJ2">
+        <alias>LMFA03010021</alias>
+        <term_id>LMFA03010021</term_id>
+        <locus_tag name="LMFA03010021">15-deoxy-delta-12-PGJ2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03030001" name="TXA2">
+        <alias>LMFA03030001</alias>
+        <term_id>LMFA03030001</term_id>
+        <locus_tag name="LMFA03030001">TXA2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03030002" name="TXB2">
+        <alias>LMFA03030002</alias>
+        <term_id>LMFA03030002</term_id>
+        <locus_tag name="LMFA03030002">TXB2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03030004" name="11-dehydro-TXB2">
+        <alias>LMFA03030004</alias>
+        <term_id>LMFA03030004</term_id>
+        <locus_tag name="LMFA03030004">11-dehydro-TXB2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03050002" name="12S-HHTrE">
+        <alias>LMFA03050002</alias>
+        <term_id>LMFA03050002</term_id>
+        <locus_tag name="LMFA03050002">12S-HHTrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010030" name="15-keto-PGE2">
+        <alias>LMFA03010030</alias>
+        <term_id>LMFA03010030</term_id>
+        <locus_tag name="LMFA03010030">15-keto-PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010026" name="15-keto-PGF2a">
+        <alias>LMFA03010026</alias>
+        <term_id>LMFA03010026</term_id>
+        <locus_tag name="LMFA03010026">15-keto-PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010022" name="15-keto-PGD2">
+        <alias>LMFA03010022</alias>
+        <term_id>LMFA03010022</term_id>
+        <locus_tag name="LMFA03010022">15-keto-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010031" name="13,14-dihydro- 15-keto-PGE2">
+        <alias>LMFA03010031</alias>
+        <term_id>LMFA03010031</term_id>
+        <locus_tag name="LMFA03010031">13,14-dihydro- 15-keto-PGE2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010027" name="13,14-dihydro- 15-keto-PGF2a">
+        <alias>LMFA03010027</alias>
+        <term_id>LMFA03010027</term_id>
+        <locus_tag name="LMFA03010027">13,14-dihydro- 15-keto-PGF2a</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03010022" name="13,14-dihydro- 15-keto-PGD2">
+        <alias>LMFA03010022</alias>
+        <term_id>LMFA03010022</term_id>
+        <locus_tag name="LMFA03010022">13,14-dihydro- 15-keto-PGD2</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060001" name="15(S)-HETE">
+        <alias>LMFA03060001</alias>
+        <term_id>LMFA03060001</term_id>
+        <locus_tag name="LMFA03060001">15(S)-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060030" name="15(R)-HETE">
+        <alias>LMFA03060030</alias>
+        <term_id>LMFA03060030</term_id>
+        <locus_tag name="LMFA03060030">15(R)-HETE</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="42" ID="WP4348_106329">
+    <names>Eicosanoid metabolism via Lipo Oxygenases (LOX)</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Eicosanoids Pathway expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php].
+Eicosanoids are a large group of compounds metabolised from arachidonic acid (AA), either via cyclooxygenases (COX)[https://www.wikipathways.org/index.php/Pathway:WP4347], lipooxygenases(LOX)[https://www.wikipathways.org/index.php/Pathway:WP4348], or cytochrome P450 monooxygenases (CYP)[https://www.wikipathways.org/index.php/Pathway:WP4349].
+This pathway visualises the second route, via LOX.
+Green and orange boxes represent receptors, where the orange colour depicts peroxisome-proliferator activating receptors (PPARs) potentially activated by the eicosanoids.</description>
+    <members>
+      <gene accessionID="LMFA03060070" name="12(R)-HpETE">
+        <alias>LMFA03060070</alias>
+        <term_id>LMFA03060070</term_id>
+        <locus_tag name="LMFA03060070">12(R)-HpETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020023" name="LTA4">
+        <alias>LMFA03020023</alias>
+        <term_id>LMFA03020023</term_id>
+        <locus_tag name="LMFA03020023">LTA4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030001" name="Arachidonic acid">
+        <alias>LMFA01030001</alias>
+        <term_id>LMFA01030001</term_id>
+        <locus_tag name="LMFA01030001">Arachidonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060014" name="15-HpETE">
+        <alias>LMFA03060014</alias>
+        <term_id>LMFA03060014</term_id>
+        <locus_tag name="LMFA03060014">15-HpETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060087" name="15-HETE">
+        <alias>LMFA03060087</alias>
+        <term_id>LMFA03060087</term_id>
+        <locus_tag name="LMFA03060087">15-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060073" name="8-HpETE">
+        <alias>LMFA03060073</alias>
+        <term_id>LMFA03060073</term_id>
+        <locus_tag name="LMFA03060073">8-HpETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060086" name="8-HETE">
+        <alias>LMFA03060086</alias>
+        <term_id>LMFA03060086</term_id>
+        <locus_tag name="LMFA03060086">8-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060051" name="15-oxoETE">
+        <alias>LMFA03060051</alias>
+        <term_id>LMFA03060051</term_id>
+        <locus_tag name="LMFA03060051">15-oxoETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03040001" name="LXA4">
+        <alias>LMFA03040001</alias>
+        <term_id>LMFA03040001</term_id>
+        <locus_tag name="LMFA03040001">LXA4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060013" name="12-HpETE">
+        <alias>LMFA03060013</alias>
+        <term_id>LMFA03060013</term_id>
+        <locus_tag name="LMFA03060013">12-HpETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060088" name="12-HETE">
+        <alias>LMFA03060088</alias>
+        <term_id>LMFA03060088</term_id>
+        <locus_tag name="LMFA03060088">12-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060019" name="12-oxoETE">
+        <alias>LMFA03060019</alias>
+        <term_id>LMFA03060019</term_id>
+        <locus_tag name="LMFA03060019">12-oxoETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03090003" name="HXB3">
+        <alias>LMFA03090003</alias>
+        <term_id>LMFA03090003</term_id>
+        <locus_tag name="LMFA03090003">HXB3</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03090005" name="HXA3">
+        <alias>LMFA03090005</alias>
+        <term_id>LMFA03090005</term_id>
+        <locus_tag name="LMFA03090005">HXA3</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03030005" name="TXA3">
+        <alias>LMFA03030005</alias>
+        <term_id>LMFA03030005</term_id>
+        <locus_tag name="LMFA03030005">TXA3</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03030006" name="TXB3">
+        <alias>LMFA03030006</alias>
+        <term_id>LMFA03030006</term_id>
+        <locus_tag name="LMFA03030006">TXB3</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03040002" name="LXB4">
+        <alias>LMFA03040002</alias>
+        <term_id>LMFA03040002</term_id>
+        <locus_tag name="LMFA03040002">LXB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020001" name="LTB4">
+        <alias>LMFA03020001</alias>
+        <term_id>LMFA03020001</term_id>
+        <locus_tag name="LMFA03020001">LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020015" name="12-epi-LTB4">
+        <alias>LMFA03020015</alias>
+        <term_id>LMFA03020015</term_id>
+        <locus_tag name="LMFA03020015">12-epi-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020014" name="6-trans-12-epi-delta-LTB4">
+        <alias>LMFA03020014</alias>
+        <term_id>LMFA03020014</term_id>
+        <locus_tag name="LMFA03020014">6-trans-12-epi-delta-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020013" name="6-trans-delta-LTB4">
+        <alias>LMFA03020013</alias>
+        <term_id>LMFA03020013</term_id>
+        <locus_tag name="LMFA03020013">6-trans-delta-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020003" name="LTC4">
+        <alias>LMFA03020003</alias>
+        <term_id>LMFA03020003</term_id>
+        <locus_tag name="LMFA03020003">LTC4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020006" name="LTD4">
+        <alias>LMFA03020006</alias>
+        <term_id>LMFA03020006</term_id>
+        <locus_tag name="LMFA03020006">LTD4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020002" name="LTE4">
+        <alias>LMFA03020002</alias>
+        <term_id>LMFA03020002</term_id>
+        <locus_tag name="LMFA03020002">LTE4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020031" name="EXC4">
+        <alias>LMFA03020031</alias>
+        <term_id>LMFA03020031</term_id>
+        <locus_tag name="LMFA03020031">EXC4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020032" name="EXD4">
+        <alias>LMFA03020032</alias>
+        <term_id>LMFA03020032</term_id>
+        <locus_tag name="LMFA03020032">EXD4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020033" name="EXE4">
+        <alias>LMFA03020033</alias>
+        <term_id>LMFA03020033</term_id>
+        <locus_tag name="LMFA03020033">EXE4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020018" name="20-hydroxy-LTB4">
+        <alias>LMFA03020018</alias>
+        <term_id>LMFA03020018</term_id>
+        <locus_tag name="LMFA03020018">20-hydroxy-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020016" name="20-carboxy-LTB4">
+        <alias>LMFA03020016</alias>
+        <term_id>LMFA03020016</term_id>
+        <locus_tag name="LMFA03020016">20-carboxy-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020057" name="18-carboxy- dinor-LTB4">
+        <alias>LMFA03020057</alias>
+        <term_id>LMFA03020057</term_id>
+        <locus_tag name="LMFA03020057">18-carboxy- dinor-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020020" name="11-trans-LTC4">
+        <alias>LMFA03020020</alias>
+        <term_id>LMFA03020020</term_id>
+        <locus_tag name="LMFA03020020">11-trans-LTC4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020021" name="11-trans-LTD4">
+        <alias>LMFA03020021</alias>
+        <term_id>LMFA03020021</term_id>
+        <locus_tag name="LMFA03020021">11-trans-LTD4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020022" name="11-trans-LTE4">
+        <alias>LMFA03020022</alias>
+        <term_id>LMFA03020022</term_id>
+        <locus_tag name="LMFA03020022">11-trans-LTE4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060108" name="5-HpETE">
+        <alias>LMFA03060108</alias>
+        <term_id>LMFA03060108</term_id>
+        <locus_tag name="LMFA03060108">5-HpETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060084" name="5-HETE">
+        <alias>LMFA03060084</alias>
+        <term_id>LMFA03060084</term_id>
+        <locus_tag name="LMFA03060084">5-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060011" name="5-oxoETE">
+        <alias>LMFA03060011</alias>
+        <term_id>LMFA03060011</term_id>
+        <locus_tag name="LMFA03060011">5-oxoETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03040009" name="15-oxo-LXA4">
+        <alias>LMFA03040009</alias>
+        <term_id>LMFA03040009</term_id>
+        <locus_tag name="LMFA03040009">15-oxo-LXA4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03040008" name="13,14-dihydro- 15-oxo-LXA4">
+        <alias>LMFA03040008</alias>
+        <term_id>LMFA03040008</term_id>
+        <locus_tag name="LMFA03040008">13,14-dihydro- 15-oxo-LXA4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03020024" name="12-oxo-LTB4">
+        <alias>LMFA03020024</alias>
+        <term_id>LMFA03020024</term_id>
+        <locus_tag name="LMFA03020024">12-oxo-LTB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03040002" name="LXB4">
+        <alias>LMFA03040002</alias>
+        <term_id>LMFA03040002</term_id>
+        <locus_tag name="LMFA03040002">LXB4</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060087" name="15-HETE">
+        <alias>LMFA03060087</alias>
+        <term_id>LMFA03060087</term_id>
+        <locus_tag name="LMFA03060087">15-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060052" name="5,12-diHETE">
+        <alias>LMFA03060052</alias>
+        <term_id>LMFA03060052</term_id>
+        <locus_tag name="LMFA03060052">5,12-diHETE</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="14" ID="WP4349_106330">
+    <names>Eicosanoid metabolism via Cytochrome P450 Mono-Oxygenases (CYP) pathway</names>
+    <description>This pathway is inspired by the LIPID MAPS&gt;Eicosanoids Pathway expended pathway display [https://lipidmaps.org/resources/pathways/vanted.php] and extended with the bottom left side of Figure 1 from Dennis and Norris (2015 [https://www.ncbi.nlm.nih.gov/pubmed/26139350]).
+Eicosanoids are a large group of compounds metabolised from arachidonic acid (AA), either via cyclooxygenases (COX)[https://www.wikipathways.org/index.php/Pathway:WP4347], lipooxygenases(LOX)[https://www.wikipathways.org/index.php/Pathway:WP4348], or cytochrome P450 monooxygenases (CYP)[https://www.wikipathways.org/index.php/Pathway:WP4349].
+This pathway visualises the third route, via CYP.
+
+Orange boxes represent peroxisome-proliferator activating receptors (PPARs) potentially activated by the eicosanoids.</description>
+    <members>
+      <gene accessionID="LMFA01030001" name="Arachidonic acid">
+        <alias>LMFA01030001</alias>
+        <term_id>LMFA01030001</term_id>
+        <locus_tag name="LMFA01030001">Arachidonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03090010" name="16-HETE">
+        <alias>LMFA03090010</alias>
+        <term_id>LMFA03090010</term_id>
+        <locus_tag name="LMFA03090010">16-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060091" name="17-HETE">
+        <alias>LMFA03060091</alias>
+        <term_id>LMFA03060091</term_id>
+        <locus_tag name="LMFA03060091">17-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060092" name="18-HETE">
+        <alias>LMFA03060092</alias>
+        <term_id>LMFA03060092</term_id>
+        <locus_tag name="LMFA03060092">18-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060106" name="19-HETE">
+        <alias>LMFA03060106</alias>
+        <term_id>LMFA03060106</term_id>
+        <locus_tag name="LMFA03060106">19-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03060009" name="20-HETE">
+        <alias>LMFA03060009</alias>
+        <term_id>LMFA03060009</term_id>
+        <locus_tag name="LMFA03060009">20-HETE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03080002" name="5,6-EpETrE">
+        <alias>LMFA03080002</alias>
+        <term_id>LMFA03080002</term_id>
+        <locus_tag name="LMFA03080002">5,6-EpETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03080003" name="8,9-EpETrE">
+        <alias>LMFA03080003</alias>
+        <term_id>LMFA03080003</term_id>
+        <locus_tag name="LMFA03080003">8,9-EpETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03090010" name="11,12-EpETrE">
+        <alias>LMFA03090010</alias>
+        <term_id>LMFA03090010</term_id>
+        <locus_tag name="LMFA03090010">11,12-EpETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03080005" name="14,15-EpETrE">
+        <alias>LMFA03080005</alias>
+        <term_id>LMFA03080005</term_id>
+        <locus_tag name="LMFA03080005">14,15-EpETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03050004" name="5,6-DiHETrE">
+        <alias>LMFA03050004</alias>
+        <term_id>LMFA03050004</term_id>
+        <locus_tag name="LMFA03050004">5,6-DiHETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03050006" name="8,9-DiHETrE">
+        <alias>LMFA03050006</alias>
+        <term_id>LMFA03050006</term_id>
+        <locus_tag name="LMFA03050006">8,9-DiHETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03050008" name="11,12-DiHETrE">
+        <alias>LMFA03050008</alias>
+        <term_id>LMFA03050008</term_id>
+        <locus_tag name="LMFA03050008">11,12-DiHETrE</locus_tag>
+      </gene>
+      <gene accessionID="LMFA03050010" name="14,15-DiHETrE">
+        <alias>LMFA03050010</alias>
+        <term_id>LMFA03050010</term_id>
+        <locus_tag name="LMFA03050010">14,15-DiHETrE</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="38" ID="WP4350_110703">
+    <names>Omega-3/Omega-6 FA synthesis</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Omega-3 and omega-6 fatty acids) [https://lipidmaps.org/resources/pathways/vanted.php].
+Omega-3 and omega-6 FAs (Fatty acids) are important fats obtained from diet, and are both polyunsaturated (indicating many double bonds in the lipid tail).The position of the double bond is given in the name of the lipid, for example 22:2(13Z,16Z) means a tail length of 22 carbons, with 2 double bond. One double bond is at the 13 Carbon, the second on the 16th.This number is counted from the tail end of the lipid chain (indicating that the example lipid is a 22 - 16 = omega-6 FA).</description>
+    <members>
+      <gene accessionID="LMFA01030001" name="Arachidonic acid">
+        <alias>LMFA01030001</alias>
+        <term_id>LMFA01030001</term_id>
+        <locus_tag name="LMFA01030001">Arachidonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030120" name="Linoleic acid">
+        <alias>LMFA01030120</alias>
+        <term_id>LMFA01030120</term_id>
+        <locus_tag name="LMFA01030120">Linoleic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050343" name="CoA(18:2(9Z,12Z))">
+        <alias>LMFA07050343</alias>
+        <term_id>LMFA07050343</term_id>
+        <locus_tag name="LMFA07050343">CoA(18:2(9Z,12Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050322" name="CoA(18:3(6Z,9Z,12Z))">
+        <alias>LMFA07050322</alias>
+        <term_id>LMFA07050322</term_id>
+        <locus_tag name="LMFA07050322">CoA(18:3(6Z,9Z,12Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050036" name="CoA(20:2(11Z,14Z))">
+        <alias>LMFA07050036</alias>
+        <term_id>LMFA07050036</term_id>
+        <locus_tag name="LMFA07050036">CoA(20:2(11Z,14Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050278" name="CoA(20:3(8Z,11Z,14Z))">
+        <alias>LMFA07050278</alias>
+        <term_id>LMFA07050278</term_id>
+        <locus_tag name="LMFA07050278">CoA(20:3(8Z,11Z,14Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050288" name="Arachidonoyl-CoA">
+        <alias>LMFA07050288</alias>
+        <term_id>LMFA07050288</term_id>
+        <locus_tag name="LMFA07050288">Arachidonoyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030141" name="gamma-Linolenic acid">
+        <alias>LMFA01030141</alias>
+        <term_id>LMFA01030141</term_id>
+        <locus_tag name="LMFA01030141">gamma-Linolenic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050129" name="CoA(22:4)">
+        <alias>LMFA07050129</alias>
+        <term_id>LMFA07050129</term_id>
+        <locus_tag name="LMFA07050129">CoA(22:4)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050139" name="CoA(24:4)">
+        <alias>LMFA07050139</alias>
+        <term_id>LMFA07050139</term_id>
+        <locus_tag name="LMFA07050139">CoA(24:4)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050036" name="20:2(11Z,14Z)">
+        <alias>LMFA07050036</alias>
+        <term_id>LMFA07050036</term_id>
+        <locus_tag name="LMFA07050036">20:2(11Z,14Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030158" name="Bishomo-gamma-linolenic acid">
+        <alias>LMFA01030158</alias>
+        <term_id>LMFA01030158</term_id>
+        <locus_tag name="LMFA01030158">Bishomo-gamma-linolenic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050043" name="CoA(22:5(4Z,7Z,10Z,13Z,16Z))">
+        <alias>LMFA07050043</alias>
+        <term_id>LMFA07050043</term_id>
+        <locus_tag name="LMFA07050043">CoA(22:5(4Z,7Z,10Z,13Z,16Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030152" name="alpha-Linolenic acid">
+        <alias>LMFA01030152</alias>
+        <term_id>LMFA01030152</term_id>
+        <locus_tag name="LMFA01030152">alpha-Linolenic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050286" name="CoA(18:3(9Z,12Z,15Z))">
+        <alias>LMFA07050286</alias>
+        <term_id>LMFA07050286</term_id>
+        <locus_tag name="LMFA07050286">CoA(18:3(9Z,12Z,15Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050123" name="CoA(18:4(6Z,9Z,12Z,15Z))">
+        <alias>LMFA07050123</alias>
+        <term_id>LMFA07050123</term_id>
+        <locus_tag name="LMFA07050123">CoA(18:4(6Z,9Z,12Z,15Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050134" name="CoA(20:4(8Z,11Z,14Z,17Z))">
+        <alias>LMFA07050134</alias>
+        <term_id>LMFA07050134</term_id>
+        <locus_tag name="LMFA07050134">CoA(20:4(8Z,11Z,14Z,17Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050122" name="CoA(20:5)">
+        <alias>LMFA07050122</alias>
+        <term_id>LMFA07050122</term_id>
+        <locus_tag name="LMFA07050122">CoA(20:5)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050131" name="CoA(22:5(7Z,10Z,13Z,16Z,19Z))">
+        <alias>LMFA07050131</alias>
+        <term_id>LMFA07050131</term_id>
+        <locus_tag name="LMFA07050131">CoA(22:5(7Z,10Z,13Z,16Z,19Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050121" name="CoA(22:6)">
+        <alias>LMFA07050121</alias>
+        <term_id>LMFA07050121</term_id>
+        <locus_tag name="LMFA07050121">CoA(22:6)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050141" name="CoA(24:5(9Z,12Z,15Z,18Z,21Z))">
+        <alias>LMFA07050141</alias>
+        <term_id>LMFA07050141</term_id>
+        <locus_tag name="LMFA07050141">CoA(24:5(9Z,12Z,15Z,18Z,21Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050127" name="CoA(24:6)">
+        <alias>LMFA07050127</alias>
+        <term_id>LMFA07050127</term_id>
+        <locus_tag name="LMFA07050127">CoA(24:6)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030185" name="DHA">
+        <alias>LMFA01030185</alias>
+        <term_id>LMFA01030185</term_id>
+        <locus_tag name="LMFA01030185">DHA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030822" name="24:6(6Z,9Z,12Z,15Z,18Z,21Z)">
+        <alias>LMFA01030822</alias>
+        <term_id>LMFA01030822</term_id>
+        <locus_tag name="LMFA01030822">24:6(6Z,9Z,12Z,15Z,18Z,21Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030821" name="24:5(9Z,12Z,15Z,18Z,21Z)">
+        <alias>LMFA01030821</alias>
+        <term_id>LMFA01030821</term_id>
+        <locus_tag name="LMFA01030821">24:5(9Z,12Z,15Z,18Z,21Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA04000044" name="22:5(7Z,10Z,13Z,16Z,19Z)">
+        <alias>LMFA04000044</alias>
+        <term_id>LMFA04000044</term_id>
+        <locus_tag name="LMFA04000044">22:5(7Z,10Z,13Z,16Z,19Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030759" name="20:5(5Z,8Z,11Z,14Z,17Z)">
+        <alias>LMFA01030759</alias>
+        <term_id>LMFA01030759</term_id>
+        <locus_tag name="LMFA01030759">20:5(5Z,8Z,11Z,14Z,17Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030818" name="20:4(8Z,11Z,14Z,17Z)">
+        <alias>LMFA01030818</alias>
+        <term_id>LMFA01030818</term_id>
+        <locus_tag name="LMFA01030818">20:4(8Z,11Z,14Z,17Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030357" name="Stearidonic acid">
+        <alias>LMFA01030357</alias>
+        <term_id>LMFA01030357</term_id>
+        <locus_tag name="LMFA01030357">Stearidonic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA04000064" name="22:5(4Z,7Z,10Z,13Z,16Z)">
+        <alias>LMFA04000064</alias>
+        <term_id>LMFA04000064</term_id>
+        <locus_tag name="LMFA04000064">22:5(4Z,7Z,10Z,13Z,16Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030178" name="22:4(7Z,10Z,13Z,16Z)">
+        <alias>LMFA01030178</alias>
+        <term_id>LMFA01030178</term_id>
+        <locus_tag name="LMFA01030178">22:4(7Z,10Z,13Z,16Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030819" name="24:4(9Z,12Z,15Z,18Z)">
+        <alias>LMFA01030819</alias>
+        <term_id>LMFA01030819</term_id>
+        <locus_tag name="LMFA01030819">24:4(9Z,12Z,15Z,18Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050037" name="CoA(22:2)">
+        <alias>LMFA07050037</alias>
+        <term_id>LMFA07050037</term_id>
+        <locus_tag name="LMFA07050037">CoA(22:2)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030405" name="22:2(13Z,16Z)">
+        <alias>LMFA01030405</alias>
+        <term_id>LMFA01030405</term_id>
+        <locus_tag name="LMFA01030405">22:2(13Z,16Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050044" name="CoA(20:3(11Z,14Z,17Z))">
+        <alias>LMFA07050044</alias>
+        <term_id>LMFA07050044</term_id>
+        <locus_tag name="LMFA07050044">CoA(20:3(11Z,14Z,17Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030378" name="20:3(11Z,14Z,17Z)">
+        <alias>LMFA01030378</alias>
+        <term_id>LMFA01030378</term_id>
+        <locus_tag name="LMFA01030378">20:3(11Z,14Z,17Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050042" name="CoA(24:5(6Z,9Z,12Z,15Z,18Z))">
+        <alias>LMFA07050042</alias>
+        <term_id>LMFA07050042</term_id>
+        <locus_tag name="LMFA07050042">CoA(24:5(6Z,9Z,12Z,15Z,18Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030820" name="24:5(6Z,9Z,12Z,15Z,18Z)">
+        <alias>LMFA01030820</alias>
+        <term_id>LMFA01030820</term_id>
+        <locus_tag name="LMFA01030820">24:5(6Z,9Z,12Z,15Z,18Z)</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="28" ID="WP4351_106337">
+    <names>Omega-9 FA synthesis</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Omega-9 and other fatty acids [https://lipidmaps.org/resources/pathways/vanted.php].
+Omega-9 FAs (Fatty acids) are fats which can be obtained from diet, but also produced endogenously. These lipids are monounsaturated (indicating one double bonds in the lipid tail).The position of the double bond is counted from the tail end of the lipid chain.
+This pathway also indicated saturated fats (without a double bond), such as stearic acid, arachidic acid etc.</description>
+    <members>
+      <gene accessionID="LMFA07050329" name="CoA(20:0)">
+        <alias>LMFA07050329</alias>
+        <term_id>LMFA07050329</term_id>
+        <locus_tag name="LMFA07050329">CoA(20:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010012" name="Lauric acid">
+        <alias>LMFA01010012</alias>
+        <term_id>LMFA01010012</term_id>
+        <locus_tag name="LMFA01010012">Lauric acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010014" name="Myristic acid">
+        <alias>LMFA01010014</alias>
+        <term_id>LMFA01010014</term_id>
+        <locus_tag name="LMFA01010014">Myristic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="CoA(16:0)">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">CoA(16:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050359" name="CoA(16:1(9Z))">
+        <alias>LMFA07050359</alias>
+        <term_id>LMFA07050359</term_id>
+        <locus_tag name="LMFA07050359">CoA(16:1(9Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050356" name="CoA(18:1(9Z))">
+        <alias>LMFA07050356</alias>
+        <term_id>LMFA07050356</term_id>
+        <locus_tag name="LMFA07050356">CoA(18:1(9Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050060" name="CoA(18:2(6Z,9Z))">
+        <alias>LMFA07050060</alias>
+        <term_id>LMFA07050060</term_id>
+        <locus_tag name="LMFA07050060">CoA(18:2(6Z,9Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050093" name="CoA(20:1(11Z))">
+        <alias>LMFA07050093</alias>
+        <term_id>LMFA07050093</term_id>
+        <locus_tag name="LMFA07050093">CoA(20:1(11Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050061" name="CoA(20:2(8Z,11Z))">
+        <alias>LMFA07050061</alias>
+        <term_id>LMFA07050061</term_id>
+        <locus_tag name="LMFA07050061">CoA(20:2(8Z,11Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050060" name="18:2(6Z,9Z)">
+        <alias>LMFA07050060</alias>
+        <term_id>LMFA07050060</term_id>
+        <locus_tag name="LMFA07050060">18:2(6Z,9Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010018" name="Stearic acid">
+        <alias>LMFA01010018</alias>
+        <term_id>LMFA01010018</term_id>
+        <locus_tag name="LMFA01010018">Stearic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030056" name="16:1(9Z)">
+        <alias>LMFA01030056</alias>
+        <term_id>LMFA01030056</term_id>
+        <locus_tag name="LMFA01030056">16:1(9Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050369" name="CoA(18:0)">
+        <alias>LMFA07050369</alias>
+        <term_id>LMFA07050369</term_id>
+        <locus_tag name="LMFA07050369">CoA(18:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010001" name="Palmitic acid">
+        <alias>LMFA01010001</alias>
+        <term_id>LMFA01010001</term_id>
+        <locus_tag name="LMFA01010001">Palmitic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050289" name="CoA(22:0)">
+        <alias>LMFA07050289</alias>
+        <term_id>LMFA07050289</term_id>
+        <locus_tag name="LMFA07050289">CoA(22:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050372" name="CoA(24:0)">
+        <alias>LMFA07050372</alias>
+        <term_id>LMFA07050372</term_id>
+        <locus_tag name="LMFA07050372">CoA(24:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050327" name="CoA(26:0)">
+        <alias>LMFA07050327</alias>
+        <term_id>LMFA07050327</term_id>
+        <locus_tag name="LMFA07050327">CoA(26:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010020" name="Arachidic acid">
+        <alias>LMFA01010020</alias>
+        <term_id>LMFA01010020</term_id>
+        <locus_tag name="LMFA01010020">Arachidic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010022" name="Behenic acid">
+        <alias>LMFA01010022</alias>
+        <term_id>LMFA01010022</term_id>
+        <locus_tag name="LMFA01010022">Behenic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010024" name="Lignoceric acid">
+        <alias>LMFA01010024</alias>
+        <term_id>LMFA01010024</term_id>
+        <locus_tag name="LMFA01010024">Lignoceric acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01010026" name="Cerotic acid">
+        <alias>LMFA01010026</alias>
+        <term_id>LMFA01010026</term_id>
+        <locus_tag name="LMFA01010026">Cerotic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050318" name="CoA(22:1(13Z))">
+        <alias>LMFA07050318</alias>
+        <term_id>LMFA07050318</term_id>
+        <locus_tag name="LMFA07050318">CoA(22:1(13Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050098" name="CoA(24:1(15Z))">
+        <alias>LMFA07050098</alias>
+        <term_id>LMFA07050098</term_id>
+        <locus_tag name="LMFA07050098">CoA(24:1(15Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030377" name="20:2(8Z,11Z)">
+        <alias>LMFA01030377</alias>
+        <term_id>LMFA01030377</term_id>
+        <locus_tag name="LMFA01030377">20:2(8Z,11Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050062" name="CoA(20:3(5Z,8Z,11Z))">
+        <alias>LMFA07050062</alias>
+        <term_id>LMFA07050062</term_id>
+        <locus_tag name="LMFA07050062">CoA(20:3(5Z,8Z,11Z))</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030381" name="20:3(5Z,8Z,11Z)">
+        <alias>LMFA01030381</alias>
+        <term_id>LMFA01030381</term_id>
+        <locus_tag name="LMFA01030381">20:3(5Z,8Z,11Z)</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030002" name="Oleic acid">
+        <alias>LMFA01030002</alias>
+        <term_id>LMFA01030002</term_id>
+        <locus_tag name="LMFA01030002">Oleic acid</locus_tag>
+      </gene>
+      <gene accessionID="LMFA01030377" name="24:1(15Z))">
+        <alias>LMFA01030377</alias>
+        <term_id>LMFA01030377</term_id>
+        <locus_tag name="LMFA01030377">24:1(15Z))</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+  <clusters size="57" ID="WP4690_107209">
+    <names>Sphingolipid Metabolism (integrated pathway)</names>
+    <description>This pathway is inspired by the Lipidmaps&gt;Sphingolipids pathway (all chain lengths) [https://lipidmaps.org/resources/pathways/vanted.php].
+Sphingolipids are a class of lipids, which act as signal transduction and cell recognition molecules.
+This pathway shows all different tail lengths and their conversions into specific products. All products are annotated with lipid-specific identifiers (if available).
+The general overview pathway can be found [https://www.wikipathways.org/index.php/Pathway:WP4344 here].</description>
+    <members>
+      <gene accessionID="LMSP01020002" name="3-keto-sphinganine">
+        <alias>LMSP01020002</alias>
+        <term_id>LMSP01020002</term_id>
+        <locus_tag name="LMSP01020002">3-keto-sphinganine</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="Palmitoyl-CoA">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">Palmitoyl-CoA</locus_tag>
+      </gene>
+      <gene accessionID="LMFA06000088" name="Hexadecanal">
+        <alias>LMFA06000088</alias>
+        <term_id>LMFA06000088</term_id>
+        <locus_tag name="LMFA06000088">Hexadecanal</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01010001" name="Sphingosine">
+        <alias>LMSP01010001</alias>
+        <term_id>LMSP01010001</term_id>
+        <locus_tag name="LMSP01010001">Sphingosine</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01020001" name="Sphinganine">
+        <alias>LMSP01020001</alias>
+        <term_id>LMSP01020001</term_id>
+        <locus_tag name="LMSP01020001">Sphinganine</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01050002" name="Sphinganine-1-phosphate">
+        <alias>LMSP01050002</alias>
+        <term_id>LMSP01050002</term_id>
+        <locus_tag name="LMSP01050002">Sphinganine-1-phosphate</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010003" name="C16 SM">
+        <alias>LMSP03010003</alias>
+        <term_id>LMSP03010003</term_id>
+        <locus_tag name="LMSP03010003">C16 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA03" name="C16 GlcCer">
+        <alias>LMSP0501AA03</alias>
+        <term_id>LMSP0501AA03</term_id>
+        <locus_tag name="LMSP0501AA03">C16 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010004" name="C16DH SM">
+        <alias>LMSP03010004</alias>
+        <term_id>LMSP03010004</term_id>
+        <locus_tag name="LMSP03010004">C16DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA04" name="C16DH GlcCer">
+        <alias>LMSP0501AA04</alias>
+        <term_id>LMSP0501AA04</term_id>
+        <locus_tag name="LMSP0501AA04">C16DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP01050001" name="Sphingosine-1-phosphate">
+        <alias>LMSP01050001</alias>
+        <term_id>LMSP01050001</term_id>
+        <locus_tag name="LMSP01050001">Sphingosine-1-phosphate</locus_tag>
+      </gene>
+      <gene accessionID="LMFA06000088" name="1-Hexadecenal">
+        <alias>LMFA06000088</alias>
+        <term_id>LMFA06000088</term_id>
+        <locus_tag name="LMFA06000088">1-Hexadecenal</locus_tag>
+      </gene>
+      <gene accessionID="LMFA07050360" name="CoA(16:0)">
+        <alias>LMFA07050360</alias>
+        <term_id>LMFA07050360</term_id>
+        <locus_tag name="LMFA07050360">CoA(16:0)</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020001" name="C16DH-Cer">
+        <alias>LMSP02020001</alias>
+        <term_id>LMSP02020001</term_id>
+        <locus_tag name="LMSP02020001">C16DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010004" name="C16 Cer">
+        <alias>LMSP02010004</alias>
+        <term_id>LMSP02010004</term_id>
+        <locus_tag name="LMSP02010004">C16 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010001" name="C18 SM">
+        <alias>LMSP03010001</alias>
+        <term_id>LMSP03010001</term_id>
+        <locus_tag name="LMSP03010001">C18 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA05" name="C18 GlcCer">
+        <alias>LMSP0501AA05</alias>
+        <term_id>LMSP0501AA05</term_id>
+        <locus_tag name="LMSP0501AA05">C18 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010020" name="C18DH SM">
+        <alias>LMSP03010020</alias>
+        <term_id>LMSP03010020</term_id>
+        <locus_tag name="LMSP03010020">C18DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA19" name="C18DH GlcCer">
+        <alias>LMSP0501AA19</alias>
+        <term_id>LMSP0501AA19</term_id>
+        <locus_tag name="LMSP0501AA19">C18DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020008" name="C18DH-Cer">
+        <alias>LMSP02020008</alias>
+        <term_id>LMSP02020008</term_id>
+        <locus_tag name="LMSP02020008">C18DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010006" name="C18 Cer">
+        <alias>LMSP02010006</alias>
+        <term_id>LMSP02010006</term_id>
+        <locus_tag name="LMSP02010006">C18 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010005" name="C20 SM">
+        <alias>LMSP03010005</alias>
+        <term_id>LMSP03010005</term_id>
+        <locus_tag name="LMSP03010005">C20 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA06" name="C20 GlcCer">
+        <alias>LMSP0501AA06</alias>
+        <term_id>LMSP0501AA06</term_id>
+        <locus_tag name="LMSP0501AA06">C20 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010021" name="C20DH SM">
+        <alias>LMSP03010021</alias>
+        <term_id>LMSP03010021</term_id>
+        <locus_tag name="LMSP03010021">C20DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA20" name="C20DH GlcCer">
+        <alias>LMSP0501AA20</alias>
+        <term_id>LMSP0501AA20</term_id>
+        <locus_tag name="LMSP0501AA20">C20DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020009" name="C20DH-Cer">
+        <alias>LMSP02020009</alias>
+        <term_id>LMSP02020009</term_id>
+        <locus_tag name="LMSP02020009">C20DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010007" name="C20 Cer">
+        <alias>LMSP02010007</alias>
+        <term_id>LMSP02010007</term_id>
+        <locus_tag name="LMSP02010007">C20 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010006" name="C22 SM">
+        <alias>LMSP03010006</alias>
+        <term_id>LMSP03010006</term_id>
+        <locus_tag name="LMSP03010006">C22 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA07" name="C22 GlcCer">
+        <alias>LMSP0501AA07</alias>
+        <term_id>LMSP0501AA07</term_id>
+        <locus_tag name="LMSP0501AA07">C22 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010022" name="C22DH SM">
+        <alias>LMSP03010022</alias>
+        <term_id>LMSP03010022</term_id>
+        <locus_tag name="LMSP03010022">C22DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA21" name="C22DH GlcCer">
+        <alias>LMSP0501AA21</alias>
+        <term_id>LMSP0501AA21</term_id>
+        <locus_tag name="LMSP0501AA21">C22DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020010" name="C22DH-Cer">
+        <alias>LMSP02020010</alias>
+        <term_id>LMSP02020010</term_id>
+        <locus_tag name="LMSP02020010">C22DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010008" name="C22 Cer">
+        <alias>LMSP02010008</alias>
+        <term_id>LMSP02010008</term_id>
+        <locus_tag name="LMSP02010008">C22 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010008" name="C24 SM">
+        <alias>LMSP03010008</alias>
+        <term_id>LMSP03010008</term_id>
+        <locus_tag name="LMSP03010008">C24 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA09" name="C24 GlcCer">
+        <alias>LMSP0501AA09</alias>
+        <term_id>LMSP0501AA09</term_id>
+        <locus_tag name="LMSP0501AA09">C24 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010024" name="C24DH SM">
+        <alias>LMSP03010024</alias>
+        <term_id>LMSP03010024</term_id>
+        <locus_tag name="LMSP03010024">C24DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA23" name="C24DH GlcCer">
+        <alias>LMSP0501AA23</alias>
+        <term_id>LMSP0501AA23</term_id>
+        <locus_tag name="LMSP0501AA23">C24DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020012" name="C24DH-Cer">
+        <alias>LMSP02020012</alias>
+        <term_id>LMSP02020012</term_id>
+        <locus_tag name="LMSP02020012">C24DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010012" name="C24 Cer">
+        <alias>LMSP02010012</alias>
+        <term_id>LMSP02010012</term_id>
+        <locus_tag name="LMSP02010012">C24 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010007" name="C24:1 SM">
+        <alias>LMSP03010007</alias>
+        <term_id>LMSP03010007</term_id>
+        <locus_tag name="LMSP03010007">C24:1 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA08" name="C24:1 GlcCer">
+        <alias>LMSP0501AA08</alias>
+        <term_id>LMSP0501AA08</term_id>
+        <locus_tag name="LMSP0501AA08">C24:1 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010023" name="C24:1DH SM">
+        <alias>LMSP03010023</alias>
+        <term_id>LMSP03010023</term_id>
+        <locus_tag name="LMSP03010023">C24:1DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA22" name="C24:1DH GlcCer">
+        <alias>LMSP0501AA22</alias>
+        <term_id>LMSP0501AA22</term_id>
+        <locus_tag name="LMSP0501AA22">C24:1DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020011" name="C24:1DH-Cer">
+        <alias>LMSP02020011</alias>
+        <term_id>LMSP02020011</term_id>
+        <locus_tag name="LMSP02020011">C24:1DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010009" name="C24:1 Cer">
+        <alias>LMSP02010009</alias>
+        <term_id>LMSP02010009</term_id>
+        <locus_tag name="LMSP02010009">C24:1 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010009" name="C26:1 SM">
+        <alias>LMSP03010009</alias>
+        <term_id>LMSP03010009</term_id>
+        <locus_tag name="LMSP03010009">C26:1 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA10" name="C26:1 GlcCer">
+        <alias>LMSP0501AA10</alias>
+        <term_id>LMSP0501AA10</term_id>
+        <locus_tag name="LMSP0501AA10">C26:1 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010025" name="C26:1DH SM">
+        <alias>LMSP03010025</alias>
+        <term_id>LMSP03010025</term_id>
+        <locus_tag name="LMSP03010025">C26:1DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA24" name="C26:1DH GlcCer">
+        <alias>LMSP0501AA24</alias>
+        <term_id>LMSP0501AA24</term_id>
+        <locus_tag name="LMSP0501AA24">C26:1DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020013" name="C26:1DH-Cer">
+        <alias>LMSP02020013</alias>
+        <term_id>LMSP02020013</term_id>
+        <locus_tag name="LMSP02020013">C26:1DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010010" name="C26:1 Cer">
+        <alias>LMSP02010010</alias>
+        <term_id>LMSP02010010</term_id>
+        <locus_tag name="LMSP02010010">C26:1 Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010010" name="C26 SM">
+        <alias>LMSP03010010</alias>
+        <term_id>LMSP03010010</term_id>
+        <locus_tag name="LMSP03010010">C26 SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA11" name="C26 GlcCer">
+        <alias>LMSP0501AA11</alias>
+        <term_id>LMSP0501AA11</term_id>
+        <locus_tag name="LMSP0501AA11">C26 GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP03010026" name="C26DH SM">
+        <alias>LMSP03010026</alias>
+        <term_id>LMSP03010026</term_id>
+        <locus_tag name="LMSP03010026">C26DH SM</locus_tag>
+      </gene>
+      <gene accessionID="LMSP0501AA25" name="C26DH GlcCer">
+        <alias>LMSP0501AA25</alias>
+        <term_id>LMSP0501AA25</term_id>
+        <locus_tag name="LMSP0501AA25">C26DH GlcCer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02020014" name="C26DH-Cer">
+        <alias>LMSP02020014</alias>
+        <term_id>LMSP02020014</term_id>
+        <locus_tag name="LMSP02020014">C26DH-Cer</locus_tag>
+      </gene>
+      <gene accessionID="LMSP02010011" name="C26 Cer">
+        <alias>LMSP02010011</alias>
+        <term_id>LMSP02010011</term_id>
+        <locus_tag name="LMSP02010011">C26 Cer</locus_tag>
+      </gene>
+    </members>
+  </clusters>
+</background>
