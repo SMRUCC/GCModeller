@@ -64,9 +64,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="btreeCluster.vb" />
+    <Compile Include="BTreeCluster.vb" />
     <Compile Include="Comparison.vb" />
-    <Compile Include="JSONTreeNode.vb" />
     <Compile Include="BuildTree.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
