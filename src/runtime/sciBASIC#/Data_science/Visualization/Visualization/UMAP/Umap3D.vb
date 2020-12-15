@@ -49,7 +49,15 @@ Public Class Umap3D : Inherits UmapRender
                         }
                     End Function) _
             .ToArray
-        Dim engine As New Scatter3D(serials, camera, "1,1", True, 0.5, 2, theme)
+        Dim engine As New Scatter3D(
+            serials:=serials,
+            camera:=camera,
+            arrowFactor:="1,1",
+            showHull:=False,
+            hullAlpha:=0.5,
+            hullBspline:=2,
+            theme:=theme
+        )
 
         Call engine.Plot(g, canvas.PlotRegion)
     End Sub

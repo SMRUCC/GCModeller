@@ -143,6 +143,7 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <returns></returns>
         Public Property drawLegend As Boolean
+        Public Property drawLabels As Boolean
         ''' <summary>
         ''' 是否再作图区显示网格？
         ''' </summary>

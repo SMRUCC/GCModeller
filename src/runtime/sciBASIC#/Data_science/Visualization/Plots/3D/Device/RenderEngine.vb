@@ -69,7 +69,8 @@ Namespace Plot3D.Device
                                    camera As Camera,
                                    region As GraphicsRegion,
                                    labelFont As Font,
-                                   labelerItr%)
+                                   labelerItr%,
+                                   showLabel As Boolean)
 
             ' 首先对模型执行rotate和project，然后再进行Z排序
             Dim models As Element3D() = elements.ToArray
@@ -114,7 +115,7 @@ Namespace Plot3D.Device
                 End If
             Next
 
-            If labels > 0 Then
+            If showLabel AndAlso labels > 0 Then
                 Call labels.ToArray.drawLabels(
                     anchors:=anchors,
                     canvas:=canvas,

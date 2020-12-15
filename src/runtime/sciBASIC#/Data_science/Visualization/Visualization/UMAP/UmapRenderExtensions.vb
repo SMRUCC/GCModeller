@@ -112,14 +112,16 @@ Public Module UmapRenderExtensions
                                Optional colorSet$ = "Set1:c8",
                                Optional axisLabelCSS$ = CSSFont.PlotLabelNormal,
                                Optional axisStroke$ = Stroke.AxisStroke,
-                               Optional labelCSS$ = CSSFont.Win10Normal) As GraphicsData
+                               Optional labelCSS$ = CSSFont.Win10Normal,
+                               Optional showLabels As Boolean = True) As GraphicsData
 
         Dim theme As New Theme With {
             .padding = padding,
             .axisLabelCSS = axisLabelCSS,
             .axisStroke = axisStroke,
             .tagCSS = labelCSS,
-            .background = bg
+            .background = bg,
+            .drawLabels = showLabels
         }
 
         Return New Umap3D(
