@@ -374,4 +374,55 @@ Module geneExpression
     Public Function geneId(dep As DEP_iTraq()) As String()
         Return dep.Select(Function(a) a.ID).ToArray
     End Function
+
+    <ExportAPI("as.deg")>
+    <RApiReturn(GetType(DEGModel))>
+    Public Function createDEGModels(<RRawVectorArgument> x As Object,
+                                    Optional logFC As String = "logFC",
+                                    Optional pvalue As String = "pvalue",
+                                    Optional label As String = "id",
+                                    Optional env As Environment = Nothing) As Object
+
+        If TypeOf x Is Rdataframe Then
+            Dim table As Rdataframe = DirectCast(x, Rdataframe)
+            Dim foldchanges As Double() = REnv.asVector(Of Double)(table(logFC))
+            Dim pvalues As Double() = REnv.asVector(Of Double)(table(pvalue))
+            Dim labels As Double() = REnv.asVector(Of String)(table(label))
+
+            Return foldchanges _
+                .Select(Function(fc, i)
+                            Return New DEGModel With {
+                                .label = labels(i),
+                                .logFC = foldchanges(i),
+                                .pvalue = pvalues(i)
+                            }
+                        End Function) _
+                .ToArray
+        Else
+            Return Message.InCompatibleType(GetType(Rdataframe), x.GetType, env)
+        End If
+    End Function
+
+    <ExportAPI("deg.class")>
+    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As DEGModel()
+        Dim classList As String() = REnv.asVector(Of String)(classLabel)
+        Dim getClass As Func(Of Integer, String)
+
+        If classList.Length = 1 Then
+            getClass = Function() classList(Scan0)
+        Else
+            getClass = Function(i) classList(i)
+        End If
+
+        Return deg _
+            .Select(Function(d, i)
+                        Return New DEGModel With {
+                            .[class] = getClass(i),
+                            .label = d.label,
+                            .logFC = d.logFC,
+                            .pvalue = d.pvalue
+                        }
+                    End Function) _
+            .ToArray
+    End Function
 End Module
