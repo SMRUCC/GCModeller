@@ -86,7 +86,7 @@ Module visualPlot
 
     <ExportAPI("classchange.plot")>
     Public Function ClassChangePlot(<RRawVectorArgument> genes As Object,
-                                    <RRawVectorArgument> Optional size As Object = "2700,2400",
+                                    <RRawVectorArgument> Optional size As Object = "3000,2400",
                                     <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
                                     Optional bg As Object = "white",
                                     <RRawVectorArgument>

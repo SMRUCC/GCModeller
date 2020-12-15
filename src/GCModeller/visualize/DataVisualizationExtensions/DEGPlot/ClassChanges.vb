@@ -72,16 +72,16 @@ Public Class ClassChanges : Inherits Plot
             labelText = tick.ToString(theme.axisTickFormat)
             labelSize = g.MeasureString(labelText, labelFont)
             x = x - labelSize.Width / 2
-            y = plotregion.Bottom + tickPadding * 2
+            y = plotregion.Bottom + tickPadding
 
             Call g.DrawLine(tickStroke, a, b)
-            Call g.DrawString(tick, labelFont, Brushes.Black, x, y)
+            Call g.DrawString(labelText, labelFont, Brushes.Black, x, y)
         Next
 
         labelFont = CSSFont.TryParse(theme.axisLabelCSS)
         labelSize = g.MeasureString(theme.xlabel, labelFont)
-        x = (plotregion.Width - labelSize.Width) / 2
-        y = plotregion.Bottom + tickPadding * 2
+        x = plotregion.Left + (plotregion.Width - labelSize.Width) / 2
+        y = plotregion.Bottom + tickPadding * 3
 
         g.DrawString(theme.xlabel, labelFont, Brushes.Black, x, y)
 
