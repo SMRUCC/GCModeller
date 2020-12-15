@@ -387,7 +387,7 @@ Module geneExpression
             Dim table As Rdataframe = DirectCast(x, Rdataframe)
             Dim foldchanges As Double() = REnv.asVector(Of Double)(table(logFC))
             Dim pvalues As Double() = REnv.asVector(Of Double)(table(pvalue))
-            Dim labels As Double() = REnv.asVector(Of String)(table(label))
+            Dim labels As String() = REnv.asVector(Of String)(table(label))
 
             Return foldchanges _
                 .Select(Function(fc, i)
