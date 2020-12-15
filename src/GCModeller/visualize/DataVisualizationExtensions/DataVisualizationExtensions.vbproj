@@ -302,6 +302,7 @@
     <Compile Include="DEGPlot\ClassChanges.vb" />
     <Compile Include="DEGPlot\DEGModel.vb" />
     <Compile Include="DEGPlot\LabelTypes.vb" />
+    <Compile Include="DEGPlot\DEGPlot.vb" />
     <Compile Include="ExpressionPattern\ExpressionPattern.vb" />
     <Compile Include="ExpressionPattern\Extensions.vb" />
     <Compile Include="ExpressionPattern\PatternPlot.vb" />

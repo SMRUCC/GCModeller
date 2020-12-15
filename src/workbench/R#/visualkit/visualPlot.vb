@@ -81,6 +81,22 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("visualPlot", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module visualPlot
 
+    <ExportAPI("classchange.plot")>
+    Public Function ClassChangePlot(genes As DEGModel(),
+                                    <RRawVectorArgument> Optional size As Object = "2400,2700",
+                                    <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
+                                    Optional bg As Object = "white",
+                                    <RRawVectorArgument>
+                                    Optional colorSet As Object = "Set1:c12") As Object
+
+        Return genes.ClassChangePlot(
+            size:=InteropArgumentHelper.getSize(size),
+            padding:=InteropArgumentHelper.getPadding(padding),
+            bg:=InteropArgumentHelper.getColor(bg, [default]:="white"),
+            colorSet:=InteropArgumentHelper.getColorSet(colorSet)
+        )
+    End Function
+
     <ExportAPI("volcano.plot")>
     Public Function VolcanoPlot(genes As DEP_iTraq(),
                                 <RRawVectorArgument> Optional size As Object = "2400,2700",
