@@ -102,9 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BTreeCluster.vb" />
-    <Compile Include="AlignmentComparison.vb" />
-    <Compile Include="ComparisonProvider.vb" />
-    <Compile Include="Comparison.vb" />
+    <Compile Include="ComparisonProvider\AlignmentComparison.vb" />
+    <Compile Include="ComparisonProvider\ComparisonProvider.vb" />
+    <Compile Include="ComparisonProvider\Comparison.vb" />
     <Compile Include="BuildTree.vb" />
     <Compile Include="Partitioning.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -161,8 +161,6 @@
       <Name>DataMining</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ComparisonProvider\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
