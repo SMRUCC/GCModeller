@@ -49,6 +49,10 @@ Public Structure DEGModel : Implements IDeg
     Public Property [class] As String
 
     Public Overrides Function ToString() As String
-        Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
+        If [class].StringEmpty Then
+            Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
+        Else
+            Return $"[{label} | {[class]}] log2FC={logFC}, pvalue={pvalue}"
+        End If
     End Function
 End Structure
