@@ -19,6 +19,7 @@ Public Module DEGPlot
                                     Optional labelCSS$ = CSSFont.Win7Normal,
                                     Optional radius As String = "5,30",
                                     Optional xlab$ = "X",
+                                    Optional orderByClass As String = "none",
                                     Optional dpi% = 300) As GraphicsData
 
         Dim theme As New Theme With {
@@ -36,7 +37,8 @@ Public Module DEGPlot
         Return New ClassChanges(
             deg:=deg,
             radius:=radius,
-            theme:=theme
+            theme:=theme,
+            orderByClass:=orderByClass
         ).Plot(size, ppi:=dpi)
     End Function
 End Module

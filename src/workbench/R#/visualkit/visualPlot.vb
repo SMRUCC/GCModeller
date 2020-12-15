@@ -73,6 +73,7 @@ Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Invokes.LinqPipeline
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -94,7 +95,7 @@ Module visualPlot
                                     <RRawVectorArgument>
                                     Optional radius As Object = "15,50",
                                     Optional xlab$ = "X",
-                                    Optional orderByClass As Object = "none",
+                                    Optional orderByClass As orders = orders.none,
                                     Optional env As Environment = Nothing) As Object
 
         Dim geneList As pipeline = pipeline.TryCreatePipeline(Of DEGModel)(genes, env)
@@ -130,7 +131,8 @@ Module visualPlot
                 bg:=InteropArgumentHelper.getColor(bg, [default]:="white"),
                 colorSet:=InteropArgumentHelper.getColorSet(colorSet),
                 radius:=$"{radiusRange.TryCast(Of DoubleRange).Min},{radiusRange.TryCast(Of DoubleRange).Max}",
-                xlab:=xlab
+                xlab:=xlab,
+                orderByClass:=orderByClass.ToString
             )
     End Function
 

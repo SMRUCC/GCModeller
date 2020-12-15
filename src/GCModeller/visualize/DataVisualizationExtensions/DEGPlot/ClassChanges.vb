@@ -15,7 +15,7 @@ Public Class ClassChanges : Inherits Plot
     ReadOnly degClass As NamedCollection(Of DEGModel)()
     ReadOnly radius As DoubleRange
 
-    Public Sub New(deg As IEnumerable(Of DEGModel), radius As DoubleRange, theme As Theme)
+    Public Sub New(deg As IEnumerable(Of DEGModel), orderByClass$, radius As DoubleRange, theme As Theme)
         MyBase.New(theme)
 
         Me.radius = radius
@@ -25,6 +25,14 @@ Public Class ClassChanges : Inherits Plot
                         Return New NamedCollection(Of DEGModel)(group.Key, group.ToArray)
                     End Function) _
             .ToArray
+
+        If orderByClass <> "none" Then
+            If orderByClass = "asc" Then
+                Me.degClass = Me.degClass.OrderBy(Function(a) a.Count).ToArray
+            Else
+                Me.degClass = Me.degClass.OrderByDescending(Function(a) a.Count).ToArray
+            End If
+        End If
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
