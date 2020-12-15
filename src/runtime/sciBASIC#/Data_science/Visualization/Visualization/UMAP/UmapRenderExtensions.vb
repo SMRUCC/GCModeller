@@ -108,6 +108,7 @@ Public Module UmapRenderExtensions
                                Optional labels As IEnumerable(Of String) = Nothing,
                                Optional size$ = "2048,2048",
                                Optional padding$ = g.DefaultPadding,
+                               Optional bg$ = "white",
                                Optional colorSet$ = "Set1:c8",
                                Optional axisLabelCSS$ = CSSFont.PlotLabelNormal,
                                Optional axisStroke$ = Stroke.AxisStroke,
@@ -117,7 +118,8 @@ Public Module UmapRenderExtensions
             .padding = padding,
             .axisLabelCSS = axisLabelCSS,
             .axisStroke = axisStroke,
-            .tagCSS = labelCSS
+            .tagCSS = labelCSS,
+            .background = bg
         }
 
         Return New Umap3D(
