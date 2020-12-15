@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
@@ -80,9 +81,18 @@ Public Class ClassChanges : Inherits Plot
         labelFont = CSSFont.TryParse(theme.axisLabelCSS)
         labelSize = g.MeasureString(theme.xlabel, labelFont)
         x = (plotregion.Width - labelSize.Width) / 2
-        y = plotregion.Bottom + tickPadding * 3
+        y = plotregion.Bottom + tickPadding * 2
 
         g.DrawString(theme.xlabel, labelFont, Brushes.Black, x, y)
+
+        If degClass.Any(Function(gi) gi.Any(Function(d) d.logFC < 0)) Then
+            Dim zeroX As Double = xscale(0)
+
+            a = New PointF(zeroX, plotregion.Bottom)
+            b = New PointF(zeroX, plotregion.Top)
+
+            Call g.DrawLine(New Pen(Brushes.Gray, 5) With {.DashStyle = DashStyle.Dash}, a, b)
+        End If
 
         ' Y
         a = New PointF(plotregion.Left, plotregion.Bottom)
