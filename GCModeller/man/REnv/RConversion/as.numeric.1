@@ -1,10 +1,28 @@
 .\" man page create by R# package system.
-.TH RCONVERSION 1 2020-11-09 "as.numeric" "as.numeric"
+.TH RCONVERSION 1 2020-12-15 "as.numeric" "as.numeric"
 .SH NAME
-as.numeric \- 
+as.numeric \- Numeric Vectors
 .SH SYNOPSIS
-\fIas.numeric(\fBobj\fR as <generic> Object, 
+\fIas.numeric(\fBx\fR as <generic> Object, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Numeric Vectors
+ 
+ Creates or coerces objects of type "numeric". is.numeric is a more 
+ general test of an object being interpretable as numbers.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- object to be coerced or tested.
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH DETAILS
+.PP
+\fBNULL\fR will be treated as ZERO based on the rule of VisualBasic runtime conversion.
+.PP
 .SH SEE ALSO
 RConversion
 .SH FILES

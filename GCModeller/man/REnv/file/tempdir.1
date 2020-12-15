@@ -1,0 +1,34 @@
+.\" man page create by R# package system.
+.TH FILE 1 2020-12-15 "tempdir" "tempdir"
+.SH NAME
+tempdir \- Create Names For Temporary Files
+.SH SYNOPSIS
+\fItempdir(\fBcheck\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+Create Names For Temporary Files
+.PP
+.SH OPTIONS
+.PP
+\fBcheck\fB \fR\- 
+ logical indicating if tmpdir() should be checked and recreated if no longer valid.
+
+.PP
+.SH VALUE
+.PP
+the path of the per-session temporary directory.
+.PP
+.SH DETAILS
+.PP
++ On Windows, both will use a backslash as the path separator.
+ + On a Unix-alike, the value will be an absolute path (unless tmpdir Is set to a relative path), 
+   but it need Not be canonical (see normalizePath) And on macOS it often Is Not.
+.PP
+.SH SEE ALSO
+file
+.SH FILES
+.PP
+REnv.dll
+.PP
+.SH COPYRIGHT
+Copyright © xie.guigang@gcmodeller.org 2019

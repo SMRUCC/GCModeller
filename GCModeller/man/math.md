@@ -9,3 +9,4 @@ the R# math module
 + [as.formula](math/as.formula.1) create a lambda function based on the ``lm`` result.
 + [predict](math/predict.1) ### Model Predictions
 + [ssm](math/ssm.1) Evaluate cos similarity of two vector
++ [sim](math/sim.1) Create a similarity matrix

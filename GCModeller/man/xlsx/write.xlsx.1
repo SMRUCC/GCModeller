@@ -1,11 +1,14 @@
 .\" man page create by R# package system.
-.TH XLSX 4 2020-11-09 "write.xlsx" "write.xlsx"
+.TH XLSX 4 2020-12-15 "write.xlsx" "write.xlsx"
 .SH NAME
 write.xlsx \- 
 .SH SYNOPSIS
 \fIwrite.xlsx(\fBx\fR as <generic> Object, 
 \fBfile\fR as string, 
-\fBsheetName\fR as string = "Sheet1");\fR
+\fBsheetName\fR as string = "Sheet1", 
+\fBrow_names\fR as boolean = TRUE, 
+\fBfileEncoding\fR as <generic> Object = "", 
+[\fB<Environment>\fR]);\fR
 .SH SEE ALSO
 xlsx
 .SH FILES

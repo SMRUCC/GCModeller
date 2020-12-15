@@ -10,3 +10,4 @@
 + [line](graphics2D/line.1) 
 + [draw.triangle](graphics2D/draw.triangle.1) 
 + [draw.circle](graphics2D/draw.circle.1) 
++ [axis.ticks](graphics2D/axis.ticks.1) 
