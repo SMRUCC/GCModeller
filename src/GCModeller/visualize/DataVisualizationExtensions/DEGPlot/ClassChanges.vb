@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
@@ -12,10 +13,12 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Public Class ClassChanges : Inherits Plot
 
     ReadOnly degClass As NamedCollection(Of DEGModel)()
+    ReadOnly radius As DoubleRange
 
-    Public Sub New(deg As IEnumerable(Of DEGModel), theme As Theme)
+    Public Sub New(deg As IEnumerable(Of DEGModel), radius As DoubleRange, theme As Theme)
         MyBase.New(theme)
 
+        Me.radius = radius
         Me.degClass = deg _
             .GroupBy(Function(a) a.class) _
             .Select(Function(group)
@@ -43,9 +46,8 @@ Public Class ClassChanges : Inherits Plot
         Dim labelFont As Font = CSSFont.TryParse(theme.axisTickCSS)
         Dim tickPadding As Double = g.MeasureString("0", labelFont).Height / 2
         Dim dh As Double = plotregion.Height / degClass.Length
-        Dim colors As SolidBrush() = Designer _
+        Dim colors As Color() = Designer _
             .GetColors(theme.colorSet, degClass.Length) _
-            .Select(Function(c) New SolidBrush(c)) _
             .ToArray
 
         ' X
@@ -57,17 +59,22 @@ Public Class ClassChanges : Inherits Plot
         For Each tick As Double In xTicks
             x = xscale(tick)
             a = New PointF(x, plotregion.Bottom)
-            b = New PointF(x, plotregion.Bottom - tickPadding)
+            b = New PointF(x, plotregion.Bottom + tickPadding)
             labelText = tick.ToString(theme.axisTickFormat)
             labelSize = g.MeasureString(labelText, labelFont)
+            x = x - labelSize.Width / 2
+            y = plotregion.Bottom + tickPadding * 2
 
             Call g.DrawLine(tickStroke, a, b)
-            Call g.DrawString(tick, labelFont, Brushes.Black, x - labelSize.Width / 2, plotregion.Bottom - tickPadding * 2)
+            Call g.DrawString(tick, labelFont, Brushes.Black, x, y)
         Next
 
         labelFont = CSSFont.TryParse(theme.axisLabelCSS)
         labelSize = g.MeasureString(theme.xlabel, labelFont)
-        g.DrawString(theme.xlabel, labelFont, Brushes.Black, New PointF((plotregion.Width - labelSize.Width) / 2, plotregion.Bottom + tickPadding * 4))
+        x = (plotregion.Width - labelSize.Width) / 2
+        y = plotregion.Bottom + tickPadding * 3
+
+        g.DrawString(theme.xlabel, labelFont, Brushes.Black, x, y)
 
         ' Y
         a = New PointF(plotregion.Left, plotregion.Bottom)
@@ -77,15 +84,21 @@ Public Class ClassChanges : Inherits Plot
 
         Dim i As Integer = 1
         Dim radius As Double
-        Dim color As SolidBrush
+        Dim color As Color
         Dim tagFont As Font = CSSFont.TryParse(theme.tagCSS)
+        Dim radiusScales As DoubleRange = degClass _
+            .Select(Function(cls)
+                        Return cls.Select(Function(d) -Math.Log10(d.pvalue))
+                    End Function) _
+            .IteratesALL _
+            .Range
 
         labelFont = CSSFont.TryParse(theme.axisTickCSS)
 
         For Each [class] As NamedCollection(Of DEGModel) In degClass
             labelText = [class].name
             labelSize = g.MeasureString(labelText, labelFont)
-            y = plotregion.Top + i * dh
+            y = plotregion.Top + i * dh - dh / 2
             a = New PointF(plotregion.Left, y)
             b = New PointF(plotregion.Left - tickPadding, y)
             color = colors(i - 1)
@@ -97,7 +110,7 @@ Public Class ClassChanges : Inherits Plot
                 x = xscale(deg.logFC)
                 radius = -Math.Log10(deg.pvalue)
 
-                Call g.DrawCircle(New PointF(x, y), radius, color)
+                Call g.DrawCircle(New PointF(x, y), color, Pens.Black, radiusScales.ScaleMapping(radius, Me.radius))
 
                 If Not deg.label.StringEmpty Then
                     Call g.DrawString(deg.label, tagFont, Brushes.Black, x, y)

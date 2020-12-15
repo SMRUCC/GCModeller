@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -71,6 +72,7 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -82,19 +84,54 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module visualPlot
 
     <ExportAPI("classchange.plot")>
-    Public Function ClassChangePlot(genes As DEGModel(),
-                                    <RRawVectorArgument> Optional size As Object = "2400,2700",
+    Public Function ClassChangePlot(<RRawVectorArgument> genes As Object,
+                                    <RRawVectorArgument> Optional size As Object = "2700,2400",
                                     <RRawVectorArgument> Optional padding As Object = g.DefaultUltraLargePadding,
                                     Optional bg As Object = "white",
                                     <RRawVectorArgument>
-                                    Optional colorSet As Object = "Set1:c12") As Object
+                                    Optional colorSet As Object = "Set1:c9",
+                                    Optional showLabel As Boolean = False,
+                                    <RRawVectorArgument>
+                                    Optional radius As Object = "15,50",
+                                    Optional xlab$ = "X",
+                                    Optional orderByClass As Object = "none",
+                                    Optional env As Environment = Nothing) As Object
 
-        Return genes.ClassChangePlot(
-            size:=InteropArgumentHelper.getSize(size),
-            padding:=InteropArgumentHelper.getPadding(padding),
-            bg:=InteropArgumentHelper.getColor(bg, [default]:="white"),
-            colorSet:=InteropArgumentHelper.getColorSet(colorSet)
-        )
+        Dim geneList As pipeline = pipeline.TryCreatePipeline(Of DEGModel)(genes, env)
+        Dim radiusRange As [Variant](Of DoubleRange, Message) = SMRUCC.Rsharp.GetDoubleRange(radius, env)
+
+        If radiusRange Like GetType(Message) Then
+            Return radiusRange.TryCast(Of Message)
+        End If
+
+        If geneList.isError Then
+            Return geneList.getError
+        Else
+            genes = geneList.populates(Of DEGModel)(env).ToArray
+        End If
+
+        If Not showLabel Then
+            genes = DirectCast(genes, DEGModel()) _
+                .Select(Function(g)
+                            Return New DEGModel With {
+                                .[class] = g.class,
+                                .label = Nothing,
+                                .logFC = g.logFC,
+                                .pvalue = g.pvalue
+                            }
+                        End Function) _
+                .ToArray
+        End If
+
+        Return DirectCast(genes, DEGModel()) _
+            .ClassChangePlot(
+                size:=InteropArgumentHelper.getSize(size),
+                padding:=InteropArgumentHelper.getPadding(padding),
+                bg:=InteropArgumentHelper.getColor(bg, [default]:="white"),
+                colorSet:=InteropArgumentHelper.getColorSet(colorSet),
+                radius:=$"{radiusRange.TryCast(Of DoubleRange).Min},{radiusRange.TryCast(Of DoubleRange).Max}",
+                xlab:=xlab
+            )
     End Function
 
     <ExportAPI("volcano.plot")>
