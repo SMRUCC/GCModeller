@@ -106,6 +106,7 @@
     <Compile Include="ComparisonProvider.vb" />
     <Compile Include="Comparison.vb" />
     <Compile Include="BuildTree.vb" />
+    <Compile Include="Partitioning.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -159,6 +160,9 @@
       <Project>{1b42809b-603f-4cea-a0db-91276582b9ca}</Project>
       <Name>DataMining</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ComparisonProvider\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
