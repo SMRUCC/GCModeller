@@ -93,8 +93,6 @@ Public Class ClassChanges : Inherits Plot
             Call g.DrawLine(tickStroke, a, b)
             Call g.DrawString(labelText, labelFont, Brushes.Black, plotregion.Left - tickPadding - labelSize.Width, y - labelSize.Height / 2)
 
-
-
             For Each deg As DEGModel In [class]
                 x = xscale(deg.logFC)
                 radius = -Math.Log10(deg.pvalue)
