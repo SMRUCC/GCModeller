@@ -299,6 +299,7 @@
     <Compile Include="CurvesChart\CurvesModel.vb" />
     <Compile Include="CurvesChart\Histogram.vb" />
     <Compile Include="CurvesChart\Line.vb" />
+    <Compile Include="DEGPlot\ClassChanges.vb" />
     <Compile Include="DEGPlot\DEGModel.vb" />
     <Compile Include="DEGPlot\LabelTypes.vb" />
     <Compile Include="ExpressionPattern\ExpressionPattern.vb" />
