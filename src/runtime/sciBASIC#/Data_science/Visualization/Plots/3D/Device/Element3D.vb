@@ -96,7 +96,8 @@ Namespace Plot3D.Device
 
         Public Property Location As Point3D
 
-        Public MustOverride Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
+        Public MustOverride Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+        Public MustOverride Function EnumeratePath() As IEnumerable(Of Point3D)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub Transform(camera As Camera)
@@ -104,8 +105,8 @@ Namespace Plot3D.Device
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetPosition(g As IGraphics) As PointF
-            Return Location.PointXY(g.Size)
+        Public Function GetPosition(frameSize As Size) As PointF
+            Return Location.PointXY(frameSize)
         End Function
 
         Public Overrides Function ToString() As String
@@ -126,8 +127,12 @@ Namespace Plot3D.Device
             Location = Path.Center
         End Sub
 
-        Public Overrides Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
-            Dim screen As Size = g.Size
+        Public Overrides Function EnumeratePath() As IEnumerable(Of Point3D)
+            Return Path.AsEnumerable
+        End Function
+
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+            Dim screen As Size = rect.Size
             Dim shape As PointF() = Path _
                 .Select(Function(p)
                             Return p.PointXY(screen)
@@ -144,8 +149,8 @@ Namespace Plot3D.Device
 
         Public Property bspline As Single = 2
 
-        Public Overrides Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
-            Dim screen As Size = g.Size
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+            Dim screen As Size = rect.Size
             Dim shape As PointF() = Path _
                 .Select(Function(p)
                             Return p.PointXY(screen)
@@ -174,8 +179,13 @@ Namespace Plot3D.Device
         Public Property Font As Font
         Public Property Color As Brush
 
-        Public Overrides Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
-            Call g.DrawString(Text, Font, Color, GetPosition(g).OffSet2D(offset))
+        Public Overrides Function EnumeratePath() As IEnumerable(Of Point3D)
+            Return {Location}
+        End Function
+
+        <DebuggerStepThrough>
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+            Call g.DrawString(Text, Font, Color, GetPosition(rect.Size).OffSet2D(offset))
         End Sub
     End Class
 
@@ -207,10 +217,16 @@ Namespace Plot3D.Device
             }
         End Sub
 
-        Public Overrides Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
-            Dim p1 As PointF = A.PointXY(g.Size)
-            Dim p2 As PointF = B.PointXY(g.Size)
-            Dim polygon As PointF() = {p1, p2} _
+        Public Overrides Function EnumeratePath() As IEnumerable(Of Point3D)
+            Return {A, B}
+        End Function
+
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+            Dim size As Size = rect.Size
+            Dim p1 As PointF = A.PointXY(size)
+            Dim p2 As PointF = B.PointXY(size)
+            Dim center As PointF = New PointF(size.Width / 2, size.Height / 2)
+            Dim polygon As PointF() = {p1, p2, center} _
                 .Enlarge((CDbl(scale.Width), CDbl(scale.Height))) _
                 .Select(Function(a) a.OffSet2D(offset)) _
                 .ToArray
@@ -238,18 +254,22 @@ Namespace Plot3D.Device
         ''' <summary>
         ''' Project the 3D point to the location on 2D plot canvas
         ''' </summary>
-        ''' <param name="g">The 2D plot canvas</param>
+        ''' <param name="frameSize">The size of 2D plot canvas</param>
         ''' <returns></returns>
-        Public ReadOnly Property Point2D(g As IGraphics) As PointF
+        Public ReadOnly Property Point2D(frameSize As Size) As PointF
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return GetPosition(g)
+                Return GetPosition(frameSize)
             End Get
         End Property
 
+        Public Overrides Function EnumeratePath() As IEnumerable(Of Point3D)
+            Return {Location}
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub Draw(g As IGraphics, offset As PointF, scale As SizeF)
-            Call g.DrawLegendShape(Point2D(g).OffSet2D(offset), Size, Style, Fill)
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+            Call g.DrawLegendShape(Point2D(rect.Size).OffSet2D(offset), Size, Style, Fill)
         End Sub
     End Class
 End Namespace
