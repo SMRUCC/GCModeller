@@ -600,6 +600,7 @@
     <Compile Include="Drawing2D\Colors\Palette.vb" />
     <Compile Include="Drawing2D\Colors\Office\ObjectAccent.vb" />
     <Compile Include="Drawing2D\Colors\Office\Xml.vb" />
+    <Compile Include="Drawing2D\Math2D\CanvasScaler.vb" />
     <Compile Include="Drawing2D\Polar\PolarGraphics2D.vb" />
     <Compile Include="Drawing2D\PrinterDimension.vb" />
     <Compile Include="Drawing2D\Shadow.vb" />

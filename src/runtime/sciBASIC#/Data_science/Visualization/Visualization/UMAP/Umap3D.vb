@@ -53,7 +53,7 @@ Public Class Umap3D : Inherits UmapRender
             serials:=serials,
             camera:=camera,
             arrowFactor:="1,1",
-            showHull:=False,
+            showHull:=True,
             hullAlpha:=0.5,
             hullBspline:=2,
             theme:=theme

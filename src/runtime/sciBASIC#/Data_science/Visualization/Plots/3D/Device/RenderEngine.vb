@@ -85,6 +85,7 @@ Namespace Plot3D.Device
                 .Select(Function(element) element.GetPosition(canvas)) _
                 .ToArray
             Dim centra As PointF = polygon.CentralOffset(canvas.Size)
+
             Dim orders = PainterAlgorithm _
                 .OrderProvider(models, Function(e) e.Location.Z) _
                 .ToArray
