@@ -96,9 +96,13 @@ Namespace Layouts.ForceDirected
             Call setPosition()
         End Sub
 
+        ''' <summary>
+        ''' 节点之间的排斥力
+        ''' </summary>
         Private Sub runRepulsive()
             Dim distX, distY, dist As Double
             Dim id As String
+            Dim ejectFactor = Me.ejectFactor
 
             For Each v As Node In g.vertex
                 id = v.label
@@ -116,8 +120,8 @@ Namespace Layouts.ForceDirected
                     End If
 
                     If dist > 0 AndAlso dist < dist_thresh.Max Then
-                        mDxMap(id) = mDxMap(id) + distX / dist * k * k / dist * ejectFactor
-                        mDyMap(id) = mDyMap(id) + distY / dist * k * k / dist * ejectFactor
+                        mDxMap(id) = mDxMap(id) + (distX / dist * k * k / dist) * ejectFactor
+                        mDyMap(id) = mDyMap(id) + (distY / dist * k * k / dist) * ejectFactor
                     End If
                 Next
             Next
