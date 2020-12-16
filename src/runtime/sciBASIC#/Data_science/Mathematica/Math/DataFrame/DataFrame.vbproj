@@ -450,6 +450,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correlation\CorrelationMatrix.vb" />
     <Compile Include="DataMatrix.vb" />
     <Compile Include="Correlation\DistanceMatrix.vb" />
     <Compile Include="Correlation\Builder.vb" />
