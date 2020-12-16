@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
@@ -81,29 +82,36 @@ Namespace Plot3D.Device
 
             ' 进行投影之后只需要直接取出XY即可得到二维的坐标
             ' 然后生成多边形，进行画布的居中处理
-            Dim polygon As Point() = models _
+            Dim scaleFactor As SizeF = Nothing
+            Dim offset As PointF = Nothing
+            Dim polygon As PointF() = models _
                 .Select(Function(element) element.GetPosition(canvas)) _
-                .ToArray
-            Dim centra As PointF = polygon.CentralOffset(canvas.Size)
-
+                .ToArray _
+                .ScalePoints(
+                    frameSize:=camera.screen.SizeF,
+                    padding:=region.Padding,
+                    scaleFactor:=scaleFactor,
+                    centraOffset:=offset
+                )
             Dim orders = PainterAlgorithm _
                 .OrderProvider(models, Function(e) e.Location.Z) _
                 .ToArray
             Dim labels As New List(Of d3js.Layout.Label)
             Dim anchors As New List(Of d3js.Layout.Anchor)
-            Dim location As Point
+            Dim location As PointF
             Dim labelSize As SizeF
 
             For i As Integer = 0 To models.Length - 1
                 Dim index As Integer = orders(i)
                 Dim model As Element3D = models(index)
+                Dim point As PointF = polygon(index)
 
-                Call model.Draw(canvas, centra)
+                Call model.Draw(canvas, offset, scaleFactor)
 
                 If TypeOf model Is ShapePoint Then
                     With DirectCast(model, ShapePoint)
                         If Not .Label.StringEmpty Then
-                            location = .Point2D(canvas).OffSet2D(centra)
+                            location = point
                             labelSize = canvas.MeasureString(.Label, labelFont)
                             labels += New d3js.Layout.Label(
                                 label:= .Label,

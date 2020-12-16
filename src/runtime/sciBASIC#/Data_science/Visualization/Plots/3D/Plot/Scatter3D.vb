@@ -76,7 +76,7 @@ Namespace Plot3D.Impl
 
                 If showHull Then
                     model += New ConvexHullPolygon With {
-                        .brush = New SolidBrush(serial.Color.Alpha(hullAlpha)),
+                        .Brush = New SolidBrush(serial.Color.Alpha(hullAlpha)),
                         .Path = data _
                             .Select(Function(pt) pt.Value) _
                             .ToArray,

@@ -35,8 +35,8 @@ Namespace Drawing2D.Math2D
             Dim scales As PointF() = polygon.Enlarge((CDbl(factor.Width), CDbl(factor.Height)))
             ' 4. 计算出中心点平移的偏移值
             Dim plotSize As New Size With {
-                .Width = frameSize.Width - padding.Horizontal,
-                .Height = frameSize.Height - padding.Vertical
+                .Width = CInt(frameSize.Width - padding.Horizontal),
+                .Height = CInt(frameSize.Height - padding.Vertical)
             }
             Dim offset As PointF = scales _
                 .CentralOffset(plotSize) _
