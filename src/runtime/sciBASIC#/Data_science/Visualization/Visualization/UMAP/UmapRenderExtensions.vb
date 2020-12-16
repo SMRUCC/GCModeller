@@ -87,6 +87,7 @@ Public Module UmapRenderExtensions
     <Extension>
     Public Function DrawUmap2D(umap As Umap,
                                Optional labels As IEnumerable(Of String) = Nothing,
+                               Optional clusters As Dictionary(Of String, String) = Nothing,
                                Optional size$ = "2048,1600",
                                Optional padding$ = g.DefaultPadding,
                                Optional colorSet$ = "Set1:c8") As GraphicsData
@@ -97,7 +98,7 @@ Public Module UmapRenderExtensions
         Return New Umap2D(
             umap:=umap,
             labels:=labels.SafeQuery.ToArray,
-            clusters:=Nothing,
+            clusters:=clusters,
             colorSet:=colorSet,
             theme:=theme
         ).Plot(size)
@@ -106,6 +107,7 @@ Public Module UmapRenderExtensions
     <Extension>
     Public Function DrawUmap3D(umap As Umap, camera As Camera,
                                Optional labels As IEnumerable(Of String) = Nothing,
+                               Optional clusters As Dictionary(Of String, String) = Nothing,
                                Optional size$ = "2048,2048",
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
@@ -113,6 +115,7 @@ Public Module UmapRenderExtensions
                                Optional axisLabelCSS$ = CSSFont.PlotLabelNormal,
                                Optional axisStroke$ = Stroke.AxisStroke,
                                Optional labelCSS$ = CSSFont.Win10Normal,
+                               Optional pointSize# = 10,
                                Optional showLabels As Boolean = True) As GraphicsData
 
         Dim theme As New Theme With {
@@ -121,13 +124,17 @@ Public Module UmapRenderExtensions
             .axisStroke = axisStroke,
             .tagCSS = labelCSS,
             .background = bg,
-            .drawLabels = showLabels
+            .drawLabels = showLabels,
+            .xlabel = "dim #1",
+            .ylabel = "dim #2",
+            .zlabel = "dim #3",
+            .pointSize = pointSize
         }
 
         Return New Umap3D(
             umap:=umap,
             labels:=labels.SafeQuery.ToArray,
-            clusters:=Nothing,
+            clusters:=clusters,
             colorSet:=colorSet,
             theme:=theme,
             camera:=camera

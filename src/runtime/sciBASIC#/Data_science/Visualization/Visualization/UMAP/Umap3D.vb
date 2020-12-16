@@ -44,7 +44,7 @@ Public Class Umap3D : Inherits UmapRender
                             .Points = cluster.Value.ToArray,
                             .Shape = LegendStyles.Triangle,
                             .Color = colors(cluster.Key).Color,
-                            .PointSize = 5,
+                            .PointSize = theme.pointSize,
                             .Title = cluster.Key
                         }
                     End Function) _
