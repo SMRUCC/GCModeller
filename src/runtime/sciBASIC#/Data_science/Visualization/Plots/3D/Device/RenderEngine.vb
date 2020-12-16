@@ -85,19 +85,13 @@ Namespace Plot3D.Device
             ' 进行投影之后只需要直接取出XY即可得到二维的坐标
             ' 然后生成多边形，进行画布的居中处理
             Dim plotRect As Rectangle = region.PlotRegion
-            Dim scaleFactor As SizeF = Nothing
-            Dim offset As PointF = Nothing
             Dim polygon As PointF() = models _
                 .Select(Function(element) element.EnumeratePath) _
                 .IteratesALL _
                 .Select(Function(pt) pt.PointXY(plotRect.Size)) _
-                .ToArray _
-                .ScalePoints(
-                    frameSize:=camera.screen.SizeF,
-                    padding:=region.Padding,
-                    scaleFactor:=scaleFactor,
-                    centraOffset:=offset
-                )
+                .ToArray
+            Dim scaleX = d3js.scale.linear.domain(polygon.Select(Function(a) a.X)).range(New Double() {plotRect.Left, plotRect.Right})
+            Dim scaleY = d3js.scale.linear.domain(polygon.Select(Function(a) a.Y)).range(New Double() {plotRect.Top, plotRect.Bottom})
             Dim orders = PainterAlgorithm _
                 .OrderProvider(models, Function(e) e.Location.Z) _
                 .ToArray
@@ -110,14 +104,15 @@ Namespace Plot3D.Device
                 Dim index As Integer = orders(i)
                 Dim model As Element3D = models(index)
 
-                Call model.Draw(canvas, region, offset, scaleFactor)
+                Call model.Draw(canvas, region, scaleX, scaleY)
 
                 If TypeOf model Is ShapePoint Then
                     ' 如果是一个数据点，则还需要将标签数据模型拿出来
                     ' 准备进行当前数据点的文本标签的绘制
                     With DirectCast(model, ShapePoint)
                         If Not .Label.StringEmpty Then
-                            location = .GetPosition(plotRect.Size).OffSet2D(offset)
+                            location = .GetPosition(plotRect.Size)
+                            location = New PointF(scaleX(location.X), scaleY(location.Y))
                             labelSize = canvas.MeasureString(.Label, labelFont)
                             labels += New d3js.Layout.Label(
                                 label:= .Label,

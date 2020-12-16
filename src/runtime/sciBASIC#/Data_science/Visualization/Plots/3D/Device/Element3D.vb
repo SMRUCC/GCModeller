@@ -96,7 +96,7 @@ Namespace Plot3D.Device
 
         Public Property Location As Point3D
 
-        Public MustOverride Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+        Public MustOverride Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
         Public MustOverride Function EnumeratePath() As IEnumerable(Of Point3D)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -131,14 +131,15 @@ Namespace Plot3D.Device
             Return Path.AsEnumerable
         End Function
 
-        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
             Dim screen As Size = rect.Size
             Dim shape As PointF() = Path _
                 .Select(Function(p)
                             Return p.PointXY(screen)
                         End Function) _
-                .Enlarge((CDbl(scale.Width), CDbl(scale.Height))) _
-                .Select(Function(a) a.OffSet2D(offset)) _
+                .Select(Function(p)
+                            Return New PointF(scaleX(p.X), scaleY(p.Y))
+                        End Function) _
                 .ToArray
 
             Call g.FillPolygon(Brush, shape)
@@ -149,14 +150,15 @@ Namespace Plot3D.Device
 
         Public Property bspline As Single = 2
 
-        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
             Dim screen As Size = rect.Size
             Dim shape As PointF() = Path _
                 .Select(Function(p)
                             Return p.PointXY(screen)
                         End Function) _
-                .Enlarge((CDbl(scale.Width), CDbl(scale.Height))) _
-                .Select(Function(a) a.OffSet2D(offset)) _
+                .Select(Function(p)
+                            Return New PointF(scaleX(p.X), scaleY(p.Y))
+                        End Function) _
                 .ToArray
 
             If shape.Length > 2 Then
@@ -184,8 +186,11 @@ Namespace Plot3D.Device
         End Function
 
         <DebuggerStepThrough>
-        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
-            Call g.DrawString(Text, Font, Color, GetPosition(rect.Size).OffSet2D(offset))
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
+            Dim praw As PointF = GetPosition(rect.Size)
+            Dim pscale As New PointF(scaleX(praw.X), scaleY(praw.Y))
+
+            Call g.DrawString(Text, Font, Color, pscale)
         End Sub
     End Class
 
@@ -221,17 +226,15 @@ Namespace Plot3D.Device
             Return {A, B}
         End Function
 
-        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
             Dim size As Size = rect.Size
             Dim p1 As PointF = A.PointXY(size)
             Dim p2 As PointF = B.PointXY(size)
-            Dim center As PointF = New PointF(size.Width / 2, size.Height / 2)
-            Dim polygon As PointF() = {p1, p2, center} _
-                .Enlarge((CDbl(scale.Width), CDbl(scale.Height))) _
-                .Select(Function(a) a.OffSet2D(offset)) _
-                .ToArray
 
-            Call g.DrawLine(Stroke, polygon(0), polygon(1))
+            p1 = New PointF(scaleX(p1.X), scaleY(p1.Y))
+            p2 = New PointF(scaleX(p2.X), scaleY(p2.Y))
+
+            Call g.DrawLine(Stroke, p1, p2)
         End Sub
 
         Public Overrides Sub Transform(camera As Camera)
@@ -268,8 +271,11 @@ Namespace Plot3D.Device
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, offset As PointF, scale As SizeF)
-            Call g.DrawLegendShape(Point2D(rect.Size).OffSet2D(offset), Size, Style, Fill)
+        Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
+            Dim praw As PointF = GetPosition(rect.Size)
+            Dim pscale As New PointF(scaleX(praw.X), scaleY(praw.Y))
+
+            Call g.DrawLegendShape(pscale, Size, Style, Fill)
         End Sub
     End Class
 End Namespace
