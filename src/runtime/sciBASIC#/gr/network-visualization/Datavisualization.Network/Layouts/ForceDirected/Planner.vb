@@ -41,6 +41,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -88,6 +89,7 @@ Namespace Layouts.ForceDirected
             Me.k = stdNum.Sqrt(CANVAS_WIDTH * CANVAS_HEIGHT / g.vertex.Count)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Collide()
             Call runRepulsive()
             Call runAttraction()
