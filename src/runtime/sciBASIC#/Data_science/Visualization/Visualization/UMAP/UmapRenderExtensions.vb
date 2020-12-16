@@ -116,7 +116,9 @@ Public Module UmapRenderExtensions
                                Optional axisStroke$ = Stroke.AxisStroke,
                                Optional labelCSS$ = CSSFont.Win10Normal,
                                Optional pointSize# = 10,
-                               Optional showLabels As Boolean = True) As GraphicsData
+                               Optional showLabels As Boolean = True,
+                               Optional labelColor$ = "black",
+                               Optional bubbleAlpha As Integer = 0) As GraphicsData
 
         Dim theme As New Theme With {
             .padding = padding,
@@ -128,7 +130,8 @@ Public Module UmapRenderExtensions
             .xlabel = "dim #1",
             .ylabel = "dim #2",
             .zlabel = "dim #3",
-            .pointSize = pointSize
+            .pointSize = pointSize,
+            .tagColor = labelColor
         }
 
         Return New Umap3D(
@@ -137,7 +140,8 @@ Public Module UmapRenderExtensions
             clusters:=clusters,
             colorSet:=colorSet,
             theme:=theme,
-            camera:=camera
+            camera:=camera,
+            bubbleAlpha:=bubbleAlpha
         ).Plot(size)
     End Function
 End Module

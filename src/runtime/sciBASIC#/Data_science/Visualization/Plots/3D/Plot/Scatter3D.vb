@@ -25,6 +25,16 @@ Namespace Plot3D.Impl
         ReadOnly hullAlpha As Double
         ReadOnly hullBspline As Single
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="serials"></param>
+        ''' <param name="camera"></param>
+        ''' <param name="arrowFactor"></param>
+        ''' <param name="showHull"></param>
+        ''' <param name="hullAlpha">``[0, 255]``</param>
+        ''' <param name="hullBspline"></param>
+        ''' <param name="theme"></param>
         Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$, showHull As Boolean, hullAlpha As Double, hullBspline As Single, theme As Theme)
             MyBase.New(theme)
 
@@ -128,6 +138,7 @@ Namespace Plot3D.Impl
                 .Y = legendTop
             }
             Dim legendSize$ = $"{legendWidth},{legendWidth}"
+            Dim labelColor As New SolidBrush(theme.tagColor.TranslateColor)
 
             ' 要先绘制三维图形，要不然会将图例遮住的
             Call populateModels.RenderAs3DChart(
@@ -135,8 +146,9 @@ Namespace Plot3D.Impl
                 camera:=camera,
                 region:=canvas,
                 labelFont:=CSSFont.TryParse(theme.tagCSS),
-                labelerItr:=10,
-                showLabel:=theme.drawLabels
+                labelerItr:=0,
+                showLabel:=theme.drawLabels,
+                labelColor:=labelColor
             )
 
             If theme.drawLegend Then
