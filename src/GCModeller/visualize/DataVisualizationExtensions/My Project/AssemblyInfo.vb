@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("GCModeller base module for bioinformatics  DataVisualization")>
-<Assembly: AssemblyDescription("GCModeller base module for bioinformatics  DataVisualization")>
+<Assembly: AssemblyTitle("GCModeller base module for bioinformatics Data Visualization")>
+<Assembly: AssemblyDescription("GCModeller base module for bioinformatics Data Visualization")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("DataVisualization")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2019")>

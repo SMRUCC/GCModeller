@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c50094d34198bf8e142be14ff0a87e37, Microsoft.VisualBasic.Core\ComponentModel\Ranges\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8c68ddf0bb4e89991a94bbd8809b55aa, Microsoft.VisualBasic.Core\ComponentModel\Ranges\Extensions.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports r = System.Text.RegularExpressions.Regex
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace ComponentModel.Ranges
 
@@ -201,8 +201,8 @@ Namespace ComponentModel.Ranges
 
                     For Each region In unions
                         If region.IsOverlapping(f) OrElse region.IsInside(f) Then
-                            region.Min = sys.Min(region.Min, f.Min)
-                            region.Max = sys.Max(region.Max, f.Max)
+                            region.Min = stdNum.Min(region.Min, f.Min)
+                            region.Max = stdNum.Max(region.Max, f.Max)
 
                             isUnion = True
                         End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b687d640bb5976962d76dc36062504d, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::79e8e956948c6dfa3d840d5d72f6b39d, Microsoft.VisualBasic.Core\Extensions\Image\Math\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Function: Angle, Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset
     '                   (+4 Overloads) Centre, CircleRectangle, (+5 Overloads) Distance, (+2 Overloads) GetBounds, GetCenter
-    '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+9 Overloads) OffSet2D, Offsets
+    '                   (+2 Overloads) InRegion, MirrorX, MirrorY, (+9 Overloads) OffSet2D, (+2 Overloads) Offsets
     '                   (+5 Overloads) Scale, ShapePoints, SquareSize
     ' 
     ' 
@@ -216,7 +216,8 @@ Namespace Imaging.Math2D
         ''' <param name="offset"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function OffSet2D(pt As PointF, offset As PointF, Optional d% = 1) As PointF
+        <Extension>
+        Public Function OffSet2D(pt As PointF, offset As PointF, Optional d% = 1) As PointF
             With pt
                 Return New PointF(d * offset.X + .X, d * offset.Y + .Y)
             End With
@@ -239,6 +240,12 @@ Namespace Imaging.Math2D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Offsets(points As IEnumerable(Of Point), offset As PointF) As Point()
+            Return points.Select(Function(pt) pt.OffSet2D(offset)).ToArray
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Offsets(points As IEnumerable(Of PointF), offset As PointF) As PointF()
             Return points.Select(Function(pt) pt.OffSet2D(offset)).ToArray
         End Function
 

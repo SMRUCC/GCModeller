@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::716a388be5fa23a1244c22140dc5f95e, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Anchor.vb"
+﻿#Region "Microsoft.VisualBasic::0d02f400a0714fc731d578493c59aca9, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Anchor.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: r, x, y
     ' 
-    '         Constructor: (+5 Overloads) Sub New
+    '         Constructor: (+6 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
@@ -66,6 +66,13 @@ Namespace d3js.Layout
         Public Property r As Double
 
         Sub New()
+        End Sub
+
+        Sub New(location As PointF, r#)
+            Me.r = r
+
+            x = location.X
+            y = location.Y
         End Sub
 
         Sub New(location As Point, r#)
@@ -99,13 +106,13 @@ Namespace d3js.Layout
 
         Public Shared Widening Operator CType(anchor As Anchor) As Point
             With anchor
-                Return New Point(.x, .y)
+                Return New Point(CInt(.x), CInt(.y))
             End With
         End Operator
 
         Public Shared Widening Operator CType(anchor As Anchor) As PointF
             With anchor
-                Return New PointF(.x, .y)
+                Return New PointF(CInt(.x), CInt(.y))
             End With
         End Operator
 
@@ -114,7 +121,7 @@ Namespace d3js.Layout
 
             Return New RectangleF With {
                 .Location = anchor,
-                .Size = New SizeF(r, r)
+                .Size = New SizeF(CSng(r), CSng(r))
             }
         End Operator
 

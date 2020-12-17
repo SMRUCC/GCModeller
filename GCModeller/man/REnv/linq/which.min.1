@@ -1,11 +1,50 @@
 .\" man page create by R# package system.
-.TH LINQ 1 2020-11-09 "which.min" "which.min"
+.TH LINQ 1 2020-12-15 "which.min" "which.min"
 .SH NAME
-which.min \- 
+which.min \- Where is the Min() or Max() or first TRUE or FALSE ?
 .SH SYNOPSIS
-\fIwhich.min(\fBsequence\fR as <generic> Object, 
+\fIwhich.min(\fBx\fR as <generic> Object, 
 \fBeval\fR as <generic> Object = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Where is the Min() or Max() or first TRUE or FALSE ?
+ 
+ Determines the location, i.e., index of the (first) minimum or maximum of a 
+ numeric (or logical) vector.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ numeric (logical, integer or double) vector or an R object for which the internal 
+ coercion to double works whose min or max is searched for.
+
+.PP
+.PP
+\fBeval\fB \fR\- -
+.PP
+.PP
+\fBenv\fB \fR\- -
+.PP
+.SH VALUE
+.PP
+Missing and NaN values are discarded.
+ 
+ an integer Or on 64-bit platforms, if length(x) = n>= 2^31 an integer valued 
+ double of length 1 Or 0 (iff x has no non-NAs), giving the index of the first 
+ minimum Or maximum respectively of x.
+ 
+ If this extremum Is unique (Or empty), the results are the same As (but more 
+ efficient than) which(x == min(x, na.rm = True)) Or which(x == max(x, na.rm = True)) 
+ respectively.
+ 
+ Logical x – First True Or False
+ 
+ For a logical vector x with both FALSE And TRUE values, which.min(x) And 
+ which.max(x) return the index of the first FALSE Or TRUE, respectively, as 
+ FALSE < TRUE. However, match(FALSE, x) Or match(TRUE, x) are typically 
+ preferred, as they do indicate mismatches.
+.PP
 .SH SEE ALSO
 linq
 .SH FILES

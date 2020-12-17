@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0058aa309b7d736183d7c79ff55e90bc, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Device\Light.vb"
+﻿#Region "Microsoft.VisualBasic::2de6e18d55f3cc9781eb489a9e779730, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Device\Light.vb"
 
     ' Author:
     ' 
@@ -70,7 +70,7 @@ Namespace Drawing3D.Device
                 With array(i)
                     If TypeOf .brush Is SolidBrush Then
                         Dim color As Color = DirectCast(.brush, SolidBrush).Color
-                        Dim points As Point() = .points
+                        Dim points As PointF() = .points
 
                         color = color.Darken(dark)
                         array(i) = New Polygon With {

@@ -1,51 +1,49 @@
-﻿#Region "Microsoft.VisualBasic::e07fc09acb483d849b0bd5155e2f15fc, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::469e3f2effe0d5e47952ec2cb5ae1135, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module CorrelationNetwork
-' 
-'     Function: (+2 Overloads) BuildNetwork, HowStrong
-' 
-' /********************************************************************************/
+    ' Module CorrelationNetwork
+    ' 
+    '     Function: (+2 Overloads) BuildNetwork, HowStrong
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports stdNum = System.Math
 
@@ -55,8 +53,8 @@ Imports stdNum = System.Math
 Public Module CorrelationNetwork
 
     <Extension>
-    Public Function BuildNetwork(data As IEnumerable(Of DataSet), cutoff#) As (net As NetworkGraph, matrix As DistanceMatrix)
-        Return data.MatrixBuilder(AddressOf Correlations.GetPearson, False).BuildNetwork(cutoff)
+    Public Function BuildNetwork(data As IEnumerable(Of DataSet), cutoff#, Optional pvalue As Double = 1) As (net As NetworkGraph, matrix As CorrelationMatrix)
+        Return data.Correlation(False).BuildNetwork(cutoff, pvalue)
     End Function
 
     ''' <summary>
@@ -66,7 +64,7 @@ Public Module CorrelationNetwork
     ''' <param name="cutoff"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildNetwork(matrix As DistanceMatrix, cutoff#) As (net As NetworkGraph, matrix As DistanceMatrix)
+    Public Function BuildNetwork(matrix As CorrelationMatrix, cutoff#, Optional pvalue As Double = 1) As (net As NetworkGraph, matrix As CorrelationMatrix)
         Dim g As New NetworkGraph
         Dim cor As Double
         Dim nodeData As NodeData
@@ -78,18 +76,21 @@ Public Module CorrelationNetwork
         Next
 
         Dim uid As String
+        Dim prob As Double
 
         For Each id As String In matrix.keys
             For Each partner As String In matrix.keys.Where(Function(b) b <> id)
                 cor = matrix(id, partner)
+                prob = matrix.pvalue(id, partner)
 
-                If stdNum.Abs(cor) >= cutoff Then
+                If stdNum.Abs(cor) >= cutoff AndAlso prob <= pvalue Then
                     uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
                     linkdata = New EdgeData With {
                         .label = uid,
                         .length = cor,
                         .Properties = New Dictionary(Of String, String) From {
-                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, HowStrong(cor)}
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, HowStrong(cor)},
+                            {"pvalue", prob}
                         }
                     }
 

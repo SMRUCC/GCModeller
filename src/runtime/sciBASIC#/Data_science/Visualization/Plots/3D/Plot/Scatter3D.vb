@@ -1,4 +1,50 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::fdfc50e575a0dced87637162f49619e5, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Scatter3D
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: populateModels
+    ' 
+    '         Sub: PlotInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
@@ -10,7 +56,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -26,8 +71,16 @@ Namespace Plot3D.Impl
         ReadOnly hullAlpha As Double
         ReadOnly hullBspline As Single
 
-        Dim model As New List(Of Element3D)
-
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="serials"></param>
+        ''' <param name="camera"></param>
+        ''' <param name="arrowFactor"></param>
+        ''' <param name="showHull"></param>
+        ''' <param name="hullAlpha">``[0, 255]``</param>
+        ''' <param name="hullBspline"></param>
+        ''' <param name="theme"></param>
         Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$, showHull As Boolean, hullAlpha As Double, hullBspline As Single, theme As Theme)
             MyBase.New(theme)
 
@@ -41,7 +94,7 @@ Namespace Plot3D.Impl
             Call populateModels()
         End Sub
 
-        Private Sub populateModels()
+        Private Iterator Function populateModels() As IEnumerable(Of Element3D)
             Dim points As Point3D() = serials _
                 .Select(Function(s) s.Points.Values) _
                 .IteratesALL _
@@ -58,12 +111,20 @@ Namespace Plot3D.Impl
             End With
 
             ' 然后生成底部的网格
-            model += GridBottom.Grid(X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
-            model += AxisDraw.Axis(
-                X, Y, Z, axisLabelFont,
-                (theme.xlabel, theme.ylabel, theme.zlabel),
-                theme.axisStroke,
-                arrowFactor)
+            For Each line As Line In GridBottom.Grid(X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
+                Yield line
+            Next
+
+            For Each item As Element3D In AxisDraw.Axis(
+                    xrange:=X, yrange:=Y, zrange:=Z,
+                    labelFont:=axisLabelFont,
+                    labels:=(theme.xlabel, theme.ylabel, theme.zlabel),
+                    strokeCSS:=theme.axisStroke,
+                    arrowFactor:=arrowFactor
+                )
+
+                Yield item
+            Next
 
             ' 最后混合进入系列点
             For Each serial As Serial3D In serials
@@ -75,8 +136,8 @@ Namespace Plot3D.Impl
                 Dim color As New SolidBrush(serial.Color)
 
                 If showHull Then
-                    model += New ConvexHullPolygon With {
-                        .brush = New SolidBrush(serial.Color.Alpha(hullAlpha)),
+                    Yield New ConvexHullPolygon With {
+                        .Brush = New SolidBrush(serial.Color.Alpha(hullAlpha)),
                         .Path = data _
                             .Select(Function(pt) pt.Value) _
                             .ToArray,
@@ -84,18 +145,17 @@ Namespace Plot3D.Impl
                     }
                 End If
 
-                model += data _
-                    .Select(Function(pt)
-                                Return New ShapePoint With {
-                                    .Fill = color,
-                                    .Location = pt.Value,
-                                    .Size = size,
-                                    .Style = serial.Shape,
-                                    .Label = pt.Name
-                                }
-                            End Function)
+                For Each pt As NamedValue(Of Point3D) In data
+                    Yield New ShapePoint With {
+                        .Fill = color,
+                        .Location = pt.Value,
+                        .Size = size,
+                        .Style = serial.Shape,
+                        .Label = pt.Name
+                    }
+                Next
             Next
-        End Sub
+        End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim legends As Legend() = serials _
@@ -112,7 +172,7 @@ Namespace Plot3D.Impl
             Dim region As Rectangle = canvas.PlotRegion
 
             ' 绘制图例？？
-            Dim legendHeight! = (legends.Length * (Font.Height + 5))
+            Dim legendHeight! = (legends.Length * (font.Height + 5))
             Dim legendTop! = (region.Height - legendHeight) / 2
             Dim maxLegendLabelSize As SizeF = legends.Select(Function(s) s.title) _
                 .MaxLengthString _
@@ -124,9 +184,18 @@ Namespace Plot3D.Impl
                 .Y = legendTop
             }
             Dim legendSize$ = $"{legendWidth},{legendWidth}"
+            Dim labelColor As New SolidBrush(theme.tagColor.TranslateColor)
 
             ' 要先绘制三维图形，要不然会将图例遮住的
-            Call model.RenderAs3DChart(g, camera, canvas, CSSFont.TryParse(theme.tagCSS))
+            Call populateModels.RenderAs3DChart(
+                canvas:=g,
+                camera:=camera,
+                region:=canvas,
+                labelFont:=CSSFont.TryParse(theme.tagCSS),
+                labelerItr:=0,
+                showLabel:=theme.drawLabels,
+                labelColor:=labelColor
+            )
 
             If theme.drawLegend Then
                 Call g.DrawLegends(

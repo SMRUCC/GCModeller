@@ -10,6 +10,7 @@ C    01200  Carbon metabolism
 C    01210  2-Oxocarboxylic acid metabolism
 C    01212  Fatty acid metabolism
 C    01230  Biosynthesis of amino acids
+C    01240  Biosynthesis of cofactors
 C    01220  Degradation of aromatic compounds
 B  Carbohydrate metabolism
 C    00010  Glycolysis / Gluconeogenesis
@@ -498,10 +499,11 @@ C    05100  Bacterial invasion of epithelial cells
 B  Infectious disease: viral
 C    05166  Human T-cell leukemia virus 1 infection
 C    05170  Human immunodeficiency virus 1 infection
-C    05162  Measles
-C    05164  Influenza A
 C    05161  Hepatitis B
 C    05160  Hepatitis C
+C    05171  Coronavirus disease - COVID-19
+C    05164  Influenza A
+C    05162  Measles
 C    05168  Herpes simplex virus 1 infection
 C    05163  Human cytomegalovirus infection
 C    05167  Kaposi sarcoma-associated herpesvirus infection
@@ -614,5 +616,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: October 19, 2020
+#Last updated: November 21, 2020
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

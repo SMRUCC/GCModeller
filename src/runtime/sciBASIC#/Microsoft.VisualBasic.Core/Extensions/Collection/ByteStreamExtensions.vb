@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d13c139900788629b8facfbad71157c, Microsoft.VisualBasic.Core\Extensions\Collection\ByteStreamExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::6b1acf46c0da816f42b79cd97de6df05, Microsoft.VisualBasic.Core\Extensions\Collection\ByteStreamExtensions.vb"
 
     ' Author:
     ' 
@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.IteratorExtensions
 
+<HideModuleName>
 Public Module ByteStreamExtensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

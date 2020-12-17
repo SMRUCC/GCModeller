@@ -7,6 +7,7 @@ package or create network graph and do network analysis.
 + [empty.network](igraph/empty.network.1) Create a new network graph or clear the given network graph
 + [trim.edges](igraph/trim.edges.1) removes duplicated edges in the network
 + [connected_graph](igraph/connected_graph.1) removes all of the isolated nodes.
++ [node.names](igraph/node.names.1) 
 + [degree](igraph/degree.1) Calculate node degree in given graph
 + [compute.network](igraph/compute.network.1) compute network properties' data
 + [add.nodes](igraph/add.nodes.1) a nodes by given label list.

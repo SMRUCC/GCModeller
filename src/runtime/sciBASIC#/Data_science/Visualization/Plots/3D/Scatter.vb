@@ -1,42 +1,42 @@
-﻿#Region "Microsoft.VisualBasic::52102c8e67417d80109afcf545a80b29, Data_science\Visualization\Plots\3D\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::e1777dfdc18a56002c3df40c13c7fd0e, Data_science\Visualization\Plots\3D\Scatter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module Scatter
-' 
-'         Function: (+2 Overloads) Plot
-' 
-' 
-' /********************************************************************************/
+    '     Module Scatter
+    ' 
+    '         Function: (+2 Overloads) Plot
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -147,9 +147,9 @@ Namespace Plot3D
                 .Evaluate(x, y, xsteps, ysteps) _
                 .IteratesALL _
                 .Select(Function(o) New Point3D(o.X, o.y, o.z))
-            Dim rect As Rectangle
-            Dim previous As Point
-            Dim cur As Point
+            Dim rect As RectangleF
+            Dim previous As PointF
+            Dim cur As PointF
             Dim lcolor As New Pen(lineColor.ToColor)
 
             Dim plotInternal =
@@ -164,7 +164,7 @@ Namespace Plot3D
                         For Each pt As Point3D In data.Skip(1)
                             pt = .Project(.Rotate(pt))   ' 3d project to 2d
                             cur = pt.PointXY(camera.screen)
-                            rect = New Rectangle(cur, New Size(5, 5))
+                            rect = New RectangleF(cur, New SizeF(5, 5))
 
                             Call g.FillPie(Brushes.Red, rect, 0, 360)  ' 画点
                             Call g.DrawLine(lcolor, previous.X, previous.Y, cur.X, cur.Y)       ' 画线

@@ -1,11 +1,11 @@
 .\" man page create by R# package system.
-.TH CLUSTERING 2 2020-11-09 "dbscan" "dbscan"
+.TH CLUSTERING 2 2020-12-15 "dbscan" "dbscan"
 .SH NAME
 dbscan \- DBSCAN density reachability and connectivity clustering
 .SH SYNOPSIS
 \fIdbscan(\fBdata\fR as <generic> Object, 
 \fBeps\fR as double, 
-\fBMinPts\fR as integer = 5, 
+\fBminPts\fR as integer = 5, 
 \fBscale\fR as boolean = FALSE, 
 \fBmethod\fR as <integer> dbScanMethods = [raw], 
 \fBseeds\fR as boolean = TRUE, 
@@ -34,7 +34,7 @@ DBSCAN density reachability and connectivity clustering
 \fBeps\fB \fR\- Reachability distance, see Ester et al. (1996).
 .PP
 .PP
-\fBMinPts\fB \fR\- Reachability minimum no. Of points, see Ester et al. (1996).
+\fBminPts\fB \fR\- Reachability minimum no. Of points, see Ester et al. (1996).
 .PP
 .PP
 \fBscale\fB \fR\- scale the data if TRUE.

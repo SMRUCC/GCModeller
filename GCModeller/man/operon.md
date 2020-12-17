@@ -1,4 +1,4 @@
-﻿# operon
+# operon
 
 
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c735aaf221af86b5b549c3152e8e668c, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::c3ab04f2350b23d320207d26cc97e796, Microsoft.VisualBasic.Core\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -106,12 +106,24 @@ Namespace ComponentModel.Collection
         End Function
 #End If
 
+        ''' <summary>
+        ''' transform the hash key string to lower case characters
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="table"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToLower(Of T)(table As Dictionary(Of String, T)) As Dictionary(Of String, T)
             Return table.ToDictionary(Function(k) k.Key.ToLower, Function(k) k.Value)
         End Function
 
+        ''' <summary>
+        ''' transform the hash key string to upper case characters
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="table"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToUpper(Of T)(table As Dictionary(Of String, T)) As Dictionary(Of String, T)

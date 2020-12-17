@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6194adb691f50591af0b08ab104b6ad8, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::4aad3348efec80d9bbc65643165934f9, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -106,7 +106,7 @@ Namespace Graphic.Legend
         ''' <param name="radius%"></param>
         <Extension>
         Public Sub DrawLegendShape(g As IGraphics,
-                                   pos As Point,
+                                   pos As PointF,
                                    gSize As SizeF,
                                    style As LegendStyles,
                                    color As Brush,

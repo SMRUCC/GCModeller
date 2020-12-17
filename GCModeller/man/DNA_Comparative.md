@@ -1,4 +1,4 @@
-﻿# DNA_Comparative
+# DNA_Comparative
 
 
 

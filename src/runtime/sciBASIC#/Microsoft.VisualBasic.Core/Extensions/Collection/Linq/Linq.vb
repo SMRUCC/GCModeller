@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293e3f8692d8b17cd359e0151c484c8a, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::4c62f777354a96b5ce47ae821f461717, Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -109,6 +109,8 @@ Namespace Linq
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
+        ''' 
+        <DebuggerStepThrough>
         <Extension>
         Public Function SafeQuery(Of T)(source As IEnumerable(Of T), <CallerMemberName> Optional trace$ = Nothing) As IEnumerable(Of T)
             If Not source Is Nothing Then

@@ -1,41 +1,41 @@
-﻿#Region "Microsoft.VisualBasic::7898971dbc71f1b96e14e29cd4d61b6d, Data_science\Visualization\Visualization\UMAP\UmapRender.vb"
+﻿#Region "Microsoft.VisualBasic::ca56146417295f3ef339fc2b0757512a, Data_science\Visualization\Visualization\UMAP\UmapRenderExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module UmapRender
-' 
-'     Function: DrawUmap2D, GetPoint2D
-' 
-' /********************************************************************************/
+    ' Module UmapRenderExtensions
+    ' 
+    '     Function: DrawUmap2D, DrawUmap3D, GetPoint2D, GetPoint3D
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -43,9 +43,11 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.DataMining.UMAP
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 <HideModuleName>
 Public Module UmapRenderExtensions
@@ -85,31 +87,61 @@ Public Module UmapRenderExtensions
     <Extension>
     Public Function DrawUmap2D(umap As Umap,
                                Optional labels As IEnumerable(Of String) = Nothing,
+                               Optional clusters As Dictionary(Of String, String) = Nothing,
                                Optional size$ = "2048,1600",
+                               Optional padding$ = g.DefaultPadding,
                                Optional colorSet$ = "Set1:c8") As GraphicsData
+        Dim theme As New Theme With {
+            .padding = padding
+        }
 
         Return New Umap2D(
             umap:=umap,
             labels:=labels.SafeQuery.ToArray,
-            clusters:=Nothing,
+            clusters:=clusters,
             colorSet:=colorSet,
-            theme:=New Theme
+            theme:=theme
         ).Plot(size)
     End Function
 
     <Extension>
-    Public Function DrawUmap3D(umap As Umap,
+    Public Function DrawUmap3D(umap As Umap, camera As Camera,
                                Optional labels As IEnumerable(Of String) = Nothing,
+                               Optional clusters As Dictionary(Of String, String) = Nothing,
                                Optional size$ = "2048,2048",
-                               Optional colorSet$ = "Set1:c8") As GraphicsData
+                               Optional padding$ = g.DefaultPadding,
+                               Optional bg$ = "white",
+                               Optional colorSet$ = "Set1:c8",
+                               Optional axisLabelCSS$ = CSSFont.PlotLabelNormal,
+                               Optional axisStroke$ = Stroke.AxisStroke,
+                               Optional labelCSS$ = CSSFont.Win10Normal,
+                               Optional pointSize# = 10,
+                               Optional showLabels As Boolean = True,
+                               Optional labelColor$ = "black",
+                               Optional bubbleAlpha As Integer = 0) As GraphicsData
 
-        Return New Umap2D(
+        Dim theme As New Theme With {
+            .padding = padding,
+            .axisLabelCSS = axisLabelCSS,
+            .axisStroke = axisStroke,
+            .tagCSS = labelCSS,
+            .background = bg,
+            .drawLabels = showLabels,
+            .xlabel = "dim #1",
+            .ylabel = "dim #2",
+            .zlabel = "dim #3",
+            .pointSize = pointSize,
+            .tagColor = labelColor
+        }
+
+        Return New Umap3D(
             umap:=umap,
             labels:=labels.SafeQuery.ToArray,
-            clusters:=Nothing,
+            clusters:=clusters,
             colorSet:=colorSet,
-            theme:=New Theme
+            theme:=theme,
+            camera:=camera,
+            bubbleAlpha:=bubbleAlpha
         ).Plot(size)
     End Function
 End Module
-

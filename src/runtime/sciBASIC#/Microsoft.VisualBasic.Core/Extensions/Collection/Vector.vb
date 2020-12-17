@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d00d41e1901ee5456469b2d421305430, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::098f1fd4fd20ce9c5885feff37043f7b, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
 
     ' Author:
     ' 
@@ -39,15 +39,6 @@
     '               Split, VectorShadows
     ' 
     '     Sub: (+4 Overloads) Add, InsertAt, (+2 Overloads) Memset
-    '     Enum DelimiterLocation
-    ' 
-    '         NextFirst, NotIncludes, PreviousLast
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -628,22 +619,4 @@ Public Module VectorExtensions
             Yield tmp.ToArray
         End If
     End Function
-
-    ''' <summary>
-    ''' 分隔符对象在分块之中的位置
-    ''' </summary>
-    Public Enum DelimiterLocation As Integer
-        ''' <summary>
-        ''' 上一个分块的最末尾
-        ''' </summary>
-        PreviousLast
-        ''' <summary>
-        ''' 不会再任何分块之中包含有分隔符
-        ''' </summary>
-        NotIncludes
-        ''' <summary>
-        ''' 包含在下一个分块之中的最开始的位置
-        ''' </summary>
-        NextFirst
-    End Enum
 End Module
