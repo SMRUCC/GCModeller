@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::6e966f08ec33ae04d623bee94494c1b1, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\Planner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Planner
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Collide, runAttraction, runRepulsive, setPosition
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Planner
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: Collide, runAttraction, runRepulsive, setPosition
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -91,9 +91,17 @@ Namespace Layouts.ForceDirected
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Collide()
+            Call reset()
             Call runRepulsive()
             Call runAttraction()
             Call setPosition()
+        End Sub
+
+        Protected Sub reset()
+            For Each v As Node In g.vertex
+                mDxMap(v.label) = 0.0
+                mDyMap(v.label) = 0.0
+            Next
         End Sub
 
         ''' <summary>
@@ -103,6 +111,7 @@ Namespace Layouts.ForceDirected
             Dim distX, distY, dist As Double
             Dim id As String
             Dim ejectFactor = Me.ejectFactor
+            Dim dx, dy As Double
 
             For Each v As Node In g.vertex
                 id = v.label
@@ -115,13 +124,16 @@ Namespace Layouts.ForceDirected
                     distY = v.data.initialPostion.y - u.data.initialPostion.y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
 
-                    If (dist < dist_thresh.Min) Then
-                        ejectFactor = 5
-                    End If
+                    'If (dist < dist_thresh.Min) Then
+                    '    ejectFactor = 5
+                    'End If
 
                     If dist > 0 AndAlso dist < dist_thresh.Max Then
-                        mDxMap(id) = mDxMap(id) + (distX / dist * k * k / dist) * ejectFactor
-                        mDyMap(id) = mDyMap(id) + (distY / dist * k * k / dist) * ejectFactor
+                        dx = (distX / dist * k * k / dist) * ejectFactor
+                        dy = (distY / dist * k * k / dist) * ejectFactor
+
+                        mDxMap(id) = mDxMap(id) + dx
+                        mDyMap(id) = mDyMap(id) + dy
                     End If
                 Next
             Next
@@ -130,6 +142,7 @@ Namespace Layouts.ForceDirected
         Protected Overridable Sub runAttraction()
             Dim u, v As Node
             Dim distX, distY, dist As Double
+            Dim dx, dy As Double
 
             For Each edge As Edge In g.graphEdges
                 u = edge.U
@@ -137,10 +150,13 @@ Namespace Layouts.ForceDirected
                 distX = u.data.initialPostion.x - v.data.initialPostion.x
                 distY = u.data.initialPostion.y - v.data.initialPostion.y
                 dist = stdNum.Sqrt(distX * distX + distY * distY)
-                mDxMap(u.label) = mDxMap(u.label) - distX * dist / k * condenseFactor
-                mDyMap(u.label) = mDyMap(u.label) - distY * dist / k * condenseFactor
-                mDxMap(v.label) = mDxMap(v.label) + distX * dist / k * condenseFactor
-                mDyMap(v.label) = mDyMap(v.label) + distY * dist / k * condenseFactor
+                dx = distX * dist / k * condenseFactor
+                dy = distY * dist / k * condenseFactor
+
+                mDxMap(u.label) = mDxMap(u.label) - dx
+                mDyMap(u.label) = mDyMap(u.label) - dy
+                mDxMap(v.label) = mDxMap(v.label) + dx
+                mDyMap(v.label) = mDyMap(v.label) + dy
             Next
         End Sub
 

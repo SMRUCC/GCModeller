@@ -11,9 +11,15 @@ Namespace Layouts.ForceDirected
 
         ReadOnly groupBy As Dictionary(Of String, String)
 
+        ReadOnly groupAttraction As Double = 5
+        ReadOnly groupRepulsive As Double = 5
+        ReadOnly mass As New MassHandler
+
         Public Sub New(g As NetworkGraph,
                        Optional ejectFactor As Integer = 6,
                        Optional condenseFactor As Integer = 3,
+                       Optional groupAttraction As Double = 5,
+                       Optional groupRepulsive As Double = 5,
                        Optional maxtx As Integer = 4,
                        Optional maxty As Integer = 3,
                        Optional dist_threshold As String = "30,250",
@@ -21,6 +27,8 @@ Namespace Layouts.ForceDirected
 
             Call MyBase.New(g, ejectFactor, condenseFactor, maxtx, maxty, dist_threshold, size)
 
+            Me.groupAttraction = groupAttraction
+            Me.groupRepulsive = groupRepulsive
             Me.groupBy = g.vertex _
                 .ToDictionary(Function(n) n.label,
                               Function(n)
@@ -49,35 +57,34 @@ Namespace Layouts.ForceDirected
                 dy = distY * dist / k * condenseFactor
 
                 If groupBy(v.label) = groupBy(u.label) AndAlso groupBy(v.label) <> "n/a" Then
-                    dx *= 10
-                    dy *= 10
+                    dx *= groupAttraction
+                    dy *= groupAttraction
                 Else
-                    dx /= 10
-                    dy /= 10
+                    dx /= groupAttraction
+                    dy /= groupAttraction
                 End If
 
-                mDxMap(u.label) = mDxMap(u.label) - dx
-                mDyMap(u.label) = mDyMap(u.label) - dy
-                mDxMap(v.label) = mDxMap(v.label) + dx
-                mDyMap(v.label) = mDyMap(v.label) + dy
+                With mass.DeltaMass(u, v, dx, dy)
+                    mDxMap(u.label) = mDxMap(u.label) - .X
+                    mDyMap(u.label) = mDyMap(u.label) - .Y
+                End With
+
+                With mass.DeltaMass(v, u, dx, dy)
+                    mDxMap(v.label) = mDxMap(v.label) + .X
+                    mDyMap(v.label) = mDyMap(v.label) + .Y
+                End With
             Next
         End Sub
 
         Protected Overrides Sub runRepulsive()
             Dim distX, distY, dist As Double
-            Dim id As String
             Dim ejectFactor = Me.ejectFactor
             Dim dx, dy As Double
 
-            For Each v As Node In g.vertex
-                id = v.label
-
-                mDxMap(id) = 0.0
-                mDyMap(id) = 0.0
-
-                For Each u As Node In g.vertex.Where(Function(ui) Not ui Is v)
-                    distX = v.data.initialPostion.x - u.data.initialPostion.x
-                    distY = v.data.initialPostion.y - u.data.initialPostion.y
+            For Each u As Node In g.vertex
+                For Each v As Node In g.vertex.Where(Function(ui) Not ui Is u)
+                    distX = u.data.initialPostion.x - v.data.initialPostion.x
+                    distY = u.data.initialPostion.y - v.data.initialPostion.y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
 
                     If (dist < dist_thresh.Min) Then
@@ -88,16 +95,18 @@ Namespace Layouts.ForceDirected
                         dx = (distX / dist * k * k / dist) * ejectFactor
                         dy = (distY / dist * k * k / dist) * ejectFactor
 
-                        If groupBy(v.label) = groupBy(u.label) AndAlso groupBy(v.label) <> "n/a" Then
-                            dx /= 10
-                            dy /= 10
+                        If groupBy(u.label) = groupBy(v.label) AndAlso groupBy(u.label) <> "n/a" Then
+                            dx /= groupRepulsive
+                            dy /= groupRepulsive
                         Else
-                            dx *= 10
-                            dy *= 10
+                            dx *= groupRepulsive
+                            dy *= groupRepulsive
                         End If
 
-                        mDxMap(id) = mDxMap(id) + dx
-                        mDyMap(id) = mDyMap(id) + dy
+                        With mass.DeltaMass(u, v, dx, dy)
+                            mDxMap(u.label) = mDxMap(u.label) + .X
+                            mDyMap(u.label) = mDyMap(u.label) + .Y
+                        End With
                     End If
                 Next
             Next
