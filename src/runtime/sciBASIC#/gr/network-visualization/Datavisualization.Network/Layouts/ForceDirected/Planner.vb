@@ -51,20 +51,20 @@ Namespace Layouts.ForceDirected
 
     Public Class Planner
 
-        ReadOnly CANVAS_WIDTH As Integer = 1000
-        ReadOnly CANVAS_HEIGHT As Integer = 1000
+        Protected ReadOnly CANVAS_WIDTH As Integer = 1000
+        Protected ReadOnly CANVAS_HEIGHT As Integer = 1000
 
-        ReadOnly g As NetworkGraph
+        Protected ReadOnly g As NetworkGraph
 
-        Dim mDxMap As New Dictionary(Of String, Double)
-        Dim mDyMap As New Dictionary(Of String, Double)
+        Protected ReadOnly mDxMap As New Dictionary(Of String, Double)
+        Protected ReadOnly mDyMap As New Dictionary(Of String, Double)
 
-        Dim k As Double
-        Dim ejectFactor As Integer = 6
-        Dim condenseFactor As Integer = 3
-        Dim maxtx As Integer = 4
-        Dim maxty As Integer = 3
-        Dim dist_thresh As DoubleRange
+        Protected ReadOnly k As Double
+        Protected ReadOnly ejectFactor As Integer = 6
+        Protected ReadOnly condenseFactor As Integer = 3
+        Protected ReadOnly maxtx As Integer = 4
+        Protected ReadOnly maxty As Integer = 3
+        Protected ReadOnly dist_thresh As DoubleRange
 
         Sub New(g As NetworkGraph,
                 Optional ejectFactor As Integer = 6,
@@ -99,7 +99,7 @@ Namespace Layouts.ForceDirected
         ''' <summary>
         ''' 节点之间的排斥力
         ''' </summary>
-        Private Sub runRepulsive()
+        Protected Overridable Sub runRepulsive()
             Dim distX, distY, dist As Double
             Dim id As String
             Dim ejectFactor = Me.ejectFactor
@@ -127,7 +127,7 @@ Namespace Layouts.ForceDirected
             Next
         End Sub
 
-        Private Sub runAttraction()
+        Protected Overridable Sub runAttraction()
             Dim u, v As Node
             Dim distX, distY, dist As Double
 
@@ -159,8 +159,8 @@ Namespace Layouts.ForceDirected
 
                 x = node.data.initialPostion.x
                 y = node.data.initialPostion.y
-                x = If((x + dx) >= CANVAS_WIDTH OrElse (x + dx) <= 0, x - dx, x + dx)
-                y = If((y + dy) >= CANVAS_HEIGHT OrElse (y + dy <= 0), y - dy, y + dy)
+                x = x + dx ' If((x + dx) >= CANVAS_WIDTH OrElse (x + dx) <= 0, x - dx, x + dx)
+                y = y + dy ' If((y + dy) >= CANVAS_HEIGHT OrElse (y + dy <= 0), y - dy, y + dy)
 
                 node.data.initialPostion.x = x
                 node.data.initialPostion.y = y
