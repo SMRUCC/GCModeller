@@ -166,7 +166,9 @@ Namespace Plots
                     Call polygon _
                         .DoCall(AddressOf ConvexHull.JarvisMatch) _
                         .DoCall(Sub(hull)
-                                    HullPolygonDraw.DrawHullPolygon(canvas, hull, line.color)
+                                    If hull.Length >= 3 Then
+                                        Call HullPolygonDraw.DrawHullPolygon(canvas, hull, line.color)
+                                    End If
                                 End Sub)
                 End If
 

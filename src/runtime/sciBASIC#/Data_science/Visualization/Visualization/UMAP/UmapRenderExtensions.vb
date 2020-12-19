@@ -92,10 +92,14 @@ Public Module UmapRenderExtensions
                                Optional padding$ = g.DefaultUltraLargePadding,
                                Optional colorSet$ = "Set1:c8",
                                Optional showConvexHull As Boolean = True,
-                               Optional pointSize% = 10) As GraphicsData
+                               Optional pointSize% = 10,
+                               Optional legendLabelCSS$ = CSSFont.PlotLabelNormal) As GraphicsData
+
         Dim theme As New Theme With {
             .padding = padding,
-            .pointSize = pointSize
+            .pointSize = pointSize,
+            .legendLabelCSS = legendLabelCSS,
+            .legendSplitSize = If(clusters Is Nothing OrElse clusters.Count <= 5, 0, 5)
         }
 
         Return New Umap2D(
