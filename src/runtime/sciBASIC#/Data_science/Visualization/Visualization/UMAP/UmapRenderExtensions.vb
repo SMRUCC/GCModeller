@@ -88,9 +88,10 @@ Public Module UmapRenderExtensions
     Public Function DrawUmap2D(umap As Umap,
                                Optional labels As IEnumerable(Of String) = Nothing,
                                Optional clusters As Dictionary(Of String, String) = Nothing,
-                               Optional size$ = "2048,1600",
-                               Optional padding$ = g.DefaultPadding,
+                               Optional size$ = "2440,1920",
+                               Optional padding$ = g.DefaultUltraLargePadding,
                                Optional colorSet$ = "Set1:c8",
+                               Optional showConvexHull As Boolean = True,
                                Optional pointSize% = 10) As GraphicsData
         Dim theme As New Theme With {
             .padding = padding,
@@ -102,7 +103,8 @@ Public Module UmapRenderExtensions
             labels:=labels.SafeQuery.ToArray,
             clusters:=clusters,
             colorSet:=colorSet,
-            theme:=theme
+            theme:=theme,
+            showConvexHull:=showConvexHull
         ).Plot(size)
     End Function
 

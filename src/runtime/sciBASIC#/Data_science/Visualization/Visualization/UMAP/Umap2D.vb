@@ -50,13 +50,18 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Public Class Umap2D ： Inherits UmapRender
 
-    Public Sub New(umap As Umap, labels$(), clusters As Dictionary(Of String, String), colorSet$, theme As Theme)
+    ReadOnly showConvexHull As Boolean
+
+    Public Sub New(umap As Umap, labels$(), clusters As Dictionary(Of String, String), colorSet$, showConvexHull As Boolean, theme As Theme)
         MyBase.New(umap, labels, clusters, colorSet, theme)
+
+        Me.showConvexHull = showConvexHull
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim embeddings As PointF() = umap.GetPoint2D
         Dim serials As SerialData()
+        Dim hullConvexList As String() = Nothing
 
         If clusters.IsNullOrEmpty Then
             serials = {
@@ -70,6 +75,7 @@ Public Class Umap2D ： Inherits UmapRender
                         .ToArray
                 }
             }
+            hullConvexList = Nothing
         Else
             Dim maps As New Dictionary(Of String, List(Of PointData))
             Dim color = GetClusterColors()
@@ -93,9 +99,23 @@ Public Class Umap2D ： Inherits UmapRender
                             }
                         End Function) _
                 .ToArray
+
+            If showConvexHull Then
+                hullConvexList = maps _
+                    .Keys _
+                    .Where(Function(a) a <> "n/a") _
+                    .ToArray
+            End If
         End If
 
-        Call Scatter.Plot(serials, g, canvas, drawLine:=False)
+        Call New Plots.Scatter2D(
+            data:=serials,
+            theme:=theme,
+            scatterReorder:=False,
+            fillPie:=True,
+            ablines:=Nothing,
+            hullConvexList:=hullConvexList
+        ).Plot(g, canvas.PlotRegion)
     End Sub
 End Class
 
