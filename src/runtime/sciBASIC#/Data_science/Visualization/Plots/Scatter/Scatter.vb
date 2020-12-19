@@ -431,18 +431,18 @@ Public Module Scatter
 
         If showLegend Then
             Dim lsize As Size = legendSize.SizeParser
-            Dim legends As Legend() = LinqAPI.Exec(Of Legend) _
+            Dim legends As LegendObject() = LinqAPI.Exec(Of LegendObject) _
  _
                 () <= From s As SerialData
                       In array
                       Let sColor As String = s.color.RGBExpression
-                      Select New Legend With {
+                      Select New LegendObject With {
                           .color = sColor,
                           .fontstyle = legendFontCSS,
                           .style = s.shape,
                           .title = s.title
                       }
-            Dim legendParts As Legend()() = Nothing
+            Dim legendParts As LegendObject()() = Nothing
             Dim maxWidth!
 
             If legendPosition.IsEmpty Then
@@ -473,7 +473,7 @@ Public Module Scatter
                     fillBg:=legendBgFill
                 )
             Else
-                For Each part As Legend() In legendParts
+                For Each part As LegendObject() In legendParts
                     Call g.DrawLegends(
                         legendPosition, part, legendSize,
                         shapeBorder:=legendBorder,

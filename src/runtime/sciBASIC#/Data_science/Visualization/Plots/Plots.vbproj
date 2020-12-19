@@ -624,7 +624,7 @@
     <Compile Include="g\Mapper.vb" />
     <Compile Include="g\ProfileGroup.vb" />
     <Compile Include="g\Legends\LegendPlot.vb" />
-    <Compile Include="g\Legends\Legend.vb" />
+    <Compile Include="g\Legends\LegendObject.vb" />
     <Compile Include="csv\SerialData.vb" />
     <Compile Include="g\Legends\LegendStyles.vb" />
     <Compile Include="BarPlot\Data\BarDataGroup.vb" />

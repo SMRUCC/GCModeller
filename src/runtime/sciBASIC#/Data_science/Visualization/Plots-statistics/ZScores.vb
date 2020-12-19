@@ -198,7 +198,7 @@ Public Module ZScoresPlot
                 Dim legends = groups _
                     .Keys _
                     .Select(Function(label)
-                                Return New Legend With {
+                                Return New LegendObject With {
                                     .title = label,
                                     .color = colors(label).RGBExpression,
                                     .fontstyle = legendLabelFontCSS,

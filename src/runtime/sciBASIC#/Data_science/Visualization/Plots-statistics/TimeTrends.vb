@@ -324,14 +324,14 @@ Public Module TimeTrends
 
                 g.DrawString(subTitle, subTitleFont, titleBrush, x, y)
 
-                Dim legends As Legend() = {
-                    New Legend With {
+                Dim legends As LegendObject() = {
+                    New LegendObject With {
                         .color = lineColor,
                         .fontstyle = legendTitleFont,
                         .style = LegendStyles.SolidLine,
                         .title = legendTitle
                     },
-                    New Legend With {
+                    New LegendObject With {
                         .color = rangeColor,
                         .fontstyle = legendTitleFont,
                         .style = LegendStyles.RoundRectangle,
