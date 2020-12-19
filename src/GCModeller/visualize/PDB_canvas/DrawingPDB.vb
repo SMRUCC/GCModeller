@@ -76,7 +76,7 @@ Public Module DrawingPDB
         Dim offset As Point = Device.Center
         Dim AASequence As AminoAcid() = PDB.AminoAcidSequenceData
         Dim PreAA As AminoAcid = AASequence.First
-        Dim PrePoint As Point
+        Dim PrePoint As PointF
         Dim aas As String() = (From AA In AASequence Select AA.AA_ID Distinct).ToArray
         Dim AAColors = (From cl In RenderingColor.InitCOGColors(aas)
                         Select ID = cl.Key,
@@ -84,11 +84,12 @@ Public Module DrawingPDB
                            .ToDictionary(Function(item) item.ID,
                                          Function(item) item.br)
         Dim AAFont As New Font(FontFace.MicrosoftYaHei, 10)
+        Dim pt2d As PointF
 
         Call __drawingOfAA(PreAA, PrePoint, offset, Device, DisplayAAID, AAFont, hideAtoms) ' 绘制第一个碳原子
 
         For Each Point As AminoAcid In AASequence
-            Dim pt2d As Point
+
 
             Call __drawingOfAA(Point, pt2d, offset, Device, DisplayAAID, AAFont, hideAtoms)
             Call Device.Graphics.DrawLine(AAColors(Point.AA_ID), pt2d, PrePoint)
@@ -107,11 +108,11 @@ Public Module DrawingPDB
     End Function
 
     <Extension>
-    Private Sub __drawingOfAA(AA As AminoAcid, ByRef pt2d As Point, offset As Point, Device As Graphics2D, DisplayAAID As Boolean, AAFont As Font, hideAtoms As Boolean)
+    Private Sub __drawingOfAA(AA As AminoAcid, ByRef pt2d As PointF, offset As Point, Device As Graphics2D, DisplayAAID As Boolean, AAFont As Font, hideAtoms As Boolean)
         Dim Carbon As Keywords.AtomUnit = AA.Carbon
-        Dim pt3d As Drawing3D.Point3D = New Drawing3D.Point3D(Carbon.Location.X * ScaleFactor, Carbon.Location.Y * ScaleFactor, Carbon.Location.Z * ScaleFactor)
+        Dim pt3d As New Drawing3D.Point3D(Carbon.Location.X * ScaleFactor, Carbon.Location.Y * ScaleFactor, Carbon.Location.Z * ScaleFactor)
         pt2d = pt3d.SpaceToGrid(xRotate:=XRotation, offset:=offset)
-        Call Device.Graphics.FillPie(Brushes.Black, New Rectangle(pt2d, New Size(penWidth, penWidth)), 0, 360)
+        Call Device.Graphics.FillEllipse(Brushes.Black, New RectangleF(pt2d, New Size(penWidth, penWidth)))
 
         If DisplayAAID Then
             Call Device.Graphics.DrawString(AA.AA_ID, AAFont, Brushes.Gray, pt2d)

@@ -695,6 +695,7 @@ Global
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
+		R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems*{5a462f24-fa61-452b-985b-d2fc080cac76}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{5c8e0644-b4d7-464a-908c-a383f52cce1f}*SharedItemsImports = 13
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
