@@ -36,7 +36,11 @@
 */
 
 class Graph {
-    constructor(opt) {
+
+    private nodes: {};
+    private edges: {};
+
+    constructor(public opt = null) {
         this.opt = merge({
             node: {}
         }, opt || {});
@@ -44,11 +48,9 @@ class Graph {
         this.edges = {};
     }
 
-    fromJSON(json) {
+    static fromJSON(json) {
         var nodes = json.nodes,
             edges = json.edges,
-            Node = Graph.Node,
-            Edge = Graph.Edge,
             graph = new Graph(),
             k;
 
@@ -193,7 +195,7 @@ class Graph {
     addNode(obj) {
         if (!this.nodes[obj.id]) {
             var edges = this.edges[obj.id] = {};
-            this.nodes[obj.id] = new Graph.Node(merge({
+            this.nodes[obj.id] = new Node(merge({
                 'id': obj.id,
                 'name': obj.name,
                 'data': merge(obj.data || {}, {}),
@@ -225,7 +227,7 @@ class Graph {
         if (!obj.adjacentTo(obj2)) {
             var adjsObj = this.edges[obj.id] = this.edges[obj.id] || {};
             var adjsObj2 = this.edges[obj2.id] = this.edges[obj2.id] || {};
-            adjsObj[obj2.id] = adjsObj2[obj.id] = new Graph.Edge(obj, obj2, data, this.Edge, this.Label);
+            adjsObj[obj2.id] = adjsObj2[obj.id] = new Edge(obj, obj2, data);
             return adjsObj[obj2.id];
         }
         return this.edges[obj.id][obj2.id];
@@ -286,9 +288,11 @@ class Graph {
       Empties the Graph
   
     */
-    empty() { this.nodes = {}; this.edges = {}; }
-
-} 
+    empty() {
+        this.nodes = {};
+        this.edges = {};
+    }
+}
 
 //    //Append graph methods to <Graph>
 //    ['get', 'getNode', 'each', 'eachNode', 'computeLevels', 'eachBFS', 'clean'].forEach(function (m) {
