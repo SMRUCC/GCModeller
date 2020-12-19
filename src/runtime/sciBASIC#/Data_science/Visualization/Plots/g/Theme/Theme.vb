@@ -161,7 +161,8 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <returns></returns>
         Public Property drawGrid As Boolean = True
-        Public Property gridStroke As String = Stroke.AxisGridStroke
+        Public Property gridStrokeX As String = Stroke.AxisGridStroke
+        Public Property gridStrokeY As String = Stroke.AxisGridStroke
         Public Property gridFill As String = "white"
 
         Public Property htmlLabel As Boolean = False
