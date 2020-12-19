@@ -608,6 +608,8 @@
     <Compile Include="g\Theme\Theme.vb" />
     <Compile Include="Scatter\Data\SerialData.vb" />
     <Compile Include="Scatter\LinePlot.vb" />
+    <Compile Include="Scatter\Plot\LinePlot2D.vb" />
+    <Compile Include="Scatter\Plot\Scatter2D.vb" />
     <Compile Include="VolinPlot.vb" />
     <Compile Include="Scatter\Bubble.vb" />
     <Compile Include="BarPlot\Data\csv.vb" />

@@ -95,7 +95,7 @@ Public Class Umap2D ： Inherits UmapRender
                 .ToArray
         End If
 
-        Call Scatter.Plot(serials, g, canvas)
+        Call Scatter.Plot(serials, g, canvas, drawLine:=False)
     End Sub
 End Class
 
