@@ -50,6 +50,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Graphic.Canvas
@@ -60,32 +61,32 @@ Namespace Graphic.Canvas
         ''' 背景色
         ''' </summary>
         ''' <returns></returns>
-        Public Property background As String
+        Public Property background As String = "white"
         ''' <summary>
         ''' 绘图区域的位置与布局
         ''' </summary>
         ''' <returns></returns>
-        Public Property padding As String
+        Public Property padding As String = g.DefaultPadding
         ''' <summary>
         ''' 大标题字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property mainCSS As String
+        Public Property mainCSS As String = CSSFont.PlotTitle
         ''' <summary>
         ''' 副标题字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property subtitleCSS As String
+        Public Property subtitleCSS As String = CSSFont.PlotSubTitle
         ''' <summary>
         ''' 图例标题字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property legendTitleCSS As String
+        Public Property legendTitleCSS As String = CSSFont.Win7LargerBold
         ''' <summary>
         ''' 图例标签字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property legendLabelCSS As String
+        Public Property legendLabelCSS As String = CSSFont.Win7LargerNormal
         Public Property legendSplitSize As Integer
         ''' <summary>
         ''' 图例的布局位置
@@ -96,52 +97,52 @@ Namespace Graphic.Canvas
         ''' 图例的边框线条样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property legendBoxStroke As String
-        Public Property legendBoxBackground As String
+        Public Property legendBoxStroke As String = Stroke.AxisStroke
+        Public Property legendBoxBackground As String = "transparent"
 
         ''' <summary>
         ''' 在图表之中的某一个数据点的显示字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property tagCSS As String
-        Public Property tagColor As String
+        Public Property tagCSS As String = CSSFont.PlotLabelNormal
+        Public Property tagColor As String = "black"
 
         ''' <summary>
         ''' 数据点的大小值
         ''' </summary>
         ''' <returns></returns>
-        Public Property pointSize As Integer
+        Public Property pointSize As Integer = 5
 
         ''' <summary>
         ''' X坐标轴的布局
         ''' </summary>
         ''' <returns></returns>
-        Public Property xAxisLayout As XAxisLayoutStyles
+        Public Property xAxisLayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom
         ''' <summary>
         ''' Y坐标轴的布局
         ''' </summary>
         ''' <returns></returns>
-        Public Property yAxisLayout As YAxisLayoutStyles
+        Public Property yAxisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Left
 
         Public Property xlabel As String = "X"
         Public Property ylabel As String = "Y"
         Public Property zlabel As String = "Z"
 
-        Public Property drawAxis As Boolean
+        Public Property drawAxis As Boolean = True
 
         ''' <summary>
         ''' 坐标轴上的标签的字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property axisLabelCSS As String
+        Public Property axisLabelCSS As String = CSSFont.Win7LargeBold
         ''' <summary>
         ''' 坐标轴上的标尺的字体样式
         ''' </summary>
         ''' <returns></returns>
-        Public Property axisTickCSS As String
-        Public Property axisTickStroke As String
-        Public Property axisTickPadding As Double
-        Public Property axisStroke As String
+        Public Property axisTickCSS As String = CSSFont.PlotLabelNormal
+        Public Property axisTickStroke As String = Stroke.ScatterLineStroke
+        Public Property axisTickPadding As Double = 5
+        Public Property axisStroke As String = Stroke.AxisStroke
 
         ''' <summary>
         ''' 一般为F2或者G3
@@ -153,18 +154,18 @@ Namespace Graphic.Canvas
         ''' 是否显示图例
         ''' </summary>
         ''' <returns></returns>
-        Public Property drawLegend As Boolean
-        Public Property drawLabels As Boolean
+        Public Property drawLegend As Boolean = True
+        Public Property drawLabels As Boolean = False
         ''' <summary>
         ''' 是否再作图区显示网格？
         ''' </summary>
         ''' <returns></returns>
-        Public Property drawGrid As Boolean
-        Public Property gridStroke As String
+        Public Property drawGrid As Boolean = True
+        Public Property gridStroke As String = Stroke.AxisGridStroke
         Public Property gridFill As String = "lightgray"
 
-        Public Property htmlLabel As Boolean
-        Public Property colorSet As String
+        Public Property htmlLabel As Boolean = False
+        Public Property colorSet As String = "Set1:c9"
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
