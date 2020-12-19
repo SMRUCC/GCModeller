@@ -90,9 +90,11 @@ Public Module UmapRenderExtensions
                                Optional clusters As Dictionary(Of String, String) = Nothing,
                                Optional size$ = "2048,1600",
                                Optional padding$ = g.DefaultPadding,
-                               Optional colorSet$ = "Set1:c8") As GraphicsData
+                               Optional colorSet$ = "Set1:c8",
+                               Optional pointSize% = 10) As GraphicsData
         Dim theme As New Theme With {
-            .padding = padding
+            .padding = padding,
+            .pointSize = pointSize
         }
 
         Return New Umap2D(
