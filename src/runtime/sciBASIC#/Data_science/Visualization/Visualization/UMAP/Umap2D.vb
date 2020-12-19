@@ -89,6 +89,7 @@ Public Class Umap2D ： Inherits UmapRender
             Next
 
             serials = maps _
+                .Where(Function(c) c.Value.Count > 0) _
                 .Select(Function(a)
                             Return New SerialData With {
                                 .color = color(a.Key).Color,

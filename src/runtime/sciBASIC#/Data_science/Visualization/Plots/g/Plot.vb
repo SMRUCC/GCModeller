@@ -108,11 +108,13 @@ Namespace Graphic
             Dim lsize As SizeF = g.MeasureString("A", legendLabelFont)
             Dim legendParts As LegendObject()() = Nothing
             Dim maxWidth!
-            Dim legendPosition As Point
+            Dim legendPos As Point
             Dim legendSize$
             Dim region As Rectangle = canvas.PlotRegion
 
-            lsize = New SizeF(lsize.Height, lsize.Height)
+            Const ratio As Double = 0.65
+
+            lsize = New SizeF(lsize.Height * ratio, lsize.Height * ratio)
             legendSize = $"{lsize.Width},{lsize.Height}"
 
             If theme.legendLayout Is Nothing Then
@@ -123,12 +125,12 @@ Namespace Graphic
 
                 If theme.legendSplitSize > 0 AndAlso legends.Length > theme.legendSplitSize Then
                     legendParts = legends.Split(theme.legendSplitSize)
-                    legendPosition = New Point With {
+                    legendPos = New Point With {
                         .X = region.Width - (lsize.Width + maxWidth + 5) * (legendParts.Length - 1),
                         .Y = region.Top + lFont.Height
                     }
                 Else
-                    legendPosition = New Point With {
+                    legendPos = New Point With {
                         .X = region.Size.Width - lsize.Width / 3 - maxWidth,
                         .Y = region.Top + lFont.Height
                     }
@@ -137,7 +139,7 @@ Namespace Graphic
 
             If legendParts.IsNullOrEmpty Then
                 Call g.DrawLegends(
-                    legendPosition, legends, legendSize,
+                    legendPos, legends, legendSize,
                     shapeBorder:=theme.legendBoxStroke,
                     regionBorder:=theme.legendBoxStroke,
                     fillBg:=theme.legendBoxBackground
@@ -145,27 +147,27 @@ Namespace Graphic
             Else
                 For Each part As LegendObject() In legendParts
                     Call g.DrawLegends(
-                        legendPosition, part, legendSize,
+                        legendPos, part, legendSize,
                         shapeBorder:=theme.legendBoxStroke,
                         regionBorder:=theme.legendBoxStroke,
                         fillBg:=theme.legendBoxBackground
                     )
 
-                    legendPosition = New Point With {
-                        .X = legendPosition.X + maxWidth + lsize.Width + 5,
-                        .Y = legendPosition.Y
+                    legendPos = New Point With {
+                        .X = legendPos.X + maxWidth + lsize.Width + 5,
+                        .Y = legendPos.Y
                     }
                 Next
             End If
         End Sub
 
-        Protected Sub DrawMainTitle(g As IGraphics, region As Rectangle)
+        Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle)
             If Not main.StringEmpty Then
                 Dim fontOfTitle As Font = CSSFont.TryParse(theme.mainCSS)
                 Dim titleSize As SizeF = g.MeasureString(main, fontOfTitle)
                 Dim position As New PointF With {
-                    .X = region.X + (region.Width - titleSize.Width) / 2,
-                    .Y = region.Y - titleSize.Height * 1.125
+                    .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,
+                    .Y = plotRegion.Y - titleSize.Height * 1.125
                 }
 
                 Call g.DrawString(main, fontOfTitle, Brushes.Black, position)
