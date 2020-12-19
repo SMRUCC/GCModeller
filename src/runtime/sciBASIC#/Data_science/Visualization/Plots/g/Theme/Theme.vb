@@ -162,7 +162,7 @@ Namespace Graphic.Canvas
         ''' <returns></returns>
         Public Property drawGrid As Boolean = True
         Public Property gridStroke As String = Stroke.AxisGridStroke
-        Public Property gridFill As String = "lightgray"
+        Public Property gridFill As String = "white"
 
         Public Property htmlLabel As Boolean = False
         Public Property colorSet As String = "Set1:c9"
