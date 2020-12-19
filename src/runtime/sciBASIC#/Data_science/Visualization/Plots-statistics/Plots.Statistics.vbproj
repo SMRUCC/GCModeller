@@ -541,7 +541,9 @@
     <Compile Include="Bihistogram.vb" />
     <Compile Include="ScatterExtensions.vb" />
     <Compile Include="QQPlot.vb" />
-    <Compile Include="ZScores.vb" />
+    <Compile Include="Zscore\ZScoresData.vb" />
+    <Compile Include="Zscore\ZScoresPlot.vb" />
+    <Compile Include="Zscore\ZScores.vb" />
     <Compile Include="PCA\PC2.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
