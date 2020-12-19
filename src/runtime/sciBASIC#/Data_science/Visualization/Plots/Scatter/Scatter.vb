@@ -217,7 +217,7 @@ Public Module Scatter
         Dim plot As Plot
 
         If drawLine Then
-            plot = New Plots.LinePlot2D()
+            plot = New Plots.LinePlot2D(data:=c, theme:=theme)
         Else
             plot = New Plots.Scatter2D(
                 data:=c,
