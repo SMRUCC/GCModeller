@@ -43,6 +43,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -59,9 +60,42 @@ Public Class Umap2D ： Inherits UmapRender
 
         If clusters.IsNullOrEmpty Then
             serials = {
-                New SerialData
+                New SerialData With {
+                    .color = Color.Gray,
+                    .pointSize = theme.pointSize,
+                    .shape = LegendStyles.Circle,
+                    .title = "ungroups",
+                    .pts = embeddings _
+                        .Select(Function(p) New PointData(p)) _
+                        .ToArray
+                }
             }
+        Else
+            Dim maps As New Dictionary(Of String, List(Of PointData))
+            Dim color = GetClusterColors()
+
+            For Each group In color
+                maps(group.Key) = New List(Of PointData)
+            Next
+
+            For i As Integer = 0 To embeddings.Length - 1
+                maps(getClusterLabel(i)).Add(New PointData(embeddings(i)))
+            Next
+
+            serials = maps _
+                .Select(Function(a)
+                            Return New SerialData With {
+                                .color = color(a.Key).Color,
+                                .pointSize = theme.pointSize,
+                                .pts = a.Value.ToArray,
+                                .shape = LegendStyles.Circle,
+                                .title = a.Key
+                            }
+                        End Function) _
+                .ToArray
         End If
+
+        Call Scatter.Plot(serials, g, canvas)
     End Sub
 End Class
 
