@@ -72,8 +72,8 @@ Public Module Extensions
             For Each subcat As KeyValuePair(Of String, CatalogList) In category.Value.SubCategory
                 Yield New Cluster With {
                     .description = subcat.Value.Description,
-                    .ID = subcat.Key,
-                    .names = subcat.Value.Catalog,
+                    .ID = subcat.Value.Catalog,
+                    .names = subcat.Value.Description,
                     .members = subcat.Value _
                         .createGenes _
                         .ToArray
