@@ -751,7 +751,7 @@
     <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\FetchSequence.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\MapQuery.vb" />
-    <Compile Include="Assembly\KEGG\Web\Map\Module1.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\MapRepository.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\XML\Area.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\KGML\Components.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\KGML\Extensions.vb" />
@@ -761,6 +761,7 @@
     <Compile Include="Assembly\KEGG\Web\Map\MapDownloader.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\XML\Map.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\XML\ParseHtml.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />

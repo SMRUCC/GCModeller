@@ -48,16 +48,11 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
@@ -67,6 +62,7 @@ Namespace Assembly.KEGG.WebServices
     <XmlRoot("Map", [Namespace]:=Map.XmlNamespace)>
     Public Class Map : Inherits XmlDataModel
         Implements INamedValue
+        Implements Enumeration(Of Area)
 
         Public Const XmlNamespace$ = "http://GCModeller.org/core/KEGG/KGML_map.xsd"
 
@@ -123,73 +119,19 @@ Namespace Assembly.KEGG.WebServices
             Return shapes.GetJson
         End Function
 
-        Const data$ = "<map name=""mapdata"">.+?</map>"
-
-        '<html>
-        '<!---
-        'ENTRY       map01100
-        'DEFINITION  Metabolic pathways - Reference pathway
-        '--->
-
-        Private Shared Function GetEntryInfo(html As String) As NamedValue(Of String)
-            Dim comment$ = html.GetHtmlComments.First
-            Dim text = comment.LineTokens
-            Dim entry = text(1).GetTagValue(" ", trim:=True).Value
-            Dim definition = text(2).GetTagValue(" ", trim:=True).Value
-
-            Return New NamedValue(Of String) With {
-                .Name = entry,
-                .Value = definition
-            }
-        End Function
-
-        Const mapImageURL$ = "<img src="".+?"" name=""pathwayimage"" usemap=""#mapdata"".+?/>"
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseFromUrl(url As String) As Map
             Return ParseHTML(html:=url.GET)
         End Function
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="html"></param>
-        ''' <param name="url">The original source url of this map data</param>
-        ''' <returns></returns>
-        Public Shared Function ParseHTML(html As String, Optional url$ = Nothing) As Map
-            Dim map$ = r.Match(html, data, RegexICSng).Value
-            Dim areas = map.LineTokens.Skip(1).ToArray
-            Dim img = r.Match(html, mapImageURL, RegexICSng).Value
-            Dim tmp$ = App.GetAppSysTempFile(".png", "mapFetchs_" & App.PID, "kegg_map_")
-            Dim info As NamedValue(Of String) = GetEntryInfo(html)
-            Dim shapes = areas _
-                .Take(areas.Length - 1) _
-                .Select(AddressOf Area.Parse) _
-                .ToArray
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Area) Implements Enumeration(Of Area).GenericEnumerator
+            For Each item As Area In shapes
+                Yield item
+            Next
+        End Function
 
-            With "http://www.genome.jp/" & img.src
-                Call .DownloadFile(tmp)
-
-                If (Not tmp.FileExists) OrElse tmp.LoadImage(throwEx:=False) Is Nothing Then
-                    img = $"https://www.genome.jp/kegg/pathway/map/{info.Name}.png"
-                    img.DownloadFile(tmp)
-                End If
-
-                img = tmp.LoadImage.ToBase64String
-                img = FastaSeq.SequenceLineBreak(200, img)
-                img = vbLf & img _
-                    .LineTokens _
-                    .Select(Function(s) New String(" ", 4) & s) _
-                    .JoinBy(ASCII.LF) & vbLf
-            End With
-
-            Return New Map With {
-                .PathwayImage = img,
-                .shapes = shapes,
-                .id = info.Name,
-                .Name = info.Value,
-                .URL = url
-            }
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Area).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace
