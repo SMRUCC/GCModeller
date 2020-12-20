@@ -170,7 +170,7 @@ Namespace Assembly.KEGG.WebServices
             With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)
 
-                If Not tmp.FileExists Then
+                If (Not tmp.FileExists) OrElse tmp.LoadImage(throwEx:=False) Is Nothing Then
                     img = $"https://www.genome.jp/kegg/pathway/map/{info.Name}.png"
                     img.DownloadFile(tmp)
                 End If
