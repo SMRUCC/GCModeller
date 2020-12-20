@@ -55,6 +55,10 @@ Public Module Extensions
         For Each cat As CatalogProfiling In catalogs.Values
             For Each subcat In cat.SubCategory.Values
                 If termIndex.ContainsKey(subcat.Catalog) Then
+                    If termIndex(subcat.Catalog).pvalue >= 1 Then
+                        Continue For
+                    End If
+
                     If Not result.catalogs.ContainsKey(cat.Description) Then
                         result.catalogs(cat.Description) = New CatalogProfile
                     End If
