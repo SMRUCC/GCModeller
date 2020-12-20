@@ -46,7 +46,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -366,20 +365,20 @@ Public Module Volcano
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As Legend()
-        Dim up As New Legend With {
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As LegendObject()
+        Dim up As New LegendObject With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
             .title = "log2FC >= UP" Or $"({count.up}) log2FC >= UP".AsDefault(Function() displayCount)
         }
-        Dim down As New Legend With {
+        Dim down As New LegendObject With {
             .color = colors(-1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
             .title = "log2FC <= DOWN" Or $"({count.down}) log2FC <= DOWN".AsDefault(Function() displayCount)
         }
-        Dim normal As New Legend With {
+        Dim normal As New LegendObject With {
             .color = colors(0).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
