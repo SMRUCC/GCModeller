@@ -38,7 +38,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Private Shared Function ParseHtml(html$, schema As Type) As Object
-            Return Map.ParseHTML(html)
+            Return ParseHtmlExtensions.ParseHTML(html)
         End Function
 
         Private Shared Function createUrl(briteFile As String) As Func(Of PathwayEntry, String)
