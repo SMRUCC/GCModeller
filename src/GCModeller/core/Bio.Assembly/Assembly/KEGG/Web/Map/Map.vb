@@ -160,7 +160,8 @@ Namespace Assembly.KEGG.WebServices
             Dim map$ = r.Match(html, data, RegexICSng).Value
             Dim areas = map.LineTokens.Skip(1).ToArray
             Dim img = r.Match(html, mapImageURL, RegexICSng).Value
-            Dim tmp$ = App.GetAppSysTempFile
+            Dim tmp$ = App.GetAppSysTempFile(".png", "mapFetchs_" & App.PID, "kegg_map_")
+            Dim info As NamedValue(Of String) = GetEntryInfo(html)
             Dim shapes = areas _
                 .Take(areas.Length - 1) _
                 .Select(AddressOf Area.Parse) _
@@ -169,6 +170,11 @@ Namespace Assembly.KEGG.WebServices
             With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)
 
+                If Not tmp.FileExists Then
+                    img = $"https://www.genome.jp/kegg/pathway/map/{info.Name}.png"
+                    img.DownloadFile(tmp)
+                End If
+
                 img = tmp.LoadImage.ToBase64String
                 img = FastaSeq.SequenceLineBreak(200, img)
                 img = vbLf & img _
@@ -176,8 +182,6 @@ Namespace Assembly.KEGG.WebServices
                     .Select(Function(s) New String(" ", 4) & s) _
                     .JoinBy(ASCII.LF) & vbLf
             End With
-
-            Dim info As NamedValue(Of String) = GetEntryInfo(html)
 
             Return New Map With {
                 .PathwayImage = img,
