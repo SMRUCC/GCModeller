@@ -47,12 +47,27 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
     Public Class CatalogProfiling
+        Implements INamedValue
+
+        ''' <summary>
+        ''' COG/KO/GO, etc
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute>
+        Public Overridable Property Catalog As String Implements INamedValue.Key
+        Public Property Description As String
+        Public Property SubCategory As Dictionary(Of String, CatalogList)
+
+    End Class
+
+    Public Class CatalogList
         Implements IGrouping(Of String, String)
         Implements IList(Of String)
         Implements INamedValue

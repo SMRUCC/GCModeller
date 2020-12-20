@@ -861,7 +861,7 @@
     <Compile Include="Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\ELIXIR\UniProt\Web\Entry.vb" />
     <Compile Include="Assembly\ELIXIR\UniProt\XML\UniRef\entry.vb" />
-    <Compile Include="ComponentModel\Annotation\Profiles\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\Annotation\Profiles\CatalogList.vb" />
     <Compile Include="ComponentModel\Annotation\COG.vb" />
     <Compile Include="ComponentModel\Annotation\EC\EnzymeClass.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\IdMapping\Document.vb" />

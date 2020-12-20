@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
-    Public Class KOCatalog : Inherits CatalogProfiling
+    Public Class KOCatalog : Inherits CatalogList
 
         Public Property [Class] As String
 
