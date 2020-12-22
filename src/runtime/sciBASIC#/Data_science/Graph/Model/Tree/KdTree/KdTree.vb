@@ -54,11 +54,13 @@ Imports stdNum = System.Math
 
 Namespace KdTree
 
-    Public Class KdTree
+    Public Delegate Function metric(Of T)(a As T, b As T) As Double
+
+    Public Class KdTree(Of T)
 
         Dim dimensions As Integer()
-        Dim points As Object()
-        Dim metric As Object
+        Dim points As T()
+        Dim metric As metric(Of T)
 
         Dim root As KdTreeNode
 
@@ -68,7 +70,7 @@ Namespace KdTree
             End Get
         End Property
 
-        Sub New(points As Object(), metric As Object, dimensions As Integer())
+        Sub New(points As T(), metric As metric(Of T), dimensions As Integer())
             Me.points = points
             Me.metric = metric
             Me.dimensions = dimensions

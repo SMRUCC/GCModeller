@@ -11,8 +11,9 @@ Namespace Layouts.EdgeBundling.Mingle
     Public Class Bundler
 
         ReadOnly graph As NetworkGraph
-        ReadOnly kdTree As KdTree
         ReadOnly options As Options
+
+        Dim kdTree As KdTree
 
         Public Sub setNodes(nodes As Node())
             Call graph.Clear()
@@ -23,10 +24,12 @@ Namespace Layouts.EdgeBundling.Mingle
         End Sub
 
         Public Sub buildKdTree()
-            Dim nodeArray As New List(Of KdTreeNode)
+            Dim nodeArray As New List(Of GraphKdNode)
 
-            For Each n In graph.vertex
-                Dim coords = n.data.size
+            For Each v In graph.vertex
+                Dim coords = v.data.size
+                Dim n = New GraphKdNode(v)
+
                 n.x = coords(0)
                 n.y = coords(1)
                 n.z = coords(2)
@@ -34,7 +37,7 @@ Namespace Layouts.EdgeBundling.Mingle
                 nodeArray.Add(n)
             Next
 
-            this.kdTree = New KdTree(nodeArray, Function(a, b) {
+            kdTree = New KdTree(nodeArray, Function(a, b) {
             var diff0 = a.x - b.x,
                 diff1 = a.y - b.y,
                 diff2 = a.z - b.z,
