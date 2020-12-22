@@ -1557,6 +1557,8 @@
     <Compile Include="CommandLine\CLI\ProcessEx.vb" />
     <Compile Include="CommandLine\Parsers\CommandLineTokenlizer.vb" />
     <Compile Include="CommandLine\Parsers\CliArgumentParsers.vb" />
+    <Compile Include="CommandLine\POSIX\POSIXArguments.vb" />
+    <Compile Include="CommandLine\POSIX\POSIXParser.vb" />
     <Compile Include="CommandLine\Reflection\Attributes\IExportAPI.vb" />
     <Compile Include="CommandLine\Reflection\Attributes\LastUpdatedAttribute.vb" />
     <Compile Include="CommandLine\Reflection\Attributes\OutputAttribute.vb" />
