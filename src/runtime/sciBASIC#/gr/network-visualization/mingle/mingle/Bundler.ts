@@ -18,7 +18,7 @@ class Bundler {
     }
 
     buildKdTree() {
-        var nodeArray = [];
+        var nodeArray: Node[] = [];
         this.graph.each(function (n) {
             var coords = n.data.coords;
             n.x = coords[0];

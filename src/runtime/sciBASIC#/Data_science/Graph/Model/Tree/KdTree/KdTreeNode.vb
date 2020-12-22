@@ -44,15 +44,15 @@
 
 Namespace KdTree
 
-    Public Class Node : Inherits Vertex
+    Public Class KdTreeNode : Inherits Vertex
 
         Public Property obj As Object
-        Public Property left As Node
-        Public Property right As Node
-        Public Property parent As Node
+        Public Property left As KdTreeNode
+        Public Property right As KdTreeNode
+        Public Property parent As KdTreeNode
         Public Property dimension As Integer
 
-        Sub New(obj As Object, dimension%, parent As Node)
+        Sub New(obj As Object, dimension%, parent As KdTreeNode)
             Me.obj = obj
             Me.dimension = dimension
             Me.parent = parent

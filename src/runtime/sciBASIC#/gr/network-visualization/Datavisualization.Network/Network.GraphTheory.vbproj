@@ -699,6 +699,7 @@
     <Compile Include="Layouts\Cola\Models\DirectedEdge.vb" />
     <Compile Include="Graph\Selector.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\Bundler.vb" />
+    <Compile Include="Layouts\EdgeBundling\Mingle\Options.vb" />
     <Compile Include="Layouts\SpringEmbedder.vb" />
     <Compile Include="Layouts\Cola\Extensions.vb" />
     <Compile Include="Layouts\Cola\Geom\geom.vb" />
