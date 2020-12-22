@@ -67,6 +67,11 @@ class Graph {
         return graph;
     }
 
+    public each(action: (n: Node) => void) {
+        for (let id in this.nodes) {
+            action(this.nodes[id]);
+        }
+    }
 
     clear() {
         this.nodes = {};
@@ -218,7 +223,7 @@ class Graph {
  
     <Graph.Node>, <Graph.Edge>
     */
-    addEdge(obj, obj2, data) {
+    addEdge(obj, obj2, data = null) {
         if (!this.hasNode(obj.id)) { this.addNode(obj); }
         if (!this.hasNode(obj2.id)) { this.addNode(obj2); }
         obj = this.nodes[obj.id]; obj2 = this.nodes[obj2.id];

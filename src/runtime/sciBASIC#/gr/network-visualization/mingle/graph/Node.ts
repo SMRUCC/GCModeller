@@ -22,7 +22,7 @@ class Node {
 
     public id: string;
     public name: string
-    public data: any;
+    public data: nodeData;
     public adjacencies: {};
     public expandedEdges: any[];
     public unbundledEdges: {};
@@ -185,3 +185,19 @@ class Node {
         return ans;
     };
 };
+
+
+interface nodeData {
+    weight: number;
+    color: string | string[];
+    coords: number[];
+    alpha: number;
+    nodeArray: Node[];
+    bundle: Node[] | Node;
+    nodes: Node[];
+    m1: number[];
+    m2: number[];
+    ink: number;
+    parents: Node[];
+    group: number;
+}
