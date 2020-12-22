@@ -19,16 +19,10 @@
     */
 class Edge {
 
-    constructor(nodeFrom, nodeTo, data) {
-        this.nodeFrom = nodeFrom;
-        this.nodeTo = nodeTo;
-        this.data = data || {};
-    };
+    constructor(public nodeFrom: Node, public nodeTo: Node, public data = {}) { };
 
-    fromJSON(graph, edgeJSON) {
-        return new Graph.Edge(graph.get(edgeJSON.nodeFrom),
-            graph.get(edgeJSON.nodeTo),
-            edgeJSON.data);
+    public static fromJSON(graph: Graph, edgeJSON) {
+        return new Edge(graph.get(edgeJSON.nodeFrom), graph.get(edgeJSON.nodeTo), edgeJSON.data);
     };
 
     toJSON() {
