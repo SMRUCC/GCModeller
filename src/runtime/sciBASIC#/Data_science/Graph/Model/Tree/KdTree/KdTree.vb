@@ -74,7 +74,7 @@ Namespace KdTree
             Me.root = buildTree(points, Scan0, Nothing)
         End Sub
 
-        Private Function buildTree(points As Object(), depth As Integer, parent As KdTreeNode(Of T)) As KdTreeNode(Of T)
+        Private Function buildTree(points As T(), depth As Integer, parent As KdTreeNode(Of T)) As KdTreeNode(Of T)
             Dim [dim] = depth Mod dimensions.Length
             Dim median As Integer
             Dim node As KdTreeNode(Of T)
@@ -83,11 +83,9 @@ Namespace KdTree
                 Return Nothing
             ElseIf points.Length = 1 Then
                 Return New KdTreeNode(Of T)(points(Scan0), [dim], parent)
+            Else
+                Call points.Sort(Function(a, b) access(a, dimensions([dim])) - access(b, dimensions([dim])))
             End If
-
-            points.Sort(Function(a, b) As Integer
-                            Return a(dimensions([dim])) - b(dimensions([dim]))
-                        End Function)
 
             median = stdNum.Floor(points.Length / 2)
             node = New KdTreeNode(Of T)(points(median), [dim], parent)
@@ -100,7 +98,7 @@ Namespace KdTree
         Public Function insert(point As T) As KdTreeNode(Of T)
             Dim insertPosition = innerSearch(point, root, Nothing),
                 newNode As KdTreeNode(Of T),
-                dimension As Object
+                dimension As String
 
             If insertPosition Is Nothing Then
                 root = New KdTreeNode(Of T)(point, 0, Nothing)
@@ -149,7 +147,7 @@ Namespace KdTree
             End If
         End Function
 
-        Public Function remove(point) As KdTreeNode(Of T)
+        Public Function remove(point As T) As KdTreeNode(Of T)
             Dim node = nodeSearch(point, root)
 
             If Not node Is Nothing Then
@@ -161,8 +159,8 @@ Namespace KdTree
 
         Private Sub removeNode(node As KdTreeNode(Of T))
             Dim nextNode As KdTreeNode(Of T)
-            Dim nextObj
-            Dim pDimension
+            Dim nextObj As T
+            Dim pDimension As String
 
             If node.left Is Nothing AndAlso node.right Is Nothing Then
                 If node.parent Is Nothing Then
@@ -188,11 +186,11 @@ Namespace KdTree
             End If
 
             nextObj = nextNode.obj
-            removeNode(nextNode)
+            Call removeNode(nextNode)
             node.obj = nextObj
         End Sub
 
-        Private Function findMax(node As KdTreeNode(Of T), [dim] As Integer)
+        Private Function findMax(node As KdTreeNode(Of T), [dim] As Integer) As KdTreeNode(Of T)
             Dim dimension As Integer
             Dim own
             Dim Left, Right, max As KdTreeNode(Of T)
