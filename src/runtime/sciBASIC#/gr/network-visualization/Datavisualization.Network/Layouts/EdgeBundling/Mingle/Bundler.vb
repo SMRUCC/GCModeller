@@ -47,11 +47,12 @@ Namespace Layouts.EdgeBundling.Mingle
             Call buildKdTree()
 
             For Each n As Node In graph.vertex
-                Dim nodes = kdTree.nearest(n, k).ToArray
+                Dim nodes As KdNodeHeapItem(Of GraphKdNode)() = kdTree.nearest(n, k).ToArray
 
                 For i As Integer = 0 To nodes.Length - 1
-                    node = nodes(i).Item1
-                    dist = nodes(i).Item2
+                    node = nodes(i).node
+                    dist = nodes(i).distance
+
                     If (node.ID = n.ID) Then
                         graph.AddEdge(n, node)
                     End If

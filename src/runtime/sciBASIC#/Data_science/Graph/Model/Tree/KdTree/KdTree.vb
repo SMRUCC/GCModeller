@@ -48,7 +48,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Python
 Imports stdNum = System.Math
 
@@ -192,7 +191,7 @@ Namespace KdTree
 
         Private Function findMax(node As KdTreeNode(Of T), [dim] As Integer) As KdTreeNode(Of T)
             Dim dimension As Integer
-            Dim own
+            Dim own As Double
             Dim Left, Right, max As KdTreeNode(Of T)
 
             If node Is Nothing Then
@@ -259,12 +258,12 @@ Namespace KdTree
             Return min
         End Function
 
-        Public Iterator Function nearest(point As T, maxNodes As Integer, Optional maxDistance As Double? = Nothing) As IEnumerable(Of Tuple(Of KdTreeNode(Of T), Double))
-            Dim bestNodes As New BinaryHeap(Of Tuple(Of KdTreeNode(Of T), Double))(Function(e) -e.Item2)
+        Public Iterator Function nearest(point As T, maxNodes As Integer, Optional maxDistance As Double? = Nothing) As IEnumerable(Of KdNodeHeapItem(Of T))
+            Dim bestNodes As New BinaryHeap(Of KdNodeHeapItem(Of T))(Function(e) -e.distance)
 
             If Not maxDistance Is Nothing Then
                 For i As Integer = 0 To maxNodes - 1
-                    bestNodes.push(New Tuple(Of KdTreeNode(Of T), Double)(Nothing, maxDistance))
+                    bestNodes.push(New KdNodeHeapItem(Of T)(Nothing, maxDistance))
                 Next
             End If
 
@@ -272,12 +271,12 @@ Namespace KdTree
 
             For i As Integer = 0 To maxNodes - 1
                 If Not bestNodes(i) Is Nothing Then
-                    Yield New Tuple(Of KdTreeNode(Of T), Double)(bestNodes(i).Item1, bestNodes(i).Item2)
+                    Yield New KdNodeHeapItem(Of T)(bestNodes(i).node, bestNodes(i).distance)
                 End If
             Next
         End Function
 
-        Private Sub nearestSearch(point As T, node As KdTreeNode(Of T), bestNodes As BinaryHeap(Of Tuple(Of KdTreeNode(Of T), Double)), maxNodes%)
+        Private Sub nearestSearch(point As T, node As KdTreeNode(Of T), bestNodes As BinaryHeap(Of KdNodeHeapItem(Of T)), maxNodes%)
             Dim bestChild As KdTreeNode(Of T)
             Dim dimension = dimensions(node.dimension),
           ownDistance = access.metric(point, node.obj),
@@ -296,7 +295,7 @@ Namespace KdTree
             linearDistance = access.metric(linearPoint, node.obj)
 
             If node.right Is Nothing AndAlso node.left Is Nothing Then
-                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek().Item2 Then
+                If bestNodes.size < maxNodes OrElse ownDistance < bestNodes.peek().distance Then
                     saveNode(bestNodes, node, ownDistance, maxNodes)
                 End If
 
@@ -317,11 +316,11 @@ Namespace KdTree
 
             Call nearestSearch(point, bestChild, bestNodes, maxNodes)
 
-            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek.Item2 Then
+            If bestNodes.size() < maxNodes OrElse ownDistance < bestNodes.peek.distance Then
                 saveNode(bestNodes, node, ownDistance, maxNodes)
             End If
 
-            If bestNodes.size < maxNodes OrElse stdNum.Abs(linearDistance) < bestNodes.peek.Item2 Then
+            If bestNodes.size < maxNodes OrElse stdNum.Abs(linearDistance) < bestNodes.peek.distance Then
                 If bestChild Is node.left Then
                     otherChild = node.right
                 Else
@@ -334,8 +333,8 @@ Namespace KdTree
             End If
         End Sub
 
-        Private Sub saveNode(bestNodes As BinaryHeap(Of Tuple(Of KdTreeNode(Of T), Double)), node As KdTreeNode(Of T), distance#, maxNodes%)
-            Call bestNodes.push(New Tuple(Of KdTreeNode(Of T), Double)(node, distance))
+        Private Sub saveNode(bestNodes As BinaryHeap(Of KdNodeHeapItem(Of T)), node As KdTreeNode(Of T), distance#, maxNodes%)
+            Call bestNodes.push(New KdNodeHeapItem(Of T)(node, distance))
 
             If (bestNodes.size > maxNodes) Then
                 bestNodes.pop()
