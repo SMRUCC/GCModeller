@@ -16,6 +16,7 @@ Namespace Layouts.EdgeBundling.Mingle
         Public Property nodeArray As Node()
         Public Property parentsInk As Double
         Public Property group As Integer
+        Public Property alpha As Double
 
         Sub New()
         End Sub

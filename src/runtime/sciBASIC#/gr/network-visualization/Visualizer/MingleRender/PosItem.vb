@@ -5,7 +5,7 @@ Imports number = System.Double
 Public Class PosItem
     Public Property node As Node
     Public Property pos As Vector
-    Public Property normal As number()
+    Public Property normal As Vector
     Public Property unbundledPos As number()
 
 End Class
