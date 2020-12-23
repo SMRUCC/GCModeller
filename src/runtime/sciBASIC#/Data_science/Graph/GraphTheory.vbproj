@@ -624,6 +624,7 @@
     <Compile Include="Model\Abstract\General.vb" />
     <Compile Include="Model\GridNetwork\GridCell.vb" />
     <Compile Include="Model\Tree\AbstractTree.vb" />
+    <Compile Include="Model\Tree\KdTree\KdNodeAccessor.vb" />
     <Compile Include="Model\Tree\KdTree\KdTree.vb" />
     <Compile Include="Model\Tree\KdTree\KdTreeNode.vb" />
     <Compile Include="Model\Tree\TermTree.vb" />

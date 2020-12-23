@@ -7,6 +7,9 @@ Namespace Layouts.EdgeBundling.Mingle
 
         Friend x, y, z, w As Double
 
+        Sub New()
+        End Sub
+
         Sub New(v As Node)
             Me.ID = v.ID
             Me.label = v.label

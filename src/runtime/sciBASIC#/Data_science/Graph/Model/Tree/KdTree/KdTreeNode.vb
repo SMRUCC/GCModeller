@@ -58,5 +58,9 @@ Namespace KdTree
             Me.parent = parent
         End Sub
 
+        Public Shared Narrowing Operator CType(node As KdTreeNode(Of T)) As T
+            Return node.obj
+        End Operator
+
     End Class
 End Namespace
