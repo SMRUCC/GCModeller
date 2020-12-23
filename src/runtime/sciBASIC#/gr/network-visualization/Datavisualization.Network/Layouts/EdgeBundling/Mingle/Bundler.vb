@@ -90,7 +90,7 @@ Namespace Layouts.EdgeBundling.Mingle
             Dim a As number, b As number, c As number, tau As number
             Dim f As Func(Of Double, Double), res As Double
 
-            If DirectCast(node.data, MingleNodeData).nodes Is Nothing Then
+            If DirectCast(node.data, MingleNodeData).nodes.IsNullOrEmpty Then
                 Return
             End If
             centroids = getCentroids(DirectCast(node.data, MingleNodeData).nodes)
@@ -177,7 +177,7 @@ Namespace Layouts.EdgeBundling.Mingle
             Dim acum As number, l As Integer, nodes As Node(), ni As Node
 
             ' bundled node
-            If depth = 0 AndAlso (data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing) Then
+            If depth = 0 AndAlso (data.bundle IsNot Nothing OrElse Not data.nodes.IsNullOrEmpty) Then
                 nodes = If(Not data.bundle Is Nothing, DirectCast(data.bundle.data, MingleNodeData).nodes, data.nodes)
                 m1 = data.m1
                 m2 = data.m2
@@ -203,7 +203,7 @@ Namespace Layouts.EdgeBundling.Mingle
             End If
 
             ' coalesced node
-            If Not data.parents Is Nothing Then
+            If Not data.parents.IsNullOrEmpty Then
                 nodes = data.parents
                 m1 = {data.coords(0), data.coords(1)}
                 m2 = {data.coords(2), data.coords(3)}
@@ -247,7 +247,7 @@ Namespace Layouts.EdgeBundling.Mingle
             Dim vec As number(), norm As number, dot As number, angleValue As Double, coords As number()
             Dim data As MingleNodeData = DirectCast(node.data, MingleNodeData)
 
-            If data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing Then
+            If data.bundle IsNot Nothing OrElse Not data.nodes.IsNullOrEmpty Then
                 nodes = If(data.bundle IsNot Nothing, DirectCast(data.bundle.data, MingleNodeData).nodes, data.nodes)
                 For i As Integer = 0 To nodes.Length - 1
                     coords = DirectCast(nodes(i).data, MingleNodeData).coords
@@ -322,7 +322,7 @@ Namespace Layouts.EdgeBundling.Mingle
 
                 ' flattened nodes for cluster.
                 For i As Integer = 0 To nodes.Length - 1
-                    nodeArray.AddRange(If(DirectCast(nodes(i).data, MingleNodeData).nodeArray, If(DirectCast(nodes(i).data, MingleNodeData).parents Is Nothing, New Node() {}, {nodes(i)})))
+                    nodeArray.AddRange(If(DirectCast(nodes(i).data, MingleNodeData).nodeArray, If(DirectCast(nodes(i).data, MingleNodeData).parents.IsNullOrEmpty, New Node() {}, {nodes(i)})))
                 Next
 
                 If Not options.sort Is Nothing Then
