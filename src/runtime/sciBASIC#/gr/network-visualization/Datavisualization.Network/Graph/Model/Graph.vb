@@ -180,10 +180,12 @@ Namespace Graph
         ''' <returns></returns>
         Public Function AddNode(node As Node) As Node
             If Not vertices.ContainsKey(node.label) Then
-                vertices.Add(node)
-                buffer.Add(node)
-
+                ' 20201223 ID必须要在哈希表添加之前进行赋值
+                ' 编号必须从零开始
                 node.ID = buffer.GetAvailablePos
+
+                buffer.Add(node)
+                vertices.Add(node)
             End If
 
             _index(node.label) = node
@@ -442,14 +444,13 @@ Namespace Graph
         ''' </summary>
         ''' <param name="iNode"></param>
         Public Sub DetachNode(iNode As Node)
-            Call graphEdges _
-                .ToArray _
-                .DoEach(Sub(e As Edge)
-                            If e.U.label = iNode.label OrElse e.V.label = iNode.label Then
-                                Call RemoveEdge(e)
-                            End If
-                        End Sub)
-            notify()
+            For Each e As Edge In graphEdges.ToArray
+                If e.U.label = iNode.label OrElse e.V.label = iNode.label Then
+                    Call RemoveEdge(e)
+                End If
+            Next
+
+            Call notify()
         End Sub
 
         ''' <summary>
