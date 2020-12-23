@@ -377,7 +377,7 @@ class Bundler {
         }
     }
 
-    getMaximumInkSavingNeighbor(n) {
+    getMaximumInkSavingNeighbor(n: Node) {
         var nodeFrom = n,
             getInkValue = this.getInkValue.bind(this),
             inkFrom = getInkValue(nodeFrom),

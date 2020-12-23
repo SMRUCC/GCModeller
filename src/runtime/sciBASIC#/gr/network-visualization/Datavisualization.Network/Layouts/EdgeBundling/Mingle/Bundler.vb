@@ -329,11 +329,11 @@ Namespace Layouts.EdgeBundling.Mingle
         Public Sub updateGraph(graph As NetworkGraph, groupedNode As Node, nodes As Node(), ids As Dictionary(Of String, String))
             Dim n, connections
             Dim checkConnection = Function(e)
-                                       Dim nodeToId = e.nodeTo.id
-                                       If ids.ContainsKey(nodeToId) Then
-                                           connections.push(e.nodeTo)
-                                       End If
-                                   End Function
+                                      Dim nodeToId = e.nodeTo.id
+                                      If ids.ContainsKey(nodeToId) Then
+                                          connections.push(e.nodeTo)
+                                      End If
+                                  End Function
             For i As Integer = 0 To nodes.Length - 1
                 n = nodes(i)
                 connections = {}
@@ -345,5 +345,116 @@ Namespace Layouts.EdgeBundling.Mingle
                 graph.AddEdge(groupedNode, connections(i))
             Next
         End Sub
+
+        Public Sub coalesceGraph()
+            Dim newGraph = New NetworkGraph()
+            groupsIds = {},
+            maxGroup   as  integer = integer .NegativeInfinity ,
+            Nodes 
+            Dim ids As Dictionary(Of String, String), groupedNode, connections
+
+            graph.each(Sub(node)
+                           Dim group = node.data.group
+                           If (maxGroup < group) Then
+                               maxGroup = group
+                           End If
+                           If (!groupsIds[group]) 
+                groupsIds[group] = {}
+            End If
+                           groupsIds[group][node.id] = node
+        End Sub)
+
+            maxGroup += 1
+            Do While maxGroup > 0
+                maxgroup -= 1
+
+                ids = groupsIds[maxGroup]
+            Nodes = []
+            For Each i In ids.keys
+                    Nodes.push(ids[i])
+                Next
+                If (Nodes.length) Then
+                    groupedNode = coalesceNodes(Nodes)
+                    updateGraph(graph, groupedNode, Nodes, ids)
+                End If
+            Loop
+        End Sub
+
+        Public Function getMaximumInkSavingNeighbor(n As Node)
+            Dim nodeFrom = n,
+            inkFrom = getInkValue(nodeFrom),
+            inkTotal = Double.PositiveInfinity,
+            bundle As Node() = Array(2),
+            combinedBundle As Node
+
+            n.eachEdge(Sub(e)
+                           Dim nodeTo = e.nodeTo,
+                inkTo = getInkValue(nodeTo),
+                combined : Node = combineNodes(nodeFrom, nodeTo),
+                inkUnion = getInkValue(combined),
+                inkValue = inkUnion - (inkFrom + inkTo)
+
+                           If (inkTotal > inkValue) Then
+                               inkTotal = inkValue
+                               bundle()[0] = nodeFrom
+                bundle()[1] = nodeTo
+                combinedBundle = combined
+                           End If
+                       End Sub)
+
+            Return {
+            bundle(): bundle,
+            inkTotal: inkTotal,
+            combined: combinedBundle
+        }
+    End Function
+
+        Public Sub MINGLE()
+            Dim edgeProximityGraph As NetworkGraph = graph,
+            that = Me,
+            totalGain = 0,
+            ungrouped = -1,
+            gain = 0,
+            k = 0,
+            clean = Sub(n) n.data.group = ungrouped,
+            nodeMingle = Sub(node As Node)
+                             If (node.data.group = ungrouped) Then
+                                 Dim ans = that.getMaximumInkSavingNeighbor(node),
+                        bundle = ans.bundle,
+                        u = bundle()[0],
+                        v = bundle()[1],
+                        combined = ans.combined,
+                        gainUV = -ans.inkTotal
+
+                                 ' graph has been collapsed And Is now only one node
+                                 If (!u && !v) Then
+                                     gain = Double.NegativeInfinity
+                                     Return
+                                 End If
+
+                                 If (gainUV > 0) Then
+                                     that.bundle(combined, u, v)
+                                     gain += gainUV
+                                     If (v.data.group! = ungrouped) Then
+                                         u.data.group = v.data.group;
+                         Else
+                                         u.data.group = v.data.group = k;
+                        End If
+                                 Else
+                                     u.data.group = k
+                                 End If
+                                 k += 1
+                             End If
+                         End Sub
+
+            Loop
+                             gain = 0
+                             k = 0
+                             edgeProximityGraph.each(clean)
+                             edgeProximityGraph.each(nodeMingle)
+                             this.coalesceGraph()
+                             totalGain += gain
+                             While gain > 0
+    End Sub
     End Class
 End Namespace
