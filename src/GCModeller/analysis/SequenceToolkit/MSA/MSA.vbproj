@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CenterStar.vb" />
+    <Compile Include="GenericSequence.vb" />
     <Compile Include="ScoreMatrix.vb" />
     <Compile Include="GlobalAlignment.vb" />
     <Compile Include="Extensions.vb" />
