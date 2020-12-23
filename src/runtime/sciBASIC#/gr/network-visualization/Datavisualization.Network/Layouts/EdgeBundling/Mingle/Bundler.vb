@@ -144,14 +144,15 @@ Namespace Layouts.EdgeBundling.Mingle
         End Function
 
         Public Function getInkValue(Node As Node, Optional depth As number = 0)
-            Dim data = Node.data,
-            coords, diffX, diffY,
-            m1, m2, acum As number, l As Integer, nodes As Node(),
+            Dim data = Node.data
+            Dim coords, diffX, diffY As Double,
+            m1 As number(), m2 As number()
+            Dim acum As number, l As Integer, nodes As Node(),
             ni As Node
 
             ' bundled node
-            If (!depth && (data.bundle || data.nodes))  Then
-                nodes = data.bundle ? data.bundle.data.nodes : data.nodes
+            If depth = 0 AndAlso (data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing))  Then
+                nodes = If(data.bundle Is Nothing, data.bundle.data.nodes, data.nodes)
                 m1 = data.m1
                 m2 = data.m2
                 acum = 0
@@ -168,17 +169,17 @@ Namespace Layouts.EdgeBundling.Mingle
                     acum += $norm((diffX, diffY))
                 acum += getInkValue(ni, depth + 1)
                 Next
-                If (!depth) Then
+                If depth = 0 Then
                     acum += $dist(m1, m2)
             End If
                 Return (Node.data.ink = acum)
             End If
 
             ' coalesced node
-            If (data.parents) Then
+            If Not data.parents Is Nothing Then
                 nodes = data.parents
-                m1 = (data.coords(0), data.coords(1))
-                m2 = (data.coords(2), data.coords(3))
+                m1 = {data.coords(0), data.coords(1)}
+                m2 = {data.coords(2), data.coords(3)}
                 acum = 0
                 For i As Integer = 0 To nodes.Length - 1
                     ni = nodes(i)
@@ -189,10 +190,10 @@ Namespace Layouts.EdgeBundling.Mingle
                 diffX = m2(0) - coords(2)
                     diffY = m2(1) - coords(3)
                     acum += $norm((diffX, diffY))
-                acum += this.getInkValue(ni, depth + 1)
+                acum += getInkValue(ni, depth + 1)
                 Next
                 ' only add the distance if this Is the first recursion
-                If (!depth) Then
+                If depth = 0 Then
                     acum += $dist(m1, m2)
             End If
                 Return (Node.data.ink = acum)
@@ -209,28 +210,28 @@ Namespace Layouts.EdgeBundling.Mingle
     End Function
 
         Public Function getMaxTurningAngleValue(node As Node, m1 As number(), m2 As number())
-            Dim m2Tom1 = [m1[0] - m2[0], m1[1] - m2[1]],
-            m1Tom2 = [-m2Tom1[0], -m2Tom1[1]],
+            Dim m2Tom1 = {m1(0) - m2(0), m1(1) - m2(1)},
+            m1Tom2 = {-m2Tom1(0), -m2Tom1(1)},
             m1m2Norm = $norm(m2Tom1),
-            angle = 0, nodes, vec As  number[], norm As  number, dot, angleValue,
-            x, y, coords As  number[], i, l, n
+            angle = 0, nodes, vec As number(), norm As number, dot, angleValue,
+            x, y, coords As number()
 
-        If (node.data.bundle || node.data.nodes)  Then
-                Nodes = node.data.bundle?(node.data.bundle).data.nodes : node.data.nodes;
-            For i As Integer = 0 To Nodes.length - 1
-                    coords = nodes[i].data.coords;
-                vec = [coords[0] - m1[0], coords[1] - m1[1]];
-                norm = $norm(vec);
-                dot = vec[0] * m2Tom1[0] + vec[1] * m2Tom1[1];
-                angleValue = abs(acos(dot / norm / m1m2Norm));
-                angle = angle < angleValue ? angleValue : angle;
+            If (node.data.bundle IsNot Nothing OrElse Not node.data.nodes Is Nothing) Then
+                nodes = If(node.data.bundle IsNot Nothing, (node.data.bundle).data.nodes, node.data.nodes)
+                For i As Integer = 0 To nodes.Length - 1
+                    coords = nodes(i).data.coords
+                    vec = {coords(0) - m1(0), coords(1) - m1(1)}
+                    norm = $norm(vec)
+                dot = vec(0) * m2Tom1(0) + vec(1) * m2Tom1(1)
+                    angleValue = abs(acos(dot / norm / m1m2Norm))
+                    angle = If(angle < angleValue, angleValue, angle)
 
-                vec = [coords[2] - m2[0], coords[3] - m2[1]];
-                norm = $norm(vec);
-                dot = vec[0] * m1Tom2[0] + vec[1] * m1Tom2[1];
-                angleValue = abs(acos(dot / norm / m1m2Norm));
-                angle = angle < angleValue ? angleValue : angle;
-             Next
+                    vec = {coords(2) - m2(0), coords(3) - m2(1)}
+                    norm = $norm(vec)
+                dot = vec(0) * m1Tom2(0) + vec(1) * m1Tom2(1)
+                    angleValue = abs(acos(dot / norm / m1m2Norm))
+                    angle = If(angle < angleValue, angleValue, angle)
+                Next
 
                 Return angle
             End If
@@ -239,26 +240,26 @@ Namespace Layouts.EdgeBundling.Mingle
         End Function
 
         Public Function getCombinedNode(node1 As Node, node2 As Node, data As NodeData) As Node
-            node1 = node1.data.bundle || node1
-        node2 = node2.data.bundle || node2
+            node1 = If(node1.data.bundle, node1)
+            node2 = If(node2.data.bundle, node2)
 
-        Dim id = node1.ID & "-" & node2.ID,
+            Dim id = node1.ID & "-" & node2.ID,
             name = node1.name & "-" & node2.name,
-            nodes1 = node1.data.nodes || [node1],
-            nodes2 = node2.data.nodes || [node2],
-            weight1 = node1.data.weight || 0,
-            weight2 = node2.data.weight || 0,
-            Nodes as  Node() = {}, ans as  Node
+            nodes1 = If(node1.data.nodes, node1),
+            nodes2 = If(node2.data.nodes, node2),
+            weight1 As Double = node1.data.weight,
+            weight2 As Double = node2.data.weight,
+            Nodes As Node() = {}, ans As Node
 
-        If (node1.ID = node2.ID) Then
+            If (node1.ID = node2.ID) Then
                 Return node1
             End If
             Nodes.push.apply(Nodes, nodes1)
             Nodes.push.apply(Nodes, nodes2)
 
             data.nodes = Nodes
-            data.nodeArray = (node1.data.nodeArray || []).concat(node2.data.nodeArray || [])
-        data.weight = weight1 + weight2
+            data.nodeArray = If(node1.data.nodeArray, {}).concat(If(node2.data.nodeArray, {}))
+            data.weight = weight1 + weight2
             ans = New Node({
             id: id,
             name: name,
@@ -272,32 +273,32 @@ Namespace Layouts.EdgeBundling.Mingle
 
 
         Public Function coalesceNodes(nodes As Node()) As Node
-            Dim node = nodes[0],
-            data = node.data,
-            m1 = data.m1,
-            m2 = data.m2,
-            weight = nodes.reduce(Function(acum, n) { return acum + (n.data.weight || 0); }, 0),
-            coords = data.coords,
-            bundle as  Node =data.bundle,
-            nodeArray as  Node() = {},
-            i, l
+            Dim node = nodes(0),
+            Data = node.data,
+            m1 = Data.m1,
+            m2 = Data.m2,
+            weight = nodes.reduce(Function(acum, n) acum + n.data.weight, 0),
+            coords As Double() = Data.coords,
+            bundle As Node = Data.bundle,
+            nodeArray As Node() = {}
 
-        If Not m1 Is Nothing Then
-                coords = [m1[0], m1[1], m2[0], m2[1]]
 
-            ' flattened nodes for cluster.
-            For i As Integer = 0 To nodes.Length - 1
-                    nodeArray.push.apply(nodeArray, nodes[i].data.nodeArray || (nodes[i].data.parents ? [] :    [nodes[i]]));
-            Next
+            If Not m1 Is Nothing Then
+                coords = {m1(0), m1(1), m2(0), m2(1)}
+
+                ' flattened nodes for cluster.
+                For i As Integer = 0 To nodes.Length - 1
+                    nodeArray.push.apply(nodeArray, If(nodes(i).data.nodeArray, If(nodes(i).data.parents, {}, (nodes(i)))))
+                Next
 
                 If options.sort Then
-                    nodeArray.sort(options.sort)
+                    nodeArray.Sort(options.sort)
                 End If
 
                 Return New Node With {
-                    id: bundle.id,
-                name: bundle.id,
-                Data:   {
+                    id: bundle.ID,
+                name: bundle.ID,
+                Data:        {
                     nodeArray: nodeArray,
                     parents: nodes,
                     coords: coords,
@@ -307,8 +308,8 @@ Namespace Layouts.EdgeBundling.Mingle
             }
         End If
 
-            Return nodes[0]
-    End Function
+            Return nodes(0)
+        End Function
 
 
         Public Function bundle(combinedNode As Node, node1 As Node, node2 As Node)
@@ -348,30 +349,30 @@ Namespace Layouts.EdgeBundling.Mingle
 
         Public Sub coalesceGraph()
             Dim newGraph = New NetworkGraph()
-            groupsIds = {},
-            maxGroup   as  integer = integer .NegativeInfinity ,
-            Nodes 
+            Dim groupsIds As New Dictionary(Of String, Dictionary(Of String, String))
+            Dim maxGroup As Integer = Integer.NegativeInfinity, Nodes
             Dim ids As Dictionary(Of String, String), groupedNode, connections
 
-            graph.each(Sub(node)
+            graph.Each(Sub(node As Node)
                            Dim group = node.data.group
                            If (maxGroup < group) Then
                                maxGroup = group
                            End If
-                           If (!groupsIds[group]) 
-                groupsIds[group] = {}
-            End If
-                           groupsIds[group][node.id] = node
-        End Sub)
+                           If Not groupsIds.ContainsKey(group) Then
+                               groupsIds(group) = {}
+                           End If
+                           groupsIds(group)(node.ID) = node
+                       End Sub)
 
             maxGroup += 1
-            Do While maxGroup > 0
-                maxgroup -= 1
 
-                ids = groupsIds[maxGroup]
-            Nodes = []
-            For Each i In ids.keys
-                    Nodes.push(ids[i])
+            Do While maxGroup > 0
+                maxGroup -= 1
+
+                ids = groupsIds(maxGroup)
+                Nodes = {}
+                For Each i In ids.Keys
+                    Nodes.push(ids(i))
                 Next
                 If (Nodes.length) Then
                     groupedNode = coalesceNodes(Nodes)
@@ -387,20 +388,20 @@ Namespace Layouts.EdgeBundling.Mingle
             bundle As Node() = Array(2),
             combinedBundle As Node
 
-            n.eachEdge(Sub(e)
-                           Dim nodeTo = e.nodeTo,
+            n.each(Sub(e As Edge)
+                       Dim nodeTo = e.nodeTo,
                 inkTo = getInkValue(nodeTo),
-                combined : Node = combineNodes(nodeFrom, nodeTo),
+                combined As Node = combineNodes(nodeFrom, nodeTo),
                 inkUnion = getInkValue(combined),
                 inkValue = inkUnion - (inkFrom + inkTo)
 
-                           If (inkTotal > inkValue) Then
-                               inkTotal = inkValue
-                               bundle()[0] = nodeFrom
-                bundle()[1] = nodeTo
-                combinedBundle = combined
-                           End If
-                       End Sub)
+                       If (inkTotal > inkValue) Then
+                           inkTotal = inkValue
+                           bundle()(0) = nodeFrom
+                           bundle()(1) = nodeTo
+                           combinedBundle = combined
+                       End If
+                   End Sub)
 
             Return {
             bundle(): bundle,
@@ -416,18 +417,18 @@ Namespace Layouts.EdgeBundling.Mingle
             ungrouped = -1,
             gain = 0,
             k = 0,
-            clean = Sub(n) n.data.group = ungrouped,
+            clean = Sub(n As Node) n.data.group = ungrouped,
             nodeMingle = Sub(node As Node)
                              If (node.data.group = ungrouped) Then
                                  Dim ans = that.getMaximumInkSavingNeighbor(node),
                         bundle = ans.bundle,
-                        u = bundle()[0],
-                        v = bundle()[1],
+                        u = bundle()(0),
+                        v = bundle()(1),
                         combined = ans.combined,
                         gainUV = -ans.inkTotal
 
                                  ' graph has been collapsed And Is now only one node
-                                 If (!u && !v) Then
+                                 If u IsNot Nothing AndAlso Not v Is Nothing Then
                                      gain = Double.NegativeInfinity
                                      Return
                                  End If
@@ -435,11 +436,11 @@ Namespace Layouts.EdgeBundling.Mingle
                                  If (gainUV > 0) Then
                                      that.bundle(combined, u, v)
                                      gain += gainUV
-                                     If (v.data.group! = ungrouped) Then
-                                         u.data.group = v.data.group;
-                         Else
-                                         u.data.group = v.data.group = k;
-                        End If
+                                     If (v.data.group <> ungrouped) Then
+                                         u.data.group = v.data.group
+                                     Else
+                                         u.data.group = v.data.group = k
+                                     End If
                                  Else
                                      u.data.group = k
                                  End If
@@ -447,14 +448,14 @@ Namespace Layouts.EdgeBundling.Mingle
                              End If
                          End Sub
 
-            Loop
-                             gain = 0
-                             k = 0
-                             edgeProximityGraph.each(clean)
-                             edgeProximityGraph.each(nodeMingle)
-                             this.coalesceGraph()
-                             totalGain += gain
-                             While gain > 0
-    End Sub
+            Do
+                gain = 0
+                k = 0
+                edgeProximityGraph.Each(clean)
+                edgeProximityGraph.Each(nodeMingle)
+                coalesceGraph()
+                totalGain += gain
+            Loop While gain > 0
+        End Sub
     End Class
 End Namespace
