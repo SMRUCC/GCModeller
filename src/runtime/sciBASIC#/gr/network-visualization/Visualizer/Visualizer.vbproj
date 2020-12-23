@@ -481,7 +481,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MingleRender.vb" />
+    <Compile Include="MingleRender\RenderOptions.vb" />
+    <Compile Include="MingleRender\MingleRender.vb" />
     <Compile Include="LayoutLabel.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="Canvas.vb" />
