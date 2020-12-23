@@ -826,9 +826,13 @@
     </Compile>
     <Compile Include="PostScript\GraphicsPS.vb" />
     <Compile Include="SVG\CSS\CSSStyles.vb" />
+    <Compile Include="SVG\CSS\Filter\Elements.vb" />
+    <Compile Include="SVG\CSS\Gradients\radialGradient.vb" />
+    <Compile Include="SVG\CSS\Gradients\linearGradient.vb" />
+    <Compile Include="SVG\CSS\Gradients\Stop.vb" />
     <Compile Include="SVG\CSS\Marker.vb" />
-    <Compile Include="SVG\CSS\Filter.vb" />
-    <Compile Include="SVG\CSS\Gradients.vb" />
+    <Compile Include="SVG\CSS\Filter\Filter.vb" />
+    <Compile Include="SVG\CSS\Gradients\Gradients.vb" />
     <Compile Include="SVG\CSS\ObjectStyle.vb" />
     <Compile Include="SVG\ModelBuilder.vb" />
     <Compile Include="SVG\SVGDataLayers.vb" />
