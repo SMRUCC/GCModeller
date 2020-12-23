@@ -7,21 +7,43 @@ Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle
 
+    'bundle = New Bundler({
+    '  angleStrength: angleStrength
+    '});
+    'bundle.setNodes(json);
+    'bundle.buildNearestNeighborGraph(neighbors);
+    'bundle.MINGLE();
+
     ''' <summary>
     ''' Edge bundling algorithm class.
     ''' </summary>
     Public Class Bundler
 
-        ReadOnly graph As NetworkGraph
+        ReadOnly graph As New NetworkGraph
         ReadOnly options As Options
 
         Dim kdTree As KdTree(Of GraphKdNode)
 
-        Public Sub setNodes(nodes As Node())
+        Sub New()
+            Call Me.New(New Options)
+        End Sub
+
+        Sub New(opts As Options)
+            Me.options = opts
+        End Sub
+
+        ''' <summary>
+        ''' 这里仅仅是计算节点分组，与边连接无关
+        ''' 边连接在渲染的时候才会需要
+        ''' </summary>
+        ''' <param name="nodes">
+        ''' 节点应该是已经完成了布局计算之后，已经具有位置信息的节点
+        ''' </param>
+        Public Sub setNodes(nodes As IEnumerable(Of Node))
             Call graph.Clear()
 
-            For i As Integer = 0 To nodes.Length
-                graph.AddNode(nodes(i))
+            For Each node As Node In nodes
+                graph.AddNode(node)
             Next
         End Sub
 

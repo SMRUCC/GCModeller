@@ -129,7 +129,7 @@ Namespace Graph
             Me.weights = copy.weights.SafeQuery.ToArray
         End Sub
 
-        Public Function Clone() As NodeData
+        Public Overridable Function Clone() As NodeData
             Return New NodeData With {
                 .label = label,
                 .betweennessCentrality = betweennessCentrality,

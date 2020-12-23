@@ -144,6 +144,15 @@ Namespace Layouts
         Public MustOverride Function SetZero() As AbstractVector Implements IVector.SetZero
         Public MustOverride Function SetIdentity() As AbstractVector Implements IVector.SetIdentity
 
+        Public Shared Operator +(a As AbstractVector, b As Double) As AbstractVector
+            If TypeOf a Is FDGVector2 Then
+                Return TryCast(a, FDGVector2) + b
+            ElseIf TypeOf a Is FDGVector3 Then
+                Return TryCast(a, FDGVector3) + b
+            End If
+            Return Nothing
+        End Operator
+
         Public Shared Operator +(a As AbstractVector, b As AbstractVector) As AbstractVector
             If TypeOf a Is FDGVector2 AndAlso TypeOf b Is FDGVector2 Then
                 Return TryCast(a, FDGVector2) + TryCast(b, FDGVector2)

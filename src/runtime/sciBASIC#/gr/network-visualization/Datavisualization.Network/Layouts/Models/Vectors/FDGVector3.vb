@@ -236,6 +236,10 @@ Namespace Layouts
             Return New FDGVector3(10.0F * (RandomSingle() - 0.5F), 10.0F * (RandomSingle() - 0.5F), 10.0F * (RandomSingle() - 0.5F))
         End Function
 
+        Public Overloads Shared Operator +(a As FDGVector3, b As Double) As FDGVector3
+            Return New FDGVector3(a.x + b, a.y + b, a.z + b)
+        End Operator
+
         Public Overloads Shared Operator +(a As FDGVector3, b As FDGVector3) As FDGVector3
             Dim temp As New FDGVector3(a.x, a.y, a.z)
             temp.Add(b)

@@ -4,6 +4,10 @@ Imports number = System.Double
 
 Namespace Drawing2D
 
+    Public Class RenderShape
+
+    End Class
+
     Public Class RenderContext
 
         Public Property fillStyle As String

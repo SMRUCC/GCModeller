@@ -22,6 +22,32 @@ Namespace Layouts.EdgeBundling.Mingle
         Sub New(copy As NodeData)
             Call MyBase.New(copy)
         End Sub
+
+        Public Overrides Function Clone() As NodeData
+            Return New MingleNodeData With {
+                .betweennessCentrality = betweennessCentrality,
+                .bundle = bundle,
+                .color = color,
+                .coords = coords.ToArray,
+                .force = force,
+                .group = group,
+                .initialPostion = initialPostion + 0,
+                .ink = ink.Value,
+                .label = label,
+                .m1 = m1.ToArray,
+                .m2 = m2.ToArray,
+                .mass = mass,
+                .neighbours = neighbours.ToArray,
+                .nodeArray = nodeArray.ToArray,
+                .nodes = nodes.ToArray,
+                .origID = origID,
+                .parents = parents.ToArray,
+                .parentsInk = parentsInk,
+                .Properties = New Dictionary(Of String, String)(Properties),
+                .size = size.ToArray,
+                .weights = weights.ToArray
+            }
+        End Function
     End Class
 
     Public Class MingleData

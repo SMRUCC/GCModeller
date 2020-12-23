@@ -277,6 +277,10 @@ Namespace Layouts
             Return New FDGVector2(width * (randf.RandomSingle() - 0.5F), height * (randf.RandomSingle() - 0.5F))
         End Function
 
+        Public Overloads Shared Operator +(a As FDGVector2, b As Double) As FDGVector2
+            Return New FDGVector2(a.x + b, a.y + b)
+        End Operator
+
         Public Overloads Shared Operator +(a As FDGVector2, b As FDGVector2) As FDGVector2
             Return New FDGVector2(a.x, a.y).With(Function(f) f.Add(b))
         End Operator
