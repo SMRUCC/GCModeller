@@ -6,7 +6,7 @@ function cloneJSON(json) {
     return JSON.parse(JSON.stringify(json));
 }
 
-function cloneEdge(json) {
+function cloneEdge(json: PosItem[]) {
     var i, l = json.length, ans = Array(json.length);
     for (i = 0; i < l; ++i) {
         ans[i] = {

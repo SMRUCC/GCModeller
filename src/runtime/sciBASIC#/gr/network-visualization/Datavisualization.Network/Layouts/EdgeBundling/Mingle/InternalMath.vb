@@ -6,7 +6,7 @@ Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle
 
-    Module InternalMath
+    Public Module InternalMath
 
         Public ReadOnly MINGLE_PHI As Double = (1 + stdNum.Sqrt(5)) / 2
 

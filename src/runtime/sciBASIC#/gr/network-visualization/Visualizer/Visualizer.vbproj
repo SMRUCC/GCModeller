@@ -481,6 +481,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MingleRender\BundleNode.vb" />
     <Compile Include="MingleRender\RenderHelpers.vb" />
     <Compile Include="MingleRender\PosItem.vb" />
     <Compile Include="MingleRender\RenderOptions.vb" />

@@ -167,9 +167,21 @@ Namespace LinearAlgebra
             End Get
         End Property
 
+        ''' <summary>
+        ''' normalize
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Unit As Vector
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
+                ' function $norm(a: Number[]) {
+                '    return Math.sqrt(a[0] * a[0] + a[1] * a[1]);
+                ' }
+
+                ' function $normalize(a: Number[]) {
+                '    var n = $norm(a);
+                '    return $mult(a, 1 / n);
+                ' }
                 Return Me / SumMagnitude
             End Get
         End Property

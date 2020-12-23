@@ -1,9 +1,22 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling.Mingle
+Imports Microsoft.VisualBasic.Linq
 Imports number = System.Double
 
 Module RenderHelpers
+
+    Friend Function cloneEdge(json As PosItem()) As PosItem()
+        Dim l = json.Length, ans = New PosItem(json.Length - 1) {}
+        For i As Integer = 0 To l - 1
+            ans(i) = New PosItem With {
+            .node = json(i).node,
+            .pos = json(i).pos,
+            .normal = json(i).normal.SafeQuery.ToArray
+        }
+        Next
+        Return ans
+    End Function
 
     Private Function createPosItem(node As Node, pos As Double(), Index As Integer, total As Double) As PosItem
         Return New PosItem With {
