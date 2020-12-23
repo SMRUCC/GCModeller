@@ -323,6 +323,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.vb" />
+    <Compile Include="GenericSequence.vb" />
     <Compile Include="NeedlemanWunsch\GNW.vb" />
     <Compile Include="NeedlemanWunsch\GlobalAlign.vb" />
     <Compile Include="NeedlemanWunsch\Workspace.vb" />
