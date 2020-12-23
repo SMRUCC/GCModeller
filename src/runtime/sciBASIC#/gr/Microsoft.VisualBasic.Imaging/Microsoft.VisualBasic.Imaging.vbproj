@@ -825,6 +825,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="PostScript\GraphicsPS.vb" />
+    <Compile Include="SVG\CSS\CSSStyles.vb" />
     <Compile Include="SVG\CSS\Marker.vb" />
     <Compile Include="SVG\CSS\Filter.vb" />
     <Compile Include="SVG\CSS\Gradients.vb" />
