@@ -278,7 +278,11 @@ Namespace Layouts
         End Function
 
         Public Overloads Shared Operator +(a As FDGVector2, b As Double) As FDGVector2
-            Return New FDGVector2(a.x + b, a.y + b)
+            If a Is Nothing Then
+                Return New FDGVector2(b, b)
+            Else
+                Return New FDGVector2(a.x + b, a.y + b)
+            End If
         End Operator
 
         Public Overloads Shared Operator +(a As FDGVector2, b As FDGVector2) As FDGVector2

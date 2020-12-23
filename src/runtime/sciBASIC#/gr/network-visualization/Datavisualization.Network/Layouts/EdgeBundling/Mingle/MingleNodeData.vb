@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Layouts.EdgeBundling.Mingle
 
@@ -28,24 +29,24 @@ Namespace Layouts.EdgeBundling.Mingle
                 .betweennessCentrality = betweennessCentrality,
                 .bundle = bundle,
                 .color = color,
-                .coords = coords.ToArray,
+                .coords = coords.SafeQuery.ToArray,
                 .force = force,
                 .group = group,
                 .initialPostion = initialPostion + 0,
-                .ink = ink.Value,
+                .ink = ink?.Value,
                 .label = label,
-                .m1 = m1.ToArray,
-                .m2 = m2.ToArray,
+                .m1 = m1.SafeQuery.ToArray,
+                .m2 = m2.SafeQuery.ToArray,
                 .mass = mass,
-                .neighbours = neighbours.ToArray,
-                .nodeArray = nodeArray.ToArray,
-                .nodes = nodes.ToArray,
+                .neighbours = neighbours.SafeQuery.ToArray,
+                .nodeArray = nodeArray.SafeQuery.ToArray,
+                .nodes = nodes.SafeQuery.ToArray,
                 .origID = origID,
-                .parents = parents.ToArray,
+                .parents = parents.SafeQuery.ToArray,
                 .parentsInk = parentsInk,
                 .Properties = New Dictionary(Of String, String)(Properties),
-                .size = size.ToArray,
-                .weights = weights.ToArray
+                .size = size.SafeQuery.ToArray,
+                .weights = weights.SafeQuery.ToArray
             }
         End Function
     End Class
