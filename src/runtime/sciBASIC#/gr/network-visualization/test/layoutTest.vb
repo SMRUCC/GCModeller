@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d710e6044e5c25244c41d69228fd498a, gr\network-visualization\test\layoutTest.vb"
+﻿#Region "Microsoft.VisualBasic::9728a83c5c5a63bfb62f215976e9126a, gr\network-visualization\test\layoutTest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Function: ToString
     ' 
-    '     Class node
+    '     Class node2
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString

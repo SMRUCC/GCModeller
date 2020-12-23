@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4d7e0eff926a6a46c5ed05c2935484d, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Ranking.vb"
+﻿#Region "Microsoft.VisualBasic::39f384cb84adce6a7997e14fa808618d, Microsoft.VisualBasic.Core\Extensions\Math\Correlations\Ranking.vb"
 
     ' Author:
     ' 
@@ -41,8 +41,8 @@
     ' 
     '  
     ' 
-    '     Function: DenseRanking, FractionalRanking, ModifiedCompetitionRanking, OrdinalRanking, Ranking
-    '               StandardCompetitionRanking
+    '     Function: DenseRanking, FractionalRanking, ModifiedCompetitionRanking, OrdinalRanking, OrdinalRankingOrder
+    '               Ranking, StandardCompetitionRanking
     ' 
     ' 
     ' /********************************************************************************/

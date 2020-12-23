@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0df0be03512a14520799e88652c775f4, gr\Microsoft.VisualBasic.Imaging\SVG\CSS\Filter.vb"
+﻿#Region "Microsoft.VisualBasic::11334432aa609cced95db91f0007c779, gr\Microsoft.VisualBasic.Imaging\SVG\CSS\Filter\Filter.vb"
 
     ' Author:
     ' 
@@ -35,30 +35,6 @@
     ' 
     '         Properties: Composites, Floods, GaussianBlurs, height, Merges
     '                     Morphologys, Offsets, width, x, y
-    ' 
-    '     Class feMorphology
-    ' 
-    '         Properties: [in], [operator], radius, result
-    ' 
-    '     Class feGaussianBlur
-    ' 
-    '         Properties: [in], result, stdDeviation
-    ' 
-    '     Class feFlood
-    ' 
-    '         Properties: floodColor, result
-    ' 
-    '     Class feComposite
-    ' 
-    '         Properties: [in], [operator], in2, result
-    ' 
-    '     Class feOffset
-    ' 
-    '         Properties: dx, dy
-    ' 
-    '     Class feMergeNode
-    ' 
-    '         Properties: [in]
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c568dfc3f6f2d0e21e7d83b6846aa1b, gr\network-visualization\Datavisualization.Network\Layouts\Models\Vectors\FDGVector3.vb"
+﻿#Region "Microsoft.VisualBasic::652ea18de042a22a481791dad1f8580f, gr\network-visualization\Datavisualization.Network\Layouts\Models\Vectors\FDGVector3.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     '         Function: Add, Divide, (+2 Overloads) Equals, GetHashCode, Identity
     '                   Magnitude, Multiply, Normalize, Random, SetIdentity
     '                   SetZero, Subtract, Zero
-    '         Operators: -, (+2 Overloads) *, /, +, <>
+    '         Operators: -, (+2 Overloads) *, /, (+2 Overloads) +, <>
     '                    =
     ' 
     ' 

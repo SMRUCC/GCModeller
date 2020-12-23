@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b632fc0f4ec6442333b80c67163c3cc, gr\Microsoft.VisualBasic.Imaging\SVG\CSS\Gradients.vb"
+﻿#Region "Microsoft.VisualBasic::defc83fb1c89b646148bbf0cb18892d7, gr\Microsoft.VisualBasic.Imaging\SVG\CSS\Gradients\Gradients.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,9 @@
 
     ' Summaries:
 
-    '     Class [stop]
-    ' 
-    '         Properties: offset, stopColor, stopOpacity
-    ' 
-    '         Function: ToString
-    ' 
     '     Class Gradient
     ' 
     '         Properties: stops
-    ' 
-    '     Class linearGradient
-    ' 
-    '         Properties: x1, x2, y1, y2
-    ' 
-    '     Class radialGradient
-    ' 
-    '         Properties: cx, cy, fx, fy, gradientUnits
-    '                     r, spreadMethod
     ' 
     ' 
     ' /********************************************************************************/

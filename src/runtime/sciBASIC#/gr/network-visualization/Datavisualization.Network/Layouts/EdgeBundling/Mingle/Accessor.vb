@@ -1,4 +1,48 @@
-﻿Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
+﻿#Region "Microsoft.VisualBasic::a0a1507ea45a1b4da2dfb42aa96cb19e, gr\network-visualization\Datavisualization.Network\Layouts\EdgeBundling\Mingle\Accessor.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+    '     Class Accessor
+    ' 
+    '         Function: getByDimension, GetDimensions, metric, nodeIs
+    ' 
+    '         Sub: setByDimensin
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::632bc8cf627486778c8aa40b8d0d0ec0, Data_science\Graph\Model\Tree\KdTree\Node.vb"
+﻿#Region "Microsoft.VisualBasic::b954efa7c0d9e5d597dedf9df9b0aede, Data_science\Graph\Model\Tree\KdTree\KdTreeNode.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,12 @@
 
     ' Summaries:
 
-    '     Class Node
+    '     Class KdTreeNode
     ' 
     '         Properties: dimension, left, obj, parent, right
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

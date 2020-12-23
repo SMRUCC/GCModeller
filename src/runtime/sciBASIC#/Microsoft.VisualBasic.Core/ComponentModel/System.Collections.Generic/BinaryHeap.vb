@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b9b4477aab4d6daf2a1ba32be42498b, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\BinaryHeap.vb"
+﻿#Region "Microsoft.VisualBasic::bcb465d1ae94b9658fc094d326463c14, Microsoft.VisualBasic.Core\ComponentModel\System.Collections.Generic\BinaryHeap.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: pop
+    '         Function: pop, ToString
     ' 
     '         Sub: bubbleUp, push, remove, sinkDown
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c21340128ac600ccc61e0fb9e48d0f8, gr\network-visualization\Datavisualization.Network\Layouts\Models\Vectors\AbstractVector.vb"
+﻿#Region "Microsoft.VisualBasic::359a95699568aec6a3b5e07e9ab81be3, gr\network-visualization\Datavisualization.Network\Layouts\Models\Vectors\AbstractVector.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals, GetHashCode, ToString, Vector2D
-    '         Operators: -, (+2 Overloads) *, /, +, <>
+    '         Operators: -, (+2 Overloads) *, /, (+2 Overloads) +, <>
     '                    =
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0052d11fa16e8824844b47fce1a6740, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::8bbb7b828ab69db753ed229c9346e023, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     ' 
     '         Sub: AddGraphListener, Clear, (+2 Overloads) CreateEdges, (+2 Overloads) CreateNodes, DetachNode
     '              FilterEdges, FilterNodes, Merge, notify, RemoveEdge
-    '              RemoveNode
+    '              (+2 Overloads) RemoveNode
     ' 
     ' 
     ' /********************************************************************************/
