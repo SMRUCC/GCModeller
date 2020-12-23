@@ -700,6 +700,7 @@
     <Compile Include="Graph\Selector.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\Bundler.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\Accessor.vb" />
+    <Compile Include="Layouts\EdgeBundling\Mingle\MingleNodeData.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\GraphKdNode.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\InternalExtensions.vb" />
     <Compile Include="Layouts\EdgeBundling\Mingle\Options.vb" />

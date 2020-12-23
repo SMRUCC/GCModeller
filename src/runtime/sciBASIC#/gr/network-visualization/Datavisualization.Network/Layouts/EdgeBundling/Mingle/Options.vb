@@ -2,5 +2,6 @@
 
     Public Class Options
 
+        Public Property angleStrength As Double?
     End Class
 End Namespace

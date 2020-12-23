@@ -62,15 +62,15 @@ Namespace Layouts.EdgeBundling.Mingle
         End Sub
 
         Public Sub computeIntermediateNodePositions(node As Node)
-            Dim m1, m2, centroids As Double()()
+            Dim centroids As Double()()
             Dim a As number, b As number, c As number, tau As number
-            Dim f, res
+            Dim f As Func(Of Double, Double), res As Double
 
-            If Not node.data.nodes Then
+            If DirectCast(node.data, MingleNodeData).nodes Is Nothing Then
                 Return
             End If
-            centroids = getCentroids(node.data.nodes)
-            f = Function(x) costFunction(node, centroids, x)
+            centroids = getCentroids(DirectCast(node.data, MingleNodeData).nodes)
+            f = Function(x As Double) costFunction(node, centroids, x)
             a = 0
             b = 1
             c = 0.72 ' because computers
@@ -81,23 +81,26 @@ Namespace Layouts.EdgeBundling.Mingle
 
 
         Public Function costFunction(node As Node, centroids As number()(), x As number) As number
-            Dim top, bottom, m1, m2, ink, alpha, p As Double
+            Dim top As Double(), bottom As Double(), m1 As Double(), m2 As Double(), ink, alpha, p As Double
             x /= 2
             top = centroids(0)
             bottom = centroids(1)
-            m1 = $lerp(top, bottom, x)
-        m2 = $lerp(top, bottom, 1 - x)
-        node.data.m1 = m1
-            node.data.m2 = m2
+            m1 = lerp(top, bottom, x)
+            m2 = lerp(top, bottom, 1 - x)
+
+            Dim data As MingleNodeData = node.data
+
+            data.m1 = m1
+            data.m2 = m2
             ' Delete node.data.ink
             ink = getInkValue(node)
             alpha = getMaxTurningAngleValue(node, m1, m2)
-            p = options.angleStrength || 1.2
-        Return ink * (1 + stdNum.Sin(alpha) / p)
+            p = If(options.angleStrength, 1.2)
+            Return ink * (1 + stdNum.Sin(alpha) / p)
         End Function
 
-        Public Function goldenSectionSearch(a As number, b As number, c As number, tau As number, f) As number
-            Dim phi = phi,
+        Public Function goldenSectionSearch(a As number, b As number, c As number, tau As number, f As Func(Of Double, Double)) As number
+            Dim phi = MINGLE_PHI,
             resphi = 2 - phi,
              x As number
 
@@ -128,7 +131,7 @@ Namespace Layouts.EdgeBundling.Mingle
             Dim l As Integer = nodes.Length
 
             For i As Integer = 0 To nodes.Length - 1
-                coords = nodes(i).data.coords
+                coords = DirectCast(nodes(i).data, MingleNodeData).coords
                 topCentroid(0) += coords(0)
                 topCentroid(1) += coords(1)
                 bottomCentroid(0) += coords(2)
@@ -143,16 +146,16 @@ Namespace Layouts.EdgeBundling.Mingle
             Return {topCentroid, bottomCentroid}
         End Function
 
-        Public Function getInkValue(Node As Node, Optional depth As number = 0)
-            Dim data = Node.data
-            Dim coords, diffX, diffY As Double,
-            m1 As number(), m2 As number()
-            Dim acum As number, l As Integer, nodes As Node(),
-            ni As Node
+        Public Function getInkValue(Node As Node, Optional depth As number = 0) As Double
+            Dim data As MingleNodeData = Node.data
+            Dim coords As Double()
+            Dim diffX, diffY As Double
+            Dim m1 As number(), m2 As number()
+            Dim acum As number, l As Integer, nodes As Node(), ni As Node
 
             ' bundled node
-            If depth = 0 AndAlso (data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing))  Then
-                nodes = If(data.bundle Is Nothing, data.bundle.data.nodes, data.nodes)
+            If depth = 0 AndAlso (data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing) Then
+                nodes = If(Not data.bundle Is Nothing, DirectCast(data.bundle.data, MingleNodeData).nodes, data.nodes)
                 m1 = data.m1
                 m2 = data.m2
                 acum = 0
@@ -160,19 +163,20 @@ Namespace Layouts.EdgeBundling.Mingle
 
                 For i As Integer = 0 To nodes.Length - 1
                     ni = nodes(i)
-                    coords = ni.data.coords
+                    coords = DirectCast(ni.data, MingleNodeData).coords
                     diffX = m1(0) - coords(0)
                     diffY = m1(1) - coords(1)
-                    acum += $norm((diffX, diffY))
-                diffX = m2(0) - coords(2)
+                    acum += norm({diffX, diffY})
+                    diffX = m2(0) - coords(2)
                     diffY = m2(1) - coords(3)
-                    acum += $norm((diffX, diffY))
-                acum += getInkValue(ni, depth + 1)
+                    acum += norm({diffX, diffY})
+                    acum += getInkValue(ni, depth + 1)
                 Next
                 If depth = 0 Then
-                    acum += $dist(m1, m2)
-            End If
-                Return (Node.data.ink = acum)
+                    acum += dist(m1, m2)
+                End If
+
+                Return DirectCast(Node.data, MingleNodeData).ink = acum
             End If
 
             ' coalesced node
@@ -183,31 +187,33 @@ Namespace Layouts.EdgeBundling.Mingle
                 acum = 0
                 For i As Integer = 0 To nodes.Length - 1
                     ni = nodes(i)
-                    coords = ni.data.coords
+                    coords = DirectCast(ni.data, MingleNodeData).coords
                     diffX = m1(0) - coords(0)
                     diffY = m1(1) - coords(1)
-                    acum += $norm((diffX, diffY))
-                diffX = m2(0) - coords(2)
+                    acum += norm({diffX, diffY})
+                    diffX = m2(0) - coords(2)
                     diffY = m2(1) - coords(3)
-                    acum += $norm((diffX, diffY))
-                acum += getInkValue(ni, depth + 1)
+                    acum += norm({diffX, diffY})
+                    acum += getInkValue(ni, depth + 1)
                 Next
                 ' only add the distance if this Is the first recursion
                 If depth = 0 Then
-                    acum += $dist(m1, m2)
-            End If
-                Return (Node.data.ink = acum)
+                    acum += dist(m1, m2)
+                End If
+                Return DirectCast(Node.data, MingleNodeData).ink = acum
             End If
 
             ' simple node
             If (depth) Then
-                Return (Node.data.ink = 0)
+                Return DirectCast(Node.data, MingleNodeData).ink = 0
+            Else
+                coords = DirectCast(Node.data, MingleNodeData).coords
+                diffX = coords(0) - coords(2)
+                diffY = coords(1) - coords(3)
             End If
-            coords = Node.data.coords
-            diffX = coords(0) - coords(2)
-            diffY = coords(1) - coords(3)
-            Return (Node.data.ink = $norm((diffX, diffY)))
-    End Function
+
+            Return DirectCast(Node.data, MingleNodeData).ink = norm({diffX, diffY})
+        End Function
 
         Public Function getMaxTurningAngleValue(node As Node, m1 As number(), m2 As number())
             Dim m2Tom1 = {m1(0) - m2(0), m1(1) - m2(1)},
