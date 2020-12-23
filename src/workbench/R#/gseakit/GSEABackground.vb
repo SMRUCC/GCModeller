@@ -42,6 +42,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -66,8 +67,14 @@ Public Module GSEABackground
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
     End Sub
 
-    Private Function PrintBackground(x As Object) As String
-        Return DirectCast(x, Background).name
+    Private Function PrintBackground(x As Background) As String
+        Dim summary As New StringBuilder
+
+        Call summary.AppendLine($"           name: {x.name}")
+        Call summary.AppendLine($"    description: {x.comments}")
+        Call summary.AppendLine($"background_size: {x.size}")
+
+        Return summary.ToString
     End Function
 
     ''' <summary>

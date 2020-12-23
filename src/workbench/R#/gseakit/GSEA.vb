@@ -95,7 +95,8 @@ Module GSEA
             list:=geneSet,
             outputAll:=outputAll,
             showProgress:=showProgress
-        ).ToArray
+        ).OrderBy(Function(a) a.pvalue) _
+         .ToArray
     End Function
 
     ''' <summary>
