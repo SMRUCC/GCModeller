@@ -172,7 +172,7 @@ Namespace Layouts.EdgeBundling.Mingle
                     acum += $dist(m1, m2)
             End If
                 Return (Node.data.ink = acum)
-        End If
+            End If
 
             ' coalesced node
             If (data.parents) Then
@@ -207,5 +207,143 @@ Namespace Layouts.EdgeBundling.Mingle
             diffY = coords(1) - coords(3)
             Return (Node.data.ink = $norm((diffX, diffY)))
     End Function
+
+        Public Function getMaxTurningAngleValue(node As Node, m1 As number(), m2 As number())
+            Dim m2Tom1 = [m1[0] - m2[0], m1[1] - m2[1]],
+            m1Tom2 = [-m2Tom1[0], -m2Tom1[1]],
+            m1m2Norm = $norm(m2Tom1),
+            angle = 0, nodes, vec As  number[], norm As  number, dot, angleValue,
+            x, y, coords As  number[], i, l, n
+
+        If (node.data.bundle || node.data.nodes)  Then
+                Nodes = node.data.bundle?(node.data.bundle).data.nodes : node.data.nodes;
+            For i As Integer = 0 To Nodes.length - 1
+                    coords = nodes[i].data.coords;
+                vec = [coords[0] - m1[0], coords[1] - m1[1]];
+                norm = $norm(vec);
+                dot = vec[0] * m2Tom1[0] + vec[1] * m2Tom1[1];
+                angleValue = abs(acos(dot / norm / m1m2Norm));
+                angle = angle < angleValue ? angleValue : angle;
+
+                vec = [coords[2] - m2[0], coords[3] - m2[1]];
+                norm = $norm(vec);
+                dot = vec[0] * m1Tom2[0] + vec[1] * m1Tom2[1];
+                angleValue = abs(acos(dot / norm / m1m2Norm));
+                angle = angle < angleValue ? angleValue : angle;
+             Next
+
+                Return angle
+            End If
+
+            Return -1
+        End Function
+
+        Public Function getCombinedNode(node1 As Node, node2 As Node, data As NodeData) As Node
+            node1 = node1.data.bundle || node1
+        node2 = node2.data.bundle || node2
+
+        Dim id = node1.ID & "-" & node2.ID,
+            name = node1.name & "-" & node2.name,
+            nodes1 = node1.data.nodes || [node1],
+            nodes2 = node2.data.nodes || [node2],
+            weight1 = node1.data.weight || 0,
+            weight2 = node2.data.weight || 0,
+            Nodes as  Node() = {}, ans as  Node
+
+        If (node1.ID = node2.ID) Then
+                Return node1
+            End If
+            Nodes.push.apply(Nodes, nodes1)
+            Nodes.push.apply(Nodes, nodes2)
+
+            data.nodes = Nodes
+            data.nodeArray = (node1.data.nodeArray || []).concat(node2.data.nodeArray || [])
+        data.weight = weight1 + weight2
+            ans = New Node({
+            id: id,
+            name: name,
+            data: data
+        })
+
+        computeIntermediateNodePositions(ans)
+
+            Return ans
+        End Function
+
+
+        Public Function coalesceNodes(nodes As Node()) As Node
+            Dim node = nodes[0],
+            data = node.data,
+            m1 = data.m1,
+            m2 = data.m2,
+            weight = nodes.reduce(Function(acum, n) { return acum + (n.data.weight || 0); }, 0),
+            coords = data.coords,
+            bundle as  Node =data.bundle,
+            nodeArray as  Node() = {},
+            i, l
+
+        If Not m1 Is Nothing Then
+                coords = [m1[0], m1[1], m2[0], m2[1]]
+
+            ' flattened nodes for cluster.
+            For i As Integer = 0 To nodes.Length - 1
+                    nodeArray.push.apply(nodeArray, nodes[i].data.nodeArray || (nodes[i].data.parents ? [] :    [nodes[i]]));
+            Next
+
+                If options.sort Then
+                    nodeArray.sort(options.sort)
+                End If
+
+                Return New Node With {
+                    id: bundle.id,
+                name: bundle.id,
+                Data:   {
+                    nodeArray: nodeArray,
+                    parents: nodes,
+                    coords: coords,
+                    weight: weight,
+                    parentsInk: bundle.data.ink
+                }
+            }
+        End If
+
+            Return nodes[0]
+    End Function
+
+
+        Public Function bundle(combinedNode As Node, node1 As Node, node2 As Node)
+            node1.data.bundle = combinedNode
+            node2.data.bundle = combinedNode
+
+            node1.data.ink = combinedNode.data.ink
+            node1.data.m1 = combinedNode.data.m1
+            node1.data.m2 = combinedNode.data.m2
+            ' node1.data.nodeArray = combinedNode.data.nodeArray
+
+            node2.data.ink = combinedNode.data.ink
+            node2.data.m1 = combinedNode.data.m1
+            node2.data.m2 = combinedNode.data.m2
+            ' node2.data.nodeArray = combinedNode.data.nodeArray
+        End Function
+
+        Public Sub updateGraph(graph As NetworkGraph, groupedNode As Node, nodes As Node(), ids As Dictionary(Of String, String))
+            Dim n, connections
+            Dim checkConnection = Function(e)
+                                       Dim nodeToId = e.nodeTo.id
+                                       If ids.ContainsKey(nodeToId) Then
+                                           connections.push(e.nodeTo)
+                                       End If
+                                   End Function
+            For i As Integer = 0 To nodes.Length - 1
+                n = nodes(i)
+                connections = {}
+                n.eachEdge(checkConnection)
+                graph.RemoveNode(n.id)
+            Next
+            graph.AddNode(groupedNode)
+            For i As Integer = 0 To connections.length - 1
+                graph.AddEdge(groupedNode, connections(i))
+            Next
+        End Sub
     End Class
 End Namespace
