@@ -41,7 +41,7 @@ Namespace Layouts.EdgeBundling.Mingle
 
         <Extension>
         Public Sub eachEdge(n As Node, apply As Action(Of Edge))
-            For Each link In n.adjacencies.EnumerateAllEdges
+            For Each link As Edge In n.directedVertex
                 Call apply(link)
             Next
         End Sub

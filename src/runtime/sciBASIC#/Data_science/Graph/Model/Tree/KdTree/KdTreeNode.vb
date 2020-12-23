@@ -44,7 +44,7 @@
 
 Namespace KdTree
 
-    Public Class KdTreeNode(Of T) : Inherits Vertex
+    Public Class KdTreeNode(Of T)
 
         Public Property obj As T
         Public Property left As KdTreeNode(Of T)

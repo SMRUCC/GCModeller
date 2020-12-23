@@ -78,7 +78,7 @@ Namespace Layouts.EdgeBundling.Mingle
                     node = nodes(i).node
                     dist = nodes(i).distance
 
-                    If (node.ID = n.ID) Then
+                    If (node.obj.v.label = n.label) Then
                         graph.AddEdge(n, node.obj.v)
                     End If
                 Next

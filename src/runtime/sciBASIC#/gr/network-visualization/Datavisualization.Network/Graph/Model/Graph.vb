@@ -181,12 +181,14 @@ Namespace Graph
         Public Function AddNode(node As Node) As Node
             If Not vertices.ContainsKey(node.label) Then
                 vertices.Add(node)
+                buffer.Add(node)
+
                 node.ID = buffer.GetAvailablePos
-                buffer += node
             End If
 
             _index(node.label) = node
             _index(node.label).directedVertex = New DirectedVertex(node.label)
+            _index(node.label).adjacencies = _index.CreateNodeAdjacencySet(node)
 
             Call notify()
 
