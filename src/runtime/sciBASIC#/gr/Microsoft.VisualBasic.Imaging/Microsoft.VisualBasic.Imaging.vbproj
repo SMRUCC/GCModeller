@@ -707,6 +707,7 @@
     <Compile Include="d3js\scale\linear.vb" />
     <Compile Include="d3js\scale\Extensions.vb" />
     <Compile Include="d3js\scale\ordinal.vb" />
+    <Compile Include="Drawing2D\RenderContext.vb" />
     <Compile Include="Drawing2D\Colors\Palette.vb" />
     <Compile Include="Drawing2D\Colors\Office\ObjectAccent.vb" />
     <Compile Include="Drawing2D\Colors\Office\Xml.vb" />
