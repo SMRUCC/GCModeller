@@ -1,21 +1,17 @@
-﻿Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 
 Namespace Layouts.EdgeBundling.Mingle
 
-    Public Class GraphKdNode : Inherits Node
+    Public Class GraphKdNode
 
         Friend x, y, z, w As Double
+        Friend v As Node
 
         Sub New()
         End Sub
 
         Sub New(v As Node)
-            Me.ID = v.ID
-            Me.label = v.label
-            Me.data = New NodeData With {
-                .size = v.data.size
-            }
+            Me.v = v
         End Sub
 
     End Class

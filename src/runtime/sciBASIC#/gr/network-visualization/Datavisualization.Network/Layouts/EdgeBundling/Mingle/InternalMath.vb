@@ -1,9 +1,8 @@
-﻿Imports System.Drawing
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
 Imports number = System.Double
+Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle
 

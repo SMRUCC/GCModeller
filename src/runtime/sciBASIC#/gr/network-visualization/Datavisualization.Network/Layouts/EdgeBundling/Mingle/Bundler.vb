@@ -7,10 +7,6 @@ Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle
 
-    ' symbol mapping
-    ' coords = data.size
-    ' node.data.weight = node.data.mass
-
     ''' <summary>
     ''' Edge bundling algorithm class.
     ''' </summary>
@@ -29,37 +25,39 @@ Namespace Layouts.EdgeBundling.Mingle
             Next
         End Sub
 
-        Public Sub buildKdTree()
-            Dim nodeArray As New List(Of GraphKdNode)
+        Public Function buildKdTree() As Dictionary(Of String, GraphKdNode)
+            Dim nodeArray As New Dictionary(Of String, GraphKdNode)
 
-            For Each v In graph.vertex
-                Dim coords = v.data.size
-                Dim n = New GraphKdNode(v)
+            For Each v As Node In graph.vertex
+                Dim coords = DirectCast(v.data, MingleNodeData).size
+                Dim n As New GraphKdNode(v) With {
+                    .x = coords(0),
+                    .y = coords(1),
+                    .z = coords(2),
+                    .w = coords(3)
+                }
 
-                n.x = coords(0)
-                n.y = coords(1)
-                n.z = coords(2)
-                n.w = coords(3)
-                nodeArray.Add(n)
+                Call nodeArray.Add(v.label, n)
             Next
 
-            kdTree = New KdTree(Of GraphKdNode)(nodeArray.ToArray, New Accessor)
-        End Sub
+            kdTree = New KdTree(Of GraphKdNode)(nodeArray.Values.ToArray, New Accessor)
+
+            Return nodeArray
+        End Function
 
         Public Sub buildNearestNeighborGraph(Optional k As Integer = 10)
             Dim node As KdTreeNode(Of GraphKdNode), dist As Double
-
-            Call buildKdTree()
+            Dim hashList = buildKdTree()
 
             For Each n As Node In graph.vertex
-                Dim nodes As KdNodeHeapItem(Of GraphKdNode)() = kdTree.nearest(n, k).ToArray
+                Dim nodes As KdNodeHeapItem(Of GraphKdNode)() = kdTree.nearest(hashList(n.label), k).ToArray
 
                 For i As Integer = 0 To nodes.Length - 1
                     node = nodes(i).node
                     dist = nodes(i).distance
 
                     If (node.ID = n.ID) Then
-                        graph.AddEdge(n, node)
+                        graph.AddEdge(n, node.obj.v)
                     End If
                 Next
             Next
@@ -82,7 +80,6 @@ Namespace Layouts.EdgeBundling.Mingle
             res = goldenSectionSearch(a, b, c, tau, f)
             f(res) ' Set m1 And m2;
         End Sub
-
 
         Public Function costFunction(node As Node, centroids As number()(), x As number) As number
             Dim top As Double(), bottom As Double(), m1 As Double(), m2 As Double(), ink, alpha, p As Double
