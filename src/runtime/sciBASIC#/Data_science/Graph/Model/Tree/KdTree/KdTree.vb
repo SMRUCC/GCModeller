@@ -88,8 +88,8 @@ Namespace KdTree
 
             median = stdNum.Floor(points.Length / 2)
             node = New KdTreeNode(Of T)(points(median), [dim], parent)
-            node.left = buildTree(points.slice(0, median), depth + 1, node)
-            node.right = buildTree(points.slice(median + 1), depth + 1, node)
+            node.left = buildTree(points.slice(0, median).ToArray, depth + 1, node)
+            node.right = buildTree(points.slice(median + 1).ToArray, depth + 1, node)
 
             Return node
         End Function

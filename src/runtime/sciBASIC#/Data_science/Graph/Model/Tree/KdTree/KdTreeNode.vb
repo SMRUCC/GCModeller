@@ -58,6 +58,10 @@ Namespace KdTree
             Me.parent = parent
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{obj}, dim={dimension}"
+        End Function
+
         Public Shared Narrowing Operator CType(node As KdTreeNode(Of T)) As T
             Return node.obj
         End Operator

@@ -51,7 +51,7 @@ Namespace Layouts.EdgeBundling.Mingle
             Dim nodeArray As New Dictionary(Of String, GraphKdNode)
 
             For Each v As Node In graph.vertex
-                Dim coords = DirectCast(v.data, MingleNodeData).size
+                Dim coords As Double() = DirectCast(v.data, MingleNodeData).coords
                 Dim n As New GraphKdNode(v) With {
                     .x = coords(0),
                     .y = coords(1),

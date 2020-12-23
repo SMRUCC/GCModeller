@@ -14,5 +14,9 @@ Namespace Layouts.EdgeBundling.Mingle
             Me.v = v
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"[{x}, {y}, {z}, {w}]"
+        End Function
+
     End Class
 End Namespace

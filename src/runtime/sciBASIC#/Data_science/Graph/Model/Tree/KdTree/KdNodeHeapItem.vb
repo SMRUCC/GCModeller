@@ -10,5 +10,9 @@
             Me.distance = dist
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"[{node}, {distance}]"
+        End Function
+
     End Class
 End Namespace

@@ -70,7 +70,11 @@ Namespace ComponentModel.Collection
 
         Default Public ReadOnly Property Item(i As Integer) As T
             Get
-                Return content(i)
+                If i >= content.Count Then
+                    Return Nothing
+                Else
+                    Return content(i)
+                End If
             End Get
         End Property
 
@@ -83,6 +87,10 @@ Namespace ComponentModel.Collection
         Sub New(scoreFunction As Func(Of T, Double))
             Me.scoreFunction = scoreFunction
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{size} items in current heap"
+        End Function
 
         Public Sub push(element As T)
             ' Add the new element to the end of the array.
