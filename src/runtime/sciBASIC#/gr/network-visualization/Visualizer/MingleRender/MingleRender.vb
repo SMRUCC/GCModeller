@@ -13,9 +13,20 @@ Public Class MingleRender
     ReadOnly options As RenderOptions
     ReadOnly ctx As RenderContext
 
-    Sub New()
-
+    Sub New(options As RenderOptions, ctx As RenderContext)
+        Me.ctx = ctx
+        Me.options = options
     End Sub
+
+    ' do render for each node
+    ' graph.each(Function(node) {
+    '    var edges = node.unbundleEdges(delta);
+    '    Bundler.graph['render' + type](ctx, edges, {
+    '      curviness: curviness,
+    '      delta: delta,
+    '      margin: margin
+    '    });
+    '  });    
 
     Public Sub renderLine(edges As PosItem()())
         Dim lineWidth = options.lineWidth

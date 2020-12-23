@@ -5,9 +5,17 @@ Imports number = System.Double
 
 Public Class BundleNode
 
-    Public Property node As Node
-    Public Property expandedEdges As PosItem()()
-    Public Property unbundledEdges As Dictionary(Of String, PosItem()())
+    Public ReadOnly Property node As Node
+    Public ReadOnly Property expandedEdges As PosItem()()
+    Public ReadOnly Property unbundledEdges As Dictionary(Of String, PosItem()())
+
+    Sub New(v As Node)
+        node = v
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return node.ToString
+    End Function
 
     Public Function expandEdges() As PosItem()()
         If Not expandedEdges.IsNullOrEmpty Then
@@ -16,7 +24,7 @@ Public Class BundleNode
 
         Dim ans As PosItem()() = {}
         expandEdgesRichHelper(node, {}, ans)
-        expandedEdges = ans
+        _expandedEdges = ans
         Return ans
     End Function
 
@@ -29,7 +37,7 @@ Public Class BundleNode
             c As Double, last As Integer
 
         If unbundledEdges Is Nothing Then
-            unbundledEdges = New Dictionary(Of String, PosItem()())
+            _unbundledEdges = New Dictionary(Of String, PosItem()())
         End If
 
         If ((delta = 0 OrElse delta = 1) AndAlso unbundledEdges.ContainsKey(delta)) Then

@@ -30,6 +30,10 @@ Namespace Layouts.EdgeBundling.Mingle
             Me.options = opts
         End Sub
 
+        Public Function EnumerateNodes() As IEnumerable(Of Node)
+            Return graph.vertex
+        End Function
+
         Public Overrides Function ToString() As String
             Return graph.ToString
         End Function

@@ -1,6 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling.Mingle
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module mingleTest
@@ -113,6 +116,19 @@ Module mingleTest
         bundle.setNodes(nodes.ToArray)
         bundle.buildNearestNeighborGraph(10)
         bundle.MINGLE()
+
+        Dim canvas As New RenderContext
+        Dim render As New MingleRender(New RenderOptions, canvas)
+
+        For Each node As BundleNode In bundle.EnumerateNodes.Select(Function(v) New BundleNode(v))
+            Dim edges = node.unbundleEdges(delta:=1)
+            render.renderBezier(edges)
+        Next
+
+        Using g As Graphics2D = New Size(5000, 5000).CreateGDIDevice
+            Call canvas.Render(g)
+            Call g.ImageResource.SaveAs("./mingle_test22222222.png")
+        End Using
     End Sub
 End Module
 

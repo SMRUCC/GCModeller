@@ -707,7 +707,8 @@
     <Compile Include="d3js\scale\linear.vb" />
     <Compile Include="d3js\scale\Extensions.vb" />
     <Compile Include="d3js\scale\ordinal.vb" />
-    <Compile Include="Drawing2D\RenderContext.vb" />
+    <Compile Include="Drawing2D\Render2D\RenderShape.vb" />
+    <Compile Include="Drawing2D\Render2D\RenderContext.vb" />
     <Compile Include="Drawing2D\Colors\Palette.vb" />
     <Compile Include="Drawing2D\Colors\Office\ObjectAccent.vb" />
     <Compile Include="Drawing2D\Colors\Office\Xml.vb" />
@@ -733,7 +734,7 @@
     <Compile Include="Drawing2D\Math2D\ConvexHull\JarvisMatch.vb" />
     <Compile Include="Drawing2D\Math2D\HullPolygonDraw.vb" />
     <Compile Include="Drawing2D\Math2D\Spline.vb" />
-    <Compile Include="Drawing2D\Path2D.vb" />
+    <Compile Include="Drawing2D\Render2D\Path2D.vb" />
     <Compile Include="Drawing2D\Colors\ColorIndex.vb" />
     <Compile Include="Drawing2D\Colors\Office\OfficeColorThemes.vb" />
     <Compile Include="Drawing2D\Colors\ColorBrewer.vb" />
