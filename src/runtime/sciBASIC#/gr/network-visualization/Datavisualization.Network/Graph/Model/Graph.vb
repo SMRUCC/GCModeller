@@ -415,6 +415,10 @@ Namespace Graph
             Return _index.GetEdges(iNode.label)
         End Function
 
+        Public Sub RemoveNode(labelId As String)
+            Call RemoveNode(GetElementByID(labelId))
+        End Sub
+
         ''' <summary>
         ''' 应该使用这个方法来安全的删除节点
         ''' </summary>

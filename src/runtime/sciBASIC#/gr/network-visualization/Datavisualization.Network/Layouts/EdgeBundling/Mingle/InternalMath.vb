@@ -7,7 +7,7 @@ Imports number = System.Double
 
 Namespace Layouts.EdgeBundling.Mingle
 
-    Module InternalExtensions
+    Module InternalMath
 
         Public ReadOnly MINGLE_PHI As Double = (1 + stdNum.Sqrt(5)) / 2
 
@@ -36,6 +36,13 @@ Namespace Layouts.EdgeBundling.Mingle
         <Extension>
         Public Sub [Each](g As NetworkGraph, apply As Action(Of Edge))
             For Each link As Edge In g.graphEdges
+                Call apply(link)
+            Next
+        End Sub
+
+        <Extension>
+        Public Sub eachEdge(n As Node, apply As Action(Of Edge))
+            For Each link In n.adjacencies.EnumerateAllEdges
                 Call apply(link)
             Next
         End Sub

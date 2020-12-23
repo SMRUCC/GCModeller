@@ -12,6 +12,9 @@ Namespace Layouts.EdgeBundling.Mingle
         Public Property bundle As Node
         Public Property ink As New Value(Of Double)
         Public Property parents As Node()
+        Public Property nodeArray As Node()
+        Public Property parentsInk As Double
+        Public Property group As Integer
 
         Sub New()
         End Sub
@@ -19,5 +22,11 @@ Namespace Layouts.EdgeBundling.Mingle
         Sub New(copy As NodeData)
             Call MyBase.New(copy)
         End Sub
+    End Class
+
+    Public Class MingleData
+        Public Property bundle As Node()
+        Public Property inkTotal As Double
+        Public Property combined As Node
     End Class
 End Namespace

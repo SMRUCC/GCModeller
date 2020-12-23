@@ -1,11 +1,15 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports number = System.Double
+Imports stdNum = System.Math
 
 Namespace Layouts.EdgeBundling.Mingle
 
+    ' symbol mapping
     ' coords = data.size
+    ' node.data.weight = node.data.mass
 
     ''' <summary>
     ''' Edge bundling algorithm class.
@@ -215,27 +219,29 @@ Namespace Layouts.EdgeBundling.Mingle
             Return DirectCast(Node.data, MingleNodeData).ink = norm({diffX, diffY})
         End Function
 
-        Public Function getMaxTurningAngleValue(node As Node, m1 As number(), m2 As number())
+        Public Function getMaxTurningAngleValue(node As Node, m1 As number(), m2 As number()) As Double
             Dim m2Tom1 = {m1(0) - m2(0), m1(1) - m2(1)},
             m1Tom2 = {-m2Tom1(0), -m2Tom1(1)},
-            m1m2Norm = $norm(m2Tom1),
-            angle = 0, nodes, vec As number(), norm As number, dot, angleValue,
-            x, y, coords As number()
+            m1m2Norm = InternalMath.norm(m2Tom1),
+            angle As Double = 0
+            Dim nodes As Node()
+            Dim vec As number(), norm As number, dot As number, angleValue As Double, coords As number()
+            Dim data As MingleNodeData = DirectCast(node.data, MingleNodeData)
 
-            If (node.data.bundle IsNot Nothing OrElse Not node.data.nodes Is Nothing) Then
-                nodes = If(node.data.bundle IsNot Nothing, (node.data.bundle).data.nodes, node.data.nodes)
+            If data.bundle IsNot Nothing OrElse Not data.nodes Is Nothing Then
+                nodes = If(data.bundle IsNot Nothing, DirectCast(data.bundle.data, MingleNodeData).nodes, data.nodes)
                 For i As Integer = 0 To nodes.Length - 1
-                    coords = nodes(i).data.coords
+                    coords = DirectCast(nodes(i).data, MingleNodeData).coords
                     vec = {coords(0) - m1(0), coords(1) - m1(1)}
-                    norm = $norm(vec)
-                dot = vec(0) * m2Tom1(0) + vec(1) * m2Tom1(1)
-                    angleValue = abs(acos(dot / norm / m1m2Norm))
+                    norm = InternalMath.norm(vec)
+                    dot = vec(0) * m2Tom1(0) + vec(1) * m2Tom1(1)
+                    angleValue = stdNum.Abs(stdNum.Acos(dot / norm / m1m2Norm))
                     angle = If(angle < angleValue, angleValue, angle)
 
                     vec = {coords(2) - m2(0), coords(3) - m2(1)}
-                    norm = $norm(vec)
-                dot = vec(0) * m1Tom2(0) + vec(1) * m1Tom2(1)
-                    angleValue = abs(acos(dot / norm / m1m2Norm))
+                    norm = InternalMath.norm(vec)
+                    dot = vec(0) * m1Tom2(0) + vec(1) * m1Tom2(1)
+                    angleValue = stdNum.Abs(stdNum.Acos(dot / norm / m1m2Norm))
                     angle = If(angle < angleValue, angleValue, angle)
                 Next
 
@@ -245,34 +251,37 @@ Namespace Layouts.EdgeBundling.Mingle
             Return -1
         End Function
 
-        Public Function getCombinedNode(node1 As Node, node2 As Node, data As NodeData) As Node
-            node1 = If(node1.data.bundle, node1)
-            node2 = If(node2.data.bundle, node2)
+        Public Function getCombinedNode(node1 As Node, node2 As Node, Optional data As MingleNodeData = Nothing) As Node
+            node1 = If(DirectCast(node1.data, MingleNodeData).bundle, node1)
+            node2 = If(DirectCast(node2.data, MingleNodeData).bundle, node2)
 
             Dim id = node1.ID & "-" & node2.ID,
-            name = node1.name & "-" & node2.name,
-            nodes1 = If(node1.data.nodes, node1),
-            nodes2 = If(node2.data.nodes, node2),
-            weight1 As Double = node1.data.weight,
-            weight2 As Double = node2.data.weight,
-            Nodes As Node() = {}, ans As Node
+            name = node1.label & "-" & node2.label,
+            nodes1 = If(DirectCast(node1.data, MingleNodeData).nodes, node1),
+            nodes2 = If(DirectCast(node2.data, MingleNodeData).nodes, node2),
+            weight1 As Double = node1.data.mass,
+            weight2 As Double = node2.data.mass,
+            Nodes As New List(Of Node), ans As Node
 
             If (node1.ID = node2.ID) Then
                 Return node1
             End If
-            Nodes.push.apply(Nodes, nodes1)
-            Nodes.push.apply(Nodes, nodes2)
+            Nodes.Add(nodes1)
+            Nodes.Add(nodes2)
 
-            data.nodes = Nodes
-            data.nodeArray = If(node1.data.nodeArray, {}).concat(If(node2.data.nodeArray, {}))
-            data.weight = weight1 + weight2
-            ans = New Node({
-            id: id,
-            name: name,
-            data: data
-        })
+            data.nodes = Nodes.ToArray
+            data.nodeArray = DirectCast(node1.data, MingleNodeData).nodeArray _
+                .JoinIterates(DirectCast(node2.data, MingleNodeData).nodeArray) _
+                .ToArray
+            data.mass = weight1 + weight2
 
-        computeIntermediateNodePositions(ans)
+            ans = New Node With {
+            .ID = id,
+            .label = name,
+            .data = data
+        }
+
+            computeIntermediateNodePositions(ans)
 
             Return ans
         End Function
@@ -280,13 +289,13 @@ Namespace Layouts.EdgeBundling.Mingle
 
         Public Function coalesceNodes(nodes As Node()) As Node
             Dim node = nodes(0),
-            Data = node.data,
+            Data As MingleNodeData = node.data,
             m1 = Data.m1,
             m2 = Data.m2,
-            weight = nodes.reduce(Function(acum, n) acum + n.data.weight, 0),
+            weight = nodes.reduce(Function(acum, n) acum + n.data.mass, 0),
             coords As Double() = Data.coords,
             bundle As Node = Data.bundle,
-            nodeArray As Node() = {}
+            nodeArray As New List(Of Node)
 
 
             If Not m1 Is Nothing Then
@@ -294,78 +303,77 @@ Namespace Layouts.EdgeBundling.Mingle
 
                 ' flattened nodes for cluster.
                 For i As Integer = 0 To nodes.Length - 1
-                    nodeArray.push.apply(nodeArray, If(nodes(i).data.nodeArray, If(nodes(i).data.parents, {}, (nodes(i)))))
+                    nodeArray.AddRange(If(DirectCast(nodes(i).data, MingleNodeData).nodeArray, If(DirectCast(nodes(i).data, MingleNodeData).parents Is Nothing, New Node() {}, {nodes(i)})))
                 Next
 
-                If options.sort Then
-                    nodeArray.Sort(options.sort)
+                If Not options.sort Is Nothing Then
+                    nodeArray = nodeArray.OrderBy(options.sort).ToList
                 End If
 
                 Return New Node With {
-                    id: bundle.ID,
-                name: bundle.ID,
-                Data:        {
-                    nodeArray: nodeArray,
-                    parents: nodes,
-                    coords: coords,
-                    weight: weight,
-                    parentsInk: bundle.data.ink
+                    .ID = bundle.ID,
+                .label = bundle.ID,
+                .data = New MingleNodeData With {
+                    .nodeArray = nodeArray.ToArray,
+                    .parents = nodes,
+                    .coords = coords,
+                    .mass = weight,
+                    .parentsInk = DirectCast(bundle.data, MingleNodeData).ink
                 }
             }
-        End If
+            End If
 
             Return nodes(0)
         End Function
 
+        Public Sub bundle(combinedNode As Node, node1 As Node, node2 As Node)
+            DirectCast(node1.data, MingleNodeData).bundle = combinedNode
+            DirectCast(node2.data, MingleNodeData).bundle = combinedNode
 
-        Public Function bundle(combinedNode As Node, node1 As Node, node2 As Node)
-            node1.data.bundle = combinedNode
-            node2.data.bundle = combinedNode
-
-            node1.data.ink = combinedNode.data.ink
-            node1.data.m1 = combinedNode.data.m1
-            node1.data.m2 = combinedNode.data.m2
+            DirectCast(node1.data, MingleNodeData).ink = CDbl(DirectCast(combinedNode.data, MingleNodeData).ink)
+            DirectCast(node1.data, MingleNodeData).m1 = DirectCast(combinedNode.data, MingleNodeData).m1
+            DirectCast(node1.data, MingleNodeData).m2 = DirectCast(combinedNode.data, MingleNodeData).m2
             ' node1.data.nodeArray = combinedNode.data.nodeArray
 
-            node2.data.ink = combinedNode.data.ink
-            node2.data.m1 = combinedNode.data.m1
-            node2.data.m2 = combinedNode.data.m2
+            DirectCast(node2.data, MingleNodeData).ink = CDbl(DirectCast(combinedNode.data, MingleNodeData).ink)
+            DirectCast(node2.data, MingleNodeData).m1 = DirectCast(combinedNode.data, MingleNodeData).m1
+            DirectCast(node2.data, MingleNodeData).m2 = DirectCast(combinedNode.data, MingleNodeData).m2
             ' node2.data.nodeArray = combinedNode.data.nodeArray
-        End Function
+        End Sub
 
-        Public Sub updateGraph(graph As NetworkGraph, groupedNode As Node, nodes As Node(), ids As Dictionary(Of String, String))
-            Dim n, connections
-            Dim checkConnection = Function(e)
-                                      Dim nodeToId = e.nodeTo.id
+        Public Sub updateGraph(graph As NetworkGraph, groupedNode As Node, nodes As Node(), ids As Dictionary(Of String, Node))
+            Dim n As Node, connections As New List(Of Node)
+            Dim checkConnection = Sub(e As Edge)
+                                      Dim nodeToId = e.V.label
                                       If ids.ContainsKey(nodeToId) Then
-                                          connections.push(e.nodeTo)
+                                          connections.Add(e.V)
                                       End If
-                                  End Function
+                                  End Sub
             For i As Integer = 0 To nodes.Length - 1
                 n = nodes(i)
-                connections = {}
+                connections = New List(Of Node)
                 n.eachEdge(checkConnection)
-                graph.RemoveNode(n.id)
+                graph.RemoveNode(n.label)
             Next
             graph.AddNode(groupedNode)
-            For i As Integer = 0 To connections.length - 1
+            For i As Integer = 0 To connections.Count - 1
                 graph.AddEdge(groupedNode, connections(i))
             Next
         End Sub
 
         Public Sub coalesceGraph()
             Dim newGraph = New NetworkGraph()
-            Dim groupsIds As New Dictionary(Of String, Dictionary(Of String, String))
-            Dim maxGroup As Integer = Integer.NegativeInfinity, Nodes
-            Dim ids As Dictionary(Of String, String), groupedNode, connections
+            Dim groupsIds As New Dictionary(Of String, Dictionary(Of String, Node))
+            Dim maxGroup As Integer = Integer.MinValue, Nodes As List(Of Node)
+            Dim ids As Dictionary(Of String, Node), groupedNode As Node
 
             graph.Each(Sub(node As Node)
-                           Dim group = node.data.group
+                           Dim group = DirectCast(node.data, MingleNodeData).group
                            If (maxGroup < group) Then
                                maxGroup = group
                            End If
                            If Not groupsIds.ContainsKey(group) Then
-                               groupsIds(group) = {}
+                               groupsIds(group) = New Dictionary(Of String, Node)
                            End If
                            groupsIds(group)(node.ID) = node
                        End Sub)
@@ -376,45 +384,45 @@ Namespace Layouts.EdgeBundling.Mingle
                 maxGroup -= 1
 
                 ids = groupsIds(maxGroup)
-                Nodes = {}
+                Nodes = New List(Of Node)
                 For Each i In ids.Keys
-                    Nodes.push(ids(i))
+                    Nodes.Add(ids(i))
                 Next
-                If (Nodes.length) Then
-                    groupedNode = coalesceNodes(Nodes)
-                    updateGraph(graph, groupedNode, Nodes, ids)
+                If Nodes.Count <> 0 Then
+                    groupedNode = coalesceNodes(Nodes.ToArray)
+                    updateGraph(graph, groupedNode, Nodes.ToArray, ids)
                 End If
             Loop
         End Sub
 
-        Public Function getMaximumInkSavingNeighbor(n As Node)
+        Public Function getMaximumInkSavingNeighbor(n As Node) As MingleData
             Dim nodeFrom = n,
             inkFrom = getInkValue(nodeFrom),
             inkTotal = Double.PositiveInfinity,
-            bundle As Node() = Array(2),
-            combinedBundle As Node
+            bundle As Node() = New Node() {Nothing, Nothing},
+            combinedBundle As Node = Nothing
 
-            n.each(Sub(e As Edge)
-                       Dim nodeTo = e.nodeTo,
+            n.eachEdge(Sub(e As Edge)
+                           Dim nodeTo = e.V,
                 inkTo = getInkValue(nodeTo),
-                combined As Node = combineNodes(nodeFrom, nodeTo),
+                combined As Node = getCombinedNode(nodeFrom, nodeTo),
                 inkUnion = getInkValue(combined),
                 inkValue = inkUnion - (inkFrom + inkTo)
 
-                       If (inkTotal > inkValue) Then
-                           inkTotal = inkValue
-                           bundle()(0) = nodeFrom
-                           bundle()(1) = nodeTo
-                           combinedBundle = combined
-                       End If
-                   End Sub)
+                           If (inkTotal > inkValue) Then
+                               inkTotal = inkValue
+                               bundle(0) = nodeFrom
+                               bundle(1) = nodeTo
+                               combinedBundle = combined
+                           End If
+                       End Sub)
 
-            Return {
-            bundle(): bundle,
-            inkTotal: inkTotal,
-            combined: combinedBundle
+            Return New MingleData With {
+           .bundle = bundle,
+           .inkTotal = inkTotal,
+           .combined = combinedBundle
         }
-    End Function
+        End Function
 
         Public Sub MINGLE()
             Dim edgeProximityGraph As NetworkGraph = graph,
@@ -423,32 +431,32 @@ Namespace Layouts.EdgeBundling.Mingle
             ungrouped = -1,
             gain = 0,
             k = 0,
-            clean = Sub(n As Node) n.data.group = ungrouped,
+            clean = Sub(n As Node) DirectCast(n.data, MingleNodeData).group = ungrouped,
             nodeMingle = Sub(node As Node)
-                             If (node.data.group = ungrouped) Then
+                             If DirectCast(node.data, MingleNodeData).group = ungrouped Then
                                  Dim ans = that.getMaximumInkSavingNeighbor(node),
                         bundle = ans.bundle,
-                        u = bundle()(0),
-                        v = bundle()(1),
+                        u = bundle(0),
+                        v = bundle(1),
                         combined = ans.combined,
                         gainUV = -ans.inkTotal
 
                                  ' graph has been collapsed And Is now only one node
                                  If u IsNot Nothing AndAlso Not v Is Nothing Then
-                                     gain = Double.NegativeInfinity
+                                     gain = Integer.MinValue
                                      Return
                                  End If
 
                                  If (gainUV > 0) Then
                                      that.bundle(combined, u, v)
                                      gain += gainUV
-                                     If (v.data.group <> ungrouped) Then
-                                         u.data.group = v.data.group
+                                     If DirectCast(v.data, MingleNodeData).group <> ungrouped Then
+                                         DirectCast(u.data, MingleNodeData).group = DirectCast(v.data, MingleNodeData).group
                                      Else
-                                         u.data.group = v.data.group = k
+                                         DirectCast(u.data, MingleNodeData).group = DirectCast(v.data, MingleNodeData).group = k
                                      End If
                                  Else
-                                     u.data.group = k
+                                     DirectCast(u.data, MingleNodeData).group = k
                                  End If
                                  k += 1
                              End If
