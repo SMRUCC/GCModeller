@@ -106,6 +106,16 @@ Namespace ComponentModel.Annotation
             Next
         End Sub
 
+        Public Function OrderByValues() As CatalogProfiles
+            Return New CatalogProfiles With {
+                .catalogs = catalogs _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Value.OrderByValues
+                                  End Function)
+            }
+        End Function
+
         Public Function delete(name As String) As CatalogProfiles
             Call catalogs.Remove(name)
             Return Me
