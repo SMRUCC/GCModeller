@@ -155,7 +155,11 @@ Namespace Network
             Return ComputeDegreeData(edges, Function(l) l.U.label, Function(l) l.V.label)
         End Function
 
-        Public Function ComputeDegreeData(Of Edge)(edges As IEnumerable(Of Edge), U As Func(Of Edge, String), V As Func(Of Edge, String)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+        Public Function ComputeDegreeData(Of Edge)(edges As IEnumerable(Of Edge),
+                                                   U As Func(Of Edge, String),
+                                                   V As Func(Of Edge, String),
+                                                   Optional base% = 0) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+
             Dim [in] As New Dictionary(Of String, Integer)
             Dim out As New Dictionary(Of String, Integer)
             Dim count = Sub(node$, ByRef table As Dictionary(Of String, Integer))
@@ -172,6 +176,9 @@ Namespace Network
                 Call countIn(U(link))
                 Call countOut(V(link))
             Next
+
+            [in] = [in].ToDictionary(Function(a) a.Key, Function(a) a.Value + base)
+            [out] = [out].ToDictionary(Function(a) a.Key, Function(a) a.Value + base)
 
             Return ([in], out)
         End Function
