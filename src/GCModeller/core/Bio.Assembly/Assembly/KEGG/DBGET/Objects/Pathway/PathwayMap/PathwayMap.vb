@@ -145,6 +145,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End If
         End Function
 
+        Public Function ToPathway() As Pathway
+            Return New Pathway With {
+                .compound = KEGGCompound,
+                .name = name,
+                .EntryId = EntryId
+            }
+        End Function
+
         Public Shared Function Download(entry As BriteHEntry.Pathway, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap
             Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entry.EntryId
             Dim WebForm As New WebForm(url)
