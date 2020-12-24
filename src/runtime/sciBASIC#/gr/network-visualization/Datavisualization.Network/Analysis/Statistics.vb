@@ -57,8 +57,8 @@ Namespace Analysis
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ComputeDegreeData(Of T As IInteraction)(edges As IEnumerable(Of T), Optional base% = 0) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
-            Return GraphNetwork.ComputeDegreeData(edges, Function(l) l.source, Function(l) l.target, base)
+        Public Function ComputeDegreeData(Of T As IInteraction)(edges As IEnumerable(Of T)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+            Return GraphNetwork.ComputeDegreeData(edges, Function(l) l.source, Function(l) l.target)
         End Function
 
         <Extension>
@@ -124,21 +124,21 @@ Namespace Analysis
         ''' </returns>
         <Extension>
         Public Function ComputeNodeDegrees(ByRef g As NetworkGraph, Optional base% = 0) As Dictionary(Of String, Integer)
-            Dim connectNodes As Dictionary(Of String, Integer) = g.ConnectedDegrees.ToDictionary(Function(a) a.Key, Function(a) a.Value + base)
+            Dim connectNodes As Dictionary(Of String, Integer) = g.ConnectedDegrees
             Dim d%
             Dim dt As (Integer, Integer)
-            Dim degreeList = g.graphEdges.ComputeDegreeData(base)
-            Dim sumAllOut As Double = degreeList.out.Values.Sum
-            Dim sumAllDegree As Double = connectNodes.Values.Sum
+            Dim degreeList = g.graphEdges.ComputeDegreeData
+            Dim sumAllOut As Double = degreeList.out.Values.Sum + base * g.vertex.Count
+            Dim sumAllDegree As Double = connectNodes.Values.Sum + base * g.vertex.Count
 
             For Each node As Graph.Node In g.vertex
                 If Not connectNodes.ContainsKey(node.label) Then
                     ' 这个节点是孤立的节点，度为零
-                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, 0)
-                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, 0)
-                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, 0)
-                    node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_DEGREE_CENTRALITY, 0)
-                    node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_OUTDEGREE_CENTRALITY, 0)
+                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, base)
+                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, base)
+                    node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, base)
+                    node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_DEGREE_CENTRALITY, base / sumAllDegree)
+                    node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_OUTDEGREE_CENTRALITY, base / sumAllOut)
                 Else
                     d = connectNodes(node.label)
                     dt = (0, 0)
