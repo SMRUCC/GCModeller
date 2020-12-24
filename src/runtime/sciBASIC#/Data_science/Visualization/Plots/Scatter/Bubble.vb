@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2df0c4644e088d562de648277b3f42e8, Data_science\Visualization\Plots\Scatter\Bubble.vb"
+﻿#Region "Microsoft.VisualBasic::eb0659bf2128a4794c940c85b4a9b31e, Data_science\Visualization\Plots\Scatter\Bubble.vb"
 
     ' Author:
     ' 
@@ -318,7 +318,7 @@ Public Class Bubble : Inherits Plot
             topLeft = New Point With {.X = px, .Y = py}
         End If
 
-        Dim legends = LinqAPI.Exec(Of Legend) <=
+        Dim legends = LinqAPI.Exec(Of LegendObject) <=
  _
             From serial As SerialData
             In data
@@ -326,7 +326,7 @@ Public Class Bubble : Inherits Plot
                 strokeColorAsMainColor,
                 Stroke.TryParse(serial.pts(serial.pts.Length \ 2).stroke).fill,
                 serial.color.RGBExpression)
-            Select New Legend With {
+            Select New LegendObject With {
                 .color = color,
                 .fontstyle = theme.axisLabelCSS,
                 .style = LegendStyles.Circle,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9faa7b8f66d52c3899c991b76c36e2c, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
+﻿#Region "Microsoft.VisualBasic::56de6603a31fb3db152f4c9c1c1d22b1, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
 
     ' Author:
     ' 
@@ -184,7 +184,8 @@ Namespace CommandLine.InteropService.SharedORM
                     ' 不是以数字开头的，则尝试解决关键词的问题
                     func = KeywordProcessor.AutoEscapeVBKeyword(func)
                 End If
-                params = vbParameters(api.Value)
+
+                params = vbParameters(api.Value, argumentNames:=False)
             Catch ex As Exception
                 ex = New Exception("Check for your CLI Usage definition: " & api.Value.ToString, ex)
                 Throw ex
@@ -202,23 +203,32 @@ Namespace CommandLine.InteropService.SharedORM
             End If
 
             Dim funcDeclare$ = $"Public Function {func}({params.JoinBy(deli)}) As Integer"
+            Dim funcGetCommandLine$ = $"Public Function Get{func}CommandLine({params.JoinBy(deli)}{If(params.Length > 0, ", ", "")}Optional internal_pipelineMode As Boolean = True) As String"
 
             Call vb.AppendLine(funcDeclare)
+            Call vb.AppendLine($"Dim cli = Get{func}CommandLine({vbParameters(api.Value, argumentNames:=True).Select(Function(aName) $"{aName}:={aName}").JoinBy(deli)}{If(params.Length > 0, ", ", "")}internal_pipelineMode:=True)")
+
+            If incompatible Then
+                ' 这个CLI是不兼容的方法
+                Call vb.AppendLine($"    Dim proc As {NameOf(IIORedirectAbstract)} = {NameOf(InteropService.RunProgram)}(cli, Nothing)")
+            Else
+                ' 兼容的
+                Call vb.AppendLine($"    Dim proc As {NameOf(IIORedirectAbstract)} = {NameOf(InteropService.RunDotNetApp)}(cli)")
+            End If
+
+            Call vb.AppendLine($"    Return proc.{NameOf(IIORedirectAbstract.Run)}()")
+            Call vb.AppendLine("End Function")
+
+
+
+            Call vb.AppendLine(funcGetCommandLine)
             Call vb.AppendLine($"    Dim CLI As New StringBuilder(""{api.Value.Name}"")")
             ' 插入命令名称和参数值之间的一个必须的空格
             Call vb.AppendLine("    Call CLI.Append("" "")")
             Call vb.AppendLine(createCliCalls(+api))
             Call vb.AppendLine()
+            Call vb.AppendLine("Return CLI.ToString()")
 
-            If incompatible Then
-                ' 这个CLI是不兼容的方法
-                Call vb.AppendLine($"    Dim proc As {NameOf(IIORedirectAbstract)} = {NameOf(InteropService.RunProgram)}(CLI.ToString(), Nothing)")
-            Else
-                ' 兼容的
-                Call vb.AppendLine($"    Dim proc As {NameOf(IIORedirectAbstract)} = {NameOf(InteropService.RunDotNetApp)}(CLI.ToString())")
-            End If
-
-            Call vb.AppendLine($"    Return proc.{NameOf(IIORedirectAbstract.Run)}()")
             Call vb.AppendLine("End Function")
         End Sub
 
@@ -247,20 +257,24 @@ Namespace CommandLine.InteropService.SharedORM
         ''' </summary>
         ''' <param name="API"></param>
         ''' <returns></returns>
-        Private Shared Function vbParameters(API As CommandLine) As String()
+        Private Shared Function vbParameters(API As CommandLine, argumentNames As Boolean) As String()
             Dim out As New List(Of String)
             Dim param$
 
             If API.arguments = 1 AndAlso API.arguments(Scan0).Name.StringEmpty Then
                 ' /command <term>
-                out += $"term As String"
+                out += If(argumentNames, "term", $"term As String")
             Else
                 For Each arg As NamedValue(Of String) In API.ParameterList
-                    param = $"{VisualBasic.normAsVisualBasicName(arg.Name)} As String"
+                    param = VisualBasic.normAsVisualBasicName(arg.Name)
 
-                    If Not arg.Description.StringEmpty Then
-                        ' 可选参数
-                        param = $"Optional {param} = ""{optionalDefaultValue(arg.Value)}"""
+                    If Not argumentNames Then
+                        param = $"{param} As String"
+
+                        If Not arg.Description.StringEmpty Then
+                            ' 可选参数
+                            param = $"Optional {param} = ""{optionalDefaultValue(arg.Value)}"""
+                        End If
                     End If
 
                     out += param
@@ -268,7 +282,13 @@ Namespace CommandLine.InteropService.SharedORM
             End If
 
             For Each bool In API.BoolFlags
-                out += $"Optional {VisualBasic.normAsVisualBasicName(bool)} As Boolean = False"
+                param = VisualBasic.normAsVisualBasicName(bool)
+
+                If argumentNames Then
+                    out += param
+                Else
+                    out += $"Optional {param} As Boolean = False"
+                End If
             Next
 
             Return out
@@ -356,14 +376,14 @@ Namespace CommandLine.InteropService.SharedORM
                 envir = normAsVisualBasicName(envir)
 
                 Call CLI.AppendLine($"    If Not {envir}.{NameOf(StringEmpty)} Then")
-                Call CLI.AppendLine($"     Call CLI.Append($""/@set """"""""{Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE;'{{{envir}}}'"""""""" "")")
+                Call CLI.AppendLine($"     Call CLI.Append($""/@set """"""""{Microsoft.VisualBasic.App.FlagInternalPipeline}={{internal_pipelineMode.ToString.ToUpper()}};'{{{envir}}}'"""""""" "")")
                 Call CLI.AppendLine("Else")
                 ' 没有需要组装的,直接添加调用
-                Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
+                Call CLI.AppendLine($"     Call CLI.Append($""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}={{internal_pipelineMode.ToString.ToUpper()}} "")")
                 Call CLI.AppendLine("    End If")
             Else
                 ' 没有需要组装的,直接添加调用
-                Call CLI.AppendLine($"     Call CLI.Append(""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}=TRUE "")")
+                Call CLI.AppendLine($"     Call CLI.Append($""/@set {Microsoft.VisualBasic.App.FlagInternalPipeline}={{internal_pipelineMode.ToString.ToUpper()}} "")")
             End If
 
             Return CLI.ToString

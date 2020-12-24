@@ -262,6 +262,10 @@ Public Module Enrichment
         Dim pvalue# = F.FishersExact(a, b, c, d).two_tail_pvalue
         Dim score# = a / b
 
+        If a = 0 Then
+            pvalue = 1
+        End If
+
         If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
             Return Nothing
         End If

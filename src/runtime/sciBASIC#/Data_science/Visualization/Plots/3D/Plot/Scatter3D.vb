@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdfc50e575a0dced87637162f49619e5, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
+﻿#Region "Microsoft.VisualBasic::a0f30311e53c85ec47cf03debbc70963, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
 
     ' Author:
     ' 
@@ -158,9 +158,9 @@ Namespace Plot3D.Impl
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim legends As Legend() = serials _
+            Dim legends As LegendObject() = serials _
                 .Select(Function(s)
-                            Return New Legend With {
+                            Return New LegendObject With {
                                 .color = s.Color.RGBExpression,
                                 .fontstyle = theme.axisLabelCSS,
                                 .style = s.Shape,

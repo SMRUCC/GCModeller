@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e15dc6fe45c0f297e021d089033fe67, Data_science\Visualization\Plots\g\Plot.vb"
+﻿#Region "Microsoft.VisualBasic::a527e0d4e38d9228bd105b3225c64f1f, Data_science\Visualization\Plots\g\Plot.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Function: EvaluateLayout, Plot
     ' 
-    '         Sub: Plot
+    '         Sub: DrawLegends, DrawMainTitle, Plot
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,6 +48,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -101,6 +102,77 @@ Namespace Graphic
         End Function
 
         Protected MustOverride Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+
+        Protected Sub DrawLegends(g As IGraphics, legends As LegendObject(), canvas As GraphicsRegion)
+            Dim legendLabelFont As Font = CSSFont.TryParse(theme.legendLabelCSS)
+            Dim lsize As SizeF = g.MeasureString("A", legendLabelFont)
+            Dim legendParts As LegendObject()() = Nothing
+            Dim maxWidth!
+            Dim legendPos As Point
+            Dim legendSize$
+            Dim region As Rectangle = canvas.PlotRegion
+
+            Const ratio As Double = 0.65
+
+            lsize = New SizeF(lsize.Height * ratio, lsize.Height * ratio)
+            legendSize = $"{lsize.Width},{lsize.Height}"
+
+            If theme.legendLayout Is Nothing Then
+                Dim maxLen = legends.Select(Function(l) l.title).MaxLengthString
+                Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject
+
+                maxWidth! = g.MeasureString(maxLen, lFont).Width
+
+                If theme.legendSplitSize > 0 AndAlso legends.Length > theme.legendSplitSize Then
+                    legendParts = legends.Split(theme.legendSplitSize)
+                    legendPos = New Point With {
+                        .X = region.Width - (lsize.Width + maxWidth + 5) * (legendParts.Length - 1),
+                        .Y = region.Top + lFont.Height
+                    }
+                Else
+                    legendPos = New Point With {
+                        .X = region.Size.Width - lsize.Width / 3 - maxWidth,
+                        .Y = region.Top + lFont.Height
+                    }
+                End If
+            End If
+
+            If legendParts.IsNullOrEmpty Then
+                Call g.DrawLegends(
+                    legendPos, legends, legendSize,
+                    shapeBorder:=theme.legendBoxStroke,
+                    regionBorder:=theme.legendBoxStroke,
+                    fillBg:=theme.legendBoxBackground
+                )
+            Else
+                For Each part As LegendObject() In legendParts
+                    Call g.DrawLegends(
+                        legendPos, part, legendSize,
+                        shapeBorder:=theme.legendBoxStroke,
+                        regionBorder:=theme.legendBoxStroke,
+                        fillBg:=theme.legendBoxBackground
+                    )
+
+                    legendPos = New Point With {
+                        .X = legendPos.X + maxWidth + lsize.Width + 5,
+                        .Y = legendPos.Y
+                    }
+                Next
+            End If
+        End Sub
+
+        Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle)
+            If Not main.StringEmpty Then
+                Dim fontOfTitle As Font = CSSFont.TryParse(theme.mainCSS)
+                Dim titleSize As SizeF = g.MeasureString(main, fontOfTitle)
+                Dim position As New PointF With {
+                    .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,
+                    .Y = plotRegion.Y - titleSize.Height * 1.125
+                }
+
+                Call g.DrawString(main, fontOfTitle, Brushes.Black, position)
+            End If
+        End Sub
 
     End Class
 End Namespace

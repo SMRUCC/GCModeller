@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37e79463eeeb937abe91d07bd6aaced, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\Plot\DendrogramPanel.vb"
+﻿#Region "Microsoft.VisualBasic::663d71d3a59935265448a3de9b863654, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\Plot\DendrogramPanel.vb"
 
     ' Author:
     ' 
@@ -85,7 +85,7 @@ Public MustInherit Class DendrogramPanel : Inherits Plot
         Me.classinfo = classinfo
         Me.showAllLabels = showAllLabels
         Me.labelFont = CSSFont.TryParse(theme.tagCSS)
-        Me.linkColor = Stroke.TryParse(theme.gridStroke).GDIObject
+        Me.linkColor = Stroke.TryParse(theme.gridStrokeX).GDIObject
         Me.showAllNodes = showAllNodes
         Me.pointColor = pointColor.GetBrush
         Me.showLeafLabels = showLeafLabels

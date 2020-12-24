@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3f45938620162389682a6948164f782, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::ac7e8d63daa414e9bc0152bf9b73b254, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
 
     ' Author:
     ' 
@@ -96,7 +96,7 @@ Namespace BarPlot.Histogram
                 },
                 .Samples = {
                     New HistProfile With {
-                        .legend = New Legend With {
+                        .legend = New LegendObject With {
                             .color = color,
                             .fontstyle = CSSFont.Win10Normal,
                             .style = LegendStyles.Rectangle,
@@ -392,7 +392,7 @@ Namespace BarPlot.Histogram
                                       Optional yLabel$ = "Y",
                                       Optional xAxis$ = Nothing,
                                       Optional showLegend As Boolean = True) As GraphicsData
-            Dim histLegend As New Legend With {
+            Dim histLegend As New LegendObject With {
                 .color = color,
                 .fontstyle = CSSFont.Win7LargerBold,
                 .style = LegendStyles.Rectangle,

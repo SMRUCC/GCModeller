@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::262c9b0ae1b81bf61fc79fa51fe822bc, Data_science\Visualization\Plots\BarPlot\Histogram\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::fe531378bf78eb40977bea9a403e17a4, Data_science\Visualization\Plots\BarPlot\Histogram\DataModel.vb"
 
     ' Author:
     ' 
@@ -175,7 +175,7 @@ Namespace BarPlot.Histogram
         ''' <summary>
         ''' The legend plot definition
         ''' </summary>
-        Public legend As Legend
+        Public legend As LegendObject
         Public data As HistogramData()
 
         Public ReadOnly Property SerialData As NamedValue(Of Color)
@@ -187,7 +187,7 @@ Namespace BarPlot.Histogram
             End Get
         End Property
 
-        Sub New(legend As Legend, data As HistogramData())
+        Sub New(legend As LegendObject, data As HistogramData())
             Me.legend = legend
             Me.data = data
         End Sub

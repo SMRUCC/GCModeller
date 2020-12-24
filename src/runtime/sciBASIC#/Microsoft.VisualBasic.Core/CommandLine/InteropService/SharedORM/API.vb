@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ce81fd26240eaf94505d0b12c5a8a6a, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\API.vb"
+﻿#Region "Microsoft.VisualBasic::1dc8f2ae695690c348365c02d785831f, Microsoft.VisualBasic.Core\CommandLine\InteropService\SharedORM\API.vb"
 
     ' Author:
     ' 
@@ -200,7 +200,7 @@ Namespace CommandLine.InteropService.SharedORM
             Do While Not t.EndRead
                 c = ++t
 
-                If c = " "c Then
+                If c = " "c OrElse c = "="c Then
                     If Not valueEscape Then
                         out += New String(tmp)
                         tmp *= 0

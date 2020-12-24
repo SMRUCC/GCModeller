@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e159668cac3167b0d89551356ed4d635, Data_science\Visualization\Visualization\UMAP\Umap2D.vb"
+﻿#Region "Microsoft.VisualBasic::0b6e8c72178c9b5cc3c60344e0643ab7, Data_science\Visualization\Visualization\UMAP\Umap2D.vb"
 
     ' Author:
     ' 
@@ -41,19 +41,81 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Public Class Umap2D ： Inherits UmapRender
 
-    Public Sub New(umap As Umap, labels$(), clusters As Dictionary(Of String, String), colorSet$, theme As Theme)
+    ReadOnly showConvexHull As Boolean
+
+    Public Sub New(umap As Umap, labels$(), clusters As Dictionary(Of String, String), colorSet$, showConvexHull As Boolean, theme As Theme)
         MyBase.New(umap, labels, clusters, colorSet, theme)
+
+        Me.showConvexHull = showConvexHull
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim embeddings As PointF() = umap.GetPoint2D
+        Dim serials As SerialData()
+        Dim hullConvexList As String() = Nothing
+
+        If clusters.IsNullOrEmpty Then
+            serials = {
+                New SerialData With {
+                    .color = Color.Gray,
+                    .pointSize = theme.pointSize,
+                    .shape = LegendStyles.Circle,
+                    .title = "ungroups",
+                    .pts = embeddings _
+                        .Select(Function(p) New PointData(p)) _
+                        .ToArray
+                }
+            }
+            hullConvexList = Nothing
+        Else
+            Dim maps As New Dictionary(Of String, List(Of PointData))
+            Dim color = GetClusterColors()
+
+            For Each group In color
+                maps(group.Key) = New List(Of PointData)
+            Next
+
+            For i As Integer = 0 To embeddings.Length - 1
+                maps(getClusterLabel(i)).Add(New PointData(embeddings(i)))
+            Next
+
+            serials = maps _
+                .Where(Function(c) c.Value.Count > 0) _
+                .Select(Function(a)
+                            Return New SerialData With {
+                                .color = color(a.Key).Color,
+                                .pointSize = theme.pointSize,
+                                .pts = a.Value.ToArray,
+                                .shape = LegendStyles.Circle,
+                                .title = a.Key
+                            }
+                        End Function) _
+                .ToArray
+
+            If showConvexHull Then
+                hullConvexList = maps _
+                    .Keys _
+                    .Where(Function(a) a <> "n/a") _
+                    .ToArray
+            End If
+        End If
+
+        Call New Plots.Scatter2D(
+            data:=serials,
+            theme:=theme,
+            scatterReorder:=False,
+            fillPie:=True,
+            ablines:=Nothing,
+            hullConvexList:=hullConvexList
+        ).Plot(g, canvas.PlotRegion)
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::217f7dcaf3a886ae62c9f2628b143082, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationTriangle.vb"
+﻿#Region "Microsoft.VisualBasic::0ee24ece9d58b41c04a5c140328cbdea, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationTriangle.vb"
 
     ' Author:
     ' 
@@ -207,7 +207,7 @@ Namespace Heatmap
         ''' <param name="variantSize">热图之中的圆圈的半径大小是否随着相关度的值而发生改变？</param>
         ''' <returns></returns>
         ''' 
-        Public Overloads Shared Function Plot(data As DistanceMatrix,
+        Public Overloads Shared Function Plot(data As DataMatrix,
                                               Optional mapLevels% = 30,
                                               Optional mapName$ = "lighter(" & ColorBrewer.DivergingSchemes.RdBu11 & ",0.05)",
                                               Optional size$ = "1600,1600",

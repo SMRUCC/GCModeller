@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b2a25b626a77737a2e1b58c09a4f3fc, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\Plot\Dendrogram.vb"
+﻿#Region "Microsoft.VisualBasic::37020d8cd119f955a7b8d33c4328c011, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\Plot\Dendrogram.vb"
 
     ' Author:
     ' 
@@ -69,8 +69,9 @@ Public Module Dendrogram
             .padding = padding,
             .axisTickCSS = axisTickCss,
             .tagCSS = labelCss,
-            .PointSize = pointSize,
-            .gridStroke = linkStroke,
+            .pointSize = pointSize,
+            .gridStrokeX = linkStroke,
+            .gridStrokeY = linkStroke,
             .axisStroke = axisStroke
         }
         Dim colors As ColorClass() = Nothing

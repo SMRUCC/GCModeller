@@ -107,7 +107,7 @@ Partial Module CLI
 
         ' 需要转换一次csv再转换回来，从而才能进行排序和填充零，进行相似度矩阵运算
         Dim csv = objects.ToCsvDoc(False, metaBlank:="0")
-        Dim matrix = csv.AsDataSource(Of DataSet).MatrixBuilder(AddressOf Correlations.GetPearson, isDistance:=False)
+        Dim matrix = csv.AsDataSource(Of DataSet).Correlation
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.PopulateRowObjects(Of DataSet).SaveTo(out & "/matrix.csv")

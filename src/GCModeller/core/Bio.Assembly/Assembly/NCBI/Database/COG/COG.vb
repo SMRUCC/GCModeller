@@ -52,7 +52,7 @@ Namespace Assembly.NCBI.COG
     ''' <summary>
     ''' COG function description data.
     ''' </summary>
-    Public Class COGFunction : Inherits CatalogProfiling
+    Public Class COGFunction : Inherits CatalogList
         Implements INamedValue
 
         ''' <summary>

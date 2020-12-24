@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::705cab2d3934cc12dd47b18f44086dd9, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationData.vb"
+﻿#Region "Microsoft.VisualBasic::2925e31f95f6bafbad82bbb6c889e7ad, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationData.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Namespace Heatmap
 
     Public Class CorrelationData
 
-        Friend data As DistanceMatrix
+        Friend data As DataMatrix
         Friend min#, max#
         Friend range As DoubleRange
         Friend levelRange As DoubleRange
@@ -67,7 +67,7 @@ Namespace Heatmap
             End Get
         End Property
 
-        Sub New(data As DistanceMatrix, Optional range As DoubleRange = Nothing)
+        Sub New(data As DataMatrix, Optional range As DoubleRange = Nothing)
             With range Or data _
                 .PopulateRows _
                 .IteratesALL _
@@ -78,7 +78,7 @@ Namespace Heatmap
                 min = .Min
                 max = .Max
 
-                If data.is_dist Then
+                If TypeOf data Is DistanceMatrix Then
                     range = {0, .Max}
                 Else
                     range = {min, max}

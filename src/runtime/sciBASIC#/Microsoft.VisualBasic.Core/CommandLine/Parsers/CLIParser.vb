@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34766f4a09707ef789f5b26952da094f, Microsoft.VisualBasic.Core\CommandLine\Parsers\CLIParser.vb"
+﻿#Region "Microsoft.VisualBasic::c7b82975a8f2a6d5ad70781db8069798, Microsoft.VisualBasic.Core\CommandLine\Parsers\CLIParser.vb"
 
     ' Author:
     ' 
@@ -149,7 +149,11 @@ Namespace CommandLine.Parsers
                                  Optional duplicatedAllows As Boolean = False,
                                  Optional rawInput$ = Nothing) As CommandLine
 
+#If UNIX Then
+            Dim tokens$() = POSIX.JoinTokens(args.SafeQuery).ToArray
+#Else
             Dim tokens$() = args.SafeQuery.ToArray
+#End If
             Dim singleValue$ = ""
 
             If tokens.Length = 0 Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca56146417295f3ef339fc2b0757512a, Data_science\Visualization\Visualization\UMAP\UmapRenderExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::f5eb3c90d840b3cb0be7a82442531824, Data_science\Visualization\Visualization\UMAP\UmapRenderExtensions.vb"
 
     ' Author:
     ' 
@@ -83,16 +83,24 @@ Public Module UmapRenderExtensions
     ''' </summary>
     ''' <param name="umap"></param>
     ''' <param name="labels"></param>
+    ''' <param name="clusters">[label => clusterid]</param>
     ''' <returns></returns>
     <Extension>
     Public Function DrawUmap2D(umap As Umap,
                                Optional labels As IEnumerable(Of String) = Nothing,
                                Optional clusters As Dictionary(Of String, String) = Nothing,
-                               Optional size$ = "2048,1600",
-                               Optional padding$ = g.DefaultPadding,
-                               Optional colorSet$ = "Set1:c8") As GraphicsData
+                               Optional size$ = "2440,1920",
+                               Optional padding$ = g.DefaultUltraLargePadding,
+                               Optional colorSet$ = "Set1:c8",
+                               Optional showConvexHull As Boolean = True,
+                               Optional pointSize% = 10,
+                               Optional legendLabelCSS$ = CSSFont.PlotLabelNormal) As GraphicsData
+
         Dim theme As New Theme With {
-            .padding = padding
+            .padding = padding,
+            .pointSize = pointSize,
+            .legendLabelCSS = legendLabelCSS,
+            .legendSplitSize = If(clusters Is Nothing OrElse clusters.Count <= 5, 0, 5)
         }
 
         Return New Umap2D(
@@ -100,10 +108,30 @@ Public Module UmapRenderExtensions
             labels:=labels.SafeQuery.ToArray,
             clusters:=clusters,
             colorSet:=colorSet,
-            theme:=theme
+            theme:=theme,
+            showConvexHull:=showConvexHull
         ).Plot(size)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="umap"></param>
+    ''' <param name="camera"></param>
+    ''' <param name="labels"></param>
+    ''' <param name="clusters">[label => clusterid]</param>
+    ''' <param name="size$"></param>
+    ''' <param name="padding$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="colorSet$"></param>
+    ''' <param name="axisLabelCSS$"></param>
+    ''' <param name="axisStroke$"></param>
+    ''' <param name="labelCSS$"></param>
+    ''' <param name="pointSize#"></param>
+    ''' <param name="showLabels"></param>
+    ''' <param name="labelColor$"></param>
+    ''' <param name="bubbleAlpha"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function DrawUmap3D(umap As Umap, camera As Camera,
                                Optional labels As IEnumerable(Of String) = Nothing,
