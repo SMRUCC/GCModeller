@@ -54,6 +54,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DAGasTabular(g As NetworkGraph) As NetworkTables
-        Return g.Tabular({"relationship", "definition", "evidence", "is_obsolete", value_colors})
+        Return g.Tabular(properties:={"relationship", "definition", "evidence", "is_obsolete", value_colors})
     End Function
 End Module

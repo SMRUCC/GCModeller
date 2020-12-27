@@ -166,7 +166,8 @@ Partial Module CLI
                 extended:=args("/extended"),
                 enzymes:=enzyme,
                 enzymaticRelated:=args("/enzymeRelated")
-            ).Tabular({"name", "is_extended"}).AnalysisDegrees
+            ).Tabular(properties:={"name", "is_extended"}) _
+             .AnalysisDegrees
 
         Call graph.VisualizeKEGG(size:=size).SaveAs($"{out}/network.png")
         Call graph.Save(out)

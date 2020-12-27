@@ -52,7 +52,7 @@ Imports gNode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 Public Module Visualizer
 
     Public Function CreateTabularFormat(g As NetworkGraph) As NetworkTables
-        Return g.Tabular({"mass", "weight"})
+        Return g.Tabular(properties:={"mass", "weight"})
     End Function
 
     <Extension>
