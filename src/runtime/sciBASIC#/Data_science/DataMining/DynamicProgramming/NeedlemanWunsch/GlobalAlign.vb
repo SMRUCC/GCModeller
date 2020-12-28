@@ -71,7 +71,7 @@ Namespace NeedlemanWunsch
             For i As Integer = 0 To Length - 1
                 Call vq.Add(1)
 
-                If scoreMatrix.__equals(query(i), subject(i)) Then
+                If scoreMatrix.m_equals(query(i), subject(i)) Then
                     Call vs.Add(1)
                 Else
                     Call vs.Add(0)
