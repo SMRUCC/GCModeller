@@ -78,6 +78,12 @@ Public Class Probability
         Public Property frequency As Dictionary(Of Char, Double)
         Public Property index As Integer
 
+        Public ReadOnly Property topChar As Char
+            Get
+                Return Max(Me)
+            End Get
+        End Property
+
         Default Public ReadOnly Property getFrequency(base As Char) As Double
             Get
                 Return _frequency(base)
@@ -113,6 +119,10 @@ Public Class Probability
             Else
                 Return Char.ToLower(maxChar)
             End If
+        End Function
+
+        Public Function Cos(r As Residue) As Double
+
         End Function
 
         Public Shared Function Max(r As Residue) As Char
