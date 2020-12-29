@@ -26,6 +26,10 @@ Namespace NeedlemanWunsch
             m_equals = match
         End Sub
 
+        Sub New(symbol As GenericSymbol(Of T))
+            Call Me.New(symbol.getEquals)
+        End Sub
+
         ''' <summary>
         ''' if char a is equal to char b
         ''' return the match score
