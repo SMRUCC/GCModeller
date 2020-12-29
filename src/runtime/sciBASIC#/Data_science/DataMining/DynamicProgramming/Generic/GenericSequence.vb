@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
-Public Class GenericSequence(Of T)
+Public Class GenericSequence(Of T) : Implements IEnumerable(Of T)
 
     Dim m_seq As T()
     Dim m_symbol As GenericSymbol(Of T)
@@ -62,4 +62,14 @@ Public Class GenericSequence(Of T)
     Public Shared Operator <>(a As GenericSequence(Of T), b As GenericSequence(Of T)) As Boolean
         Return Not a = b
     End Operator
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+        For Each x As T In m_seq
+            Yield x
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
 End Class

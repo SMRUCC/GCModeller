@@ -68,7 +68,7 @@ Namespace NeedlemanWunsch
         Dim aligned1 As New List(Of T())
         Dim aligned2 As New List(Of T())
 
-        Protected ReadOnly m_toChar As Func(Of T, Char)
+        Protected Friend ReadOnly m_toChar As Func(Of T, Char)
 
         ''' <summary>
         ''' get numberOfAlignments </summary>

@@ -70,6 +70,8 @@ Namespace NeedlemanWunsch
 
         Sub New(score As ScoreMatrix(Of T), symbol As GenericSymbol(Of T))
             Call MyBase.New(score, symbol.m_viewChar)
+
+            Me.symbol = symbol
         End Sub
 
         ''' <summary>
