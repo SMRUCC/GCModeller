@@ -20,7 +20,7 @@ Public Class GenericSymbol(Of T)
     End Sub
 
     Public Function getEquals() As IEquals(Of T)
-        Return m_equals.Method.CreateDelegate(GetType(IEquals(Of T)))
+        Return Function(x, y) m_equals(x, y)
     End Function
 
     Public Function getEmpty() As T
