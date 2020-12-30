@@ -151,7 +151,7 @@ Namespace Analysis.Similarity.TOMQuery
                                 method As ISimilarity(Of MotifScans.ResidueSite),
                                 params As Parameters) As Output
             Dim sw As New SWAlignment(query, subject, method)
-            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, AddressOf TomTOm.ToChar, params.SWThreshold, params.MinW)
+            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, params.SWThreshold, params.MinW)
             Dim output As New Output With {
                 .Query = query,
                 .Subject = subject,

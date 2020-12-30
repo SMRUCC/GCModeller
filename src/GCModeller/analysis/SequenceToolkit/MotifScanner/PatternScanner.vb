@@ -141,7 +141,7 @@ Public Class PatternScanner : Inherits IScanner
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function GetOutput(this As GSW(Of String), cutoff#, minW%) As Output
-        Return Output.CreateObject(this, Function(x) x, cutoff, minW)
+        Return Output.CreateObject(this, cutoff, minW)
     End Function
 
     Public Shared Function ToChar(s As String) As Char

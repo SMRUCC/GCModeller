@@ -45,6 +45,7 @@
 Imports System.Linq
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' 对<see cref="LocalHSPMatch(Of Char)"/>的XML文件保存文件格式对象
@@ -56,6 +57,26 @@ Public Class HSP : Inherits Match
 
     <XmlAttribute> Public Property QueryLength As Integer
     <XmlAttribute> Public Property SubjectLength As Integer
+
+    ''' <summary>
+    ''' length of the query fragment size
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property LengthQuery As Integer
+        Get
+            Return stdNum.Abs(toA - fromA)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' length of the hit fragment size
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property LengthHit As Integer
+        Get
+            Return stdNum.Abs(toB - fromB)
+        End Get
+    End Property
 
     Sub New()
     End Sub
