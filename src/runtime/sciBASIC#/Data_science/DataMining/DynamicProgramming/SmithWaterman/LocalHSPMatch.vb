@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports stdNum = System.Math
 
 Namespace SmithWaterman
@@ -56,6 +57,17 @@ Namespace SmithWaterman
             Me.seq1 = seq1.Skip(fromA).Take(toA - fromA).ToArray
             Me.seq2 = seq2.Skip(fromB).Take(toB - fromB).ToArray
         End Sub
+
+        Public Function GetAlignment() As GlobalAlign(Of T)
+            Dim gnw As New NeedlemanWunsch(Of T)(seq1, seq2, New ScoreMatrix(Of T)(symbol), symbol)
+            Dim best As GlobalAlign(Of T) = gnw _
+                .Compute() _
+                .PopulateAlignments _
+                .OrderByDescending(Function(a) a.score) _
+                .FirstOrDefault
+
+            Return best
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Function ToString(seq As T(), toChar As Func(Of T, Char)) As String
