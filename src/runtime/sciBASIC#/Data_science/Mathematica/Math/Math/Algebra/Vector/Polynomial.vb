@@ -178,7 +178,7 @@ Namespace LinearAlgebra
         End Function
 
         Public Overrides Function ToString(variables() As String, format As String, Optional html As Boolean = False) As String
-            Dim X As Double = variables(Scan0)
+            Dim X As String = variables(Scan0)
             Dim items = Factors _
                 .Select(Function(a, i)
                             If i = 0 Then
