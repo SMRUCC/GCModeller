@@ -381,27 +381,32 @@ Namespace SmithWaterman
         Public Iterator Function GetMatches(Optional scoreThreshold As Double = 19.9) As IEnumerable(Of Match)
             Dim fA As Integer = 0
             Dim fB As Integer = 0
+            Dim score_ij As Double
+            Dim score_ijNext As Double
 
             ' skip the first row and column, find the next maxScore after prevmaxScore 
             For i As Integer = 1 To queryLength
                 For j As Integer = 1 To subjectLength
 
-                    If score(i)(j) > scoreThreshold AndAlso
-                       score(i)(j) > score(i - 1)(j - 1) AndAlso
-                       score(i)(j) > score(i - 1)(j) AndAlso
-                       score(i)(j) > score(i)(j - 1) Then
+                    score_ij = score(i)(j)
 
-                        If i = queryLength OrElse
-                           j = subjectLength OrElse
-                           score(i)(j) > score(i + 1)(j + 1) Then
+                    If score_ij > scoreThreshold AndAlso
+                        score_ij > score(i - 1)(j - 1) AndAlso
+                        score_ij > score(i - 1)(j) AndAlso
+                        score_ij > score(i)(j - 1) Then
 
+                        score_ijNext = score(i + 1)(j + 1)
+
+                        If i = queryLength OrElse j = subjectLength OrElse score_ij >= score_ijNext Then
                             ' should be lesser than prev maxScore					    	
                             fA = i
                             fB = j
 
                             With traceback(fA, fB)
-                                ' sets the x, y to startAlignment coordinates
-                                Yield New Match(.i, i, .j, j, score(i)(j) / NORM_FACTOR)
+                                If i - .i > 0 AndAlso j - .j > 0 Then
+                                    ' sets the x, y to startAlignment coordinates
+                                    Yield New Match(.i, i, .j, j, score(i)(j) / NORM_FACTOR)
+                                End If
                             End With
                         End If
                     End If
