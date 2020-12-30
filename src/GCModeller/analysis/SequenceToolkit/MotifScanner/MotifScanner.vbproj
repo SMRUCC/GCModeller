@@ -170,6 +170,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MotifNeedlemanWunsch.vb" />
     <Compile Include="MotifTree.vb" />
     <Compile Include="Consensus\SeedCluster.vb" />
     <Compile Include="Consensus\DATA.vb" />

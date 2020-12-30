@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::089fe273f6778b5abdefa893908dff1b, analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class SmithWaterman
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: Align, GetOutput
-    ' 
-    ' /********************************************************************************/
+' Class SmithWaterman
+' 
+'     Constructor: (+2 Overloads) Sub New
+'     Function: Align, GetOutput
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.SequenceModel
@@ -58,7 +59,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <summary>
     ''' 蛋白比对的矩阵
     ''' </summary>
-    Shared ReadOnly blosum62 As [Default](Of  Blosum) = Blosum.FromInnerBlosum62
+    Shared ReadOnly blosum62 As [Default](Of Blosum) = Blosum.FromInnerBlosum62
 
     ''' <summary>
     '''
@@ -69,12 +70,21 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' If the matrix parameter is null, then the default build in blosum62 matrix will be used.
     ''' </param>
     Sub New(query$, subject$, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.ToArray, subject.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
+        Call MyBase.New(query.ToArray, subject.ToArray, SymbolProvider(blosum))
     End Sub
 
     Sub New(query As ISequenceModel, subject As ISequenceModel, Optional blosum As Blosum = Nothing)
-        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, AddressOf (blosum Or blosum62).GetDistance, Function(x) x)
+        Call MyBase.New(query.SequenceData.ToArray, subject.SequenceData.ToArray, SymbolProvider(blosum))
     End Sub
+
+    Private Shared Function SymbolProvider(blosum As Blosum) As GenericSymbol(Of Char)
+        Return New GenericSymbol(Of Char)(
+            equals:=Function(x, y) x = y,
+            similarity:=AddressOf (blosum Or blosum62).GetDistance,
+            toChar:=Function(x) x,
+            empty:=Function() "-"c
+        )
+    End Function
 
     ''' <summary>
     '''
