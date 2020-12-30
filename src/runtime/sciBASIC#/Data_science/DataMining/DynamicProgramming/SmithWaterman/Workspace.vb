@@ -6,6 +6,7 @@ Namespace SmithWaterman
 
     Public Module Workspace
 
+        <Extension>
         Public Iterator Function CreateHSP(Of T)(sw As GSW(Of T), cutoff As Double) As IEnumerable(Of LocalHSPMatch(Of T))
             For Each match As Match In sw.Matches(cutoff)
                 Yield New LocalHSPMatch(Of T)(match, sw.query, sw.subject, sw.symbol)

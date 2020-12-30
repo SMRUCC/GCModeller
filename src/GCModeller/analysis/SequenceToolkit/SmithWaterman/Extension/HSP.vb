@@ -42,6 +42,7 @@
 
 #End Region
 
+Imports System.Linq
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
@@ -59,6 +60,10 @@ Public Class HSP : Inherits Match
     Sub New()
     End Sub
 
+    Sub New(match As Match)
+        Call MyBase.New(match)
+    End Sub
+
     Sub New(local As LocalHSPMatch(Of Char))
         Call MyBase.New(local)
 
@@ -68,4 +73,12 @@ Public Class HSP : Inherits Match
         SubjectLength = local.SubjectLength
     End Sub
 
+    Public Shared Function CreateFrom(Of T)(local As LocalHSPMatch(Of T), toChar As Func(Of T, Char)) As HSP
+        Return New HSP(local) With {
+            .Query = local.seq1.Select(toChar).CharString,
+            .Subject = local.seq2.Select(toChar).CharString,
+            .QueryLength = local.QueryLength,
+            .SubjectLength = local.SubjectLength
+        }
+    End Function
 End Class

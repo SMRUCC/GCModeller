@@ -94,7 +94,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetOutput(cutoff As Double, minW As Integer) As Output
-        Return Output.CreateObject(Me, Function(x) x, cutoff, minW)
+        Return Output.CreateObject(Me, cutoff, minW)
     End Function
 
     ''' <summary>
