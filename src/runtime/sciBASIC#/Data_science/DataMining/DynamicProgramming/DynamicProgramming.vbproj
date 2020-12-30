@@ -361,6 +361,7 @@
     <Compile Include="NeedlemanWunsch\GNW.vb" />
     <Compile Include="NeedlemanWunsch\GlobalAlign.vb" />
     <Compile Include="NeedlemanWunsch\Workspace.vb" />
+    <Compile Include="SmithWaterman\Directions.vb" />
     <Compile Include="SmithWaterman\GSW.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

@@ -1,54 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::cc99f82c13756694c2f76b6186619f0f, Data_science\DataMining\DynamicProgramming\SmithWaterman\GSW.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GSW
-    ' 
-    '         Properties: AlignmentScore, Matches, MaxScore, query, subject
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __similarity, GetDPMAT, GetMatches, GetTraceback, traceback
-    ' 
-    '         Sub: buildMatrix, getTrackback
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GSW
+' 
+'         Properties: AlignmentScore, Matches, MaxScore, query, subject
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __similarity, GetDPMAT, GetMatches, GetTraceback, traceback
+' 
+'         Sub: buildMatrix, getTrackback
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein.LevenshteinDistance
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -111,20 +109,6 @@ Namespace SmithWaterman
         Public Const MISMATCH_SCORE As Integer = -8
         Public Const INDEL_SCORE As Integer = -9
 
-        ''' <summary>
-        ''' Constants of directions.
-        ''' Multiple directions are stored by bits.
-        ''' The zero direction is the starting point.
-        ''' </summary>
-        Public Const DR_LEFT As Integer = 1
-        ' 0001
-        Public Const DR_UP As Integer = 2
-        ' 0010
-        Public Const DR_DIAG As Integer = 4
-        ' 0100
-        Public Const DR_ZERO As Integer = 8
-        ' 1000
-
 #Region "Interface"
 
         ''' <summary>
@@ -132,8 +116,7 @@ Namespace SmithWaterman
         ''' The position of the first character is 1.
         ''' A position of 0 represents a gap. 
         ''' </summary>
-        ReadOnly similarity As ISimilarity(Of T)
-        Public ReadOnly ToChar As ToChar(Of T)
+        Friend ReadOnly symbol As GenericSymbol(Of T)
 #End Region
 
         ''' <summary>
@@ -169,8 +152,7 @@ Namespace SmithWaterman
         ''' <summary>
         ''' Return a set of Matches idenfied in Dynamic programming matrix. 
         ''' A match is a pair of subsequences whose score is higher than the 
-        ''' preset scoreThreshold
-        ''' 
+        ''' preset scoreThreshold.
         ''' </summary>
         Public ReadOnly Property Matches(Optional scoreThreshold As Double = 19.9) As Match()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -182,21 +164,22 @@ Namespace SmithWaterman
         End Property
 
         ''' <summary>
-        ''' <paramref name="similarity"/>这个函数返回来的分数越高说明二者越相似
+        ''' <paramref name="symbol"/>里面的similarity函数返回来的分数越高说明二者越相似
         ''' </summary>
         ''' <param name="query"></param>
         ''' <param name="subject"></param>
-        ''' <param name="similarity">Blosum matrix or motif similarity</param>
-        ''' <param name="asChar">Display alignment</param>
-        Sub New(query As T(), subject As T(), similarity As ISimilarity(Of T), asChar As ToChar(Of T))
+        ''' <param name="symbol">
+        ''' A generic object model that should contains a Blosum matrix or motif 
+        ''' similarity function, and a to char method for display alignment.
+        ''' </param>
+        Sub New(query As T(), subject As T(), symbol As GenericSymbol(Of T))
             Me.queryLength = query.Length
             Me.subjectLength = subject.Length
             Me.query = query
             Me.subject = subject
             Me.score = MAT(Of Double)(queryLength + 1, subjectLength + 1)
             Me.prevCells = MAT(Of Integer)(queryLength + 1, subjectLength + 1)
-            Me.similarity = similarity
-            Me.ToChar = asChar
+            Me.symbol = symbol
 
             Call buildMatrix()
         End Sub
@@ -206,15 +189,37 @@ Namespace SmithWaterman
         ''' <param name="i"> Position of the character in str1 </param>
         ''' <param name="j"> Position of the character in str2 </param>
         ''' <returns> Cost of substitution of the character in str1 by the one in str2 </returns>
-        Private Function __similarity(i As Integer, j As Integer) As Double
+        Private Function similarity(i As Integer, j As Integer) As Double
             If i = 0 OrElse j = 0 Then
                 ' it's a gap (indel)
                 Return INDEL_SCORE
             End If
 
             'return (str1.charAt(i - 1) == str2.charAt(j  - 1)) ? MATCH_SCORE : MISMATCH_SCORE;
-            Return similarity(query(i - 1), subject(j - 1))
+            Return symbol.m_similarity(query(i - 1), subject(j - 1))
         End Function
+
+        Private Sub init()
+            ' i = length of prefix substring of str1
+            ' j = length of prefix substring of str2
+
+            ' base case
+            score(0)(0) = 0
+            prevCells(0)(0) = Directions.DR_ZERO
+
+            ' starting point
+            ' the first row
+            For i As Integer = 1 To queryLength
+                score(i)(0) = 0
+                prevCells(i)(0) = Directions.DR_ZERO
+            Next
+
+            ' the first column
+            For j As Integer = 1 To subjectLength
+                score(0)(j) = 0
+                prevCells(0)(j) = Directions.DR_ZERO
+            Next
+        End Sub
 
         ''' <summary>
         ''' Build the score matrix using dynamic programming.
@@ -225,33 +230,16 @@ Namespace SmithWaterman
         Private Sub buildMatrix()
             If INDEL_SCORE >= 0 Then
                 Throw New Exception("Indel score must be negative")
+            Else
+                Call init()
             End If
 
-            Dim i As Integer        ' length of prefix substring of str1
-            Dim j As Integer        ' length of prefix substring of str2
-
-            ' base case
-            score(0)(0) = 0
-            prevCells(0)(0) = DR_ZERO
-            ' starting point
-            ' the first row
-            For i = 1 To queryLength
-                score(i)(0) = 0
-                prevCells(i)(0) = DR_ZERO
-            Next
-
-            ' the first column
-            For j = 1 To subjectLength
-                score(0)(j) = 0
-                prevCells(0)(j) = DR_ZERO
-            Next
-
             ' the rest of the matrix
-            For i = 1 To queryLength
-                For j = 1 To subjectLength
-                    Dim diagScore As Double = score(i - 1)(j - 1) + __similarity(i, j)
-                    Dim upScore As Double = score(i)(j - 1) + __similarity(0, j)
-                    Dim leftScore As Double = score(i - 1)(j) + __similarity(i, 0)
+            For i As Integer = 1 To queryLength
+                For j As Integer = 1 To subjectLength
+                    Dim diagScore As Double = score(i - 1)(j - 1) + similarity(i, j)
+                    Dim upScore As Double = score(i)(j - 1) + similarity(0, j)
+                    Dim leftScore As Double = score(i - 1)(j) + similarity(i, 0)
 
                     score(i)(j) = stdNum.Max(diagScore, stdNum.Max(upScore, stdNum.Max(leftScore, 0)))
                     prevCells(i)(j) = 0
@@ -260,16 +248,16 @@ Namespace SmithWaterman
                     ' the bitwise OR operator is used to record multiple
                     ' directions.
                     If diagScore = score(i)(j) Then
-                        prevCells(i)(j) = prevCells(i)(j) Or DR_DIAG
+                        prevCells(i)(j) = prevCells(i)(j) Or Directions.DR_DIAG
                     End If
                     If leftScore = score(i)(j) Then
-                        prevCells(i)(j) = prevCells(i)(j) Or DR_LEFT
+                        prevCells(i)(j) = prevCells(i)(j) Or Directions.DR_LEFT
                     End If
                     If upScore = score(i)(j) Then
-                        prevCells(i)(j) = prevCells(i)(j) Or DR_UP
+                        prevCells(i)(j) = prevCells(i)(j) Or Directions.DR_UP
                     End If
                     If 0 = score(i)(j) Then
-                        prevCells(i)(j) = prevCells(i)(j) Or DR_ZERO
+                        prevCells(i)(j) = prevCells(i)(j) Or Directions.DR_ZERO
                     End If
                 Next
             Next
@@ -280,18 +268,17 @@ Namespace SmithWaterman
         '''  at entry: i, j hold bottom right (end of Aligment coords)
         '''  at return:  hold top left (start of Alignment coords)
         ''' </summary>
-        Private Function traceback(i As Integer, j As Integer) As Integer()
-
+        Private Function traceback(i As Integer, j As Integer) As (i As Integer, j As Integer)
             ' find out which directions to backtrack
             While True
-                If (prevCells(i)(j) And DR_LEFT) > 0 Then
+                If (prevCells(i)(j) And Directions.DR_LEFT) > 0 Then
                     If score(i - 1)(j) > 0 Then
                         i -= 1
                     Else
                         Exit While
                     End If
                 End If
-                If (prevCells(i)(j) And DR_UP) > 0 Then
+                If (prevCells(i)(j) And Directions.DR_UP) > 0 Then
                     '		    return traceback(i, j-1);
                     If score(i)(j - 1) > 0 Then
                         j -= 1
@@ -299,7 +286,7 @@ Namespace SmithWaterman
                         Exit While
                     End If
                 End If
-                If (prevCells(i)(j) And DR_DIAG) > 0 Then
+                If (prevCells(i)(j) And Directions.DR_DIAG) > 0 Then
                     '		    return traceback(i-1, j-1);
                     If score(i - 1)(j - 1) > 0 Then
                         i -= 1
@@ -309,8 +296,8 @@ Namespace SmithWaterman
                     End If
                 End If
             End While
-            Dim m As Integer() = New Integer() {i, j}
-            Return m
+
+            Return (i, j)
         End Function
 
         ''' <summary>
@@ -361,9 +348,9 @@ Namespace SmithWaterman
             End If
 
             Dim s As Double = score(i)(j)
-            Dim diagScore As Double = score(i - 1)(j - 1) + __similarity(i, j)
-            Dim upScore As Double = score(i)(j - 1) + __similarity(0, j)
-            Dim leftScore As Double = score(i - 1)(j) + __similarity(i, 0)
+            Dim diagScore As Double = score(i - 1)(j - 1) + similarity(i, j)
+            Dim upScore As Double = score(i)(j - 1) + similarity(0, j)
+            Dim leftScore As Double = score(i - 1)(j) + similarity(i, 0)
 
             If s = diagScore Then
                 i -= 1
@@ -414,7 +401,7 @@ Namespace SmithWaterman
 
                             With traceback(fA, fB)
                                 ' sets the x, y to startAlignment coordinates
-                                Yield New Match(.ByRef(0), i, .ByRef(1), j, score(i)(j) / NORM_FACTOR)
+                                Yield New Match(.i, i, .j, j, score(i)(j) / NORM_FACTOR)
                             End With
                         End If
                     End If
