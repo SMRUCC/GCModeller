@@ -109,8 +109,8 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("/align.SmithWaterman",
-               Usage:="/align.SmithWaterman /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
+    <ExportAPI("/align.SmithWaterman")>
+    <Usage("/align.SmithWaterman /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
     <Group(CLIGrouping.Aligner)>
     Public Function Align2(args As CommandLine) As Integer
         Dim query As String = args("/query")

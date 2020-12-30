@@ -379,7 +379,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SmithWaterman\Match.vb" />
-    <Compile Include="SmithWaterman\LocalSeqMatch.vb" />
+    <Compile Include="SmithWaterman\LocalHSPMatch.vb" />
+    <Compile Include="SmithWaterman\SimpleChaining.vb" />
+    <Compile Include="SmithWaterman\Workspace.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
