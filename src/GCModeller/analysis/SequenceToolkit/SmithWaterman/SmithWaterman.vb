@@ -105,7 +105,6 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
     ''' <param name="blosum"></param>
     ''' <returns></returns>
     Public Shared Function Align(query As FastaSeq, subject As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
-        Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, blosum)
-        Return sw
+        Return New SmithWaterman(query.SequenceData, subject.SequenceData, blosum).BuildMatrix
     End Function
 End Class
