@@ -85,7 +85,7 @@ Public Module CoreDump
     ''' Note: empty alignments are not printed.
     ''' </remarks>
     <Extension>
-    Public Sub printAlignments(Of T)(core As GSW(Of T), Optional dev As StreamWriter = Nothing)
+    Public Sub printAlignments(Of T)(core As GSW(Of T), Optional dev As TextWriter = Nothing)
         ' find the cell with the maximum score
         Dim maxScore As Double = core.MaxScore
         Dim queryLength = core.query.Length
