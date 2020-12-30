@@ -83,12 +83,24 @@ Namespace SmithWaterman
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' do match result data copy
+        ''' </summary>
+        ''' <param name="m"></param>
+        Sub New(m As Match)
+            fromA = m.fromA
+            fromB = m.fromB
+            toA = m.toA
+            toB = m.toB
+            score = m.score
+        End Sub
+
         Sub New(fA As Integer, tA As Integer, fB As Integer, tB As Integer, s As Double)
-            _fromA = fA
-            _fromB = fB
-            _toA = tA
-            _toB = tB
-            _score = s
+            fromA = fA
+            fromB = fB
+            toA = tA
+            toB = tB
+            score = s
         End Sub
 
         ''' <summary>

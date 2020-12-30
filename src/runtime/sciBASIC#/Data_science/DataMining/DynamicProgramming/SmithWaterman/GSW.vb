@@ -75,7 +75,7 @@ Namespace SmithWaterman
         ''' <summary>
         ''' The lengths of the input strings
         ''' </summary>
-        Public ReadOnly queryLength%, subjectLength%
+        ReadOnly queryLength%, subjectLength%
 #End Region
 
 #Region "Matrix"
@@ -84,14 +84,14 @@ Namespace SmithWaterman
         ''' The score matrix.
         ''' The true scores should be divided by the normalization factor.
         ''' </summary>
-        Public score As Double()()
+        Public ReadOnly Property score As Double()()
         ''' <summary>
         ''' The directions pointing to the cells that
         ''' give the maximum score at the current cell.
         ''' The first index is the column index.
         ''' The second index is the row index.
         ''' </summary>
-        Public prevCells As Integer()()
+        Public ReadOnly Property prevCells As Integer()()
 #End Region
 
         ''' <summary>
@@ -172,16 +172,14 @@ Namespace SmithWaterman
         ''' A generic object model that should contains a Blosum matrix or motif 
         ''' similarity function, and a to char method for display alignment.
         ''' </param>
-        Sub New(query As T(), subject As T(), symbol As GenericSymbol(Of T))
-            Me.queryLength = query.Length
-            Me.subjectLength = subject.Length
-            Me.query = query
-            Me.subject = subject
+        Sub New(query As IEnumerable(Of T), subject As IEnumerable(Of T), symbol As GenericSymbol(Of T))
+            Me.query = query.ToArray
+            Me.subject = subject.ToArray
+            Me.queryLength = Me.query.Length
+            Me.subjectLength = Me.subject.Length
             Me.score = MAT(Of Double)(queryLength + 1, subjectLength + 1)
             Me.prevCells = MAT(Of Integer)(queryLength + 1, subjectLength + 1)
             Me.symbol = symbol
-
-            Call buildMatrix()
         End Sub
 
         ''' <summary>
@@ -225,9 +223,9 @@ Namespace SmithWaterman
         ''' Build the score matrix using dynamic programming.
         ''' Note: The indel scores must be negative. Otherwise, the
         ''' part handling the first row and column has to be
-        ''' modified.
+        ''' modified.(进行局部最佳比对)
         ''' </summary>
-        Private Sub buildMatrix()
+        Public Function BuildMatrix() As GSW(Of T)
             If INDEL_SCORE >= 0 Then
                 Throw New Exception("Indel score must be negative")
             Else
@@ -261,7 +259,9 @@ Namespace SmithWaterman
                     End If
                 Next
             Next
-        End Sub
+
+            Return Me
+        End Function
 
         ''' <summary>
         ''' given the bottom right corner point trace back  the top left conrner.

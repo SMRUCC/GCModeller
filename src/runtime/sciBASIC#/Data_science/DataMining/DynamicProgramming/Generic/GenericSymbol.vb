@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 
 Public Class GenericSymbol(Of T)
 
@@ -19,10 +20,16 @@ Public Class GenericSymbol(Of T)
         End If
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ToChar(t As T) As Char
+        Return m_viewChar(t)
+    End Function
+
     Public Function getEquals() As IEquals(Of T)
         Return Function(x, y) m_equals(x, y)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function getEmpty() As T
         Return m_empty()
     End Function
