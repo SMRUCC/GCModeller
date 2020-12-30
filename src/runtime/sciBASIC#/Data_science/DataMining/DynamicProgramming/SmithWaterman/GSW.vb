@@ -116,7 +116,7 @@ Namespace SmithWaterman
         ''' The position of the first character is 1.
         ''' A position of 0 represents a gap. 
         ''' </summary>
-        Friend ReadOnly symbol As GenericSymbol(Of T)
+        Public ReadOnly Property symbol As GenericSymbol(Of T)
 #End Region
 
         ''' <summary>
