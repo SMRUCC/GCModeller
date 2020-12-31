@@ -69,10 +69,6 @@ Imports stdNum = System.Math
 
 Namespace Quantile
 
-    Public Interface QuantileQuery
-        Function Query(quantile#) As Double
-    End Interface
-
     ''' <summary>
     ''' Implementation of the Greenwald and Khanna algorithm for streaming
     ''' calculation of epsilon-approximate quantiles.
