@@ -35,7 +35,11 @@ Namespace SourceMap
 
         Private ReadOnly Property isEmpty As Boolean
             Get
-                Return targetCol = 0 AndAlso fileIndex = 0 AndAlso sourceLine = 0 AndAlso sourceCol = 0 AndAlso nameIndex = 0
+                Return targetCol = 0 AndAlso
+                    fileIndex = 0 AndAlso
+                    sourceLine = 0 AndAlso
+                    sourceCol = 0 AndAlso
+                    nameIndex = 0
             End Get
         End Property
 

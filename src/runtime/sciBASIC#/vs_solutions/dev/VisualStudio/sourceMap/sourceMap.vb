@@ -55,7 +55,15 @@ Namespace SourceMap
         Public Property version As Integer
         Public Property file As String
         Public Property sourceRoot As String
+        ''' <summary>
+        ''' the source file path
+        ''' </summary>
+        ''' <returns></returns>
         Public Property sources As String()
+        ''' <summary>
+        ''' the symbol names
+        ''' </summary>
+        ''' <returns></returns>
         Public Property names As String()
         Public Property mappings As String
 
