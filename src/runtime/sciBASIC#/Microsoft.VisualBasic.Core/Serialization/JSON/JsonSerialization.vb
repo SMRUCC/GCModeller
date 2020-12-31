@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7eebb7c83bd909671b40f55cd638a2c, Microsoft.VisualBasic.Core\Serialization\JSON\JsonSerialization.vb"
+﻿#Region "Microsoft.VisualBasic::493a346fb18f2dcc91f1990e44fd69c1, Microsoft.VisualBasic.Core\Serialization\JSON\JsonSerialization.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module JsonContract
     ' 
-    '         Function: EnsureDate, GetJson, GetObjectJson, LoadJSON, LoadJsonFile
+    '         Function: EnsureDate, GetJson, (+2 Overloads) GetObjectJson, LoadJSON, LoadJsonFile
     '                   LoadJSONObject, (+2 Overloads) LoadObject, MatrixJson, RemoveJsonNullItems, WriteLargeJson
     ' 
     '         Sub: writeJson

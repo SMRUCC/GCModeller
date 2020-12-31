@@ -1,48 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::cc99f82c13756694c2f76b6186619f0f, Data_science\DataMining\DynamicProgramming\SmithWaterman\GSW.vb"
+﻿#Region "Microsoft.VisualBasic::8116bb993842b6e2bb9fafb37280b7d9, Data_science\DataMining\DynamicProgramming\SmithWaterman\GSW.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GSW
-' 
-'         Properties: AlignmentScore, Matches, MaxScore, query, subject
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __similarity, GetDPMAT, GetMatches, GetTraceback, traceback
-' 
-'         Sub: buildMatrix, getTrackback
-' 
-' 
-' /********************************************************************************/
+    '     Class GSW
+    ' 
+    '         Properties: AlignmentScore, Matches, MaxScore, prevCells, query
+    '                     score, subject, symbol
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: BuildMatrix, GetDPMAT, GetMatches, GetTraceback, similarity
+    '                   traceback
+    ' 
+    '         Sub: getTrackback, init
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
