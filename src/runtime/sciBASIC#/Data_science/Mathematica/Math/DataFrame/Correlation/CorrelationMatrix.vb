@@ -103,12 +103,14 @@ Public Class CorrelationMatrix : Inherits DataMatrix
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetCorrelationQuantile() As QuantileEstimationGK
+    Public Function GetCorrelationQuantile() As FastRankQuantile
         Return GetUniqueTuples _
             .Select(Function(t)
                         Return stdNum.Abs(Me(t.a, t.b))
                     End Function) _
-            .GKQuantile
+            .DoCall(Function(q)
+                        Return New FastRankQuantile(q)
+                    End Function)
     End Function
 
     ''' <summary>
@@ -116,11 +118,13 @@ Public Class CorrelationMatrix : Inherits DataMatrix
     ''' </summary>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function GetPvalueQuantile() As QuantileEstimationGK
+    Public Function GetPvalueQuantile() As FastRankQuantile
         Return GetUniqueTuples _
             .Select(Function(t)
                         Return -stdNum.Log10(pvalue(t.a, t.b))
                     End Function) _
-            .GKQuantile
+            .DoCall(Function(q)
+                        Return New FastRankQuantile(q)
+                    End Function)
     End Function
 End Class
