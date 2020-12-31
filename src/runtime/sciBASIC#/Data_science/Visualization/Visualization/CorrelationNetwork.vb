@@ -61,7 +61,9 @@ Public Module CorrelationNetwork
     ''' 关联网络是没有方向的
     ''' </summary>
     ''' <param name="matrix"></param>
-    ''' <param name="cutoff"></param>
+    ''' <param name="cutoff">
+    ''' 相关度阈值的绝对值
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function BuildNetwork(matrix As CorrelationMatrix, cutoff#, Optional pvalue As Double = 1) As (net As NetworkGraph, matrix As CorrelationMatrix)
