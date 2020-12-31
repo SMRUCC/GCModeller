@@ -78,13 +78,28 @@ Namespace Serialization.JSON
             Return json
         End Function
 
+        Public Function GetObjectJson(obj As Object,
+                                      Optional indent As Boolean = True,
+                                      Optional simpleDict As Boolean = True,
+                                      Optional knownTypes As IEnumerable(Of Type) = Nothing) As String
+            If obj Is Nothing Then
+                Return "null"
+            Else
+                Return obj.GetType.GetObjectJson(
+                    obj:=obj,
+                    indent:=indent,
+                    simpleDict:=simpleDict,
+                    knownTypes:=knownTypes
+                )
+            End If
+        End Function
+
         ''' <summary>
         ''' 使用<see cref="ScriptIgnoreAttribute"/>来屏蔽掉不想序列化的属性
         ''' </summary>
         ''' <param name="obj"></param>
         ''' <param name="type"></param>
         ''' <returns></returns>
-        <ExportAPI("Get.Json")>
         <Extension>
         Public Function GetObjectJson(type As Type, obj As Object,
                                       Optional indent As Boolean = True,
