@@ -335,7 +335,7 @@ Namespace Graphic.Legend
                 With graphicSize
 
                     Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
-                    Dim height! = (stdNum.Max(.Height, maxTitleSize.Height) + d + 1) * legendList.Length
+                    Dim height! = (stdNum.Max(.Height, maxTitleSize.Height) + d + 1.25) * legendList.Length
                     Dim background As Brush = Nothing
 
                     If Not fillBg.StringEmpty Then
@@ -348,7 +348,7 @@ Namespace Graphic.Legend
                     If roundRectRegion Then
                         Call RoundRect.Draw(g, ZERO, size, 15, background, regionBorder)
                     Else
-                        rect = New RectangleF(ZERO, size.ToSize)
+                        rect = New RectangleF(ZERO, size)
 
                         If Not background Is Nothing Then
                             Call g.FillRectangle(background, rect)
