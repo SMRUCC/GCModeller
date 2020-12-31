@@ -20,22 +20,25 @@ Namespace SourceMap
             Dim files = loci.GroupBy(Function(f) f.File).ToArray
             Dim sourceFile As IGrouping(Of Integer, StackFrame)()
             Dim mapLine As New List(Of mappingLine)
+            Dim symbolName As String
 
             For i As Integer = 0 To files.Length - 1
                 sourceFile = files(i) _
-                    .GroupBy(Function(a) Integer.Parse(a.Line)) _
+                    .GroupBy(Function(a) If(a.Line = "n/a", 0, Integer.Parse(a.Line))) _
                     .OrderBy(Function(a) a.Key) _
                     .ToArray
 
-                For Each line In sourceFile
+                For Each line As IGrouping(Of Integer, StackFrame) In sourceFile
                     For Each col As StackFrame In line
-                        If Not col.Method.Method Like symbols Then
-                            Call symbols.Add(col.Method.Method)
+                        symbolName = col.Method.Method.Trim(""""c)
+
+                        If Not symbolName Like symbols Then
+                            Call symbols.Add(symbolName)
                         End If
 
                         mapLine += New mappingLine With {
                             .fileIndex = i,
-                            .nameIndex = symbols(col.Method.Method),
+                            .nameIndex = symbols(symbolName),
                             .sourceCol = 1,
                             .sourceLine = line.Key,
                             .targetCol = 1
