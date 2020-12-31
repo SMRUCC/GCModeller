@@ -92,7 +92,7 @@ Namespace Network
         Public Function IteratesSubNetworks(Of Node As {New, Network.Node},
                                                U As {New, Edge(Of Node)},
                                                Graph As {New, NetworkGraph(Of Node, U)}
-                                            )(network As NetworkGraph(Of Node, U), Optional singleNodeAsGraph As Boolean = False) As IEnumerable(Of Graph)
+                                            )(network As NetworkGraph(Of Node, U), Optional singleNodeAsGraph As Boolean = False) As Graph()
 
             Return New SubNetworkComponents(Of Node, U, Graph)(network, singleNodeAsGraph).ToArray
         End Function
