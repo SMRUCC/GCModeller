@@ -71,8 +71,6 @@ Namespace ComponentModel.Loci
         Implements ILocationComponent
         Implements IKeyValuePairObject(Of Integer, Integer)
 
-        Public Property Extension As ExtendedProps
-
         ''' <summary>
         ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
         ''' </summary>
