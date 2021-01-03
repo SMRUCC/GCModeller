@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::cd0b8a2ea5ea44e6c8d3e761168024a1, core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Extensions
-    ' 
-    '         Function: Assemble
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Extensions
+' 
+'         Function: Assemble
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace ComponentModel.Loci
 
@@ -78,36 +79,26 @@ Namespace ComponentModel.Loci
             Const motif As String = NameOf(motif)
 
             For Each x As IMotifSite In sitesData
-                x.site.Extension = New ExtendedProps
-                x.site.Extension.DynamicHashTable(motif) = x
+                x.site.Tag = New JavaScriptObject
+                x.site.Tag(motif) = x
                 locations.Add(x.site)
             Next
 
             Dim assm As Location() = locations _
-                .OrderBy(Function(x) x.Left) _
+                .OrderBy(Function(x) x.left) _
                 .FragmentAssembly(gapOffset)
 
             For Each x As Location In assm
-                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHashTable(motif), IMotifSite)
+                Dim o As IMotifSite = DirectCast(x.Tag(motif), IMotifSite)
 
-                Call x.Extension _
-                    .DynamicHashTable _
-                    .Properties _
-                    .Remove(motif)
+                Call x.Tag.Delete(motif)
                 out += New MotifSite With {
                     .Name = o.family,
                     .Site = o.site,
                     .Type = {
                         o.family
                     } _
-                    .Join(x.Extension _
-                           .DynamicHashTable _
-                           .Properties _
-                           .Values _
-                           .Select(Function(s) DirectCast(DirectCast(s, Location) _
-                           .Extension _
-                           .DynamicHashTable _
-                           .Properties(motif), IMotifSite).family)) _
+                    .Join(From s As NamedValue(Of Object) In x.Tag Select DirectCast(DirectCast(s.Value, Location).Tag(motif), IMotifSite).family) _
                     .JoinBy("+")  ' 这里不进行Distinct了，因为这些重复的类型可能还有别的用途，例如数量上面的统计之类的
                 }
             Next
