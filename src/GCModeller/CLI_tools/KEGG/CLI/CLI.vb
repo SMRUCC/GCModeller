@@ -149,7 +149,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                   Description:="KEGG web services API tools.")>
 <CLI> Module CLI
 
-    <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
+    <ExportAPI("/blastn")>
+    <Usage("/blastn /query <query.fasta> [/out <outDIR>]")>
+    <Description("Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
     Public Function Blastn(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
@@ -164,10 +166,9 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Return 0
     End Function
 
-    <ExportAPI("/Download.Ortholog",
-               Info:="Downloads the KEGG gene ortholog annotation data from the web server.",
-               Usage:="/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]",
-               Example:="")>
+    <ExportAPI("/Download.Ortholog")>
+    <Description("Downloads the KEGG gene ortholog annotation data from the web server.")>
+    <Usage("/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]")>
     Public Function DownloadOrthologs(args As CommandLine) As Integer
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()

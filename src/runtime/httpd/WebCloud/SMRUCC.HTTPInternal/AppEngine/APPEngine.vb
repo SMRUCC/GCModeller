@@ -183,7 +183,7 @@ Namespace AppEngine
                 Dim msg As String = $"Could not found application entry point from {type.FullName}"
 
                 Call msg.__DEBUG_ECHO
-                Call ServicesLogs.WriteEntry(msg, MethodBase.GetCurrentMethod, EventLogEntryType.FailureAudit)
+                ' Call ServicesLogs.WriteEntry(msg, MethodBase.GetCurrentMethod, EventLogEntryType.FailureAudit)
                 Return Nothing
             End If
 

@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::1ed91036f7d25dea39c0dfd3eff785ff, visualize\SyntenyVisual\SyntenyRegion.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class SyntenyRegion
-    ' 
-    '     Properties: query, score, subject
-    ' 
-    '     Function: Translate
-    ' 
-    ' Module SyntenyRegionExtensions
-    ' 
-    '     Function: PopulateRegions, rangeSelector
-    ' 
-    ' /********************************************************************************/
+' Class SyntenyRegion
+' 
+'     Properties: query, score, subject
+' 
+'     Function: Translate
+' 
+' Module SyntenyRegionExtensions
+' 
+'     Function: PopulateRegions, rangeSelector
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -49,6 +49,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -126,11 +127,16 @@ Public Module SyntenyRegionExtensions
                     Return score
                 End If
             End Function
+        Dim intSymbol As New GenericSymbol(Of Integer)(
+            equals:=Function(i, j) scoreProvider(i, j) >= 0.85,
+            similarity:=Function(i, j) scoreProvider(i, j),
+            toChar:=Function(i) Chr(i),
+            empty:=Function() 0
+        )
         Dim smithwaterMan As New GSW(Of Integer)(
             query:=qSize,
             subject:=sSize,
-            similarity:=scoreProvider,
-            asChar:=Function(x) "-"c
+            symbol:=intSymbol
         )
 
         ' match的位置就是基因组上面的坐标位置

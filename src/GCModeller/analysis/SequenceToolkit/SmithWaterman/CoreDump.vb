@@ -53,48 +53,54 @@ Public Module CoreDump
     Public Sub printDPMatrix(Of T)(core As GSW(Of T), Optional dev As StreamWriter = Nothing)
         Dim subject = core.subject
         Dim query = core.query
+        Dim toChar As Func(Of T, Char) = AddressOf core.symbol.ToChar
 
-        Console.Write(vbTab)
-        For j As Integer = 1 To core.subjectLength
-            Dim ch As Char = core.ToChar(subject(j - 1))
-            Console.Write(vbTab & ch)
+        dev = dev Or App.StdOut
+        dev.Write(vbTab)
+
+        For j As Integer = 1 To subject.Length
+            Dim ch As Char = toChar(subject(j - 1))
+            dev.Write(vbTab & ch)
         Next
-        Console.WriteLine()
-        For i As Integer = 0 To core.queryLength
+        dev.WriteLine()
+        For i As Integer = 0 To query.Length
 
             If i > 0 Then
-                Dim ch As Char = core.ToChar(query(i - 1))
-                Console.Write(ch & vbTab)
+                Dim ch As Char = toChar(query(i - 1))
+                dev.Write(ch & vbTab)
             Else
-                Console.Write(vbTab)
+                dev.Write(vbTab)
             End If
-            For j As Integer = 0 To core.subjectLength
-                Console.Write(core.score(i)(j) / GSW(Of T).NORM_FACTOR & vbTab)
+            For j As Integer = 0 To subject.Length
+                dev.Write(core.score(i)(j) / GSW(Of T).NORM_FACTOR & vbTab)
             Next
-            Console.WriteLine()
+            dev.WriteLine()
         Next
     End Sub
 
     ''' <summary>
     ''' Output the local alignments with the maximum score.
     ''' </summary>
-    ''' 
+    ''' <remarks>
+    ''' Note: empty alignments are not printed.
+    ''' </remarks>
     <Extension>
-    Public Sub printAlignments(Of T)(core As GSW(Of T), Optional dev As StreamWriter = Nothing)
+    Public Sub printAlignments(Of T)(core As GSW(Of T), Optional dev As TextWriter = Nothing)
         ' find the cell with the maximum score
         Dim maxScore As Double = core.MaxScore
+        Dim queryLength = core.query.Length
+        Dim subjectLength = core.subject.Length
+
+        dev = dev Or App.StdOut
 
         ' skip the first row and column
-        For i As Integer = 1 To core.queryLength
-
-            For j As Integer = 1 To core.subjectLength
-
+        For i As Integer = 1 To queryLength
+            For j As Integer = 1 To subjectLength
                 If core.score(i)(j) = maxScore Then
-                    core.printAlignments(i, j, "", "")
+                    core.printAlignments(i, j, "", "", dev)
                 End If
             Next
         Next
-        ' Note: empty alignments are not printed.
     End Sub
 
     ''' <summary>
@@ -106,16 +112,17 @@ Public Module CoreDump
     ''' </summary>
     ''' 
     <Extension>
-    Private Sub printAlignments(Of T)(core As GSW(Of T), i%, j%, aligned1$, aligned2$)
+    Private Sub printAlignments(Of T)(core As GSW(Of T), i%, j%, aligned1$, aligned2$, dev As TextWriter)
         Dim query = core.query
         Dim subject = core.subject
+        Dim toChar As Func(Of T, Char) = AddressOf core.symbol.ToChar
 
         ' we've reached the starting point, so print the alignments	
 
-        If (core.prevCells(i)(j) And GSW(Of T).DR_ZERO) > 0 Then
-            Console.WriteLine(aligned1)
-            Console.WriteLine(aligned2)
-            Console.WriteLine("")
+        If (core.prevCells(i)(j) And Directions.DR_ZERO) > 0 Then
+            dev.WriteLine(aligned1)
+            dev.WriteLine(aligned2)
+            dev.WriteLine("")
 
             ' Note: we could check other directions for longer alignments
             ' with the same score. we don't do it here.
@@ -123,18 +130,20 @@ Public Module CoreDump
         End If
 
         ' find out which directions to backtrack
-        If (core.prevCells(i)(j) And GSW(Of T).DR_LEFT) > 0 Then
-            Dim ch As Char = core.ToChar(query(i - 1))
-            core.printAlignments(i - 1, j, ch & aligned1, "_" & aligned2)
+        If (core.prevCells(i)(j) And Directions.DR_LEFT) > 0 Then
+            Dim ch As Char = toChar(query(i - 1))
+            core.printAlignments(i - 1, j, ch & aligned1, "_" & aligned2, dev)
         End If
-        If (core.prevCells(i)(j) And GSW(Of T).DR_UP) > 0 Then
-            Dim ch As Char = core.ToChar(subject(j - 1))
-            core.printAlignments(i, j - 1, "_" & aligned1, ch & aligned2)
+
+        If (core.prevCells(i)(j) And Directions.DR_UP) > 0 Then
+            Dim ch As Char = toChar(subject(j - 1))
+            core.printAlignments(i, j - 1, "_" & aligned1, ch & aligned2, dev)
         End If
-        If (core.prevCells(i)(j) And GSW(Of T).DR_DIAG) > 0 Then
-            Dim q As Char = core.ToChar(query(i - 1))
-            Dim s As Char = core.ToChar(subject(j - 1))
-            core.printAlignments(i - 1, j - 1, q & aligned1, s & aligned2)
+
+        If (core.prevCells(i)(j) And Directions.DR_DIAG) > 0 Then
+            Dim q As Char = toChar(query(i - 1))
+            Dim s As Char = toChar(subject(j - 1))
+            core.printAlignments(i - 1, j - 1, q & aligned1, s & aligned2, dev)
         End If
     End Sub
 End Module

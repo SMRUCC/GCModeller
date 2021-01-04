@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::29b64cac4368bf245876485048aa8427, meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SWAlignment
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Module SWTom
-    ' 
-    '         Function: __alignHSP, __alignInvoke, __parts, (+3 Overloads) Compare, (+2 Overloads) CompareBest
-    '         Class __similarity
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: Similarity
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SWAlignment
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Module SWTom
+' 
+'         Function: __alignHSP, __alignInvoke, __parts, (+3 Overloads) Compare, (+2 Overloads) CompareBest
+'         Class __similarity
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: Similarity
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -73,8 +74,17 @@ Namespace Analysis.Similarity.TOMQuery
         Sub New(query As MotifScans.AnnotationModel,
                 subject As MotifScans.AnnotationModel,
                 equals As ISimilarity(Of MotifScans.ResidueSite))
-            Call MyBase.New(query.PWM, subject.PWM, equals, AddressOf TomTOm.ToChar)
+            Call MyBase.New(query.PWM, subject.PWM, symbolProvider(equals))
         End Sub
+
+        Private Shared Function symbolProvider(equals As ISimilarity(Of MotifScans.ResidueSite)) As GenericSymbol(Of MotifScans.ResidueSite)
+            Return New GenericSymbol(Of MotifScans.ResidueSite)(
+                equals:=Function(x, y) equals(x, y) >= 0.85,
+                similarity:=Function(x, y) equals(x, y),
+                toChar:=AddressOf TomTOm.ToChar,
+                empty:=Function() Nothing
+            )
+        End Function
     End Class
 
     <Package("TOMQuery.Smith-Waterman", Category:=APICategories.ResearchTools)>
@@ -141,7 +151,7 @@ Namespace Analysis.Similarity.TOMQuery
                                 method As ISimilarity(Of MotifScans.ResidueSite),
                                 params As Parameters) As Output
             Dim sw As New SWAlignment(query, subject, method)
-            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, AddressOf TomTOm.ToChar, params.SWThreshold, params.MinW)
+            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, params.SWThreshold, params.MinW)
             Dim output As New Output With {
                 .Query = query,
                 .Subject = subject,

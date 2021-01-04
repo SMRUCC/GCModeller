@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::38c74bf0885e21300aff45dd7e8f3eea, analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Output
-    ' 
-    '     Properties: Best, Directions, DP, HSP, Query
-    '                 Subject, Traceback
-    ' 
-    '     Function: ContainsPoint, CreateObject, ToString
-    ' 
-    ' /********************************************************************************/
+' Class Output
+' 
+'     Properties: Best, Directions, DP, HSP, Query
+'                 Subject, Traceback
+' 
+'     Function: ContainsPoint, CreateObject, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -113,29 +113,34 @@ Public Class Output
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="sw"></param>
-    ''' <param name="toChar"></param>
     ''' <param name="threshold">0% - 100%</param>
     ''' <returns></returns>
-    Public Shared Function CreateObject(Of T)(sw As GSW(Of T), toChar As ToChar(Of T), threshold As Double, minW As Integer) As Output
-        Dim best As HSP = Nothing
-        Dim hsp = SequenceTools.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
+    Public Shared Function CreateObject(Of T)(sw As GSW(Of T), threshold As Double, minW As Integer) As Output
+        Dim hspList = sw.CreateHSP(cutoff:=threshold * sw.AlignmentScore).ToArray
         Dim direction = sw.prevCells.Select(Function(x) New ArrayRow(x)).ToArray
+        Dim toChar As Func(Of T, Char) = AddressOf sw.symbol.ToChar
         Dim dp = sw.GetDPMAT.Select(Function(x) New ArrayRow(x)).ToArray
         Dim query = sw.query.Select(Function(x) toChar(x)).CharString
         Dim subject = sw.subject.Select(Function(x) toChar(x)).CharString
-
         Dim m2Len As Integer = Math.Min(query.Length, subject.Length)
+        Dim best As HSP = SequenceTools.HSP.CreateFrom(hspList.GetBestAlignment, toChar)
+
         If m2Len < minW Then
             Call $"Min width {minW} is too large than query/subject, using min(query,subject):={m2Len} instead....".__DEBUG_ECHO
             minW = m2Len
         End If
-        hsp = (From x In hsp Where x.LengthHit >= minW AndAlso x.LengthQuery >= minW Select x).ToArray
+
+        hspList = (From x In hspList Where x.LengthHit >= minW AndAlso x.LengthQuery >= minW Select x).ToArray
 
         Return New Output With {
             .Traceback = sw.GetTraceback,
             .Directions = direction,
             .DP = dp,
-            .HSP = hsp,
+            .HSP = hspList _
+                .Select(Function(h)
+                            Return SequenceTools.HSP.CreateFrom(h, AddressOf sw.symbol.ToChar)
+                        End Function) _
+                .ToArray,
             .Query = query,
             .Subject = subject,
             .Best = best

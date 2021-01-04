@@ -852,6 +852,8 @@
     <Compile Include="Numerics\HalfHelper.vb" />
     <Compile Include="Quantile\FastRankQuantile.vb" />
     <Compile Include="Quantile\DataQuartile.vb" />
+    <Compile Include="Quantile\QuantileQuery.vb" />
+    <Compile Include="Quantile\QuartileLevels.vb" />
     <Compile Include="Scripting\Aggregate\Aggregate.vb" />
     <Compile Include="Scripting\Expression\ExpressionCompiler.vb" />
     <Compile Include="Scripting\Expression\FunctionElement.vb" />
@@ -989,7 +991,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

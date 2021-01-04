@@ -634,6 +634,7 @@
     <Compile Include="Model\GridNetwork\Grid.vb" />
     <Compile Include="Model\TimeSerialsGraph.vb" />
     <Compile Include="NamespaceDoc.vb" />
+    <Compile Include="Network\SubNetworkComponents.vb" />
     <Compile Include="Network\Extensions.vb" />
     <Compile Include="Network\NetworkGraph.vb" />
     <Compile Include="Network\Node.vb" />
@@ -682,7 +683,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>

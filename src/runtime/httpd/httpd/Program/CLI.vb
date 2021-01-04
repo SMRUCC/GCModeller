@@ -66,9 +66,9 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
         Return socket.Run
     End Function
 
-    <ExportAPI("/start",
-               Info:="Run start the httpd web server.",
-               Usage:="/start [/port 80 /wwwroot <wwwroot_DIR> /threads <default=-1> /cache]")>
+    <ExportAPI("/start")>
+    <Description("Run start the httpd web server.")>
+    <Usage("/start [/port 80 /wwwroot <wwwroot_DIR> /threads <default=-1> /cache]")>
     <ArgumentAttribute("/port", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The server port of this httpd web server to listen.")>
@@ -103,9 +103,9 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
         Return server.Run()
     End Function
 
-    <ExportAPI("/run",
-               Info:="Run start the web server with specific Web App.",
-               Usage:="/run /dll <app.dll> [/port <default=80> /wwwroot <wwwroot_DIR>]")>
+    <ExportAPI("/run")>
+    <Description("Run start the web server with specific Web App.")>
+    <Usage("/run /dll <app.dll> [/port <default=80> /wwwroot <wwwroot_DIR>]")>
     <Group(httpdServerCLI)>
     Public Function RunApp(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
@@ -119,7 +119,8 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/run.dll", Usage:="/run.dll /api <namespace::apiName> [....]")>
+    <ExportAPI("/run.dll")>
+    <Usage("/run.dll /api <namespace::apiName> [....]")>
     Public Function RunDll(args As CommandLine) As Integer
         Dim api$ = args <= "/api"
         Dim run As Boolean = False

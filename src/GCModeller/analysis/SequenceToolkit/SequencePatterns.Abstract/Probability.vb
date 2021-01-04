@@ -125,6 +125,13 @@ Public Class Probability
 
         End Function
 
+        Public Shared Function GetEmpty() As Residue
+            Return New Residue With {
+                .frequency = New Dictionary(Of Char, Double),
+                .index = -1
+            }
+        End Function
+
         Public Shared Function Max(r As Residue) As Char
             With r.frequency.ToArray
                 If .Values.All(Function(p) p = 0R) Then
