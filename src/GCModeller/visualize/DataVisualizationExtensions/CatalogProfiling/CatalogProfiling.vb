@@ -172,7 +172,8 @@ Namespace CatalogProfiling
                        labelAlignmentRight:=labelRightAlignment,
                        valueFormat:=valueFormat,
                        disableLabelColor:=disableLabelColor,
-                       labelTrimLength:=labelTrimLength
+                       labelTrimLength:=labelTrimLength,
+                       dpi:=dpi
                     )
                 End Sub
 
@@ -214,13 +215,14 @@ Namespace CatalogProfiling
                                      labelAlignmentRight As Boolean,
                                      disableLabelColor As Boolean,
                                      valueFormat$,
-                                     labelTrimLength%)
+                                     labelTrimLength%,
+                                     dpi%)
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
-            Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
-            Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
+            Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject(dpi)
+            Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject(dpi)
             Dim catalogCharWidth! = g.MeasureString("A", catalogFont).Width
-            Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
+            Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject(dpi)
             Dim padding As Padding = region.Padding
             Dim size As Size = region.Size
             Dim maxLenSubKey$ = profile.catalogs.Values _
@@ -252,7 +254,7 @@ Namespace CatalogProfiling
 
             Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
             Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
-            Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
+            Dim valueFont As Font = CSSFont.TryParse(valueFontStyle).GDIObject(dpi)
 
             ' 所绘制的图形的总的高度
             Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
@@ -393,7 +395,7 @@ Namespace CatalogProfiling
             Dim maxValue# = profile.MaxValue
             Dim axisTicks#() = GetTicks(maxValue, tick)
             Dim d# = 25
-            Dim tickFont = CSSFont.TryParse(tickFontStyle)
+            Dim tickFont As Font = CSSFont.TryParse(tickFontStyle).GDIObject(dpi)
             Dim tickSize As SizeF
             Dim tickPen As New Pen(Color.Black, 3)
             Dim tickX!
@@ -426,7 +428,7 @@ Namespace CatalogProfiling
 
             y += d + 10 + g.MeasureString("0", tickFont).Height
 
-            titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
+            titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold).GDIObject(dpi)
             titleSize = g.MeasureString(title, titleFont)
             left = barRect.Left + (barRect.Width - titleSize.Width) / 2
 
