@@ -337,9 +337,9 @@ Namespace HTML.CSS
             Return New CSSFont(font)
         End Operator
 
-        '<MethodImpl(MethodImplOptions.AggressiveInlining)>
-        'Public Shared Narrowing Operator CType(font As CSSFont) As Font
-        '    Return font.GDIObject
-        'End Operator
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(font As CSSFont) As Font
+            Return font.GDIObject
+        End Operator
     End Class
 End Namespace
