@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports stdNum = System.Math
 
 Public Class ClassChanges : Inherits Plot
 
@@ -42,6 +43,7 @@ Public Class ClassChanges : Inherits Plot
             .IteratesALL _
             .Range _
             .CreateAxisTicks
+        Dim dpi As Integer = stdnum.max(g.DpiX, g.DpiY)
         Dim plotregion As Rectangle = canvas.PlotRegion
         Dim y As Double = degClass.Length
         Dim x As Double
@@ -52,7 +54,7 @@ Public Class ClassChanges : Inherits Plot
         Dim xscale = d3js.scale.linear.domain(xTicks).range(integers:={plotregion.Left, plotregion.Right})
         Dim labelText As String
         Dim labelSize As SizeF
-        Dim labelFont As Font = CSSFont.TryParse(theme.axisTickCSS)
+        Dim labelFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(dpi)
         Dim tickPadding As Double = g.MeasureString("0", labelFont).Height / 2
         Dim dh As Double = plotregion.Height / degClass.Length
         Dim colors As Color() = Designer _
@@ -78,7 +80,7 @@ Public Class ClassChanges : Inherits Plot
             Call g.DrawString(labelText, labelFont, Brushes.Black, x, y)
         Next
 
-        labelFont = CSSFont.TryParse(theme.axisLabelCSS)
+        labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(dpi)
         labelSize = g.MeasureString(theme.xlabel, labelFont)
         x = plotregion.Left + (plotregion.Width - labelSize.Width) / 2
         y = plotregion.Bottom + tickPadding * 3
@@ -103,7 +105,7 @@ Public Class ClassChanges : Inherits Plot
         Dim i As Integer = 1
         Dim radius As Double
         Dim color As Color
-        Dim tagFont As Font = CSSFont.TryParse(theme.tagCSS)
+        Dim tagFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(dpi)
         Dim radiusScales As DoubleRange = degClass _
             .Select(Function(cls)
                         Return cls.Select(Function(d) -Math.Log10(d.pvalue))
@@ -111,7 +113,7 @@ Public Class ClassChanges : Inherits Plot
             .IteratesALL _
             .Range
 
-        labelFont = CSSFont.TryParse(theme.axisTickCSS)
+        labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(dpi)
 
         For Each [class] As NamedCollection(Of DEGModel) In degClass
             labelText = [class].name
