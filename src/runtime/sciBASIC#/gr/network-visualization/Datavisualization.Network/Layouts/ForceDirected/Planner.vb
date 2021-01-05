@@ -124,9 +124,9 @@ Namespace Layouts.ForceDirected
             Dim dx, dy As Double
 
             For Each rect In avoidRegions
-                For Each v As Node In g.vertex.Where(Function(vi) rect.rect.contains(vi.data.initialPostion.x, vi.data.initialPostion.y))
-                    distX = v.data.initialPostion.x - rect.center.X
-                    distY = v.data.initialPostion.y - rect.center.Y
+                For Each v As Node In g.vertex
+                    distX = rect.center.X - v.data.initialPostion.x
+                    distY = rect.center.Y - v.data.initialPostion.y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
                     id = v.label
 
@@ -214,6 +214,18 @@ Namespace Layouts.ForceDirected
                 y = node.data.initialPostion.y
                 x = x + dx ' If((x + dx) >= CANVAS_WIDTH OrElse (x + dx) <= 0, x - dx, x + dx)
                 y = y + dy ' If((y + dy) >= CANVAS_HEIGHT OrElse (y + dy <= 0), y - dy, y + dy)
+
+                If x >= CANVAS_WIDTH Then
+                    x = CANVAS_WIDTH
+                ElseIf x < 0 Then
+                    x = 0
+                End If
+
+                If y >= CANVAS_HEIGHT Then
+                    y = CANVAS_HEIGHT
+                ElseIf y < 0 Then
+                    y = 0
+                End If
 
                 node.data.initialPostion.x = x
                 node.data.initialPostion.y = y
