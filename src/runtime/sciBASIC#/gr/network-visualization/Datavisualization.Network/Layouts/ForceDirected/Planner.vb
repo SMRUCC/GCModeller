@@ -130,9 +130,9 @@ Namespace Layouts.ForceDirected
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
                     id = v.label
 
-                    If dist > 0 AndAlso dist < dist_thresh.Max Then
-                        dx = (distX / dist) * (k * k / dist) * ejectFactor
-                        dy = (distY / dist) * (k * k / dist) * ejectFactor
+                    If dist > 0 Then
+                        dx = (distX / dist) * (k * k / dist) * ejectFactor * 5
+                        dy = (distY / dist) * (k * k / dist) * ejectFactor * 5
 
                         mDxMap(id) = mDxMap(id) + dx
                         mDyMap(id) = mDyMap(id) + dy
