@@ -6,6 +6,25 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 Public Module DEGPlot
 
+    ''' <summary>
+    ''' X坐标轴位置与<see cref="DEGModel.logFC"/>相关
+    ''' 气泡大小与<see cref="DEGModel.pvalue"/>相关
+    ''' </summary>
+    ''' <param name="deg"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="padding$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="colorSet$"></param>
+    ''' <param name="axisTickCSS$"></param>
+    ''' <param name="axisStroke$"></param>
+    ''' <param name="axisTickStroke$"></param>
+    ''' <param name="axisLabelCSS$"></param>
+    ''' <param name="labelCSS$"></param>
+    ''' <param name="radius"></param>
+    ''' <param name="xlab$"></param>
+    ''' <param name="orderByClass"></param>
+    ''' <param name="dpi%"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ClassChangePlot(deg As IEnumerable(Of DEGModel),
                                     Optional size$ = "2700,2100",
