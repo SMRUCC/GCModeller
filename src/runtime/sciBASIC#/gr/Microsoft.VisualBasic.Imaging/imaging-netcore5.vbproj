@@ -1,12 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Imaging</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Microsoft.VisualBasic.Imaging</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+	
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
@@ -18,6 +24,11 @@
 
   <ItemGroup>
     <Import Include="System.Data" />
+    <Import Include="System.Resources" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,4 +37,7 @@
     <ProjectReference Include="..\..\mime\text%html\html_netcore5.vbproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+	</ItemGroup>
 </Project>
