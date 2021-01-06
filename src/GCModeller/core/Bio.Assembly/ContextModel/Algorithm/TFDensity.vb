@@ -1,60 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::41d59805af2256490dcedd74f028f33c, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TFDensity
-    ' 
-    '         Function: __getCisGenes, __getGenes, __worker, Density, DensityCis
-    '         Structure __sourceHelper
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Function: __stranded, __unstranded
-    ' 
-    ' 
-    ' 
-    '     Class Density
-    ' 
-    '         Properties: Abundance, Hits, location, loci, locus_tag
-    '                     product
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TFDensity
+' 
+'         Function: __getCisGenes, __getGenes, __worker, Density, DensityCis
+'         Structure __sourceHelper
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Function: __stranded, __unstranded
+' 
+' 
+' 
+'     Class Density
+' 
+'         Properties: Abundance, Hits, location, loci, locus_tag
+'                     product
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
+
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -99,24 +104,24 @@ Namespace ContextModel
             Dim result As New List(Of T)
 
             If g.Location.Strand = Strands.Forward Then ' 上游是小于ATG，下游是大于TGA
-                Dim ATG As Integer = g.Location.Left
-                Dim TGA As Integer = g.Location.Right
+                Dim ATG As Integer = g.Location.left
+                Dim TGA As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If stdNum.Abs(ATG - loci.Location.Right) <= ranges Then
+                    If stdNum.Abs(ATG - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.Left - TGA) <= ranges Then
+                    ElseIf stdNum.Abs(loci.Location.left - TGA) <= ranges Then
                         result += loci
                     End If
                 Next
             Else
-                Dim ATG As Integer = g.Location.Right
-                Dim TGA As Integer = g.Location.Left
+                Dim ATG As Integer = g.Location.right
+                Dim TGA As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If stdNum.Abs(TGA - loci.Location.Right) <= ranges Then
+                    If stdNum.Abs(TGA - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.Left - ATG) <= ranges Then
+                    ElseIf stdNum.Abs(loci.Location.left - ATG) <= ranges Then
                         result += loci
                     End If
                 Next
@@ -222,18 +227,18 @@ Namespace ContextModel
             Dim result As New List(Of T)
 
             If g.Location.Strand = Strands.Forward Then ' 上游是小于ATG，下游是大于TGA
-                Dim ATG As Integer = g.Location.Left
+                Dim ATG As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If ATG - loci.Location.Right <= ranges Then
+                    If ATG - loci.Location.right <= ranges Then
                         result += loci
                     End If
                 Next
             Else
-                Dim ATG As Integer = g.Location.Right
+                Dim ATG As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If loci.Location.Left - ATG <= ranges Then
+                    If loci.Location.left - ATG <= ranges Then
                         result += loci
                     End If
                 Next

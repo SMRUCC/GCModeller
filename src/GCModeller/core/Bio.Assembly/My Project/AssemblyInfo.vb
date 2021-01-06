@@ -3,7 +3,7 @@
 Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
-
+#if netcore5=0 then
 ' General Information about an assembly is controlled through the following 
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
@@ -37,3 +37,4 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyFileVersion("3.3.124.1")>
 
 <Assembly: NeutralResourcesLanguage("zh-CN")>
+#end if
