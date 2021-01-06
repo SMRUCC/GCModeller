@@ -48,6 +48,15 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\RsharpDev\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.ChartPlots.Canvas3D.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -74,9 +83,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Canvas.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Canvas.vb" />
     <Compile Include="FormDevice.Designer.vb">
       <DependentUpon>FormDevice.vb</DependentUpon>
     </Compile>
