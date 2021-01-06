@@ -598,16 +598,6 @@
     <Compile Include="3D\g\Grid.vb" />
     <Compile Include="3D\Plot\Scatter3D.vb" />
     <Compile Include="3D\Serial3D.vb" />
-    <Compile Include="3D\Device\Canvas.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="3D\Device\FormDevice.Designer.vb">
-      <DependentUpon>FormDevice.vb</DependentUpon>
-    </Compile>
-    <Compile Include="3D\Device\FormDevice.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="3D\Device\Display.vb" />
     <Compile Include="3D\PieChart3D.vb" />
     <Compile Include="3D\ScatterHeatmap.vb" />
     <Compile Include="3D\Scatter.vb" />
@@ -689,12 +679,6 @@
     <Compile Include="VennPlot.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="3D\Device\Canvas.resx">
-      <DependentUpon>Canvas.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="3D\Device\FormDevice.resx">
-      <DependentUpon>FormDevice.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
