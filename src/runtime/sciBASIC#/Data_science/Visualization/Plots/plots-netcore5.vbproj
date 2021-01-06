@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.ChartPlots</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+	  <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Microsoft.VisualBasic.Data.ChartPlots</AssemblyName>
-    <Platforms>AnyCPU;x64</Platforms>
+	  <Platforms>AnyCPU;x64</Platforms>
 	
   </PropertyGroup>
 
@@ -26,12 +26,20 @@
     <Import Include="System.Data" />
     <Import Include="System.Resources" />
   </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+		<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\gr\Microsoft.VisualBasic.Imaging\imaging-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
 	  <ProjectReference Include="..\..\..\mime\text%html\html_netcore5.vbproj" />
 	  <ProjectReference Include="..\..\Mathematica\Math\Math\math-netcore5.vbproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
 	</ItemGroup>
 </Project>
