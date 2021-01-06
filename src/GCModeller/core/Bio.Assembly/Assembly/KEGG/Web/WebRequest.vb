@@ -49,7 +49,6 @@
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
@@ -106,45 +105,6 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Delegate Function GetFastaSequenceMethod(speciesId As String, LocusID As String) As FASTA.FastaSeq
-
-        ''' <summary>
-        ''' 好像因为没有窗体所以这段代码不能够正常的工作
-        ''' </summary>
-        ''' <param name="url"></param>
-        ''' <returns></returns>
-        Private Function GetPageContent(url As String) As String
-            Dim browser As New WebBrowser
-            Dim LoadComplete As Boolean = False
-
-            If String.IsNullOrEmpty(url) Then Return ""
-            If url.Equals("about:blank") Then Return ""
-            If Not url.StartsWith("http://") AndAlso Not url.StartsWith("https://") Then
-                url = "http://" & url
-            End If
-
-            browser.ScriptErrorsSuppressed = True
-
-            Call browser.Navigate(New Uri(url))
-
-            Do While (browser.ReadyState <> WebBrowserReadyState.Complete)
-                Call Microsoft.VisualBasic.Parallel.DoEvents()
-            Loop
-
-            Dim pageContent As String = browser.DocumentText
-            Return pageContent
-        End Function
-
-        <ExportAPI("EntryList.Load")>
-        Public Function LoadList(url As String) As ListEntry()
-            Dim html$ = GetPageContent(url)
-            Dim TempChunk As String() = (From m As Match
-                                         In r.Matches(html, "^<a href="".+?"">.+?</a>.+?$", RegexOptions.Multiline)
-                                         Select m.Value).ToArray
-            Dim LQuery = (From s As String
-                          In TempChunk
-                          Select ListEntry.InternalParser(s)).ToArray
-            Return LQuery
-        End Function
 
         ''' <summary>
         ''' Download a protein sequence data from the KEGG database.
