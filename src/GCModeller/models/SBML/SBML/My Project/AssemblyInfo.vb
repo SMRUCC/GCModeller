@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' 与程序集关联的信息。
 
 ' 查看程序集特性的值
-
+#If netcore5 = 0 Then
 <Assembly: AssemblyTitle("Systems Biology Markup Language FileStreamer")> 
 <Assembly: AssemblyDescription("Systems Biology Markup Language FileStreamer")> 
 <Assembly: AssemblyCompany("LANS Engineering Workstation")> 
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.2.11.1")> 
 <Assembly: AssemblyFileVersion("2.0.1.562")> 
+#end if

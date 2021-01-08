@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Microsoft.VisualBasic.MIME.application.xml</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.foundation.OBO_Foundry</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Microsoft.VisualBasic.MIME.application.xml</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.foundation.OBO_Foundry</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
@@ -30,13 +30,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="test\**" />
-    <EmbeddedResource Remove="test\**" />
-    <None Remove="test\**" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\models\SBML\Biopax\biopax-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@
     <RootNamespace>SMRUCC.genomics.Visualize</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Visualize.Extensions</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,7 +14,18 @@
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -29,6 +41,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
