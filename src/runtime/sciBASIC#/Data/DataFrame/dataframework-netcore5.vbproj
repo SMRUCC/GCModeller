@@ -55,6 +55,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
+	  <BaseAddress>4194304</BaseAddress>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
     <DefineTrace>true</DefineTrace>
     <DocumentationFile>Microsoft.VisualBasic.Data.Csv.xml</DocumentationFile>
@@ -83,6 +84,8 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+	  <PackageReference Include="System.Runtime" Version="4.3.1" />
+	  <PackageReference Include="System.Composition" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
