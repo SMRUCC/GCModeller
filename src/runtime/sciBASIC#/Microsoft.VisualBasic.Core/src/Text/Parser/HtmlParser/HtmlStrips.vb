@@ -390,7 +390,7 @@ Namespace Text.Parser.HtmlParser
                 Catch ex As Exception When TypeOf ex Is TimeoutException
                     Call App.LogException(ex, tags.GetJson)
                 Catch ex As Exception
-                    Throw ex
+                    Throw
                 End Try
 
                 html = r.Replace(html, $"<{tag}.*?>", "", RegexICSng)

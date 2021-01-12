@@ -78,7 +78,7 @@ Namespace ApplicationServices.Development.XmlDoc.Serialization
                 Return path.LoadXml(Of Doc)(preprocess:=AddressOf TrimAssemblyDoc)
             Catch ex As Exception
                 Call ex.PrintException
-                Throw ex
+                Throw
             End Try
         End Function
 

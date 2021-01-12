@@ -85,7 +85,7 @@ Public Module TextDoc
             Call App.LogException(New Exception(file.ToFileURL, ex))
 
             If ThrowEx Then
-                Throw ex
+                Throw
             Else
 #If DEBUG Then
                 Call ex.PrintException
