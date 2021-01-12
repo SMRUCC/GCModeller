@@ -81,11 +81,11 @@ Public Class ClassChanges : Inherits Plot
         Next
 
         labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(dpi)
-        labelSize = g.MeasureString(theme.xlabel, labelFont)
+        labelSize = g.MeasureString(Me.xlabel, labelFont)
         x = plotregion.Left + (plotregion.Width - labelSize.Width) / 2
         y = plotregion.Bottom + tickPadding * 3
 
-        g.DrawString(theme.xlabel, labelFont, Brushes.Black, x, y)
+        g.DrawString(Me.xlabel, labelFont, Brushes.Black, x, y)
 
         If degClass.Any(Function(gi) gi.Any(Function(d) d.logFC < 0)) Then
             Dim zeroX As Double = xscale(0)
