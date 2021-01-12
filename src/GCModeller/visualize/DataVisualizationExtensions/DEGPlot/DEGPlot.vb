@@ -49,8 +49,7 @@ Public Module DEGPlot
             .axisStroke = axisStroke,
             .axisTickStroke = axisTickStroke,
             .axisLabelCSS = axisLabelCSS,
-            .tagCSS = labelCSS,
-            .xlabel = xlab
+            .tagCSS = labelCSS
         }
 
         Return New ClassChanges(
@@ -58,6 +57,6 @@ Public Module DEGPlot
             radius:=radius,
             theme:=theme,
             orderByClass:=orderByClass
-        ).Plot(size, ppi:=dpi)
+        ) With {.xlabel = xlab}.Plot(size, ppi:=dpi)
     End Function
 End Module
