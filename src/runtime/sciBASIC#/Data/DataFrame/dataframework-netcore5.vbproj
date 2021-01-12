@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.csv</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Microsoft.VisualBasic.Data.Csv</AssemblyName>
+    <AssemblyName>Microsoft.VisualBasic.Data.Framework</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
     <PackageId>DataFramework</PackageId>

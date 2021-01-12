@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.csv</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Microsoft.VisualBasic.Data.Csv.Extensions</AssemblyName>
+    <AssemblyName>Microsoft.VisualBasic.Data.Framework.Extensions</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
     <PackageId>DataFramework.Extensions</PackageId>
@@ -68,7 +68,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\DataFrame\dataframe-netcore5.vbproj" />
+    <ProjectReference Include="..\DataFrame\dataframework-netcore5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
