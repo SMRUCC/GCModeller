@@ -14,6 +14,8 @@
     <Authors>I@xieguigang.me</Authors>
     <Copyright>Copyright © xie.guigang@live.com 2016</Copyright>
     <PackageReleaseNotes>Data Framework for sciBASIC based on the csv 2D table</PackageReleaseNotes>
+    <OutputType>Library</OutputType>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

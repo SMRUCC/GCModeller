@@ -165,6 +165,7 @@ Namespace CommandLine
                 Catch ex As Exception
                     Call App.LogException(ex)
                     Call ex.PrintException
+                    Call VBDebugger.WaitOutput()
                 End Try
 #End If
                 Return -100
