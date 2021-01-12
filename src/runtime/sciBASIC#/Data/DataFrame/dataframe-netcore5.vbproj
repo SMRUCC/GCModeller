@@ -6,6 +6,14 @@
     <AssemblyName>Microsoft.VisualBasic.Data.Csv</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <PackageId>DataFramework</PackageId>
+    <Version>5.0.123</Version>
+    <Description>Data Framework for sciBASIC based on the csv 2D table</Description>
+    <Product>sciBASIC</Product>
+    <Company>sciBASIC</Company>
+    <Authors>I@xieguigang.me</Authors>
+    <Copyright>Copyright © xie.guigang@live.com 2016</Copyright>
+    <PackageReleaseNotes>Data Framework for sciBASIC based on the csv 2D table</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,6 +56,7 @@
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
     <DefineTrace>true</DefineTrace>
     <DocumentationFile>Microsoft.VisualBasic.Data.Csv.xml</DocumentationFile>
+    <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

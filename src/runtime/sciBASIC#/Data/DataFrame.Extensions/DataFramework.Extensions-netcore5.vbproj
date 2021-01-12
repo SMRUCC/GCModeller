@@ -6,6 +6,10 @@
     <AssemblyName>Microsoft.VisualBasic.Data.Csv.Extensions</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <PackageId>DataFramework.Extensions</PackageId>
+    <Authors>xieguigang</Authors>
+    <Version>5.0.2323</Version>
+    <Product>sciBASIC</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
