@@ -137,7 +137,7 @@ Namespace Scripting.MetaData
 
             For Each filepath As String In searchPath.SafeQuery.JoinIterates(App.HOME)
                 If filepath.FileLength > 0 Then
-                    assm = System.Reflection.Assembly.LoadFile(path)
+                    assm = System.Reflection.Assembly.LoadFile(filepath)
                     Exit For
                 ElseIf (path = $"{filepath}/{Me.assembly}").FileExists Then
                     assm = System.Reflection.Assembly.LoadFile(path)
