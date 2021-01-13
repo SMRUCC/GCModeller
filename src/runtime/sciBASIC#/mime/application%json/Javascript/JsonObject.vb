@@ -153,7 +153,10 @@ Namespace Javascript
 
         Public Function CreateObject(type As Type) As Object
             If type.IsArray AndAlso Me.isArray Then
-                Return ToJsonArray.createArray(ObjectSchema.GetSchema(type.GetElementType), type.GetElementType)
+                Dim itemType As Type = type.GetElementType
+                Dim graph As ObjectSchema = ObjectSchema.GetSchema(itemType)
+
+                Return ToJsonArray.createArray(graph, itemType)
             Else
                 Return Me.createObject(parent:=Nothing, schema:=type)
             End If
