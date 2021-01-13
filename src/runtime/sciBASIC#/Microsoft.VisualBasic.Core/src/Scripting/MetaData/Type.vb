@@ -53,6 +53,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Scripting.MetaData
 
@@ -80,7 +81,7 @@ Namespace Scripting.MetaData
         ''' <returns></returns>
         Public ReadOnly Property isSystemKnownType As Boolean
             Get
-                Return Not Scripting.GetType(fullName) Is Nothing
+                Return Not any.GetType(fullName) Is Nothing
             End Get
         End Property
 
@@ -156,7 +157,7 @@ Namespace Scripting.MetaData
             Dim assm As Assembly
 
             If knownFirst Then
-                type = Scripting.GetType(fullName)
+                type = any.GetType(fullName)
 
                 If Not type Is Nothing Then
                     Return type
