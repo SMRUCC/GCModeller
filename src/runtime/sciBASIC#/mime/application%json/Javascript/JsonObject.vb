@@ -148,15 +148,15 @@ Namespace Javascript
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
         Public Function CreateObject(Of T)() As T
-            If GetType(T).IsArray AndAlso Me.isArray Then
-                Return ToJsonArray.createArray(ObjectSchema.GetSchema(GetType(T)), GetType(T))
-            Else
-                Return Me.createObject(parent:=Nothing, schema:=GetType(T))
-            End If
+            Return CreateObject(type:=GetType(T))
         End Function
 
         Public Function CreateObject(type As Type) As Object
-            Return Me.createObject(parent:=Nothing, schema:=type)
+            If type.IsArray AndAlso Me.isArray Then
+                Return ToJsonArray.createArray(ObjectSchema.GetSchema(type), type)
+            Else
+                Return Me.createObject(parent:=Nothing, schema:=type)
+            End If
         End Function
 
         Public Overrides Function ToString() As String
