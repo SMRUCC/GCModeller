@@ -13,4 +13,24 @@
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Authenticator\**" />
+    <Compile Remove="Tests\**" />
+    <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Authenticator\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <EmbeddedResource Remove="Test\**" />
+    <None Remove="Authenticator\**" />
+    <None Remove="Tests\**" />
+    <None Remove="Test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+  </ItemGroup>
+
 </Project>
