@@ -57,6 +57,7 @@ Imports System.IO
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Parallel
 
@@ -150,7 +151,7 @@ Namespace Parallel
             Me.data = data.ToArray
         End Sub
 
-        Sub New(data As RequestStream)
+        Sub New(data As RawStream)
             Call Me.New(data.Serialize)
         End Sub
 
