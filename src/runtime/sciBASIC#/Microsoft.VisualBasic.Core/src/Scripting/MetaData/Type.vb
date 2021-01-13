@@ -92,12 +92,17 @@ Namespace Scripting.MetaData
         ''' Creates type reference from the definition.
         ''' </summary>
         ''' <param name="info"></param>
-        Sub New(info As Type)
-            Call doInfoParser(info, assembly, fullName, reference)
+        Sub New(info As Type, Optional fullpath As Boolean = False)
+            Call doInfoParser(info, assembly, fullName, reference, fullpath)
         End Sub
 
-        Private Shared Sub doInfoParser(info As Type, ByRef assm As String, ByRef id As String, ByRef reference As String)
-            assm = info.Assembly.Location.FileName
+        Private Shared Sub doInfoParser(info As Type, ByRef assm As String, ByRef id As String, ByRef reference As String, fullpath As Boolean)
+            If fullpath Then
+                assm = info.Assembly.Location
+            Else
+                assm = info.Assembly.Location.FileName
+            End If
+
             id = info.FullName
             reference = info.Assembly.FullName
         End Sub
@@ -218,7 +223,7 @@ Namespace Scripting.MetaData
             Dim type As String = Nothing
             Dim reference As String = Nothing
 
-            Call doInfoParser(b, assm, type, reference)
+            Call doInfoParser(b, assm, type, reference, fullpath:=False)
 
             Return String.Equals(a.assembly, assm, StringComparison.OrdinalIgnoreCase) AndAlso
                 String.Equals(a.fullName, type, StringComparison.Ordinal) AndAlso
