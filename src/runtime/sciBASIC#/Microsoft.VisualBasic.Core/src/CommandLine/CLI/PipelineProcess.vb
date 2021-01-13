@@ -45,6 +45,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports ConsoleApp = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 Imports Proc = System.Diagnostics.Process
 
 Namespace CommandLine
@@ -155,6 +156,17 @@ Namespace CommandLine
             Dim stdout As New List(Of String)
             Call ExecSub(app, args, AddressOf stdout.Add, [in])
             Return stdout.JoinBy(vbCrLf)
+        End Function
+
+        ''' <summary>
+        ''' Run process and then gets the ``std_out`` of the child process
+        ''' </summary>
+        ''' <param name="app">The file path of the application to be called by its parent process.</param>
+        ''' <param name="args">CLI arguments</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function [Call](app As ConsoleApp, args As String, Optional [in] As String = "") As String
+            Return [Call](app.Path, args, [in])
         End Function
     End Module
 End Namespace
