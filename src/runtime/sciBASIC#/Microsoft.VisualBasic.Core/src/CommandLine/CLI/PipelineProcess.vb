@@ -158,6 +158,7 @@ Namespace CommandLine
 
             If Not String.IsNullOrEmpty([in]) Then
                 Dim writer As StreamWriter = p.StandardInput
+
                 Call writer.WriteLine([in])
                 Call writer.Flush()
             End If
@@ -174,6 +175,8 @@ Namespace CommandLine
                     Call buffer.Write(chunk, Scan0, nbytes)
                 End If
             Loop
+
+            Erase chunk
 
             Call p.WaitForExit()
             Call buffer.Flush()

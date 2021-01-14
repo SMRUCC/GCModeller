@@ -374,6 +374,13 @@ Namespace Tcp
             ' Complete sending the data to the remote device.
             Call handler.Shutdown(SocketShutdown.Both)
             Call handler.Close()
+
+            ' release data
+            If TypeOf data Is DataPipe Then
+                Call DirectCast(data, DataPipe).Dispose()
+            ElseIf TypeOf data Is StreamPipe Then
+                Call DirectCast(data, StreamPipe).Dispose()
+            End If
         End Sub
 
         ''' <summary>
