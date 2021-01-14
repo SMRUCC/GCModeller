@@ -81,6 +81,7 @@ Namespace Tcp
         Dim _threadEndAccept As Boolean = True
         Dim _exceptionHandle As ExceptionHandler
         Dim _servicesSocket As Socket
+        Dim _maxAccepts As Integer = 4
 
 #End Region
 
