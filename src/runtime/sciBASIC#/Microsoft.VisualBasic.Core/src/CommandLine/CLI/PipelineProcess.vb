@@ -146,6 +146,10 @@ Namespace CommandLine
             Call p.WaitForExit()
         End Sub
 
+        Private Function CreatePipeline(app As String, args As String) As Process
+
+        End Function
+
         ''' <summary>
         ''' Run process and then gets the ``std_out`` of the child process
         ''' </summary>

@@ -405,6 +405,9 @@ Namespace Tcp
 
                     Call _servicesSocket.Dispose()
                     Call _servicesSocket.Free()
+
+                    _Running = False
+
                     ' TODO: dispose managed state (managed objects).
                 End If
 
