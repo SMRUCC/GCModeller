@@ -1644,6 +1644,7 @@
     <Compile Include="Extensions\Reflection\EnumHelpers.vb" />
     <Compile Include="Extensions\StringHelpers\StringFormats.vb" />
     <Compile Include="Language\Linq\Rapply.vb" />
+    <Compile Include="Language\Value\Numeric\chr.vb" />
     <Compile Include="My\RlangInterop.vb" />
     <Compile Include="My\Framework\FrameworkConfig.vb" />
     <Compile Include="My\Framework\DoConfiguration.vb" />
@@ -2031,7 +2032,6 @@
     <Compile Include="Language\Language\UnixBash\PS1.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\IParallelTask.vb" />
     <Compile Include="ApplicationServices\Parallel\Tasks\__backgroundTask%28Of T%29.vb" />
-    <Compile Include="ApplicationServices\Parallel\Threads\BatchTasks.vb" />
     <Compile Include="ApplicationServices\Parallel\Threads\ThreadQueue.vb" />
     <Compile Include="ApplicationServices\Parallel\Threads\LQuerySchedule\Models.vb" />
     <Compile Include="ApplicationServices\Parallel\Threads\LQuerySchedule\TaskPartitions.vb" />
@@ -2212,7 +2212,6 @@
     <Compile Include="Extensions\Security\SecurityString.vb" />
     <Compile Include="ApplicationServices\Parallel\OperationTimeOut.vb" />
     <Compile Include="Net\Tcp\TCPExtensions.vb" />
-    <Compile Include="ApplicationServices\Parallel\Threading.vb" />
     <Compile Include="CommandLine\Reflection\EntryPoints\Delegate.vb" />
     <Compile Include="Extensions\Image\GDI+\GraphicsExtensions.vb" />
     <Compile Include="ComponentModel\DataStructures\HashDictionary.vb" />
