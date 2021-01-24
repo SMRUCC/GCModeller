@@ -46,6 +46,11 @@ Public Structure DEGModel : Implements IDeg
     Public Property label$ Implements IDeg.label
     Public Property logFC# Implements IDeg.log2FC
     Public Property pvalue# Implements IDeg.pvalue
+    ''' <summary>
+    ''' Variance importance
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property VIP As Double
     Public Property [class] As String
 
     Public Overrides Function ToString() As String
