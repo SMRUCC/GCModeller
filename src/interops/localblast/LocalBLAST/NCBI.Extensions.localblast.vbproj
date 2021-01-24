@@ -351,16 +351,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.vb" />
     <Compile Include="Pipeline\Extensions.vb" />
     <Compile Include="Pipeline\KO\KOAssignment.vb" />
-    <Compile Include="Tasks\LocalBLAST.vb" />
-    <Compile Include="Tasks\BBHLogs.vb" />
-    <Compile Include="Tasks\Models.vb" />
-    <Compile Include="Tasks\Models\Hit.vb" />
-    <Compile Include="Tasks\Models\SpeciesBesthit.vb" />
-    <Compile Include="Tasks\ChunkHitParser.vb" />
+    <Compile Include="Pipeline\Models\Hit.vb" />
+    <Compile Include="Pipeline\Models\Hits.vb" />
+    <Compile Include="Pipeline\Models\SpeciesBesthit.vb" />
     <Compile Include="Web\KeggSSDB.vb" />
-    <Compile Include="Tasks\Models\Hits.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\BlastnQuery.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
@@ -380,9 +377,6 @@
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastp.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parameters.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\Iteration.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb" />
@@ -391,7 +385,6 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\IMapping.vb" />
     <Compile Include="Pipeline\COG\COG2014.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb" />
@@ -399,9 +392,7 @@
     <Compile Include="Pipeline\COG\Reports\COG.vb" />
     <Compile Include="Pipeline\COG\Reports\MyvaCOG.vb" />
     <Compile Include="Pipeline\COG\Whog\Category.vb" />
-    <Compile Include="Extensions.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb" />
-    <Compile Include="NCBILocalBlast.vb" />
     <Compile Include="LocalBLAST\BlastOutput\BLASTOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Parameter.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Score.vb" />
@@ -436,13 +427,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Pipeline\NamespaceDoc.vb" />
-    <Compile Include="Tasks\NamespaceDoc.vb" />
     <Compile Include="Web\Alignment\AlignmentTable.vb" />
     <Compile Include="Web\Alignment\HitTableParser.vb" />
     <Compile Include="Web\Alignment\Extensions.vb" />
     <Compile Include="Web\Alignment\NamespaceDoc.vb" />
     <Compile Include="Web\MetaAPI.vb" />
-    <Compile Include="Web\SBH_Tabular.vb" />
     <Compile Include="Web\AlignmentTableParser.vb" />
     <Compile Include="Web\Alignment\Hit.vb" />
   </ItemGroup>
