@@ -302,6 +302,10 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ParallelTask\ParallelTask.vbproj">
+      <Project>{e957bc7d-d283-47d3-b6fe-7545937149a7}</Project>
+      <Name>ParallelTask</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />

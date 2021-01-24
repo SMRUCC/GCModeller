@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::2088deba272c8c8d98d6ea396bbe37a3, models\Networks\Network.BLAST\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module API
-    ' 
-    ' 
-    '     Delegate Function
-    ' 
-    '         Properties: BuildMethods
-    ' 
-    '         Function: __buildFromBlastHits, (+2 Overloads) BuildFromBBH, BuildFromBestHits, BuildFromBlastHits, BuildFromBlastOUT
-    '                   MetaBuildFromBBH, SaveBLASTNetwork
-    ' 
-    '         Sub: __buildFromBlastHits
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module API
+' 
+' 
+'     Delegate Function
+' 
+'         Properties: BuildMethods
+' 
+'         Function: __buildFromBlastHits, (+2 Overloads) BuildFromBBH, BuildFromBestHits, BuildFromBlastHits, BuildFromBlastOUT
+'                   MetaBuildFromBBH, SaveBLASTNetwork
+' 
+'         Sub: __buildFromBlastHits
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 
 ''' <summary>
 ''' 这个多用于宏基因组的研究
@@ -158,12 +159,14 @@ Public Module API
                                         locusDict As Dictionary(Of String, String))
 
         Dim hitEdges As LDM.Hit() = hits.Where(Function(x) Not x.isEmpty).Select(
-            Function(x) New LDM.Hit With {
+            Function(x)
+                Return New LDM.Hit With {
                 .genomePairId = $"{locusDict.TryGetValue(x.queryName)}_vs__{locusDict.TryGetValue(x.hitName)}",
                 .query = x.queryName,
                 .subject = x.hitName,
                 .weight = x.identities
-        })
+        }
+            End Function).ToArray
 
         If Not hitEdges.IsNullOrEmpty Then
             ' 生成蛋白质的节点模型
@@ -184,7 +187,7 @@ Public Module API
                             .Genome = locusDict.TryGetValue(x.hitName),
                             .LocusId = x.hitName
                        }
-                        End Function)
+                        End Function).ToArray
             outHits = hitEdges
         Else
             outProt = New LDM.Protein() {}
@@ -198,7 +201,7 @@ Public Module API
                                      locusDict As Dictionary(Of String, String)) As LDM.BLAST
         Dim source = (From file As String
                       In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                      Let entry = LocalBLAST.Application.BatchParallel.LogNameParser(file)
+                      Let entry = VennDataBuilder.LogNameParser(file)
                       Where entry.IsPairMatch
                       Select entry,
                           bbh = entry.FilePath.LoadCsv(Of BiDirectionalBesthit)).ToArray
