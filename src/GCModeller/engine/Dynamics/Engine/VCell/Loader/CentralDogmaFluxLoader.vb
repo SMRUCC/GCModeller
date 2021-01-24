@@ -100,11 +100,20 @@ Namespace Engine.ModelLoader
                 MassTable.AddNew(chargeName, MassRoles.tRNA)
             End If
 
-            Dim left As Variable() = {MassTable.variable(cd.RNAName), MassTable.variable(loader.define.ATP), MassTable.variable(loader.define.AminoAcid(AA))}
-            Dim right As Variable() = {MassTable.variable(chargeName), MassTable.variable(loader.define.ADP)}
+            Dim left As Variable() = {
+                MassTable.variable(cd.RNAName),
+                MassTable.variable(loader.define.ATP),
+                MassTable.variable(loader.define.AminoAcid(AA))
+            }
+            Dim right As Variable() = {
+                MassTable.variable(chargeName),
+                MassTable.variable(loader.define.ADP)
+            }
             Dim flux As New Channel(left, right) With {
                .ID = $"chargeOf_{cd.RNAName}",
-               .bounds = New Boundary() With {.forward = loader.dynamics.tRNAChargeCapacity},
+               .bounds = New Boundary() With {
+                   .forward = loader.dynamics.tRNAChargeCapacity
+               },
                .reverse = Controls.StaticControl(0),
                .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
             }
@@ -121,7 +130,10 @@ Namespace Engine.ModelLoader
             MassTable.AddNew(NameOf(ribosomeAssembly), MassRoles.protein)
             flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
                 .ID = NameOf(ribosomeAssembly),
-                .bounds = New Boundary With {.forward = loader.dynamics.ribosomeAssemblyCapacity, .reverse = loader.dynamics.ribosomeDisassemblyCapacity},
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.ribosomeAssemblyCapacity,
+                    .reverse = loader.dynamics.ribosomeDisassemblyCapacity
+                },
                 .forward = Controls.StaticControl(loader.dynamics.ribosomeAssemblyBaseline),
                 .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline)
             }

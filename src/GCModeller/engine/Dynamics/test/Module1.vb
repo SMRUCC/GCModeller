@@ -58,9 +58,9 @@ Module Module1
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
 
-        Call envir.Initialize(10000)
+        Call envir.Initialize()
 
-        Dim dynamics = envir.ContainerIterator(100)
+        Dim dynamics = envir.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(envir)
 
         For i As Integer = 0 To 10000
