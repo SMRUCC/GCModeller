@@ -326,6 +326,10 @@
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\Darwinism\Parallel\Parallel.vbproj">
+      <Project>{085171ca-6a65-494c-9b4a-477d35bcbc90}</Project>
+      <Name>Parallel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>

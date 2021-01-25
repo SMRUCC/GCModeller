@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::dbc51f5d232b5a9b25c19a2590711841, CLI_tools\NCBI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: accidMatch, AssignFastaTaxonomy, AssignTaxonomy, AssignTaxonomy2, AssignTaxonomyFromRef
-    '               Associates, AssociateTaxonomy, Build_gi2taxi, ExportGI, giMatch
-    '               giMatchs, NtTaxonomy
-    '     Class Taxono
-    ' 
-    '         Properties: Tag, Values
-    ' 
-    '         Function: Load, Parser_gi, Save, ToString
-    ' 
-    '     Class TaxiSummary
-    ' 
-    '         Properties: gi, Name, sequence, title
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class ITaxon
-    ' 
-    '         Properties: [class], family, genus, order, phylum
-    '                     species, superkingdom, taxid, Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: accidMatch, AssignFastaTaxonomy, AssignTaxonomy, AssignTaxonomy2, AssignTaxonomyFromRef
+'               Associates, AssociateTaxonomy, Build_gi2taxi, ExportGI, giMatch
+'               giMatchs, NtTaxonomy
+'     Class Taxono
+' 
+'         Properties: Tag, Values
+' 
+'         Function: Load, Parser_gi, Save, ToString
+' 
+'     Class TaxiSummary
+' 
+'         Properties: gi, Name, sequence, title
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToString
+' 
+'     Class ITaxon
+' 
+'         Properties: [class], family, genus, order, phylum
+'                     species, superkingdom, taxid, Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -88,6 +88,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -665,7 +666,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         Dim tasks$() =
             (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
-        Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 #End Region
 

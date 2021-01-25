@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::2d018f4011100735a953fb157250203d, CLI_tools\MEME\Cli\MotifHits.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __buildRegulates, __siteToFootprint, (+2 Overloads) __siteToRegulation, Expand, HitContext
-    '               HitsRegulation, MotifInfo, MotifInfoBatch, MotifMatch, MotifMatch2
-    '               SiteHitsToFootprints, SiteMASTScan, SiteMASTScanBatch, SiteRegexCommon, SiteRegexScan
-    '               (+2 Overloads) ToFootprints
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __buildRegulates, __siteToFootprint, (+2 Overloads) __siteToRegulation, Expand, HitContext
+'               HitsRegulation, MotifInfo, MotifInfoBatch, MotifMatch, MotifMatch2
+'               SiteHitsToFootprints, SiteMASTScan, SiteMASTScanBatch, SiteRegexCommon, SiteRegexScan
+'               (+2 Overloads) ToFootprints
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Parallel
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -379,7 +380,7 @@ Partial Module CLI
 
         num = LQuerySchedule.AutoConfig(num)
 
-        Return App.SelfFolks(CLI, parallel:=num)
+        Return BatchTasks.SelfFolks(CLI, parallel:=num)
     End Function
 
     ''' <summary>
@@ -454,7 +455,7 @@ Partial Module CLI
             n = LQuerySchedule.CPU_NUMBER
         End If
 
-        Return App.SelfFolks(CLI, n)
+        Return BatchTasks.SelfFolks(CLI, n)
     End Function
 
     <ExportAPI("/Motif.Info",

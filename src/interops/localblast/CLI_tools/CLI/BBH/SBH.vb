@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI

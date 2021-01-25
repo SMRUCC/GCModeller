@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::0f298f957e7edac1782e1726987e7f80, CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __getStrand, __operon, MergeDOOR, OperonBuilder, RegulonBatchBuilder
-    ' 
-    '     Sub: __scanOperon
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __getStrand, __operon, MergeDOOR, OperonBuilder, RegulonBatchBuilder
+' 
+'     Sub: __scanOperon
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Parallel
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -144,7 +145,7 @@ Partial Module CLI
                 $"{api} /bbh {source(NameOf(bbh)).CLIPath} /PTT {source(NameOf(PTT)).CLIPath} /TF-bbh {source(NameOf(TFs)).CLIPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CLIPath} /regprecise {regprecise.CLIPath}"
         Dim CLI As String() = pairs.Select(task).ToArray
 
-        Return App.SelfFolks(CLI, n)
+        Return BatchTasks.SelfFolks(CLI, n)
     End Function
 
     ''' <summary>
@@ -168,11 +169,11 @@ Partial Module CLI
         Dim plus As New DefaultHashHandle(Of gene)(From x As gene
                                                    In PTT.GetStrandGene(Strands.Forward)
                                                    Select x
-                                                   Order By x.Location.Normalization.Left Ascending)
+                                                   Order By x.Location.Normalization.left Ascending)
         Dim minus As New DefaultHashHandle(Of gene)(From x As gene
                                                     In PTT.GetStrandGene(Strands.Reverse)
                                                     Select x
-                                                    Order By x.Location.Normalization.Right Descending)
+                                                    Order By x.Location.Normalization.right Descending)
         Dim hitsHash = (From x As BBHIndex
                         In bbh.LoadCsv(Of BBHIndex)
                         Where x.isMatched
@@ -281,14 +282,14 @@ Partial Module CLI
             In locus
             Where plus.HasElement(x)
             Select gg = plus.Current(x)
-            Order By gg.node.obj.Location.Left Ascending
+            Order By gg.node.obj.Location.left Ascending
 
         Dim reversed = LinqAPI.MakeList(Of LinkNode(Of IHashValue(Of gene))) <=
             From x As String
             In locus
             Where minus.HasElement(x)
             Select gg = minus.Current(x)
-            Order By gg.node.obj.Location.Right Descending
+            Order By gg.node.obj.Location.right Descending
 
         Dim n As Integer = (From x
                             In members

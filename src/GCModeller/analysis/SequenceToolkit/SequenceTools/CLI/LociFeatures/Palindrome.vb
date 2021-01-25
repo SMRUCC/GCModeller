@@ -203,7 +203,7 @@ Partial Module Utilities
             CLI += $"{GetType(Utilities).API(NameOf(FuzzyMirrors))} /in {tmp.CLIPath} /out {path.CLIPath} /cut {cut} /max-dist {maxDist} /min {min} /max {max}"
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
     End Function
 
     <ExportAPI("/Mirror.Batch",
@@ -234,7 +234,7 @@ Partial Module Utilities
                                            Let path As String = App.AppSystemTemp & $"/{norm}.fasta"
                                            Let save As Boolean = fa.Save(path, Encodings.ASCII)
                                            Select task(path)
-            Call App.SelfFolks(CLI, n)
+            Call BatchTasks.SelfFolks(CLI, n)
         Else
             For Each seq As FastaSeq In NT
                 Dim Search As New Topologically.MirrorPalindrome(seq, Min, Max)
@@ -456,7 +456,7 @@ Partial Module Utilities
             CLI += $"{GetType(Utilities).API(NameOf(FilteringMatches))} /in {file.CLIPath} /min {min} /out {(out & "/" & file.BaseName & ".Csv").CLIPath}"
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
     End Function
 
     <ExportAPI("/Palindrome.Screen.MaxMatches",

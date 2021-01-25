@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::70492fbebb7ce62a028ecf3127ab417a, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: __lociFa, __segments, __where, ConvertMirrors, ConvertMirrorsBatch
-    '               ConvertsAuto, MirrorContext, MirrorContextBatch, MirrorGroups, MirrorGroupsBatch
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: __lociFa, __segments, __where, ConvertMirrors, ConvertMirrorsBatch
+'               ConvertsAuto, MirrorContext, MirrorContextBatch, MirrorGroups, MirrorGroupsBatch
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -174,7 +175,7 @@ Partial Module Utilities
             CLI += task(file)
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(num_threads))
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(num_threads))
     End Function
 
     <ExportAPI("/SimpleSegment.Mirrors.Batch",
@@ -239,7 +240,7 @@ Partial Module Utilities
         Next
 
         Dim n As Integer = args.GetValue("/num_threads", -1)
-        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
     End Function
 
     ''' <summary>
@@ -279,8 +280,8 @@ Partial Module Utilities
         Dim gsize As Integer = context.Size
         Dim task As Func(Of PalindromeLoci, KeyValuePair(Of PalindromeLoci, Relationship(Of GeneBrief)())) =
            Function(x)
-               Dim left As Integer = x.MappingLocation.Left
-               Dim right As Integer = x.MappingLocation.Right
+               Dim left As Integer = x.MappingLocation.left
+               Dim right As Integer = x.MappingLocation.right
 
                If trans Then
                    left = gsize - left
