@@ -120,6 +120,7 @@ Namespace Layouts.ForceDirected
                 dy = distY * dist / k * condenseFactor
 
                 If groupBy(v.label) = groupBy(u.label) AndAlso groupBy(v.label) <> "n/a" Then
+                    ' 如果是相同的分组，则吸引力很大
                     dx *= groupAttraction
                     dy *= groupAttraction
                 Else
@@ -159,6 +160,7 @@ Namespace Layouts.ForceDirected
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
 
                         If groupBy(u.label) = groupBy(v.label) AndAlso groupBy(u.label) <> "n/a" Then
+                            ' 是相同的分组，则排斥力很小
                             dx /= groupRepulsive
                             dy /= groupRepulsive
                         Else
