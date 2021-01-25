@@ -345,6 +345,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ParallelTask\ParallelTask.vbproj">
+      <Project>{e957bc7d-d283-47d3-b6fe-7545937149a7}</Project>
+      <Name>ParallelTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\venn\localblast.venn.vbproj">
       <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
       <Name>localblast.venn</Name>
