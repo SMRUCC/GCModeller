@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Raw", "Raw\Raw.vbproj", "{07CC0292-9EDA-4E02-BF0D-043391C99F07}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj"", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BinaryData", "..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj", "{487D7C92-D05A-4908-BF81-E6BABA0BF592}"
 EndProject
@@ -104,8 +104,8 @@ Global
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Biostack-Debug|x86.Build.0 = Debug|Any CPU
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.Build.0 = Debug|Any CPU
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.ActiveCfg = Debug|x64
+		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x64.Build.0 = Debug|x64
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.Debug|x86.Build.0 = Debug|Any CPU
 		{07CC0292-9EDA-4E02-BF0D-043391C99F07}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU

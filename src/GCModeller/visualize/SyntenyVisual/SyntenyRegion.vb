@@ -130,7 +130,7 @@ Public Module SyntenyRegionExtensions
         Dim intSymbol As New GenericSymbol(Of Integer)(
             equals:=Function(i, j) scoreProvider(i, j) >= 0.85,
             similarity:=Function(i, j) scoreProvider(i, j),
-            toChar:=Function(i) Chr(i),
+            toChar:=Function(i) Strings.Chr(i),
             empty:=Function() 0
         )
         Dim smithwaterMan As New GSW(Of Integer)(

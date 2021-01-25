@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::8efefd2f19a0e8b89c9b8de0ea6f8319, localblast\venn\Files.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Files
-    ' 
-    '         Function: __innerCopy
-    ' 
-    '         Sub: SelectCopy
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Files
+' 
+'         Function: __innerCopy
+' 
+'         Sub: SelectCopy
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 
 Namespace BlastAPI
 
@@ -81,7 +81,7 @@ Namespace BlastAPI
                      In BlastoutputSource.LoadSourceEntryList({"*.txt"}).AsParallel
                          Let Blastout = BlastPlus.LoadBlastOutput(path.Value)
                          Where Not Blastout Is Nothing
-                         Select ID = LogNameParser(path.Value).HitName,
+                         Select ID = VennDataBuilder.LogNameParser(path.Value).HitName,
                          Blastout,
                          Besthits = Blastout.ExportAllBestHist(identities) ' 加载单向最佳比对
 
