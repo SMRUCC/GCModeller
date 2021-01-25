@@ -121,8 +121,13 @@ Namespace Layouts.ForceDirected
 
                 If groupBy(v.label) = groupBy(u.label) AndAlso groupBy(v.label) <> "n/a" Then
                     ' 如果是相同的分组，则吸引力很大
-                    dx *= groupAttraction
-                    dy *= groupAttraction
+                    If (dist < dist_thresh.Min) Then
+                        dx = 0
+                        dy = 0
+                    Else
+                        dx *= groupAttraction
+                        dy *= groupAttraction
+                    End If
                 Else
                     dx /= groupAttraction
                     dy /= groupAttraction
@@ -155,16 +160,19 @@ Namespace Layouts.ForceDirected
                         dx = (distX / dist) * (k * k / dist) * ejectFactor
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
 
-                        If (dist < dist_thresh.Min) Then
-                            dx *= 2
-                            dy *= 2
-                        End If
-
                         If groupBy(u.label) = groupBy(v.label) AndAlso groupBy(u.label) <> "n/a" Then
                             ' 是相同的分组，则排斥力很小
-                            dx /= groupRepulsive
-                            dy /= groupRepulsive
+                            If (dist < dist_thresh.Min) Then
+                            Else
+                                dx /= groupRepulsive
+                                dy /= groupRepulsive
+                            End If
                         Else
+                            If (dist < dist_thresh.Min) Then
+                                dx *= 2
+                                dy *= 2
+                            End If
+
                             dx *= groupRepulsive
                             dy *= groupRepulsive
                         End If
