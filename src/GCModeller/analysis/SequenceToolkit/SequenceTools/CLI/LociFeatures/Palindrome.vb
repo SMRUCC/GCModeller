@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::31e4a2d456d93ef357885d04596d5797, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
-    '               FilteringMatches, FilteringMatchesBatch, FilterPerfectPalindrome, FuzzyMirrors, FuzzyMirrorsBatch
-    '               Hairpinks, HairpinksBatch, ImperfectPalindrome, MirrorBatch, MirrorsVector
-    '               PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT, SearchPalindromeFasta
-    '               SearchPalindromeNT, ToVector, TrimNtMirrors
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
+'               FilteringMatches, FilteringMatchesBatch, FilterPerfectPalindrome, FuzzyMirrors, FuzzyMirrorsBatch
+'               Hairpinks, HairpinksBatch, ImperfectPalindrome, MirrorBatch, MirrorsVector
+'               PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT, SearchPalindromeFasta
+'               SearchPalindromeNT, ToVector, TrimNtMirrors
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
@@ -273,8 +274,8 @@ Partial Module Utilities
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("--Palindrome.batch.Task",
-               Usage:="--Palindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /num_threads <-1>]")>
+    <ExportAPI("--Palindrome.batch.Task")>
+    <Usage("--Palindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /num_threads <-1>]")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function BatchSearchPalindrome(args As CommandLine) As Integer
         Dim input As String = args("/in")
@@ -284,10 +285,14 @@ Partial Module Utilities
         Dim Fasta As FastaFile = FastaFile.Read(input)
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
 
-        Call BatchTask(Fasta,
-                       getCLI:=Function(fa) __palindromeTask(fa, outDIR, min, max),
-                       getExe:=Function() App.ExecutablePath,
-                       numThreads:=numThreads)
+        Call ThreadTask(Of Integer) _
+            .CreateThreads(Fasta, Function(fa)
+                                      Return New IORedirectFile(App.ExecutablePath, __palindromeTask(fa, outDIR, min, max)).Run
+                                  End Function) _
+            .WithDegreeOfParallelism(numThreads) _
+            .RunParallel _
+            .ToArray
+
         Return 0
     End Function
 
@@ -313,8 +318,8 @@ Partial Module Utilities
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("--ImperfectsPalindrome.batch.Task",
-               Usage:="--ImperfectsPalindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /num_threads <-1>]")>
+    <ExportAPI("--ImperfectsPalindrome.batch.Task")>
+    <Usage("--ImperfectsPalindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /num_threads <-1>]")>
     <Group(CLIGrouping.PalindromeTools)>
     Public Function BatchSearchImperfectsPalindrome(args As CommandLine) As Integer
         Dim input As String = args("/in")
@@ -326,10 +331,14 @@ Partial Module Utilities
         Dim Fasta = FastaFile.Read(input)
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
 
-        Call BatchTask(Fasta,
-                       getCLI:=Function(fa) __imperfectsPalindromeTask(fa, out, min, max, cutoff, maxDist),
-                       getExe:=Function() App.ExecutablePath,
-                       numThreads:=numThreads)
+        Call ThreadTask(Of Integer) _
+            .CreateThreads(Fasta, Function(fa)
+                                      Return New IORedirectFile(App.ExecutablePath, __imperfectsPalindromeTask(fa, out, min, max, cutoff, maxDist)).Run
+                                  End Function) _
+            .WithDegreeOfParallelism(numThreads) _
+            .RunParallel _
+            .ToArray
+
         Return 0
     End Function
 

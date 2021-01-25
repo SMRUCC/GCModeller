@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -50,6 +51,7 @@ Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops.NCBI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
@@ -156,11 +158,13 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
             If noParallel Then
                 Call lstFiles.Select(Function(x) __batchExportOpr(inFile:=x.Value))
             Else
-                Call BatchTask(lstFiles,
-                               getExe:=getThis,
-                               getCLI:=Function(x) $"/Export.Blastn /in {x.Value.CLIPath}",
-                               numThreads:=num_threads,
-                               TimeInterval:=100)
+                Call ThreadTask(Of Integer) _
+                    .CreateThreads(lstFiles, Function(x)
+                                                 Return New IORedirectFile(getThis(), $"/Export.Blastn /in {x.Value.CLIPath}").Run
+                                             End Function) _
+                    .WithDegreeOfParallelism(num_threads) _
+                    .RunParallel _
+                    .ToArray
             End If
         Else
             Dim LQuery = From file As NamedValue(Of String)
