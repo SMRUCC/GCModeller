@@ -151,13 +151,14 @@ Namespace Layouts.ForceDirected
                     distY = u.data.initialPostion.y - v.data.initialPostion.y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
 
-                    If (dist < dist_thresh.Min) Then
-                        ejectFactor = 5
-                    End If
-
                     If dist > 0 AndAlso dist < dist_thresh.Max Then
                         dx = (distX / dist) * (k * k / dist) * ejectFactor
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
+
+                        If (dist < dist_thresh.Min) Then
+                            dx *= 2
+                            dy *= 2
+                        End If
 
                         If groupBy(u.label) = groupBy(v.label) AndAlso groupBy(u.label) <> "n/a" Then
                             ' 是相同的分组，则排斥力很小
