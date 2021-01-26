@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::a6b9d4bb045bef0a7323df6e50ee01f4, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\RequestStream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Delegate Function
-    ' 
-    '         Properties: IsPing, IsPlantText, IsSSL_PublicToken, IsSSLHandshaking, IsSSLProtocol
-    '                     TryGetSystemProtocol
-    ' 
-    '         Function: SystemProtocol
-    '         Operators: (+3 Overloads) <>, (+3 Overloads) =
-    '     Class RequestStream
-    ' 
-    '         Properties: BufferLength, ChunkBuffer, FullRead, Protocol, ProtocolCategory
-    '                     TotalBytes
-    ' 
-    '         Constructor: (+7 Overloads) Sub New
-    '         Function: (+2 Overloads) CreatePackage, CreateProtocol, GetRawStream, GetString, GetUTF8String
-    '                   IsAvaliableStream, (+2 Overloads) LoadObject, Serialize, ToString
-    '         Enum Protocols
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Delegate Function
+' 
+'         Properties: IsPing, IsPlantText, IsSSL_PublicToken, IsSSLHandshaking, IsSSLProtocol
+'                     TryGetSystemProtocol
+' 
+'         Function: SystemProtocol
+'         Operators: (+3 Overloads) <>, (+3 Overloads) =
+'     Class RequestStream
+' 
+'         Properties: BufferLength, ChunkBuffer, FullRead, Protocol, ProtocolCategory
+'                     TotalBytes
+' 
+'         Constructor: (+7 Overloads) Sub New
+'         Function: (+2 Overloads) CreatePackage, CreateProtocol, GetRawStream, GetString, GetUTF8String
+'                   IsAvaliableStream, (+2 Overloads) LoadObject, Serialize, ToString
+'         Enum Protocols
+' 
+' 
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
@@ -340,6 +341,20 @@ Namespace Parallel
 
             Return bufs
         End Function
+
+        Public Sub WriteBuffer(buf As Stream)
+            Dim protocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
+            Dim protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
+            Dim bufferSize As Byte() = BitConverter.GetBytes(Me.BufferLength)
+
+            Call buf.Write(protocolCategory, Scan0, INT64)
+            Call buf.Write(___offset, Scan0, ___offset.Length)
+            Call buf.Write(protocol, Scan0, INT64)
+            Call buf.Write(___offset, Scan0, ___offset.Length)
+            Call buf.Write(bufferSize, Scan0, INT64)
+            Call buf.Write(ChunkBuffer, Scan0, ChunkBuffer.Length)
+            Call buf.Flush()
+        End Sub
 
         ''' <summary>
         ''' 系统里面最基本的基本数据协议
