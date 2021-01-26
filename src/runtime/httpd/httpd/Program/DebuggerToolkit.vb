@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 
 Partial Module CLI
 
@@ -116,7 +117,12 @@ Partial Module CLI
         Using result As StreamWriter = out.OpenWriter
             Do While True
                 Dim pack%() = SeqRandom(10000)
-                Dim returns = BatchTasks.BatchTask(pack, getTask:=test, numThreads:=1000, TimeInterval:=0)
+                Dim returns = ThreadTask(Of String) _
+                    .CreateThreads(pack, Function(i) Function() test(i)) _
+                    .WithDegreeOfParallelism(App.CPUCoreNumbers) _
+                    .RunParallel() _
+                    .ToArray
+
                 For Each line In returns
                     Call result.WriteLine(line)
                 Next

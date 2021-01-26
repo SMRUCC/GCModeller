@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::841dc1b0bfd76634155a14998c7dad87, localblast\CLI_tools\CLI\Blastn.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
-    '               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
-    '               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
-    '     Class __writeIO
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __creates
-    ' 
-    '         Sub: (+2 Overloads) Dispose, InvokeWrite
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
+'               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
+'               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
+'     Class __writeIO
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __creates
+' 
+'         Sub: (+2 Overloads) Dispose, InvokeWrite
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -136,14 +137,14 @@ Partial Module CLI
                                                 In ntHits.AsParallel
                                                 Select New BBH.BestHit With {
                                                     .evalue = x.Score.Expect,
-                                                    .Score = x.Score.Score,
+                                                    .score = x.Score.Score,
                                                     .HitName = x.Name,
                                                     .hit_length = x.Length,
                                                     .identities = x.Score.Identities.Value,
                                                     .length_hit = x.LengthHit,
                                                     .length_hsp = x.SubjectLocation.FragmentSize,
                                                     .length_query = x.LengthQuery,
-                                                    .Positive = x.Score.Positives.Value,
+                                                    .positive = x.Score.Positives.Value,
                                                     .QueryName = query.QueryName,
                                                     .query_length = query.QueryLength
                                                 }
@@ -256,7 +257,7 @@ Partial Module CLI
         Dim parallel As Boolean = args.GetBoolean("/parallel")
         Dim n As Integer = If(parallel, LQuerySchedule.CPU_NUMBER, 0)
 
-        Return App.SelfFolks(CLI, parallel:=n)
+        Return BatchTasks.SelfFolks(CLI, parallel:=n)
     End Function
 
     <ExportAPI("/Export.blastnMaps",
@@ -302,7 +303,7 @@ Partial Module CLI
 
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).Select(task).ToArray
 
-        Return App.SelfFolks(CLI, numThreads)
+        Return BatchTasks.SelfFolks(CLI, numThreads)
     End Function
 
     <ExportAPI("/Export.blastnMaps.Write",

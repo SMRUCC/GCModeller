@@ -54,11 +54,11 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Flute.Http.Core.Message
-Imports Flute.Http.Core.Message.HttpHeader
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
 Imports stdNum = System.Math
 
 ' offered to the public domain for any use with no restriction

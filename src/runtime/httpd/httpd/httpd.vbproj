@@ -643,9 +643,9 @@
     <Content Include="Sandbox.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interops\localblast\ParallelTask\ParallelTask.vbproj">
-      <Project>{e957bc7d-d283-47d3-b6fe-7545937149a7}</Project>
-      <Name>ParallelTask</Name>
+    <ProjectReference Include="..\..\Darwinism\Parallel\Parallel.vbproj">
+      <Project>{085171ca-6a65-494c-9b4a-477d35bcbc90}</Project>
+      <Name>Parallel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>

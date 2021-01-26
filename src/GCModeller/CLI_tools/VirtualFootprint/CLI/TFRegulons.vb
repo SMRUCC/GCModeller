@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::e396a85aae1b9c1293d558d94faffd92, CLI_tools\VirtualFootprint\CLI\TFRegulons.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ContextMappings, PathwaySites, RegulonSites, TFDensity, TFDensityBatch
-    '               TFRegulons
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ContextMappings, PathwaySites, RegulonSites, TFDensity, TFDensityBatch
+'               TFRegulons
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -111,7 +112,7 @@ Partial Module CLI
 
         Dim CLIs As String() = genomes.Select(task).ToArray
 
-        Return App.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
+        Return BatchTasks.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
     End Function
 
     ''' <summary>
@@ -197,8 +198,8 @@ Partial Module CLI
                      Group x By x.ID Into Group) _
                           .Select(Function(x) (From site As SimpleSegment
                                                 In x.Group
-                                                Select site
-                                                Order By site.SequenceData.Length Descending).First)
+                                               Select site
+                                               Order By site.SequenceData.Length Descending).First)
 
             Call locis.SaveTo(base & ".Csv")
             Call New FastaFile(
@@ -254,8 +255,8 @@ Partial Module CLI
                          Group x By x.ID.Split(":"c).First Into Group) _
                               .Select(Function(x) (From site As SimpleSegment
                                                     In x.Group
-                                                    Select site
-                                                    Order By site.SequenceData.Length Descending).First)
+                                                   Select site
+                                                   Order By site.SequenceData.Length Descending).First)
             Call New FastaFile(
               sitesLoci.Select(Function(x) New FastaSeq({x.ID}, x.SequenceData))) _
              .Save(path, Encodings.ASCII)
@@ -322,7 +323,7 @@ Partial Module CLI
         Next
 
         totalLen = list _
-            .Select(Function(x) {x.Location.Left, x.Location.Right}) _
+            .Select(Function(x) {x.Location.left, x.Location.right}) _
             .IteratesALL _
             .Max
 
