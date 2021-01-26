@@ -324,19 +324,19 @@ Namespace Parallel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Serialize() As Byte() Implements ISerializable.Serialize
-            Dim ProtocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
-            Dim Protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
-            Dim BufferLength As Byte() = BitConverter.GetBytes(Me.BufferLength)
+            Dim protocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
+            Dim protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
+            Dim bufferSize As Byte() = BitConverter.GetBytes(Me.BufferLength)
             Dim bufs As Byte() = New Byte(TotalBytes - 1) {}
             Dim p As i32 = Scan0
-            Dim l As New i32
+            Dim l As i32 = Scan0
 
-            Call Array.ConstrainedCopy(ProtocolCategory, Scan0, bufs, p << (l = ProtocolCategory.Length), l)
-            Call Array.ConstrainedCopy(___offset, Scan0, bufs, ++p, 1)
-            Call Array.ConstrainedCopy(Protocol, Scan0, bufs, p << (l = Protocol.Length), l)
-            Call Array.ConstrainedCopy(___offset, Scan0, bufs, ++p, 1)
-            Call Array.ConstrainedCopy(BufferLength, Scan0, bufs, p << (l = BufferLength.Length), l)
-            Call Array.ConstrainedCopy(Me.ChunkBuffer, Scan0, bufs, p << (l = Me.BufferLength), l)
+            Call Array.ConstrainedCopy(protocolCategory, Scan0, bufs, Scan0, INT64)
+            Call Array.ConstrainedCopy(___offset, Scan0, bufs, INT64, 1)
+            Call Array.ConstrainedCopy(protocol, Scan0, bufs, INT64 + 1, INT64)
+            Call Array.ConstrainedCopy(___offset, Scan0, bufs, INT64 + 1 + INT64, 1)
+            Call Array.ConstrainedCopy(bufferSize, Scan0, bufs, INT64 + 1 + INT64 + 1, INT64)
+            Call Array.ConstrainedCopy(ChunkBuffer, Scan0, bufs, INT64 + 1 + INT64 + 1 + INT64, ChunkBuffer.Length)
 
             Return bufs
         End Function
