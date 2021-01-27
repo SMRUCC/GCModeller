@@ -115,7 +115,7 @@ Namespace ApplicationServices.Debugging.Diagnostics
 
             Return New StackFrame With {
                 .Method = New Method(method),
-                .File = file,
+                .File = file.Replace("\", "/"), ' fix for BSON string storage
                 .Line = lineNumber
             }
         End Function
