@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89326d0dcb6557d4718f82f9d4664da2, core\Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::89326d0dcb6557d4718f82f9d4664da2, Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
 
     ' Author:
     ' 

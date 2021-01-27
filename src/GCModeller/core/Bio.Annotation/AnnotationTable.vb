@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c46f4f10e86b11a21fc9da23ce8e0e2, core\Bio.Annotation\AnnotationTable.vb"
+﻿#Region "Microsoft.VisualBasic::95a5d0afae662e334596cb5497fd38cf, Bio.Annotation\AnnotationTable.vb"
 
     ' Author:
     ' 
@@ -96,4 +96,3 @@ Public Class AnnotationTable : Inherits DynamicPropertyBase(Of String)
     End Function
 
 End Class
-

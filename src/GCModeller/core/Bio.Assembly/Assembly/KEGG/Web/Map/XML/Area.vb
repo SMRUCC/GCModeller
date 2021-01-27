@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd1317dbea89ac8d4061ecd6a00295b6, core\Bio.Assembly\Assembly\KEGG\Web\Map\Area.vb"
+﻿#Region "Microsoft.VisualBasic::fd1317dbea89ac8d4061ecd6a00295b6, Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
 
     ' Author:
     ' 

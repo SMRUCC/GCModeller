@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 

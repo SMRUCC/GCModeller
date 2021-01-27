@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8c793f2e47cfa0431631b69a74b0259, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: attributes, proteins
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, Load, ReadAnnotations, (+2 Overloads) Save
+    '         Function: GenericEnumerator, GetEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save
     '                   (+2 Overloads) ToString
     ' 
     '         Sub: WriteStream

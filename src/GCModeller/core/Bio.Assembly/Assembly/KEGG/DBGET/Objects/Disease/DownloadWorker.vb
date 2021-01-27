@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65da203a40766b5982edfa8c1384c498, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb"
+﻿#Region "Microsoft.VisualBasic::65da203a40766b5982edfa8c1384c498, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb"
 
     ' Author:
     ' 

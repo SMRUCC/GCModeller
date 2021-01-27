@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, core\Bio.Assembly\Test\gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, Bio.Assembly\Test\gbTest.vb"
 
     ' Author:
     ' 

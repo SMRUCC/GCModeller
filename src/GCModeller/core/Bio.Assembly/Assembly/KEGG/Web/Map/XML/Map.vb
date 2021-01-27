@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::069ccfe232d32d42a99831ff15f7b066, core\Bio.Assembly\Assembly\KEGG\Web\Map\Map.vb"
+﻿#Region "Microsoft.VisualBasic::5a8e9de727c31479fbc4136c8361d178, Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: id, Name, PathwayImage, shapes, URL
     ' 
-    '         Function: GetEntryInfo, GetImage, GetMembers, ParseFromUrl, ParseHTML
+    '         Function: GenericEnumerator, GetEnumerator, GetImage, GetMembers, ParseFromUrl
     '                   ToString
     ' 
     ' 

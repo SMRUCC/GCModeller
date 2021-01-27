@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::990aabfdb4739aba8c86f5711eebebb9, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::990aabfdb4739aba8c86f5711eebebb9, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Enzyme.vb"
 
     ' Author:
     ' 

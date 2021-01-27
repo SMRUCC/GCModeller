@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f70fed41511d89e2452e35caf7b9994, core\Bio.Assembly\Assembly\KEGG\Web\Map\Downloader.vb"
+﻿#Region "Microsoft.VisualBasic::c7cb64452ae1cc0b9064811b7cfad8cf, Bio.Assembly\Assembly\KEGG\Web\Map\MapDownloader.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,6 @@
 
     ' Summaries:
 
-    '     Class MapQuery
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: createUrl, getID, ParseHtml
-    ' 
     '     Module MapDownloader
     ' 
     '         Function: DownloadHumans, Downloads, DownloadsKGML, loadEntryAuto

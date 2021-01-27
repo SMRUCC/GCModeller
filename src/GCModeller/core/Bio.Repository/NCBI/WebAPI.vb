@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56df4e22d0600ec4a5061765fe207e51, core\Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::67d459e7494a47f36719ab90ecb55093, Bio.Repository\NCBI\WebAPI.vb"
 
     ' Author:
     ' 

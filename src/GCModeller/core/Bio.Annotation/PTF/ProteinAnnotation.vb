@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139d909787996cd077ef51f72f31ba62, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::139d909787996cd077ef51f72f31ba62, Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
