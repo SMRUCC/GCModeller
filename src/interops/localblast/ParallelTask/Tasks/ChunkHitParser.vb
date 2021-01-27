@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24e301b6b441bfacf5ed9f7c3e2184f5, localblast\LocalBLAST\Tasks\ChunkHitParser.vb"
+﻿#Region "Microsoft.VisualBasic::24e301b6b441bfacf5ed9f7c3e2184f5, ParallelTask\Tasks\ChunkHitParser.vb"
 
     ' Author:
     ' 

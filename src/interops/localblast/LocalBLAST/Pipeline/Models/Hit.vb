@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, localblast\LocalBLAST\Tasks\Models\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, LocalBLAST\Pipeline\Models\Hit.vb"
 
     ' Author:
     ' 

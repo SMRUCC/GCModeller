@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7c4d41de26ed2c77947e5cd624441e, localblast\LocalBLAST\Web\Alignment\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3f7c4d41de26ed2c77947e5cd624441e, LocalBLAST\Web\Alignment\Extensions.vb"
 
     ' Author:
     ' 

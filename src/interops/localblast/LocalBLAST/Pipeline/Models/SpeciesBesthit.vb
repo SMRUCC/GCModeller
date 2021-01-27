@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, localblast\LocalBLAST\Tasks\Models\SpeciesBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
 
     ' Author:
     ' 
