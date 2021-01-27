@@ -101,7 +101,9 @@ Namespace ApplicationServices.Debugging.Diagnostics
             Return stackTrace _
                 .LineTokens _
                 .Where(Function(s) Not s.StringEmpty) _
-                .Skip(3) _
+                .Where(Function(s)
+                           Return s.Trim.StartsWith("在") OrElse s.Trim.ToLower.StartsWith("at")
+                       End Function) _
                 .Select(Function(s)
                             s = Mid(s, 6).Trim
                             Return StackFrame.Parser(s)
