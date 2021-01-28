@@ -1,17 +1,18 @@
-﻿Imports Microsoft.VisualBasic.Math.DataFrame
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Public Module Analysis
 
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
-        Dim betaSeq As Double() = seq(1, 30, 0.5).ToArray
+        Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
         Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
         Dim network As GeneralMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
