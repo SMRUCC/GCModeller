@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Data.Bootstrapping
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
@@ -24,7 +25,7 @@ Public Class BetaTest
     End Property
 
     Public Overrides Function ToString() As String
-        Return $"[{Power}] SFT.R.sq:{sftRsq}, slope:{slope}, truncated.R.sq:{truncatedRsq}, mean.K:{meanK}, median.K:{medianK}, max.k:{maxK}"
+        Return $"[{Power.ToString.PadEnd(2, "0"c)}, score={score.ToString("F2")}] SFT.R.sq:{sftRsq.ToString("F3")}, slope:{slope.ToString("F2")}, truncated.R.sq:{truncatedRsq.ToString("F3")}, mean.K:{meanK.ToString("F2")}, median.K:{medianK.ToString("F2")}, max.k:{maxK.ToString("F2")}"
     End Function
 
     ''' <summary>
@@ -57,8 +58,11 @@ Public Class BetaTest
             }
         Next
 
-        Return test _
-            .OrderByDescending(Function(b) b.score) _
-            .First
+        Dim sftRsq As Vector = test.Select(Function(b) b.sftRsq).AsVector - 0.8
+        Dim slope As Vector = test.Select(Function(b) b.slope).AsVector - 1
+        Dim meanK As Vector = test.Select(Function(b) b.meanK).AsVector
+        Dim score As Vector = sftRsq / sftRsq.Max + slope / slope.Max + meanK / meanK.Max
+
+        Return test(Which.Max(score))
     End Function
 End Class
