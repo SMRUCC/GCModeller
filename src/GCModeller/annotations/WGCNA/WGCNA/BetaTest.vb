@@ -23,6 +23,10 @@ Public Class BetaTest
         End Get
     End Property
 
+    Public Overrides Function ToString() As String
+        Return $"[{Power}] SFT.R.sq:{sftRsq}, slope:{slope}, truncated.R.sq:{truncatedRsq}, mean.K:{meanK}, median.K:{medianK}, max.k:{maxK}"
+    End Function
+
     ''' <summary>
     ''' 利用一元线性回归取匹配最佳β值，即用不同的β值去试验，寻找最佳的β值
     ''' 在线性回归中，我们要求 R^2 大于0.8，slope位于 -1 左右，而平均连接度要尽可能大
@@ -32,7 +36,7 @@ Public Class BetaTest
     ''' <returns>
     ''' 函数返回得分最高的beta值
     ''' </returns>
-    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double)) As Double
+    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double)) As BetaTest
         Dim test As New List(Of BetaTest)
         Dim K As Vector
         Dim pK As Vector
@@ -58,7 +62,6 @@ Public Class BetaTest
 
         Return test _
             .OrderByDescending(Function(b) b.score) _
-            .First _
-            .Power
+            .First
     End Function
 End Class

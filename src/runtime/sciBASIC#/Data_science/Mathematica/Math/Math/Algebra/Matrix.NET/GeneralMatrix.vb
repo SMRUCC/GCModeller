@@ -776,9 +776,10 @@ Namespace LinearAlgebra.Matrix
         End Function
 
         ''' <summary>C = A - B</summary>
-        ''' <param name="B">   another matrix
+        ''' <param name="B">a numeric value
         ''' </param>
-        ''' <returns>     A - B
+        ''' <returns>     
+        ''' A - B
         ''' </returns>
         Public Overridable Function Subtract(B As Double) As GeneralMatrix
             Dim X As New GeneralMatrix(m, n)
@@ -1049,6 +1050,19 @@ Namespace LinearAlgebra.Matrix
 
         Public Shared Operator ^(m1 As GeneralMatrix, y As Double) As GeneralMatrix
             Return m1.Power(y)
+        End Operator
+
+        Public Shared Operator -(x As Double, m As GeneralMatrix) As GeneralMatrix
+            Dim Xmat As New GeneralMatrix(m.RowDimension, m.ColumnDimension)
+            Dim C As Double()() = Xmat.Array
+
+            For i As Integer = 0 To m.RowDimension - 1
+                For j As Integer = 0 To m.ColumnDimension - 1
+                    C(i)(j) = x - m.buffer(i)(j)
+                Next
+            Next
+
+            Return Xmat
         End Operator
 
         ''' <summary>
