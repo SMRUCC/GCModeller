@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.Bootstrapping
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -8,9 +9,12 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Module SoftLinear
 
     Public Function CreateLinear(k As Vector) As FitResult
-        Dim cut1 = CutBins.FixedWidthBins(k, 10).ToArray
-        Dim bin As Vector = cut1.Select(Function(b) b.Raw.Average).AsVector
-        Dim freq1 As Vector = 0.00000001 + New Vector(cut1.Select(Function(b) b.Count)) / k.Dim
+        Dim cut1 As SampleDistribution() = CutBins _
+            .FixedWidthBins(k, 10) _
+            .Where(Function(b) b.size > 0) _
+            .ToArray
+        Dim bin As Vector = cut1.Select(Function(b) b.average).AsVector
+        Dim freq1 As Vector = 0.00000001 + New Vector(cut1.Select(Function(b) b.size)) / k.Dim
 
         Return LeastSquares.LinearFit(bin.Log(10), freq1.Log(10))
     End Function

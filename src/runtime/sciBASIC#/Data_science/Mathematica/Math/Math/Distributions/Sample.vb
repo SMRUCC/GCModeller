@@ -62,6 +62,11 @@ Namespace Distributions
         <XmlAttribute> Public Property max As Double
         <XmlAttribute> Public Property average As Double
         <XmlAttribute> Public Property stdErr As Double
+
+        ''' <summary>
+        ''' length of the raw data vector
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property size As Integer
 
         ''' <summary>

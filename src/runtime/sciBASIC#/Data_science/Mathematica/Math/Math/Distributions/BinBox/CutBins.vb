@@ -61,8 +61,8 @@ Namespace Distributions.BinBox
         ''' <remarks>
         ''' 宽度是自动计算的
         ''' </remarks>
-        Public Function FixedWidthBins(data As IEnumerable(Of Double), k%) As IEnumerable(Of DataBinBox(Of Double))
-            Return FixedWidthBins(data, k, Function(x) x)
+        Public Function FixedWidthBins(data As IEnumerable(Of Double), k%) As IEnumerable(Of SampleDistribution)
+            Return FixedWidthBins(data, k, Function(x) x).Select(Function(bin) New SampleDistribution(bin.Raw))
         End Function
 
         ''' <summary>
