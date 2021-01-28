@@ -8,6 +8,22 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 ''' </summary>
 Public Module WeightedNetwork
 
+    <Extension>
+    Friend Function Adjacency(cor As GeneralMatrix, threshold As Double) As GeneralMatrix
+        Dim adj As GeneralMatrix = cor.Copy
+        Dim X As Double()() = adj.Array
+
+        For i As Integer = 0 To X.Length - 1
+            For j As Integer = 0 To X(Scan0).Length - 1
+                If X(i)(j) < threshold Then
+                    X(i)(j) = 0
+                End If
+            Next
+        Next
+
+        Return adj
+    End Function
+
     ''' <summary>
     ''' 得到权重关联网络A
     ''' </summary>
@@ -51,8 +67,8 @@ Public Module WeightedNetwork
     ''' <remarks>
     ''' 连接度ki表示第 i 个基因和其他基因的α值加和
     ''' </remarks>
-    Public Function Connectivity(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As Vector
-        Dim A As GeneralMatrix = cor.WeightedCorrelation(betaPow, pvalue)
+    Public Function Connectivity(cor As CorrelationMatrix, betaPow As Double, adjacency As Double, Optional pvalue As Boolean = False) As Vector
+        Dim A As GeneralMatrix = cor.WeightedCorrelation(betaPow, pvalue).Adjacency(adjacency)
         Dim K As New Vector(A.RowApply(AddressOf sumK))
 
         Return K

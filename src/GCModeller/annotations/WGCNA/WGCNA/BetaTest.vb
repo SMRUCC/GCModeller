@@ -36,15 +36,15 @@ Public Class BetaTest
     ''' <returns>
     ''' 函数返回得分最高的beta值
     ''' </returns>
-    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double)) As BetaTest
+    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As BetaTest
         Dim test As New List(Of BetaTest)
         Dim K As Vector
         Dim pK As Vector
         Dim linear As FitResult
 
         For Each beta As Double In betaRange
-            K = WeightedNetwork.Connectivity(cor, beta)
-            pK = WeightedNetwork.Connectivity(cor, beta, pvalue:=True)
+            K = WeightedNetwork.Connectivity(cor, beta, adjacency)
+            pK = WeightedNetwork.Connectivity(cor, beta, adjacency, pvalue:=True)
 
             ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
             linear = LeastSquares.LinearFit(x:=K, y:=pK)
