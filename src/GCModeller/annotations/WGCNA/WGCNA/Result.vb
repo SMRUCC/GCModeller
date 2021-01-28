@@ -10,5 +10,6 @@ Public Class Result
     Public Property K As Vector
     Public Property TOM As GeneralMatrix
     Public Property hclust As Cluster
+    Public Property modules As Dictionary(Of String, String())
 
 End Class

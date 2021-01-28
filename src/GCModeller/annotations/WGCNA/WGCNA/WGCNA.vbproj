@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="BetaTest.vb" />
     <Compile Include="Analysis.vb" />
+    <Compile Include="SoftLinear.vb" />
     <Compile Include="Result.vb" />
     <Compile Include="TOM.vb" />
     <Compile Include="WeightedNetwork.vb" />

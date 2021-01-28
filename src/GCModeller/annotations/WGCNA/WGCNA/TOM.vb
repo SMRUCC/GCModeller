@@ -1,4 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports stdNum = System.Math
 
@@ -46,5 +49,10 @@ Public Module TOM
         Next
 
         Return W
+    End Function
+
+    <Extension>
+    Friend Iterator Function CreateModules(tree As Cluster) As IEnumerable(Of NamedCollection(Of String))
+
     End Function
 End Module

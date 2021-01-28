@@ -28,7 +28,13 @@ Public Module Analysis
             .hclust = cluster,
             .K = K,
             .network = createGraph(network, samples),
-            .TOM = tomMat
+            .TOM = tomMat,
+            .modules = cluster _
+                .CreateModules _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
         }
     End Function
 
