@@ -46,25 +46,28 @@ Public Class BetaTest
     ''' <returns>
     ''' 函数返回得分最高的beta值
     ''' </returns>
-    Public Shared Iterator Function BetaTable(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
-        Dim K As Vector
-        Dim linear As FitResult
+    Public Shared Function BetaTable(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
+        Return BetaTableParallel(cor, betaRange, adjacency).OrderBy(Function(p) p.Power)
+    End Function
 
-        For Each beta As Double In betaRange
-            K = WeightedNetwork.Connectivity(cor, beta, adjacency)
-            ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
-            linear = SoftLinear.CreateLinear(K)
+    Private Shared Function BetaTableParallel(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
+        Return betaRange _
+            .AsParallel _
+            .Select(Function(beta)
+                        Dim K = WeightedNetwork.Connectivity(cor, beta, adjacency)
+                        ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
+                        Dim linear = SoftLinear.CreateLinear(K)
 
-            Yield New BetaTest With {
-                .meanK = K.Average,
-                .maxK = K.Max,
-                .medianK = K.Median,
-                .Power = beta,
-                .sftRsq = linear.R_square,
-                .slope = linear.Slope,
-                .truncatedRsq = linear.AdjustR_square
-            }
-        Next
+                        Return New BetaTest With {
+                            .meanK = K.Average,
+                            .maxK = K.Max,
+                            .medianK = K.Median,
+                            .Power = beta,
+                            .sftRsq = linear.R_square,
+                            .slope = linear.Slope,
+                            .truncatedRsq = linear.AdjustR_square
+                        }
+                    End Function)
     End Function
 
     Public Shared Function Best(beta As BetaTest()) As Integer
