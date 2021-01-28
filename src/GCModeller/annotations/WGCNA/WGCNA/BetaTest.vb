@@ -25,7 +25,16 @@ Public Class BetaTest
     End Property
 
     Public Overrides Function ToString() As String
-        Return $"[{Power.ToString.PadEnd(2, "0"c)}, score={score.ToString("F2")}] SFT.R.sq:{sftRsq.ToString("F3")}, slope:{slope.ToString("F2")}, truncated.R.sq:{truncatedRsq.ToString("F3")}, mean.K:{meanK.ToString("F2")}, median.K:{medianK.ToString("F2")}, max.k:{maxK.ToString("F2")}"
+        Return $"[{Power.ToString.PadEnd(2, "0"c)}, score={score.ToString("F2")}] {getScores.JoinBy(", ")}"
+    End Function
+
+    Private Iterator Function getScores() As IEnumerable(Of String)
+        Yield $"SFT.R.sq:{sftRsq.ToString("F3")}"
+        Yield $"slope:{slope.ToString("F2")}"
+        Yield $"truncated.R.sq:{truncatedRsq.ToString("F3")}"
+        Yield $"mean.K:{meanK.ToString("F2")}"
+        Yield $"median.K:{medianK.ToString("F2")}"
+        Yield $"max.k:{maxK.ToString("F2")}"
     End Function
 
     ''' <summary>
