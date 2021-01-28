@@ -15,7 +15,9 @@ Module SoftLinear
             .ToArray
         Dim bin As Vector = cut1.Select(Function(b) b.average).AsVector
         Dim freq1 As Vector = 0.00000001 + New Vector(cut1.Select(Function(b) b.size)) / k.Dim
+        Dim X As Vector = bin.Log(10)
+        Dim Y As Vector = freq1.Log(10)
 
-        Return LeastSquares.LinearFit(bin.Log(10), freq1.Log(10))
+        Return LeastSquares.LinearFit(X, Y)
     End Function
 End Module

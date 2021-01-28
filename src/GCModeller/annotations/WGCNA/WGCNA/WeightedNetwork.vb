@@ -47,7 +47,7 @@ Public Module WeightedNetwork
         ' The default method defines the coexpression
         ' Similarity sij as the absolute value of the correlation
         ' coefficient between the profiles of nodes i And j
-        Dim S As GeneralMatrix = If(pvalue, -(cor.GetPvalueMatrix.Log), CType(cor, GeneralMatrix)).Abs
+        Dim S As GeneralMatrix = If(pvalue, -(cor.GetPvalueMatrix.Log(newBase:=10)), CType(cor, GeneralMatrix)).Abs
         Dim A As GeneralMatrix = S ^ betaPow
 
         Return A

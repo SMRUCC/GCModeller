@@ -63,12 +63,12 @@ Public Class BetaTest
                 .Power = beta,
                 .sftRsq = linear.R_square,
                 .slope = linear.Slope,
-                .truncatedRsq = linear.R_square
+                .truncatedRsq = linear.AdjustR_square
             }
         Next
 
-        Dim sftRsq As Vector = test.Select(Function(b) b.sftRsq).AsVector - 0.8
-        Dim slope As Vector = (test.Select(Function(b) b.slope).AsVector.Abs - 1).Abs
+        Dim sftRsq As Vector = test.Select(Function(b) If(b.sftRsq <= 0.8, 0, 1 - b.sftRsq)).AsVector
+        Dim slope As Vector = (test.Select(Function(b) b.slope).AsVector + 1).Abs
         Dim meanK As Vector = test.Select(Function(b) b.meanK).AsVector
         Dim sftRsqMax = sftRsq.Max
         Dim slopeMax = slope.Max
