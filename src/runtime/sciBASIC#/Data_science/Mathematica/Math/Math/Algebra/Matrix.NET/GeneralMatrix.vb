@@ -606,8 +606,8 @@ Namespace LinearAlgebra.Matrix
                         buffer(r(i))(j) = X(i, j - j0)
                     Next
                 Next
-            Catch e As System.IndexOutOfRangeException
-                Throw New System.IndexOutOfRangeException("Submatrix indices", e)
+            Catch e As IndexOutOfRangeException
+                Throw New IndexOutOfRangeException("Submatrix indices", e)
             End Try
         End Sub
 
@@ -659,9 +659,9 @@ Namespace LinearAlgebra.Matrix
             For j As Integer = 0 To n - 1
                 Dim s As Double = 0
                 For i As Integer = 0 To m - 1
-                    s += System.Math.Abs(buffer(i)(j))
+                    s += stdNum.Abs(buffer(i)(j))
                 Next
-                f = System.Math.Max(f, s)
+                f = stdNum.Max(f, s)
             Next
             Return f
         End Function
@@ -680,12 +680,15 @@ Namespace LinearAlgebra.Matrix
 
         Public Overridable Function NormInf() As Double
             Dim f As Double = 0
+
             For i As Integer = 0 To m - 1
                 Dim s As Double = 0
+
                 For j As Integer = 0 To n - 1
-                    s += System.Math.Abs(buffer(i)(j))
+                    s += stdNum.Abs(buffer(i)(j))
                 Next
-                f = System.Math.Max(f, s)
+
+                f = stdNum.Max(f, s)
             Next
             Return f
         End Function
@@ -802,6 +805,19 @@ Namespace LinearAlgebra.Matrix
             For i As Integer = 0 To m - 1
                 For j As Integer = 0 To n - 1
                     C(i)(j) = buffer(i)(j) ^ y
+                Next
+            Next
+
+            Return X
+        End Function
+
+        Public Overridable Function Log(Optional newBase As Double = stdNum.E) As GeneralMatrix
+            Dim X As New GeneralMatrix(m, n)
+            Dim C As Double()() = X.Array
+
+            For i As Integer = 0 To m - 1
+                For j As Integer = 0 To n - 1
+                    C(i)(j) = stdNum.Log(buffer(i)(j), newBase)
                 Next
             Next
 

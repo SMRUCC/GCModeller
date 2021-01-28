@@ -18,13 +18,20 @@ Public Module WeighedNetwork
     ''' 权重
     ''' </param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' 1. a trait-based node significance measure can be defined as the absolute 
+    '''    value of the correlation between the i-th node profile x i and the 
+    '''    sample trait
+    ''' 2. alternatively, a correlation test p-value or a regression-based p-value for 
+    '''    assessing the statistical significance between x i and the sample trait T 
+    '''    can be used to define a p-value based node significance measure
+    ''' </remarks>
     <Extension>
     Public Function WeightedCorrelation(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As GeneralMatrix
         ' The default method defines the coexpression
         ' Similarity sij as the absolute value of the correlation
         ' coefficient between the profiles of nodes i And j
-        Dim S As GeneralMatrix = If(pvalue, cor.GetPvalueMatrix, CType(cor, GeneralMatrix)).Abs
+        Dim S As GeneralMatrix = If(pvalue, -(cor.GetPvalueMatrix.Log), CType(cor, GeneralMatrix)).Abs
         Dim A As GeneralMatrix = S ^ betaPow
 
         Return A
