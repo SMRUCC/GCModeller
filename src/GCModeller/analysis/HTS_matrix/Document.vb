@@ -82,7 +82,8 @@ Public Module Document
             .expression = matrix,
             .sampleID = takeIndex _
                 .Select(Function(i) sampleIds(i)) _
-                .ToArray
+                .ToArray,
+            .tag = file.FileName
         }
     End Function
 
