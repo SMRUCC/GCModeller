@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebef8f5c57a0f0d50295bd30d4fab7a8, annotations\KEGG\Reconstruct\Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::ebef8f5c57a0f0d50295bd30d4fab7a8, KEGG\Reconstruct\Reconstruction.vb"
 
     ' Author:
     ' 

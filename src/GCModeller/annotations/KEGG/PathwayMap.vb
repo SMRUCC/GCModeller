@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c4619ba94e66d77e2b576ca2d27232d, annotations\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::8c4619ba94e66d77e2b576ca2d27232d, KEGG\PathwayMap.vb"
 
     ' Author:
     ' 

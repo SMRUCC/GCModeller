@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, annotations\Proteomics\DEP.vb"
+﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, Proteomics\DEP.vb"
 
     ' Author:
     ' 

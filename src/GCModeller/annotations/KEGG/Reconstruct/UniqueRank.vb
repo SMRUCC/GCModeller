@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07435ca85cf5b1565d781715bcfc65e4, annotations\KEGG\Reconstruct\UniqueRank.vb"
+﻿#Region "Microsoft.VisualBasic::07435ca85cf5b1565d781715bcfc65e4, KEGG\Reconstruct\UniqueRank.vb"
 
     ' Author:
     ' 

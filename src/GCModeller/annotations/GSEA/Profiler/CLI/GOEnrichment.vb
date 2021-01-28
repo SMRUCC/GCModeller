@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b62922f2c50f9cd491a1f920ad614e04, annotations\GSEA\Profiler\CLI\GOEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::b62922f2c50f9cd491a1f920ad614e04, GSEA\Profiler\CLI\GOEnrichment.vb"
 
     ' Author:
     ' 

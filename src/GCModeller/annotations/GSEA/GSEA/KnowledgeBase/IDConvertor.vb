@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6aad64f4128d7dee38594160a1f797d8, annotations\GSEA\GSEA\KnowledgeBase\IDConvertor.vb"
+﻿#Region "Microsoft.VisualBasic::6aad64f4128d7dee38594160a1f797d8, GSEA\GSEA\KnowledgeBase\IDConvertor.vb"
 
     ' Author:
     ' 
