@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 
+''' <summary>
+''' test for best beta power value
+''' </summary>
 Public Class BetaTest
 
     Public Property Power As Double
@@ -29,7 +32,7 @@ Public Class BetaTest
     ''' <returns>
     ''' 函数返回得分最高的beta值
     ''' </returns>
-    Public Shared Function BetaTest(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double)) As Double
+    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double)) As Double
         Dim test As New List(Of BetaTest)
         Dim K As Vector
         Dim pK As Vector
