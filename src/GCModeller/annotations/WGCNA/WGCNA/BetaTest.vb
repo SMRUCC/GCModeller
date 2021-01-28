@@ -68,9 +68,12 @@ Public Class BetaTest
         Next
 
         Dim sftRsq As Vector = test.Select(Function(b) b.sftRsq).AsVector - 0.8
-        Dim slope As Vector = test.Select(Function(b) b.slope).AsVector - 1
+        Dim slope As Vector = (test.Select(Function(b) b.slope).AsVector.Abs - 1).Abs
         Dim meanK As Vector = test.Select(Function(b) b.meanK).AsVector
-        Dim score As Vector = sftRsq / sftRsq.Max + slope / slope.Max + meanK / meanK.Max
+        Dim sftRsqMax = sftRsq.Max
+        Dim slopeMax = slope.Max
+        Dim meanKMax = meanK.Max
+        Dim score As Vector = sftRsq / sftRsqMax + slope / slopeMax + meanK / meanKMax
 
         Return test(Which.Max(score))
     End Function
