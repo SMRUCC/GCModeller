@@ -46,8 +46,7 @@ Public Class BetaTest
     ''' <returns>
     ''' 函数返回得分最高的beta值
     ''' </returns>
-    Public Shared Function Best(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As BetaTest
-        Dim test As New List(Of BetaTest)
+    Public Shared Iterator Function BetaTable(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
         Dim K As Vector
         Dim linear As FitResult
 
@@ -56,7 +55,7 @@ Public Class BetaTest
             ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
             linear = SoftLinear.CreateLinear(K)
 
-            test += New BetaTest With {
+            Yield New BetaTest With {
                 .meanK = K.Average,
                 .maxK = K.Max,
                 .medianK = K.Median,
@@ -66,15 +65,17 @@ Public Class BetaTest
                 .truncatedRsq = linear.AdjustR_square
             }
         Next
+    End Function
 
-        Dim sftRsq As Vector = test.Select(Function(b) If(b.sftRsq <= 0.8, 0, 1 - b.sftRsq)).AsVector
-        Dim slope As Vector = (test.Select(Function(b) b.slope).AsVector + 1).Abs
-        Dim meanK As Vector = test.Select(Function(b) b.meanK).AsVector
+    Public Shared Function Best(beta As BetaTest()) As Integer
+        Dim sftRsq As Vector = beta.Select(Function(b) If(b.sftRsq <= 0.8, 0, 1 - b.sftRsq)).AsVector
+        Dim slope As Vector = (beta.Select(Function(b) b.slope).AsVector + 1).Abs
+        Dim meanK As Vector = beta.Select(Function(b) b.meanK).AsVector
         Dim sftRsqMax = sftRsq.Max
         Dim slopeMax = slope.Max
         Dim meanKMax = meanK.Max
         Dim score As Vector = sftRsq / sftRsqMax + slope / slopeMax + meanK / meanKMax
 
-        Return test(Which.Max(score))
+        Return Which.Max(score)
     End Function
 End Class
