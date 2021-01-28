@@ -11,5 +11,6 @@ Public Class Result
     Public Property TOM As GeneralMatrix
     Public Property hclust As Cluster
     Public Property modules As Dictionary(Of String, String())
+    Public Property softBeta As BetaTest()
 
 End Class
