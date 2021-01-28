@@ -1307,9 +1307,11 @@ Namespace LinearAlgebra.Matrix
             Return New GeneralMatrix(data)
         End Operator
 
-        Public Iterator Function RowApply(Of T)(apply As Func(Of Double(), T)) As IEnumerable(Of T)
+        Public Iterator Function RowApply(Of T)(apply As Func(Of Double(), Integer, T)) As IEnumerable(Of T)
+            Dim i As i32 = Scan0
+
             For Each row As Double() In buffer
-                Yield apply(row)
+                Yield apply(row, ++i)
             Next
         End Function
 

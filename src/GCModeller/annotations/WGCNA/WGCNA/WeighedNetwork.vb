@@ -1,7 +1,11 @@
-﻿Imports Microsoft.VisualBasic.Math.DataFrame
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
+''' <summary>
+''' Category 1: Functions for network construction
+''' </summary>
 Public Module WeighedNetwork
 
     ''' <summary>
@@ -14,9 +18,14 @@ Public Module WeighedNetwork
     ''' 权重
     ''' </param>
     ''' <returns></returns>
-    Public Function WeightedCorrelation(cor As CorrelationMatrix, betaPow As Double) As GeneralMatrix
-        Dim abs As GeneralMatrix = CType(cor, GeneralMatrix).Abs
-        Dim A As GeneralMatrix = abs ^ betaPow
+    ''' 
+    <Extension>
+    Public Function WeightedCorrelation(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As GeneralMatrix
+        ' The default method defines the coexpression
+        ' Similarity sij as the absolute value of the correlation
+        ' coefficient between the profiles of nodes i And j
+        Dim S As GeneralMatrix = If(pvalue, cor.GetPvalueMatrix, CType(cor, GeneralMatrix)).Abs
+        Dim A As GeneralMatrix = S ^ betaPow
 
         Return A
     End Function
@@ -24,19 +33,33 @@ Public Module WeighedNetwork
     ''' <summary>
     ''' 连通度K
     ''' </summary>
-    ''' <param name="cor"></param>
+    ''' <param name="cor">
+    ''' A network is fully specified by its adjacency matrix aij, a
+    ''' symmetric n × n matrix With entries In [0, 1] whose component
+    ''' aij encodes the network connection strength
+    ''' between nodes i And j.
+    ''' </param>
     ''' <param name="betaPow"></param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 连接度ki表示第 i 个基因和其他基因的α值加和
     ''' </remarks>
-    Public Function Connectivity(cor As CorrelationMatrix, betaPow As Double) As Vector
-        Dim A As GeneralMatrix = WeightedCorrelation(cor, betaPow)
-        ' 基因自己与自己的相关度为1，1^betaRow的计算结果仍然是1
-        ' 因为计算公式里面要求i<>j
-        ' 在这里每一个基因的连通度减掉1表示排除掉自己与自己的相关度
-        Dim K As New Vector(A.RowApply(Function(r) r.Sum))
+    Public Function Connectivity(cor As CorrelationMatrix, betaPow As Double, Optional pvalue As Boolean = False) As Vector
+        Dim A As GeneralMatrix = cor.WeightedCorrelation(betaPow, pvalue)
+        Dim K As New Vector(A.RowApply(AddressOf sumK))
 
-        Return K - 1
+        Return K
+    End Function
+
+    Private Function sumK(r As Double(), i As Integer) As Double
+        Dim sum As Double = 0
+
+        For j As Integer = 0 To r.Length - 1
+            If i <> j Then
+                sum += r(j)
+            End If
+        Next
+
+        Return sum
     End Function
 End Module
