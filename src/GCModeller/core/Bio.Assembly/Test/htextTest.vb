@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, core\Bio.Assembly\Test\htextTest.vb"
+﻿#Region "Microsoft.VisualBasic::67676868d864d6b9716e4019ed2ab1a4, Bio.Assembly\Test\htextTest.vb"
 
     ' Author:
     ' 

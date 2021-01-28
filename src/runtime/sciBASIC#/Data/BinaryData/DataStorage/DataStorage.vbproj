@@ -622,11 +622,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\mzkit_UnixDocker\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Data.Storage.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x86'">
     <DefineTrace>true</DefineTrace>
@@ -801,7 +803,10 @@
     </Compile>
     <Compile Include="netCDF\CDFWriter.vb" />
     <Compile Include="netCDF\Components\CDFData.vb" />
-    <Compile Include="netCDF\Components\Components.vb" />
+    <Compile Include="netCDF\Components\DimensionList.vb" />
+    <Compile Include="netCDF\Components\attribute.vb" />
+    <Compile Include="netCDF\Components\Dimension.vb" />
+    <Compile Include="netCDF\Components\variable.vb" />
     <Compile Include="netCDF\Components\Header.vb" />
     <Compile Include="netCDF\Data\CDFDataTypes.vb" />
     <Compile Include="netCDF\Data\DataReader.vb" />

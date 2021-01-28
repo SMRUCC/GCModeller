@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8efefd2f19a0e8b89c9b8de0ea6f8319, localblast\venn\Files.vb"
+﻿#Region "Microsoft.VisualBasic::69d17bf4732f69b4fbf3a8974cc28500, venn\Files.vb"
 
     ' Author:
     ' 
@@ -47,8 +47,8 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 
 Namespace BlastAPI
 
@@ -81,7 +81,7 @@ Namespace BlastAPI
                      In BlastoutputSource.LoadSourceEntryList({"*.txt"}).AsParallel
                          Let Blastout = BlastPlus.LoadBlastOutput(path.Value)
                          Where Not Blastout Is Nothing
-                         Select ID = LogNameParser(path.Value).HitName,
+                         Select ID = VennDataBuilder.LogNameParser(path.Value).HitName,
                          Blastout,
                          Besthits = Blastout.ExportAllBestHist(identities) ' 加载单向最佳比对
 

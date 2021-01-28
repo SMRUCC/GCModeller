@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94d979ef514cb374d6919d8ffa1777f6, Microsoft.VisualBasic.Core\Net\Tcp\TCPExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e0fac68b8809266a31d4afd148b61bc5, Microsoft.VisualBasic.Core\src\Net\Tcp\TCPExtensions.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace Net.Tcp
         ''' <summary>
         ''' 系统tcp/udp端口数最大是65535
         ''' </summary>
-        Const MAX_PORT As Integer = 65535
+        Public Const MAX_PORT As Integer = 65535
 
         ''' <summary>
         ''' Get the first available TCP port on this local machine.

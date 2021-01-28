@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::206764fc01716928b50ac62069e78914, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::a91927b725f7de6ff925a41dc9c380db, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module Bootstraping
     ' 
     '         Function: Distributes, Hist, Sample, (+2 Overloads) Samples, Sampling
-    '                   TabulateMode
+    '                   TabulateBin, TabulateMode
     ' 
     ' 
     ' /********************************************************************************/
@@ -201,20 +201,31 @@ Namespace Distributions
 
         <Extension>
         Public Function TabulateMode(data As IEnumerable(Of Double)) As Double
+            Dim resample As Double() = data.TabulateBin
+
+            If resample.Length = 0 Then
+                Return Double.NaN
+            Else
+                Return resample.Average
+            End If
+        End Function
+
+        <Extension>
+        Public Function TabulateBin(data As IEnumerable(Of Double)) As Double()
             With data.ToArray
                 If .Length = 0 Then
-                    Return 0
+                    Return {}
                 ElseIf .All(AddressOf IsNaNImaginary) Then
-                    Return Double.NaN
+                    Return {}
                 ElseIf .Min = .Max Then
                     ' all equals to each other, no needs for calculation
-                    Return .Max
+                    Return .ByRef
                 End If
 
                 Dim steps As Double = New DoubleRange(.Min, .Max).Length / 5
 
                 If steps < 0.000001 Then
-                    Return .Average
+                    Return .ByRef
                 End If
 
                 Dim hist = .Hist([step]:=steps).ToArray
@@ -234,7 +245,7 @@ Namespace Distributions
                         hist(maxN + 1).Raw
                 End If
 
-                Return resample.Average
+                Return resample
             End With
         End Function
     End Module

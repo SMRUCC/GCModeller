@@ -570,11 +570,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\mzkit_UnixDocker\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Data.visualize.Network.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x86'">
     <DefineTrace>true</DefineTrace>
@@ -822,9 +824,9 @@
       <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
       <Name>GraphTheory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\Math-Core.vbproj">
+    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>Math-Core</Name>
+      <Name>math-core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>

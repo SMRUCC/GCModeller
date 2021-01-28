@@ -117,13 +117,16 @@ Namespace CatalogProfiling
         ''' Catalog profiling bar plot
         ''' </summary>
         ''' <param name="profile"></param>
-        ''' <param name="title$"></param>
-        ''' <param name="colorSchema$"></param>
-        ''' <param name="bg$"></param>
+        ''' <param name="title"></param>
+        ''' <param name="colorSchema"></param>
+        ''' <param name="bg"></param>
         ''' <param name="size"></param>
-        ''' <param name="classFontStyle$"></param>
-        ''' <param name="catalogFontStyle$"></param>
-        ''' <param name="titleFontStyle$"></param>
+        ''' <param name="classFontStyle"></param>
+        ''' <param name="catalogFontStyle"></param>
+        ''' <param name="titleFontStyle"></param>
+        ''' <param name="tick">
+        ''' parameter value of ``-1`` means create ticks value sequence automatically. 
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function ProfilesPlot(profile As CatalogProfiles,
@@ -449,7 +452,7 @@ Namespace CatalogProfiling
             If tick <= 0 Then
                 ' 自动生成
                 Call "Ticks created from auto axis ticking...".__INFO_ECHO
-                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable)
+                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
                 Call "Ticks created from tick sequence...".__INFO_ECHO
                 Return AxisScalling.GetAxisByTick(max, tick)

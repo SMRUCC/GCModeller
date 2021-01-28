@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
-Public Class Matrix : Implements INamedValue
+Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
 
     ''' <summary>
     ''' the tag data of current expression matrix
@@ -74,6 +74,10 @@ Public Class Matrix : Implements INamedValue
             Return expression(i)
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
+    End Function
 
     Public Function Project(sampleNames As String()) As Matrix
         Dim index As Index(Of String) = sampleID
@@ -179,5 +183,15 @@ Public Class Matrix : Implements INamedValue
             .sampleID = groups.Keys,
             .expression = genes
         }
+    End Function
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of DataFrameRow) Implements Enumeration(Of DataFrameRow).GenericEnumerator
+        For Each gene As DataFrameRow In expression
+            Yield gene
+        Next
+    End Function
+
+    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of DataFrameRow).GetEnumerator
+        Yield GenericEnumerator()
     End Function
 End Class

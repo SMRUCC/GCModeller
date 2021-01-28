@@ -346,6 +346,8 @@
     <Compile Include="CatalogProfiling\CatalogProfiling.vb" />
     <Compile Include="CatalogProfiling\ColorProfileManager.vb" />
     <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />
+    <Compile Include="CategoryImpactBox\Impact.vb" />
+    <Compile Include="CategoryImpactBox\ImpactBoxPlot.vb" />
     <Compile Include="ColorProfiles.vb" />
     <Compile Include="ColorMgr.vb" />
     <Compile Include="CurvesChart\CurvesModel.vb" />

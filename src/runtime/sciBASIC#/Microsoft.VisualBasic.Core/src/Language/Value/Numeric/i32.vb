@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee2ff91b50a4f6d0128e842c8fb9e689, Microsoft.VisualBasic.Core\Language\Value\Numeric\i32.vb"
+﻿#Region "Microsoft.VisualBasic::c07470d05fa7e02f1ca1fe84b0c684c0, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\i32.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
     '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) CompareTo, Equals, GetHexInteger, (+2 Overloads) ToString
     '         Operators: (+3 Overloads) -, (+2 Overloads) /, (+4 Overloads) +, (+3 Overloads) <, <<
-    '                    <=, (+3 Overloads) >, >=, (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
-    '                    (+2 Overloads) Not
+    '                    <=, (+3 Overloads) >, >=, (+2 Overloads) And, (+2 Overloads) IsFalse
+    '                    (+2 Overloads) IsTrue, (+2 Overloads) Not
     ' 
     ' 
     ' /********************************************************************************/
@@ -262,7 +262,7 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' 
+        ''' value -= 1
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
@@ -317,16 +317,11 @@ Namespace Language
             Return n + x.Value
         End Operator
 
-        ''' <summary>
-        ''' p的值增加x，然后返回之前的值
-        ''' </summary>
-        ''' <param name="p"></param>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
         Public Shared Operator <<(p As i32, x%) As Integer
-            Dim i As Integer = p.Value
-            p.Value += x
-            Return i
+            'Dim i As Integer = p.Value
+            'p.Value += x
+            'Return i
+            Return p.Value << x
         End Operator
 
         Public Shared Operator Not(x As i32) As Integer
@@ -347,5 +342,9 @@ Namespace Language
         Public Overloads Function ToString(format As String, formatProvider As IFormatProvider) As String Implements IFormattable.ToString
             Return Value.ToString(format, formatProvider)
         End Function
+
+        Public Shared Operator And(p As i32, i As Integer) As Integer
+            Return p.Value And i
+        End Operator
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61feeb113201015edb940e96d5da63e3, Microsoft.VisualBasic.Core\Language\Linq\Vectorization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::8717ca44322d40d7deafdbc64867cbcb, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Vector.vb"
 
     ' Author:
     ' 
@@ -87,6 +87,9 @@ Namespace Language.Vectorization
         ''' 如果不希望将内部引用进行修改，请使用迭代器或者<see cref="Enumerable.ToArray"/> Linq拓展
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' <see cref="buffer"/>
+        ''' </remarks>
         Public Overridable ReadOnly Property Array As T()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get

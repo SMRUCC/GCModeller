@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fab4d9fba7f2c85f53ee2c91b9fe16d, core\Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
+﻿#Region "Microsoft.VisualBasic::0fab4d9fba7f2c85f53ee2c91b9fe16d, Bio.Assembly\Assembly\KEGG\Web\Form\AllLinksWidget.vb"
 
     ' Author:
     ' 

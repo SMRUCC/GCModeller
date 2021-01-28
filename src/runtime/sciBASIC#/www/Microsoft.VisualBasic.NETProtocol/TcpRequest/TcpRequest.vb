@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a201d79640d098ee95eda7f62160d5c1, www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::8b91d8a3a7c42721656f357b72c9a85b, www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class TcpRequest
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     ' 
     '         Function: getSocket, LocalConnection, OperationTimeOut, (+6 Overloads) SendMessage, ToString
     ' 
@@ -98,6 +98,10 @@ Namespace Tcp
             Return $"Remote_connection={remoteHost}:{port},  local_host={LocalIPAddress}"
         End Function
 
+        Sub New(localPort As Integer)
+            Call Me.New(New IPEndPoint("127.0.0.1", localPort))
+        End Sub
+
         Sub New(remoteDevice As TcpEndPoint, Optional exceptionHandler As ExceptionHandler = Nothing)
             Call Me.New(remoteDevice.Address.ToString, remoteDevice.Port, exceptionHandler)
         End Sub
@@ -118,10 +122,10 @@ Namespace Tcp
         ''' <param name="exceptionHandler"></param>
         ''' <remarks></remarks>
         Sub New(client As TcpRequest, Optional exceptionHandler As ExceptionHandler = Nothing)
-            remoteHost = client.remoteHost
-            port = client.port
+            Me.remoteHost = client.remoteHost
+            Me.port = client.port
             Me.exceptionHandler = exceptionHandler Or defaultHandler
-            remoteEP = New TcpEndPoint(System.Net.IPAddress.Parse(remoteHost), port)
+            Me.remoteEP = New TcpEndPoint(IPAddress.Parse(remoteHost), port)
         End Sub
 
         ''' <summary>

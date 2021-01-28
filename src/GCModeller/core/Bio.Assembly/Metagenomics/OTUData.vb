@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63d0ac95bcd53750d7d3af6b743f8908, core\Bio.Assembly\Metagenomics\OTUData.vb"
+﻿#Region "Microsoft.VisualBasic::d8e6989b21a654d5c90fb486f93bdfb1, Bio.Assembly\Metagenomics\OTUData.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON

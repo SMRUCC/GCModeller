@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ccf763dbd453864ec8eaa9dc0ee3343, Data\BinaryData\msgpack\Serialization\NilImplication.vb"
+﻿#Region "Microsoft.VisualBasic::2c729f401db0ec466a469c801a5dd26c, Data\BinaryData\msgpack\Serialization\NilImplication.vb"
 
     ' Author:
     ' 
@@ -43,11 +43,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-''' <summary>
-''' Mimic the full CLI namespace and naming so that this library can be used
-''' as a drop-in replacement and/or linked file with both frameworks as needed.
-''' </summary>
 
 Namespace Serialization
 

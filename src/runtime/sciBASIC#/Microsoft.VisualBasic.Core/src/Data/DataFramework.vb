@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::92e2c492ea3f12e65fcfcf3234a14838, Microsoft.VisualBasic.Core\Data\DataFramework.vb"
+﻿#Region "Microsoft.VisualBasic::ac69f2413f9ec2c85600d43808ca521a, Microsoft.VisualBasic.Core\src\Data\DataFramework.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module DataFramework
-' 
-'         Properties: Flags, StringBuilders, StringParsers
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CreateObject, DictionaryTable, getOrCache, GetValue, IsComplexType
-'                   ParseSchemaInternal, (+2 Overloads) Schema, ValueTable
-'         Delegate Function
-' 
-'             Function: IsNumericType, IsPrimitive, valueToString
-'         Enum EnumCastTo
-' 
-'             [integer], [string], none
-' 
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    '     Module DataFramework
+    ' 
+    '         Properties: Flags, StringBuilders, StringParsers
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateObject, DictionaryTable, getOrCache, GetValue, IsComplexType
+    '                   ParseSchemaInternal, (+2 Overloads) Schema, ValueTable
+    '         Delegate Function
+    ' 
+    '             Function: IsNumericType, IsPrimitive, valueToString
+    '         Enum EnumCastTo
+    ' 
+    '             [integer], [string], none
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -101,9 +101,10 @@ Namespace ComponentModel.DataSourceModel
         ''' </remarks>
         Public Function Schema(Of T)(flag As PropertyAccess,
                                      Optional nonIndex As Boolean = False,
-                                     Optional primitive As Boolean = False) As Dictionary(Of String, PropertyInfo)
+                                     Optional primitive As Boolean = False,
+                                     Optional binds As BindingFlags = PublicProperty) As Dictionary(Of String, PropertyInfo)
 
-            With GetType(T).Schema(flag,, nonIndex)
+            With GetType(T).Schema(flag, binds, nonIndex)
                 If primitive Then
                     Return .Keys _
                         .Where(Function(k)

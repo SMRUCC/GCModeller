@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6b9d4bb045bef0a7323df6e50ee01f4, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\RequestStream.vb"
+﻿#Region "Microsoft.VisualBasic::c36c68275f78d17ca3652f21e825716b, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\RequestStream.vb"
 
     ' Author:
     ' 
@@ -44,8 +44,11 @@
     '                     TotalBytes
     ' 
     '         Constructor: (+7 Overloads) Sub New
+    ' 
     '         Function: (+2 Overloads) CreatePackage, CreateProtocol, GetRawStream, GetString, GetUTF8String
     '                   IsAvaliableStream, (+2 Overloads) LoadObject, Serialize, ToString
+    ' 
+    '         Sub: WriteBuffer
     '         Enum Protocols
     ' 
     ' 
@@ -58,6 +61,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
@@ -324,22 +328,36 @@ Namespace Parallel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Serialize() As Byte() Implements ISerializable.Serialize
-            Dim ProtocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
-            Dim Protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
-            Dim BufferLength As Byte() = BitConverter.GetBytes(Me.BufferLength)
+            Dim protocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
+            Dim protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
+            Dim bufferSize As Byte() = BitConverter.GetBytes(Me.BufferLength)
             Dim bufs As Byte() = New Byte(TotalBytes - 1) {}
             Dim p As i32 = Scan0
-            Dim l As New i32
+            Dim l As i32 = Scan0
 
-            Call Array.ConstrainedCopy(ProtocolCategory, Scan0, bufs, p << (l = ProtocolCategory.Length), l)
-            Call Array.ConstrainedCopy(___offset, Scan0, bufs, ++p, 1)
-            Call Array.ConstrainedCopy(Protocol, Scan0, bufs, p << (l = Protocol.Length), l)
-            Call Array.ConstrainedCopy(___offset, Scan0, bufs, ++p, 1)
-            Call Array.ConstrainedCopy(BufferLength, Scan0, bufs, p << (l = BufferLength.Length), l)
-            Call Array.ConstrainedCopy(Me.ChunkBuffer, Scan0, bufs, p << (l = Me.BufferLength), l)
+            Call Array.ConstrainedCopy(protocolCategory, Scan0, bufs, Scan0, INT64)
+            Call Array.ConstrainedCopy(___offset, Scan0, bufs, INT64, 1)
+            Call Array.ConstrainedCopy(protocol, Scan0, bufs, INT64 + 1, INT64)
+            Call Array.ConstrainedCopy(___offset, Scan0, bufs, INT64 + 1 + INT64, 1)
+            Call Array.ConstrainedCopy(bufferSize, Scan0, bufs, INT64 + 1 + INT64 + 1, INT64)
+            Call Array.ConstrainedCopy(ChunkBuffer, Scan0, bufs, INT64 + 1 + INT64 + 1 + INT64, ChunkBuffer.Length)
 
             Return bufs
         End Function
+
+        Public Sub WriteBuffer(buf As Stream)
+            Dim protocolCategory As Byte() = BitConverter.GetBytes(Me.ProtocolCategory)
+            Dim protocol As Byte() = BitConverter.GetBytes(Me.Protocol)
+            Dim bufferSize As Byte() = BitConverter.GetBytes(Me.BufferLength)
+
+            Call buf.Write(protocolCategory, Scan0, INT64)
+            Call buf.Write(___offset, Scan0, ___offset.Length)
+            Call buf.Write(protocol, Scan0, INT64)
+            Call buf.Write(___offset, Scan0, ___offset.Length)
+            Call buf.Write(bufferSize, Scan0, INT64)
+            Call buf.Write(ChunkBuffer, Scan0, ChunkBuffer.Length)
+            Call buf.Flush()
+        End Sub
 
         ''' <summary>
         ''' 系统里面最基本的基本数据协议

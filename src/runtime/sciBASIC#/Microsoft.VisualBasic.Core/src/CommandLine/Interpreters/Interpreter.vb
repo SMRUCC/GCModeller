@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c046aa8570517f14bf0a1cf75656c15, Microsoft.VisualBasic.Core\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::26ea4c9a286392fccc722b30113d22c5, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\Interpreter.vb"
 
     ' Author:
     ' 
@@ -165,6 +165,7 @@ Namespace CommandLine
                 Catch ex As Exception
                     Call App.LogException(ex)
                     Call ex.PrintException
+                    Call VBDebugger.WaitOutput()
                 End Try
 #End If
                 Return -100
@@ -328,8 +329,10 @@ Namespace CommandLine
         <Example("? example_commandName")>
         Public Function Help(CommandName As String) As Integer
             If String.IsNullOrEmpty(CommandName) Then
-                ' List all commands when command name is empty.
-                Call Console.WriteLine(HelpSummary(False))
+                If Not Me.APIList.IsNullOrEmpty Then
+                    ' List all commands when command name is empty.
+                    Call Console.WriteLine(HelpSummary(False))
+                End If
             Else
                 ' listing the help for specific command name
                 Call PrintCommandHelp(CommandName)

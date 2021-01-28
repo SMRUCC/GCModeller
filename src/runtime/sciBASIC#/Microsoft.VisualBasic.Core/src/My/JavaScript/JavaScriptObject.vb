@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36958daa809fe0d15066d99e66fa1d7d, Microsoft.VisualBasic.Core\My\JavaScript\JavaScriptObject.vb"
+﻿#Region "Microsoft.VisualBasic::89d74b26bab518a6fae9e65c03ba5848, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject.vb"
 
     ' Author:
     ' 
@@ -47,12 +47,26 @@
     ' 
     ' 
     ' 
+    '     Class JavaScriptValue
+    ' 
+    '         Properties: Accessor, IsConstant, Literal
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: GetValue, ToString
+    ' 
+    '         Sub: SetValue
+    ' 
     '     Class JavaScriptObject
     ' 
-    '         Properties: this
+    '         Properties: length, this
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetDescription, GetEnumerator, GetMemberValue, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1
+    ' 
+    '         Function: GetDescription, GetEnumerator, GetGenericJson, GetMemberValue, GetNames
+    '                   IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, ToString
+    ' 
+    '         Sub: Delete
     ' 
     ' 
     ' /********************************************************************************/
@@ -63,6 +77,8 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace My.JavaScript
 
@@ -94,12 +110,54 @@ Namespace My.JavaScript
         ExtensionProperty
     End Enum
 
+    Public Class JavaScriptValue
+
+        Public Property Accessor As BindProperty(Of DataFrameColumnAttribute)
+        Public Property Literal As Object
+
+        Dim target As JavaScriptObject
+
+        Public ReadOnly Property IsConstant As Boolean
+            Get
+                Return Accessor.IsNull
+            End Get
+        End Property
+
+        Sub New(bind As BindProperty(Of DataFrameColumnAttribute), target As JavaScriptObject)
+            Me.Accessor = bind
+            Me.target = target
+        End Sub
+
+        Sub New()
+        End Sub
+
+        Public Function GetValue() As Object
+            If IsConstant Then
+                Return Literal
+            Else
+                Return Accessor.GetValue(target)
+            End If
+        End Function
+
+        Public Sub SetValue(value As Object)
+            If IsConstant Then
+                Literal = value
+            Else
+                Accessor.SetValue(target, value)
+            End If
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return any.ToString(GetValue)
+        End Function
+    End Class
+
     ''' <summary>
     ''' javascript object
     ''' </summary>
     Public Class JavaScriptObject : Implements IEnumerable(Of String), IEnumerable(Of NamedValue(Of Object)), IJavaScriptObjectAccessor
 
-        Dim members As New Dictionary(Of String, [Variant](Of BindProperty(Of DataFrameColumnAttribute), Object))
+        Dim members As New Dictionary(Of String, JavaScriptValue)
 
         ''' <summary>
         ''' This javascript object instance
@@ -125,15 +183,15 @@ Namespace My.JavaScript
             Set(value As Object)
                 If members.ContainsKey(memberName) Then
                     If members(memberName) Is Nothing Then
-                        members(memberName) = value
-                    ElseIf members(memberName) Like GetType(BindProperty(Of DataFrameColumnAttribute)) Then
-                        members(memberName).TryCast(Of BindProperty(Of DataFrameColumnAttribute)).SetValue(Me, value)
+                        members(memberName) = New JavaScriptValue With {.Literal = value}
                     Else
-                        members(memberName) = value
+                        members(memberName).SetValue(value)
                     End If
                 Else
                     ' 添加一个新的member
-                    members(memberName) = value
+                    members(memberName) = New JavaScriptValue With {
+                        .Literal = value
+                    }
                 End If
             End Set
         End Property
@@ -145,12 +203,19 @@ Namespace My.JavaScript
             Dim type As Type = MyClass.GetType
             Dim properties As PropertyInfo() = type.GetProperties(PublicProperty).ToArray
             Dim fields As FieldInfo() = type.GetFields(PublicProperty).ToArray
+            Dim value As JavaScriptValue
 
             For Each prop As PropertyInfo In properties
-                members(prop.Name) = New BindProperty(Of DataFrameColumnAttribute)(prop)
+                If prop.Name = NameOf(Me.length) OrElse Not prop.GetIndexParameters.IsNullOrEmpty Then
+                    Continue For
+                End If
+
+                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(prop), Me)
+                members(prop.Name) = value
             Next
             For Each field As FieldInfo In fields
-                members(field.Name) = New BindProperty(Of DataFrameColumnAttribute)(field)
+                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(field), Me)
+                members(field.Name) = value
             Next
         End Sub
 
@@ -160,18 +225,18 @@ Namespace My.JavaScript
 
         Public Function GetMemberValue(memberName As String, ByRef access As MemberAccessorResult) As Object
             If members.ContainsKey(memberName) Then
-                Dim value = members(memberName)
+                Dim value As JavaScriptValue = members(memberName)
 
                 If value Is Nothing Then
                     access = MemberAccessorResult.Undefined
                     Return Nothing
-                ElseIf value Like GetType(BindProperty(Of DataFrameColumnAttribute)) Then
-                    access = MemberAccessorResult.ClassMemberProperty
-                    Return value.TryCast(Of BindProperty(Of DataFrameColumnAttribute)).GetValue(Me)
-                Else
+                ElseIf value.IsConstant Then
                     access = MemberAccessorResult.ExtensionProperty
-                    Return value.TryCast(Of Object)
+                Else
+                    access = MemberAccessorResult.ClassMemberProperty
                 End If
+
+                Return value.GetValue
             Else
                 ' Returns undefined in javascript
                 access = MemberAccessorResult.Undefined
@@ -193,6 +258,10 @@ Namespace My.JavaScript
             Next
 
             Return desc
+        End Function
+
+        Public Function GetNames() As String()
+            Return members.Keys.ToArray
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of String) Implements IEnumerable(Of String).GetEnumerator
@@ -221,6 +290,19 @@ Namespace My.JavaScript
 
                 Yield pop
             Next
+        End Function
+
+        Public Function GetGenericJson() As Dictionary(Of String, Object)
+            Return members.ToDictionary(Function(a) a.Key, Function(a) a.Value.GetValue)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return GetGenericJson.GetJson(knownTypes:={
+                GetType(Integer),
+                GetType(String),
+                GetType(Double),
+                GetType(Boolean)
+            })
         End Function
     End Class
 End Namespace

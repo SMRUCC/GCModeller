@@ -643,9 +643,21 @@
     <Content Include="Sandbox.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Darwinism\Parallel\Parallel.vbproj">
+      <Project>{085171ca-6a65-494c-9b4a-477d35bcbc90}</Project>
+      <Name>Parallel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sciBASIC#\mime\application%25JSON\application.JSON.vbproj">
+      <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
+      <Name>application.JSON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\Microsoft.VisualBasic.Network.vbproj">
+      <Project>{a60240d1-e78b-4b96-85e3-45256571c2cb}</Project>
+      <Name>Microsoft.VisualBasic.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebCloud\SMRUCC.HTTPInternal\SMRUCC.WebCloud.HTTPInternal.vbproj">
       <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>

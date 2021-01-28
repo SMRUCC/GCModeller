@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b691d6eefa64e8e1e5e34d7232a6e928, Microsoft.VisualBasic.Core\CommandLine\CLI\IORedirectFile.vb"
+﻿#Region "Microsoft.VisualBasic::8c5adb252e240ecbef44e96b3b99810a, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirectFile.vb"
 
     ' Author:
     ' 
@@ -237,12 +237,15 @@ Namespace CommandLine
             '   at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <902ab9e386384bec9c07fa19aa938869>:0
             '   at Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints.APIEntryPoint.__directInvoke (System.Object[] callParameters, System.Object target, System.Boolean Throw) [0x0000c] in <d9cf6734998c48a092e8a1528ac0142f>:0
             '    --- End of inner exception stack trace ---
-
+#If netcore5 = 0 Then
             exitCode = Interaction.Shell(
                 path,
                 Style:=AppWinStyle.Hide,
                 Wait:=True
             )
+#Else
+            [Call](path, "", "")
+#End If
 #End If
             Call path.DeleteFile
 

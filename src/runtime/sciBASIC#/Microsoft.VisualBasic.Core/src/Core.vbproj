@@ -13,6 +13,9 @@
     <PackageIcon>logo-knot.png</PackageIcon>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;LipidSearch</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,7 +23,7 @@
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DefineConstants>netcore5=1,FRAMEWORD_CORE=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -29,22 +32,74 @@
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DefineConstants>netcore5=1,FRAMEWORD_CORE=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
     <BaseAddress>4194304</BaseAddress>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
     <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
+    <DefineConstants>netcore5=1,UNIX=0,FRAMEWORD_CORE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <BaseAddress>4194304</BaseAddress>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.Core.xml</DocumentationFile>
+    <DefineConstants>netcore5=1,UNIX=1,FRAMEWORD_CORE=1</DefineConstants>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <BaseAddress>4194304</BaseAddress>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Composition" Version="5.0.0" />
+    <None Remove="Resources\scripts\runNet5.sh" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\scripts\runNet5.sh" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Composition" Version="5.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

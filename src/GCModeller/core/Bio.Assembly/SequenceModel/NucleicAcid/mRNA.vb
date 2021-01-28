@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
+﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
 
     ' Author:
     ' 

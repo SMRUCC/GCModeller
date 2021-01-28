@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1566ff5b9f0abffc84056b6a5f291cfd, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\DuplexPipe.vb"
+﻿#Region "Microsoft.VisualBasic::a0906e6676f138837b333b5e10211fbb, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\DuplexPipe.vb"
 
     ' Author:
     ' 
@@ -43,18 +43,32 @@
     ' 
     ' 
     ' 
+    '     Class StreamPipe
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: GetBlocks, Read
+    ' 
+    '         Sub: (+2 Overloads) Dispose
+    ' 
     '     Class DataPipe
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: GetBlocks, Read
+    ' 
+    '         Sub: (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Parallel
 
@@ -110,15 +124,76 @@ Namespace Parallel
 
     End Class
 
-    Public Class DataPipe : Inherits BufferPipe
+    Public Class StreamPipe : Inherits BufferPipe
+        Implements IDisposable
 
-        ReadOnly data As Byte()
+        ReadOnly buf As Stream
+        Private disposedValue As Boolean
+
+        Sub New(buf As Stream)
+            Me.buf = buf
+        End Sub
+
+        Public Overrides Iterator Function GetBlocks() As IEnumerable(Of Byte())
+            Dim chunk As Byte() = New Byte(1024 - 1) {}
+            Dim delta As Long
+
+            Do While buf.Position <= (buf.Length - 1)
+                delta = buf.Length - buf.Position
+
+                If delta < chunk.Length Then
+                    chunk = New Byte(delta - 1) {}
+                End If
+
+                buf.Read(chunk, Scan0, chunk.Length)
+
+                Yield chunk
+            Loop
+        End Function
+
+        Public Overrides Function Read() As Byte()
+            Return GetBlocks.IteratesALL.ToArray
+        End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)
+                    buf.Close()
+                    buf.Dispose()
+                End If
+
+                ' TODO: 释放未托管的资源(未托管的对象)并替代终结器
+                ' TODO: 将大型字段设置为 null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: 仅当“Dispose(disposing As Boolean)”拥有用于释放未托管资源的代码时才替代终结器
+        ' Protected Overrides Sub Finalize()
+        '     ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
+    End Class
+
+    Public Class DataPipe : Inherits BufferPipe
+        Implements IDisposable
+
+        Dim data As Byte()
+        Dim disposedValue As Boolean
 
         Sub New(data As IEnumerable(Of Byte))
             Me.data = data.ToArray
         End Sub
 
-        Sub New(data As RequestStream)
+        Sub New(data As RawStream)
             Call Me.New(data.Serialize)
         End Sub
 
@@ -129,5 +204,31 @@ Namespace Parallel
         Public Overrides Function Read() As Byte()
             Return data
         End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)
+                    Erase data
+                End If
+
+                ' TODO: 释放未托管的资源(未托管的对象)并替代终结器
+                ' TODO: 将大型字段设置为 null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: 仅当“Dispose(disposing As Boolean)”拥有用于释放未托管资源的代码时才替代终结器
+        ' Protected Overrides Sub Finalize()
+        '     ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' 不要更改此代码。请将清理代码放入“Dispose(disposing As Boolean)”方法中
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace

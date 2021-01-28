@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1a7569833ec56f40c28816858e1fa3a, Microsoft.VisualBasic.Core\CommandLine\CLI\PipelineProcess.vb"
+﻿#Region "Microsoft.VisualBasic::41cb77c0f3483d645bf2eb933326c683, Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,8 @@
 
     '     Module PipelineProcess
     ' 
-    '         Function: [Call], FindProc, (+2 Overloads) GetProc
+    '         Function: (+2 Overloads) [Call], CallDotNetCorePipeline, CreatePipeline, ExecSub, FindProc
+    '                   (+2 Overloads) GetProc
     ' 
     '         Sub: ExecSub
     ' 
@@ -44,7 +45,9 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
+Imports ConsoleApp = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 Imports Proc = System.Diagnostics.Process
 
 Namespace CommandLine
@@ -118,17 +121,7 @@ Namespace CommandLine
         ''' <param name="onReadLine">行信息（委托）</param>
         ''' <remarks>https://github.com/lishewen/LSWFramework/blob/master/LSWClassLib/CMD/CMDHelper.vb</remarks>
         Public Sub ExecSub(app As String, args As String, onReadLine As Action(Of String), Optional [in] As String = "")
-            Dim p As New Process
-            p.StartInfo = New ProcessStartInfo
-            p.StartInfo.FileName = app
-            p.StartInfo.Arguments = args
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-            p.StartInfo.RedirectStandardOutput = True
-            p.StartInfo.RedirectStandardInput = True
-            p.StartInfo.UseShellExecute = False
-            p.StartInfo.CreateNoWindow = True
-            p.Start()
-
+            Dim p As Process = CreatePipeline(app, args)
             Dim reader As StreamReader = p.StandardOutput
 
             If Not String.IsNullOrEmpty([in]) Then
@@ -144,6 +137,63 @@ Namespace CommandLine
             Call p.WaitForExit()
         End Sub
 
+        Private Function CreatePipeline(app As String, args As String) As Process
+            Dim p As New Process
+            p.StartInfo = New ProcessStartInfo
+            p.StartInfo.FileName = app
+            p.StartInfo.Arguments = args
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+            p.StartInfo.RedirectStandardOutput = True
+            p.StartInfo.RedirectStandardInput = True
+            p.StartInfo.UseShellExecute = False
+            p.StartInfo.CreateNoWindow = True
+            p.Start()
+
+            Return p
+        End Function
+
+        Public Function ExecSub(app$, args$, Optional in$ = "") As MemoryStream
+            Dim p As Process = CreatePipeline(app, args)
+            Dim reader As Stream = p.StandardOutput.BaseStream
+            Dim buffer As New MemoryStream
+
+            If Not String.IsNullOrEmpty([in]) Then
+                Dim writer As StreamWriter = p.StandardInput
+
+                Call writer.WriteLine([in])
+                Call writer.Flush()
+            End If
+
+            Dim chunk As Byte() = New Byte(1024 - 1) {}
+            Dim nbytes As Integer
+
+            Do While True
+                nbytes = reader.Read(chunk, Scan0, chunk.Length)
+
+                If nbytes = 0 Then
+                    Exit Do
+                Else
+                    Call buffer.Write(chunk, Scan0, nbytes)
+                End If
+            Loop
+
+            Erase chunk
+
+            Call p.WaitForExit()
+            Call buffer.Flush()
+            Call buffer.Seek(Scan0, SeekOrigin.Begin)
+
+            Return buffer
+        End Function
+
+        Public Function CallDotNetCorePipeline(app As ConsoleApp, Optional args As String = "", Optional [in] As String = "") As MemoryStream
+            Dim dll As String = app.Path.TrimSuffix & ".dll"
+            Dim cli As String = $"{dll.CLIPath} {args}"
+
+            ' run on UNIX .net 5 
+            Return ExecSub("dotnet", cli, [in])
+        End Function
+
         ''' <summary>
         ''' Run process and then gets the ``std_out`` of the child process
         ''' </summary>
@@ -155,6 +205,32 @@ Namespace CommandLine
             Dim stdout As New List(Of String)
             Call ExecSub(app, args, AddressOf stdout.Add, [in])
             Return stdout.JoinBy(vbCrLf)
+        End Function
+
+        ''' <summary>
+        ''' Run process and then gets the ``std_out`` of the child process
+        ''' </summary>
+        ''' <param name="app">The file path of the application to be called by its parent process.</param>
+        ''' <param name="args">CLI arguments</param>
+        ''' <param name="dotnet">
+        ''' Run a .NET core console application?
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function [Call](app As ConsoleApp,
+                               Optional args As String = "",
+                               Optional [in] As String = "",
+                               Optional dotnet As Boolean = False) As String
+
+            If dotnet Then
+                Dim dll As String = app.Path.TrimSuffix & ".dll"
+                Dim cli As String = $"{dll.CLIPath} {args}"
+
+                ' run on UNIX .net 5 
+                Return [Call]("dotnet", cli, [in])
+            Else
+                Return [Call](app.Path, args, [in])
+            End If
         End Function
     End Module
 End Namespace

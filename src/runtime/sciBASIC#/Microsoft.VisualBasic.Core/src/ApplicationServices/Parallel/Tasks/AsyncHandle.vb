@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abe0e686dd1e1517f830f2fdbc7dd72f, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\Tasks\AsyncHandle.vb"
+﻿#Region "Microsoft.VisualBasic::63250daa819121659715ea04a423e765, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Tasks\AsyncHandle.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Class AsyncHandle
     ' 
-    '         Properties: Handle, IsCompleted, Task
+    '         Properties: IsCompleted, Task
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: GetValue, Run
@@ -42,6 +42,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Threading
 
 Namespace Parallel.Tasks
 
@@ -60,11 +62,13 @@ Namespace Parallel.Tasks
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Task As Func(Of TOut)
-        ''' <summary>
-        ''' 对后台任务的访问
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Handle As IAsyncResult
+        ' ''' <summary>
+        ' ''' 对后台任务的访问
+        ' ''' </summary>
+        ' ''' <returns></returns>
+        ' Public ReadOnly Property Handle As IAsyncResult
+
+        Dim handle As TOut
 
         ''' <summary>
         ''' Gets a value that indicates whether the asynchronous operation has completed.
@@ -72,14 +76,14 @@ Namespace Parallel.Tasks
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property IsCompleted As Boolean
-            Get
-                If Handle Is Nothing Then
-                    Return True
-                End If
+        '    Get
+        '        If Handle Is Nothing Then
+        '            Return True
+        '        End If
 
-                Return Handle.IsCompleted
-            End Get
-        End Property
+        '        Return Handle.IsCompleted
+        '    End Get
+        'End Property
 
         ''' <summary>
         ''' Creates a new background task from a function handle.
@@ -87,6 +91,7 @@ Namespace Parallel.Tasks
         ''' <param name="Task"></param>
         Sub New(Task As Func(Of TOut))
             Me.Task = Task
+            Me.IsCompleted = True
         End Sub
 
         ''' <summary>
@@ -95,8 +100,17 @@ Namespace Parallel.Tasks
         ''' <returns></returns>
         Public Function Run() As AsyncHandle(Of TOut)
             If IsCompleted Then
+                handle = Nothing
+                _IsCompleted = False
                 ' 假若没有执行完毕也调用的话，会改变handle
-                _Handle = Task.BeginInvoke(Nothing, Nothing)
+                ' _Handle = Task.BeginInvoke(Nothing, Nothing)
+                ' due to the reason of platform not supported on unix .net 5
+                ' use thread model instead of the async model
+                Call New Thread(
+                    Sub()
+                        handle = _Task()
+                        _IsCompleted = True
+                    End Sub).Start()
             End If
 
             Return Me
@@ -111,7 +125,12 @@ Namespace Parallel.Tasks
             If Handle Is Nothing Then
                 Return _Task()
             Else
-                Return Task.EndInvoke(Handle)
+                ' Return Task.EndInvoke(Handle)
+                Do While Not IsCompleted
+                    Call Thread.Sleep(1)
+                Loop
+
+                Return handle
             End If
         End Function
 

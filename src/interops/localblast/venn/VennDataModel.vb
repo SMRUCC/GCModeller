@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8f450d359e6c31df9a7cda6fc6f4b7a, localblast\venn\VennDataModel.vb"
+﻿#Region "Microsoft.VisualBasic::f156cb69790bc97c64f320bff9e02dda, venn\VennDataModel.vb"
 
     ' Author:
     ' 
@@ -51,9 +51,8 @@ Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 
 Namespace BlastAPI
 
@@ -87,7 +86,7 @@ Namespace BlastAPI
                                                    <Parameter("Path.CDS.All.Dump")> CDSAll As String,
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As SpeciesBesthit()
-            Return SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
+            Return Tasks.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
         End Function
 
         <ExportAPI("Orf.Dump.Load.As.Hash")>
@@ -154,7 +153,7 @@ Namespace BlastAPI
             End If
 
             Dim dataframe As IO.File = indexQuery.ExportCsv(TrimNull)
-            Dim sps As String() = indexQuery.hits.First.Hits.Select(Function(x) x.tag).ToArray
+            Dim sps As String() = indexQuery.hits.First.hits.Select(Function(x) x.tag).ToArray
 
             For deltaIndex As Integer = 0 To dataHash.Count - 1
                 Dim subMain As SpeciesBesthit = dataHash.Values(deltaIndex)
@@ -177,19 +176,19 @@ Namespace BlastAPI
                                           In subMain.hits
                                           Where Array.IndexOf(subHits, hits.QueryName) = -1
                                           Select hits.QueryName,
-                                              hits.Description,
-                                              speciesProfile = hits.Hits.ToDictionary(Function(hit) hit.tag)  '竖直方向遍历第n列的基因号
+                                              hits.description,
+                                              speciesProfile = hits.hits.ToDictionary(Function(hit) hit.tag)  '竖直方向遍历第n列的基因号
 
                     Dim row As IO.RowObject =
-                        New IO.RowObject From {subMainNotHit.Description, subMainNotHit.QueryName} +
+                        New IO.RowObject From {subMainNotHit.description, subMainNotHit.QueryName} +
                             From nnn As Integer In (4 * deltaIndex).Sequence Select ""
 
                     For Each sid As String In sps.Skip(deltaIndex)
                         Dim matched As Hit = subMainNotHit.speciesProfile(sid)
                         Call row.Add("")
-                        Call row.Add(matched.HitName)
-                        Call row.Add(matched.Identities)
-                        Call row.Add(matched.Positive)
+                        Call row.Add(matched.hitName)
+                        Call row.Add(matched.identities)
+                        Call row.Add(matched.positive)
                     Next
 
                     dataframe += row

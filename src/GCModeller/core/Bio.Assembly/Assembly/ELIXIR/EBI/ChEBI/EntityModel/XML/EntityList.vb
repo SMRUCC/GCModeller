@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b721d5cc186b9120dac6c934f32dc12, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
+﻿#Region "Microsoft.VisualBasic::7228d86f39e4e0448215c6993245c75c, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6e63a0e1b9e69a2ff0fce9ddd3f3a08, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
+﻿#Region "Microsoft.VisualBasic::c6e63a0e1b9e69a2ff0fce9ddd3f3a08, Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\QueryImpl.vb"
 
     ' Author:
     ' 

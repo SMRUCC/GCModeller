@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2203cc40fe30d8cd089fd5ce1a3c4d7d, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::fbe52dd5e267056937334bdf6e2615f2, Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language

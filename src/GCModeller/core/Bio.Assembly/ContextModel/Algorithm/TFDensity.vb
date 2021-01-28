@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41d59805af2256490dcedd74f028f33c, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::1dd51d0299df9c006a61ecc6f30e29ee, Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
+
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -99,24 +104,24 @@ Namespace ContextModel
             Dim result As New List(Of T)
 
             If g.Location.Strand = Strands.Forward Then ' 上游是小于ATG，下游是大于TGA
-                Dim ATG As Integer = g.Location.Left
-                Dim TGA As Integer = g.Location.Right
+                Dim ATG As Integer = g.Location.left
+                Dim TGA As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If stdNum.Abs(ATG - loci.Location.Right) <= ranges Then
+                    If stdNum.Abs(ATG - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.Left - TGA) <= ranges Then
+                    ElseIf stdNum.Abs(loci.Location.left - TGA) <= ranges Then
                         result += loci
                     End If
                 Next
             Else
-                Dim ATG As Integer = g.Location.Right
-                Dim TGA As Integer = g.Location.Left
+                Dim ATG As Integer = g.Location.right
+                Dim TGA As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If stdNum.Abs(TGA - loci.Location.Right) <= ranges Then
+                    If stdNum.Abs(TGA - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.Left - ATG) <= ranges Then
+                    ElseIf stdNum.Abs(loci.Location.left - ATG) <= ranges Then
                         result += loci
                     End If
                 Next
@@ -222,18 +227,18 @@ Namespace ContextModel
             Dim result As New List(Of T)
 
             If g.Location.Strand = Strands.Forward Then ' 上游是小于ATG，下游是大于TGA
-                Dim ATG As Integer = g.Location.Left
+                Dim ATG As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If ATG - loci.Location.Right <= ranges Then
+                    If ATG - loci.Location.right <= ranges Then
                         result += loci
                     End If
                 Next
             Else
-                Dim ATG As Integer = g.Location.Right
+                Dim ATG As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If loci.Location.Left - ATG <= ranges Then
+                    If loci.Location.left - ATG <= ranges Then
                         result += loci
                     End If
                 Next

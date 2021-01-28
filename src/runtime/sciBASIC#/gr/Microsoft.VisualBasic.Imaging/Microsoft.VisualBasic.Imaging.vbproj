@@ -670,6 +670,37 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\RsharpDev\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Imaging.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\RsharpDev\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DocumentationFile>Microsoft.VisualBasic.Imaging.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RsharpDev|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\RsharpDev\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Imaging.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -716,12 +747,6 @@
     <Compile Include="Drawing2D\Polar\PolarGraphics2D.vb" />
     <Compile Include="Drawing2D\PrinterDimension.vb" />
     <Compile Include="Drawing2D\Shadow.vb" />
-    <Compile Include="Drawing2D\Colors\ColorPalette.Designer.vb">
-      <DependentUpon>ColorPalette.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Drawing2D\Colors\ColorPalette.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Drawing2D\Colors\Expression.vb" />
     <Compile Include="Drawing2D\Colors\DesignerTerms.vb" />
     <Compile Include="Drawing2D\Math2D\Math2DHelper.vb" />
@@ -762,14 +787,9 @@
     <Compile Include="Drawing2D\Shapes\Line.vb" />
     <Compile Include="Drawing2D\Shapes\Shape.vb" />
     <Compile Include="Drawing3D\Camera.vb" />
+    <Compile Include="Drawing3D\Light.vb" />
     <Compile Include="Drawing3D\Model2D.vb" />
     <Compile Include="Drawing3D\Isometric.vb" />
-    <Compile Include="Drawing3D\Device\AutoRotation.vb" />
-    <Compile Include="Drawing3D\Device\IDevice.vb" />
-    <Compile Include="Drawing3D\Device\Debugger.vb" />
-    <Compile Include="Drawing3D\Device\Mouse.vb" />
-    <Compile Include="Drawing3D\Device\Light.vb" />
-    <Compile Include="Drawing3D\Device\Worker.vb" />
     <Compile Include="Drawing3D\Models\Extensions.vb" />
     <Compile Include="Drawing3D\Models\Paths\Circle.vb" />
     <Compile Include="Drawing3D\Models\Paths\Rectangle.vb" />
@@ -785,14 +805,12 @@
     <Compile Include="Drawing3D\Models\Shapes\Prism.vb" />
     <Compile Include="Drawing3D\Models\Shapes\Pyramid.vb" />
     <Compile Include="Drawing3D\Models\Shapes\Stairs.vb" />
+    <Compile Include="Drawing3D\DrawGraphics.vb" />
     <Compile Include="Drawing3D\Painter.vb" />
     <Compile Include="Drawing3D\Models\I3DModel.vb" />
     <Compile Include="Drawing3D\Models\Line.vb" />
     <Compile Include="Drawing3D\Surface.vb" />
     <Compile Include="Drawing3D\Models\Cube.vb" />
-    <Compile Include="Drawing3D\Device\GDIDevice.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Drawing3D\Point3D.vb" />
     <Compile Include="Drawing3D\Math3D\Projection.vb" />
     <Compile Include="Drawing3D\Math3D\Matrix.vb" />
@@ -851,12 +869,6 @@
     <Compile Include="TextureResourceLoader.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Drawing2D\Colors\ColorPalette.resx">
-      <DependentUpon>ColorPalette.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Drawing3D\Device\GDIDevice.resx">
-      <DependentUpon>GDIDevice.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>

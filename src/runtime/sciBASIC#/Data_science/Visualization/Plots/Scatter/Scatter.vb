@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef822089ce96f6dd9e29debe87dc689a, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::1f34a510b4391ef7f0e87f952260b52d, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,6 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
-Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -54,12 +53,9 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -71,7 +67,6 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
 
 Public Module Scatter
 
@@ -213,11 +208,22 @@ Public Module Scatter
                     Optional axisStroke$ = Stroke.AxisStroke,
                     Optional scatterReorder As Boolean = False)
 
-        Dim theme As New Theme
+        Dim theme As New Theme With {
+            .drawLegend = showLegend,
+            .axisTickFormat = XtickFormat,
+            .drawGrid = showGrid,
+            .gridFill = gridFill,
+            .background = bg,
+            .axisStroke = axisStroke,
+            .drawAxis = drawAxis
+        }
         Dim plot As Plot
 
         If drawLine Then
-            plot = New Plots.LinePlot2D(data:=c, theme:=theme)
+            plot = New Plots.LinePlot2D(data:=c, theme:=theme) With {
+                .xlabel = Xlabel,
+                .ylabel = Ylabel
+            }
         Else
             plot = New Plots.Scatter2D(
                 data:=c,
@@ -226,7 +232,10 @@ Public Module Scatter
                 fillPie:=fillPie,
                 ablines:=ablines,
                 hullConvexList:=hullConvexList
-            )
+            ) With {
+                .xlabel = Xlabel,
+                .ylabel = Ylabel
+            }
         End If
 
         Call plot.Plot(g, rect.PlotRegion)

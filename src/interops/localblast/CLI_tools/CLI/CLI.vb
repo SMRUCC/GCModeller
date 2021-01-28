@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bda92a3557b50487afd40fcd22978994, localblast\CLI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::2b6c33e0cdd3a88f44d5c45443990639, CLI_tools\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: __exportBBH, __orderEntry, BashShell, ExportBBH, XmlToExcel
+    '     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
     '               XmlToExcelBatch
     '     Delegate Function
     ' 
@@ -64,15 +64,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Entry = System.Collections.Generic.KeyValuePair(Of
-    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
-    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
+Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Interops.NCBI.ParallelTask.AlignEntry, SMRUCC.genomics.Interops.NCBI.ParallelTask.AlignEntry)
 
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <Package("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
@@ -82,14 +80,15 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 <CLI> Module CLI
 
     <ExportAPI("/Bash.Venn", Usage:="/Bash.Venn /blast <blastDIR> /inDIR <fasta.DIR> /inRef <inRefAs.DIR> [/out <outDIR> /evalue <evalue:10>]")>
-    Public Function BashShell(args As CommandLine) As Integer
+    Public Function BashShellRun(args As CommandLine) As Integer
         Dim blastDIR As String = args("/blast")
         Dim inDIR As String = args("/inDIR")
         Dim inRefAs As String = args("/inRef")
         Dim out As String = args.GetValue("/out", inDIR & "/blast_OUT/")
         Dim evalue As String = args.GetValue("/evalue", 10)
-        Dim batch As String() = BatchParallel.BashShell.VennBatch(blastDIR, inDIR, inRefAs, out, evalue)
-        Return BatchParallel.ScriptCallSave(batch, out).CLICode
+        Dim batch As String() = BashShell.VennBatch(blastDIR, inDIR, inRefAs, out, evalue)
+
+        Return ScriptCallSave(batch, out).CLICode
     End Function
 
     <ExportAPI("--Xml2Excel", Usage:="--Xml2Excel /in <in.xml> [/out <out.csv>]")>
@@ -176,11 +175,10 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("--bbh.export",
-               Info:="Batch export bbh result data from a directory.",
-               Usage:="--bbh.export /in <blast_out.DIR> [/all /out <out.DIR> /single-query <queryName> /coverage <0.5> /identities 0.15]")>
-    <ArgumentAttribute("/all", True,
-                   Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
+    <ExportAPI("--bbh.export")>
+    <Description("Batch export bbh result data from a directory.")>
+    <Usage("--bbh.export /in <blast_out.DIR> [/all /out <out.DIR> /single-query <queryName> /coverage <0.5> /identities 0.15]")>
+    <Argument("/all", True, Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
     Public Function ExportBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim isAll As Boolean = args.GetBoolean("/all")

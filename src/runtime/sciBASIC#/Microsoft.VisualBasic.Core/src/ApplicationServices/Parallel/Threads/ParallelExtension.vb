@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfb6d76e539ccba11eb613f5bd659a12, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\Threads\ParallelExtension.vb"
+﻿#Region "Microsoft.VisualBasic::f2875acd90dd861470a506cbeb2c8cf4, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ParallelExtension.vb"
 
     ' Author:
     ' 
@@ -104,7 +104,7 @@ Namespace Parallel
         <DebuggerStepThrough>
         Public Function RunTask(start As ThreadStart) As Thread
             Dim thread As New Thread(start)
-            Call thread.Start()
+            thread.Start()
             Return thread
         End Function
 

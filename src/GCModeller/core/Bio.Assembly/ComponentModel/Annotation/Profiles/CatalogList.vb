@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d82502191fde128d43bf5d2c5c70bec4, core\Bio.Assembly\ComponentModel\Annotation\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::7934bc74da0f9d191a8b94264bbc9d2d, Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,12 @@
     ' Summaries:
 
     '     Class CatalogProfiling
+    ' 
+    '         Properties: Catalog, Description, SubCategory
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class CatalogList
     ' 
     '         Properties: Catalog, Count, Description, IDs, IsReadOnly
     ' 

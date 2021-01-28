@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1777dfdc18a56002c3df40c13c7fd0e, Data_science\Visualization\Plots\3D\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::2795f790fd86f446d7608667f30352a7, Data_science\Visualization\Plots\3D\Scatter.vb"
 
     ' Author:
     ' 
@@ -101,10 +101,7 @@ Namespace Plot3D
                 .axisLabelCSS = axisLabelFontCSS,
                 .tagCSS = elementLabelFont,
                 .drawLegend = showLegend,
-                .legendBoxStroke = boxStroke,
-                .xlabel = labX,
-                .ylabel = labY,
-                .zlabel = labZ
+                .legendBoxStroke = boxStroke
             }
 
             Return New Impl.Scatter3D(
@@ -115,7 +112,11 @@ Namespace Plot3D
                 hullAlpha:=hullAlpha,
                 hullBspline:=hullBspline,
                 theme:=theme
-            ).Plot(size:=size)
+            ) With {
+                .xlabel = labX,
+                .ylabel = labY,
+                .zlabel = labZ
+            }.Plot(size:=size)
         End Function
 
         ''' <summary>

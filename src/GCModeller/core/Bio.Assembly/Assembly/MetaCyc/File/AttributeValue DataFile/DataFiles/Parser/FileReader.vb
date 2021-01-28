@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::773b1625275971d28ad00be6d5ae8684, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\FileReader.vb"
+﻿#Region "Microsoft.VisualBasic::773b1625275971d28ad00be6d5ae8684, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\FileReader.vb"
 
     ' Author:
     ' 

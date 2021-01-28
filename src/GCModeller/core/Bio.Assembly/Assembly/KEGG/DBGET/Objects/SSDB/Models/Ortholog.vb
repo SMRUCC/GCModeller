@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00134a099d0f187784bccdd4cd3d34c9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::a3fa61f1589fbe61f8f409d33a6a53ec, Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 

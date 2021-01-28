@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1735570c49d155193571cfff4e6ec98f, Microsoft.VisualBasic.Core\ApplicationServices\Tools\Zip\ZipLib.vb"
+﻿#Region "Microsoft.VisualBasic::c471b8a19b92ff5d601219aa8c480754, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipLib.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,7 @@
     '         Function: CheckValidZipFile, IsADirectoryEntry, IsSourceFolderZip
     ' 
     '         Sub: AddToArchive, AppendZip, DeleteItems, DirectoryArchive, FileArchive
+    '              WriteFiles
     ' 
     ' 
     ' /********************************************************************************/
@@ -185,7 +186,7 @@ Namespace ApplicationServices.Zip
                     action:=action,
                     fileOverwrite:=fileOverwrite,
                     compression:=compression,
-                    relativeDIR:=rel.Replace("/"c, "\"c).Trim("\"c)
+                    relativeDir:=rel.Replace("/"c, "\"c).Trim("\"c)
                  )
         End Sub
 
@@ -212,7 +213,7 @@ Namespace ApplicationServices.Zip
                                 Optional action As ArchiveAction = ArchiveAction.Replace,
                                 Optional fileOverwrite As Overwrite = Overwrite.IfNewer,
                                 Optional compression As CompressionLevel = CompressionLevel.Optimal,
-                                Optional relativeDIR$ = Nothing)
+                                Optional relativeDir$ = Nothing)
 
             'Identifies the mode we will be using - the default is Create
             Dim mode As ZipArchiveMode = ZipArchiveMode.Create
@@ -255,31 +256,44 @@ Namespace ApplicationServices.Zip
 
             'Opens the zip file in the mode we specified
             Using zipFile As ZipArchive = IO.Compression.ZipFile.Open(archiveFullName, mode)
-
-                'This is a bit of a hack and should be refactored - I am
-                'doing a similar foreach loop for both modes, but for Create
-                'I am doing very little work while Update gets a lot of
-                'code.  This also does not handle any other mode (of
-                'which there currently wouldn't be one since we don't
-                'use Read here).
-
-                If mode = ZipArchiveMode.Create Then
-                    Dim entryName$
-
-                    For Each path As String In files
-                        ' Adds the file to the archive
-                        If relativeDIR.StringEmpty Then
-                            entryName = IO.Path.GetFileName(path)
-                        Else
-                            entryName = RelativePath(relativeDIR, path, appendParent:=False, fixZipPath:=True)
-                        End If
-
-                        Call zipFile.CreateEntryFromFile(path, entryName, compression)
-                    Next
-                Else
-                    Call zipFile.AppendZip(files, fileOverwrite, compression)
-                End If
+                Call zipFile.WriteFiles(files, mode, fileOverwrite, compression, relativeDir)
             End Using
+        End Sub
+
+        <Extension>
+        Public Sub WriteFiles(zipFile As ZipArchive, files As String(), mode As ZipArchiveMode,
+                              Optional fileOverwrite As Overwrite = Overwrite.IfNewer,
+                              Optional compression As CompressionLevel = CompressionLevel.Optimal,
+                              Optional relativeDir$ = Nothing,
+                              Optional parent$ = "")
+            Dim entryName$
+            Dim appendParent As Boolean = Not parent.StringEmpty
+
+            'This is a bit of a hack and should be refactored - I am
+            'doing a similar foreach loop for both modes, but for Create
+            'I am doing very little work while Update gets a lot of
+            'code.  This also does not handle any other mode (of
+            'which there currently wouldn't be one since we don't
+            'use Read here).
+
+            If mode = ZipArchiveMode.Create Then
+                For Each path As String In files
+                    ' Adds the file to the archive
+                    If relativeDir.StringEmpty Then
+                        entryName = IO.Path.GetFileName(path)
+                    Else
+                        entryName = RelativePath(relativeDir, path, appendParent:=False, fixZipPath:=True)
+                    End If
+
+                    If appendParent Then
+                        entryName = $"{parent}/{entryName}"
+                    End If
+
+                    Call zipFile.CreateEntryFromFile(path, entryName, compression)
+                Next
+            Else
+                Call zipFile.AppendZip(files, fileOverwrite, compression)
+            End If
         End Sub
 
         <Extension>

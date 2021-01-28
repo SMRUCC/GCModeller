@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1068aea370c4149d1447d03a79ee8d3, Microsoft.VisualBasic.Core\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::701cb414be4dcdcfe7bb411d65a1913a, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module PathExtensions
     ' 
     '     Function: BaseName, ChangeSuffix, DeleteFile, DIR, DirectoryExists
-    '               DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy, (+2 Overloads) FileExists
+    '               DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy, FileExists
     '               FileLength, FileMove, FileName, FileOpened, GetDirectoryFullPath
     '               GetFullPath, ListDirectory, ListFiles, Long2Short, (+2 Overloads) NormalizePathString
     '               ParentDirName, ParentPath, PathCombine, PathIllegal, ReadDirectory
@@ -200,6 +200,8 @@ Public Module PathExtensions
             ' 还是不跳过吧
             DIR = App.CurrentDirectory
         End If
+
+        DIR = DIR.Replace("\", "/")
 
         Try
             Call FileIO.FileSystem.CreateDirectory(DIR)

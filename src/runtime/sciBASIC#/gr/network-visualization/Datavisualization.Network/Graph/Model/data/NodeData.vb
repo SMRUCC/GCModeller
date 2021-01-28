@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d6b56df4f92397c06471a16c717143d, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
+﻿#Region "Microsoft.VisualBasic::166002e7e1b1f5a6d92a72828b9c4014, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
 
     ' Author:
     ' 
@@ -44,11 +44,15 @@
 
 #End Region
 
-Imports System.Drawing
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#End If
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 
 Namespace Graph
 

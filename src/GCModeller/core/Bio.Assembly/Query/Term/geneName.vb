@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c6875b9f9490ac28f9ea888242cd02f, core\Bio.Assembly\Query\Term\geneName.vb"
+﻿#Region "Microsoft.VisualBasic::5c6875b9f9490ac28f9ea888242cd02f, Bio.Assembly\Query\Term\geneName.vb"
 
     ' Author:
     ' 

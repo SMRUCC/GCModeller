@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae1d47232298439c5b23a2a51002dc32, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::7cce882909080160e24a03f21516df67, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,9 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+#If netcore5 = 0 Then
 Imports System.Web.Script.Serialization
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language

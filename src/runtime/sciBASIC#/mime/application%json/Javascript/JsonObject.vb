@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dfdb7ba540465fcdc9ec28dac86c6b99, mime\application%json\Javascript\JsonObject.vb"
+﻿#Region "Microsoft.VisualBasic::b42e318a14b082684f220ddf4cd297ac, mime\application%json\Javascript\JsonObject.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,10 @@
 
     '     Class JsonObject
     ' 
-    '         Function: ContainsElement, ContainsKey, CreateObject, GetEnumerator, IEnumerable_GetEnumerator
-    '                   Remove, Score, ToString
+    '         Properties: isArray
+    ' 
+    '         Function: ContainsElement, ContainsKey, (+2 Overloads) CreateObject, GetEnumerator, IEnumerable_GetEnumerator
+    '                   Remove, Score, ToJsonArray, ToString
     ' 
     '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose, WriteBuffer
     ' 
@@ -86,6 +88,12 @@ Namespace Javascript
         End Property
 #End Region
 
+        Public ReadOnly Property isArray As Boolean
+            Get
+                Return array.Keys.All(Function(i) i.IsPattern("\d+"))
+            End Get
+        End Property
+
         Public Sub Add(key As String, element As JsonElement)
             Call array.Add(key, element)
         End Sub
@@ -126,13 +134,34 @@ Namespace Javascript
             Return hits
         End Function
 
+        Public Function ToJsonArray() As JsonArray
+            Dim list As New JsonArray
+
+            For Each item As JsonElement In array.Values
+                Call list.Add(item)
+            Next
+
+            Return list
+        End Function
+
         ''' <summary>
         ''' 反序列化为目标类型的对象实例
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
-        Public Function CreateObject(Of T As Class)() As T
-            Return Me.createObject(parent:=Nothing, schema:=GetType(T))
+        Public Function CreateObject(Of T)() As T
+            Return CreateObject(type:=GetType(T))
+        End Function
+
+        Public Function CreateObject(type As Type) As Object
+            If type.IsArray AndAlso Me.isArray Then
+                Dim itemType As Type = type.GetElementType
+                Dim graph As ObjectSchema = ObjectSchema.GetSchema(itemType)
+
+                Return ToJsonArray.createArray(graph, itemType)
+            Else
+                Return Me.createObject(parent:=Nothing, schema:=type)
+            End If
         End Function
 
         Public Overrides Function ToString() As String

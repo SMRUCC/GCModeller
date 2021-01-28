@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35adfc4aa7d10d83c4ef706ee36a0c9d, localblast\venn\Task.vb"
+﻿#Region "Microsoft.VisualBasic::2b8e5ce7048abefa892499705686a798, venn\Task.vb"
 
     ' Author:
     ' 
@@ -54,12 +54,10 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
+Imports Parallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
 
@@ -109,20 +107,21 @@ Namespace BlastAPI
 #End Region
 
         ''' <summary>
+        ''' Batch parallel task scheduler.
+        ''' 
         ''' {Queries} -> Subject
         ''' 
         ''' .(这个方法是与<see cref="BatchBlastp"></see>相反的，即使用多个Query来查询一个Subject)
         ''' </summary>
         ''' <remarks></remarks>
-        <ExportAPI("Blastp.Invoke_Batch", Info:="Batch parallel task scheduler.")>
         Public Sub BatchBlastpRev(<Parameter("Handle.Blastp", "This handle value is the blastp handle, not blastn handle.")> Handle As BLASTPlus,
-                              <Parameter("Dir.Query", "The data directory which contains the query protein fasta data.")> Query As String,
-                              <Parameter("Path.Subject", "The file path value of the subject protein fasta data.")> Subject As String,
-                              <Parameter("Dir.Export", "The data directory for export the blastp data between the query and subject.")> EXPORT As String,
-                              <Parameter("E-Value", "The blastp except value.")> Optional Evalue As String = "1e-3",
-                              <Parameter("Exists.Overriding", "Overrides the exists blastp result if the file length is not ZERO length.")> Optional [Overrides] As Boolean = False,
-                              <Parameter("Using.Parallel")> Optional Parallel As Boolean = False,
-                              Optional numThreads As Integer = -1)
+                                  <Parameter("Dir.Query", "The data directory which contains the query protein fasta data.")> Query As String,
+                                  <Parameter("Path.Subject", "The file path value of the subject protein fasta data.")> Subject As String,
+                                  <Parameter("Dir.Export", "The data directory for export the blastp data between the query and subject.")> EXPORT As String,
+                                  <Parameter("E-Value", "The blastp except value.")> Optional Evalue As String = "1e-3",
+                                  <Parameter("Exists.Overriding", "Overrides the exists blastp result if the file length is not ZERO length.")> Optional [Overrides] As Boolean = False,
+                                  <Parameter("Using.Parallel")> Optional Parallel As Boolean = False,
+                                  Optional numThreads As Integer = -1)
 
             Dim Queries As Dictionary(Of String, String) = Query.LoadSourceEntryList({"*.fasta", "*.fsa", "*.txt", "*.faa"})
 
@@ -148,10 +147,10 @@ Namespace BlastAPI
             Dim runTask As Func(Of IORedirectFile, Integer) = Function(x) x.Start(waitForExit:=True)
 
             If Parallel Then
-                Call BatchTask(tasks, runTask, numThreads)
+                Call ThreadTask(Of Integer).CreateThreads(tasks, runTask).WithDegreeOfParallelism(numThreads).RunParallel.ToArray
             Else
                 Handle.NumThreads = Environment.ProcessorCount / 2
-                Call BatchTask(tasks, runTask, numThreads:=1)
+                Call ThreadTask(Of Integer).CreateThreads(tasks, runTask).WithDegreeOfParallelism(1).RunParallel.ToArray
             End If
         End Sub
 
@@ -190,21 +189,33 @@ Namespace BlastAPI
             End If
 
             Dim task As Func(Of String, String) =
-                Function(x) Handle(query,
+                Function(x)
+                    Return Handle(query,
                                    subject:=x,
                                    evalue:=Evalue,
                                    EXPORT:=EXPORT,
                                    num_threads:=Environment.ProcessorCount / 2,
                                    [overrides]:=[overrides])
-            Dim LQuery As String() = BatchTask(Of String, String)(
-                subjects.Values,
-                task,
-                numThreads:=numThreads)
+                End Function
+            Dim LQuery As String() = ThreadTask(Of String) _
+                .CreateThreads(subjects.Values, task) _
+                .WithDegreeOfParallelism(numThreads) _
+                .RunParallel _
+                .ToArray
+
             Return LQuery
         End Function
 
-        <ExportAPI("BBH.Start()",
-                   Info:="Only perfermence the bbh analysis for the query protein fasta, the subject source parameter is the fasta data dir path of the subject proteins.")>
+        ''' <summary>
+        ''' Only perfermence the bbh analysis for the query protein fasta, the subject source parameter is the fasta data dir path of the subject proteins.
+        ''' </summary>
+        ''' <param name="handle"></param>
+        ''' <param name="query"></param>
+        ''' <param name="subject"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="Evalue"></param>
+        ''' <param name="[overrides]"></param>
+        ''' <returns></returns>
         Public Function BBH(<Parameter("Handle.Blastp", "This handle value is the blastp handle, not blastn handle.")> handle As BlastInvoker,
                             <Parameter("Path.Query", "The file path value of the query protein fasta data.")> query As String,
                             <Parameter("DIR.Subject", "The data directory which contains the subject protein fasta data.")> subject As String,
@@ -292,7 +303,8 @@ Namespace BlastAPI
         End Function
 
         ''' <summary>
-        ''' 两两组合的双向比对用来创建文氏图所需要的数据
+        ''' Completely combination of the blastp search result for creating the venn diagram data model.
+        ''' (两两组合的双向比对用来创建文氏图所需要的数据)
         ''' </summary>
         ''' <param name="Handle"></param>
         ''' <param name="Input"></param>
@@ -302,20 +314,19 @@ Namespace BlastAPI
         ''' <param name="Overrides"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("_Start_Task()", Info:="Completely combination of the blastp search result for creating the venn diagram data model.")>
         Public Function StartTask(<Parameter("Blastp.Handle")> Handle As BlastInvoker,
-                              <Parameter("Dir.Source.Input", "The data directory which contains the protein sequence fasta files.")> Input As String,
-                              <Parameter("Dir.Blastp.Export", "The data directory for export the blastp result.")> EXPORT As String,
-                              <Parameter("E-value")> Optional Evalue As String = "1e-3",
-                              <Parameter("Task.Parallel", "The task is parallelize? Default is yes!")> Optional Parallel As Boolean = True,
-                              <Parameter("Exists.Overrides", "If the target blastp output log data is not a empty file, " &
-                              "then if overrides then the blastp will be invoke again orelse function will skip this not null file.")>
-                              Optional [Overrides] As Boolean = False) As AlignEntry()
+                                  <Parameter("Dir.Source.Input", "The data directory which contains the protein sequence fasta files.")> Input As String,
+                                  <Parameter("Dir.Blastp.Export", "The data directory for export the blastp result.")> EXPORT As String,
+                                  <Parameter("E-value")> Optional Evalue As String = "1e-3",
+                                  <Parameter("Task.Parallel", "The task is parallelize? Default is yes!")> Optional Parallel As Boolean = True,
+                                  <Parameter("Exists.Overrides", "If the target blastp output log data is not a empty file, " &
+                                  "then if overrides then the blastp will be invoke again orelse function will skip this not null file.")>
+                                  Optional [Overrides] As Boolean = False) As AlignEntry()
 
             If Parallel Then
                 Return TaskBuilder_p(Input, EXPORT, Evalue, Handle, [Overrides])
             Else
-                Return TaskBuilder(Input, EXPORT, Evalue, Handle, [Overrides])
+                Return VennDataBuilder.TaskBuilder(Input, EXPORT, Evalue, Handle, [Overrides])
             End If
         End Function
     End Module

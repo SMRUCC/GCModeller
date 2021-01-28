@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bd551c982257c3ad8b3589078bc0697, core\Bio.Assembly\ComponentModel\Annotation\COG.vb"
+﻿#Region "Microsoft.VisualBasic::8bd551c982257c3ad8b3589078bc0697, Bio.Assembly\ComponentModel\Annotation\COG.vb"
 
     ' Author:
     ' 

@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#If netcore5 = 0 Then
 <Assembly: AssemblyTitle("GSEA analysis library")>
 <Assembly: AssemblyDescription("GSEA analysis library")>
 <Assembly: AssemblyCompany("SMRUCC")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("2.10.*")>
 <Assembly: AssemblyFileVersion("1.99.*")>
+#end if

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45e38427e9867f2ec76defaa295812f2, core\Bio.Annotation\GFF\Features.vb"
+﻿#Region "Microsoft.VisualBasic::45e38427e9867f2ec76defaa295812f2, Bio.Annotation\GFF\Features.vb"
 
     ' Author:
     ' 

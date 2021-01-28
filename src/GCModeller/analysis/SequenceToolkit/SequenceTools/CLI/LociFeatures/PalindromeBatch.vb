@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::30352e2d4de818003a488b6a1e36dc15, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Utilities
-    ' 
-    '     Function: CheckHeaders, PalindromeBatchTask, PalindromeWorkflow
-    ' 
-    ' /********************************************************************************/
+' Module Utilities
+' 
+'     Function: CheckHeaders, PalindromeBatchTask, PalindromeWorkflow
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,6 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Parallel
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel
@@ -97,7 +98,7 @@ Partial Module Utilities
                 $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
         Dim CLI As String() = files.Select(task).ToArray
 
-        Return App.SelfFolks(CLI, parallel:=n)
+        Return BatchTasks.SelfFolks(CLI, parallel:=n)
     End Function
 
     ''' <summary>

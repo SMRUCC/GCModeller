@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::446d9f3271b4ba2416a847512833e796, core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::f405a9c382c769419e761de81ad6af60, Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 
 Namespace Assembly.Expasy.Database.csv
 

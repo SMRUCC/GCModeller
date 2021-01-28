@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19875f5e7473d8dcf0bcab7a2dfe8cc, core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::fb02d7b441a2bf7dd51f8c1b5fd39f0c, Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
 
     ' Author:
     ' 
@@ -43,8 +43,12 @@
 
 #End Region
 
-Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
+#If netcore5 = 0 Then
+Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 
 Namespace Assembly.Bac_sRNA.org
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c4126108cd7df654e82d4655d86ef8f, Microsoft.VisualBasic.Core\Language\Language\C\CString.vb"
+﻿#Region "Microsoft.VisualBasic::2d00cc02e9a1f4843b3a1949b0ed4eee, Microsoft.VisualBasic.Core\src\Language\Language\C\CString.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ Namespace Language.C
                     Dim a = s.Substring(i, 5)
                     Dim n = CByte(a.Replace("\a", ""))
 
-                    s = s.Replace(a, Chr(n))
+                    s = s.Replace(a, Strings.Chr(n))
                 Loop
 
             Catch ex As Exception

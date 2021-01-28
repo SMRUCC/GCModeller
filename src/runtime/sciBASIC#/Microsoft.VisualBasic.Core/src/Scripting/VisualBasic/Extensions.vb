@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::831cd1364b87f86a7f5eeb3b6068327e, Microsoft.VisualBasic.Core\Scripting\VisualBasic\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b1f0b409d9220b155fbce435cd772e61, Microsoft.VisualBasic.Core\src\Scripting\VisualBasic\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module Extensions
     ' 
-    '         Function: (+2 Overloads) AsVBIdentifier
+    '         Function: (+2 Overloads) AsVBIdentifier, IsValidVBSymbolName
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Scripting.SymbolBuilder.VBLanguage
 
@@ -67,6 +68,12 @@ Namespace Scripting.SymbolBuilder.VBLanguage
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function AsVBIdentifier(key As String) As String
             Return key.NormalizePathString(alphabetOnly:=True).Replace(" ", "_")
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IsValidVBSymbolName(name As String) As Boolean
+            Return r.Match(name, Patterns.Identifer, RegexICSng).Value = name
         End Function
     End Module
 End Namespace

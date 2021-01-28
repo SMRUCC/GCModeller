@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49bc0dbe03ea2aeb0686d880fe67a591, Microsoft.VisualBasic.Core\ApplicationServices\Parallel\Threads\ThreadQueue.vb"
+﻿#Region "Microsoft.VisualBasic::d848c444cd8b4c033637d955426bf46b, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ThreadQueue.vb"
 
     ' Author:
     ' 
@@ -138,18 +138,18 @@ Namespace Parallel
                 Call Thread.MemoryBarrier()
 
                 While True
-                    Dim a As Action
+                    Dim task As Action = Nothing
 
                     SyncLock queue
                         If queue.Count = 0 Then
                             Exit While
                         Else
-                            a = queue.Dequeue()
+                            task = queue.Dequeue()
                         End If
                     End SyncLock
 
-                    If a IsNot Nothing Then
-                        a.Invoke()
+                    If task IsNot Nothing Then
+                        Call task()
                     End If
                 End While
             End While

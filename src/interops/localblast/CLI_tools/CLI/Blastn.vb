@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::841dc1b0bfd76634155a14998c7dad87, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::07560b9c1214df094960c18f32ac9cfa, CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -136,14 +137,14 @@ Partial Module CLI
                                                 In ntHits.AsParallel
                                                 Select New BBH.BestHit With {
                                                     .evalue = x.Score.Expect,
-                                                    .Score = x.Score.Score,
+                                                    .score = x.Score.Score,
                                                     .HitName = x.Name,
                                                     .hit_length = x.Length,
                                                     .identities = x.Score.Identities.Value,
                                                     .length_hit = x.LengthHit,
                                                     .length_hsp = x.SubjectLocation.FragmentSize,
                                                     .length_query = x.LengthQuery,
-                                                    .Positive = x.Score.Positives.Value,
+                                                    .positive = x.Score.Positives.Value,
                                                     .QueryName = query.QueryName,
                                                     .query_length = query.QueryLength
                                                 }
@@ -256,7 +257,7 @@ Partial Module CLI
         Dim parallel As Boolean = args.GetBoolean("/parallel")
         Dim n As Integer = If(parallel, LQuerySchedule.CPU_NUMBER, 0)
 
-        Return App.SelfFolks(CLI, parallel:=n)
+        Return BatchTasks.SelfFolks(CLI, parallel:=n)
     End Function
 
     <ExportAPI("/Export.blastnMaps",
@@ -302,7 +303,7 @@ Partial Module CLI
 
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).Select(task).ToArray
 
-        Return App.SelfFolks(CLI, numThreads)
+        Return BatchTasks.SelfFolks(CLI, numThreads)
     End Function
 
     <ExportAPI("/Export.blastnMaps.Write",

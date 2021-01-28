@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b9025dc2dc6f277880860549206e639, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
+﻿#Region "Microsoft.VisualBasic::06a0c791c2ea04f5cad1f7333f5422ae, www\Microsoft.VisualBasic.NETProtocol\TcpServicesSocket.vb"
 
     ' Author:
     ' 
@@ -81,6 +81,7 @@ Namespace Tcp
         Dim _threadEndAccept As Boolean = True
         Dim _exceptionHandle As ExceptionHandler
         Dim _servicesSocket As Socket
+        Dim _maxAccepts As Integer = 4
 
 #End Region
 
@@ -190,6 +191,11 @@ Namespace Tcp
                     _threadEndAccept = False
 
                     callback = New AsyncCallback(AddressOf AcceptCallback)
+
+                    If _servicesSocket Is Nothing Then
+                        Call Console.WriteLine("socket initialize failured!")
+                        Exit While
+                    End If
 
                     Try
                         ' Free 之后可能会出现空引用错误，则忽略掉这个错误，退出线程
@@ -374,6 +380,13 @@ Namespace Tcp
             ' Complete sending the data to the remote device.
             Call handler.Shutdown(SocketShutdown.Both)
             Call handler.Close()
+
+            ' release data
+            If TypeOf data Is DataPipe Then
+                Call DirectCast(data, DataPipe).Dispose()
+            ElseIf TypeOf data Is StreamPipe Then
+                Call DirectCast(data, StreamPipe).Dispose()
+            End If
         End Sub
 
         ''' <summary>
@@ -405,6 +418,9 @@ Namespace Tcp
 
                     Call _servicesSocket.Dispose()
                     Call _servicesSocket.Free()
+
+                    _Running = False
+
                     ' TODO: dispose managed state (managed objects).
                 End If
 

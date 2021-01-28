@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::098f1fd4fd20ce9c5885feff37043f7b, Microsoft.VisualBasic.Core\Extensions\Collection\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::d11c1fee9f48da20a6ce6a913714ff23, Microsoft.VisualBasic.Core\src\Extensions\Collection\Vector.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' 
     '     Function: (+2 Overloads) After, Append, Coalesce, (+3 Overloads) Delete, (+2 Overloads) Fill
     '               GetRange, IndexOf, Last, LoadAsNumericVector, MappingData
-    '               Midv, RepeatCalls, Replicate, SetValue, (+3 Overloads) Sort
-    '               Split, VectorShadows
+    '               Midv, PadLeft, RepeatCalls, Replicate, SetValue
+    '               (+3 Overloads) Sort, Split, VectorShadows
     ' 
     '     Sub: (+4 Overloads) Add, InsertAt, (+2 Overloads) Memset
     ' 
@@ -63,6 +63,26 @@ Imports Microsoft.VisualBasic.My.JavaScript.Linq
 ''' 
 <HideModuleName>
 Public Module VectorExtensions
+
+    <Extension>
+    Public Function PadLeft(Of T)(seq As T(), item As T, width As Integer) As T()
+        If seq.Length >= width Then
+            Return seq
+        Else
+            Dim d = width - seq.Length
+            Dim copy As T() = New T(width - 1) {}
+
+            For i As Integer = 0 To d - 1
+                copy(i) = item
+            Next
+
+            For j As Integer = d To width - 1
+                copy(j) = seq(j - d)
+            Next
+
+            Return copy
+        End If
+    End Function
 
     <Extension>
     Public Function SetValue(a As Array, value As Object, i As SeqValue(Of Integer)) As Array

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3c21682e98fc79f45cab88b92b81b19, Data_science\Visualization\Plots\BarPlot\Data\csv.vb"
+﻿#Region "Microsoft.VisualBasic::406f4b866d5a7c09e6797b6edfff68f0, Data_science\Visualization\Plots\BarPlot\Data\csv.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     '     Module BarDataTableExtensions
     ' 
-    '         Function: (+4 Overloads) LoadBarData, LoadBarDataExcel
+    '         Function: (+4 Overloads) LoadBarData
     ' 
     ' 
     ' /********************************************************************************/
@@ -68,23 +68,23 @@ Namespace BarPlot.Data
     <HideModuleName>
     Public Module BarDataTableExtensions
 
-        ''' <summary>
-        ''' Loading bar plot data table from specific excel sheet.
-        ''' </summary>
-        ''' <param name="xlsx$">
-        ''' (*.xlsx) required of excel format version at least office 2010
-        ''' </param>
-        ''' <param name="sheet$">
-        ''' The table sheet name in the excel file.
-        ''' </param>
-        ''' <param name="theme$"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function LoadBarDataExcel(xlsx$, sheet$, Optional theme$ = "PRGn:c6") As BarDataGroup
-            Dim csv As DataFrame = xlsx.ReadXlsx(sheet)
-            Dim model As BarDataGroup = csv.LoadBarData(Designer.GetColors(theme))
-            Return model
-        End Function
+        '''' <summary>
+        '''' Loading bar plot data table from specific excel sheet.
+        '''' </summary>
+        '''' <param name="xlsx$">
+        '''' (*.xlsx) required of excel format version at least office 2010
+        '''' </param>
+        '''' <param name="sheet$">
+        '''' The table sheet name in the excel file.
+        '''' </param>
+        '''' <param name="theme$"></param>
+        '''' <returns></returns>
+        '<Extension>
+        'Public Function LoadBarDataExcel(xlsx$, sheet$, Optional theme$ = "PRGn:c6") As BarDataGroup
+        '    Dim csv As DataFrame = xlsx.ReadXlsx(sheet)
+        '    Dim model As BarDataGroup = csv.LoadBarData(Designer.GetColors(theme))
+        '    Return model
+        'End Function
 
         <Extension>
         Public Function LoadBarData(csv$, Optional theme$ = NameOf(Office2016)) As BarDataGroup

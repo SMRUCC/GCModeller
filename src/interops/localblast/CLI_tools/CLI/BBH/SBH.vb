@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b320c0cf945b79f43b0d66f8b46510d7, localblast\CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::47e87dd7a30b6ec8e9d0817a90bd8ef5, CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.BBHLogs
+Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI

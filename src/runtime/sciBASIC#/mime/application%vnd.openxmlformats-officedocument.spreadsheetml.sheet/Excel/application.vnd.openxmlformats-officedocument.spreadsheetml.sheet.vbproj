@@ -506,11 +506,13 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\mzkit_UnixDocker\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.MIME.Office.Excel.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mzkit_UnixDocker|x86'">
     <DefineTrace>true</DefineTrace>
@@ -682,9 +684,9 @@
       <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\text%25html\MIME-htmls.vbproj">
+    <ProjectReference Include="..\..\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>MIME-htmls</Name>
+      <Name>mime-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

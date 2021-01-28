@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bde075e4a8780dd1530e02a5f9c1b7b, Microsoft.VisualBasic.Core\CommandLine\Reflection\Attributes\ExportAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a5951f352564f26c5da0f962913f208b, Microsoft.VisualBasic.Core\src\CommandLine\Reflection\Attributes\ExportAPI.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@
     ' 
     '         Properties: Example, Info, Name, Usage
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -92,8 +92,11 @@ Namespace CommandLine.Reflection
         ''' </summary>
         ''' <param name="Name">The name of the commandline object or you define the exported API name here.(这个命令的名称)</param>
         ''' <remarks></remarks>
-        Sub New(<Parameter("Command.Name", "The name of the commandline object.")> Name As String)
+        Sub New(Name As String)
             _Name = Name
+        End Sub
+
+        Sub New()
         End Sub
 
         Public Overrides Function ToString() As String

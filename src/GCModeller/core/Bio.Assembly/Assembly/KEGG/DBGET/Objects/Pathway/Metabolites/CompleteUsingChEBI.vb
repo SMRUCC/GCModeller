@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34246b03c75bd9de19770b071d521d8d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
+﻿#Region "Microsoft.VisualBasic::34246b03c75bd9de19770b071d521d8d, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb"
 
     ' Author:
     ' 

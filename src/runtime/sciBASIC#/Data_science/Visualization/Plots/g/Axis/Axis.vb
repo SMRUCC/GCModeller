@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::166e4c743461f842c4083daa8f1dba9e, Data_science\Visualization\Plots\g\Axis\Axis.vb"
+﻿#Region "Microsoft.VisualBasic::bf0c6a548e29045155079a33fcd19f4e, Data_science\Visualization\Plots\g\Axis\Axis.vb"
 
     ' Author:
     ' 
@@ -414,7 +414,7 @@ Namespace Graphic.Axis
                 Return TextRender.DrawHtmlText(label, css)
             Catch ex As Exception
                 If throwEx Then
-                    Throw ex
+                    Throw
                 Else
                     Call App.LogException(ex)
                     Return New Bitmap(1, 1)

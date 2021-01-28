@@ -78,11 +78,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
-        machine = machine.load({a, b}).load({reaction}).Initialize(10000)
+        machine = machine.load({a, b}).load({reaction}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
@@ -118,13 +118,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
-        Dim machine As Vessel = New Vessel().load({a, b}).load({reaction})
-
-        machine.Initialize(10000)
+        Dim machine As Vessel = New Vessel().load({a, b}).load({reaction}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
@@ -181,13 +179,11 @@ Module unitTest
             .reverse = New AdditiveControls With {.baseline = 0.05, .activation = {New Variable(a, 1)}}
         }
 
-        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3, reaction4}).load({a, b, c})
-
-        machine.Initialize(10000)
+        Dim machine As Vessel = New Vessel().load({reaction, reaction2, reaction3, reaction4}).load({a, b, c}).Initialize
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100)
+        Dim dynamics = machine.ContainerIterator(100, 10000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 2500

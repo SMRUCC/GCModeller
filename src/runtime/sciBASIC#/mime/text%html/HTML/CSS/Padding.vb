@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe3ccdf18cc655cbba2db913a15ff346, mime\text%html\HTML\CSS\Padding.vb"
+﻿#Region "Microsoft.VisualBasic::e500da39b02f91cf8ca54a0104877d9c, mime\text%html\HTML\CSS\Padding.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,6 @@
 Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -57,7 +56,6 @@ Namespace HTML.CSS
     ''' <summary>
     ''' Represents padding or margin information associated with a gdi element. (padding: top, right, bottom, left)
     ''' </summary>
-    <TypeConverter(GetType(PaddingConverter))>
     Public Structure Padding
 
         ''' <summary>

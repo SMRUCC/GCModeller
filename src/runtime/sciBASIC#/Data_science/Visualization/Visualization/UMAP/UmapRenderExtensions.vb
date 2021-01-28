@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5eb3c90d840b3cb0be7a82442531824, Data_science\Visualization\Visualization\UMAP\UmapRenderExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2a187c9344d097d67213ffcf44ee0d24, Data_science\Visualization\Visualization\UMAP\UmapRenderExtensions.vb"
 
     ' Author:
     ' 
@@ -155,9 +155,6 @@ Public Module UmapRenderExtensions
             .tagCSS = labelCSS,
             .background = bg,
             .drawLabels = showLabels,
-            .xlabel = "dim #1",
-            .ylabel = "dim #2",
-            .zlabel = "dim #3",
             .pointSize = pointSize,
             .tagColor = labelColor
         }
@@ -170,6 +167,10 @@ Public Module UmapRenderExtensions
             theme:=theme,
             camera:=camera,
             bubbleAlpha:=bubbleAlpha
-        ).Plot(size)
+        ) With {
+            .xlabel = "dim #1",
+            .ylabel = "dim #2",
+            .zlabel = "dim #3"
+        }.Plot(size)
     End Function
 End Module

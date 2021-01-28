@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::e27b9426ac5b7fa8079c1545a27fb4b4, CLI_tools\RNA-seq\CLI\gast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ClusterOTU, ContactsRef, ExportSSUBatch, ExportSSURefs, gastInvoke
-    '               ImportsRefFromNt, MergeLabels, RankStatics
-    '     Class LabelData
-    ' 
-    '         Properties: label, Name, value
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ClusterOTU, ContactsRef, ExportSSUBatch, ExportSSURefs, gastInvoke
+'               ImportsRefFromNt, MergeLabels, RankStatics
+'     Class LabelData
+' 
+'         Properties: label, Name, value
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Parallel
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
@@ -98,7 +99,7 @@ Partial Module CLI
             Call arg.__DEBUG_ECHO
         Next
 
-        Return App.SelfFolks(CLI, LQuerySchedule.Recommended_NUM_THREADS)
+        Return BatchTasks.SelfFolks(CLI, LQuerySchedule.Recommended_NUM_THREADS)
     End Function
 
     Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
@@ -190,7 +191,7 @@ Partial Module CLI
                 For Each OTU As NamedValue(Of String()) In OTUs
                     table += New OTUData With {
                         .OTU = OTU.Name,
-                        .Data = New Dictionary(Of String, String) From {
+                        .data = New Dictionary(Of String, String) From {
                             {"cluster", OTU.Value.JoinBy("; ")}
                         }
                     }

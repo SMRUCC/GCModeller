@@ -1,63 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::b248626a53da0d6b38f4ec51597ec915, Microsoft.VisualBasic.Core\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::2fdfb5d413511091790c6a16ba9b45ea, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module App
-' 
-'     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
-'                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
-'                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
-'                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
-'                 LocalDataTemp, LogErrDIR, NanoTime, NextTempName, OutFile
-'                 PID, Platform, PreviousDirectory, Process, ProductName
-'                 ProductProgramData, ProductSharedDIR, ProductSharedTemp, References, Running
-'                 RunningInGitBash, RunTimeDirectory, StartTime, StartupDirectory, StdErr
-'                 StdInput, StdOut, SysTemp, UnixTimeStamp, UserHOME
-'                 Version
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
-'               ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
-'               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
-'               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
-'               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, SelfFolks
-'               Shell, tempCode, TemporaryEnvironment, TraceBugs
-' 
-'     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
-'          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
-'          RunAsAdmin, SetBufferSize, StartGC, StopGC
-' 
-' /********************************************************************************/
+    ' Module App
+    ' 
+    '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
+    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
+    '                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
+    '                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
+    '                 LocalDataTemp, LogErrDIR, NanoTime, NextTempName, OutFile
+    '                 PID, Platform, PreviousDirectory, Process, ProductName
+    '                 ProductProgramData, ProductSharedDIR, ProductSharedTemp, Running, RunningInGitBash
+    '                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdInput
+    '                 StdOut, SysTemp, UnixTimeStamp, UserHOME, Version
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
+    '               (+2 Overloads) ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
+    '               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
+    '               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
+    '               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, Shell
+    '               tempCode, TemporaryEnvironment, TraceBugs
+    ' 
+    '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
+    '          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
+    '          SetBufferSize, StartGC, StopGC
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -754,6 +753,10 @@ Public Module App
         Return d
     End Function
 
+    Public Function ElapsedMilliseconds(startTime As Long) As TimeSpan
+        Return TimeSpan.FromMilliseconds(App.ElapsedMilliseconds - startTime)
+    End Function
+
     ''' <summary>
     ''' The local data dir of the application in the %user%/&lt;CurrentUser>/Local/Product/App
     ''' </summary>
@@ -1355,47 +1358,6 @@ Public Module App
         End If
     End Function
 
-    ''' <summary>
-    ''' Folk this program itself for the large amount data batch processing.
-    ''' </summary>
-    ''' <param name="CLI">Self folk processing commandline collection.</param>
-    ''' <param name="parallel">If this parameter value less than 1, then will be a single 
-    ''' thread task. Any positive value that greater than 1 will be parallel task.
-    ''' (小于等于零表示非并行化，单线程任务)
-    ''' </param>
-    ''' <param name="smart">Smart mode CPU load threshold, if the <paramref name="parallel"/> 
-    ''' parameter value is less than or equals to 1, then this parameter will be disabled.
-    ''' </param>
-    ''' <returns>
-    ''' Returns the total executation time for running this task collection.
-    ''' (返回任务的执行的总时长)
-    ''' </returns>
-    <ExportAPI("Folk.Self")>
-    Public Function SelfFolks&(CLI As IEnumerable(Of String),
-                               Optional parallel% = 0,
-                               Optional smart# = 0)
-
-        Dim sw As Stopwatch = Stopwatch.StartNew
-
-        If parallel <= 0 Then
-            For Each args As String In CLI
-                Call App.SelfFolk(args).Run()
-            Next
-        Else
-            Dim Tasks As Func(Of Integer)() = LinqAPI.Exec(Of Func(Of Integer)) <=
- _
-                From args As String
-                In CLI
-                Let io As IIORedirectAbstract = App.SelfFolk(args)
-                Let task As Func(Of Integer) = AddressOf io.Run
-                Select task
-
-            Call BatchTask(Of Integer)(Tasks, parallel, timeInterval:=200)
-        End If
-
-        Return sw.ElapsedMilliseconds
-    End Function
-
 #Region "Auto Garbage Cleaner"
 
     ''' <summary>
@@ -1428,6 +1390,11 @@ Public Module App
     ''' <param name="state"></param>
     ''' <returns></returns>
     Private Function finalizeCLI(state As Integer) As Integer
+        Dim internalPipelineMode As String = App.CommandLine.Tokens _
+            .DoCall(Function(t) JoinElement(Of String).FindElement(t, Function(s) s = FlagInternalPipeline)) _
+            .FirstOrDefault _
+           ?.next
+
         App._Running = False
 
         If _CLIAutoClean Then
@@ -1437,14 +1404,20 @@ Public Module App
         ' 在这里等待终端的内部线程输出工作完毕，防止信息的输出错位
 
         Call My.InnerQueue.WaitQueue()
-        Call Console.WriteLine()
+
+        If Not internalPipelineMode.TextEquals("TRUE") Then
+            Call Console.WriteLine()
+        End If
 
         For Each hook As Action In appExitHooks
             Call hook()
         Next
 
         Call My.InnerQueue.WaitQueue()
-        Call Console.WriteLine()
+
+        If Not internalPipelineMode.TextEquals("TRUE") Then
+            Call Console.WriteLine()
+        End If
 
 #If DEBUG Then
         ' 20190623 在这里禁止程序在调试模式下，如果处于内部流程的调用

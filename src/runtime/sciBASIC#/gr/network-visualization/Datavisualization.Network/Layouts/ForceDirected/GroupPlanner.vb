@@ -1,43 +1,43 @@
-﻿#Region "Microsoft.VisualBasic::9e4f822e6e92fabf943fe81bad3f67f3, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\GroupPlanner.vb"
+﻿#Region "Microsoft.VisualBasic::648e476f337d31220f1b3ae198ad366b, gr\network-visualization\Datavisualization.Network\Layouts\ForceDirected\GroupPlanner.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GroupPlanner
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Sub: runAttraction, runRepulsive
-' 
-' 
-' /********************************************************************************/
+    '     Class GroupPlanner
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: runAttraction, runRepulsive
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -120,8 +120,14 @@ Namespace Layouts.ForceDirected
                 dy = distY * dist / k * condenseFactor
 
                 If groupBy(v.label) = groupBy(u.label) AndAlso groupBy(v.label) <> "n/a" Then
-                    dx *= groupAttraction
-                    dy *= groupAttraction
+                    ' 如果是相同的分组，则吸引力很大
+                    If (dist < dist_thresh.Min) Then
+                        dx = 0
+                        dy = 0
+                    Else
+                        dx *= groupAttraction
+                        dy *= groupAttraction
+                    End If
                 Else
                     dx /= groupAttraction
                     dy /= groupAttraction
@@ -150,18 +156,23 @@ Namespace Layouts.ForceDirected
                     distY = u.data.initialPostion.y - v.data.initialPostion.y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
 
-                    If (dist < dist_thresh.Min) Then
-                        ejectFactor = 5
-                    End If
-
                     If dist > 0 AndAlso dist < dist_thresh.Max Then
                         dx = (distX / dist) * (k * k / dist) * ejectFactor
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
 
                         If groupBy(u.label) = groupBy(v.label) AndAlso groupBy(u.label) <> "n/a" Then
-                            dx /= groupRepulsive
-                            dy /= groupRepulsive
+                            ' 是相同的分组，则排斥力很小
+                            If (dist < dist_thresh.Min) Then
+                            Else
+                                dx /= groupRepulsive
+                                dy /= groupRepulsive
+                            End If
                         Else
+                            If (dist < dist_thresh.Min) Then
+                                dx *= 2
+                                dy *= 2
+                            End If
+
                             dx *= groupRepulsive
                             dy *= groupRepulsive
                         End If

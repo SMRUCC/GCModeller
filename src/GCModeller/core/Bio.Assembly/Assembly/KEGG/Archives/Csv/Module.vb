@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::380455ef0af438e8f03a2733fbb2b279, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::f1422bf711a0478493750cae9d83b900, Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,11 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models

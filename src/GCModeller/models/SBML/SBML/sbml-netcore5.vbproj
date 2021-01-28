@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.Model.SBML</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Model.SBML_v1.0_2.0.22.0__a8b9cc5dce5d8b0cc9</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LipidSearch</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
+    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>

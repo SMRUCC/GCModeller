@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32bbc2e00f185a13a3e1e1249390c363, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
+﻿#Region "Microsoft.VisualBasic::60498aa3e23ac4df6d4e8fdaa6a66ece, Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
 
     ' Author:
     ' 
@@ -63,7 +63,12 @@
 
 #End Region
 
+#If netcore5 = 0 Then
 Imports System.Data.Linq.Mapping
+#Else
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+#End If
+
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions

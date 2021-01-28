@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47c9a1c771999a802a2b69c3664109e7, mime\application%json\Serializer\Deserializer.vb"
+﻿#Region "Microsoft.VisualBasic::ffb50c1cbce8c48261ac230a33f58836, mime\application%json\Serializer\Deserializer.vb"
 
     ' Author:
     ' 
@@ -98,7 +98,7 @@ Public Module Deserializer
     End Function
 
     <Extension>
-    Private Function createArray(json As JsonArray, parent As ObjectSchema, elementType As Type) As Object
+    Friend Function createArray(json As JsonArray, parent As ObjectSchema, elementType As Type) As Object
         Dim array As Array = Array.CreateInstance(elementType, json.Length)
         Dim obj As Object
         Dim element As JsonElement

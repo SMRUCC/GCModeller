@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0f30311e53c85ec47cf03debbc70963, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
+﻿#Region "Microsoft.VisualBasic::8bc488daab4f8e68ca57b9e9a5e21ce2, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
 
     ' Author:
     ' 
@@ -118,7 +118,7 @@ Namespace Plot3D.Impl
             For Each item As Element3D In AxisDraw.Axis(
                     xrange:=X, yrange:=Y, zrange:=Z,
                     labelFont:=axisLabelFont,
-                    labels:=(theme.xlabel, theme.ylabel, theme.zlabel),
+                    labels:=(xlabel, ylabel, zlabel),
                     strokeCSS:=theme.axisStroke,
                     arrowFactor:=arrowFactor
                 )

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::751c89ad4ddcd494e3a5bd6b52428237, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::8a1222aab5422a7289fd90730da9eb69, Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -182,21 +182,21 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
                 RefMap.OtherDBs = __DBLinksParser(sValue)
             End If
 
-            Dim ReactionEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("KEGG REACTION")) '代谢途径之中的代谢反应的集合
-            Dim RefGeneEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("Gene")) '当前的这个代谢途径之中的直系同源基因列表
-            RefMap.ReferenceGenes =
-                LinqAPI.Exec(Of KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())) <=
-                    From item As ListEntry
-                    In RefGeneEntryList
-                    Select New KeyValuePairObject(Of
-                        ListEntry,
-                        KeyValuePairObject(Of String, FASTA.FastaSeq)()) With {
-                            .Key = item,
-                            .Value = Nothing
-                        }
-            RefMap.Reactions = LinqAPI.Exec(Of ReferenceReaction) <= From Entry As ListEntry
-                                                                     In ReactionEntryList
-                                                                     Select __downloadRefRxn(Entry)
+            'Dim ReactionEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("KEGG REACTION")) '代谢途径之中的代谢反应的集合
+            'Dim RefGeneEntryList = KEGG.WebServices.LoadList(Form.AllLinksWidget("Gene")) '当前的这个代谢途径之中的直系同源基因列表
+            'RefMap.ReferenceGenes =
+            '    LinqAPI.Exec(Of KeyValuePairObject(Of ListEntry, KeyValuePairObject(Of String, FASTA.FastaSeq)())) <=
+            '        From item As ListEntry
+            '        In RefGeneEntryList
+            '        Select New KeyValuePairObject(Of
+            '            ListEntry,
+            '            KeyValuePairObject(Of String, FASTA.FastaSeq)()) With {
+            '                .Key = item,
+            '                .Value = Nothing
+            '            }
+            'RefMap.Reactions = LinqAPI.Exec(Of ReferenceReaction) <= From Entry As ListEntry
+            '                                                         In ReactionEntryList
+            '                                                         Select __downloadRefRxn(Entry)
 
             Return RefMap
         End Function
