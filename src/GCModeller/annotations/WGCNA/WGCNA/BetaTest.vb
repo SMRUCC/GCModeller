@@ -39,8 +39,8 @@ Public Class BetaTest
         Dim linear As FitResult
 
         For Each beta As Double In betaRange
-            K = WeighedNetwork.Connectivity(cor, beta)
-            pK = WeighedNetwork.Connectivity(cor, beta, pvalue:=True)
+            K = WeightedNetwork.Connectivity(cor, beta)
+            pK = WeightedNetwork.Connectivity(cor, beta, pvalue:=True)
 
             ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
             linear = LeastSquares.LinearFit(x:=K, y:=pK)

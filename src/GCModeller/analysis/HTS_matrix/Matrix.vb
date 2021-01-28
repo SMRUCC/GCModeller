@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::8d33152a346a960bcafdb60a3dfae3ea, analysis\HTS_matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, sampleID, tag
-    ' 
-    '     Function: LoadData, MatrixAverage, Project, TakeSamples, TrimZeros
-    ' 
-    ' /********************************************************************************/
+' Class Matrix
+' 
+'     Properties: expression, sampleID, tag
+' 
+'     Function: LoadData, MatrixAverage, Project, TakeSamples, TrimZeros
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -119,7 +119,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         Dim samples As Double()
 
         For Each x As DataFrameRow In data
-            samples = x.experiments.Takes(sampleVector, reversed:=reversed)
+            samples = x.experiments.Takes(
+                index:=sampleVector,
+                reversed:=reversed
+            )
 
             Yield New DataFrameRow With {
                 .geneID = x.geneID,
@@ -128,9 +131,19 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow)
         Next
     End Function
 
+    Private Sub checkMatrix()
+        Dim samples As Integer = sampleID.Length
+
+        If expression.Any(Function(gene) gene.samples <> samples) Then
+            Throw New InvalidProgramException("invalid sample data size of " & expression.Where(Function(gene) gene.geneID).GetJson)
+        End If
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadData(file As String, Optional excludes As Index(Of String) = Nothing, Optional trimZeros As Boolean = False) As Matrix
         Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
+
+        Call matrix.checkMatrix()
 
         If trimZeros Then
             Return matrix.TrimZeros

@@ -34,7 +34,7 @@ Public Module TOM
         Return Iu
     End Function
 
-    Public Function TOM(A As GeneralMatrix, K As Vector) As GeneralMatrix
+    Public Function Matrix(A As GeneralMatrix, K As Vector) As GeneralMatrix
         Dim Imat As GeneralMatrix = Intermediate(A)
         Dim W As New GeneralMatrix(A.RowDimension, A.ColumnDimension)
         Dim wmat As Double()() = W.Array

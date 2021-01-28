@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 ''' <summary>
 ''' Category 1: Functions for network construction
 ''' </summary>
-Public Module WeighedNetwork
+Public Module WeightedNetwork
 
     ''' <summary>
     ''' 得到权重关联网络A
@@ -58,7 +58,7 @@ Public Module WeighedNetwork
         Return K
     End Function
 
-    Private Function sumK(r As Double(), i As Integer) As Double
+    Friend Function sumK(r As Double(), i As Integer) As Double
         Dim sum As Double = 0
 
         For j As Integer = 0 To r.Length - 1
