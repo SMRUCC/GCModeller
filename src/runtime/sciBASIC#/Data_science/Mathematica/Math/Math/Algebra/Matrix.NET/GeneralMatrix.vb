@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::fe0866c4da510f106af28e5232ac333f, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\GeneralMatrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class GeneralMatrix
-    ' 
-    '         Properties: ArrayCopy, ColumnDimension, ColumnPackedCopy, DiagonalVector, RowDimension
-    '                     RowPackedCopy
-    ' 
-    '         Constructor: (+6 Overloads) Sub New
-    ' 
-    '         Function: Add, AddEquals, ArrayLeftDivide, ArrayLeftDivideEquals, ArrayMultiply
-    '                   ArrayMultiplyEquals, ArrayRightDivide, ArrayRightDivideEquals, chol, Clone
-    '                   Condition, Copy, Create, Determinant, Eigen
-    '                   (+4 Overloads) GetMatrix, Identity, Inverse, LUD, (+3 Overloads) Multiply
-    '                   MultiplyEquals, Norm1, Norm2, NormF, NormInf
-    '                   Number, QRD, Rank, RowVectors, Solve
-    '                   SolveTranspose, (+2 Overloads) Subtract, SubtractEquals, SVD, ToString
-    '                   Trace, Transpose
-    ' 
-    '         Sub: CheckMatrixDimensions, (+2 Overloads) Dispose, Finalize, ISerializable_GetObjectData, Resize
-    '              (+4 Overloads) SetMatrix
-    ' 
-    '         Operators: (+3 Overloads) -, (+3 Overloads) *, +
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class GeneralMatrix
+' 
+'         Properties: ArrayCopy, ColumnDimension, ColumnPackedCopy, DiagonalVector, RowDimension
+'                     RowPackedCopy
+' 
+'         Constructor: (+6 Overloads) Sub New
+' 
+'         Function: Add, AddEquals, ArrayLeftDivide, ArrayLeftDivideEquals, ArrayMultiply
+'                   ArrayMultiplyEquals, ArrayRightDivide, ArrayRightDivideEquals, chol, Clone
+'                   Condition, Copy, Create, Determinant, Eigen
+'                   (+4 Overloads) GetMatrix, Identity, Inverse, LUD, (+3 Overloads) Multiply
+'                   MultiplyEquals, Norm1, Norm2, NormF, NormInf
+'                   Number, QRD, Rank, RowVectors, Solve
+'                   SolveTranspose, (+2 Overloads) Subtract, SubtractEquals, SVD, ToString
+'                   Trace, Transpose
+' 
+'         Sub: CheckMatrixDimensions, (+2 Overloads) Dispose, Finalize, ISerializable_GetObjectData, Resize
+'              (+4 Overloads) SetMatrix
+' 
+'         Operators: (+3 Overloads) -, (+3 Overloads) *, +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports stdNum = System.Math
 
 Namespace LinearAlgebra.Matrix
 
@@ -373,8 +374,22 @@ Namespace LinearAlgebra.Matrix
             Return X
         End Function
 
-        ''' <summary>Make a deep copy of a matrix</summary>
+        Public Function Abs() As GeneralMatrix
+            Dim X As New GeneralMatrix(m, n)
+            Dim C As Double()() = X.Array
 
+            For i As Integer = 0 To m - 1
+                For j As Integer = 0 To n - 1
+                    C(i)(j) = stdNum.Abs(buffer(i)(j))
+                Next
+            Next
+
+            Return X
+        End Function
+
+        ''' <summary>
+        ''' Make a deep copy of a matrix
+        ''' </summary>
         Public Overridable Function Copy() As GeneralMatrix
             Dim X As New GeneralMatrix(m, n)
             Dim C As Double()() = X.Array
@@ -775,6 +790,24 @@ Namespace LinearAlgebra.Matrix
             Return X
         End Function
 
+        ''' <summary>C = x ^ y</summary>
+        ''' <param name="y">power
+        ''' </param>
+        ''' <returns>x ^ y
+        ''' </returns>
+        Public Overridable Function Power(y As Double) As GeneralMatrix
+            Dim X As New GeneralMatrix(m, n)
+            Dim C As Double()() = X.Array
+
+            For i As Integer = 0 To m - 1
+                For j As Integer = 0 To n - 1
+                    C(i)(j) = buffer(i)(j) ^ y
+                Next
+            Next
+
+            Return X
+        End Function
+
         ''' <summary>A = A - B</summary>
         ''' <param name="B">   another matrix
         ''' </param>
@@ -996,6 +1029,10 @@ Namespace LinearAlgebra.Matrix
 
         Public Shared Operator -(m1 As GeneralMatrix, x As Double) As GeneralMatrix
             Return m1.Subtract(x)
+        End Operator
+
+        Public Shared Operator ^(m1 As GeneralMatrix, y As Double) As GeneralMatrix
+            Return m1.Power(y)
         End Operator
 
         ''' <summary>
@@ -1269,6 +1306,12 @@ Namespace LinearAlgebra.Matrix
         Public Shared Widening Operator CType(data#()()) As GeneralMatrix
             Return New GeneralMatrix(data)
         End Operator
+
+        Public Iterator Function RowApply(Of T)(apply As Func(Of Double(), T)) As IEnumerable(Of T)
+            For Each row As Double() In buffer
+                Yield apply(row)
+            Next
+        End Function
 
         Public Iterator Function RowVectors() As IEnumerable(Of Vector)
             For Each row As Double() In buffer
