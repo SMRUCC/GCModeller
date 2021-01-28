@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25d409a4e79e66c7574483ae9a17ebc8, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
+﻿#Region "Microsoft.VisualBasic::25d409a4e79e66c7574483ae9a17ebc8, Bio.Assembly\Assembly\ELIXIR\UniProt\XML\GetID.vb"
 
     ' Author:
     ' 

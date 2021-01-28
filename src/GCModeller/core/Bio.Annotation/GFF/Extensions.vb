@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847b1e58494296e19d659d3f83d0049a, core\Bio.Annotation\GFF\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::847b1e58494296e19d659d3f83d0049a, Bio.Annotation\GFF\Extensions.vb"
 
     ' Author:
     ' 

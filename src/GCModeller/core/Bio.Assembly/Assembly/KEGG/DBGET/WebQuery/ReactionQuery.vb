@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b86ded1325461ec363c9cff911f8526b, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb"
+﻿#Region "Microsoft.VisualBasic::b86ded1325461ec363c9cff911f8526b, Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\ReactionQuery.vb"
 
     ' Author:
     ' 

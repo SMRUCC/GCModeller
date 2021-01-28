@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac9d0c436c61f393cece7a1d71cc22e4, localblast\LocalBLAST\Tasks\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::0b11d78a4f71a57edc8a92db8987a917, ParallelTask\Tasks\LocalBLAST.vb"
 
     ' Author:
     ' 

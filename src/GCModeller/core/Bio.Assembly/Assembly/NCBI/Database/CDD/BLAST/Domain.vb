@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8ff7e13e98c6ecc7c5b52640bc039f0, core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\Domain.vb"
+﻿#Region "Microsoft.VisualBasic::b8ff7e13e98c6ecc7c5b52640bc039f0, Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\Domain.vb"
 
     ' Author:
     ' 

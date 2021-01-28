@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ec474561aaa50d41dd31795cda6d353, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb"
+﻿#Region "Microsoft.VisualBasic::1ec474561aaa50d41dd31795cda6d353, Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb"
 
     ' Author:
     ' 

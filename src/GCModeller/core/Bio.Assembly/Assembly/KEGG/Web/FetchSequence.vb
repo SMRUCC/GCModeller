@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb995eb22e98d62cfe0dfaa020bed1c, core\Bio.Assembly\Assembly\KEGG\Web\FetchSequence.vb"
+﻿#Region "Microsoft.VisualBasic::6cb995eb22e98d62cfe0dfaa020bed1c, Bio.Assembly\Assembly\KEGG\Web\FetchSequence.vb"
 
     ' Author:
     ' 

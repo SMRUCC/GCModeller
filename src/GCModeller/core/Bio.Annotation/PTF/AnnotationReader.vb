@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8aa541a380fe1e1cdf5f1b0530cebb3, core\Bio.Annotation\PTF\AnnotationReader.vb"
+﻿#Region "Microsoft.VisualBasic::164e5c632f40b75572869d0ce21aec9d, Bio.Annotation\PTF\AnnotationReader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports Microsoft.VisualBasic.Linq

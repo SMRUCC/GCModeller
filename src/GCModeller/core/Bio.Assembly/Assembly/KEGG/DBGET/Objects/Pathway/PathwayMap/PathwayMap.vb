@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f409f3796bf9d710efddaab92eba523f, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::5fbe103ead75139ca060868e95820f4d, Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetCompounds, GetMapImage
-    '                   GetPathwayGenes
+    '                   GetPathwayGenes, ToPathway
     ' 
     ' 
     ' /********************************************************************************/
