@@ -11,8 +11,9 @@ Public Module Analysis
 
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
-        Dim betaList As Double() = seq(1, 30, 0.5).ToArray
-        Dim beta As BetaTest = BetaTest.BetaTable(cor, betaList, adjacency)
+        Dim betaSeq As Double() = seq(1, 30, 0.5).ToArray
+        Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
+        Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
         Dim network As GeneralMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
         Dim tomMat As GeneralMatrix = TOM.Matrix(network, K)
@@ -34,7 +35,8 @@ Public Module Analysis
                 .ToDictionary(Function(a) a.name,
                               Function(a)
                                   Return a.ToArray
-                              End Function)
+                              End Function),
+            .softBeta = betaList
         }
     End Function
 
