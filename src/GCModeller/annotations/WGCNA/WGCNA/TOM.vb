@@ -51,8 +51,34 @@ Public Module TOM
         Return W
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="distCut">a percentage threshold value in range ``[0,1]``</param>
+    ''' <returns></returns>
     <Extension>
-    Friend Iterator Function CreateModules(tree As Cluster) As IEnumerable(Of NamedCollection(Of String))
+    Friend Function CreateModules(tree As Cluster, Optional distCut As Double = 0.6) As IEnumerable(Of NamedCollection(Of String))
+        Return CreateModulesInternal(tree, distCut:=tree.DistanceValue * distCut)
+    End Function
 
+    <Extension>
+    Private Iterator Function CreateModulesInternal(tree As Cluster, distCut As Double) As IEnumerable(Of NamedCollection(Of String))
+        If tree.DistanceValue <= distCut Then
+            Dim items As New List(Of String)
+            Dim name As String = tree.Name
+
+            For Each child As Cluster In tree.Children
+                items.AddRange(tree.CreateModulesInternal(distCut))
+            Next
+
+            Yield New NamedCollection(Of String)(name, items)
+        Else
+            For Each child As Cluster In tree.Children
+                For Each m As NamedCollection(Of String) In tree.CreateModulesInternal(distCut)
+                    Yield m
+                Next
+            Next
+        End If
     End Function
 End Module
