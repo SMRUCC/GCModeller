@@ -354,6 +354,10 @@
       <Project>{eeb2bb03-20b0-4381-8a9e-e2210eb568a5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
+      <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
+      <Name>WGCNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
       <Name>MotifScanner</Name>
