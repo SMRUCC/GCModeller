@@ -13,8 +13,12 @@ Module WGCNA
     <ExportAPI("shapeTRN")>
     Public Function FilterRegulation(g As NetworkGraph, WGCNA As WGCNAWeight, Optional threshold As Double = 0.3) As Object
         For Each edge As Edge In g.graphEdges.ToArray
-            If WGCNA.GetValue(edge.U.label, edge.V.label) < threshold Then
-                Call g.RemoveEdge(edge)
+            Dim w As Double = WGCNA.GetValue(edge.U.label, edge.V.label)
+
+            If w < threshold Then
+                g.RemoveEdge(edge)
+            Else
+                edge.weight = w
             End If
         Next
 
