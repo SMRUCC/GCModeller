@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
 <Package("regprecise", Description:="[Regprecise database] [Collections of regulogs classified by transcription factors]",
@@ -73,5 +74,17 @@ Public Module RegPrecise
             .DoCall(Function(data)
                         Return New list With {.slots = data}
                     End Function)
+    End Function
+
+    <ExportAPI("read.regulome")>
+    Public Function readRegulome(xml As String) As BacteriaRegulome
+        Return xml.LoadXml(Of BacteriaRegulome)
+    End Function
+
+    <ExportAPI("regulators")>
+    Public Function FromGenome(regulome As BacteriaRegulome, info As list, Optional env As Environment = Nothing) As RegulatorTable()
+        Return RegulatorTable _
+            .FromGenome(regulome, Function(locus_tag) info.getValue(locus_tag, env, "")) _
+            .ToArray
     End Function
 End Module

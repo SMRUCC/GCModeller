@@ -196,8 +196,15 @@ Module Fasta
     ''' <param name="file"></param>
     ''' <returns></returns>
     <ExportAPI("read.fasta")>
-    Public Function readFasta(file As String) As FastaFile
-        Return FastaFile.Read(file)
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function readFasta(file As String, Optional lazyStream As Boolean = False) As Object
+        If lazyStream Then
+            Return StreamIterator _
+                .SeqSource(handle:=file) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return FastaFile.Read(file).ToArray
+        End If
     End Function
 
     ''' <summary>
