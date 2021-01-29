@@ -116,7 +116,12 @@ Namespace Regprecise
                     Continue For
                 End If
 
-                Dim reg As RegulatorTable = TF(hit.HitName.Split(":"c).Last)
+                Dim reg As RegulatorTable = TF.TryGetValue(hit.HitName.Split(":"c).Last)
+
+                If reg Is Nothing Then
+                    Call $"no regulator information was found for '{hit.HitName}'".Warning
+                    Continue For
+                End If
 
                 Yield New RegpreciseBBH With {
                     .description = hit.description,
