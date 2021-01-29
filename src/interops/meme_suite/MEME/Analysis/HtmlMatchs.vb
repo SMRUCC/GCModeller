@@ -61,7 +61,6 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
-Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -100,7 +99,7 @@ Namespace Analysis
                 CloneItem.BiologicalProcess = item.pathway
                 CloneItem.Effectors = item.effectors
                 CloneItem.TF = item.QueryName
-                CloneItem.TFFamily = item.Family
+                CloneItem.TFFamily = item.family
 
                 Call TempChunk.Add(CloneItem)
             Next
@@ -402,15 +401,15 @@ Namespace Analysis
 
             Dim RegulatorsBestMatch As Regprecise.RegpreciseMPBBH() = bh.LoadCsv(Of Regprecise.RegpreciseMPBBH).ToArray
             Call Console.WriteLine("Start to load data of WGCNA weights!")
-            Dim WGCNAWeights = RTools.WGCNA.CreateObject(WGCNA)
+            Dim WGCNAWeights = RTools.WGCNA.FastImports(WGCNA)
 
             Call Console.WriteLine("Start to load data of Pcc values from the chipdata!")
             Dim Pcc As PccMatrix = CreatePccMAT(ChipData, True)
             Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
 
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
-            Call WGCNAWeights.Filtering(RegulatorIdList)
-            Call Pcc.Filtering(RegulatorIdList)
+            WGCNAWeights = WGCNAWeights.Subset(RegulatorIdList)
+            Pcc.Filtering(RegulatorIdList)
 
             Console.WriteLine("Data Filtering done!")
 
@@ -442,7 +441,7 @@ Namespace Analysis
             End If
             item.TFPcc = Pcc.GetValue(item.TF, item.OperonPromoter)
             item.PccArray = (From Id As String In item.OperonGeneIds Select Pcc.GetValue(item.TF, Id)).ToArray
-            item.WGCNAWeight = (From Id As String In item.OperonGeneIds Select WGCNAWeights.GetValue(item.TF, Id, Parallel:=False)).ToArray
+            item.WGCNAWeight = (From Id As String In item.OperonGeneIds Select WGCNAWeights.GetValue(item.TF, Id)).ToArray
 
             Return item
         End Function
@@ -490,7 +489,7 @@ Namespace Analysis
                           Let RegulatorId As String = Regulator.Regulator
                           Let PhenotypeStatics = (From Type As String
                                               In Phenotypes
-                                                  Select RegulatorTF = RegulatorId, Type, Counts = (From item In Regulator.RegulatePhenotypes Where String.Equals(item.Category, Type) Select 1).ToArray.Sum).ToArray
+                                                  Select RegulatorTF = RegulatorId, Type, Counts = (From item In Regulator.RegulatePhenotypes Where String.Equals(item.category, Type) Select 1).ToArray.Sum).ToArray
                           Select PhenotypeStatics).ToArray
 
             Dim st = (From i As Integer

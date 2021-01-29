@@ -42,8 +42,10 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 
 <Package("WGCNA", Cites:="Langfelder, P. and S. Horvath (2008). ""WGCNA: an R package For weighted correlation network analysis."" BMC Bioinformatics 9: 559.
@@ -120,38 +122,18 @@ Principal Component Analysis",
       Year:=2011, Volume:=6, PubMed:=22039529)>
 Public Module Rscript
 
-    <ExportAPI("WGCNA.GetValue")>
-    Public Function GetValue([operator] As WGCNAWeight, id1 As String, id2 As String) As Double
-        Return [operator].Find(id1, id2).Weight
-    End Function
+    Public Function FastImports(path As String) As WGCNAWeight
+        Dim lines As String() = path.IterateAllLines.ToArray
+        Dim tokens = lines.Skip(1).Select(Function(line) line.Split(ASCII.TAB)).ToArray
+        Dim weights As IEnumerable(Of Weight) = tokens _
+            .Select(Function(line)
+                        Return New Weight With {
+                            .FromNode = line(Scan0),
+                            .ToNode = line(1),
+                            .Weight = Val(line(2))
+                        }
+                    End Function)
 
-    <ExportAPI("Read.WGCNA.Weights")>
-    Public Function CreateObject(Path As String) As WGCNAWeight
-        If String.IsNullOrEmpty(Path) Then
-            Return New WGCNAWeight With {
-                .PairItems = New Weight() {}
-            }
-        End If
-        Return New WGCNAWeight With {
-            .PairItems = Path.AsDataSource(Of Weight)(" ", False)
-        }
-    End Function
-
-    <ExportAPI("WGCNA.Fast.Imports")>
-    Public Function FastImports(Path As String) As WGCNAWeight
-        If Not Path.FileExists Then
-            Call VBDebugger.Warning($"{Path.ToFileURL} is not exists on the file system!")
-            Return New WGCNAWeight
-        End If
-
-        Dim Lines As String() = IO.File.ReadAllLines(Path)
-        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab)).ToArray
-        Dim weights As Weight() =
-            Tokens.Select(
-                Function(line) New Weight With {
-                    .FromNode = line(Scan0),
-                    .ToNode = line(1),
-                    .Weight = Val(line(2))}).ToArray
-        Return New WGCNAWeight With {.PairItems = weights}
+        Return WGCNAWeight.CreateMatrix(dataSet:=weights)
     End Function
 End Module
