@@ -238,8 +238,6 @@
     <Compile Include="R\DESeq\ResultData.vb" />
     <Compile Include="R\DESeq\Views\Views.vb" />
     <Compile Include="R\Wavelets.vb" />
-    <Compile Include="WGCNA\CExprMods.vb" />
-    <Compile Include="WGCNA\API.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
