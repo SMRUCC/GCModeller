@@ -48,31 +48,34 @@
 
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
-''' <summary>
-''' CytoscapeNodes
-''' </summary>
-''' <remarks>
-''' nodeName	altName	nodeAttr[nodesPresent, ]
-''' </remarks>
-Public Class CExprMods
+Namespace Network
 
-    Public Property nodeName As String
-    Public Property altName As String
+    ''' <summary>
+    ''' CytoscapeNodes
+    ''' </summary>
+    ''' <remarks>
+    ''' nodeName	altName	nodeAttr[nodesPresent, ]
+    ''' </remarks>
+    Public Class CExprMods
 
-    <ColumnAttribute("nodeAttr[nodesPresent, ]")>
-    Public Property nodesPresent As String
+        Public Property nodeName As String
+        Public Property altName As String
 
-    Public Overrides Function ToString() As String
-        Return $"{nodeName} @{nodesPresent}"
-    End Function
+        <Column("nodeAttr[nodesPresent, ]")>
+        Public Property nodesPresent As String
 
-    Friend Shared Function CreateObject(record As String) As CExprMods
-        Dim tokens As String() = Strings.Split(record, vbTab)
+        Public Overrides Function ToString() As String
+            Return $"{nodeName} @{nodesPresent}"
+        End Function
 
-        Return New CExprMods With {
-            .nodeName = tokens(Scan0),
-            .altName = tokens(1),
-            .nodesPresent = tokens(2)
-        }
-    End Function
-End Class
+        Friend Shared Function CreateObject(record As String) As CExprMods
+            Dim tokens As String() = Strings.Split(record, vbTab)
+
+            Return New CExprMods With {
+                .nodeName = tokens(Scan0),
+                .altName = tokens(1),
+                .nodesPresent = tokens(2)
+            }
+        End Function
+    End Class
+End Namespace
