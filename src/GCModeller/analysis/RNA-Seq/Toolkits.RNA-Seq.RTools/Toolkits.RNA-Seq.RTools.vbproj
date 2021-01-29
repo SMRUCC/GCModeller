@@ -320,9 +320,6 @@
   <ItemGroup>
     <None Include="Resources\Invoke_DESeq2.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WGCNA.txt" />
-  </ItemGroup>
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -54,31 +54,31 @@ Namespace Network
     ''' <summary>
     ''' 包含有结果数据的加载模块以及脚本的执行调用模块
     ''' </summary>
-    Public Class WGCNAWeight : Implements IWeightPaired
+    Public Class WGCNAWeight
 
-        Public Property PairItems As WGCNA.Weight()
+        Public Property PairItems As Weight()
             Get
                 Return __pairItems
             End Get
-            Set(value As WGCNA.Weight())
-                If value Is Nothing Then
-                    value = New Weight() {}
+            Set
+                If Value Is Nothing Then
+                    Value = New Weight() {}
                 End If
 
-                __pairItems = value
-                __innerHash = __buildHashs(value)
+                __pairItems = Value
+                __innerHash = __buildHashs(Value)
             End Set
         End Property
 
         Dim __innerHash As Dictionary(Of String, Dictionary(Of String, Weight))
-        Dim __pairItems As WGCNA.Weight()
+        Dim __pairItems As Weight()
 
-        Private Shared Function __buildHashs(dataSet As WGCNA.Weight()) As Dictionary(Of String, Dictionary(Of String, Weight))
+        Private Shared Function __buildHashs(dataSet As Weight()) As Dictionary(Of String, Dictionary(Of String, Weight))
             If dataSet.IsNullOrEmpty Then
                 Return New Dictionary(Of String, Dictionary(Of String, Weight))
             End If
 
-            Dim p1Group = (From obj As WGCNA.Weight
+            Dim p1Group = (From obj As Weight
                            In dataSet
                            Select obj
                            Group obj By obj.FromNode Into Group).ToArray
@@ -105,7 +105,7 @@ Namespace Network
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Find(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Weight
-            Dim weight As WGCNA.Weight = Nothing
+            Dim weight As Weight = Nothing
             Dim hash As Dictionary(Of String, Weight)
 
             If __innerHash.ContainsKey(Id1) Then
@@ -150,16 +150,16 @@ Namespace Network
         ''' <param name="IdList"></param>
         ''' <remarks></remarks>
         Public Sub Filtering(IdList As String())
-            Dim pairList As List(Of WGCNA.Weight) = New List(Of Weight)
+            Dim pairList As New List(Of Weight)
             For Each Id As String In IdList
                 Call pairList.AddRange(Find(Id))
             Next
-            Call pairList.RemoveAll(Function(item As WGCNA.Weight) item Is Nothing)
+            Call pairList.RemoveAll(Function(item As Weight) item Is Nothing)
 
             Me.PairItems = pairList.ToArray
         End Sub
 
-        Public Function GetValue(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Double Implements IWeightPaired.GetValue
+        Public Function GetValue(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Double
             Dim w = Find(Id1, Id2, Parallel)
             If w Is Nothing Then
                 Return 0
