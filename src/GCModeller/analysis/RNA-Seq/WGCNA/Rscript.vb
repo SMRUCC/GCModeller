@@ -122,14 +122,17 @@ Principal Component Analysis",
       Year:=2011, Volume:=6, PubMed:=22039529)>
 Public Module Rscript
 
-    Public Function FastImports(path As String, Optional threshold As Double = 0) As WGCNAWeight
+    Public Function FastImports(path As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
         Dim lines As String() = path.IterateAllLines.ToArray
         Dim tokens = lines.Skip(1).Select(Function(line) line.Split(ASCII.TAB)).ToArray
         Dim weights As IEnumerable(Of Weight) = tokens _
             .Select(Function(line)
+                        Dim u As String = If(prefix Is Nothing, line(Scan0), prefix & line(Scan0))
+                        Dim v As String = If(prefix Is Nothing, line(1), prefix & line(1))
+
                         Return New Weight With {
-                            .FromNode = line(Scan0),
-                            .ToNode = line(1),
+                            .FromNode = u,
+                            .ToNode = v,
                             .Weight = Val(line(2))
                         }
                     End Function) _

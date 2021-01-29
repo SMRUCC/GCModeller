@@ -13,10 +13,12 @@ Imports any = Microsoft.VisualBasic.Scripting
 Module WGCNA
 
     <ExportAPI("read.modules")>
-    Public Function readModules(file As String) As Object
+    Public Function readModules(file As String, Optional prefix$ = Nothing) As Object
         Return WGCNAModules _
             .LoadModules(file) _
-            .ToDictionary(Function(g) g.nodeName,
+            .ToDictionary(Function(g)
+                              Return If(prefix Is Nothing, g.nodeName, prefix & g.nodeName)
+                          End Function,
                           Function(g)
                               Return CObj(g.nodesPresent)
                           End Function) _
@@ -28,8 +30,8 @@ Module WGCNA
     End Function
 
     <ExportAPI("read.weightMatrix")>
-    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0) As WGCNAWeight
-        Return FastImports(path:=file, threshold:=threshold)
+    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
+        Return FastImports(path:=file, threshold:=threshold, prefix:=prefix)
     End Function
 
     <ExportAPI("applyModuleColors")>
