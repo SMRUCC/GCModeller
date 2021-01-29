@@ -285,7 +285,11 @@ Module workflows
     End Sub
 
     <ExportAPI("besthit.filter")>
-    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function FilterBesthitStream(besthits As pipeline,
+                                        Optional evalue# = 0.00001,
+                                        Optional delNohits As Boolean = True,
+                                        Optional pickTop As Boolean = False,
+                                        Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
         ElseIf Not besthits.elementType Like GetType(BestHit) Then
@@ -300,11 +304,22 @@ Module workflows
                     Return hit.evalue <= evalue
                 End If
             End Function
-
-        Return besthits _
+        Dim stream As IEnumerable(Of BestHit) = besthits _
             .populates(Of BestHit)(env) _
-            .Where(filter) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .Where(filter)
+
+        If pickTop Then
+            Return stream _
+                .GroupBy(Function(hit) hit.QueryName) _
+                .Select(Function(group)
+                            Return group _
+                                .OrderByDescending(Function(hit) hit.score) _
+                                .First
+                        End Function) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return pipeline.CreateFromPopulator(stream)
+        End If
     End Function
 
     ''' <summary>
