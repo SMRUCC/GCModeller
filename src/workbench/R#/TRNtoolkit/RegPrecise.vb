@@ -1,6 +1,7 @@
 ﻿
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
@@ -107,5 +108,10 @@ Public Module RegPrecise
             regulators:=reg.populates(Of RegulatorTable)(env)
         ) _
         .ToArray
+    End Function
+
+    <ExportAPI("read.regulators")>
+    Public Function readRegulators(file As String) As RegpreciseBBH()
+        Return file.LoadCsv(Of RegpreciseBBH)
     End Function
 End Module
