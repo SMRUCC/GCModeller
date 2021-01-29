@@ -188,7 +188,7 @@ Public Module Rscript
                                <Parameter("list.mod", "Module was represents in colors, using | as seperator.")>
                                Optional modules As String = DEFAULT_COLORS) As String
 
-        Dim WGCNA As StringBuilder = New StringBuilder(My.Resources.WGCNA)
+        Dim WGCNA As StringBuilder = New StringBuilder(Encoding.UTF8.GetString(My.Resources.WGCNA))
         outDIR = outDIR.GetDirectoryFullPath
         Call WGCNA.Replace("[dataExpr]", dataExpr.GetFullPath)
         Call WGCNA.Replace("[WORK]", outDIR)
