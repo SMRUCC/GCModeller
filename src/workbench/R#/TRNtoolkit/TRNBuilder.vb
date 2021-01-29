@@ -159,8 +159,8 @@ Module TRNBuilder
                         regData(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
 
                         g.CreateEdge(reg.QueryName, geneId, data:=regData)
-                        g.GetElementByID(reg.QueryName).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = reg.family
-                        g.GetElementByID(reg.QueryName).data.label = reg.geneName
+                        g.GetElementByID(reg.QueryName).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
+                        g.GetElementByID(reg.QueryName).data.label = $"({reg.family}) {reg.geneName}"
                     Next
                 End If
             Next
