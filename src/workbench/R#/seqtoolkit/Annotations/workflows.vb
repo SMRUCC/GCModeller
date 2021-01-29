@@ -89,7 +89,11 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.blast")>
-    Public Function openBlastReader(file As String, Optional type As String = "nucl", Optional fastMode As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function openBlastReader(file As String,
+                                    Optional type As String = "nucl",
+                                    Optional fastMode As Boolean = True,
+                                    Optional env As Environment = Nothing) As pipeline
+
         If Not file.FileExists(True) Then
             Return REnv.Internal.debug.stop($"invalid data source: '{file.ToFileURL}'!", env)
         End If
@@ -233,7 +237,7 @@ Module workflows
     End Function
 
     <ExportAPI("stream.flush")>
-    Public Function flush(stream As Object, data As pipeline, Optional env As Environment = Nothing) As Object
+    Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
             Return Internal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
