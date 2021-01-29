@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3eda75519c68c40b31b7428b6780c266, annotations\GSEA\GSEA.KnowledgeBase.Extensions\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::3eda75519c68c40b31b7428b6780c266, GSEA\GSEA.KnowledgeBase.Extensions\NamespaceDoc.vb"
 
     ' Author:
     ' 

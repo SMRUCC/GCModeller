@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dad7380cb2b3fdd16fc36128efbaf918, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
+﻿#Region "Microsoft.VisualBasic::dad7380cb2b3fdd16fc36128efbaf918, GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
 
     ' Author:
     ' 

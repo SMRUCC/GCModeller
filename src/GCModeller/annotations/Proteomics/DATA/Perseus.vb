@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed4a0778d8209aae28bbd63d57985c00, annotations\Proteomics\DATA\Perseus.vb"
+﻿#Region "Microsoft.VisualBasic::ed4a0778d8209aae28bbd63d57985c00, Proteomics\DATA\Perseus.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cfb777f87879b1b968bc04b3d2e5df6, annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::0cfb777f87879b1b968bc04b3d2e5df6, Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
