@@ -149,7 +149,13 @@ Namespace Network
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue(geneId1 As String, geneId2 As String) As Double
-            Return Find(geneId1, geneId2)?.Weight
+            Dim iteration As Weight = Find(geneId1, geneId2)
+
+            If iteration Is Nothing Then
+                Return 0
+            Else
+                Return iteration.Weight
+            End If
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Weight) Implements Enumeration(Of Weight).GenericEnumerator

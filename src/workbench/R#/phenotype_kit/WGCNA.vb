@@ -28,8 +28,8 @@ Module WGCNA
     End Function
 
     <ExportAPI("read.weightMatrix")>
-    Public Function readWeightMatrix(file As String) As WGCNAWeight
-        Return FastImports(path:=file)
+    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0) As WGCNAWeight
+        Return FastImports(path:=file, threshold:=threshold)
     End Function
 
     <ExportAPI("applyModuleColors")>
