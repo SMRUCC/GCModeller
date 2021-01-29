@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports any = Microsoft.VisualBasic.Scripting
 
@@ -24,6 +25,11 @@ Module WGCNA
                             .slots = mods
                         }
                     End Function)
+    End Function
+
+    <ExportAPI("read.weightMatrix")>
+    Public Function readWeightMatrix(file As String) As WGCNAWeight
+        Return FastImports(path:=file)
     End Function
 
     <ExportAPI("applyModuleColors")>
