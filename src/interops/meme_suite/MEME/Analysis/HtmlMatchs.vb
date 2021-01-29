@@ -97,8 +97,8 @@ Namespace Analysis
             For Each item In LQuery
                 Dim CloneItem As MatchedResult = Match.Clone
 
-                CloneItem.BiologicalProcess = item.RegprecisePhenotypeAssociation
-                CloneItem.Effectors = item.Effectors
+                CloneItem.BiologicalProcess = item.pathway
+                CloneItem.Effectors = item.effectors
                 CloneItem.TF = item.QueryName
                 CloneItem.TFFamily = item.Family
 

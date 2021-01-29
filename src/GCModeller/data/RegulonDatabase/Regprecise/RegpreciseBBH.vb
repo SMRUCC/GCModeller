@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::ce8d407858065d0185387aabcce9b3f3, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class RegpreciseBBH
-    ' 
-    '         Properties: Effectors, Family, HitName, QueryName, RegprecisePhenotypeAssociation
-    '                     RegpreciseTfbsIds, RegulationEffects
-    ' 
-    '     Class RegpreciseMPBBH
-    ' 
-    '         Properties: MPScore, PfamString, Similarity, SubjectPfamString
-    ' 
-    '         Function: GetLocusTag, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class RegpreciseBBH
+' 
+'         Properties: Effectors, Family, HitName, QueryName, RegprecisePhenotypeAssociation
+'                     RegpreciseTfbsIds, RegulationEffects
+' 
+'     Class RegpreciseMPBBH
+' 
+'         Properties: MPScore, PfamString, Similarity, SubjectPfamString
+' 
+'         Function: GetLocusTag, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,7 +55,6 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Namespace Regprecise
 
     Public Class RegpreciseBBH : Inherits BiDirectionalBesthit
-
         Implements INamedValue
         Implements IRegulatorMatched
 
@@ -65,7 +64,7 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("LocusId")> Public Overrides Property QueryName As String Implements INamedValue.Key,
+        <Column("locus_id")> Public Overrides Property QueryName As String Implements INamedValue.Key,
             IRegulatorMatched.locusId
             Get
                 Return MyBase.QueryName
@@ -90,14 +89,56 @@ Namespace Regprecise
             End Set
         End Property
 
-        <Column("Family.Regprecise")> Public Property Family As String Implements IRegulatorMatched.Family
+        Public Property geneName As String
 
-        Public Property RegulationEffects As String
-        Public Property RegprecisePhenotypeAssociation As String
+        Public Property family As String Implements IRegulatorMatched.Family
 
-        <Collection("Possible.Effectors")> Public Property Effectors As String()
-        <Collection("Possible.Regprecise_TfbsId")> Public Property RegpreciseTfbsIds As String()
+        Public Property regulationMode As String
+        Public Property pathway As String
+
+        Public Property effectors As String()
+        ''' <summary>
+        ''' a list of known TFBS id that regulated by this regulator in regprecise database
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Tfbs As String()
+
+        Public Shared Iterator Function JoinTable(bbh As IEnumerable(Of BiDirectionalBesthit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+                .GroupBy(Function(r) r.locus_tag) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
+
+            For Each hit As BiDirectionalBesthit In bbh
+                If hit.HitName = HITS_NOT_FOUND Then
+                    Continue For
+                End If
+
+                Dim reg As RegulatorTable = TF(hit.HitName.Split(":"c).Last)
+
+                Yield New RegpreciseBBH With {
+                    .description = hit.description,
+                    .HitName = hit.HitName,
+                    .effectors = reg.effector,
+                    .family = reg.family,
+                    .forward = hit.forward,
+                    .length = hit.length,
+                    .level = hit.level,
+                    .pathway = reg.pathway,
+                    .positive = hit.positive,
+                    .QueryName = hit.QueryName,
+                    .regulationMode = reg.regulationMode,
+                    .reverse = hit.reverse,
+                    .term = reg.regulog,
+                    .geneName = reg.geneName
+                }
+            Next
+        End Function
+
     End Class
+
     ''' <summary>
     ''' Bidirectional best hit regulator with the regprecise database.(调控因子与Regprecise数据库的双向最佳比对结果)
     ''' </summary>
