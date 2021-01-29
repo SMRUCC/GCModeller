@@ -103,6 +103,45 @@ Namespace Regprecise
         ''' <returns></returns>
         Public Property Tfbs As String()
 
+        Public Shared Iterator Function JoinTable(sbh As IEnumerable(Of BestHit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+                .GroupBy(Function(r) r.locus_tag) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(g)
+                                  Return g.First
+                              End Function)
+
+            For Each hit As BestHit In sbh
+                If hit.HitName = HITS_NOT_FOUND Then
+                    Continue For
+                End If
+
+                Dim reg As RegulatorTable = TF.TryGetValue(hit.HitName.Split(":"c).Last)
+
+                If reg Is Nothing Then
+                    Call $"no regulator information was found for '{hit.HitName}'".Warning
+                    Continue For
+                End If
+
+                Yield New RegpreciseBBH With {
+                    .description = hit.description,
+                    .HitName = hit.HitName,
+                    .effectors = reg.effector,
+                    .family = reg.family,
+                    .forward = hit.score,
+                    .length = hit.query_length.ToString,
+                    .level = Levels.SBH,
+                    .pathway = reg.pathway,
+                    .positive = hit.positive,
+                    .QueryName = hit.QueryName,
+                    .regulationMode = reg.regulationMode,
+                    .reverse = .forward,
+                    .term = reg.regulog,
+                    .geneName = reg.geneName
+                }
+            Next
+        End Function
+
         Public Shared Iterator Function JoinTable(bbh As IEnumerable(Of BiDirectionalBesthit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
             Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
                 .GroupBy(Function(r) r.locus_tag) _

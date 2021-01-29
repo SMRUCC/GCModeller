@@ -94,20 +94,32 @@ Public Module RegPrecise
     <ExportAPI("join")>
     <RApiReturn(GetType(RegpreciseBBH))>
     Public Function regJoin(<RRawVectorArgument> blast As Object, <RRawVectorArgument> regulators As Object, Optional env As Environment = Nothing) As Object
-        Dim bbh As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(blast, env)
+        Dim bbh As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(blast, env, suppress:=True)
         Dim reg As pipeline = pipeline.TryCreatePipeline(Of RegulatorTable)(regulators, env)
 
-        If bbh.isError Then
-            Return bbh.getError
-        ElseIf reg.isError Then
+        If reg.isError Then
             Return reg.getError
         End If
 
-        Return RegpreciseBBH.JoinTable(
-            bbh:=bbh.populates(Of BiDirectionalBesthit)(env),
-            regulators:=reg.populates(Of RegulatorTable)(env)
-        ) _
-        .ToArray
+        If bbh.isError Then
+            bbh = pipeline.TryCreatePipeline(Of BestHit)(blast, env)
+
+            If bbh.isError Then
+                Return bbh.getError
+            End If
+
+            Return RegpreciseBBH.JoinTable(
+                sbh:=bbh.populates(Of BestHit)(env),
+                regulators:=reg.populates(Of RegulatorTable)(env)
+            ) _
+            .ToArray
+        Else
+            Return RegpreciseBBH.JoinTable(
+                bbh:=bbh.populates(Of BiDirectionalBesthit)(env),
+                regulators:=reg.populates(Of RegulatorTable)(env)
+            ) _
+            .ToArray
+        End If
     End Function
 
     <ExportAPI("read.regulators")>
