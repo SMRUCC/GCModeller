@@ -141,6 +141,24 @@ Public Module Rscript
         }
     End Function
 
+    <ExportAPI("WGCNA.Fast.Imports")>
+    Public Function FastImports(Path As String) As WGCNAWeight
+        If Not Path.FileExists Then
+            Call VBDebugger.Warning($"{Path.ToFileURL} is not exists on the file system!")
+            Return New WGCNAWeight
+        End If
+
+        Dim Lines As String() = IO.File.ReadAllLines(Path)
+        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab)).ToArray
+        Dim weights As WGCNA.Weight() =
+            Tokens.Select(
+                Function(line) New Weight With {
+                    .FromNode = line(Scan0),
+                    .ToNode = line(1),
+                    .Weight = Val(line(2))}).ToArray
+        Return New WGCNAWeight With {.PairItems = weights}
+    End Function
+
     Const DEFAULT_COLORS As String = "yellow|blue|grey|pink|red|black|turquoise|midnightblue|brown|magenta|purple|cyan|greenyellow|green|tan|salmon"
 
     ''' <summary>

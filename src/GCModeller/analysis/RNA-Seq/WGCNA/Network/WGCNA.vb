@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-Namespace WGCNA
+Namespace Network
 
     ''' <summary>
     ''' 包含有结果数据的加载模块以及脚本的执行调用模块

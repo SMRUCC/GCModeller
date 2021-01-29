@@ -94,22 +94,4 @@ Public Module CorrsDbAPI
         Dim spcc As Double = corr.GetSPcc(g1, g2)
         Return Math.Abs(pcc) >= cut OrElse Math.Abs(spcc) >= cut
     End Function
-
-    <ExportAPI("WGCNA.Fast.Imports")>
-    Public Function FastImports(Path As String) As WGCNAWeight
-        If Not Path.FileExists Then
-            Call VBDebugger.Warning($"{Path.ToFileURL} is not exists on the file system!")
-            Return New WGCNAWeight
-        End If
-
-        Dim Lines As String() = IO.File.ReadAllLines(Path)
-        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab)).ToArray
-        Dim weights As WGCNA.Weight() =
-            Tokens.Select(
-                Function(line) New Weight With {
-                    .FromNode = line(Scan0),
-                    .ToNode = line(1),
-                    .Weight = Val(line(2))}).ToArray
-        Return New WGCNAWeight With {.PairItems = weights}
-    End Function
 End Module

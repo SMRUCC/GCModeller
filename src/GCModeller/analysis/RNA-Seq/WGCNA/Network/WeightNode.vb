@@ -46,7 +46,7 @@
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
-Namespace WGCNA
+Namespace Network
 
     ''' <summary>
     ''' CytoscapeEdges
