@@ -141,13 +141,24 @@ Module TRNBuilder
             Call g.CreateNode(geneId)
         Next
 
+        For Each reg In familyIndex.Values.IteratesALL
+            If g.GetElementByID(reg.QueryName) Is Nothing Then
+                Call g.CreateNode(reg.QueryName)
+            End If
+        Next
+
+        Dim regData As EdgeData
+
         For Each geneId As String In familySites.getNames
             tfbs = familySites.getValue(geneId, env, New String() {})
 
             For Each family As String In tfbs.Select(AddressOf Strings.LCase)
                 If familyIndex.ContainsKey(family) Then
                     For Each reg As RegpreciseBBH In familyIndex(family)
-                        g.CreateEdge(reg.QueryName, geneId)
+                        regData = New EdgeData With {.label = $"{reg.QueryName} -> {geneId}"}
+                        regData(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
+
+                        g.CreateEdge(reg.QueryName, geneId, data:=regData)
                         g.GetElementByID(reg.QueryName).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
                     Next
                 End If
