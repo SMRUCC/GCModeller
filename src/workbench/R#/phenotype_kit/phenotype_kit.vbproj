@@ -182,6 +182,10 @@
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
+      <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
+      <Name>WGCNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{E71C120A-76CB-4312-AF93-6A559D3BA062}</Project>
       <Name>MotifScanner</Name>
@@ -234,6 +238,10 @@
       <Project>{1B42809B-603F-4CEA-A0DB-91276582B9CA}</Project>
       <Name>DataMining</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
+      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
+      <Name>GraphTheory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
@@ -241,6 +249,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
