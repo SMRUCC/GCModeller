@@ -88,74 +88,74 @@ Namespace Analysis
             Return csv.LoadCsv(Of MastSites)
         End Function
 
-        ''' <summary>
-        ''' 以site位点为基准：从site找调控因子
-        ''' </summary>
-        ''' <param name="regulators"></param>
-        ''' <param name="sites"></param>
-        ''' <returns></returns>
-        <ExportAPI("Regulations.Predicts")>
-        Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
-                                            sites As IEnumerable(Of MastSites),
-                                            Optional sp As String = "",
-                                            Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
-            Return regulators.GenerateRegulations(sites, Correlation2.LoadAuto(sp), cutoff)
-        End Function
+        '''' <summary>
+        '''' 以site位点为基准：从site找调控因子
+        '''' </summary>
+        '''' <param name="regulators"></param>
+        '''' <param name="sites"></param>
+        '''' <returns></returns>
+        '<ExportAPI("Regulations.Predicts")>
+        'Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
+        '                                    sites As IEnumerable(Of MastSites),
+        '                                    Optional sp As String = "",
+        '                                    Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
+        '    Return regulators.GenerateRegulations(sites, Correlation2.LoadAuto(sp), cutoff)
+        'End Function
 
-        ''' <summary>
-        ''' 以site位点为基准：从site找调控因子
-        ''' </summary>
-        ''' <param name="regulators"></param>
-        ''' <param name="sites"></param>
-        ''' <returns></returns>
-        <ExportAPI("Regulations.Predicts")>
-        <Extension>
-        Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
-                                            sites As IEnumerable(Of MastSites),
-                                            correlations As Correlation2,
-                                            Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
-            Dim footprints As PredictedRegulationFootprint()
-            Dim regDB As Regulations = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
+        '        ''' <summary>
+        '        ''' 以site位点为基准：从site找调控因子
+        '        ''' </summary>
+        '        ''' <param name="regulators"></param>
+        '        ''' <param name="sites"></param>
+        '        ''' <returns></returns>
+        '        <ExportAPI("Regulations.Predicts")>
+        '        <Extension>
+        '        Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
+        '                                            sites As IEnumerable(Of MastSites),
+        '                                            correlations As Correlation2,
+        '                                            Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
+        '            Dim footprints As PredictedRegulationFootprint()
+        '            Dim regDB As Regulations = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
 
-            If cutoff = 0R Then
-                Call $"Program will print all regulation data...".__DEBUG_ECHO
-            End If
+        '            If cutoff = 0R Then
+        '                Call $"Program will print all regulation data...".__DEBUG_ECHO
+        '            End If
 
-#If DEBUG Then
-            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
-#Else
-            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
-#End If
-            Return footprints
-        End Function
+        '#If DEBUG Then
+        '            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
+        '#Else
+        '            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
+        '#End If
+        '            Return footprints
+        '        End Function
 
-        ''' <summary>
-        ''' 以site位点为基准：从site找调控因子
-        ''' </summary>
-        ''' <param name="regulators"></param>
-        ''' <param name="sites"></param>
-        ''' <returns></returns>
-        <ExportAPI("Regulations.Predicts")>
-        Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
-                                            sites As IEnumerable(Of MotifSite),
-                                            Optional sp As String = "",
-                                            Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
-            Dim regDB = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
-            Dim KEGG = BriteHEntry.Module.LoadFromResource.ToDictionary(Function([mod]) [mod].Entry.Key)
-            Dim correlations = Correlation2.CreateFromName(sp)
-            Dim footprints As PredictedRegulationFootprint()
+        '        ''' <summary>
+        '        ''' 以site位点为基准：从site找调控因子
+        '        ''' </summary>
+        '        ''' <param name="regulators"></param>
+        '        ''' <param name="sites"></param>
+        '        ''' <returns></returns>
+        '        <ExportAPI("Regulations.Predicts")>
+        '        Public Function GenerateRegulations(regulators As Dictionary(Of Integer, bbhMappings()),
+        '                                            sites As IEnumerable(Of MotifSite),
+        '                                            Optional sp As String = "",
+        '                                            Optional cutoff As Double = 0.6) As PredictedRegulationFootprint()
+        '            Dim regDB = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
+        '            Dim KEGG = BriteHEntry.Module.LoadFromResource.ToDictionary(Function([mod]) [mod].Entry.Key)
+        '            Dim correlations = Correlation2.CreateFromName(sp)
+        '            Dim footprints As PredictedRegulationFootprint()
 
-            If cutoff = 0R Then
-                Call $"Program will print all regulation data...".__DEBUG_ECHO
-            End If
+        '            If cutoff = 0R Then
+        '                Call $"Program will print all regulation data...".__DEBUG_ECHO
+        '            End If
 
-#If DEBUG Then
-            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
-#Else
-            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
-#End If
-            Return footprints
-        End Function
+        '#If DEBUG Then
+        '            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
+        '#Else
+        '            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
+        '#End If
+        '            Return footprints
+        '        End Function
 
         ''' <summary>
         ''' 
@@ -276,22 +276,22 @@ Namespace Analysis
             Return footprints
         End Function
 
-        ''' <summary>
-        ''' 直接将MastSite里面的Trace作为调控因子
-        ''' </summary>
-        ''' <param name="site"></param>
-        ''' <param name="correlations"></param>
-        ''' <returns></returns>
-        ''' 
-        <ExportAPI("Mast.Regulations")>
-        Public Function SiteToRegulation(site As IEnumerable(Of MastSites), correlations As String, DOOR As String) As PredictedRegulationFootprint()
-            Dim coorDb As ICorrelations = Correlation2.LoadAuto(correlations)
-            Dim OprDOOR As DOOR = DOOR_API.Load(DOOR)
-            Dim out As PredictedRegulationFootprint() = (From x As MastSites In site.AsParallel
-                                                         Where Not x Is Nothing
-                                                         Select SiteToRegulation(x, coorDb, OprDOOR)).ToArray
-            Return out
-        End Function
+        '''' <summary>
+        '''' 直接将MastSite里面的Trace作为调控因子
+        '''' </summary>
+        '''' <param name="site"></param>
+        '''' <param name="correlations"></param>
+        '''' <returns></returns>
+        '''' 
+        '<ExportAPI("Mast.Regulations")>
+        'Public Function SiteToRegulation(site As IEnumerable(Of MastSites), correlations As String, DOOR As String) As PredictedRegulationFootprint()
+        '    Dim coorDb As ICorrelations = Correlation2.LoadAuto(correlations)
+        '    Dim OprDOOR As DOOR = DOOR_API.Load(DOOR)
+        '    Dim out As PredictedRegulationFootprint() = (From x As MastSites In site.AsParallel
+        '                                                 Where Not x Is Nothing
+        '                                                 Select SiteToRegulation(x, coorDb, OprDOOR)).ToArray
+        '    Return out
+        'End Function
 
         ''' <summary>
         ''' 直接将MastSite里面的Trace作为调控因子

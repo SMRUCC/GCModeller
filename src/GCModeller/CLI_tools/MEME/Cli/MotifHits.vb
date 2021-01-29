@@ -107,13 +107,13 @@ Partial Module CLI
                                  mapped).ToDictionary(Function(x) x.x.Value.Uid,
                                                       Function(x) x.mapped.Select(Function(xx) xx.hit_name).Distinct.ToArray)
         Dim sourceLDM = AnnotationModel.LoadMEMEOUT(args("/source"))
-        Dim correlations As ICorrelations = Correlation2.LoadAuto(Correlates)
-        Dim results = (From hit As MotifHit In hitsData.AsParallel
-                       Where sourceLDM.ContainsKey(hit.Query) AndAlso
-                           LDM.ContainsKey(hit.Subject)
-                       Let query = sourceLDM(hit.Query), subject = LDM(hit.Subject)
-                       Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).IteratesALL.TrimNull
-        Return results.SaveTo(out).CLICode
+        ' Dim correlations As ICorrelations = Correlation2.LoadAuto(Correlates)
+        'Dim results = (From hit As MotifHit In hitsData.AsParallel
+        '               Where sourceLDM.ContainsKey(hit.Query) AndAlso
+        '                   LDM.ContainsKey(hit.Subject)
+        '               Let query = sourceLDM(hit.Query), subject = LDM(hit.Subject)
+        '               Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).IteratesALL.TrimNull
+        ' Return results.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
@@ -280,20 +280,20 @@ Partial Module CLI
         Return result.SaveAsXml(out).CLICode
     End Function
 
-    Public Iterator Function ToFootprints(footprints As FootprintTrace,
-                                          coors As Correlation2,
-                                          DOOR As DOOR,
-                                          maps As IEnumerable(Of bbhMappings)) As IEnumerable(Of PredictedRegulationFootprint)
-        Dim source As IEnumerable(Of PredictedRegulationFootprint) = footprints.ToFootprints(DOOR, maps)
+    'Public Iterator Function ToFootprints(footprints As FootprintTrace,
+    '                                      coors As Correlation2,
+    '                                      DOOR As DOOR,
+    '                                      maps As IEnumerable(Of bbhMappings)) As IEnumerable(Of PredictedRegulationFootprint)
+    '    Dim source As IEnumerable(Of PredictedRegulationFootprint) = footprints.ToFootprints(DOOR, maps)
 
-        For Each x As PredictedRegulationFootprint In source
-            x.Pcc = coors.GetPcc(x.ORF, x.Regulator)
-            x.sPcc = coors.GetSPcc(x.ORF, x.Regulator)
-            x.WGCNA = coors.GetWGCNAWeight(x.ORF, x.Regulator)
+    '    For Each x As PredictedRegulationFootprint In source
+    '        x.Pcc = coors.GetPcc(x.ORF, x.Regulator)
+    '        x.sPcc = coors.GetSPcc(x.ORF, x.Regulator)
+    '        x.WGCNA = coors.GetWGCNAWeight(x.ORF, x.Regulator)
 
-            Yield x
-        Next
-    End Function
+    '        Yield x
+    '    Next
+    'End Function
 
     ''' <summary>
     ''' 3
@@ -313,25 +313,25 @@ Partial Module CLI
         Dim cut As Double = Math.Abs(args.GetValue("/cuts", 0.65))
         Dim out As String = args.GetValue("/out", footprintXml.TrimSuffix & "-" & DOOR.BaseName & $"{cut}.Csv")
         Dim oprDOOR As DOOR = DOOR_API.Load(DOOR)
-        Dim coors As Correlation2 = Correlation2.LoadAuto(coor)
-        Dim source = ToFootprints(footprintXml.LoadXml(Of FootprintTrace),
-                                  coors,
-                                  oprDOOR,
-                                  maps.LoadCsv(Of bbhMappings))
+        ' Dim coors As Correlation2 = Correlation2.LoadAuto(coor)
+        'Dim source = ToFootprints(footprintXml.LoadXml(Of FootprintTrace),
+        '                          coors,
+        '                          oprDOOR,
+        '                          maps.LoadCsv(Of bbhMappings))
         Dim tag As String = footprintXml.BaseName
-        Dim Cuts = (From x As PredictedRegulationFootprint In source
-                    Where Math.Abs(x.Pcc) >= cut OrElse
-                        Math.Abs(x.sPcc) >= cut
-                    Select x).ToArray
+        'Dim Cuts = (From x As PredictedRegulationFootprint In source
+        '            Where Math.Abs(x.Pcc) >= cut OrElse
+        '                Math.Abs(x.sPcc) >= cut
+        '            Select x).ToArray
 
-        For Each x As PredictedRegulationFootprint In Cuts
-            x.tag = tag
-        Next
+        'For Each x As PredictedRegulationFootprint In Cuts
+        '    x.tag = tag
+        'Next
 
         If args.GetBoolean("/extract") Then
-            Return Cuts.ExpandDOOR(oprDOOR, coors, cut).SaveTo(out).CLICode
+            ' Return Cuts.ExpandDOOR(oprDOOR, coors, cut).SaveTo(out).CLICode
         Else
-            Return Cuts.SaveTo(out).CLICode
+            ' Return Cuts.SaveTo(out).CLICode
         End If
     End Function
 
