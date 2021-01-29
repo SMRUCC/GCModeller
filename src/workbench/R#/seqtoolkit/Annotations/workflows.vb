@@ -157,7 +157,10 @@ Module workflows
     End Function
 
     <ExportAPI("blasthit.bbh")>
-    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive, Optional env As Environment = Nothing) As pipeline
+    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline,
+                                  Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive,
+                                  Optional env As Environment = Nothing) As pipeline
+
         If forward Is Nothing Then
             Return REnv.Internal.debug.stop("No forward alignment data!", env)
         ElseIf reverse Is Nothing Then
@@ -181,7 +184,14 @@ Module workflows
 
         Select Case algorithm
             Case BBHAlgorithm.Naive
-                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)))
+
+                Return BBHParser _
+                    .GetBBHTop(
+                        qvs:=forward.populates(Of BestHit)(env),
+                        svq:=reverse.populates(Of BestHit)(env)
+                    ) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+
             Case BBHAlgorithm.BHR
             Case BBHAlgorithm.TaxonomySupports
             Case Else
