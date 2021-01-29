@@ -222,7 +222,7 @@ Public Module BaSAR
     ''' </remarks>
     Public Function Local(data As Double(), start As Integer, [stop] As Integer, nsamples As Integer, Optional tpoints As Integer() = Nothing, Optional nbackg As Integer = 0, Optional window As Integer = 10) As BaSAR.LocalResult
         If tpoints.IsNullOrEmpty Then
-            tpoints = data.Sequence
+            tpoints = data.Sequence.ToArray
         End If
 
         Dim s_Data As String = String.Format("p.data <- c({0});", String.Join(",", data))

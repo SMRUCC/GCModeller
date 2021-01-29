@@ -42,14 +42,12 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
-Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 
 <Package("WGCNA", Cites:="Langfelder, P. and S. Horvath (2008). ""WGCNA: an R package For weighted correlation network analysis."" BMC Bioinformatics 9: 559.
 <p>BACKGROUND: Correlation networks are increasingly being used in bioinformatics applications. For example, weighted gene co-expression network analysis is a systems biology method for describing the correlation patterns among genes across microarray samples. Weighted correlation network analysis (WGCNA) can be used for finding clusters (modules) of highly correlated genes, for summarizing such clusters using the module eigengene or an intramodular hub gene, for relating modules to one another and to external sample traits (using eigengene network methodology), and for calculating module membership measures. Correlation networks facilitate network based gene screening methods that can be used to identify candidate biomarkers or therapeutic targets. These methods have been successfully applied in various biological contexts, e.g. cancer, mouse genetics, yeast genetics, and analysis of brain imaging data. While parts of the correlation network methodology have been described in separate publications, there is a need to provide a user-friendly, comprehensive, and consistent software implementation and an accompanying tutorial. RESULTS: The WGCNA R software package is a comprehensive collection of R functions for performing various aspects of weighted correlation network analysis. The package includes functions for network construction, module detection, gene selection, calculations of topological properties, data simulation, visualization, and interfacing with external software. Along with the R package we also present R software tutorials. While the methods development was motivated by gene expression data, the underlying data mining approach can be applied to a variety of different settings. CONCLUSION: The WGCNA package provides R functions for weighted correlation network analysis, e.g. co-expression network analysis of gene expression data. The R package along with its source code and additional material are freely available at http://www.genetics.ucla.edu/labs/horvath/CoexpressionNetwork/Rpackages/WGCNA.

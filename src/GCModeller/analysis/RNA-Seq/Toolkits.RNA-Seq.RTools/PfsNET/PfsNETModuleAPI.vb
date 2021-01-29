@@ -282,6 +282,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ' Dim _RemovedList As String()
 
         ''' <summary>
+        ''' If the experiment_ids parameter is null or empty then all of the chipdata will be write to the file.
         ''' 创建文件1和文件2
         ''' </summary>
         ''' <param name="chipdata"></param>
@@ -290,7 +291,6 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <param name="saveTxt"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Expr_Matrix.Create", Info:="If the experiment_ids parameter is null or empty then all of the chipdata will be write to the file.")>
         Public Function CreateMatrix(Chipdata As MatrixFrame,
                                      <Parameter("lst.Locus", "A list of gene id.")>
                                      lstLocus As IEnumerable(Of String),
@@ -443,13 +443,13 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         End Function
 
         ''' <summary>
+        ''' export the pfsnet data log file into the csv data file.
         ''' 将原始的计算数据导出为Csv文件，与<see cref="ParseCsv"></see>所不同的是，所导出的对象在本函数之中为原始计算数据的log文件，而在另外一个重载函数之中则为解析好的xml文件
         ''' </summary>
         ''' <param name="imports"></param>
         ''' <param name="PathwayBriefs"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
         Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of Annotation.PathwayBrief)) As TabularArchives.SubNetTable()
             Dim DictPathwayBriefs As New Dictionary(Of String, Annotation.PathwayBrief)
 
@@ -495,7 +495,12 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
             Return data.GetXml.SaveTo(saveCsv)
         End Function
 
-        <ExportAPI("write.pfsnet_collection", Info:="parameter export is the directory of the pfsnet data will be saved.")>
+        ''' <summary>
+        ''' parameter export is the directory of the pfsnet data will be saved.
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <returns></returns>
         Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), EXPORT As String) As Boolean
             For Each i As SeqValue(Of PFSNetResultOut) In data.SeqIterator
                 Dim net As PFSNetResultOut = i.value
@@ -545,9 +550,6 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <param name="pfsnet"></param>
         ''' <param name="KEGGPathways"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("kegg.pathways.associate_phenotypes",
-            Info:="associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.")>
         Public Function KEGGPathwaysPhenotypeAnalysis(pfsnet As IEnumerable(Of TabularArchives.SubNetTable),
                                                       KEGGPathways As IEnumerable(Of KEGG.Archives.Csv.Pathway)) As KEGGPhenotypes()
             Dim ChunkBuffer = KEGGPhenotypes.PhenotypeAssociations(Result:=pfsnet.ToArray, KEGGPathways:=KEGGPathways.ToArray)

@@ -51,9 +51,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 
 ''' <summary>
 ''' PCC/sPCC
