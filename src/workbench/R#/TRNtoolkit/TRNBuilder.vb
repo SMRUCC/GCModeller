@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::8b3c7c241c7325361dfa30b49022f57e, phenotype_kit\TRNBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module TRNBuilder
-    ' 
-    '     Function: exportRegPrecise, ParsePromoterReport, readFootprintSites, readRegPrecise, readRegulations
-    '               RegulationFootprint, writeRegulationFootprints
-    ' 
-    ' /********************************************************************************/
+' Module TRNBuilder
+' 
+'     Function: exportRegPrecise, ParsePromoterReport, readFootprintSites, readRegPrecise, readRegulations
+'               RegulationFootprint, writeRegulationFootprints
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -44,6 +44,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -112,6 +114,47 @@ Module TRNBuilder
         Else
             Return Internal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
         End If
+    End Function
+
+    <ExportAPI("TRN")>
+    Public Function TRN(<RRawVectorArgument> factors As Object, familySites As list, Optional env As Environment = Nothing) As Object
+        Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
+
+        If TF.isError Then
+            Return TF.getError
+        End If
+
+        Dim familyIndex = TF.populates(Of RegpreciseBBH)(env) _
+            .Select(Function(r)
+                        Return r.family.Split("/"c).Select(Function(family) (family, r))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(r) r.family.ToLower) _
+            .ToDictionary(Function(family) family.Key,
+                          Function(list)
+                              Return list.Select(Function(r) r.r).ToArray
+                          End Function)
+        Dim g As New NetworkGraph
+        Dim tfbs As String()
+
+        For Each geneId As String In familySites.getNames
+            Call g.CreateNode(geneId)
+        Next
+
+        For Each geneId As String In familySites.getNames
+            tfbs = familySites.getValue(geneId, env, New String() {})
+
+            For Each family As String In tfbs.Select(AddressOf Strings.LCase)
+                If familyIndex.ContainsKey(family) Then
+                    For Each reg As RegpreciseBBH In familyIndex(family)
+                        g.CreateEdge(reg.QueryName, geneId)
+                        g.GetElementByID(reg.QueryName).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
+                    Next
+                End If
+            Next
+        Next
+
+        Return g
     End Function
 
     <ExportAPI("regulation.footprint")>
