@@ -4,8 +4,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("regprecise", Description:="[Regprecise database] [Collections of regulogs classified by transcription factors]",
                         Cites:="Novichkov, P. S., et al. (2013). ""RegPrecise 3.0--a resource For genome-scale exploration Of transcriptional regulation In bacteria."" BMC Genomics 14: 745.
@@ -86,5 +88,24 @@ Public Module RegPrecise
         Return RegulatorTable _
             .FromGenome(regulome, Function(locus_tag) info.getValue(locus_tag, env, "")) _
             .ToArray
+    End Function
+
+    <ExportAPI("join")>
+    <RApiReturn(GetType(RegpreciseBBH))>
+    Public Function regJoin(<RRawVectorArgument> blast As Object, <RRawVectorArgument> regulators As Object, Optional env As Environment = Nothing) As Object
+        Dim bbh As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(blast, env)
+        Dim reg As pipeline = pipeline.TryCreatePipeline(Of RegulatorTable)(regulators, env)
+
+        If bbh.isError Then
+            Return bbh.getError
+        ElseIf reg.isError Then
+            Return reg.getError
+        End If
+
+        Return RegpreciseBBH.JoinTable(
+            bbh:=bbh.populates(Of BiDirectionalBesthit)(env),
+            regulators:=reg.populates(Of RegulatorTable)(env)
+        ) _
+        .ToArray
     End Function
 End Module
