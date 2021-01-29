@@ -1,4 +1,9 @@
 # inits variables
+plotTiff = function(fileName, size, plot) {
+	tiff(filename = fileName, width = size[1], height = size[2]);
+	plot();
+	dev.off();
+}
 
 # If necessary, change the path below to the directory where the data files are stored.
 # "." means current directory. On Windows use a forward slash / instead of the usual \.
@@ -25,13 +30,13 @@ chipData = read.csv(exprCsv);
   dim(chipData);
 names(chipData);
 
-
           datExpr0  = as.data.frame(t(chipData[, -c(1)]));
     names(datExpr0) = chipData$[GeneId_LABEL];
  rownames(datExpr0) = names(chipData)[-c(1)];
 
-               gsg  = goodSamplesGenes(datExpr0, verbose = 3);
-               gsg$allOK
+gsg = goodSamplesGenes(datExpr0, verbose = 3);
+               
+print(gsg$allOK);
 
 if (!gsg$allOK)
 {
@@ -46,16 +51,24 @@ if (!gsg$allOK)
 }
 
 sampleTree = flashClust(dist(datExpr0), method = "average");
+
 # Plot the sample tree: Open a graphic output window of size 12 by 9 inches
 # The user should change the dimensions if the window is too large or too small.
-sizeGrWindow(12,9)
-#pdf(file = "Plots/sampleClustering.pdf", width = 12, height = 9);
- par(cex = 0.6);
- par(mar = c(0,4,2,0))
+plotTiff("sampleTree-flashClust.tiff", c(3000,2000), function() {
+	sizeGrWindow(12,9);
  
-tiff(filename = "sampleTree-flashClust.tiff", width = 3000, height = 2000)
- plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="", cex.lab = 1.5,cex.axis = 1.5, cex.main = 2)
-dev.off()
+	par(cex = 0.6);
+	par(mar = c(0,4,2,0));
+	
+	plot(sampleTree, 
+		main     = "Sample clustering to detect outliers", 
+		sub      = "", 
+		xlab     = "", 
+		cex.lab  = 1.5,
+		cex.axis = 1.5, 
+		cex.main = 2
+	);
+});
 
 # # Plot a line to show the cut
 # abline(h = 15, col = "red");
@@ -68,7 +81,6 @@ dev.off()
 # nGenes = ncol(datExpr)
 # nSamples = nrow(datExpr)
 
-
 enableWGCNAThreads()
 
 # Choose a set of soft-thresholding powers
@@ -76,34 +88,38 @@ enableWGCNAThreads()
 # Call the network topology analysis function
     sft = pickSoftThreshold(datExpr0, powerVector = powers, verbose = 5)
    cex1 = 0.9;
-# Plot the results:
-  sizeGrWindow(9, 5)
- par(mfrow = c(1,2));
- 
-# Scale-free topology fit index as a function of the soft-thresholding power
-tiff(filename = "fitIndices.tiff", width = 3000, height = 2000)
-plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-     xlab = "Soft Threshold (power)",
-	 ylab = "Scale Free Topology Model Fit,signed R^2",
-	 type = "n",
-	 main = paste("Scale independence"));
-text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-	 labels = powers,
-	 cex    = cex1,
-	 col    = "red");
-# this line corresponds to using an R^2 cut-off of h
-abline(h=0.90,col="red")
-dev.off()
-
-# Mean connectivity as a function of the soft-thresholding power
-tiff(filename = "fitIndices.MeanConnectivity.tiff", width = 3000, height = 2000)
-plot(sft$fitIndices[,1], sft$fitIndices[,5],
-     xlab = "Soft Threshold (power)",
-	 ylab = "Mean Connectivity", 
-	 type = "n",
-     main = paste("Mean connectivity"))
-text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
-dev.off()
+   
+plotTiff("fitIndices.tiff", c(3000,2000), function() {
+	# Plot the results:
+	sizeGrWindow(9, 5)
+	par(mfrow = c(1,2));
+	 
+	# Scale-free topology fit index as a function of the soft-thresholding power
+	plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+		 xlab = "Soft Threshold (power)",
+		 ylab = "Scale Free Topology Model Fit,signed R^2",
+		 type = "n",
+		 main = paste("Scale independence")
+	);
+	text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+		 labels = powers,
+		 cex    = cex1,
+		 col    = "red"
+	);
+	# this line corresponds to using an R^2 cut-off of h
+	abline(h=0.90,col="red")
+});
+   
+plotTiff("fitIndices.MeanConnectivity.tiff", c(3000,2000), function() {
+	# Mean connectivity as a function of the soft-thresholding power
+	plot(sft$fitIndices[,1], sft$fitIndices[,5],
+		 xlab = "Soft Threshold (power)",
+		 ylab = "Mean Connectivity", 
+		 type = "n",
+		 main = paste("Mean connectivity")
+	)
+	text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
+});
 
 net = blockwiseModules(
 	datExpr0, 
@@ -116,21 +132,22 @@ net = blockwiseModules(
 	pamRespectsDendro = FALSE,
 	saveTOMs          = TRUE,
 	saveTOMFileBase   = TOMsave,
-	verbose           = 3)
+	verbose           = 3
+);
 
-# open a graphics window
-sizeGrWindow(12, 9)
-# Convert labels to colors for plotting
-mergedColors = labels2colors(net$colors)
-# Plot the dendrogram and the module colors underneath
-tiff(filename = "dendrograms.tiff", width = 10000, height = 7000)
-plotDendroAndColors(net$dendrograms[[1]], mergedColors[net$blockGenes[[1]]],
-					"Module colors",
-					dendroLabels = FALSE, 
-					hang = 0.03,
-					addGuide = TRUE, 
-					guideHang = 0.05)
-dev.off()
+plotTiff("dendrograms.tiff", c(10000, 7000), function() {
+	# open a graphics window
+	sizeGrWindow(12, 9)
+	# Convert labels to colors for plotting
+	mergedColors = labels2colors(net$colors)
+	# Plot the dendrogram and the module colors underneath
+	plotDendroAndColors(net$dendrograms[[1]], mergedColors[net$blockGenes[[1]]],
+						"Module colors",
+						dendroLabels = FALSE, 
+						hang = 0.03,
+						addGuide = TRUE, 
+						guideHang = 0.05)
+})
 
  moduleLabels = net$colors
  moduleColors = labels2colors(net$colors)
@@ -194,12 +211,14 @@ modules <- unique(modules);
 # Select the corresponding Topological Overlap
           modTOM = TOM[inModule, inModule];
 dimnames(modTOM) = list(modProbes, modProbes)
+
 # Export the network into edge and node list files Cytoscape can read
-          cyt = exportNetworkToCytoscape(modTOM,
+exportNetworkToCytoscape(modTOM,
      edgeFile = "./CytoscapeEdges.txt",
      nodeFile = "./CytoscapeNodes.txt",
      weighted = TRUE,
     threshold = 0.1,
     nodeNames = modProbes,
  altNodeNames = modGenes,
-     nodeAttr = moduleColors[inModule]);
+     nodeAttr = moduleColors[inModule]
+);

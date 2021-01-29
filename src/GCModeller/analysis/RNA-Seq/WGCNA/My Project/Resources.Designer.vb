@@ -61,28 +61,12 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  查找类似 # inits variables
-        '''
-        '''# If necessary, change the path below to the directory where the data files are stored.
-        '''# &quot;.&quot; means current directory. On Windows use a forward slash / instead of the usual \.
-        '''    workingDir = &quot;[WORK]&quot;;
-        '''       exprCsv = &quot;[dataExpr]&quot;;
-        '''       TOMsave = &quot;[TOMsave]&quot;;
-        ''' annotationCsv = &quot;[Annotations.csv]&quot;;
-        '''   
-        '''# Display the current working directory
-        '''getwd();
-        '''setwd(workingDir);
-        '''
-        '''# Load the package
-        '''library(WGCNA);
-        '''library(flashClust);
-        '''
-        '''# The following setting is important, do not [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        '''  查找 System.Byte[] 类型的本地化资源。
         '''</summary>
-        Friend ReadOnly Property WGCNA() As String
+        Friend ReadOnly Property WGCNA() As Byte()
             Get
-                Return ResourceManager.GetString("WGCNA", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("WGCNA", resourceCulture)
+                Return CType(obj,Byte())
             End Get
         End Property
     End Module
