@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="magnitude.vb" />
+    <Compile Include="WGCNA.vb" />
     <Compile Include="zzz.vb" />
     <Compile Include="sampleInfo.vb" />
     <Compile Include="geneExpression.vb" />

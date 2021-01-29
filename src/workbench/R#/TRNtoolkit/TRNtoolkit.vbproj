@@ -103,6 +103,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WGCNA.vb" />
     <Compile Include="RegPrecise.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -141,6 +142,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
+      <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
+      <Name>WGCNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
       <Name>MotifScanner</Name>
