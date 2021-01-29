@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::26cd1b71992c8e0a5e01459b55299549, WGCNA\WGCNA\TOM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module TOM
-    ' 
-    '     Function: CreateModules, Intermediate, Matrix
-    ' 
-    ' /********************************************************************************/
+' Module TOM
+' 
+'     Function: CreateModules, Intermediate, Matrix
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports stdNum = System.Math
@@ -100,23 +101,31 @@ Public Module TOM
     ''' <returns></returns>
     <Extension>
     Friend Function CreateModules(tree As Cluster, Optional distCut As Double = 0.6) As IEnumerable(Of NamedCollection(Of String))
-        Return CreateModulesInternal(tree, distCut:=tree.DistanceValue * distCut)
+        Return CreateModulesInternal(tree, distCut:=tree.TotalDistance * distCut)
     End Function
 
     <Extension>
     Private Iterator Function CreateModulesInternal(tree As Cluster, distCut As Double) As IEnumerable(Of NamedCollection(Of String))
-        If tree.DistanceValue <= distCut Then
+        If tree.TotalDistance <= distCut Then
             Dim items As New List(Of String)
             Dim name As String = tree.Name
 
-            For Each child As Cluster In tree.Children
-                items.AddRange(tree.CreateModulesInternal(distCut))
-            Next
+            If tree.isLeaf Then
+                items.Add(tree.Name)
+            Else
+                For Each child As Cluster In tree.Children
+                    Call child _
+                        .CreateModulesInternal(distCut) _
+                        .Select(Function(m) m.value) _
+                        .IteratesALL _
+                        .DoCall(AddressOf items.AddRange)
+                Next
+            End If
 
             Yield New NamedCollection(Of String)(name, items)
         Else
             For Each child As Cluster In tree.Children
-                For Each m As NamedCollection(Of String) In tree.CreateModulesInternal(distCut)
+                For Each m As NamedCollection(Of String) In child.CreateModulesInternal(distCut)
                     Yield m
                 Next
             Next

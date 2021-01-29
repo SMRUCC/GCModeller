@@ -69,7 +69,7 @@ Public Class BetaTest
     End Property
 
     Public Overrides Function ToString() As String
-        Return $"[{Power.ToString.PadEnd(2, "0"c)}, score={score.ToString("F2")}] {getScores.JoinBy(", ")}"
+        Return $"[{Power.ToString.PadEnd(2, " "c)}, score={score.ToString("F2")}] {getScores.JoinBy(", ")}"
     End Function
 
     Private Iterator Function getScores() As IEnumerable(Of String)
@@ -107,9 +107,9 @@ Public Class BetaTest
                             .maxK = K.Max,
                             .medianK = K.Median,
                             .Power = beta,
-                            .sftRsq = linear.R_square,
-                            .slope = linear.Slope,
-                            .truncatedRsq = linear.AdjustR_square
+                            .sftRsq = If(linear.R_square.IsNaNImaginary, 0, linear.R_square),
+                            .slope = If(linear.Slope.IsNaNImaginary, 0, linear.R_square),
+                            .truncatedRsq = If(linear.AdjustR_square.IsNaNImaginary, 0, linear.AdjustR_square)
                         }
                     End Function)
     End Function
