@@ -53,7 +53,7 @@ Namespace Network
     ''' <summary>
     ''' 包含有结果数据的加载模块以及脚本的执行调用模块
     ''' </summary>
-    Public Class WGCNAWeight
+    Public Class WGCNAWeight : Implements Enumeration(Of Weight)
 
         Dim matrix As Dictionary(Of String, Dictionary(Of String, Weight))
 
@@ -150,6 +150,18 @@ Namespace Network
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue(geneId1 As String, geneId2 As String) As Double
             Return Find(geneId1, geneId2)?.Weight
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Weight) Implements Enumeration(Of Weight).GenericEnumerator
+            For Each row In matrix
+                For Each col In row.Value
+                    Yield col.Value
+                Next
+            Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Weight).GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace
