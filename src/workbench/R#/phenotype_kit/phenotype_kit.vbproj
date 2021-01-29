@@ -135,7 +135,6 @@
     <Compile Include="sampleInfo.vb" />
     <Compile Include="geneExpression.vb" />
     <Compile Include="PFSNetAnalysis.vb" />
-    <Compile Include="TRNBuilder.vb" />
     <Compile Include="multiOmics.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
