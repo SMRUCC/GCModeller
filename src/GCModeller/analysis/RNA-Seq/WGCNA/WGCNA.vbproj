@@ -83,7 +83,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Rscript.vb" />
-    <Compile Include="CExprMods.vb" />
+    <Compile Include="Network\CExprMods.vb" />
     <Compile Include="Network\WeightNode.vb" />
     <Compile Include="Network\WGCNA.vb" />
   </ItemGroup>
