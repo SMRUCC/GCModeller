@@ -1,53 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::9cf22408ae2efd2909794b590a6c7d8f, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\WGCNA\WGCNA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class WGCNAWeight
-    ' 
-    '         Properties: PairItems
-    ' 
-    '         Function: __buildHashs, (+3 Overloads) Find, GetValue
-    ' 
-    '         Sub: Filtering
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class WGCNAWeight
+' 
+'         Properties: PairItems
+' 
+'         Function: __buildHashs, (+3 Overloads) Find, GetValue
+' 
+'         Sub: Filtering
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports stdNum = System.Math
 
 Namespace Network
 
@@ -56,116 +55,101 @@ Namespace Network
     ''' </summary>
     Public Class WGCNAWeight
 
-        Public Property PairItems As Weight()
-            Get
-                Return __pairItems
-            End Get
-            Set
-                If Value Is Nothing Then
-                    Value = New Weight() {}
-                End If
+        Dim matrix As Dictionary(Of String, Dictionary(Of String, Weight))
 
-                __pairItems = Value
-                __innerHash = __buildHashs(Value)
-            End Set
+        Default Public ReadOnly Property Iteration(geneId1 As String, geneId2 As String) As Weight
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Find(geneId1, geneId2)
+            End Get
         End Property
 
-        Dim __innerHash As Dictionary(Of String, Dictionary(Of String, Weight))
-        Dim __pairItems As Weight()
+        Private Sub New()
+        End Sub
 
-        Private Shared Function __buildHashs(dataSet As Weight()) As Dictionary(Of String, Dictionary(Of String, Weight))
-            If dataSet.IsNullOrEmpty Then
-                Return New Dictionary(Of String, Dictionary(Of String, Weight))
-            End If
+        Private Shared Function createMatrixInternal(dataSet As IEnumerable(Of Weight)) As Dictionary(Of String, Dictionary(Of String, Weight))
+            Dim matrix As New Dictionary(Of String, Dictionary(Of String, Weight))
+            Dim groupByFromNode = From itr As Weight
+                                  In dataSet.SafeQuery
+                                  Select itr
+                                  Group itr By itr.FromNode Into Group
 
-            Dim p1Group = (From obj As Weight
-                           In dataSet
-                           Select obj
-                           Group obj By obj.FromNode Into Group).ToArray
-            Dim p2Group = (From obj In p1Group.AsParallel
-                           Select obj.FromNode,
-                               gr = (From go As Weight
-                                     In obj.Group.ToArray
-                                     Select go
-                                     Group go By go.ToNode Into Group).ToArray) _
-                                     .ToDictionary(Function(obj) obj.FromNode,
-                                                   elementSelector:=Function(obj) _
-                                                                        obj.gr.ToDictionary(
-                                                                        Function(key) key.ToNode,
-                                                                        elementSelector:=Function(value) value.Group.ToArray()(Scan0)))
-            Return p2Group
+            For Each fromGroup In groupByFromNode
+                matrix(fromGroup.FromNode) = fromGroup _
+                    .Group _
+                    .ToDictionary(Function(itr)
+                                      Return itr.ToNode
+                                  End Function)
+            Next
+
+            Return matrix
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function CreateMatrix(dataSet As IEnumerable(Of Weight)) As WGCNAWeight
+            Return New WGCNAWeight With {
+                .matrix = createMatrixInternal(dataSet)
+            }
         End Function
 
         ''' <summary>
         ''' 找不到会返回空值
         ''' </summary>
-        ''' <param name="Id1"></param>
-        ''' <param name="Id2"></param>
-        ''' <param name="Parallel">可选参数，这个是为了控制并行计算的颗粒粒度而设置的参数，假若CPU利用率较低的话，可以尝试关闭本参数以增加颗粒粒度</param>
+        ''' <param name="geneId1"></param>
+        ''' <param name="geneId2"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Find(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Weight
-            Dim weight As Weight = Nothing
-            Dim hash As Dictionary(Of String, Weight)
+        Public Function Find(geneId1 As String, geneId2 As String) As Weight
+            Dim w As Weight
+            Dim row As Dictionary(Of String, Weight)
 
-            If __innerHash.ContainsKey(Id1) Then
-                hash = __innerHash(Id1)
-
-                If hash.ContainsKey(Id2) Then
-                    weight = hash(Id2)
-                End If
-
-            ElseIf __innerHash.ContainsKey(Id2) Then
-                hash = __innerHash(Id2)
-
-                If hash.ContainsKey(Id1) Then
-                    weight = hash(Id1)
-                End If
+            If matrix.ContainsKey(geneId1) Then
+                row = matrix(geneId1)
+                w = row.TryGetValue(geneId2)
+            ElseIf matrix.ContainsKey(geneId2) Then
+                row = matrix(geneId2)
+                w = row.TryGetValue(geneId1)
             Else
-                Return Nothing
+                w = Nothing
             End If
 
-            Return weight
+            Return w
         End Function
 
-        Public Function Find(Id As String) As Weight()
-            Dim LQuery = (From item In PairItems.AsParallel
-                          Where String.Equals(item.FromNode, Id) OrElse
-                              String.Equals(item.ToNode, Id)
-                          Select item).ToArray
-            Return LQuery
+        ''' <summary>
+        ''' find all correlated genes
+        ''' </summary>
+        ''' <param name="geneId"></param>
+        ''' <returns></returns>
+        Public Function Find(geneId As String) As IEnumerable(Of Weight)
+            If matrix.ContainsKey(geneId) Then
+                Return matrix(geneId).Values
+            Else
+                Return New Weight() {}
+            End If
         End Function
 
-        Public Function Find(Id As String, CutOff As Double) As Weight()
-            Dim LQuery = (From item As Weight In PairItems.AsParallel
-                          Where item.Weight >= CutOff AndAlso
-                              (String.Equals(item.FromNode, Id) OrElse String.Equals(item.ToNode, Id))
-                          Select item).ToArray
-            Return LQuery
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Find(geneId As String, cutOff As Double) As Weight()
+            Return Find(geneId).Where(Function(itr) stdNum.Abs(itr.Weight) >= cutOff)
         End Function
 
         ''' <summary>
         ''' 将目标对象相关的WGCNA weight值过滤出来，作为计算数据，以减少计算开销
         ''' </summary>
-        ''' <param name="IdList"></param>
+        ''' <param name="geneList"></param>
         ''' <remarks></remarks>
-        Public Sub Filtering(IdList As String())
-            Dim pairList As New List(Of Weight)
-            For Each Id As String In IdList
-                Call pairList.AddRange(Find(Id))
-            Next
-            Call pairList.RemoveAll(Function(item As Weight) item Is Nothing)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Subset(geneList As IEnumerable(Of String)) As WGCNAWeight
+            Return New WGCNAWeight With {
+                .matrix = geneList.ToDictionary(Function(id) id, Function(id) matrix(id))
+            }
+        End Function
 
-            Me.PairItems = pairList.ToArray
-        End Sub
-
-        Public Function GetValue(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Double
-            Dim w = Find(Id1, Id2, Parallel)
-            If w Is Nothing Then
-                Return 0
-            Else
-                Return w.Weight
-            End If
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetValue(geneId1 As String, geneId2 As String) As Double
+            Return Find(geneId1, geneId2)?.Weight
         End Function
     End Class
 End Namespace
