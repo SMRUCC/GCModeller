@@ -65,16 +65,6 @@ Module TRNBuilder
     End Function
 
     ''' <summary>
-    ''' load regprecise database from a given file.
-    ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
-    <ExportAPI("read.regprecise")>
-    Public Function readRegPrecise(file As String) As TranscriptionFactors
-        Return file.LoadXml(Of TranscriptionFactors)
-    End Function
-
-    ''' <summary>
     ''' read a footprint site model data file
     ''' </summary>
     ''' <param name="file"></param>
@@ -122,19 +112,6 @@ Module TRNBuilder
         Else
             Return Internal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
         End If
-    End Function
-
-    <ExportAPI("motif.raw")>
-    Public Function exportRegPrecise(regprecise As TranscriptionFactors) As list
-        Return regprecise _
-            .ExportByFamily _
-            .ToDictionary(Function(name) name.Key,
-                          Function(family)
-                              Return CObj(family.Value)
-                          End Function) _
-            .DoCall(Function(data)
-                        Return New list With {.slots = data}
-                    End Function)
     End Function
 
     <ExportAPI("regulation.footprint")>
