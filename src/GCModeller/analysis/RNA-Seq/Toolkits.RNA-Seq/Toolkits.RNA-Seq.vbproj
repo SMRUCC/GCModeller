@@ -210,8 +210,6 @@
     <Compile Include="Correlations\MatrixDatabase\Correlation2.vb" />
     <Compile Include="Correlations\MatrixDatabase\ICorrelations.vb" />
     <Compile Include="Correlations\MatrixDatabase\CorrsDbAPI.vb" />
-    <Compile Include="Correlations\MatrixDatabase\WGCNA\WeightNode.vb" />
-    <Compile Include="Correlations\MatrixDatabase\WGCNA\WGCNA.vb" />
     <Compile Include="Matrix\Experiment.vb" />
     <Compile Include="Matrix\Matrix.vb" />
     <Compile Include="Matrix\API.vb" />

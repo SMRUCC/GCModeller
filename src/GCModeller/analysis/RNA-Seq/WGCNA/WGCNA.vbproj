@@ -84,6 +84,8 @@
     </Compile>
     <Compile Include="Rscript.vb" />
     <Compile Include="CExprMods.vb" />
+    <Compile Include="Network\WeightNode.vb" />
+    <Compile Include="Network\WGCNA.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
