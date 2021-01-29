@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::d6464d01c02c8a251126ee808cf11c9f, meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DataPreparingParser
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: __getFastaList, (+2 Overloads) CreateObject, ExtractFromStringInteraction, ExtractMekkPathwayPromoter, ExtractMetacycPathwayPromoter
-    '                   ExtractPromoterRegion_Pathway, ExtractPromoterRegion_PhenotypePathways, (+2 Overloads) ExtractWholeGenomePromoter, GetFasta
-    ' 
-    '         Sub: Extract, ExtractKEGGModulesPromoter, ExtractPromoterRegion_KEGGModules, StringDbInteractions, (+2 Overloads) WholeGenomeParser
-    '         Class __extractFromStringTask
-    ' 
-    '             Constructor: (+1 Overloads) Sub New
-    '             Sub: __extractForGenes, __extractFromString
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DataPreparingParser
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: __getFastaList, (+2 Overloads) CreateObject, ExtractFromStringInteraction, ExtractMekkPathwayPromoter, ExtractMetacycPathwayPromoter
+'                   ExtractPromoterRegion_Pathway, ExtractPromoterRegion_PhenotypePathways, (+2 Overloads) ExtractWholeGenomePromoter, GetFasta
+' 
+'         Sub: Extract, ExtractKEGGModulesPromoter, ExtractPromoterRegion_KEGGModules, StringDbInteractions, (+2 Overloads) WholeGenomeParser
+'         Class __extractFromStringTask
+' 
+'             Constructor: (+1 Overloads) Sub New
+'             Sub: __extractForGenes, __extractFromString
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -224,7 +225,7 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Public Sub __extractFromString(stringEntry As String)
-                Dim entry = stringEntry.LoadXml(Of EntrySet)(ThrowEx:=False)
+                Dim entry = stringEntry.LoadXml(Of EntrySet)(throwEx:=False)
 
                 If entry Is Nothing Then
                     Return
@@ -394,7 +395,7 @@ Namespace Workflows.PromoterParser
         <ExportAPI("Extract.From.WGCNA", Info:="Extract data from WGCNA co-expression data.")>
         Public Shared Function ExtractWholeGenomePromoter([Operator] As DataPreparingParser,
                                                           export As String,
-                                                          wgcna As WGCNA.WGCNAWeight,
+                                                          wgcna As WGCNAWeight,
                                                           cutoff As String) As Integer
             Call [Operator].WholeGenomeParser(wgcna, cutoff, export)
             Return 0

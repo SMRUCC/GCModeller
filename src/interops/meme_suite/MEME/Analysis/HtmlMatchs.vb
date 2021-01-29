@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::253c227652ca87e84d1c95bcd01339fb, meme_suite\MEME\Analysis\HtmlMatchs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module HtmlMatching
-    ' 
-    '         Function: ____match, __assignOperonInfo, __createObject, __isSingle, (+6 Overloads) __match
-    '                   __matchProcess, FilteringPcc, (+2 Overloads) Invoke, LoadMEMEXml, (+5 Overloads) Match
-    '                   MatchedTargetRegulator, MergeResult, NovelSites, PhenotypeRegulations, Process
-    '                   ReadData, SaveMatchedResult
-    '         Class MEMEAnalysisResult
-    ' 
-    '             Properties: Regulated, RegulationMode, Regulator
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module HtmlMatching
+' 
+'         Function: ____match, __assignOperonInfo, __createObject, __isSingle, (+6 Overloads) __match
+'                   __matchProcess, FilteringPcc, (+2 Overloads) Invoke, LoadMEMEXml, (+5 Overloads) Match
+'                   MatchedTargetRegulator, MergeResult, NovelSites, PhenotypeRegulations, Process
+'                   ReadData, SaveMatchedResult
+'         Class MEMEAnalysisResult
+' 
+'             Properties: Regulated, RegulationMode, Regulator
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -227,12 +228,12 @@ Namespace Analysis
         Private Function __match(site As ComponentModel.MotifSite, gene As GeneBrief, Length As Integer) As ComponentModel.MotifSite
             If gene.Location.Strand = Strands.Forward Then
                 site.Strand = "+"
-                site.gStart = gene.Location.Left - Length + site.Start
+                site.gStart = gene.Location.left - Length + site.Start
                 site.gStop = site.gStart + Len(site.Sequence)
                 site.RightEndDownStream = Length - site.Start + Len(site.Sequence)
             Else
                 site.Strand = "-"
-                site.gStart = gene.Location.Right + Length - site.Start
+                site.gStart = gene.Location.right + Length - site.Start
                 site.gStop = site.gStart - Len(site.Sequence)
                 site.gStart.Swap(site.gStop)   ' 再交换位置变换为正常的位点位置
                 site.RightEndDownStream = Length - site.Start - Len(site.Sequence)
@@ -478,13 +479,13 @@ Namespace Analysis
                                       Let RegulatedPathways = (From RegulatedGeneId As String
                                                                In Regulator.RegulatedGenes
                                                                Select (From Pathway In Pathways
-                                                                       Where Not Pathway.Genes.IsNullOrEmpty AndAlso Pathway.IsContainsGeneObject(RegulatedGeneId)
+                                                                       Where Not Pathway.genes.IsNullOrEmpty AndAlso Pathway.IsContainsGeneObject(RegulatedGeneId)
                                                                        Let [Class] As BriteHEntry.Pathway = PathwayFunctions(Regex.Match(Pathway.EntryId, "\d{5}").Value)
-                                                                       Select Pathway.EntryId, [Class].Category).ToArray).ToArray.ToVector
+                                                                       Select Pathway.EntryId, [Class].category).ToArray).ToArray.ToVector
                                       Select Regulator.Regulator, RegulatePhenotypes = RegulatedPathways).ToArray
             Dim CsvFile As IO.File = New IO.File
             Dim Head As IO.RowObject = New IO.RowObject From {"Regulator", "Family"}
-            Dim Phenotypes As String() = (From item In PathwayFunctions Select item.Value.Category Distinct).ToArray
+            Dim Phenotypes As String() = (From item In PathwayFunctions Select item.Value.category Distinct).ToArray
             Dim LQuery = (From Regulator In PathwayRegulations.AsParallel
                           Let RegulatorId As String = Regulator.Regulator
                           Let PhenotypeStatics = (From Type As String

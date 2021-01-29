@@ -98,13 +98,13 @@ Partial Module CLI
         End If
 
         If String.IsNullOrEmpty(mods) Then
-            WGCNA = RTools.WGCNA.CallInvoke(
+            WGCNA = RTools.RunScript.CallInvoke(
                 dataExpr,
                 annoCsv,
                 outDIR,
                 GeneIdLabel:=lbMap)
         Else
-            WGCNA = RTools.WGCNA.CallInvoke(
+            WGCNA = RTools.RunScript.CallInvoke(
                 dataExpr,
                 annoCsv,
                 outDIR,

@@ -70,41 +70,41 @@ Module CLI
         Return Merges.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Trim.Regulons", Usage:="/Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]")>
-    Public Function TrimRegulon(args As CommandLine) As Integer
-        Dim inRegulons As String = args("/in")
-        Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".Trim.Csv")
-        Dim pcc As String = args("/pcc")
-        Dim PccDb As Correlation2
-        Dim cut As Double = args.GetValue("/cut", 0.65)
+    '   <ExportAPI("/Trim.Regulons", Usage:="/Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]")>
+    '   Public Function TrimRegulon(args As CommandLine) As Integer
+    '       Dim inRegulons As String = args("/in")
+    '       Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".Trim.Csv")
+    '       Dim pcc As String = args("/pcc")
+    '       Dim PccDb As Correlation2
+    '       Dim cut As Double = args.GetValue("/cut", 0.65)
 
-        If pcc.DirectoryExists Then
-            PccDb = New Correlation2(pcc)
-        Else
-            PccDb = Correlation2.CreateFromName(pcc)
-        End If
+    '       If pcc.DirectoryExists Then
+    '           PccDb = New Correlation2(pcc)
+    '       Else
+    '           PccDb = Correlation2.CreateFromName(pcc)
+    '       End If
 
-        Dim source = inRegulons.LoadCsv(Of RegPreciseRegulon)
+    '       Dim source = inRegulons.LoadCsv(Of RegPreciseRegulon)
 
-        For Each x As RegPreciseRegulon In source
-            x.Members = (From sId As String
-                         In x.Members.AsParallel
-                         Let pccn As Double = PccDb.GetPcc(x.Regulator, sId),
-                             spcc As Double = PccDb.GetSPcc(x.Regulator, sId)
-                         Where Math.Abs(pccn) >= cut OrElse
-                             Math.Abs(spcc) >= cut
-                         Select sId).ToArray
-        Next
+    '       For Each x As RegPreciseRegulon In source
+    '           x.Members = (From sId As String
+    '                        In x.Members.AsParallel
+    '                        Let pccn As Double = PccDb.GetPcc(x.Regulator, sId),
+    '                            spcc As Double = PccDb.GetSPcc(x.Regulator, sId)
+    '                        Where Math.Abs(pccn) >= cut OrElse
+    '                            Math.Abs(spcc) >= cut
+    '                        Select sId).ToArray
+    '       Next
 
-        source = LinqAPI.MakeList(Of RegPreciseRegulon) _
- _
-            () <= From x As RegPreciseRegulon
-                  In source
-                  Where Not x.Members.IsNullOrEmpty
-                  Select x
+    '       source = LinqAPI.MakeList(Of RegPreciseRegulon) _
+    '_
+    '           () <= From x As RegPreciseRegulon
+    '                 In source
+    '                 Where Not x.Members.IsNullOrEmpty
+    '                 Select x
 
-        Return source.SaveTo(out).CLICode
-    End Function
+    '       Return source.SaveTo(out).CLICode
+    '   End Function
 
     <ExportAPI("/Write.Network", Usage:="/Write.Network /in <regulons.csv> [/out <netDIR>]")>
     Public Function SaveNetwork(args As CommandLine) As Integer
