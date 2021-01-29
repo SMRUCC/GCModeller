@@ -5,7 +5,7 @@ let exportHits as function(outputText) {
 
 	using table as open.stream(output_table, ioRead = FALSE) {
 		read.blast(outputText, type="prot")
-		:> blasthit.sbh(keepsRawName = TRUE)
+		:> blasthit.sbh(keepsRawName = FALSE)
 		:> stream.flush(stream = table)
 		;
 	}
