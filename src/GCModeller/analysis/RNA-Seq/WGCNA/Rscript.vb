@@ -40,13 +40,10 @@
 
 #End Region
 
-Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
-Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 
 <Package("WGCNA", Cites:="Langfelder, P. and S. Horvath (2008). ""WGCNA: an R package For weighted correlation network analysis."" BMC Bioinformatics 9: 559.
@@ -156,63 +153,5 @@ Public Module Rscript
                     .ToNode = line(1),
                     .Weight = Val(line(2))}).ToArray
         Return New WGCNAWeight With {.PairItems = weights}
-    End Function
-
-    Const DEFAULT_COLORS As String = "yellow|blue|grey|pink|red|black|turquoise|midnightblue|brown|magenta|purple|cyan|greenyellow|green|tan|salmon"
-
-    ''' <summary>
-    ''' Applying the WGCNA analysis on your transcriptome data.
-    ''' </summary>
-    ''' <param name="dataExpr">
-    ''' The text encoding of this document should be ASCII, or the data reading in the R will be failed!
-    ''' (转录组数据的csv文件的位置，请注意！，数据文件都必须是ASCII编码的)
-    ''' </param>
-    ''' <param name="GeneIdLabel">使用这个参数来修改Id映射</param>
-    ''' <returns>
-    ''' 函数返回的是最终的WGCNA导出到Cytoscape的网络模型文件的文件路径，假若脚本执行失败，则返回空字符串
-    ''' </returns>
-    ''' 
-    <ExportAPI("WGCNA.Analysis")>
-    Public Function CallInvoke(<Parameter("dataExpr.csv",
-                                          "The csv document file path for the WGCNA data source. Which the first column in the document should be the genes locus_tag and the first row is the experiment title list.")>
-                               dataExpr As String,
-                               <Parameter("annotations.csv",
-                                          "The csv document file path for the gene annotation data source, this file should contains at least two columns which one of the column should named Id for the genes' locus_tag and named gene_symbol for the gene name.")>
-                               annotations As String,
-                               <Parameter("DIR.Export",
-                                          "Export the saved data and image plots to this directory, default location is current directory.")>
-                               Optional outDIR As String = "./",
-                               Optional GeneIdLabel As String = "GeneId",
-                               <Parameter("list.mod", "Module was represents in colors, using | as seperator.")>
-                               Optional modules As String = DEFAULT_COLORS) As String
-
-        Dim WGCNA As StringBuilder = New StringBuilder(Encoding.UTF8.GetString(My.Resources.WGCNA))
-        outDIR = outDIR.GetDirectoryFullPath
-        Call WGCNA.Replace("[dataExpr]", dataExpr.GetFullPath)
-        Call WGCNA.Replace("[WORK]", outDIR)
-        Call WGCNA.Replace("[GeneId_LABEL]", GeneIdLabel)
-        Call WGCNA.Replace("[TOMsave]", BaseName(dataExpr) & ".TOMsave")
-        Call WGCNA.Replace("[Annotations.csv]", annotations.GetFullPath)
-
-        Dim mods As String() = modules.ToLower.Trim.Split("|"c).Select(Function(sCl) $"""{sCl}""")
-        Call WGCNA.Replace("[list.MODs]", String.Join(", ", mods))
-        Call WGCNA.SaveTo($"{outDIR}/{BaseName(dataExpr)}.WGCNACallInvoke.R", System.Text.Encoding.ASCII)
-
-        Call dataExpr.TransEncoding(Encodings.ASCII)
-        Call annotations.TransEncoding(Encodings.ASCII)
-
-#If DEBUG Then
-            Call My.Computer.FileSystem.CurrentDirectory.__DEBUG_ECHO
-#End If
-        Dim STD As String() = R.WriteLine(WGCNA.ToString)
-        Dim Cytoscape As String = outDIR & "/CytoscapeEdges.txt"
-
-        Call STD.SaveTo(outDIR & "/WGCNA.STD.txt")
-
-        If Not Cytoscape.FileExists Then
-            Return ""
-        Else
-            Return Cytoscape
-        End If
     End Function
 End Module

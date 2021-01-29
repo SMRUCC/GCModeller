@@ -209,6 +209,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RunScript.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -260,6 +261,7 @@
     <None Include="Resources\onLoad.R" />
     <None Include="Resources\pfsnet.R" />
     <None Include="Resources\pfsnet_not_rJava.R" />
+    <None Include="Resources\WGCNA.R" />
     <None Include="R\DESeq\beginner.pdf" />
     <None Include="R\DESeq\DESeq2.pdf" />
     <None Include="R\DESeq\How to use DESeq to analyse RNAseq data.docx" />

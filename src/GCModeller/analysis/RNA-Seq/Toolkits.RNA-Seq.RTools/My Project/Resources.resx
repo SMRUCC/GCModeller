@@ -139,4 +139,7 @@
   <data name="pfsnet_not_rJava" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pfsnet_not_rJava.R;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="WGCNA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WGCNA.R;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
