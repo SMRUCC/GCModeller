@@ -126,6 +126,9 @@ Module patterns
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' apply for search by <see cref="matchSites"/>
+    ''' </remarks>
     <ExportAPI("read.motifs")>
     Public Function readMotifs(file As String) As SequenceMotif()
         Return file.LoadJSON(Of SequenceMotif())

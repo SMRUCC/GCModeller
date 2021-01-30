@@ -62,18 +62,17 @@ Public Module ProbabilityScanner
     ''' <summary>
     ''' 基于PWM的概率匹配
     ''' </summary>
-    ''' <param name="prob">PWM</param>
+    ''' <param name="PWM">PWM</param>
     ''' <param name="target"></param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanSites(prob As IEnumerable(Of Residue), target As FastaSeq,
+    Public Function ScanSites(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq,
                               Optional cutoff# = 0.6,
                               Optional minW% = 6,
                               Optional identities As Double = 0.5) As SimpleSegment()
 
-        Dim PWM = prob.ToArray
         Dim subject As Residue() = target.ToResidues
         Dim symbol As New GenericSymbol(Of Residue)(
             equals:=Function(a, b) Compare(a, b) >= 0.85,
@@ -100,7 +99,7 @@ Public Module ProbabilityScanner
     End Function
 
     <Extension>
-    Private Function pairwiseIdentities(match As Match, PWM As Residue(), subject As Residue(), pairwiseMatrix As ScoreMatrix(Of Residue), identities#) As Boolean
+    Private Function pairwiseIdentities(match As Match, PWM As IReadOnlyCollection(Of Residue), subject As Residue(), pairwiseMatrix As ScoreMatrix(Of Residue), identities#) As Boolean
         Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
         Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
         Dim pairwise As New MotifNeedlemanWunsch(q, s)
