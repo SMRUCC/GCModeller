@@ -138,7 +138,9 @@ Public Module Protocol
                               Function(g) g.Count / MSA.Length)
             Dim Pi = nt.ToDictionary(
                 Function(base) base,
-                Function(base) P.TryGetValue(base))
+                Function(base)
+                    Return P.TryGetValue(base)
+                End Function)
 
             residues += New Probability.Residue With {
                 .frequency = Pi,
