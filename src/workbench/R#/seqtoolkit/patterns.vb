@@ -143,7 +143,7 @@ Module patterns
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
-    <RApiReturn(GetType(SimpleSegment))>
+    <RApiReturn(GetType(MotifMatch))>
     Public Function matchSites(motif As SequenceMotif,
                                <RRawVectorArgument>
                                target As Object,
@@ -155,7 +155,9 @@ Module patterns
         If target Is Nothing Then
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
-            Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities)
+            Return motif.region _
+                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
+                .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
 
@@ -165,13 +167,7 @@ Module patterns
                 Return seqs _
                     .AsParallel _
                     .Select(Function(seq)
-                                Dim locis = motif.region.ScanSites(seq, cutoff, minW, identities)
-
-                                For Each site As SimpleSegment In locis
-                                    site.ID = seq.Title.Split.First
-                                Next
-
-                                Return locis
+                                Return motif.region.ScanSites(seq, cutoff, minW, identities)
                             End Function) _
                     .IteratesALL _
                     .ToArray
