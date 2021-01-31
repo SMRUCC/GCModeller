@@ -68,10 +68,10 @@ Public Module ProbabilityScanner
     ''' <param name="minW%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanSites(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq,
-                              Optional cutoff# = 0.6,
-                              Optional minW% = 6,
-                              Optional identities As Double = 0.5) As SimpleSegment()
+    Public Iterator Function ScanSites(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
 
         Dim subject As Residue() = target.ToResidues
         Dim symbol As New GenericSymbol(Of Residue)(
@@ -83,23 +83,41 @@ Public Module ProbabilityScanner
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
         Dim result = core.GetMatches(cutoff * core.MaxScore).ToArray
         Dim pairwiseMatrix = MotifNeedlemanWunsch.defaultScoreMatrix
-        Dim out = result _
-            .OrderByDescending(Function(m) m.score) _
-            .Where(Function(m)
-                       Return (m.toB - m.fromB) >= minW AndAlso m.pairwiseIdentities(PWM, subject, pairwiseMatrix, identities)
-                   End Function) _
-            .Select(Function(m)
-                        Dim frag = target.CutSequenceLinear(m.RefLoci)
-                        frag.ID = m.score
-                        Return frag
-                    End Function) _
-            .ToArray
+        Dim maxIdentities As Value(Of Double) = 0
+        Dim seqTitle As String = target.Title
 
-        Return out
+        For Each m As Match In result
+            If (m.toB - m.fromB) < minW Then
+                Continue For
+            End If
+
+            Dim maxMatch = m.pairwiseIdentities(PWM, subject, pairwiseMatrix)
+
+            If maxMatch Is Nothing OrElse (maxIdentities = maxMatch.Identities(pairwiseMatrix)) < identities Then
+                Continue For
+            End If
+
+            Dim site As SimpleSegment = target.CutSequenceLinear(m.RefLoci)
+
+            Yield New MotifMatch With {
+                .identities = maxIdentities,
+                .segment = site.SequenceData,
+                .match = maxMatch.query.JoinBy(""),
+                .score1 = maxMatch.score,
+                .score2 = m.score,
+                .title = seqTitle,
+                .start = site.Start,
+                .ends = site.Ends
+            }
+        Next
     End Function
 
     <Extension>
-    Private Function pairwiseIdentities(match As Match, PWM As IReadOnlyCollection(Of Residue), subject As Residue(), pairwiseMatrix As ScoreMatrix(Of Residue), identities#) As Boolean
+    Private Function pairwiseIdentities(match As Match,
+                                        PWM As IReadOnlyCollection(Of Residue),
+                                        subject As Residue(),
+                                        pairwiseMatrix As ScoreMatrix(Of Residue)) As GlobalAlign(Of Residue)
+
         Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
         Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
         Dim pairwise As New MotifNeedlemanWunsch(q, s)
@@ -108,9 +126,10 @@ Public Module ProbabilityScanner
 
         Return pairwise _
             .PopulateAlignments _
-            .Any(Function(gl)
-                     Return gl.Identities(pairwiseMatrix) >= identities
-                 End Function)
+            .OrderByDescending(Function(gl)
+                                   Return gl.Identities(pairwiseMatrix)
+                               End Function) _
+            .FirstOrDefault
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

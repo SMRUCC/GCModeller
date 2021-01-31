@@ -138,7 +138,7 @@ Module patterns
     ''' Find target loci site based on the given motif model
     ''' </summary>
     ''' <param name="motif"></param>
-    ''' <param name="target"></param>
+    ''' <param name="target">a collection of fasta sequence</param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW#"></param>
     ''' <returns></returns>
