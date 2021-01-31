@@ -24,7 +24,7 @@ Public Class RegPreciseScan
             For Each id As String In site.seeds
                 Dim tfMaps As RegpreciseBBH() = TFmapping.TryGetValue(RegPrecise(id))
 
-                For Each tf As RegpreciseBBH In tfMaps
+                For Each tf As RegpreciseBBH In tfMaps.SafeQuery
                     Yield New RegulationFootprint With {
                         .biological_process = tf.pathway,
                         .effector = tf.effectors.JoinBy("; "),
@@ -49,7 +49,7 @@ Public Class RegPreciseScan
             .Where(Function(tf)
                        Return tf.HitName <> BBHParser.HITS_NOT_FOUND
                    End Function) _
-            .GroupBy(Function(map) map.HitName) _
+            .GroupBy(Function(map) map.HitName.Split(":"c).Last) _
             .ToDictionary(Function(tf) tf.Key,
                           Function(maps)
                               Return maps.ToArray
