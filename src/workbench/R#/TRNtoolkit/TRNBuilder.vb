@@ -193,7 +193,6 @@ Module TRNBuilder
             End If
 
             regulates.weight = supports
-            regulates.ID = footprint.Key
             regulates.isDirected = True
             regulates.data("supports") = supports
             regulates.data.label = footprint.Key
