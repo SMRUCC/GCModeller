@@ -397,7 +397,7 @@ Namespace SmithWaterman
                         score_ij > score(i - 1)(j) AndAlso
                         score_ij > score(i)(j - 1) Then
 
-                        If i < queryLength - 1 AndAlso j < queryLength - 1 Then
+                        If i < queryLength - 1 AndAlso j < subjectLength - 1 Then
                             score_ijNext = score(i + 1)(j + 1)
                         Else
                             score_ijNext = -10000
