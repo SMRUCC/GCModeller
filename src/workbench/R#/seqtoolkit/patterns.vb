@@ -83,7 +83,7 @@ Module patterns
         table.columns(NameOf(MotifMatch.identities)) = scans.Select(Function(m) m.identities).ToArray
         table.columns(NameOf(MotifMatch.score1)) = scans.Select(Function(m) m.score1).ToArray
         table.columns(NameOf(MotifMatch.score2)) = scans.Select(Function(m) m.score2).ToArray
-        table.columns(NameOf(MotifMatch.match)) = scans.Select(Function(m) m.match).ToArray
+        table.columns(NameOf(MotifMatch.motif)) = scans.Select(Function(m) m.motif).ToArray
         table.columns(NameOf(MotifMatch.start)) = scans.Select(Function(m) m.start).ToArray
         table.columns(NameOf(MotifMatch.ends)) = scans.Select(Function(m) m.ends).ToArray
 

@@ -102,7 +102,7 @@ Public Module ProbabilityScanner
             Yield New MotifMatch With {
                 .identities = maxIdentities,
                 .segment = site.SequenceData,
-                .match = maxMatch.query.JoinBy(""),
+                .motif = maxMatch.query.JoinBy(""),
                 .score1 = maxMatch.score,
                 .score2 = m.score,
                 .title = seqTitle,
