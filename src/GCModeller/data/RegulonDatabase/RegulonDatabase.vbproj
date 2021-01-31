@@ -236,6 +236,7 @@
     <Compile Include="RegPrecise\AnalysisResult\RegPreciseOperon.vb" />
     <Compile Include="RegPrecise\AnalysisResult\RegpreciseRegulation.vb" />
     <Compile Include="RegPrecise\BBHH.vb" />
+    <Compile Include="RegPrecise\RegulationFootprint.vb" />
     <Compile Include="RegPrecise\RegulatorTable.vb" />
     <Compile Include="RegPrecise\RegPreciseRegulatorMatch.vb" />
     <Compile Include="RegPrecise\Compiler.vb" />
