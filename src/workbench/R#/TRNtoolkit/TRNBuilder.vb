@@ -156,8 +156,8 @@ Module TRNBuilder
             .GroupBy(Function(reg) $"{reg.regulator}->{reg.regulated}")
 
             Dim matchedList As RegulationFootprint() = footprint.ToArray
-            Dim regulator As String = matchedList(Scan0).regulator
-            Dim target As String = matchedList(Scan0).regulated
+            Dim regulator As String = matchedList(Scan0).regulator.Split("|"c).Last
+            Dim target As String = matchedList(Scan0).regulated.Split("|"c).Last
             Dim maxSupportsFamily As String = matchedList _
                 .Select(Function(r) r.family) _
                 .GroupBy(Function(name) name) _
@@ -181,7 +181,12 @@ Module TRNBuilder
                 node = g.CreateNode(target)
             End If
 
-            Dim regulates = g.GetEdges(g.GetElementByID(regulator), g.GetElementByID(target)).FirstOrDefault
+            Dim regulates As Edge = g _
+                .GetEdges(
+                    u:=g.GetElementByID(regulator),
+                    v:=g.GetElementByID(target)
+                ) _
+                .FirstOrDefault
 
             If regulates Is Nothing Then
                 regulates = g.CreateEdge(g.GetElementByID(regulator), g.GetElementByID(target))
