@@ -168,6 +168,7 @@ Module patterns
                                Optional cutoff# = 0.6,
                                Optional minW# = 6,
                                Optional identities As Double = 0.85,
+                               Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         If target Is Nothing Then
@@ -182,7 +183,8 @@ Module patterns
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
-                Return seqs _
+                Return seqs.ToArray _
+                    .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
                                 Return motif.region.ScanSites(seq, cutoff, minW, identities)
                             End Function) _
