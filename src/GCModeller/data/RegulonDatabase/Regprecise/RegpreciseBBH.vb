@@ -54,6 +54,9 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
 
+    ''' <summary>
+    ''' RegPrecise regulator matched by blastp sbh/bbh mapping
+    ''' </summary>
     Public Class RegpreciseBBH : Inherits BiDirectionalBesthit
         Implements INamedValue
         Implements IRegulatorMatched

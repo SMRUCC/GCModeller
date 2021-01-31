@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KEGGRegulon.vb" />
+    <Compile Include="RegPreciseScan.vb" />
     <Compile Include="Regulon.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -250,6 +251,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
@@ -273,6 +278,10 @@
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
+      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
+      <Name>MotifScanner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\SharedDataModels\VirtualFootprints.SharedCommon.projitems" Label="Shared" />

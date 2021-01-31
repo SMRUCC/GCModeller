@@ -55,6 +55,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' <summary>
 '''
 ''' </summary>
+''' 
+<HideModuleName>
 Public Module Extensions
 
     <Extension> Public Function uid(x As RegPreciseRegulon) As String
