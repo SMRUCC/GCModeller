@@ -81,7 +81,7 @@ Public Module ProbabilityScanner
             empty:=AddressOf Residue.GetEmpty
         )
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
-        Dim result = core.GetMatches(cutoff * core.MaxScore).ToArray
+        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore).ToArray
         Dim pairwiseMatrix = MotifNeedlemanWunsch.defaultScoreMatrix
         Dim maxIdentities As Value(Of Double) = 0
         Dim seqTitle As String = target.Title
@@ -122,9 +122,8 @@ Public Module ProbabilityScanner
         Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
         Dim pairwise As New MotifNeedlemanWunsch(q, s)
 
-        pairwise.Compute()
-
         Return pairwise _
+            .Compute() _
             .PopulateAlignments _
             .OrderByDescending(Function(gl)
                                    Return gl.Identities(pairwiseMatrix)
