@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c0cdd479b9a07c73888db3fb1490df3, cytoscape_toolkit\xgmml.vb"
+﻿#Region "Microsoft.VisualBasic::3cb5d222c6c842d3398418a300c319cf, cytoscape_toolkit\xgmml.vb"
 
     ' Author:
     ' 

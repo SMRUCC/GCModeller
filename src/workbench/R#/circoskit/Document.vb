@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11f5a94bba29c8ff0f7793abb35e9650, circoskit\Document.vb"
+﻿#Region "Microsoft.VisualBasic::d52f5c271d30c69faa0271cf31747dfa, circoskit\Document.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     ' Module Document
     ' 
     '     Function: AddTrack, ConfigCircosBackbone, CreateDataModel, GetCircosScript, GetIdeogram
-    '               Save
+    '               getMain, Save
     ' 
     ' /********************************************************************************/
 

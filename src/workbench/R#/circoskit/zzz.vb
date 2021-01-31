@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::496eb210102e358523d05cd170ec78cf, circoskit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::7da0625fc131d5c3809cf5344708ffdb, circoskit\zzz.vb"
 
     ' Author:
     ' 
@@ -54,4 +54,3 @@ Module zzz
 circos - generate circularly composited information graphics")
     End Sub
 End Module
-

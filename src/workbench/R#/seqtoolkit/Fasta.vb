@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11fd88786f7c60da830c3538c20b314e, seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::2323e37fedc3edb949d1650ac68913eb, seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 
@@ -39,11 +39,6 @@
     '               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
     '               viewFasta, viewMSA, writeFasta
     ' 
-    ' 
-    ' Class AssembleResult
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetAssembledSequence
     ' 
     ' /********************************************************************************/
 
@@ -482,4 +477,3 @@ Module Fasta
         End If
     End Function
 End Module
-
