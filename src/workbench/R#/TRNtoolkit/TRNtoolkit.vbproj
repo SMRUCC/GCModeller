@@ -142,6 +142,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
+      <Name>VirtualFootprint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
       <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
       <Name>WGCNA</Name>

@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -116,54 +117,79 @@ Module TRNBuilder
         End If
     End Function
 
-    <ExportAPI("TRN")>
-    Public Function TRN(<RRawVectorArgument> factors As Object, familySites As list, Optional env As Environment = Nothing) As Object
+    <ExportAPI("regulations")>
+    <RApiReturn(GetType(RegulationFootprint))>
+    Public Function RegulationFootprints(regDb As RegPreciseScan,
+                                         <RRawVectorArgument> factors As Object,
+                                         <RRawVectorArgument> tfbs As Object,
+                                         Optional env As Environment = Nothing) As Object
+
         Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
+        Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
 
         If TF.isError Then
             Return TF.getError
+        ElseIf TFBSlist.isError Then
+            Return TFBSlist.getError
         End If
 
-        Dim familyIndex = TF.populates(Of RegpreciseBBH)(env) _
-            .Select(Function(r)
-                        Return r.family.Split("/"c).Select(Function(family) (family, r))
-                    End Function) _
-            .IteratesALL _
-            .GroupBy(Function(r) r.family.ToLower) _
-            .ToDictionary(Function(family) family.Key,
-                          Function(list)
-                              Return list.Select(Function(r) r.r).ToArray
-                          End Function)
+        Return regDb.CreateFootprints(
+            regulators:=TF.populates(Of RegpreciseBBH)(env),
+            tfbs:=TFBSlist.populates(Of MotifMatch)(env)
+        ) _
+            .ToArray
+    End Function
+
+    <ExportAPI("TRN")>
+    Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
+        Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
+
+        If network.isError Then
+            Return network.getError
+        End If
+
         Dim g As New NetworkGraph
-        Dim tfbs As String()
+        Dim node As Node
 
-        For Each geneId As String In familySites.getNames
-            Call g.CreateNode(geneId)
-        Next
+        For Each footprint As IGrouping(Of String, RegulationFootprint) In network _
+            .populates(Of RegulationFootprint)(env) _
+            .GroupBy(Function(reg) $"{reg.regulator}->{reg.regulated}")
 
-        For Each reg In familyIndex.Values.IteratesALL
-            If g.GetElementByID(reg.QueryName) Is Nothing Then
-                Call g.CreateNode(reg.QueryName)
+            Dim matchedList As RegulationFootprint() = footprint.ToArray
+            Dim regulator As String = matchedList(Scan0).regulator
+            Dim target As String = matchedList(Scan0).regulated
+            Dim maxSupportsFamily As String = matchedList _
+                .Select(Function(r) r.family) _
+                .GroupBy(Function(name) name) _
+                .OrderByDescending(Function(family) family.Count) _
+                .First _
+                .Key
+            Dim supports As Integer = matchedList.Length
+
+            node = g.GetElementByID(regulator)
+
+            If node Is Nothing Then
+                node = g.CreateNode(regulator)
             End If
-        Next
 
-        Dim regData As EdgeData
+            node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
+            node.data("family") = maxSupportsFamily
 
-        For Each geneId As String In familySites.getNames
-            tfbs = familySites.getValue(geneId, env, New String() {})
+            node = g.GetElementByID(target)
 
-            For Each family As String In tfbs.Select(AddressOf Strings.LCase)
-                If familyIndex.ContainsKey(family) Then
-                    For Each reg As RegpreciseBBH In familyIndex(family)
-                        regData = New EdgeData With {.label = $"{reg.QueryName} -> {geneId}"}
-                        regData(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
+            If node Is Nothing Then
+                node = g.CreateNode(target)
+            End If
 
-                        g.CreateEdge(reg.QueryName, geneId, data:=regData)
-                        g.GetElementByID(reg.QueryName).data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
-                        g.GetElementByID(reg.QueryName).data.label = $"({reg.family}) {reg.geneName}"
-                    Next
-                End If
-            Next
+            Dim regulates = g.GetEdges(g.GetElementByID(regulator), g.GetElementByID(target)).FirstOrDefault
+
+            If regulates Is Nothing Then
+                regulates = g.CreateEdge(g.GetElementByID(regulator), g.GetElementByID(target))
+            End If
+
+            regulates.weight = supports
+            regulates.isDirected = True
+            regulates.data("supports") = supports
         Next
 
         Return g

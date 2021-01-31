@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -82,6 +83,18 @@ Public Module RegPrecise
     <ExportAPI("read.regulome")>
     Public Function readRegulome(xml As String) As BacteriaRegulome
         Return xml.LoadXml(Of BacteriaRegulome)
+    End Function
+
+    <ExportAPI("loadScanner")>
+    <RApiReturn(GetType(RegPreciseScan))>
+    Public Function LoadScanner(<RRawVectorArgument> regDb As Object, Optional env As Environment = Nothing) As Object
+        Dim genomes As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(regDb, env)
+
+        If genomes.isError Then
+            Return genomes.getError
+        End If
+
+        Return RegPreciseScan.CreateFromRegPrecise(genomes.populates(Of BacteriaRegulome)(env))
     End Function
 
     <ExportAPI("regulators")>
