@@ -44,8 +44,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -146,60 +144,11 @@ Module TRNBuilder
 
         If network.isError Then
             Return network.getError
+        Else
+            Return network _
+                .populates(Of RegulationFootprint)(env) _
+                .RegulationFootprintTRN
         End If
-
-        Dim g As New NetworkGraph
-        Dim node As Node
-
-        For Each footprint As IGrouping(Of String, RegulationFootprint) In network _
-            .populates(Of RegulationFootprint)(env) _
-            .GroupBy(Function(reg) $"{reg.regulator}->{reg.regulated}")
-
-            Dim matchedList As RegulationFootprint() = footprint.ToArray
-            Dim regulator As String = matchedList(Scan0).regulator.Split("|"c).Last
-            Dim target As String = matchedList(Scan0).regulated.Split("|"c).Last
-            Dim maxSupportsFamily As String = matchedList _
-                .Select(Function(r) r.family) _
-                .GroupBy(Function(name) name) _
-                .OrderByDescending(Function(family) family.Count) _
-                .First _
-                .Key
-            Dim supports As Integer = matchedList.Length
-
-            node = g.GetElementByID(regulator)
-
-            If node Is Nothing Then
-                node = g.CreateNode(regulator)
-            End If
-
-            node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
-            node.data("family") = maxSupportsFamily
-
-            node = g.GetElementByID(target)
-
-            If node Is Nothing Then
-                node = g.CreateNode(target)
-            End If
-
-            Dim regulates As Edge = g _
-                .GetEdges(
-                    u:=g.GetElementByID(regulator),
-                    v:=g.GetElementByID(target)
-                ) _
-                .FirstOrDefault
-
-            If regulates Is Nothing Then
-                regulates = g.CreateEdge(g.GetElementByID(regulator), g.GetElementByID(target))
-            End If
-
-            regulates.weight = supports
-            regulates.isDirected = True
-            regulates.data("supports") = supports
-            regulates.data.label = footprint.Key
-            regulates.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
-        Next
-
-        Return g
     End Function
 
     <ExportAPI("regulation.footprint")>
