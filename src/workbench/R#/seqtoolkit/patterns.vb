@@ -86,6 +86,7 @@ Module patterns
         table.columns(NameOf(MotifMatch.motif)) = scans.Select(Function(m) m.motif).ToArray
         table.columns(NameOf(MotifMatch.start)) = scans.Select(Function(m) m.start).ToArray
         table.columns(NameOf(MotifMatch.ends)) = scans.Select(Function(m) m.ends).ToArray
+        table.columns(NameOf(MotifMatch.seeds)) = scans.Select(Function(m) m.seeds.JoinBy("; ")).ToArray
 
         Return table
     End Function
@@ -186,7 +187,7 @@ Module patterns
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Return motif.region.ScanSites(seq, cutoff, minW, identities)
+                                Return motif.ScanSites(seq, cutoff, minW, identities)
                             End Function) _
                     .IteratesALL _
                     .ToArray

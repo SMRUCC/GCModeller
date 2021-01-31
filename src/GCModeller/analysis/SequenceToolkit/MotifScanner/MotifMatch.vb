@@ -8,5 +8,6 @@
     Public Property motif As String
     Public Property start As Integer
     Public Property ends As Integer
+    Public Property seeds As String()
 
 End Class
