@@ -105,7 +105,7 @@ Public Class Probability
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Dim max As Double = -99999
-            Dim maxChar As Char
+            Dim maxChar As Char?
 
             For Each b In frequency
                 If b.Value > max Then
@@ -114,7 +114,9 @@ Public Class Probability
                 End If
             Next
 
-            If max >= 0.5 Then
+            If maxChar Is Nothing Then
+                Return "-"
+            ElseIf max >= 0.5 Then
                 Return Char.ToUpper(maxChar)
             Else
                 Return Char.ToLower(maxChar)
