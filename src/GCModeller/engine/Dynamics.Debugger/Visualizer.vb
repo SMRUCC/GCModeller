@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8df8b67ad3f24a064eb46ba1cd80ed21, engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::f5b403e36b2ad2286e3d6dfdd9ec13b0, engine\Dynamics.Debugger\Visualizer.vb"
 
     ' Author:
     ' 

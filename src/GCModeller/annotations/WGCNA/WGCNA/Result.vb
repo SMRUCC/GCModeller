@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5d13f099f5f5de48919a62d7c9a7571, WGCNA\WGCNA\Result.vb"
+﻿#Region "Microsoft.VisualBasic::a7b680509d51c189159e4f0cc65f8551, annotations\WGCNA\WGCNA\Result.vb"
 
     ' Author:
     ' 
@@ -56,4 +56,3 @@ Public Class Result
     Public Property softBeta As BetaTest()
 
 End Class
-

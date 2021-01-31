@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b321fc08c54882a199fbfd281c4b5be3, WGCNA\WGCNA\SoftLinear.vb"
+﻿#Region "Microsoft.VisualBasic::7091a03d3423f54476bad123b4054d70, annotations\WGCNA\WGCNA\SoftLinear.vb"
 
     ' Author:
     ' 
@@ -62,4 +62,3 @@ Module SoftLinear
         Return LeastSquares.LinearFit(X, Y)
     End Function
 End Module
-

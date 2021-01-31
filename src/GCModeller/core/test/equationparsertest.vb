@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::746e826a92e215e68d65f8b276453074, test\equationparsertest.vb"
+﻿#Region "Microsoft.VisualBasic::746e826a92e215e68d65f8b276453074, core\test\equationparsertest.vb"
 
     ' Author:
     ' 

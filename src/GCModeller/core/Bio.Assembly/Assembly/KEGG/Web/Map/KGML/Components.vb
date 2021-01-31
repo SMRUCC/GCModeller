@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da0f319a18c3f39d5770a83d36b8ef4c, Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Components.vb"
+﻿#Region "Microsoft.VisualBasic::da0f319a18c3f39d5770a83d36b8ef4c, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Components.vb"
 
     ' Author:
     ' 

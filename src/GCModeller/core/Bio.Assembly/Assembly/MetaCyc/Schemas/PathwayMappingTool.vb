@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c71045f61d59b5c0c5e9952cf25319, Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
+﻿#Region "Microsoft.VisualBasic::74c71045f61d59b5c0c5e9952cf25319, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
 
     ' Author:
     ' 

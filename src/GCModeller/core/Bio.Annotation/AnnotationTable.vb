@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95a5d0afae662e334596cb5497fd38cf, Bio.Annotation\AnnotationTable.vb"
+﻿#Region "Microsoft.VisualBasic::95a5d0afae662e334596cb5497fd38cf, core\Bio.Annotation\AnnotationTable.vb"
 
     ' Author:
     ' 

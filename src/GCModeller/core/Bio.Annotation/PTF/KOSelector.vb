@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edea355844db79b04b77580c397699aa, Bio.Annotation\PTF\KOSelector.vb"
+﻿#Region "Microsoft.VisualBasic::edea355844db79b04b77580c397699aa, core\Bio.Annotation\PTF\KOSelector.vb"
 
     ' Author:
     ' 

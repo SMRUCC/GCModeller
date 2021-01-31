@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::486b74b881292d13ecb1cfcc875b72c5, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::7de60a8b2413775867868a806bd6e9d0, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,9 @@
 
     ' Summaries:
 
-    ' Class MotifNeedlemanWunsch
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: defaultScoreMatrix
-    ' 
     ' Module ProbabilityScanner
     ' 
-    '     Function: Compare, pairwiseIdentities, RefLoci, ScanSites, ToResidues
+    '     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
     ' 
     ' /********************************************************************************/
 

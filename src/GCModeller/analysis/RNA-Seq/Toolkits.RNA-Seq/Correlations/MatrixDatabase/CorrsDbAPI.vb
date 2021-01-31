@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec718faab42374dc5f7df7aae8259f71, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7922790d17059ec4bcb0220778cb1edb, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
     ' 
     ' Module CorrsDbAPI
     ' 
-    '     Function: FastImports, IsTrue, IsTrueFunc
+    '     Function: IsTrue, IsTrueFunc
     '     Class __isTRUE
     ' 
     '         Function: IsTrue

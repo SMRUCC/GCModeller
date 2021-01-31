@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb48b32710cdff8001caf95da0b65185, Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::cb48b32710cdff8001caf95da0b65185, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\PathwayWebQuery.vb"
 
     ' Author:
     ' 

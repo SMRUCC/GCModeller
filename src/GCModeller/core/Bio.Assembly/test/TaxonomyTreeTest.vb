@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18306ef85d6f239e582ca9040019088d, Bio.Assembly\Test\TaxonomyTreeTest.vb"
+﻿#Region "Microsoft.VisualBasic::18306ef85d6f239e582ca9040019088d, core\Bio.Assembly\Test\TaxonomyTreeTest.vb"
 
     ' Author:
     ' 

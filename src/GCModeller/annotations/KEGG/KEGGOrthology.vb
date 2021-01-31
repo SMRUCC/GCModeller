@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::456bfdaddf88bf493499c283ab3d71fd, KEGG\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::456bfdaddf88bf493499c283ab3d71fd, annotations\KEGG\KEGGOrthology.vb"
 
     ' Author:
     ' 

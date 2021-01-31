@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190c24146775887f6ff299c969430284, Bio.Assembly\Query\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::190c24146775887f6ff299c969430284, core\Bio.Assembly\Query\NamespaceDoc.vb"
 
     ' Author:
     ' 

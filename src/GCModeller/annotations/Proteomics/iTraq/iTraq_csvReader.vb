@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4c70cb2dd21e1fc201e63489f21aad1, Proteomics\iTraq\iTraq_csvReader.vb"
+﻿#Region "Microsoft.VisualBasic::f4c70cb2dd21e1fc201e63489f21aad1, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
 
     ' Author:
     ' 

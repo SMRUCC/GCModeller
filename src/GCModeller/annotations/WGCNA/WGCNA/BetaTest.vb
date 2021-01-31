@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49f60809c3dc72139366cdcfcfdd634b, WGCNA\WGCNA\BetaTest.vb"
+﻿#Region "Microsoft.VisualBasic::0c69c6b604b2385e2026aea879c452b9, annotations\WGCNA\WGCNA\BetaTest.vb"
 
     ' Author:
     ' 
@@ -126,4 +126,3 @@ Public Class BetaTest
         Return Which.Max(score)
     End Function
 End Class
-

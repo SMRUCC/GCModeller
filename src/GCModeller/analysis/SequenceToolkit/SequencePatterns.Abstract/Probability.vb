@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6bc57859ef0ce8558c09c18cfd72f21, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::ea93b8d10bf0c55326bdfeeb2b1b91ee, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
     '     Function: patternString, ToString
     '     Structure Residue
     ' 
-    '         Properties: frequency, index, isEmpty
+    '         Properties: frequency, index, isEmpty, topChar
     ' 
-    '         Function: Max, ToString
+    '         Function: Cos, GetEmpty, Max, ToString
     ' 
     ' 
     ' 

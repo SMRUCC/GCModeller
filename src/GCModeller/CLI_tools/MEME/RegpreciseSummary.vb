@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db5bcb0aa1cac6f80b8c94b8ec13d296, CLI_tools\MEME\RegpreciseSummary.vb"
+﻿#Region "Microsoft.VisualBasic::18f670c1bb57110fa78bdf69b39c6606, CLI_tools\MEME\RegpreciseSummary.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@
     '     Module RegpreciseSummary
     ' 
     '         Function: __correlationFilter, (+2 Overloads) __createSites, __getMapped, __getregDataSet, __regulationMappings
-    '                   (+3 Overloads) GenerateRegulations, LoadMEME, LoadRegpreciseBBH, (+2 Overloads) SiteToRegulation
+    '                   LoadMEME, LoadRegpreciseBBH, SiteToRegulation
     ' 
     ' 
     ' /********************************************************************************/
