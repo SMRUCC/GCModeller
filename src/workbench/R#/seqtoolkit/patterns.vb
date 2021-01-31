@@ -183,7 +183,6 @@ Module patterns
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
                 Return seqs _
-                    .AsParallel _
                     .Select(Function(seq)
                                 Return motif.region.ScanSites(seq, cutoff, minW, identities)
                             End Function) _
