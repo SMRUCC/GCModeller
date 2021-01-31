@@ -193,8 +193,11 @@ Module TRNBuilder
             End If
 
             regulates.weight = supports
+            regulates.ID = footprint.Key
             regulates.isDirected = True
             regulates.data("supports") = supports
+            regulates.data.label = footprint.Key
+            regulates.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
         Next
 
         Return g
