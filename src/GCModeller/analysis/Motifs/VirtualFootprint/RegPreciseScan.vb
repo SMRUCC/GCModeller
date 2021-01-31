@@ -22,7 +22,7 @@ Public Class RegPreciseScan
 
         For Each site As MotifMatch In tfbs
             For Each id As String In site.seeds
-                Dim tfMaps As RegpreciseBBH() = TFmapping.TryGetValue(RegPrecise(id))
+                Dim tfMaps As RegpreciseBBH() = TFmapping.TryGetValue(RegPrecise.TryGetValue(id))
 
                 For Each tf As RegpreciseBBH In tfMaps.SafeQuery
                     Yield New RegulationFootprint With {
