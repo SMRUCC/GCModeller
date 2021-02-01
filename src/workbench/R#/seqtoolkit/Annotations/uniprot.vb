@@ -51,7 +51,45 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
-<Package("uniprot", Category:=APICategories.UtilityTools)>
+''' <summary>
+''' The Universal Protein Resource (UniProt)
+''' </summary>
+<Package("uniprot",
+         Category:=APICategories.UtilityTools,
+         Description:="The Universal Protein Resource (UniProt)",
+         Url:="https://www.uniprot.org/")>
+<Cite(
+Authors:="Amos Bairoch, Rolf Apweiler, Cathy H. Wu, Winona C. Barker, Brigitte Boeckmann, Serenella Ferro, Elisabeth Gasteiger, Hongzhan Huang, Rodrigo Lopez, Michele Magrane, Maria J. Martin, Darren A. Natale, Claire O'Donovan, Nicole Redaschi and Lai-Su L. Yeh",
+Abstract:="The Universal Protein Resource (UniProt) provides the scientific community with 
+a single, centralized, authoritative resource for protein sequences and functional information. 
+Formed by uniting the Swiss-Prot, TrEMBL and PIR protein database activities, the UniProt 
+consortium produces three layers of protein sequence databases: the UniProt Archive (UniParc), 
+the UniProt Knowledgebase (UniProt) and the UniProt Reference (UniRef) databases. 
+The UniProt Knowledgebase is a comprehensive, fully classified, richly and accurately annotated 
+protein sequence knowledgebase with extensive cross-references. This centrepiece consists of 
+two sections: UniProt/Swiss-Prot, with fully, manually curated entries; and UniProt/TrEMBL, 
+enriched with automated classification and annotation. During 2004, tens of thousands of 
+Knowledgebase records got manually annotated or updated; we introduced a new comment line 
+topic: TOXIC DOSE to store information on the acute toxicity of a toxin; the UniProt keyword 
+list got augmented by additional keywords; we improved the documentation of the keywords and 
+are continuously overhauling and standardizing the annotation of post-translational modifications. 
+Furthermore, we introduced a new documentation file of the strains and their synonyms. 
+Many new database cross-references were introduced and we started to make use of Digital 
+Object Identifiers. We also achieved in collaboration with the Macromolecular Structure 
+Database group at EBI an improved integration with structural databases by residue level mapping 
+of sequences from the Protein Data Bank entries onto corresponding UniProt entries. 
+For convenient sequence searches we provide the UniRef non-redundant sequence databases. 
+The comprehensive UniParc database stores the complete body of publicly available protein 
+sequence data. The UniProt databases can be accessed online (http://www.uniprot.org) or 
+downloaded in several formats (ftp://ftp.uniprot.org/pub). New releases are published every 
+two weeks",
+DOI:="10.1093/nar/gki070",
+Journal:="Nucleic Acids Research",
+Year:=2004,
+Title:="The Universal Protein Resource (UniProt)",
+PubMed:=540024,
+Issue:="Database issue",
+URL:="https://www.uniprot.org/")>
 Module uniprot
 
     ''' <summary>

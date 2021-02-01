@@ -51,10 +51,19 @@ Imports any = Microsoft.VisualBasic.Scripting
 <Package("WGCNA")>
 Module WGCNA
 
+    ''' <summary>
+    ''' filter regulation network by WGCNA result weights
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="WGCNA"></param>
+    ''' <param name="threshold"></param>
+    ''' <returns></returns>
     <ExportAPI("shapeTRN")>
     Public Function FilterRegulation(g As NetworkGraph, WGCNA As WGCNAWeight, Optional threshold As Double = 0.3) As Object
+        Dim w As Double
+
         For Each edge As Edge In g.graphEdges.ToArray
-            Dim w As Double = WGCNA.GetValue(edge.U.label, edge.V.label)
+            w = WGCNA.GetValue(edge.U.label, edge.V.label)
 
             If w < threshold Then
                 g.RemoveEdge(edge)
@@ -66,6 +75,14 @@ Module WGCNA
         Return g
     End Function
 
+    ''' <summary>
+    ''' append protein iteration network based on the WGCNA weights.
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="WGCNA"></param>
+    ''' <param name="modules"></param>
+    ''' <param name="threshold"></param>
+    ''' <returns></returns>
     <ExportAPI("interations")>
     Public Function CorrelationNetwork(g As NetworkGraph, WGCNA As WGCNAWeight, modules As list, Optional threshold As Double = 0.3) As Object
         For Each conn As Weight In WGCNA.AsEnumerable.Where(Function(cn) cn.Weight >= threshold)

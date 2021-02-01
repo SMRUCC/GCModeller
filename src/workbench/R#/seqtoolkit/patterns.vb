@@ -114,7 +114,12 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("view.sites")>
     <RApiReturn(GetType(String))>
-    Public Function viewSites(<RRawVectorArgument> sites As Object, seq As Object, Optional deli$ = ", ", Optional env As Environment = Nothing) As Object
+    Public Function viewSites(<RRawVectorArgument>
+                              sites As Object,
+                              seq As Object,
+                              Optional deli$ = ", ",
+                              Optional env As Environment = Nothing) As Object
+
         Dim siteData As pipeline = pipeline.TryCreatePipeline(Of Site)(sites, env)
 
         If siteData.isError Then
@@ -329,7 +334,7 @@ Module patterns
 
         For Each x As FastaSeq In seqs
             For Each y As FastaSeq In seqs.Where(Function(a) Not a Is x)
-                CheckOrthogonality(x, y, project:=args).DoCall(AddressOf outputs.Add)
+                Call CheckOrthogonality(x, y, project:=args).DoCall(AddressOf outputs.Add)
             Next
         Next
 
