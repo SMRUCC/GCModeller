@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4dd432bfc49fd62b296cf7f34deaaab, Proteomics\DATA\UniprotAnnotations.vb"
+﻿#Region "Microsoft.VisualBasic::e4dd432bfc49fd62b296cf7f34deaaab, annotations\Proteomics\DATA\UniprotAnnotations.vb"
 
     ' Author:
     ' 

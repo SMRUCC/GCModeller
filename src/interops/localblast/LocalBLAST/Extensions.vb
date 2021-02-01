@@ -42,6 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
+<HideModuleName>
 Module Extensions
 
     ''' <summary>

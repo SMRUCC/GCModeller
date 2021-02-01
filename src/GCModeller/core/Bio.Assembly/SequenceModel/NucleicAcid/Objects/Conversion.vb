@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38354795bd7755ca1b1188bded2be181, Bio.Assembly\SequenceModel\NucleicAcid\Objects\Conversion.vb"
+﻿#Region "Microsoft.VisualBasic::38354795bd7755ca1b1188bded2be181, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Conversion.vb"
 
     ' Author:
     ' 

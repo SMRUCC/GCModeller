@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f1a7fbea2bf19e84919ba6c75758903, Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb"
+﻿#Region "Microsoft.VisualBasic::6f1a7fbea2bf19e84919ba6c75758903, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb"
 
     ' Author:
     ' 

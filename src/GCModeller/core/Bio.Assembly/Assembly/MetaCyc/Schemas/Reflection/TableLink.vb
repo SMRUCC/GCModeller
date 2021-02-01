@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::919bbd4316c18faf23e73e9c3e2b2d90, Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\TableLink.vb"
+﻿#Region "Microsoft.VisualBasic::919bbd4316c18faf23e73e9c3e2b2d90, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\TableLink.vb"
 
     ' Author:
     ' 

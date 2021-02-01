@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6bc57859ef0ce8558c09c18cfd72f21, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::ea93b8d10bf0c55326bdfeeb2b1b91ee, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
     '     Function: patternString, ToString
     '     Structure Residue
     ' 
-    '         Properties: frequency, index, isEmpty
+    '         Properties: frequency, index, isEmpty, topChar
     ' 
-    '         Function: Max, ToString
+    '         Function: Cos, GetEmpty, Max, ToString
     ' 
     ' 
     ' 
@@ -105,7 +105,7 @@ Public Class Probability
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Dim max As Double = -99999
-            Dim maxChar As Char
+            Dim maxChar As Char?
 
             For Each b In frequency
                 If b.Value > max Then
@@ -114,7 +114,9 @@ Public Class Probability
                 End If
             Next
 
-            If max >= 0.5 Then
+            If maxChar Is Nothing Then
+                Return "-"
+            ElseIf max >= 0.5 Then
                 Return Char.ToUpper(maxChar)
             Else
                 Return Char.ToLower(maxChar)

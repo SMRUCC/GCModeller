@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cf84cae5dade5f356832e020d23bf06, analysis\Motifs\VirtualFootprint\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::af4a19b92cd01697a0661609a63067fc, analysis\Motifs\VirtualFootprint\Extensions.vb"
 
     ' Author:
     ' 
@@ -33,14 +33,16 @@
 
     ' Module Extensions
     ' 
-    '     Function: __uid, KEGGRegulon, KEGGRegulons, MergeLocis, TrimStranded
-    '               uid
+    '     Function: __uid, KEGGRegulon, KEGGRegulons, MergeLocis, RegulationFootprintTRN
+    '               TrimStranded, uid
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
@@ -49,12 +51,15 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
 '''
 ''' </summary>
+''' 
+<HideModuleName>
 Public Module Extensions
 
     <Extension> Public Function uid(x As RegPreciseRegulon) As String
@@ -162,5 +167,58 @@ Public Module Extensions
                 End If
             End If
         Next
+    End Function
+
+    <Extension>
+    Public Function RegulationFootprintTRN(network As IEnumerable(Of RegulationFootprint)) As NetworkGraph
+        Dim g As New NetworkGraph
+        Dim node As Node
+
+        For Each footprint As IGrouping(Of String, RegulationFootprint) In network.GroupBy(Function(reg) $"{reg.regulator}->{reg.regulated}")
+            Dim matchedList As RegulationFootprint() = footprint.ToArray
+            Dim regulator As String = matchedList(Scan0).regulator.Split("|"c).Last
+            Dim target As String = matchedList(Scan0).regulated.Split("|"c).Last
+            Dim maxSupportsFamily As String = matchedList _
+                .Select(Function(r) r.family) _
+                .GroupBy(Function(name) name) _
+                .OrderByDescending(Function(family) family.Count) _
+                .First _
+                .Key
+            Dim supports As Integer = matchedList.Length
+
+            node = g.GetElementByID(regulator)
+
+            If node Is Nothing Then
+                node = g.CreateNode(regulator)
+            End If
+
+            node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "TF"
+            node.data("family") = maxSupportsFamily
+
+            node = g.GetElementByID(target)
+
+            If node Is Nothing Then
+                node = g.CreateNode(target)
+            End If
+
+            Dim regulates As Edge = g _
+                .GetEdges(
+                    u:=g.GetElementByID(regulator),
+                    v:=g.GetElementByID(target)
+                ) _
+                .FirstOrDefault
+
+            If regulates Is Nothing Then
+                regulates = g.CreateEdge(g.GetElementByID(regulator), g.GetElementByID(target))
+            End If
+
+            regulates.weight = supports
+            regulates.isDirected = True
+            regulates.data("supports") = supports
+            regulates.data.label = footprint.Key
+            regulates.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
+        Next
+
+        Return g
     End Function
 End Module

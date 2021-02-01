@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc753b82c0acec5eadd7e94f835dc0eb, Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::fc753b82c0acec5eadd7e94f835dc0eb, core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
 
     ' Author:
     ' 

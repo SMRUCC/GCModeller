@@ -331,7 +331,7 @@ Namespace Workflows.PromoterParser
                     Dim currentPromoter = Operon.InitialX
                     Dim LQuery = (From PairedOperon In PromoterParser.DoorOperonView.Operons
                                   Let condition = Function() As Boolean
-                                                      Dim WGCNA_Object = WGCNA.Find(currentPromoter.Synonym, PairedOperon.InitialX.Synonym, False)
+                                                      Dim WGCNA_Object = WGCNA.Find(currentPromoter.Synonym, PairedOperon.InitialX.Synonym)
                                                       If WGCNA_Object Is Nothing Then
                                                           Return False
                                                       End If

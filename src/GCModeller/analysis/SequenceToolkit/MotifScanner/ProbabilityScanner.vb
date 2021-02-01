@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::486b74b881292d13ecb1cfcc875b72c5, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::7de60a8b2413775867868a806bd6e9d0, analysis\SequenceToolkit\MotifScanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,9 @@
 
     ' Summaries:
 
-    ' Class MotifNeedlemanWunsch
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: defaultScoreMatrix
-    ' 
     ' Module ProbabilityScanner
     ' 
-    '     Function: Compare, pairwiseIdentities, RefLoci, ScanSites, ToResidues
+    '     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
     ' 
     ' /********************************************************************************/
 
@@ -62,18 +57,37 @@ Public Module ProbabilityScanner
     ''' <summary>
     ''' 基于PWM的概率匹配
     ''' </summary>
-    ''' <param name="prob">PWM</param>
     ''' <param name="target"></param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ScanSites(prob As IEnumerable(Of Residue), target As FastaSeq,
-                              Optional cutoff# = 0.6,
-                              Optional minW% = 6,
-                              Optional identities As Double = 0.5) As SimpleSegment()
+    Public Iterator Function ScanSites(motif As SequenceMotif, target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
 
-        Dim PWM = prob.ToArray
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities)
+            scan.seeds = motif.seeds.names
+
+            Yield scan
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 基于PWM的概率匹配
+    ''' </summary>
+    ''' <param name="PWM">PWM</param>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <param name="minW%"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ScanSites(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
+
         Dim subject As Residue() = target.ToResidues
         Dim symbol As New GenericSymbol(Of Residue)(
             equals:=Function(a, b) Compare(a, b) >= 0.85,
@@ -82,36 +96,54 @@ Public Module ProbabilityScanner
             empty:=AddressOf Residue.GetEmpty
         )
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
-        Dim result = core.GetMatches(cutoff * core.MaxScore).ToArray
+        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore).ToArray
         Dim pairwiseMatrix = MotifNeedlemanWunsch.defaultScoreMatrix
-        Dim out = result _
-            .OrderByDescending(Function(m) m.score) _
-            .Where(Function(m)
-                       Return (m.toB - m.fromB) >= minW AndAlso m.pairwiseIdentities(PWM, subject, pairwiseMatrix, identities)
-                   End Function) _
-            .Select(Function(m)
-                        Dim frag = target.CutSequenceLinear(m.RefLoci)
-                        frag.ID = m.score
-                        Return frag
-                    End Function) _
-            .ToArray
+        Dim maxIdentities As Value(Of Double) = 0
+        Dim seqTitle As String = target.Title
 
-        Return out
+        For Each m As Match In result
+            If (m.toB - m.fromB) < minW Then
+                Continue For
+            End If
+
+            Dim maxMatch = m.pairwiseIdentities(PWM, subject, pairwiseMatrix)
+
+            If maxMatch Is Nothing OrElse (maxIdentities = maxMatch.Identities(pairwiseMatrix)) < identities Then
+                Continue For
+            End If
+
+            Dim site As SimpleSegment = target.CutSequenceLinear(m.RefLoci)
+
+            Yield New MotifMatch With {
+                .identities = maxIdentities,
+                .segment = site.SequenceData,
+                .motif = maxMatch.query.JoinBy(""),
+                .score1 = maxMatch.score,
+                .score2 = m.score,
+                .title = seqTitle,
+                .start = site.Start,
+                .ends = site.Ends
+            }
+        Next
     End Function
 
     <Extension>
-    Private Function pairwiseIdentities(match As Match, PWM As Residue(), subject As Residue(), pairwiseMatrix As ScoreMatrix(Of Residue), identities#) As Boolean
+    Private Function pairwiseIdentities(match As Match,
+                                        PWM As IReadOnlyCollection(Of Residue),
+                                        subject As Residue(),
+                                        pairwiseMatrix As ScoreMatrix(Of Residue)) As GlobalAlign(Of Residue)
+
         Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
         Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
         Dim pairwise As New MotifNeedlemanWunsch(q, s)
 
-        pairwise.Compute()
-
         Return pairwise _
+            .Compute() _
             .PopulateAlignments _
-            .Any(Function(gl)
-                     Return gl.Identities(pairwiseMatrix) >= identities
-                 End Function)
+            .OrderByDescending(Function(gl)
+                                   Return gl.Identities(pairwiseMatrix)
+                               End Function) _
+            .FirstOrDefault
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a66c7badf9ebf93f5a590f187695feb0, seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::569ac4ffdce4dd9eeb10e30324df8697, seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -89,7 +89,11 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.blast")>
-    Public Function openBlastReader(file As String, Optional type As String = "nucl", Optional fastMode As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function openBlastReader(file As String,
+                                    Optional type As String = "nucl",
+                                    Optional fastMode As Boolean = True,
+                                    Optional env As Environment = Nothing) As pipeline
+
         If Not file.FileExists(True) Then
             Return REnv.Internal.debug.stop($"invalid data source: '{file.ToFileURL}'!", env)
         End If
@@ -153,7 +157,10 @@ Module workflows
     End Function
 
     <ExportAPI("blasthit.bbh")>
-    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline, Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive, Optional env As Environment = Nothing) As pipeline
+    Public Function ExportBBHHits(forward As pipeline, reverse As pipeline,
+                                  Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive,
+                                  Optional env As Environment = Nothing) As pipeline
+
         If forward Is Nothing Then
             Return REnv.Internal.debug.stop("No forward alignment data!", env)
         ElseIf reverse Is Nothing Then
@@ -177,7 +184,14 @@ Module workflows
 
         Select Case algorithm
             Case BBHAlgorithm.Naive
-                Return pipeline.CreateFromPopulator(BBHParser.GetBBHTop(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)))
+
+                Return BBHParser _
+                    .GetBBHTop(
+                        qvs:=forward.populates(Of BestHit)(env),
+                        svq:=reverse.populates(Of BestHit)(env)
+                    ) _
+                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+
             Case BBHAlgorithm.BHR
             Case BBHAlgorithm.TaxonomySupports
             Case Else
@@ -233,7 +247,7 @@ Module workflows
     End Function
 
     <ExportAPI("stream.flush")>
-    Public Function flush(stream As Object, data As pipeline, Optional env As Environment = Nothing) As Object
+    Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
             Return Internal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
@@ -271,7 +285,11 @@ Module workflows
     End Sub
 
     <ExportAPI("besthit.filter")>
-    Public Function FilterBesthitStream(besthits As pipeline, Optional evalue# = 0.00001, Optional delNohits As Boolean = True, Optional env As Environment = Nothing) As pipeline
+    Public Function FilterBesthitStream(besthits As pipeline,
+                                        Optional evalue# = 0.00001,
+                                        Optional delNohits As Boolean = True,
+                                        Optional pickTop As Boolean = False,
+                                        Optional env As Environment = Nothing) As pipeline
         If besthits Is Nothing Then
             Return REnv.Internal.debug.stop("The input stream data is nothing!", env)
         ElseIf Not besthits.elementType Like GetType(BestHit) Then
@@ -286,11 +304,22 @@ Module workflows
                     Return hit.evalue <= evalue
                 End If
             End Function
-
-        Return besthits _
+        Dim stream As IEnumerable(Of BestHit) = besthits _
             .populates(Of BestHit)(env) _
-            .Where(filter) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .Where(filter)
+
+        If pickTop Then
+            Return stream _
+                .GroupBy(Function(hit) hit.QueryName) _
+                .Select(Function(group)
+                            Return group _
+                                .OrderByDescending(Function(hit) hit.score) _
+                                .First
+                        End Function) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return pipeline.CreateFromPopulator(stream)
+        End If
     End Function
 
     ''' <summary>

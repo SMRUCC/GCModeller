@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa3594ff58faafee41d117aa8fcc9a11, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\BaSAR.vb"
+﻿#Region "Microsoft.VisualBasic::e2a386b3f7c895853e554da69ac4ab0d, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\BaSAR.vb"
 
     ' Author:
     ' 

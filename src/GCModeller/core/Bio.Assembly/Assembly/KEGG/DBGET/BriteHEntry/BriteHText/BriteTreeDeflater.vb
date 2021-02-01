@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::342093cde88e320f44fe862ab8a5b073, Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb"
+﻿#Region "Microsoft.VisualBasic::342093cde88e320f44fe862ab8a5b073, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteTreeDeflater.vb"
 
     ' Author:
     ' 

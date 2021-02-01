@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f1d152b5bb1f297ae6e71e91be8f38b, WGCNA\WGCNA\WeightedNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::82454d178f5d802e6ca3c1162e3a18c0, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
 
     ' Author:
     ' 
@@ -127,4 +127,3 @@ Public Module WeightedNetwork
         Return sum
     End Function
 End Module
-

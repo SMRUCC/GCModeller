@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b3c7c241c7325361dfa30b49022f57e, phenotype_kit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::07c088c613a1dc27eefd26e12c1dcb53, TRNtoolkit\TRNBuilder.vb"
 
     ' Author:
     ' 
@@ -33,8 +33,8 @@
 
     ' Module TRNBuilder
     ' 
-    '     Function: exportRegPrecise, ParsePromoterReport, readFootprintSites, readRegPrecise, readRegulations
-    '               RegulationFootprint, writeRegulationFootprints
+    '     Function: ParsePromoterReport, readFootprintSites, readRegulations, RegulationFootprint, RegulationFootprints
+    '               TRN, writeRegulationFootprints
     ' 
     ' /********************************************************************************/
 
@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -62,16 +63,6 @@ Module TRNBuilder
     <ExportAPI("as.promoter.models")>
     Public Function ParsePromoterReport(text As String) As GeneReport()
         Return ReportParser.ParseReport(text).ToArray
-    End Function
-
-    ''' <summary>
-    ''' load regprecise database from a given file.
-    ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
-    <ExportAPI("read.regprecise")>
-    Public Function readRegPrecise(file As String) As TranscriptionFactors
-        Return file.LoadXml(Of TranscriptionFactors)
     End Function
 
     ''' <summary>
@@ -124,17 +115,40 @@ Module TRNBuilder
         End If
     End Function
 
-    <ExportAPI("motif.raw")>
-    Public Function exportRegPrecise(regprecise As TranscriptionFactors) As list
-        Return regprecise _
-            .ExportByFamily _
-            .ToDictionary(Function(name) name.Key,
-                          Function(family)
-                              Return CObj(family.Value)
-                          End Function) _
-            .DoCall(Function(data)
-                        Return New list With {.slots = data}
-                    End Function)
+    <ExportAPI("regulations")>
+    <RApiReturn(GetType(RegulationFootprint))>
+    Public Function RegulationFootprints(regDb As RegPreciseScan,
+                                         <RRawVectorArgument> factors As Object,
+                                         <RRawVectorArgument> tfbs As Object,
+                                         Optional env As Environment = Nothing) As Object
+
+        Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
+        Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
+
+        If TF.isError Then
+            Return TF.getError
+        ElseIf TFBSlist.isError Then
+            Return TFBSlist.getError
+        End If
+
+        Return regDb.CreateFootprints(
+            regulators:=TF.populates(Of RegpreciseBBH)(env),
+            tfbs:=TFBSlist.populates(Of MotifMatch)(env)
+        ) _
+            .ToArray
+    End Function
+
+    <ExportAPI("TRN")>
+    Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
+        Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
+
+        If network.isError Then
+            Return network.getError
+        Else
+            Return network _
+                .populates(Of RegulationFootprint)(env) _
+                .RegulationFootprintTRN
+        End If
     End Function
 
     <ExportAPI("regulation.footprint")>

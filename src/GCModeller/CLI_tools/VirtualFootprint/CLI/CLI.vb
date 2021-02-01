@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::831cd2b523e3796bb7b4dd1d45fa4717, CLI_tools\VirtualFootprint\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::7b9b9def764638c2acfe3fc7131ef469, CLI_tools\VirtualFootprint\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@
 
     ' Module CLI
     ' 
-    '     Function: MergeRegulonsExport, MotifFromMAL, Outliers, SaveNetwork, TrimRegulon
+    '     Function: MergeRegulonsExport, MotifFromMAL, Outliers, SaveNetwork
     ' 
     ' /********************************************************************************/
 

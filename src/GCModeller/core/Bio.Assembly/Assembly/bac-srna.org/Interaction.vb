@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb02d7b441a2bf7dd51f8c1b5fd39f0c, Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::fb02d7b441a2bf7dd51f8c1b5fd39f0c, core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89305fcac0aba7b996d6e7fef254039c, Bio.Assembly\Assembly\KEGG\Web\Map\XML\ParseHtml.vb"
+﻿#Region "Microsoft.VisualBasic::89305fcac0aba7b996d6e7fef254039c, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\ParseHtml.vb"
 
     ' Author:
     ' 

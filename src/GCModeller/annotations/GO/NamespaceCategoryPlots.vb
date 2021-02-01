@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bc048b9ad4b6d7e09deffee719605ad, GO\NamespaceCategoryPlots.vb"
+﻿#Region "Microsoft.VisualBasic::6bc048b9ad4b6d7e09deffee719605ad, annotations\GO\NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 

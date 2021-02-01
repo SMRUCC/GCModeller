@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6aeb0289de09c761e95dd80161b5431e, seqtoolkit\patterns.vb"
+﻿#Region "Microsoft.VisualBasic::9ea2ff109a4278657de7f3040b409f19, seqtoolkit\patterns.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,8 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
-    '               PalindromeToString, readMotifs, ScaffoldOrthogonality, viewSites
+    '               matchTableOutput, PalindromeToString, readMotifs, readSites, ScaffoldOrthogonality
+    '               viewSites
     ' 
     ' /********************************************************************************/
 
@@ -44,6 +45,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -56,7 +58,6 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -70,7 +71,26 @@ Module patterns
 
     Sub New()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
     End Sub
+
+    Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
+        Dim table As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        table.columns(NameOf(MotifMatch.title)) = scans.Select(Function(m) m.title).ToArray
+        table.columns(NameOf(MotifMatch.segment)) = scans.Select(Function(m) m.segment).ToArray
+        table.columns(NameOf(MotifMatch.identities)) = scans.Select(Function(m) m.identities).ToArray
+        table.columns(NameOf(MotifMatch.score1)) = scans.Select(Function(m) m.score1).ToArray
+        table.columns(NameOf(MotifMatch.score2)) = scans.Select(Function(m) m.score2).ToArray
+        table.columns(NameOf(MotifMatch.motif)) = scans.Select(Function(m) m.motif).ToArray
+        table.columns(NameOf(MotifMatch.start)) = scans.Select(Function(m) m.start).ToArray
+        table.columns(NameOf(MotifMatch.ends)) = scans.Select(Function(m) m.ends).ToArray
+        table.columns(NameOf(MotifMatch.seeds)) = scans.Select(Function(m) m.seeds.JoinBy("; ")).ToArray
+
+        Return table
+    End Function
 
     Private Function PalindromeToString(obj As Object) As String
         If obj Is Nothing Then
@@ -126,49 +146,54 @@ Module patterns
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' apply for search by <see cref="matchSites"/>
+    ''' </remarks>
     <ExportAPI("read.motifs")>
     Public Function readMotifs(file As String) As SequenceMotif()
         Return file.LoadJSON(Of SequenceMotif())
+    End Function
+
+    <ExportAPI("read.scans")>
+    Public Function readSites(file As String) As MotifMatch()
+        Return file.LoadCsv(Of MotifMatch).ToArray
     End Function
 
     ''' <summary>
     ''' Find target loci site based on the given motif model
     ''' </summary>
     ''' <param name="motif"></param>
-    ''' <param name="target"></param>
+    ''' <param name="target">a collection of fasta sequence</param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
-    <RApiReturn(GetType(SimpleSegment))>
+    <RApiReturn(GetType(MotifMatch))>
     Public Function matchSites(motif As SequenceMotif,
                                <RRawVectorArgument>
                                target As Object,
                                Optional cutoff# = 0.6,
                                Optional minW# = 6,
                                Optional identities As Double = 0.85,
+                               Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         If target Is Nothing Then
             Return Internal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
-            Return motif.region.ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities)
+            Return motif.region _
+                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
+                .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
 
             If seqs Is Nothing Then
                 Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
-                Return seqs _
-                    .AsParallel _
+                Return seqs.ToArray _
+                    .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Dim locis = motif.region.ScanSites(seq, cutoff, minW, identities)
-
-                                For Each site As SimpleSegment In locis
-                                    site.ID = seq.Title.Split.First
-                                Next
-
-                                Return locis
+                                Return motif.ScanSites(seq, cutoff, minW, identities)
                             End Function) _
                     .IteratesALL _
                     .ToArray

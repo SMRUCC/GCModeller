@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd893775df0c287436c4ffae10437533, analysis\SequenceToolkit\MotifScanner\Consensus\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::c7b5363a9e73b650c22e30c130f5d681, analysis\SequenceToolkit\MotifScanner\Consensus\Protocol.vb"
 
     ' Author:
     ' 
@@ -138,7 +138,9 @@ Public Module Protocol
                               Function(g) g.Count / MSA.Length)
             Dim Pi = nt.ToDictionary(
                 Function(base) base,
-                Function(base) P.TryGetValue(base))
+                Function(base)
+                    Return P.TryGetValue(base)
+                End Function)
 
             residues += New Probability.Residue With {
                 .frequency = Pi,
@@ -150,14 +152,15 @@ Public Module Protocol
         ' 在这里score是这个motif的多重比对的结果的PWM矩阵对原始序列的扫描结果的最高得分值
         Dim scores As Vector = members _
             .Select(Function(fa)
-                        Dim best As SimpleSegment = residues _
+                        Dim best As MotifMatch = residues _
                             .ScanSites(fa, param.ScanCutoff, param.ScanMinW) _
+                            .OrderByDescending(Function(a) a.identities) _
                             .FirstOrDefault
 
                         If best Is Nothing Then
                             Return 0
                         Else
-                            Return best.ID.ParseDouble
+                            Return best.identities
                         End If
                     End Function) _
             .AsVector

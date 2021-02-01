@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93fb06629f3981628547ad820dad307d, Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::93fb06629f3981628547ad820dad307d, core\Bio.Repository\KEGG\SSDB.vb"
 
     ' Author:
     ' 

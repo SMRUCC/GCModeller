@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b4c0d8c8b610189cd2d61da3b1e3163, visualize\DataVisualizationExtensions\CatalogProfiling\COGCatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::1c2a6a1888a3d404ccea07572204f3b1, visualize\DataVisualizationExtensions\CatalogProfiling\COGCatalogProfiling.vb"
 
     ' Author:
     ' 

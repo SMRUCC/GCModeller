@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::202e81b42fe170c887ed7b4b75511e7b, WGCNA\WGCNA\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::9278d197520b7b9b9600737c6db486ed, annotations\WGCNA\WGCNA\Analysis.vb"
 
     ' Author:
     ' 
@@ -101,4 +101,3 @@ Public Module Analysis
         Return g
     End Function
 End Module
-

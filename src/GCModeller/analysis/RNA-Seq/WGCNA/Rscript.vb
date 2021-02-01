@@ -1,49 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::399031b850fdd7336fc651d638883ab8, analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\API.vb"
+﻿#Region "Microsoft.VisualBasic::f71f55be0833eb62b9e18799f5a9e1ed, analysis\RNA-Seq\WGCNA\Rscript.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module API
-' 
-'         Function: CallInvoke, CreateObject, GetValue
-' 
-' 
-' /********************************************************************************/
+    ' Module Rscript
+    ' 
+    '     Function: FastImports
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 
 <Package("WGCNA", Cites:="Langfelder, P. and S. Horvath (2008). ""WGCNA: an R package For weighted correlation network analysis."" BMC Bioinformatics 9: 559.
@@ -120,38 +121,22 @@ Principal Component Analysis",
       Year:=2011, Volume:=6, PubMed:=22039529)>
 Public Module Rscript
 
-    <ExportAPI("WGCNA.GetValue")>
-    Public Function GetValue([operator] As WGCNAWeight, id1 As String, id2 As String) As Double
-        Return [operator].Find(id1, id2).Weight
-    End Function
+    Public Function FastImports(path As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
+        Dim lines As String() = path.IterateAllLines.ToArray
+        Dim tokens = lines.Skip(1).Select(Function(line) line.Split(ASCII.TAB)).ToArray
+        Dim weights As IEnumerable(Of Weight) = tokens _
+            .Select(Function(line)
+                        Dim u As String = If(prefix Is Nothing, line(Scan0), prefix & line(Scan0))
+                        Dim v As String = If(prefix Is Nothing, line(1), prefix & line(1))
 
-    <ExportAPI("Read.WGCNA.Weights")>
-    Public Function CreateObject(Path As String) As WGCNAWeight
-        If String.IsNullOrEmpty(Path) Then
-            Return New WGCNAWeight With {
-                .PairItems = New Weight() {}
-            }
-        End If
-        Return New WGCNAWeight With {
-            .PairItems = Path.AsDataSource(Of Weight)(" ", False)
-        }
-    End Function
+                        Return New Weight With {
+                            .FromNode = u,
+                            .ToNode = v,
+                            .Weight = Val(line(2))
+                        }
+                    End Function) _
+            .Where(Function(itr) itr.Weight >= threshold)
 
-    <ExportAPI("WGCNA.Fast.Imports")>
-    Public Function FastImports(Path As String) As WGCNAWeight
-        If Not Path.FileExists Then
-            Call VBDebugger.Warning($"{Path.ToFileURL} is not exists on the file system!")
-            Return New WGCNAWeight
-        End If
-
-        Dim Lines As String() = IO.File.ReadAllLines(Path)
-        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab)).ToArray
-        Dim weights As Weight() =
-            Tokens.Select(
-                Function(line) New Weight With {
-                    .FromNode = line(Scan0),
-                    .ToNode = line(1),
-                    .Weight = Val(line(2))}).ToArray
-        Return New WGCNAWeight With {.PairItems = weights}
+        Return WGCNAWeight.CreateMatrix(dataSet:=weights)
     End Function
 End Module

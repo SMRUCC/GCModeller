@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11fd88786f7c60da830c3538c20b314e, seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::2323e37fedc3edb949d1650ac68913eb, seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 
@@ -39,11 +39,6 @@
     '               readSeq, SequenceAssembler, Tofasta, Translates, viewAssembles
     '               viewFasta, viewMSA, writeFasta
     ' 
-    ' 
-    ' Class AssembleResult
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetAssembledSequence
     ' 
     ' /********************************************************************************/
 
@@ -196,8 +191,15 @@ Module Fasta
     ''' <param name="file"></param>
     ''' <returns></returns>
     <ExportAPI("read.fasta")>
-    Public Function readFasta(file As String) As FastaFile
-        Return FastaFile.Read(file)
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function readFasta(file As String, Optional lazyStream As Boolean = False) As Object
+        If lazyStream Then
+            Return StreamIterator _
+                .SeqSource(handle:=file) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return FastaFile.Read(file).ToArray
+        End If
     End Function
 
     ''' <summary>
@@ -475,4 +477,3 @@ Module Fasta
         End If
     End Function
 End Module
-

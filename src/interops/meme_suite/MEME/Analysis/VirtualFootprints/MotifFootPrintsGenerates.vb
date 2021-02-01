@@ -554,7 +554,7 @@ Namespace Analysis.GenomeMotifFootPrints
                       Where String.Equals(item.Family, footprint.MotifFamily) AndAlso
                           String.Equals(footprint.RegulatorTrace, item.GetLocusTag)
                       Select item).ToArray
-            Dim Effect As String = If(LQuery.IsNullOrEmpty, "0.5", Effect2Pcc(LQuery.First.RegulationEffects))
+            Dim Effect As String = If(LQuery.IsNullOrEmpty, "0.5", Effect2Pcc(LQuery.First.regulationMode))
             Return Effect
         End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db0765489c330f499e84c3d9288659c6, analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\WGCNA\WeightNode.vb"
+﻿#Region "Microsoft.VisualBasic::f2543dedb8f17af8f73721140a642b89, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
 
     ' Author:
     ' 

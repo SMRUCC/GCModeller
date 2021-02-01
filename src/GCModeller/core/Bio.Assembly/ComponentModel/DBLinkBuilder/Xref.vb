@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46eb5cee02005dedd6b5318273722cae, Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
+﻿#Region "Microsoft.VisualBasic::46eb5cee02005dedd6b5318273722cae, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
 
     ' Author:
     ' 

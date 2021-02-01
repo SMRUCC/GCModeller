@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fd89d0a46848cbc72fb283025a40a33, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::03de0a176df6b6f58821d855dcf320f1, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
 
     ' Author:
     ' 
@@ -89,15 +89,13 @@ Namespace Regprecise
         <XmlNamespaceDeclarations()>
         Public xmlns As New XmlSerializerNamespaces
 
-        Sub New()
-            xmlns.Add("model", MotifFasta.xmlns)
-        End Sub
-
         ''' <summary>
         ''' 该Regprecise调控因子的基因号
         ''' </summary>
         ''' <value></value>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' id of <see cref="locus_tag"/>
+        ''' </returns>
         ''' <remarks></remarks>
         Public ReadOnly Property LocusId As String Implements IReadOnlyId.Identity
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -105,6 +103,10 @@ Namespace Regprecise
                 Return locus_tag.name
             End Get
         End Property
+
+        Sub New()
+            xmlns.Add("model", MotifFasta.xmlns)
+        End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("[{0}] {1}", type.ToString, regulator.ToString)
