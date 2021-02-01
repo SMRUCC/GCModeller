@@ -139,6 +139,7 @@
     <Compile Include="Blast.vb" />
     <Compile Include="Annotations\genomics.vb" />
     <Compile Include="models\AssembleResult.vb" />
+    <Compile Include="models\Enums.vb" />
     <Compile Include="patterns.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
