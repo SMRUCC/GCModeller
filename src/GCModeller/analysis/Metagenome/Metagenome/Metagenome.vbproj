@@ -373,6 +373,10 @@
       <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\Darwinism\CloudKit\Docker\Docker.vbproj">
+      <Project>{b028826a-e615-4f26-b192-b9b0a997696a}</Project>
+      <Name>Docker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
