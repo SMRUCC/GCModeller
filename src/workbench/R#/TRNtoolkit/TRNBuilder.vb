@@ -138,10 +138,10 @@ Module TRNBuilder
             tfbs:=TFBSlist.populates(Of MotifMatch)(env)
         ) _
             .Select(Function(r)
-                        r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData))
+                        r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData)) + 1
                         Return r
                     End Function) _
-            .Where(Function(r) r.distance <> 1) _
+            .Where(Function(r) r.distance <> -seqList(r.regulated).Length) _
             .ToArray
     End Function
 
