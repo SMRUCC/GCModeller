@@ -207,7 +207,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\runtime\Darwinism\ossutil\ossutil.vbproj">
+    <ProjectReference Include="..\..\runtime\Darwinism\CloudKit\ossutil\ossutil.vbproj">
       <Project>{adeafbbd-06c0-4e53-b985-1ae8978f54aa}</Project>
       <Name>ossutil</Name>
     </ProjectReference>

@@ -199,8 +199,8 @@
       <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
       <Name>HMP_client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\Darwinism\ossutil\ossutil.vbproj">
-      <Project>{ADEAFBBD-06C0-4E53-B985-1AE8978F54AA}</Project>
+    <ProjectReference Include="..\..\..\runtime\Darwinism\CloudKit\ossutil\ossutil.vbproj">
+      <Project>{adeafbbd-06c0-4e53-b985-1ae8978f54aa}</Project>
       <Name>ossutil</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">

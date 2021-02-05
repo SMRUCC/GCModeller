@@ -373,11 +373,7 @@
       <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Centos\Centos.vbproj">
-      <Project>{04f7d21b-53e8-4107-a5e0-d28e3f70efde}</Project>
-      <Name>Centos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\Docker\Docker.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\Darwinism\CloudKit\Docker\Docker.vbproj">
       <Project>{b028826a-e615-4f26-b192-b9b0a997696a}</Project>
       <Name>Docker</Name>
     </ProjectReference>

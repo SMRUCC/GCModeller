@@ -269,7 +269,7 @@
       <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
       <Name>HMP_client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\Darwinism\ossutil\ossutil.vbproj">
+    <ProjectReference Include="..\..\..\runtime\Darwinism\CloudKit\ossutil\ossutil.vbproj">
       <Project>{adeafbbd-06c0-4e53-b985-1ae8978f54aa}</Project>
       <Name>ossutil</Name>
     </ProjectReference>
