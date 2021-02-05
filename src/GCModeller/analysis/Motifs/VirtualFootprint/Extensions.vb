@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::af4a19b92cd01697a0661609a63067fc, analysis\Motifs\VirtualFootprint\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: __uid, KEGGRegulon, KEGGRegulons, MergeLocis, RegulationFootprintTRN
-    '               TrimStranded, uid
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: __uid, KEGGRegulon, KEGGRegulons, MergeLocis, RegulationFootprintTRN
+'               TrimStranded, uid
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -217,6 +217,11 @@ Public Module Extensions
             regulates.data("supports") = supports
             regulates.data.label = footprint.Key
             regulates.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = "regulates"
+            regulates.data("family") = matchedList.Select(Function(r) r.family).Distinct.JoinBy("; ")
+            regulates.data("regulog") = matchedList.Select(Function(r) r.regulog).GroupBy(Function(r) r).OrderByDescending(Function(r) r.Count).First.Key
+            regulates.data("biological_process") = matchedList.Select(Function(r) r.biological_process).Where(Function(r) Not r.StringEmpty).Distinct.JoinBy("; ")
+            regulates.data("effector") = matchedList.Select(Function(r) r.effector).Where(Function(r) Not r.StringEmpty).Distinct.JoinBy("; ")
+            regulates.data("loci") = matchedList.Select(Function(r) $"{r.distance}:{r.sequenceData}").Distinct.JoinBy("; ")
         Next
 
         Return g

@@ -120,10 +120,12 @@ Module TRNBuilder
     Public Function RegulationFootprints(regDb As RegPreciseScan,
                                          <RRawVectorArgument> factors As Object,
                                          <RRawVectorArgument> tfbs As Object,
+                                         seqs As list,
                                          Optional env As Environment = Nothing) As Object
 
         Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
         Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
+        Dim seqList As Dictionary(Of String, String) = seqs.AsGeneric(Of String)(env)
 
         If TF.isError Then
             Return TF.getError
@@ -135,6 +137,11 @@ Module TRNBuilder
             regulators:=TF.populates(Of RegpreciseBBH)(env),
             tfbs:=TFBSlist.populates(Of MotifMatch)(env)
         ) _
+            .Select(Function(r)
+                        r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData))
+                        Return r
+                    End Function) _
+            .Where(Function(r) r.distance <> 1) _
             .ToArray
     End Function
 
