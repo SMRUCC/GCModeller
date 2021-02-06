@@ -220,7 +220,7 @@ Public Module Extensions
             regulates.data("family") = matchedList.Select(Function(r) r.family).Distinct.JoinBy("; ")
             regulates.data("regulog") = matchedList.Select(Function(r) r.regulog).GroupBy(Function(r) r).OrderByDescending(Function(r) r.Count).First.Key
             regulates.data("biological_process") = matchedList.Select(Function(r) r.biological_process).Where(Function(r) Not r.StringEmpty).Distinct.JoinBy("; ")
-            regulates.data("effector") = matchedList.Select(Function(r) r.effector).Where(Function(r) Not r.StringEmpty).Distinct.JoinBy("; ")
+            regulates.data("effector") = matchedList.Select(Function(r) r.effector.StringSplit(";\s*")).IteratesALL.Where(Function(r) Not r.StringEmpty).Distinct.JoinBy("; ")
             regulates.data("loci") = matchedList.Select(Function(r) $"{r.distance}:{r.sequenceData}").Distinct.JoinBy("; ")
         Next
 
