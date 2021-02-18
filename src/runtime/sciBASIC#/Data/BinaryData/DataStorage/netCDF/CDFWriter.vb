@@ -199,14 +199,21 @@ Namespace netCDF
 
 #End Region
 
-        Dim output As BinaryDataWriter
-        Dim globalAttrs As New List(Of attribute)
-        Dim dimensionList As New Dictionary(Of String, SeqValue(Of Dimension))
-        Dim variables As New List(Of variable)
-        Dim recordDimensionLength As UInteger
+        ReadOnly output As BinaryDataWriter
+        ReadOnly globalAttrs As New List(Of attribute)
 
+        Dim variables As New List(Of variable)
+        Dim dimensionList As New Dictionary(Of String, SeqValue(Of Dimension))
+        Dim recordDimensionLength As UInteger
+        Dim init0 As Long
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(path As String, Optional encoding As Encodings = Encodings.UTF8)
-            output = New BinaryDataWriter(path.Open, encoding) With {
+            Call Me.New(path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False), encoding)
+        End Sub
+
+        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8)
+            output = New BinaryDataWriter(file, encoding) With {
                 .ByteOrder = ByteOrder.BigEndian,
                 .RerouteInt32ToUnsigned = True
             }
@@ -215,6 +222,8 @@ Namespace netCDF
             Call output.Write(netCDFReader.Magic, BinaryStringFormat.NoPrefixOrTermination)
             ' classic format, version = 1
             Call output.Write(CByte(1))
+
+            init0 = file.Position
         End Sub
 
         ''' <summary>
@@ -245,7 +254,8 @@ Namespace netCDF
         ''' <summary>
         ''' 会需要在这个函数之中进行offset的计算操作
         ''' </summary>
-        Private Sub Save()
+        Public Sub Save()
+            Call output.Seek(init0, SeekOrigin.Begin)
 
             Call output.Write(recordDimensionLength)
             ' -------------------------dimensionsList----------------------------
@@ -291,6 +301,10 @@ Namespace netCDF
                 ' 接着就是写入数据块了
                 Call output.Write(buffer)
             End Using
+        End Sub
+
+        Public Sub Flush()
+            Call output.Flush()
         End Sub
 
         ''' <summary>
@@ -402,6 +416,12 @@ Namespace netCDF
                     Case CDFDataTypes.LONG
                         Call output.Write(1)
                         Call output.Write(Long.Parse(attr.value))
+                    Case CDFDataTypes.BOOLEAN
+
+                        ' 20210212 using byte flag for boolean?
+                        Call output.Write(1)
+                        Call output.Write(CByte(If(attr.value.ParseBoolean, 1, 0)))
+
                     Case Else
                         Throw New NotImplementedException(attr.type.Description)
                 End Select
