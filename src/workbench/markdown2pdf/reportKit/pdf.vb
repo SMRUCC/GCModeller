@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml
@@ -32,6 +33,10 @@ Module pdf
 
                 style.SaveTo(tmp)
                 style = tmp
+            End If
+
+            If resolvedAsDataUri Then
+                style = New DataURI(style).ToString
             End If
         End If
 
