@@ -102,21 +102,21 @@ Namespace netCDF.Components
 
         Public ReadOnly Property cdfDataType As CDFDataTypes
             Get
-                If Not byteStream.StringEmpty Then
+                If Not byteStream Is Nothing Then
                     Return CDFDataTypes.BYTE
-                ElseIf Not chars.StringEmpty Then
+                ElseIf Not chars Is Nothing Then
                     Return CDFDataTypes.CHAR
-                ElseIf Not tiny_int.IsNullOrEmpty Then
+                ElseIf Not tiny_int Is Nothing Then
                     Return CDFDataTypes.SHORT
-                ElseIf Not integers.IsNullOrEmpty Then
+                ElseIf Not integers Is Nothing Then
                     Return CDFDataTypes.INT
-                ElseIf Not tiny_num.IsNullOrEmpty Then
+                ElseIf Not tiny_num Is Nothing Then
                     Return CDFDataTypes.FLOAT
-                ElseIf Not numerics.IsNullOrEmpty Then
+                ElseIf Not numerics Is Nothing Then
                     Return CDFDataTypes.DOUBLE
-                ElseIf Not longs.IsNullOrEmpty Then
+                ElseIf Not longs Is Nothing Then
                     Return CDFDataTypes.LONG
-                ElseIf Not flags.IsNullOrEmpty Then
+                ElseIf Not flags Is Nothing Then
                     Return CDFDataTypes.BOOLEAN
                 Else
                     ' null
@@ -264,7 +264,15 @@ Namespace netCDF.Components
         Public Shared Widening Operator CType(data As (values As Object(), type As CDFDataTypes)) As CDFData
             Select Case data.type
                 Case CDFDataTypes.BYTE
-                    Return data.values.As(Of Byte).ToArray
+                    If data.values.All(Function(obj) TypeOf obj Is Byte()) Then
+                        Return data.values _
+                            .Select(Function(obj)
+                                        Return DirectCast(obj, Byte())(Scan0)
+                                    End Function) _
+                            .ToArray
+                    Else
+                        Return data.values.As(Of Byte).ToArray
+                    End If
                 Case CDFDataTypes.BOOLEAN
                     Return data.values.As(Of Boolean).ToArray
                 Case CDFDataTypes.CHAR

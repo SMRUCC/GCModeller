@@ -171,6 +171,12 @@ Namespace netCDF
                     Return readNumber(size, AddressOf buffer.ReadDouble)
                 Case CDFDataTypes.LONG
                     Return readNumber(size, AddressOf buffer.ReadInt64)
+                Case CDFDataTypes.BOOLEAN
+
+                    ' 20210212 bytes flags for maps boolean
+                    Return buffer.ReadBytes(size) _
+                        .Select(Function(b) b <> 0) _
+                        .ToArray
 
                 Case Else
                     ' istanbul ignore next
