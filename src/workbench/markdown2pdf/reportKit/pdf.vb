@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.HTML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports WkHtmlToPdf
@@ -14,9 +15,11 @@ Imports WkHtmlToPdf.Arguments
 Module pdf
 
     <Extension>
-    Private Iterator Function GetContentHtml(files As IEnumerable(Of String)) As IEnumerable(Of String)
+    Private Iterator Function GetContentHtml(files As IEnumerable(Of String), wwwroot$) As IEnumerable(Of String)
         Dim render As New MarkdownHTML
         Dim dir As String = App.CurrentDirectory
+
+        wwwroot = wwwroot.GetDirectoryFullPath
 
         For Each file As String In files.SafeQuery
             If file.ExtensionSuffix("html") Then
@@ -26,7 +29,8 @@ Module pdf
                 Dim htmlfile As String = file.GetFullPath.ChangeSuffix("html")
                 Dim html As String = file _
                     .ReadAllText _
-                    .DoCall(AddressOf render.Transform)
+                    .DoCall(AddressOf render.Transform) _
+                    .ResolveLocalFileLinks(relativeTo:=wwwroot)
 
                 Call html.SaveTo(htmlfile)
 
@@ -47,9 +51,10 @@ Module pdf
     <RApiReturn(GetType(String))>
     Public Function makePDF(files As String(),
                             Optional pdfout As String = "out.pdf",
+                            Optional wwwroot As String = "/",
                             Optional env As Environment = Nothing) As Object
 
-        Dim contentUrls As String() = files.GetContentHtml.ToArray
+        Dim contentUrls As String() = files.GetContentHtml(wwwroot).ToArray
 
         If contentUrls.IsNullOrEmpty Then
             Return Internal.debug.stop("no pdf content files was found!", env)
