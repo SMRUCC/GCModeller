@@ -298,15 +298,11 @@ Wkhtmltopdf output:
         Throw New PdfConvertException(msg)
     End Sub
 
-    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String)
-        Dim [in] As New PdfDocument With {
-            .Url = {url}
-        }
-        Dim out As New PdfOutput With {
-            .OutputFilePath = outputFilePath
-        }
+    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String, Optional environment As PdfConvertEnvironment = Nothing)
+        Dim [in] As New PdfDocument With {.Url = {url}}
+        Dim out As New PdfOutput With {.OutputFilePath = outputFilePath}
 
-        Call ConvertHtmlToPdf([in], out)
+        Call ConvertHtmlToPdf([in], out, environment)
     End Sub
 End Module
 
