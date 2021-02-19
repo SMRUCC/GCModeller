@@ -16,9 +16,11 @@ Module pdf
     <Extension>
     Private Iterator Function GetContentHtml(files As IEnumerable(Of String)) As IEnumerable(Of String)
         Dim render As New MarkdownHTML
+        Dim dir As String = App.CurrentDirectory
 
         For Each file As String In files.SafeQuery
             If file.ExtensionSuffix("html") Then
+                ' Yield RelativePath(dir, file.GetFullPath)
                 Yield file.GetFullPath
             Else
                 Dim htmlfile As String = file.GetFullPath.ChangeSuffix("html")
@@ -28,6 +30,7 @@ Module pdf
 
                 Call html.SaveTo(htmlfile)
 
+                ' Yield RelativePath(dir, htmlfile)
                 Yield htmlfile
             End If
         Next
@@ -70,6 +73,10 @@ Module pdf
         If wkhtmltopdf.Debug Then
             Call Console.WriteLine("wkhtmltopdf config:")
             Call Console.WriteLine(wkhtmltopdf.GetJson)
+        End If
+
+        If Not content.CheckContentSource Then
+            Return Internal.debug.stop("part of the content is missing... break pdf conversion progress...", env)
         End If
 
         Call pdfout.ParentPath.MkDIR
