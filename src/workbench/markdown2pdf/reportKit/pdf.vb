@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml
 Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.HTML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -15,11 +16,24 @@ Imports WkHtmlToPdf.Arguments
 Module pdf
 
     <Extension>
-    Private Iterator Function GetContentHtml(files As IEnumerable(Of String), wwwroot$) As IEnumerable(Of String)
+    Private Iterator Function GetContentHtml(files As IEnumerable(Of String), wwwroot$, style$, resolvedAsDataUri As Boolean) As IEnumerable(Of String)
         Dim render As New MarkdownHTML
         Dim dir As String = App.CurrentDirectory
 
         wwwroot = wwwroot.GetDirectoryFullPath
+
+        If Not style.StringEmpty Then
+            If style.FileExists Then
+                style = style.GetFullPath
+            ElseIf $"{wwwroot}/{style}".FileExists Then
+                style = $"{wwwroot}/{style}".GetFullPath
+            Else
+                Dim tmp As String = App.SysTemp & $"/pdf_styles_{App.PID.ToHexString}-{Now.ToString.MD5.ToLower}.css"
+
+                style.SaveTo(tmp)
+                style = tmp
+            End If
+        End If
 
         For Each file As String In files.SafeQuery
             If file.ExtensionSuffix("html") Then
@@ -31,6 +45,17 @@ Module pdf
                     .ReadAllText _
                     .DoCall(AddressOf render.Transform) _
                     .ResolveLocalFileLinks(relativeTo:=wwwroot, asDataUri:=True)
+
+                If Not style.StringEmpty Then
+                    html = sprintf(<html>
+                                       <head>
+
+                                           <link rel="stylesheet" href=<%= style %>/>
+
+                                       </head>
+                                       <body>%s</body>
+                                   </html>, html)
+                End If
 
                 Call html.SaveTo(htmlfile)
 
@@ -52,9 +77,13 @@ Module pdf
     Public Function makePDF(files As String(),
                             Optional pdfout As String = "out.pdf",
                             Optional wwwroot As String = "/",
+                            Optional style As String = Nothing,
+                            Optional resolvedAsDataUri As Boolean = False,
                             Optional env As Environment = Nothing) As Object
 
-        Dim contentUrls As String() = files.GetContentHtml(wwwroot).ToArray
+        Dim contentUrls As String() = files _
+            .GetContentHtml(wwwroot, style, resolvedAsDataUri) _
+            .ToArray
 
         If contentUrls.IsNullOrEmpty Then
             Return Internal.debug.stop("no pdf content files was found!", env)
@@ -72,7 +101,7 @@ Module pdf
         If wkhtmltopdf.WkHtmlToPdfPath.StringEmpty Then
             Return Internal.debug.stop("please config wkhtmltopdf program at first!", env)
         ElseIf Not wkhtmltopdf.WkHtmlToPdfPath.FileExists Then
-            Return Internal.debug.stop($"wkhtmltopdf program is not exists at the given location: '{wkhtmltopdf.WkHtmlToPdfPath}'...", env)
+            Return Internal.debug.stop($"wkhtmltopdf program Is Not exists at the given location: '{wkhtmltopdf.WkHtmlToPdfPath}'...", env)
         End If
 
         If wkhtmltopdf.Debug Then

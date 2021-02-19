@@ -98,7 +98,7 @@ Namespace HTML
                         resolved = New DataURI(resolved).ToString
                     End If
 
-                    sb.Replace(link, $"{target.Name}=""{resolved}""")
+                    sb.Replace(link, $" {target.Name}=""{resolved}""")
                 End If
             Next
 
