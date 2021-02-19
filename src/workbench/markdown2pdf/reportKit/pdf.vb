@@ -1,6 +1,8 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -10,10 +12,32 @@ Imports WkHtmlToPdf.Arguments
 <Package("pdf", Category:=APICategories.UtilityTools)>
 Module pdf
 
+    <Extension>
+    Private Iterator Function GetContentHtml(files As IEnumerable(Of String)) As IEnumerable(Of String)
+        Dim render As New MarkdownHTML
+
+        For Each file As String In files.SafeQuery
+            If file.ExtensionSuffix("html") Then
+                Yield file.GetFullPath
+            Else
+                Dim htmlfile As String = file.GetFullPath.ChangeSuffix("html")
+                Dim html As String = file _
+                    .ReadAllText _
+                    .DoCall(AddressOf render.Transform)
+
+                Call html.SaveTo(htmlfile)
+
+                Yield htmlfile
+            End If
+        Next
+    End Function
+
     ''' <summary>
     ''' convert the local html documents to pdf document.
     ''' </summary>
-    ''' <param name="files"></param>
+    ''' <param name="files">
+    ''' markdown files or html files
+    ''' </param>
     ''' <param name="pdfout"></param>
     <ExportAPI("makePDF")>
     <RApiReturn(GetType(String))>
@@ -21,10 +45,7 @@ Module pdf
                             Optional pdfout As String = "out.pdf",
                             Optional env As Environment = Nothing) As Object
 
-        Dim contentUrls As String() = files _
-            .SafeQuery _
-            .Select(Function(path) path.GetFullPath) _
-            .ToArray
+        Dim contentUrls As String() = files.GetContentHtml.ToArray
 
         If contentUrls.IsNullOrEmpty Then
             Return Internal.debug.stop("no pdf content files was found!", env)
