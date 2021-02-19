@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports WkHtmlToPdf
@@ -66,8 +67,13 @@ Module pdf
             Return Internal.debug.stop($"wkhtmltopdf program is not exists at the given location: '{wkhtmltopdf.WkHtmlToPdfPath}'...", env)
         End If
 
+        If wkhtmltopdf.Debug Then
+            Call Console.WriteLine("wkhtmltopdf config:")
+            Call Console.WriteLine(wkhtmltopdf.GetJson)
+        End If
+
         Call pdfout.ParentPath.MkDIR
-        Call PdfConvert.ConvertHtmlToPdf(content, output)
+        Call PdfConvert.ConvertHtmlToPdf(content, output, environment:=wkhtmltopdf)
 
         Return Nothing
     End Function
