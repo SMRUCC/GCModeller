@@ -43,6 +43,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace HTML
 
@@ -78,7 +79,7 @@ Namespace HTML
         ''' <param name="relativeTo">working as wwwroot</param>
         ''' <returns></returns>
         <Extension>
-        Public Function ResolveLocalFileLinks(html As String, relativeTo As String) As String
+        Public Function ResolveLocalFileLinks(html As String, relativeTo As String, Optional asDataUri As Boolean = False) As String
             Dim links As String() = html _
                 .Matches("\s((src)|(href))\s*[=]\s*[""'].+?[""']") _
                 .Distinct _
@@ -92,6 +93,11 @@ Namespace HTML
 
                 If target.Value.FirstOrDefault = "/"c Then
                     resolved = relativeTo & target.Value
+
+                    If asDataUri Then
+                        resolved = New DataURI(resolved).ToString
+                    End If
+
                     sb.Replace(link, $"{target.Name}=""{resolved}""")
                 End If
             Next

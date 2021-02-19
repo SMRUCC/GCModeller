@@ -30,7 +30,7 @@ Module pdf
                 Dim html As String = file _
                     .ReadAllText _
                     .DoCall(AddressOf render.Transform) _
-                    .ResolveLocalFileLinks(relativeTo:=wwwroot)
+                    .ResolveLocalFileLinks(relativeTo:=wwwroot, asDataUri:=True)
 
                 Call html.SaveTo(htmlfile)
 
