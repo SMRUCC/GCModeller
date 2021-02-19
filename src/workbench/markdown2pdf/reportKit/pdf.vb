@@ -53,6 +53,18 @@ Module pdf
 
         Dim content As New PdfDocument With {.Url = contentUrls}
         Dim output As New PdfOutput With {.OutputFilePath = pdfout}
+        Dim wkhtmltopdf As New PdfConvertEnvironment With {
+            .TempFolderPath = App.GetAppSysTempFile("__pdf", App.PID.ToHexString, "wkhtmltopdf"),
+            .Debug = env.globalEnvironment.Rscript.debug,
+            .Timeout = 60000,
+            .WkHtmlToPdfPath = env.globalEnvironment.options.getOption("wkhtmltopdf")
+        }
+
+        If wkhtmltopdf.WkHtmlToPdfPath.StringEmpty Then
+            Return Internal.debug.stop("please config wkhtmltopdf program at first!", env)
+        ElseIf Not wkhtmltopdf.WkHtmlToPdfPath.FileExists Then
+            Return Internal.debug.stop($"wkhtmltopdf program is not exists at the given location: '{wkhtmltopdf.WkHtmlToPdfPath}'...", env)
+        End If
 
         Call pdfout.ParentPath.MkDIR
         Call PdfConvert.ConvertHtmlToPdf(content, output)
