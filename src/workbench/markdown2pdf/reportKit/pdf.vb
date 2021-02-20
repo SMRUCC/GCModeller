@@ -17,7 +17,7 @@ Imports WkHtmlToPdf.Arguments
 Module pdf
 
     <Extension>
-    Private Iterator Function GetContentHtml(files As IEnumerable(Of String), wwwroot$, style$, resolvedAsDataUri As Boolean) As IEnumerable(Of String)
+    Private Iterator Function GetContentHtml(files As IEnumerable(Of String), wwwroot$, style$, resolvedAsDataUri As Boolean, [strict] As Boolean) As IEnumerable(Of String)
         Dim render As New MarkdownHTML
         Dim dir As String = App.CurrentDirectory
 
@@ -41,7 +41,15 @@ Module pdf
         End If
 
         For Each file As String In files.SafeQuery
-            If file.ExtensionSuffix("html") Then
+            If Not file.FileExists Then
+
+                If strict Then
+                    Throw New EntryPointNotFoundException($"missing source file: {file}!")
+                Else
+                    Call $"missing source file: {file}!".Warning
+                End If
+
+            ElseIf file.ExtensionSuffix("html") Then
                 ' Yield RelativePath(dir, file.GetFullPath)
                 Yield file.GetFullPath
             Else
@@ -87,8 +95,14 @@ Module pdf
                             Optional logo As String = Nothing,
                             Optional env As Environment = Nothing) As Object
 
+        Dim [strict] As Boolean = env.globalEnvironment.options.strict
         Dim contentUrls As String() = files _
-            .GetContentHtml(wwwroot, style, resolvedAsDataUri) _
+            .GetContentHtml(
+                wwwroot:=wwwroot,
+                style:=style,
+                resolvedAsDataUri:=resolvedAsDataUri,
+                strict:=strict
+            ) _
             .ToArray
 
         If contentUrls.IsNullOrEmpty Then
@@ -102,8 +116,8 @@ Module pdf
                     <img style="height: 100%;" src=<%= New DataURI(logo).ToString %>/>
                 </div>)
 
-            logoHtml.SaveTo(logoHtml)
-            logo = tmp
+            logoHtml.SaveTo(tmp)
+            logo = tmp.GetFullPath
         End If
 
         Dim content As New PdfDocument With {
