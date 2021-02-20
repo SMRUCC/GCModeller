@@ -84,6 +84,7 @@ Module pdf
                             Optional wwwroot As String = "/",
                             Optional style As String = Nothing,
                             Optional resolvedAsDataUri As Boolean = False,
+                            Optional logo As String = Nothing,
                             Optional env As Environment = Nothing) As Object
 
         Dim contentUrls As String() = files _
@@ -94,7 +95,22 @@ Module pdf
             Return Internal.debug.stop("no pdf content files was found!", env)
         End If
 
-        Dim content As New PdfDocument With {.Url = contentUrls}
+        If Not logo.StringEmpty Then
+            Dim tmp As String = App.SysTemp & $"/{App.PID.ToHexString}_logo{App.GetNextUniqueName("image_")}.html"
+            Dim logoHtml As String = sprintf(
+                <div>
+                    <img style="height: 100%;" src=<%= New DataURI(logo).ToString %>/>
+                </div>)
+
+            logoHtml.SaveTo(logoHtml)
+            logo = tmp
+        End If
+
+        Dim content As New PdfDocument With {
+            .Url = contentUrls,
+            .footer = New Decoration With {.center = "[page] / [toPage]"},
+            .header = New Decoration With {.left = logo}
+        }
         Dim output As New PdfOutput With {.OutputFilePath = pdfout}
         Dim wkhtmltopdf As New PdfConvertEnvironment With {
             .TempFolderPath = App.GetAppSysTempFile("__pdf", App.PID.ToHexString, "wkhtmltopdf"),
