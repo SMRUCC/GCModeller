@@ -123,7 +123,7 @@ Module pdf
         Dim content As New PdfDocument With {
             .Url = contentUrls,
             .footer = New Decoration With {.center = "[page] / [toPage]"},
-            .header = New Decoration With {.left = logo}
+            .header = New Decoration With {.html = logo}
         }
         Dim output As New PdfOutput With {.OutputFilePath = pdfout}
         Dim wkhtmltopdf As New PdfConvertEnvironment With {
