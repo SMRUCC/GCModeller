@@ -245,7 +245,7 @@ Public Module PdfConvert
                            document As PDFContent,
                            woutput As PdfOutput)
 
-        Using process As New IORedirect(environment.WkHtmlToPdfPath, args)
+        Using process As New IORedirect(environment.WkHtmlToPdfPath, args, IOredirect:=True)
             If environment.Debug Then
                 Call $"Process running in debug mode...".__DEBUG_ECHO
                 Call $"Current workspace: {App.CurrentDirectory}.".__DEBUG_ECHO
@@ -298,15 +298,47 @@ Wkhtmltopdf output:
         Throw New PdfConvertException(msg)
     End Sub
 
-    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String)
-        Dim [in] As New PdfDocument With {
-            .Url = {url}
-        }
-        Dim out As New PdfOutput With {
-            .OutputFilePath = outputFilePath
-        }
+    Public Sub ConvertHtmlToPdf(url As String, outputFilePath As String, Optional environment As PdfConvertEnvironment = Nothing)
+        Dim [in] As New PdfDocument With {.Url = {url}}
+        Dim out As New PdfOutput With {.OutputFilePath = outputFilePath}
 
-        Call ConvertHtmlToPdf([in], out)
+        Call ConvertHtmlToPdf([in], out, environment)
     End Sub
+
+    <Extension>
+    Private Function localFileExists(file As String) As Boolean
+        If file.isURL Then
+            Return True
+        Else
+            Return file.FileExists
+        End If
+    End Function
+
+    ''' <summary>
+    ''' check pdf content source
+    ''' </summary>
+    ''' <param name="content"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CheckContentSource(content As PdfDocument) As Boolean
+        Dim check As Boolean = True
+        Dim valid As Boolean
+        Dim message As String
+
+        Call Console.WriteLine($"check for {content.Url.Length} content source urls...")
+
+        For Each file As String In content.Url
+            valid = file.localFileExists
+            message = $"{file.GetFullPath} ... [{valid.ToString.ToLower}]"
+
+            Console.WriteLine(message)
+
+            If Not valid Then
+                check = False
+            End If
+        Next
+
+        Return check
+    End Function
 End Module
 

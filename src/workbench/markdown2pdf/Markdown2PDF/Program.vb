@@ -69,13 +69,22 @@ Module Program
         </html>
 
     Public Function Main() As Integer
-        Dim args As CommandLine = App.CommandLine
+        Return GetType(CLI).RunCLI(App.CommandLine, AddressOf RunConvertSingle, AddressOf RunEmpty)
+    End Function
+
+    Private Function RunEmpty() As Integer
+        Call Console.WriteLine("markdown2PDF <input.md> [custom.css]")
+        Call Console.WriteLine()
+
+        Return 0
+    End Function
+
+    Private Function RunConvertSingle(path$, args As CommandLine) As Integer
         Dim in$ = If(args Is Nothing OrElse args.Tokens.IsNullOrEmpty, "", args.Tokens(Scan0))
         Dim css$ = If(args Is Nothing OrElse args.Tokens.IsNullOrEmpty, "", args.Tokens.Get(1, ""))
 
         If Not [in].FileExists Then
-            Call Console.WriteLine("markdown2PDF <input.md> [custom.css]")
-            Call Console.WriteLine()
+            Return -1
         Else
             Dim md As String = [in].ReadAllText
             Dim html$ = New MarkDown.MarkdownHTML().Transform(md)
@@ -160,9 +169,7 @@ End Function</code></pre>
         }
 
         Call println(html.GetDocument)
-        Call PdfConvert.ConvertHtmlToPdf(
-            html,
-            App.HOME & "/hello-world.pdf")
+        Call PdfConvert.ConvertHtmlToPdf(html, App.HOME & "/hello-world.pdf")
     End Sub
 End Module
 
