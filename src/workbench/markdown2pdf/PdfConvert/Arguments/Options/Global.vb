@@ -113,6 +113,9 @@ Namespace Arguments
         <Argv("--lowquality", CLITypes.Boolean)>
         Public Property lowquality As Boolean = False
 
+        <Argv("--enable-local-file-access", CLITypes.Boolean)>
+        Public Property enablelocalfileaccess As Boolean = True
+
         ''' <summary>
         ''' Set the page bottom margin
         ''' </summary>
@@ -162,6 +165,7 @@ Namespace Arguments
         ''' <returns></returns>
         <Argv("--title", CLITypes.String)>
         Public Property title As String
+
     End Class
 
     Public Enum Orientations
