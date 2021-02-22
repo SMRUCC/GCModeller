@@ -916,9 +916,14 @@ Public Module PathExtensions
     Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
         Try
             Dim dirInfo As New DirectoryInfo(dir)
+            Dim UNCprefix As String = dirInfo.FullName.Match("\\\\\d+(\.\d+)+")
             Dim fullName As String = dirInfo.FullName.Replace("\", "/")
 
-            Return fullName
+            If (Not UNCprefix.StringEmpty) AndAlso dirInfo.FullName.StartsWith(UNCprefix) Then
+                Return dirInfo.FullName
+            Else
+                Return fullName
+            End If
         Catch ex As Exception
             stack = stack & " --> " & NameOf(GetDirectoryFullPath)
 
