@@ -894,8 +894,9 @@ Public Module PathExtensions
     <Extension>
     Public Function GetFullPath(file As String) As String
         Dim fullName As String = FileIO.FileSystem.GetFileInfo(file).FullName
+        Dim UNCprefix As String = fullName.Match("\\\\\d+(\.\d+)+")
 
-        If fullName.StartsWith(fullName.Match("\\\\\d+(\.\d+)+")) Then
+        If (Not UNCprefix.StringEmpty) AndAlso fullName.StartsWith(UNCprefix) Then
             ' is a network location on NAS server
             Return fullName
         Else
@@ -911,7 +912,8 @@ Public Module PathExtensions
     ''' <param name="stack">当程序出错误的时候记录进入日志的一个追踪目标参数，调试用</param>
     ''' <returns></returns>
     <ExportAPI("Dir.FullPath")>
-    <Extension> Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
+    <Extension>
+    Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
         Try
             Dim dirInfo As New DirectoryInfo(dir)
             Dim fullName As String = dirInfo.FullName.Replace("\", "/")
