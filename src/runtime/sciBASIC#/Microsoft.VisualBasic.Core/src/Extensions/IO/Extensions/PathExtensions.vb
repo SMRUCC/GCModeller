@@ -742,7 +742,10 @@ Public Module PathExtensions
     ''' <returns></returns>
     ''' <remarks>这个函数不依赖于系统的底层API，因为系统的底层API对于过长的文件名会出错</remarks>
     <ExportAPI(NameOf(ParentPath))>
-    <Extension> Public Function ParentPath(file$, Optional full As Boolean = True) As String
+    <Extension>
+    Public Function ParentPath(file$, Optional full As Boolean = True) As String
+        Dim isUNCpath As String = file.StartsWith(file.Match("\\\\\d+(\.\d+)+"))
+
         file = file.Replace("\", "/")
 
         Dim parent As String = ""
@@ -775,7 +778,11 @@ Public Module PathExtensions
             parent = String.Join("/", t.Take(t.Length - 1).ToArray)
         End If
 
-        Return parent
+        If isUNCpath Then
+            Return parent.Replace("/", "\")
+        Else
+            Return parent
+        End If
     End Function
 
     ''' <summary>
@@ -884,8 +891,16 @@ Public Module PathExtensions
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("File.FullPath")>
-    <Extension> Public Function GetFullPath(file As String) As String
-        Return FileIO.FileSystem.GetFileInfo(file).FullName.Replace("\", "/")
+    <Extension>
+    Public Function GetFullPath(file As String) As String
+        Dim fullName As String = FileIO.FileSystem.GetFileInfo(file).FullName
+
+        If fullName.StartsWith(fullName.Match("\\\\\d+(\.\d+)+")) Then
+            ' is a network location on NAS server
+            Return fullName
+        Else
+            Return fullName.Replace("\", "/")
+        End If
     End Function
 
     ''' <summary>
