@@ -744,7 +744,7 @@ Public Module PathExtensions
     <ExportAPI(NameOf(ParentPath))>
     <Extension>
     Public Function ParentPath(file$, Optional full As Boolean = True) As String
-        Dim isUNCpath As String = file.StartsWith(file.Match("\\\\\d+(\.\d+)+"))
+        Dim isUNCpath As Boolean = file.StartsWith(file.Match("\\\\\d+(\.\d+)+"))
 
         file = file.Replace("\", "/")
 
