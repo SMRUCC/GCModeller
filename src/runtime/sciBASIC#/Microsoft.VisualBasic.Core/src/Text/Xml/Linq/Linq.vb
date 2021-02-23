@@ -147,6 +147,13 @@ Namespace Text.Xml.Linq
             Return type.Name
         End Function
 
+        ''' <summary>
+        ''' 使用<see cref="XmlDocument"/>进行小文件的加载操作
+        ''' </summary>
+        ''' <param name="XML$"></param>
+        ''' <param name="nodeName$"></param>
+        ''' <param name="filter"></param>
+        ''' <returns></returns>
         Private Iterator Function InternalIterates(XML$, nodeName$, filter As Func(Of String, Boolean)) As IEnumerable(Of String)
             Dim XmlNodeList As XmlNodeList = XML _
                 .LoadXmlDocument _
