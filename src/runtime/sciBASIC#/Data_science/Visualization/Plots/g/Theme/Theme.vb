@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Graphic.Canvas
 
-    Public Class Theme
+    Public Class Theme : Implements ICloneable
 
         ''' <summary>
         ''' 背景色
@@ -200,5 +200,8 @@ Namespace Graphic.Canvas
             Return legendLayout.GetLocation(canvas, dependency)
         End Function
 
+        Public Function Clone() As Object Implements ICloneable.Clone
+            Return Me.GetJson.LoadJSON(Of Theme)
+        End Function
     End Class
 End Namespace
