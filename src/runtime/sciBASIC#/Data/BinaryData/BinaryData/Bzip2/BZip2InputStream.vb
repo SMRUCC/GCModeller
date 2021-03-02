@@ -52,7 +52,7 @@ Namespace Bzip2
             End If
 
             Me.inputStream = inputStream
-            bitInputStream = New BZip2BitInputStream(inputStream)
+            Me.bitInputStream = New BZip2BitInputStream(inputStream)
             Me.headerless = headerless
         End Sub
 #End Region
@@ -155,7 +155,9 @@ Namespace Bzip2
         ''' <exception cref="IOException">if the stream header is not valid</exception>
         Private Sub InitialiseStream()
             ' If the stream has been explicitly closed, throw an exception 
-            If bitInputStream Is Nothing Then Throw New Exception("Stream closed")
+            If bitInputStream Is Nothing Then
+                Throw New Exception("Stream closed")
+            End If
 
             ' If we're already at the end of the stream, do nothing 
             If streamComplete Then Return

@@ -747,9 +747,9 @@
     <Compile Include="Bzip2\BZip2InputStream.vb" />
     <Compile Include="Bzip2\Bzip2MTFAndRLE2StageEncoder.vb" />
     <Compile Include="Bzip2\BZip2OutputStream.vb" />
-    <Compile Include="Bzip2\CRC32.vb" />
-    <Compile Include="Bzip2\HuffmanAllocator.vb" />
-    <Compile Include="Bzip2\MoveToFront.vb" />
+    <Compile Include="Bzip2\Math\CRC32.vb" />
+    <Compile Include="Bzip2\Math\HuffmanAllocator.vb" />
+    <Compile Include="Bzip2\Math\MoveToFront.vb" />
     <Compile Include="Extensions\FixLengthString.vb" />
     <Compile Include="Extensions\MSWindows.vb" />
     <Compile Include="BitSet.vb" />
