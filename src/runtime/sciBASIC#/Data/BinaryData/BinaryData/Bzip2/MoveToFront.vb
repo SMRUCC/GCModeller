@@ -26,7 +26,7 @@ Namespace Bzip2
         End Sub
 
         ''' <summary>Moves a value to the head of the MTF list (forward Move To Front transform)</summary>
-        ''' <param name="value">The value to move</param>
+        ''' <paramname="value">The value to move</param>
         ''' <return>The position the value moved from</return>
         Public Function ValueToFront(ByVal value As Byte) As Integer
             Dim index = 0
@@ -45,7 +45,7 @@ Namespace Bzip2
         End Function
 
         ''' <summary>Gets the value from a given index and moves it to the front of the MTF list (inverse Move To Front transform)</summary>
-        ''' <param name="index">The index to move</param>
+        ''' <paramname="index">The index to move</param>
         ''' <return>The value at the given index</return>
         Public Function IndexToFront(ByVal index As Integer) As Byte
             Dim value = mtf(index)

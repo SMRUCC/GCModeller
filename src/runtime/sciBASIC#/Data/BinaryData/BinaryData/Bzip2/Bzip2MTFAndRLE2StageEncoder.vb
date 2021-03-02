@@ -3,8 +3,6 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports stdNum = System.Math
-
 Namespace Bzip2
     ''' <summary>An encoder for the BZip2 Move To Front Transform and Run-Length Encoding[2] stages</summary>
     ''' <remarks>
@@ -102,7 +100,7 @@ Namespace Bzip2
             Dim totalUniqueValues = 0
 
             For i = 0 To 256 - 1
-                If bwtValuesInUse(i) Then huffmanSymbolMap(i) = CByte(stdNum.Min(Threading.Interlocked.Increment(totalUniqueValues), totalUniqueValues - 1))
+                If bwtValuesInUse(i) Then huffmanSymbolMap(i) = CByte(Math.Min(Threading.Interlocked.Increment(totalUniqueValues), totalUniqueValues - 1))
             Next
 
             Dim endOfBlockSymbol = totalUniqueValues + 1
@@ -126,10 +124,10 @@ Namespace Bzip2
                         While True
 
                             If (repeatCount And 1) = 0 Then
-                                mtfBlockField(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNA
+                                mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNA
                                 totalRunAs += 1
                             Else
-                                mtfBlockField(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNB
+                                mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNB
                                 totalRunBs += 1
                             End If
 
@@ -140,7 +138,7 @@ Namespace Bzip2
                         repeatCount = 0
                     End If
 
-                    mtfBlockField(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = (mtfPosition + 1)
+                    mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = Microsoft.VisualBasic.ChrW(mtfPosition + 1)
                     mtfSymbolFrequenciesField(mtfPosition + 1) += 1
                 End If
             Next
@@ -151,10 +149,10 @@ Namespace Bzip2
                 While True
 
                     If (repeatCount And 1) = 0 Then
-                        mtfBlockField(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNA
+                        mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNA
                         totalRunAs += 1
                     Else
-                        mtfBlockField(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNB
+                        mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = RLE_SYMBOL_RUNB
                         totalRunBs += 1
                     End If
 

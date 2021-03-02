@@ -4,7 +4,6 @@
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
 Imports System.IO
-Imports stdNum = System.Math
 
 Namespace Bzip2
     ''' <summary>Implements a bit-wise output stream</summary>
@@ -59,7 +58,7 @@ Namespace Bzip2
         ' 
 
         Public Sub WriteUnary(ByVal value As Integer)
-            While stdNum.Max(Threading.Interlocked.Decrement(value), value + 1) > 0
+            While Math.Max(Threading.Interlocked.Decrement(value), value + 1) > 0
                 WriteBoolean(True)
             End While
 

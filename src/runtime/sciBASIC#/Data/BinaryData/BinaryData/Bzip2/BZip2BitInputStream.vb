@@ -24,7 +24,7 @@ Namespace Bzip2
 
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
-        ''' <param name="inputStream">The input stream to wrap</param>
+        ''' <paramname="inputStream">The input stream to wrap</param>
         Public Sub New(ByVal inputStream As Stream)
             Me.inputStream = inputStream
         End Sub
@@ -65,12 +65,10 @@ Namespace Bzip2
                 If (bitBuffer And 1 << bitCount) = 0 Then Return unaryCount
                 unaryCount += 1
             End While
-
-            Throw New Exception("this exception will never happends!")
         End Function
 
         ''' <summary>Reads up to 32 bits from the wrapped input stream</summary>
-        ''' <param name="count">The number of bits to read (maximum 32)</param>
+        ''' <paramname="count">The number of bits to read (maximum 32)</param>
         ''' <return>The bits requested, right-aligned within the integer</return>
         ''' <exception>if no more bits are available in the input stream</exception>
         Public Function ReadBits(ByVal count As Integer) As UInteger

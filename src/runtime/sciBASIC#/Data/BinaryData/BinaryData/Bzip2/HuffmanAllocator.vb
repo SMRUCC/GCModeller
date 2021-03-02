@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports stdNum = System.Math
+Imports System
 
 Namespace Bzip2
     ''' <summary>An in-place, length restricted Canonical Huffman code length allocator</summary>
@@ -16,8 +16,8 @@ Namespace Bzip2
     Friend Module HuffmanAllocator
 #Region "Public methods"
         ''' <summary>Allocates Canonical Huffman code lengths in place based on a sorted frequency array</summary>
-        ''' <param name="array">On input, a sorted array of symbol frequencies; On output, an array of Canonical Huffman code lenghts</param>
-        ''' <param name="maximumLength">The maximum code length. Must be at least ceil(log2(array.length))</param>
+        ''' <paramname="array">On input, a sorted array of symbol frequencies; On output, an array of Canonical Huffman code lenghts</param>
+        ''' <paramname="maximumLength">The maximum code length. Must be at least ceil(log2(array.length))</param>
         Public Sub AllocateHuffmanCodeLengths(ByVal array As Integer(), ByVal maximumLength As Integer)
             Select Case array.Length
                 Case 2
@@ -60,7 +60,7 @@ Namespace Bzip2
                 i -= limit - i + 1
             End While
 
-            i = stdNum.Max(nodesToMove - 1, i)
+            i = Math.Max(nodesToMove - 1, i)
 
             While k > i + 1
                 Dim temp = i + k >> 1
@@ -89,16 +89,16 @@ Namespace Bzip2
 
                 If topNode >= length OrElse array(headNode) < array(topNode) Then
                     temp = array(headNode)
-                    array(stdNum.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode
+                    array(Math.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode
                 Else
-                    temp = array(stdNum.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
+                    temp = array(Math.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
                 End If
 
                 If topNode >= length OrElse headNode < tailNode AndAlso array(headNode) < array(topNode) Then
                     temp += array(headNode)
-                    array(stdNum.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode + length
+                    array(Math.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode + length
                 Else
-                    temp += array(stdNum.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
+                    temp += array(Math.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
                 End If
 
                 array(tailNode) = temp
@@ -138,7 +138,7 @@ Namespace Bzip2
                 firstNode = First(array, lastNode - 1, 0)
 
                 For i = availableNodes - (lastNode - firstNode) To 0 + 1 Step -1
-                    array(stdNum.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
+                    array(Math.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
                 Next
 
                 availableNodes = lastNode - firstNode << 1
@@ -166,14 +166,14 @@ Namespace Bzip2
                 Dim offset = 0
 
                 If currentDepth >= insertDepth Then
-                    offset = stdNum.Min(nodesLeftToMove, 1 << currentDepth - insertDepth)
+                    offset = Math.Min(nodesLeftToMove, 1 << currentDepth - insertDepth)
                 ElseIf currentDepth = insertDepth - 1 Then
                     offset = 1
                     If array(firstNode) = lastNode Then firstNode += 1
                 End If
 
                 For i = availableNodes - (lastNode - firstNode + offset) To 0 + 1 Step -1
-                    array(stdNum.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
+                    array(Math.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
                 Next
 
                 nodesLeftToMove -= offset

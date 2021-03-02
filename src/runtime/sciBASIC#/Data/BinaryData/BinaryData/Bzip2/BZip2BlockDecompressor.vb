@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports stdNum = System.Math
+Imports System
 
 Namespace Bzip2
     ''' <summary> Reads and decompresses a single BZip2 block </summary>
@@ -154,7 +154,7 @@ Namespace Bzip2
                 While j < 16
 
                     If bitInputStream.ReadBoolean() Then
-                        huffmanSymbolMap(stdNum.Min(Threading.Interlocked.Increment(huffmanSymbolCount), huffmanSymbolCount - 1)) = CByte(k)
+                        huffmanSymbolMap(Math.Min(Threading.Interlocked.Increment(huffmanSymbolCount), huffmanSymbolCount - 1)) = CByte(k)
                     End If
 
                     j += 1
@@ -230,7 +230,7 @@ Namespace Bzip2
                         bwtByteCounts(nextByte And &HfF) += repeatCount
 
                         While Threading.Interlocked.Decrement(repeatCount) >= 0
-                            bwtBlock(stdNum.Min(Threading.Interlocked.Increment(_bwtBlockLength), _bwtBlockLength - 1)) = nextByte
+                            bwtBlock(Math.Min(Threading.Interlocked.Increment(_bwtBlockLength), _bwtBlockLength - 1)) = nextByte
                         End While
 
                         repeatCount = 0
@@ -242,7 +242,7 @@ Namespace Bzip2
                     mtfValue = symbolMTF.IndexToFront(nextSymbol - 1) And &HfF
                     nextByte = huffmanSymbolMap(mtfValue)
                     bwtByteCounts(nextByte And &HfF) += 1
-                    bwtBlock(stdNum.Min(Threading.Interlocked.Increment(_bwtBlockLength), _bwtBlockLength - 1)) = nextByte
+                    bwtBlock(Math.Min(Threading.Interlocked.Increment(_bwtBlockLength), _bwtBlockLength - 1)) = nextByte
                 End If
             End While
 
@@ -273,7 +273,7 @@ Namespace Bzip2
             ' final walk through the array
             For i = 0 To bwtBlockLength - 1
                 Dim value = bwtBlock(i) And &HfF
-                _bwtMergedPointers(stdNum.Min(Threading.Interlocked.Increment(characterBase(value)), characterBase(value) - 1)) = (i << 8) + value
+                _bwtMergedPointers(Math.Min(Threading.Interlocked.Increment(characterBase(value)), characterBase(value) - 1)) = (i << 8) + value
             Next
 
             bwtBlock = Nothing
