@@ -157,7 +157,7 @@ Namespace Bzip2
                     actualCumulativeFrequency += mtfSymbolFrequencies(Threading.Interlocked.Increment(lowCostEnd))
                 End While
 
-                If lowCostEnd > lowCostStart AndAlso i <> 0 AndAlso i <> totalTables - 1 AndAlso (totalTables - i And 1) = 0 Then actualCumulativeFrequency -= mtfSymbolFrequencies(Math.Max(Threading.Interlocked.Decrement(lowCostEnd), lowCostEnd + 1))
+                If lowCostEnd > lowCostStart AndAlso i <> 0 AndAlso i <> totalTables - 1 AndAlso (totalTables - i And 1) = 0 Then actualCumulativeFrequency -= mtfSymbolFrequencies(stdNum.Max(Threading.Interlocked.Decrement(lowCostEnd), lowCostEnd + 1))
 
                 For j = 0 To mtfAlphabetSize - 1
                     If j < lowCostStart OrElse j > lowCostEnd Then huffmanCodeLengths(i, j) = HUFFMAN_HIGH_SYMBOL_COST
@@ -255,7 +255,7 @@ Namespace Bzip2
 
                     For k = 0 To mtfAlphabetSize - 1
 
-                        If (huffmanCodeLengths(i, k) And &HfF) = j Then
+                        If (huffmanCodeLengths(i, k) And &HFF) = j Then
                             huffmanMergedCodeSymbols(i, k) = j << 24 Or code
                             code += 1
                         End If
@@ -294,7 +294,7 @@ Namespace Bzip2
                     Dim value = If(currentLength < codeLength, 2UI, 3UI)
                     Dim delta = stdNum.Abs(codeLength - currentLength)
 
-                    While Math.Max(Threading.Interlocked.Decrement(delta), delta + 1) > 0
+                    While stdNum.Max(Threading.Interlocked.Decrement(delta), delta + 1) > 0
                         bitOutputStream.WriteBits(2, value)
                     End While
 
@@ -315,10 +315,10 @@ Namespace Bzip2
 
             While mtfIndex < mtfLength
                 Dim groupEnd = stdNum.Min(mtfIndex + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
-                Dim index As Integer = selectors(Math.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1))
+                Dim index As Integer = selectors(stdNum.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1))
 
                 While mtfIndex <= groupEnd
-                    Dim mergedCodeSymbol = huffmanMergedCodeSymbols(index, mtfBlock(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)))
+                    Dim mergedCodeSymbol = huffmanMergedCodeSymbols(index, mtfBlock(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)))
                     bitOutputStream.WriteBits(mergedCodeSymbol >> 24, mergedCodeSymbol)
                 End While
             End While

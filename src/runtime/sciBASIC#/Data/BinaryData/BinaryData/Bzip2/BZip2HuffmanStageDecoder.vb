@@ -146,7 +146,7 @@ Namespace Bzip2
                 While bitLength <= maximumLength
 
                     For symbol = 0 To alphabetSize - 1
-                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, Math.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
+                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, stdNum.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
                     Next
 
                     bitLength += 1

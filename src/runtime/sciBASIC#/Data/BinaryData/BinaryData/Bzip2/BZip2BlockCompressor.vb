@@ -3,6 +3,8 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
+Imports stdNum = System.Math
+
 Namespace Bzip2
     ''' <summary>Compresses and writes a single BZip2 block</summary>
     ''' <remarks>
@@ -137,8 +139,8 @@ Namespace Bzip2
         Public Function Write(ByVal data As Byte(), ByVal offset As Integer, ByVal length As Integer) As Integer
             Dim written = 0
 
-            While Math.Max(Threading.Interlocked.Decrement(length), length + 1) > 0
-                If Not Write(data(Math.Min(Threading.Interlocked.Increment(offset), offset - 1))) Then Exit While
+            While stdNum.Max(Threading.Interlocked.Decrement(length), length + 1) > 0
+                If Not Write(data(stdNum.Min(Threading.Interlocked.Increment(offset), offset - 1))) Then Exit While
                 written += 1
             End While
 

@@ -3,6 +3,8 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
+Imports stdNum = System.Math
+
 Namespace Bzip2
     ''' <summary>
     ''' A CRC32 calculator
@@ -37,7 +39,7 @@ Namespace Bzip2
         ''' <param name="value">The value to update the CRC with</param>
         ''' <param name="count">The number of bytes</param>
         Public Sub UpdateCrc(ByVal value As Integer, ByVal count As Integer)
-            While Math.Max(Threading.Interlocked.Decrement(count), count + 1) > 0
+            While stdNum.Max(Threading.Interlocked.Decrement(count), count + 1) > 0
                 crcField = crcField << 8 Xor Crc32Lookup((crcField >> 24 Xor value) And &HFF)
             End While
         End Sub

@@ -43,8 +43,8 @@ Namespace Bzip2
 
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
-        ''' <paramname="inputStream">The InputStream to wrap</param>
-        ''' <paramname="headerless">If true, the caller is assumed to have read away the stream's 
+        ''' <param name="inputStream">The InputStream to wrap</param>
+        ''' <param name="headerless">If true, the caller is assumed to have read away the stream's 
         ''' leading "BZ" identifier bytes</param>
         Public Sub New(ByVal inputStream As Stream, ByVal headerless As Boolean)
             If inputStream Is Nothing Then
@@ -216,7 +216,7 @@ Namespace Bzip2
                 ' Read and verify the end-of-stream CRC
                 streamComplete = True
                 Dim storedCombinedCRC As UInteger = bitInputStream.ReadInteger()
-                ''' .ReadBits(32);
+                ' .ReadBits(32);
 
                 If storedCombinedCRC <> streamCRC Then Throw New Exception("BZip2 stream CRC error")
                 Return False
