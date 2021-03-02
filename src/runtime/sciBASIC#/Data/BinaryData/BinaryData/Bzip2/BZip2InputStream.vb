@@ -152,7 +152,7 @@ Namespace Bzip2
 
 #Region "Private methods"
         ''' <summary>Reads the stream header and checks that the data appears to be a valid BZip2 stream</summary>
-        ''' <exception>if the stream header is not valid</exception>
+        ''' <exception cref="IOException">if the stream header is not valid</exception>
         Private Sub InitialiseStream()
             ' If the stream has been explicitly closed, throw an exception 
             If bitInputStream Is Nothing Then Throw New Exception("Stream closed")
@@ -182,7 +182,7 @@ Namespace Bzip2
         ''' <remarks>If a previous block has completed, its CRC is checked and merged into the stream CRC.
         ''' If the previous block was the final block in the stream, the stream CRC is validated</remarks>
         ''' <return>true if a block was successfully initialised, or false if the end of file marker was encountered</return>
-        ''' <exception>If either the block or stream CRC check failed, if the following data is
+        ''' <exception cref="IOException">If either the block or stream CRC check failed, if the following data is
         ''' not a valid block-header or end-of-file marker, or if the following block could not be decoded</exception>
         Private Function InitialiseNextBlock() As Boolean
 

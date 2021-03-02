@@ -31,7 +31,7 @@ Namespace Bzip2
 
         ''' <summary>Reads a single bit from the wrapped input stream</summary>
         ''' <return>true if the bit read was 1, otherwise false</return>
-        ''' <exception>if no more bits are available in the input stream</exception>
+        ''' <exception cref="Exception">if no more bits are available in the input stream</exception>
         Public Function ReadBoolean() As Boolean
             If bitCount > 0 Then
                 bitCount -= 1
@@ -47,7 +47,7 @@ Namespace Bzip2
 
         ''' <summary>Reads a zero-terminated unary number from the wrapped input stream</summary>
         ''' <return>The unary number</return>
-        ''' <exception>if no more bits are available in the input stream</exception>
+        ''' <exception cref="Exception">if no more bits are available in the input stream</exception>
         Public Function ReadUnary() As UInteger
             Dim unaryCount As UInteger = 0
 
@@ -72,7 +72,7 @@ Namespace Bzip2
         ''' <summary>Reads up to 32 bits from the wrapped input stream</summary>
         ''' <param name="count">The number of bits to read (maximum 32)</param>
         ''' <return>The bits requested, right-aligned within the integer</return>
-        ''' <exception>if no more bits are available in the input stream</exception>
+        ''' <exception cref="Exception">if no more bits are available in the input stream</exception>
         Public Function ReadBits(ByVal count As Integer) As UInteger
             If bitCount < count Then
                 While bitCount < count

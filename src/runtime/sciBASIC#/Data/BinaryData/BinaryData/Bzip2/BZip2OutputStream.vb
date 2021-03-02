@@ -54,7 +54,7 @@ Namespace Bzip2
         ''' <param name="outputStream">The output stream to write to</param>
         ''' <param name="blockSizeMultiplier">The BZip2 block size as a multiple of 100,000 bytes (minimum 1, maximum 9)</param>
         ''' <param name="isOwner">True if the underlying stream will be closed with the current Stream</param>
-        ''' <exception>On any I/O error writing to the output stream</exception>
+        ''' <exception cref="ArgumentException">On any I/O error writing to the output stream</exception>
         ''' <remarks>Larger block sizes require more memory for both compression and decompression,
         ''' but give better compression ratios. 9 will usually be the best value to use</remarks>
         Public Sub New(ByVal outputStream As Stream, ByVal Optional isOwner As Boolean = True, ByVal Optional blockSizeMultiplier As Integer = 9)
@@ -166,7 +166,7 @@ Namespace Bzip2
 
         ''' <summary>Compress and write out the block currently in progress</summary>
         ''' <remarks>If no bytes have been written to the block, it is discarded</remarks>
-        ''' <exception>On any I/O error writing to the output stream</exception>
+        ''' <exception cref="Exception">On any I/O error writing to the output stream</exception>
         Private Sub CloseBlock()
             If blockCompressor.IsEmpty Then Return
             blockCompressor.Close()
@@ -175,7 +175,7 @@ Namespace Bzip2
 
         ''' <summary>Compresses and writes out any as yet unwritten data, then writes the end of the BZip2 stream</summary>
         ''' <remarks>The underlying OutputStream is not closed</remarks>
-        ''' <exception>On any I/O error writing to the output stream</exception>
+        ''' <exception cref="Exception">On any I/O error writing to the output stream</exception>
         Private Sub Finish()
             If Not streamFinished Then
                 streamFinished = True
