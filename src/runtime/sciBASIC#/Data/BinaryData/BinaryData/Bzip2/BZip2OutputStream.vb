@@ -50,9 +50,9 @@ Namespace Bzip2
 
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
-        ''' <paramname="outputStream">The output stream to write to</param>
-        ''' <paramname="blockSizeMultiplier">The BZip2 block size as a multiple of 100,000 bytes (minimum 1, maximum 9)</param>
-        ''' <paramname="isOwner">True if the underlying stream will be closed with the current Stream</param>
+        ''' <param name="outputStream">The output stream to write to</param>
+        ''' <param name="blockSizeMultiplier">The BZip2 block size as a multiple of 100,000 bytes (minimum 1, maximum 9)</param>
+        ''' <param name="isOwner">True if the underlying stream will be closed with the current Stream</param>
         ''' <exception>On any I/O error writing to the output stream</exception>
         ''' <remarks>Larger block sizes require more memory for both compression and decompression,
         ''' but give better compression ratios. 9 will usually be the best value to use</remarks>
@@ -65,7 +65,7 @@ Namespace Bzip2
             Me.isOwner = isOwner
             bitOutputStream.WriteBits(16, STREAM_START_MARKER_1)
             bitOutputStream.WriteBits(8, STREAM_START_MARKER_2)
-            bitOutputStream.WriteBits(8, CUInt("0"c + blockSizeMultiplier))
+            bitOutputStream.WriteBits(8, CUInt(Asc("0"c) + blockSizeMultiplier))
             InitialiseNextBlock()
         End Sub
 #End Region

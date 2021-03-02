@@ -138,7 +138,7 @@ Namespace Bzip2
                         repeatCount = 0
                     End If
 
-                    mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = Microsoft.VisualBasic.ChrW(mtfPosition + 1)
+                    mtfBlockField(Math.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)) = ChrW(mtfPosition + 1)
                     mtfSymbolFrequenciesField(mtfPosition + 1) += 1
                 End If
             Next

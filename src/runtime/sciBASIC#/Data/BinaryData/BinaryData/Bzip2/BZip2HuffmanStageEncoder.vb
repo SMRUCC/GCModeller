@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
+Imports stdNum = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -184,7 +184,7 @@ Namespace Bzip2
             Dim groupStart = 0
 
             While groupStart < mtfLength
-                Dim groupEnd = Math.Min(groupStart + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
+                Dim groupEnd = stdNum.Min(groupStart + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
 
                 ' Calculate the cost of this group when encoded by each table
                 Dim cost = New Integer(totalTables - 1) {}
@@ -217,7 +217,7 @@ Namespace Bzip2
 
                 ' Store a selector indicating the table chosen for this block
                 If storeSelectors Then
-                    selectors(Math.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1)) = bestTable
+                    selectors(stdNum.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1)) = bestTable
                 End If
 
                 groupStart = groupEnd + 1
@@ -292,7 +292,7 @@ Namespace Bzip2
                 For j = 0 To mtfAlphabetSize - 1
                     Dim codeLength = huffmanCodeLengths(i, j)
                     Dim value = If(currentLength < codeLength, 2UI, 3UI)
-                    Dim delta = Math.Abs(codeLength - currentLength)
+                    Dim delta = stdNum.Abs(codeLength - currentLength)
 
                     While Math.Max(Threading.Interlocked.Decrement(delta), delta + 1) > 0
                         bitOutputStream.WriteBits(2, value)
@@ -314,7 +314,7 @@ Namespace Bzip2
             Dim mtfIndex = 0
 
             While mtfIndex < mtfLength
-                Dim groupEnd = Math.Min(mtfIndex + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
+                Dim groupEnd = stdNum.Min(mtfIndex + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
                 Dim index As Integer = selectors(Math.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1))
 
                 While mtfIndex <= groupEnd

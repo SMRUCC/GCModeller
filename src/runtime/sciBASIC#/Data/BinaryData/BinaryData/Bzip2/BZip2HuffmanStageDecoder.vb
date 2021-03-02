@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
+Imports stdNum = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -77,7 +77,7 @@ Namespace Bzip2
             If Threading.Interlocked.Increment(groupPosition) Mod BZip2HuffmanStageEncoder.HUFFMAN_GROUP_RUN_LENGTH = 0 Then
                 groupIndex += 1
                 If groupIndex = selectors.Length Then Throw New Exception("Error decoding BZip2 block")
-                currentTable = selectors(groupIndex) And &HfF
+                currentTable = selectors(groupIndex) And &HFF
             End If
 
             Dim codeLength = minimumLengths(currentTable)
@@ -112,32 +112,32 @@ Namespace Bzip2
                 Dim maximumLength = 0
 
                 ' Find the minimum and maximum code length for the table
-                For i = 0 To alphabetSize - 1
-                    maximumLength = Math.Max(tableCodeLengths(table, i), maximumLength)
-                    minimumLength = Math.Min(tableCodeLengths(table, i), minimumLength)
+                For i As Integer = 0 To alphabetSize - 1
+                    maximumLength = stdNum.Max(tableCodeLengths(table, i), maximumLength)
+                    minimumLength = stdNum.Min(tableCodeLengths(table, i), minimumLength)
                 Next
 
                 minimumLengths(table) = minimumLength
 
                 ' Calculate the first output symbol for each code length
-                For i = 0 To alphabetSize - 1
+                For i As Integer = 0 To alphabetSize - 1
                     codeBases(table, tableCodeLengths(table, i) + 1) += 1
                 Next
 
-                For i = 1 To HUFFMAN_DECODE_MAXIMUM_CODE_LENGTH + 2 - 1
+                For i As Integer = 1 To HUFFMAN_DECODE_MAXIMUM_CODE_LENGTH + 2 - 1
                     codeBases(table, i) += codeBases(table, i - 1)
                 Next
 
                 ' Calculate the first and last Huffman code for each code length (codes at a given length are sequential in value)
-                Dim i = minimumLength, code = 0
+                Dim index = minimumLength, code = 0
 
-                While i <= maximumLength
+                While index <= maximumLength
                     Dim base1 = code
-                    code += codeBases(table, i + 1) - codeBases(table, i)
-                    codeBases(table, i) = base1 - codeBases(table, i)
-                    codeLimits(table, i) = code - 1
+                    code += codeBases(table, index + 1) - codeBases(table, index)
+                    codeBases(table, index) = base1 - codeBases(table, index)
+                    codeLimits(table, index) = code - 1
                     code <<= 1
-                    i += 1
+                    index += 1
                 End While
 
                 ' Populate the mapping from canonical code index to output symbol

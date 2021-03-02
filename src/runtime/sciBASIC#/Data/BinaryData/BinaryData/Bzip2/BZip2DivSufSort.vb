@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
+Imports stdNum = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -918,7 +918,7 @@ Namespace Bzip2
                 Dim len As Integer
                 Dim half As Integer
                 m = 0
-                len = Math.Min(middle - first, last - middle)
+                len = stdNum.Min(middle - first, last - middle)
                 half = len >> 1
 
                 While 0 < len
