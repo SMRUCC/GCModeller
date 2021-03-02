@@ -75,6 +75,11 @@ Public Class XmlElement
         Return $"{[namespace]}::{name}"
     End Function
 
+    ''' <summary>
+    ''' parse the xml document text
+    ''' </summary>
+    ''' <param name="xmlText">the xml dcument text</param>
+    ''' <returns></returns>
     Public Shared Function ParseXmlText(xmlText As String) As XmlElement
         Return XmlParser.ParseXml(xmlText)
     End Function
