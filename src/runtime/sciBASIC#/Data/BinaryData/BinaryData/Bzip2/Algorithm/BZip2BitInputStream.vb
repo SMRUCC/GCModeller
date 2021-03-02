@@ -3,7 +3,6 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
 Imports System.IO
 
 Namespace Bzip2
@@ -57,7 +56,11 @@ Namespace Bzip2
                     bitCount -= 1
                 Else
                     Dim byteRead = inputStream.ReadByte()
-                    If byteRead < 0 Then Throw New Exception("Insufficient data")
+
+                    If byteRead < 0 Then
+                        Throw New Exception("Insufficient data")
+                    End If
+
                     bitBuffer = bitBuffer << 8 Or CUInt(byteRead)
                     bitCount += 7
                 End If
