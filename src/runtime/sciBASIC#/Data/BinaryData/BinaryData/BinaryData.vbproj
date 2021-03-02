@@ -736,6 +736,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteBuffer.vb" />
+    <Compile Include="Bzip2\BZip2BitInputStream.vb" />
+    <Compile Include="Bzip2\BZip2BitOutputStream.vb" />
+    <Compile Include="Bzip2\BZip2BlockCompressor.vb" />
+    <Compile Include="Bzip2\BZip2BlockDecompressor.vb" />
+    <Compile Include="Bzip2\BZip2DivSufSort.vb" />
+    <Compile Include="Bzip2\BZip2HuffmanStageDecoder.vb" />
+    <Compile Include="Bzip2\BZip2HuffmanStageEncoder.vb" />
+    <Compile Include="Bzip2\BZip2InputStream.vb" />
+    <Compile Include="Bzip2\Bzip2MTFAndRLE2StageEncoder.vb" />
+    <Compile Include="Bzip2\BZip2OutputStream.vb" />
+    <Compile Include="Bzip2\CRC32.vb" />
+    <Compile Include="Bzip2\HuffmanAllocator.vb" />
+    <Compile Include="Bzip2\MoveToFront.vb" />
     <Compile Include="Extensions\FixLengthString.vb" />
     <Compile Include="Extensions\MSWindows.vb" />
     <Compile Include="BitSet.vb" />
