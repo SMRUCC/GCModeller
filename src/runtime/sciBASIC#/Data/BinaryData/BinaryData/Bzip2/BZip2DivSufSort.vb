@@ -3,6 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
+Imports Microsoft.VisualBasic.Language
 Imports stdNum = System.Math
 
 Namespace Bzip2
@@ -17,10 +18,10 @@ Namespace Bzip2
     Friend Class BZip2DivSufSort
 #Region "Nested classes"
         Private Class StackEntry
-            ReadOnly Public a As Integer
-            ReadOnly Public b As Integer
-            ReadOnly Public c As Integer
-            ReadOnly Public d As Integer
+            Public ReadOnly a As Integer
+            Public ReadOnly b As Integer
+            Public ReadOnly c As Integer
+            Public ReadOnly d As Integer
 
             Public Sub New(ByVal a As Integer, ByVal b As Integer, ByVal c As Integer, ByVal d As Integer)
                 Me.a = a
@@ -31,8 +32,8 @@ Namespace Bzip2
         End Class
 
         Private Class PartitionResult
-            ReadOnly Public first As Integer
-            ReadOnly Public last As Integer
+            Public ReadOnly first As Integer
+            Public ReadOnly last As Integer
 
             Public Sub New(ByVal first As Integer, ByVal last As Integer)
                 Me.first = first
@@ -132,7 +133,7 @@ Namespace Bzip2
                 Threading.Interlocked.Increment(U2)
             End While
 
-            Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HfF) - (T(U2) And &HfF), 1), If(U2 < U2n, -1, 0))
+            Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HFF) - (T(U2) And &HFF), 1), If(U2 < U2n, -1, 0))
         End Function
 
         Private Function ssCompareLast(ByVal PA As Integer, ByVal p1 As Integer, ByVal p2 As Integer, ByVal depth As Integer, ByVal size As Integer) As Integer
@@ -147,7 +148,7 @@ Namespace Bzip2
                 Threading.Interlocked.Increment(U2)
             End While
 
-            If U1 < U1n Then Return If(U2 < U2n, (T(U1) And &HfF) - (T(U2) And &HfF), 1)
+            If U1 < U1n Then Return If(U2 < U2n, (T(U1) And &HFF) - (T(U2) And &HFF), 1)
             If U2 = U2n Then Return 1
             U1 = U1 Mod size
             U1n = SA(PA) + 2
@@ -157,21 +158,23 @@ Namespace Bzip2
                 Threading.Interlocked.Increment(U2)
             End While
 
-            Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HfF) - (T(U2) And &HfF), 1), If(U2 < U2n, -1, 0))
+            Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HFF) - (T(U2) And &HFF), 1), If(U2 < U2n, -1, 0))
         End Function
 
         Private Sub ssInsertionSort(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal depth As Integer)
             Dim i As Integer ' pointer within SA
+            Dim r As Value(Of Integer) = 0
+
             i = last - 2
 
             While first <= i
                 Dim j As Integer ' pointer within SA
                 Dim t As Integer
-                Dim r As Integer
+
                 t = SA(i)
                 j = i + 1
 
-                While 0 < CSharpImpl.__Assign(r, ssCompare(PA + t, PA + SA(j), depth))
+                While 0 < (r = ssCompare(PA + t, PA + SA(j), depth))
 
                     Do
                         SA(j - 1) = SA(j)
@@ -182,7 +185,7 @@ Namespace Bzip2
                     End If
                 End While
 
-                If r = 0 Then
+                If CInt(r) = 0 Then
                     SA(j) = Not SA(j)
                 End If
 
@@ -192,17 +195,20 @@ Namespace Bzip2
         End Sub
 
         Private Sub ssFixdown(ByVal Td As Integer, ByVal PA As Integer, ByVal sa As Integer, ByVal i As Integer, ByVal size As Integer)
-            Dim j, k As Integer
+            Dim j As Value(Of Integer) = 0
+            Dim k As Integer
             Dim v As Integer
             Dim c As Integer
             v = Me.SA(sa + i)
-            c = T(Td + Me.SA(PA + v)) And &HfF
+            c = T(Td + Me.SA(PA + v)) And &HFF
 
-            While CSharpImpl.__Assign(j, 2 * i + 1) < size
-                Dim d = T(Td + Me.SA(PA + Me.SA(sa + CSharpImpl.__Assign(k, stdNum.Min(Threading.Interlocked.Increment(j), j - 1))))) And &HfF
-                Dim e As Integer
+            While (j = 2 * i + 1) < size
+                k = stdNum.Min(Threading.Interlocked.Increment(j.Value), CInt(j) - 1)
 
-                If d < CSharpImpl.__Assign(e, T(Td + Me.SA(PA + Me.SA(sa + j))) And &HfF) Then
+                Dim d = T(Td + Me.SA(PA + Me.SA(sa + k))) And &HFF
+                Dim e As Integer = T(Td + Me.SA(PA + Me.SA(sa + CInt(j)))) And &HFF
+
+                If d < e Then
                     k = j
                     d = e
                 End If
@@ -222,7 +228,7 @@ Namespace Bzip2
             If size Mod 2 = 0 Then
                 m -= 1
 
-                If (T(Td + Me.SA(PA + Me.SA(sa + m / 2))) And &HfF) < (T(Td + Me.SA(PA + Me.SA(sa + m))) And &HfF) Then
+                If (T(Td + Me.SA(PA + Me.SA(sa + m / 2))) And &HFF) < (T(Td + Me.SA(PA + Me.SA(sa + m))) And &HFF) Then
                     swapElements(Me.SA, sa + m, Me.SA, sa + m / 2)
                 End If
             End If
@@ -251,9 +257,9 @@ Namespace Bzip2
         End Sub
 
         Private Function ssMedian3(ByVal Td As Integer, ByVal PA As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer) As Integer
-            Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HfF
-            Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HfF
-            Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HfF
+            Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HFF
+            Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HFF
+            Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HFF
 
             If T_v1 > T_v2 Then
                 Dim temp = v1
@@ -272,11 +278,11 @@ Namespace Bzip2
         End Function
 
         Private Function ssMedian5(ByVal Td As Integer, ByVal PA As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer, ByVal v4 As Integer, ByVal v5 As Integer) As Integer
-            Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HfF
-            Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HfF
-            Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HfF
-            Dim T_v4 = T(Td + SA(PA + SA(v4))) And &HfF
-            Dim T_v5 = T(Td + SA(PA + SA(v5))) And &HfF
+            Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HFF
+            Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HFF
+            Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HFF
+            Dim T_v4 = T(Td + SA(PA + SA(v4))) And &HFF
+            Dim T_v5 = T(Td + SA(PA + SA(v5))) And &HFF
             Dim temp As Integer
             Dim T_vtemp As Integer
 
@@ -360,7 +366,7 @@ Namespace Bzip2
         End Function
 
         Private Shared Function ssLog(ByVal x As Integer) As Integer
-            Return If((x And &Hff00) <> 0, 8 + log2table(x >> 8 And &HfF), log2table(x And &HfF))
+            Return If((x And &HFF00) <> 0, 8 + log2table(x >> 8 And &HFF), log2table(x And &HFF))
         End Function
 
         Private Function ssSubstringPartition(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal depth As Integer) As Integer
@@ -425,11 +431,13 @@ Namespace Bzip2
 
                 If limit < 0 Then
                     a = first + 1
-                    v = T(Td + SA(PA + SA(first))) And &HfF
+                    v = T(Td + SA(PA + SA(first))) And &HFF
 
                     While a < last
 
-                        If CSharpImpl.__Assign(x, T(Td + SA(PA + SA(a))) And &HfF) <> v Then
+                        x = T(Td + SA(PA + SA(a))) And &HFF
+
+                        If x <> v Then
                             If 1 < a - first Then
                                 Exit While
                             End If
@@ -441,7 +449,7 @@ Namespace Bzip2
                         Threading.Interlocked.Increment(a)
                     End While
 
-                    If (T(Td + SA(PA + SA(first)) - 1) And &HfF) < v Then
+                    If (T(Td + SA(PA + SA(first)) - 1) And &HFF) < v Then
                         first = ssSubstringPartition(PA, first, a, depth)
                     End If
 
@@ -472,16 +480,22 @@ Namespace Bzip2
                 End If
 
                 a = ssPivot(Td, PA, first, last)
-                v = T(Td + SA(PA + SA(a))) And &HfF
+                v = T(Td + SA(PA + SA(a))) And &HFF
                 swapElements(SA, first, SA, a)
                 Dim b As Integer
+                Dim xi As Value(Of Integer) = 0
+
                 b = first
 
-                While Threading.Interlocked.Increment(b) < last AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(b))) And &HfF) = v
+                While Threading.Interlocked.Increment(b) < last AndAlso (xi = T(Td + SA(PA + SA(b))) And &HFF) = v
                 End While
 
-                If CSharpImpl.__Assign(a, b) < last AndAlso x < v Then
-                    While Threading.Interlocked.Increment(b) < last AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(b))) And &HfF) <= v
+                x = xi
+                a = b
+
+                If a < last AndAlso x < v Then
+                    While Threading.Interlocked.Increment(b) < last AndAlso (xi = T(Td + SA(PA + SA(b))) And &HFF) <= v
+                        x = xi
 
                         If x = v Then
                             swapElements(SA, b, SA, a)
@@ -493,13 +507,16 @@ Namespace Bzip2
                 Dim c As Integer
                 c = last
 
-                While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(c))) And &HfF) = v
+                While b < Threading.Interlocked.Decrement(c) AndAlso (xi = T(Td + SA(PA + SA(c))) And &HFF) = v
                 End While
 
-                Dim d As Integer
+                x = xi
 
-                If b < CSharpImpl.__Assign(d, c) AndAlso x > v Then
-                    While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(c))) And &HfF) >= v
+                Dim d As Integer = c
+
+                If b < c AndAlso x > v Then
+                    While b < Threading.Interlocked.Decrement(c) AndAlso (xi = T(Td + SA(PA + SA(c))) And &HFF) >= v
+                        x = xi
 
                         If x = v Then
                             swapElements(SA, c, SA, d)
@@ -511,7 +528,8 @@ Namespace Bzip2
                 While b < c
                     swapElements(SA, b, SA, c)
 
-                    While Threading.Interlocked.Increment(b) < c AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(b))) And &HfF) <= v
+                    While Threading.Interlocked.Increment(b) < c AndAlso (xi = T(Td + SA(PA + SA(b))) And &HFF) <= v
+                        x = xi
 
                         If x = v Then
                             swapElements(SA, b, SA, a)
@@ -519,7 +537,8 @@ Namespace Bzip2
                         End If
                     End While
 
-                    While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, T(Td + SA(PA + SA(c))) And &HfF) >= v
+                    While b < Threading.Interlocked.Decrement(c) AndAlso (xi = T(Td + SA(PA + SA(c))) And &HFF) >= v
+                        x = xi
 
                         If x = v Then
                             swapElements(SA, c, SA, d)
@@ -530,10 +549,10 @@ Namespace Bzip2
 
                 If a <= d Then
                     c = b - 1
-                    Dim s As Integer
-                    Dim t As Integer
+                    Dim s As Integer = a - first
+                    Dim t As Integer = b - a
 
-                    If CSharpImpl.__Assign(s, a - first) > CSharpImpl.__Assign(t, b - a) Then
+                    If s > t Then
                         s = t
                     End If
 
@@ -549,7 +568,10 @@ Namespace Bzip2
                         Threading.Interlocked.Increment(f)
                     End While
 
-                    If CSharpImpl.__Assign(s, d - c) > CSharpImpl.__Assign(t, last - d - 1) Then
+                    s = (d - c)
+                    t = (last - d - 1)
+
+                    If s > t Then
                         s = t
                     End If
 
@@ -565,7 +587,7 @@ Namespace Bzip2
 
                     a = first + (b - a)
                     c = last - (d - c)
-                    b = If(v <= (Me.T(Td + SA(PA + SA(a)) - 1) And &HfF), a, ssSubstringPartition(PA, a, c, depth))
+                    b = If(v <= (Me.T(Td + SA(PA + SA(a)) - 1) And &HFF), a, ssSubstringPartition(PA, a, c, depth))
 
                     If a - first <= last - c Then
                         If last - c <= c - b Then
@@ -606,7 +628,7 @@ Namespace Bzip2
                 Else
                     limit += 1
 
-                    If (T(Td + SA(PA + SA(first)) - 1) And &HfF) < v Then
+                    If (T(Td + SA(PA + SA(first)) - 1) And &HFF) < v Then
                         first = ssSubstringPartition(PA, first, last, depth)
                         limit = ssLog(last - first)
                     End If
@@ -934,8 +956,8 @@ Namespace Bzip2
 
                 If 0 < m Then
                     ssBlockSwap(SA, middle - m, SA, middle, m)
-                    Dim j As Integer
-                    Dim i As Integer = CSharpImpl.__Assign(j, middle)
+                    Dim j As Integer = middle
+                    Dim i As Integer = middle
                     Dim [next] = 0
 
                     If middle + m < last Then
@@ -1046,17 +1068,18 @@ Namespace Bzip2
             End While
 
             If lastsuffix Then
-                Dim r As Integer
+                Dim r As Value(Of Integer)
+
                 a = first
                 i = SA(first - 1)
                 r = 1
 
-                While a < last AndAlso (SA(a) < 0 OrElse 0 < CSharpImpl.__Assign(r, ssCompareLast(PA, PA + i, PA + SA(a), depth, size)))
+                While a < last AndAlso (SA(a) < 0 OrElse 0 < (r = ssCompareLast(PA, PA + i, PA + SA(a), depth, size)))
                     SA(a - 1) = SA(a)
                     Threading.Interlocked.Increment(a)
                 End While
 
-                If r = 0 Then
+                If CInt(r) = 0 Then
                     SA(a) = Not SA(a)
                 End If
 
@@ -1069,18 +1092,21 @@ Namespace Bzip2
         End Function
 
         Private Sub trFixdown(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal sa As Integer, ByVal i As Integer, ByVal size As Integer)
-            Dim j, k As Integer
+            Dim j As Value(Of Integer) = 0
+            Dim k As Integer
             Dim v As Integer
             Dim c As Integer
+
             v = Me.SA(sa + i)
             c = trGetC(ISA, ISAd, ISAn, v)
 
-            While CSharpImpl.__Assign(j, 2 * i + 1) < size
-                k = stdNum.Min(Threading.Interlocked.Increment(j), j - 1)
-                Dim d = trGetC(ISA, ISAd, ISAn, Me.SA(sa + k))
-                Dim e As Integer
+            While (j = 2 * i + 1) < size
+                k = stdNum.Min(Threading.Interlocked.Increment(j.Value), CInt(j) - 1)
 
-                If d < CSharpImpl.__Assign(e, trGetC(ISA, ISAd, ISAn, Me.SA(sa + j))) Then
+                Dim d = trGetC(ISA, ISAd, ISAn, Me.SA(sa + k))
+                Dim e As Integer = trGetC(ISA, ISAd, ISAn, Me.SA(sa + CInt(j)))
+
+                If d < e Then
                     k = j
                     d = e
                 End If
@@ -1138,11 +1164,12 @@ Namespace Bzip2
             While a < last
                 Dim b As Integer
                 Dim t As Integer
-                Dim r As Integer
+                Dim r As Value(Of Integer) = 0
+
                 t = SA(a)
                 b = a - 1
 
-                While 0 > CSharpImpl.__Assign(r, trGetC(ISA, ISAd, ISAn, t) - trGetC(ISA, ISAd, ISAn, SA(b)))
+                While 0 > (r = trGetC(ISA, ISAd, ISAn, t) - trGetC(ISA, ISAd, ISAn, SA(b)))
 
                     Do
                         SA(b + 1) = SA(b)
@@ -1153,7 +1180,7 @@ Namespace Bzip2
                     End If
                 End While
 
-                If r = 0 Then
+                If CInt(r) = 0 Then
                     SA(b) = Not SA(b)
                 End If
 
@@ -1163,7 +1190,7 @@ Namespace Bzip2
         End Sub
 
         Private Shared Function trLog(ByVal x As Integer) As Integer
-            Return If((x And &Hffff0000) <> 0, If((x And &Hff000000) <> 0, 24 + log2table(x >> 24 And &HfF), 16 + log2table(x >> 16 And &HfF)), If((x And &H0000ff00) <> 0, 8 + log2table(x >> 8 And &HfF), 0 + log2table(x >> 0 And &HfF)))
+            Return If((x And &HFFFF0000) <> 0, If((x And &HFF000000) <> 0, 24 + log2table(x >> 24 And &HFF), 16 + log2table(x >> 16 And &HFF)), If((x And &HFF00) <> 0, 8 + log2table(x >> 8 And &HFF), 0 + log2table(x >> 0 And &HFF)))
         End Function
 
         Private Function trMedian3(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer) As Integer
@@ -1509,19 +1536,20 @@ Namespace Bzip2
 
         Private Sub lsSort(ByVal ISA As Integer, ByVal x As Integer, ByVal depth As Integer)
             Dim ISAd As Integer
+            Dim t As Value(Of Integer) = Nothing
+
             ISAd = ISA + depth
 
             While -x < SA(0)
                 Dim first = 0
                 Dim skip = 0
                 Dim last As Integer
-                Dim t As Integer
 
                 Do
 
-                    If CSharpImpl.__Assign(t, SA(first)) < 0 Then
-                        first -= t
-                        skip += t
+                    If (t = SA(first)) < 0 Then
+                        first -= CInt(t)
+                        skip += CInt(t)
                     Else
 
                         If skip <> 0 Then
@@ -1529,7 +1557,7 @@ Namespace Bzip2
                             skip = 0
                         End If
 
-                        last = SA(ISA + t) + 1
+                        last = SA(ISA + CInt(t)) + 1
                         lsIntroSort(ISA, ISAd, ISA + x, first, last)
                         first = last
                     End If
@@ -1542,10 +1570,10 @@ Namespace Bzip2
 
                     Do
 
-                        If CSharpImpl.__Assign(t, SA(first)) < 0 Then
-                            first -= t
+                        If (t = SA(first)) < 0 Then
+                            first -= CInt(t)
                         Else
-                            last = SA(ISA + t) + 1
+                            last = SA(ISA + CInt(t)) + 1
                             Dim i As Integer
                             i = first
 
@@ -1568,6 +1596,7 @@ Namespace Bzip2
         Private Function trPartition(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer, ByVal v As Integer) As PartitionResult
             Dim a, b, c, d As Integer
             Dim x = 0
+
             b = first - 1
 
             While Threading.Interlocked.Increment(b) < last AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(b))) = v
@@ -1658,20 +1687,21 @@ Namespace Bzip2
 
         Private Sub trCopy(ByVal ISA As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal a As Integer, ByVal b As Integer, ByVal last As Integer, ByVal depth As Integer)
             Dim c, d, e As Integer
-            Dim s As Integer
+            Dim s As Value(Of Integer) = Nothing
             Dim v = b - 1
+
             c = first
             d = a - 1
 
             While c <= d
 
-                If CSharpImpl.__Assign(s, SA(c) - depth) < 0 Then
-                    s += ISAn - ISA
+                If (s = SA(c) - depth) < 0 Then
+                    s.Value += ISAn - ISA
                 End If
 
-                If SA(ISA + s) = v Then
+                If SA(ISA + CInt(s)) = v Then
                     SA(Threading.Interlocked.Increment(d)) = s
-                    SA(ISA + s) = d
+                    SA(ISA + CInt(s)) = d
                 End If
 
                 Threading.Interlocked.Increment(c)
@@ -1683,13 +1713,13 @@ Namespace Bzip2
 
             While e < d
 
-                If CSharpImpl.__Assign(s, SA(c) - depth) < 0 Then
-                    s += ISAn - ISA
+                If (s = SA(c) - depth) < 0 Then
+                    s.Value += ISAn - ISA
                 End If
 
-                If SA(ISA + s) = v Then
+                If SA(ISA + CInt(s)) = v Then
                     SA(Threading.Interlocked.Decrement(d)) = s
-                    SA(ISA + s) = d
+                    SA(ISA + CInt(s)) = d
                 End If
 
                 Threading.Interlocked.Decrement(c)
@@ -2121,17 +2151,16 @@ Namespace Bzip2
 
         Private Sub trSort(ByVal ISA As Integer, ByVal x As Integer, ByVal depth As Integer)
             Dim first = 0
+            Dim t As Value(Of Integer) = 0
 
             If -x < SA(0) Then
                 Dim budget = New TRBudget(x, trLog(x) * 2 / 3 + 1)
 
                 Do
-                    Dim t As Integer
-
-                    If CSharpImpl.__Assign(t, SA(first)) < 0 Then
-                        first -= t
+                    If (t = SA(first)) < 0 Then
+                        first -= CInt(t)
                     Else
-                        Dim last = SA(ISA + t) + 1
+                        Dim last = SA(ISA + CInt(t)) + 1
 
                         If 1 < last - first Then
                             trIntroSort(ISA, ISA + depth, ISA + x, first, last, budget, x)
@@ -2172,7 +2201,7 @@ Namespace Bzip2
             While i < n
 
                 If Me.T(i - 1) <> Me.T(i) Then
-                    If (Me.T(i - 1) And &HfF) > (Me.T(i) And &HfF) Then
+                    If (Me.T(i - 1) And &HFF) > (Me.T(i) And &HFF) Then
                         flag = 0
                     End If
 
@@ -2183,10 +2212,15 @@ Namespace Bzip2
             End While
 
             i = n - 1
-            Dim m = n
-            Dim ti, ti1, t0 As Integer
 
-            If CSharpImpl.__Assign(ti, Me.T(i) And &HfF) < CSharpImpl.__Assign(t0, Me.T(0) And &HfF) OrElse Me.T(i) = Me.T(0) AndAlso flag <> 0 Then
+            Dim m = n
+            Dim ti As Integer = Me.T(i) And &HFF
+            Dim ti1 As Integer
+            Dim t0 As Integer = Me.T(0) And &HFF
+            Dim tii As Value(Of Integer) = 0
+            Dim tij As Value(Of Integer) = 0
+
+            If ti < t0 OrElse Me.T(i) = Me.T(0) AndAlso flag <> 0 Then
                 If flag = 0 Then
                     Threading.Interlocked.Increment(bucketB(BUCKET_BSTAR(ti, t0)))
                     SA(Threading.Interlocked.Decrement(m)) = i
@@ -2196,7 +2230,10 @@ Namespace Bzip2
 
                 Threading.Interlocked.Decrement(i)
 
-                While 0 <= i AndAlso CSharpImpl.__Assign(ti, Me.T(i) And &HfF) <= CSharpImpl.__Assign(ti1, Me.T(i + 1) And &HfF)
+                While 0 <= i AndAlso (tii = Me.T(i) And &HFF) <= (tij = Me.T(i + 1) And &HFF)
+                    ti = tii
+                    ti1 = tij
+
                     Threading.Interlocked.Increment(bucketB(BUCKET_B(ti, ti1)))
                     Threading.Interlocked.Decrement(i)
                 End While
@@ -2205,15 +2242,18 @@ Namespace Bzip2
             While 0 <= i
 
                 Do
-                    Threading.Interlocked.Increment(bucketA(Me.T(i) And &HfF))
-                Loop While 0 <= Threading.Interlocked.Decrement(i) AndAlso (Me.T(i) And &HfF) >= (Me.T(i + 1) And &HfF)
+                    Threading.Interlocked.Increment(bucketA(Me.T(i) And &HFF))
+                Loop While 0 <= Threading.Interlocked.Decrement(i) AndAlso (Me.T(i) And &HFF) >= (Me.T(i + 1) And &HFF)
 
                 If 0 <= i Then
-                    Threading.Interlocked.Increment(bucketB(BUCKET_BSTAR(Me.T(i) And &HfF, Me.T(i + 1) And &HfF)))
+                    Threading.Interlocked.Increment(bucketB(BUCKET_BSTAR(Me.T(i) And &HFF, Me.T(i + 1) And &HFF)))
                     SA(Threading.Interlocked.Decrement(m)) = i
                     Threading.Interlocked.Decrement(i)
 
-                    While 0 <= i AndAlso CSharpImpl.__Assign(ti, Me.T(i) And &HfF) <= CSharpImpl.__Assign(ti1, Me.T(i + 1) And &HfF)
+                    While 0 <= i AndAlso (tii = Me.T(i) And &HFF) <= (tij = Me.T(i + 1) And &HFF)
+                        ti = tii
+                        ti1 = tij
+
                         Threading.Interlocked.Increment(bucketB(BUCKET_B(ti, ti1)))
                         Threading.Interlocked.Decrement(i)
                     End While
@@ -2259,15 +2299,15 @@ Namespace Bzip2
 
             While 0 <= i
                 t = SA(PAb + i)
-                c0 = Me.T(t) And &HfF
-                c1 = Me.T(t + 1) And &HfF
+                c0 = Me.T(t) And &HFF
+                c1 = Me.T(t + 1) And &HFF
                 SA(Threading.Interlocked.Decrement(bucketB(BUCKET_BSTAR(c0, c1)))) = i
                 Threading.Interlocked.Decrement(i)
             End While
 
             t = SA(PAb + m - 1)
-            c0 = Me.T(t) And &HfF
-            c1 = Me.T(t + 1) And &HfF
+            c0 = Me.T(t) And &HFF
+            c1 = Me.T(t + 1) And &HFF
             SA(Threading.Interlocked.Decrement(bucketB(BUCKET_BSTAR(c0, c1)))) = m - 1
             Dim buf = SA
             Dim bufoffset = m
@@ -2320,7 +2360,8 @@ Namespace Bzip2
                 j = i
 
                 Do
-                    SA(ISAb + CSharpImpl.__Assign(SA(i), Not SA(i))) = j
+                    SA(i) = Not SA(i)
+                    SA(ISAb + SA(i)) = j
                 Loop While SA(Threading.Interlocked.Decrement(i)) < 0
 
                 SA(ISAb + SA(i)) = j
@@ -2331,14 +2372,14 @@ Namespace Bzip2
             i = n - 1
             j = m
 
-            If (Me.T(i) And &HfF) < (Me.T(0) And &HfF) OrElse Me.T(i) = Me.T(0) AndAlso flag <> 0 Then
+            If (Me.T(i) And &HFF) < (Me.T(0) And &HFF) OrElse Me.T(i) = Me.T(0) AndAlso flag <> 0 Then
                 If flag = 0 Then
                     SA(SA(ISAb + Threading.Interlocked.Decrement(j))) = i
                 End If
 
                 Threading.Interlocked.Decrement(i)
 
-                While 0 <= i AndAlso (Me.T(i) And &HfF) <= (Me.T(i + 1) And &HfF)
+                While 0 <= i AndAlso (Me.T(i) And &HFF) <= (Me.T(i + 1) And &HFF)
                     Threading.Interlocked.Decrement(i)
                 End While
             End If
@@ -2346,7 +2387,7 @@ Namespace Bzip2
             While 0 <= i
                 Threading.Interlocked.Decrement(i)
 
-                While 0 <= i AndAlso (Me.T(i) And &HfF) >= (Me.T(i + 1) And &HfF)
+                While 0 <= i AndAlso (Me.T(i) And &HFF) >= (Me.T(i + 1) And &HFF)
                     Threading.Interlocked.Decrement(i)
                 End While
 
@@ -2354,7 +2395,7 @@ Namespace Bzip2
                     SA(SA(ISAb + Threading.Interlocked.Decrement(j))) = i
                     Threading.Interlocked.Decrement(i)
 
-                    While 0 <= i AndAlso (Me.T(i) And &HfF) <= (Me.T(i + 1) And &HfF)
+                    While 0 <= i AndAlso (Me.T(i) And &HFF) <= (Me.T(i + 1) And &HFF)
                         Threading.Interlocked.Decrement(i)
                     End While
                 End If
@@ -2412,11 +2453,15 @@ Namespace Bzip2
                 c2 = -1
 
                 While i <= j
+                    s = SA(j)
+                    s1 = s
 
-                    If 0 <= CSharpImpl.__Assign(s1, CSharpImpl.__Assign(s, SA(j))) Then
+                    If 0 <= s1 Then
                         If Threading.Interlocked.Decrement(s) < 0 Then s = n - 1
 
-                        If CSharpImpl.__Assign(c0, Me.T(s) And &HFF) <= c1 Then
+                        c0 = Me.T(s) And &HFF
+
+                        If c0 <= c1 Then
                             SA(j) = Not s1
 
                             If 0 < s AndAlso (Me.T(s - 1) And &HFF) > c0 Then
@@ -2427,7 +2472,10 @@ Namespace Bzip2
                                 SA(Threading.Interlocked.Decrement(t)) = s
                             Else
                                 If 0 <= c2 Then bucketB(BUCKET_B(c2, c1)) = t
-                                SA(CSharpImpl.__Assign(t, bucketB(BZip2DivSufSort.BUCKET_B(CSharpImpl.__Assign(c2, c0), c1)) - 1)) = s
+
+                                c2 = c0
+                                t = bucketB(BZip2DivSufSort.BUCKET_B(c2, c1)) - 1
+                                SA(t) = s
                             End If
                         End If
                     Else
@@ -2443,18 +2491,25 @@ Namespace Bzip2
             i = 0
 
             While i < n
+                s = SA(i)
+                s1 = s
 
-                If 0 <= CSharpImpl.__Assign(s1, CSharpImpl.__Assign(s, SA(i))) Then
+                If 0 <= s1 Then
                     If Threading.Interlocked.Decrement(s) < 0 Then s = n - 1
 
-                    If CSharpImpl.__Assign(c0, Me.T(s) And &HFF) >= (Me.T(s + 1) And &HFF) Then
+                    c0 = Me.T(s) And &HFF
+
+                    If c0 >= (Me.T(s + 1) And &HFF) Then
                         If 0 < s AndAlso (Me.T(s - 1) And &HFF) < c0 Then s = Not s
 
                         If c0 = c2 Then
                             SA(Threading.Interlocked.Increment(t)) = s
                         Else
                             If c2 <> -1 Then bucketA(c2) = t ' BUGFIX: Original code can write to bucketA[-1]
-                            SA(CSharpImpl.__Assign(t, bucketA(CSharpImpl.__Assign(c2, c0)) + 1)) = s
+
+                            c2 = c0
+                            t = bucketA(c2) + 1
+                            SA(t) = s
                         End If
                     End If
                 Else
