@@ -737,15 +737,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteBuffer.vb" />
-    <Compile Include="Bzip2\BZip2BitInputStream.vb" />
-    <Compile Include="Bzip2\BZip2BitOutputStream.vb" />
-    <Compile Include="Bzip2\BZip2BlockCompressor.vb" />
-    <Compile Include="Bzip2\BZip2BlockDecompressor.vb" />
-    <Compile Include="Bzip2\BZip2DivSufSort.vb" />
-    <Compile Include="Bzip2\BZip2HuffmanStageDecoder.vb" />
-    <Compile Include="Bzip2\BZip2HuffmanStageEncoder.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BitInputStream.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BitOutputStream.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BlockCompressor.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BlockDecompressor.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2DivSufSort.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2HuffmanStageDecoder.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2HuffmanStageEncoder.vb" />
     <Compile Include="Bzip2\BZip2InputStream.vb" />
-    <Compile Include="Bzip2\Bzip2MTFAndRLE2StageEncoder.vb" />
+    <Compile Include="Bzip2\Algorithm\Bzip2MTFAndRLE2StageEncoder.vb" />
     <Compile Include="Bzip2\BZip2OutputStream.vb" />
     <Compile Include="Bzip2\Math\CRC32.vb" />
     <Compile Include="Bzip2\Math\HuffmanAllocator.vb" />
