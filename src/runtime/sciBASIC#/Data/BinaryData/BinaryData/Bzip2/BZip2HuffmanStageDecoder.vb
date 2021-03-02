@@ -3,7 +3,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
+Imports stdNum = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -107,14 +107,16 @@ Namespace Bzip2
         ' 
 
         Private Sub CreateHuffmanDecodingTables(ByVal alphabetSize As Integer, ByVal tableCodeLengths As Byte(,))
+            Dim i As Integer
+
             For table = 0 To tableCodeLengths.GetLength(0) - 1
                 Dim minimumLength = HUFFMAN_DECODE_MAXIMUM_CODE_LENGTH
                 Dim maximumLength = 0
 
                 ' Find the minimum and maximum code length for the table
                 For i = 0 To alphabetSize - 1
-                    maximumLength = Math.Max(tableCodeLengths(table, i), maximumLength)
-                    minimumLength = Math.Min(tableCodeLengths(table, i), minimumLength)
+                    maximumLength = stdNum.Max(tableCodeLengths(table, i), maximumLength)
+                    minimumLength = stdNum.Min(tableCodeLengths(table, i), minimumLength)
                 Next
 
                 minimumLengths(table) = minimumLength
@@ -128,8 +130,10 @@ Namespace Bzip2
                     codeBases(table, i) += codeBases(table, i - 1)
                 Next
 
+                Dim code As Integer = 0
+
                 ' Calculate the first and last Huffman code for each code length (codes at a given length are sequential in value)
-                Dim i = minimumLength, code = 0
+                i = minimumLength
 
                 While i <= maximumLength
                     Dim base1 = code
@@ -146,7 +150,7 @@ Namespace Bzip2
                 While bitLength <= maximumLength
 
                     For symbol = 0 To alphabetSize - 1
-                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, Math.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
+                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, stdNum.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
                     Next
 
                     bitLength += 1

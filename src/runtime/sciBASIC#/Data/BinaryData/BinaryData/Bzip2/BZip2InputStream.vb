@@ -43,8 +43,8 @@ Namespace Bzip2
 
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
-        ''' <paramname="inputStream">The InputStream to wrap</param>
-        ''' <paramname="headerless">If true, the caller is assumed to have read away the stream's 
+        ''' <param name="inputStream">The InputStream to wrap</param>
+        ''' <param name="headerless">If true, the caller is assumed to have read away the stream's 
         ''' leading "BZ" identifier bytes</param>
         Public Sub New(ByVal inputStream As Stream, ByVal headerless As Boolean)
             If inputStream Is Nothing Then
@@ -164,7 +164,7 @@ Namespace Bzip2
             Try
                 Dim marker1 As UInteger = If(headerless, 0, bitInputStream.ReadBits(16))
                 Dim marker2 = bitInputStream.ReadBits(8)
-                Dim blockSize As UInteger = bitInputStream.ReadBits(8) - "0"c
+                Dim blockSize As UInteger = bitInputStream.ReadBits(8) - Asc("0"c)
 
                 If Not headerless AndAlso marker1 <> BZip2OutputStream.STREAM_START_MARKER_1 OrElse marker2 <> BZip2OutputStream.STREAM_START_MARKER_2 OrElse blockSize < 1 OrElse blockSize > 9 Then
                     Throw New Exception("Invalid BZip2 header")
@@ -216,7 +216,7 @@ Namespace Bzip2
                 ' Read and verify the end-of-stream CRC
                 streamComplete = True
                 Dim storedCombinedCRC As UInteger = bitInputStream.ReadInteger()
-                ''' .ReadBits(32);
+                ' .ReadBits(32);
 
                 If storedCombinedCRC <> streamCRC Then Throw New Exception("BZip2 stream CRC error")
                 Return False

@@ -5,6 +5,7 @@
 
 Imports System
 Imports System.IO
+Imports Microsoft.VisualBasic.Language
 
 Namespace Bzip2
     ''' <summary>An OutputStream wrapper that compresses BZip2 data</summary>
@@ -36,7 +37,7 @@ Namespace Bzip2
 
 #Region "Public fields"
         ''' <summary>The first 2 bytes of a Bzip2 marker</summary> 
-        Public Const STREAM_START_MARKER_1 As UInteger = &H425a
+        Public Const STREAM_START_MARKER_1 As UInteger = &H425A
 
         ''' <summary>The 'h' that distinguishes BZip from BZip2</summary> 
         Public Const STREAM_START_MARKER_2 As UInteger = &H68
@@ -50,9 +51,9 @@ Namespace Bzip2
 
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
-        ''' <paramname="outputStream">The output stream to write to</param>
-        ''' <paramname="blockSizeMultiplier">The BZip2 block size as a multiple of 100,000 bytes (minimum 1, maximum 9)</param>
-        ''' <paramname="isOwner">True if the underlying stream will be closed with the current Stream</param>
+        ''' <param name="outputStream">The output stream to write to</param>
+        ''' <param name="blockSizeMultiplier">The BZip2 block size as a multiple of 100,000 bytes (minimum 1, maximum 9)</param>
+        ''' <param name="isOwner">True if the underlying stream will be closed with the current Stream</param>
         ''' <exception>On any I/O error writing to the output stream</exception>
         ''' <remarks>Larger block sizes require more memory for both compression and decompression,
         ''' but give better compression ratios. 9 will usually be the best value to use</remarks>
@@ -65,7 +66,7 @@ Namespace Bzip2
             Me.isOwner = isOwner
             bitOutputStream.WriteBits(16, STREAM_START_MARKER_1)
             bitOutputStream.WriteBits(8, STREAM_START_MARKER_2)
-            bitOutputStream.WriteBits(8, CUInt("0"c + blockSizeMultiplier))
+            bitOutputStream.WriteBits(8, CUInt(Asc("0"c) + blockSizeMultiplier))
             InitialiseNextBlock()
         End Sub
 #End Region
@@ -124,27 +125,27 @@ Namespace Bzip2
             If outputStream Is Nothing Then Throw New Exception("Stream closed")
             If streamFinished Then Throw New Exception("Write beyond end of stream")
 
-            If Not blockCompressor.Write(value And &HfF) Then
+            If Not blockCompressor.Write(value And &HFF) Then
                 CloseBlock()
                 InitialiseNextBlock()
-                blockCompressor.Write(value And &HfF)
+                blockCompressor.Write(value And &HFF)
             End If
         End Sub
 
         Public Overrides Sub Write(ByVal data As Byte(), ByVal offset As Integer, ByVal length As Integer)
+            Dim bytesWritten As Value(Of Integer) = 0
+
             If outputStream Is Nothing Then Throw New Exception("Stream closed")
             If streamFinished Then Throw New Exception("Write beyond end of stream")
 
             While length > 0
-                Dim bytesWritten As Integer
-
-                If CSharpImpl.__Assign(bytesWritten, blockCompressor.Write(data, offset, length)) < length Then
+                If (bytesWritten = blockCompressor.Write(data, offset, length)) < length Then
                     CloseBlock()
                     InitialiseNextBlock()
                 End If
 
-                offset += bytesWritten
-                length -= bytesWritten
+                offset += CInt(bytesWritten)
+                length -= CInt(bytesWritten)
             End While
         End Sub
 
@@ -191,14 +192,6 @@ Namespace Bzip2
                 End Try
             End If
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
 #End Region
     End Class
 End Namespace
