@@ -44,10 +44,19 @@
 
 Public Class XmlElement
 
+    ''' <summary>
+    ''' the xml tag name
+    ''' </summary>
+    ''' <returns></returns>
     Public Property name As String
     Public Property [namespace] As String
     Public Property attributes As Dictionary(Of String, String)
     Public Property elements As XmlElement()
+
+    ''' <summary>
+    ''' the content value of the current xml node
+    ''' </summary>
+    ''' <returns></returns>
     Public Property text As String
 
     Public ReadOnly Property id As String
