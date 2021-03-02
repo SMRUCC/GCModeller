@@ -1342,8 +1342,9 @@ Namespace Bzip2
         Private Sub lsIntroSort(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer)
             Dim stack = New StackEntry(63) {}
             Dim limit As Integer
-            Dim x = 0
+            Dim x As Value(Of Integer) = 0
             Dim ssize As Integer
+
             ssize = 0
             limit = trLog(last - first)
 
@@ -1376,7 +1377,7 @@ Namespace Bzip2
                         x = trGetC(ISA, ISAd, ISAn, SA(a))
                         b = a - 1
 
-                        While first <= b AndAlso trGetC(ISA, ISAd, ISAn, SA(b)) = x
+                        While first <= b AndAlso trGetC(ISA, ISAd, ISAn, SA(b)) = CInt(x)
                             SA(b) = Not SA(b)
                             Threading.Interlocked.Decrement(b)
                         End While
@@ -1398,13 +1399,15 @@ Namespace Bzip2
                 Dim v = trGetC(ISA, ISAd, ISAn, SA(first))
                 b = first
 
-                While Threading.Interlocked.Increment(b) < last AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(b))) = v
+                While Threading.Interlocked.Increment(b) < last AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(b))) = v
                 End While
 
-                If CSharpImpl.__Assign(a, b) < last AndAlso x < v Then
-                    While Threading.Interlocked.Increment(b) < last AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(b))) <= v
+                a = b
 
-                        If x = v Then
+                If a < last AndAlso CInt(x) < v Then
+                    While Threading.Interlocked.Increment(b) < last AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(b))) <= v
+
+                        If CInt(x) = v Then
                             swapElements(SA, b, SA, a)
                             Threading.Interlocked.Increment(a)
                         End If
@@ -1414,15 +1417,15 @@ Namespace Bzip2
                 Dim c As Integer
                 c = last
 
-                While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(c))) = v
+                While b < Threading.Interlocked.Decrement(c) AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(c))) = v
                 End While
 
-                Dim d As Integer
+                Dim d As Integer = c
 
-                If b < CSharpImpl.__Assign(d, c) AndAlso x > v Then
-                    While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(c))) >= v
+                If b < d AndAlso CInt(x) > v Then
+                    While b < Threading.Interlocked.Decrement(c) AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(c))) >= v
 
-                        If x = v Then
+                        If CInt(x) = v Then
                             swapElements(SA, c, SA, d)
                             Threading.Interlocked.Decrement(d)
                         End If
@@ -1432,17 +1435,17 @@ Namespace Bzip2
                 While b < c
                     swapElements(SA, b, SA, c)
 
-                    While Threading.Interlocked.Increment(b) < c AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(b))) <= v
+                    While Threading.Interlocked.Increment(b) < c AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(b))) <= v
 
-                        If x = v Then
+                        If CInt(x) = v Then
                             swapElements(SA, b, SA, a)
                             Threading.Interlocked.Increment(a)
                         End If
                     End While
 
-                    While b < Threading.Interlocked.Decrement(c) AndAlso CSharpImpl.__Assign(x, trGetC(ISA, ISAd, ISAn, SA(c))) >= v
+                    While b < Threading.Interlocked.Decrement(c) AndAlso (x = trGetC(ISA, ISAd, ISAn, SA(c))) >= v
 
-                        If x = v Then
+                        If CInt(x) = v Then
                             swapElements(SA, c, SA, d)
                             Threading.Interlocked.Decrement(d)
                         End If
@@ -1451,10 +1454,10 @@ Namespace Bzip2
 
                 If a <= d Then
                     c = b - 1
-                    Dim s As Integer
-                    Dim t As Integer
+                    Dim s As Integer = a - first
+                    Dim t As Integer = b - a
 
-                    If CSharpImpl.__Assign(s, a - first) > CSharpImpl.__Assign(t, b - a) Then
+                    If s > t Then
                         s = t
                     End If
 
@@ -1470,7 +1473,10 @@ Namespace Bzip2
                         Threading.Interlocked.Increment(f)
                     End While
 
-                    If CSharpImpl.__Assign(s, d - c) > CSharpImpl.__Assign(t, last - d - 1) Then
+                    s = d - c
+                    t = last - d - 1
+
+                    If s > t Then
                         s = t
                     End If
 
