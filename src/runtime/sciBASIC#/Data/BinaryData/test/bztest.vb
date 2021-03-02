@@ -1,12 +1,11 @@
-﻿Imports System
-Imports System.IO
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.Bzip2
 
 Namespace Bzip2
+
     ''' <summary>
     ''' Unit test for the BZip2 compression library
     ''' </summary>
-    <TestClass>
     Public Class UnitTests
         Private Const BufferSizeLarge As Integer = 10000000 ' Almost 10 Mb
         Private Const BufferSizeSmall As Integer = 100000   ' Around 100 Kb
@@ -15,19 +14,23 @@ Namespace Bzip2
         ''' <summary>
         ''' Fills the test buffer with random values
         ''' </summary>
-        <TestInitialize>
-        Public Sub InitializeBuffer()
+        Sub Main()
             Dim random = New Random()
             random.NextBytes(Buffer)
+
+            Call CrcAlgorithmDifferentValues()
+            Call CrcAlgorithmSameValues()
+            Call CompressSmokeLarge()
+            Call CompressSmokeSmall()
+            Call CompressAndDecompress()
         End Sub
 
         ''' <summary>
         ''' Performs a CRC check and compare against well-known results
         ''' The buffer has different values
         ''' </summary>
-        <TestMethod>
         Public Sub CrcAlgorithmDifferentValues()
-            Dim buffer As Byte() = {&H01, &H02, &H03, &H04, &H05, &H06, &H07, &H08, &H09, &H0A, &HF1, &HF2, &HF3, &HF4, &HF5, &HF6, &HF7, &HF8, &HF9, &HFA}
+            Dim buffer As Byte() = {&H1, &H2, &H3, &H4, &H5, &H6, &H7, &H8, &H9, &HA, &HF1, &HF2, &HF3, &HF4, &HF5, &HF6, &HF7, &HF8, &HF9, &HFA}
             Dim crc = New CRC32()
 
             For i = 0 To buffer.Length - 1
@@ -41,7 +44,6 @@ Namespace Bzip2
         ''' Performs a CRC check and compare against well-known results
         ''' The buffer has different values
         ''' </summary>
-        <TestMethod>
         Public Sub CrcAlgorithmSameValues()
             Dim crc = New CRC32()
             crc.UpdateCrc(&H55, 10)
@@ -51,7 +53,6 @@ Namespace Bzip2
         ''' <summary>
         ''' Compresses the full buffer and checks for a reasonable compressed size
         ''' </summary>
-        <TestMethod>
         Public Sub CompressSmokeLarge()
             Dim input = New MemoryStream(Buffer)
             Dim output = New MemoryStream()
@@ -67,7 +68,6 @@ Namespace Bzip2
         ''' <summary>
         ''' Compresses a portion of the buffer and checks for a reasonable compressed size
         ''' </summary>
-        <TestMethod>
         Public Sub CompressSmokeSmall()
             Dim input = New MemoryStream(Buffer, 0, BufferSizeSmall)
             Dim output = New MemoryStream()
@@ -83,7 +83,6 @@ Namespace Bzip2
         ''' <summary>
         ''' Compresses and decompresses a long random buffer
         ''' </summary>
-        <TestMethod>
         Public Sub CompressAndDecompress()
             Dim input = New MemoryStream(Buffer)
             Dim output = New MemoryStream()

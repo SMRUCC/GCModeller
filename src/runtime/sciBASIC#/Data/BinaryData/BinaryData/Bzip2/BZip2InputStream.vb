@@ -3,7 +3,6 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports System
 Imports System.IO
 
 Namespace Bzip2
