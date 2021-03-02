@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F8D86BD5-C11A-4AD9-ACB6-9EFBA7A7E29C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.sqliteTest</StartupObject>
+    <StartupObject>test.Bzip2.UnitTests</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
