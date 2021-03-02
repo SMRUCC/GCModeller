@@ -30,14 +30,14 @@ Namespace Bzip2
 #Region "Public methods"
         ''' <summary>Updates the CRC with a single byte</summary>
         ''' <param name="value">The value to update the CRC with</param>
-        Public Sub UpdateCrc(ByVal value As Integer)
+        Public Sub UpdateCrc(value As Integer)
             crcField = crcField << 8 Xor Crc32Lookup((crcField >> 24 Xor value) And &HfF)
         End Sub
 
         ''' <summary>Update the CRC with a sequence of identical bytes</summary>	
         ''' <param name="value">The value to update the CRC with</param>
         ''' <param name="count">The number of bytes</param>
-        Public Sub UpdateCrc(ByVal value As Integer, ByVal count As Integer)
+        Public Sub UpdateCrc(value As Integer, count As Integer)
             While stdNum.Max(Threading.Interlocked.Decrement(count), count + 1) > 0
                 crcField = crcField << 8 Xor Crc32Lookup((crcField >> 24 Xor value) And &HfF)
             End While

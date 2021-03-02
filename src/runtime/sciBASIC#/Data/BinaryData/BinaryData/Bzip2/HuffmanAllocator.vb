@@ -18,7 +18,7 @@ Namespace Bzip2
         ''' <summary>Allocates Canonical Huffman code lengths in place based on a sorted frequency array</summary>
         ''' <param name="array">On input, a sorted array of symbol frequencies; On output, an array of Canonical Huffman code lenghts</param>
         ''' <param name="maximumLength">The maximum code length. Must be at least ceil(log2(array.length))</param>
-        Public Sub AllocateHuffmanCodeLengths(ByVal array As Integer(), ByVal maximumLength As Integer)
+        Public Sub AllocateHuffmanCodeLengths(array As Integer(), maximumLength As Integer)
             Select Case array.Length
                 Case 2
                     array(1) = 1
@@ -50,7 +50,7 @@ Namespace Bzip2
         '  @param nodesToMove The number of internal nodes to be relocated
         '  @return The smallest k such that nodesToMove <= k <= i and i <= (array[k] % array.length)
         ' 
-        Private Function First(ByVal array As Integer(), ByVal i As Integer, ByVal nodesToMove As Integer) As Integer
+        Private Function First(array As Integer(), i As Integer, nodesToMove As Integer) As Integer
             Dim length = array.Length
             Dim limit = i
             Dim k = array.Length - 2
@@ -79,7 +79,7 @@ Namespace Bzip2
         '  Fills the code array with extended parent pointers
         '  @param array The code length array
         ' 
-        Private Sub SetExtendedParentPointers(ByVal array As Integer())
+        Private Sub SetExtendedParentPointers(array As Integer())
             Dim length = array.Length
             array(0) += array(1)
             Dim headNode = 0, tailNode = 1, topNode = 2
@@ -112,7 +112,7 @@ Namespace Bzip2
         '  @param maximumLength The maximum bit length for the generated codes
         '  @return The number of nodes to relocate
         ' 
-        Private Function FindNodesToRelocate(ByVal array As Integer(), ByVal maximumLength As Integer) As Integer
+        Private Function FindNodesToRelocate(array As Integer(), maximumLength As Integer) As Integer
             Dim currentNode = array.Length - 2
             Dim currentDepth = 1
 
@@ -128,7 +128,7 @@ Namespace Bzip2
         '  A final allocation pass with no code length limit
         '  @param array The code length array
         ' 
-        Private Sub AllocateNodeLengths(ByVal array As Integer())
+        Private Sub AllocateNodeLengths(array As Integer())
             Dim firstNode = array.Length - 2
             Dim nextNode = array.Length - 1
             Dim currentDepth = 1, availableNodes = 2
@@ -153,7 +153,7 @@ Namespace Bzip2
         '  @param insertDepth The depth at which to insert relocated nodes
         ' 
 
-        Private Sub AllocateNodeLengthsWithRelocation(ByVal array As Integer(), ByVal nodesToMove As Integer, ByVal insertDepth As Integer)
+        Private Sub AllocateNodeLengthsWithRelocation(array As Integer(), nodesToMove As Integer, insertDepth As Integer)
             Dim firstNode = array.Length - 2
             Dim nextNode = array.Length - 1
             Dim currentDepth = If(insertDepth = 1, 2, 1)
@@ -182,7 +182,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Function SignificantBits(ByVal x As Integer) As Integer
+        Private Function SignificantBits(x As Integer) As Integer
             Dim n As Integer
             n = 0
 

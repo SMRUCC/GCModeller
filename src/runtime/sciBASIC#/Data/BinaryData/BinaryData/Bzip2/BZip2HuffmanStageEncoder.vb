@@ -55,7 +55,7 @@ Namespace Bzip2
         ' 		 * @param mtfSymbolFrequencies The frequencies the MTF block's symbols
         ' 
 
-        Public Sub New(ByVal bitOutputStream As BZip2BitOutputStream, ByVal mtfBlock As UShort(), ByVal mtfLength As Integer, ByVal mtfAlphabetSize As Integer, ByVal mtfSymbolFrequencies As Integer())
+        Public Sub New(bitOutputStream As BZip2BitOutputStream, mtfBlock As UShort(), mtfLength As Integer, mtfAlphabetSize As Integer, mtfSymbolFrequencies As Integer())
             Me.bitOutputStream = bitOutputStream
             Me.mtfBlock = mtfBlock
             Me.mtfSymbolFrequencies = mtfSymbolFrequencies
@@ -94,7 +94,7 @@ Namespace Bzip2
         ' 		 * @param mtfLength The length to select a table count for
         ' 		 * @return The selected table count
         ' 		 
-        Private Shared Function selectTableCount(ByVal mtfLength As Integer) As Integer
+        Private Shared Function selectTableCount(mtfLength As Integer) As Integer
             If mtfLength >= 2400 Then Return 6
             If mtfLength >= 1200 Then Return 5
             If mtfLength >= 600 Then Return 4
@@ -107,7 +107,7 @@ Namespace Bzip2
         ' 		 * @param symbolFrequencies The frequencies of the symbols
         ' 		 * @param codeLengths The array to which the generated code lengths should be written
         ' 		 
-        Private Shared Sub generateHuffmanCodeLengths(ByVal alphabetSize As Integer, ByVal symbolFrequencies As Integer(,), ByVal codeLengths As Integer(,), ByVal index As Integer)
+        Private Shared Sub generateHuffmanCodeLengths(alphabetSize As Integer, symbolFrequencies As Integer(,), codeLengths As Integer(,), index As Integer)
             Dim mergedFrequenciesAndIndices = New Integer(alphabetSize - 1) {}
             Dim sortedFrequencies = New Integer(alphabetSize - 1) {}
 
@@ -175,7 +175,7 @@ Namespace Bzip2
         ' 		 * instead diverge (increase) slightly.<br>
         ' 		 * @param storeSelectors If true, write out the (final) chosen selectors
         ' 		 
-        Private Sub optimiseSelectorsAndHuffmanTables(ByVal storeSelectors As Boolean)
+        Private Sub optimiseSelectorsAndHuffmanTables(storeSelectors As Boolean)
             Dim totalTables = huffmanCodeLengths.GetLength(0)
             Dim tableFrequencies = New Integer(totalTables - 1, mtfAlphabetSize - 1) {}
             Dim selectorIndex = 0

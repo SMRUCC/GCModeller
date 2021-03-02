@@ -205,7 +205,7 @@ Namespace Bzip2
         '  Exception if an end-of-block symbol was not decoded within the declared block size
         ' 
 
-        Private Sub DecodeHuffmanData(ByVal huffmanDecoder As BZip2HuffmanStageDecoder)
+        Private Sub DecodeHuffmanData(huffmanDecoder As BZip2HuffmanStageDecoder)
             Dim symbolMTF = New MoveToFront()
             Dim _bwtBlockLength = 0
             Dim repeatCount = 0
@@ -255,7 +255,7 @@ Namespace Bzip2
         '  Exception if the given start pointer is invalid
         ' 
 
-        Private Sub InitialiseInverseBWT(ByVal bwtStartPointer As UInteger)
+        Private Sub InitialiseInverseBWT(bwtStartPointer As UInteger)
             Dim _bwtMergedPointers = New Integer(bwtBlockLength - 1) {}
             Dim characterBase = New Integer(255) {}
             If bwtStartPointer < 0 OrElse bwtStartPointer >= bwtBlockLength Then Throw New Exception("BZip2 start pointer invalid")
@@ -312,7 +312,7 @@ Namespace Bzip2
         '  Exception If the block could not be decoded
         ' 
 
-        Public Sub New(ByVal bitInputStream As BZip2BitInputStream, ByVal blockSize As UInteger)
+        Public Sub New(bitInputStream As BZip2BitInputStream, blockSize As UInteger)
             Me.bitInputStream = bitInputStream
             bwtBlock = New Byte(blockSize - 1) {}
 
@@ -372,7 +372,7 @@ Namespace Bzip2
         '  @return The number of bytes actually read, or -1 if there are no bytes left in the block
         ' 
 
-        Public Function Read(ByVal destination As Byte(), ByVal offset As Integer, ByVal length As Integer) As Integer
+        Public Function Read(destination As Byte(), offset As Integer, length As Integer) As Integer
             Dim i As Integer
             i = 0
 

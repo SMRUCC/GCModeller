@@ -46,7 +46,7 @@ Namespace Bzip2
         ''' <param name="inputStream">The InputStream to wrap</param>
         ''' <param name="headerless">If true, the caller is assumed to have read away the stream's 
         ''' leading "BZ" identifier bytes</param>
-        Public Sub New(ByVal inputStream As Stream, ByVal headerless As Boolean)
+        Public Sub New(inputStream As Stream, headerless As Boolean)
             If inputStream Is Nothing Then
                 Throw New ArgumentException("Null input stream")
             End If
@@ -62,15 +62,15 @@ Namespace Bzip2
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As SeekOrigin) As Long
+        Public Overrides Function Seek(offset As Long, origin As SeekOrigin) As Long
             Throw New NotImplementedException()
         End Function
 
-        Public Overrides Sub SetLength(ByVal value As Long)
+        Public Overrides Sub SetLength(value As Long)
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub Write(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer)
+        Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
             Throw New NotImplementedException()
         End Sub
 
@@ -102,7 +102,7 @@ Namespace Bzip2
             Get
                 Throw New NotImplementedException()
             End Get
-            Set(ByVal value As Long)
+            Set(value As Long)
                 Throw New NotImplementedException()
             End Set
         End Property
@@ -121,7 +121,7 @@ Namespace Bzip2
             Return nextByte
         End Function
 
-        Public Overrides Function Read(ByVal destination As Byte(), ByVal offset As Integer, ByVal length As Integer) As Integer
+        Public Overrides Function Read(destination As Byte(), offset As Integer, length As Integer) As Integer
             Dim bytesRead = -1
 
             If blockDecompressor Is Nothing Then

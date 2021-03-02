@@ -31,7 +31,7 @@ Namespace Bzip2
         ' 	     * @param outputStream The OutputStream to wrap
         ' 
 
-        Public Sub New(ByVal outputStream As Stream)
+        Public Sub New(outputStream As Stream)
             Me.outputStream = outputStream
         End Sub
 
@@ -41,7 +41,7 @@ Namespace Bzip2
         ' 		 * @Exception if an error occurs writing to the stream
         ' 
 
-        Public Sub WriteBoolean(ByVal value As Boolean)
+        Public Sub WriteBoolean(value As Boolean)
             bitCount += 1
             bitBuffer = bitBuffer Or If(value, 1UI, 0UI) << 32 - bitCount
 
@@ -58,7 +58,7 @@ Namespace Bzip2
         ' 	     * @Exception if an error occurs writing to the stream
         ' 
 
-        Public Sub WriteUnary(ByVal value As Integer)
+        Public Sub WriteUnary(value As Integer)
             While stdNum.Max(Threading.Interlocked.Decrement(value), value + 1) > 0
                 WriteBoolean(True)
             End While
@@ -73,7 +73,7 @@ Namespace Bzip2
         ' 	     * @Exception if an error occurs writing to the stream
         ' 
 
-        Public Sub WriteBits(ByVal count As Integer, ByVal value As UInteger)
+        Public Sub WriteBits(count As Integer, value As UInteger)
             bitBuffer = bitBuffer Or value << 32 - count >> bitCount
             bitCount += count
 
@@ -90,7 +90,7 @@ Namespace Bzip2
         ' 	     * @Exception if an error occurs writing to the stream
         ' 
 
-        Public Sub WriteInteger(ByVal value As UInteger)
+        Public Sub WriteInteger(value As UInteger)
             WriteBits(16, value >> 16 And &HfffF)
             WriteBits(16, value And &HfffF)
         End Sub

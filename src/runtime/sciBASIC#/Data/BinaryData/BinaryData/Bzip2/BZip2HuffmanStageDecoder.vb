@@ -59,7 +59,7 @@ Namespace Bzip2
         ' 		 * @param selectors The Huffman table number to use for each group of 50 symbols
         ' 
 
-        Public Sub New(ByVal bitInputStream As BZip2BitInputStream, ByVal alphabetSize As Integer, ByVal tableCodeLengths As Byte(,), ByVal selectors As Byte())
+        Public Sub New(bitInputStream As BZip2BitInputStream, alphabetSize As Integer, tableCodeLengths As Byte(,), selectors As Byte())
             Me.bitInputStream = bitInputStream
             Me.selectors = selectors
             currentTable = Me.selectors(0)
@@ -106,7 +106,7 @@ Namespace Bzip2
         ' 	     * @param tableCodeLengths The Canonical Huffman code lengths for each table
         ' 
 
-        Private Sub CreateHuffmanDecodingTables(ByVal alphabetSize As Integer, ByVal tableCodeLengths As Byte(,))
+        Private Sub CreateHuffmanDecodingTables(alphabetSize As Integer, tableCodeLengths As Byte(,))
             Dim i As Integer
 
             For table = 0 To tableCodeLengths.GetLength(0) - 1

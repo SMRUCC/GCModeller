@@ -57,7 +57,7 @@ Namespace Bzip2
             Get
                 Return _MtfLength
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _MtfLength = value
             End Set
         End Property
@@ -66,7 +66,7 @@ Namespace Bzip2
             Get
                 Return _MtfAlphabetSize
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _MtfAlphabetSize = value
             End Set
         End Property
@@ -88,7 +88,7 @@ Namespace Bzip2
         ' 		 *            true if that value is present within the data, otherwise false
         ' 
 
-        Public Sub New(ByVal bwtBlock As Integer(), ByVal bwtLength As Integer, ByVal bwtValuesPresent As Boolean())
+        Public Sub New(bwtBlock As Integer(), bwtLength As Integer, bwtValuesPresent As Boolean())
             Me.bwtBlock = bwtBlock
             Me.bwtLength = bwtLength
             bwtValuesInUse = bwtValuesPresent

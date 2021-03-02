@@ -25,7 +25,7 @@ Namespace Bzip2
 #Region "Public methods"
         ''' <summary>Public constructor</summary>
         ''' <param name="inputStream">The input stream to wrap</param>
-        Public Sub New(ByVal inputStream As Stream)
+        Public Sub New(inputStream As Stream)
             Me.inputStream = inputStream
         End Sub
 
@@ -73,7 +73,7 @@ Namespace Bzip2
         ''' <param name="count">The number of bits to read (maximum 32)</param>
         ''' <return>The bits requested, right-aligned within the integer</return>
         ''' <exception cref="Exception">if no more bits are available in the input stream</exception>
-        Public Function ReadBits(ByVal count As Integer) As UInteger
+        Public Function ReadBits(count As Integer) As UInteger
             If bitCount < count Then
                 While bitCount < count
                     Dim byteRead As Integer = inputStream.ReadByte()

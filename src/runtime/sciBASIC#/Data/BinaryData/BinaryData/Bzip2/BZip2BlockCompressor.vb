@@ -88,7 +88,7 @@ Namespace Bzip2
         '                   into the block after Run-Length Encoding is applied
         ' 
 
-        Public Sub New(ByVal bitOutputStream As BZip2BitOutputStream, ByVal blockSize As Integer)
+        Public Sub New(bitOutputStream As BZip2BitOutputStream, blockSize As Integer)
             Me.bitOutputStream = bitOutputStream
 
             ' One extra byte is added to allow for the block wrap applied in close()
@@ -103,7 +103,7 @@ Namespace Bzip2
         '  @return true if the byte was written, or false if the block is already full
         ' 
 
-        Public Function Write(ByVal value As Integer) As Boolean
+        Public Function Write(value As Integer) As Boolean
             If blockLength > blockLengthLimit Then Return False
 
             If rleLength = 0 Then
@@ -136,7 +136,7 @@ Namespace Bzip2
         '          zero if the block is already full
         ' 
 
-        Public Function Write(ByVal data As Byte(), ByVal offset As Integer, ByVal length As Integer) As Integer
+        Public Function Write(data As Byte(), offset As Integer, length As Integer) As Integer
             Dim written = 0
 
             While stdNum.Max(Threading.Interlocked.Decrement(length), length + 1) > 0
@@ -230,7 +230,7 @@ Namespace Bzip2
         '  @param runLength The run length of the value to write
         ' 
 
-        Private Sub WriteRun(ByVal value As Integer, ByVal runLength As Integer)
+        Private Sub WriteRun(value As Integer, runLength As Integer)
             blockValuesPresent(value) = True
             crcField.UpdateCrc(value, runLength)
             Dim byteValue = CByte(value)

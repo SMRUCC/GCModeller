@@ -57,7 +57,7 @@ Namespace Bzip2
         ''' <exception cref="ArgumentException">On any I/O error writing to the output stream</exception>
         ''' <remarks>Larger block sizes require more memory for both compression and decompression,
         ''' but give better compression ratios. 9 will usually be the best value to use</remarks>
-        Public Sub New(ByVal outputStream As Stream, ByVal Optional isOwner As Boolean = True, ByVal Optional blockSizeMultiplier As Integer = 9)
+        Public Sub New(outputStream As Stream, Optional isOwner As Boolean = True, Optional blockSizeMultiplier As Integer = 9)
             If outputStream Is Nothing Then Throw New ArgumentException("Null output stream")
             If blockSizeMultiplier < 1 OrElse blockSizeMultiplier > 9 Then Throw New ArgumentException("Invalid BZip2 block size" & blockSizeMultiplier)
             streamBlockSize = blockSizeMultiplier * 100000
@@ -76,15 +76,15 @@ Namespace Bzip2
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Function Read(ByVal buffer As Byte(), ByVal offset As Integer, ByVal count As Integer) As Integer
+        Public Overrides Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer
             Throw New NotImplementedException()
         End Function
 
-        Public Overrides Function Seek(ByVal offset As Long, ByVal origin As SeekOrigin) As Long
+        Public Overrides Function Seek(offset As Long, origin As SeekOrigin) As Long
             Throw New NotImplementedException()
         End Function
 
-        Public Overrides Sub SetLength(ByVal value As Long)
+        Public Overrides Sub SetLength(value As Long)
             Throw New NotImplementedException()
         End Sub
 
@@ -116,12 +116,12 @@ Namespace Bzip2
             Get
                 Throw New NotImplementedException()
             End Get
-            Set(ByVal value As Long)
+            Set(value As Long)
                 Throw New NotImplementedException()
             End Set
         End Property
 
-        Public Overrides Sub WriteByte(ByVal value As Byte)
+        Public Overrides Sub WriteByte(value As Byte)
             If outputStream Is Nothing Then Throw New Exception("Stream closed")
             If streamFinished Then Throw New Exception("Write beyond end of stream")
 
@@ -132,7 +132,7 @@ Namespace Bzip2
             End If
         End Sub
 
-        Public Overrides Sub Write(ByVal data As Byte(), ByVal offset As Integer, ByVal length As Integer)
+        Public Overrides Sub Write(data As Byte(), offset As Integer, length As Integer)
             Dim bytesWritten As Value(Of Integer) = 0
 
             If outputStream Is Nothing Then Throw New Exception("Stream closed")

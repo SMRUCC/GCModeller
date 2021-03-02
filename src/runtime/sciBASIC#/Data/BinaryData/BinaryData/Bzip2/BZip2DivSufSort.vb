@@ -23,7 +23,7 @@ Namespace Bzip2
             Public ReadOnly c As Integer
             Public ReadOnly d As Integer
 
-            Public Sub New(ByVal a As Integer, ByVal b As Integer, ByVal c As Integer, ByVal d As Integer)
+            Public Sub New(a As Integer, b As Integer, c As Integer, d As Integer)
                 Me.a = a
                 Me.b = b
                 Me.c = c
@@ -35,7 +35,7 @@ Namespace Bzip2
             Public ReadOnly first As Integer
             Public ReadOnly last As Integer
 
-            Public Sub New(ByVal first As Integer, ByVal last As Integer)
+            Public Sub New(first As Integer, last As Integer)
                 Me.first = first
                 Me.last = last
             End Sub
@@ -45,7 +45,7 @@ Namespace Bzip2
             Private budget As Integer
             Public chance As Integer
 
-            Public Function update(ByVal size As Integer, ByVal n As Integer) As Boolean
+            Public Function update(size As Integer, n As Integer) As Boolean
                 budget -= n
 
                 If budget <= 0 Then
@@ -59,7 +59,7 @@ Namespace Bzip2
                 Return True
             End Function
 
-            Public Sub New(ByVal budget As Integer, ByVal chance As Integer)
+            Public Sub New(budget As Integer, chance As Integer)
                 Me.budget = budget
                 Me.chance = chance
             End Sub
@@ -85,7 +85,7 @@ Namespace Bzip2
         '  @param n The length of the input data
         ' 
 
-        Public Sub New(ByVal T As Byte(), ByVal SA As Integer(), ByVal n As Integer)
+        Public Sub New(T As Byte(), SA As Integer(), n As Integer)
             Me.T = T
             Me.SA = SA
             Me.n = n
@@ -114,13 +114,13 @@ Namespace Bzip2
 #Region "Private methods"
         ' ReSharper disable LoopVariableIsNeverChangedInsideLoop
 
-        Private Shared Sub swapElements(ByVal array1 As Integer(), ByVal index1 As Integer, ByVal array2 As Integer(), ByVal index2 As Integer)
+        Private Shared Sub swapElements(array1 As Integer(), index1 As Integer, array2 As Integer(), index2 As Integer)
             Dim temp = array1(index1)
             array1(index1) = array2(index2)
             array2(index2) = temp
         End Sub
 
-        Private Function ssCompare(ByVal p1 As Integer, ByVal p2 As Integer, ByVal depth As Integer) As Integer
+        Private Function ssCompare(p1 As Integer, p2 As Integer, depth As Integer) As Integer
             Dim U1n, U2n As Integer ' pointers within T
             Dim U1, U2 As Integer
             U1 = depth + SA(p1)
@@ -136,7 +136,7 @@ Namespace Bzip2
             Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HFF) - (T(U2) And &HFF), 1), If(U2 < U2n, -1, 0))
         End Function
 
-        Private Function ssCompareLast(ByVal PA As Integer, ByVal p1 As Integer, ByVal p2 As Integer, ByVal depth As Integer, ByVal size As Integer) As Integer
+        Private Function ssCompareLast(PA As Integer, p1 As Integer, p2 As Integer, depth As Integer, size As Integer) As Integer
             Dim U1, U2, U1n, U2n As Integer
             U1 = depth + SA(p1)
             U2 = depth + SA(p2)
@@ -161,7 +161,7 @@ Namespace Bzip2
             Return If(U1 < U1n, If(U2 < U2n, (T(U1) And &HFF) - (T(U2) And &HFF), 1), If(U2 < U2n, -1, 0))
         End Function
 
-        Private Sub ssInsertionSort(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal depth As Integer)
+        Private Sub ssInsertionSort(PA As Integer, first As Integer, last As Integer, depth As Integer)
             Dim i As Integer ' pointer within SA
             Dim r As Value(Of Integer) = 0
 
@@ -194,7 +194,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub ssFixdown(ByVal Td As Integer, ByVal PA As Integer, ByVal sa As Integer, ByVal i As Integer, ByVal size As Integer)
+        Private Sub ssFixdown(Td As Integer, PA As Integer, sa As Integer, i As Integer, size As Integer)
             Dim j As Value(Of Integer) = 0
             Dim k As Integer
             Dim v As Integer
@@ -221,7 +221,7 @@ Namespace Bzip2
             Me.SA(sa + i) = v
         End Sub
 
-        Private Sub ssHeapSort(ByVal Td As Integer, ByVal PA As Integer, ByVal sa As Integer, ByVal size As Integer)
+        Private Sub ssHeapSort(Td As Integer, PA As Integer, sa As Integer, size As Integer)
             Dim i As Integer
             Dim m = size
 
@@ -256,7 +256,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Function ssMedian3(ByVal Td As Integer, ByVal PA As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer) As Integer
+        Private Function ssMedian3(Td As Integer, PA As Integer, v1 As Integer, v2 As Integer, v3 As Integer) As Integer
             Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HFF
             Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HFF
             Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HFF
@@ -277,7 +277,7 @@ Namespace Bzip2
             Return v2
         End Function
 
-        Private Function ssMedian5(ByVal Td As Integer, ByVal PA As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer, ByVal v4 As Integer, ByVal v5 As Integer) As Integer
+        Private Function ssMedian5(Td As Integer, PA As Integer, v1 As Integer, v2 As Integer, v3 As Integer, v4 As Integer, v5 As Integer) As Integer
             Dim T_v1 = T(Td + SA(PA + SA(v1))) And &HFF
             Dim T_v2 = T(Td + SA(PA + SA(v2))) And &HFF
             Dim T_v3 = T(Td + SA(PA + SA(v3))) And &HFF
@@ -348,7 +348,7 @@ Namespace Bzip2
             Return If(T_v3 > T_v4, v4, v3)
         End Function
 
-        Private Function ssPivot(ByVal Td As Integer, ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer) As Integer
+        Private Function ssPivot(Td As Integer, PA As Integer, first As Integer, last As Integer) As Integer
             Dim t = last - first
             Dim middle As Integer = first + t / 2
 
@@ -365,11 +365,11 @@ Namespace Bzip2
             Return ssMedian3(Td, PA, ssMedian3(Td, PA, first, first + t, first + (t << 1)), ssMedian3(Td, PA, middle - t, middle, middle + t), ssMedian3(Td, PA, last - 1 - (t << 1), last - 1 - t, last - 1))
         End Function
 
-        Private Shared Function ssLog(ByVal x As Integer) As Integer
+        Private Shared Function ssLog(x As Integer) As Integer
             Return If((x And &HFF00) <> 0, 8 + log2table(x >> 8 And &HFF), log2table(x And &HFF))
         End Function
 
-        Private Function ssSubstringPartition(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal depth As Integer) As Integer
+        Private Function ssSubstringPartition(PA As Integer, first As Integer, last As Integer, depth As Integer) As Integer
             Dim a, b As Integer
             a = first - 1
             b = last
@@ -396,7 +396,7 @@ Namespace Bzip2
             Return a
         End Function
 
-        Private Sub ssMultiKeyIntroSort(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal depth As Integer)
+        Private Sub ssMultiKeyIntroSort(PA As Integer, first As Integer, last As Integer, depth As Integer)
             Dim stack = New StackEntry(63) {}
             Dim ssize As Integer
             Dim limit As Integer
@@ -638,7 +638,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Shared Sub ssBlockSwap(ByVal array1 As Integer(), ByVal first1 As Integer, ByVal array2 As Integer(), ByVal first2 As Integer, ByVal size As Integer)
+        Private Shared Sub ssBlockSwap(array1 As Integer(), first1 As Integer, array2 As Integer(), first2 As Integer, size As Integer)
             Dim a, b As Integer
             Dim i As Integer
             i = size
@@ -653,7 +653,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub ssMergeForward(ByVal PA As Integer, ByVal buf As Integer(), ByVal bufoffset As Integer, ByVal first As Integer, ByVal middle As Integer, ByVal last As Integer, ByVal depth As Integer)
+        Private Sub ssMergeForward(PA As Integer, buf As Integer(), bufoffset As Integer, first As Integer, middle As Integer, last As Integer, depth As Integer)
             Dim i, j, k As Integer
             Dim t As Integer
             Dim bufend = bufoffset + (middle - first) - 1
@@ -727,7 +727,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub ssMergeBackward(ByVal PA As Integer, ByVal buf As Integer(), ByVal bufoffset As Integer, ByVal first As Integer, ByVal middle As Integer, ByVal last As Integer, ByVal depth As Integer)
+        Private Sub ssMergeBackward(PA As Integer, buf As Integer(), bufoffset As Integer, first As Integer, middle As Integer, last As Integer, depth As Integer)
             Dim p1, p2 As Integer
             Dim i, j, k As Integer
             Dim t As Integer
@@ -873,17 +873,17 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Shared Function getIDX(ByVal a As Integer) As Integer
+        Private Shared Function getIDX(a As Integer) As Integer
             Return If(0 <= a, a, Not a)
         End Function
 
-        Private Sub ssMergeCheckEqual(ByVal PA As Integer, ByVal depth As Integer, ByVal a As Integer)
+        Private Sub ssMergeCheckEqual(PA As Integer, depth As Integer, a As Integer)
             If 0 <= SA(a) AndAlso ssCompare(PA + getIDX(SA(a - 1)), PA + SA(a), depth) = 0 Then
                 SA(a) = Not SA(a)
             End If
         End Sub
 
-        Private Sub ssMerge(ByVal PA As Integer, ByVal first As Integer, ByVal middle As Integer, ByVal last As Integer, ByVal buf As Integer(), ByVal bufoffset As Integer, ByVal bufsize As Integer, ByVal depth As Integer)
+        Private Sub ssMerge(PA As Integer, first As Integer, middle As Integer, last As Integer, buf As Integer(), bufoffset As Integer, bufsize As Integer, depth As Integer)
             Dim stack = New StackEntry(63) {}
             Dim ssize As Integer
             Dim check As Integer
@@ -1016,7 +1016,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub subStringSort(ByVal PA As Integer, ByVal first As Integer, ByVal last As Integer, ByVal buf As Integer(), ByVal bufoffset As Integer, ByVal bufsize As Integer, ByVal depth As Integer, ByVal lastsuffix As Boolean, ByVal size As Integer)
+        Private Sub subStringSort(PA As Integer, first As Integer, last As Integer, buf As Integer(), bufoffset As Integer, bufsize As Integer, depth As Integer, lastsuffix As Boolean, size As Integer)
             Dim a As Integer
             Dim i As Integer
             Dim k As Integer
@@ -1087,11 +1087,11 @@ Namespace Bzip2
             End If
         End Sub
 
-        Private Function trGetC(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal p As Integer) As Integer
+        Private Function trGetC(ISA As Integer, ISAd As Integer, ISAn As Integer, p As Integer) As Integer
             Return If(ISAd + p < ISAn, SA(ISAd + p), SA(ISA + (ISAd - ISA + p) Mod (ISAn - ISA)))
         End Function
 
-        Private Sub trFixdown(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal sa As Integer, ByVal i As Integer, ByVal size As Integer)
+        Private Sub trFixdown(ISA As Integer, ISAd As Integer, ISAn As Integer, sa As Integer, i As Integer, size As Integer)
             Dim j As Value(Of Integer) = 0
             Dim k As Integer
             Dim v As Integer
@@ -1122,7 +1122,7 @@ Namespace Bzip2
             Me.SA(sa + i) = v
         End Sub
 
-        Private Sub trHeapSort(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal sa As Integer, ByVal size As Integer)
+        Private Sub trHeapSort(ISA As Integer, ISAd As Integer, ISAn As Integer, sa As Integer, size As Integer)
             Dim i As Integer
             Dim m = size
 
@@ -1157,7 +1157,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub trInsertionSort(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer)
+        Private Sub trInsertionSort(ISA As Integer, ISAd As Integer, ISAn As Integer, first As Integer, last As Integer)
             Dim a As Integer
             a = first + 1
 
@@ -1189,11 +1189,11 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Shared Function trLog(ByVal x As Integer) As Integer
+        Private Shared Function trLog(x As Integer) As Integer
             Return If((x And &HFFFF0000) <> 0, If((x And &HFF000000) <> 0, 24 + log2table(x >> 24 And &HFF), 16 + log2table(x >> 16 And &HFF)), If((x And &HFF00) <> 0, 8 + log2table(x >> 8 And &HFF), 0 + log2table(x >> 0 And &HFF)))
         End Function
 
-        Private Function trMedian3(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer) As Integer
+        Private Function trMedian3(ISA As Integer, ISAd As Integer, ISAn As Integer, v1 As Integer, v2 As Integer, v3 As Integer) As Integer
             Dim SA_v1 = trGetC(ISA, ISAd, ISAn, SA(v1))
             Dim SA_v2 = trGetC(ISA, ISAd, ISAn, SA(v2))
             Dim SA_v3 = trGetC(ISA, ISAd, ISAn, SA(v3))
@@ -1214,7 +1214,7 @@ Namespace Bzip2
             Return v2
         End Function
 
-        Private Function trMedian5(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal v1 As Integer, ByVal v2 As Integer, ByVal v3 As Integer, ByVal v4 As Integer, ByVal v5 As Integer) As Integer
+        Private Function trMedian5(ISA As Integer, ISAd As Integer, ISAn As Integer, v1 As Integer, v2 As Integer, v3 As Integer, v4 As Integer, v5 As Integer) As Integer
             Dim SA_v1 = trGetC(ISA, ISAd, ISAn, SA(v1))
             Dim SA_v2 = trGetC(ISA, ISAd, ISAn, SA(v2))
             Dim SA_v3 = trGetC(ISA, ISAd, ISAn, SA(v3))
@@ -1285,7 +1285,7 @@ Namespace Bzip2
             Return If(SA_v3 > SA_v4, v4, v3)
         End Function
 
-        Private Function trPivot(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer) As Integer
+        Private Function trPivot(ISA As Integer, ISAd As Integer, ISAn As Integer, first As Integer, last As Integer) As Integer
             Dim t = last - first
             Dim middle As Integer = first + t / 2
 
@@ -1302,7 +1302,7 @@ Namespace Bzip2
             Return trMedian3(ISA, ISAd, ISAn, trMedian3(ISA, ISAd, ISAn, first, first + t, first + (t << 1)), trMedian3(ISA, ISAd, ISAn, middle - t, middle, middle + t), trMedian3(ISA, ISAd, ISAn, last - 1 - (t << 1), last - 1 - t, last - 1))
         End Function
 
-        Private Sub lsUpdateGroup(ByVal ISA As Integer, ByVal first As Integer, ByVal last As Integer)
+        Private Sub lsUpdateGroup(ISA As Integer, first As Integer, last As Integer)
             Dim a As Integer
             a = first
 
@@ -1339,7 +1339,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub lsIntroSort(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer)
+        Private Sub lsIntroSort(ISA As Integer, ISAd As Integer, ISAn As Integer, first As Integer, last As Integer)
             Dim stack = New StackEntry(63) {}
             Dim limit As Integer
             Dim x As Value(Of Integer) = 0
@@ -1540,7 +1540,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub lsSort(ByVal ISA As Integer, ByVal x As Integer, ByVal depth As Integer)
+        Private Sub lsSort(ISA As Integer, x As Integer, depth As Integer)
             Dim ISAd As Integer
             Dim t As Value(Of Integer) = Nothing
 
@@ -1599,7 +1599,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Function trPartition(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer, ByVal v As Integer) As PartitionResult
+        Private Function trPartition(ISA As Integer, ISAd As Integer, ISAn As Integer, first As Integer, last As Integer, v As Integer) As PartitionResult
             Dim a, b, c, d As Integer
             Dim x As Value(Of Integer) = 0
 
@@ -1702,7 +1702,7 @@ Namespace Bzip2
             Return New PartitionResult(first, last)
         End Function
 
-        Private Sub trCopy(ByVal ISA As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal a As Integer, ByVal b As Integer, ByVal last As Integer, ByVal depth As Integer)
+        Private Sub trCopy(ISA As Integer, ISAn As Integer, first As Integer, a As Integer, b As Integer, last As Integer, depth As Integer)
             Dim c, d, e As Integer
             Dim s As Value(Of Integer) = Nothing
             Dim v = b - 1
@@ -1743,7 +1743,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub trIntroSort(ByVal ISA As Integer, ByVal ISAd As Integer, ByVal ISAn As Integer, ByVal first As Integer, ByVal last As Integer, ByVal budget As TRBudget, ByVal size As Integer)
+        Private Sub trIntroSort(ISA As Integer, ISAd As Integer, ISAn As Integer, first As Integer, last As Integer, budget As TRBudget, size As Integer)
             Dim stack = New StackEntry(63) {}
             Dim s As Integer
             Dim x As Value(Of Integer) = 0
@@ -2174,7 +2174,7 @@ Namespace Bzip2
             End While
         End Sub
 
-        Private Sub trSort(ByVal ISA As Integer, ByVal x As Integer, ByVal depth As Integer)
+        Private Sub trSort(ISA As Integer, x As Integer, depth As Integer)
             Dim first = 0
             Dim t As Value(Of Integer) = 0
 
@@ -2207,15 +2207,15 @@ Namespace Bzip2
             End If
         End Sub
 
-        Private Shared Function BUCKET_B(ByVal c0 As Integer, ByVal c1 As Integer) As Integer
+        Private Shared Function BUCKET_B(c0 As Integer, c1 As Integer) As Integer
             Return c1 << 8 Or c0
         End Function
 
-        Private Shared Function BUCKET_BSTAR(ByVal c0 As Integer, ByVal c1 As Integer) As Integer
+        Private Shared Function BUCKET_BSTAR(c0 As Integer, c1 As Integer) As Integer
             Return c0 << 8 Or c1
         End Function
 
-        Private Function sortTypeBstar(ByVal bucketA As Integer(), ByVal bucketB As Integer()) As Integer
+        Private Function sortTypeBstar(bucketA As Integer(), bucketB As Integer()) As Integer
             Dim tempbuf = New Integer(255) {}
             Dim i, j, k, t As Integer
             Dim c0, c1 As Integer
@@ -2462,7 +2462,7 @@ Namespace Bzip2
             Return m
         End Function
 
-        Private Function constructBWT(ByVal bucketA As Integer(), ByVal bucketB As Integer()) As Integer
+        Private Function constructBWT(bucketA As Integer(), bucketB As Integer()) As Integer
             Dim i As Integer
             Dim t = 0
             Dim s, s1 As Integer
