@@ -772,6 +772,7 @@
     <Compile Include="XDR\Attributes\OrderAttribute.vb" />
     <Compile Include="XDR\Attributes\SwitchAttribute.vb" />
     <Compile Include="XDR\Attributes\VarAttribute.vb" />
+    <Compile Include="XDR\Unpacker.vb" />
     <Compile Include="XDR\Delegates.vb" />
     <Compile Include="XDR\EmitContexts\EmitContext.vb" />
     <Compile Include="XDR\EmitContexts\EmitResult.vb" />
