@@ -1,6 +1,8 @@
 ﻿Imports System.IO
-Imports Microsoft.VisualBasic.Data.IO.Bzip2
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports Microsoft.VisualBasic.Data.IO.Bzip2
+Imports Microsoft.VisualBasic.Data.IO.Bzip2.Math
 
 Namespace Bzip2
 
@@ -16,13 +18,15 @@ Namespace Bzip2
         ''' Fills the test buffer with random values
         ''' </summary>
         Public Shared Sub Main()
-            Dim random = New Random()
-            random.NextBytes(Buffer)
+            'Dim random = New Random()
+            ' Random.NextBytes(Buffer)
 
-            Call CrcAlgorithmDifferentValues()
-            Call CrcAlgorithmSameValues()
-            Call CompressSmokeLarge()
-            Call CompressSmokeSmall()
+            Buffer = Encoding.UTF8.GetBytes("Hello World!")
+
+            '  Call CrcAlgorithmDifferentValues()
+            '  Call CrcAlgorithmSameValues()
+            '  Call CompressSmokeLarge()
+            '  Call CompressSmokeSmall()
             Call CompressAndDecompress()
 
             Pause()
@@ -98,6 +102,7 @@ Namespace Bzip2
             Dim decompressor = New BZip2InputStream(output, False)
             decompressor.CopyTo(output2)
             Assert.AreEqual(Buffer.Length, output2.Length)
+            Assert.IsTrue(Buffer.SequenceEqual(output2.ToArray))
         End Sub
     End Class
 End Namespace
