@@ -1,7 +1,5 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Text
-Imports Xdr.EmitContexts
+﻿Imports System.Text
+Imports Microsoft.VisualBasic.Data.IO.Xdr.EmitContexts
 
 Namespace Xdr
     Public MustInherit Class WriteMapper
