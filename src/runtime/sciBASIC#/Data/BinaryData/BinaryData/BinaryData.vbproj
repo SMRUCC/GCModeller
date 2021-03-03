@@ -787,6 +787,7 @@
     <Compile Include="XDR\IByteReader.vb" />
     <Compile Include="XDR\IByteWriter.vb" />
     <Compile Include="XDR\MapException.vb" />
+    <Compile Include="XDR\NamespaceDoc.vb" />
     <Compile Include="XDR\OpaqueType.vb" />
     <Compile Include="XDR\Reading\ReadBuilder.EmitDynReader.vb" />
     <Compile Include="XDR\Reading\ReadBuilder.EmitDynReadMapper.vb" />
