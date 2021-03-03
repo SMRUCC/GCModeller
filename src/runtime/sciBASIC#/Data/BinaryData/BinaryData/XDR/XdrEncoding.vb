@@ -1,8 +1,7 @@
-﻿
-Imports System
+﻿Namespace Xdr
 
-Namespace Xdr
     Public Module XdrEncoding
+
         ''' <summary>
         ''' Decodes the Int32.
         ''' http://tools.ietf.org/html/rfc4506#section-4.1
@@ -85,100 +84,25 @@ Namespace Xdr
             w.Write(v >> 16 And &HFF)
             w.Write(v >> 8 And &HFF)
             w.Write(v And &HFF)
-
-            ''' <summary>
-            ''' Decodes the Single.
-            ''' http://tools.ietf.org/html/rfc4506#section-4.6
-            ''' </summary>
-
-            ''' <summary>
-            ''' Encodes the Single.
-            ''' http://tools.ietf.org/html/rfc4506#section-4.6
-            ''' </summary>
-
-            ''' <summary>
-            ''' Decodes the Double.
-            ''' http://tools.ietf.org/html/rfc4506#section-4.7
-            ''' </summary>
-
-            ''' <summary>
-            ''' Encodes the Double.
-            ''' http://tools.ietf.org/html/rfc4506#section-4.7
-            ''' </summary>
         End Sub
 
-        ''' Cannot convert MethodDeclarationSyntax, System.NotSupportedException: UnsafeKeyword is not supported!
-        '''    在 ICSharpCode.CodeConverter.VB.SyntaxKindExtensions.ConvertToken(SyntaxKind t, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifier(SyntaxToken m, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.<>c__DisplayClass30_0.<ConvertModifiersCore>b__3(SyntaxToken x)
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
-        '''    在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiersCore(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiers(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.NodesVisitor.VisitMethodDeclaration(MethodDeclarationSyntax node)
-        '''    在 Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
-        '''    在 Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor`1.Visit(SyntaxNode node)
-        '''    在 ICSharpCode.CodeConverter.VB.CommentConvertingVisitorWrapper`1.Accept(SyntaxNode csNode, Boolean addSourceMapping)
-        ''' 
-        ''' Input:
-        ''' 
         ''' <summary>
         ''' Decodes the Single.
         ''' http://tools.ietf.org/html/rfc4506#section-4.6
         ''' </summary>
         Public Function DecodeSingle(r As Xdr.IByteReader) As Single
-
             Dim num As Integer = Xdr.XdrEncoding.DecodeInt32(r)
             Return unsafeSingle(num)
         End Function
 
-        ''' 
-        ''' Cannot convert MethodDeclarationSyntax, System.NotSupportedException: UnsafeKeyword is not supported!
-        '''    在 ICSharpCode.CodeConverter.VB.SyntaxKindExtensions.ConvertToken(SyntaxKind t, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifier(SyntaxToken m, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.<>c__DisplayClass30_0.<ConvertModifiersCore>b__3(SyntaxToken x)
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
-        '''    在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiersCore(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiers(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.NodesVisitor.VisitMethodDeclaration(MethodDeclarationSyntax node)
-        '''    在 Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
-        '''    在 Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor`1.Visit(SyntaxNode node)
-        '''    在 ICSharpCode.CodeConverter.VB.CommentConvertingVisitorWrapper`1.Accept(SyntaxNode csNode, Boolean addSourceMapping)
-        ''' 
-        ''' Input:
-        ''' 
         ''' <summary>
         ''' Encodes the Single.
         ''' http://tools.ietf.org/html/rfc4506#section-4.6
         ''' </summary>
         Public Sub EncodeSingle(v As Single, w As Xdr.IByteWriter)
-
             Xdr.XdrEncoding.EncodeInt32(unsafeInteger(v), w)
         End Sub
 
-        ''' 
-        ''' Cannot convert MethodDeclarationSyntax, System.NotSupportedException: UnsafeKeyword is not supported!
-        '''    在 ICSharpCode.CodeConverter.VB.SyntaxKindExtensions.ConvertToken(SyntaxKind t, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifier(SyntaxToken m, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.<>c__DisplayClass30_0.<ConvertModifiersCore>b__3(SyntaxToken x)
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
-        '''    在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiersCore(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiers(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.NodesVisitor.VisitMethodDeclaration(MethodDeclarationSyntax node)
-        '''    在 Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
-        '''    在 Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor`1.Visit(SyntaxNode node)
-        '''    在 ICSharpCode.CodeConverter.VB.CommentConvertingVisitorWrapper`1.Accept(SyntaxNode csNode, Boolean addSourceMapping)
-        ''' 
-        ''' Input:
-        ''' 
         ''' <summary>
         ''' Decodes the Double.
         ''' http://tools.ietf.org/html/rfc4506#section-4.7
@@ -188,24 +112,6 @@ Namespace Xdr
             Return unsafeDouble(num)
         End Function
 
-        ''' 
-        ''' Cannot convert MethodDeclarationSyntax, System.NotSupportedException: UnsafeKeyword is not supported!
-        '''    在 ICSharpCode.CodeConverter.VB.SyntaxKindExtensions.ConvertToken(SyntaxKind t, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifier(SyntaxToken m, TokenContext context)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.<>c__DisplayClass30_0.<ConvertModifiersCore>b__3(SyntaxToken x)
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-        '''    在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
-        '''    在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiersCore(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.CommonConversions.ConvertModifiers(IReadOnlyCollection`1 modifiers, TokenContext context, Boolean isConstructor)
-        '''    在 ICSharpCode.CodeConverter.VB.NodesVisitor.VisitMethodDeclaration(MethodDeclarationSyntax node)
-        '''    在 Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax.Accept[TResult](CSharpSyntaxVisitor`1 visitor)
-        '''    在 Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor`1.Visit(SyntaxNode node)
-        '''    在 ICSharpCode.CodeConverter.VB.CommentConvertingVisitorWrapper`1.Accept(SyntaxNode csNode, Boolean addSourceMapping)
-        ''' 
-        ''' Input:
-        ''' 
         ''' <summary>
         ''' Encodes the Double.
         ''' http://tools.ietf.org/html/rfc4506#section-4.7
@@ -214,14 +120,14 @@ Namespace Xdr
             Xdr.XdrEncoding.EncodeInt64(unsafeLong(v), w)
         End Sub
 
-        Public Function unsafeDouble(x As Long) As Double
+        Private Function unsafeDouble(x As Long) As Double
             Dim bytes = BitConverter.GetBytes(x)
             Dim dbl As Double = BitConverter.ToDouble(bytes, 0)
 
             Return dbl
         End Function
 
-        Public Function unsafeSingle(x As Integer) As Single
+        Private Function unsafeSingle(x As Integer) As Single
             Dim bytes = BitConverter.GetBytes(x)
             Dim dbl As Single = BitConverter.ToSingle(bytes, 0)
 

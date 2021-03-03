@@ -9,7 +9,7 @@ Namespace Xdr.EmitContexts
 
         Public Function GetReader(targetType As Type) As [Delegate]
             SyncLock _sync
-                Dim result As EmitResult
+                Dim result As EmitResult = Nothing
 
                 If Not _readerCache.TryGetValue(targetType, result) Then
                     result = New EmitResult()
@@ -30,7 +30,7 @@ Namespace Xdr.EmitContexts
 
         Public Function GetWriter(targetType As Type) As [Delegate]
             SyncLock _sync
-                Dim result As EmitResult
+                Dim result As EmitResult = Nothing
 
                 If Not _writerCache.TryGetValue(targetType, result) Then
                     result = New EmitResult()
