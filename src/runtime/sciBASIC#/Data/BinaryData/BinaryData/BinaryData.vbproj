@@ -781,9 +781,9 @@
     <Compile Include="XDR\Emit\BuildRequest.vb" />
     <Compile Include="XDR\Emit\DelegateCacheDescription.vb" />
     <Compile Include="XDR\Emit\ErrorStub.vb" />
-    <Compile Include="XDR\Emit\ErrorStub_1.vb" />
+    <Compile Include="XDR\Emit\ErrorStubType.vb" />
     <Compile Include="XDR\Emit\StaticCacheDescription.vb" />
-    <Compile Include="XDR\EnumHelper_1.vb" />
+    <Compile Include="XDR\EnumHelper.vb" />
     <Compile Include="XDR\IByteReader.vb" />
     <Compile Include="XDR\IByteWriter.vb" />
     <Compile Include="XDR\MapException.vb" />

@@ -1,9 +1,7 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
+﻿Namespace Xdr
 
-Namespace Xdr
     Public Class EnumHelper(Of T As Structure)
+
         Private Shared ReadOnly _enumMap As Dictionary(Of T, Integer)
         Private Shared ReadOnly _intMap As Dictionary(Of Integer, T)
 
