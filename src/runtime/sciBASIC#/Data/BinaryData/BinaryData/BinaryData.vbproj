@@ -27,6 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\</OutputPath>
@@ -736,6 +738,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteBuffer.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BitInputStream.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BitOutputStream.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BlockCompressor.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2BlockDecompressor.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2DivSufSort.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2HuffmanStageDecoder.vb" />
+    <Compile Include="Bzip2\Algorithm\BZip2HuffmanStageEncoder.vb" />
+    <Compile Include="Bzip2\BZip2InputStream.vb" />
+    <Compile Include="Bzip2\Algorithm\Bzip2MTFAndRLE2StageEncoder.vb" />
+    <Compile Include="Bzip2\BZip2OutputStream.vb" />
+    <Compile Include="Bzip2\Math\CRC32.vb" />
+    <Compile Include="Bzip2\Math\HuffmanAllocator.vb" />
+    <Compile Include="Bzip2\Math\MoveToFront.vb" />
     <Compile Include="Extensions\FixLengthString.vb" />
     <Compile Include="Extensions\MSWindows.vb" />
     <Compile Include="BitSet.vb" />
@@ -752,6 +767,43 @@
     <Compile Include="Stream\Offset.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Stream\SeekTask.vb" />
+    <Compile Include="XDR\Attributes\CaseAttribute.vb" />
+    <Compile Include="XDR\Attributes\FixAttribute.vb" />
+    <Compile Include="XDR\Attributes\OptionAttribute.vb" />
+    <Compile Include="XDR\Attributes\OrderAttribute.vb" />
+    <Compile Include="XDR\Attributes\SwitchAttribute.vb" />
+    <Compile Include="XDR\Attributes\VarAttribute.vb" />
+    <Compile Include="XDR\Unpacker.vb" />
+    <Compile Include="XDR\Delegates.vb" />
+    <Compile Include="XDR\EmitContexts\EmitContext.vb" />
+    <Compile Include="XDR\EmitContexts\EmitResult.vb" />
+    <Compile Include="XDR\EmitContexts\FieldDesc.vb" />
+    <Compile Include="XDR\EmitContexts\OrderModel.vb" />
+    <Compile Include="XDR\EmitContexts\SwitchModel.vb" />
+    <Compile Include="XDR\Emit\BuildRequest.vb" />
+    <Compile Include="XDR\Emit\DelegateCacheDescription.vb" />
+    <Compile Include="XDR\Emit\ErrorStub.vb" />
+    <Compile Include="XDR\Emit\ErrorStubType.vb" />
+    <Compile Include="XDR\Emit\StaticCacheDescription.vb" />
+    <Compile Include="XDR\EnumHelper.vb" />
+    <Compile Include="XDR\IByteReader.vb" />
+    <Compile Include="XDR\IByteWriter.vb" />
+    <Compile Include="XDR\MapException.vb" />
+    <Compile Include="XDR\NamespaceDoc.vb" />
+    <Compile Include="XDR\OpaqueType.vb" />
+    <Compile Include="XDR\Reading\ReadBuilder.EmitDynReader.vb" />
+    <Compile Include="XDR\Reading\ReadBuilder.EmitDynReadMapper.vb" />
+    <Compile Include="XDR\Reading\ReadBuilder.vb" />
+    <Compile Include="XDR\Reading\Reader.vb" />
+    <Compile Include="XDR\Reading\ReadMapper.vb" />
+    <Compile Include="XDR\TypeExtensions.vb" />
+    <Compile Include="XDR\Void.vb" />
+    <Compile Include="XDR\Writing\WriteBuilder.EmitDynWriteMapper.vb" />
+    <Compile Include="XDR\Writing\WriteBuilder.EmitDynWriter.vb" />
+    <Compile Include="XDR\Writing\WriteBuilder.vb" />
+    <Compile Include="XDR\Writing\WriteMapper.vb" />
+    <Compile Include="XDR\Writing\Writer.vb" />
+    <Compile Include="XDR\XdrEncoding.vb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
