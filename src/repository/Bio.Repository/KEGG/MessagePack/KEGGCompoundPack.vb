@@ -10,7 +10,7 @@ Namespace KEGG.Metabolism
     ''' <summary>
     ''' the schema of <see cref="Compound"/>
     ''' </summary>
-    Public Class KEGGCompoundPack ： Inherits SchemaProvider(Of Compound)
+    Public Class KEGGCompoundPack : Inherits SchemaProvider(Of Compound)
 
         Protected Overrides Iterator Function GetObjectSchema() As IEnumerable(Of (obj As Type, schema As Dictionary(Of String, NilImplication)))
             Yield (GetType(Compound), CompoundObj)
@@ -34,7 +34,7 @@ Namespace KEGG.Metabolism
             }
         End Function
 
-        Protected Function entryObj() As Dictionary(Of String, NilImplication)
+        Friend Shared Function entryObj() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(NamedValue.name), NilImplication.MemberDefault},
                 {NameOf(NamedValue.text), NilImplication.MemberDefault}
