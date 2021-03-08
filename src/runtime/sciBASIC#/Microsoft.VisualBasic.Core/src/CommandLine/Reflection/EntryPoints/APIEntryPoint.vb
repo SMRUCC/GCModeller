@@ -269,7 +269,7 @@ Namespace CommandLine.Reflection.EntryPoints
                     Throw ex
                 Else
                     Call "".EchoLine
-                    Call ExceptionHandler.Print(source, EntryPoint)
+                    Call ManView.ExceptionHandler.Print(source, EntryPoint)
                     Call "".EchoLine
                     Call $"[Log] {trace.GetFullPath}".__INFO_ECHO
                     Call VBDebugger.WaitOutput()
