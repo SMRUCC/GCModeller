@@ -42,9 +42,9 @@ Namespace KEGG.Metabolism
             Return MsgPackSerializer.Deserialize(Of ReactionClass())(file)
         End Function
 
-        Public Shared Function WriteKeggDb(cpds As IEnumerable(Of ReactionClass), file As Stream) As Boolean
+        Public Shared Function WriteKeggDb(reactions As IEnumerable(Of ReactionClass), file As Stream) As Boolean
             Try
-                Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)
+                Call MsgPackSerializer.SerializeObject(reactions.ToArray, file)
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False
