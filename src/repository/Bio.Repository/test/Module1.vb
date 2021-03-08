@@ -6,6 +6,7 @@ Module Module1
 
     Sub Main()
         Call readTest()
+        ' Call writeTest()
     End Sub
 
     Sub writeTest()
