@@ -11,7 +11,7 @@ Namespace ApplicationServices.Debugging.Logging
         <Extension>
         Private Function GetErrorLines(ex As Exception) As String()
             If ex Is Nothing Then
-                Return {}
+                Return {"<Unknown Error>"}
             Else
                 Return ex.ToString.LineTokens
             End If
@@ -28,6 +28,7 @@ Namespace ApplicationServices.Debugging.Logging
         <Extension>
         Public Function BugsFormatter(ex As Exception, <CallerMemberName> Optional trace$ = Nothing) As String
             Dim logs As String() = ex.GetErrorLines
+            Dim errorName As String = If(ex Is Nothing, "<Unknown Error>", ex.GetType.FullName)
             Dim stackTrace = logs _
                 .Where(Function(s)
                            Return InStr(s, "   在 ") = 1 OrElse InStr(s, "   at ") = 1
@@ -52,7 +53,7 @@ Namespace ApplicationServices.Debugging.Logging
                 .AppendLine(ConfigEngine.Prints(App.GetAppVariables)) _
                 .AppendLine(New String("=", 120)) _
                 .AppendLine() _
-                .AppendLine(ex.GetType.FullName & ":") _
+                .AppendLine(errorName & ":") _
                 .AppendLine() _
                 .AppendLine(message _
                     .Select(Function(s) "    ---> " & s) _
