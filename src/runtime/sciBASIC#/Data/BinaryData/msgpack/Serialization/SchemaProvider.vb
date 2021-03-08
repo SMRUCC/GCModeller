@@ -4,7 +4,11 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace Serialization
 
-    Public MustInherit Class SchemaProvider(Of T As Class)
+    Public Interface ISchemaProvider
+        Function GetMembers() As IEnumerable(Of BindProperty(Of MessagePackMemberAttribute))
+    End Interface
+
+    Public MustInherit Class SchemaProvider(Of T As Class) : Implements ISchemaProvider
 
         Shared ReadOnly slotList As Dictionary(Of String, PropertyInfo) = DataFramework.Schema(Of T)(
             flag:=PropertyAccess.ReadWrite,
@@ -20,7 +24,7 @@ Namespace Serialization
         ''' <returns></returns>
         Protected MustOverride Function GetObjectSchema() As Dictionary(Of String, Integer)
 
-        Public Iterator Function GetMembers() As IEnumerable(Of BindProperty(Of MessagePackMemberAttribute))
+        Public Iterator Function GetMembers() As IEnumerable(Of BindProperty(Of MessagePackMemberAttribute)) Implements ISchemaProvider.GetMembers
             For Each item In GetObjectSchema()
                 If Not slotList.ContainsKey(item.Key) Then
                     Throw New NotImplementedException($"invalid member name: {item.Key}!")

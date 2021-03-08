@@ -128,23 +128,26 @@ Public Class MsgPackSerializer
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub SerializeObject(o As Object, file As Stream)
+        Call GetSerializer(o.GetType()).Serialize(o, file)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function SerializeObject(o As Object, buffer As Byte(), offset As Integer) As Integer
         Return GetSerializer(o.GetType()).Serialize(o, buffer, offset)
     End Function
 
-    Public Function Serialize(o As Object) As Byte()
-        Dim result As Byte() = Nothing
-
-        Using stream As MemoryStream = New MemoryStream()
-            Using writer As BinaryWriter = New BinaryWriter(stream)
-                Serialize(o, writer)
-                result = New Byte(stream.Position - 1) {}
-            End Using
-
-            result = stream.ToArray()
+    Public Sub Serialize(o As Object, stream As Stream)
+        Using writer As BinaryWriter = New BinaryWriter(stream)
+            Serialize(o, writer)
         End Using
+    End Sub
 
-        Return result
+    Public Function Serialize(o As Object) As Byte()
+        Using stream As New MemoryStream()
+            Call Serialize(o, stream)
+            Return stream.ToArray
+        End Using
     End Function
 
     Public Function Serialize(o As Object, buffer As Byte(), offset As Integer) As Integer
