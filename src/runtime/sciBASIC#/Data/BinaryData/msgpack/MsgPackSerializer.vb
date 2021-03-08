@@ -86,14 +86,17 @@ Public Class MsgPackSerializer
         Return info
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsGenericList(type As Type) As Boolean
         Return GetInfo(type).IsGenericList
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsGenericDictionary(type As Type) As Boolean
         Return GetInfo(type).IsGenericDictionary
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsSerializableGenericCollection(type As Type) As Boolean
         Return GetInfo(type).IsSerializableGenericCollection
     End Function
