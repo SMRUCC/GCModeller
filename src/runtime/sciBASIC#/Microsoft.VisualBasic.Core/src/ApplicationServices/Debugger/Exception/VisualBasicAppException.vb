@@ -64,7 +64,7 @@ Namespace ApplicationServices.Debugging
         ''' The CLI arguments string
         ''' </summary>
         ''' <returns></returns>
-        Public Property args As String
+        Public Property args As String = App.Command
         ''' <summary>
         ''' The internal App environment variables
         ''' </summary>
@@ -82,11 +82,11 @@ Namespace ApplicationServices.Debugging
         ''' <param name="ex">The exception details</param>
         ''' <param name="calls">Method name where occurs this exception.</param>
         Sub New(ex As Exception, calls As String)
-            MyBase.New("@" & calls, ex)
+            MyBase.New($"{ex.GetType.Name}@<{calls}>", ex)
         End Sub
 
-        Sub New(message As String)
-            Call MyBase.New(message)
+        Sub New(message As String, <CallerMemberName> Optional caller As String = Nothing)
+            Call MyBase.New($"{caller}: " & message)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
