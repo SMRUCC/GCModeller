@@ -1578,6 +1578,7 @@
     <Compile Include="ApplicationServices\Debugger\Exception\TraceBuffer.vb" />
     <Compile Include="ApplicationServices\Debugger\Exception\MethodFrame.vb" />
     <Compile Include="ApplicationServices\Debugger\Exception\StackFrame.vb" />
+    <Compile Include="ApplicationServices\Debugger\Logging\ErrorLog.vb" />
     <Compile Include="ApplicationServices\DynamicInterop\INativeHandle.vb" />
     <Compile Include="ApplicationServices\DynamicInterop\IDynamicLibraryLoader.vb" />
     <Compile Include="ApplicationServices\DynamicInterop\MarshalExtra.vb" />
