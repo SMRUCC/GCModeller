@@ -57,7 +57,7 @@ Imports TypeInfo = Microsoft.VisualBasic.Data.IO.MessagePack.Serialization.Refle
 
 Public Class MsgPackSerializer
 
-    Public Shared ReadOnly DefaultContext As SerializationContext = New SerializationContext()
+    Public Shared ReadOnly DefaultContext As New SerializationContext()
 
     Shared ReadOnly typeInfos As New Dictionary(Of Type, TypeInfo)()
 
@@ -112,35 +112,38 @@ Public Class MsgPackSerializer
         Return result
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function SerializeObject(o As Object) As Byte()
         Return GetSerializer(o.GetType()).Serialize(o)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub SerializeObject(o As Object, file As Stream)
+        Call GetSerializer(o.GetType()).Serialize(o, file)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function SerializeObject(o As Object, buffer As Byte(), offset As Integer) As Integer
         Return GetSerializer(o.GetType()).Serialize(o, buffer, offset)
     End Function
 
-    Public Function Serialize(o As Object) As Byte()
-        Dim result As Byte() = Nothing
-
-        Using stream As MemoryStream = New MemoryStream()
-
-            Using writer As BinaryWriter = New BinaryWriter(stream)
-                Serialize(o, writer)
-                result = New Byte(stream.Position - 1) {}
-            End Using
-
-            result = stream.ToArray()
+    Public Sub Serialize(o As Object, stream As Stream)
+        Using writer As BinaryWriter = New BinaryWriter(stream)
+            Serialize(o, writer)
         End Using
+    End Sub
 
-        Return result
+    Public Function Serialize(o As Object) As Byte()
+        Using stream As New MemoryStream()
+            Call Serialize(o, stream)
+            Return stream.ToArray
+        End Using
     End Function
 
     Public Function Serialize(o As Object, buffer As Byte(), offset As Integer) As Integer
         Dim endPos = 0
 
         Using stream As MemoryStream = New MemoryStream(buffer)
-
             Using writer As BinaryWriter = New BinaryWriter(stream)
                 stream.Seek(offset, SeekOrigin.Begin)
                 Serialize(o, writer)
@@ -280,54 +283,47 @@ Public Class MsgPackSerializer
     Private Sub Serialize(o As Object, writer As BinaryWriter)
         If o Is Nothing Then
             writer.Write(Formats.NIL)
-        Else
-
-            If serializedType.IsPrimitive OrElse serializedType Is GetType(String) OrElse IsSerializableGenericCollection(serializedType) Then
-                SerializeValue(o, writer, DefaultContext.SerializationMethod)
+        ElseIf serializedType.IsPrimitive OrElse serializedType Is GetType(String) OrElse IsSerializableGenericCollection(serializedType) Then
+            SerializeValue(o, writer, DefaultContext.SerializationMethod)
+        ElseIf DefaultContext.SerializationMethod = SerializationMethod.Map Then
+            If props.Count <= 15 Then
+                Dim arrayVal As Byte = FixedMap.MIN + props.Count
+                writer.Write(arrayVal)
+            ElseIf props.Count <= UShort.MaxValue Then
+                writer.Write(Formats.MAP_16)
+                Dim data = BitConverter.GetBytes(CUShort(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
             Else
-
-                If DefaultContext.SerializationMethod = SerializationMethod.Map Then
-                    If props.Count <= 15 Then
-                        Dim arrayVal As Byte = FixedMap.MIN + props.Count
-                        writer.Write(arrayVal)
-                    ElseIf props.Count <= UShort.MaxValue Then
-                        writer.Write(Formats.MAP_16)
-                        Dim data = BitConverter.GetBytes(CUShort(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    Else
-                        writer.Write(Formats.MAP_32)
-                        Dim data = BitConverter.GetBytes(CUInt(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    End If
-
-                    For Each prop In props
-                        WriteMsgPack(writer, prop.name)
-                        prop.Serialize(o, writer, DefaultContext.SerializationMethod)
-                    Next
-                Else
-
-                    If props.Count <= 15 Then
-                        Dim arrayVal As Byte = FixedArray.MIN + props.Count
-                        writer.Write(arrayVal)
-                    ElseIf props.Count <= UShort.MaxValue Then
-                        writer.Write(Formats.ARRAY_16)
-                        Dim data = BitConverter.GetBytes(CUShort(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    Else
-                        writer.Write(Formats.ARRAY_32)
-                        Dim data = BitConverter.GetBytes(CUInt(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    End If
-
-                    For Each prop In props
-                        prop.Serialize(o, writer, DefaultContext.SerializationMethod)
-                    Next
-                End If
+                writer.Write(Formats.MAP_32)
+                Dim data = BitConverter.GetBytes(CUInt(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
             End If
+
+            For Each prop In props
+                WriteMsgPack(writer, prop.name)
+                prop.Serialize(o, writer, DefaultContext.SerializationMethod)
+            Next
+        Else
+            If props.Count <= 15 Then
+                Dim arrayVal As Byte = FixedArray.MIN + props.Count
+                writer.Write(arrayVal)
+            ElseIf props.Count <= UShort.MaxValue Then
+                writer.Write(Formats.ARRAY_16)
+                Dim data = BitConverter.GetBytes(CUShort(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
+            Else
+                writer.Write(Formats.ARRAY_32)
+                Dim data = BitConverter.GetBytes(CUInt(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
+            End If
+
+            For Each prop In props
+                prop.Serialize(o, writer, DefaultContext.SerializationMethod)
+            Next
         End If
     End Sub
 
@@ -337,7 +333,6 @@ Public Class MsgPackSerializer
             propsByName = New Dictionary(Of String, SerializableProperty)()
 
             For Each prop In serializedType.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-
                 If prop.CanRead = False OrElse prop.CanWrite = False Then
                     Continue For
                 End If
