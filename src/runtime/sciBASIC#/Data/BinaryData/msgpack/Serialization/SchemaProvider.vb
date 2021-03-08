@@ -8,7 +8,7 @@ Namespace Serialization
         Function GetMembers() As IEnumerable(Of BindProperty(Of MessagePackMemberAttribute))
     End Interface
 
-    Public MustInherit Class SchemaProvider(Of T As Class) : Implements ISchemaProvider
+    Public MustInherit Class SchemaProvider(Of T) : Implements ISchemaProvider
 
         Shared ReadOnly slotList As Dictionary(Of String, PropertyInfo) = DataFramework.Schema(Of T)(
             flag:=PropertyAccess.ReadWrite,
@@ -22,7 +22,7 @@ Namespace Serialization
         ''' a sequence of <see cref="MessagePackMemberAttribute"/>
         ''' </summary>
         ''' <returns></returns>
-        Protected MustOverride Function GetObjectSchema() As Dictionary(Of String, Integer)
+        Protected Friend MustOverride Function GetObjectSchema() As Dictionary(Of String, NilImplication)
 
         Public Iterator Function GetMembers() As IEnumerable(Of BindProperty(Of MessagePackMemberAttribute)) Implements ISchemaProvider.GetMembers
             For Each item In GetObjectSchema()

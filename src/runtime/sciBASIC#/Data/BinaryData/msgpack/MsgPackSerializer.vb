@@ -57,7 +57,7 @@ Imports TypeInfo = Microsoft.VisualBasic.Data.IO.MessagePack.Serialization.Refle
 
 Public Class MsgPackSerializer
 
-    Public Shared ReadOnly DefaultContext As SerializationContext = New SerializationContext()
+    Public Shared ReadOnly DefaultContext As New SerializationContext()
 
     Shared ReadOnly typeInfos As New Dictionary(Of Type, TypeInfo)()
 
