@@ -85,6 +85,10 @@ Namespace ApplicationServices.Debugging
             MyBase.New("@" & calls, ex)
         End Sub
 
+        Sub New(message As String)
+            Call MyBase.New(message)
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Creates(msg As String, calls As String) As VisualBasicAppException
             Return New VisualBasicAppException(New Exception(msg), calls)
