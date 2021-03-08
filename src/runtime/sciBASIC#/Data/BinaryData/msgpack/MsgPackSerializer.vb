@@ -290,54 +290,47 @@ Public Class MsgPackSerializer
     Private Sub Serialize(o As Object, writer As BinaryWriter)
         If o Is Nothing Then
             writer.Write(Formats.NIL)
-        Else
-
-            If serializedType.IsPrimitive OrElse serializedType Is GetType(String) OrElse IsSerializableGenericCollection(serializedType) Then
-                SerializeValue(o, writer, DefaultContext.SerializationMethod)
+        ElseIf serializedType.IsPrimitive OrElse serializedType Is GetType(String) OrElse IsSerializableGenericCollection(serializedType) Then
+            SerializeValue(o, writer, DefaultContext.SerializationMethod)
+        ElseIf DefaultContext.SerializationMethod = SerializationMethod.Map Then
+            If props.Count <= 15 Then
+                Dim arrayVal As Byte = FixedMap.MIN + props.Count
+                writer.Write(arrayVal)
+            ElseIf props.Count <= UShort.MaxValue Then
+                writer.Write(Formats.MAP_16)
+                Dim data = BitConverter.GetBytes(CUShort(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
             Else
-
-                If DefaultContext.SerializationMethod = SerializationMethod.Map Then
-                    If props.Count <= 15 Then
-                        Dim arrayVal As Byte = FixedMap.MIN + props.Count
-                        writer.Write(arrayVal)
-                    ElseIf props.Count <= UShort.MaxValue Then
-                        writer.Write(Formats.MAP_16)
-                        Dim data = BitConverter.GetBytes(CUShort(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    Else
-                        writer.Write(Formats.MAP_32)
-                        Dim data = BitConverter.GetBytes(CUInt(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    End If
-
-                    For Each prop In props
-                        WriteMsgPack(writer, prop.name)
-                        prop.Serialize(o, writer, DefaultContext.SerializationMethod)
-                    Next
-                Else
-
-                    If props.Count <= 15 Then
-                        Dim arrayVal As Byte = FixedArray.MIN + props.Count
-                        writer.Write(arrayVal)
-                    ElseIf props.Count <= UShort.MaxValue Then
-                        writer.Write(Formats.ARRAY_16)
-                        Dim data = BitConverter.GetBytes(CUShort(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    Else
-                        writer.Write(Formats.ARRAY_32)
-                        Dim data = BitConverter.GetBytes(CUInt(props.Count))
-                        If BitConverter.IsLittleEndian Then Array.Reverse(data)
-                        writer.Write(data)
-                    End If
-
-                    For Each prop In props
-                        prop.Serialize(o, writer, DefaultContext.SerializationMethod)
-                    Next
-                End If
+                writer.Write(Formats.MAP_32)
+                Dim data = BitConverter.GetBytes(CUInt(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
             End If
+
+            For Each prop In props
+                WriteMsgPack(writer, prop.name)
+                prop.Serialize(o, writer, DefaultContext.SerializationMethod)
+            Next
+        Else
+            If props.Count <= 15 Then
+                Dim arrayVal As Byte = FixedArray.MIN + props.Count
+                writer.Write(arrayVal)
+            ElseIf props.Count <= UShort.MaxValue Then
+                writer.Write(Formats.ARRAY_16)
+                Dim data = BitConverter.GetBytes(CUShort(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
+            Else
+                writer.Write(Formats.ARRAY_32)
+                Dim data = BitConverter.GetBytes(CUInt(props.Count))
+                If BitConverter.IsLittleEndian Then Array.Reverse(data)
+                writer.Write(data)
+            End If
+
+            For Each prop In props
+                prop.Serialize(o, writer, DefaultContext.SerializationMethod)
+            Next
         End If
     End Sub
 
@@ -347,7 +340,6 @@ Public Class MsgPackSerializer
             propsByName = New Dictionary(Of String, SerializableProperty)()
 
             For Each prop In serializedType.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-
                 If prop.CanRead = False OrElse prop.CanWrite = False Then
                     Continue For
                 End If
