@@ -122,10 +122,12 @@ Public Class MsgPackSerializer
         Return result
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function SerializeObject(o As Object) As Byte()
         Return GetSerializer(o.GetType()).Serialize(o)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function SerializeObject(o As Object, buffer As Byte(), offset As Integer) As Integer
         Return GetSerializer(o.GetType()).Serialize(o, buffer, offset)
     End Function
@@ -134,7 +136,6 @@ Public Class MsgPackSerializer
         Dim result As Byte() = Nothing
 
         Using stream As MemoryStream = New MemoryStream()
-
             Using writer As BinaryWriter = New BinaryWriter(stream)
                 Serialize(o, writer)
                 result = New Byte(stream.Position - 1) {}
@@ -150,7 +151,6 @@ Public Class MsgPackSerializer
         Dim endPos = 0
 
         Using stream As MemoryStream = New MemoryStream(buffer)
-
             Using writer As BinaryWriter = New BinaryWriter(stream)
                 stream.Seek(offset, SeekOrigin.Begin)
                 Serialize(o, writer)

@@ -201,6 +201,7 @@
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="ObjectExtensions.vb" />
     <Compile Include="MsgPackSerializer.vb" />
+    <Compile Include="Serialization\SchemaProvider.vb" />
     <Compile Include="Serialization\Reflection\SerializableProperty.vb" />
     <Compile Include="Constants\MsgPackConstants.vb" />
     <Compile Include="MsgPackIO.vb" />
