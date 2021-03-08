@@ -5,8 +5,8 @@ Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Module Module1
 
     Sub Main()
-        Call write1()
-
+        ' Call write1()
+        Call read1()
         ' Call readTest()
         ' Call writeTest()
     End Sub
@@ -14,7 +14,7 @@ Module Module1
     Sub write1()
         Dim list = ReactionClass.ScanRepository("E:\biodeep\biodeepdb_v3\KEGG\reaction_class").ToArray
 
-        Using file = "E:\biodeep\biodeepdb_v3\KEGG\reaction_class".Open
+        Using file = "E:\biodeep\biodeepdb_v3\KEGG\reaction_class.repo".Open
             Call ReactionClassPack.WriteKeggDb(list, file)
         End Using
     End Sub
@@ -22,7 +22,7 @@ Module Module1
     Sub read1()
         Dim list As ReactionClass()
 
-        Using file = "E:\biodeep\biodeepdb_v3\KEGG\reaction_class".Open
+        Using file = "E:\biodeep\biodeepdb_v3\KEGG\reaction_class.repo".Open
             list = ReactionClassPack.ReadKeggDb(file)
         End Using
 
