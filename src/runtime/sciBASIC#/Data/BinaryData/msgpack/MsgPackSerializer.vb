@@ -1,46 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::e574b87641a4a4c99c7e11231776fb98, Data\BinaryData\msgpack\MsgPackSerializer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class MsgPackSerializer
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Function: (+5 Overloads) Deserialize, (+2 Overloads) DeserializeObject, DeserializeObjectType, GetSerializer, IsGenericDictionary
-    '               IsGenericList, IsSerializableGenericCollection, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
-    ' 
-    '     Sub: (+2 Overloads) BuildMap, Serialize, SerializeObject
-    ' 
-    ' /********************************************************************************/
+' Class MsgPackSerializer
+' 
+'     Constructor: (+2 Overloads) Sub New
+' 
+'     Function: (+5 Overloads) Deserialize, (+2 Overloads) DeserializeObject, DeserializeObjectType, GetSerializer, IsGenericDictionary
+'               IsGenericList, IsSerializableGenericCollection, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
+' 
+'     Sub: (+2 Overloads) BuildMap, Serialize, SerializeObject
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -75,37 +75,30 @@ Public Class MsgPackSerializer
         BuildMap(propertyDefinitions)
     End Sub
 
+    Private Shared Function GetInfo(type As Type) As TypeInfo
+        Dim info As TypeInfo = Nothing
+
+        If Not typeInfos.TryGetValue(type, info) Then
+            info = New TypeInfo(type)
+            typeInfos(type) = info
+        End If
+
+        Return info
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsGenericList(type As Type) As Boolean
-        Dim info As TypeInfo = Nothing
-
-        If Not typeInfos.TryGetValue(type, info) Then
-            info = New TypeInfo(type)
-            typeInfos(type) = info
-        End If
-
-        Return info.IsGenericList
+        Return GetInfo(type).IsGenericList
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsGenericDictionary(type As Type) As Boolean
-        Dim info As TypeInfo = Nothing
-
-        If Not typeInfos.TryGetValue(type, info) Then
-            info = New TypeInfo(type)
-            typeInfos(type) = info
-        End If
-
-        Return info.IsGenericDictionary
+        Return GetInfo(type).IsGenericDictionary
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Friend Shared Function IsSerializableGenericCollection(type As Type) As Boolean
-        Dim info As TypeInfo = Nothing
-
-        If Not typeInfos.TryGetValue(type, info) Then
-            info = New TypeInfo(type)
-            typeInfos(type) = info
-        End If
-
-        Return info.IsSerializableGenericCollection
+        Return GetInfo(type).IsSerializableGenericCollection
     End Function
 
     <DebuggerStepThrough>
