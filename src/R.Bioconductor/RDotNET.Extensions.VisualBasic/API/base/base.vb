@@ -1316,10 +1316,11 @@ Namespace API
         ''' <returns></returns>
         Public Function dataframe(ParamArray columns As ArgumentReference()) As String
             Dim var As String = RDotNetGC.Allocate
+            Dim expr As String = $"{var} <- data.frame({columns.ArgumentExpression.JoinBy(", " & vbCrLf)});"
 
             SyncLock R
                 With R
-                    .call = $"{var} <- data.frame({columns.ArgumentExpression.JoinBy(", " & vbCrLf)});"
+                    .call = expr
                 End With
             End SyncLock
 
