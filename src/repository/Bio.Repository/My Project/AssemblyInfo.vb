@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Bio.Repository")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyTitle("Bio.Repository")>
+<Assembly: AssemblyDescription("GCModeller internal data repository library")>
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("Bio.Repository")> 
 <Assembly: AssemblyCopyright("Copyright ©  2016")> 
