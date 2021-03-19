@@ -61,10 +61,9 @@ Public Module DownloaderWebAPI
     ''' </summary>
     ''' <param name="list">AccessionID列表</param>
     ''' <param name="EXPORT">保存的文件夹</param>
-    ''' <returns>返回下载成功的文件数目</returns>
     ''' <remarks></remarks>
     ''' 
-    Public Function DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer) As Integer
+    Public Sub DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer)
         Using pb As New CBusyIndicator(start:=True)
             Dim downloads As New __genbankDownloadHelper With {.EXPORT = EXPORT}
 
@@ -72,7 +71,7 @@ Public Module DownloaderWebAPI
                 Call downloads.Download(item)
             Next
         End Using
-    End Function
+    End Sub
 
     Private Structure __genbankDownloadHelper
 
