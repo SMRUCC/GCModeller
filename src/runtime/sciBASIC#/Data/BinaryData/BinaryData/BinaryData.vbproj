@@ -740,6 +740,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferRegion.vb" />
     <Compile Include="ByteBuffer.vb" />
     <Compile Include="Bzip2\Algorithm\BZip2BitInputStream.vb" />
     <Compile Include="Bzip2\Algorithm\BZip2BitOutputStream.vb" />
