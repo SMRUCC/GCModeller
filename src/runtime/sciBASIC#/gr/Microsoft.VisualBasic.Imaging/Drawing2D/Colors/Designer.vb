@@ -338,6 +338,10 @@ Namespace Drawing2D.Colors
                 Return True
             End If
 
+            Static dotnetColorNames As Index(Of String) = GDIColors.AllDotNetColorNames _
+                .Select(AddressOf Strings.LCase) _
+                .Indexing
+
             If Not exp.IsPattern(DesignerExpression.FunctionPattern) AndAlso InStr(exp, ",") > 0 Then
                 If exp.IsPattern(rgbPattern) Then
                     ' 单个rgb表达式的情况，肯定不是颜色列表
@@ -345,6 +349,9 @@ Namespace Drawing2D.Colors
                 Else
                     Return True
                 End If
+            ElseIf Strings.LCase(exp) Like dotnetColorNames Then
+                ' is a single color name
+                Return True
             Else
                 Return False
             End If
