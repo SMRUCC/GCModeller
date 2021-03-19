@@ -547,6 +547,16 @@ Namespace Drawing2D.Colors
         <Extension>
         Public Function CubicSpline(colors As IEnumerable(Of Color), Optional n% = 256, Optional alpha% = 255) As Color()
             Dim source As Color() = colors.ToArray
+
+            If source.Length = 1 Then
+                Call $"multiple color value is required, but you just provides one color, color seqeucne will just contains one single color: {source(Scan0).ToString}".Warning
+
+                Return source(Scan0) _
+                    .Alpha(alpha) _
+                    .Replicate(n) _
+                    .ToArray
+            End If
+
             Dim x As New CubicSplineVector(source.Select(Function(c) CSng(c.R)))
             Dim y As New CubicSplineVector(source.Select(Function(c) CSng(c.G)))
             Dim z As New CubicSplineVector(source.Select(Function(c) CSng(c.B)))
