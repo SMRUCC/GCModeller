@@ -5,10 +5,10 @@ Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Module Module1
 
     Sub Main()
-        Call write1()
+        ' Call write1()
         ' Call read1()
         ' Call readTest()
-        ' Call writeTest()
+        Call writeTest()
     End Sub
 
     Sub write1()
@@ -31,6 +31,10 @@ Module Module1
 
     Sub writeTest()
         Dim list = CompoundRepository.ScanRepository("E:\biodeep\biodeepdb_v3\KEGG\KEGG_cpd").ToArray
+
+        For Each cpd In list
+            cpd.KCF = Nothing
+        Next
 
         Using file = "E:\biodeep\biodeepdb_v3\KEGG\KEGG_cpd.repo".Open
             Call KEGGCompoundPack.WriteKeggDb(list, file)
