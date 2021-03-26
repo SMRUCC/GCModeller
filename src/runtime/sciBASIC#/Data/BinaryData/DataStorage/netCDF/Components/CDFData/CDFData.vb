@@ -52,22 +52,15 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace netCDF.Components
 
-    Public Interface ICDFData
-
-        ReadOnly Property cdfDataType As CDFDataTypes
-        ReadOnly Property genericValue As Array
-
-    End Interface
-
     ''' <summary>
     '''  存储在CDF文件之中的数据的统一接口模块
     ''' </summary>
     Public MustInherit Class CDFData(Of T) : Inherits Vector(Of T)
-        Implements ICDFData
+        Implements ICDFDataVector
 
-        Public MustOverride ReadOnly Property cdfDataType As CDFDataTypes Implements ICDFData.cdfDataType
+        Public MustOverride ReadOnly Property cdfDataType As CDFDataTypes Implements ICDFDataVector.cdfDataType
 
-        Public ReadOnly Property genericValue As Array Implements ICDFData.genericValue
+        Public ReadOnly Property genericValue As Array Implements ICDFDataVector.genericValue
             Get
                 Return buffer
             End Get
