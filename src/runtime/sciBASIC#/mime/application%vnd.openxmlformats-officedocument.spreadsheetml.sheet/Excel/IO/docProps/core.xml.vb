@@ -77,6 +77,9 @@ Namespace XML.docProps
         <XmlElement(NameOf(modified), [Namespace]:=OpenXML.dcterms)>
         Public Property modified As W3CDTF
 
+        Public Property title As String
+        Public Property subject As String
+
         Protected Overrides Function filePath() As String
             Return "docProps/core.xml"
         End Function
