@@ -82,11 +82,13 @@ Imports Microsoft.VisualBasic.Text
 Namespace IO
 
     ''' <summary>
-    ''' A comma character seperate table file that can be read and write in the EXCEL.(一个能够被Excel程序所读取的表格文件)
+    ''' A comma character seperate table file that can be read and write in the EXCEL.
+    ''' (一个能够被Excel程序所读取的表格文件)
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <ActiveViewsAttribute(File.ActiveViews)> Public Class File
+    <ActiveViews(File.ActiveViews)>
+    Public Class File
         Implements IEnumerable(Of RowObject)
         Implements IList(Of RowObject)
         Implements ISaveHandle
@@ -108,6 +110,10 @@ B21,B22,B23,...
             End Get
         End Property
 
+        ''' <summary>
+        ''' Get all rows in current table object
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Rows As RowObject()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -649,7 +655,7 @@ B21,B22,B23,...
             'Dim LoadMethod As LoadMethod =
             '    [If](Of LoadMethod)(Lines.Length > 1024, AddressOf __PBS_LOAD, AddressOf __LINQ_LOAD)
             Dim sw As Stopwatch = Stopwatch.StartNew
-            Dim CSV As File = __LINQ_LOAD(data:=Lines)
+            Dim CSV As New File(__LINQ_LOAD(data:=Lines))
 
             Call $"Csv load {Lines.Length} lines data in {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO ' //{LoadMethod.ToString}".__DEBUG_ECHO
 
@@ -664,14 +670,11 @@ B21,B22,B23,...
         ''' <param name="data"></param>
         ''' <returns></returns>
         ''' <remarks>为了提高数据的加载效率，先使用LINQ预加载数据，之后使用Parallel LINQ进行数据的解析操作</remarks>
-        Private Shared Function __LINQ_LOAD(data As String()) As File
-            Dim LQuery = (From line As String
-                          In data.AsParallel
-                          Let row As RowObject = CType(line, RowObject)
-                          Select row).AsList
-            Return New File With {
-                ._innerTable = LQuery
-            }
+        Friend Shared Function __LINQ_LOAD(data As String()) As IEnumerable(Of RowObject)
+            Return From line As String
+                   In data.AsParallel
+                   Let row As RowObject = CType(line, RowObject)
+                   Select row
         End Function
 
         Public Overloads Shared Widening Operator CType(rows As RowObject()) As File
@@ -776,36 +779,14 @@ B21,B22,B23,...
             Return csv
         End Function
 
+        ''' <summary>
+        ''' cbind a column
+        ''' </summary>
+        ''' <param name="column">the column data</param>
+        ''' <returns></returns>
         Public Function Join(column As IEnumerable(Of String)) As File
             Call __setColumn(column.ToArray, Headers.Count)
             Return Me
-        End Function
-
-        ''' <summary>
-        ''' 去除Csv文件之中的重复记录
-        ''' </summary>
-        ''' <param name="file"></param>
-        ''' <param name="orderBy">当为本参数指定一个非负数值的时候，程序会按照指定的列值进行排序</param>
-        ''' <param name="asc">当进行排序操作的时候，是否按照升序进行排序，否则按照降序排序</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Distinct(file As String, Optional orderBy As Integer = -1, Optional asc As Boolean = True) As File
-            Return Distinct(Load(file), orderBy, asc)
-        End Function
-
-        ''' <summary>
-        ''' 将一些奇怪的符号去除
-        ''' </summary>
-        ''' <param name="path"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function Normalization(path As String, replaceAs As String) As File
-            Dim Text As String = FileIO.FileSystem.ReadAllText(path)
-            Dim Data As String() = Strings.Split(Text, vbCrLf)
-            Data = (From strLine As String In Data Select strLine.Replace(vbLf, replaceAs)).ToArray
-            Return __LINQ_LOAD(Data)
         End Function
 
         ''' <summary>
@@ -881,7 +862,7 @@ B21,B22,B23,...
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function IsNullOrEmpty(df As IEnumerable(Of RowObject)) As Boolean
-            Return df Is Nothing OrElse df.Count = 0
+            Return df Is Nothing OrElse Not df.Any
         End Function
 
         Public Shared Operator <=(df As File, type As Type) As Object()
