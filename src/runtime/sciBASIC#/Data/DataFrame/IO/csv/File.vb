@@ -313,9 +313,16 @@ B21,B22,B23,...
         End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AppendLine(Row As RowObject)
+        Public Function AppendLine(Row As RowObject) As File
             Call _innerTable.Add(Row)
-        End Sub
+            Return Me
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function AppendLines(rows As IEnumerable(Of RowObject)) As File
+            Call _innerTable.AddRange(rows)
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AppendLine(row As IEnumerable(Of String))
