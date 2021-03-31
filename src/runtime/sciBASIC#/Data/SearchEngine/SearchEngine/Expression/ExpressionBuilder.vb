@@ -108,7 +108,7 @@ Public Module ExpressionBuilder
             For Each x As CodeToken(Of Tokens) In tks.Skip(1)
                 list += New CodeToken(Of Tokens) With {
                     .name = anyDefault,
-                    .Value = anyDefault.ToString
+                    .text = anyDefault.ToString
                 }
                 list += x
             Next
