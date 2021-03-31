@@ -342,6 +342,10 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
       <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
       <Name>DataTools</Name>
