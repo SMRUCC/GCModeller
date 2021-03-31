@@ -51,9 +51,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Text
-Imports Parallel
+Imports Parallel.ThreadTask
 
 Partial Module CLI
 

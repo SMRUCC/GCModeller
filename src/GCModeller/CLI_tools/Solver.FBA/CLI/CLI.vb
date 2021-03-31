@@ -47,9 +47,8 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
-Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Parallel
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.FBA.Core
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 Imports SMRUCC.genomics.Analysis.FBA_DP.v2
