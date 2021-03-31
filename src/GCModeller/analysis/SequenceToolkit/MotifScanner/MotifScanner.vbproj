@@ -251,10 +251,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MSA\MSA.vbproj">
       <Project>{099d156f-13a1-4a1f-868e-5e67f9b99d54}</Project>
       <Name>MSA</Name>

@@ -419,10 +419,6 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>

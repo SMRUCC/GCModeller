@@ -221,10 +221,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
@@ -232,6 +228,10 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\R.vbproj">
       <Project>{0c2eb77c-39f2-460d-a3f8-ce905f867637}</Project>
       <Name>R</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
