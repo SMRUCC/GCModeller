@@ -318,6 +318,10 @@
       <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
       <Name>TmoD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
       <Project>{7E6DF33F-FEB0-447F-B656-A51ACD00E888}</Project>
       <Name>DataTools</Name>
