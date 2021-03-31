@@ -54,12 +54,16 @@ Imports System.Drawing.Imaging
 Imports System.Drawing.Text
 Imports System.Runtime.CompilerServices
 Imports stdNum = System.Math
+Imports Interpolation2D = System.Drawing.Drawing2D.InterpolationMode
 
 Namespace Imaging
 
     ''' <summary>
     ''' Encapsulates a GDI+(bitmap, wmf)/SVG etc drawing surface. This class must be inherited.
     ''' </summary>
+    ''' <remarks>
+    ''' <see cref="Graphics"/>
+    ''' </remarks>
     Public MustInherit Class IGraphics
         Implements IDisposable
 
