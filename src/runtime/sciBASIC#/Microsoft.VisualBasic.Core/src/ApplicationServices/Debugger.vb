@@ -208,7 +208,7 @@ Public Module VBDebugger
         }
 
         If Not My.Log4VB.redirectDebug Is Nothing Then
-            Call My.Log4VB.redirectDebug($"DEBUG {Now.ToString}", msg, MSG_TYPES.DEBUG)
+            Call My.Log4VB.redirectDebug($"{Now.ToString}", msg, MSG_TYPES.DEBUG)
         ElseIf Not mute AndAlso Not VBDebugger.Mute AndAlso m_level < DebuggerLevels.Warning Then
             Dim head As String = $"DEBUG {Now.ToString}"
             Dim str As String = $"{indents(indent)} {msg}"
@@ -228,7 +228,7 @@ Public Module VBDebugger
 
     <Extension> Public Sub __INFO_ECHO(msg$, Optional silent As Boolean = False)
         If Not My.Log4VB.redirectInfo Is Nothing Then
-            Call My.Log4VB.redirectInfo($"INFOM {Now.ToString}", msg, MSG_TYPES.INF)
+            Call My.Log4VB.redirectInfo(Now.ToString, msg, MSG_TYPES.INF)
         ElseIf Not Mute AndAlso m_level < DebuggerLevels.Warning Then
             Dim head As String = $"INFOM {Now.ToString}"
             Dim str As String = " " & msg
@@ -316,7 +316,7 @@ Public Module VBDebugger
     <Extension>
     Public Sub WriteLine(msg$, color As ConsoleColor)
         If Not My.redirectInfo Is Nothing Then
-            My.Log4VB.redirectInfo("INFO", msg, MSG_TYPES.INF)
+            My.Log4VB.redirectInfo(Now.ToString, msg, MSG_TYPES.INF)
         Else
             My.Log4VB.Println(msg, color)
         End If
