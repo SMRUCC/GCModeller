@@ -13,7 +13,7 @@
 		<PackageIcon>logo-knot.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Configurations>Debug;Release;LipidSearch;Rsharp_app_release;PlantMAT</Configurations>
 	</PropertyGroup>
@@ -69,6 +69,8 @@
 	  <DebugType>full</DebugType>
 	  <DefineDebug>false</DefineDebug>
 	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	  <DefineTrace>true</DefineTrace>
+	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">

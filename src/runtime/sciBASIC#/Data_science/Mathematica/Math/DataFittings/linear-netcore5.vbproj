@@ -13,7 +13,7 @@
 		<PackageIcon>logo-knot.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>LAPACK (Linear Algebra PACKage)</Description>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch</Configurations>
