@@ -38,6 +38,7 @@
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.MIME.application.json.xml</DocumentationFile>
+    <OutputPath>D:\PlantMAT\PlantMAT\assembly\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
