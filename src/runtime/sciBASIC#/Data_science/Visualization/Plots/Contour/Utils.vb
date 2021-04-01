@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -83,17 +84,17 @@ Namespace Contour
 
             Try
                 Return fun.Plot(
-                xrange, yrange,
-                colorMap,
-                mapLevels,
-                bg, size, padding,
-                unit,
-                legendTitle, legendFont,
-                xsteps, ysteps,
-                matrix:=matrix)
+                    xrange, yrange,
+                    colorMap,
+                    mapLevels,
+                    bg, size, padding,
+                    unit,
+                    legendTitle, legendFont,
+                    xsteps, ysteps,
+                    matrix:=matrix
+                )
             Catch ex As Exception
-                ex = New Exception(exp, ex)
-                Throw ex
+                Throw New Exception(exp, ex)
             End Try
         End Function
 
@@ -114,55 +115,50 @@ Namespace Contour
         ''' <returns></returns>
         <Extension>
         Public Function Plot(fun As Func(Of Double, Double, Double),
-                         xrange As DoubleRange,
-                         yrange As DoubleRange,
-                         Optional colorMap$ = "Spectral:c10",
-                         Optional mapLevels% = 25,
-                         Optional bg$ = "white",
-                         Optional size$ = "3000,2700",
-                         Optional padding$ = "padding: 100 400 100 400",
-                         Optional unit% = 5,
-                         Optional legendTitle$ = "Scatter Heatmap",
-                         Optional legendFont$ = CSSFont.Win7Large,
-                         Optional xsteps! = Single.NaN,
-                         Optional ysteps! = Single.NaN,
-                         Optional parallel As Boolean = False,
-                         Optional ByRef matrix As List(Of DataSet) = Nothing,
-                         Optional minZ# = Double.MinValue,
-                         Optional maxZ# = Double.MaxValue,
-                         Optional xlabel$ = "X",
-                         Optional ylabel$ = "Y",
-                         Optional logbase# = -1.0R,
-                         Optional scale# = 1.0#,
-                         Optional tickFont$ = CSSFont.Win7Normal) As GraphicsData
+                             xrange As DoubleRange,
+                             yrange As DoubleRange,
+                             Optional colorMap$ = "Spectral:c10",
+                             Optional mapLevels% = 25,
+                             Optional bg$ = "white",
+                             Optional size$ = "3000,2700",
+                             Optional padding$ = "padding: 100 400 100 400",
+                             Optional unit% = 5,
+                             Optional legendTitle$ = "Scatter Heatmap",
+                             Optional legendFont$ = CSSFont.Win7Large,
+                             Optional xsteps! = Single.NaN,
+                             Optional ysteps! = Single.NaN,
+                             Optional parallel As Boolean = False,
+                             Optional ByRef matrix As List(Of DataSet) = Nothing,
+                             Optional minZ# = Double.MinValue,
+                             Optional maxZ# = Double.MaxValue,
+                             Optional xlabel$ = "X",
+                             Optional ylabel$ = "Y",
+                             Optional logbase# = -1.0R,
+                             Optional scale# = 1.0#,
+                             Optional tickFont$ = CSSFont.Win7Normal) As GraphicsData
 
-            Dim plotInternal As New ContourPlot With {
-            .func = fun,
-            .offset = New Point(-300, 0),
-            .xrange = xrange,
-            .yrange = yrange,
-            .parallel = parallel,
-            .xsteps = xsteps,
-            .ysteps = ysteps,
-            .colorMap = colorMap,
-            .legendFont = CSSFont.TryParse(legendFont),
-            .legendTitle = legendTitle,
-            .mapLevels = mapLevels,
-            .matrix = matrix,
-            .unit = unit,
-            .xlabel = xlabel,
-            .ylabel = ylabel,
-            .logBase = logbase,
-            .maxZ = maxZ,
-            .minZ = minZ,
-            .scale = scale,
-            .tickFont = CSSFont.TryParse(tickFont)
-        }
+            Dim theme As New Theme With {.padding = padding, .axisTickCSS = tickFont, .legendLabelCSS = legendFont, .colorSet = colorMap, .background = bg}
+            Dim plotInternal As New ContourPlot(theme) With {
+                .func = fun,
+                .offset = New Point(-300, 0),
+                .xrange = xrange,
+                .yrange = yrange,
+                .parallel = parallel,
+                .xsteps = xsteps,
+                .ysteps = ysteps,
+                .legendTitle = legendTitle,
+                .mapLevels = mapLevels,
+                .matrix = matrix,
+                .unit = unit,
+                .xlabel = xlabel,
+                .ylabel = ylabel,
+                .logBase = logbase,
+                .maxZ = maxZ,
+                .minZ = minZ,
+                .scale = scale
+            }
 
-            Return GraphicsPlots(
-            size.SizeParser, padding,
-            bg$,
-            AddressOf plotInternal.Plot)
+            Return plotInternal.Plot(size)
         End Function
 
         ''' <summary>
@@ -198,14 +194,16 @@ Namespace Contour
                          Optional maxZ# = Double.MaxValue) As GraphicsData
 
             Dim margin As Padding = padding
+            Dim theme As New Theme With {
+                .colorSet = colorMap,
+                .background = bg,
+                .legendLabelCSS = legendFont,
+                .axisTickCSS = tickFont,
+                .padding = padding
+            }
 
-            Return GraphicsPlots(
-           size.SizeParser,
-           margin,
-           bg$, AddressOf New ContourPlot With {
+            Return New ContourPlot(theme) With {
                 .offset = New Point(-300, 0),
-                .colorMap = colorMap,
-                .legendFont = CSSFont.TryParse(legendFont),
                 .legendTitle = legendTitle,
                 .mapLevels = mapLevels,
                 .matrix = matrix.AsList,
@@ -213,9 +211,8 @@ Namespace Contour
                 .ylabel = ylabel,
                 .minZ = minZ,
                 .maxZ = maxZ,
-                .unit = unit,
-                .tickFont = CSSFont.TryParse(tickFont)
-           }.Plot)
+                .unit = unit
+           }.Plot(size)
         End Function
 
         ''' <summary>

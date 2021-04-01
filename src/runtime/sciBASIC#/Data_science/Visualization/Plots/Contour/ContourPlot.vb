@@ -83,14 +83,13 @@ Namespace Contour
         Public xrange As DoubleRange, yrange As DoubleRange
         Public xsteps!, ysteps!
         Public parallel As Boolean
-        Public legendFont As Font, legendTitle$
-        Public mapLevels%, colorMap$
+        Public legendTitle$
+        Public mapLevels%
         Public matrix As List(Of DataSet)
         Public unit%
         Public logBase#
         Public minZ, maxZ As Double
         Public scale# = 1
-        Public tickFont As Font
 
         Public Sub New(theme As Theme)
             MyBase.New(theme)
@@ -148,8 +147,7 @@ Namespace Contour
             .SeqIterator _
             .ToDictionary(Function(index) index.value.i.ToString,
                           Function(level) indexLevels(level.i))
-            Dim colors As SolidBrush() =
-            Designer.GetBrushes(colorMap, mapLevels)
+            Dim colors As SolidBrush() = Designer.GetBrushes(theme.colorSet, mapLevels)
 
             colorReturns = colors
 
@@ -228,6 +226,8 @@ Namespace Contour
                 z <= maxZ) _
             .ToArray
             Dim rangeTicks#() = realData.Range.CreateAxisTicks
+            Dim legendFont As Font = CSSFont.TryParse(theme.legendLabelCSS)
+            Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS)
 
             Call g.ColorMapLegend(
             legendLayout, colorDatas, rangeTicks,
