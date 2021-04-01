@@ -136,9 +136,9 @@ Namespace Contour
                          Optional scale# = 1.0#,
                          Optional tickFont$ = CSSFont.Win7Normal) As GraphicsData
 
-            Dim plotInternal As New __plotHelper With {
-            .Func = fun,
-            .Offset = New Point(-300, 0),
+            Dim plotInternal As New ContourPlot With {
+            .func = fun,
+            .offset = New Point(-300, 0),
             .xrange = xrange,
             .yrange = yrange,
             .parallel = parallel,
@@ -152,7 +152,7 @@ Namespace Contour
             .unit = unit,
             .xlabel = xlabel,
             .ylabel = ylabel,
-            .logbase = logbase,
+            .logBase = logbase,
             .maxZ = maxZ,
             .minZ = minZ,
             .scale = scale,
@@ -202,7 +202,7 @@ Namespace Contour
             Return GraphicsPlots(
            size.SizeParser,
            margin,
-           bg$, AddressOf New __plotHelper With {
+           bg$, AddressOf New ContourPlot With {
                 .offset = New Point(-300, 0),
                 .colorMap = colorMap,
                 .legendFont = CSSFont.TryParse(legendFont),
@@ -232,7 +232,7 @@ Namespace Contour
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Private Function __getData(fun As Func(Of Double, Double, Double),
+        Friend Function __getData(fun As Func(Of Double, Double, Double),
                                size As Size,
                                xrange As DoubleRange,
                                yrange As DoubleRange,
