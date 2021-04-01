@@ -16,6 +16,7 @@
     <Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>The core runtime module of sciBASIC# scientific computing project.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
