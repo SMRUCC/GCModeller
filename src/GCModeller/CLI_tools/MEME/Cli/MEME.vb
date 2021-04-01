@@ -76,10 +76,12 @@ Partial Module CLI
         Dim correlation As String = args("/correlation")
         Dim DOOR As String = args("/DOOR")
         Dim out As String = args.GetValue("/out", inSites.TrimSuffix & ".VirtualFootprints.Csv")
-        Dim mastSites = inSites.LoadCsv(Of MastSites)
-        Dim result = RegpreciseSummary.SiteToRegulation(mastSites, correlation, DOOR)
+        Dim mastSites As IEnumerable(Of MastSites) = inSites.LoadCsv(Of MastSites)
+        Dim result = mastSites.Select(Function(site) RegpreciseSummary.SiteToRegulation(site, correlation, DOOR)).ToArray
         Dim cut As Double = args.GetValue("/cut", 0.65)
+
         result = (From x In result Where Math.Abs(x.Pcc) >= cut OrElse Math.Abs(x.sPcc) >= cut Select x).ToArray
+
         Return result.SaveTo(out).CLICode
     End Function
 

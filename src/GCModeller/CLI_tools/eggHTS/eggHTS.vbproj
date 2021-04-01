@@ -295,6 +295,10 @@
       <Project>{57d5ea2b-f718-4fd8-9504-b4c0293fa4b9}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataMySql\DataMySQL.vbproj">
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
       <Name>DataMySQL</Name>
@@ -398,10 +402,6 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
-      <Name>Bio.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>

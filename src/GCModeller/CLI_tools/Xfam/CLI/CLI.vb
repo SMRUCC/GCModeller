@@ -51,7 +51,7 @@ Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports Parallel
+Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops.NCBI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping

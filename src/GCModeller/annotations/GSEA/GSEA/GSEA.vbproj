@@ -185,7 +185,7 @@
     </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LipidSearch|x64'">
-    <OutputPath>..\..\..\..\..\..\biodeep\biodeep_pipeline\lipidsearch\assembly\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\biodeep\biodeep_pipeline\lipidsearch\LipidSearch\assembly\</OutputPath>
     <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
