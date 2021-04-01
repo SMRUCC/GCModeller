@@ -88,7 +88,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <OutputPath>D:\PlantMAT\PlantMAT\assembly\</OutputPath>
   </PropertyGroup>
 
