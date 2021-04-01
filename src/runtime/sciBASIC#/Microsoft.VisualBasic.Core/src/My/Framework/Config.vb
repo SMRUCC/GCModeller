@@ -141,7 +141,7 @@ Namespace My.FrameworkInternal
             Dim assembly As Assembly = Assembly.LoadFile(file)
 
 #If netcore5 = 1 Then
-            Call deps.TryHandleNetCore5AssemblyBugs(package)
+            Call deps.TryHandleNetCore5AssemblyBugs(package:=assembly)
 #End If
 
             Dim configNames As FrameworkConfigAttribute() = assembly.GetTypes _
