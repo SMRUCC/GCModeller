@@ -1,48 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::fae2f753d3fb6a758c3a234b4b9e39f7, analysis\RNA-Seq\TSSsTools\ReadsCount.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class ReadsCount
-    ' 
-    '     Properties: Index, NT, ReadsMinus, ReadsPlus, SharedMinus
-    '                 SharedPlus
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: LoadDb, Serialize, ToString, WriteDb
-    ' 
-    ' /********************************************************************************/
+' Class ReadsCount
+' 
+'     Properties: Index, NT, ReadsMinus, ReadsPlus, SharedMinus
+'                 SharedPlus
+' 
+'     Constructor: (+2 Overloads) Sub New
+'     Function: LoadDb, Serialize, ToString, WriteDb
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
@@ -105,7 +106,7 @@ Public Class ReadsCount : Inherits RawStream
                                        INT32 + ' SharedPlus
                                        INT32  ' SharedMinus
 
-    Public Overrides Function Serialize() As Byte()
+    Private Function getCache() As Byte()
         Dim buffer As Byte() = New Byte(__BUFFER_LENGTH - 1) {}
         Dim temp As Byte()
         Dim p As i32 = 0
@@ -119,6 +120,12 @@ Public Class ReadsCount : Inherits RawStream
 
         Return buffer
     End Function
+
+    Public Overrides Sub Serialize(buffer As Stream)
+        Dim data As Byte() = getCache()
+        Call buffer.Write(data, Scan0, data.Length)
+        Erase data
+    End Sub
 
     Public Shared Function WriteDb(Db As Generic.IEnumerable(Of ReadsCount), saveDb As String) As Boolean
         Dim LQuery = (From x As ReadsCount In Db.AsParallel Select x.Serialize).ToArray.Unlist
