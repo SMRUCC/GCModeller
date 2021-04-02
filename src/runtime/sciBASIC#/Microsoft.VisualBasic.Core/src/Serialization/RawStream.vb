@@ -100,6 +100,8 @@ Namespace Serialization
         Public Overloads Function Serialize() As Byte() Implements ISerializable.Serialize
             Using memory As New MemoryStream()
                 Call Serialize(memory)
+                Call memory.Flush()
+
                 Return memory.ToArray
             End Using
         End Function
