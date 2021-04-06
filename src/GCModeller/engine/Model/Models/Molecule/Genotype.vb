@@ -41,39 +41,42 @@
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
-''' <summary>
-''' 目标细胞模型的基因组模型
-''' </summary>
-Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
+Namespace Models.Molecule
 
     ''' <summary>
-    ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
+    ''' 目标细胞模型的基因组模型
     ''' </summary>
-    ''' <remarks>
-    ''' 请注意，当前的模块之中所定义的计算模型和GCMarkup之类的数据模型在看待基因组的构成上面的角度是有一些差异的：
-    ''' 
-    ''' 例如，对于复制子的描述上面，GCMarkup数据模型之中是更加倾向于将复制子分开进行描述的，这样子
-    ''' 会更加的方便人类进行模型文件的阅读
-    ''' 而在本计算模型之中，因为计算模型是计算机程序所阅读的，并且在实际的生命活动之中，染色体和质粒是在同一个环境之中
-    ''' 工作的，所以在计算模型之中，没有太多的复制子的概念，而是将他们都合并到当前的这个中心法则列表对象之中，作为一个
-    ''' 整体来进行看待
-    ''' </remarks>
-    Dim centralDogmas As CentralDogma()
+    Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
-    Dim RNAMatrix As RNAComposition()
-    Dim ProteinMatrix As ProteinComposition()
+        ''' <summary>
+        ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
+        ''' </summary>
+        ''' <remarks>
+        ''' 请注意，当前的模块之中所定义的计算模型和GCMarkup之类的数据模型在看待基因组的构成上面的角度是有一些差异的：
+        ''' 
+        ''' 例如，对于复制子的描述上面，GCMarkup数据模型之中是更加倾向于将复制子分开进行描述的，这样子
+        ''' 会更加的方便人类进行模型文件的阅读
+        ''' 而在本计算模型之中，因为计算模型是计算机程序所阅读的，并且在实际的生命活动之中，染色体和质粒是在同一个环境之中
+        ''' 工作的，所以在计算模型之中，没有太多的复制子的概念，而是将他们都合并到当前的这个中心法则列表对象之中，作为一个
+        ''' 整体来进行看待
+        ''' </remarks>
+        Dim centralDogmas As CentralDogma()
 
-    Public Overrides Function ToString() As String
-        Return $"{centralDogmas.Length} genes"
-    End Function
+        Dim RNAMatrix As RNAComposition()
+        Dim ProteinMatrix As ProteinComposition()
 
-    Public Iterator Function GetEnumerator() As IEnumerator(Of CentralDogma) Implements IEnumerable(Of CentralDogma).GetEnumerator
-        For Each cd As CentralDogma In centralDogmas
-            Yield cd
-        Next
-    End Function
+        Public Overrides Function ToString() As String
+            Return $"{centralDogmas.Length} genes"
+        End Function
 
-    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
-        Yield GetEnumerator()
-    End Function
-End Structure
+        Public Iterator Function GetEnumerator() As IEnumerator(Of CentralDogma) Implements IEnumerable(Of CentralDogma).GetEnumerator
+            For Each cd As CentralDogma In centralDogmas
+                Yield cd
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
+    End Structure
+End Namespace

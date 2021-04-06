@@ -41,34 +41,38 @@
 
 Imports Microsoft.VisualBasic.Language
 
-Public Structure Regulation
+Namespace Models.Process
 
-    ''' <summary>
-    ''' 这个调控过程的生物学名称
-    ''' </summary>
-    Public name As String
-    ''' <summary>
-    ''' Compound / RNA / Proteins
-    ''' </summary>
-    Public regulator As String
-    ''' <summary>
-    ''' The regulated target process name
-    ''' </summary>
-    Public process As String
-    ''' <summary>
-    ''' The type of the target process
-    ''' </summary>
-    Public type As Processes
-    ''' <summary>
-    ''' + positive: accelerate
-    ''' + negative: inhibition
-    ''' </summary>
-    Public effects As Double
+    Public Structure Regulation
 
-    Public Overrides Function ToString() As String
-        Dim effectString$ = "accelerate" Or "inhibition".When(effects < 0)
-        Dim descript$ = $"[{type.ToString}] {regulator} {effectString} of [{process}]"
-        Return descript
-    End Function
+        ''' <summary>
+        ''' 这个调控过程的生物学名称
+        ''' </summary>
+        Public name As String
+        ''' <summary>
+        ''' Compound / RNA / Proteins
+        ''' </summary>
+        Public regulator As String
+        ''' <summary>
+        ''' The regulated target process name
+        ''' </summary>
+        Public process As String
+        ''' <summary>
+        ''' The type of the target process
+        ''' </summary>
+        Public type As Processes
+        ''' <summary>
+        ''' + positive: accelerate
+        ''' + negative: inhibition
+        ''' </summary>
+        Public effects As Double
 
-End Structure
+        Public Overrides Function ToString() As String
+            Dim effectString$ = "accelerate" Or "inhibition".When(effects < 0)
+            Dim descript$ = $"[{type.ToString}] {regulator} {effectString} of [{process}]"
+
+            Return descript
+        End Function
+
+    End Structure
+End Namespace

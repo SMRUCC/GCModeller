@@ -47,79 +47,83 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
-''' <summary>
-''' Transcription and Translation.
-''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
-''' 
-''' ```
-''' CDS -> RNA
-''' ORF -> mRNA -> polypeptide
-''' ```
-''' </summary>
-Public Structure CentralDogma : Implements INamedValue
+
+Namespace Models.Process
 
     ''' <summary>
-    ''' 可以使用这个基因编号属性来作为主键
-    ''' </summary>
-    Public Property geneID As String Implements IKeyedEntity(Of String).Key
-
-    ''' <summary>
-    ''' 在这个属性的Description字段值之中，如果为
-    '''
-    ''' + <see cref="RNATypes.micsRNA"/>或者<see cref="RNATypes.mRNA"/>，则是空的字符串
-    ''' + <see cref="RNATypes.tRNA"/>，则是所绑定的氨基酸的名称
-    ''' + <see cref="RNATypes.ribosomalRNA"/>，则是rRNA的大小，如16S, 23S, 5S等
+    ''' Transcription and Translation.
+    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
     ''' 
+    ''' ```
+    ''' CDS -> RNA
+    ''' ORF -> mRNA -> polypeptide
+    ''' ```
     ''' </summary>
-    Dim RNA As NamedValue(Of RNATypes)
+    Public Structure CentralDogma : Implements INamedValue
 
-    ''' <summary>
-    ''' 一般为NCBI或者Uniprot数据库之中的蛋白编号
-    ''' </summary>
-    Dim polypeptide As String
-    ''' <summary>
-    ''' 一般是KO编号
-    ''' </summary>
-    Dim orthology As String
+        ''' <summary>
+        ''' 可以使用这个基因编号属性来作为主键
+        ''' </summary>
+        Public Property geneID As String Implements IKeyedEntity(Of String).Key
 
-    ''' <summary>
-    ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property IsRNAGene As Boolean
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return polypeptide.StringEmpty
-        End Get
-    End Property
+        ''' <summary>
+        ''' 在这个属性的Description字段值之中，如果为
+        '''
+        ''' + <see cref="RNATypes.micsRNA"/>或者<see cref="RNATypes.mRNA"/>，则是空的字符串
+        ''' + <see cref="RNATypes.tRNA"/>，则是所绑定的氨基酸的名称
+        ''' + <see cref="RNATypes.ribosomalRNA"/>，则是rRNA的大小，如16S, 23S, 5S等
+        ''' 
+        ''' </summary>
+        Dim RNA As NamedValue(Of RNATypes)
 
-    Public ReadOnly Property RNAName As String
-        Get
-            Select Case RNA.Value
-                Case RNATypes.mRNA
-                    Return $"{geneID}::{RNA.Value.Description}"
-                Case RNATypes.ribosomalRNA
-                    ' 20200313 因为tRNA和rRNA具有通用性
-                    ' 不像mRNA一样和基因蛋白石一一对应的
-                    ' 所以在这里不再添加基因编号了
-                    Return $"{RNA.Description}_rRNA"
-                Case RNATypes.tRNA
-                    Return $"tRNA-{RNA.Description}"
-                Case Else
-                    Return geneID & "::RNA"
-            End Select
-        End Get
-    End Property
+        ''' <summary>
+        ''' 一般为NCBI或者Uniprot数据库之中的蛋白编号
+        ''' </summary>
+        Dim polypeptide As String
+        ''' <summary>
+        ''' 一般是KO编号
+        ''' </summary>
+        Dim orthology As String
 
-    ''' <summary>
-    ''' 获取得到这个表达过程的名称
-    ''' </summary>
-    ''' <returns></returns>
-    Public Overrides Function ToString() As String
-        If Not IsRNAGene Then
-            Return {geneID, RNAName, polypeptide}.JoinBy(" => ")
-        Else
-            Return {geneID, RNAName}.JoinBy(" -> ")
-        End If
-    End Function
-End Structure
+        ''' <summary>
+        ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsRNAGene As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return polypeptide.StringEmpty
+            End Get
+        End Property
+
+        Public ReadOnly Property RNAName As String
+            Get
+                Select Case RNA.Value
+                    Case RNATypes.mRNA
+                        Return $"{geneID}::{RNA.Value.Description}"
+                    Case RNATypes.ribosomalRNA
+                        ' 20200313 因为tRNA和rRNA具有通用性
+                        ' 不像mRNA一样和基因蛋白石一一对应的
+                        ' 所以在这里不再添加基因编号了
+                        Return $"{RNA.Description}_rRNA"
+                    Case RNATypes.tRNA
+                        Return $"tRNA-{RNA.Description}"
+                    Case Else
+                        Return geneID & "::RNA"
+                End Select
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 获取得到这个表达过程的名称
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            If Not IsRNAGene Then
+                Return {geneID, RNAName, polypeptide}.JoinBy(" => ")
+            Else
+                Return {geneID, RNAName}.JoinBy(" -> ")
+            End If
+        End Function
+    End Structure
+End Namespace

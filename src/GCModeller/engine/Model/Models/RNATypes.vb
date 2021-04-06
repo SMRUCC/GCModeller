@@ -45,14 +45,20 @@
 
 Imports System.ComponentModel
 
-Public Enum RNATypes As Byte
-    mRNA = 0
-    tRNA
+Namespace Models
 
-    <Description("rRNA")>
-    ribosomalRNA
-    ''' <summary>
-    ''' 其他类型的RNA
-    ''' </summary>
-    micsRNA
-End Enum
+    Public Enum RNATypes As Byte
+        mRNA = 0
+        tRNA
+
+        ''' <summary>
+        ''' rRNA
+        ''' </summary>
+        <Description("rRNA")>
+        ribosomalRNA
+        ''' <summary>
+        ''' 其他类型的RNA
+        ''' </summary>
+        micsRNA
+    End Enum
+End Namespace

@@ -43,46 +43,50 @@ Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting
 
-Public Structure Kinetics
 
-    Dim formula As Impl.Expression
-    Dim parameters As String()
-    Dim paramVals As Object()
-    ''' <summary>
-    ''' enzyme target
-    ''' </summary>
-    Dim enzyme As String
-    ''' <summary>
-    ''' target reaction id
-    ''' </summary>
-    Dim target As String
-    Dim temperature As Double
-    Dim PH As Double
+Namespace Models.Process
 
-    Public Overrides Function ToString() As String
-        Return $"[{target}] {formula}"
-    End Function
+    Public Structure Kinetics
 
-    Public Shared Function ExpressionModel(formula As String) As Impl.Expression
-        Return ScriptEngine.ParseExpression(formula)
-    End Function
+        Dim formula As Impl.Expression
+        Dim parameters As String()
+        Dim paramVals As Object()
+        ''' <summary>
+        ''' enzyme target
+        ''' </summary>
+        Dim enzyme As String
+        ''' <summary>
+        ''' target reaction id
+        ''' </summary>
+        Dim target As String
+        Dim temperature As Double
+        Dim PH As Double
 
-    Public Function CompileLambda() As Func(Of Func(Of String, Double), Double)
-        Dim lambda As LambdaExpression = ExpressionCompiler.CreateLambda(parameters, formula)
-        Dim handler As [Delegate] = lambda.Compile
-        Dim vm = Me
+        Public Overrides Function ToString() As String
+            Return $"[{target}] {formula}"
+        End Function
 
-        Return Function(getVal As Func(Of String, Double)) As Double
-                   Dim vals = vm.paramVals.ToArray
+        Public Shared Function ExpressionModel(formula As String) As Impl.Expression
+            Return ScriptEngine.ParseExpression(formula)
+        End Function
 
-                   For i As Integer = 0 To vals.Length - 1
-                       If TypeOf vals(i) Is String Then
-                           vals(i) = getVal(vals(i))
-                       End If
-                   Next
+        Public Function CompileLambda() As Func(Of Func(Of String, Double), Double)
+            Dim lambda As LambdaExpression = ExpressionCompiler.CreateLambda(parameters, formula)
+            Dim handler As [Delegate] = lambda.Compile
+            Dim vm = Me
 
-                   Return handler.DynamicInvoke(vals)
-               End Function
-    End Function
+            Return Function(getVal As Func(Of String, Double)) As Double
+                       Dim vals = vm.paramVals.ToArray
 
-End Structure
+                       For i As Integer = 0 To vals.Length - 1
+                           If TypeOf vals(i) Is String Then
+                               vals(i) = getVal(vals(i))
+                           End If
+                       Next
+
+                       Return handler.DynamicInvoke(vals)
+                   End Function
+        End Function
+
+    End Structure
+End Namespace
