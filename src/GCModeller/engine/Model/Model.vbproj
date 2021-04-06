@@ -205,10 +205,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\TranscriptsUnit.vb" />
     <Compile Include="Models\Processes.vb" />
     <Compile Include="Models\Protein.vb" />
     <Compile Include="Models\RNATypes.vb" />
     <Compile Include="Models\Kinetics.vb" />
+    <Compile Include="Models\Vector\ChromosomeComposition.vb" />
     <Compile Include="Models\Vector\ProteinComposition.vb" />
     <Compile Include="Models\Vector\RNAComposition.vb" />
     <Compile Include="NamespaceDoc.vb" />

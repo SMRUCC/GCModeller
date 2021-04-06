@@ -81,14 +81,6 @@ Public Structure CentralDogma : Implements INamedValue
     ''' 一般是KO编号
     ''' </summary>
     Dim orthology As String
-    ''' <summary>
-    ''' 复制子编号
-    ''' </summary>
-    ''' <remarks>
-    ''' 因为所有的复制子都是一个整体，所以<see cref="Genotype.centralDogmas"/>之中不区分复制子
-    ''' 在这里添加一个复制子的ID标签方便后续数据分析的时候的分组操作
-    ''' </remarks>
-    Dim replicon As String
 
     ''' <summary>
     ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
