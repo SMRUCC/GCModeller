@@ -3,7 +3,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
-Module Extensions
+<HideModuleName>
+Public Module Extensions
 
     <Extension>
     Public Iterator Function variables(massTable As MassTable, complex As Protein) As IEnumerable(Of Variable)

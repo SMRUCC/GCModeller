@@ -163,15 +163,7 @@
     <Compile Include="Core\Mass\MassDynamics.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
-    <Compile Include="Engine\FluxAggregater.vb" />
-    <Compile Include="Engine\FluxEmulator\FluxEmulator.vb" />
-    <Compile Include="Engine\VCell\DebuggerView.vb" />
-    <Compile Include="Engine\Driver.vb" />
-    <Compile Include="Engine\VCell\OmicsTuple.vb" />
-    <Compile Include="Engine\VCell\OmicsDataAdapter.vb" />
-    <Compile Include="Engine\NamespaceDoc.vb" />
-    <Compile Include="Engine\VCell\Engine.vb" />
-    <Compile Include="Engine\MassTable.vb" />
+    <Compile Include="FluxEmulator.vb" />
     <Compile Include="Core\EnvirClone.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Flux\Channel.vb" />

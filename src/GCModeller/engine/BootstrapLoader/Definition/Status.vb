@@ -46,7 +46,6 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Namespace Definitions
 

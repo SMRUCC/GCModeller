@@ -71,6 +71,14 @@
     <Compile Include="Definition\FluxBaseline.vb" />
     <Compile Include="Definition\NucleicAcid.vb" />
     <Compile Include="Definition\Status.vb" />
+    <Compile Include="Engine\Driver.vb" />
+    <Compile Include="Engine\FluxAggregater.vb" />
+    <Compile Include="Engine\MassTable.vb" />
+    <Compile Include="Engine\NamespaceDoc.vb" />
+    <Compile Include="Engine\VCell\DebuggerView.vb" />
+    <Compile Include="Engine\VCell\Engine.vb" />
+    <Compile Include="Engine\VCell\OmicsDataAdapter.vb" />
+    <Compile Include="Engine\VCell\OmicsTuple.vb" />
     <Compile Include="FluxLoader.vb" />
     <Compile Include="Loader.vb" />
     <Compile Include="MassLoader.vb" />
@@ -118,6 +126,10 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj">
+      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
+      <Name>ODEsSolver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
@@ -134,6 +146,9 @@
       <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\FluxEmulator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
