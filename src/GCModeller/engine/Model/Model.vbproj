@@ -205,22 +205,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Molecule\TranscriptsUnit.vb" />
-    <Compile Include="Models\Processes.vb" />
-    <Compile Include="Models\Molecule\Protein.vb" />
-    <Compile Include="Models\RNATypes.vb" />
-    <Compile Include="Models\Process\Kinetics.vb" />
-    <Compile Include="Models\Vector\ChromosomeComposition.vb" />
-    <Compile Include="Models\Vector\ProteinComposition.vb" />
-    <Compile Include="Models\Vector\RNAComposition.vb" />
+    <Compile Include="Cellular\Molecule\TranscriptsUnit.vb" />
+    <Compile Include="Cellular\Processes.vb" />
+    <Compile Include="Cellular\Molecule\Protein.vb" />
+    <Compile Include="Cellular\RNATypes.vb" />
+    <Compile Include="Cellular\Process\Kinetics.vb" />
+    <Compile Include="Cellular\Vector\ChromosomeComposition.vb" />
+    <Compile Include="Cellular\Vector\ProteinComposition.vb" />
+    <Compile Include="Cellular\Vector\RNAComposition.vb" />
     <Compile Include="NamespaceDoc.vb" />
-    <Compile Include="Models\Process\CentralDogma.vb" />
+    <Compile Include="Cellular\Process\CentralDogma.vb" />
     <Compile Include="Extensions.vb" />
-    <Compile Include="Models\Process\Metabolism.vb" />
-    <Compile Include="Models\CellularModule.vb" />
-    <Compile Include="Models\Process\Regulation.vb" />
-    <Compile Include="Models\Molecule\Phenotype.vb" />
-    <Compile Include="Models\Molecule\Genotype.vb" />
+    <Compile Include="Cellular\Process\Metabolism.vb" />
+    <Compile Include="Cellular\CellularModule.vb" />
+    <Compile Include="Cellular\Process\Regulation.vb" />
+    <Compile Include="Cellular\Molecule\Phenotype.vb" />
+    <Compile Include="Cellular\Molecule\Genotype.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
