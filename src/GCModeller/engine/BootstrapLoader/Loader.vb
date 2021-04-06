@@ -45,7 +45,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
