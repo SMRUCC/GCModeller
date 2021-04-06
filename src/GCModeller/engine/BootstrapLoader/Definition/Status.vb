@@ -46,6 +46,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports Engine2 = SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine.Engine
 
 Namespace Definitions
 
@@ -78,7 +79,7 @@ Namespace Definitions
             Me.name = name
         End Sub
 
-        Public Function IsCurrentStatus(engine As Engine, cutoff#) As Boolean
+        Public Function IsCurrentStatus(engine As Engine2, cutoff#) As Boolean
             Dim current As Vector = engine _
                 .getMass(masslist) _
                 .Select(Function(mass) mass.Value) _
