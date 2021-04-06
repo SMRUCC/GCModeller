@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.Text.Xml.HtmlBuilder
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.ModelLoader
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports DynamicsEngine = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Engine
 
 ''' <summary>

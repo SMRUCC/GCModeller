@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::bbf703a40730fc31a48852ebd232d1a1, engine\Dynamics\Engine\VCell\Loader\CentralDogmaFluxLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class CentralDogmaFluxLoader
-    ' 
-    '         Properties: componentRNA, mRNA, polypeptides
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, ribosomeAssembly, transcriptionTemplate, translationTemplate, translationUncharged
-    '                   tRNAProcess
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class CentralDogmaFluxLoader
+' 
+'         Properties: componentRNA, mRNA, polypeptides
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, ribosomeAssembly, transcriptionTemplate, translationTemplate, translationUncharged
+'                   tRNAProcess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace Engine.ModelLoader
 
@@ -241,7 +242,7 @@ Namespace Engine.ModelLoader
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
-                        .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
+                        .ID = cd.DoCall(AddressOf loader.GetTranslationId),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
                             .activation = {MassTable.variable(NameOf(ribosomeAssembly))}
@@ -277,7 +278,7 @@ Namespace Engine.ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
+                    .ID = cd.DoCall(AddressOf loader.GetTranscriptionId),
                     .forward = New AdditiveControls With {
                         .baseline = loader.dynamics.transcriptionBaseline,
                         .activation = activeReg,
