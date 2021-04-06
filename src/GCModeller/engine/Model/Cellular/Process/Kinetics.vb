@@ -43,7 +43,6 @@ Imports System.Linq.Expressions
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting
 
-
 Namespace Cellular.Process
 
     Public Structure Kinetics
@@ -70,7 +69,7 @@ Namespace Cellular.Process
             Return ScriptEngine.ParseExpression(formula)
         End Function
 
-        Public Function CompileLambda() As Func(Of Func(Of String, Double), Double)
+        Public Function CompileLambda() As DynamicInvoke
             Dim lambda As LambdaExpression = ExpressionCompiler.CreateLambda(parameters, formula)
             Dim handler As [Delegate] = lambda.Compile
             Dim vm = Me
@@ -87,6 +86,5 @@ Namespace Cellular.Process
                        Return handler.DynamicInvoke(vals)
                    End Function
         End Function
-
     End Structure
 End Namespace

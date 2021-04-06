@@ -43,9 +43,8 @@
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 
 Namespace Core
 
@@ -70,20 +69,20 @@ Namespace Core
             End Get
         End Property
 
-        ReadOnly lambda As Func(Of Func(Of String, Double), Double)
+        ReadOnly lambda As DynamicInvoke
         ReadOnly getMass As Func(Of String, Double)
-        ReadOnly raw As Process.Kinetics
+        ReadOnly raw As Expression
 
-        Sub New(env As Vessel, lambda As Process.Kinetics)
-            Me.lambda = lambda.CompileLambda
-            Me.raw = lambda
+        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
+            Me.lambda = lambda
+            Me.raw = raw
             Me.getMass = Function(id)
                              Return env.m_massIndex(id).Value
                          End Function
         End Sub
 
         Public Overrides Function ToString() As String
-            Return raw.formula.ToString
+            Return raw.ToString
         End Function
     End Class
 End Namespace

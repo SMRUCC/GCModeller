@@ -121,7 +121,11 @@ Namespace ModelLoader
             Dim forward As Controls
 
             If Not reaction.kinetics.formula Is Nothing Then
-                forward = New KineticsControls(loader.vcellEngine, reaction.kinetics)
+                forward = New KineticsControls(
+                    env:=loader.vcellEngine,
+                    lambda:=reaction.kinetics.CompileLambda,
+                    raw:=reaction.kinetics.formula
+                )
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
