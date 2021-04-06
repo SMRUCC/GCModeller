@@ -117,15 +117,6 @@ Namespace Engine
                         End Function)
         End Function
 
-        Public Iterator Function variables(complex As Protein) As IEnumerable(Of Variable)
-            For Each compound In complex.compounds
-                Yield Me.variable(compound)
-            Next
-            For Each peptide In complex.polypeptides
-                Yield Me.variable(peptide)
-            Next
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variable(mass As String, Optional coefficient As Double = 1) As Variable
             Return New Variable(massTable(mass), coefficient, False)
