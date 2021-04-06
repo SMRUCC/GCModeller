@@ -163,7 +163,9 @@
     <Compile Include="Core\Mass\MassDynamics.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
-    <Compile Include="FluxEmulator.vb" />
+    <Compile Include="Drivers\Driver.vb" />
+    <Compile Include="Drivers\FluxAggregater.vb" />
+    <Compile Include="Drivers\FluxEmulator.vb" />
     <Compile Include="Core\EnvirClone.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Flux\Channel.vb" />
@@ -186,6 +188,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Drivers\OmicsTuple.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

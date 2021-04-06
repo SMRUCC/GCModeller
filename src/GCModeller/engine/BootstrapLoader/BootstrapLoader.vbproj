@@ -71,14 +71,11 @@
     <Compile Include="Definition\FluxBaseline.vb" />
     <Compile Include="Definition\NucleicAcid.vb" />
     <Compile Include="Definition\Status.vb" />
-    <Compile Include="Engine\Driver.vb" />
-    <Compile Include="Engine\FluxAggregater.vb" />
     <Compile Include="Engine\MassTable.vb" />
     <Compile Include="Engine\NamespaceDoc.vb" />
     <Compile Include="Engine\VCell\DebuggerView.vb" />
     <Compile Include="Engine\VCell\Engine.vb" />
     <Compile Include="Engine\VCell\OmicsDataAdapter.vb" />
-    <Compile Include="Engine\VCell\OmicsTuple.vb" />
     <Compile Include="FluxLoader.vb" />
     <Compile Include="Loader.vb" />
     <Compile Include="MassLoader.vb" />
@@ -147,8 +144,6 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\FluxEmulator\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
