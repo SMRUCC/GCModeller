@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
-Namespace Models.Vector
+Namespace Cellular.Vector
 
     Public Class ChromosomeComposition : Implements IEnumerable(Of NamedValue(Of Double))
 

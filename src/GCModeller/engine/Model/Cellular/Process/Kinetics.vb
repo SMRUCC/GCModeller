@@ -44,7 +44,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting
 
 
-Namespace Models.Process
+Namespace Cellular.Process
 
     Public Structure Kinetics
 

@@ -41,7 +41,7 @@
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Vector
 
-Namespace Models.Molecule
+Namespace Cellular.Molecule
 
     ''' <summary>
     ''' 目标细胞模型的基因组模型

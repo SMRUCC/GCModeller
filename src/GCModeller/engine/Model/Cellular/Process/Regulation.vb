@@ -41,7 +41,7 @@
 
 Imports Microsoft.VisualBasic.Language
 
-Namespace Models.Process
+Namespace Cellular.Process
 
     Public Structure Regulation
 

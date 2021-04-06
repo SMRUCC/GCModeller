@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
-Namespace Models.Process
+Namespace Cellular.Process
 
     ''' <summary>
     ''' 为了实现网络节点的动态删除与增添，这个代谢过程模型应该是通用的

@@ -41,7 +41,7 @@
 
 #End Region
 
-Namespace Models.Molecule
+Namespace Cellular.Molecule
 
     ''' <summary>
     ''' Protein Modification

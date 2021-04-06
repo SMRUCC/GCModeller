@@ -41,7 +41,7 @@
 
 Imports SMRUCC.genomics.Metagenomics
 
-Namespace Models
+Namespace Cellular
 
     ''' <summary>
     ''' A cellular system consist of three features:

@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 
-Namespace Models.Process
+Namespace Cellular.Process
 
     ''' <summary>
     ''' Transcription and Translation.

@@ -45,7 +45,7 @@
 
 Imports System.ComponentModel
 
-Namespace Models
+Namespace Cellular
 
     Public Enum RNATypes As Byte
         mRNA = 0

@@ -39,7 +39,7 @@
 
 #End Region
 
-Namespace Models.Molecule
+Namespace Cellular.Molecule
 
     ''' <summary>
     ''' 在进行计算的时候，是以代谢反应过程为基础的

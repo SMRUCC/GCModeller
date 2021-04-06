@@ -1,5 +1,5 @@
 ﻿
-Namespace Models.Molecule
+Namespace Cellular.Molecule
 
     ''' <summary>
     ''' 一般为一个操纵子对象

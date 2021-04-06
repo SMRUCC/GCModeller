@@ -50,7 +50,7 @@
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
-Namespace Models.Vector
+Namespace Cellular.Vector
 
     Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
 

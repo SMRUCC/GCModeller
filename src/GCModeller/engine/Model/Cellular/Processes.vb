@@ -43,7 +43,7 @@
 
 #End Region
 
-Namespace Models
+Namespace Cellular
 
     ''' <summary>
     ''' 过程类型

@@ -45,7 +45,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Namespace Models.Vector
+Namespace Cellular.Vector
 
     Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
