@@ -45,13 +45,14 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     ''' <summary>
     ''' Module loader

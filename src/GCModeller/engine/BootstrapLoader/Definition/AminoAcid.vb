@@ -51,7 +51,7 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Engine.Definitions
+Namespace Definitions
 
     Public Class AminoAcid
 

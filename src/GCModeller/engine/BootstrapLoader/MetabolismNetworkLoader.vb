@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     ''' <summary>
     ''' 构建代谢网络

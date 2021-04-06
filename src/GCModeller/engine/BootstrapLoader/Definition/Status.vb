@@ -47,7 +47,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
-Namespace Engine.Definitions
+Namespace Definitions
 
     ''' <summary>
     ''' 细胞状态定义

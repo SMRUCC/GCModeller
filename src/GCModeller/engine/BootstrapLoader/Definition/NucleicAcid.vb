@@ -44,7 +44,7 @@
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Engine.Definitions
+Namespace Definitions
 
     Public Class NucleicAcid
 

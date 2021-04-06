@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     ''' <summary>
     ''' 先构建一般性的中心法则过程
@@ -242,7 +242,7 @@ Namespace Engine.ModelLoader
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
-                        .ID = cd.DoCall(AddressOf loader.GetTranslationId),
+                        .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
                             .activation = {MassTable.variable(NameOf(ribosomeAssembly))}
@@ -278,7 +278,7 @@ Namespace Engine.ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf loader.GetTranscriptionId),
+                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
                     .forward = New AdditiveControls With {
                         .baseline = loader.dynamics.transcriptionBaseline,
                         .activation = activeReg,

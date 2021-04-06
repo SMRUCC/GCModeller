@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     ''' <summary>
     ''' 构建出生物大分子的降解过程

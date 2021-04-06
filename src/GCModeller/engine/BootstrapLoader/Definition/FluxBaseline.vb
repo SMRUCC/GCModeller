@@ -46,7 +46,7 @@
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Engine.Definitions
+Namespace Definitions
 
     ''' <summary>
     ''' The baseline value of the flux controls and dynamics

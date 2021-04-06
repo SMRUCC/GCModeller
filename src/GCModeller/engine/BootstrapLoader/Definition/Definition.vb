@@ -53,7 +53,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
-Namespace Engine.Definitions
+Namespace Definitions
 
     Public Enum GeneralCompound
         DNA

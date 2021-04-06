@@ -43,9 +43,10 @@
 #End Region
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     Public MustInherit Class FluxLoader
 

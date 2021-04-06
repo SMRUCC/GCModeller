@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
-Namespace Engine.ModelLoader
+Namespace ModelLoader
 
     ''' <summary>
     ''' 构建酶成熟的过程
