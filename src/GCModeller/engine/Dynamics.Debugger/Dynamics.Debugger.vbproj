@@ -221,6 +221,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.vbproj">
+      <Project>{72b3198a-049c-4fc3-8b54-8e140c108cb5}</Project>
+      <Name>BootstrapLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dynamics\Dynamics.vbproj">
       <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
       <Name>Dynamics</Name>
