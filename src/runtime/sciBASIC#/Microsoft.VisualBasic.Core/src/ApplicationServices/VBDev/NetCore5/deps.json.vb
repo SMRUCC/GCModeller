@@ -63,6 +63,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ApplicationServices.Development.NetCore5
@@ -104,17 +105,20 @@ Namespace ApplicationServices.Development.NetCore5
         End Function
 
         Public Shared Function LoadAssemblyOrCache(dllFile As String) As Assembly
-            Dim dllFullName As String = dllFile.GetFullPath
+            Dim dllFullName As String = dllFile.FileName
+            Dim result As New Value(Of Assembly)
+
+            ' R# identical package dll file in different file location
+            ' so just test with dll file name
             Dim queryLoaded = From assembly As Assembly
                               In AppDomain.CurrentDomain.GetAssemblies()
                               Where Not assembly.IsDynamic
-                              Where assembly.Location.GetFullPath = dllFullName
+                              Where assembly.Location.FileName = dllFullName
                               Select assembly
-            Dim result As Assembly = queryLoaded.FirstOrDefault
 
-            If result Is Nothing Then
+            If (result = queryLoaded.FirstOrDefault) Is Nothing Then
                 ' not loaded yet
-                Return Assembly.LoadFrom(dllFullName)
+                Return Assembly.LoadFrom(dllFile.GetFullPath)
             Else
                 Return result
             End If
