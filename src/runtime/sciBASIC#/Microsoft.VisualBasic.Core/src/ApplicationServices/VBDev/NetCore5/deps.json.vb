@@ -91,12 +91,33 @@ Namespace ApplicationServices.Development.NetCore5
                    Select entry.Key.StringReplace("/\d+(\.\d+)+", "")
         End Function
 
+        ''' <summary>
+        ''' returns a list of file path loaded assembly files
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function RetriveLoadedAssembly() As IEnumerable(Of String)
             Return From assembly As Assembly
                    In AppDomain.CurrentDomain.GetAssemblies()
                    Where Not assembly.IsDynamic
-                   Select assembly.Location.BaseName
+                   Select assembly.Location
+        End Function
+
+        Public Shared Function LoadAssemblyOrCache(dllFile As String) As Assembly
+            Dim dllFullName As String = dllFile.GetFullPath
+            Dim queryLoaded = From assembly As Assembly
+                              In AppDomain.CurrentDomain.GetAssemblies()
+                              Where Not assembly.IsDynamic
+                              Where assembly.Location.GetFullPath = dllFullName
+                              Select assembly
+            Dim result As Assembly = queryLoaded.FirstOrDefault
+
+            If result Is Nothing Then
+                ' not loaded yet
+                Return Assembly.LoadFrom(dllFullName)
+            Else
+                Return result
+            End If
         End Function
 
         ''' <summary>
@@ -130,7 +151,9 @@ Namespace ApplicationServices.Development.NetCore5
                 .GetReferenceProject _
                 .Where(Function(name) name <> moduleName) _
                 .ToArray
-            Dim asmsIndex As Index(Of String) = RetriveLoadedAssembly.Indexing
+            Dim asmsIndex As Index(Of String) = RetriveLoadedAssembly _
+                .Select(AddressOf BaseName) _
+                .Indexing
 
             Static globalsReference As New Dictionary(Of String, Assembly)
 
