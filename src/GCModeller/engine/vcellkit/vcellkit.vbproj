@@ -224,6 +224,10 @@
       <Project>{169AE739-DF7C-4DDA-AD0B-D7BA447825EB}</Project>
       <Name>SBML</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.vbproj">
+      <Project>{72b3198a-049c-4fc3-8b54-8e140c108cb5}</Project>
+      <Name>BootstrapLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
       <Project>{34a63cb4-bb7e-4563-8e0f-682ff10e7d0e}</Project>
       <Name>CompilerServices</Name>
@@ -249,7 +253,7 @@
       <Name>Raw</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.vbproj">
-      <Project>{7BB5E78B-37BB-43DF-BAF4-4ECD4B5748D6}</Project>
+      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

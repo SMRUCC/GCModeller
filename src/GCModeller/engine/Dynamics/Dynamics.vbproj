@@ -163,34 +163,16 @@
     <Compile Include="Core\Mass\MassDynamics.vb" />
     <Compile Include="Core\Mass\Variable.vb" />
     <Compile Include="Core\NamespaceDoc.vb" />
-    <Compile Include="Engine\FluxAggregater.vb" />
-    <Compile Include="Engine\FluxEmulator\FluxEmulator.vb" />
-    <Compile Include="Engine\VCell\DebuggerView.vb" />
-    <Compile Include="Engine\VCell\Loader\CentralDogmaFluxLoader.vb" />
-    <Compile Include="Engine\VCell\Loader\BioMoleculeDegradation.vb" />
-    <Compile Include="Engine\VCell\Loader\MassLoader.vb" />
-    <Compile Include="Engine\VCell\Loader\Definition\FluxBaseline.vb" />
-    <Compile Include="Engine\VCell\Loader\FluxLoader.vb" />
-    <Compile Include="Engine\VCell\Loader\MetabolismNetworkLoader.vb" />
-    <Compile Include="Engine\VCell\Loader\ProteinMatureFluxLoader.vb" />
-    <Compile Include="Engine\VCell\Loader\Definition\AminoAcid.vb" />
-    <Compile Include="Engine\VCell\Loader\Definition\NucleicAcid.vb" />
-    <Compile Include="Engine\Driver.vb" />
-    <Compile Include="Engine\VCell\OmicsTuple.vb" />
-    <Compile Include="Engine\VCell\OmicsDataAdapter.vb" />
-    <Compile Include="Engine\NamespaceDoc.vb" />
-    <Compile Include="Engine\VCell\Engine.vb" />
-    <Compile Include="Engine\MassTable.vb" />
-    <Compile Include="Engine\VCell\Loader\Definition\Definition.vb" />
+    <Compile Include="Drivers\Driver.vb" />
+    <Compile Include="Drivers\FluxAggregater.vb" />
+    <Compile Include="Drivers\FluxEmulator.vb" />
     <Compile Include="Core\EnvirClone.vb" />
-    <Compile Include="Engine\VCell\Loader\Definition\Status.vb" />
     <Compile Include="NamespaceDoc.vb" />
     <Compile Include="Core\Flux\Channel.vb" />
     <Compile Include="Core\Flux\Directions.vb" />
     <Compile Include="Core\Kinetics\Controls\Controls.vb" />
     <Compile Include="Core\Mass\Factor.vb" />
     <Compile Include="Core\Vessel.vb" />
-    <Compile Include="Engine\VCell\Loader\Loader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -206,6 +188,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Drivers\OmicsTuple.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -239,14 +222,6 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Model\Model.vbproj">
-      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
-      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
