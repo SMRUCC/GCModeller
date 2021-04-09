@@ -63,6 +63,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -73,10 +74,32 @@ Namespace ApplicationServices.Development.NetCore5
     ''' </summary>
     Public Class deps
 
-        Public Property runtimeTarget As runtimeTarget
+        Public Property runtimeTarget As frameworkTarget
         Public Property compilationOptions As compilationOptions
-        Public Property targets As Dictionary(Of String, target)
+        Public Property targets As Dictionary(Of String, Dictionary(Of String, target))
         Public Property libraries As Dictionary(Of String, library)
+
+        Public Iterator Function LoadDependencies(package As Assembly) As IEnumerable(Of NamedValue(Of runtime))
+            Dim assemblyKey As String = $"{package.FullName}/{package.GetVersion}"
+            Dim targets As Dictionary(Of String, target) = Me.targets(".NETCoreApp,Version=v5.0")
+            Dim packageTarget As target = targets(assemblyKey)
+            Dim dependencies = packageTarget.dependencies
+            Dim dllFile As String
+
+            For Each project In dependencies
+                assemblyKey = $"{project.Key}/{project.Value}"
+                packageTarget = targets(assemblyKey)
+                dllFile = packageTarget.LibraryFile
+
+                If Not dllFile.StringEmpty Then
+                    Yield New NamedValue(Of runtime) With {
+                        .Name = assemblyKey,
+                        .Value = packageTarget.runtime(dllFile),
+                        .Description = dllFile
+                    }
+                End If
+            Next
+        End Function
 
         ''' <summary>
         ''' get list of project reference name
@@ -84,12 +107,12 @@ Namespace ApplicationServices.Development.NetCore5
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetReferenceProject() As IEnumerable(Of String)
+        Public Function GetReferenceProject() As IEnumerable(Of NamedValue(Of String))
             Return From entry As KeyValuePair(Of String, library)
                    In libraries
                    Let ref As library = entry.Value
                    Where ref.type = "project"
-                   Select entry.Key.StringReplace("/\d+(\.\d+)+", "")
+                   Select entry.Key.GetTagValue("/")
         End Function
 
         ''' <summary>
@@ -151,29 +174,37 @@ Namespace ApplicationServices.Development.NetCore5
                 Return
             End If
 
-            Dim referenceList As String() = deps _
+            Dim referenceList As NamedValue(Of String)() = deps _
                 .GetReferenceProject _
-                .Where(Function(name) name <> moduleName) _
+                .Where(Function(pkg) pkg.Name <> moduleName) _
                 .ToArray
             Dim asmsIndex As Index(Of String) = RetriveLoadedAssembly _
                 .Select(AddressOf BaseName) _
                 .Indexing
+            Dim dependencies = deps.LoadDependencies(package).ToDictionary(Function(d) d.Name)
 
             Static globalsReference As New Dictionary(Of String, Assembly)
 
-            For Each name As String In referenceList _
+            For Each project As NamedValue(Of String) In referenceList _
                 .Where(Function(nameKey)
-                           Return (Not globalsReference.ContainsKey(nameKey)) AndAlso Not nameKey Like asmsIndex
+                           Return (Not globalsReference.ContainsKey(nameKey.Name)) AndAlso Not nameKey.Name Like asmsIndex
                        End Function)
+
+                Dim dllFileName As String = dependencies.TryGetValue(project.Description).Description
+
+                If dllFileName.StringEmpty Then
+                    Call $"no dll file module of: {project.Description}?".Warning
+                    Continue For
+                End If
 
                 ' 由于.net5环境下没有办法将dll自动生成在library文件夹之中
                 ' 所以在这里就直接在应用程序文件夹之中查找了
-                Dim dllName As String = $"{home}/{name}.dll"
+                Dim dllName As String = $"{home}/{dllFileName}"
 
                 If dllName.FileExists Then
-                    globalsReference(name) = Assembly.LoadFrom(dllName)
+                    globalsReference(project) = Assembly.LoadFrom(dllName)
                 Else
-                    Call $"Missing assembly file: {dllName}...".Warning
+                    Call $"missing assembly file: {dllName}...".Warning
                 End If
             Next
         End Sub
