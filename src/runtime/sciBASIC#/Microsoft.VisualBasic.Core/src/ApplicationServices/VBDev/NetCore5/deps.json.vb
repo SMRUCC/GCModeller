@@ -132,6 +132,11 @@ Namespace ApplicationServices.Development.NetCore5
                    Select assembly.Location
         End Function
 
+        ''' <summary>
+        ''' load assembly from a given file path
+        ''' </summary>
+        ''' <param name="dllFile"></param>
+        ''' <returns></returns>
         Public Shared Function LoadAssemblyOrCache(dllFile As String) As Assembly
             Dim dllFullName As String = dllFile.FileName
             Dim result As New Value(Of Assembly)
@@ -183,33 +188,23 @@ Namespace ApplicationServices.Development.NetCore5
                 .GetReferenceProject _
                 .Where(Function(pkg) pkg.Name <> moduleName) _
                 .ToArray
-            Dim asmsIndex As Index(Of String) = RetriveLoadedAssembly _
-                .Select(AddressOf BaseName) _
-                .Indexing
             Dim dependencies = deps.LoadDependencies(package).ToDictionary(Function(d) d.Name)
 
-            Static globalsReference As New Dictionary(Of String, Assembly)
+            For Each project As NamedValue(Of String) In referenceList
+                Dim dllFileName As NamedValue(Of runtime) = dependencies.TryGetValue(project.Description)
 
-            For Each project As NamedValue(Of String) In referenceList _
-                .Where(Function(nameKey)
-                           Return (Not globalsReference.ContainsKey(nameKey.Name)) AndAlso Not nameKey.Name Like asmsIndex
-                       End Function)
-
-                Dim dllFileName As String = dependencies.TryGetValue(project.Description).Description
-
-                If dllFileName.StringEmpty Then
+                If dllFileName.Description.StringEmpty Then
                     Call $"no dll file module of: {project.Description}?".Warning
-                    Continue For
-                End If
-
-                ' 由于.net5环境下没有办法将dll自动生成在library文件夹之中
-                ' 所以在这里就直接在应用程序文件夹之中查找了
-                Dim dllName As String = $"{home}/{dllFileName}"
-
-                If dllName.FileExists Then
-                    globalsReference(project) = Assembly.LoadFrom(dllName)
                 Else
-                    Call $"missing assembly file: {dllName}...".Warning
+                    ' 由于.net5环境下没有办法将dll自动生成在library文件夹之中
+                    ' 所以在这里就直接在应用程序文件夹之中查找了
+                    Dim dllName As String = $"{home}/{dllFileName.Description}"
+
+                    If dllName.FileExists Then
+                        Call LoadAssemblyOrCache(dllName)
+                    Else
+                        Call $"missing assembly file: {dllName}...".Warning
+                    End If
                 End If
             Next
         End Sub
