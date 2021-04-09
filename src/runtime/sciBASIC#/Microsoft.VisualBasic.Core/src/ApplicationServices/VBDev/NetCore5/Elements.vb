@@ -54,6 +54,10 @@
         Public Property name As String
         Public Property signature As String
 
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
+
     End Class
 
     Public Class compilationOptions

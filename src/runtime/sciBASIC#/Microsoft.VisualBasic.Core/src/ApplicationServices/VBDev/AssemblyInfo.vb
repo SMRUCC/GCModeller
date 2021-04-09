@@ -20,6 +20,11 @@ Namespace ApplicationServices.Development
         Public Property AssemblyCopyright As String
         Public Property AssemblyTrademark As String
 
+#If netcore5 = 1 Then
+        Public Property AssemblyInformationalVersion As String
+#End If
+        Public Property TargetFramework As String
+
         Public Property ComVisible As Boolean
 
         ''' <summary>

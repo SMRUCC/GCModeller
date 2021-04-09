@@ -74,14 +74,19 @@ Namespace ApplicationServices.Development.NetCore5
     ''' </summary>
     Public Class deps
 
+        ''' <summary>
+        ''' ".NETCoreApp,Version=v5.0"
+        ''' </summary>
+        ''' <returns></returns>
         Public Property runtimeTarget As frameworkTarget
         Public Property compilationOptions As compilationOptions
         Public Property targets As Dictionary(Of String, Dictionary(Of String, target))
         Public Property libraries As Dictionary(Of String, library)
 
         Public Iterator Function LoadDependencies(package As Assembly) As IEnumerable(Of NamedValue(Of runtime))
-            Dim assemblyKey As String = $"{package.FullName}/{package.GetVersion}"
-            Dim targets As Dictionary(Of String, target) = Me.targets(".NETCoreApp,Version=v5.0")
+            Dim info As AssemblyInfo = package.FromAssembly
+            Dim assemblyKey As String = $"{package.GetName.Name}/{package.GetVersion}"
+            Dim targets As Dictionary(Of String, target) = Me.targets(runtimeTarget.name)
             Dim packageTarget As target = targets(assemblyKey)
             Dim dependencies = packageTarget.dependencies
             Dim dllFile As String
