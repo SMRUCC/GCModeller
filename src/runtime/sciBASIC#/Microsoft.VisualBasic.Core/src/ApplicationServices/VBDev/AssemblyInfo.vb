@@ -1,11 +1,12 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ApplicationServices.Development
 
     ''' <summary>
     ''' ``My Project\AssemblyInfo.vb``
     ''' </summary>
-    Public Class AssemblyInfo
+    Public Class AssemblyInfo : Implements INamedValue
 
         ' General Information about an assembly is controlled through the following
         ' set of attributes. Change these attribute values to modify the information
@@ -26,6 +27,7 @@ Namespace ApplicationServices.Development
         Public Property TargetFramework As String
 
         Public Property ComVisible As Boolean
+        Public Property Name As String Implements INamedValue.Key
 
         ''' <summary>
         ''' The following GUID is for the ID of the typelib if this project is exposed to COM

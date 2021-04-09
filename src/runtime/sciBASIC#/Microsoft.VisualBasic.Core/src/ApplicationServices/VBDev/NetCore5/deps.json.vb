@@ -85,7 +85,7 @@ Namespace ApplicationServices.Development.NetCore5
 
         Public Iterator Function LoadDependencies(package As Assembly) As IEnumerable(Of NamedValue(Of runtime))
             Dim info As AssemblyInfo = package.FromAssembly
-            Dim assemblyKey As String = $"{package.GetName.Name}/{package.GetVersion}"
+            Dim assemblyKey As String = $"{info.Name}/{info.AssemblyInformationalVersion}"
             Dim targets As Dictionary(Of String, target) = Me.targets(runtimeTarget.name)
             Dim packageTarget As target = targets(assemblyKey)
             Dim dependencies = packageTarget.dependencies

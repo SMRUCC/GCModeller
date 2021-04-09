@@ -149,7 +149,8 @@ Namespace ApplicationServices.Development
                 .AssemblyFullName = assm.GetName.ToString,
                 .AssemblyInformationalVersion = GetInformationalVersion(assm),
                 .AssemblyTrademark = GetTrademark(assm),
-                .TargetFramework = GetTargetFramework(assm)
+                .TargetFramework = GetTargetFramework(assm),
+                .Name = assm.GetName.Name
             }
         End Function
 
