@@ -71,7 +71,7 @@ Namespace v2
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
                     .ToArray,
                 .ProteinMatrix = model.genome.replicons _
-                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Where(Function(gene) Not gene.amino_acid Is Nothing) _
                     .Select(Function(gene)
@@ -79,7 +79,7 @@ Namespace v2
                             End Function) _
                     .ToArray,
                 .RNAMatrix = model.genome.replicons _
-                    .Select(Function(rep) rep.genes.AsEnumerable) _
+                    .Select(Function(rep) rep.GetGeneList) _
                     .IteratesALL _
                     .Select(Function(rna)
                                 Return rna.nucleotide_base.DoCall(AddressOf RNAFromVector)
@@ -119,7 +119,7 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.genes.AsEnumerable
+                For Each gene As gene In replicon.GetGeneList
                     If rnaTable.ContainsKey(gene.locus_tag) Then
                         RNA = rnaTable(gene.locus_tag)
                         proteinId = Nothing
