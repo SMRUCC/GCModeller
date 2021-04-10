@@ -69,6 +69,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
@@ -103,7 +104,7 @@ Namespace v2
             End If
 
             For Each replicon As replicon In source
-                For Each gene In replicon.genes
+                For Each gene As gene In replicon.GetGeneList
                     Yield gene.locus_tag
                 Next
             Next
@@ -122,20 +123,28 @@ Namespace v2
         <XmlAttribute> Public Property isPlasmid As Boolean
         <XmlAttribute> Public Property genomeName As String
 
-        ''' <summary>
-        ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property genes As XmlList(Of gene)
+        <XmlElement>
+        Public Property operons As TranscriptUnit()
+
         ''' <summary>
         ''' 除了mRNA的其他的一切非蛋白编码RNA
         ''' </summary>
         ''' <returns></returns>
         Public Property RNAs As XmlList(Of RNA)
 
+        Public Iterator Function GetGeneList() As IEnumerable(Of gene)
+            For Each operon As TranscriptUnit In operons
+                For Each gene As gene In operon.genes.AsEnumerable
+                    Yield gene
+                Next
+            Next
+        End Function
+
         Public Overrides Function ToString() As String
             Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
-            Return $"[{type}] {genomeName}"
+            Dim strVal$ = $"[{type}] {genomeName}"
+
+            Return strVal
         End Function
 
     End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65b185c557111e3d3cb56423411cf418, Data\BinaryData\DataStorage\netCDF\Components\Dimension.vb"
+﻿#Region "Microsoft.VisualBasic::75fed9939a89163f4d0355bed75c86f6, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\NetCore5\target.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,9 @@
 
     ' Summaries:
 
-    '     Structure Dimension
+    '     Class target
     ' 
-    '         Properties: name
+    '         Properties: dependencies, LibraryFile, runtime, runtimeTargets
     ' 
     '         Function: ToString
     ' 
@@ -42,34 +42,33 @@
 
 #End Region
 
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Namespace ApplicationServices.Development.NetCore5
 
-Namespace netCDF.Components
+    Public Class target
 
-    ''' <summary>
-    ''' ``[name => size]``
-    ''' </summary>
-    ''' 
-    <XmlType("dim", [Namespace]:=Xml.netCDF)>
-    Public Structure Dimension : Implements INamedValue
+        Public Property dependencies As Dictionary(Of String, String)
+        Public Property runtime As Dictionary(Of String, runtime)
+        Public Property runtimeTargets As Dictionary(Of String, runtimeTarget)
 
-        ''' <summary>
-        ''' String with the name of the dimension
-        ''' </summary>
-        <XmlAttribute>
-        Public Property name As String Implements IKeyedEntity(Of String).Key
-
-        ''' <summary>
-        ''' Number with the size of the dimension
-        ''' </summary>
-        <XmlText>
-        Dim size As Integer
+        Public ReadOnly Property LibraryFile As String
+            Get
+                If runtime.IsNullOrEmpty Then
+                    Return Nothing
+                Else
+                    Return runtime.Keys _
+                        .Where(Function(fileName)
+                                   ' skip of the system dll files
+                                   Return (Not fileName.Contains("/")) AndAlso fileName.ExtensionSuffix("dll")
+                               End Function) _
+                        .FirstOrDefault
+                End If
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
-            Return $"{name}(size={size})"
+            Return LibraryFile
         End Function
-    End Structure
+
+    End Class
 
 End Namespace
