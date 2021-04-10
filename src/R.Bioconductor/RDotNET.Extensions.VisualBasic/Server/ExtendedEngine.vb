@@ -135,6 +135,8 @@ Public Class ExtendedEngine : Inherits REngine
     End Function
 
     Private Sub __cleanHook()
+        On Error Resume Next
+
         Call __logs.WriteLine()
         Call __logs.WriteLine()
         Call __logs.WriteLine("# Show warnings():")
