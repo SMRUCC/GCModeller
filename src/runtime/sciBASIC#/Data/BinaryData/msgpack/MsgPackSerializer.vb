@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a77635180f3079abec23a7582a908af8, Data\BinaryData\msgpack\MsgPackSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::5a3c36d68472bf285f0d4149f22d762a, Data\BinaryData\msgpack\MsgPackSerializer.vb"
 
     ' Author:
     ' 
