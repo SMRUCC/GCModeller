@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::5feb658d3b1bd9f419c4dee180380c01, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module App
-    ' 
-    '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
-    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
-    '                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
-    '                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
-    '                 LocalDataTemp, LogErrDIR, NanoTime, NextTempName, OutFile
-    '                 PID, Platform, PreviousDirectory, Process, ProductName
-    '                 ProductProgramData, ProductSharedDIR, ProductSharedTemp, Running, RunningInGitBash
-    '                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdInput
-    '                 StdOut, SysTemp, UnixTimeStamp, UserHOME, Version
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
-    '               (+2 Overloads) ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
-    '               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
-    '               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
-    '               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, Shell
-    '               tempCode, TemporaryEnvironment, TraceBugs
-    ' 
-    '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
-    '          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
-    '          SetBufferSize, StartGC, StopGC
-    ' 
-    ' /********************************************************************************/
+' Module App
+' 
+'     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
+'                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
+'                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
+'                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
+'                 LocalDataTemp, LogErrDIR, NanoTime, NextTempName, OutFile
+'                 PID, Platform, PreviousDirectory, Process, ProductName
+'                 ProductProgramData, ProductSharedDIR, ProductSharedTemp, Running, RunningInGitBash
+'                 RunTimeDirectory, StartTime, StartupDirectory, StdErr, StdInput
+'                 StdOut, SysTemp, UnixTimeStamp, UserHOME, Version
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __listFiles, __sysTEMP, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode
+'               (+2 Overloads) ElapsedMilliseconds, Exit, finalizeCLI, FormatTime, GenerateTemp
+'               (+2 Overloads) GetAppLocalData, GetAppSysTempFile, GetAppVariables, GetFile, GetNextUniqueName
+'               GetProductSharedDIR, GetProductSharedTemp, GetTempFile, GetVariable, (+3 Overloads) LogException
+'               NullDevice, (+11 Overloads) RunCLI, RunCLIInternal, SelfFolk, Shell
+'               tempCode, TemporaryEnvironment, TraceBugs
+' 
+'     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
+'          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
+'          SetBufferSize, StartGC, StopGC
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -84,7 +84,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My.UNIX
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Parallel.Threads
+Imports FS = Microsoft.VisualBasic.FileIO.FileSystem
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.ValueTypes
@@ -534,7 +534,7 @@ Public Module App
     ''' 因为由于是从命令行之中输入进来的，所以可能有些时候大小写会影响直接字典查找，在这里需要用字符串手工查找
     ''' </param>
     ''' <returns>当没有查找到相对应的环境变量的时候会返回空值</returns>
-    Public Function GetVariable(<CallerMemberName> Optional name$ = Nothing) As String
+    Public Function GetVariable(<CallerMemberName> Optional name$ = Nothing, Optional defaultValue$ = Nothing) As String
         If m_joinedVariables.ContainsKey(name) Then
             Return m_joinedVariables(name).Value
         Else
@@ -545,7 +545,7 @@ Public Module App
             Next
         End If
 
-        Return Nothing
+        Return defaultValue
     End Function
 
     ''' <summary>
@@ -1255,12 +1255,15 @@ Public Module App
     ''' <param name="sessionID">It is recommended that use <see cref="App.PID"/> for this parameter.</param>
     ''' <returns></returns>
     '''
-    <ExportAPI("GetTempFile.AppSys")>
     Public Function GetAppSysTempFile(Optional ext$ = ".tmp", Optional sessionID$ = "", Optional prefix$ = Nothing) As String
-        Dim tmp As String = App.SysTemp & "/" & GetNextUniqueName(prefix) & ext
+        Return CreateTempFilePath(App.SysTemp, ext, sessionID, prefix)
+    End Function
+
+    Public Function CreateTempFilePath(tmpdir$, Optional ext$ = ".tmp", Optional sessionID$ = "", Optional prefix$ = Nothing) As String
+        Dim tmp As String = tmpdir & "/" & GetNextUniqueName(prefix) & ext
         tmp = GenerateTemp(tmp, sessionID)
-        Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(tmp))
-        tmp = FileIO.FileSystem.GetFileInfo(tmp).FullName.Replace("\", "/")
+        tmp.DoCall(AddressOf FS.GetParentPath).DoCall(AddressOf FS.CreateDirectory)
+        tmp = FS.GetFileInfo(tmp).FullName.Replace("\", "/")
         Return tmp
     End Function
 
@@ -1271,16 +1274,15 @@ Public Module App
     Public ReadOnly Property CurrentProcessTemp As String
 
     ''' <summary>
-    '''
+    ''' create temp file path
     ''' </summary>
     ''' <param name="sysTemp">临时文件路径</param>
     ''' <returns></returns>
     '''
-    <ExportAPI("CreateTempFile")>
-    Public Function GenerateTemp(sysTemp$, SessionID$) As String
-        Dim Dir As String = FileIO.FileSystem.GetParentPath(sysTemp)
-        Dim Name As String = FileIO.FileSystem.GetFileInfo(sysTemp).Name
-        sysTemp = $"{Dir}/{App.AssemblyName}/{SessionID}/{Name}"
+    Public Function GenerateTemp(sysTemp$, sessionID$) As String
+        Dim dir As String = FS.GetParentPath(sysTemp)
+        Dim name As String = FS.GetFileInfo(sysTemp).Name
+        sysTemp = $"{dir}/{App.AssemblyName}/{sessionID}/{name}"
         Return sysTemp
     End Function
 
