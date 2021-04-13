@@ -5,6 +5,9 @@ Imports FS = Microsoft.VisualBasic.FileIO.FileSystem
 
 Namespace ApplicationServices
 
+    ''' <summary>
+    ''' return name and handle of a temporary file safely
+    ''' </summary>
     Public Class TempFileSystem
 
         ''' <summary>
@@ -19,10 +22,12 @@ Namespace ApplicationServices
         End Function
 
         Public Shared Function CreateTempFilePath(tmpdir$, Optional ext$ = ".tmp", Optional sessionID$ = "", Optional prefix$ = Nothing) As String
-            Dim tmp As String = tmpdir & "/" & GetNextUniqueName(prefix) & ext
+            Dim tmp As String = tmpdir & "/" & App.GetNextUniqueName(prefix) & ext
+
             tmp = GenerateTemp(tmp, sessionID)
             tmp.DoCall(AddressOf FS.GetParentPath).DoCall(AddressOf FS.CreateDirectory)
             tmp = FS.GetFileInfo(tmp).FullName.Replace("\", "/")
+
             Return tmp
         End Function
 
@@ -33,9 +38,11 @@ Namespace ApplicationServices
         ''' <returns></returns>
         '''
         Public Shared Function GenerateTemp(sysTemp$, sessionID$) As String
-            Dim dir As String = FS.GetParentPath(sysTemp)
+            Dim dirt As String = FS.GetParentPath(sysTemp)
             Dim name As String = FS.GetFileInfo(sysTemp).Name
-            sysTemp = $"{dir}/{App.AssemblyName}/{sessionID}/{name}"
+
+            sysTemp = $"{dirt}/{App.AssemblyName}/{sessionID}/{name}"
+
             Return sysTemp
         End Function
 
