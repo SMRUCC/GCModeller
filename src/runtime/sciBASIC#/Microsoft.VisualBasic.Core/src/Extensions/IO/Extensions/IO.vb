@@ -171,7 +171,7 @@ Public Module IOExtensions
 
         With path.ParentPath
             If Not .DirectoryExists Then
-                Call .MkDIR()
+                Call .MakeDir()
             End If
         End With
 

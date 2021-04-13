@@ -84,7 +84,7 @@ Namespace FileIO
         Private Shared Function CreateDestinationFolderAndReturnNewPath(src As String, destinationFolder$) As String
             Dim directory As New DirectoryInfo(src)
             Dim path = IO.Path.Combine(destinationFolder, directory.Name)
-            Call path.MkDIR
+            Call path.MakeDir
             Return path
         End Function
 

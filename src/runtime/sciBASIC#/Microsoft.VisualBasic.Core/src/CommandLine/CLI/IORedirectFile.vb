@@ -175,7 +175,7 @@ Namespace CommandLine
 
             ' 系统可能不会自动创建文件夹，则需要在这里使用这个方法来手工创建，
             ' 避免出现无法找到文件的问题
-            Call _TempRedirect.ParentPath.MkDIR
+            Call _TempRedirect.ParentPath.MakeDir
             ' 在Unix平台上面这个文件不会被自动创建？？？
             Call "".SaveTo(_TempRedirect)
 

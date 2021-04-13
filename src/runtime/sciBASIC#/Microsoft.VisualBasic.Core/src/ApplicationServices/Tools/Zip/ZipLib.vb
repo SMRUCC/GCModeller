@@ -145,7 +145,7 @@ Namespace ApplicationServices.Zip
                                Optional fileOverwrite As Overwrite = Overwrite.IfNewer,
                                Optional compression As CompressionLevel = CompressionLevel.Optimal)
 
-            Call SaveZip.ParentPath.MkDIR
+            Call SaveZip.ParentPath.MakeDir
             Call {file}.AddToArchive(SaveZip, action, fileOverwrite, compression)
         End Sub
 
@@ -179,7 +179,7 @@ Namespace ApplicationServices.Zip
                 rel = rel.GetDirectoryFullPath
             End If
 
-            Call saveZip.ParentPath.MkDIR
+            Call saveZip.ParentPath.MakeDir
             Call (ls - l - r - "*.*" <= directory) _
                 .AddToArchive(
                     archiveFullName:=saveZip,
@@ -220,7 +220,7 @@ Namespace ApplicationServices.Zip
             'Determines if the zip file even exists
             Dim archiveExists As Boolean = IO.File.Exists(archiveFullName)
 
-            Call archiveFullName.ParentPath.MkDIR
+            Call archiveFullName.ParentPath.MakeDir
 
             'Figures out what to do based upon our specified overwrite method
             Select Case action

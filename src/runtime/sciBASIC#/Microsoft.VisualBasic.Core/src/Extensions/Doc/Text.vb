@@ -374,7 +374,7 @@ Public Module TextDoc
         If String.IsNullOrEmpty(DIR) Then
             DIR = App.CurrentDirectory
         Else
-            DIR.MkDIR(throwEx:=False)
+            DIR.MakeDir(throwEx:=False)
         End If
 
         Try

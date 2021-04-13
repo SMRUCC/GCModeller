@@ -147,7 +147,7 @@ Namespace Imaging
         End Function
 
         <Extension> Public Function SaveIcon(ico As Icon, path$) As Boolean
-            Call path.ParentPath.MkDIR
+            Call path.ParentPath.MakeDir
 
             Try
                 Using file As New FileStream(path, FileMode.OpenOrCreate)

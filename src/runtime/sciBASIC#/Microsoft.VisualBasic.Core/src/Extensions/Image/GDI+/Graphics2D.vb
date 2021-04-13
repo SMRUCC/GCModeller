@@ -183,7 +183,7 @@ Namespace Imaging
         End Function
 
         Private Sub __save(path As String, format As ImageFormat)
-            Call path.ParentPath.MkDIR
+            Call path.ParentPath.MakeDir
             Call ImageResource.Save(path, format)
         End Sub
 

@@ -742,7 +742,7 @@ RE0:
 
                 Call browser.Headers.Add(UserAgent.UAheader, ua Or DefaultUA)
                 Call $"{strUrl} --> {save}".__DEBUG_ECHO
-                Call save.ParentPath.MkDIR
+                Call save.ParentPath.MakeDir
                 Call browser.DownloadFile(strUrl, save)
             End Using
 
