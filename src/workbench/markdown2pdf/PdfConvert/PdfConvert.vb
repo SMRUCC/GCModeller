@@ -93,7 +93,7 @@ Public Module PdfConvert
 
         If url.IsNullOrEmpty Then
             If Not html.StringEmpty Then
-                With App.GetAppSysTempFile(, App.PID)
+                With TempFileSystem.GetAppSysTempFile(, App.PID)
                     html.SaveTo(.ByRef)
                     url = { .ByRef}
                 End With
@@ -112,7 +112,7 @@ Public Module PdfConvert
             outputPdfFilePath = woutput.OutputFilePath
             delete = False
         Else
-            outputPdfFilePath = App.GetAppSysTempFile(".pdf", App.PID)
+            outputPdfFilePath = TempFileSystem.GetAppSysTempFile(".pdf", App.PID)
             delete = True
         End If
 
@@ -123,7 +123,7 @@ Public Module PdfConvert
         End If
 
         Try
-            Call outputPdfFilePath.ParentPath.MkDIR
+            Call outputPdfFilePath.ParentPath.MakeDir
             Call environment.RunProcess(
                 args:=argument,
                 url:=url.JoinBy(ASCII.LF),
