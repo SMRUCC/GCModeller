@@ -131,9 +131,10 @@ Public Class MsgPackSerializer
     End Function
 
     Public Sub Serialize(o As Object, stream As Stream)
-        Using writer As BinaryWriter = New BinaryWriter(stream)
-            Serialize(o, writer)
-        End Using
+        Dim writer As New BinaryWriter(stream)
+
+        Call Serialize(o, writer)
+        Call writer.Flush()
     End Sub
 
     Public Function Serialize(o As Object) As Byte()
