@@ -21,9 +21,9 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="nsweeps"></param>
         ''' <returns></returns>
-        Public MustOverride Function Start(Optional nsweeps% = 2000, Optional showProgress As Boolean = True) As Labeler
+        Public MustOverride Function Start(Optional nsweeps% = 2000, Optional showProgress As Boolean = True) As DataLabeler
 
-        Public Function WithOffset(offset As PointF) As Labeler
+        Public Function WithOffset(offset As PointF) As DataLabeler
             Me.offset = offset
             Return Me
         End Function
@@ -33,7 +33,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Width(x#) As Labeler
+        Public Function Width(x#) As DataLabeler
             w = x
             Return Me
         End Function
@@ -43,12 +43,12 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Height(x#) As Labeler
+        Public Function Height(x#) As DataLabeler
             h = x
             Return Me
         End Function
 
-        Public Function Size(x As SizeF) As Labeler
+        Public Function Size(x As SizeF) As DataLabeler
             With x
                 w = .Width
                 h = .Height
@@ -62,7 +62,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Labels(x As IEnumerable(Of Label)) As Labeler
+        Public Function Labels(x As IEnumerable(Of Label)) As DataLabeler
             m_labels = x.ToArray
             unpinnedLabels = m_labels _
                 .SeqIterator _
@@ -78,7 +78,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Anchors(x As IEnumerable(Of Anchor)) As Labeler
+        Public Function Anchors(x As IEnumerable(Of Anchor)) As DataLabeler
             m_anchors = x.ToArray
             Return Me
         End Function

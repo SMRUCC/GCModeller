@@ -305,7 +305,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="nsweeps"></param>
         ''' <returns></returns>
-        Public Overrides Function Start(Optional nsweeps% = 2000, Optional showProgress As Boolean = True) As Labeler
+        Public Overrides Function Start(Optional nsweeps% = 2000, Optional showProgress As Boolean = True) As DataLabeler
             Dim moves As Action(Of Integer) = AddressOf mclMove
             Dim rotat As Action(Of Integer) = AddressOf mclRotate
             Dim progress As ProgressBar = Nothing
