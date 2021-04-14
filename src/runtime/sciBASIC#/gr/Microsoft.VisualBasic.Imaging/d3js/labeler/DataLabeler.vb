@@ -12,8 +12,8 @@ Namespace d3js.Layout
         ''' <summary>
         ''' box width/height
         ''' </summary>
-        Protected w As Double = 1
-        Protected h As Double = 1
+        Protected CANVAS_WIDTH As Double = 1
+        Protected CANVAS_HEIGHT As Double = 1
         Protected offset As PointF
 
         ''' <summary>
@@ -34,7 +34,7 @@ Namespace d3js.Layout
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Width(x#) As DataLabeler
-            w = x
+            CANVAS_WIDTH = x
             Return Me
         End Function
 
@@ -44,14 +44,14 @@ Namespace d3js.Layout
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Height(x#) As DataLabeler
-            h = x
+            CANVAS_HEIGHT = x
             Return Me
         End Function
 
         Public Function Size(x As SizeF) As DataLabeler
             With x
-                w = .Width
-                h = .Height
+                CANVAS_WIDTH = .Width
+                CANVAS_HEIGHT = .Height
             End With
 
             Return Me

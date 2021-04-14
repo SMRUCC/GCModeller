@@ -228,9 +228,9 @@ Namespace d3js.Layout
             Call action(i)
 
             ' hard wall boundaries
-            If (label.X + label.width > w + offset.X) Then m_labels(i).X = x_old
+            If (label.X + label.width > CANVAS_WIDTH + offset.X) Then m_labels(i).X = x_old
             If (label.X < 0) Then m_labels(i).X = x_old
-            If (label.Y + label.height > h + offset.Y) Then m_labels(i).Y = y_old
+            If (label.Y + label.height > CANVAS_HEIGHT + offset.Y) Then m_labels(i).Y = y_old
             If (label.Y < 0) Then m_labels(i).Y = y_old
 
             ' New energy
