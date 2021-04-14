@@ -83,7 +83,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 EXPORT = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache) & "/Modules/"
             End If
 
-            Call EXPORT.MkDIR
+            Call EXPORT.MakeDir
 
             Dim ModuleList As New List(Of [Module])
 

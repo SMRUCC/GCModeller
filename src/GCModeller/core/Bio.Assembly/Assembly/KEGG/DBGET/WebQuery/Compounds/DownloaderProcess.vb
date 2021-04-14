@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::8e3f9a0c913717ce566d3ef5eff06414, core\Bio.Assembly\Assembly\KEGG\DBGET\WebQuery\Compounds\DownloaderProcess.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DownloaderProcess
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Download, ExecuteDownloads
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DownloaderProcess
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Sub: Download, ExecuteDownloads
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -132,7 +133,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
                     Dim KCF$ = xmlFile.ChangeSuffix("txt")
                     Dim gif = xmlFile.ChangeSuffix("gif")
 
-                    With App.GetAppSysTempFile(".txt", App.PID)
+                    With TempFileSystem.GetAppSysTempFile(".txt", App.PID)
                         If KCF.FileExists Then
                             compound.KCF = KCF.ReadAllText
                         Else
@@ -146,7 +147,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
 
                     ' gif分子二维结构图是以base64
                     ' 字符串的形式写在XML文件之中的
-                    With App.GetAppSysTempFile(".gif", App.PID)
+                    With TempFileSystem.GetAppSysTempFile(".gif", App.PID)
                         Dim base64$
 
                         If gif.FileExists Then
