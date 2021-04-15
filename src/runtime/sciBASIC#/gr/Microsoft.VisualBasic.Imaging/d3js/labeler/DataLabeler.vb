@@ -33,7 +33,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Width(x#) As DataLabeler
+        Public Overridable Function Width(x#) As DataLabeler
             CANVAS_WIDTH = x
             Return Me
         End Function
@@ -43,7 +43,7 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Function Height(x#) As DataLabeler
+        Public Overridable Function Height(x#) As DataLabeler
             CANVAS_HEIGHT = x
             Return Me
         End Function

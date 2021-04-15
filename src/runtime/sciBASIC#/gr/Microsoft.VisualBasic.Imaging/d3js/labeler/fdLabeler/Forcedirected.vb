@@ -16,11 +16,11 @@ Namespace d3js.Layout
 
         Protected ReadOnly ejectFactor As Integer = 6
         Protected ReadOnly condenseFactor As Integer = 3
-        Protected ReadOnly maxtx As Integer = 4
-        Protected ReadOnly maxty As Integer = 3
         Protected ReadOnly dist_thresh As DoubleRange
 
         Dim k As Double
+        Dim maxtx As Integer = 4
+        Dim maxty As Integer = 3
 
         ''' <summary>
         ''' 会尽量避免在这个区域内存在网络的节点，这个区域一般为legend的绘制区域
@@ -29,14 +29,10 @@ Namespace d3js.Layout
 
         Sub New(Optional ejectFactor As Integer = 6,
                 Optional condenseFactor As Integer = 3,
-                Optional maxtx As Integer = 4,
-                Optional maxty As Integer = 3,
                 Optional dist$ = "30,250",
                 Optional avoidRegions As RectangleF() = Nothing)
 
             Me.dist_thresh = dist.NumericRangeParser
-            Me.maxtx = maxtx
-            Me.maxty = maxty
             Me.condenseFactor = condenseFactor
             Me.ejectFactor = ejectFactor
             Me.avoidRegions = avoidRegions _
@@ -44,6 +40,20 @@ Namespace d3js.Layout
                 .Select(Function(rect) (New Rectangle2D(rect), rect.Centre)) _
                 .ToArray
         End Sub
+
+        Public Overrides Function Width(x As Double) As DataLabeler
+            CANVAS_WIDTH = x
+            maxtx = CANVAS_WIDTH / 3
+
+            Return Me
+        End Function
+
+        Public Overrides Function Height(x As Double) As DataLabeler
+            CANVAS_HEIGHT = x
+            maxty = CANVAS_HEIGHT / 3
+
+            Return Me
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Collide()
@@ -79,8 +89,8 @@ Namespace d3js.Layout
                     id = v.text
 
                     If dist > 0 Then
-                        dx = (distX / dist) * (k * k / dist) * ejectFactor * 5
-                        dy = (distY / dist) * (k * k / dist) * ejectFactor * 5
+                        dx = (distX / dist) * (k * k / dist) * ejectFactor * 10
+                        dy = (distY / dist) * (k * k / dist) * ejectFactor * 10
 
                         mDxMap(id) = mDxMap(id) + dx
                         mDyMap(id) = mDyMap(id) + dy
@@ -96,6 +106,7 @@ Namespace d3js.Layout
             Dim distX, distY, dist As Double
             Dim id As String
             Dim dx, dy As Double
+            Dim ejectFactor = Me.ejectFactor
 
             For Each v As Label In m_labels
                 If v.pinned Then
@@ -108,12 +119,6 @@ Namespace d3js.Layout
                 mDyMap(id) = 0.0
 
                 For Each u As Label In m_labels.Where(Function(ui) Not ui Is v)
-                    Dim ejectFactor = Me.ejectFactor
-
-                    If Not u.pinned Then
-                        ejectFactor *= 3
-                    End If
-
                     distX = v.X - u.X
                     distY = v.Y - u.Y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
@@ -126,8 +131,8 @@ Namespace d3js.Layout
                         dx = (distX / dist) * (k * k / dist) * ejectFactor
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
 
-                        mDxMap(id) = mDxMap(id) - (dx + id.Length)
-                        mDyMap(id) = mDyMap(id) - (dy + id.Length)
+                        mDxMap(id) = mDxMap(id) + dx
+                        mDyMap(id) = mDyMap(id) + dy
                     End If
                 Next
             Next
@@ -168,6 +173,13 @@ Namespace d3js.Layout
             For Each node As Label In m_labels.Where(Function(v) Not v.pinned)
                 dx = mDxMap(node.text)
                 dy = mDyMap(node.text)
+
+                If dx <> 0 Then
+                    dx = stdNum.Sign(dx) * stdNum.Log(stdNum.Abs(dx))
+                End If
+                If dy <> 0 Then
+                    dy = stdNum.Sign(dy) * stdNum.Log(stdNum.Abs(dy))
+                End If
 
                 If (dx < -maxtx) Then dx = -maxtx
                 If (dx > maxtx) Then dx = maxtx
