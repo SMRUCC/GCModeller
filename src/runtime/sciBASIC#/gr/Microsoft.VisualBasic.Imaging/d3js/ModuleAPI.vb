@@ -50,8 +50,16 @@ Namespace d3js
 
     Public Module ModuleAPI
 
-        Public Function forcedirectedLabeler() As Forcedirected
-            Return New Forcedirected()
+        Public Function forcedirectedLabeler(Optional ejectFactor As Integer = 6,
+                                             Optional condenseFactor As Integer = 5,
+                                             Optional dist$ = "30,250",
+                                             Optional avoidRegions As RectangleF() = Nothing) As Forcedirected
+            Return New Forcedirected(
+                ejectFactor:=ejectFactor,
+                dist:=dist,
+                condenseFactor:=condenseFactor,
+                avoidRegions:=avoidRegions
+            )
         End Function
 
         ''' <summary>

@@ -146,7 +146,7 @@ Namespace d3js.Layout
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{text}@({X.ToString("F2")},{Y.ToString("F2")})"
+            Return $"[{X.ToString("F2")},{Y.ToString("F2")}] [{If(pinned, "pinned", "**unpin")}] {text}"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

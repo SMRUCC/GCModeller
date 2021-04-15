@@ -31,10 +31,10 @@ Namespace d3js.Layout
                 Optional condenseFactor As Integer = 3,
                 Optional maxtx As Integer = 4,
                 Optional maxty As Integer = 3,
-                Optional dist_threshold$ = "30,250",
+                Optional dist$ = "30,250",
                 Optional avoidRegions As RectangleF() = Nothing)
 
-            Me.dist_thresh = dist_threshold.NumericRangeParser
+            Me.dist_thresh = dist.NumericRangeParser
             Me.maxtx = maxtx
             Me.maxty = maxty
             Me.condenseFactor = condenseFactor
@@ -90,12 +90,11 @@ Namespace d3js.Layout
         End Sub
 
         ''' <summary>
-        ''' 节点之间的排斥力
+        ''' 标签节点之间存在的排斥力
         ''' </summary>
         Protected Overridable Sub runRepulsive()
             Dim distX, distY, dist As Double
             Dim id As String
-            Dim ejectFactor = Me.ejectFactor
             Dim dx, dy As Double
 
             For Each v As Label In m_labels
@@ -109,6 +108,12 @@ Namespace d3js.Layout
                 mDyMap(id) = 0.0
 
                 For Each u As Label In m_labels.Where(Function(ui) Not ui Is v)
+                    Dim ejectFactor = Me.ejectFactor
+
+                    If Not u.pinned Then
+                        ejectFactor *= 3
+                    End If
+
                     distX = v.X - u.X
                     distY = v.Y - u.Y
                     dist = stdNum.Sqrt(distX * distX + distY * distY)
@@ -121,13 +126,16 @@ Namespace d3js.Layout
                         dx = (distX / dist) * (k * k / dist) * ejectFactor
                         dy = (distY / dist) * (k * k / dist) * ejectFactor
 
-                        mDxMap(id) = mDxMap(id) + dx
-                        mDyMap(id) = mDyMap(id) + dy
+                        mDxMap(id) = mDxMap(id) - (dx + id.Length)
+                        mDyMap(id) = mDyMap(id) - (dy + id.Length)
                     End If
                 Next
             Next
         End Sub
 
+        ''' <summary>
+        ''' 标签节点与anchor之间得吸引力
+        ''' </summary>
         Protected Overridable Sub runAttraction()
             Dim u As Label
             Dim v As Anchor
@@ -148,8 +156,8 @@ Namespace d3js.Layout
                 dx = distX * dist / k * condenseFactor
                 dy = distY * dist / k * condenseFactor
 
-                mDxMap(u.text) = mDxMap(u.text) - dx
-                mDyMap(u.text) = mDyMap(u.text) - dy
+                mDxMap(u.text) = mDxMap(u.text) - dx / u.text.Length
+                mDyMap(u.text) = mDyMap(u.text) - dy / u.text.Length
             Next
         End Sub
 
@@ -171,16 +179,16 @@ Namespace d3js.Layout
                 x = x + dx ' If((x + dx) >= CANVAS_WIDTH OrElse (x + dx) <= 0, x - dx, x + dx)
                 y = y + dy ' If((y + dy) >= CANVAS_HEIGHT OrElse (y + dy <= 0), y - dy, y + dy)
 
-                If x >= CANVAS_WIDTH Then
-                    x = CANVAS_WIDTH
-                ElseIf x < 0 Then
-                    x = 0
+                If x + node.width >= CANVAS_WIDTH Then
+                    x = CANVAS_WIDTH - node.width
+                ElseIf x < offset.X Then
+                    x = offset.X
                 End If
 
-                If y >= CANVAS_HEIGHT Then
-                    y = CANVAS_HEIGHT
-                ElseIf y < 0 Then
-                    y = 0
+                If y + node.height >= CANVAS_HEIGHT Then
+                    y = CANVAS_HEIGHT - node.height
+                ElseIf y < offset.Y Then
+                    y = offset.Y
                 End If
 
                 node.X = x
