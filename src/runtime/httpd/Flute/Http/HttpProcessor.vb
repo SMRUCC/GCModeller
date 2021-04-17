@@ -54,6 +54,7 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Flute.Http.Core.Message
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -335,7 +336,7 @@ Namespace Core
         ''' </summary>
         ''' <remarks></remarks>
         Public Sub HandlePOSTRequest()
-            Dim handle$ = App.GetAppSysTempFile(, sessionID:=App.PID)
+            Dim handle$ = TempFileSystem.GetAppSysTempFile(, sessionID:=App.PID)
             Dim result As (error%, message$) = Nothing
 
             If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) Then

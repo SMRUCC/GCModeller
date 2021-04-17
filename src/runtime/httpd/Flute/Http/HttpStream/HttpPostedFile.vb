@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::45735a9f01b293e4ec0828b5f7b653cf, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\HttpPostedFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class HttpPostedFile
-    ' 
-    '         Properties: ContentLength, ContentType, FileName, TempPath
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Summary
-    ' 
-    '         Sub: ensureTargetNotExists, (+2 Overloads) SaveAs
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class HttpPostedFile
+' 
+'         Properties: ContentLength, ContentType, FileName, TempPath
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: Summary
+' 
+'         Sub: ensureTargetNotExists, (+2 Overloads) SaveAs
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -77,6 +77,7 @@
 '
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
 
 Namespace Core.HttpStream
@@ -99,7 +100,7 @@ Namespace Core.HttpStream
         Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
             Me.FileName = name
             Me.ContentType = content_type
-            Me.TempPath = App.GetAppSysTempFile(, App.PID)
+            Me.TempPath = TempFileSystem.GetAppSysTempFile(, App.PID)
 
             ' 数据写入到临时文件之中
             Call SaveAs(TempPath, New ReadSubStream(base_stream, offset, length))
@@ -127,7 +128,7 @@ Namespace Core.HttpStream
             Finally
                 ' 当目标文件不存在的时候，可能文件夹也是不存在的
                 ' 需要提前创建好文件夹，否则后面的文件保存会出错
-                Call filename.ParentPath.MkDIR
+                Call filename.ParentPath.MakeDir
             End Try
         End Sub
 
