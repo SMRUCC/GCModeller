@@ -199,6 +199,24 @@ Namespace Contour
             Return plotInternal.Plot(size)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="matrix">[x => [y, z]]</param>
+        ''' <param name="colorMap$"></param>
+        ''' <param name="mapLevels%"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="size$"></param>
+        ''' <param name="padding$"></param>
+        ''' <param name="unit%"></param>
+        ''' <param name="legendTitle$"></param>
+        ''' <param name="legendFont$"></param>
+        ''' <param name="tickFont$"></param>
+        ''' <param name="xlabel$"></param>
+        ''' <param name="ylabel$"></param>
+        ''' <param name="minZ#"></param>
+        ''' <param name="maxZ#"></param>
+        ''' <returns></returns>
         Public Function CreatePlot(matrix As IEnumerable(Of DataSet),
                                   Optional colorMap$ = "Spectral:c10",
                                   Optional mapLevels% = 25,
