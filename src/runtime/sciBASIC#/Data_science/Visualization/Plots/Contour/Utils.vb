@@ -228,7 +228,7 @@ Namespace Contour
                                   Optional ylabel$ = "Y",
                                   Optional minZ# = Double.MinValue,
                                   Optional maxZ# = Double.MaxValue,
-                                   Optional legendTickFormat$ = "F2") As ContourPlot
+                                  Optional legendTickFormat$ = "F2") As ContourPlot
 
             Dim margin As Padding = padding
             Dim theme As New Theme With {
