@@ -338,18 +338,14 @@ Namespace Contour
             ' x: a -> b
             ' 每一行数据都是y在发生变化
             Dim data As (X#, y#, Z#)()() = DataProvider.Evaluate(
-                AddressOf fun.Evaluate, xrange, yrange,
-                xsteps, ysteps,
-                parallel, matrix).ToArray
-
-            If data.Length > size.Width + 10 Then
-                Dim stepDelta = data.Length / size.Width
-                Dim splt = data.Split(stepDelta)
-
-            Else ' 数据不足
-
-
-            End If
+                f:=AddressOf fun.Evaluate,
+                x:=xrange,
+                y:=yrange,
+                xsteps:=xsteps,
+                ysteps:=ysteps,
+                parallel:=parallel,
+                matrix:=matrix
+            ).ToArray
 
             Return data.ToVector
         End Function
