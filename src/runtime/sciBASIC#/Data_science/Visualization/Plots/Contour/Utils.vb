@@ -214,19 +214,21 @@ Namespace Contour
         ''' <param name="maxZ#"></param>
         ''' <returns></returns>
         Public Function CreatePlot(matrix As IEnumerable(Of DataSet),
-                                  Optional colorMap$ = "Spectral:c10",
-                                  Optional mapLevels% = 25,
-                                  Optional bg$ = "white",
-                                  Optional padding$ = "padding: 100 400 100 400;",
-                                  Optional unit% = 5,
-                                  Optional legendTitle$ = "Scatter Heatmap",
-                                  Optional legendFont$ = CSSFont.Win10NormalLarge,
-                                  Optional tickFont$ = CSSFont.Win7Normal,
-                                  Optional xlabel$ = "X",
-                                  Optional ylabel$ = "Y",
-                                  Optional minZ# = Double.MinValue,
-                                  Optional maxZ# = Double.MaxValue,
-                                  Optional legendTickFormat$ = "F2") As ContourPlot
+                                   Optional colorMap$ = "Spectral:c10",
+                                   Optional mapLevels% = 25,
+                                   Optional bg$ = "white",
+                                   Optional padding$ = "padding: 100 400 100 400;",
+                                   Optional unit% = 5,
+                                   Optional legendTitle$ = "Scatter Heatmap",
+                                   Optional legendFont$ = CSSFont.Win10NormalLarge,
+                                   Optional tickFont$ = CSSFont.Win7Normal,
+                                   Optional xlabel$ = "X",
+                                   Optional ylabel$ = "Y",
+                                   Optional minZ# = Double.MinValue,
+                                   Optional maxZ# = Double.MaxValue,
+                                   Optional legendTickFormat$ = "F2",
+                                   Optional xsteps! = 1,
+                                   Optional ysteps! = 1) As ContourPlot
 
             Dim margin As Padding = padding
             Dim theme As New Theme With {
@@ -252,8 +254,8 @@ Namespace Contour
                 .unit = 5,
                 .xrange = xrange,
                 .yrange = yrange,
-                .xsteps = xrange.Length / 1000,
-                .ysteps = yrange.Length / 1000
+                .xsteps = xsteps,
+                .ysteps = ysteps
             }
         End Function
 
@@ -331,8 +333,6 @@ Namespace Contour
 
             xsteps = xsteps Or (xrange.Length / size.Width).AsDefault(Function(n) Single.IsNaN(CSng(n)))
             ysteps = ysteps Or (yrange.Length / size.Height).AsDefault(Function(n) Single.IsNaN(CSng(n)))
-            xsteps *= unit%
-            ysteps *= unit%
 
             ' x: a -> b
             ' 每一行数据都是y在发生变化
