@@ -218,7 +218,17 @@ Namespace Contour
             Dim legendFont As Font = CSSFont.TryParse(theme.legendLabelCSS)
             Dim tickFont As Font = CSSFont.TryParse(theme.legendTickCSS)
 
-            Call g.ColorMapLegend(legendLayout, colorDatas, rangeTicks, legendFont, legendTitle, tickFont, New Pen(Color.Black, 2), NameOf(Color.Gray))
+            Call g.ColorMapLegend(
+                layout:=legendLayout,
+                designer:=colorDatas,
+                ticks:=rangeTicks,
+                titleFont:=legendFont,
+                title:=legendTitle,
+                tickFont:=tickFont,
+                tickAxisStroke:=New Pen(Color.Black, 2),
+                unmapColor:=NameOf(Color.Gray),
+                format:=theme.legendTickFormat
+            )
         End Sub
     End Class
 End Namespace

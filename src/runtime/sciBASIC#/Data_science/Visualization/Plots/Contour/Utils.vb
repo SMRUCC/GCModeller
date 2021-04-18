@@ -227,7 +227,8 @@ Namespace Contour
                                   Optional xlabel$ = "X",
                                   Optional ylabel$ = "Y",
                                   Optional minZ# = Double.MinValue,
-                                  Optional maxZ# = Double.MaxValue) As ContourPlot
+                                  Optional maxZ# = Double.MaxValue,
+                                   Optional legendTickFormat$ = "F2") As ContourPlot
 
             Dim margin As Padding = padding
             Dim theme As New Theme With {
@@ -235,7 +236,8 @@ Namespace Contour
                 .background = bg,
                 .legendLabelCSS = legendFont,
                 .axisTickCSS = tickFont,
-                .padding = padding
+                .padding = padding,
+                .legendTickFormat = legendTickFormat
             }
             Dim matrixData As DataSet() = matrix.ToArray
             Dim xrange As DoubleRange = matrixData.Select(Function(d) Val(d.ID)).ToArray
@@ -249,7 +251,7 @@ Namespace Contour
                 .ylabel = ylabel,
                 .minZ = minZ,
                 .maxZ = maxZ,
-                .unit = unit,
+                .unit = 5,
                 .xrange = xrange,
                 .yrange = yrange,
                 .xsteps = xrange.Length / 1000,
