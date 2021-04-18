@@ -205,7 +205,6 @@ Namespace Contour
         ''' <param name="colorMap$"></param>
         ''' <param name="mapLevels%"></param>
         ''' <param name="bg$"></param>
-        ''' <param name="size$"></param>
         ''' <param name="padding$"></param>
         ''' <param name="unit%"></param>
         ''' <param name="legendTitle$"></param>
@@ -245,7 +244,7 @@ Namespace Contour
             Return New ContourPlot(theme) With {
                 .legendTitle = legendTitle,
                 .mapLevels = mapLevels,
-                .matrix = New MatrixEvaluate(matrixData, 1),
+                .matrix = New MatrixEvaluate(matrixData, unit),
                 .xlabel = xlabel,
                 .ylabel = ylabel,
                 .minZ = minZ,
