@@ -167,7 +167,6 @@ Namespace Contour
                              Optional xlabel$ = "X",
                              Optional ylabel$ = "Y",
                              Optional logbase# = -1.0R,
-                             Optional scale# = 1.0#,
                              Optional tickFont$ = CSSFont.Win7Normal) As GraphicsData
 
             Dim theme As New Theme With {
@@ -191,8 +190,7 @@ Namespace Contour
                 .ylabel = ylabel,
                 .logBase = logbase,
                 .maxZ = maxZ,
-                .minZ = minZ,
-                .scale = scale
+                .minZ = minZ
             }
 
             Return plotInternal.Plot(size)
