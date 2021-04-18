@@ -62,13 +62,19 @@ Namespace Contour
     ''' <summary>
     ''' Contour heatmap 
     ''' 
+    ''' A contour plot is a graphical technique for representing a 3-dimensional 
+    ''' surface by plotting constant z slices, called contours, on a 2-dimensional 
+    ''' format. That is, given a value for z, lines are drawn for connecting the 
+    ''' ``(x,y)`` coordinates where that z value occurs.
+    ''' 
+    ''' The contour plot Is an alternative To a 3-D surface plot.
+    ''' 
     ''' ###### 等高线图
     ''' 
     ''' 和普通的heatmap相比，这里的坐标轴是连续的数值变量，而普通的heatmap，其坐标轴都是离散的分类变量
     ''' </summary>
     Public Class ContourPlot : Inherits Plot
 
-        Public offset As Point
         Public matrix As EvaluatePoints
         Public xrange As DoubleRange, yrange As DoubleRange
         Public xsteps!, ysteps!
@@ -158,6 +164,12 @@ Namespace Contour
                 .range(integers:={rect.Top, rect.Bottom})
             Dim colorDatas As SolidBrush() = Nothing
             Dim getColors = GetColor(data.Select(Function(o) o.z).ToArray, colorDatas)
+            Dim scaler As New DataScaler() With {
+                .AxisTicks = (xTicks.AsVector, yTicks.AsVector),
+                .region = canvas.PlotRegion,
+                .X = x,
+                .Y = y
+            }
             Dim size As Size = canvas.Size
             Dim margin = canvas.Padding
             Dim plotWidth! = rect.Width
@@ -170,12 +182,13 @@ Namespace Contour
                 .Y = margin.Top + (plotHeight - .Height) / 2
             }
 
-            ' Call g.DrawAxis(size, margin, scaler, False, offset, xlabel, ylabel)
-
-            offset = New Point With {
-                .X = offset.X,
-                .Y = offset.Y - unit / 2
-            }
+            Call g.DrawAxis(canvas, scaler,
+                showGrid:=False,
+                xlabel:=xlabel,
+                ylabel:=ylabel,
+                htmlLabel:=False,
+                tickFontStyle:=theme.axisTickCSS
+            )
 
             Dim us% = unit * scale
 
@@ -183,14 +196,13 @@ Namespace Contour
                 Dim p As (X#, y#, Z#) = data(i)
                 Dim c As SolidBrush = getColors(i)
                 Dim fill As New RectangleF With {
-                    .X = x(p.X) + offset.X,
-                    .Y = y(p.y) + offset.Y,
+                    .X = x(p.X),
+                    .Y = y(p.y),
                     .Width = us,
                     .Height = us
                 }
 
                 Call g.FillRectangle(c, fill)
-                Call g.DrawRectangle(New Pen(c), fill.Left, fill.Top, fill.Width, fill.Height)
             Next
 
             ' Draw legends
@@ -204,7 +216,7 @@ Namespace Contour
                 .ToArray
             Dim rangeTicks#() = realData.Range.CreateAxisTicks
             Dim legendFont As Font = CSSFont.TryParse(theme.legendLabelCSS)
-            Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS)
+            Dim tickFont As Font = CSSFont.TryParse(theme.legendTickCSS)
 
             Call g.ColorMapLegend(legendLayout, colorDatas, rangeTicks, legendFont, legendTitle, tickFont, New Pen(Color.Black, 2), NameOf(Color.Gray))
         End Sub

@@ -153,11 +153,11 @@ Namespace Contour
                              Optional colorMap$ = "Spectral:c10",
                              Optional mapLevels% = 25,
                              Optional bg$ = "white",
-                             Optional size$ = "3000,2700",
-                             Optional padding$ = "padding: 100 400 100 400",
+                             Optional size$ = "3600,2700",
+                             Optional padding$ = "padding: 100px 900px 250px 300px;",
                              Optional unit% = 5,
-                             Optional legendTitle$ = "Scatter Heatmap",
-                             Optional legendFont$ = CSSFont.Win7Large,
+                             Optional legendTitle$ = "Contour Heatmap",
+                             Optional legendFont$ = CSSFont.Win7LittleLarge,
                              Optional xsteps! = Single.NaN,
                              Optional ysteps! = Single.NaN,
                              Optional parallel As Boolean = False,
@@ -178,7 +178,6 @@ Namespace Contour
                 .background = bg
             }
             Dim plotInternal As New ContourPlot(theme) With {
-                .offset = New Point(-300, 0),
                 .xrange = xrange,
                 .yrange = yrange,
                 .parallel = parallel,
@@ -242,7 +241,6 @@ Namespace Contour
             }
 
             Return New ContourPlot(theme) With {
-                .offset = New Point(-300, 0),
                 .legendTitle = legendTitle,
                 .mapLevels = mapLevels,
                 .matrix = New MatrixEvaluate(matrix, 1),
