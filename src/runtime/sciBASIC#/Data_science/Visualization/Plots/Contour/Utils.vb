@@ -43,22 +43,15 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
 
 Namespace Contour
 
@@ -88,7 +81,6 @@ Namespace Contour
             End With
         End Function
 
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -109,17 +101,17 @@ Namespace Contour
         ''' <returns></returns>
         <Extension>
         Public Function Plot(exp$, xrange As DoubleRange, yrange As DoubleRange,
-                         Optional colorMap$ = "Spectral:c10",
-                         Optional mapLevels% = 25,
-                         Optional bg$ = "white",
-                         Optional size$ = "3000,2700",
-                         Optional padding$ = "padding: 100 400 100 400;",
-                         Optional unit% = 5,
-                         Optional legendTitle$ = "",
-                         Optional legendFont$ = CSSFont.Win7Large,
-                         Optional xsteps! = Single.NaN,
-                         Optional ysteps! = Single.NaN,
-                         Optional ByRef matrix As List(Of DataSet) = Nothing) As GraphicsData
+                             Optional colorMap$ = "Spectral:c10",
+                             Optional mapLevels% = 25,
+                             Optional bg$ = "white",
+                             Optional size$ = "3000,2700",
+                             Optional padding$ = "padding: 100 400 100 400;",
+                             Optional unit% = 5,
+                             Optional legendTitle$ = "",
+                             Optional legendFont$ = CSSFont.Win7Large,
+                             Optional xsteps! = Single.NaN,
+                             Optional ysteps! = Single.NaN,
+                             Optional ByRef matrix As List(Of DataSet) = Nothing) As GraphicsData
 
             Dim fun As Func(Of Double, Double, Double) = Compile(exp)
 
@@ -161,11 +153,11 @@ Namespace Contour
                              Optional colorMap$ = "Spectral:c10",
                              Optional mapLevels% = 25,
                              Optional bg$ = "white",
-                             Optional size$ = "3000,2700",
-                             Optional padding$ = "padding: 100 400 100 400",
+                             Optional size$ = "3600,2700",
+                             Optional padding$ = "padding: 100px 900px 250px 300px;",
                              Optional unit% = 5,
-                             Optional legendTitle$ = "Scatter Heatmap",
-                             Optional legendFont$ = CSSFont.Win7Large,
+                             Optional legendTitle$ = "Contour Heatmap",
+                             Optional legendFont$ = CSSFont.Win7LittleLarge,
                              Optional xsteps! = Single.NaN,
                              Optional ysteps! = Single.NaN,
                              Optional parallel As Boolean = False,
@@ -175,12 +167,16 @@ Namespace Contour
                              Optional xlabel$ = "X",
                              Optional ylabel$ = "Y",
                              Optional logbase# = -1.0R,
-                             Optional scale# = 1.0#,
                              Optional tickFont$ = CSSFont.Win7Normal) As GraphicsData
 
-            Dim theme As New Theme With {.padding = padding, .axisTickCSS = tickFont, .legendLabelCSS = legendFont, .colorSet = colorMap, .background = bg}
+            Dim theme As New Theme With {
+                .padding = padding,
+                .axisTickCSS = tickFont,
+                .legendLabelCSS = legendFont,
+                .colorSet = colorMap,
+                .background = bg
+            }
             Dim plotInternal As New ContourPlot(theme) With {
-                .offset = New Point(-300, 0),
                 .xrange = xrange,
                 .yrange = yrange,
                 .parallel = parallel,
@@ -194,11 +190,73 @@ Namespace Contour
                 .ylabel = ylabel,
                 .logBase = logbase,
                 .maxZ = maxZ,
-                .minZ = minZ,
-                .scale = scale
+                .minZ = minZ
             }
 
             Return plotInternal.Plot(size)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="matrix">[x => [y, z]]</param>
+        ''' <param name="colorMap$"></param>
+        ''' <param name="mapLevels%"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="padding$"></param>
+        ''' <param name="unit%"></param>
+        ''' <param name="legendTitle$"></param>
+        ''' <param name="legendFont$"></param>
+        ''' <param name="tickFont$"></param>
+        ''' <param name="xlabel$"></param>
+        ''' <param name="ylabel$"></param>
+        ''' <param name="minZ#"></param>
+        ''' <param name="maxZ#"></param>
+        ''' <returns></returns>
+        Public Function CreatePlot(matrix As IEnumerable(Of DataSet),
+                                   Optional colorMap$ = "Spectral:c10",
+                                   Optional mapLevels% = 25,
+                                   Optional bg$ = "white",
+                                   Optional padding$ = "padding: 100 400 100 400;",
+                                   Optional unit% = 5,
+                                   Optional legendTitle$ = "Scatter Heatmap",
+                                   Optional legendFont$ = CSSFont.Win10NormalLarge,
+                                   Optional tickFont$ = CSSFont.Win7Normal,
+                                   Optional xlabel$ = "X",
+                                   Optional ylabel$ = "Y",
+                                   Optional minZ# = Double.MinValue,
+                                   Optional maxZ# = Double.MaxValue,
+                                   Optional legendTickFormat$ = "F2",
+                                   Optional xsteps! = 1,
+                                   Optional ysteps! = 1) As ContourPlot
+
+            Dim margin As Padding = padding
+            Dim theme As New Theme With {
+                .colorSet = colorMap,
+                .background = bg,
+                .legendLabelCSS = legendFont,
+                .axisTickCSS = tickFont,
+                .padding = padding,
+                .legendTickFormat = legendTickFormat
+            }
+            Dim matrixData As DataSet() = matrix.ToArray
+            Dim xrange As DoubleRange = matrixData.Select(Function(d) Val(d.ID)).ToArray
+            Dim yrange As DoubleRange = matrixData.PropertyNames.Select(Function(a) Val(a)).ToArray
+
+            Return New ContourPlot(theme) With {
+                .legendTitle = legendTitle,
+                .mapLevels = mapLevels,
+                .matrix = New MatrixEvaluate(matrixData, unit),
+                .xlabel = xlabel,
+                .ylabel = ylabel,
+                .minZ = minZ,
+                .maxZ = maxZ,
+                .unit = 5,
+                .xrange = xrange,
+                .yrange = yrange,
+                .xsteps = xsteps,
+                .ysteps = ysteps
+            }
         End Function
 
         ''' <summary>
@@ -219,40 +277,35 @@ Namespace Contour
         ''' <returns></returns>
         <Extension>
         Public Function Plot(matrix As IEnumerable(Of DataSet),
-                         Optional colorMap$ = "Spectral:c10",
-                         Optional mapLevels% = 25,
-                         Optional bg$ = "white",
-                         Optional size$ = "3000,2500",
-                         Optional padding$ = "padding: 100 400 100 400;",
-                         Optional unit% = 5,
-                         Optional legendTitle$ = "Scatter Heatmap",
-                         Optional legendFont$ = CSSFont.Win10NormalLarge,
-                         Optional tickFont$ = CSSFont.Win7Normal,
-                         Optional xlabel$ = "X",
-                         Optional ylabel$ = "Y",
-                         Optional minZ# = Double.MinValue,
-                         Optional maxZ# = Double.MaxValue) As GraphicsData
+                             Optional colorMap$ = "Spectral:c10",
+                             Optional mapLevels% = 25,
+                             Optional bg$ = "white",
+                             Optional size$ = "3000,2500",
+                             Optional padding$ = "padding: 100 400 100 400;",
+                             Optional unit% = 5,
+                             Optional legendTitle$ = "Scatter Heatmap",
+                             Optional legendFont$ = CSSFont.Win10NormalLarge,
+                             Optional tickFont$ = CSSFont.Win7Normal,
+                             Optional xlabel$ = "X",
+                             Optional ylabel$ = "Y",
+                             Optional minZ# = Double.MinValue,
+                             Optional maxZ# = Double.MaxValue) As GraphicsData
 
-            Dim margin As Padding = padding
-            Dim theme As New Theme With {
-                .colorSet = colorMap,
-                .background = bg,
-                .legendLabelCSS = legendFont,
-                .axisTickCSS = tickFont,
-                .padding = padding
-            }
-
-            Return New ContourPlot(theme) With {
-                .offset = New Point(-300, 0),
-                .legendTitle = legendTitle,
-                .mapLevels = mapLevels,
-                .matrix = New MatrixEvaluate(matrix, 1),
-                .xlabel = xlabel,
-                .ylabel = ylabel,
-                .minZ = minZ,
-                .maxZ = maxZ,
-                .unit = unit
-           }.Plot(size)
+            Return CreatePlot(
+                matrix:=matrix,
+                colorMap:=colorMap,
+                mapLevels:=mapLevels,
+                bg:=bg,
+                padding:=padding,
+                unit:=unit,
+                legendTitle:=legendTitle,
+                legendFont:=legendFont,
+                tickFont:=tickFont,
+                xlabel:=xlabel,
+                ylabel:=ylabel,
+                minZ:=minZ,
+                maxZ:=maxZ
+            ).Plot(size)
         End Function
 
         ''' <summary>
@@ -270,35 +323,28 @@ Namespace Contour
         ''' <returns></returns>
         <Extension>
         Friend Function __getData(fun As EvaluatePoints,
-                               size As Size,
-                               xrange As DoubleRange,
-                               yrange As DoubleRange,
-                               ByRef xsteps!,
-                               ByRef ysteps!,
-                               parallel As Boolean,
-                               ByRef matrix As List(Of DataSet), unit%) As (X#, y#, z#)()
-
+                                  size As Size,
+                                  xrange As DoubleRange,
+                                  yrange As DoubleRange,
+                                  ByRef xsteps!,
+                                  ByRef ysteps!,
+                                  parallel As Boolean,
+                                  ByRef matrix As List(Of DataSet), unit%) As (X#, y#, z#)()
 
             xsteps = xsteps Or (xrange.Length / size.Width).AsDefault(Function(n) Single.IsNaN(CSng(n)))
             ysteps = ysteps Or (yrange.Length / size.Height).AsDefault(Function(n) Single.IsNaN(CSng(n)))
-            xsteps *= unit%
-            ysteps *= unit%
 
             ' x: a -> b
             ' 每一行数据都是y在发生变化
             Dim data As (X#, y#, Z#)()() = DataProvider.Evaluate(
-                AddressOf fun.Evaluate, xrange, yrange,
-                xsteps, ysteps,
-                parallel, matrix).ToArray
-
-            If data.Length > size.Width + 10 Then
-                Dim stepDelta = data.Length / size.Width
-                Dim splt = data.Split(stepDelta)
-
-            Else ' 数据不足
-
-
-            End If
+                f:=AddressOf fun.Evaluate,
+                x:=xrange,
+                y:=yrange,
+                xsteps:=xsteps,
+                ysteps:=ysteps,
+                parallel:=parallel,
+                matrix:=matrix
+            ).ToArray
 
             Return data.ToVector
         End Function
