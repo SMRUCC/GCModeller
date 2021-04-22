@@ -120,7 +120,11 @@ Namespace PdfReader
 
         Public Sub New(ByVal stream As Stream)
             ' Must have an actual stream reference
-            Me.Stream = If(stream, CSharpImpl.__Throw(Of Stream)(New ArgumentNullException("stream")))
+            If stream Is Nothing Then
+                Throw New ArgumentNullException("stream")
+            Else
+                Me.Stream = stream
+            End If
 
             ' Stream is no use if we cannot read from it!
             If Not stream.CanRead Then Throw New ApplicationException("Cannot read from stream.")
