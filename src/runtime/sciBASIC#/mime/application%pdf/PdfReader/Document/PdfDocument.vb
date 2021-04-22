@@ -1,10 +1,16 @@
 ﻿Imports System
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports System.Threading
 
 Namespace PdfReader
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/ComponentFactory/PdfReader
+    ''' </remarks>
     Public Class PdfDocument
         Inherits PdfObject
 

@@ -1,9 +1,11 @@
-﻿Imports System.Collections.Generic
-Imports System.Text
+﻿Imports System.Text
 
 Namespace PdfReader
-    Public Class PdfArray
-        Inherits PdfObject
+
+    ''' <summary>
+    ''' PDF的实际内容存储的位置
+    ''' </summary>
+    Public Class PdfArray : Inherits PdfObject
 
         Private _wrapped As List(Of PdfObject)
 
@@ -36,14 +38,23 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Overrides Function ToString() As String
+        Public Iterator Function GetWords() As IEnumerable(Of ParseString)
+            For Each obj As PdfObject In Objects
+                If TypeOf obj.ParseObject Is ParseString Then
+                    Yield DirectCast(obj.ParseObject, ParseString)
+                End If
+            Next
+        End Function
+
+        ''' <summary>
+        ''' show text content
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetAllTextContent() As String
             Dim sb As StringBuilder = New StringBuilder()
 
-            For Each obj In Objects
-
-                If obj.ParseObject.GetType() Is GetType(ParseString) Then
-                    sb.Append(obj.ToString())
-                End If
+            For Each word As ParseString In GetWords()
+                sb.Append(word.Value)
             Next
 
             Return sb.ToString()

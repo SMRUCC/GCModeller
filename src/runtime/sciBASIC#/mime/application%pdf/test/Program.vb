@@ -72,10 +72,13 @@ Namespace ExampleConsoleApp
 
             ' Keep getting new content commands until no more left
             Dim obj As New Value(Of PdfObject)
+            Dim strs As New List(Of String)
+
 
             While (obj = parser.GetObject()) IsNot Nothing
                 If obj.GetUnderlyingType() Is GetType(PdfArray) Then
-                    Console.WriteLine(obj)
+                    strs.Add(CType(obj, PdfArray).GetAllTextContent)
+                    Console.WriteLine(strs.Last)
                 Else
                     ' Console.WriteLine(obj);
                 End If
