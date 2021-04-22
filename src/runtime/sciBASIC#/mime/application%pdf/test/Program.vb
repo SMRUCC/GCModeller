@@ -3,15 +3,15 @@ Imports Microsoft.VisualBasic.MIME.application.pdf.PdfReader
 
 Namespace ExampleConsoleApp
     Friend Class Program
-        Private Shared Sub Main(ByVal args As String())
-            Dim filename = "Example.pdf"
+        Public Shared Sub Main()
+            Dim filename = "D:\GCModeller\src\runtime\sciBASIC#\mime\application%pdf\Example.pdf"
             '-----------------------------------------------
             ' Comment/Uncomment the example you want to run
             '-----------------------------------------------
 
             ' 1 - Show document details in compact form
             '---------------------------------------------
-            LoadImmediately(filename, False, False)
+            ' LoadImmediately(filename, False, False)
 
             ' 2 - As above but also resolve references
             '---------------------------------------------
@@ -35,7 +35,7 @@ Namespace ExampleConsoleApp
             '---------------------------------------------
             '  ListIndirectObjects(filename, false, false);
 
-            Console.ReadLine()
+            Pause()
         End Sub
 
         Private Shared Sub LoadImmediately(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
@@ -74,7 +74,6 @@ Namespace ExampleConsoleApp
             Dim obj As New Value(Of PdfObject)
 
             While (obj = parser.GetObject()) IsNot Nothing
-
                 If obj.GetType() Is GetType(PdfArray) Then
                     Console.WriteLine(obj)
                 Else

@@ -1,11 +1,11 @@
-﻿Imports System
-Imports System.Collections.Generic
+﻿Imports Microsoft.VisualBasic.Language
 
 Namespace PdfReader
+
     Public Class PdfContents
         Inherits PdfObject
 
-        Private _Streams As System.Collections.Generic.List(Of PdfReader.PdfStream)
+        Private _Streams As List(Of PdfStream)
 
         Public Sub New(ByVal parent As PdfObject, ByVal obj As PdfObject)
             MyBase.New(parent)
@@ -31,26 +31,19 @@ Namespace PdfReader
         End Function
 
         Private Sub ResolveToStreams(ByVal obj As PdfObject)
-            Dim stream As PdfStream = Nothing, reference As PdfObjectReference = Nothing, array As PdfArray = Nothing
+            Dim stream As New Value(Of PdfStream)
+            Dim reference As New Value(Of PdfObjectReference)
+            Dim array As New Value(Of PdfArray)
 
-            If CSharpImpl.__Assign(stream, TryCast(obj, PdfStream)) IsNot Nothing Then
+            If (stream = TryCast(obj, PdfStream)) IsNot Nothing Then
                 Streams.Add(stream)
-            ElseIf CSharpImpl.__Assign(reference, TryCast(obj, PdfObjectReference)) IsNot Nothing Then
+            ElseIf (reference = TryCast(obj, PdfObjectReference)) IsNot Nothing Then
                 ResolveToStreams(Document.ResolveReference(reference))
-            ElseIf CSharpImpl.__Assign(array, TryCast(obj, PdfArray)) IsNot Nothing Then
-
-                For Each entry In array.Objects
+            ElseIf (array = TryCast(obj, PdfArray)) IsNot Nothing Then
+                For Each entry As PdfObject In CType(array, PdfArray).Objects
                     ResolveToStreams(entry)
                 Next
             End If
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace
