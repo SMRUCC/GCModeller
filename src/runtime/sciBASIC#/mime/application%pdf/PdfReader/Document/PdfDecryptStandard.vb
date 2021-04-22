@@ -1,13 +1,15 @@
 ﻿Imports System
+Imports System.Security
 Imports System.Security.Cryptography
 Imports System.Text
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class PdfDecryptStandard
         Inherits PdfDecrypt
 
         Private Shared PADDING_32 As Byte() = {&H28, &HBF, &H4E, &H5E, &H4E, &H75, &H8A, &H41, &H64, &H00, &H4E, &H56, &HFF, &HFA, &H01, &H08, &H2E, &H2E, &H00, &HB6, &HD0, &H68, &H3E, &H80, &H2F, &H0C, &HA9, &HFE, &H64, &H53, &H69, &H7A}
-        Private _md5 As MD5 = MD5.Create()
+        Private _md5 As MD5 = Cryptography.MD5.Create()
         Private _encryptionKey As Byte()
 
         Public Sub New(ByVal parent As PdfObject, ByVal trailer As PdfDictionary, ByVal encrypt As PdfDictionary)
@@ -68,12 +70,12 @@ Namespace PdfReader
             Array.Copy(_encryptionKey, 0, key, 0, _encryptionKey.Length)
             Dim index = _encryptionKey.Length
             Dim id = indirectObject.Id
-            key(Math.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 0)
-            key(Math.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 8)
-            key(Math.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 16)
+            key(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 0)
+            key(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 8)
+            key(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(id >> 16)
             Dim gen = indirectObject.Gen
-            key(Math.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(gen >> 0)
-            key(Math.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(gen >> 8)
+            key(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(gen >> 0)
+            key(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) = CByte(gen >> 8)
 
             ' MD5 hash the bytes to get raw decrypt key
             key = _md5.ComputeHash(key)

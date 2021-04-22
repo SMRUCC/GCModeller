@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class PdfFunctionType2
@@ -37,7 +38,7 @@ Namespace PdfReader
 
             ' Exponential interpolation between the c0 and c1 values
             For i = 0 To outputs.Length - 1
-                outputs(i) = _c0(i) + CSng(Math.Pow(input, _n)) * (_c1(i) - _c0(i))
+                outputs(i) = _c0(i) + CSng(stdNum.Pow(input, _n)) * (_c1(i) - _c0(i))
             Next
 
             Return outputs

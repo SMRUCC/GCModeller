@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class PdfFunctionType0
@@ -63,13 +64,13 @@ Namespace PdfReader
 
             While i < inputs.Length
                 ' Limit check the input to the domain range
-                inputs(i) = Math.Max(_domainValues(d), Math.Min(_domainValues(d + 1), inputs(i)))
+                inputs(i) = stdNum.Max(_domainValues(d), stdNum.Min(_domainValues(d + 1), inputs(i)))
 
                 ' Interpolate each input from the domain to the set of encoded values
                 inputs(i) = CInt(Interpolate(inputs(i), _domainValues(d), _domainValues(d + 1), _encodeValues(d), _encodeValues(d + 1)))
 
                 ' Limit check to the encoded values
-                inputs(i) = Math.Max(_encodeValues(d), Math.Min(_encodeValues(d + 1), inputs(i)))
+                inputs(i) = stdNum.Max(_encodeValues(d), stdNum.Min(_encodeValues(d + 1), inputs(i)))
 
                 ' Find sample position within array
                 sampleNumber += CInt(inputs(i) * _samplesValues(i))
@@ -82,7 +83,9 @@ Namespace PdfReader
             ' Find the offset in bits to the first output sample value
             Dim bitsOffset = sampleNumber * _bitsPerSampleValue * numOutputs
             Dim outputs = New Single(numOutputs - 1) {}
-            Dim i = 0, d = 0
+
+            i = 0
+            d = 0
 
             While i < numOutputs
                 Dim sampleValue = 0

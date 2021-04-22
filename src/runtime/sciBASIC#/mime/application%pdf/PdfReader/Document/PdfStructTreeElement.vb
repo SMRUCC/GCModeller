@@ -41,7 +41,7 @@ Namespace PdfReader
                         _elements.Add(New PdfStructTreeElement(dictionary))
                     ElseIf CSharpImpl.__Assign(array, TryCast(lK, PdfArray)) IsNot Nothing Then
 
-                        For Each item In array.Objects
+                        For Each item As PdfObject In array.Objects
                             dictionary = TryCast(item, PdfDictionary)
 
                             If dictionary Is Nothing Then

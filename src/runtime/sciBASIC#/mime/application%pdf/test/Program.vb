@@ -1,5 +1,5 @@
-﻿Imports PdfReader
-Imports System
+﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.application.pdf.PdfReader
 
 Namespace ExampleConsoleApp
     Friend Class Program
@@ -38,7 +38,7 @@ Namespace ExampleConsoleApp
             Console.ReadLine()
         End Sub
 
-        Shared Private Sub LoadImmediately(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
+        Private Shared Sub LoadImmediately(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
             Dim document As PdfDocument = New PdfDocument()
             document.Load(filename, True)
             document.Close()
@@ -50,7 +50,7 @@ Namespace ExampleConsoleApp
             Console.WriteLine(builder.ToString())
         End Sub
 
-        Shared Private Sub LoadOnDemand(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
+        Private Shared Sub LoadOnDemand(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
             Dim document As PdfDocument = New PdfDocument()
             document.Load(filename, False)
             Dim builder As PdfDebugBuilder = New PdfDebugBuilder(document)
@@ -62,7 +62,7 @@ Namespace ExampleConsoleApp
             document.Close()
         End Sub
 
-        Shared Private Sub ShowFirstPageContent(ByVal filename As String)
+        Private Shared Sub ShowFirstPageContent(ByVal filename As String)
             Dim document As PdfDocument = New PdfDocument()
             document.Load(filename, False)
             Dim contents = document.Catalog.Pages(0).Contents
@@ -71,9 +71,9 @@ Namespace ExampleConsoleApp
             Dim parser As PdfContentsParser = contents.CreateParser()
 
             ' Keep getting new content commands until no more left
-            Dim obj As PdfObject = Nothing
+            Dim obj As New Value(Of PdfObject)
 
-            While (CSharpImpl.__Assign(obj, parser.GetObject())) IsNot Nothing
+            While (obj = parser.GetObject()) IsNot Nothing
 
                 If obj.GetType() Is GetType(PdfArray) Then
                     Console.WriteLine(obj)
@@ -85,7 +85,7 @@ Namespace ExampleConsoleApp
             document.Close()
         End Sub
 
-        Shared Private Sub ListIndirectObjects(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
+        Private Shared Sub ListIndirectObjects(ByVal filename As String, ByVal resolve As Boolean, ByVal streamContent As Boolean)
             Dim document As PdfDocument = New PdfDocument()
             document.Load(filename, True)
             document.Close()
@@ -101,13 +101,5 @@ Namespace ExampleConsoleApp
                 Next
             Next
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace

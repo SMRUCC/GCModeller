@@ -1,5 +1,6 @@
 ﻿Imports System
 Imports System.IO
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class TokenReader
@@ -29,7 +30,7 @@ Namespace PdfReader
 
             ' Copy any remaining bytes in the buffer
             If _start < _end Then
-                Dim copy = Math.Min(length, _end - _start)
+                Dim copy = stdNum.Min(length, _end - _start)
                 Array.Copy(_bytes, _start, ret, 0, copy)
                 index += copy
                 _start += copy
@@ -58,7 +59,7 @@ Namespace PdfReader
                     Dim c = _bytes(index)
 
                     ' Reached an end of line marker?
-                    If c = Microsoft.VisualBasic.Strings.ChrW(13) OrElse c = Microsoft.VisualBasic.Strings.ChrW(10) Then
+                    If c = 13 OrElse c = 10 Then
                         ' Append the unprocessed characters before the end of line marker
                         AppendBytes(_bytes, _start, index - _start, ret)
 
@@ -67,8 +68,8 @@ Namespace PdfReader
                         _position += 1
 
                         ' Check if newline has a linefeed afterwards
-                        If c = Microsoft.VisualBasic.Strings.ChrW(13) AndAlso (_start < _end OrElse ReadBytes(True) > 0) Then
-                            If _bytes(_start) = Microsoft.VisualBasic.Strings.ChrW(10) Then
+                        If c = 13 AndAlso (_start < _end OrElse ReadBytes(True) > 0) Then
+                            If _bytes(_start) = 10 Then
                                 ' Skip over the linefeed
                                 _start += 1
                                 _position += 1

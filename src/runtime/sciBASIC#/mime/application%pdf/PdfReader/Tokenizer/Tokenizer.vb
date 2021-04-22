@@ -2,6 +2,7 @@
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class Tokenizer
@@ -295,7 +296,7 @@ Namespace PdfReader
 
             For i = 0 To length - 1
                 ret *= 10
-                ret += _line(Math.Min(Threading.Interlocked.Increment(index), index - 1)) - 48 ' '0'
+                ret += _line(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) - 48 ' '0'
             Next
 
             Return ret
@@ -307,7 +308,7 @@ Namespace PdfReader
 
             For i = 0 To length - 1
                 ret *= 10
-                ret += bytes(Math.Min(Threading.Interlocked.Increment(index), index - 1)) - 48 ' '0'
+                ret += bytes(stdNum.Min(Threading.Interlocked.Increment(index), index - 1)) - 48 ' '0'
             Next
 
             Return ret
@@ -386,12 +387,12 @@ Namespace PdfReader
             Dim position = _position + _index
             Dim positive = True
             Dim start = _index
-            Dim current = _line(Math.Min(Threading.Interlocked.Increment(_index), _index - 1))
+            Dim current = _line(stdNum.Min(Threading.Interlocked.Increment(_index), _index - 1))
 
             ' Check for sign
             If current = 43 Then ' '+'
                 If _index < _length Then
-                    current = _line(Math.Min(Threading.Interlocked.Increment(_index), _index - 1))
+                    current = _line(stdNum.Min(Threading.Interlocked.Increment(_index), _index - 1))
                 Else
                     Return New TokenError(position, $"Cannot parse number because unexpected end-of-line encountered after '+'.")
                 End If
@@ -399,7 +400,7 @@ Namespace PdfReader
                 positive = False
 
                 If _index < _length Then
-                    current = _line(Math.Min(Threading.Interlocked.Increment(_index), _index - 1))
+                    current = _line(stdNum.Min(Threading.Interlocked.Increment(_index), _index - 1))
                 Else
                     Return New TokenError(position, $"Cannot parse number because unexpected end-of-line encountered after '-'.")
                 End If
@@ -414,7 +415,7 @@ Namespace PdfReader
                     whole = whole * 10 + (current - 48)
 
                     If _index < _length Then
-                        current = _line(Math.Min(Threading.Interlocked.Increment(_index), _index - 1))
+                        current = _line(stdNum.Min(Threading.Interlocked.Increment(_index), _index - 1))
                     Else
                         Return New TokenInteger(If(positive, whole, -whole))
                     End If
@@ -430,7 +431,7 @@ Namespace PdfReader
             End If
 
             If _index < _length Then
-                current = _line(Math.Min(Threading.Interlocked.Increment(_index), _index - 1))
+                current = _line(stdNum.Min(Threading.Interlocked.Increment(_index), _index - 1))
             Else
                 Return New TokenReal(If(positive, whole, -whole))
             End If
@@ -525,8 +526,11 @@ Namespace PdfReader
             _index += 1
             If _index >= _length Then Return New TokenError(position, $"Unexpected end of line after '<'.")
 
+            Const byteLt As Byte = Asc("<")
+            Const byteGt As Byte = Asc(">")
+
             ' Is the next character another '<'
-            If _line(_index) = "<"c Then
+            If _line(_index) = byteLt Then
                 _index += 1
                 Return TokenObject.DictionaryOpen
             Else
@@ -538,7 +542,7 @@ Namespace PdfReader
                 End While
 
                 If [end] = _length Then Return New TokenError(position, $"Missing '>' at end of hexadecimal string.")
-                If _line([end]) <> ">"c Then Return New TokenError(position, $"Invalid character '{_line([end])}' found in hexadecimal string.")
+                If _line([end]) <> byteGt Then Return New TokenError(position, $"Invalid character '{_line([end])}' found in hexadecimal string.")
                 Dim str = Encoding.ASCII.GetString(_line, _index, [end] - _index)
                 _index = [end] + 1
                 Return New TokenStringHex(str)

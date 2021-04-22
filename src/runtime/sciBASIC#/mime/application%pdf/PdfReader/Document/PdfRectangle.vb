@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports stdNum = System.Math
 
 Namespace PdfReader
     Public Class PdfRectangle
@@ -15,10 +16,10 @@ Namespace PdfReader
             Dim uy = ObjectToFloat(array.Objects(3))
 
             ' Normalize so the lower-left and upper-right are actually those values
-            LowerLeftX = Math.Min(lx, ux)
-            LowerLeftY = Math.Min(ly, uy)
-            UpperRightX = Math.Max(lx, ux)
-            UpperRightY = Math.Max(ly, uy)
+            LowerLeftX = stdNum.Min(lx, ux)
+            LowerLeftY = stdNum.Min(ly, uy)
+            UpperRightX = stdNum.Max(lx, ux)
+            UpperRightY = stdNum.Max(ly, uy)
         End Sub
 
         Public Overrides Function ToString() As String

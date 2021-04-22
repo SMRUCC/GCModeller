@@ -12,7 +12,7 @@ Namespace PdfReader
         Shared Sub New()
             _lookup = New Dictionary(Of String, TokenKeyword)()
 
-            For Each val In [Enum].GetValues(GetType(ParseKeyword))
+            For Each val As Object In [Enum].GetValues(GetType(ParseKeyword))
                 Dim name = [Enum].GetName(GetType(ParseKeyword), val)
                 Dim keyword = name
                 Dim attrs = GetType(ParseKeyword).GetMember(name)(0).GetCustomAttributes(GetType(DescriptionAttribute), False)

@@ -72,7 +72,7 @@ Namespace PdfReader
 
                                 If c >= "0"c AndAlso c <= "7"c Then
                                     octal *= 8
-                                    octal += CByte(c - "0"c)
+                                    octal += CByte(AscW(c) - Asc("0"c))
                                     i += 1
                                     first = i + 1
                                 Else
