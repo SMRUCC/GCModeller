@@ -4,6 +4,13 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 
 Namespace PdfReader
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/ComponentFactory/PdfReader
+    ''' </remarks>
     Public Class Parser
         Implements IDisposable
 
