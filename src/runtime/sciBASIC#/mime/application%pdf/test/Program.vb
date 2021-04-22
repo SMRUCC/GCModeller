@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.MIME.application.pdf.PdfReader
 Namespace ExampleConsoleApp
     Friend Class Program
         Public Shared Sub Main()
-            Dim filename = "D:\GCModeller\src\runtime\sciBASIC#\mime\application%pdf\Example.pdf"
+            Dim filename = "D:\biodeep\biodeep_pipeline\biodeepdb\Odor Threshold Values.pdf"
             '-----------------------------------------------
             ' Comment/Uncomment the example you want to run
             '-----------------------------------------------
