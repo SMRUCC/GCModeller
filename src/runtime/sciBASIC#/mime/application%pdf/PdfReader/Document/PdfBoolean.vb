@@ -26,5 +26,9 @@ Namespace PdfReader
                 Return ParseBoolean.Value
             End Get
         End Property
+
+        Public Shared Narrowing Operator CType(b As PdfBoolean) As Boolean
+            Return b.Value
+        End Operator
     End Class
 End Namespace

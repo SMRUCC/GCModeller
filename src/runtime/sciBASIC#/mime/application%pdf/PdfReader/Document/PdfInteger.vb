@@ -26,5 +26,9 @@ Namespace PdfReader
                 Return ParseInteger.Value
             End Get
         End Property
+
+        Public Shared Narrowing Operator CType(i As PdfInteger) As Integer
+            Return i.Value
+        End Operator
     End Class
 End Namespace

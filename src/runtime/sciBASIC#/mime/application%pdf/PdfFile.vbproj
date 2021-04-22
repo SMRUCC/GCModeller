@@ -93,7 +93,6 @@
     <Compile Include="PdfReader\Tokenizer\TokenXRefEntry.vb" />
     <Compile Include="PdfFileWriter\AnnotAction.vb" />
     <Compile Include="PdfFileWriter\ArcToBezier.vb" />
-
     <Compile Include="PdfFileWriter\Barcode.vb" />
     <Compile Include="PdfFileWriter\CreateMetafile.vb" />
     <Compile Include="PdfFileWriter\DrawWPFPath.vb" />
@@ -212,6 +211,8 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">

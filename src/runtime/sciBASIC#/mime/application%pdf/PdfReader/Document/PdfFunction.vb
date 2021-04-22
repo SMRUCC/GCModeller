@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports Microsoft.VisualBasic.Language
 
 Namespace PdfReader
     Public MustInherit Class PdfFunction
@@ -60,12 +61,12 @@ Namespace PdfReader
         Public MustOverride Function [Call](ByVal inputs As Single()) As Single()
 
         Public Shared Function FromObject(ByVal parent As PdfObject, ByVal obj As PdfObject) As PdfFunction
-            Dim referece As PdfObjectReference = Nothing
-            If CSharpImpl.__Assign(referece, TryCast(obj, PdfObjectReference)) IsNot Nothing Then Return FromObject(parent, parent.Document.ResolveReference(referece))
-            Dim stream As PdfStream = Nothing
-            If CSharpImpl.__Assign(stream, TryCast(obj, PdfStream)) IsNot Nothing Then Return FromStream(parent, stream)
-            Dim dictionary As PdfDictionary = Nothing
-            If CSharpImpl.__Assign(dictionary, TryCast(obj, PdfDictionary)) IsNot Nothing Then Return FromDictionary(parent, dictionary)
+            Dim referece As New Value(Of PdfObjectReference)
+            If (referece = TryCast(obj, PdfObjectReference)) IsNot Nothing Then Return FromObject(parent, parent.Document.ResolveReference(referece))
+            Dim stream As New Value(Of PdfStream)
+            If (stream = TryCast(obj, PdfStream)) IsNot Nothing Then Return FromStream(parent, stream)
+            Dim dictionary As New Value(Of PdfDictionary)
+            If (dictionary = TryCast(obj, PdfDictionary)) IsNot Nothing Then Return FromDictionary(parent, dictionary)
             Throw New NotImplementedException($"Function cannot be created from object of type '{obj.GetType().Name}'.")
         End Function
 
@@ -103,13 +104,5 @@ Namespace PdfReader
         Protected Function Interpolate(ByVal value As Single, ByVal domain1 As Single, ByVal domain2 As Single, ByVal range1 As Single, ByVal range2 As Single) As Single
             Return (value - domain1) * (range2 - range1) / (domain2 - domain1) + range1
         End Function
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace

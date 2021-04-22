@@ -1,5 +1,5 @@
 ﻿Imports System
-Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.Language
 
 Namespace PdfReader
     Public Class PdfStructTreeElement
@@ -31,21 +31,23 @@ Namespace PdfReader
 
         Public ReadOnly Property K As List(Of PdfStructTreeElement)
             Get
-                Dim dictionary As PdfDictionary = Nothing, array As PdfArray = Nothing, reference As PdfObjectReference = Nothing
+                Dim dictionary As New Value(Of PdfDictionary)
+                Dim array As New Value(Of PdfArray)
+                Dim reference As New Value(Of PdfObjectReference)
 
                 If _elements Is Nothing Then
                     _elements = New List(Of PdfStructTreeElement)()
                     Dim lK = OptionalValueRef(Of PdfObject)("K")
 
-                    If CSharpImpl.__Assign(dictionary, TryCast(lK, PdfDictionary)) IsNot Nothing Then
+                    If (dictionary = TryCast(lK, PdfDictionary)) IsNot Nothing Then
                         _elements.Add(New PdfStructTreeElement(dictionary))
-                    ElseIf CSharpImpl.__Assign(array, TryCast(lK, PdfArray)) IsNot Nothing Then
+                    ElseIf (array = TryCast(lK, PdfArray)) IsNot Nothing Then
 
-                        For Each item As PdfObject In array.Objects
+                        For Each item As PdfObject In CType(array, PdfArray).Objects
                             dictionary = TryCast(item, PdfDictionary)
 
                             If dictionary Is Nothing Then
-                                If CSharpImpl.__Assign(reference, TryCast(item, PdfObjectReference)) IsNot Nothing Then
+                                If (reference = TryCast(item, PdfObjectReference)) IsNot Nothing Then
                                     dictionary = Document.IndirectObjects.MandatoryValue(Of PdfDictionary)(reference)
                                 Else
                                     Throw New ApplicationException($"PdfStructTreeElement property K has unrecognized content of type '{item.GetType().Name}'.")
@@ -108,13 +110,5 @@ Namespace PdfReader
                 Return OptionalValue(Of PdfString)("ActualText")
             End Get
         End Property
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace

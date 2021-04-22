@@ -623,7 +623,7 @@ Namespace PdfReader
                 Else
                     ' Append everything from the first character but excluding the continuation marker
                     sb.Append(Encoding.ASCII.GetString(_line, first, _index - first))
-                    sb.Append(Microsoft.VisualBasic.Constants.vbLf)
+                    sb.Append(vbLf)
                 End If
 
                 Dim splice As TokenByteSplice = Reader.ReadLine()
@@ -670,13 +670,7 @@ Namespace PdfReader
             Return New TokenError(position, $"End of content before end of UTF16 literal string character.")
         End Function
 
-        Private Property Stream As Stream
+        Private Stream As Stream
 
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal throw statements")>
-            Shared Function __Throw(Of T)(ByVal e As Exception) As T
-                Throw e
-            End Function
-        End Class
     End Class
 End Namespace

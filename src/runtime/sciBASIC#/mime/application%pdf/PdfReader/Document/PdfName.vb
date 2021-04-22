@@ -1,7 +1,13 @@
 ﻿
 Namespace PdfReader
-    Public Class PdfName
-        Inherits PdfObject
+
+    Public Class PdfName : Inherits PdfObject
+
+        Public ReadOnly Property StrVal As String
+            Get
+                Return Value
+            End Get
+        End Property
 
         Public Sub New(ByVal parent As PdfObject, ByVal name As ParseName)
             MyBase.New(parent, name)

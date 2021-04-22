@@ -1,5 +1,6 @@
 ﻿Imports System
 Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.Language
 
 Namespace PdfReader
     Public Class PdfDictionary
@@ -76,17 +77,18 @@ Namespace PdfReader
         End Function
 
         Public Function OptionalValueRef(Of T As PdfObject)(ByVal name As String) As T
-            Dim entry As PdfObject = Nothing, reference As PdfObjectReference = Nothing
+            Dim entry As PdfObject = Nothing
+            Dim reference As New Value(Of PdfObjectReference)
 
             If ParseDictionary.ContainsName(name) Then
                 WrapName(name)
 
                 If _wrapped.TryGetValue(name, entry) Then
-                    If CSharpImpl.__Assign(reference, TryCast(entry, PdfObjectReference)) IsNot Nothing Then
-                        If Document.IndirectObjects.ContainsId(reference.Id) Then
-                            Dim id = Document.IndirectObjects(reference.Id)
+                    If (reference = TryCast(entry, PdfObjectReference)) IsNot Nothing Then
+                        If Document.IndirectObjects.ContainsId(reference.Value.Id) Then
+                            Dim id = Document.IndirectObjects(reference.Value.Id)
 
-                            If id.ContainsGen(reference.Gen) Then
+                            If id.ContainsGen(reference.Value.Gen) Then
                                 entry = Document.ResolveReference(reference)
 
                                 If TypeOf entry Is T Then
@@ -136,13 +138,14 @@ Namespace PdfReader
         End Function
 
         Public Function MandatoryValueRef(Of T As PdfObject)(ByVal name As String) As T
-            Dim entry As PdfObject = Nothing, reference As PdfObjectReference = Nothing
+            Dim entry As PdfObject = Nothing
+            Dim reference As New Value(Of PdfObjectReference)
 
             If ParseDictionary.ContainsName(name) Then
                 WrapName(name)
 
                 If _wrapped.TryGetValue(name, entry) Then
-                    If CSharpImpl.__Assign(reference, TryCast(entry, PdfObjectReference)) IsNot Nothing Then
+                    If (reference = TryCast(entry, PdfObjectReference)) IsNot Nothing Then
                         entry = Document.ResolveReference(reference)
                         If TypeOf entry Is T Then Return entry
                     ElseIf TypeOf entry Is T Then
@@ -173,13 +176,5 @@ Namespace PdfReader
                 Next
             End If
         End Sub
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal Visual Basic assignment")>
-            Shared Function __Assign(Of T)(ByRef target As T, value As T) As T
-                target = value
-                Return value
-            End Function
-        End Class
     End Class
 End Namespace

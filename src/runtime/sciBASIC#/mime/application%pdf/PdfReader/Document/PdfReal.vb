@@ -26,5 +26,9 @@ Namespace PdfReader
                 Return ParseReal.Value
             End Get
         End Property
+
+        Public Shared Narrowing Operator CType(f As PdfReal) As Single
+            Return f.Value
+        End Operator
     End Class
 End Namespace
