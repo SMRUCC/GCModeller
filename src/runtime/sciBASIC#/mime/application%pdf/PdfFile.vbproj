@@ -93,7 +93,7 @@
     <Compile Include="PdfReader\Tokenizer\TokenXRefEntry.vb" />
     <Compile Include="PdfFileWriter\AnnotAction.vb" />
     <Compile Include="PdfFileWriter\ArcToBezier.vb" />
-    <Compile Include="Properties\AssemblyInfo.vb" />
+
     <Compile Include="PdfFileWriter\Barcode.vb" />
     <Compile Include="PdfFileWriter\CreateMetafile.vb" />
     <Compile Include="PdfFileWriter\DrawWPFPath.vb" />
