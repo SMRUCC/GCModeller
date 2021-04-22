@@ -74,7 +74,7 @@ Namespace ExampleConsoleApp
             Dim obj As New Value(Of PdfObject)
 
             While (obj = parser.GetObject()) IsNot Nothing
-                If obj.GetType() Is GetType(PdfArray) Then
+                If obj.GetUnderlyingType() Is GetType(PdfArray) Then
                     Console.WriteLine(obj)
                 Else
                     ' Console.WriteLine(obj);
