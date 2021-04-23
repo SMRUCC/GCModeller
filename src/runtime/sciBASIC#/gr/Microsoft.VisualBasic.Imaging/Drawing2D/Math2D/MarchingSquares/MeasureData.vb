@@ -4,17 +4,6 @@
     ''' 测量数据
     ''' </summary>
     Public Structure MeasureData
-        ''' <summary>
-        ''' 初始化测量数据
-        ''' </summary>
-        ''' <paramname="x">坐标x</param>
-        ''' <paramname="y">坐标y</param>
-        ''' <paramname="z">高度</param>
-        Public Sub New(ByVal x As Single, ByVal y As Single, ByVal z As Single)
-            Me.X = x
-            Me.Y = y
-            Me.Z = z
-        End Sub
 
         ''' <summary>
         ''' 坐标X
@@ -29,7 +18,19 @@
         ''' <summary>
         ''' 高度
         ''' </summary>
-        Public Z As Single
+        Public Z As Double
+
+        ''' <summary>
+        ''' 初始化测量数据
+        ''' </summary>
+        ''' <param name="x">坐标x</param>
+        ''' <param name="y">坐标y</param>
+        ''' <param name="z">高度</param>
+        Public Sub New(ByVal x As Single, ByVal y As Single, ByVal z As Double)
+            Me.X = x
+            Me.Y = y
+            Me.Z = z
+        End Sub
     End Structure
 
 End Namespace

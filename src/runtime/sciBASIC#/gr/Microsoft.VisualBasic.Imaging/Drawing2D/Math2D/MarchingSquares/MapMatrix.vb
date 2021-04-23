@@ -1,13 +1,27 @@
-﻿Namespace Drawing2D.Math2D.MarchingSquares
+﻿Imports stdNum = System.Math
 
-    Public Class MapMatrix
+Namespace Drawing2D.Math2D.MarchingSquares
+
+    Friend Class MapMatrix
+
+        Dim data As Double(,)
+        Dim grid_w#
+        Dim grid_h#
+        Dim x_num% = 100
+        Dim y_num% = 100
+        Dim w#, h#
+
+        Dim HeightDots()
+        Dim min#
+        Dim max#
+
         ''' <summary>
         ''' 数据插值
         ''' </summary>
-        Private Sub InitData()
+        Public Sub InitData()
             x_num = CInt(w / grid_w)
             y_num = CInt(h / grid_h)
-            Data = New Single(x_num - 1, y_num - 1) {}
+            data = New Double(x_num - 1, y_num - 1) {}
             Dim measure_data = New IntMeasureData(HeightDots.Length - 1) {}
 
             For i = HeightDots.Length - 1 To 0 Step -1
@@ -45,9 +59,9 @@
                         value = CSng(DV / lD)
                     End If
 
-                    Data(i, j) = value
-                    min = Math.Min(min, value)
-                    max = Math.Max(max, value)
+                    data(i, j) = value
+                    min = stdNum.Min(min, value)
+                    max = stdNum.Max(max, value)
                 Next
             Next
         End Sub

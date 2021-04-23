@@ -1,6 +1,14 @@
 ﻿Namespace Drawing2D.Math2D.MarchingSquares
 
+    ''' <summary>
+    ''' 这个是对实际数据做映射为绘图数据之后的结果
+    ''' </summary>
     Friend Structure IntMeasureData
+
+        Public X As Integer
+        Public Y As Integer
+        Public Z As Single
+
         Public Sub New(ByVal md As MeasureData, ByVal x_num As Integer, ByVal y_num As Integer)
             X = CInt(md.X * x_num)
 
@@ -16,13 +24,6 @@
 
             Z = md.Z
         End Sub
-
-        Public X As Integer
-        Public Y As Integer
-        Public Z As Single
-        ''' <summary>
-        ''' 数据插值
-        ''' </summary>
     End Structure
 
 End Namespace

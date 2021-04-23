@@ -1,4 +1,4 @@
-﻿Imports System
+﻿Imports System.Drawing
 
 Namespace Drawing2D.Math2D.MarchingSquares
 
@@ -6,18 +6,25 @@ Namespace Drawing2D.Math2D.MarchingSquares
     ''' https://blog.csdn.net/lweiyue/article/details/91490460
     ''' </summary>
     Public Class MarchingSquares
+
+        Dim grid_w#
+        Dim grid_h#
+        Dim x_num% = 100
+        Dim y_num% = 100
+        Dim data As Double(,)
+
         ''' <summary>
         ''' 获取某个阈值下的图形数据
         ''' </summary>
-        ''' <paramname="threshold">阈值</param>
+        ''' <param name="threshold">阈值</param>
         ''' <returns>图形数据</returns>
-        Private Function CreateMapData(ByVal threshold As Single) As List(Of List(Of PointF))
+        Public Function CreateMapData(ByVal threshold As Single) As List(Of List(Of PointF))
             Dim binary_data = New Byte(x_num - 1, y_num - 1) {}
 
             For i As Integer = 0 To x_num - 1
 
                 For j As Integer = 0 To y_num - 1
-                    binary_data(i, j) = CByte(If(Data(i, j) >= threshold, 1, 0))
+                    binary_data(i, j) = CByte(If(data(i, j) >= threshold, 1, 0))
                 Next
             Next
 
@@ -122,19 +129,19 @@ Namespace Drawing2D.Math2D.MarchingSquares
         End Function
 
         Private Sub AddLeft(ByVal list As List(Of PointF), ByVal x As Integer, ByVal y As Integer, ByVal threshold As Single)
-            list.Add(New PointF((x - 1) * grid_w, (y - 1 + V(Data(x - 1, y - 1), Data(x - 1, y), threshold)) * grid_h))
+            list.Add(New PointF((x - 1) * grid_w, (y - 1 + V(data(x - 1, y - 1), data(x - 1, y), threshold)) * grid_h))
         End Sub
 
         Private Sub AddRight(ByVal list As List(Of PointF), ByVal x As Integer, ByVal y As Integer, ByVal threshold As Single)
-            list.Add(New PointF(x * grid_w, (y - 1 + V(Data(x, y - 1), Data(x, y), threshold)) * grid_h))
+            list.Add(New PointF(x * grid_w, (y - 1 + V(data(x, y - 1), data(x, y), threshold)) * grid_h))
         End Sub
 
         Private Sub AddTop(ByVal list As List(Of PointF), ByVal x As Integer, ByVal y As Integer, ByVal threshold As Single)
-            list.Add(New PointF((x - 1 + V(Data(x - 1, y - 1), Data(x, y - 1), threshold)) * grid_w, (y - 1) * grid_h))
+            list.Add(New PointF((x - 1 + V(data(x - 1, y - 1), data(x, y - 1), threshold)) * grid_w, (y - 1) * grid_h))
         End Sub
 
         Private Sub AddBottom(ByVal list As List(Of PointF), ByVal x As Integer, ByVal y As Integer, ByVal threshold As Single)
-            list.Add(New PointF((x - 1 + V(Data(x - 1, y), Data(x, y), threshold)) * grid_w, y * grid_h))
+            list.Add(New PointF((x - 1 + V(data(x - 1, y), data(x, y), threshold)) * grid_w, y * grid_h))
         End Sub
 
         Private Sub AddLeftTop(ByVal list As List(Of PointF), ByVal x As Integer, ByVal y As Integer)
