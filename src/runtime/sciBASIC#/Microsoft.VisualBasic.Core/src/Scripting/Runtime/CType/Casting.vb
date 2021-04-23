@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f71f30df67c45bd03b83a3026a2fc32e, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::1ea1312942042941bf6a18473a8b8d6a, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
 
     ' Author:
     ' 
@@ -284,6 +284,8 @@ Namespace Scripting.Runtime
                 ' R 语言之中是使用NA，.NET语言是使用NaN
                 Return Double.NaN
             Else
+                ' ,表示1000，需要删掉这个间隔符
+                ' 才可以被正常的val出来
                 s = s.Replace(",", "")
             End If
 

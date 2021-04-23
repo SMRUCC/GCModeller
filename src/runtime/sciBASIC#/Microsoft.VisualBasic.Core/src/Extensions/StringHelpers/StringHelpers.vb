@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5401e87e70fdba5d50d13ceb0bccb4a7, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::8154846ed5e998d12d0f63b8bb274f54, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -43,9 +43,10 @@
     '               Located, Lookup, (+2 Overloads) Match, Matches, MatchPattern
     '               (+2 Overloads) MaxLengthString, MinLengthString, NotEmpty, PadEnd, Parts
     '               RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull, SaveTo
-    '               (+2 Overloads) Split, SplitBy, StringEmpty, StringHashCode, StringReplace
-    '               StringSplit, StripBlank, Strips, TextEquals, TextLast
-    '               TokenCount, TokenCountIgnoreCase, TrimNewLine, TrimNull, WildcardsLocated
+    '               (+2 Overloads) Split, SplitBy, StartsWith, StringEmpty, StringHashCode
+    '               StringReplace, (+2 Overloads) StringSplit, StripBlank, Strips, SubstringSpecial
+    '               TextEquals, TextLast, TokenCount, TokenCountIgnoreCase, TrimNewLine
+    '               TrimNull, WildcardsLocated
     ' 
     '     Sub: Parts, RemoveLast
     ' 
@@ -940,9 +941,26 @@ Public Module StringHelpers
 
         If source.StringEmpty Then
             Return {}
+        Else
+            Return source.StringSplit(New Regex(pattern, opt), TrimTrailingEmptyStrings)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' This method is used to replace most calls to the Java <see cref="[String].Split"/> method.
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="pattern"><see cref="Regex"/> patterns</param>
+    ''' <param name="trimTrailingEmptyStrings"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    <Extension>
+    Public Function StringSplit(source$, pattern As Regex, Optional TrimTrailingEmptyStrings As Boolean = False) As String()
+        If source.StringEmpty Then
+            Return {}
         End If
 
-        Dim splitArray$() = Regex.Split(source, pattern, options:=opt)
+        Dim splitArray$() = pattern.Split(source)
 
         If Not TrimTrailingEmptyStrings OrElse splitArray.Length <= 1 Then
             Return splitArray

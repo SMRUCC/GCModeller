@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00e484d11fc042883a77f27927528959, mime\application%pdf\PdfFileWriter\DrawWPFPath.vb"
+﻿#Region "Microsoft.VisualBasic::17fe975436a0c33229024a3f96b26c7c, mime\application%pdf\PdfFileWriter\DrawWPFPath.vb"
 
     ' Author:
     ' 
@@ -151,19 +151,23 @@ Public Class DrawWPFPath
     ''' <summary>
     ''' Input path bounding box y axis direction (default is down)
     ''' </summary>
+    Dim _PathYAxis As YAxisDirection
     ''' <summary>
     ''' Input path bounding box left position
     ''' </summary>
+    Dim _PathBBoxX As Double
     ''' <summary>
     ''' Input path bounding box top (y axis down) or bottom (y axis up) position
     ''' </summary>
+    Dim _PathBBoxY As Double
     ''' <summary>
     ''' Input path bounding box width
     ''' </summary>
+    Dim _PathBBoxWidth As Double
     ''' <summary>
     ''' Input path bounding box height
     ''' </summary>
-    Private _PathYAxis As YAxisDirection, _PathBBoxX As Double, _PathBBoxY As Double, _PathBBoxWidth As Double, _PathBBoxHeight As Double
+    Dim _PathBBoxHeight As Double
     ''' <summary>
     ''' Fill rule
     ''' </summary>

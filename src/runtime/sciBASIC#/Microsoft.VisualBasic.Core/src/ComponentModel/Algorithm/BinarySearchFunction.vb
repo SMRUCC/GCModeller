@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8784b0d0f44fdc237d2d294337e67c30, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinarySearchFunction.vb"
+﻿#Region "Microsoft.VisualBasic::ccd8c5edeb41241f44c48cb110f3def2, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinarySearchFunction.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,9 @@
 
 #End Region
 
+#If netcore5 = 1 Or NET_48 = 1 Then
 Imports Microsoft.VisualBasic.Linq
+#End If
 
 Namespace ComponentModel.Algorithm
 
