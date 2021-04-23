@@ -108,7 +108,7 @@ Namespace ApplicationServices.Zip
         <Extension>
         Public Function IsSourceFolderZip(zip$, Optional ByRef folder$ = Nothing) As Boolean
             Using file As FileStream = zip.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                Return zip.IsSourceFolderZip(folder)
+                Return file.IsSourceFolderZip(folder)
             End Using
         End Function
 
