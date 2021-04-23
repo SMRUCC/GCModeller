@@ -21,9 +21,11 @@
 
 我们用比较简单的距离反比策略进行插值。我们知道，跟某个点的距离越近，受它的影响就越大。所以，跟点V(x1,y1)相距d的点P(x,y)，它受V的影响可按以下公式计算：
 
+```
 P-V=V/d
+```
 
-其中d=(x-x1)^2+(y-y1)^2
+其中``d=(x-x1)^2+(y-y1)^2``
 
 而P的最终值，由平面上所有已知值的点确定。
 
@@ -31,15 +33,19 @@ P-V=V/d
 
 代码如下：
 
+```c
 double D = 0;
 double DV = 0;
+
 foreach (IntMeasureData imd in measure_data)
 {
     double d = 1.0 / ((imd.X - i) * (imd.X - i) + (imd.Y - j) * (imd.Y - j));
     D += d;
     DV += imd.Z * d;
 }
+
 value = (float)(DV / D);
+```
 
 ## 三、Marching squares算法
 
