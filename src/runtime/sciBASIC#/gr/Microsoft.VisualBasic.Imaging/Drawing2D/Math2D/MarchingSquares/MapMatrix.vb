@@ -1,44 +1,63 @@
-﻿Imports stdNum = System.Math
+﻿Imports System.Drawing
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Math2D.MarchingSquares
 
-    Friend Class MapMatrix
+    ''' <summary>
+    ''' 将稀疏矩阵数据转换为稠密矩阵数据
+    ''' </summary>
+    Public Class MapMatrix
 
-        Dim data As Double(,)
-        Dim grid_w#
-        Dim grid_h#
-        Dim x_num% = 100
-        Dim y_num% = 100
-        Dim w#, h#
+        ''' <summary>
+        ''' 插值后得到的稠密矩阵数据
+        ''' </summary>
+        Friend data As Double(,)
+        Friend x_num% = 100
+        Friend y_num% = 100
 
-        Dim HeightDots()
-        Dim min#
-        Dim max#
+#Region "the input parameters"
+        Friend grid_w#
+        Friend grid_h#
+        Friend w#, h#
+#End Region
+
+        ReadOnly dots() As MeasureData
+
+        Friend min#
+        Friend max#
+
+        Sub New(raw As IEnumerable(Of MeasureData), size As SizeF, gridSize As SizeF)
+            dots = raw.ToArray
+            w = size.Width
+            h = size.Height
+            grid_w = gridSize.Width
+            grid_h = gridSize.Height
+        End Sub
 
         ''' <summary>
         ''' 数据插值
         ''' </summary>
-        Public Sub InitData()
+        Friend Function InitData() As MapMatrix
+            Dim measure_data = New IntMeasureData(dots.Length - 1) {}
+            Dim d As Double
+
             x_num = CInt(w / grid_w)
             y_num = CInt(h / grid_h)
             data = New Double(x_num - 1, y_num - 1) {}
-            Dim measure_data = New IntMeasureData(HeightDots.Length - 1) {}
 
-            For i = HeightDots.Length - 1 To 0 Step -1
-                measure_data(i) = New IntMeasureData(HeightDots(i), x_num, y_num)
+            For i = dots.Length - 1 To 0 Step -1
+                measure_data(i) = New IntMeasureData(dots(i), x_num, y_num)
             Next
 
             min = Single.MaxValue
             max = Single.MinValue
 
             For i As Integer = 0 To x_num - 1
-
                 For j As Integer = 0 To y_num - 1
                     Dim value As Single = 0
                     Dim find = False
 
                     For Each imd As IntMeasureData In measure_data
-
                         If i = imd.X AndAlso j = imd.Y Then
                             value = imd.Z
                             find = True
@@ -51,7 +70,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         Dim DV As Double = 0
 
                         For Each imd As IntMeasureData In measure_data
-                            Dim d As Double = 1.0 / ((imd.X - i) * (imd.X - i) + (imd.Y - j) * (imd.Y - j))
+                            d = 1.0 / ((imd.X - i) * (imd.X - i) + (imd.Y - j) * (imd.Y - j))
                             lD += d
                             DV += imd.Z * d
                         Next
@@ -64,6 +83,8 @@ Namespace Drawing2D.Math2D.MarchingSquares
                     max = stdNum.Max(max, value)
                 Next
             Next
-        End Sub
+
+            Return Me
+        End Function
     End Class
 End Namespace

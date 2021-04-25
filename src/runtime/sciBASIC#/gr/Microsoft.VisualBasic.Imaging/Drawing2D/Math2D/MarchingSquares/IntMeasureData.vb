@@ -9,7 +9,7 @@
         Public Y As Integer
         Public Z As Single
 
-        Public Sub New(ByVal md As MeasureData, ByVal x_num As Integer, ByVal y_num As Integer)
+        Public Sub New(md As MeasureData, x_num As Integer, y_num As Integer)
             X = CInt(md.X * x_num)
 
             If X >= x_num Then
@@ -24,6 +24,10 @@
 
             Z = md.Z
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{X}, {Y}] {Z}"
+        End Function
     End Structure
 
 End Namespace
