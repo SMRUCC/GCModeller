@@ -5,7 +5,7 @@ Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 
 Public Class MarkovChain
 
-    Friend ReadOnly states As Object()
+    Friend ReadOnly states As String()
     Friend ReadOnly transMatrix As Double()()
     Friend ReadOnly initialProb As Double()
     Friend ReadOnly prob As CalculateProb

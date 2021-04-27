@@ -63,9 +63,9 @@ Namespace Algorithm.HMMChainAlgorithm
             }
         End Function
 
-        Public Function backViterbi(psiArrays As PsiArray) As Object()
+        Public Function backViterbi(psiArrays As PsiArray) As String()
             Dim backtraceObj As List(Of Psi) = obSequence.obSequence _
-                .reduce(Function(acc As List(Of Psi), currS As Object, i As Integer)
+                .reduce(Function(acc As List(Of Psi), currS As String, i As Integer)
                             If (acc.Count = 0) Then
                                 Dim finalPsiIndex = psiArrays(0).Count - 1
                                 Dim finalPsi = psiArrays(0)(finalPsiIndex)

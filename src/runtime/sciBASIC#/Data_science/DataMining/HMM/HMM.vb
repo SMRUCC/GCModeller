@@ -5,10 +5,10 @@ Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 
 Public Class HMM
 
-    Friend ReadOnly states()
+    Friend ReadOnly states As String()
     Friend ReadOnly transMatrix As Double()()
     Friend ReadOnly initialProb As Double()
-    Friend ReadOnly observables()
+    Friend ReadOnly observables As String()
     Friend ReadOnly emissionMatrix As Double()()
 
     Friend ReadOnly Bayes As Bayes

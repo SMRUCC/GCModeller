@@ -5,7 +5,7 @@ Namespace Models
     Public Class viterbiSequence
         Public Property trellisSequence As Double()()
         Public Property terminationProbability As Double
-        Public Property stateSequence As Object()
+        Public Property stateSequence As String()
     End Class
 
 
