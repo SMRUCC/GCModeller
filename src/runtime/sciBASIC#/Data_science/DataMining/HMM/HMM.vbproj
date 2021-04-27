@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\CalculateProb.vb" />
-    <Compile Include="Algorithm\HMMAlgorithm.vb" />
+    <Compile Include="Algorithm\HMMAlgorithm\HMMAlgorithm.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\backwardFactory.vb" />
     <Compile Include="Algorithm\HMMAlgorithm\Bayes.vb" />
     <Compile Include="Algorithm\HMMAlgorithm\Backward.vb" />
@@ -96,7 +96,7 @@
     <Compile Include="Algorithm\HMMAlgorithm\Forward.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\EM.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\viterbiFactory.vb" />
-    <Compile Include="Algorithm\HMMChainAlgorithm.vb" />
+    <Compile Include="Algorithm\HMMChainAlgorithm\HMMChainAlgorithm.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\forwardFactory.vb" />
     <Compile Include="Models\Alpha.vb" />
     <Compile Include="Models\Beta.vb" />

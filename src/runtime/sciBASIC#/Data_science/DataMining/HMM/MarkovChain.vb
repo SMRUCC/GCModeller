@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.My.JavaScript
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Algorithm
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 
 Public Class MarkovChain

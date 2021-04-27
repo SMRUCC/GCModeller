@@ -1,33 +1,35 @@
 ﻿Imports Microsoft.VisualBasic.My.JavaScript
 
-Public Class viterbiFactory : Inherits HMMChainAlgorithm
+Namespace Algorithm.HMMChainAlgorithm
 
-    Sub New(HMM As HMM, obSequence As Chain)
-        Call MyBase.New(HMM, obSequence)
-    End Sub
+    Public Class viterbiFactory : Inherits HMMChainAlgorithm
 
-    Public Function initViterbi() As List(Of Double)
-        Dim initTrellis As New List(Of Double)
-        Dim obIndex = HMM.observables.IndexOf(obSequence(0))
-        Dim obEmission = HMM.emissionMatrix(obIndex)
+        Sub New(HMM As HMM, obSequence As Chain)
+            Call MyBase.New(HMM, obSequence)
+        End Sub
 
-        Call HMM.initialProb _
+        Public Function initViterbi() As List(Of Double)
+            Dim initTrellis As New List(Of Double)
+            Dim obIndex = HMM.observables.IndexOf(obSequence(0))
+            Dim obEmission = HMM.emissionMatrix(obIndex)
+
+            Call HMM.initialProb _
             .ForEach(Sub(p, i)
                          initTrellis.Add(p * obEmission(i))
                      End Sub)
 
-        Return initTrellis
-    End Function
+            Return initTrellis
+        End Function
 
-    Public Function recViterbi(prevTrellis() As Double, obIndex As Integer, psiArrays As PsiArray, trellisSequence As List(Of Double())) As TrellisPsi
-        If (obIndex = obSequence.length) Then
-            Return New TrellisPsi With {
+        Public Function recViterbi(prevTrellis() As Double, obIndex As Integer, psiArrays As PsiArray, trellisSequence As List(Of Double())) As TrellisPsi
+            If (obIndex = obSequence.length) Then
+                Return New TrellisPsi With {
                 .psiArrays = psiArrays,
                 .trellisSequence = trellisSequence.ToArray
             }
-        End If
+            End If
 
-        Dim nextTrellis As Double() = HMM.states _
+            Dim nextTrellis As Double() = HMM.states _
             .map(Function(state, stateIndex)
                      Dim trellisArr As Double() = prevTrellis _
                         .map(Function(prob, i)
@@ -40,27 +42,27 @@ Public Class viterbiFactory : Inherits HMMChainAlgorithm
                      Return maximized
                  End Function)
 
-        trellisSequence.Add(nextTrellis)
+            trellisSequence.Add(nextTrellis)
 
-        Return recViterbi(nextTrellis, obIndex + 1, psiArrays, trellisSequence)
-    End Function
+            Return recViterbi(nextTrellis, obIndex + 1, psiArrays, trellisSequence)
+        End Function
 
-    Public Function termViterbi(recTrellisPsi As TrellisPsi) As termViterbi
-        Dim finalTrellis As Double() = recTrellisPsi.trellisSequence(recTrellisPsi.trellisSequence.Length - 1)
-        Dim maximizedProbability = finalTrellis.Max()
+        Public Function termViterbi(recTrellisPsi As TrellisPsi) As termViterbi
+            Dim finalTrellis As Double() = recTrellisPsi.trellisSequence(recTrellisPsi.trellisSequence.Length - 1)
+            Dim maximizedProbability = finalTrellis.Max()
 
-        recTrellisPsi.psiArrays.ForEach(Sub(psiArr, i)
-                                            psiArr.Add(finalTrellis.IndexOf(maximizedProbability))
-                                        End Sub)
+            recTrellisPsi.psiArrays.ForEach(Sub(psiArr, i)
+                                                psiArr.Add(finalTrellis.IndexOf(maximizedProbability))
+                                            End Sub)
 
-        Return New termViterbi With {
+            Return New termViterbi With {
             .maximizedProbability = maximizedProbability,
             .psiArrays = recTrellisPsi.psiArrays
         }
-    End Function
+        End Function
 
-    Public Function backViterbi(psiArrays As PsiArray) As Object()
-        Dim backtraceObj As List(Of Psi) = obSequence.obSequence _
+        Public Function backViterbi(psiArrays As PsiArray) As Object()
+            Dim backtraceObj As List(Of Psi) = obSequence.obSequence _
             .reduce(Function(acc As List(Of Psi), currS As Object, i As Integer)
                         If (acc.Count = 0) Then
                             Dim finalPsiIndex = psiArrays(0).Count - 1
@@ -74,9 +76,10 @@ Public Class viterbiFactory : Inherits HMMChainAlgorithm
                         Return acc
                     End Function, New List(Of Psi))
 
-        Return backtraceObj _
+            Return backtraceObj _
             .AsEnumerable _
             .Reverse() _
             .map(Function(e) HMM.states(e.psi))
-    End Function
-End Class
+        End Function
+    End Class
+End Namespace
