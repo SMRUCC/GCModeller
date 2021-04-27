@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.My.JavaScript
+Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 
 Public Class HMM
 
@@ -28,6 +29,10 @@ Public Class HMM
         Me.BaumWelch = New BaumWelch(Me)
     End Sub
 
+    Public Function GetTransMatrix() As Matrix
+        Return New Matrix(transMatrix)
+    End Function
+
     Public Function bayesTheorem(ob, hState) As Double
         Return Bayes.bayesTheorem(ob, hState)
     End Function
@@ -42,6 +47,10 @@ Public Class HMM
 
     Public Function viterbiAlgorithm(obSequence As Chain) As viterbiSequence
         Return Viterbi.viterbiAlgorithm(obSequence)
+    End Function
+
+    Public Function baumWelchAlgorithm(obSequence As Chain) As HMM
+        Return BaumWelch.baumWelchAlgorithm(obSequence)
     End Function
 End Class
 

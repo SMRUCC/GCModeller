@@ -42,7 +42,7 @@ Public Class PsiArray
     End Property
 
     Sub New(matrix As List(Of Integer)())
-        Me.matrix = matrix.ToList
+        Me.matrix = matrix.AsList
     End Sub
 
     Public Sub Add(i As Integer, data As Integer)
@@ -50,7 +50,7 @@ Public Class PsiArray
     End Sub
 
     Public Sub Add(data As IEnumerable(Of Integer))
-        matrix.Add(data.ToList)
+        matrix.Add(data.AsList)
     End Sub
 
     Public Sub forEach(apply As Action(Of List(Of Integer), Integer))

@@ -35,7 +35,14 @@ Module Program
         obSequence = New Chain(Function(a, b) a = b) With {.obSequence = {"A", "T", "C", "G", "C", "G", "T", "C", "A", "T", "C", "G", "T", "C", "G", "T", "C", "C", "G"}}
 
         ' 'AT-rich', 'AT-rich', 'CG-rich', 'CG-rich', 'CG-rich', ...
+        ' 1.972455831264621E-14
         Dim viterbiResult = HMModel.viterbiAlgorithm(obSequence)
+
+        obSequence = New Chain(Function(a, b) a = b) With {.obSequence = {"A", "T", "C", "G", "C", "G", "T", "C", "A", "T", "C", "G", "T", "C", "G", "T", "C", "C", "G"}}
+
+        ' [ [ 0.748722257770877, 0.251277742229123 ], [ 0.08173322039272721, 0.9182667796072727 ] ]
+        Dim maximizedModel = HMModel.baumWelchAlgorithm(obSequence)
+        Dim max = maximizedModel.GetTransMatrix
 
         Pause()
     End Sub
