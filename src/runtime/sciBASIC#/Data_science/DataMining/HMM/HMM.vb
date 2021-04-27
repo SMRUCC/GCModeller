@@ -3,6 +3,11 @@ Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports Microsoft.VisualBasic.My.JavaScript
 Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
 
+''' <summary>
+''' HMM用于建模数据序列，无论是从连续概率分布还是从离散概率分布得出的。
+''' 它们与状态空间和高斯混合模型相关，因为它们旨在估计引起观测的状态。
+''' 状态是未知或“隐藏”的，并且HMM试图估计状态，类似于无监督聚类过程。
+''' </summary>
 Public Class HMM
 
     Friend ReadOnly states As String()
