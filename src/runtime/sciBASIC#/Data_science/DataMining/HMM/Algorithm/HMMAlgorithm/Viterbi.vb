@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Algorithm.HMMChainAlgorithm
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.My.JavaScript
 

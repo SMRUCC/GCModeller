@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.My.JavaScript
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace Algorithm
 

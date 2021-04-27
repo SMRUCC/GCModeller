@@ -20,11 +20,13 @@ Namespace Algorithm.HMMChainAlgorithm
                 Dim trellisArr As New List(Of Double)
                 Dim si As Integer = s
 
-                prevBetas.ForEach(Sub(prob, i)
-                                      Dim trans = HMM.transMatrix(si)(i)
-                                      Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(i)
-                                      trellisArr.Add(prob * trans * emiss)
-                                  End Sub)
+                Call prevBetas _
+                    .ForEach(Sub(prob, i)
+                                 Dim trans = HMM.transMatrix(si)(i)
+                                 Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(i)
+                                 trellisArr.Add(prob * trans * emiss)
+                             End Sub)
+
                 nextTrellis.Add(trellisArr.reduce(Function(tot, curr) tot + curr))
             Next
 
@@ -35,12 +37,12 @@ Namespace Algorithm.HMMChainAlgorithm
 
         Public Function termBackward(betas As Double()()) As Double
             Dim finalBetas = betas(betas.Length - 1) _
-            .reduce(Function(tot As List(Of Double), curr As Double, i As Integer)
-                        Dim obIndex = HMM.observables.IndexOf(obSequence(0))
-                        Dim obEmission = HMM.emissionMatrix(obIndex)
-                        tot.Add(curr * HMM.initialProb(i) * obEmission(i))
-                        Return tot
-                    End Function, New List(Of Double))
+                .reduce(Function(tot As List(Of Double), curr As Double, i As Integer)
+                            Dim obIndex = HMM.observables.IndexOf(obSequence(0))
+                            Dim obEmission = HMM.emissionMatrix(obIndex)
+                            tot.Add(curr * HMM.initialProb(i) * obEmission(i))
+                            Return tot
+                        End Function, New List(Of Double))
 
             Return finalBetas.reduce(Function(tot, Val) tot + Val, 0.0)
         End Function

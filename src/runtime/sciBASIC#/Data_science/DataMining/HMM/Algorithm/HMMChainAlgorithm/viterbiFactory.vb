@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.My.JavaScript
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace Algorithm.HMMChainAlgorithm
 
@@ -14,9 +15,9 @@ Namespace Algorithm.HMMChainAlgorithm
             Dim obEmission = HMM.emissionMatrix(obIndex)
 
             Call HMM.initialProb _
-            .ForEach(Sub(p, i)
-                         initTrellis.Add(p * obEmission(i))
-                     End Sub)
+                .ForEach(Sub(p, i)
+                             initTrellis.Add(p * obEmission(i))
+                         End Sub)
 
             Return initTrellis
         End Function
@@ -24,23 +25,23 @@ Namespace Algorithm.HMMChainAlgorithm
         Public Function recViterbi(prevTrellis() As Double, obIndex As Integer, psiArrays As PsiArray, trellisSequence As List(Of Double())) As TrellisPsi
             If (obIndex = obSequence.length) Then
                 Return New TrellisPsi With {
-                .psiArrays = psiArrays,
-                .trellisSequence = trellisSequence.ToArray
-            }
+                    .psiArrays = psiArrays,
+                    .trellisSequence = trellisSequence.ToArray
+                }
             End If
 
             Dim nextTrellis As Double() = HMM.states _
-            .map(Function(state, stateIndex)
-                     Dim trellisArr As Double() = prevTrellis _
-                        .map(Function(prob, i)
-                                 Dim trans = HMM.transMatrix(i)(stateIndex)
-                                 Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(stateIndex)
-                                 Return prob * trans * emiss
-                             End Function)
-                     Dim maximized = trellisArr.Max()
-                     psiArrays.Add(stateIndex, trellisArr.IndexOf(maximized))
-                     Return maximized
-                 End Function)
+                .map(Function(state, stateIndex)
+                         Dim trellisArr As Double() = prevTrellis _
+                            .map(Function(prob, i)
+                                     Dim trans = HMM.transMatrix(i)(stateIndex)
+                                     Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(stateIndex)
+                                     Return prob * trans * emiss
+                                 End Function)
+                         Dim maximized = trellisArr.Max()
+                         psiArrays.Add(stateIndex, trellisArr.IndexOf(maximized))
+                         Return maximized
+                     End Function)
 
             trellisSequence.Add(nextTrellis)
 
@@ -51,35 +52,36 @@ Namespace Algorithm.HMMChainAlgorithm
             Dim finalTrellis As Double() = recTrellisPsi.trellisSequence(recTrellisPsi.trellisSequence.Length - 1)
             Dim maximizedProbability = finalTrellis.Max()
 
-            recTrellisPsi.psiArrays.ForEach(Sub(psiArr, i)
-                                                psiArr.Add(finalTrellis.IndexOf(maximizedProbability))
-                                            End Sub)
+            recTrellisPsi.psiArrays _
+                .forEach(Sub(psiArr, i)
+                             psiArr.Add(finalTrellis.IndexOf(maximizedProbability))
+                         End Sub)
 
             Return New termViterbi With {
-            .maximizedProbability = maximizedProbability,
-            .psiArrays = recTrellisPsi.psiArrays
-        }
+                .maximizedProbability = maximizedProbability,
+                .psiArrays = recTrellisPsi.psiArrays
+            }
         End Function
 
         Public Function backViterbi(psiArrays As PsiArray) As Object()
             Dim backtraceObj As List(Of Psi) = obSequence.obSequence _
-            .reduce(Function(acc As List(Of Psi), currS As Object, i As Integer)
-                        If (acc.Count = 0) Then
-                            Dim finalPsiIndex = psiArrays(0).Count - 1
-                            Dim finalPsi = psiArrays(0)(finalPsiIndex)
-                            acc.Add(New Psi With {.psi = finalPsi, .index = finalPsiIndex})
+                .reduce(Function(acc As List(Of Psi), currS As Object, i As Integer)
+                            If (acc.Count = 0) Then
+                                Dim finalPsiIndex = psiArrays(0).Count - 1
+                                Dim finalPsi = psiArrays(0)(finalPsiIndex)
+                                acc.Add(New Psi With {.psi = finalPsi, .index = finalPsiIndex})
+                                Return acc
+                            End If
+                            Dim prevPsi = acc(acc.Count - 1)
+                            Dim psi = psiArrays(prevPsi.psi)(prevPsi.index - 1)
+                            acc.Add(New Psi With {.psi = psi, .index = prevPsi.index - 1})
                             Return acc
-                        End If
-                        Dim prevPsi = acc(acc.Count - 1)
-                        Dim psi = psiArrays(prevPsi.psi)(prevPsi.index - 1)
-                        acc.Add(New Psi With {.psi = psi, .index = prevPsi.index - 1})
-                        Return acc
-                    End Function, New List(Of Psi))
+                        End Function, New List(Of Psi))
 
             Return backtraceObj _
-            .AsEnumerable _
-            .Reverse() _
-            .map(Function(e) HMM.states(e.psi))
+                .AsEnumerable _
+                .Reverse() _
+                .map(Function(e) HMM.states(e.psi))
         End Function
     End Class
 End Namespace

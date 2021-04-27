@@ -1,14 +1,16 @@
-﻿
-Public Class StatesObject
+﻿Namespace Models
 
-    Public Property state As Object
-    Public Property prob As Double()
+    Public Class StatesObject
 
-End Class
+        Public Property state As Object
+        Public Property prob As Double()
 
-Public Class Observable
+    End Class
 
-    Public Property obs As Object
-    Public Property prob As Double()
+    Public Class Observable
 
-End Class
+        Public Property obs As Object
+        Public Property prob As Double()
+
+    End Class
+End Namespace

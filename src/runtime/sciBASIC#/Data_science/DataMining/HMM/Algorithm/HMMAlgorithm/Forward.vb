@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Algorithm.HMMChainAlgorithm
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 
 Namespace Algorithm.HMMAlgorithm
 
@@ -14,9 +15,9 @@ Namespace Algorithm.HMMAlgorithm
             Dim allAlphas = forward.recForward(initAlphas.ToArray, 1, New List(Of List(Of Double)) From {initAlphas})
 
             Return New Alpha With {
-            .alphas = allAlphas,
-            .alphaF = forward.termForward(allAlphas)
-        }
+                .alphas = allAlphas,
+                .alphaF = forward.termForward(allAlphas)
+            }
         End Function
     End Class
 End Namespace

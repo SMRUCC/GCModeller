@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 
 Module Program
 

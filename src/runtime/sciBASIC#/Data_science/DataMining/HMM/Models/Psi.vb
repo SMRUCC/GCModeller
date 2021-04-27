@@ -1,19 +1,21 @@
-﻿
-Public Class Psi
+﻿Namespace Models
 
-    Public Property psi As Integer
-    Public Property index As Integer
+    Public Class Psi
 
-End Class
+        Public Property psi As Integer
+        Public Property index As Integer
 
-Public Class TrellisPsi
+    End Class
 
-    Public Property trellisSequence As Double()()
-    Public Property psiArrays As PsiArray
+    Public Class TrellisPsi
 
-End Class
+        Public Property trellisSequence As Double()()
+        Public Property psiArrays As PsiArray
 
-Public Class termViterbi
-    Public Property maximizedProbability As Double
-    Public Property psiArrays As PsiArray
-End Class
+    End Class
+
+    Public Class termViterbi
+        Public Property maximizedProbability As Double
+        Public Property psiArrays As PsiArray
+    End Class
+End Namespace

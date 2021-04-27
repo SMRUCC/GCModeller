@@ -26,11 +26,13 @@ Namespace Algorithm.HMMChainAlgorithm
                 Dim trellisArr As New List(Of Double)
                 Dim si As Integer = s
 
-                prevTrellis.ForEach(Sub(prob As Double, i As Integer)
-                                        Dim trans = HMM.transMatrix(i)(si)
-                                        Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(si)
-                                        trellisArr.Add(prob * trans * emiss)
-                                    End Sub)
+                Call prevTrellis _
+                    .ForEach(Sub(prob As Double, i As Integer)
+                                 Dim trans = HMM.transMatrix(i)(si)
+                                 Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(obIndex)))(si)
+                                 trellisArr.Add(prob * trans * emiss)
+                             End Sub)
+
                 nextTrellis.Add(trellisArr.reduce(Function(tot, curr) tot + curr, 0.0))
             Next
             alphas.Add(nextTrellis)

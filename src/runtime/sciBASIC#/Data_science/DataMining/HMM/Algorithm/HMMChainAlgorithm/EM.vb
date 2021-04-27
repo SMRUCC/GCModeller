@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.My.JavaScript
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace Algorithm.HMMChainAlgorithm
 
@@ -21,7 +22,7 @@ Namespace Algorithm.HMMChainAlgorithm
         Public Function gammaTimesInState(stateI As Integer) As Double
             Dim gammas As New List(Of Double)
 
-            For t = 0 To obSequence.Length - 1
+            For t = 0 To obSequence.length - 1
                 gammas.Add(gamma(forwardObj.alphas(t)(stateI), backwardBetas(t)(stateI), forwardObj.alphaF))
             Next
 
@@ -31,7 +32,7 @@ Namespace Algorithm.HMMChainAlgorithm
         Public Function gammaTransFromState(stateI As Integer) As Double
             Dim gammas As New List(Of Double)
 
-            For t = 0 To obSequence.Length - 2
+            For t = 0 To obSequence.length - 2
                 gammas.Add(gamma(forwardObj.alphas(t)(stateI), backwardBetas(t)(stateI), forwardObj.alphaF))
             Next
 
@@ -41,7 +42,7 @@ Namespace Algorithm.HMMChainAlgorithm
         Public Function xiTransFromTo(stateI As Integer, stateJ As Integer) As Double
             Dim xis As New List(Of Double)
 
-            For t = 0 To obSequence.Length - 2
+            For t = 0 To obSequence.length - 2
                 Dim alpha = forwardObj.alphas(t)(stateI)
                 Dim trans = HMM.transMatrix(stateI)(stateJ)
                 Dim emiss = HMM.emissionMatrix(HMM.observables.IndexOf(obSequence(t + 1)))(stateJ)
@@ -56,18 +57,19 @@ Namespace Algorithm.HMMChainAlgorithm
         Public Function gammaTimesInStateWithOb(stateI As Integer, obIndex As Integer) As Double
             Dim obsK = HMM.observables(obIndex)
             Dim stepsWithOb = obSequence.obSequence _
-            .reduce(Function(tot, curr, i)
-                        If (curr = obsK) Then
-                            tot.Add(i)
-                        End If
+                .reduce(Function(tot, curr, i)
+                            If (curr = obsK) Then
+                                tot.Add(i)
+                            End If
 
-                        Return tot
-                    End Function, New List(Of Integer))
+                            Return tot
+                        End Function, New List(Of Integer))
             Dim gammas As New List(Of Double)
 
-            stepsWithOb.ForEach(Sub([step])
-                                    gammas.Add(gamma(forwardObj.alphas([step])(stateI), backwardBetas([step])(stateI), forwardObj.alphaF))
-                                End Sub)
+            Call stepsWithOb _
+                .ForEach(Sub([step])
+                             gammas.Add(gamma(forwardObj.alphas([step])(stateI), backwardBetas([step])(stateI), forwardObj.alphaF))
+                         End Sub)
 
             Return gammas.reduce(Function(tot, curr) tot + curr, 0.0)
         End Function
