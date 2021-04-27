@@ -98,6 +98,11 @@
     <Compile Include="Algorithm\HMMChainAlgorithm\viterbiFactory.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\forwardFactory.vb" />
+    <Compile Include="Models\Alpha.vb" />
+    <Compile Include="Models\Beta.vb" />
+    <Compile Include="Models\PsiArray.vb" />
+    <Compile Include="Models\Psi.vb" />
+    <Compile Include="Models\Objects.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -145,8 +150,6 @@
       <Name>math-core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

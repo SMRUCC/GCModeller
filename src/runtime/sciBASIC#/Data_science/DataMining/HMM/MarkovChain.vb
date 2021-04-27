@@ -20,7 +20,7 @@ Public Class MarkovChain
     End Function
 
     Public Function SequenceProb(sequence As Chain) As Double
-        Return prob.sequenceProb(sequence)
+        Return prob.SequenceProb(sequence)
     End Function
 End Class
 

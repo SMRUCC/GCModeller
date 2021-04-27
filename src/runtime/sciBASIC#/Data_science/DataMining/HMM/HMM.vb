@@ -53,17 +53,3 @@ Public Class HMM
         Return BaumWelch.baumWelchAlgorithm(obSequence)
     End Function
 End Class
-
-Public Class StatesObject
-
-    Public Property state As Object
-    Public Property prob As Double()
-
-End Class
-
-Public Class Observable
-
-    Public Property obs As Object
-    Public Property prob As Double()
-
-End Class

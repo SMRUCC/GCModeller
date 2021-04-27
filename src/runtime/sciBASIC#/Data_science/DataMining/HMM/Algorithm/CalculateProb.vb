@@ -12,7 +12,7 @@ Public Class CalculateProb
         Me.stateTrans2 = stateTrans2
     End Sub
 
-    Public Function sequenceProb(sequence As Chain) As Double
+    Public Function SequenceProb(sequence As Chain) As Double
         Return findSequence(sequence, states) _
             .reduce(Function(total As Double, curr As Integer, i As Integer, arr As Integer())
                         If (i = 0) Then
