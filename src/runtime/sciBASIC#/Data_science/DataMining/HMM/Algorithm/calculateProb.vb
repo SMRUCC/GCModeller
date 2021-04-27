@@ -4,9 +4,9 @@ Public Class calculateProb
 
     Dim stateTrans2 As Double()()
     Dim init As Double()
-    Dim states As statesObject()
+    Dim states As StatesObject()
 
-    Sub New(stateTrans2 As Double()(), init As Double(), states As statesObject())
+    Sub New(stateTrans2 As Double()(), init As Double(), states As StatesObject())
         Me.states = states
         Me.init = init
         Me.stateTrans2 = stateTrans2

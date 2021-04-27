@@ -28,16 +28,16 @@ Public Class BaumWelch : Inherits HMMAlgorithm
             Next
             emissMatrix.Add(obsEmiss.ToArray)
         Next
-        Dim hiddenStates As statesObject() = transMatrix.reduce(Function(tot, curr, i)
-                                                                    Dim stateObj As New statesObject With {.state = HMM.states(i), .prob = curr}
+        Dim hiddenStates As StatesObject() = transMatrix.reduce(Function(tot, curr, i)
+                                                                    Dim stateObj As New StatesObject With {.state = HMM.states(i), .prob = curr}
                                                                     tot.Add(stateObj)
                                                                     Return tot
-                                                                End Function, New List(Of statesObject)).ToArray
-        Dim observables As observables() = emissMatrix.reduce(Function(tot, curr, i)
-                                                                  Dim obsObj As New observables With {.obs = HMM.observables(i), .prob = curr}
-                                                                  tot.Add(obsObj)
-                                                                  Return tot
-                                                              End Function, New List(Of observables)).ToArray
+                                                                End Function, New List(Of StatesObject)).ToArray
+        Dim observables As Observable() = emissMatrix.reduce(Function(tot, curr, i)
+                                                                 Dim obsObj As New Observable With {.obs = HMM.observables(i), .prob = curr}
+                                                                 tot.Add(obsObj)
+                                                                 Return tot
+                                                             End Function, New List(Of Observable)).ToArray
         Return New HMM(hiddenStates, observables, initProb.ToArray)
     End Function
 End Class

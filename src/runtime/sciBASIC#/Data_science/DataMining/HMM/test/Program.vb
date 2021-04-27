@@ -1,4 +1,4 @@
-﻿Imports HMM
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 
 Module Program
 
@@ -8,19 +8,19 @@ Module Program
 
     Sub HMMTest()
 
-        Dim hiddenStates As statesObject() = {
-            New statesObject With {.state = "AT-rich", .prob = {0.95, 0.05}},
-            New statesObject With {.state = "CG-rich", .prob = {0.1, 0.9}}
+        Dim hiddenStates As StatesObject() = {
+            New StatesObject With {.state = "AT-rich", .prob = {0.95, 0.05}},
+            New StatesObject With {.state = "CG-rich", .prob = {0.1, 0.9}}
         }
-        Dim observables As observables() = {
-              New observables With {.obs = "A", .prob = {0.4, 0.05}},
-              New observables With {.obs = "C", .prob = {0.1, 0.45}},
-              New observables With {.obs = "G", .prob = {0.1, 0.45}},
-              New observables With {.obs = "T", .prob = {0.4, 0.05}}
+        Dim observables As Observable() = {
+              New Observable With {.obs = "A", .prob = {0.4, 0.05}},
+              New Observable With {.obs = "C", .prob = {0.1, 0.45}},
+              New Observable With {.obs = "G", .prob = {0.1, 0.45}},
+              New Observable With {.obs = "T", .prob = {0.4, 0.05}}
         }
         Dim hiddenInit = {0.65, 0.35}
 
-        Dim HMModel = New HMM.HMM(hiddenStates, observables, hiddenInit)
+        Dim HMModel = New HMM(hiddenStates, observables, hiddenInit)
         Dim observation = "A"
         Dim hiddenState = "AT-rich"
         ' 0.9369369369369369
@@ -48,10 +48,10 @@ Module Program
     End Sub
 
     Sub MarkovChainTest()
-        Dim states As statesObject() = {
-           New statesObject With {.state = "sunny", .prob = {0.4, 0.4, 0.2}},
-           New statesObject With {.state = "cloudy", .prob = {0.3, 0.3, 0.4}},
-           New statesObject With {.state = "rainy", .prob = {0.2, 0.5, 0.3}}
+        Dim states As StatesObject() = {
+           New StatesObject With {.state = "sunny", .prob = {0.4, 0.4, 0.2}},
+           New StatesObject With {.state = "cloudy", .prob = {0.3, 0.3, 0.4}},
+           New StatesObject With {.state = "rainy", .prob = {0.2, 0.5, 0.3}}
        }
         Dim init As Double() = {0.4, 0.3, 0.3}
         Dim markovChain As New MarkovChain(states, init)

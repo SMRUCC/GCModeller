@@ -8,7 +8,7 @@ Public Class MarkovChain
     Friend ReadOnly initialProb As Double()
     Friend ReadOnly prob As calculateProb
 
-    Sub New(states As statesObject(), init As Double())
+    Sub New(states As StatesObject(), init As Double())
         Me.states = states.map(Function(s) s.state)
         Me.transMatrix = states.map(Function(s) s.prob)
         Me.initialProb = init

@@ -15,7 +15,7 @@ Public Class HMM
     Friend ReadOnly Backward As Backward
     Friend ReadOnly BaumWelch As BaumWelch
 
-    Sub New(states As statesObject(), observables As observables(), init As Double())
+    Sub New(states As StatesObject(), observables As Observable(), init As Double())
         Me.states = states.map(Function(s) s.state)
         Me.transMatrix = states.map(Function(s) s.prob)
         Me.initialProb = init
@@ -54,14 +54,14 @@ Public Class HMM
     End Function
 End Class
 
-Public Class statesObject
+Public Class StatesObject
 
     Public Property state As Object
     Public Property prob As Double()
 
 End Class
 
-Public Class observables
+Public Class Observable
 
     Public Property obs As Object
     Public Property prob As Double()
