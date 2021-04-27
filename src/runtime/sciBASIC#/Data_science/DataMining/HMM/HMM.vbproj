@@ -83,7 +83,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm\calculateProb.vb" />
+    <Compile Include="Algorithm\CalculateProb.vb" />
     <Compile Include="Algorithm\HMMAlgorithm.vb" />
     <Compile Include="Algorithm\HMMChainAlgorithm\backwardFactory.vb" />
     <Compile Include="Algorithm\HMMAlgorithm\Bayes.vb" />
@@ -144,6 +144,9 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -1,7 +1,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.My.JavaScript
 
-Public Module Utils
+Module Utils
 
     <Extension>
     Public Function findSequence(sequence As Chain, states As StatesObject()) As IEnumerable(Of Integer)
