@@ -19,5 +19,4 @@
     Sub New(equalsTo As Func(Of Object, Object, Boolean))
         Me.equalsTo = equalsTo
     End Sub
-
 End Class

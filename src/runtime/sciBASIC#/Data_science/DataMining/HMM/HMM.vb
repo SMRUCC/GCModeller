@@ -27,6 +27,22 @@ Public Class HMM
         Me.Backward = New Backward(Me)
         Me.BaumWelch = New BaumWelch(Me)
     End Sub
+
+    Public Function bayesTheorem(ob, hState) As Double
+        Return Bayes.bayesTheorem(ob, hState)
+    End Function
+
+    Public Function forwardAlgorithm(obSequence As Chain) As Alpha
+        Return Forward.forwardAlgorithm(obSequence)
+    End Function
+
+    Public Function backwardAlgorithm(obSequence As Chain) As Beta
+        Return Backward.backwardAlgorithm(obSequence)
+    End Function
+
+    Public Function viterbiAlgorithm(obSequence As Chain) As viterbiSequence
+        Return Viterbi.viterbiAlgorithm(obSequence)
+    End Function
 End Class
 
 Public Class statesObject

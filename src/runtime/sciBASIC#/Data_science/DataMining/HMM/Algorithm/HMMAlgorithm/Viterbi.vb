@@ -7,7 +7,7 @@ Public Class Viterbi : Inherits HMMAlgorithm
         Call MyBase.New(HMM)
     End Sub
 
-    Public Function viterbiAlgorithm(obSequence) As viterbiSequence
+    Public Function viterbiAlgorithm(obSequence As Chain) As viterbiSequence
         Dim viterbi As New viterbiFactory(HMM, obSequence)
         Dim initTrellis = viterbi.initViterbi()
         ' Initialization Of psi arrays Is equal To 0, but I use null because 0 could later represent a state index

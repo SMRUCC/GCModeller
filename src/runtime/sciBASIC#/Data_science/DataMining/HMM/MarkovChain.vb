@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.My.JavaScript
+﻿Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.GeneralMatrix
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Public Class MarkovChain
 
@@ -13,5 +14,13 @@ Public Class MarkovChain
         Me.initialProb = init
         Me.prob = New calculateProb(transMatrix, init, states)
     End Sub
+
+    Public Function GetTransMatrix() As Matrix
+        Return New Matrix(transMatrix)
+    End Function
+
+    Public Function sequenceProb(sequence As Chain) As Double
+        Return prob.sequenceProb(sequence)
+    End Function
 End Class
 
