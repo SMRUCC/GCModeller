@@ -1,6 +1,9 @@
 ﻿
 Namespace Models
 
+    ''' <summary>
+    ''' alpha and alpha matrix
+    ''' </summary>
     Public Class Alpha
 
         Public Property alphaF As Double
