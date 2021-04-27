@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.My.JavaScript
 
-Public Class CalculateProb2
+Public Class CalculateProb
 
     Dim stateTrans2 As Double()()
     Dim init As Double()

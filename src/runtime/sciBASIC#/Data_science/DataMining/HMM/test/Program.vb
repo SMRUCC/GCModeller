@@ -58,7 +58,7 @@ Module Program
 
         Dim stateSeq As New Chain(Function(a, b) a = b) With {.obSequence = {"sunny", "rainy", "sunny", "sunny", "cloudy"}}
         ' 0.002560000000000001
-        Dim seqProbability = markovChain.sequenceProb(stateSeq)
+        Dim seqProbability = markovChain.SequenceProb(stateSeq)
 
         ' Call Console.WriteLine(markovChain.GetTransMatrix)
 
