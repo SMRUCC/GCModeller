@@ -26,7 +26,7 @@ Namespace Contour
         Sub New(matrix As IEnumerable(Of DataSet), gridSize As SizeF)
             Dim compareWithError As Comparison(Of Double) =
                 Function(a, b)
-                    If stdNum.Abs(a - b) <= [error] Then
+                    If stdNum.Abs(a - b) <= gridSize.Width Then
                         Return 0
                     ElseIf a < b Then
                         Return -1
