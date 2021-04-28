@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Algorithm
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
@@ -22,7 +23,7 @@ Namespace Contour
         ''' id is the x axis value
         ''' properties in one data set object is the y vector and z vector
         ''' </param>
-        Sub New(matrix As IEnumerable(Of DataSet), error#)
+        Sub New(matrix As IEnumerable(Of DataSet), gridSize As SizeF)
             Dim compareWithError As Comparison(Of Double) =
                 Function(a, b)
                     If stdNum.Abs(a - b) <= [error] Then
