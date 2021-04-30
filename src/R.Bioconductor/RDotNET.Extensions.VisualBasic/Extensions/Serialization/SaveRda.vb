@@ -43,6 +43,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -52,6 +53,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports Rbase = RDotNET.Extensions.VisualBasic.API.base
+Imports Rutils = RDotNET.Extensions.VisualBasic.API.utils
 
 Namespace Serialization
 
@@ -209,7 +211,7 @@ Namespace Serialization
             Dim base As Type = type.GetTypeElement(False)
 
             ' write as dataframe
-            With App.GetAppSysTempFile(, App.PID)
+            With TempFileSystem.GetAppSysTempFile(, App.PID)
                 Call .DoCall(Sub(file)
                                  Call list.SaveTable(
                                     path:=file,
@@ -219,7 +221,7 @@ Namespace Serialization
                                  )
                              End Sub)
 
-                Return .DoCall(AddressOf utils.read.csv)
+                Return .DoCall(AddressOf Rutils.read.csv)
             End With
         End Function
 

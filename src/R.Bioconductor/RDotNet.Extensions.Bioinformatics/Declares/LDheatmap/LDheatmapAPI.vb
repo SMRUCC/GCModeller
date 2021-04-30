@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::2b029d0e38457229b72556c0cbbaa613, RDotNet.Extensions.Bioinformatics\Declares\LDheatmap\LDheatmapAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module API
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: LDheatmap
-    ' 
-    '     Class LDheatmapS4Object
-    ' 
-    '         Properties: color, distance, geneticsDistance, labels, LDmatrix
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module API
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: LDheatmap
+' 
+'     Class LDheatmapS4Object
+' 
+'         Properties: color, distance, geneticsDistance, labels, LDmatrix
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RDotNET.Extensions.VisualBasic.API.base
 Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API.base
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace LDheatmap
@@ -129,7 +129,7 @@ Namespace LDheatmap
             ld.color = list(6).AsCharacter.ToArray
 
             If LDmatrix Is Nothing Then
-                LDmatrix = App.GetAppSysTempFile(".csv")
+                LDmatrix = TempFileSystem.GetAppSysTempFile(".csv")
             End If
             LDmatrix = Rstring(LDmatrix.UnixPath)
 
