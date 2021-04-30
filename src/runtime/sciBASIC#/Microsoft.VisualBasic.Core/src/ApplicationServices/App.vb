@@ -169,6 +169,11 @@ Public Module App
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property StdOut As [Default](Of TextWriter)
+
+    ''' <summary>
+    ''' <see cref="Console.OpenStandardInput"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property StdInput As [Default](Of TextReader) = New StreamReader(Console.OpenStandardInput)
 
     ''' <summary>
