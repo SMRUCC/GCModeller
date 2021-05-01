@@ -804,7 +804,7 @@ Namespace API
                 Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
 
             Else
-                Call file.ParentPath.MkDIR
+                Call file.ParentPath.MakeDir
             End If
 
             SyncLock R
@@ -888,7 +888,7 @@ Namespace API
                 Throw New InvalidOperationException($"There is a directory which is located at ""{file}"", please delete it and then try again!")
 
             Else
-                Call file.ParentPath.MkDIR
+                Call file.ParentPath.MakeDir
             End If
 
             SyncLock R

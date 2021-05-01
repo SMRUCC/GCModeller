@@ -120,7 +120,7 @@ Namespace API.utils
             col.names = {Rbool(colNames)}, qmethod = {Rstring(qmethod.ToString)},
             fileEncoding = {Rstring(fileEncoding)})"
 
-            Call file.ParentPath.MkDIR
+            Call file.ParentPath.MakeDir
 
             Try
                 Call R.__call
