@@ -72,6 +72,7 @@ Namespace Text.Parser.HtmlParser
         End Function
 
         Const RowPatterns$ = "<tr.+?</tr>"
+        Const RowGreedyPatterns$ = "<tr.+</tr>"
         Const ColumnPatterns$ = "(<td.+?</td>)|(<th.+?</th>)"
 
         ''' <summary>
@@ -81,11 +82,13 @@ Namespace Text.Parser.HtmlParser
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function GetRowsHTML(table As String) As String()
+        Public Function GetRowsHTML(table As String, Optional greedy As Boolean = False) As String()
             If table Is Nothing Then
                 Return {}
             Else
-                Dim rows As String() = r.Matches(table, RowPatterns, RegexICSng).ToArray
+                Dim regxp As String = If(greedy, RowGreedyPatterns, RowPatterns)
+                Dim rows As String() = r.Matches(table, regxp, RegexICSng).ToArray
+
                 Return rows
             End If
         End Function
@@ -97,11 +100,14 @@ Namespace Text.Parser.HtmlParser
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function GetColumnsHTML(row As String) As String()
-            Dim cols As String() = r.Matches(row, ColumnPatterns, RegexICSng).ToArray
+        Public Function GetColumnsHTML(row As String, Optional greedy As Boolean = False) As String()
+            Dim columnPattern = If(greedy, ColumnPatterns.Replace("?", ""), ColumnPatterns)
+            Dim cols As String() = r.Matches(row, columnPattern, RegexICSng).ToArray
+
             cols = cols _
                 .Select(Function(s) s.GetValue) _
                 .ToArray
+
             Return cols
         End Function
 
