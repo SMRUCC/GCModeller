@@ -101,8 +101,8 @@ Public Module NetworkViz
         Dim geneNodes As Dictionary(Of Node) = cell.genome _
             .replicons _
             .Select(Function(genome)
-                        Return genome.genes _
-                            .AsEnumerable _
+                        Return genome _
+                            .GetGeneList _
                             .Select(Function(gene)
                                         ' 因为还会包含有转录调控因子，所以不在这里进行基因的pathway筛选
                                         Return New Node With {

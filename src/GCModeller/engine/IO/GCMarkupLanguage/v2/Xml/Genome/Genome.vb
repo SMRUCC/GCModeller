@@ -68,9 +68,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace v2
@@ -109,78 +106,6 @@ Namespace v2
                 Next
             Next
         End Function
-    End Class
-
-    ''' <summary>
-    ''' 复制子
-    ''' </summary>
-    Public Class replicon
-
-        ''' <summary>
-        ''' 当前的这个复制子对象是否是质粒基因组？
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property isPlasmid As Boolean
-        <XmlAttribute> Public Property genomeName As String
-
-        <XmlElement>
-        Public Property operons As TranscriptUnit()
-
-        ''' <summary>
-        ''' 除了mRNA的其他的一切非蛋白编码RNA
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property RNAs As XmlList(Of RNA)
-
-        Public Iterator Function GetGeneList() As IEnumerable(Of gene)
-            For Each operon As TranscriptUnit In operons
-                For Each gene As gene In operon.genes.AsEnumerable
-                    Yield gene
-                Next
-            Next
-        End Function
-
-        Public Overrides Function ToString() As String
-            Dim type$ = "Genome" Or "Plasmid genome".When(isPlasmid)
-            Dim strVal$ = $"[{type}] {genomeName}"
-
-            Return strVal
-        End Function
-
-    End Class
-
-    Public Class gene
-
-        <XmlAttribute> Public Property locus_tag As String
-        <XmlAttribute> Public Property protein_id As String
-
-        <XmlElement>
-        Public Property product As String
-
-        <XmlAttribute> Public Property left As Integer
-        <XmlAttribute> Public Property right As Integer
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' 因为字符类型在进行XML序列化的时候会被转换为ASCII代码，影响阅读
-        ''' 所以在这里使用字符串类型来解决这个问题
-        ''' </remarks>
-        <XmlAttribute> Public Property strand As String
-
-        ''' <summary>
-        ''' 对于rRNA和tRNA不存在
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property amino_acid As NumericVector
-        ''' <summary>
-        ''' mRNA, tRNA, rRNA, etc
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property nucleotide_base As NumericVector
-
     End Class
 
     ''' <summary>

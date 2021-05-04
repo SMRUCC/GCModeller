@@ -112,9 +112,9 @@ Namespace v2
             Call sb.AppendLine()
             Call sb.AppendLine("genomes:")
 
-            For Each replicon In model.genome.replicons
+            For Each replicon As replicon In model.genome.replicons
                 type = If(replicon.isPlasmid, "plasmid", "chromosome")
-                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.genes.size} genes")
+                sb.AppendLine($" [{replicon.genomeName}, {type}] {replicon.GetGeneNumbers} genes")
             Next
 
             Call sb.AppendLine()
