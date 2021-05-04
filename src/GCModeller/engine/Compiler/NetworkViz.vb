@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::545f9f3589a96eaeb2bccd6e1e771808, engine\Compiler\NetworkViz.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module NetworkViz
-    ' 
-    '     Function: CreateGraph, GetPathwayEnzymes, populateReactionLinks
-    ' 
-    ' /********************************************************************************/
+' Module NetworkViz
+' 
+'     Function: CreateGraph, GetPathwayEnzymes, populateReactionLinks
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 ''' <summary>
 ''' Export network visualize model for cytoscape software.
@@ -79,7 +79,7 @@ Public Module NetworkViz
                                       End Function) _
                     .Select(Function(pathway) pathway.enzymes) _
                     .IteratesALL _
-                    .Select(Function(enzyme) enzyme.Comment) _
+                    .Select(Function(enzyme) enzyme.comment) _
                     .Distinct
             End With
         End If
@@ -166,9 +166,9 @@ Public Module NetworkViz
                         Return enzyme.catalysis _
                             .Select(Function(catalysis)
                                         Return New NetworkEdge With {
-                                            .FromNode = enzyme.geneID,
-                                            .ToNode = catalysis.reaction,
-                                            .Interaction = "metabolic_catalysis"
+                                            .fromNode = enzyme.geneID,
+                                            .toNode = catalysis.reaction,
+                                            .interaction = "metabolic_catalysis"
                                         }
                                     End Function)
                     End Function) _
@@ -190,9 +190,9 @@ Public Module NetworkViz
                    End Function) _
             .Select(Function(reg)
                         Return New NetworkEdge With {
-                            .FromNode = reg.regulator,
-                            .ToNode = reg.target,
-                            .Interaction = "transcript_regulation"
+                            .fromNode = reg.regulator,
+                            .toNode = reg.target,
+                            .interaction = "transcript_regulation"
                         }
                     End Function) _
             .ToArray
@@ -209,8 +209,8 @@ Public Module NetworkViz
             .ToArray
 
         Return New NetworkTables With {
-            .Nodes = geneNodes.Values.AsList + reactionNodes,
-            .Edges = enzymeCatalysisEdges +
+            .nodes = geneNodes.Values.AsList + reactionNodes,
+            .edges = enzymeCatalysisEdges +
                 transcriptRegulationEdges +
                 reactionLinks
         }
@@ -236,23 +236,23 @@ Public Module NetworkViz
                 If iEquation.Products.Any(Function(compound) jEquation.Consume(compound)) Then
                     ' j 消耗 i 的产物
                     Yield New NetworkEdge With {
-                        .FromNode = i.ID,
-                        .Interaction = "metabolic_link",
-                        .ToNode = j.ID
+                        .fromNode = i.ID,
+                        .interaction = "metabolic_link",
+                        .toNode = j.ID
                     }
                 ElseIf jEquation.Products.Any(Function(compound) iEquation.Consume(compound)) Then
                     ' i 消耗 j 的产物
                     Yield New NetworkEdge With {
-                        .FromNode = j.ID,
-                        .Interaction = "metabolic_link",
-                        .ToNode = i.ID
+                        .fromNode = j.ID,
+                        .interaction = "metabolic_link",
+                        .toNode = i.ID
                     }
                 ElseIf iEquation.GetMetabolites.Keys.Intersect(jEquation.GetMetabolites.Keys).Any Then
                     ' 未知
                     Yield New NetworkEdge With {
-                        .FromNode = i.ID,
-                        .ToNode = j.ID,
-                        .Interaction = "metabolic_link"
+                        .fromNode = i.ID,
+                        .toNode = j.ID,
+                        .interaction = "metabolic_link"
                     }
                 Else
                     ' no links
