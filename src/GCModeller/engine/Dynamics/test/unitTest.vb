@@ -61,7 +61,7 @@ Module unitTest
         ' a <=> b
 
         Dim exp = "(Vmax * S) / (Km + S)"
-        Dim model As New Model.Kinetics With {
+        Dim model As New Kinetics With {
             .formula = ScriptEngine.ParseExpression(exp),
             .parameters = {"Vmax", "S", "Km"},
             .paramVals = {10, "a", 2},
