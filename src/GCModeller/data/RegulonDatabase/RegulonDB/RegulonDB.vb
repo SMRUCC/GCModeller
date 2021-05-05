@@ -50,16 +50,16 @@ Namespace RegulonDB
 
     Public Class RegulonDB
 
-        Dim DbReflector As MySqli
+        'Dim DbReflector As MySqli
 
-        Sub New(MySQL As ConnectionUri)
-            DbReflector = New MySqli(MySQL)
-        End Sub
+        'Sub New(MySQL As ConnectionUri)
+        '    DbReflector = New MySqli(MySQL)
+        'End Sub
 
         Public Function ExportSites() As FastaFile
-            Dim Table = DbReflector.Query(Of Tables.site)("select * from site")
-            Dim File As FastaFile = __export(Table.ToArray)
-            Return File
+            'Dim Table = DbReflector.Query(Of Tables.site)("select * from site")
+            'Dim File As FastaFile = __export(Table.ToArray)
+            'Return File
         End Function
 
         Private Shared Function __export(table As Generic.IEnumerable(Of Tables.site)) As FastaFile
