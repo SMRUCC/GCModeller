@@ -148,7 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler.vb" />
-    <Compile Include="API.vb" />
     <Compile Include="ModelBase\Model.vb" />
     <Compile Include="ModelBase\Property.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
