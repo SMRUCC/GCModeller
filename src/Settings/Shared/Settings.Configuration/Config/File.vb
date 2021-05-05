@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Settings
 
-    <XmlRoot("Settings.File", Namespace:="http://code.google.com/p/genome-in-code/gcmodeller/settings.file/")>
+    <XmlRoot("Settings.File", Namespace:="https://settings.gcmodeller.org/file/")>
     Public Class File
         Implements IDisposable
         Implements IProfile
