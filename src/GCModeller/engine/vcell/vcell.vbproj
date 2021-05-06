@@ -121,6 +121,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader">
+      <HintPath>..\BootstrapLoader\bin\Debug\SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

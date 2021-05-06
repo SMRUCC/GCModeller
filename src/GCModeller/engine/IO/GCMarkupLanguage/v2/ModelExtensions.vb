@@ -153,7 +153,7 @@ Namespace v2
                 .ToArray
             Dim proteins = model.genome.replicons _
                 .Select(Function(genome)
-                            Return genome.genes.AsEnumerable
+                            Return genome.GetGeneList
                         End Function) _
                 .IteratesALL _
                 .Where(Function(gene) Not gene.amino_acid Is Nothing) _

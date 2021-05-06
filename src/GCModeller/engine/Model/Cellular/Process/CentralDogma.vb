@@ -86,6 +86,11 @@ Namespace Cellular.Process
         Dim orthology As String
 
         ''' <summary>
+        ''' 这个表达过程的目标基因所属的基因组
+        ''' </summary>
+        Dim replicon As String
+
+        ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
         ''' </summary>
         ''' <returns></returns>

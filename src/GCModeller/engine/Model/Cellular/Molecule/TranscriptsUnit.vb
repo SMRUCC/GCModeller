@@ -1,4 +1,6 @@
 ﻿
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+
 Namespace Cellular.Molecule
 
     ''' <summary>

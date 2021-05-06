@@ -244,6 +244,8 @@
     <Compile Include="v2\Assembly\ZipAssembly.vb" />
     <Compile Include="v2\Debugger.vb" />
     <Compile Include="v2\NamespaceDoc.vb" />
+    <Compile Include="v2\Xml\Genome\gene.vb" />
+    <Compile Include="v2\Xml\Genome\replicon.vb" />
     <Compile Include="v2\Xml\Genome\TranscriptUnit.vb" />
     <Compile Include="v2\Xml\Genome\Genome.vb" />
     <Compile Include="v2\Xml\MetabolismStructure.vb" />

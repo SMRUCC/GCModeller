@@ -14,5 +14,15 @@ Namespace v2
         ''' <returns></returns>
         Public Property genes As XmlList(Of gene)
 
+        Public ReadOnly Property numOfGenes As Integer
+            Get
+                If genes Is Nothing Then
+                    Return 0
+                Else
+                    Return genes.size
+                End If
+            End Get
+        End Property
+
     End Class
 End Namespace

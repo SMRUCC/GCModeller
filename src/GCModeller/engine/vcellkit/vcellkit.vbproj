@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="Debugger\Debugger.vb" />
     <Compile Include="Debugger\VCellNetwork.vb" />
+    <Compile Include="Modeller\API.vb" />
     <Compile Include="Modeller\Modeller.vb" />
     <Compile Include="RawXmlKit.vb" />
     <Compile Include="Modeller\Compiler.vb" />

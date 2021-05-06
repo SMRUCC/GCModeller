@@ -49,42 +49,42 @@ Namespace Regtransbase
 
     Public Class Database
 
-        Dim DbReflector As MySqli
+        'Dim DbReflector As MySqli
 
-        Sub New(MySQL As ConnectionUri)
-            DbReflector = New MySqli(MySQL)
-        End Sub
+        'Sub New(MySQL As ConnectionUri)
+        '    DbReflector = New MySqli(MySQL)
+        'End Sub
 
         Public Function GetGenes() As Regtransbase.StructureObjects.Gene()
-            Return DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray
+            '  Return DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray
         End Function
 
         Public Function GetSites() As Regtransbase.StructureObjects.Sites()
-            Return DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites").ToArray
+            '  Return DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites").ToArray
         End Function
 
         Public Function GetRegulators() As Regtransbase.StructureObjects.Regulator()
-            Return DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators").ToArray
+            '  Return DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators").ToArray
         End Function
 
         Public Function ExportBindingSites(Optional TryAutoFix As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
-            Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites")
-            Dim LQuery = (From site As Regtransbase.StructureObjects.Sites In Table
-                          Let Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
-                          Where Not Fsa Is Nothing
-                          Select Fsa).ToArray
-            Return LQuery
+            'Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites")
+            'Dim LQuery = (From site As Regtransbase.StructureObjects.Sites In Table
+            '              Let Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
+            '              Where Not Fsa Is Nothing
+            '              Select Fsa).ToArray
+            'Return LQuery
         End Function
 
         Public Function ExportRegulators(Optional TryAutoFix As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
-            Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators")
-            Dim Genes = DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray '在其中居然会有以TGA开头的基因序列
-            Dim LQuery = (From regulator As Regtransbase.StructureObjects.Regulator
-                          In Table
-                          Let fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
-                          Where Not fsa Is Nothing AndAlso Len(fsa.SequenceData) > 0
-                          Select fsa).ToArray
-            Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
+            'Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators")
+            'Dim Genes = DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray '在其中居然会有以TGA开头的基因序列
+            'Dim LQuery = (From regulator As Regtransbase.StructureObjects.Regulator
+            '              In Table
+            '              Let fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
+            '              Where Not fsa Is Nothing AndAlso Len(fsa.SequenceData) > 0
+            '              Select fsa).ToArray
+            'Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         End Function
 
         Private Shared Function Trim(str As String) As String

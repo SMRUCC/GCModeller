@@ -139,7 +139,7 @@ Namespace Assembly.KEGG.DBGET.WebQuery.Compounds
             '    .ToArray
             Dim LQuery As DBLink() = t _
                 .Select(Function(linkTable)
-                            Dim tr = linkTable.GetRowsHTML(0)
+                            Dim tr = linkTable.GetRowsHTML()(0)
                             Dim tuple = tr.GetColumnsHTML
                             Dim name = tuple(0).StripHTMLTags(True).Trim(":"c, " "c)
                             Dim id$ = tuple.ElementAtOrDefault(1) _
