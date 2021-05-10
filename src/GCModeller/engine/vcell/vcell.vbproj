@@ -197,6 +197,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.vbproj">
+      <Project>{72b3198a-049c-4fc3-8b54-8e140c108cb5}</Project>
+      <Name>BootstrapLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CompilerServices\CompilerServices.vbproj">
       <Project>{34A63CB4-BB7E-4563-8E0F-682FF10E7D0E}</Project>
       <Name>CompilerServices</Name>
