@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 
-<Package("vcellkit.debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
 Module Debugger
 
@@ -131,5 +131,10 @@ Module Debugger
         Return core _
             .AttatchMassDriver(AddressOf mass.SnapshotDriver) _
             .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
+    End Function
+
+    <ExportAPI("test_network")>
+    Public Function CreateNetwork(<RRawVectorArgument> network As Object) As Vessel
+
     End Function
 End Module
