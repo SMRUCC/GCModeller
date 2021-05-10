@@ -55,9 +55,15 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Closure
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
+Imports Variable = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor
 
 <Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
@@ -135,7 +141,36 @@ Module Debugger
     End Function
 
     <ExportAPI("test_network")>
-    Public Function CreateNetwork(<RRawVectorArgument> network As Object, <RListObjectArgument> init0 As list) As Vessel
+    <RApiReturn(GetType(Vessel))>
+    Public Function CreateNetwork(<RRawVectorArgument> network As Object,
+                                  <RListObjectArgument> init0 As list,
+                                  Optional env As Environment = Nothing) As Object
 
+        Dim flux As New List(Of Channel)
+        Dim dynamicsSystem As pipeline = pipeline.TryCreatePipeline(Of Expression)(network, env)
+        Dim vars As New List(Of Variable)
+
+        If dynamicsSystem.isError Then
+            Return dynamicsSystem.getError
+        End If
+
+        For Each expr As Expression In dynamicsSystem.populates(Of Expression)(env)
+            If TypeOf expr Is DeclareLambdaFunction Then
+                Dim id As String = DirectCast(expr, DeclareLambdaFunction).parameterNames(Scan0)
+                Dim left As Variable()
+                Dim right As Variable()
+                Dim channel As New Channel()
+
+            ElseIf TypeOf expr Is FormulaExpression Then
+                Throw New NotImplementedException
+            Else
+                Return Message.InCompatibleType(GetType(DeclareLambdaFunction), expr.GetType, env)
+            End If
+        Next
+
+        Return New Vessel() _
+            .load(flux) _
+            .load(vars) _
+            .Initialize
     End Function
 End Module
