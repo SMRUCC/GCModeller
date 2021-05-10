@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 
@@ -134,7 +135,7 @@ Module Debugger
     End Function
 
     <ExportAPI("test_network")>
-    Public Function CreateNetwork(<RRawVectorArgument> network As Object) As Vessel
+    Public Function CreateNetwork(<RRawVectorArgument> network As Object, <RListObjectArgument> init0 As list) As Vessel
 
     End Function
 End Module

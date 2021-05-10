@@ -2,8 +2,8 @@ imports "debugger" from "vcellkit";
 
 const network = [
 
-	a + b = c + d,
-	a + d =  3*b
+	rxn1 -> a + b = c + d,
+	rxn2 -> a + d =  3*b
 
 ];
 
