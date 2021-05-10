@@ -264,3 +264,5 @@ src/workbench/R#/demo/cytoscape/automation/result.cys
 src/workbench/R#/demo/cngb/bacterials.csv
 *.db-wal
 *.db-shm
+*.dll
+*.exe
