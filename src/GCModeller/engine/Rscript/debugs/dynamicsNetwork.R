@@ -7,4 +7,4 @@ const network = [
 
 ];
 
-network :> test_network;
+network :> test_network(a = 100, b = 1, c = 800, d = 1000);

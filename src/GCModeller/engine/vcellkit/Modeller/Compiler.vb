@@ -61,7 +61,7 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 ''' <summary>
 ''' The GCModeller virtual cell model creator
 ''' </summary>
-<Package("vcellkit.compiler")>
+<Package("compiler")>
 Module Compiler
 
     ''' <summary>

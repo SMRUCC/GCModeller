@@ -54,7 +54,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' <summary>
 ''' GCModeller virtual cell analysis toolkit.
 ''' </summary>
-<Package("vcellkit.analysis")>
+<Package("analysis")>
 Public Module Analysis
 
     ''' <summary>

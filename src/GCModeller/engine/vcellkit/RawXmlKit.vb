@@ -59,7 +59,7 @@ Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offs
 ''' <summary>
 ''' 
 ''' </summary>
-<Package("vcellkit.rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
+<Package("rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
 
     ''' <summary>

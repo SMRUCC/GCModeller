@@ -48,6 +48,9 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 
 Namespace Core
 
+    ''' <summary>
+    ''' 主要是应用于酶促动力学反应过程的计算
+    ''' </summary>
     Public Class KineticsControls : Inherits Controls
 
         ''' <summary>
