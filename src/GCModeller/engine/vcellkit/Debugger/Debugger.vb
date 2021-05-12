@@ -168,7 +168,7 @@ Module Debugger
                 Dim channel As New Channel(left, right) With {
                     .bounds = New Boundary(5, 5),
                     .ID = id,
-                    .forward = New BaselineControls(1),
+                    .forward = New BaselineControls(2),
                     .reverse = New BaselineControls(1)
                 }
 
@@ -216,6 +216,8 @@ Module Debugger
             End If
         ElseIf TypeOf dataExpr Is SymbolReference Then
             Yield New Variable(vars.GetFactor(dataExpr), 1)
+        ElseIf TypeOf dataExpr Is Literal Then
+            Yield New Variable(vars.GetFactor(New SymbolReference(DirectCast(dataExpr, Literal).ValueStr)), 1)
         End If
     End Function
 
