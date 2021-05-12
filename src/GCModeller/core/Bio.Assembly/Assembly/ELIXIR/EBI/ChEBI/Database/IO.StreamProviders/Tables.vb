@@ -122,6 +122,20 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             Return ppmd
         End Function
 
+        Public Shared Function PpmToMassDelta(measure As Double, ppm As Double) As Double
+            Dim da As Double
+
+            ' (measured - actualValue) / actualValue = ppm
+            ' ppm * actualValue = measured - actualValue
+            ' ppm * actualValue + actualValue = measured
+            ' measure + da = measured / (1 + ppm) 
+            ' da = measured / (1 + ppm) - measure
+            ppm = ppm / 10 ^ 6
+            da = measure / (1 + ppm) - measure
+
+            Return stdNum.Abs(da)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ChemicalModel(table As IEnumerable(Of ChemicalData)) As Dictionary(Of String, Dictionary(Of String, ChemicalData()))
             Return table _
