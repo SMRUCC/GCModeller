@@ -54,6 +54,14 @@ Namespace Core
         ''' <returns></returns>
         Public Property reverse As Double
 
+        Sub New()
+        End Sub
+
+        Sub New(forward As Double, reverse As Double)
+            Me.forward = forward
+            Me.reverse = reverse
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[reactant <- {reverse} | {forward} -> product]"
         End Function

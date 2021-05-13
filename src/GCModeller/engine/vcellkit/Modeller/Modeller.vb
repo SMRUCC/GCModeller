@@ -52,7 +52,7 @@ Imports SMRUCC.genomics.GCModeller.Compiler
 ''' <summary>
 ''' virtual cell network kinetics modeller
 ''' </summary>
-<Package("vcellkit.modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)

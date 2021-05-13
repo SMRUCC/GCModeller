@@ -78,7 +78,7 @@ End Enum
 ''' <summary>
 ''' 
 ''' </summary>
-<Package("vcellkit.simulator", Category:=APICategories.ResearchTools)>
+<Package("simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
 
     Sub New()
