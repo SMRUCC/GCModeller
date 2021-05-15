@@ -4,23 +4,57 @@ Imports Microsoft.VisualBasic.Text.Parser
 
 Public Class TokenIcer : Inherits SyntaxTokenlizer(Of Tokens, Token)
 
+    ReadOnly escape As New Escaping
+
     Public Sub New(text As [Variant](Of String, CharPtr))
         MyBase.New(text)
     End Sub
 
     Protected Overrides Function walkChar(c As Char) As Token
-        Select Case c
-            Case "{"c, "("c, "["c, "}"c, "]"c, ")"c, "|"c
-                Dim t As Token = popOutToken()
+        If escape.string Then
+            If c <> """"c Then
                 buffer += c
-                Return t
-            Case " "c, ASCII.TAB, ASCII.CR, ASCII.LF
-                Return popOutToken()
-            Case Else
+                Return Nothing
+            Else
+                escape.string = False
+                Return New Token(Tokens.text, buffer.PopAllChars)
+            End If
+        ElseIf escape.comment Then
+            If c <> ASCII.CR AndAlso c <> ASCII.LF Then
                 buffer += c
-        End Select
+                Return Nothing
+            Else
+                escape.comment = False
+                Return New Token(Tokens.comment, buffer.PopAllChars)
+            End If
+        Else
+            Select Case c
+                Case "{"c, "("c, "["c, "}"c, "]"c, ")"c, "|"c
+                    Dim t As Token = popOutToken()
+                    buffer += c
+                    Return t
+                Case " "c, ASCII.TAB, ASCII.CR, ASCII.LF
+                    Return popOutToken()
+                Case """"c
+                    Dim t As Token = popOutToken()
+                    escape.string = True
+                    Return t
+                Case "#"c
+                    Dim t As Token = popOutToken()
+                    escape.comment = True
+                    Return t
+                Case Else
+                    Dim t As Token = Nothing
 
-        Return Nothing
+                    If buffer = 1 AndAlso buffer.ToString = "|" Then
+                        t = popOutToken()
+                    End If
+
+                    buffer += c
+
+                    Return t
+            End Select
+        End If
     End Function
 
     Protected Overrides Function popOutToken() As Token
@@ -33,8 +67,16 @@ Public Class TokenIcer : Inherits SyntaxTokenlizer(Of Tokens, Token)
         Select Case text
             Case "{", "[", "(" : Return New Token(Tokens.open, text)
             Case "}", "]", ")" : Return New Token(Tokens.close, text)
-
+            Case "|" : Return New Token(Tokens.pipeline, text)
+            Case Else
+                Return New Token(Tokens.symbol, text)
         End Select
     End Function
 End Class
 
+Friend Class Escaping
+
+    Public [string] As Boolean
+    Public comment As Boolean
+
+End Class
