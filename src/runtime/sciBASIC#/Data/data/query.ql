@@ -1,3 +1,5 @@
+# https://www.codeproject.com/Articles/1264613/GraphQuery-Powerful-Text-Query-Language-3
+
 graphquery
 {
     bookID css("book")|attr("id")

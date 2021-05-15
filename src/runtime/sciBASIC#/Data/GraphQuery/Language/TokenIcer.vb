@@ -24,8 +24,10 @@ Public Class TokenIcer : Inherits SyntaxTokenlizer(Of Tokens, Token)
                 buffer += c
                 Return Nothing
             Else
+                Dim t As New Token(Tokens.comment, buffer.PopAllChars)
                 escape.comment = False
-                Return New Token(Tokens.comment, buffer.PopAllChars)
+                buffer += ASCII.LF
+                Return t
             End If
         Else
             Select Case c
@@ -33,8 +35,12 @@ Public Class TokenIcer : Inherits SyntaxTokenlizer(Of Tokens, Token)
                     Dim t As Token = popOutToken()
                     buffer += c
                     Return t
-                Case " "c, ASCII.TAB, ASCII.CR, ASCII.LF
+                Case " "c, ASCII.TAB
                     Return popOutToken()
+                Case ASCII.CR, ASCII.LF
+                    Dim t = popOutToken()
+                    buffer += ASCII.LF
+                    Return t
                 Case """"c
                     Dim t As Token = popOutToken()
                     escape.string = True
@@ -68,6 +74,8 @@ Public Class TokenIcer : Inherits SyntaxTokenlizer(Of Tokens, Token)
             Case "{", "[", "(" : Return New Token(Tokens.open, text)
             Case "}", "]", ")" : Return New Token(Tokens.close, text)
             Case "|" : Return New Token(Tokens.pipeline, text)
+            Case ASCII.LF
+                Return New Token(Tokens.terminator, ";")
             Case Else
                 Return New Token(Tokens.symbol, text)
         End Select

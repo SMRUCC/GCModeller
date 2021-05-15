@@ -14,4 +14,5 @@
     ''' #
     ''' </summary>
     comment
+    terminator
 End Enum
