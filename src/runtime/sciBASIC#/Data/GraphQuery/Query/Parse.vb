@@ -1,20 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
-''' <summary>
-''' the object model of a query
-''' </summary>
-Public Class Query
-
-    ''' <summary>
-    ''' the query name
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property name As String
-    Public Property members As Query()
-    Public Property parser As Parse
-
-End Class
-
 Public Class Parse
 
     Public Property func As ParserFunction
