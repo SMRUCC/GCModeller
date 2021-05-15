@@ -5,7 +5,12 @@
 ''' </summary>
 Public Class Query
 
-    Public Property members As Dictionary(Of String, Query)
+    ''' <summary>
+    ''' the query name
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property name As String
+    Public Property members As Query()
     Public Property parser As Parse
 
 End Class
