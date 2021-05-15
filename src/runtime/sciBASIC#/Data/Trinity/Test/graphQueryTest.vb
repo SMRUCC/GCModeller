@@ -1,6 +1,7 @@
 ﻿
 
 Imports Microsoft.VisualBasic.Data.GraphQuery
+Imports Microsoft.VisualBasic.Data.GraphQuery.Language
 
 Module graphQueryTest
 
