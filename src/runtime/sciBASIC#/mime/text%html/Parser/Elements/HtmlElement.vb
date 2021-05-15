@@ -69,6 +69,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace HTML
 
@@ -76,6 +77,7 @@ Namespace HTML
     ''' 一个标签所标记的元素以及内部文本
     ''' </summary>
     Public Class HtmlElement : Inherits InnerPlantText
+        Implements IXmlDocumentTree
 
         ''' <summary>
         ''' 标签名
@@ -362,6 +364,14 @@ Namespace HTML
             Else
                 Return $"<{name} {attrs.Values.JoinBy(" ")}>...</{name}>"
             End If
+        End Function
+
+        Public Function GetAllChildsByNodeName(nodename As String) As IXmlDocumentTree() Implements IXmlDocumentTree.GetAllChildsByNodeName
+            Return getElementsByTagName(nodename).Select(Function(n) DirectCast(n, IXmlDocumentTree)).ToArray
+        End Function
+
+        Public Function GetAllChilds() As IXmlNode() Implements IXmlDocumentTree.GetAllChilds
+            Return elementNodes.Select(Function(n) DirectCast(n, IXmlNode)).ToArray
         End Function
     End Class
 End Namespace
