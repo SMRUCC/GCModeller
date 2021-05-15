@@ -1,8 +1,20 @@
 ﻿Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
-Public Class Parse
+Public Class Parser
 
-    Public Property func As ParserFunction
+    Public Property func As String
+    Public Property parameters As String()
+    Public Property pipeNext As Parser
+
+    Public Overrides Function ToString() As String
+        Dim thisText As String = $"{func}({parameters.JoinBy(", ")})"
+
+        If Not pipeNext Is Nothing Then
+            Return $"{thisText} -> {pipeNext}"
+        Else
+            Return thisText
+        End If
+    End Function
 
 End Class
 

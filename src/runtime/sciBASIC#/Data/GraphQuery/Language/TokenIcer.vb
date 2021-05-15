@@ -77,17 +77,11 @@ Namespace Language
                 Case "}", "]", ")" : Return New Token(Tokens.close, text)
                 Case "|" : Return New Token(Tokens.pipeline, text)
                 Case ASCII.LF
-                    Return New Token(Tokens.terminator, ";")
+                    ' Return New Token(Tokens.terminator, ";")
+                    Return Nothing
                 Case Else
-                    Return New Token(Tokens.symbol, text)
+                    Return New Token(Tokens.symbol, text.Trim(ASCII.LF, ASCII.CR))
             End Select
         End Function
-    End Class
-
-    Friend Class Escaping
-
-        Public [string] As Boolean
-        Public comment As Boolean
-
     End Class
 End Namespace
