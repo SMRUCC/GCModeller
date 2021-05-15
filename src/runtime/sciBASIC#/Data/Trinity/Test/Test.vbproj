@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2770C688-9A61-4914-B997-A5825AED7BF8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Module1</StartupObject>
+    <StartupObject>Test.graphQueryTest</StartupObject>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
