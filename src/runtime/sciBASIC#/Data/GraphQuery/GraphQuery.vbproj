@@ -4,35 +4,31 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2770C688-9A61-4914-B997-A5825AED7BF8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <StartupObject>Test.Module1</StartupObject>
-    <RootNamespace>Test</RootNamespace>
-    <AssemblyName>Test</AssemblyName>
+    <ProjectGuid>{F81BDCFE-0B16-4F69-A161-52D7D5575C38}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.VisualBasic.Data.GraphQuery</RootNamespace>
+    <AssemblyName>Microsoft.VisualBasic.Data.GraphQuery</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>Console</MyType>
+    <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>Test.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.GraphQuery.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>Test.xml</DocumentationFile>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Microsoft.VisualBasic.Data.GraphQuery.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,7 +46,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,8 +64,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
-    <Compile Include="graphQueryTest.vb" />
+    <Compile Include="Language\TokenIcer.vb" />
+    <Compile Include="Language\Token.vb" />
+    <Compile Include="Language\Tokens.vb" />
+    <Compile Include="QueryParser.vb" />
+    <Compile Include="Query.vb" />
+    <Compile Include="Engine.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -106,36 +105,19 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Data_science\Graph\GraphTheory.vbproj">
-      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
-      <Name>GraphTheory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataFrame.Extensions\DataFramework.Extensions.vbproj">
-      <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
-      <Name>DataFramework.Extensions</Name>
+    <ProjectReference Include="..\..\mime\application%25json\application.json.vbproj">
+      <Project>{32228818-26F1-44DF-8D40-347136C743CD}</Project>
+      <Name>application.json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SearchEngine\SearchEngine\SearchEngine.vbproj">
-      <Project>{8afbc715-5eb6-4eaf-a967-d29a5667709f}</Project>
-      <Name>SearchEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Trinity.vbproj">
-      <Project>{62cac814-7e2e-43e0-a9a2-9e83b9a8f91b}</Project>
-      <Name>Trinity</Name>
+    <ProjectReference Include="..\..\mime\text%25html\MIME-htmls.vbproj">
+      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
