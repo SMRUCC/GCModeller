@@ -191,7 +191,7 @@ Namespace Tcp
         ''' <remarks></remarks>
         Public Function Run(localEndPoint As TcpEndPoint) As Integer Implements IServicesSocket.Run
             Dim callback As AsyncCallback
-            Dim exitCode As Integer
+            Dim exitCode As Integer = 0
             Dim socket As Socket = Nothing
 
             If _debugMode Then
@@ -205,6 +205,10 @@ Namespace Tcp
                 ' 20210516 not sure why object is nothing
                 ' on unix .NET 5 platform
                 If Not socket Is Nothing Then
+                    If _debugMode Then
+                        Call Console.WriteLine($"Socket initialize success! ({socket.GetHashCode})")
+                    End If
+
                     Exit For
                 ElseIf _debugMode Then
                     Call Console.WriteLine("Services socket is nothing, retry...")
@@ -238,10 +242,18 @@ Namespace Tcp
                 Call Thread.Sleep(1)
             End While
 
+            If _debugMode Then
+                Call Console.WriteLine("Exit socket loop...")
+                Call Console.WriteLine($"status code = {exitCode}")
+            End If
+
             _Running = False
 
             Call socket.Dispose()
-            Call socket.Free()
+
+            If _debugMode Then
+                Call Console.WriteLine("Release socket done!")
+            End If
 
             Return exitCode
         End Function
