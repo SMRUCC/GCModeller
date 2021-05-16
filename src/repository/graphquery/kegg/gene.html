@@ -1,0 +1,551 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>KEGG T01001: 10625</title>
+  <link type="text/css" rel="stylesheet" href="/css/gn2.css?1621145565">
+  <link type="text/css" rel="stylesheet" href="/css/bget.css?1621145565">
+  <link rel="stylesheet" href="/css/bget.css?1621145565" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/bgetm.css?1621145565" media="only screen and (max-width: 768px)">
+  <style>
+    .kcfd {
+      display: none;
+    }
+  </style>
+  <script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+      function (cl) {
+        return document.getElementsByClassName(cl);
+      } :
+      function (cl) {
+        var elms = [];
+        var objs = document.getElementsByTagName('*');
+        for (var i = 0; i < objs.length; i++) {
+          var obj = objs[i];
+          if (obj.className == cl) {
+            elms.push(obj);
+          }
+        }
+        return elms;
+      };
+    function toggleField(clk, cl, show, hide) {
+      var objs = getElementsByClassName(cl);
+      for (var i = 0; i < objs.length; i++) {
+        var obj = objs[i];
+        if (!obj.style.display || obj.style.display == 'none') {
+          obj.style.display = 'block';
+          clk.innerHTML = '&nbsp;&laquo; ' + hide;
+        }
+        else {
+          obj.style.display = 'none';
+          clk.innerHTML = '&nbsp;&raquo; ' + show;
+        }
+      }
+    }
+    function toggleData(bobj, e) {
+      var id = bobj.id.replace(/[^0-9]/g, '');
+      var dt = document.getElementById('kcfd' + id);
+      e.preventDefault();
+      if (!dt.style.display || dt.style.display == 'none') {
+        document.getElementById('kcfb' + id).innerHTML = 'Hide';
+        dt.style.display = 'block';
+      }
+      else {
+        document.getElementById('kcfb' + id).innerHTML = 'Show';
+        dt.style.display = 'none';
+      }
+    }
+    function btn(bobj, img) {
+      bobj.src = "/Fig/bget/button_" + img + ".gif";
+    }
+    function btn_e(e) {
+      e = e || event;
+      var obj = e.target;
+      var img = e.target.src;
+      var img_base = img.replace(/\\/g, '/').replace(/(b|bd|bh)\.gif$/, '');
+      if (e.type == 'mousedown' || e.type == 'touchstart') {
+        obj.src = img_base + 'bd.gif';
+      }
+      else if (e.type == 'mouseover') {
+        obj.src = img_base + 'bh.gif';
+      }
+      else if (e.type == 'mouseup' || e.type == 'touchend') {
+        obj.src = img_base + 'b.gif';
+      }
+      else if (e.type == 'mouseout') {
+        obj.src = img_base + 'b.gif';
+      }
+    }
+    function init() {
+      for (var i = 1; i <= 1; i++) {
+        if (document.getElementById('kcfb' + i)) {
+          document.getElementById('kcfb' + i).onclick = function (e) { toggleData(this, e); };
+        }
+      }
+    }
+    function Link_XtrctSeq2(form) {
+      var dna_from;
+      var dna_to;
+      var dna_len;
+      var plus_up = Number(form.XtrctSeq_UP.value);
+      var plus_down = Number(form.XtrctSeq_DOWN.value);
+      var vector = Number(form.VECTOR.value);
+      var org = form.ORG.value;
+      var chr = form.CHR.value;
+      var kid = form.KEGGID.value;
+      var url;
+
+      if (plus_up == 0 && plus_down == 0) {
+        url = "/entry/-f+-n+n+" + kid;
+      }
+      else {
+        if (vector == 1) {
+          dna_from = Number(form.FROM.value) - plus_up;
+          dna_to = Number(form.TO.value) + plus_down;
+        } else {
+          dna_from = Number(form.FROM.value) - plus_down;
+          dna_to = Number(form.TO.value) + plus_up;
+        }
+
+        url = "https://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to + "&VECTOR=" + vector + "&ORG=" + org;
+        if (chr) url += "&CHR=" + chr;
+      }
+      //window.open( url, "_self" );
+      location.href = url;
+    }
+    function go_taxonomy(form, params) {
+      for (var key in params) {
+        if (form[key]) {
+          form.setAttribute(key, params[key]);
+        }
+        else {
+          var obj = document.createElement('input');
+          obj.setAttribute('type', 'hidden');
+          obj.setAttribute('name', key);
+          obj.setAttribute('value', params[key]);
+          form.appendChild(obj);
+        }
+      }
+      form.submit();
+    }
+    window.onload = function () { window.focus(); init(); };
+//--->
+  </script>
+
+</head>
+
+<body>
+  <div>
+
+    <table border=0 cellpadding=0 cellspacing=0>
+      <tr>
+        <td>
+          <table border=0 cellpadding=0 cellspacing=0 width="650">
+            <tr>
+              <td width=70><a href="/kegg/kegg2.html"><img align="middle" alt="KEGG" border=0
+                    src="/Fig/bget/kegg1.gif"></a></td>
+              <td>&nbsp;&nbsp;&nbsp;</td>
+              <td><a name="hsa:10625"></a>
+                <font class="title1">Homo sapiens (human): 10625</font>
+              </td>
+              <td align="right" valign="bottom"><button class="btn"
+                  onclick="javascript:void(window.open(&#39;/kegg/document/help_bget_genes.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;));return false;">Help</button>
+              </td>
+            </tr>
+          </table>
+          <table border=0 cellpadding=0 cellspacing=0>
+            <tr>
+              <td valign="top">
+                <form method="post" action="javascript:Link_XtrctSeq2(document.form1);"
+                  enctype="application/x-www-form-urlencoded" name="form1"><input type="hidden" name="ACCESSION"
+                    value="10625">
+                  <input type="hidden" name="KEGGID" value="hsa:10625">
+                  <input type="hidden" name="ORG" value="hsa">
+                  <input type="hidden" name="FROM" value="1">
+                  <input type="hidden" name="TO" value="3">
+                  <input type="hidden" name="VECTOR" value="1">
+                  <input type="hidden" name="CHR" value="">
+                  <input type="hidden" name="source" value="OPEN">
+                  <input type="hidden" name="pos" value="1q25.3">
+                  <table border=0 cellpadding=1 cellspacing=0 width="650">
+                    <tr>
+                      <td class="fr1">
+                        <table border=0 cellpadding=2 cellspacing=0 width="650" style="border-bottom:#000 1px solid">
+
+                          <tr>
+                            <th class="th10" align="left" valign="middle"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Entry</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <table border="0" cellpadding="0" cellspacing="0" width="555">
+                                <tr>
+                                  <td align="left"><code><nobr>10625&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/kegg-bin/show_organism?org=T01001">T01001</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td>
+                                  <td align="right"><br></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Gene name</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden">IVNS1ABP, ARA3, FLARA3,
+                                HSPC068, IMD70, KLHL39, ND1, NS-1, NS1-BP, NS1BP<br>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Definition</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden">
+                                <div style="width:555px;overflow-x:auto;overflow-y:hidden">(RefSeq) influenza virus NS1A
+                                  binding protein<br>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid">
+                              <nobr>&nbsp;&nbsp;KO</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden">
+                                <table style="border:0;border-collapse:collapse;">
+                                  <tr>
+                                    <td valign="top">
+                                      <nobr><a href="/entry/K15046">K15046</a>&nbsp;&nbsp;</nobr>
+                                    </td>
+                                    <td>influenza virus NS1A-binding protein</td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Organism</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden"><a
+                                  href="/kegg-bin/show_organism?org=hsa">hsa</a>&nbsp;&nbsp;Homo sapiens (human)<br>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Brite</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden">
+                                <nobr>KEGG Orthology (KO) [BR:<a href="/brite/hsa00001+10625">hsa00001</a>]<br>
+                                  &nbsp;09180 Brite Hierarchies<br>
+                                  &nbsp;&nbsp;09182 Protein families: genetic information processing<br>
+                                  &nbsp;&nbsp;&nbsp;04121 Ubiquitin system [BR:<a
+                                    href="/brite/hsa04121+10625">hsa04121</a>]<br>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;10625 (IVNS1ABP)<br>
+                                  Ubiquitin system [BR:<a href="/brite/hsa04121+10625">hsa04121</a>]<br>
+                                  &nbsp;Ubiquitin ligases (E3)<br>
+                                  &nbsp;&nbsp;Multi subunit Ring-finger type E3<br>
+                                  &nbsp;&nbsp;&nbsp;Multi subunit type E3 associated proteins<br>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;10625 (IVNS1ABP)<br>
+                                </nobr>
+                              </div><button class="btn"
+                                onclick="location.href='/kegg-bin/search_brite?option=-a&amp;search_string=10625&amp;prefix=hsa';return false;">BRITE
+                                hierarchy</button>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="middle"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>SSDB</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button
+                                class="btn"
+                                onclick="location.href='https://www.kegg.jp/ssdb-bin/ssdb_best?org_gene=hsa:10625';return false;">Ortholog</button><button
+                                class="btn"
+                                onclick="location.href='https://www.kegg.jp/ssdb-bin/ssdb_paralog?org_gene=hsa:10625';return false;">Paralog</button><button
+                                class="btn"
+                                onclick="location.href='https://www.kegg.jp/ssdb-bin/www_ssget?hsa:10625';return false;">GFIT</button>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Motif</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>Pfam:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://www.genome.jp/entry/pf:Kelch_1">Kelch_1</a> <a
+                                      href="https://www.genome.jp/entry/pf:Kelch_6">Kelch_6</a> <a
+                                      href="https://www.genome.jp/entry/pf:Kelch_2">Kelch_2</a> <a
+                                      href="https://www.genome.jp/entry/pf:Kelch_3">Kelch_3</a> <a
+                                      href="https://www.genome.jp/entry/pf:Kelch_4">Kelch_4</a> <a
+                                      href="https://www.genome.jp/entry/pf:BTB">BTB</a> <a
+                                      href="https://www.genome.jp/entry/pf:Kelch_5">Kelch_5</a> <a
+                                      href="https://www.genome.jp/entry/pf:BACK">BACK</a></td>
+                                </tr>
+                              </table><button class="btn"
+                                onclick="location.href='https://www.kegg.jp/ssdb-bin/ssdb_motif?kid=hsa:10625';return false;">Motif</button>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Other DBs</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>NCBI-GeneID:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://www.ncbi.nlm.nih.gov/gene/10625">10625</a></td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>NCBI-ProteinID:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://www.ncbi.nlm.nih.gov/protein/NP_006460">NP_006460</a></td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>OMIM:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://omim.org/entry/609209">609209</a></td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>HGNC:&nbsp;</nobr>
+                                  </td>
+                                  <td><a
+                                      href="https://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:16951">16951</a>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>Ensembl:&nbsp;</nobr>
+                                  </td>
+                                  <td><a
+                                      href="https://www.ensembl.org/Homo_sapiens/geneview?gene=ENSG00000116679">ENSG00000116679</a>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>Vega:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="http://vega.sanger.ac.uk/id/OTTHUMG00000035384">OTTHUMG00000035384</a>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>Pharos:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://pharos.nih.gov/idg/targets/Q9Y6Y0">Q9Y6Y0</a>(Tbio)</td>
+                                </tr>
+                              </table>
+                              <table style="border:0;border-collapse:collapse;">
+                                <tr>
+                                  <td valign="top">
+                                    <nobr>UniProt:&nbsp;</nobr>
+                                  </td>
+                                  <td><a href="https://www.uniprot.org/uniprot/Q9Y6Y0">Q9Y6Y0</a></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="middle"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>LinkDB</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button
+                                class="btn"
+                                onclick="location.href='https://www.genome.jp/dbget-bin/get_linkdb?hsa+10625';return false;">All
+                                DBs</button></td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Structure</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="float:left">PDB:&nbsp;</div>
+                              <div style="max-width:23.5em;float:left"><a
+                                  href="https://www.genome.jp/entry/pdb:5YY8">5YY8</a> <a
+                                  href="https://www.genome.jp/entry/pdb:6N3H">6N3H</a> <a
+                                  href="https://www.genome.jp/entry/pdb:6N34">6N34</a><br><button class="btn"
+                                  onclick="location.href='https://www.genome.jp/dbget-bin/pdb_list.cgi?hsa:10625';return false;">Thumbnails</button>
+                              </div>
+                              <div style="padding-left:10px;float:left">
+                                <div><a href="https://www.genome.jp/Fig/pdb/pdb5yy8.png"><img class="pdbicon"
+                                      name="img0" src="/Fig/pdb/pdb5yy8.png" border=0></a><br>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>Position</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">
+                              <div style="width:555px;overflow-x:auto;overflow-y:hidden">1q25.3<br>
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th10" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>AA seq</nobr>
+                            </th>
+                            <td class="td10"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">642 aa
+                              <button class="btn" onclick="location.href='/entry/-f+-n+a+hsa:10625';return false;">AA
+                                seq</button><button class="btn"
+                                onclick="location.href='https://www.genome.jp/tools-bin/search_sequence?prog=blast&amp;seqid=hsa:10625+aa';return false;">DB
+                                search</button><br>
+                              MIPNGYLMFEDENFIESSVAKLNALRKSGQFCDVRLQVCGHEMLAHRAVLACCSPYLFEI<br>
+                              FNSDSDPHGISHVKFDDLNPEAVEVLLNYAYTAQLKADKELVKDVYSAAKKLKMDRVKQV<br>
+                              CGDYLLSRMDVTSCISYRNFASCMGDSRLLNKVDAYIQEHLLQISEEEEFLKLPRLKLEV<br>
+                              MLEDNVCLPSNGKLYTKVINWVQRSIWENGDSLEELMEEVQTLYYSADHKLLDGNLLDGQ<br>
+                              AEVFGSDDDHIQFVQKKPPRENGHKQISSSSTGCLSSPNATVQSPKHEWKIVASEKTSNN<br>
+                              TYLCLAVLDGIFCVIFLHGRNSPQSSPTSTPKLSKSLSFEMQQDELIEKPMSPMQYARSG<br>
+                              LGTAEMNGKLIAAGGYNREECLRTVECYNPHTDHWSFLAPMRTPRARFQMAVLMGQLYVV<br>
+                              GGSNGHSDDLSCGEMYDSNIDDWIPVPELRTNRCNAGVCALNGKLYIVGGSDPYGQKGLK<br>
+                              NCDVFDPVTKLWTSCAPLNIRRHQSAVCELGGYLYIIGGAESWNCLNTVERYNPENNTWT<br>
+                              LIAPMNVARRGAGVAVLNGKLFVCGGFDGSHAISCVEMYDPTRNEWKMMGNMTSPRSNAG<br>
+                              IATVGNTIYAVGGFDGNEFLNTVEVYNLESNEWSPYTKIFQF
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <th class="th11" align="left" valign="top"
+                              style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid">
+                              <nobr>NT seq</nobr>
+                            </th>
+                            <td class="td11"
+                              style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">1929 nt
+                              <button class="btn" onclick="javascript:Link_XtrctSeq2(document.form1);return false;">NT
+                                seq</button><span
+                                style="display:none"><code>&nbsp;&nbsp;+upstream<input type="text" name="XtrctSeq_UP" value="0" size="3">nt&nbsp;&nbsp;+downstream<input type="text" name="XtrctSeq_DOWN" value="0" size="3">nt</code></span><br>
+                              atgattcccaatggatatttgatgtttgaggatgaaaattttattgagtcttctgttgcc<br>
+                              aaattaaatgccctgaggaaaagtggccagttctgtgatgttcgacttcaggtctgtggc<br>
+                              catgaaatgttagcacacagagcagtgctagcttgctgcagtccctatttatttgaaatc<br>
+                              tttaatagtgatagtgatcctcatggaatttctcacgttaaatttgatgatctcaatcca<br>
+                              gaagctgttgaagtcttgttgaattatgcctacactgctcagttgaaagcagataaggaa<br>
+                              ttggtaaaagatgtttattctgcagcaaaaaagctgaagatggatcgagtaaagcaggtt<br>
+                              tgtggtgattatttactgtctagaatggatgttaccagctgcatctcttaccgaaatttt<br>
+                              gcaagttgtatgggagactcccgtttgttgaataaggttgatgcttatattcaggagcat<br>
+                              ttgttacaaatttctgaagaggaggagtttcttaagcttccaaggctaaagttggaggta<br>
+                              atgcttgaagataatgtttgcttgcccagcaatggcaaattatatacaaaggtaatcaac<br>
+                              tgggtgcagcgtagcatctgggagaatggagacagtctggaagagctgatggaagaggtt<br>
+                              caaaccttgtactactcagctgatcacaagctgcttgatgggaacctactagatggacag<br>
+                              gctgaggtgtttggcagtgatgatgaccacattcagtttgtgcagaaaaagccaccacgt<br>
+                              gagaatggccataagcagataagtagcagttcaactggatgtctctcttctccaaatgct<br>
+                              acagtacaaagccctaagcatgagtggaaaatcgttgcttcagaaaagacttcaaataac<br>
+                              acttacttgtgcctggctgtgctggatggtatattctgtgtcatttttcttcatgggaga<br>
+                              aacagcccacagagctcaccaacaagtactccaaaactaagtaagagtttaagctttgag<br>
+                              atgcaacaagatgagctaatcgaaaagcccatgtctcctatgcagtacgcacgatctggt<br>
+                              ctgggaacagcagagatgaatggcaaactcatagctgcaggtggctataacagagaggaa<br>
+                              tgtcttcgaacagtcgaatgctataatccacatacagatcactggtcctttcttgctccc<br>
+                              atgagaacaccaagagcccgatttcaaatggctgtactcatgggccagctctatgtggta<br>
+                              ggtggatcaaatggccactcagatgacctgagttgtggagagatgtatgattcaaacata<br>
+                              gatgactggattcctgttccagaattgagaactaaccgttgtaatgcaggagtgtgtgct<br>
+                              ctgaatggaaagttatacatcgttggtggctctgatccatatggtcaaaaaggactgaaa<br>
+                              aattgtgatgtatttgatcctgtaacaaagttgtggacaagctgtgcccctcttaacatt<br>
+                              cggagacaccagtctgcagtctgtgagcttggtggttatttgtacataatcggaggtgca<br>
+                              gaatcttggaattgtctgaacacagtagaacgatacaatcctgaaaataatacctggact<br>
+                              ttaattgcacccatgaatgtggctaggcgaggagctggagtggctgttcttaatggaaaa<br>
+                              ctgtttgtatgtggtggctttgatggttctcatgccatcagttgtgtggaaatgtatgat<br>
+                              ccaactagaaatgaatggaagatgatgggaaatatgacttcaccaaggagcaatgctggg<br>
+                              attgcaactgtagggaacaccatttatgcagtgggaggattcgatggcaatgaatttctg<br>
+                              aatacggtggaagtctataaccttgagtcaaatgaatggagcccctatacaaagattttc<br>
+                              cagttttaa
+                            </td>
+                          </tr>
+
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <br>
+                </form>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+
+    <a href="/dbget/">DBGET</a> integrated database retrieval system
+  </div>
+
+</body>
+
+</html>
