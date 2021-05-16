@@ -1,0 +1,201 @@
+{
+        "entry": {
+                "gene_id": "10625             CDS       T01001",
+                "organism": "T01001"
+        },
+        "gene_name": "Gene nameIVNS1ABP, ARA3, FLARA3, HSPC068, IMD70, KLHL39, ND1, NS-1, NS1-BP, NS1BP",
+        "refseq": "(RefSeq) influenza virus NS1A binding protein",
+        "KO": "K15046  influenza virus NS1A-binding protein",
+        "organism": {
+                "code": "hsa",
+                "scientific_name": "hsa  Homo sapiens (human)"
+        },
+        "brite": [
+                "Brite", "KEGG Orthology (KO) [BR:hsa00001]
+
+ 09180 Brite Hierarchies
+
+  09182 Protein families: genetic information processing
+
+   04121 Ubiquitin system [BR:hsa04121
+                ]
+
+    10625 (IVNS1ABP)
+
+Ubiquitin system [BR:hsa04121
+                ]
+
+ Ubiquitin ligases (E3)
+
+  Multi subunit Ring-finger type E3
+
+   Multi subunit type E3 associated proteins
+
+    10625 (IVNS1ABP)
+BRITE hierarchy"
+        ],
+        "SSDB": [
+                {
+                        "type": "Ortholog",
+                        "link": "location.href='https://www.kegg.jp/ssdb-bin/ssdb_best?org_gene=hsa:10625';return false;"
+                },
+                {
+                        "type": "Paralog",
+                        "link": "location.href='https://www.kegg.jp/ssdb-bin/ssdb_paralog?org_gene=hsa:10625';return false;"
+                },
+                {
+                        "type": "GFIT",
+                        "link": "location.href='https://www.kegg.jp/ssdb-bin/www_ssget?hsa:10625';return false;"
+                }
+        ],
+        "motif": [
+                "Kelch_1",
+                "Kelch_6",
+                "Kelch_2",
+                "Kelch_3",
+                "Kelch_4",
+                "BTB",
+                "Kelch_5",
+                "BACK"
+        ],
+        "dblinks": [
+                {
+                        "name": "NCBI-GeneID: ",
+                        "xref": "10625",
+                        "url": "https://www.ncbi.nlm.nih.gov/gene/10625"
+                },
+                {
+                        "name": "NCBI-ProteinID: ",
+                        "xref": "NP_006460",
+                        "url": "https://www.ncbi.nlm.nih.gov/protein/NP_006460"
+                },
+                {
+                        "name": "OMIM: ",
+                        "xref": "609209",
+                        "url": "https://omim.org/entry/609209"
+                },
+                {
+                        "name": "HGNC: ",
+                        "xref": "16951",
+                        "url": "https://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=HGNC:16951"
+                },
+                {
+                        "name": "Ensembl: ",
+                        "xref": "ENSG00000116679",
+                        "url": "https://www.ensembl.org/Homo_sapiens/geneview?gene=ENSG00000116679"
+                },
+                {
+                        "name": "Vega: ",
+                        "xref": "OTTHUMG00000035384",
+                        "url": "http://vega.sanger.ac.uk/id/OTTHUMG00000035384"
+                },
+                {
+                        "name": "Pharos: ",
+                        "xref": "Q9Y6Y0",
+                        "url": "https://pharos.nih.gov/idg/targets/Q9Y6Y0"
+                },
+                {
+                        "name": "UniProt: ",
+                        "xref": "Q9Y6Y0",
+                        "url": "https://www.uniprot.org/uniprot/Q9Y6Y0"
+                }
+        ],
+        "structures": [
+                "5YY8",
+                "6N3H",
+                "6N34",
+                ""
+        ],
+        "chr": "Position1q25.3
+",
+"protein": "642 aa AA seqDB search
+
+MIPNGYLMFEDENFIESSVAKLNALRKSGQFCDVRLQVCGHEMLAHRAVLACCSPYLFEI
+
+FNSDSDPHGISHVKFDDLNPEAVEVLLNYAYTAQLKADKELVKDVYSAAKKLKMDRVKQV
+
+CGDYLLSRMDVTSCISYRNFASCMGDSRLLNKVDAYIQEHLLQISEEEEFLKLPRLKLEV
+
+MLEDNVCLPSNGKLYTKVINWVQRSIWENGDSLEELMEEVQTLYYSADHKLLDGNLLDGQ
+
+AEVFGSDDDHIQFVQKKPPRENGHKQISSSSTGCLSSPNATVQSPKHEWKIVASEKTSNN
+
+TYLCLAVLDGIFCVIFLHGRNSPQSSPTSTPKLSKSLSFEMQQDELIEKPMSPMQYARSG
+
+LGTAEMNGKLIAAGGYNREECLRTVECYNPHTDHWSFLAPMRTPRARFQMAVLMGQLYVV
+
+GGSNGHSDDLSCGEMYDSNIDDWIPVPELRTNRCNAGVCALNGKLYIVGGSDPYGQKGLK
+
+NCDVFDPVTKLWTSCAPLNIRRHQSAVCELGGYLYIIGGAESWNCLNTVERYNPENNTWT
+
+LIAPMNVARRGAGVAVLNGKLFVCGGFDGSHAISCVEMYDPTRNEWKMMGNMTSPRSNAG
+
+IATVGNTIYAVGGFDGNEFLNTVEVYNLESNEWSPYTKIFQF",
+"nucleotide": "1929 nt NT seq  +upstreamnt  +downstreamnt
+
+atgattcccaatggatatttgatgtttgaggatgaaaattttattgagtcttctgttgcc
+
+aaattaaatgccctgaggaaaagtggccagttctgtgatgttcgacttcaggtctgtggc
+
+catgaaatgttagcacacagagcagtgctagcttgctgcagtccctatttatttgaaatc
+
+tttaatagtgatagtgatcctcatggaatttctcacgttaaatttgatgatctcaatcca
+
+gaagctgttgaagtcttgttgaattatgcctacactgctcagttgaaagcagataaggaa
+
+ttggtaaaagatgtttattctgcagcaaaaaagctgaagatggatcgagtaaagcaggtt
+
+tgtggtgattatttactgtctagaatggatgttaccagctgcatctcttaccgaaatttt
+
+gcaagttgtatgggagactcccgtttgttgaataaggttgatgcttatattcaggagcat
+
+ttgttacaaatttctgaagaggaggagtttcttaagcttccaaggctaaagttggaggta
+
+atgcttgaagataatgtttgcttgcccagcaatggcaaattatatacaaaggtaatcaac
+
+tgggtgcagcgtagcatctgggagaatggagacagtctggaagagctgatggaagaggtt
+
+caaaccttgtactactcagctgatcacaagctgcttgatgggaacctactagatggacag
+
+gctgaggtgtttggcagtgatgatgaccacattcagtttgtgcagaaaaagccaccacgt
+
+gagaatggccataagcagataagtagcagttcaactggatgtctctcttctccaaatgct
+
+acagtacaaagccctaagcatgagtggaaaatcgttgcttcagaaaagacttcaaataac
+
+acttacttgtgcctggctgtgctggatggtatattctgtgtcatttttcttcatgggaga
+
+aacagcccacagagctcaccaacaagtactccaaaactaagtaagagtttaagctttgag
+
+atgcaacaagatgagctaatcgaaaagcccatgtctcctatgcagtacgcacgatctggt
+
+ctgggaacagcagagatgaatggcaaactcatagctgcaggtggctataacagagaggaa
+
+tgtcttcgaacagtcgaatgctataatccacatacagatcactggtcctttcttgctccc
+
+atgagaacaccaagagcccgatttcaaatggctgtactcatgggccagctctatgtggta
+
+ggtggatcaaatggccactcagatgacctgagttgtggagagatgtatgattcaaacata
+
+gatgactggattcctgttccagaattgagaactaaccgttgtaatgcaggagtgtgtgct
+
+ctgaatggaaagttatacatcgttggtggctctgatccatatggtcaaaaaggactgaaa
+
+aattgtgatgtatttgatcctgtaacaaagttgtggacaagctgtgcccctcttaacatt
+
+cggagacaccagtctgcagtctgtgagcttggtggttatttgtacataatcggaggtgca
+
+gaatcttggaattgtctgaacacagtagaacgatacaatcctgaaaataatacctggact
+
+ttaattgcacccatgaatgtggctaggcgaggagctggagtggctgttcttaatggaaaa
+
+ctgtttgtatgtggtggctttgatggttctcatgccatcagttgtgtggaaatgtatgat
+
+ccaactagaaatgaatggaagatgatgggaaatatgacttcaccaaggagcaatgctggg
+
+attgcaactgtagggaacaccatttatgcagtgggaggattcgatggcaatgaatttctg
+
+aatacggtggaagtctataaccttgagtcaaatgaatggagcccctatacaaagattttc
+
+cagttttaa"
+}

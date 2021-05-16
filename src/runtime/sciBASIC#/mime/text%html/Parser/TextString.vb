@@ -420,7 +420,7 @@ Namespace HTML
         Private Function __nextTag(buffer As Pointer(Of Char)) As HtmlElement
             Dim name, value As String
             Dim tag As New HtmlElement With {
-                .Name = buffer.popTagName.CharString
+                .TagName = buffer.popTagName.CharString
             }
 
             Do While Not buffer.EndRead
@@ -437,11 +437,7 @@ Namespace HTML
                 Call buffer.SkipWhiteSpace
 
                 value = buffer.popAttrValue.CharString
-
-                tag(name) = New ValueAttribute With {
-                    .Name = name,
-                    .Value = value
-                }
+                tag(name) = New ValueAttribute(name, value)
             Loop
 
             Return tag
