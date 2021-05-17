@@ -10,17 +10,6 @@ Public MustInherit Class Parser
     Public Function Parse(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
         Dim value As InnerPlantText = ParseImpl(document, isArray, env)
 
-        Select Case func
-            Case "css"
-                value = CssQuery(document, isArray)
-            Case "attr"
-                value = QueryAttribute(document, isArray)
-            Case "xpath"
-                value = XPathQuery(document, isArray)
-            Case Else
-
-        End Select
-
         If Not pipeNext Is Nothing Then
             value = pipeNext.Parse(value, isArray, env)
         End If
