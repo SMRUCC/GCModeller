@@ -3,6 +3,10 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
 Public Class XPathSelector : Inherits Parser
 
+    Sub New(func As String, parameters As String())
+        Call MyBase.New(func, parameters)
+    End Sub
+
     Protected Overrides Function ParseImpl(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
         Dim xpath As XPath = XPathParser.Parse(parameters(Scan0))
         Dim engine As New XPathQuery(xpath)

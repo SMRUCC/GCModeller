@@ -2,6 +2,10 @@
 
 Public Class CSSSelector : Inherits Parser
 
+    Sub New(func As String, parameters As String())
+        Call MyBase.New(func, parameters)
+    End Sub
+
     Protected Overrides Function ParseImpl(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
         Dim query As String = parameters(Scan0)
         Dim n As String = parameters.ElementAtOrDefault(1)

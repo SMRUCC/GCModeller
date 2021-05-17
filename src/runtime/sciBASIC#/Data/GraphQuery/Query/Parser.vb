@@ -7,6 +7,14 @@ Public MustInherit Class Parser
     Public Property parameters As String()
     Public Property pipeNext As Parser
 
+    Sub New()
+    End Sub
+
+    Sub New(func As String, parameters As String())
+        Me.func = func
+        Me.parameters = parameters
+    End Sub
+
     Public Function Parse(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
         Dim value As InnerPlantText = ParseImpl(document, isArray, env)
 
