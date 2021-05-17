@@ -28,6 +28,12 @@ Public Class Parser
         Return value
     End Function
 
+    ''' <summary>
+    ''' xpath selector query
+    ''' </summary>
+    ''' <param name="document"></param>
+    ''' <param name="isArray"></param>
+    ''' <returns></returns>
     Private Function XPathQuery(document As HtmlElement, isArray As Boolean) As InnerPlantText
         Dim xpath As XPath = XPathParser.Parse(parameters(Scan0))
         Dim engine As New XPathQuery(xpath)
@@ -50,6 +56,12 @@ Public Class Parser
         Return query
     End Function
 
+    ''' <summary>
+    ''' css selector query
+    ''' </summary>
+    ''' <param name="document"></param>
+    ''' <param name="isArray"></param>
+    ''' <returns></returns>
     Private Function CssQuery(document As HtmlElement, isArray As Boolean) As InnerPlantText
         Dim query As String = parameters(Scan0)
         Dim n As String = parameters.ElementAtOrDefault(1)
