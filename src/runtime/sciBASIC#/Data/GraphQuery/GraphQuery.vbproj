@@ -109,6 +109,10 @@
     <Compile Include="Language\Token.vb" />
     <Compile Include="Language\Tokens.vb" />
     <Compile Include="QueryParser.vb" />
+    <Compile Include="Query\AttributeSelector.vb" />
+    <Compile Include="Query\FunctionParser.vb" />
+    <Compile Include="Query\XPathSelector.vb" />
+    <Compile Include="Query\CSSSelector.vb" />
     <Compile Include="Query\Parser.vb" />
     <Compile Include="Query\Query.vb" />
     <Compile Include="Engine.vb" />
