@@ -104,6 +104,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Language\QueryToken.vb" />
     <Compile Include="Language\Escaping.vb" />
     <Compile Include="Language\TokenIcer.vb" />
     <Compile Include="Language\Token.vb" />
