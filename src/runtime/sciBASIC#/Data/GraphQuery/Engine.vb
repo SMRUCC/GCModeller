@@ -47,7 +47,7 @@ Public Class Engine
     Public Function Execute(document As HtmlElement, query As Query) As JsonElement
         If Not query.members.IsNullOrEmpty Then
             ' object
-            Dim subDocument As HtmlElement
+            Dim subDocument As InnerPlantText
             Dim obj As JsonElement
 
             If query.parser Is Nothing Then
@@ -56,7 +56,9 @@ Public Class Engine
                 subDocument = query.parser.Parse(document, query.isArray, Me)
             End If
 
-            If query.isArray Then
+            If subDocument.GetType Is GetType(InnerPlantText) Then
+                obj = New JsonObject
+            ElseIf query.isArray Then
                 obj = QueryObjectArray(subDocument, query)
             Else
                 obj = QueryObject(subDocument, query)
