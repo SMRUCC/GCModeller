@@ -671,10 +671,12 @@ Public Module NetworkVisualizer
             Dim w! = linkWidth(edge)
             Dim lineColor As Pen
 
-            If edge.data.color Is Nothing Then
+            If edge.data.style Is Nothing Then
                 lineColor = New Pen(defaultEdgeColor, w)
             Else
-                lineColor = New Pen(edge.data.color, w)
+                lineColor = New Pen(edge.data.style.Color, w) With {
+                    .DashStyle = edge.data.style.DashStyle
+                }
             End If
 
             With edge.data!interaction_type
