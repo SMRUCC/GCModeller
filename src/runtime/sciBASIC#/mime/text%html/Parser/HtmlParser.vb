@@ -46,7 +46,11 @@ Public Class HtmlParser
                         Dim newTag As New HtmlElement With {.TagName = name}
                         Dim tagClosed As Boolean = False
 
-                        Do While (a = ++i).name <> HtmlTokens.closeTag
+                        Do While Not i.EndRead AndAlso (a = ++i).name <> HtmlTokens.closeTag
+                            If i.EndRead Then
+                                Exit Do
+                            End If
+
                             ' name=value
                             If i.Current.name = HtmlTokens.equalsSymbol Then
                                 i.MoveNext()
