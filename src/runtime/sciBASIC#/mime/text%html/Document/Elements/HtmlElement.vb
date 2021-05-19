@@ -67,6 +67,7 @@
 Imports System.Reflection
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Xml
@@ -78,6 +79,7 @@ Namespace Document
     ''' </summary>
     Public Class HtmlElement : Inherits InnerPlantText
         Implements IXmlDocumentTree
+        Implements IStyleSelector(Of HtmlElement)
 
         ''' <summary>
         ''' 标签名
@@ -240,7 +242,7 @@ Namespace Document
             If attrs.ContainsKey(name) Then
                 Call attrs(name).Values.Add(value)
             Else
-                Call attrs.Add(name, New ValueAttribute With {.name = name, .Values = New List(Of String) From {value}})
+                Call attrs.Add(name, New ValueAttribute With {.Name = name, .Values = New List(Of String) From {value}})
             End If
         End Sub
 
@@ -270,7 +272,7 @@ Namespace Document
         ''' Returns null If no elements With the specified ID exists.
         ''' An ID should be unique within a page. However, If more than one element With the specified ID exists, the getElementById() method returns the first element In the source code.
         ''' </remarks>
-        Public Function getElementById(id As String) As HtmlElement
+        Public Function getElementById(id As String) As HtmlElement Implements IStyleSelector(Of HtmlElement).GetElementById
             If idIndex.ContainsKey(id) Then
                 Return idIndex(id)
             Else
@@ -303,7 +305,7 @@ Namespace Document
         ''' The HTMLCollection Object represents a collection Of nodes. The nodes can be accessed by index numbers. The index starts at 0.
         ''' Tip: You can use the length Property Of the HTMLCollection Object To determine the number Of elements With a specified Class name, Then you can Loop through all elements And extract the info you want.
         ''' </remarks>
-        Public Function getElementsByClassName(classname As String) As HtmlElement()
+        Public Function getElementsByClassName(classname As String) As HtmlElement() Implements IStyleSelector(Of HtmlElement).GetElementsByClassName
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByClassName))
             Return classIndex.TryGetValue(classname).JoinIterates(Query(api, classname)).ToArray
         End Function
@@ -321,7 +323,7 @@ Namespace Document
         ''' Tip: You can use the length Property Of the HTMLCollection Object To determine the number Of elements With the specified name, Then you can Loop through all elements And extract the info you want.
         ''' Note: In HTML5, the "name" attribute Is deprecated And has been replaced by the "id" attribute for many elements. Use the document.getElementById() method where it Is appropriate. Also look at the getElementsByClassName() And getElementsByTagName() methods.
         ''' </remarks>
-        Public Function getElementsByName(name As String) As HtmlElement()
+        Public Function getElementsByName(name As String) As HtmlElement() Implements IStyleSelector(Of HtmlElement).GetElementsByName
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByName))
             Return nameIndex.TryGetValue(name).JoinIterates(Query(api, name)).ToArray
         End Function
