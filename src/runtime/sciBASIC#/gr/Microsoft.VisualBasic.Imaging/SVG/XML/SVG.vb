@@ -54,10 +54,9 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging.SVG.CSS
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.MIME.Html
 Imports Microsoft.VisualBasic.Text
-Imports htmlNode = Microsoft.VisualBasic.MIME.Markup.HTML.XmlMeta.Node
+Imports htmlNode = Microsoft.VisualBasic.MIME.Html.XmlMeta.Node
 
 Namespace SVG.XML
 
