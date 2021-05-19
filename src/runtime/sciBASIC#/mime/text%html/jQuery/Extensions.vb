@@ -43,7 +43,7 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.Html.HTML.XmlMeta
+Imports Microsoft.VisualBasic.MIME.Html.XmlMeta
 
 Namespace HTML.jQuery
 

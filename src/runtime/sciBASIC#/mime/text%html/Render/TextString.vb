@@ -68,7 +68,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Document
-Imports Microsoft.VisualBasic.MIME.Html.HTML.CSS.Parser
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace Render
