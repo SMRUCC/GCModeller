@@ -46,9 +46,10 @@ Namespace MarkDown
 
     Public Module HTMLGenerator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ToHTML(mk As Markup) As String
-            Throw New NotImplementedException
+        Public Function Markdown2HTML(markdown$, Optional opt As MarkdownOptions = Nothing) As String
+            Return New MarkdownHTML(opt Or MarkdownOptions.DefaultOption).Transform(text:=markdown)
         End Function
     End Module
 End Namespace
