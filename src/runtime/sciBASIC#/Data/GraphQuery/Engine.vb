@@ -2,8 +2,8 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.GraphQuery.TextParser
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports Microsoft.VisualBasic.MIME.Markup
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.MIME.Html
+Imports Microsoft.VisualBasic.MIME.Html.Document
 
 ''' <summary>
 ''' the engine of run graph query

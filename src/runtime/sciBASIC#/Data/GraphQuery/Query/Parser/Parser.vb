@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic.MIME.application.xml
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+﻿Imports Microsoft.VisualBasic.MIME.Html.Document
 
 Public MustInherit Class Parser
 

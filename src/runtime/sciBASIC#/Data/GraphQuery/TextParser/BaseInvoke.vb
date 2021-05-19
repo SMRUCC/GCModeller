@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.C
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.MIME.Html.Document
 Imports Microsoft.VisualBasic.Text
 
 Namespace TextParser

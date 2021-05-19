@@ -1,7 +1,7 @@
 ﻿
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.MIME.Html.Document
 
 Namespace TextParser
 
