@@ -54,6 +54,9 @@ Global
 		LipidSearch|Any CPU = LipidSearch|Any CPU
 		LipidSearch|x64 = LipidSearch|x64
 		LipidSearch|x86 = LipidSearch|x86
+		MetaCardio|Any CPU = MetaCardio|Any CPU
+		MetaCardio|x64 = MetaCardio|x64
+		MetaCardio|x86 = MetaCardio|x86
 		mysqli_X64_release|Any CPU = mysqli_X64_release|Any CPU
 		mysqli_X64_release|x64 = mysqli_X64_release|x64
 		mysqli_X64_release|x86 = mysqli_X64_release|x86
@@ -78,6 +81,9 @@ Global
 		Rsharp_app_release|Any CPU = Rsharp_app_release|Any CPU
 		Rsharp_app_release|x64 = Rsharp_app_release|x64
 		Rsharp_app_release|x86 = Rsharp_app_release|x86
+		RsharpDev|Any CPU = RsharpDev|Any CPU
+		RsharpDev|x64 = RsharpDev|x64
+		RsharpDev|x86 = RsharpDev|x86
 		sciBASIC.NET-test-release|Any CPU = sciBASIC.NET-test-release|Any CPU
 		sciBASIC.NET-test-release|x64 = sciBASIC.NET-test-release|x64
 		sciBASIC.NET-test-release|x86 = sciBASIC.NET-test-release|x86
@@ -176,6 +182,12 @@ Global
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.LipidSearch|x64.Build.0 = LipidSearch|x64
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.LipidSearch|x86.ActiveCfg = LipidSearch|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.LipidSearch|x86.Build.0 = LipidSearch|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|Any CPU.ActiveCfg = MetaCardio|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|Any CPU.Build.0 = MetaCardio|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|x64.ActiveCfg = MetaCardio|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|x64.Build.0 = MetaCardio|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|x86.ActiveCfg = MetaCardio|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.MetaCardio|x86.Build.0 = MetaCardio|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.mysqli_X64_release|Any CPU.ActiveCfg = mysqli_X64_release|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.mysqli_X64_release|Any CPU.Build.0 = mysqli_X64_release|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.mysqli_X64_release|x64.ActiveCfg = mysqli_X64_release|x64
@@ -224,6 +236,12 @@ Global
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Rsharp_app_release|x86.ActiveCfg = Rsharp_app_release|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Rsharp_app_release|x86.Build.0 = Rsharp_app_release|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|Any CPU.ActiveCfg = RsharpDev|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|Any CPU.Build.0 = RsharpDev|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|x64.ActiveCfg = RsharpDev|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|x64.Build.0 = RsharpDev|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|x86.ActiveCfg = RsharpDev|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.RsharpDev|x86.Build.0 = RsharpDev|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = sciBASIC.NET-test-release|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.sciBASIC.NET-test-release|Any CPU.Build.0 = sciBASIC.NET-test-release|Any CPU
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.sciBASIC.NET-test-release|x64.ActiveCfg = sciBASIC.NET-test-release|x64
@@ -338,6 +356,12 @@ Global
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.LipidSearch|x64.Build.0 = LipidSearch|x64
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.LipidSearch|x86.ActiveCfg = LipidSearch|x86
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.LipidSearch|x86.Build.0 = LipidSearch|x86
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|Any CPU.ActiveCfg = MetaCardio|Any CPU
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|Any CPU.Build.0 = MetaCardio|Any CPU
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|x64.ActiveCfg = MetaCardio|x64
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|x64.Build.0 = MetaCardio|x64
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|x86.ActiveCfg = MetaCardio|x86
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.MetaCardio|x86.Build.0 = MetaCardio|x86
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.mysqli_X64_release|Any CPU.ActiveCfg = mysqli_X64_release|Any CPU
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.mysqli_X64_release|Any CPU.Build.0 = mysqli_X64_release|Any CPU
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.mysqli_X64_release|x64.ActiveCfg = mysqli_X64_release|x64
@@ -386,6 +410,12 @@ Global
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.Rsharp_app_release|x86.ActiveCfg = Rsharp_app_release|x86
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.Rsharp_app_release|x86.Build.0 = Rsharp_app_release|x86
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|Any CPU.ActiveCfg = RsharpDev|Any CPU
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|Any CPU.Build.0 = RsharpDev|Any CPU
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|x64.ActiveCfg = RsharpDev|x64
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|x64.Build.0 = RsharpDev|x64
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|x86.ActiveCfg = RsharpDev|x86
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.RsharpDev|x86.Build.0 = RsharpDev|x86
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Surveillance-of-infectious-diseases|Any CPU
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.sciBASIC.NET-test-release|Any CPU.Build.0 = Surveillance-of-infectious-diseases|Any CPU
 		{2DD4BE80-DDC3-4767-94A7-10F1C3395716}.sciBASIC.NET-test-release|x64.ActiveCfg = Surveillance-of-infectious-diseases|x64
@@ -500,6 +530,12 @@ Global
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.LipidSearch|x64.Build.0 = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.LipidSearch|x86.ActiveCfg = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.LipidSearch|x86.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|Any CPU.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|Any CPU.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|x64.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|x64.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|x86.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.MetaCardio|x86.Build.0 = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.mysqli_X64_release|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.mysqli_X64_release|Any CPU.Build.0 = Debug|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.mysqli_X64_release|x64.ActiveCfg = Debug|Any CPU
@@ -548,6 +584,12 @@ Global
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|Any CPU.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|Any CPU.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|x64.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|x64.Build.0 = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|x86.ActiveCfg = Release|Any CPU
+		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.RsharpDev|x86.Build.0 = Release|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.sciBASIC.NET-test-release|Any CPU.Build.0 = Debug|Any CPU
 		{BF580AA1-8BA7-42BF-B567-134D4FA6D17D}.sciBASIC.NET-test-release|x64.ActiveCfg = Debug|Any CPU
@@ -662,6 +704,12 @@ Global
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.LipidSearch|x64.Build.0 = LipidSearch|x64
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.LipidSearch|x86.ActiveCfg = LipidSearch|x86
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.LipidSearch|x86.Build.0 = LipidSearch|x86
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|Any CPU.ActiveCfg = mzkit_UnixDocker|Any CPU
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|Any CPU.Build.0 = mzkit_UnixDocker|Any CPU
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|x64.ActiveCfg = mzkit_UnixDocker|x64
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|x64.Build.0 = mzkit_UnixDocker|x64
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|x86.ActiveCfg = mzkit_UnixDocker|x86
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.MetaCardio|x86.Build.0 = mzkit_UnixDocker|x86
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.mysqli_X64_release|Any CPU.ActiveCfg = mzkit|Any CPU
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.mysqli_X64_release|Any CPU.Build.0 = mzkit|Any CPU
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.mysqli_X64_release|x64.ActiveCfg = mzkit|x64
@@ -710,6 +758,12 @@ Global
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.Rsharp_app_release|x86.ActiveCfg = Rsharp_app_release|x86
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.Rsharp_app_release|x86.Build.0 = Rsharp_app_release|x86
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|x64.ActiveCfg = Rsharp_app_release|x64
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|x64.Build.0 = Rsharp_app_release|x64
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|x86.ActiveCfg = Rsharp_app_release|x86
+		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.RsharpDev|x86.Build.0 = Rsharp_app_release|x86
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Debug|Any CPU
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.sciBASIC.NET-test-release|Any CPU.Build.0 = Debug|Any CPU
 		{25AF39F4-76AF-411F-AC19-0DD1E128D801}.sciBASIC.NET-test-release|x64.ActiveCfg = Debug|x64
@@ -752,6 +806,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99} = {7D99D567-3C7A-4041-830B-844B0159FF3E}
+		{2DD4BE80-DDC3-4767-94A7-10F1C3395716} = {7D99D567-3C7A-4041-830B-844B0159FF3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3772CE26-F227-4BFB-A0E4-95F56D206E86}
