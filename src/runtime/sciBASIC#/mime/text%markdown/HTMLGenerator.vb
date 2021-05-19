@@ -42,14 +42,11 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace MarkDown
+Public Module HTMLGenerator
 
-    Public Module HTMLGenerator
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension>
-        Public Function Markdown2HTML(markdown$, Optional opt As MarkdownOptions = Nothing) As String
-            Return New MarkdownHTML(opt Or MarkdownOptions.DefaultOption).Transform(text:=markdown)
-        End Function
-    End Module
-End Namespace
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Markdown2HTML(markdown$, Optional opt As MarkdownOptions = Nothing) As String
+        Return New MarkdownHTML(opt Or MarkdownOptions.DefaultOption).Transform(text:=markdown)
+    End Function
+End Module

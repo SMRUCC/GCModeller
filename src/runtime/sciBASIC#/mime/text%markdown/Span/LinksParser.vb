@@ -43,7 +43,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Parser
 
-Namespace MarkDown.Span
+Namespace Span
 
     ''' <summary>
     ''' 

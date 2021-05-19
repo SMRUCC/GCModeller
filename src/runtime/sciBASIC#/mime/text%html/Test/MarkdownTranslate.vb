@@ -39,7 +39,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.MIME.text.markdown.MarkDown
+Imports Microsoft.VisualBasic.MIME.text.markdown
 
 Module MarkdownTranslate
 
