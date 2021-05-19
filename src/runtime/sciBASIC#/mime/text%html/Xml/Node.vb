@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e524005c9e5eb91b5146febae8b41210, mime\text%html\HTML\jQuery\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6cd2b12703f018dad30f1ad7812ce823, mime\text%html\HTML\Xml\Node.vb"
 
 ' Author:
 ' 
@@ -31,41 +31,47 @@
 
 ' Summaries:
 
-'     Module Extensions
+'     Class Node
 ' 
-'         Function: TagName
+'         Properties: [class], id, style
+' 
+'     Class GenericNode
+' 
+'         Properties: Tag
 ' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.Html.HTML.XmlMeta
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
-Namespace HTML.jQuery
+Namespace XmlMeta
 
-    Public Module Extensions
+    ''' <summary>
+    ''' The base of the html node
+    ''' </summary>
+    Public MustInherit Class Node
+
+        <XmlAttribute> Public Property id As String
+        ''' <summary>
+        ''' node class id, just like the id in HTML, you can also using this attribute to tweaks on the style by CSS.
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property [class] As String
 
         ''' <summary>
-        ''' 如果定义了<see cref="XmlTypeAttribute"/>，则优先使用这个属性之中的<see cref="XmlTypeAttribute.TypeName"/>
-        ''' 作为文档元素标签的名字，没有找到的话，则直接使用``Class Name``来作为文档元素标签的名字
+        ''' CSS style definition <see cref="ICSSValue"/>.(请注意，假若是SVG对象则赋值这个属性无效)
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
-        ''' <param name="element"></param>
         ''' <returns></returns>
-        <Extension>
-        Public Function TagName(Of T As Node)(element As T) As String
-            Dim type As Type = GetType(T)
-            Dim xmlType As XmlTypeAttribute = type.GetCustomAttribute(Of XmlTypeAttribute)
+        <XmlAttribute> Public Property style As String
 
-            If xmlType Is Nothing Then
-                Return type.Name
-            Else
-                Return xmlType.TypeName
-            End If
-        End Function
-    End Module
+    End Class
+
+    Public Class GenericNode : Inherits Node
+
+        <XmlAttribute> Public Property Tag As String
+
+    End Class
 End Namespace

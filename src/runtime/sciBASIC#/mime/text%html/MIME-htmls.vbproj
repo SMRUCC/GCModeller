@@ -889,7 +889,7 @@
     <Compile Include="Document\Elements\ValueAttribute.vb" />
     <Compile Include="Document\HtmlDocument.vb" />
     <Compile Include="Document\Elements\HtmlElement.vb" />
-    <Compile Include="Document\Xml\Node.vb" />
+    <Compile Include="Xml\Node.vb" />
     <Compile Include="Document\Extensions.vb" />
     <Compile Include="DocumentFormatter.vb" />
     <Compile Include="Extensions.vb" />
@@ -909,7 +909,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Document\Xml\Meta.vb" />
+    <Compile Include="Xml\Meta.vb" />
     <Compile Include="Parser\HtmlParser.vb" />
     <Compile Include="Parser\TokenIcer.vb" />
     <Compile Include="Parser\Token.vb" />

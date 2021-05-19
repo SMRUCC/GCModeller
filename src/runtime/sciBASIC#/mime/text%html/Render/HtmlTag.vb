@@ -47,7 +47,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.MIME.Html.CSS.Render
+Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
 

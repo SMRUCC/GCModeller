@@ -47,7 +47,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace HTML.XmlMeta
+Namespace XmlMeta
 
     ''' <summary>
     ''' Html之中的CSS样式
