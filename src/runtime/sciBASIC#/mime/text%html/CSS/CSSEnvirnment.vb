@@ -45,7 +45,7 @@
 
 Imports System.Drawing
 
-Namespace HTML.CSS
+Namespace CSS
 
     Public Class CSSEnvirnment
 

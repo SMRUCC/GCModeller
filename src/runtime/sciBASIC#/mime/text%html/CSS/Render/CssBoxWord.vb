@@ -49,7 +49,7 @@
 
 Imports System.Drawing
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     ''' <summary>
     ''' Represents a word inside an inline box

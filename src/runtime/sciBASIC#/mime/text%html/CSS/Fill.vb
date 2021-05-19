@@ -42,7 +42,7 @@
 
 Imports System.Drawing
 
-Namespace HTML.CSS
+Namespace CSS
 
     ''' <summary>
     ''' <see cref="Brush"/>: <see cref="SolidBrush"/> and <see cref="TextureBrush"/>

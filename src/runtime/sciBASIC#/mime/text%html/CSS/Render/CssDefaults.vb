@@ -42,7 +42,7 @@
 
 Imports System.Drawing
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     Public Class CssDefaults
 

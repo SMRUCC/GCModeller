@@ -49,7 +49,7 @@
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     ''' <summary>
     ''' Splits text on words for a box
@@ -88,14 +88,14 @@ Namespace HTML.CSS.Render
 #Region "Ctor"
 
         Private Sub New()
-            _words = New List(Of CssBoxWord)()
+            _Words = New List(Of CssBoxWord)()
             _curword = Nothing
         End Sub
 
         Public Sub New(box As CssBox, text As String)
             Me.New()
-            _box = box
-            _text = text.Replace(vbCr, String.Empty)
+            _Box = box
+            _Text = text.Replace(vbCr, String.Empty)
         End Sub
 
 #End Region

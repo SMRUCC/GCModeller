@@ -44,7 +44,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 
-Namespace HTML.CSS
+Namespace CSS
 
     Public Module Extensions
 

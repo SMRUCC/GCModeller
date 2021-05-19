@@ -90,7 +90,7 @@ Imports sys = System.Math
 Imports HTMLParser = Microsoft.VisualBasic.MIME.Markup.HTML.Render.Parser
 Imports rect = System.Drawing.Rectangle
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     ''' <summary>
     ''' Represents a CSS Box of text or replaced elements.

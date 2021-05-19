@@ -51,7 +51,7 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.Render
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     Public NotInheritable Class CssValue
 

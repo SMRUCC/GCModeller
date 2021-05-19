@@ -50,7 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace HTML.CSS
+Namespace CSS
 
     ''' <summary>
     ''' ```CSS

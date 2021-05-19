@@ -47,7 +47,7 @@ Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports HTMLParser = Microsoft.VisualBasic.MIME.Markup.HTML.Render.Parser
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     ''' <summary>
     ''' Represents a block of CSS property values
@@ -64,8 +64,8 @@ Namespace HTML.CSS.Render
         ''' Initializes internal's
         ''' </summary>
         Private Sub New()
-            _propertyValues = New Dictionary(Of PropertyInfo, String)()
-            _properties = New Dictionary(Of String, String)()
+            _PropertyValues = New Dictionary(Of PropertyInfo, String)()
+            _Properties = New Dictionary(Of String, String)()
         End Sub
 
         ''' <summary>

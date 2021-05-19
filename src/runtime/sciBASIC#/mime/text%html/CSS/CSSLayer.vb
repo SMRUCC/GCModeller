@@ -42,7 +42,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace HTML.CSS
+Namespace CSS
 
     ''' <summary>
     ''' 进行样式渲染的图层对象

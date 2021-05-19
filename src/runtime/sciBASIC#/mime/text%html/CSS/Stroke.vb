@@ -49,7 +49,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 
-Namespace HTML.CSS
+Namespace CSS
 
     ''' <summary>
     ''' ```css

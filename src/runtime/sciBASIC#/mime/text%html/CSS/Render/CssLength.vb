@@ -58,7 +58,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports System.Globalization
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     ''' <summary>
     ''' Represents and gets info about a CSS Length

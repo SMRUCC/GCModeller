@@ -61,7 +61,7 @@ Imports System.Drawing
 Imports System.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.Render
 
-Namespace HTML.CSS.Render
+Namespace CSS.Render
 
     Friend Class CssTable
 #Region "Subclasses"

@@ -51,7 +51,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
-Namespace HTML.CSS
+Namespace CSS
 
     ''' <summary>
     ''' Represents padding or margin information associated with a gdi element. 
