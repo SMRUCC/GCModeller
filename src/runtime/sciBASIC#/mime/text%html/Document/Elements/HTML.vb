@@ -67,7 +67,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.MIME.Markup.StreamWriter
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Namespace HTML.DDM
+Namespace Document
 
     Public Class HtmlHead : Inherits HtmlElement
 

@@ -42,7 +42,9 @@
 
 #End Region
 
-Namespace HTML
+Imports Microsoft.VisualBasic.MIME.Html.Language
+
+Namespace Document
 
     Public Class HtmlDocument : Inherits HtmlElement
 

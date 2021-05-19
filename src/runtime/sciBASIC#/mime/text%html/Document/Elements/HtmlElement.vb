@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Xml
 
-Namespace HTML
+Namespace Document
 
     ''' <summary>
     ''' 一个标签所标记的元素以及内部文本
@@ -240,7 +240,7 @@ Namespace HTML
             If attrs.ContainsKey(name) Then
                 Call attrs(name).Values.Add(value)
             Else
-                Call attrs.Add(name, New ValueAttribute With {.Name = name, .Values = New List(Of String) From {value}})
+                Call attrs.Add(name, New ValueAttribute With {.name = name, .Values = New List(Of String) From {value}})
             End If
         End Sub
 

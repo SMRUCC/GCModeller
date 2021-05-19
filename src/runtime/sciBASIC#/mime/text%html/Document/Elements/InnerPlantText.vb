@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Text.Xml
 
-Namespace HTML
+Namespace Document
 
     ''' <summary>
     ''' Plant text inner the html.(HTML文档内的纯文本对象)

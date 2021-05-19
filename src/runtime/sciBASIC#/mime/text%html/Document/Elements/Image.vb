@@ -49,7 +49,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
-Namespace HTML
+Namespace Document
 
     Public Class Image
 

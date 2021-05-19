@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language.Default
 
-Namespace HTML
+Namespace Document
 
     Public Structure ValueAttribute : Implements INamedValue, IsEmpty
 

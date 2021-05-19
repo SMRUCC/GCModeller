@@ -891,7 +891,7 @@
     <Compile Include="Document\Elements\HtmlElement.vb" />
     <Compile Include="Document\Xml\Node.vb" />
     <Compile Include="Document\Extensions.vb" />
-    <Compile Include="Document\DocFormatter.vb" />
+    <Compile Include="DocumentFormatter.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
