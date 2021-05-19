@@ -50,7 +50,7 @@ Imports System.Drawing
 Imports System.Math
 Imports rect = System.Drawing.Rectangle
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Represents a line of text.

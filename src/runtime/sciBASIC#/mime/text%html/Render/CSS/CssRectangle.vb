@@ -46,7 +46,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     Public Class CssRectangle
 

@@ -40,7 +40,7 @@
 
 #End Region
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' String constants to avoid typing errors.

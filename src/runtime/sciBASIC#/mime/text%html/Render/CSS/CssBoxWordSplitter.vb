@@ -49,7 +49,7 @@
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Splits text on words for a box

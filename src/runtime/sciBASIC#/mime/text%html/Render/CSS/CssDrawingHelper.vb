@@ -53,7 +53,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports rect = System.Drawing.Rectangle
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Provides some drawing functionallity

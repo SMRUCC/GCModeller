@@ -44,7 +44,7 @@
 
 #End Region
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Represents an anonymous inline box

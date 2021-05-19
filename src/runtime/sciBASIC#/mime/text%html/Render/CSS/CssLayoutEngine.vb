@@ -50,7 +50,7 @@ Imports System.Collections.Generic
 Imports System.Drawing
 Imports System.Math
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Helps on CSS Layout

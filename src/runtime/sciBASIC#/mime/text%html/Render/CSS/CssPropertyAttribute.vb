@@ -43,7 +43,7 @@
 
 #End Region
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Used to mark a property as a Css property.

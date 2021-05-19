@@ -40,7 +40,7 @@
 
 #End Region
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     Public Class CssPropertyInheritedAttribute : Inherits Attribute
 

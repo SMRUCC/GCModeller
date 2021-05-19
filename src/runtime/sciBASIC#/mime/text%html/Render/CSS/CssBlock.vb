@@ -47,7 +47,7 @@ Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports HTMLParser = Microsoft.VisualBasic.MIME.Markup.HTML.Render.Parser
 
-Namespace CSS.Render
+Namespace Render.CSS
 
     ''' <summary>
     ''' Represents a block of CSS property values
