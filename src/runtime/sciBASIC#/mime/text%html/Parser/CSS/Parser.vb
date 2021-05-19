@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports r = System.Text.RegularExpressions.Regex
 
-Namespace HTML.CSS.Parser
+Namespace Language.CSS
 
     ''' <summary>
     ''' Parser css code to add/remove or manage it.

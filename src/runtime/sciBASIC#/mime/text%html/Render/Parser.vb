@@ -45,7 +45,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports System.Text.RegularExpressions
 
-Namespace HTML.Render
+Namespace Render
 
     ''' <summary>
     ''' Collection of regular expressions used when parsing

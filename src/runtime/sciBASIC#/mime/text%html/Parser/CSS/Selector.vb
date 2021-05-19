@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Text
 
-Namespace HTML.CSS.Parser
+Namespace Language.CSS
 
     ''' <summary>
     ''' CSS之中的样式选择器

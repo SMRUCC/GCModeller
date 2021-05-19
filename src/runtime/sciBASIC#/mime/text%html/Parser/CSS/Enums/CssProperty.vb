@@ -45,7 +45,7 @@
 
 Imports System.ComponentModel
 
-Namespace HTML.CSS
+Namespace Language.CSS
 
     ''' <summary>
     ''' Css properties list.

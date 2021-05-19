@@ -54,7 +54,7 @@ Imports System.Text.RegularExpressions
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Render
 
-Namespace HTML.Render
+Namespace Render
 
     ''' <summary>
     ''' HTML rendering

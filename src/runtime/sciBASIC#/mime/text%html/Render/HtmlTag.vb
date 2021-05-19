@@ -49,7 +49,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Render
 
-Namespace HTML.Render
+Namespace Render
 
     Public Class HtmlTag
 #Region "Fields"

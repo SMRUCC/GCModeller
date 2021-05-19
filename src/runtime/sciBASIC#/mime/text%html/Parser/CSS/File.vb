@@ -46,7 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace HTML.CSS.Parser
+Namespace Language.CSS
 
     ''' <summary>
     ''' CSS文件的对象模型，一个CSS文件是由若干个selector节点选择器所构成的，以及每一个选择器都是由若干样式属性定义所构成

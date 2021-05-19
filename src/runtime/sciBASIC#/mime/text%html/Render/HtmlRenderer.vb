@@ -48,7 +48,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 
-Namespace HTML.Render
+Namespace Render
 
     ''' <summary>
     ''' A Professional HTML Renderer You Will Use

@@ -43,7 +43,7 @@
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace HTML.Render
+Namespace Render
 
     ''' <summary>
     ''' Defines HTML strings
