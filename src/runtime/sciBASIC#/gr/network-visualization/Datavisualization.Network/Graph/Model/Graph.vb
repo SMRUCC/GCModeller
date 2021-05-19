@@ -229,7 +229,7 @@ Namespace Graph
 
 #Region "css selector supports"
 
-        Public Function GetElementById(id As String) As Node Implements IStyleSelector(Of Node).GetElementById
+        Private Function StyleSelectorGetElementById(id As String) As Node Implements IStyleSelector(Of Node).GetElementById
             Return GetElementByID(id, dataLabel:=False)
         End Function
 
