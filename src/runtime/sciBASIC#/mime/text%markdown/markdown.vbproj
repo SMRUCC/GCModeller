@@ -64,7 +64,19 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.vb" />
+    <Compile Include="MarkDown\Articles.vb" />
+    <Compile Include="MarkDown\Block.vb" />
+    <Compile Include="MarkDown\DocumentHelper.vb" />
+    <Compile Include="MarkDown\FormatHelper.vb" />
+    <Compile Include="MarkDown\HTMLGenerator.vb" />
+    <Compile Include="MarkDown\IExtensionInterface.vb" />
+    <Compile Include="MarkDown\LinkToTitle.vb" />
+    <Compile Include="MarkDown\Markdown.vb" />
+    <Compile Include="MarkDown\MarkdownOptions.vb" />
+    <Compile Include="MarkDown\MarkdownParser.vb" />
+    <Compile Include="MarkDown\Paragraph.vb" />
+    <Compile Include="MarkDown\Span\LinksParser.vb" />
+    <Compile Include="MarkDown\TOC.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -90,6 +102,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MarkDown\LICENSE" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
