@@ -875,12 +875,13 @@
     <Compile Include="CSS\Render\CssValue.vb" />
     <Compile Include="jQuery\jQuery.vb" />
     <Compile Include="jQuery\Extensions.vb" />
+    <Compile Include="Parser\Escaping.vb" />
     <Compile Include="Render\HtmlConstants.vb" />
     <Compile Include="Render\HtmlRenderer.vb" />
     <Compile Include="Render\HtmlTag.vb" />
     <Compile Include="Render\InitialContainer.vb" />
     <Compile Include="Render\Parser.vb" />
-    <Compile Include="Parser\TextString.vb" />
+    <Compile Include="Render\TextString.vb" />
     <Compile Include="Document\Head\Meta.vb" />
     <Compile Include="Document\Elements\Image.vb" />
     <Compile Include="Document\Elements\HTML.vb" />
