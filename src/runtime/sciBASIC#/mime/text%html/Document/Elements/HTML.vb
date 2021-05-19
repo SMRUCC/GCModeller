@@ -64,7 +64,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.MIME.Markup.StreamWriter
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Document

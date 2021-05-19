@@ -42,8 +42,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.MIME.Markup
-Imports Microsoft.VisualBasic.Serialization
 
 ''' <summary>
 ''' The markup document(*.html, *.md) its document syntax structure object. 
