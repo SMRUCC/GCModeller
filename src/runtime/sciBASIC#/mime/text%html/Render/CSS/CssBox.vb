@@ -85,10 +85,8 @@ Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.Render
-Imports sys = System.Math
-Imports HTMLParser = Microsoft.VisualBasic.MIME.Markup.HTML.Render.Parser
 Imports rect = System.Drawing.Rectangle
+Imports stdNum = System.Math
 
 Namespace Render.CSS
 
@@ -2605,12 +2603,12 @@ Namespace Render.CSS
         ''' <returns></returns>
         Friend Function GetMaximumBottom(startBox As CssBox, currentMaxBottom As Single) As Single
             For Each line As CssLineBox In startBox.Rectangles.Keys
-                currentMaxBottom = sys.Max(currentMaxBottom, startBox.Rectangles(line).Bottom)
+                currentMaxBottom = stdNum.Max(currentMaxBottom, startBox.Rectangles(line).Bottom)
             Next
 
             For Each b As CssBox In startBox.Boxes
-                currentMaxBottom = sys.Max(currentMaxBottom, b.ActualBottom)
-                currentMaxBottom = sys.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom))
+                currentMaxBottom = stdNum.Max(currentMaxBottom, b.ActualBottom)
+                currentMaxBottom = stdNum.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom))
             Next
 
             Return currentMaxBottom
@@ -2724,7 +2722,7 @@ Namespace Render.CSS
         ''' <returns>Maximum of margins</returns>
         Private Function MarginCollapse(a As CssBox, b As CssBox) As Single
 
-            Return sys.Max(If(a Is Nothing, 0, a.ActualMarginBottom), If(b Is Nothing, 0, b.ActualMarginTop))
+            Return stdNum.Max(If(a Is Nothing, 0, a.ActualMarginBottom), If(b Is Nothing, 0, b.ActualMarginTop))
         End Function
 
         ''' <summary>
@@ -2794,7 +2792,7 @@ Namespace Render.CSS
                         Next
 
                         If lastOne IsNot Nothing Then
-                            ActualBottom = sys.Max(ActualBottom, lastOne.ActualBottom + lastOne.ActualMarginBottom + ActualPaddingBottom)
+                            ActualBottom = stdNum.Max(ActualBottom, lastOne.ActualBottom + lastOne.ActualMarginBottom + ActualPaddingBottom)
                         End If
                     End If
                     '#End Region
@@ -2803,8 +2801,8 @@ Namespace Render.CSS
 
             If InitialContainer IsNot Nothing Then
                 InitialContainer.MaximumSize = New SizeF(
-                    sys.Max(InitialContainer.MaximumSize.Width, ActualRight),
-                    sys.Max(InitialContainer.MaximumSize.Height, ActualBottom))
+                    stdNum.Max(InitialContainer.MaximumSize.Width, ActualRight),
+                    stdNum.Max(InitialContainer.MaximumSize.Height, ActualBottom))
             End If
         End Sub
 

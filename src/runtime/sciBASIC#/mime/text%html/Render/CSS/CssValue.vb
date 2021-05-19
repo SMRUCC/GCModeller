@@ -49,7 +49,6 @@ Imports System.IO
 Imports System.Math
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.Render
 
 Namespace Render.CSS
 

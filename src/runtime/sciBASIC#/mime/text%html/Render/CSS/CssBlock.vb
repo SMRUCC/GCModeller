@@ -45,7 +45,6 @@
 
 Imports System.Reflection
 Imports System.Text.RegularExpressions
-Imports HTMLParser = Microsoft.VisualBasic.MIME.Markup.HTML.Render.Parser
 
 Namespace Render.CSS
 

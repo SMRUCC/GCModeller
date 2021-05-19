@@ -59,7 +59,6 @@
 
 Imports System.Drawing
 Imports System.Math
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.Render
 
 Namespace Render.CSS
 
