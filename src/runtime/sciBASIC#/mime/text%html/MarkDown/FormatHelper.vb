@@ -42,7 +42,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports sys = System.Math
+Imports stdNum = System.Math
 
 Namespace MarkDown
 
@@ -99,7 +99,7 @@ Namespace MarkDown
 
         Public Function GetHashKey(s As String, isHtmlBlock As Boolean) As String
             Dim delim = If(isHtmlBlock, "H"c, "E"c)
-            Return ChrW(26) & delim & sys.Abs(s.GetHashCode()).ToString() & delim
+            Return ChrW(26) & delim & stdNum.Abs(s.GetHashCode()).ToString() & delim
         End Function
 
         Public Function AttributeEncode(s As String) As String
