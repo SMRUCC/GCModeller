@@ -9,17 +9,6 @@ Namespace Document
 
         Public Overridable Property InnerText As String
 
-        Sub New()
-        End Sub
-
-        Sub New(text As String)
-            InnerText = text
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return InnerText
-        End Function
-
         Public Overridable ReadOnly Property IsEmpty As Boolean
             Get
                 Return String.IsNullOrEmpty(InnerText)
@@ -31,6 +20,21 @@ Namespace Document
                 Return True
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(text As String)
+            InnerText = text
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return InnerText
+        End Function
+
+        Public Overridable Function GetHtmlText() As String
+            Return InnerText
+        End Function
 
         Public Overridable Function GetPlantText() As String Implements IXmlNode.GetInnerText
             Return InnerText.UnescapeHTML

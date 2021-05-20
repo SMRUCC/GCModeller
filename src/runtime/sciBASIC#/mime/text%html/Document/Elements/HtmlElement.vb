@@ -379,5 +379,9 @@ Namespace Document
         Public Function GetAllChilds() As IXmlNode() Implements IXmlDocumentTree.GetAllChilds
             Return elementNodes.Select(Function(n) DirectCast(n, IXmlNode)).ToArray
         End Function
+
+        Public Overrides Function GetHtmlText() As String
+            Return Me.ToHtml
+        End Function
     End Class
 End Namespace
