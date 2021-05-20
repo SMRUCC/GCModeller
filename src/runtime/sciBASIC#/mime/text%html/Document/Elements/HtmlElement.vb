@@ -307,7 +307,12 @@ Namespace Document
         ''' </remarks>
         Public Function getElementsByClassName(classname As String) As HtmlElement() Implements IStyleSelector(Of HtmlElement).GetElementsByClassName
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByClassName))
-            Return classIndex.TryGetValue(classname).JoinIterates(Query(api, classname)).ToArray
+
+            Return classIndex _
+                .TryGetValue(classname) _
+                .JoinIterates(Query(api, classname)) _
+                .Distinct _
+                .ToArray
         End Function
 
         ''' <summary>
@@ -325,7 +330,12 @@ Namespace Document
         ''' </remarks>
         Public Function getElementsByName(name As String) As HtmlElement() Implements IStyleSelector(Of HtmlElement).GetElementsByName
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByName))
-            Return nameIndex.TryGetValue(name).JoinIterates(Query(api, name)).ToArray
+
+            Return nameIndex _
+                .TryGetValue(name) _
+                .JoinIterates(Query(api, name)) _
+                .Distinct _
+                .ToArray
         End Function
 
         Private Iterator Function Query(calls As MethodInfo, arg As String) As IEnumerable(Of HtmlElement)
@@ -359,7 +369,12 @@ Namespace Document
         ''' </remarks>
         Public Function getElementsByTagName(tagname As String) As HtmlElement()
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByTagName))
-            Return tagIndex.TryGetValue(tagname).JoinIterates(Query(api, tagname)).ToArray
+
+            Return tagIndex _
+                .TryGetValue(tagname) _
+                .JoinIterates(Query(api, tagname)) _
+                .Distinct _
+                .ToArray
         End Function
 
         Public Overrides Function ToString() As String
