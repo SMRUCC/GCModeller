@@ -137,5 +137,10 @@ Namespace TextParser
                        Return New InnerPlantText With {.InnerText = text}
                    End Function
         End Function
+
+        <ExportAPI("html")>
+        Public Function html(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
+            Return ParserFunction.ParseDocument(document, Function(i) New InnerPlantText With {.InnerText = i.GetHtmlText}, isArray)
+        End Function
     End Module
 End Namespace
