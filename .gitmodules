@@ -8,3 +8,6 @@
 [submodule "src/runtime/Darwinism"]
 	path = src/runtime/Darwinism
 	url = https://github.com/xieguigang/Darwinism.git
+[submodule "src/runtime/IronR"]
+	path = src/runtime/IronR
+	url = https://github.com/xieguigang/IronR.git
