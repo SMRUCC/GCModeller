@@ -404,6 +404,10 @@
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\runtime\mysqli\DataSchema\DataSchema.vbproj">
+      <Project>{7a752aa2-5a30-4ac8-9142-ea23b190450e}</Project>
+      <Name>DataSchema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>

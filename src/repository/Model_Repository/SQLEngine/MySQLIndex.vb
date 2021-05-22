@@ -83,7 +83,7 @@ Namespace SQLEngines
 
     End Class
 
-    Public Class MySQLIndex : Inherits SQLEngine
-        Dim Engine As MySqli
-    End Class
+    'Public Class MySQLIndex : Inherits SQLEngine
+    '    Dim Engine As MySqli
+    'End Class
 End Namespace
