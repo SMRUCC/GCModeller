@@ -266,3 +266,4 @@ src/workbench/R#/demo/cngb/bacterials.csv
 *.db-shm
 *.dll
 *.exe
+src/repository/graphquery/kegg_graphquery_0.1.0.zip
