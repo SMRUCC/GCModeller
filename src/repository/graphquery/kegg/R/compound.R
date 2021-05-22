@@ -8,11 +8,13 @@ const kegg_compound as function(url) {
 	const modules     = graphquery::query(document = Html::parse(keyValues$"Module"),    graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
 	const reactionId  = graphquery::query(document = Html::parse(keyValues$"Reaction"),  graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
 	const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),      graphquery = get_graph("graphquery/fields/commonNames.graphquery"));
-	const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/id.graphquery"));
+	const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),     graphquery = get_graph("graphquery/fields/id.graphquery"));
+	const formula     = graphquery::query(document = Html::parse(keyValues$"Formula"),   graphquery = get_graph("graphquery/fields/id.graphquery"));
 
 	print(names(keyValues));
 print(id);
 print(commonNames);
+print(formula);
 }
 
 
