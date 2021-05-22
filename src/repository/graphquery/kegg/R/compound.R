@@ -6,7 +6,7 @@ const kegg_compound as function(url) {
 
 	# print(keyValues$"Other DBs");
 
-	print(xref);
+	str(xref);
 }
 
 
