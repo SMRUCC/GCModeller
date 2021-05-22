@@ -3,7 +3,10 @@ imports "repository" from "kegg_kit";
 #' query data to gcmodeller object model 
 #'
 const kegg_compound as function(url) {
-	const keyValues   = keyIndex(http_query(url, raw = FALSE));
+	# parse the page text
+	const keyValues = keyIndex(http_query(url, raw = FALSE));
+
+	# parse fields
 	const xref        = graphquery::query(document = Html::parse(keyValues$"Other DBs"),  graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
 	const KCF_text    = graphquery::query(document = Html::parse(keyValues$"KCF data"),   graphquery = get_graph("graphquery/fields/KCFtext.graphquery"));
 	const pathways    = graphquery::query(document = Html::parse(keyValues$"Pathway"),    graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
@@ -20,8 +23,11 @@ const kegg_compound as function(url) {
 	const EC_idlist   = graphquery::query(document = Html::parse(keyValues$"Enzyme"),     graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
 
 	print(DBLinks(xref));
+	print(pathwayList(pathways));
+	print(pathwayList(modules));
 
-	compound(
+	# create data model
+	repository::compound(
 		entry     = id,
 		name      = commonNames[commonNames != ""],
 		reaction  = reactionId[reactionId == $"R\d+"],
@@ -30,8 +36,18 @@ const kegg_compound as function(url) {
 		exactMass = exactMass,
 		remarks   = remarks,
 		KCF       = KCF_text,
-		DBLinks   = DBLinks(xref)
+		DBLinks   = DBLinks(xref),
+		pathway   = pathwayList(pathways),
+		modules   = pathwayList(modules)
 	);
+}
+
+const pathwayList as function(list) {
+	const id   = sapply(list, r -> r$id);
+	const link = sapply(list, r -> r$link);
+	const name = sapply(list, r -> r$name);
+
+	data.frame(id, link, name);
 }
 
 const DBLinks as function(xref) {

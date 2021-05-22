@@ -2,11 +2,11 @@
 <Compound xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KEGG="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id" entry="C00002">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound
-     assembly:  SMRUCC.genomics.Core, Version=2.0.33.1216, Culture=neutral, PublicKeyToken=null
-     version:   2.0.33.1216
-     built:     2/3/2000 12:40:32 AM
-     md5:       35BE1C9ABE2C3CD2EB05C4621062F071EED6F8A0A4325F2C3567CB41742788A1
-     timestamp: 5/23/2021 12:42:00 AM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.1725, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.1725
+     built:     5/23/2021 12:57:30 AM
+     md5:       becd2c2ced41b379961a96a8b74d337f
+     timestamp: 5/23/2021 12:57:57 AM
   -->
   <commonNames>
     <string>ATP</string>
@@ -718,6 +718,41 @@
     <string>R12730</string>
     <string>R12746</string>
   </reactionId>
+  <KEGG:pathway>
+    <KEGG:data name="map00190">Oxidative phosphorylation</KEGG:data>
+    <KEGG:data name="map00195">Photosynthesis</KEGG:data>
+    <KEGG:data name="map00230">Purine metabolism</KEGG:data>
+    <KEGG:data name="map00908">Zeatin biosynthesis</KEGG:data>
+    <KEGG:data name="map00998">Biosynthesis of various secondary metabolites - part 2</KEGG:data>
+    <KEGG:data name="map01100">Metabolic pathways</KEGG:data>
+    <KEGG:data name="map01110">Biosynthesis of secondary metabolites</KEGG:data>
+    <KEGG:data name="map01240">Biosynthesis of cofactors</KEGG:data>
+    <KEGG:data name="map03070">Bacterial secretion system</KEGG:data>
+    <KEGG:data name="map04020">Calcium signaling pathway</KEGG:data>
+    <KEGG:data name="map04066">HIF-1 signaling pathway</KEGG:data>
+    <KEGG:data name="map04080">Neuroactive ligand-receptor interaction</KEGG:data>
+    <KEGG:data name="map04142">Lysosome</KEGG:data>
+    <KEGG:data name="map04217">Necroptosis</KEGG:data>
+    <KEGG:data name="map04611">Platelet activation</KEGG:data>
+    <KEGG:data name="map04621">NOD-like receptor signaling pathway</KEGG:data>
+    <KEGG:data name="map04714">Thermogenesis</KEGG:data>
+    <KEGG:data name="map04721">Synaptic vesicle cycle</KEGG:data>
+    <KEGG:data name="map04742">Taste transduction</KEGG:data>
+    <KEGG:data name="map04750">Inflammatory mediator regulation of TRP channels</KEGG:data>
+    <KEGG:data name="map04911">Insulin secretion</KEGG:data>
+    <KEGG:data name="map04917">Prolactin signaling pathway</KEGG:data>
+    <KEGG:data name="map04924">Renin secretion</KEGG:data>
+    <KEGG:data name="map04930">Type II diabetes mellitus</KEGG:data>
+    <KEGG:data name="map05012">Parkinson disease</KEGG:data>
+    <KEGG:data name="map05022">Pathways of neurodegeneration - multiple diseases</KEGG:data>
+    <KEGG:data name="map05133">Pertussis</KEGG:data>
+    <KEGG:data name="map05410">Hypertrophic cardiomyopathy</KEGG:data>
+    <KEGG:data name="map05415">Diabetic cardiomyopathy</KEGG:data>
+  </KEGG:pathway>
+  <KEGG:module>
+    <KEGG:data name="M00049">Adenine ribonucleotide biosynthesis, IMP =&gt; ADP,ATP</KEGG:data>
+    <KEGG:data name="M00889">Puromycin biosynthesis, ATP =&gt; puromycin</KEGG:data>
+  </KEGG:module>
   <remarks>
     <string>Same as: D08646</string>
   </remarks>
@@ -1240,14 +1275,14 @@
     <string>7.3.2.6</string>
   </enzyme>
   <KEGG:DBlinks>
-    <KEGG:DBLink DBName="CAS" link="">56-65-5</KEGG:DBLink>
-    <KEGG:DBLink DBName="PubChem" link="https://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?sid=3304">3304</KEGG:DBLink>
-    <KEGG:DBLink DBName="ChEBI" link="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15422">15422</KEGG:DBLink>
-    <KEGG:DBLink DBName="ChEMBL" link="https://www.ebi.ac.uk/chembldb/compound/inspect/CHEMBL14249">CHEMBL14249</KEGG:DBLink>
-    <KEGG:DBLink DBName="KNApSAcK" link="http://kanaya.naist.jp/knapsack_jsp/information.jsp?sname=C_ID&amp;word=C00001491">C00001491</KEGG:DBLink>
-    <KEGG:DBLink DBName="PDB-CCD" link="https://www.ebi.ac.uk/pdbe-srv/pdbechem/chemicalCompound/show/ATP">ATP[PDBj]</KEGG:DBLink>
-    <KEGG:DBLink DBName="3DMET" link="http://www.3dmet.dna.affrc.go.jp/cgi/show_data.php?acc=B01125">B01125</KEGG:DBLink>
-    <KEGG:DBLink DBName="NIKKAJI" link="https://jglobal.jst.go.jp/en/redirect?Nikkaji_No=J10.680A">J10.680A</KEGG:DBLink>
+    <KEGG:DBLink DBName="CAS" Entry="56-65-5" />
+    <KEGG:DBLink DBName="PubChem" Entry="3304">https://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?sid=3304</KEGG:DBLink>
+    <KEGG:DBLink DBName="ChEBI" Entry="15422">https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15422</KEGG:DBLink>
+    <KEGG:DBLink DBName="ChEMBL" Entry="CHEMBL14249">https://www.ebi.ac.uk/chembldb/compound/inspect/CHEMBL14249</KEGG:DBLink>
+    <KEGG:DBLink DBName="KNApSAcK" Entry="C00001491">http://kanaya.naist.jp/knapsack_jsp/information.jsp?sname=C_ID&amp;word=C00001491</KEGG:DBLink>
+    <KEGG:DBLink DBName="PDB-CCD" Entry="ATP[PDBj]">https://www.ebi.ac.uk/pdbe-srv/pdbechem/chemicalCompound/show/ATP</KEGG:DBLink>
+    <KEGG:DBLink DBName="3DMET" Entry="B01125">http://www.3dmet.dna.affrc.go.jp/cgi/show_data.php?acc=B01125</KEGG:DBLink>
+    <KEGG:DBLink DBName="NIKKAJI" Entry="J10.680A">https://jglobal.jst.go.jp/en/redirect?Nikkaji_No=J10.680A</KEGG:DBLink>
   </KEGG:DBlinks>
   <KCF>ATOM        31
             1   N4y N    29.4250  -14.6015

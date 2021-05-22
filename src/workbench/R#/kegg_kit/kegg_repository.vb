@@ -300,7 +300,9 @@ Public Module kegg_repository
                                    enzyme As String(),
                                    remarks As String(),
                                    KCF As String,
-                                   DBLinks As dataframe) As Compound
+                                   DBLinks As dataframe,
+                                   pathway As dataframe,
+                                   modules As dataframe) As Compound
 
         Return New Compound With {
             .entry = entry,
@@ -319,6 +321,24 @@ Public Module kegg_repository
                                 .DBName = any.ToString(r(0)),
                                 .Entry = any.ToString(r(1)),
                                 .link = any.ToString(r(2))
+                            }
+                        End Function) _
+                .ToArray,
+            .pathway = pathway _
+                .forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
+                            }
+                        End Function) _
+                .ToArray,
+            .[Module] = modules _
+                .forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
                             }
                         End Function) _
                 .ToArray
