@@ -1,7 +1,7 @@
 # graphquery script for parse [Other DBs] field.
 
-xref css("table") [{
+xref css("table") | css("tr") [{
 	dbName css("td", 0) | text() | trim(":", " ", "\r", "\n")
 	id     css("td", 1) | text()
-	link   css("td", 1) | css("a") | href()
+	link   css("td", 1) | css("a") | attr("href")
 }]
