@@ -288,6 +288,27 @@ Public Module kegg_repository
     Public Function ReadKEGGOrganism(file As String) As Prokaryote()
         Return file.LoadCsv(Of Prokaryote)
     End Function
+
+    <ExportAPI("compound")>
+    Public Function createCompound(entry As String,
+                                   name As String(),
+                                   formula As String,
+                                   exactMass As Double,
+                                   reaction As String(),
+                                   enzyme As String(),
+                                   remarks As String()) As Compound
+
+        Return New Compound With {
+            .entry = entry,
+            .commonNames = name,
+            .reactionId = reaction,
+            .enzyme = enzyme,
+            .formula = formula,
+            .exactMass = exactMass,
+            .molWeight = exactMass,
+            .remarks = remarks
+        }
+    End Function
 End Module
 
 Public Enum OrganismTypes

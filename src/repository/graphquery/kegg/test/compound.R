@@ -4,4 +4,7 @@
 kegg_compound(
 
     "E:/GCModeller/src/repository/graphquery/kegg/test/compound.html"
-);
+)
+:> xml
+:> writeLines(con = `${dirname(@script)}/ATP.XML`)
+;
