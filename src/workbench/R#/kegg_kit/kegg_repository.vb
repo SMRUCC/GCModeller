@@ -296,7 +296,8 @@ Public Module kegg_repository
                                    exactMass As Double,
                                    reaction As String(),
                                    enzyme As String(),
-                                   remarks As String()) As Compound
+                                   remarks As String(),
+                                   KCF As String) As Compound
 
         Return New Compound With {
             .entry = entry,
@@ -306,7 +307,8 @@ Public Module kegg_repository
             .formula = formula,
             .exactMass = exactMass,
             .molWeight = exactMass,
-            .remarks = remarks
+            .remarks = remarks,
+            .KCF = KCF
         }
     End Function
 End Module

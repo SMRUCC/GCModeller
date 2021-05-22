@@ -33,7 +33,8 @@ print(EC_idlist);
 		enzyme = EC_idlist[EC_idlist  == $"\d[.].+"],
 		formula = formula,
 		exactMass = exactMass,
-		remarks = remarks
+		remarks = remarks,
+		KCF = KCF_text 
 	);
 }
 
