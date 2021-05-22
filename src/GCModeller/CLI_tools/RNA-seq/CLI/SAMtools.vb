@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::1db27a798b864c51fda15268282243cc, CLI_tools\RNA-seq\CLI\SAMtools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: __writeFile, AssociateGI, chisqTest, Clustering, ContactsNNN
-    '               CorrelatesVector, exportInternal, ExportSAMMaps, ExportSAMMapsBySamples, FormatGI
-    '               Fq2fa, MergeFastQ, SAMcontigs, SelectSubs
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: __writeFile, AssociateGI, chisqTest, Clustering, ContactsNNN
+'               CorrelatesVector, exportInternal, ExportSAMMaps, ExportSAMMapsBySamples, FormatGI
+'               Fq2fa, MergeFastQ, SAMcontigs, SelectSubs
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -61,7 +62,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.DataFrameAPI
 Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -290,7 +290,7 @@ Partial Module CLI
 
         If ref.FileExists Then
             provider = Function(locus)
-                           Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID)
+                           Dim tmp$ = TempFileSystem.GetAppSysTempFile(sessionID:=App.PID)
                            Dim subset$ = workspace & "/ref.fasta"
 
                            Call locus.JoinBy(ASCII.LF).SaveTo(tmp)

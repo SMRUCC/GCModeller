@@ -48,103 +48,105 @@
 'Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 'Imports mysqli = Oracle.LinuxCompatibility.MySQL.MySqli
 
-'Namespace kb_UniProtKB
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
-'    ''' <summary>
-'    ''' 使用Uniprot的mysql知识库进行蛋白注释的获取的引擎
-'    ''' </summary>
-'    Public Module UniprotKBEngine
+Namespace kb_UniProtKB
 
-'        ''' <summary>
-'        ''' ``kb_uniprotkb``
-'        ''' </summary>
-'        ''' <returns></returns>
-'        Public ReadOnly Property DbName As String = New Table(GetType(mysql.hash_table)).Database
+    ''' <summary>
+    ''' 使用Uniprot的mysql知识库进行蛋白注释的获取的引擎
+    ''' </summary>
+    Public Module UniprotKBEngine
 
-'        ''' <summary>
-'        ''' 获取得到哈希码，然后应用于快读的查询其他的蛋白数据
-'        ''' </summary>
-'        ''' <param name="id"></param>
-'        ''' <param name="mysql"></param>
-'        ''' <param name="chunkSize%"></param>
-'        ''' <returns></returns>
-'        <Extension>
-'        Public Function GetHashCode(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, Long)
-'            Dim model As New Table(Of mysql.hash_table)(mysql)
-'            Dim targets$() = id _
-'                .Split(chunkSize) _
-'                .Select(Function(chunk) chunk.JoinBy(", ")) _
-'                .ToArray
-'            Dim hashCode As New Dictionary(Of String, Long)
+        ''' <summary>
+        ''' ``kb_uniprotkb``
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property DbName As String = New Table(GetType(mysql.hash_table)).Database
 
-'            For Each chunk As String In targets
-'                Dim buffer As mysql.hash_table() = model _
-'                    .Where($"{NameOf(kb_UniProtKB.mysql.hash_table.uniprot_id)} IN ( {chunk} )") _
-'                    .SelectALL
+        '        ''' <summary>
+        '        ''' 获取得到哈希码，然后应用于快读的查询其他的蛋白数据
+        '        ''' </summary>
+        '        ''' <param name="id"></param>
+        '        ''' <param name="mysql"></param>
+        '        ''' <param name="chunkSize%"></param>
+        '        ''' <returns></returns>
+        '        <Extension>
+        '        Public Function GetHashCode(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, Long)
+        '            Dim model As New Table(Of mysql.hash_table)(mysql)
+        '            Dim targets$() = id _
+        '                .Split(chunkSize) _
+        '                .Select(Function(chunk) chunk.JoinBy(", ")) _
+        '                .ToArray
+        '            Dim hashCode As New Dictionary(Of String, Long)
 
-'                For Each uniprotID As mysql.hash_table In buffer
-'                    With uniprotID
-'                        Call hashCode.Add(.uniprot_id, .hash_code)
-'                    End With
-'                Next
-'            Next
+        '            For Each chunk As String In targets
+        '                Dim buffer As mysql.hash_table() = model _
+        '                    .Where($"{NameOf(kb_UniProtKB.mysql.hash_table.uniprot_id)} IN ( {chunk} )") _
+        '                    .SelectALL
 
-'            Return hashCode
-'        End Function
+        '                For Each uniprotID As mysql.hash_table In buffer
+        '                    With uniprotID
+        '                        Call hashCode.Add(.uniprot_id, .hash_code)
+        '                    End With
+        '                Next
+        '            Next
 
-'        <Extension>
-'        Public Function GetKOTable(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, String)
-'            Dim hashcodes = id.GetHashCode(mysql, chunkSize)
-'            Dim model As New Table(Of mysql.protein_ko)(mysql)
-'            Dim targets = hashcodes.Values _
-'                .Split(chunkSize) _
-'                .Select(Function(chunk) chunk.JoinBy(", ")) _
-'                .ToArray
-'            Dim KO As New Dictionary(Of String, String)
+        '            Return hashCode
+        '        End Function
 
-'            For Each chunk As String In targets
-'                Dim buffer As mysql.protein_ko() = model _
-'                    .Where($"{NameOf(kb_UniProtKB.mysql.protein_ko.hash_code)} IN ( {chunk} )") _
-'                    .SelectALL
+        '        <Extension>
+        '        Public Function GetKOTable(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, String)
+        '            Dim hashcodes = id.GetHashCode(mysql, chunkSize)
+        '            Dim model As New Table(Of mysql.protein_ko)(mysql)
+        '            Dim targets = hashcodes.Values _
+        '                .Split(chunkSize) _
+        '                .Select(Function(chunk) chunk.JoinBy(", ")) _
+        '                .ToArray
+        '            Dim KO As New Dictionary(Of String, String)
 
-'                For Each map In buffer
-'                    With map
-'                        KO(.uniprot_id) = .KO
-'                    End With
-'                Next
-'            Next
+        '            For Each chunk As String In targets
+        '                Dim buffer As mysql.protein_ko() = model _
+        '                    .Where($"{NameOf(kb_UniProtKB.mysql.protein_ko.hash_code)} IN ( {chunk} )") _
+        '                    .SelectALL
 
-'            Return KO
-'        End Function
+        '                For Each map In buffer
+        '                    With map
+        '                        KO(.uniprot_id) = .KO
+        '                    End With
+        '                Next
+        '            Next
 
-'        Public Function GetGOTable(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, String())
-'            Dim hashcodes = id.GetHashCode(mysql, chunkSize)
-'            Dim model As New Table(Of mysql.protein_go)(mysql)
-'            Dim targets = hashcodes.Values _
-'                .Split(chunkSize) _
-'                .Select(Function(chunk) chunk.JoinBy(", ")) _
-'                .ToArray
-'            Dim GO As New Dictionary(Of String, List(Of String))
+        '            Return KO
+        '        End Function
 
-'            For Each chunk As String In targets
-'                Dim buffer As mysql.protein_go() = model _
-'                    .Where($"{NameOf(kb_UniProtKB.mysql.protein_go.hash_code)} IN ( {chunk} )") _
-'                    .SelectALL
+        '        Public Function GetGOTable(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, String())
+        '            Dim hashcodes = id.GetHashCode(mysql, chunkSize)
+        '            Dim model As New Table(Of mysql.protein_go)(mysql)
+        '            Dim targets = hashcodes.Values _
+        '                .Split(chunkSize) _
+        '                .Select(Function(chunk) chunk.JoinBy(", ")) _
+        '                .ToArray
+        '            Dim GO As New Dictionary(Of String, List(Of String))
 
-'                For Each map In buffer
-'                    With map
-'                        If Not GO.ContainsKey(.uniprot_id) Then
-'                            Call GO.Add(.uniprot_id, New List(Of String))
-'                        End If
+        '            For Each chunk As String In targets
+        '                Dim buffer As mysql.protein_go() = model _
+        '                    .Where($"{NameOf(kb_UniProtKB.mysql.protein_go.hash_code)} IN ( {chunk} )") _
+        '                    .SelectALL
 
-'                        Call GO(.uniprot_id).Add(.GO_term)
-'                    End With
-'                Next
-'            Next
+        '                For Each map In buffer
+        '                    With map
+        '                        If Not GO.ContainsKey(.uniprot_id) Then
+        '                            Call GO.Add(.uniprot_id, New List(Of String))
+        '                        End If
 
-'            Return GO.ToDictionary(
-'                Function(x) x.Key,
-'                Function(list) list.Value.ToArray)
-'        End Function
-'    End Module
-'End Namespace
+        '                        Call GO(.uniprot_id).Add(.GO_term)
+        '                    End With
+        '                Next
+        '            Next
+
+        '            Return GO.ToDictionary(
+        '                Function(x) x.Key,
+        '                Function(list) list.Value.ToArray)
+        '        End Function
+    End Module
+End Namespace

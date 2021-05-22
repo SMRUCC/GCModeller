@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::631ddd28822a8ecf708919ae1299614b, CLI_tools\metaProfiler\CLI\Difference.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: Boxplot, HeatmapPlot, Relative_abundance_barplot, Relative_abundance_stackedbarplot, SignificantDifference
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: Boxplot, HeatmapPlot, Relative_abundance_barplot, Relative_abundance_stackedbarplot, SignificantDifference
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,7 +55,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -81,12 +81,12 @@ Partial Module CLI
             .EnsureGroupPaired(allSamples:=data.PropertyNames)
 
         For Each ga As NamedCollection(Of SampleInfo) In sampleGroups
-            Dim labels1$() = ga.Value.Keys
+            Dim labels1$() = ga.value.Keys
 
-            For Each gb In sampleGroups.Where(Function(g) g.Name <> ga.Name)
-                Dim labels2$() = gb.Value.Keys
+            For Each gb In sampleGroups.Where(Function(g) g.name <> ga.name)
+                Dim labels2$() = gb.value.Keys
                 Dim result As New List(Of DataSet)
-                Dim path$ = $"{out}/{ga.Name.NormalizePathString}-{gb.Name.NormalizePathString}.csv"
+                Dim path$ = $"{out}/{ga.name.NormalizePathString}-{gb.name.NormalizePathString}.csv"
 
                 For Each x As DataSet In data
                     Dim va#() = x(labels1)
@@ -122,10 +122,10 @@ Partial Module CLI
         Dim sampleGroups = group _
             .LoadCsv(Of SampleInfo) _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
-            .ToDictionary(Function(g) g.Name,
+            .ToDictionary(Function(g) g.name,
                           Function(samples)
                               Return samples _
-                                  .Value _
+                                  .value _
                                   .Keys _
                                   .ToArray
                           End Function)
@@ -166,10 +166,10 @@ Partial Module CLI
         Dim sampleGroups =
             sampleInfo _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
-            .ToDictionary(Function(g) g.Name,
+            .ToDictionary(Function(g) g.name,
                           Function(samples)
                               Return samples _
-                                  .Value _
+                                  .value _
                                   .Keys _
                                   .ToArray
                           End Function)
