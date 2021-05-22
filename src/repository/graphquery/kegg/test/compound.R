@@ -1,4 +1,5 @@
-require(kegg_graphquery);
+# require(kegg_graphquery);
+# "E:\GCModeller\src\repository\graphquery\kegg\test\compound.R" --attach "E:\GCModeller\src\repository\graphquery\kegg"
 
 kegg_compound(
 

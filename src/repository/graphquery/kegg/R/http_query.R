@@ -6,7 +6,13 @@ imports "graphquery" from "webKit";
 #' @param url a data resource on remote server or local resource file
 #' 
 const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery/kegg_table.graphquery")) {
-	ifelse(file.exists(url), readText(url), getHtml(url))
+	({
+		if (file.exists(url)) {
+			readText(url)
+		} else {
+			getHtml(url)
+		}
+	})
 	:> Html::parse
 	:> graphquery::query(graphquery, raw = raw)
 	;
