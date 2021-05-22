@@ -8,6 +8,8 @@ const get_graph as function(ref) {
 	);
 }
 
+#' create indexed list from a key-value pair collection
+#'
 const keyIndex as function(keyValues) {
 	const list  = lapply(keyValues, item -> item$content);
 	names(list) = sapply(keyValues, item -> item$key);
