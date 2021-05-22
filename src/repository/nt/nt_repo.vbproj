@@ -270,6 +270,10 @@
       <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>
       <Name>SMRUCC.WebCloud.HTTPInternal</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\runtime\mysqli\DataSchema\DataSchema.vbproj">
+      <Project>{7a752aa2-5a30-4ac8-9142-ea23b190450e}</Project>
+      <Name>DataSchema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
       <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
       <Name>BinaryData</Name>
@@ -281,10 +285,6 @@
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\SearchEngine\SearchEngine\SearchEngine.vbproj">
       <Project>{8afbc715-5eb6-4eaf-a967-d29a5667709f}</Project>
       <Name>SearchEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
