@@ -9,15 +9,22 @@ const kegg_compound as function(url) {
 	const reactionId  = graphquery::query(document = Html::parse(keyValues$"Reaction"),   graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
 	const commonNames = graphquery::query(document = Html::parse(keyValues$"Name"),       graphquery = get_graph("graphquery/fields/commonNames.graphquery"));
 	const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
-	const formula     = graphquery::query(document = Html::parse(keyValues$"Formula"),    graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
-	const exactMass   = graphquery::query(document = Html::parse(keyValues$"Exact mass"), graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
+	const formula     = graphquery::query(document = Html::parse(keyValues$"Formula"),    graphquery = get_graph("graphquery/fields/text.graphquery"));
+	const exactMass   = graphquery::query(document = Html::parse(keyValues$"Exact mass"), graphquery = get_graph("graphquery/fields/text.graphquery"));
+	const remarks     = graphquery::query(document = Html::parse(keyValues$"Remark"),     graphquery = get_graph("graphquery/fields/text.graphquery"));
+	const EC_idlist   = graphquery::query(document = Html::parse(keyValues$"Enzyme"),     graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
 
+	# reactionId = reactionId[reactionId == $"R\d+"];
+	# EC_idlist  = EC_idlist[EC_idlist  == $"\d[.]+"];
 
 	print(names(keyValues));
 print(id);
 print(commonNames);
 print(formula);
 print(exactMass);
+print(remarks);
+print(EC_idlist);
+
 }
 
 
