@@ -1,0 +1,3 @@
+KCF css(".kcfd") {
+    text text() | trim()
+}
