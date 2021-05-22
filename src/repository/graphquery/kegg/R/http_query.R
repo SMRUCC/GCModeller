@@ -8,8 +8,10 @@ imports "graphquery" from "webKit";
 const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery/kegg_table.graphquery")) {
   ({
     if (file.exists(url)) {
+      # read from the local file
       readText(url)
     } else {
+      # request from the remote server
       getHtml(url)
     }
   })
