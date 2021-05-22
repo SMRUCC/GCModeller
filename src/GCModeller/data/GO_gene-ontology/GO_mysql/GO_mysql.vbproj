@@ -298,10 +298,6 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
       <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
       <Name>OBO_Foundry</Name>
