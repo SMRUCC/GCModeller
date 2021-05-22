@@ -19,23 +19,26 @@ const kegg_compound as function(url) {
 	const remarks     = graphquery::query(document = Html::parse(keyValues$"Remark"),     graphquery = get_graph("graphquery/fields/text.graphquery"));
 	const EC_idlist   = graphquery::query(document = Html::parse(keyValues$"Enzyme"),     graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
 
-	print(names(keyValues));
-print(id);
-print(commonNames);
-print(formula);
-print(exactMass);
-print(remarks);
-print(EC_idlist);
+	print(DBLinks(xref));
+
 	compound(
-		entry = id,
-		name  = commonNames[commonNames != ""],
-		reaction = reactionId[reactionId == $"R\d+"],
-		enzyme = EC_idlist[EC_idlist  == $"\d[.].+"],
-		formula = formula,
+		entry     = id,
+		name      = commonNames[commonNames != ""],
+		reaction  = reactionId[reactionId == $"R\d+"],
+		enzyme    = EC_idlist[EC_idlist  == $"\d[.].+"],
+		formula   = formula,
 		exactMass = exactMass,
-		remarks = remarks,
-		KCF = KCF_text 
+		remarks   = remarks,
+		KCF       = KCF_text,
+		DBLinks   = DBLinks(xref)
 	);
 }
 
+const DBLinks as function(xref) {
+	const db   = sapply(xref, r -> r$dbName);
+	const id   = sapply(xref, r -> r$id);
+	const link = sapply(xref, r -> r$link);
+
+	data.frame(db, id, link);
+}
 

@@ -2,11 +2,11 @@
 <Compound xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KEGG="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id" entry="C00002">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound
-     assembly:  SMRUCC.genomics.Core, Version=2.0.33.93, Culture=neutral, PublicKeyToken=null
-     version:   2.0.33.93
-     built:     2/3/2000 12:03:06 AM
-     md5:       1B71062C3D2A2F036EEC54C527EAA61FCE0DA5FD3F77A6D237BAB405D13B738A
-     timestamp: 5/23/2021 12:30:48 AM
+     assembly:  SMRUCC.genomics.Core, Version=2.0.33.1216, Culture=neutral, PublicKeyToken=null
+     version:   2.0.33.1216
+     built:     2/3/2000 12:40:32 AM
+     md5:       35BE1C9ABE2C3CD2EB05C4621062F071EED6F8A0A4325F2C3567CB41742788A1
+     timestamp: 5/23/2021 12:42:00 AM
   -->
   <commonNames>
     <string>ATP</string>
@@ -1239,7 +1239,16 @@
     <string>6.6.1.2</string>
     <string>7.3.2.6</string>
   </enzyme>
-  <KEGG:DBlinks />
+  <KEGG:DBlinks>
+    <KEGG:DBLink DBName="CAS" link="">56-65-5</KEGG:DBLink>
+    <KEGG:DBLink DBName="PubChem" link="https://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?sid=3304">3304</KEGG:DBLink>
+    <KEGG:DBLink DBName="ChEBI" link="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15422">15422</KEGG:DBLink>
+    <KEGG:DBLink DBName="ChEMBL" link="https://www.ebi.ac.uk/chembldb/compound/inspect/CHEMBL14249">CHEMBL14249</KEGG:DBLink>
+    <KEGG:DBLink DBName="KNApSAcK" link="http://kanaya.naist.jp/knapsack_jsp/information.jsp?sname=C_ID&amp;word=C00001491">C00001491</KEGG:DBLink>
+    <KEGG:DBLink DBName="PDB-CCD" link="https://www.ebi.ac.uk/pdbe-srv/pdbechem/chemicalCompound/show/ATP">ATP[PDBj]</KEGG:DBLink>
+    <KEGG:DBLink DBName="3DMET" link="http://www.3dmet.dna.affrc.go.jp/cgi/show_data.php?acc=B01125">B01125</KEGG:DBLink>
+    <KEGG:DBLink DBName="NIKKAJI" link="https://jglobal.jst.go.jp/en/redirect?Nikkaji_No=J10.680A">J10.680A</KEGG:DBLink>
+  </KEGG:DBlinks>
   <KCF>ATOM        31
             1   N4y N    29.4250  -14.6015
             2   C8y C    30.4825  -15.3378

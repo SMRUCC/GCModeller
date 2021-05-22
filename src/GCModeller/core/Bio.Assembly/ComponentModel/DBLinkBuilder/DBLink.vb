@@ -69,6 +69,9 @@ Namespace ComponentModel.DBLinkBuilder
         <XmlText>
         Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.EntryId
 
+        <XmlAttribute>
+        Public Property link As String
+
         Sub New()
         End Sub
 
