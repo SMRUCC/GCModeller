@@ -3,10 +3,10 @@ imports "graphquery" from "webKit";
 
 #' Run query with http cache
 #'
-const http_query as function(url, graphquery) {
+const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery/kegg_table.graphquery")) {
 	getHtml(url)
 	:> Html::parse
-	:> graphquery::query(graphquery, raw = TRUE)
+	:> graphquery::query(graphquery, raw = raw)
 	;
 }
 
