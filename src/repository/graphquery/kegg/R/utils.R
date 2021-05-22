@@ -4,7 +4,7 @@ imports "graphquery" from "webKit";
 #'
 const get_graph as function(ref) {
 	const resource as string = system.file(ref, package = "kegg_graphquery");
-print(resource);
+
     graphquery::parseQuery(
 		readText(con = resource)
 	);
