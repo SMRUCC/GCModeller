@@ -15,8 +15,8 @@ const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery
       getHtml(url)
     }
   })
-  :> Html::parse
-  :> graphquery::query(graphquery, raw = raw)
+  |> Html::parse
+  |> graphquery::query(graphquery, raw = raw)
   ;
 }
 

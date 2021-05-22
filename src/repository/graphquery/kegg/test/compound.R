@@ -1,10 +1,12 @@
-# require(kegg_graphquery);
+require(kegg_graphquery);
 # "E:\GCModeller\src\repository\graphquery\kegg\test\compound.R" --attach "E:\GCModeller\src\repository\graphquery\kegg"
+
+options(http.cache_dir = `${dirname(@script)}/.cache/`);
 
 kegg_compound(
 
-    "E:/GCModeller/src/repository/graphquery/kegg/test/compound.html"
+    "https://www.kegg.jp/entry/C00002"
 )
-:> xml
-:> writeLines(con = `${dirname(@script)}/ATP.XML`)
+|> xml
+|> writeLines(con = `${dirname(@script)}/ATP.XML`)
 ;
