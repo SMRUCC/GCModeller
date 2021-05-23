@@ -11,9 +11,11 @@ const kegg_reactionclass as function(url) {
   const reactionId = graphquery::query(document = Html::parse(keyValues$"Reaction"),      graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const EC_idlist  = graphquery::query(document = Html::parse(keyValues$"Enzyme"),        graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const pathways   = graphquery::query(document = Html::parse(keyValues$"Pathway"),       graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
-  const KO         = graphquery::query(document = Html::parse(keyValues$"Orthology"),     graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
-  const transforms = graphquery::query(document = Html::parse(keyValues$"Reactant pair"), graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
+  const KO         = graphquery::query(document = Html::parse(keyValues$"Orthology"),     graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));  
   const rmodules   = graphquery::query(document = Html::parse(keyValues$"RModule"),       graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
+  const transforms = graphquery::query(document = Html::parse(keyValues$"Reactant pair"), graphquery = get_graph("graphquery/fields/reactionLink.graphquery"))
+    |> which(r -> r == $"C\d+_C\d+")
+    ;
 
   repository::reaction_class(
     id         = id,

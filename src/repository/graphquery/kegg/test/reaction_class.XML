@@ -6,7 +6,7 @@
      version:   2.33.7813.29302
      built:     5/23/2021 4:16:44 PM
      md5:       2239a63f39a6e3c9edb66cb78130e5a8
-     timestamp: 5/23/2021 4:17:48 PM
+     timestamp: 5/23/2021 4:19:47 PM
   -->
   <definition>N1a-N1b:*-C5a:C1c-C1c</definition>
   <reactantPairs>
@@ -40,7 +40,6 @@
     <ReactionCompoundTransform from="C00047" to="C19889" />
     <ReactionCompoundTransform from="C00047" to="C21160" />
     <ReactionCompoundTransform from="C00049" to="C00438" />
-    <ReactionCompoundTransform from=" » show all" to="" />
     <ReactionCompoundTransform from="C00049" to="C01042" />
     <ReactionCompoundTransform from="C00049" to="C02715" />
     <ReactionCompoundTransform from="C00049" to="C04823" />
