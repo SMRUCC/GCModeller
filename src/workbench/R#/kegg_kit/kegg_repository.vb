@@ -344,6 +344,11 @@ Public Module kegg_repository
                 .ToArray
         }
     End Function
+
+    <ExportAPI("pathway")>
+    Public Function pathway(id As String) As Pathway
+        Return New Pathway With {.EntryId = id}
+    End Function
 End Module
 
 Public Enum OrganismTypes
