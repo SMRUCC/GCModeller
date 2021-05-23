@@ -14,13 +14,13 @@ const get_graph as function(ref) {
 #'
 const keyIndex as function(keyValues) {
   keyValues
-  |> groupBy(r -> r$key)  
+  |> groupBy(r -> r$key)
   |> lapply(function(group) {
     if (group$key in ["Reference", "Authors", "Title", "Journal"]) {
-    lapply(group, a -> a$content);
+      lapply(group, a -> a$content);
     } else {
-     # [name => html]   
-     group[1]$content;
+      # [name => html]
+      group[1]$content;
     }
   })
   ;
