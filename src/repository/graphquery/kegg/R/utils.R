@@ -13,9 +13,11 @@ const get_graph as function(ref) {
 #' create indexed list from a key-value pair collection
 #'
 const keyIndex as function(keyValues) {
-  const list  = lapply(keyValues, item -> item$content);
-  names(list) = sapply(keyValues, item -> item$key);
-
-  # [name => html]
-  list;
+  keyValues
+  |> groupBy(r -> r$key)  
+  |> lapply(function(group) {
+     # [name => html]
+    lapply(group, a -> a$content);
+  })
+  ;
 }
