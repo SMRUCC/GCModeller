@@ -349,7 +349,8 @@ Public Module kegg_repository
     Public Function pathway(id As String, name As String, description As String,
                             modules As dataframe,
                             DBLinks As dataframe,
-                            KO_pathway As String()) As Pathway
+                            KO_pathway As String(),
+                            references As dataframe) As Pathway
 
         Return New Pathway With {
             .EntryId = id, .name = name,
@@ -375,6 +376,17 @@ Public Module kegg_repository
                 .ToArray,
             .KOpathway = KO_pathway _
                 .Select(Function(kid) New NamedValue With {.name = kid}) _
+                .ToArray,
+            .references = references _
+                .forEachRow({"reference", "authors", "title", "journal"}) _
+                .Select(Function(r)
+                            Return New Reference With {
+                                .Reference = any.ToString(r(Scan0)),
+                                .Authors = any.ToString(r(1)).StringSplit(",\s+"),
+                                .Title = any.ToString(r(2)),
+                                .Journal = any.ToString(r(3))
+                            }
+                        End Function) _
                 .ToArray
         }
     End Function
