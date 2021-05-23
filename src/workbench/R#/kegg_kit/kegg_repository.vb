@@ -348,7 +348,8 @@ Public Module kegg_repository
     <ExportAPI("pathway")>
     Public Function pathway(id As String, name As String, description As String,
                             modules As dataframe,
-                            DBLinks As dataframe) As Pathway
+                            DBLinks As dataframe,
+                            KO_pathway As String()) As Pathway
 
         Return New Pathway With {
             .EntryId = id, .name = name,
@@ -371,6 +372,9 @@ Public Module kegg_repository
                                 .link = any.ToString(r(2))
                             }
                         End Function) _
+                .ToArray,
+            .KOpathway = KO_pathway _
+                .Select(Function(kid) New NamedValue With {.name = kid}) _
                 .ToArray
         }
     End Function
