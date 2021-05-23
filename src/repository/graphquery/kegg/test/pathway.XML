@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-16"?>
-<KEGG_pathway xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gcmodeller="https://gcmodeller.org" id="Entry" xmlns="http://www.genome.jp/kegg/pathway.html">
+<KEGG_pathway xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gcmodeller="https://gcmodeller.org" id="map00020" xmlns="http://www.genome.jp/kegg/pathway.html">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.22230, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.22230
-     built:     5/23/2021 12:21:00 PM
-     md5:       f6fd972ea7958e027005dac86b963daa
-     timestamp: 5/23/2021 12:22:00 PM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.22404, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.22404
+     built:     5/23/2021 12:26:48 PM
+     md5:       c4631ec775438edaa0e13b33d9ac0c7d
+     timestamp: 5/23/2021 12:29:44 PM
   -->
-  <description>Description</description>
-  <name>Name</name>
-  <modules />
+  <description>The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:M00009], but contain genes for specific segments [MD:M00010M00011].</description>
+  <name>Citrate cycle (TCA cycle)</name>
+  <modules>
+    <data name="M00003">Gluconeogenesis, oxaloacetate =&gt; fructose-6P [PATH:map00020]</data>
+    <data name="M00009">Citrate cycle (TCA cycle, Krebs cycle) [PATH:map00020]</data>
+    <data name="M00010">Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:map00020]</data>
+    <data name="M00011">Citrate cycle, second carbon oxidation, 2-oxoglutarate =&gt; oxaloacetate [PATH:map00020]</data>
+    <data name="M00307">Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:map00020]</data>
+    <data name="M00740">Methylaspartate cycle [PATH:map00020]</data>
+  </modules>
 </KEGG_pathway>
