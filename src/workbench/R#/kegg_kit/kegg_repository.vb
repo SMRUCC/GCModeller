@@ -350,6 +350,7 @@ Public Module kegg_repository
                             references As dataframe,
                             compounds As dataframe,
                             drugs As dataframe,
+                            genes As dataframe,
                             organism As list,
                             Optional env As Environment = Nothing) As Pathway
 
@@ -405,7 +406,15 @@ Public Module kegg_repository
             .organism = New KeyValuePair With {
                 .Key = organism.getValue(Of String)("code", env, "KO"),
                 .Value = organism.getValue(Of String)("name", env, "")
-            }
+            },
+            .genes = genes.forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
+                            }
+                        End Function) _
+                .ToArray
         }
     End Function
 End Module

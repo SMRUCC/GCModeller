@@ -6,7 +6,7 @@
      version:   2.33.7813.22404
      built:     5/23/2021 12:26:48 PM
      md5:       c4631ec775438edaa0e13b33d9ac0c7d
-     timestamp: 5/23/2021 1:12:22 PM
+     timestamp: 5/23/2021 1:16:28 PM
   -->
   <description>The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:M00009], but contain genes for specific segments [MD:M00010M00011].</description>
   <name>Citrate cycle (TCA cycle) - Homo sapiens (human)</name>
@@ -48,6 +48,38 @@
   <gcmodeller:otherDB>
     <gcmodeller:DBLink DBName="GO" Entry="0006099">http://amigo.geneontology.org/amigo/term/GO:0006099</gcmodeller:DBLink>
   </gcmodeller:otherDB>
+  <genes>
+    <data name="1431">CS; citrate synthase [KO:K01647] [EC:2.3.3.1]</data>
+    <data name="47">ACLY; ATP citrate lyase [KO:K01648] [EC:2.3.3.8]</data>
+    <data name="50">ACO2; aconitase 2 [KO:K01681] [EC:4.2.1.3]</data>
+    <data name="48">ACO1; aconitase 1 [KO:K01681] [EC:4.2.1.3]</data>
+    <data name="3417">IDH1; isocitrate dehydrogenase (NADP(+)) 1 [KO:K00031] [EC:1.1.1.42]</data>
+    <data name="3418">IDH2; isocitrate dehydrogenase (NADP(+)) 2 [KO:K00031] [EC:1.1.1.42]</data>
+    <data name="3420">IDH3B; isocitrate dehydrogenase (NAD(+)) 3 non-catalytic subunit beta [KO:K00030] [EC:1.1.1.41]</data>
+    <data name="3421">IDH3G; isocitrate dehydrogenase (NAD(+)) 3 non-catalytic subunit gamma [KO:K00030] [EC:1.1.1.41]</data>
+    <data name="3419">IDH3A; isocitrate dehydrogenase (NAD(+)) 3 catalytic subunit alpha [KO:K00030] [EC:1.1.1.41]</data>
+    <data name="55753">OGDHL; oxoglutarate dehydrogenase L [KO:K00164] [EC:1.2.4.2]</data>
+    <data name="4967">OGDH; oxoglutarate dehydrogenase [KO:K00164] [EC:1.2.4.2]</data>
+    <data name="1743">DLST; dihydrolipoamide S-succinyltransferase [KO:K00658] [EC:2.3.1.61]</data>
+    <data name="1738">DLD; dihydrolipoamide dehydrogenase [KO:K00382] [EC:1.8.1.4]</data>
+    <data name="8802">SUCLG1; succinate-CoA ligase GDP/ADP-forming subunit alpha [KO:K01899] [EC:6.2.1.46.2.1.5]</data>
+    <data name="8801">SUCLG2; succinate-CoA ligase GDP-forming subunit beta [KO:K01900] [EC:6.2.1.46.2.1.5]</data>
+    <data name="8803">SUCLA2; succinate-CoA ligase ADP-forming subunit beta [KO:K01900] [EC:6.2.1.46.2.1.5]</data>
+    <data name="6389">SDHA; succinate dehydrogenase complex flavoprotein subunit A [KO:K00234] [EC:1.3.5.1]</data>
+    <data name="6390">SDHB; succinate dehydrogenase complex iron sulfur subunit B [KO:K00235] [EC:1.3.5.1]</data>
+    <data name="6391">SDHC; succinate dehydrogenase complex subunit C [KO:K00236]</data>
+    <data name="6392">SDHD; succinate dehydrogenase complex subunit D [KO:K00237]</data>
+    <data name="2271">FH; fumarate hydratase [KO:K01679] [EC:4.2.1.2]</data>
+    <data name="4190">MDH1; malate dehydrogenase 1 [KO:K00025] [EC:1.1.1.37]</data>
+    <data name="4191">MDH2; malate dehydrogenase 2 [KO:K00026] [EC:1.1.1.37]</data>
+    <data name="5091">PC; pyruvate carboxylase [KO:K01958] [EC:6.4.1.1]</data>
+    <data name="5105">PCK1; phosphoenolpyruvate carboxykinase 1 [KO:K01596] [EC:4.1.1.32]</data>
+    <data name="5106">PCK2; phosphoenolpyruvate carboxykinase 2, mitochondrial [KO:K01596] [EC:4.1.1.32]</data>
+    <data name="5161">PDHA2; pyruvate dehydrogenase E1 subunit alpha 2 [KO:K00161] [EC:1.2.4.1]</data>
+    <data name="5160">PDHA1; pyruvate dehydrogenase E1 subunit alpha 1 [KO:K00161] [EC:1.2.4.1]</data>
+    <data name="5162">PDHB; pyruvate dehydrogenase E1 subunit beta [KO:K00162] [EC:1.2.4.1]</data>
+    <data name="1737">DLAT; dihydrolipoamide S-acetyltransferase [KO:K00627] [EC:2.3.1.12]</data>
+  </genes>
   <organism Key="hsa" Value="Homo sapiens (human) [GN:hsa]" />
   <KOpathway>
     <data name="ko00020" />

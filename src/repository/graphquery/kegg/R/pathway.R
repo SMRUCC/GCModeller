@@ -13,6 +13,7 @@ const kegg_pathway as function(url) {
   const compounds  = graphquery::query(document = Html::parse(keyValues$"Compound"),    graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const drugs      = graphquery::query(document = Html::parse(keyValues$"Drug"),        graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const organism   = graphquery::query(document = Html::parse(keyValues$"Organism"),    graphquery = get_graph("graphquery/fields/text.graphquery"));
+  const genes      = graphquery::query(document = Html::parse(keyValues$"Gene"),        graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const references = literature(
     reference = keyValues$Reference,
     authors   = keyValues$Authors,
@@ -25,6 +26,7 @@ const kegg_pathway as function(url) {
   print(references);
   print(pathwayList(compounds));
   print(pathwayList(drugs));
+  print(pathwayList(genes));
 
   repository::pathway(
     id          = id,
@@ -36,7 +38,8 @@ const kegg_pathway as function(url) {
     references  = references,
     compounds   = pathwayList(compounds),
     drugs       = pathwayList(drugs),
-    organism    = parseKeggCode(organism)
+    organism    = parseKeggCode(organism),
+    genes       = pathwayList(genes)
   );
 }
 
