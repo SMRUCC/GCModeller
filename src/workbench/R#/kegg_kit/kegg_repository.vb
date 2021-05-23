@@ -314,8 +314,7 @@ Public Module kegg_repository
             .molWeight = exactMass,
             .remarks = remarks,
             .KCF = KCF,
-            .DbLinks = DBLinks _
-                .forEachRow({"db", "id", "link"}) _
+            .DbLinks = DBLinks.forEachRow({"db", "id", "link"}) _
                 .Select(Function(r)
                             Return New DBLink With {
                                 .DBName = any.ToString(r(0)),
@@ -324,8 +323,7 @@ Public Module kegg_repository
                             }
                         End Function) _
                 .ToArray,
-            .pathway = pathway _
-                .forEachRow({"id", "name"}) _
+            .pathway = pathway.forEachRow({"id", "name"}) _
                 .Select(Function(r)
                             Return New NamedValue With {
                                 .name = any.ToString(r(0)),
@@ -333,8 +331,7 @@ Public Module kegg_repository
                             }
                         End Function) _
                 .ToArray,
-            .[Module] = modules _
-                .forEachRow({"id", "name"}) _
+            .[Module] = modules.forEachRow({"id", "name"}) _
                 .Select(Function(r)
                             Return New NamedValue With {
                                 .name = any.ToString(r(0)),
@@ -351,13 +348,13 @@ Public Module kegg_repository
                             DBLinks As dataframe,
                             KO_pathway As String(),
                             references As dataframe,
-                            compounds As dataframe) As Pathway
+                            compounds As dataframe,
+                            drugs As dataframe) As Pathway
 
         Return New Pathway With {
             .EntryId = id, .name = name,
             .description = description,
-            .modules = modules _
-                .forEachRow({"id", "name"}) _
+            .modules = modules.forEachRow({"id", "name"}) _
                 .Select(Function(r)
                             Return New NamedValue With {
                                 .name = any.ToString(r(0)),
@@ -365,8 +362,7 @@ Public Module kegg_repository
                             }
                         End Function) _
                 .ToArray,
-            .otherDBs = DBLinks _
-                .forEachRow({"db", "id", "link"}) _
+            .otherDBs = DBLinks.forEachRow({"db", "id", "link"}) _
                 .Select(Function(r)
                             Return New DBLink With {
                                 .DBName = any.ToString(r(0)),
@@ -378,8 +374,7 @@ Public Module kegg_repository
             .KOpathway = KO_pathway _
                 .Select(Function(kid) New NamedValue With {.name = kid}) _
                 .ToArray,
-            .references = references _
-                .forEachRow({"reference", "authors", "title", "journal"}) _
+            .references = references.forEachRow({"reference", "authors", "title", "journal"}) _
                 .Select(Function(r)
                             Return New Reference With {
                                 .Reference = any.ToString(r(Scan0)),
@@ -389,8 +384,15 @@ Public Module kegg_repository
                             }
                         End Function) _
                 .ToArray,
-            .compound = compounds _
-                .forEachRow({"id", "name"}) _
+            .compound = compounds.forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
+                            }
+                        End Function) _
+                .ToArray,
+            .drugs = drugs.forEachRow({"id", "name"}) _
                 .Select(Function(r)
                             Return New NamedValue With {
                                 .name = any.ToString(r(0)),
