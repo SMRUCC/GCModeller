@@ -8,7 +8,10 @@ kegg css("form") | css("table", 0) | css("table", 0) | css("tr") [{
 	# so we parse the table content at here at first
 	# and then create kegg data model based on the 
 	# exists keys
-	key     css("th") | text() | trim() | replace("(\s|\r|\n|\t)+", " ")
+	key     css("th") 
+	      | text() 
+		  | trim() 
+		  | replace("(\s|\r|\n|\t)+", " ")
 	
 	# html content raw text
 	content css("td") | html()
