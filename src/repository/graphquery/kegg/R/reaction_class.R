@@ -1,6 +1,8 @@
 imports "repository" from "kegg_kit";
 
-#'
+#' Query of reaction class information
+#' 
+#' @param url the resource url on remote server or local file path for debug
 #'
 const kegg_reactionclass as function(url) {
   # parse the page text

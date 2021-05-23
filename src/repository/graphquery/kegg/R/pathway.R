@@ -1,5 +1,9 @@
 imports "repository" from "kegg_kit";
 
+#' Query of kegg pathway
+#' 
+#' @param url the resource url on remote server or local file path for debug
+#' 
 const kegg_pathway as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
@@ -46,6 +50,10 @@ const kegg_pathway as function(url) {
   );
 }
 
+#' Parse organism kegg code
+#' 
+#' @return this function returns a list with ``code`` and ``name``.
+#' 
 const parseKeggCode as function(name) {
   let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
 
@@ -58,6 +66,8 @@ const parseKeggCode as function(name) {
   );
 }
 
+#' Create a literature dataframe
+#' 
 const literature as function(reference, authors, title, journal) {
   const text_query = get_graph("graphquery/fields/text.graphquery");
   const getText = function(str) {

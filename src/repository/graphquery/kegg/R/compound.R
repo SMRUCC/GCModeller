@@ -2,6 +2,8 @@ imports "repository" from "kegg_kit";
 
 #' query data to gcmodeller object model
 #'
+#' @param url the resource url on remote server or local file path for debug
+#' 
 const kegg_compound as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));

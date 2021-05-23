@@ -2,6 +2,8 @@ imports "graphquery" from "webKit";
 
 #' get graphquery from internal resource file
 #'
+#' @param ref the relative file name of the internal graphquery file
+#' 
 const get_graph as function(ref) {
   const resource as string = system.file(ref, package = "kegg_graphquery");
 
