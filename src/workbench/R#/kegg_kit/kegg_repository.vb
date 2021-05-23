@@ -346,8 +346,8 @@ Public Module kegg_repository
     End Function
 
     <ExportAPI("pathway")>
-    Public Function pathway(id As String) As Pathway
-        Return New Pathway With {.EntryId = id}
+    Public Function pathway(id As String, name As String) As Pathway
+        Return New Pathway With {.EntryId = id, .name = name}
     End Function
 End Module
 

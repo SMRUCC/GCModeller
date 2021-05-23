@@ -2,10 +2,11 @@
 <KEGG_pathway xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gcmodeller="https://gcmodeller.org" id="map01110" xmlns="http://www.genome.jp/kegg/pathway.html">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.2249, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.2249
-     built:     5/23/2021 1:14:58 AM
-     md5:       6d779aded1a6869f522876b11e4f6545
-     timestamp: 5/23/2021 11:25:05 AM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.20636, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.20636
+     built:     5/23/2021 11:27:52 AM
+     md5:       6f339bd11a522d09ce1171ce43c46c5c
+     timestamp: 5/23/2021 11:28:20 AM
   -->
+  <name>Biosynthesis of secondary metabolites</name>
 </KEGG_pathway>

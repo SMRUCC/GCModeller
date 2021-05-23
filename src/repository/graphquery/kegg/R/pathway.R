@@ -6,11 +6,12 @@ const kegg_pathway as function(url) {
   const keyValues = keyIndex(http_query(url, raw = FALSE));
 
 const id          = graphquery::query(document = Html::parse(keyValues$"Entry"),      graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
+  const commonName = graphquery::query(document = Html::parse(keyValues$"Name"),       graphquery = get_graph("graphquery/fields/text.graphquery"));
 
   str(keyValues);
 
   repository::pathway(
-      id = id
-
+      id = id,
+name = commonName
   );
 }
