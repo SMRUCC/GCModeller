@@ -2,11 +2,11 @@
 <KEGG_pathway xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gcmodeller="https://gcmodeller.org" id="hsa00020" xmlns="http://www.genome.jp/kegg/pathway.html">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.25216, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.25216
-     built:     5/23/2021 2:00:32 PM
-     md5:       14ff901b92e45f5973eac175a3f2af2c
-     timestamp: 5/23/2021 3:51:19 PM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.29302, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.29302
+     built:     5/23/2021 4:16:44 PM
+     md5:       2239a63f39a6e3c9edb66cb78130e5a8
+     timestamp: 5/23/2021 4:24:45 PM
   -->
   <description>The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:M00009], but contain genes for specific segments [MD:M00010M00011].</description>
   <name>Citrate cycle (TCA cycle) - Homo sapiens (human)</name>
