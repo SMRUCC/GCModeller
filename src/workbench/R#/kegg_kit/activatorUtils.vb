@@ -8,6 +8,20 @@ Imports any = Microsoft.VisualBasic.Scripting
 Module activatorUtils
 
     <Extension>
+    Public Function GetPropertyValues(data As dataframe) As [Property]()
+        Return data.forEachRow({"id", "name", "link"}) _
+            .Select(Function(r)
+                        Return New [Property] With {
+                            .name = any.ToString(r(0)),
+                            .value = any.ToString(r(1)),
+                            .comment = any.ToString(r(2))
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+
+    <Extension>
     Public Function GetNameValues(data As dataframe) As NamedValue()
         Return data.forEachRow({"id", "name"}) _
             .Select(Function(r)

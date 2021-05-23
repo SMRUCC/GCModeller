@@ -352,6 +352,30 @@ Public Module kegg_repository
             .disease = disease.GetNameValues
         }
     End Function
+
+    <ExportAPI("reaction")>
+    Public Function reaction(id As String, name As String(), definition As String, equation As String, comment As String,
+                             reaction_class As dataframe,
+                             enzyme As String(),
+                             pathways As dataframe,
+                             modules As dataframe,
+                             KO As dataframe,
+                             links As dataframe) As Reaction
+
+        Return New Reaction With {
+            .[Class] = reaction_class.GetNameValues,
+            .Comments = comment,
+            .CommonNames = name,
+            .Definition = definition,
+            .Enzyme = enzyme,
+            .Equation = equation,
+            .ID = id,
+            .[Module] = modules.GetNameValues,
+            .Orthology = New OrthologyTerms With {.Terms = KO.GetPropertyValues},
+            .Pathway = pathways.GetNameValues,
+            .DBLink = links.GetDbLinks
+        }
+    End Function
 End Module
 
 Public Enum OrganismTypes

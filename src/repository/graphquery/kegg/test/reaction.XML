@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<reaction xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KO="http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd" xmlns="http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd">
+  <!--
+     model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.24928, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.24928
+     built:     5/23/2021 1:50:56 PM
+     md5:       94fee1cbb8a467d4143e1da4bb8efb4e
+     timestamp: 5/23/2021 1:54:23 PM
+  -->
+  <ID>R00344</ID>
+  <commonNames>Pyruvate:carbon-dioxide ligase (ADP-forming)</commonNames>
+  <def>ATP + Pyruvate + HCO3-  ADP + Orthophosphate + Oxaloacetate</def>
+  <equation>C00002 + C00022 + C00288C00008 + C00009 + C00036</equation>
+  <enzymes>
+    <string>6.4.1.1</string>
+  </enzymes>
+  <comment>intermediate (carboxybiotin-[enzyme])</comment>
+  <pathway>
+    <data name="rn00020">Citrate cycle (TCA cycle)</data>
+    <data name="rn00620">Pyruvate metabolism</data>
+    <data name="rn00720">Carbon fixation pathways in prokaryotes</data>
+    <data name="rn01100">Metabolic pathways</data>
+    <data name="rn01120">Microbial metabolism in diverse environments</data>
+    <data name="rn01200">Carbon metabolism</data>
+    <data name="rn01230">Biosynthesis of amino acids</data>
+  </pathway>
+  <module>
+    <data name="M00173">Reductive citrate cycle (Arnon-Buchanan cycle)</data>
+    <data name="M00620">Incomplete reductive citrate cycle, acetyl-CoA =&gt; oxoglutarate</data>
+  </module>
+  <orthology size="3">
+    <KO:terms name="K01958" value="pyruvate carboxylase [EC:6.4.1.1]">/entry/K01958</KO:terms>
+    <KO:terms name="K01959" value="pyruvate carboxylase subunit A [EC:6.4.1.1]">/entry/K01959</KO:terms>
+    <KO:terms name="K01960" value="pyruvate carboxylase subunit B [EC:6.4.1.1]">/entry/K01960</KO:terms>
+  </orthology>
+  <class>
+    <data name="RC00002">C00002_C00008</data>
+    <data name="RC00040">C00022_C00036</data>
+    <data name="RC00367">C00036_C00288</data>
+  </class>
+  <DBLink DBName="RHEA" Entry="20847">https://www.rhea-db.org/reaction?id=20847</DBLink>
+</reaction>
