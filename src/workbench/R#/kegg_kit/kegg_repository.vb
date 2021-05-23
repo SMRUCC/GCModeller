@@ -350,7 +350,8 @@ Public Module kegg_repository
                             modules As dataframe,
                             DBLinks As dataframe,
                             KO_pathway As String(),
-                            references As dataframe) As Pathway
+                            references As dataframe,
+                            compounds As dataframe) As Pathway
 
         Return New Pathway With {
             .EntryId = id, .name = name,
@@ -385,6 +386,15 @@ Public Module kegg_repository
                                 .Authors = any.ToString(r(1)).StringSplit(",\s+"),
                                 .Title = any.ToString(r(2)),
                                 .Journal = any.ToString(r(3))
+                            }
+                        End Function) _
+                .ToArray,
+            .compound = compounds _
+                .forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
                             }
                         End Function) _
                 .ToArray

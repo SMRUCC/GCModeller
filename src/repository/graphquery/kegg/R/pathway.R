@@ -10,6 +10,7 @@ const kegg_pathway as function(url) {
   const info       = graphquery::query(document = Html::parse(keyValues$"Description"), graphquery = get_graph("graphquery/fields/text.graphquery"));
   const xref       = graphquery::query(document = Html::parse(keyValues$"Other DBs"),   graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
   const KO_pathway = graphquery::query(document = Html::parse(keyValues$"KO pathway"),  graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
+  const compounds  = graphquery::query(document = Html::parse(keyValues$"Compound"),    graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const references = literature(
     reference = keyValues$Reference,
     authors   = keyValues$Authors,
@@ -20,6 +21,7 @@ const kegg_pathway as function(url) {
   print(pathwayList(modules));
   print(DBLinks(xref));
   print(references);
+  print(pathwayList(compounds));
 
   repository::pathway(
     id          = id,
@@ -28,7 +30,8 @@ const kegg_pathway as function(url) {
     description = info,
     DBLinks     = DBLinks(xref),
     KO_pathway  = KO_pathway,
-    references  = references
+    references  = references,
+    compounds   = pathwayList(compounds)
   );
 }
 
