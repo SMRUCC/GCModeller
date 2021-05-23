@@ -352,6 +352,7 @@ Public Module kegg_repository
                             drugs As dataframe,
                             genes As dataframe,
                             organism As list,
+                            disease As dataframe,
                             Optional env As Environment = Nothing) As Pathway
 
         Return New Pathway With {
@@ -408,6 +409,14 @@ Public Module kegg_repository
                 .Value = organism.getValue(Of String)("name", env, "")
             },
             .genes = genes.forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
+                            }
+                        End Function) _
+                .ToArray,
+            .disease = disease.forEachRow({"id", "name"}) _
                 .Select(Function(r)
                             Return New NamedValue With {
                                 .name = any.ToString(r(0)),
