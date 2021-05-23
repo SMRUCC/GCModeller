@@ -346,8 +346,16 @@ Public Module kegg_repository
     End Function
 
     <ExportAPI("pathway")>
-    Public Function pathway(id As String, name As String) As Pathway
-        Return New Pathway With {.EntryId = id, .name = name}
+    Public Function pathway(id As String, name As String, modules As dataframe) As Pathway
+        Return New Pathway With {.EntryId = id, .name = name, .modules = modules _
+                .forEachRow({"id", "name"}) _
+                .Select(Function(r)
+                            Return New NamedValue With {
+                                .name = any.ToString(r(0)),
+                                .text = any.ToString(r(1))
+                            }
+                        End Function) _
+                .ToArray}
     End Function
 End Module
 
