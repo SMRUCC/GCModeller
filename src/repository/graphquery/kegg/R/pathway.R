@@ -9,15 +9,17 @@ const kegg_pathway as function(url) {
   const commonName = graphquery::query(document = Html::parse(keyValues$"Name"),        graphquery = get_graph("graphquery/fields/text.graphquery"));
   const modules    = graphquery::query(document = Html::parse(keyValues$"Module"),      graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const info       = graphquery::query(document = Html::parse(keyValues$"Description"), graphquery = get_graph("graphquery/fields/text.graphquery"));
+  const xref       = graphquery::query(document = Html::parse(keyValues$"Other DBs"),   graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
 
   print(pathwayList(modules));
-
+  print(DBLinks(xref));
 
 
   repository::pathway(
     id          = id,
     name        = commonName,
     modules     = pathwayList(modules),
-    description = info
+    description = info,
+    DBLinks     = DBLinks(xref)
   );
 }
