@@ -2,11 +2,11 @@
 <Compound xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KEGG="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id" entry="C00002">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.22404, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.22404
-     built:     5/23/2021 12:26:48 PM
-     md5:       c4631ec775438edaa0e13b33d9ac0c7d
-     timestamp: 5/23/2021 12:34:01 PM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.25216, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.25216
+     built:     5/23/2021 2:00:32 PM
+     md5:       14ff901b92e45f5973eac175a3f2af2c
+     timestamp: 5/23/2021 2:01:49 PM
   -->
   <commonNames>
     <string>ATP</string>

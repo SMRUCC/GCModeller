@@ -2,16 +2,16 @@
 <reaction xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KO="http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd" xmlns="http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.24928, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.24928
-     built:     5/23/2021 1:50:56 PM
-     md5:       94fee1cbb8a467d4143e1da4bb8efb4e
-     timestamp: 5/23/2021 1:54:23 PM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.25216, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.25216
+     built:     5/23/2021 2:00:32 PM
+     md5:       14ff901b92e45f5973eac175a3f2af2c
+     timestamp: 5/23/2021 2:00:51 PM
   -->
   <ID>R00344</ID>
   <commonNames>Pyruvate:carbon-dioxide ligase (ADP-forming)</commonNames>
-  <def>ATP + Pyruvate + HCO3-  ADP + Orthophosphate + Oxaloacetate</def>
-  <equation>C00002 + C00022 + C00288C00008 + C00009 + C00036</equation>
+  <def>ATP + Pyruvate + HCO3- &lt;=&gt; ADP + Orthophosphate + Oxaloacetate</def>
+  <equation>C00002 + C00022 + C00288&lt;=&gt;C00008 + C00009 + C00036</equation>
   <enzymes>
     <string>6.4.1.1</string>
   </enzymes>
