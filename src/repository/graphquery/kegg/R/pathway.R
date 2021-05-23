@@ -1,6 +1,5 @@
 imports "repository" from "kegg_kit";
 
-
 const kegg_pathway as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
@@ -11,9 +10,16 @@ const kegg_pathway as function(url) {
   const info       = graphquery::query(document = Html::parse(keyValues$"Description"), graphquery = get_graph("graphquery/fields/text.graphquery"));
   const xref       = graphquery::query(document = Html::parse(keyValues$"Other DBs"),   graphquery = get_graph("graphquery/fields/dbLinks.graphquery"));
   const KO_pathway = graphquery::query(document = Html::parse(keyValues$"KO pathway"),  graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
+  const references = literature(
+    reference = keyValues$Reference,
+    authors   = keyValues$Authors,
+    title     = keyValues$Title,
+    journal   = keyValues$Journal
+  );
 
   print(pathwayList(modules));
   print(DBLinks(xref));
+  print(references);
 
   repository::pathway(
     id          = id,
@@ -21,6 +27,25 @@ const kegg_pathway as function(url) {
     modules     = pathwayList(modules),
     description = info,
     DBLinks     = DBLinks(xref),
-    KO_pathway  = KO_pathway
+    KO_pathway  = KO_pathway,
+    references  = references
+  );
+}
+
+const literature as function(reference, authors, title, journal) {
+  const text_query = get_graph("graphquery/fields/text.graphquery");
+  const getText = function(str) {
+    graphquery::query(
+      document   = Html::parse(str),
+      graphquery = text_query
+    )
+    ;
+  }
+
+  data.frame(
+    reference = sapply(reference, getText),
+    authors   = sapply(authors, getText),
+    title     = sapply(title, getText),
+    journal   = sapply(journal, getText)
   );
 }
