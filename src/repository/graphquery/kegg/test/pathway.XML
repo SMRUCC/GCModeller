@@ -6,7 +6,7 @@
      version:   2.33.7813.22404
      built:     5/23/2021 12:26:48 PM
      md5:       c4631ec775438edaa0e13b33d9ac0c7d
-     timestamp: 5/23/2021 1:04:12 PM
+     timestamp: 5/23/2021 1:12:22 PM
   -->
   <description>The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:M00009], but contain genes for specific segments [MD:M00010M00011].</description>
   <name>Citrate cycle (TCA cycle) - Homo sapiens (human)</name>
@@ -48,6 +48,7 @@
   <gcmodeller:otherDB>
     <gcmodeller:DBLink DBName="GO" Entry="0006099">http://amigo.geneontology.org/amigo/term/GO:0006099</gcmodeller:DBLink>
   </gcmodeller:otherDB>
+  <organism Key="hsa" Value="Homo sapiens (human) [GN:hsa]" />
   <KOpathway>
     <data name="ko00020" />
   </KOpathway>

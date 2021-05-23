@@ -349,7 +349,9 @@ Public Module kegg_repository
                             KO_pathway As String(),
                             references As dataframe,
                             compounds As dataframe,
-                            drugs As dataframe) As Pathway
+                            drugs As dataframe,
+                            organism As list,
+                            Optional env As Environment = Nothing) As Pathway
 
         Return New Pathway With {
             .EntryId = id, .name = name,
@@ -399,7 +401,11 @@ Public Module kegg_repository
                                 .text = any.ToString(r(1))
                             }
                         End Function) _
-                .ToArray
+                .ToArray,
+            .organism = New KeyValuePair With {
+                .Key = organism.getValue(Of String)("code", env, "KO"),
+                .Value = organism.getValue(Of String)("name", env, "")
+            }
         }
     End Function
 End Module

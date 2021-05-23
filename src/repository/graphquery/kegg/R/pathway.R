@@ -12,6 +12,7 @@ const kegg_pathway as function(url) {
   const KO_pathway = graphquery::query(document = Html::parse(keyValues$"KO pathway"),  graphquery = get_graph("graphquery/fields/reactionLink.graphquery"));
   const compounds  = graphquery::query(document = Html::parse(keyValues$"Compound"),    graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
   const drugs      = graphquery::query(document = Html::parse(keyValues$"Drug"),        graphquery = get_graph("graphquery/fields/pathway_item.graphquery"));
+  const organism   = graphquery::query(document = Html::parse(keyValues$"Organism"),    graphquery = get_graph("graphquery/fields/text.graphquery"));
   const references = literature(
     reference = keyValues$Reference,
     authors   = keyValues$Authors,
@@ -34,7 +35,20 @@ const kegg_pathway as function(url) {
     KO_pathway  = KO_pathway,
     references  = references,
     compounds   = pathwayList(compounds),
-    drugs       = pathwayList(drugs)
+    drugs       = pathwayList(drugs),
+    organism    = parseKeggCode(organism)
+  );
+}
+
+const parseKeggCode as function(name) {
+  let kegg_code = $"\[.+:[a-z]{3,}\]"(name);
+
+  kegg_code = substr(kegg_code, 2, nchar(kegg_code) - 1);
+  kegg_code = strsplit(kegg_code, ":")[2];
+
+  list(
+    code = kegg_code,
+    name = name
   );
 }
 
