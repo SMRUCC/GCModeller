@@ -2,11 +2,11 @@
 <reaction xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:KO="http://GCModeller.org/core/KEGG/Model/OrthologyTerm.xsd" xmlns="http://GCModeller.org/core/KEGG/DBGET/Reaction.xsd">
   <!--
      model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
-     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.25216, Culture=neutral, PublicKeyToken=null
-     version:   2.33.7813.25216
-     built:     5/23/2021 2:00:32 PM
-     md5:       14ff901b92e45f5973eac175a3f2af2c
-     timestamp: 5/23/2021 3:51:28 PM
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.29302, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.29302
+     built:     5/23/2021 4:16:44 PM
+     md5:       2239a63f39a6e3c9edb66cb78130e5a8
+     timestamp: 5/23/2021 4:17:38 PM
   -->
   <ID>R00344</ID>
   <commonNames>Pyruvate:carbon-dioxide ligase (ADP-forming)</commonNames>

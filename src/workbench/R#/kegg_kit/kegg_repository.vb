@@ -376,6 +376,34 @@ Public Module kegg_repository
             .DBLink = links.GetDbLinks
         }
     End Function
+
+    <ExportAPI("reaction_class")>
+    Public Function reaction_class(id As String, definition As String,
+                                   reactions As String(),
+                                   enzyme As String(),
+                                   pathways As dataframe,
+                                   KO As dataframe,
+                                   transforms As dataframe,
+                                   rmodules As dataframe) As ReactionClass
+
+        Return New ReactionClass With {
+            .entryId = id,
+            .definition = definition,
+            .enzymes = enzyme.Select(Function(ecid) New NamedValue With {.name = ecid}).ToArray,
+            .orthology = KO.GetNameValues,
+            .pathways = pathways.GetNameValues,
+            .reactions = reactions.Select(Function(rid) New NamedValue With {.name = rid}).ToArray,
+            .reactantPairs = transforms.forEachRow({"from", "to"}) _
+                .Select(Function(t)
+                            Return New ReactionCompoundTransform With {
+                                .from = any.ToString(t(Scan0)),
+                                .[to] = any.ToString(t(1))
+                            }
+                        End Function) _
+                .ToArray,
+            .rModules = rmodules.GetNameValues
+        }
+    End Function
 End Module
 
 Public Enum OrganismTypes

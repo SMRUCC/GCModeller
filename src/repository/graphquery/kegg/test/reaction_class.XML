@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ReactionClass xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" entryId="RC00064">
+  <!--
+     model:     SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.ReactionClass
+     assembly:  SMRUCC.genomics.Core, Version=2.33.7813.29302, Culture=neutral, PublicKeyToken=null
+     version:   2.33.7813.29302
+     built:     5/23/2021 4:16:44 PM
+     md5:       2239a63f39a6e3c9edb66cb78130e5a8
+     timestamp: 5/23/2021 4:17:48 PM
+  -->
+  <definition>N1a-N1b:*-C5a:C1c-C1c</definition>
+  <reactantPairs>
+    <ReactionCompoundTransform from="C00012" to="C03193" />
+    <ReactionCompoundTransform from="C00017" to="C02429" />
+    <ReactionCompoundTransform from="C00017" to="C16739" />
+    <ReactionCompoundTransform from="C00025" to="C00415" />
+    <ReactionCompoundTransform from="C00025" to="C00624" />
+    <ReactionCompoundTransform from="C00025" to="C00876" />
+    <ReactionCompoundTransform from="C00025" to="C03541" />
+    <ReactionCompoundTransform from="C00025" to="C04305" />
+    <ReactionCompoundTransform from="C00025" to="C05595" />
+    <ReactionCompoundTransform from="C00025" to="C05829" />
+    <ReactionCompoundTransform from="C00025" to="C05928" />
+    <ReactionCompoundTransform from="C00025" to="C05929" />
+    <ReactionCompoundTransform from="C00025" to="C05931" />
+    <ReactionCompoundTransform from="C00025" to="C09332" />
+    <ReactionCompoundTransform from="C00025" to="C12270" />
+    <ReactionCompoundTransform from="C00025" to="C18802" />
+    <ReactionCompoundTransform from="C00025" to="C19151" />
+    <ReactionCompoundTransform from="C00025" to="C19152" />
+    <ReactionCompoundTransform from="C00025" to="C20775" />
+    <ReactionCompoundTransform from="C00025" to="C20776" />
+    <ReactionCompoundTransform from="C00025" to="C20948" />
+    <ReactionCompoundTransform from="C00041" to="C01212" />
+    <ReactionCompoundTransform from="C00041" to="C02999" />
+    <ReactionCompoundTransform from="C00041" to="C17950" />
+    <ReactionCompoundTransform from="C00045" to="C03363" />
+    <ReactionCompoundTransform from="C00047" to="C05341" />
+    <ReactionCompoundTransform from="C00047" to="C05892" />
+    <ReactionCompoundTransform from="C00047" to="C19889" />
+    <ReactionCompoundTransform from="C00047" to="C21160" />
+    <ReactionCompoundTransform from="C00049" to="C00438" />
+    <ReactionCompoundTransform from=" » show all" to="" />
+    <ReactionCompoundTransform from="C00049" to="C01042" />
+    <ReactionCompoundTransform from="C00049" to="C02715" />
+    <ReactionCompoundTransform from="C00049" to="C04823" />
+    <ReactionCompoundTransform from="C00049" to="C19710" />
+    <ReactionCompoundTransform from="C00049" to="C22224" />
+    <ReactionCompoundTransform from="C00051" to="C01419" />
+    <ReactionCompoundTransform from="C00062" to="C02993" />
+    <ReactionCompoundTransform from="C00062" to="C03296" />
+    <ReactionCompoundTransform from="C00062" to="C05340" />
+    <ReactionCompoundTransform from="C00062" to="C19713" />
+    <ReactionCompoundTransform from="C00062" to="C20910" />
+    <ReactionCompoundTransform from="C00064" to="C02716" />
+    <ReactionCompoundTransform from="C00064" to="C04148" />
+    <ReactionCompoundTransform from="C00077" to="C00437" />
+    <ReactionCompoundTransform from="C00077" to="C20951" />
+    <ReactionCompoundTransform from="C00077" to="C21680" />
+    <ReactionCompoundTransform from="C00079" to="C02135" />
+    <ReactionCompoundTransform from="C00079" to="C03519" />
+    <ReactionCompoundTransform from="C00082" to="C01392" />
+    <ReactionCompoundTransform from="C00097" to="C00669" />
+    <ReactionCompoundTransform from="C00097" to="C04352" />
+    <ReactionCompoundTransform from="C00097" to="C21437" />
+    <ReactionCompoundTransform from="C00123" to="C02710" />
+    <ReactionCompoundTransform from="C00133" to="C00993" />
+    <ReactionCompoundTransform from="C00133" to="C03738" />
+    <ReactionCompoundTransform from="C00133" to="C04702" />
+    <ReactionCompoundTransform from="C00133" to="C04882" />
+    <ReactionCompoundTransform from="C00135" to="C00386" />
+    <ReactionCompoundTransform from="C00135" to="C00884" />
+    <ReactionCompoundTransform from="C00135" to="C02997" />
+    <ReactionCompoundTransform from="C00151" to="C02850" />
+    <ReactionCompoundTransform from="C00151" to="C03740" />
+    <ReactionCompoundTransform from="C00151" to="C11529" />
+    <ReactionCompoundTransform from="C00151" to="C16116" />
+    <ReactionCompoundTransform from="C00151" to="C21099" />
+    <ReactionCompoundTransform from="C00151" to="C21509" />
+    <ReactionCompoundTransform from="C00188" to="C16594" />
+    <ReactionCompoundTransform from="C00188" to="C20917" />
+    <ReactionCompoundTransform from="C00195" to="C00319" />
+    <ReactionCompoundTransform from="C00217" to="C00692" />
+    <ReactionCompoundTransform from="C00217" to="C06379" />
+    <ReactionCompoundTransform from="C00327" to="C15532" />
+    <ReactionCompoundTransform from="C00402" to="C06380" />
+    <ReactionCompoundTransform from="C00405" to="C03135" />
+    <ReactionCompoundTransform from="C00405" to="C05226" />
+    <ReactionCompoundTransform from="C00405" to="C06378" />
+    <ReactionCompoundTransform from="C00499" to="C02091" />
+    <ReactionCompoundTransform from="C00525" to="C03137" />
+    <ReactionCompoundTransform from="C00525" to="C03414" />
+    <ReactionCompoundTransform from="C00550" to="C03640" />
+    <ReactionCompoundTransform from="C00666" to="C04390" />
+    <ReactionCompoundTransform from="C00666" to="C04421" />
+    <ReactionCompoundTransform from="C00680" to="C04877" />
+    <ReactionCompoundTransform from="C00740" to="C19719" />
+    <ReactionCompoundTransform from="C00836" to="C12126" />
+    <ReactionCompoundTransform from="C00956" to="C19886" />
+    <ReactionCompoundTransform from="C00993" to="C04702" />
+    <ReactionCompoundTransform from="C00993" to="C04882" />
+    <ReactionCompoundTransform from="C01021" to="C20735" />
+    <ReactionCompoundTransform from="C01152" to="C01262" />
+    <ReactionCompoundTransform from="C01165" to="C01250" />
+    <ReactionCompoundTransform from="C01419" to="C21858" />
+    <ReactionCompoundTransform from="C01610" to="C07032" />
+    <ReactionCompoundTransform from="C02166" to="C05951" />
+    <ReactionCompoundTransform from="C02265" to="C05620" />
+    <ReactionCompoundTransform from="C02320" to="C05729" />
+    <ReactionCompoundTransform from="C02356" to="C21015" />
+    <ReactionCompoundTransform from="C02385" to="C05340" />
+    <ReactionCompoundTransform from="C02471" to="C02755" />
+    <ReactionCompoundTransform from="C02512" to="C05711" />
+    <ReactionCompoundTransform from="C02671" to="C03933" />
+    <ReactionCompoundTransform from="C02671" to="C16690" />
+    <ReactionCompoundTransform from="C03283" to="C19929" />
+    <ReactionCompoundTransform from="C03803" to="C04341" />
+    <ReactionCompoundTransform from="C03955" to="C05554" />
+    <ReactionCompoundTransform from="C03955" to="C20333" />
+    <ReactionCompoundTransform from="C03999" to="C04457" />
+    <ReactionCompoundTransform from="C04650" to="C17952" />
+    <ReactionCompoundTransform from="C04877" to="C20925" />
+    <ReactionCompoundTransform from="C05156" to="C05157" />
+    <ReactionCompoundTransform from="C05689" to="C05695" />
+    <ReactionCompoundTransform from="C05726" to="C05727" />
+    <ReactionCompoundTransform from="C05952" to="C06462" />
+    <ReactionCompoundTransform from="C06457" to="C17951" />
+    <ReactionCompoundTransform from="C06717" to="C19703" />
+    <ReactionCompoundTransform from="C07027" to="C07028" />
+    <ReactionCompoundTransform from="C07394" to="C16524" />
+    <ReactionCompoundTransform from="C12144" to="C12145" />
+    <ReactionCompoundTransform from="C16739" to="C21386" />
+    <ReactionCompoundTransform from="C17549" to="C17550" />
+    <ReactionCompoundTransform from="C17949" to="C17962" />
+    <ReactionCompoundTransform from="C19713" to="C19843" />
+    <ReactionCompoundTransform from="C20918" to="C20921" />
+    <ReactionCompoundTransform from="C20941" to="C20942" />
+    <ReactionCompoundTransform from="C20994" to="C20995" />
+    <ReactionCompoundTransform from="C21387" to="C21388" />
+    <ReactionCompoundTransform from="C21455" to="C21456" />
+    <ReactionCompoundTransform from="C21457" to="C21458" />
+    <ReactionCompoundTransform from="C21539" to="C21662" />
+    <ReactionCompoundTransform from="C21620" to="C21663" />
+    <ReactionCompoundTransform from="C21622" to="C21667" />
+    <ReactionCompoundTransform from="C21664" to="C21665" />
+    <ReactionCompoundTransform from="C22138" to="C22139" />
+    <ReactionCompoundTransform from="C22140" to="C22141" />
+  </reactantPairs>
+  <reactions>
+    <data name="R00254" />
+    <data name="R00259" />
+    <data name="R00411" />
+    <data name="R00484" />
+    <data name="R00487" />
+    <data name="R00488" />
+    <data name="R00494" />
+    <data name="R00546" />
+    <data name="R00577" />
+    <data name="R00669" />
+    <data name="R00693" />
+    <data name="R00735" />
+    <data name="R00832" />
+    <data name="R00894" />
+    <data name="R00910" />
+    <data name="R00911" />
+    <data name="R00912" />
+    <data name="R00942" />
+    <data name="R01089" />
+    <data name="R01149" />
+    <data name="R01150" />
+    <data name="R01160" />
+    <data name="R01164" />
+    <data name="R01166" />
+    <data name="R01262" />
+    <data name="R01263" />
+    <data name="R01397" />
+    <data name="R01493" />
+    <data name="R01494" />
+    <data name="R01496" />
+    <data name="R01581" />
+    <data name="R01654" />
+    <data name="R01687" />
+    <data name="R01991" />
+    <data name="R01992" />
+    <data name="R02040" />
+    <data name="R02182" />
+    <data name="R02190" />
+    <data name="R02191" />
+    <data name="R02192" />
+    <data name="R02237" />
+    <data name="R02282" />
+    <data name="R02423" />
+    <data name="R02481" />
+    <data name="R02482" />
+    <data name="R02543" />
+    <data name="R02576" />
+    <data name="R02733" />
+    <data name="R02734" />
+    <data name="R02743" />
+    <data name="R02783" />
+    <data name="R02786" />
+    <data name="R02788" />
+    <data name="R03193" />
+    <data name="R03286" />
+    <data name="R03288" />
+    <data name="R03749" />
+    <data name="R03813" />
+    <data name="R03862" />
+    <data name="R03867" />
+    <data name="R03903" />
+    <data name="R03916" />
+    <data name="R03935" />
+    <data name="R03956" />
+    <data name="R03970" />
+    <data name="R04011" />
+    <data name="R04012" />
+    <data name="R04112" />
+    <data name="R04159" />
+    <data name="R04230" />
+    <data name="R04231" />
+    <data name="R04241" />
+    <data name="R04242" />
+    <data name="R04316" />
+    <data name="R04369" />
+    <data name="R04573" />
+    <data name="R04591" />
+    <data name="R04611" />
+    <data name="R04617" />
+    <data name="R04685" />
+    <data name="R04730" />
+    <data name="R04776" />
+    <data name="R04935" />
+    <data name="R04950" />
+    <data name="R05197" />
+    <data name="R05207" />
+    <data name="R05672" />
+    <data name="R05677" />
+    <data name="R05782" />
+    <data name="R06517" />
+    <data name="R06518" />
+    <data name="R06527" />
+    <data name="R06528" />
+    <data name="R07642" />
+    <data name="R07651" />
+    <data name="R08171" />
+    <data name="R08323" />
+    <data name="R08780" />
+    <data name="R08850" />
+    <data name="R08871" />
+    <data name="R08872" />
+    <data name="R08874" />
+    <data name="R08876" />
+    <data name="R08938" />
+    <data name="R09107" />
+    <data name="R09399" />
+    <data name="R09400" />
+    <data name="R09401" />
+    <data name="R09535" />
+    <data name="R09592" />
+    <data name="R09593" />
+    <data name="R09594" />
+    <data name="R09595" />
+    <data name="R09622" />
+    <data name="R09722" />
+    <data name="R09775" />
+    <data name="R09779" />
+    <data name="R09801" />
+    <data name="R09875" />
+    <data name="R10090" />
+    <data name="R10091" />
+    <data name="R10553" />
+    <data name="R10621" />
+    <data name="R10677" />
+    <data name="R10678" />
+    <data name="R10679" />
+    <data name="R10687" />
+    <data name="R10688" />
+    <data name="R10693" />
+    <data name="R10880" />
+    <data name="R10891" />
+    <data name="R10892" />
+    <data name="R10893" />
+    <data name="R10901" />
+    <data name="R10929" />
+    <data name="R10933" />
+    <data name="R10993" />
+    <data name="R11021" />
+    <data name="R11064" />
+    <data name="R11085" />
+    <data name="R11190" />
+    <data name="R11443" />
+    <data name="R11444" />
+    <data name="R11524" />
+    <data name="R11547" />
+    <data name="R11548" />
+    <data name="R11622" />
+    <data name="R11792" />
+    <data name="R11793" />
+    <data name="R11794" />
+    <data name="R11795" />
+    <data name="R11801" />
+    <data name="R11861" />
+    <data name="R11950" />
+    <data name="R12024" />
+    <data name="R12085" />
+    <data name="R12410" />
+    <data name="R12412" />
+    <data name="R12478" />
+    <data name="R12513" />
+    <data name="R12703" />
+  </reactions>
+  <enzymes>
+    <data name="2.1.3.2" />
+    <data name="2.3.1.1" />
+    <data name="2.3.1.14" />
+    <data name="2.3.1.17" />
+    <data name="2.3.1.24" />
+    <data name="2.3.1.33" />
+    <data name="2.3.1.34" />
+    <data name="2.3.1.35" />
+    <data name="2.3.1.36" />
+    <data name="2.3.1.53" />
+    <data name="2.3.1.66" />
+    <data name="2.3.1.68" />
+    <data name="2.3.1.80" />
+    <data name="2.3.1.109" />
+    <data name="2.3.1.112" />
+    <data name="2.3.1.183" />
+    <data name="2.3.1.189" />
+    <data name="2.3.1.266" />
+    <data name="2.3.1.267" />
+    <data name="2.3.1.271" />
+    <data name="2.3.1.291" />
+    <data name="2.3.1.297" />
+    <data name="2.3.1.298" />
+    <data name="2.3.1.299" />
+    <data name="2.3.2.1" />
+    <data name="2.3.2.2" />
+    <data name="2.3.2.6" />
+    <data name="2.3.2.8" />
+    <data name="2.3.2.12" />
+    <data name="2.3.2.14" />
+    <data name="2.3.2.15" />
+    <data name="2.3.2.29" />
+    <data name="2.3.2.30" />
+    <data name="3.4.13.4" />
+    <data name="3.4.13.5" />
+    <data name="3.4.13.18" />
+    <data name="3.4.13.20" />
+    <data name="3.4.13.22" />
+    <data name="3.4.14.13" />
+    <data name="3.4.15.6" />
+    <data name="3.4.17.8" />
+    <data name="3.4.17.21" />
+    <data name="3.4.17.23" />
+    <data name="3.4.19.9" />
+    <data name="3.4.19.13" />
+    <data name="3.4.19.14" />
+    <data name="3.4.19.16" />
+    <data name="3.5.1.7" />
+    <data name="3.5.1.14" />
+    <data name="3.5.1.15" />
+    <data name="3.5.1.16" />
+    <data name="3.5.1.18" />
+    <data name="3.5.1.23" />
+    <data name="3.5.1.28" />
+    <data name="3.5.1.47" />
+    <data name="3.5.1.55" />
+    <data name="3.5.1.77" />
+    <data name="3.5.1.81" />
+    <data name="3.5.1.82" />
+    <data name="3.5.1.83" />
+    <data name="3.5.1.87" />
+    <data name="3.5.1.96" />
+    <data name="3.5.1.114" />
+    <data name="3.5.1.118" />
+    <data name="3.5.1.125" />
+    <data name="3.5.1.127" />
+    <data name="3.5.1.128" />
+    <data name="3.5.1.130" />
+    <data name="3.5.1.132" />
+    <data name="3.5.1.133" />
+    <data name="3.5.1.134" />
+    <data name="3.5.3.9" />
+    <data name="3.13.1.6" />
+    <data name="4.3.2.7" />
+    <data name="4.3.2.9" />
+    <data name="6.3.1.17" />
+    <data name="6.3.2.2" />
+    <data name="6.3.2.4" />
+    <data name="6.3.2.5" />
+    <data name="6.3.2.6" />
+    <data name="6.3.2.7" />
+    <data name="6.3.2.8" />
+    <data name="6.3.2.9" />
+    <data name="6.3.2.10" />
+    <data name="6.3.2.11" />
+    <data name="6.3.2.12" />
+    <data name="6.3.2.13" />
+    <data name="6.3.2.16" />
+    <data name="6.3.2.17" />
+    <data name="6.3.2.24" />
+    <data name="6.3.2.25" />
+    <data name="6.3.2.29" />
+    <data name="6.3.2.30" />
+    <data name="6.3.2.31" />
+    <data name="6.3.2.32" />
+    <data name="6.3.2.33" />
+    <data name="6.3.2.34" />
+    <data name="6.3.2.35" />
+    <data name="6.3.2.38" />
+    <data name="6.3.2.39" />
+    <data name="6.3.2.41" />
+    <data name="6.3.2.42" />
+    <data name="6.3.2.43" />
+    <data name="6.3.2.45" />
+    <data name="6.3.2.48" />
+    <data name="6.3.2.49" />
+    <data name="6.3.2.51" />
+    <data name="6.3.2.52" />
+  </enzymes>
+  <pathways>
+    <data name="rn00220">Arginine biosynthesis</data>
+    <data name="rn00230">Purine metabolism</data>
+    <data name="rn00250">Alanine, aspartate and glutamate metabolism</data>
+    <data name="rn00260">Glycine, serine and threonine metabolism</data>
+    <data name="rn00261">Monobactam biosynthesis</data>
+    <data name="rn00270">Cysteine and methionine metabolism</data>
+    <data name="rn00300">Lysine biosynthesis</data>
+    <data name="rn00330">Arginine and proline metabolism</data>
+    <data name="rn00340">Histidine metabolism</data>
+    <data name="rn00360">Phenylalanine metabolism</data>
+    <data name="rn00410">beta-Alanine metabolism</data>
+    <data name="rn00440">Phosphonate and phosphinate metabolism</data>
+    <data name="rn00460">Cyanoamino acid metabolism</data>
+    <data name="rn00471">D-Glutamine and D-glutamate metabolism</data>
+    <data name="rn00473">D-Alanine metabolism</data>
+    <data name="rn00480">Glutathione metabolism</data>
+    <data name="rn00550">Peptidoglycan biosynthesis</data>
+    <data name="rn00590">Arachidonic acid metabolism</data>
+    <data name="rn00600">Sphingolipid metabolism</data>
+    <data name="rn00770">Pantothenate and CoA biosynthesis</data>
+    <data name="rn00904">Diterpenoid biosynthesis</data>
+    <data name="rn00997">Biosynthesis of various secondary metabolites - part 3</data>
+    <data name="rn00998">Biosynthesis of various secondary metabolites - part 2</data>
+    <data name="rn01100">Metabolic pathways</data>
+    <data name="rn01110">Biosynthesis of secondary metabolites</data>
+    <data name="rn01120">Microbial metabolism in diverse environments</data>
+    <data name="rn01210">2-Oxocarboxylic acid metabolism</data>
+    <data name="rn01230">Biosynthesis of amino acids</data>
+    <data name="rn01240">Biosynthesis of cofactors</data>
+  </pathways>
+  <orthology>
+    <data name="K00608">aspartate carbamoyltransferase [EC:2.1.3.2]</data>
+    <data name="K00609">aspartate carbamoyltransferase catalytic subunit [EC:2.1.3.2]</data>
+    <data name="K00610">aspartate carbamoyltransferase regulatory subunit</data>
+    <data name="K00618">amino-acid N-acetyltransferase [EC:2.3.1.1]</data>
+    <data name="K00619">amino-acid N-acetyltransferase [EC:2.3.1.1]</data>
+    <data name="K00620">glutamate N-acetyltransferase / amino-acid N-acetyltransferase [EC:2.3.1.352.3.1.1]</data>
+    <data name="K00673">arginine N-succinyltransferase [EC:2.3.1.109]</data>
+    <data name="K00681">gamma-glutamyltranspeptidase / glutathione hydrolase [EC:2.3.2.23.4.19.13]</data>
+    <data name="K00682">gamma-glutamylcyclotransferase [EC:4.3.2.9]</data>
+    <data name="K00684">leucyl/phenylalanyl-tRNA---protein transferase [EC:2.3.2.6]</data>
+    <data name="K00685">arginyl-tRNA---protein transferase [EC:2.3.2.8]</data>
+    <data name="K01307">gamma-glutamyl hydrolase [EC:3.4.19.9]</data>
+    <data name="K01437">aspartoacylase [EC:3.5.1.15]</data>
+    <data name="K01438">acetylornithine deacetylase [EC:3.5.1.16]</data>
+    <data name="K01439">succinyl-diaminopimelate desuccinylase [EC:3.5.1.18]</data>
+    <data name="K01441">alkaline ceramidase [EC:3.5.1.23]</data>
+    <data name="K01446">peptidoglycan recognition protein</data>
+    <data name="K01447">N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]</data>
+    <data name="K01448">N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]</data>
+    <data name="K01449">N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]</data>
+    <data name="K01587">phosphoribosylaminoimidazole carboxylase / phosphoribosylaminoimidazole-succinocarboxamide synthase [EC:4.1.1.216.3.2.6]</data>
+    <data name="K01798">Alr-MurF fusion protein [EC:5.1.1.16.3.2.10]</data>
+    <data name="K01919">glutamate--cysteine ligase [EC:6.3.2.2]</data>
+    <data name="K01921">D-alanine-D-alanine ligase [EC:6.3.2.4]</data>
+    <data name="K01922">phosphopantothenate---cysteine ligase (ATP) [EC:6.3.2.51]</data>
+    <data name="K01923">phosphoribosylaminoimidazole-succinocarboxamide synthase [EC:6.3.2.6]</data>
+    <data name="K01924">UDP-N-acetylmuramate--alanine ligase [EC:6.3.2.8]</data>
+    <data name="K01925">UDP-N-acetylmuramoylalanine--D-glutamate ligase [EC:6.3.2.9]</data>
+    <data name="K01928">UDP-N-acetylmuramoyl-L-alanyl-D-glutamate--2,6-diaminopimelate ligase [EC:6.3.2.13]</data>
+    <data name="K01929">UDP-N-acetylmuramoyl-tripeptide--D-alanyl-D-alanine ligase [EC:6.3.2.10]</data>
+    <data name="K01930">folylpolyglutamate synthase [EC:6.3.2.17]</data>
+    <data name="K02083">allantoate deiminase [EC:3.5.3.9]</data>
+    <data name="K03823">phosphinothricin acetyltransferase [EC:2.3.1.183]</data>
+    <data name="K03825">L-phenylalanine/L-methionine N-acetyltransferase [EC:2.3.1.53 2.3.1.-]</data>
+    <data name="K03894">N2-citryl-N6-acetyl-N6-hydroxylysine synthase [EC:6.3.2.38]</data>
+    <data name="K03895">aerobactin synthase [EC:6.3.2.39]</data>
+    <data name="K04709">very-long-chain ceramide synthase [EC:2.3.1.297]</data>
+    <data name="K04710">sphingoid base N-stearoyltransferase [EC:2.3.1.299]</data>
+    <data name="K04711">dihydroceramidase [EC:3.5.1.-]</data>
+    <data name="K05362">UDP-N-acetylmuramoyl-L-alanyl-D-glutamate-L-lysine ligase [EC:6.3.2.7]</data>
+    <data name="K05375">MbtH protein</data>
+    <data name="K05526">succinylglutamate desuccinylase [EC:3.5.1.96]</data>
+    <data name="K05604">beta-Ala-His dipeptidase [EC:3.4.13.20]</data>
+    <data name="K05823">N-acetyldiaminopimelate deacetylase [EC:3.5.1.47]</data>
+    <data name="K05827">[lysine-biosynthesis-protein LysW]---L-2-aminoadipate ligase [EC:6.3.2.43]</data>
+    <data name="K05831">[amino group carrier protein]-lysine/ornithine hydrolase [EC:3.5.1.1303.5.1.132]</data>
+    <data name="K05848">phytoceramidase [EC:3.5.1.-]</data>
+    <data name="K06015">N-acyl-D-amino-acid deacylase [EC:3.5.1.81]</data>
+    <data name="K06048">glutamate---cysteine ligase / carboxylate-amine ligase [EC:6.3.2.2 6.3.-.-]</data>
+    <data name="K07008">gamma-glutamyl hercynylcysteine S-oxide hydrolase [EC:3.5.1.118]</data>
+    <data name="K07232">glutathione-specific gamma-glutamylcyclotransferase [EC:4.3.2.7]</data>
+    <data name="K08660">cytosolic nonspecific dipeptidase [EC:3.4.13.18]</data>
+    <data name="K11067">N-acetylglutamate synthase [EC:2.3.1.1]</data>
+    <data name="K11204">glutamate--cysteine ligase catalytic subunit [EC:6.3.2.2]</data>
+    <data name="K11205">glutamate--cysteine ligase regulatory subunit</data>
+    <data name="K11206">deaminated glutathione amidase [EC:3.5.1.128]</data>
+    <data name="K11540">carbamoyl-phosphate synthase / aspartate carbamoyltransferase / dihydroorotase [EC:6.3.5.52.1.3.23.5.2.3]</data>
+    <data name="K11541">carbamoyl-phosphate synthase / aspartate carbamoyltransferase [EC:6.3.5.52.1.3.2]</data>
+    <data name="K11754">dihydrofolate synthase / folylpolyglutamate synthase [EC:6.3.2.126.3.2.17]</data>
+    <data name="K12234">coenzyme F420-0:L-glutamate ligase / coenzyme F420-1:gamma-L-glutamate ligase [EC:6.3.2.316.3.2.34]</data>
+    <data name="K12348">acid ceramidase [EC:3.5.1.23]</data>
+    <data name="K12349">neutral ceramidase [EC:3.5.1.23]</data>
+    <data name="K12554">alanine adding enzyme [EC:2.3.2.-]</data>
+    <data name="K12632">puromycin N-acetyltransferase [EC:2.3.-.-]</data>
+    <data name="K12636">N-acetylpuromycin N-acetylhydrolase</data>
+    <data name="K12911">peptide synthetase PhsA</data>
+    <data name="K12912">peptide synthetase PhsB</data>
+    <data name="K12913">peptide synthetase PhsC</data>
+    <data name="K12915">phosphinothricin tripeptide acetyl hydrolase</data>
+    <data name="K13037">L-alanine-L-anticapsin ligase [EC:6.3.2.49]</data>
+    <data name="K13038">phosphopantothenoylcysteine decarboxylase / phosphopantothenate---cysteine ligase [EC:4.1.1.366.3.2.5]</data>
+    <data name="K13282">cyanophycinase [EC:3.4.15.6]</data>
+    <data name="K13713">fusion protein PurCD [EC:6.3.2.66.3.4.13]</data>
+    <data name="K14506">jasmonic acid-amino synthetase [EC:6.3.2.52]</data>
+    <data name="K14592">glutamate carboxypeptidase II (folate hydrolase 1) [EC:3.4.17.21]</data>
+    <data name="K14677">aminoacylase [EC:3.5.1.14]</data>
+    <data name="K14681">argininosuccinate lyase / amino-acid N-acetyltransferase [EC:4.3.2.12.3.1.1]</data>
+    <data name="K14682">amino-acid N-acetyltransferase [EC:2.3.1.1]</data>
+    <data name="K14755">carnosine synthase [EC:6.3.2.11]</data>
+    <data name="K14940">gamma-F420-2:alpha-L-glutamate ligase [EC:6.3.2.32]</data>
+    <data name="K15740">tetrahydromethanopterin:alpha-L-glutamate ligase [EC:6.3.2.33]</data>
+    <data name="K15784">N2-acetyl-L-2,4-diaminobutanoate deacetylase [EC:3.5.1.125]</data>
+    <data name="K15792">MurE/MurF fusion protein [EC:6.3.2.136.3.2.10]</data>
+    <data name="K18309">aspartate N-acetyltransferase [EC:2.3.1.17]</data>
+    <data name="K18310">beta-citrylglutamate/N-acetylaspartylglutamate synthase [EC:6.3.1.176.3.2.41]</data>
+    <data name="K18311">N-acetylaspartylglutamate/N-acetylaspartylglutamylglutamate synthase [EC:6.3.2.416.3.2.42]</data>
+    <data name="K18592">gamma-glutamyltranspeptidase / glutathione hydrolase / leukotriene-C4 hydrolase [EC:2.3.2.23.4.19.133.4.19.14]</data>
+    <data name="K18852">D-amino-acid N-acetyltransferase [EC:2.3.1.36]</data>
+    <data name="K19102">nocardicin nonribosomal peptide synthetase NocA</data>
+    <data name="K19103">nocardicin nonribosomal peptide synthetase NocB</data>
+    <data name="K19111">putative tabtoxin peptidase [EC:3.4.-.-]</data>
+    <data name="K19112">L-Amino acid ligase [EC:6.3.2.-]</data>
+    <data name="K19113">acetyltransferase [EC:2.3.1.-]</data>
+    <data name="K19412">glutamate--LysW ligase ArgX [EC:6.3.2.-]</data>
+    <data name="K20457">dihydrofolate synthase [EC:6.3.2.12]</data>
+    <data name="K20838">N-acetyltransferase 8 [EC:2.3.1.80 2.3.1.-]</data>
+    <data name="K21140">[CysO sulfur-carrier protein]-S-L-cysteine hydrolase [EC:3.13.1.6]</data>
+    <data name="K21419">arginyl-tRNA---protein transferase [EC:2.3.2.8]</data>
+    <data name="K21420">leucyl-tRNA---protein transferase [EC:2.3.2.29]</data>
+    <data name="K21604">jasmonoyl-L-amino acid hydrolase [EC:3.5.1.127]</data>
+    <data name="K21977">phosphopantothenate---cysteine ligase (CTP) [EC:6.3.2.5]</data>
+    <data name="K22099">dihydrofolate synthase / folylpolyglutamate synthase [EC:6.3.2.126.3.2.17]</data>
+    <data name="K22310">L-ornithine Nalpha-acyltransferase [EC:2.3.2.30]</data>
+    <data name="K22314">glucosinolate gamma-glutamyl hydrolase [EC:3.4.19.16]</data>
+    <data name="K22476">N-acetylglutamate synthase [EC:2.3.1.1]</data>
+    <data name="K22477">N-acetylglutamate synthase [EC:2.3.1.1]</data>
+    <data name="K22478">bifunctional N-acetylglutamate synthase/kinase [EC:2.3.1.12.7.2.8]</data>
+    <data name="K22596">gamma-glutamylcyclotransferase, plant [EC:4.3.2.9]</data>
+    <data name="K22842">L-glutamate-5-semialdehyde N-acetyltransferase [EC:2.3.1.271]</data>
+    <data name="K23672">L-propargylglycine--L-glutamate ligase [EC:6.3.2.-]</data>
+    <data name="K23727">sphingoid base N-palmitoyltransferase [EC:2.3.1.291]</data>
+    <data name="K24102">dihydrofolate synthase / dihydropteroate synthase [EC:6.3.2.122.5.1.15]</data>
+    <data name="K24621">very-long-chain ceramide synthase [EC:2.3.1.297]</data>
+    <data name="K24622">very-long-chain ceramide synthase / ultra-long-chain ceramide synthase [EC:2.3.1.2972.3.1.298]</data>
+    <data name="K24871">ureidoglycine carbamoyltransferase [EC:2.1.3.-]</data>
+    <data name="K24998">dehydro coenzyme F420 reductase / coenzyme F420-0:L-glutamate ligase / coenzyme F420-1:gamma-L-glutamate ligase [EC:1.3.8.176.3.2.316.3.2.34]</data>
+  </orthology>
+  <rModules>
+    <data name="RM002">Carboxyl to amino conversion using protective N-acetyl group (basic amino acid synthesis)</data>
+  </rModules>
+</ReactionClass>
