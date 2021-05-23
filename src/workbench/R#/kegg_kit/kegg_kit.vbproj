@@ -130,6 +130,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="activatorUtils.vb" />
     <Compile Include="report.vb" />
     <Compile Include="metabolism.vb" />
     <Compile Include="britekit.vb" />

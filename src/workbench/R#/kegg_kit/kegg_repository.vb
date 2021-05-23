@@ -314,31 +314,9 @@ Public Module kegg_repository
             .molWeight = exactMass,
             .remarks = remarks,
             .KCF = KCF,
-            .DbLinks = DBLinks.forEachRow({"db", "id", "link"}) _
-                .Select(Function(r)
-                            Return New DBLink With {
-                                .DBName = any.ToString(r(0)),
-                                .Entry = any.ToString(r(1)),
-                                .link = any.ToString(r(2))
-                            }
-                        End Function) _
-                .ToArray,
-            .pathway = pathway.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray,
-            .[Module] = modules.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray
+            .DbLinks = DBLinks.GetDbLinks,
+            .pathway = pathway.GetNameValues,
+            .[Module] = modules.GetNameValues
         }
     End Function
 
@@ -358,72 +336,20 @@ Public Module kegg_repository
         Return New Pathway With {
             .EntryId = id, .name = name,
             .description = description,
-            .modules = modules.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray,
-            .otherDBs = DBLinks.forEachRow({"db", "id", "link"}) _
-                .Select(Function(r)
-                            Return New DBLink With {
-                                .DBName = any.ToString(r(0)),
-                                .Entry = any.ToString(r(1)),
-                                .link = any.ToString(r(2))
-                            }
-                        End Function) _
-                .ToArray,
+            .modules = modules.GetNameValues,
+            .otherDBs = DBLinks.GetDbLinks,
             .KOpathway = KO_pathway _
                 .Select(Function(kid) New NamedValue With {.name = kid}) _
                 .ToArray,
-            .references = references.forEachRow({"reference", "authors", "title", "journal"}) _
-                .Select(Function(r)
-                            Return New Reference With {
-                                .Reference = any.ToString(r(Scan0)),
-                                .Authors = any.ToString(r(1)).StringSplit(",\s+"),
-                                .Title = any.ToString(r(2)),
-                                .Journal = any.ToString(r(3))
-                            }
-                        End Function) _
-                .ToArray,
-            .compound = compounds.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray,
-            .drugs = drugs.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray,
+            .references = references.GetReference,
+            .compound = compounds.GetNameValues,
+            .drugs = drugs.GetNameValues,
             .organism = New KeyValuePair With {
                 .Key = organism.getValue(Of String)("code", env, "KO"),
                 .Value = organism.getValue(Of String)("name", env, "")
             },
-            .genes = genes.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray,
-            .disease = disease.forEachRow({"id", "name"}) _
-                .Select(Function(r)
-                            Return New NamedValue With {
-                                .name = any.ToString(r(0)),
-                                .text = any.ToString(r(1))
-                            }
-                        End Function) _
-                .ToArray
+            .genes = genes.GetNameValues,
+            .disease = disease.GetNameValues
         }
     End Function
 End Module
