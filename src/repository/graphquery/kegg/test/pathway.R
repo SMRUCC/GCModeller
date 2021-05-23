@@ -1,4 +1,4 @@
-require(kegg_graphquery);
+# require(kegg_graphquery);
 
 options(http.cache_dir = `${dirname(@script)}/.cache/`);
 

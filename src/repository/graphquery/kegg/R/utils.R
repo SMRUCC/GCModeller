@@ -16,8 +16,12 @@ const keyIndex as function(keyValues) {
   keyValues
   |> groupBy(r -> r$key)  
   |> lapply(function(group) {
-     # [name => html]
+    if (group$key in ["Reference", "Authors", "Title", "Journal"]) {
     lapply(group, a -> a$content);
+    } else {
+     # [name => html]   
+     group[1]$content;
+    }
   })
   ;
 }
