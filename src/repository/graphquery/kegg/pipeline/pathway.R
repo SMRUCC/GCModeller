@@ -6,7 +6,7 @@ const Tcode     = ?"--tcode" || "map";
 options(http.cache_dir = cache_dir);
 
 # create resource url based on the organism Tcode exists or not
-const url  = (
+const url = (
     if (Tcode == "map") {
         "https://www.kegg.jp/entry/ko%s";
     } else {
