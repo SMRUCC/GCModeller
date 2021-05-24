@@ -185,7 +185,7 @@ Namespace BlastAPI
                 Dim msg As String = String.Format(QueryNotFound, query.ToFileURL)
                 Throw New Exception(msg)
             Else
-                Call EXPORT.MkDIR
+                Call EXPORT.MakeDir
             End If
 
             Dim task As Func(Of String, String) =
@@ -228,7 +228,7 @@ Namespace BlastAPI
             If Not query.FileExists Then
                 Throw New Exception($"Could not found the query protein fasta file ""{query.ToFileURL}""!")
             Else
-                Call EXPORT.MkDIR
+                Call EXPORT.MakeDir
             End If
 
             Dim run As Func(Of PathEntry, String()) =

@@ -55,6 +55,6 @@ Module Program
 
     Sub New()
         Call Settings.Session.Initialize()
-        Call Settings.LogDIR.MkDIR
+        Call Settings.LogDIR.MakeDir
     End Sub
 End Module

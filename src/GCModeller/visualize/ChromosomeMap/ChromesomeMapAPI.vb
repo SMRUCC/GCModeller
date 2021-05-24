@@ -257,7 +257,7 @@ Public Module ChromesomeMapAPI
         Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
         Dim i As i32 = 0
 
-        Call EXPORT.MkDIR
+        Call EXPORT.MakeDir
 
         If format.StringEmpty Then
             format = "png"

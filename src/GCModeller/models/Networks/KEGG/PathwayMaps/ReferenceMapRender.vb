@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::11573d6872d7d89393704fe774c32397, models\Networks\KEGG\PathwayMaps\ReferenceMapRender.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ReferenceMapRender
-    ' 
-    '         Function: FromCytoscapeModel, getCategoryColors, GetIdProperties, getMostNearbyColor, (+2 Overloads) GetNodeLabel
-    '                   getReactionName, getReactionNames, mixEdgeColor, (+2 Overloads) Render, sumLinkDegree
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ReferenceMapRender
+' 
+'         Function: FromCytoscapeModel, getCategoryColors, GetIdProperties, getMostNearbyColor, (+2 Overloads) GetNodeLabel
+'                   getReactionName, getReactionNames, mixEdgeColor, (+2 Overloads) Render, sumLinkDegree
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -358,7 +358,8 @@ Namespace PathwayMaps
                     .Properties = New Dictionary(Of String, String) From {
                         {"fromNode", edge.U.label},
                         {"toNode", edge.V.label},
-                        {"color", edge.data.color.Color.ToHtmlColor}
+                        {"color", edge.data.style.Color.ToHtmlColor},
+                        {"style", New Stroke(edge.data.style).ToString}
                     }
                 }.DoCall(AddressOf edges.Add)
             Next
@@ -382,21 +383,21 @@ Namespace PathwayMaps
                 Dim v As Color = renderStyle.getLabelColor(edge.V)
 
                 If GDIColors.Equals(u, v) Then
-                    edge.data.color = New SolidBrush(u)
+                    edge.data.style = New Pen(u)
                 ElseIf GDIColors.Equals(u, Color.Black) Then
-                    edge.data.color = New SolidBrush(v)
+                    edge.data.style = New Pen(v)
                 ElseIf GDIColors.Equals(v, Color.Black) Then
-                    edge.data.color = New SolidBrush(u)
+                    edge.data.style = New Pen(u)
                 Else
                     ' color by max degree node
                     If degrees(edge.U.label) >= degrees(edge.V.label) Then
-                        edge.data.color = New SolidBrush(u)
+                        edge.data.style = New Pen(u)
                     Else
-                        edge.data.color = New SolidBrush(v)
+                        edge.data.style = New Pen(v)
                     End If
                 End If
 
-                If GDIColors.Equals(edge.data.color.Color, Color.Black) Then
+                If GDIColors.Equals(edge.data.style.Color, Color.Black) Then
                     markBlacks.Add(edge)
                 End If
             Next
@@ -408,11 +409,11 @@ Namespace PathwayMaps
                 Dim dv As Integer = v.sumLinkDegree(degrees)
 
                 If du = 0 AndAlso dv = 0 Then
-                    edge.data.color = Brushes.Black
+                    edge.data.style = Pens.Black
                 ElseIf du > dv Then
-                    edge.data.color = New SolidBrush(u.Key)
+                    edge.data.style = New Pen(u.Key)
                 Else
-                    edge.data.color = New SolidBrush(v.Key)
+                    edge.data.style = New Pen(v.Key)
                 End If
             Next
 
@@ -432,8 +433,10 @@ Namespace PathwayMaps
         Private Function getMostNearbyColor(node As Node, g As NetworkGraph) As IGrouping(Of Color, Edge)
             Return g.graphEdges _
                 .Where(Function(e) e.U Is node OrElse e.V Is node) _
-                .Where(Function(a) Not GDIColors.Equals(a.data.color.Color, Color.Black)) _
-                .GroupBy(Function(a) a.data.color.Color) _
+                .Where(Function(a)
+                           Return Not GDIColors.Equals(a.data.style.Color, Color.Black)
+                       End Function) _
+                .GroupBy(Function(a) a.data.style.Color) _
                 .OrderByDescending(Function(a) a.Count) _
                 .FirstOrDefault
         End Function

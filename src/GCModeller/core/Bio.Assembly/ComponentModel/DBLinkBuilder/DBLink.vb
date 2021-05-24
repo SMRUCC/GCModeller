@@ -66,8 +66,10 @@ Namespace ComponentModel.DBLinkBuilder
         ''' Entity uid in the target database
         ''' </summary>
         ''' <returns></returns>
-        <XmlText>
+        <XmlAttribute>
         Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.EntryId
+
+        <XmlText> Public Property link As String
 
         Sub New()
         End Sub

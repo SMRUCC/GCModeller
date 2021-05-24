@@ -1,0 +1,206 @@
+
+<!doctype html>
+<html><head>
+<title>KEGG REACTION: R00344</title>
+<link type="text/css" rel="stylesheet" href="/css/gn2.css?1621747904">
+<link type="text/css" rel="stylesheet" href="/css/bget.css?1621747904">
+<link rel="stylesheet" href="/css/bget.css?1621747904" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/bgetm.css?1621747904" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  e.preventDefault();
+  if(!dt.style.display||dt.style.display == 'none'){
+    document.getElementById('kcfb'+id).innerHTML = 'Hide';
+    dt.style.display = 'block';
+  }
+  else{
+    document.getElementById('kcfb'+id).innerHTML = 'Show';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+  url = "/entry/-f+-n+n+" + kid;
+    }
+    else {
+  if (vector == 1) {
+      dna_from  = Number(form.FROM.value)  - plus_up;
+      dna_to    = Number(form.TO.value) + plus_down;
+  } else {
+      dna_from  = Number(form.FROM.value)  - plus_down;
+      dna_to    = Number(form.TO.value) + plus_up;
+  }
+
+  url = "https://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+  if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border=0 cellpadding=0 cellspacing=0><tr><td>
+<table border=0 cellpadding=0 cellspacing=0 width="650"><tr><td width=70><a href="/kegg/kegg2.html"><img align="middle" alt="KEGG" border=0 src="/Fig/bget/kegg2.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="reaction:R00344"></a><font class="title2">REACTION: R00344</font></td><td align="right" valign="bottom"><button class="btn" onclick="javascript:void(window.open(&#39;/kegg/document/help_bget_reaction.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;));return false;">Help</button></td></tr></table><form method="post" action="/entry/" enctype="application/x-www-form-urlencoded" name="form1"><table border=0 cellpadding=1 cellspacing=0 width="650">
+<tr>
+<td class="fr2">
+<table border=0 cellpadding=2 cellspacing=0 width="650" style="border-bottom:#000 1px solid">
+
+<tr><th class="th20" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left"><code><nobr>R00344&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reaction&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Pyruvate:carbon-dioxide ligase (ADP-forming)<br>
+</div></div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Definition</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">ATP + Pyruvate + HCO3- &lt;=&gt; ADP + Orthophosphate + Oxaloacetate<br>
+</div></div></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Equation</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><a href="/entry/C00002">C00002</a> + <a href="/entry/C00022">C00022</a> + <a href="/entry/C00288">C00288</a> &lt;=&gt; <a href="/entry/C00008">C00008</a> + <a href="/entry/C00009">C00009</a> + <a href="/entry/C00036">C00036</a><br>
+</div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr></nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="/Fig/reaction/R00344.gif"><img border=0 name="img0" align="bottom" src="/Fig/reaction/R00344.gif" style="max-width:600px"></a></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Comment</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">intermediate (carboxybiotin-[enzyme])<br>
+</div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reaction class</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/RC00002">RC00002</a>&nbsp;&nbsp;</nobr></td><td>C00002_C00008</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/RC00040">RC00040</a>&nbsp;&nbsp;</nobr></td><td>C00022_C00036</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/RC00367">RC00367</a>&nbsp;&nbsp;</nobr></td><td>C00036_C00288</td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Enzyme</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><a href="/entry/6.4.1.1">6.4.1.1</a><br>
+</div></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn00020+R00344">rn00020</a>&nbsp;&nbsp;</nobr></td><td>Citrate cycle (TCA cycle)</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn00620+R00344">rn00620</a>&nbsp;&nbsp;</nobr></td><td>Pyruvate metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn00720+R00344">rn00720</a>&nbsp;&nbsp;</nobr></td><td>Carbon fixation pathways in prokaryotes</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn01100+R00344">rn01100</a>&nbsp;&nbsp;</nobr></td><td>Metabolic pathways</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn01120+R00344">rn01120</a>&nbsp;&nbsp;</nobr></td><td>Microbial metabolism in diverse environments</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn01200+R00344">rn01200</a>&nbsp;&nbsp;</nobr></td><td>Carbon metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/rn01230+R00344">rn01230</a>&nbsp;&nbsp;</nobr></td><td>Biosynthesis of amino acids</td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Module</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/M00173+R00344">M00173</a>&nbsp;&nbsp;</nobr></td><td>Reductive citrate cycle (Arnon-Buchanan cycle)</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/M00620+R00344">M00620</a>&nbsp;&nbsp;</nobr></td><td>Incomplete reductive citrate cycle, acetyl-CoA =&gt; oxoglutarate</td></tr></table></td></tr>
+
+
+<tr><th class="th20" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Orthology</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/K01958">K01958</a>&nbsp;&nbsp;</nobr></td><td>pyruvate carboxylase [EC:<a href="/entry/6.4.1.1">6.4.1.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/K01959">K01959</a>&nbsp;&nbsp;</nobr></td><td>pyruvate carboxylase subunit A [EC:<a href="/entry/6.4.1.1">6.4.1.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/K01960">K01960</a>&nbsp;&nbsp;</nobr></td><td>pyruvate carboxylase subunit B [EC:<a href="/entry/6.4.1.1">6.4.1.1</a>]</td></tr></table></td></tr>
+
+
+<tr><th class="th21" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td21" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>RHEA:&nbsp;</nobr></td><td><a href="https://www.rhea-db.org/reaction?id=20847">20847</a></td></tr></table></td></tr>
+
+
+<tr><th class="th20" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td20" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button class="btn" onclick="location.href='https://www.genome.jp/dbget-bin/get_linkdb?reaction+R00344';return false;">All DBs</button></td></tr>
+
+</table></td></tr></table>
+<br></form></td></tr></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+</body>
+</html>

@@ -1,46 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::297c419a798a5bbb763ec4ab733b6f11, models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module UniProtBuild
-    ' 
-    '     Function: createLocation, ko00000Provider, ScanModels, ScanUniProt, skipUntil
-    ' 
-    ' /********************************************************************************/
+' Module UniProtBuild
+' 
+'     Function: createLocation, ko00000Provider, ScanModels, ScanUniProt, skipUntil
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -69,7 +70,7 @@ Public Module UniProtBuild
                           Function(term)
                               Return term.Value _
                                   .First _
-                                  .Description _
+                                  .description _
                                   .GetTagValue(";", trim:=True)
                           End Function)
     End Function
@@ -78,7 +79,7 @@ Public Module UniProtBuild
     Public Function ScanUniProt(UniProtXml As IEnumerable(Of entry), export$, Optional all As Boolean = True, Optional ByRef cache As CacheGenerator = Nothing) As TaxonomyRepository
         ' 因为在这里是处理一个非常大的UniProt注释数据库，所以需要首先做一次扫描
         ' 将需要提取的信息先放到缓存之中
-        Dim tmp$ = App.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
+        Dim tmp$ = TempFileSystem.GetAppSysTempFile(".cache", App.PID, "metaprofiler_")
         Dim model As TaxonomyRepository
 
         cache = New CacheGenerator(tmp).ScanInternal(UniProtXml)

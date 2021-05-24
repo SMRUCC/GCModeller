@@ -194,7 +194,7 @@ Partial Module Utilities
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
         For Each fa As FastaSeq In nt
-            Dim tmp As String = App.GetAppSysTempFile(".fasta")
+            Dim tmp As String = TempFileSystem.GetAppSysTempFile(".fasta")
             Dim path As String = out & "/" & fa.Title.NormalizePathString(True).Replace(" ", "_") & ".Csv"
 
             Call fa.SaveTo(tmp)
@@ -305,7 +305,7 @@ Partial Module Utilities
     ''' <returns></returns>
     Private Function __palindromeTask(fasta As FastaSeq, EXPORT As String, min As Integer, max As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
-        Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
+        Dim Temp As String = TempFileSystem.GetAppSysTempFile(".fasta", App.PID)
         Dim CLI As String = $"--Palindrome.From.Fasta /nt {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max}"
         Call fasta.SaveTo(Temp)
 
@@ -358,7 +358,7 @@ Partial Module Utilities
                                                 cutoff As Double,
                                                 maxDist As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
-        Dim Temp As String = App.GetAppSysTempFile(".fasta")
+        Dim Temp As String = TempFileSystem.GetAppSysTempFile(".fasta")
         Dim CLI As String =
             $"--Palindrome.Imperfects /in {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
         Call fasta.SaveTo(Temp)
@@ -434,7 +434,7 @@ Partial Module Utilities
                                     cutoff As Double,
                                     maxDist As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
-        Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
+        Dim Temp As String = TempFileSystem.GetAppSysTempFile(".fasta", App.PID)
         Dim CLI As String = $"--Hairpinks /in {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
         Call fasta.SaveTo(Temp)
 

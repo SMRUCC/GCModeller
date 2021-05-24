@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute>
+        <XmlElement>
         Public Property name As String
 
         ''' <summary>

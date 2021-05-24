@@ -109,19 +109,19 @@ Partial Module CLI
         Return True
     End Function
 
-    <ExportAPI("--install.ncbi_nt", Usage:="--install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]")>
-    <Group(CLIGrouping.RepositoryTools)>
-    Public Function Install_NCBI_nt(args As CommandLine) As Integer
-        Dim nt As String = args("/nt")
-        Dim EXPORT$ = args.GetValue(
-            "/EXPORT",
-            If(nt.FileExists, nt.TrimSuffix, nt.TrimDIR) & "-$DATA/")
-        Dim mysql As MySqli = Nothing
+    '<ExportAPI("--install.ncbi_nt", Usage:="--install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]")>
+    '<Group(CLIGrouping.RepositoryTools)>
+    'Public Function Install_NCBI_nt(args As CommandLine) As Integer
+    '    Dim nt As String = args("/nt")
+    '    Dim EXPORT$ = args.GetValue(
+    '        "/EXPORT",
+    '        If(nt.FileExists, nt.TrimSuffix, nt.TrimDIR) & "-$DATA/")
+    '    Dim mysql As MySqli = Nothing
 
-        Call mysql.[Imports](nt, EXPORT, False)
+    '    Call mysql.[Imports](nt, EXPORT, False)
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 
     <ExportAPI("/nt.repository.query", Usage:="/nt.repository.query /query <arguments.csv> /DATA <DATA_dir> [/out <out_DIR>]")>
     <ArgumentAttribute("/query", AcceptTypes:={GetType(QueryArgument)})>

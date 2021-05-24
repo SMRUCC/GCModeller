@@ -51,9 +51,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.DataFrame
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables

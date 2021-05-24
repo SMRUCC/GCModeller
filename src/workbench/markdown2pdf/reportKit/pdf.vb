@@ -1,8 +1,9 @@
 ﻿
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
+Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -139,7 +140,7 @@ Module pdf
 
         Dim output As New PdfOutput With {.OutputFilePath = pdfout}
         Dim wkhtmltopdf As New PdfConvertEnvironment With {
-            .TempFolderPath = App.GetAppSysTempFile("__pdf", App.PID.ToHexString, "wkhtmltopdf"),
+            .TempFolderPath = TempFileSystem.GetAppSysTempFile("__pdf", App.PID.ToHexString, "wkhtmltopdf"),
             .Debug = env.globalEnvironment.Rscript.debug,
             .Timeout = 60000,
             .WkHtmlToPdfPath = env.globalEnvironment.options.getOption("wkhtmltopdf")
@@ -160,7 +161,7 @@ Module pdf
             Return Internal.debug.stop("part of the content is missing... break pdf conversion progress...", env)
         End If
 
-        Call pdfout.ParentPath.MkDIR
+        Call pdfout.ParentPath.MakeDir
         Call PdfConvert.ConvertHtmlToPdf(content, output, environment:=wkhtmltopdf)
 
         Return Nothing

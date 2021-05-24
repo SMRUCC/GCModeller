@@ -1,0 +1,13 @@
+# graphquery script for parse [Other DBs] field.
+
+xref css("table") [{
+
+    dbName css("td", 0) | text() | trim(":", " ", "\r", "\n")
+    id     css("td", 1) 
+         | text() 
+         | trim() 
+         | replace("(\s|\r|\n|\t)+", " ")
+
+    link   css("td", 1) | css("a") | attr("href")
+
+}]

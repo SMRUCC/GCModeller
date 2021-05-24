@@ -96,7 +96,7 @@ Public Module VennDataBuilder
         Dim clist = Comb(Of String).CreateCompleteObjectPairs(files)
         Dim FileList As New List(Of String)
 
-        Call EXPORT.MkDIR
+        Call EXPORT.MakeDir
 
         For Each pairedList In clist
             For Each paired As Tuple(Of String, String) In pairedList
@@ -129,7 +129,7 @@ Public Module VennDataBuilder
         Dim clist As KeyValuePair(Of String, String)()() = Comb(Of String).CreateCompleteObjectPairs(Files)
         Dim FileList As New List(Of String)
 
-        Call EXPORT.MkDIR
+        Call EXPORT.MakeDir
 
         For Each pairedList As KeyValuePair(Of String, String)() In clist
             FileList += From x As KeyValuePair(Of String, String)
@@ -188,7 +188,7 @@ Public Module VennDataBuilder
 
         Call $"Fasta source is {Files.Length} genomes...".__DEBUG_ECHO
         Call $"Build bbh task list of {taskList.Length} tasks...".__DEBUG_ECHO
-        Call outDIR.MkDIR
+        Call outDIR.MakeDir
         Call App.StartGC(True)
         Call "Start BLAST threads...".__DEBUG_ECHO
         Call $"     {NameOf(num_threads)} => {num_threads}".__DEBUG_ECHO

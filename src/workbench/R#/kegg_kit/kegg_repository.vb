@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::0968a0674be83c3c90ef6329db7e25ed, kegg_kit\kegg_repository.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module kegg_repository
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FetchKEGGOrganism, LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassTable
-    '               LoadReactionRepo, ReadKEGGOrganism, readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway
-    '               showTable, TableOfReactions
-    ' 
-    ' Enum OrganismTypes
-    ' 
-    '     all, eukaryotes, prokaryote
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module kegg_repository
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: FetchKEGGOrganism, LoadCompoundRepo, loadMapRepository, LoadPathways, loadReactionClassTable
+'               LoadReactionRepo, ReadKEGGOrganism, readKEGGpathway, SaveKEGGOrganism, SaveKEGGPathway
+'               showTable, TableOfReactions
+' 
+' Enum OrganismTypes
+' 
+'     all, eukaryotes, prokaryote
+' 
+'  
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,12 +62,14 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports any = Microsoft.VisualBasic.Scripting
 
 ''' <summary>
 ''' 
@@ -287,6 +289,120 @@ Public Module kegg_repository
     <ExportAPI("read.kegg_organism")>
     Public Function ReadKEGGOrganism(file As String) As Prokaryote()
         Return file.LoadCsv(Of Prokaryote)
+    End Function
+
+    <ExportAPI("compound")>
+    Public Function createCompound(entry As String,
+                                   name As String(),
+                                   formula As String,
+                                   exactMass As Double,
+                                   reaction As String(),
+                                   enzyme As String(),
+                                   remarks As String(),
+                                   KCF As String,
+                                   DBLinks As dataframe,
+                                   pathway As dataframe,
+                                   modules As dataframe) As Compound
+
+        Return New Compound With {
+            .entry = entry,
+            .commonNames = name,
+            .reactionId = reaction,
+            .enzyme = enzyme,
+            .formula = formula,
+            .exactMass = exactMass,
+            .molWeight = exactMass,
+            .remarks = remarks,
+            .KCF = KCF,
+            .DbLinks = DBLinks.GetDbLinks,
+            .pathway = pathway.GetNameValues,
+            .[Module] = modules.GetNameValues
+        }
+    End Function
+
+    <ExportAPI("pathway")>
+    Public Function pathway(id As String, name As String, description As String,
+                            modules As dataframe,
+                            DBLinks As dataframe,
+                            KO_pathway As String(),
+                            references As dataframe,
+                            compounds As dataframe,
+                            drugs As dataframe,
+                            genes As dataframe,
+                            organism As list,
+                            disease As dataframe,
+                            Optional env As Environment = Nothing) As Pathway
+
+        Return New Pathway With {
+            .EntryId = id, .name = name,
+            .description = description,
+            .modules = modules.GetNameValues,
+            .otherDBs = DBLinks.GetDbLinks,
+            .KOpathway = KO_pathway _
+                .Select(Function(kid) New NamedValue With {.name = kid}) _
+                .ToArray,
+            .references = references.GetReference,
+            .compound = compounds.GetNameValues,
+            .drugs = drugs.GetNameValues,
+            .organism = New KeyValuePair With {
+                .Key = organism.getValue(Of String)("code", env, "KO"),
+                .Value = organism.getValue(Of String)("name", env, "")
+            },
+            .genes = genes.GetNameValues,
+            .disease = disease.GetNameValues
+        }
+    End Function
+
+    <ExportAPI("reaction")>
+    Public Function reaction(id As String, name As String(), definition As String, equation As String, comment As String,
+                             reaction_class As dataframe,
+                             enzyme As String(),
+                             pathways As dataframe,
+                             modules As dataframe,
+                             KO As dataframe,
+                             links As dataframe) As Reaction
+
+        Return New Reaction With {
+            .[Class] = reaction_class.GetNameValues,
+            .Comments = comment,
+            .CommonNames = name,
+            .Definition = definition,
+            .Enzyme = enzyme,
+            .Equation = equation,
+            .ID = id,
+            .[Module] = modules.GetNameValues,
+            .Orthology = New OrthologyTerms With {.Terms = KO.GetPropertyValues},
+            .Pathway = pathways.GetNameValues,
+            .DBLink = links.GetDbLinks
+        }
+    End Function
+
+    <ExportAPI("reaction_class")>
+    Public Function reaction_class(id As String, definition As String,
+                                   reactions As String(),
+                                   enzyme As String(),
+                                   pathways As dataframe,
+                                   KO As dataframe,
+                                   transforms As dataframe,
+                                   rmodules As dataframe) As ReactionClass
+
+        Return New ReactionClass With {
+            .entryId = id,
+            .definition = definition,
+            .enzymes = enzyme.Select(Function(ecid) New NamedValue With {.name = ecid}).ToArray,
+            .orthology = KO.GetNameValues,
+            .pathways = pathways.GetNameValues,
+            .reactions = reactions.Select(Function(rid) New NamedValue With {.name = rid}).ToArray,
+            .reactantPairs = transforms.forEachRow({"from", "to"}) _
+                .Select(Function(t)
+                            Return New ReactionCompoundTransform With {
+                                .from = any.ToString(t(Scan0)),
+                                .[to] = any.ToString(t(1))
+                            }
+                        End Function) _
+                .ToArray,
+            .rModules = rmodules.GetNameValues
+        }
     End Function
 End Module
 

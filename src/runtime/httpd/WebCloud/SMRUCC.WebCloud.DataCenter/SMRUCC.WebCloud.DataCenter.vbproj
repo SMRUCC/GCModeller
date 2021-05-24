@@ -316,10 +316,6 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\mysqli\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\mysqli\mysqliHelper\mysqliHelper.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

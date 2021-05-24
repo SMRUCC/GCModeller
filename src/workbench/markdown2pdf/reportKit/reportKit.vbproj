@@ -204,6 +204,10 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25markdown\markdown.vbproj">
+      <Project>{83ec1406-fe08-46a1-88b3-ce56d7e9961c}</Project>
+      <Name>markdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PdfConvert\WkHtmlToPdf.vbproj">
       <Project>{cd7790f5-e348-4a82-b966-90c7ccd07cbc}</Project>
       <Name>WkHtmlToPdf</Name>

@@ -69,6 +69,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property pathways As NamedValue()
         Public Property orthology As NamedValue()
         Public Property category As String
+        Public Property rModules As NamedValue()
 
         ''' <summary>
         ''' 

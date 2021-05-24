@@ -1,0 +1,257 @@
+
+<!doctype html>
+<html><head>
+<title>KEGG PATHWAY: hsa00020</title>
+<link type="text/css" rel="stylesheet" href="/css/gn2.css?1621745690">
+<link type="text/css" rel="stylesheet" href="/css/bget.css?1621745690">
+<link rel="stylesheet" href="/css/bget.css?1621745690" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/bgetm.css?1621745690" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  e.preventDefault();
+  if(!dt.style.display||dt.style.display == 'none'){
+    document.getElementById('kcfb'+id).innerHTML = 'Hide';
+    dt.style.display = 'block';
+  }
+  else{
+    document.getElementById('kcfb'+id).innerHTML = 'Show';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+  url = "/entry/-f+-n+n+" + kid;
+    }
+    else {
+  if (vector == 1) {
+      dna_from  = Number(form.FROM.value)  - plus_up;
+      dna_to    = Number(form.TO.value) + plus_down;
+  } else {
+      dna_from  = Number(form.FROM.value)  - plus_down;
+      dna_to    = Number(form.TO.value) + plus_up;
+  }
+
+  url = "https://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+  if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border=0 cellpadding=0 cellspacing=0><tr><td>
+<table border=0 cellpadding=0 cellspacing=0 width="650"><tr><td width=70><a href="/kegg/kegg2.html"><img align="middle" alt="KEGG" border=0 src="/Fig/bget/kegg3.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="pathway:hsa00020"></a><font class="title3">PATHWAY: hsa00020</font></td><td align="right" valign="bottom"><button class="btn" onclick="javascript:void(window.open(&#39;/kegg/document/help_bget_pathway.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;));return false;">Help</button></td></tr></table><form method="post" action="/entry/" enctype="application/x-www-form-urlencoded" name="form1"><table border=0 cellpadding=1 cellspacing=0 width="650">
+<tr>
+<td class="fr3">
+<table border=0 cellpadding=2 cellspacing=0 width="650" style="border-bottom:#000 1px solid">
+
+<tr><th class="th30" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left"><code><nobr>hsa00020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pathway&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Citrate cycle (TCA cycle) - Homo sapiens (human)<br>
+</div></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Description</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:<a href="/module/M00009">M00009</a>], but contain genes for specific segments [MD:<a href="/module/M00010">M00010</a> <a href="/module/M00011">M00011</a>].<br>
+</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Class</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Metabolism; Carbohydrate metabolism<br>
+<button class="btn" onclick="location.href='/brite/htext=hsa00001.keg&amp;query=hsa00020';return false;">BRITE hierarchy</button></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway&nbsp;map</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/pathway/hsa00020">hsa00020</a>&nbsp;&nbsp;</nobr></td><td>Citrate cycle (TCA cycle)</td></tr></table><center><a href="/pathway/hsa00020"><img src="/kegg/misc/thumbnail/map00020.gif" alt="hsa00020" style="border-style:none;"></a></center><br><button class="btn" onclick="location.href='https://www.kegg.jp/kegg-bin/view_ortholog_table?map=00020';return false;">Ortholog table</button></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Module</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/hsa_M00003">hsa_M00003</a>&nbsp;&nbsp;</nobr></td><td>Gluconeogenesis, oxaloacetate =&gt; fructose-6P [PATH:<a href="/pathway/hsa00020+M00003">hsa00020</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/hsa_M00009">hsa_M00009</a>&nbsp;&nbsp;</nobr></td><td>Citrate cycle (TCA cycle, Krebs cycle) [PATH:<a href="/pathway/hsa00020+M00009">hsa00020</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/hsa_M00010">hsa_M00010</a>&nbsp;&nbsp;</nobr></td><td>Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:<a href="/pathway/hsa00020+M00010">hsa00020</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/hsa_M00011">hsa_M00011</a>&nbsp;&nbsp;</nobr></td><td>Citrate cycle, second carbon oxidation, 2-oxoglutarate =&gt; oxaloacetate [PATH:<a href="/pathway/hsa00020+M00011">hsa00020</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/module/hsa_M00307">hsa_M00307</a>&nbsp;&nbsp;</nobr></td><td>Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:<a href="/pathway/hsa00020+M00307">hsa00020</a>]</td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Drug</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/D10691">D10691</a>&nbsp;&nbsp;</nobr></td><td>Bempedoic acid (USAN/INN)</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/D11090">D11090</a>&nbsp;&nbsp;</nobr></td><td>Ivosidenib (USAN/INN)</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/D11834">D11834</a>&nbsp;&nbsp;</nobr></td><td>Vorasidenib (USAN/INN)</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/D11835">D11835</a>&nbsp;&nbsp;</nobr></td><td>Vorasidenib citrate (USAN)</td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr>GO:&nbsp;</nobr></td><td><a href="http://amigo.geneontology.org/amigo/term/GO:0006099">0006099</a></td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Organism</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Homo sapiens (human) [GN:<a href="/entry/hsa">hsa</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Gene</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:1431">1431</a>&nbsp;&nbsp;</nobr></td><td>CS; citrate synthase [KO:<a href="/entry/K01647">K01647</a>] [EC:<a href="/entry/2.3.3.1">2.3.3.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:47">47</a>&nbsp;&nbsp;</nobr></td><td>ACLY; ATP citrate lyase [KO:<a href="/entry/K01648">K01648</a>] [EC:<a href="/entry/2.3.3.8">2.3.3.8</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:50">50</a>&nbsp;&nbsp;</nobr></td><td>ACO2; aconitase 2 [KO:<a href="/entry/K01681">K01681</a>] [EC:<a href="/entry/4.2.1.3">4.2.1.3</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:48">48</a>&nbsp;&nbsp;</nobr></td><td>ACO1; aconitase 1 [KO:<a href="/entry/K01681">K01681</a>] [EC:<a href="/entry/4.2.1.3">4.2.1.3</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:3417">3417</a>&nbsp;&nbsp;</nobr></td><td>IDH1; isocitrate dehydrogenase (NADP(+)) 1 [KO:<a href="/entry/K00031">K00031</a>] [EC:<a href="/entry/1.1.1.42">1.1.1.42</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:3418">3418</a>&nbsp;&nbsp;</nobr></td><td>IDH2; isocitrate dehydrogenase (NADP(+)) 2 [KO:<a href="/entry/K00031">K00031</a>] [EC:<a href="/entry/1.1.1.42">1.1.1.42</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:3420">3420</a>&nbsp;&nbsp;</nobr></td><td>IDH3B; isocitrate dehydrogenase (NAD(+)) 3 non-catalytic subunit beta [KO:<a href="/entry/K00030">K00030</a>] [EC:<a href="/entry/1.1.1.41">1.1.1.41</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:3421">3421</a>&nbsp;&nbsp;</nobr></td><td>IDH3G; isocitrate dehydrogenase (NAD(+)) 3 non-catalytic subunit gamma [KO:<a href="/entry/K00030">K00030</a>] [EC:<a href="/entry/1.1.1.41">1.1.1.41</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:3419">3419</a>&nbsp;&nbsp;</nobr></td><td>IDH3A; isocitrate dehydrogenase (NAD(+)) 3 catalytic subunit alpha [KO:<a href="/entry/K00030">K00030</a>] [EC:<a href="/entry/1.1.1.41">1.1.1.41</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:55753">55753</a>&nbsp;&nbsp;</nobr></td><td>OGDHL; oxoglutarate dehydrogenase L [KO:<a href="/entry/K00164">K00164</a>] [EC:<a href="/entry/1.2.4.2">1.2.4.2</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:4967">4967</a>&nbsp;&nbsp;</nobr></td><td>OGDH; oxoglutarate dehydrogenase [KO:<a href="/entry/K00164">K00164</a>] [EC:<a href="/entry/1.2.4.2">1.2.4.2</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:1743">1743</a>&nbsp;&nbsp;</nobr></td><td>DLST; dihydrolipoamide S-succinyltransferase [KO:<a href="/entry/K00658">K00658</a>] [EC:<a href="/entry/2.3.1.61">2.3.1.61</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:1738">1738</a>&nbsp;&nbsp;</nobr></td><td>DLD; dihydrolipoamide dehydrogenase [KO:<a href="/entry/K00382">K00382</a>] [EC:<a href="/entry/1.8.1.4">1.8.1.4</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:8802">8802</a>&nbsp;&nbsp;</nobr></td><td>SUCLG1; succinate-CoA ligase GDP/ADP-forming subunit alpha [KO:<a href="/entry/K01899">K01899</a>] [EC:<a href="/entry/6.2.1.4">6.2.1.4</a> <a href="/entry/6.2.1.5">6.2.1.5</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:8801">8801</a>&nbsp;&nbsp;</nobr></td><td>SUCLG2; succinate-CoA ligase GDP-forming subunit beta [KO:<a href="/entry/K01900">K01900</a>] [EC:<a href="/entry/6.2.1.4">6.2.1.4</a> <a href="/entry/6.2.1.5">6.2.1.5</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:8803">8803</a>&nbsp;&nbsp;</nobr></td><td>SUCLA2; succinate-CoA ligase ADP-forming subunit beta [KO:<a href="/entry/K01900">K01900</a>] [EC:<a href="/entry/6.2.1.4">6.2.1.4</a> <a href="/entry/6.2.1.5">6.2.1.5</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:6389">6389</a>&nbsp;&nbsp;</nobr></td><td>SDHA; succinate dehydrogenase complex flavoprotein subunit A [KO:<a href="/entry/K00234">K00234</a>] [EC:<a href="/entry/1.3.5.1">1.3.5.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:6390">6390</a>&nbsp;&nbsp;</nobr></td><td>SDHB; succinate dehydrogenase complex iron sulfur subunit B [KO:<a href="/entry/K00235">K00235</a>] [EC:<a href="/entry/1.3.5.1">1.3.5.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:6391">6391</a>&nbsp;&nbsp;</nobr></td><td>SDHC; succinate dehydrogenase complex subunit C [KO:<a href="/entry/K00236">K00236</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:6392">6392</a>&nbsp;&nbsp;</nobr></td><td>SDHD; succinate dehydrogenase complex subunit D [KO:<a href="/entry/K00237">K00237</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:2271">2271</a>&nbsp;&nbsp;</nobr></td><td>FH; fumarate hydratase [KO:<a href="/entry/K01679">K01679</a>] [EC:<a href="/entry/4.2.1.2">4.2.1.2</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:4190">4190</a>&nbsp;&nbsp;</nobr></td><td>MDH1; malate dehydrogenase 1 [KO:<a href="/entry/K00025">K00025</a>] [EC:<a href="/entry/1.1.1.37">1.1.1.37</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:4191">4191</a>&nbsp;&nbsp;</nobr></td><td>MDH2; malate dehydrogenase 2 [KO:<a href="/entry/K00026">K00026</a>] [EC:<a href="/entry/1.1.1.37">1.1.1.37</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5091">5091</a>&nbsp;&nbsp;</nobr></td><td>PC; pyruvate carboxylase [KO:<a href="/entry/K01958">K01958</a>] [EC:<a href="/entry/6.4.1.1">6.4.1.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5105">5105</a>&nbsp;&nbsp;</nobr></td><td>PCK1; phosphoenolpyruvate carboxykinase 1 [KO:<a href="/entry/K01596">K01596</a>] [EC:<a href="/entry/4.1.1.32">4.1.1.32</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5106">5106</a>&nbsp;&nbsp;</nobr></td><td>PCK2; phosphoenolpyruvate carboxykinase 2, mitochondrial [KO:<a href="/entry/K01596">K01596</a>] [EC:<a href="/entry/4.1.1.32">4.1.1.32</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5161">5161</a>&nbsp;&nbsp;</nobr></td><td>PDHA2; pyruvate dehydrogenase E1 subunit alpha 2 [KO:<a href="/entry/K00161">K00161</a>] [EC:<a href="/entry/1.2.4.1">1.2.4.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5160">5160</a>&nbsp;&nbsp;</nobr></td><td>PDHA1; pyruvate dehydrogenase E1 subunit alpha 1 [KO:<a href="/entry/K00161">K00161</a>] [EC:<a href="/entry/1.2.4.1">1.2.4.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:5162">5162</a>&nbsp;&nbsp;</nobr></td><td>PDHB; pyruvate dehydrogenase E1 subunit beta [KO:<a href="/entry/K00162">K00162</a>] [EC:<a href="/entry/1.2.4.1">1.2.4.1</a>]</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa:1737">1737</a>&nbsp;&nbsp;</nobr></td><td>DLAT; dihydrolipoamide S-acetyltransferase [KO:<a href="/entry/K00627">K00627</a>] [EC:<a href="/entry/2.3.1.12">2.3.1.12</a>]</td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Compound</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00022">C00022</a>&nbsp;&nbsp;</nobr></td><td>Pyruvate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00024">C00024</a>&nbsp;&nbsp;</nobr></td><td>Acetyl-CoA</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00026">C00026</a>&nbsp;&nbsp;</nobr></td><td>2-Oxoglutarate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00036">C00036</a>&nbsp;&nbsp;</nobr></td><td>Oxaloacetate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00042">C00042</a>&nbsp;&nbsp;</nobr></td><td>Succinate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00068">C00068</a>&nbsp;&nbsp;</nobr></td><td>Thiamin diphosphate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00074">C00074</a>&nbsp;&nbsp;</nobr></td><td>Phosphoenolpyruvate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00091">C00091</a>&nbsp;&nbsp;</nobr></td><td>Succinyl-CoA</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00122">C00122</a>&nbsp;&nbsp;</nobr></td><td>Fumarate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00149">C00149</a>&nbsp;&nbsp;</nobr></td><td>(S)-Malate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00158">C00158</a>&nbsp;&nbsp;</nobr></td><td>Citrate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00311">C00311</a>&nbsp;&nbsp;</nobr></td><td>Isocitrate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C00417">C00417</a>&nbsp;&nbsp;</nobr></td><td>cis-Aconitate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C05125">C05125</a>&nbsp;&nbsp;</nobr></td><td>2-(alpha-Hydroxyethyl)thiamine diphosphate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C05379">C05379</a>&nbsp;&nbsp;</nobr></td><td>Oxalosuccinate</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C05381">C05381</a>&nbsp;&nbsp;</nobr></td><td>3-Carboxy-1-hydroxypropyl-ThPP</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C15972">C15972</a>&nbsp;&nbsp;</nobr></td><td>Enzyme N6-(lipoyl)lysine</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C15973">C15973</a>&nbsp;&nbsp;</nobr></td><td>Enzyme N6-(dihydrolipoyl)lysine</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C16254">C16254</a>&nbsp;&nbsp;</nobr></td><td>[Dihydrolipoyllysine-residue succinyltransferase] S-succinyldihydrolipoyllysine</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/C16255">C16255</a>&nbsp;&nbsp;</nobr></td><td>[Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine</td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">(map 2)</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Nishizuka Y (ed).</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">[Metabolic Maps] (In Japanese)</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Tokyo Kagaku Dojin (1980)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">(map 3)</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Nishizuka Y, Seyama Y, Ikai A, Ishimura Y, Kawaguchi A (eds).</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">[Cellular Functions and Metabolic Maps] (In Japanese)</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Tokyo Kagaku Dojin (1997)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Michal G.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Biochemical Pathways</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Wiley (1999)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Related<br>pathway</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00010">hsa00010</a>&nbsp;&nbsp;</nobr></td><td>Glycolysis / Gluconeogenesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00053">hsa00053</a>&nbsp;&nbsp;</nobr></td><td>Ascorbate and aldarate metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00061">hsa00061</a>&nbsp;&nbsp;</nobr></td><td>Fatty acid biosynthesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00062">hsa00062</a>&nbsp;&nbsp;</nobr></td><td>Fatty acid elongation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00071">hsa00071</a>&nbsp;&nbsp;</nobr></td><td>Fatty acid degradation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00190">hsa00190</a>&nbsp;&nbsp;</nobr></td><td>Oxidative phosphorylation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00220">hsa00220</a>&nbsp;&nbsp;</nobr></td><td>Arginine biosynthesis</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00250">hsa00250</a>&nbsp;&nbsp;</nobr></td><td>Alanine, aspartate and glutamate metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00280">hsa00280</a>&nbsp;&nbsp;</nobr></td><td>Valine, leucine and isoleucine degradation</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00350">hsa00350</a>&nbsp;&nbsp;</nobr></td><td>Tyrosine metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00471">hsa00471</a>&nbsp;&nbsp;</nobr></td><td>D-Glutamine and D-glutamate metabolism</td></tr></table><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/hsa00630">hsa00630</a>&nbsp;&nbsp;</nobr></td><td>Glyoxylate and dicarboxylate metabolism</td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>KO&nbsp;pathway</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table style="border:0;border-collapse:collapse;"><tr><td valign="top"><nobr><a href="/entry/ko00020">ko00020</a>&nbsp;&nbsp;</nobr></td><td>&nbsp;</td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><button class="btn" onclick="location.href='https://www.genome.jp/dbget-bin/get_linkdb?pathway+hsa00020';return false;">All DBs</button></td></tr>
+
+</table></td></tr></table>
+<br></form></td></tr></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+</body>
+</html>
