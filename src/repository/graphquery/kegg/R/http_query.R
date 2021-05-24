@@ -22,7 +22,7 @@ const http_query as function(url, raw = TRUE, graphquery = get_graph("graphquery
 
 #' Http get html or from cache
 #'
-const getHtml as function(url, interval = 5) {
+const getHtml as function(url, interval = 6) {
   const http.cache_dir as string = getOption("http.cache_dir") || stop("You should set of the 'http.cache_dir' option at first!");
 
   const cacheKey as string   = md5(url);
