@@ -7,6 +7,9 @@ imports "repository" from "kegg_kit";
 const kegg_pathway as function(url) {
   # parse the page text
   const keyValues = keyIndex(http_query(url, raw = FALSE));
+  const getDocument = function(keyName) {
+    Html::parse(keyValues[[ keyName ]]);
+  }
 
   const id         = graphquery::query(document = Html::parse(keyValues$"Entry"),       graphquery = get_graph("graphquery/fields/simpleText.graphquery"));
   const commonName = graphquery::query(document = Html::parse(keyValues$"Name"),        graphquery = get_graph("graphquery/fields/text.graphquery"));
