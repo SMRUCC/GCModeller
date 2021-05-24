@@ -73,7 +73,7 @@ Namespace Assembly.Uniprot.XML
         ''' Get KO number of this protein
         ''' </summary>
         ''' <param name="protein"></param>
-        ''' <returns></returns>
+        ''' <returns>returns nothing if not found</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function KO(protein As entry) As dbReference
