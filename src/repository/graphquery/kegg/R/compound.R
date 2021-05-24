@@ -28,20 +28,24 @@ const kegg_compound as function(url) {
   print(pathwayList(pathways));
   print(pathwayList(modules));
 
-  # create data model
-  repository::compound(
-    entry     = id,
-    name      = commonNames[commonNames != ""],
-    reaction  = reactionId[reactionId == $"R\d+"],
-    enzyme    = EC_idlist[EC_idlist  == $"\d[.].+"],
-    formula   = formula,
-    exactMass = exactMass,
-    remarks   = remarks,
-    KCF       = KCF_text,
-    DBLinks   = DBLinks(xref),
-    pathway   = pathwayList(pathways),
-    modules   = pathwayList(modules)
-  );
+  if (id == "") {
+    NULL;
+  } else {
+    # create data model
+    repository::compound(
+      entry     = id,
+      name      = commonNames[commonNames != ""],
+      reaction  = reactionId[reactionId == $"R\d+"],
+      enzyme    = EC_idlist[EC_idlist  == $"\d[.].+"],
+      formula   = formula,
+      exactMass = exactMass,
+      remarks   = remarks,
+      KCF       = KCF_text,
+      DBLinks   = DBLinks(xref),
+      pathway   = pathwayList(pathways),
+      modules   = pathwayList(modules)
+    );
+  }
 }
 
 const pathwayList as function(list) {

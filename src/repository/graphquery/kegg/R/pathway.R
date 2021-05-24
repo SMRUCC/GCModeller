@@ -34,20 +34,24 @@ const kegg_pathway as function(url) {
   print(pathwayList(genes));
   print(pathwayList(disease));
 
-  repository::pathway(
-    id          = id,
-    name        = commonName,
-    modules     = pathwayList(modules),
-    description = info,
-    DBLinks     = DBLinks(xref),
-    KO_pathway  = KO_pathway,
-    references  = references,
-    compounds   = pathwayList(compounds),
-    drugs       = pathwayList(drugs),
-    organism    = parseKeggCode(organism),
-    genes       = pathwayList(genes),
-    disease     = pathwayList(disease)
-  );
+  if (id == "") {
+    NULL;
+  } else {
+    repository::pathway(
+      id          = id,
+      name        = commonName,
+      modules     = pathwayList(modules),
+      description = info,
+      DBLinks     = DBLinks(xref),
+      KO_pathway  = KO_pathway,
+      references  = references,
+      compounds   = pathwayList(compounds),
+      drugs       = pathwayList(drugs),
+      organism    = parseKeggCode(organism),
+      genes       = pathwayList(genes),
+      disease     = pathwayList(disease)
+    );
+  }
 }
 
 #' Parse organism kegg code

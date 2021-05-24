@@ -22,10 +22,15 @@ print("get all kegg pathway maps:");
 str(maps);
 
 for(i in 1:nrow(maps)) {
-    kegg_pathway(url = sprintf(url, id[i]))
-    |> xml
-    |> writeLines(con = `${repoDir(i)}.XML`)
-    ;
-    
-    # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
+    const map = kegg_pathway(url = sprintf(url, id[i]));
+
+    if (!is.null(map)) {
+
+        map
+        |> xml
+        |> writeLines(con = `${repoDir(i)}.XML`)
+        ;
+
+        # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
+    }     
 }
