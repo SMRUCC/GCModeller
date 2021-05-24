@@ -6,6 +6,7 @@ options(http.cache_dir = cache_dir);
 
 const maps = as.data.frame(pathway_category());
 const url = "https://www.kegg.jp/entry/ko%s";
+const img = "https://www.kegg.jp/kegg/pathway/ko/ko%s.png";
 const repoDir = enumeratePath(maps, "map");
 const id = maps[, "entry"];
 
@@ -17,4 +18,6 @@ for(i in 1:nrow(maps)) {
     |> xml
     |> writeLines(con = `${repoDir(i)}.XML`)
     ;
+    
+    # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
 }
